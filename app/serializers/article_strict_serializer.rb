@@ -18,7 +18,8 @@ class ArticleStrictSerializer < ActiveModel::Serializer
              :current_language,
              :slug,
              :tag_names,
-             :user
+             :user,
+             :link
 
   def id
     object.id
@@ -72,5 +73,9 @@ class ArticleStrictSerializer < ActiveModel::Serializer
     {
       slug: object.respond_to?(:user_slug) ? object.user_slug : object.user.slug
     }
+  end
+
+  def link
+    Rails.application.routes.url_helpers.show_article_path(user_slug: object.user.slug, article_slug: object.slug) if instance_options[:with_link]
   end
 end

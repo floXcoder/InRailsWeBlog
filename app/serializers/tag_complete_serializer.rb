@@ -14,11 +14,11 @@ class TagCompleteSerializer < ActiveModel::Serializer
              :slug,
              :parents,
              :children,
-             :views_count,
-             :clicks_count,
-             :searches_count
+             :link
 
   belongs_to :user, serializer: UserSampleSerializer
+
+  has_one :tracker
 
   def visibility_translated
     object.visibility_to_tr
@@ -32,15 +32,7 @@ class TagCompleteSerializer < ActiveModel::Serializer
     object.children_for_user(instance_options[:current_user_id])
   end
 
-  def views_count
-    object.tracker.views_count
-  end
-
-  def clicks_count
-    object.tracker.clicks_count
-  end
-
-  def searches_count
-    object.tracker.searches_count
+  def link
+    Rails.application.routes.url_helpers.show_tag_path(tag_slug: object.slug)
   end
 end

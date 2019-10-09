@@ -114,7 +114,7 @@ class ApplicationController < ActionController::Base
     else
       respond_to do |format|
         format.json { render json: { errors: t('views.error.status.explanation.404') }, status: :not_found }
-        format.html { render 'errors/show', locals: { status: 404 }, status: :not_found }
+        format.html { render 'pages/home', locals: { status: 404 }, status: :not_found }
         format.all { render body: nil, status: :not_found }
       end
     end
@@ -221,7 +221,7 @@ class ApplicationController < ActionController::Base
     session[:first_connection] = true
 
     if resource.is_a?(Admin)
-      admin_path
+      admins_path
     else
       root_path     = signed_in_root_path(resource_or_scope)
       previous_path = request.referer && URI.parse(request.referer).path
@@ -310,7 +310,7 @@ class ApplicationController < ActionController::Base
 
     respond_to do |format|
       format.json { render json: { errors: t('views.error.status.explanation.404') }, status: :not_found }
-      format.html { render 'errors/show', locals: { status: 404 }, status: :not_found }
+      format.html { render 'pages/home', locals: { status: 404 }, status: :not_found }
       format.all { render body: nil, status: :not_found }
     end
   end
@@ -322,7 +322,7 @@ class ApplicationController < ActionController::Base
 
     respond_to do |format|
       format.json { render json: { errors: t('views.error.status.explanation.500') }, status: :internal_server_error }
-      format.html { render 'errors/show', locals: { status: 500 }, status: :internal_server_error }
+      format.html { render 'pages/home', locals: { status: 500 }, status: :internal_server_error }
       format.all { render body: nil, status: :internal_server_error }
     end
   end

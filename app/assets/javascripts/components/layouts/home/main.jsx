@@ -14,6 +14,7 @@ import {
 } from '@material-ui/core/styles';
 
 import RouteManager from '../../layouts/managers/route';
+import NotFound from '../../layouts/notFound';
 
 import styles from '../../../../jss/home/main';
 
@@ -41,8 +42,8 @@ class MainLayoutHome extends React.Component {
         return (
             <Switch>
                 {
-                    this.props.routes.map((route) => (
-                        <Route key={route.path}
+                    this.props.routes.map((route, i) => (
+                        <Route key={route.path || i}
                                path={route.path}
                                exact={route.exact}
                                render={(router) => {

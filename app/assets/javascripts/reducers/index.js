@@ -19,7 +19,6 @@ import {
 import routerReducer from './routerReducer';
 import uiReducer from './uiReducer';
 import userReducer from './userReducer';
-import adminReducer from './adminReducer';
 import bookmarkReducer from './bookmarkReducer';
 import topicReducer from './topicReducer';
 import tagReducer from './tagReducer';
@@ -41,7 +40,6 @@ const ReducerRecord = Record({
     autocompleteState: undefined,
     searchState: undefined,
     commentState: undefined,
-    adminState: undefined,
     form: undefined,
     loadingBar: undefined
 });
@@ -57,7 +55,6 @@ const rootReducer = combineReducers({
     autocompleteState: autocompleteReducer,
     searchState: searchReducer,
     commentState: commentReducer,
-    adminState: adminReducer,
     form: formReducer,
     loadingBar: loadingBarReducer
 }, ReducerRecord);

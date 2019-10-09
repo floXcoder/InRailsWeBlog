@@ -33,9 +33,9 @@ fr:
       submit: "Renvoyer les informations pour confirmer l'email"
     passwords:
       no_token: "Vous ne pouvez accéder à cette page sans passer par un e-mail de réinitialisation de mot de passe. Si vous êtes passé par un e-mail de ce type, assurez-vous d'utiliser l'URL complète"
-      send_instructions: "Vous allez recevoir les instructions de réinitialisation du mot de passe dans quelques instants"
+      send_instructions: "Vous avez reçu par email le lien pour changer de mot de passe"
       send_paranoid_instructions: "Si votre e-mail existe dans notre base de données, vous allez recevoir un lien de réinitialisation par e-mail"
-      updated: "Votre mot de passe a été édité avec succès, vous êtes maintenant connecté"
+      updated: "Votre mot de passe a été changé avec succès, vous êtes maintenant connecté"
       updated_not_active: "Votre mot de passe a été changé avec succès"
       link_name: "Changer mon mot de passe"
       new:
@@ -48,6 +48,8 @@ fr:
         new: "Nouveau mot de passe"
         confirm: "Confirmer votre nouveau mot de passe"
         submit: "Changer mon mot de passe"
+      user:
+        password: "password"
     registrations:
       destroyed: "Votre compte a été supprimé avec succès. Nous espérons vous revoir bientôt."
       signed_up: "Bienvenue, vous êtes connecté sur InRailsWeBlog !"

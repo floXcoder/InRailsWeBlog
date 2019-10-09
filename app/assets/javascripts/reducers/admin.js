@@ -12,47 +12,38 @@ import {
     loadingBarReducer
 } from 'react-redux-loading-bar';
 
-import {
-    reducer as formReducer
-} from 'redux-form/immutable';
-
-import uiReducer from './uiReducer';
-import userReducer from './userReducer';
 import adminReducer from './adminReducer';
+import userReducer from './userReducer';
+import topicReducer from './topicReducer';
+import tagReducer from './tagReducer';
+import articleReducer from './articleReducer';
 import {
     autocompleteReducer,
     searchReducer
 } from './searchReducer';
-import topicReducer from './topicReducer';
-import tagReducer from './tagReducer';
-import articleReducer from './articleReducer';
 import commentReducer from './commentReducer';
 
 const ReducerRecord = Record({
-    uiState: undefined,
-    userState: undefined,
     adminState: undefined,
-    autocompleteState: undefined,
-    searchState: undefined,
+    userState: undefined,
     topicState: undefined,
     tagState: undefined,
     articleState: undefined,
+    autocompleteState: undefined,
+    searchState: undefined,
     commentState: undefined,
-    form: undefined,
     loadingBar: undefined
 });
 
 const rootAdminReducer = combineReducers({
-    uiState: uiReducer,
-    userState: userReducer,
     adminState: adminReducer,
-    autocompleteState: autocompleteReducer,
-    searchState: searchReducer,
+    userState: userReducer,
     topicState: topicReducer,
     tagState: tagReducer,
     articleState: articleReducer,
+    autocompleteState: autocompleteReducer,
+    searchState: searchReducer,
     commentState: commentReducer,
-    form: formReducer,
     loadingBar: loadingBarReducer
 }, ReducerRecord);
 

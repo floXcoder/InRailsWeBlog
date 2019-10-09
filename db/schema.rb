@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_08_155638) do
+ActiveRecord::Schema.define(version: 2019_10_08_155138) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,6 +29,17 @@ ActiveRecord::Schema.define(version: 2019_06_08_155638) do
     t.index ["owner_id", "owner_type"], name: "index_activities_on_owner_id_and_owner_type"
     t.index ["recipient_id", "recipient_type"], name: "index_activities_on_recipient_id_and_recipient_type"
     t.index ["trackable_id", "trackable_type"], name: "index_activities_on_trackable_id_and_trackable_type"
+  end
+
+  create_table "admin_blogs", force: :cascade do |t|
+    t.bigint "admin_id", null: false
+    t.integer "visibility", default: 0, null: false
+    t.string "title", null: false
+    t.text "content", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["admin_id", "visibility"], name: "index_admin_blogs_on_admin_id_and_visibility"
+    t.index ["admin_id"], name: "index_admin_blogs_on_admin_id"
   end
 
   create_table "admins", force: :cascade do |t|
@@ -138,6 +149,31 @@ ActiveRecord::Schema.define(version: 2019_06_08_155638) do
     t.index ["commentable_id", "commentable_type"], name: "index_comments_on_commentable_id_and_commentable_type", where: "(deleted_at IS NULL)"
     t.index ["parent_id"], name: "index_comments_on_parent_id"
     t.index ["user_id"], name: "index_comments_on_user_id", where: "(deleted_at IS NULL)"
+  end
+
+  create_table "error_messages", force: :cascade do |t|
+    t.integer "origin", default: 0, null: false
+    t.text "class_name"
+    t.text "message"
+    t.text "trace"
+    t.text "line_number"
+    t.text "column_number"
+    t.text "params"
+    t.text "target_url"
+    t.text "referer_url"
+    t.text "user_agent"
+    t.string "request_format"
+    t.string "app_name"
+    t.string "app_version"
+    t.string "doc_root"
+    t.string "user_id"
+    t.string "user_pseudo"
+    t.string "user_locale"
+    t.string "user_ip"
+    t.string "bot_agent"
+    t.string "os_agent"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "outdated_articles", force: :cascade do |t|
@@ -390,6 +426,7 @@ ActiveRecord::Schema.define(version: 2019_06_08_155638) do
     t.index ["voter_type", "voter_id"], name: "index_votes_on_voter_type_and_voter_id"
   end
 
+  add_foreign_key "admin_blogs", "admins"
   add_foreign_key "article_relationships", "articles", column: "child_id"
   add_foreign_key "article_relationships", "articles", column: "parent_id"
   add_foreign_key "article_relationships", "users"

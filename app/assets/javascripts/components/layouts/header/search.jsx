@@ -1,5 +1,7 @@
 'use strict';
 
+import _ from 'lodash';
+
 import {
     withRouter
 } from 'react-router-dom';
@@ -27,6 +29,7 @@ import {
 } from '../../../selectors';
 
 import {
+    maxSearchRate,
     autocompleteLimit
 } from '../../modules/constants';
 
@@ -72,6 +75,16 @@ class HomeSearchHeader extends React.Component {
 
     constructor(props) {
         super(props);
+
+        this._request = null;
+    }
+
+    componentWillUnmount() {
+        if (this._request && this._request.signal) {
+            this._request.signal.abort();
+        }
+
+        this._handleFetch.cancel();
     }
 
     _handleChange = (event) => {
@@ -79,7 +92,15 @@ class HomeSearchHeader extends React.Component {
 
         this.props.setAutocompleteQuery(query);
 
-        this.props.fetchAutocomplete({
+        this._handleFetch(query);
+    };
+
+    _handleFetch = _.debounce((query) => {
+        if(this._request) {
+            this._request.signal.abort();
+        }
+
+        this._request = this.props.fetchAutocomplete({
             // selectedTypes: ['article', 'tag', 'topic'],
             query: query,
             userId: this.props.currentUserId,
@@ -87,7 +108,7 @@ class HomeSearchHeader extends React.Component {
             tagIds: this.props.selectedTags.map((tag) => tag.id),
             limit: autocompleteLimit
         });
-    };
+    }, maxSearchRate);
 
     _handleKeyDown = (event) => {
         if (event.key && Utils.NAVIGATION_KEYMAP[event.which]) {

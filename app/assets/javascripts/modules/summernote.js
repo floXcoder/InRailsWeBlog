@@ -235,7 +235,9 @@ const applyTag = (context, tag, className) => {
 
             const newNode = document.createElement(tag);
 
-            newNode.className = className;
+            if (className) {
+                newNode.className = className;
+            }
 
             // https://developer.mozilla.org/en-US/docs/Web/API/Range/surroundContents
             // Parses inline nodes, but not block based nodes...blocks are handled above.
@@ -316,12 +318,70 @@ $.extend($.summernote.plugins, {
 });
 
 $.extend($.summernote.plugins, {
-    'secret': function (context) {
+    'code': function (context) {
         const ui = $.summernote.ui;
         const options = context.options;
         const $note = context.layoutInfo.note;
 
+        context.memo('button.code', function () {
+            const button = ui.button({
+                contents: '<i class="material-icons">format_quote</i>',
+                container: options.container,
+                tooltip: I18n.t('js.editor.buttons.code'),
+                click: function (event) {
+                    event.preventDefault();
+                    applyTag(context, 'code');
+                    context.triggerEvent('change', $note.summernote('code'));
+                }
+            });
+
+            return button.render();
+        });
+    }
+});
+
+$.extend($.summernote.plugins, {
+    'pre': function (context) {
+        const ui = $.summernote.ui;
+        const options = context.options;
+        const $note = context.layoutInfo.note;
+
+        context.memo('button.pre', function () {
+            const button = ui.button({
+                contents: '<i class="material-icons">short_text</i>',
+                container: options.container,
+                tooltip: I18n.t('js.editor.buttons.pre'),
+                click: function (event) {
+                    event.preventDefault();
+                    document.execCommand('FormatBlock', false, 'pre');
+                    context.triggerEvent('change', $note.summernote('code'));
+                }
+            });
+
+            return button.render();
+        });
+
+        this.events = {
+            'summernote.keydown': function (we, event) {
+                // CTRL+E for pre
+                if (event.keyCode === 69 && event.ctrlKey) {
+                    event.preventDefault();
+                    document.execCommand('FormatBlock', false, 'pre');
+                    context.triggerEvent('change', $note.summernote('code'));
+                }
+            }
+        };
+    }
+});
+
+$.extend($.summernote.plugins, {
+    'secret': function (context) {
+        const options = context.options;
+
         if (options.secret) {
+            const ui = $.summernote.ui;
+            const $note = context.layoutInfo.note;
+
             context.memo('button.secret', function () {
                 const button = ui.button({
                     contents: '<i class="material-icons">security</i>',
@@ -337,66 +397,5 @@ $.extend($.summernote.plugins, {
                 return button.render();
             });
         }
-    }
-});
-
-$.extend($.summernote.plugins, {
-    'code': function (context) {
-        const ui = $.summernote.ui;
-        const options = context.options;
-        const $note = context.layoutInfo.note;
-
-        if (options.secret) {
-            context.memo('button.code', function () {
-                const button = ui.button({
-                    contents: '<i class="material-icons">format_quote</i>',
-                    container: options.container,
-                    tooltip: I18n.t('js.editor.buttons.code'),
-                    click: function (event) {
-                        event.preventDefault();
-                        applyTag(context, 'code');
-                        context.triggerEvent('change', $note.summernote('code'));
-                    }
-                });
-
-                return button.render();
-            });
-        }
-    }
-});
-
-$.extend($.summernote.plugins, {
-    'pre': function (context) {
-        const ui = $.summernote.ui;
-        const options = context.options;
-        const $note = context.layoutInfo.note;
-
-        if (options.secret) {
-            context.memo('button.pre', function () {
-                const button = ui.button({
-                    contents: '<i class="material-icons">short_text</i>',
-                    container: options.container,
-                    tooltip: I18n.t('js.editor.buttons.pre'),
-                    click: function (event) {
-                        event.preventDefault();
-                        document.execCommand('FormatBlock', false, 'pre');
-                        context.triggerEvent('change', $note.summernote('code'));
-                    }
-                });
-
-                return button.render();
-            });
-        }
-
-        this.events = {
-            'summernote.keyup': function (we, event) {
-                // CTRL+E for pre
-                if (event.keyCode === 69 && event.ctrlKey) {
-                    event.preventDefault();
-                    document.execCommand('FormatBlock', false, 'pre');
-                    context.triggerEvent('change', $note.summernote('code'));
-                }
-            }
-        };
     }
 });

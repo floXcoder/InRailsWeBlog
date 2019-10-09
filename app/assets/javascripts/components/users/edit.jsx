@@ -44,7 +44,6 @@ export default class UserEdit extends React.Component {
         return (
             <div className="card">
                 <Form id={`edit_user_${this.state.user.id}`}
-                      className="blog-form"
                       action={`/users/${this.state.user.slug}`}
                       isMultipart={true}>
 
@@ -177,7 +176,7 @@ export default class UserEdit extends React.Component {
                     <div className="card-action">
                         <div className="row">
                             <div className="col s6 left-align">
-                                <Link to={'/'}
+                                <Link to="/"
                                       className="btn btn-default waves-effect waves-light">
                                     {I18n.t('js.user.edit.back_button')}
                                 </Link>

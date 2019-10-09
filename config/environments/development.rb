@@ -63,6 +63,8 @@ Rails.application.configure do
   config.action_mailer.perform_deliveries    = false
   config.action_mailer.raise_delivery_errors = false
   config.action_mailer.perform_caching       = false
+  config.action_mailer.preview_path          = Rails.root.join('spec', 'mailers', 'previews')
+  config.action_mailer.logger                = Logger.new(STDOUT)
   config.action_mailer.default charset: 'utf-8'
 
   # "pretty" HTML format output

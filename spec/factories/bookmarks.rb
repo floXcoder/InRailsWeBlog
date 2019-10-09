@@ -1,17 +1,16 @@
 # frozen_string_literal: true
-
 # == Schema Information
 #
 # Table name: bookmarks
 #
-#  id              :bigint           not null, primary key
-#  user_id         :bigint           not null
+#  id              :integer          not null, primary key
+#  user_id         :integer          not null
 #  bookmarked_type :string           not null
-#  bookmarked_id   :bigint           not null
-#  follow          :boolean          default(FALSE)
+#  bookmarked_id   :integer          not null
+#  follow          :boolean          default("false")
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
-#  topic_id        :bigint
+#  topic_id        :integer
 #
 
 FactoryBot.define do

@@ -1,26 +1,25 @@
 # frozen_string_literal: true
-
 # == Schema Information
 #
 # Table name: admins
 #
-#  id                     :bigint           not null, primary key
+#  id                     :integer          not null, primary key
 #  pseudo                 :string           default(""), not null
 #  additional_info        :string
 #  locale                 :string           default("fr")
-#  settings               :jsonb            not null
+#  settings               :jsonb            default("{}"), not null
 #  slug                   :string
 #  email                  :string           default(""), not null
 #  encrypted_password     :string           default(""), not null
 #  reset_password_token   :string
 #  reset_password_sent_at :datetime
 #  remember_created_at    :datetime
-#  sign_in_count          :integer          default(0), not null
+#  sign_in_count          :integer          default("0"), not null
 #  current_sign_in_at     :datetime
 #  last_sign_in_at        :datetime
 #  current_sign_in_ip     :inet
 #  last_sign_in_ip        :inet
-#  failed_attempts        :integer          default(0), not null
+#  failed_attempts        :integer          default("0"), not null
 #  unlock_token           :string
 #  locked_at              :datetime
 #  created_at             :datetime         not null
@@ -50,6 +49,7 @@ class Admin < ApplicationRecord
   friendly_id :pseudo, use: :slugged
 
   # == Relationships ========================================================
+  has_many :blogs, class_name: 'Admin::Blog'
 
   # == Validations ==========================================================
   validates :pseudo,
@@ -62,7 +62,6 @@ class Admin < ApplicationRecord
   # == Scopes ===============================================================
 
   # == Callbacks ============================================================
-  # after_create :create_blog_environment
 
   # == Class Methods ========================================================
   def self.pseudo?(pseudo)
@@ -92,13 +91,7 @@ class Admin < ApplicationRecord
     admin.id == self.id
   end
 
-  # def create_blog_environment
-  #   admin_blog = Blog.create(admin: self)
-  #
-  #   # Articles for admin pages
-  #   Blog::Article.create(blog: admin_blog, title: 'Contact', body: '...')
-  # end
-
+  ### Friendly Id
   def slug_candidates
     [
       :pseudo

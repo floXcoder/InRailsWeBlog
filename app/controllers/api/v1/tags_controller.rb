@@ -26,7 +26,11 @@ module Api::V1
     def index
       topic_id = nil
 
-      tags = if params[:populars]
+      complete = filter_params[:complete] && admin_signed_in?
+
+      tags = if complete
+               ::Tags::FindQueries.new(nil, current_admin).complete
+             elsif params[:populars]
                ::Tags::FindQueries.new.populars(limit: params[:limit])
              elsif filter_params[:topic_slug].present? || filter_params[:topic_id].present?
                topic_id = if filter_params[:topic_slug]
@@ -53,7 +57,7 @@ module Api::V1
 
         format.json do
           render json:             tags,
-                 each_serializer:  TagSerializer,
+                 each_serializer:  complete ? TagCompleteSerializer : TagSerializer,
                  current_topic_id: topic_id,
                  meta:             meta_attributes
         end
@@ -197,6 +201,7 @@ module Api::V1
                                        :topic_slug,
                                        :accepted,
                                        :bookmarked,
+                                       :complete,
                                        tag_ids:   [],
                                        user_ids:  [],
                                        topic_ids: []).reject { |_, v| v.blank? }

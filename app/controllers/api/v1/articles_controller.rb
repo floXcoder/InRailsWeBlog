@@ -32,7 +32,11 @@ module Api::V1
     respond_to :json
 
     def index
-      articles = if params[:home]
+      complete = filter_params[:complete] && admin_signed_in?
+
+      articles = if complete
+                   ::Articles::FindQueries.new(nil, current_admin).complete
+                 elsif params[:home]
                    ::Articles::FindQueries.new.home(limit: params[:limit])
                  elsif params[:populars]
                    ::Articles::FindQueries.new.populars(limit: params[:limit])
@@ -54,7 +58,10 @@ module Api::V1
             set_meta_tags title: titleize(I18n.t('views.article.index.title.default'))
           end
 
-          if params[:summary]
+          if complete
+            render json:            articles,
+                   each_serializer: ArticleCompleteSerializer
+          elsif params[:summary]
             render json:            articles,
                    each_serializer: ArticleSampleSerializer,
                    meta:            meta_attributes(pagination: articles)
@@ -338,6 +345,7 @@ module Api::V1
                                        :child_tag_slug,
                                        :bookmarked,
                                        :order,
+                                       :complete,
                                        user_ids:  [],
                                        topic_ids: []).reject { |_, v| v.blank? }
       else

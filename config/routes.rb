@@ -5,18 +5,30 @@ require 'sidekiq/cron/web'
 
 Rails.application.routes.draw do
   # Root path
-  root 'single_pages#home'
+  root 'pages#home'
 
   # Routes managed by javascript router
-  get '/users/*id',     to: 'single_pages#home'
-  get '/search',        to: 'single_pages#home'
-  get '/search/*id',    to: 'single_pages#home'
-  get '/topics/*id',    to: 'single_pages#home'
-  get '/tags',          to: 'single_pages#home'
-  get '/tags/*ids',     to: 'single_pages#home'
-  get '/tagged/*id',    to: 'single_pages#home'
-  get '/articles/*id',  to: 'single_pages#home'
-  get '/404',           to: 'single_pages#home'
+  get '/search',                                      to: 'pages#home'
+  get '/search/*path',                                to: 'pages#home'
+
+  get '/users/password/new',                          to: 'pages#home', as: :new_password
+  get '/users/password/edit',                         to: 'pages#home', as: :edit_password
+  get '/users/:user_slug',                            to: 'pages#home', as: :show_user
+  get '/users/*path',                                 to: 'pages#home'
+  get '/users/:user_slug/topics/:topic_slug/show',    to: 'pages#home', as: :show_topic
+  get '/users/:user_slug/articles/:article_slug',     to: 'pages#home', as: :show_article
+
+  get '/topics/*path',                                to: 'pages#home'
+
+  get '/tags',                                        to: 'pages#home'
+  get '/tags/:tag_slug',                              to: 'pages#home', as: :show_tag
+  get '/tags/*path',                                  to: 'pages#home'
+  get '/tagged/*path',                                to: 'pages#home'
+
+  get '/articles/shared/:article_slug/:public_link',  to: 'pages#home', as: :show_shared_article
+  get '/articles/*path',                              to: 'pages#home'
+
+  get '/404',                                         to: 'pages#home'
 
   # Concerns
   concern :tracker do |options|
@@ -44,31 +56,30 @@ Rails.application.routes.draw do
     namespace :v1, as: nil do
       # Users (devise)
       devise_scope :user do
-        get     'signup', to: 'users/registrations#new',    as: :signup
-        post    'signup', to: 'users/registrations#create'
-        get     'login',  to: 'users/sessions#new',         as: :login
-        post    'login',  to: 'users/sessions#create'
-        delete  'logout', to: 'users/sessions#destroy',     as: :logout
+        get     'signup',   to: 'users/registrations#new',    as: :signup
+        post    'signup',   to: 'users/registrations#create'
+        get     'login',    to: 'users/sessions#new',         as: :login
+        post    'login',    to: 'users/sessions#create'
+        delete  'logout',   to: 'users/sessions#destroy',     as: :logout
       end
 
       devise_for :users, controllers: {
-        registrations:      'users/registrations',
-        sessions:           'users/sessions',
-        passwords:          'users/passwords'
+        registrations:      'api/v1/users/registrations',
+        sessions:           'api/v1/users/sessions',
+        passwords:          'api/v1/users/passwords',
+        confirmations:      'api/v1/users/confirmations',
+        unlocks:            'api/v1/users/unlocks'
       }
 
       # Users
       resources :users, except: [:new, :create, :edit, :destroy] do
         collection do
           get :validation,         to: 'users#validation'
-
-          concerns :tracker,       module: :users
         end
 
         member do
           get      :show,          to: 'users#show',               as: :root
 
-          get      :profile,       to: 'users#profile',            as: :profile
           get      :comments,      to: 'users#comments',           as: :comments
           get      :recents,       to: 'users#recents',            as: :recents
           post     :recents,       to: 'users#update_recents'
@@ -93,8 +104,6 @@ Rails.application.routes.draw do
       resources :tags, except: [:new, :create] do
         collection do
           put      :priority,  to: 'tags#update_priority'
-
-          concerns :tracker,   module: :tags
         end
 
         member do
@@ -105,28 +114,24 @@ Rails.application.routes.draw do
       end
 
       # Topics
-      resources :topics do
+      resources :topics, except: [:new, :edit] do
         collection do
           get      :switch,   to: 'topics#switch'
 
           put      :priority, to: 'topics#update_priority'
-
-          concerns :tracker,  module: :topics
         end
 
         member do
-          concerns :tracker,  module: :tags
+          concerns :tracker,  module: :topics
         end
 
         resources :inventory_fields, controller: 'topics/inventory_fields', only: [:create]
       end
 
       # Articles
-      resources :articles do
+      resources :articles, except: [:new] do
         collection do
           put      :priority,  to: 'articles#update_priority'
-
-          concerns :tracker,   module: :articles
         end
 
         member do
@@ -158,7 +163,9 @@ Rails.application.routes.draw do
       # Search
       resources :search, only: [:index] do
         collection do
-          get :autocomplete,   to: 'search#autocomplete'
+          get   :autocomplete, to: 'search#autocomplete'
+
+          post  :meta,         to: 'search#meta'
         end
       end
 
@@ -166,46 +173,56 @@ Rails.application.routes.draw do
 
       # Uploads data
       resources :uploads,  only: [:create, :update, :destroy]
-
     end
   end
 
   # Admins
   devise_scope :admin do
-    get     '/admin/login',  to: 'users/sessions#new',      as: :login_admin
-    post    '/admin/login',  to: 'users/sessions#create'
-    delete  '/admin/logout', to: 'users/sessions#destroy',  as: :logout_admin
+    get     '/admins/login',  to: 'admins/sessions#new',      as: :login_admin
+    post    '/admins/login',  to: 'admins/sessions#create'
+    delete  '/admins/logout', to: 'admins/sessions#destroy',  as: :logout_admin
   end
-  devise_for :admins, controllers: { sessions:  'users/sessions', passwords: 'users/passwords' }
+  devise_for :admins, controllers: { sessions: 'admins/sessions' }
 
-  # # Admin interface
-  # authenticate :admin do
-  #   # Sidekiq interface
-  #   mount Sidekiq::Web => '/admin/sidekiq'
-  # end
-  #
-  # # resources :admins
-  # get :admin,             to: 'admins#index'
-  #
-  # namespace :admin do
-  #   # resources :managers, only: [] do
-  #   #   collection do
-  #   #     get     :pending_validation,        to: 'managers#pending_validation'
-  #   #     get     :pending_comment_deletion,  to: 'managers#pending_comment_deletion'
-  #   #
-  #   #     get     :users,           to: 'managers#users'
-  #   #     get     ':show_user/:user_id', to: 'managers#show_user'
-  #   #
-  #   #     get     :logs,            to: 'managers#logs'
-  #   #
-  #   #     get     :server,          to: 'managers#server'
-  #   #   end
-  #   # end
-  # end
+  # Admin interface
+  authenticate :admin do
+    # Sidekiq interface
+    mount Sidekiq::Web => '/admins/sidekiq'
+  end
+
+  # resources :admins
+  resources :admins, only: [:index] do
+    collection do
+      get   :users,       to: 'admins#users'
+
+      get   :comments,    to: 'admins#comments'
+
+      get   :topics,      to: 'admins#topics'
+
+      get   :tags,        to: 'admins#tags'
+
+      get   :articles,    to: 'admins#articles'
+    end
+  end
+
+  namespace :admins do
+    resources :blogs, except: [:new, :edit]
+
+    resources :logs, only: [:index] do
+      collection do
+        post :stream,     to: 'logs#stream'
+      end
+    end
+
+    resources :caches, only: [:index] do
+      collection do
+        post  :flush_cache, to: 'caches#flush_cache'
+      end
+    end
+  end
 
   # SEO
-  get '/robots.:format' => 'single_pages#robots'
+  get '/robots.:format' => 'pages#robots'
 
   match '*path' => redirect('/404'), via: :get
-
 end

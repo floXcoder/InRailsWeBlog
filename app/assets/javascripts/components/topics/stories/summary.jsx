@@ -10,6 +10,10 @@ import {
 
 import Typography from '@material-ui/core/Typography';
 
+import {
+    spyTrackClick
+} from '../../../actions';
+
 import styles from '../../../../jss/topic/stories/summary';
 
 export default @withStyles(styles)
@@ -24,6 +28,10 @@ class SummaryStoriesTopic extends React.Component {
         super(props);
     }
 
+    _handleTopicClick = (elementId, elementSlug, elementTitle) => {
+        spyTrackClick('topic', elementId, elementSlug, elementTitle);
+    };
+
     render() {
         return (
             <div className={this.props.classes.container}>
@@ -31,7 +39,8 @@ class SummaryStoriesTopic extends React.Component {
                     {
                         this.props.topic.user.slug
                             ?
-                            <Link to={`/users/${this.props.topic.user.slug}/topics/${this.props.topic.slug}`}>
+                            <Link to={`/users/${this.props.topic.user.slug}/topics/${this.props.topic.slug}`}
+                                  onClick={this._handleTopicClick.bind(this, this.props.topic.id, this.props.topic.slug, this.props.topic.name)}>
                                 <Typography className={this.props.classes.topicTitle}
                                             variant="h4"
                                             component="h2">

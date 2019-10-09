@@ -34,14 +34,70 @@ class AdminsController < ApplicationController
   before_action :verify_requested_format!
   before_action :reset_cache_headers
 
-  respond_to :html
+  respond_to :html, :json
 
   def index
     respond_to do |format|
       format.html do
         set_meta_tags title:    titleize_admin(I18n.t('views.admin.dashboard.title')),
                       noindex:  true, nofollow: true
-        render 'admin/index'
+
+        render :index
+      end
+    end
+  end
+
+  def users
+    respond_to do |format|
+      format.html do
+        set_meta_tags title:    titleize_admin(I18n.t('views.admin.users.title')),
+                      noindex:  true, nofollow: true
+
+        render :users
+      end
+    end
+  end
+
+  def comments
+    respond_to do |format|
+      format.html do
+        set_meta_tags title:    titleize_admin(I18n.t('views.admin.comments.title')),
+                      noindex:  true, nofollow: true
+
+        render :comments
+      end
+    end
+  end
+
+  def topics
+    respond_to do |format|
+      format.html do
+        set_meta_tags title:    titleize_admin(I18n.t('views.admin.topics.title')),
+                      noindex:  true, nofollow: true
+
+        render :topics
+      end
+    end
+  end
+
+  def tags
+    respond_to do |format|
+      format.html do
+        set_meta_tags title:    titleize_admin(I18n.t('views.admin.tags.title')),
+                      noindex:  true, nofollow: true
+
+        render :tags
+      end
+    end
+  end
+
+  def articles
+    respond_to do |format|
+      format.html do
+        set_meta_tags title:    titleize_admin(I18n.t('views.admin.articles.title')),
+                      noindex:  true, nofollow: true
+
+        render :articles
       end
     end
   end

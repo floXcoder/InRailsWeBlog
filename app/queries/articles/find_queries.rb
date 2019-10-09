@@ -31,6 +31,14 @@ module Articles
       return @relation
     end
 
+    def complete(_params = {})
+      @relation = @relation
+                    .includes(:user, :tagged_articles, :tracker)
+                    .with_adapted_visibility(@current_user, @current_admin)
+
+      return @relation
+    end
+
     def stories(params = {})
       topic_filter    = { id: params[:topic_id], slug: params[:topic_slug] }.compact
       @topic_articles = Topic.find_by(topic_filter) if topic_filter.present?

@@ -20,6 +20,24 @@ export const SettingsRecord = new Record({
     searchExact: false
 });
 
+export const TrackerRecord = new Record({
+    viewsCount: undefined,
+    queriesCount: undefined,
+    clicksCount: undefined,
+    searchesCount: undefined
+});
+
+export const PictureRecord = new Record({
+    id: undefined,
+    description: undefined,
+    copyright: undefined,
+    url: undefined,
+    mediumUrl: undefined,
+    miniUrl: undefined,
+    filename: undefined,
+    dimension: undefined
+});
+
 export class UserRecord extends Record({
     id: undefined,
     pseudo: undefined,
@@ -34,9 +52,11 @@ export class UserRecord extends Record({
     avatarUrl: undefined,
     slug: undefined,
     signInCount: undefined,
+    createdAt: undefined,
     lastSignInAt: undefined,
     articlesCount: undefined,
     tracker: undefined,
+    link: undefined,
     settings: new SettingsRecord(),
     topics: List(),
     contributedTopics: List()
@@ -51,24 +71,13 @@ export class UserRecord extends Record({
     }
 }
 
-export const PictureRecord = new Record({
-    id: undefined,
-    description: undefined,
-    copyright: undefined,
-    url: undefined,
-    mediumUrl: undefined,
-    miniUrl: undefined,
-    filename: undefined,
-    dimension: undefined
-});
-
 export class TopicRecord extends Record({
     id: undefined,
     userId: undefined,
     mode: undefined,
     name: undefined,
     description: undefined,
-    date: undefined,
+    createdAt: undefined,
     priority: undefined,
     visibility: undefined,
     visibilityTranslated: undefined,
@@ -78,15 +87,18 @@ export class TopicRecord extends Record({
     clicksCount: undefined,
     searchesCount: undefined,
     inventoryFields: List(),
+    link: undefined,
     user: new UserRecord(),
+    tracker: new TrackerRecord(),
     settings: new SettingsRecord(),
     tags: List(),
     contributors: List()
 }) {
-    constructor({user, settings, tags, contributors, ...props} = {}) {
+    constructor({user, tracker, settings, tags, contributors, ...props} = {}) {
         super({
             ...props,
             user: new UserRecord(user),
+            tracker: new TrackerRecord(tracker),
             settings: new SettingsRecord(settings),
             tags: List(tags).map((tag) => new TagRecord(tag)),
             contributors: List(contributors).map((user) => new UserRecord(user))
@@ -110,17 +122,17 @@ export class TagRecord extends Record({
     childIds: undefined,
     children: List(),
     slug: undefined,
-    viewsCount: undefined,
-    clicksCount: undefined,
-    searchesCount: undefined,
     topicIds: undefined,
     userId: undefined,
-    user: new UserRecord()
+    link: undefined,
+    user: new UserRecord(),
+    tracker: new TrackerRecord()
 }) {
-    constructor({user, parents, children, ...props} = {}) {
+    constructor({user, tracker, parents, children, ...props} = {}) {
         super({
             ...props,
             user: new UserRecord(user),
+            tracker: new TrackerRecord(tracker),
             parents: List(parents).map((tag) => new TagRecord(tag)),
             children: List(children).map((tag) => new TagRecord(tag))
         })
@@ -159,7 +171,9 @@ export class ArticleRecord extends Record({
     bookmarksCount: undefined,
     commentsCount: undefined,
     outdatedCount: undefined,
+    link: undefined,
     user: new UserRecord(),
+    tracker: new TrackerRecord(),
     topic: new TopicRecord(),
     tags: List(),
     tagNames: List(),
@@ -167,10 +181,11 @@ export class ArticleRecord extends Record({
     childTagIds: List(),
     newTagIds: List()
 }) {
-    constructor({user, topic, tags, ...props} = {}) {
+    constructor({user, tracker, topic, tags, ...props} = {}) {
         super({
             ...props,
             user: new UserRecord(user),
+            tracker: new TrackerRecord(tracker),
             topic: new TopicRecord({...topic, user: user}),
             tags: List(tags).map((tag) => new TagRecord(tag))
         })
@@ -215,4 +230,12 @@ export const BookmarkRecord = new Record({
     name: undefined,
     parentSlug: undefined,
     slug: undefined
+});
+
+export const AdminBlogRecord = new Record({
+    id: undefined,
+    admin_id: undefined,
+    title: undefined,
+    content: undefined,
+    visibility: undefined
 });

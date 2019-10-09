@@ -20,6 +20,16 @@ module Topics
       return @relation
     end
 
+    def complete(_params = {})
+      @relation = @relation
+                    .includes(:inventory_fields, :user, :tracker, :shares, :contributors)
+                    .with_adapted_visibility(@current_user, @current_admin)
+                    .order_by('name')
+                    .distinct
+
+      return @relation
+    end
+
     module Scopes
       def with_adapted_visibility(current_user = nil, current_admin = nil)
         if current_admin

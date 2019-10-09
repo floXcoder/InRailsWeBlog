@@ -81,7 +81,7 @@ class ArticleSortMenu extends React.Component {
                         variant="text"
                         onClick={this._handleClickListItem}>
                     {I18n.t('js.article.sort.title')}
-                    <span className={this.props.classes.buttonInfo}>({I18n.t(`js.article.sort.order.${this.props.currentOrder || 'priority'}`)})</span>
+                    <span className={this.props.classes.buttonInfo}>({I18n.t(`js.article.sort.order.${this.props.currentOrder || 'priority_desc'}`)})</span>
                 </Button>
 
                 <Menu anchorEl={this.state.anchorEl}

@@ -48,6 +48,25 @@ module Api::V1
       end
     end
 
+    def meta
+      admin_or_authorize
+
+      meta_results = Searches::MetaService.new(search_params[:query], search_params.merge(current_admin: current_admin)).perform
+
+      if meta_results.success?
+        respond_to do |format|
+          format.json { render json: meta_results.result }
+        end
+      else
+        respond_to do |format|
+          format.json do
+            render json:   { errors: meta_results.message },
+                   status: :unprocessable_entity
+          end
+        end
+      end
+    end
+
     private
 
     def search_params

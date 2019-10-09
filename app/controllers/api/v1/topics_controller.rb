@@ -11,12 +11,18 @@ module Api::V1
     respond_to :json
 
     def index
-      topics = ::Topics::FindQueries.new(current_user, current_admin).all(filter_params.merge(user_id: params[:user_id]))
+      complete = filter_params[:complete] && admin_signed_in?
+
+      topics = if complete
+                 ::Topics::FindQueries.new(nil, current_admin).complete
+               else
+                 ::Topics::FindQueries.new(current_user, current_admin).all(filter_params.merge(user_id: params[:user_id]))
+               end
 
       respond_to do |format|
         format.json do
           render json:            topics,
-                 each_serializer: TopicSerializer
+                 each_serializer: complete ? TopicCompleteSerializer : TopicSerializer
         end
       end
     end
@@ -204,6 +210,7 @@ module Api::V1
                                        :accepted,
                                        :bookmarked,
                                        :order,
+                                       :complete,
                                        user_ids: []).reject { |_, v| v.blank? }
       else
         {}

@@ -75,6 +75,7 @@ en:
         login: "Pseudo or Email"
         password: "Password"
         remember_me: "Remember me"
+        new_password: "Forgot your password?"
         cancel: "Cancel"
         submit: "Log in"
         connecting: "Connecting in progress"
@@ -97,6 +98,17 @@ en:
         externals:
           google: "Signup with Google"
           facebook: "Signup with Facebook"
+      password:
+        new:
+          title: "Change your password"
+          email: "Your email"
+          back: "Back to home"
+          button: "Send me a new password"
+        edit:
+          title: "Forgot your password?"
+          password: "New password"
+          password_confirmation: "Confirm your new password"
+          button: "Change my password"
       home:
         private:
           title: "Your private topics"
@@ -453,6 +465,7 @@ en:
           only_me: "Private"
         mode:
           story: "Story"
+          inventory: "Inventory"
           note: "Note"
           link: "Link"
       flash:
@@ -689,6 +702,131 @@ en:
       queries_count: "Queries"
       clicks_count: "Clicks"
       searches_count: "Searches"
+    admin:
+      common:
+        title: "Admin"
+        open_link: "Consulter"
+      menu:
+        dashboard: "Dashboard"
+        users: "Users"
+        comments: "Comments"
+        topics: "Topics"
+        tags: "Tags"
+        articles: "Articles"
+        blogs: "Notes"
+        jobs: "Jobs"
+        logs: "Logs"
+        cache: "Cache"
+        back_home: "Back to home"
+        log_out: "Log out"
+      search:
+        placeholder: "Search for tag, article or article..."
+        help:
+          title: "Search options"
+          articles: "Articles"
+          tags: "Tags"
+          topics: "Topics"
+          users: "Users"
+          button: "OK"
+      dashboard:
+        title: "Admin list"
+        button: "Access"
+      users:
+        title: "Users"
+        table:
+          title: "Users list"
+          columns:
+            id: "Id"
+            pseudo: "Pseudo"
+            email: "Email"
+            name: "Name"
+            created_at: "Created at"
+            last_sign_in_at: "Last connection"
+            locale: "Locale"
+            articles_count: "Articles count"
+      comments:
+        title: "Comments"
+        table:
+          title: "Comments list"
+          columns:
+            id: "Id"
+            title: "Title"
+            body: "Body"
+            posted_at: "Posted at"
+      topics:
+        title: "Topics"
+        table:
+          title: "Topics list"
+          columns:
+            id: "Id"
+            user_id: "User id"
+            mode: "Type"
+            name: "Name"
+            priority: "Priority"
+            visibility: "Visibility"
+            articles_count: "Associated articles"
+            views_count: "Views count"
+            clicks_count: "Clicks count"
+            searches_count: "Searches count"
+            created_at: "Créé le"
+      tags:
+        title: "Tags"
+        table:
+          title: "Tags list"
+          columns:
+            id: "Id"
+            name: "Name"
+            description: "Description"
+            synonyms: "Synonyms"
+            priority: "Priority"
+            visibility: "Visibility"
+            tagged_articles_count: "Associated articles"
+            views_count: "Views count"
+            clicks_count: "Clicks count"
+            searches_count: "Searches count"
+      articles:
+        title: "Articles"
+        table:
+          title: "Articles list"
+          columns:
+            id: "Id"
+            topic_id: "Topic id"
+            mode: "Type"
+            title: "Titre"
+            priority: "Priority"
+            visibility: "Visibility"
+            comments_count: "Comments count"
+            views_count: "Views count"
+            clicks_count: "Clicks count"
+            searches_count: "Searches count"
+            date: "Created at"
+      blogs:
+        title: "Wikis"
+        add: "Add wiki"
+        form:
+          title: "Title"
+          content: "Your wiki..."
+          add: "Add"
+          update: "Update"
+          cancel: "Cancel"
+      logs:
+        input:
+          title: "Search"
+        help:
+          title: "Search log options"
+          all: "Search for a string"
+          status: "status:200 => all requests with this status"
+          ip: "ip:127.0.0.1 => all requests with this IP"
+          host: "host:www.your-domain.com => all requests with this host"
+          session: "sessionId:xxxx-xxxx-xxxx => all requests with this session id"
+          level: "level:INFO => all requests for this log level"
+          bot: "bot:googlebot => all requests with this specific bot"
+          button: "OK"
+      cache:
+        title: "Remove all cache"
+        button: "Remove!"
+        successful: "Cache removed"
+        error: "Cannot remove the cache"
     form:
       errors:
         text: "This field is required"

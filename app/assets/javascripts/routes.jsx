@@ -49,6 +49,17 @@ export default {
                 exact: false,
                 component: () => RouteComponents.ArticleIndex
             },
+            // user: password
+            {
+                path: '/users/password/new',
+                exact: true,
+                component: () => RouteComponents.UserPassword
+            },
+            {
+                path: '/users/password/edit',
+                exact: true,
+                component: () => RouteComponents.UserPassword
+            },
             // user: articles topic
             {
                 path: '/users/:userSlug/topics/:topicSlug',
@@ -81,6 +92,9 @@ export default {
             // Miscellaneous
             {
                 path: '/404',
+                component: () => NotFound
+            },
+            {
                 component: () => NotFound
             }
         ],

@@ -15,6 +15,14 @@ const styles = (theme) => ({
     },
     textField: {
         width: '100%'
+    },
+    terms: {
+        fontSize: '.9rem'
+    },
+    password: {
+        color: theme.palette.grey[600],
+        fontSize: '.9rem',
+        fontWeight: 300,
     }
 });
 

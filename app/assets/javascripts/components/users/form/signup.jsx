@@ -203,7 +203,7 @@ class SignupForm extends React.Component {
                                component={CheckBoxFormField}
                                id="user_terms_signup"
                                label={
-                                   <span>
+                                   <span className={this.props.classes.terms}>
                                         {I18n.t('js.user.signup.terms_of_use', {website: window.settings.website_name}) + ' '}
                                        <a href="/terms">
                                             {I18n.t('js.user.signup.terms_of_use_name')}
@@ -214,11 +214,11 @@ class SignupForm extends React.Component {
                     </Grid>
                 </Grid>
 
-                <Grid className="center-align margin-top-15 margin-bottom-25"
+                <Grid className="center-align margin-top-25 margin-bottom-25"
                       container={true}
                       spacing={2}
                       direction="row-reverse"
-                      justify="center"
+                      justify="space-between"
                       alignItems="center">
                     <Grid item={true}>
                         <Button type="submit"
@@ -237,29 +237,29 @@ class SignupForm extends React.Component {
                     </Grid>
                 </Grid>
 
-                <div className="connection-or-separator hr-around-text">
-                    {I18n.t('js.helpers.or')}
-                </div>
+                {/*<div className="connection-or-separator hr-around-text">*/}
+                {/*    {I18n.t('js.helpers.or')}*/}
+                {/*</div>*/}
 
-                <div className="row connection-externals margin-top-20 margin-bottom-5">
-                    <div className="col s12 l6">
-                        <div className="connection-google">
-                            <a className="connection-google-button"
-                               href="/users/auth/google_oauth2">
-                                {I18n.t('js.user.signup.externals.google')}
-                            </a>
-                        </div>
-                    </div>
+                {/*<div className="row connection-externals margin-top-20 margin-bottom-5">*/}
+                {/*    <div className="col s12 l6">*/}
+                {/*        <div className="connection-google">*/}
+                {/*            <a className="connection-google-button"*/}
+                {/*               href="/users/auth/google_oauth2">*/}
+                {/*                {I18n.t('js.user.signup.externals.google')}*/}
+                {/*            </a>*/}
+                {/*        </div>*/}
+                {/*    </div>*/}
 
-                    <div className="col s12 l6">
-                        <div className="connection-facebook">
-                            <a className="connection-facebook-button"
-                               href="/users/auth/facebook">
-                                {I18n.t('js.user.signup.externals.facebook')}
-                            </a>
-                        </div>
-                    </div>
-                </div>
+                {/*    <div className="col s12 l6">*/}
+                {/*        <div className="connection-facebook">*/}
+                {/*            <a className="connection-facebook-button"*/}
+                {/*               href="/users/auth/facebook">*/}
+                {/*                {I18n.t('js.user.signup.externals.facebook')}*/}
+                {/*            </a>*/}
+                {/*        </div>*/}
+                {/*    </div>*/}
+                {/*</div>*/}
             </form>
         );
     }

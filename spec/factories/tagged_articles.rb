@@ -1,16 +1,15 @@
 # frozen_string_literal: true
-
 # == Schema Information
 #
 # Table name: tagged_articles
 #
-#  id         :bigint           not null, primary key
-#  user_id    :bigint           not null
-#  topic_id   :bigint           not null
-#  tag_id     :bigint           not null
-#  article_id :bigint           not null
-#  parent     :boolean          default(FALSE), not null
-#  child      :boolean          default(FALSE), not null
+#  id         :integer          not null, primary key
+#  user_id    :integer          not null
+#  topic_id   :integer          not null
+#  tag_id     :integer          not null
+#  article_id :integer          not null
+#  parent     :boolean          default("false"), not null
+#  child      :boolean          default("false"), not null
 #  deleted_at :datetime
 #  created_at :datetime         not null
 #  updated_at :datetime         not null

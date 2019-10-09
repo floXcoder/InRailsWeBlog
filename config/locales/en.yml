@@ -10,38 +10,6 @@ en:
       flash:
         successful_edition: "Profile updated"
         error_edition: "Profile not updated. Please correct error fields"
-      signup:
-        title: "Sign Up"
-        subtitle: "Add your details to create an account"
-        password_hint: "characters minimum"
-        confirm_password: "Confirm password"
-        terms_of_use: "By subscribing on InRailsWeBlog, you accept our"
-        terms_of_use_name: "terms of use"
-        back_home: "Back to home page"
-        submit: "Create my account"
-        tooltip:
-          pseudo: "Pseudo needed to enter the website"
-          email: "Email needed to verify your account"
-          password: "Don't forget your password"
-          password_confirmation: "Vérification du mot de passe"
-        externals:
-          google: "Subscribe with Google"
-          facebook: "Subscribe with Facebook"
-        flash:
-          message: "Pour participer aux sorties, vous devez valider votre adresse email."
-          webmail: "Vous pouvez vous connecter à %{webmail} pour confirmer votre email."
-      login:
-        title: "Log In"
-        subtitle: "Please fill in your email and password to log in"
-        remember: "Remember me"
-        back_home: "Back to home page"
-        submit: "Connection"
-        externals:
-          google: "Connect with Google"
-          facebook: "Connect with Facebook"
-        flash:
-          message: "You have %{days} to confirm your email address."
-          webmail: "You can connect to %{webmail} to confirm your email."
       index:
         title: "All users"
         description: "Users list"
@@ -110,7 +78,7 @@ en:
       show:
         title: "%{title} - %{topic}"
       edit:
-        title: "Edition of %{title} - %{topic}"
+        title: "Edit : %{title} - %{topic}"
         description: "Article edition: %{title} - %{topic}"
       history:
         title: "Previous versions of %{title} - %{topic}"
@@ -148,6 +116,30 @@ en:
         title: "Log in (Admin)"
       dashboard:
         title: "Admin"
+      users:
+        title: "Users"
+      comments:
+        title: "Comments"
+      topics:
+        title: "Topics"
+      tags:
+        title: "Tags"
+      articles:
+        title: "Articles"
+      blogs:
+        title: "Wikis"
+      logs:
+        title: "Logs"
+      cache:
+        title: "Cache"
+      blog:
+        flash:
+          successful_creation: "Article added"
+          error_creation: "Cannot create the article, please correct error fields"
+          successful_edition: "Article updated"
+          error_edition: "Cannot update the article"
+          successful_deletion: "Article removed"
+          error_deletion: "Cannot removed the article"
     errors:
       flash:
         successful_deletion: "Error removed"

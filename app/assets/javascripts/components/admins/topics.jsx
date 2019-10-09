@@ -1,0 +1,140 @@
+'use strict';
+
+import {
+    hot
+} from 'react-hot-loader/root';
+
+import {
+    fetchTopics
+} from '../../actions';
+
+import {
+    getTopics
+} from '../../selectors';
+
+import Loader from '../theme/loader';
+import Table from '../theme/table';
+
+export default @connect((state) => ({
+    topics: getTopics(state)
+}), {
+    fetchTopics
+})
+@hot
+class AdminTopics extends React.Component {
+    static propTypes = {
+        // from connect
+        topics: PropTypes.array,
+        fetchTopics: PropTypes.func
+    };
+
+    constructor(props) {
+        super(props);
+    }
+
+    componentDidMount() {
+        this.props.fetchTopics(null, {complete: true});
+    }
+
+    render() {
+        if (!this.props.topics || this.props.topics.length === 0) {
+            return (
+                <div>
+                    <h1 className="center-align">
+                        {I18n.t('js.admin.topics.title')}
+                    </h1>
+
+                    <div className="center">
+                        <Loader size="big"/>
+                    </div>
+                </div>
+            );
+        }
+
+        return (
+            <div>
+                <h1 className="center-align">
+                    {I18n.t('js.admin.topics.title')}
+                </h1>
+
+                <Table title={I18n.t('js.admin.topics.table.title')}
+                       data={this.props.topics}
+                       columns={[
+                           {
+                               title: I18n.t('js.admin.topics.table.columns.id'),
+                               field: 'id',
+                               hidden: true
+                           },
+                           {
+                               title: I18n.t('js.admin.topics.table.columns.user_id'),
+                               field: 'userId',
+                               hidden: true
+                           },
+                           {
+                               title: I18n.t('js.admin.topics.table.columns.mode'),
+                               field: 'mode',
+                               lookup: {
+                                   'default': I18n.t('js.topic.enums.mode.default'),
+                                   'stories': I18n.t('js.topic.enums.mode.stories'),
+                                   'inventories': I18n.t('js.topic.enums.mode.inventories')
+                               }
+                           },
+                           {
+                               title: I18n.t('js.admin.topics.table.columns.name'),
+                               field: 'name',
+                           },
+                           {
+                               title: I18n.t('js.admin.topics.table.columns.priority'),
+                               field: 'priority',
+                               hidden: true
+                           },
+                           {
+                               title: I18n.t('js.admin.topics.table.columns.visibility'),
+                               field: 'visibility',
+                               lookup: {
+                                   'everyone': I18n.t('js.topic.enums.visibility.everyone'),
+                                   'only_me': I18n.t('js.topic.enums.visibility.everyone')
+                               }
+                           },
+                           {
+                               title: I18n.t('js.admin.topics.table.columns.articles_count'),
+                               field: 'articlesCount',
+                               filtering: false
+                           },
+                           {
+                               title: I18n.t('js.admin.topics.table.columns.clicks_count'),
+                               field: 'tracker[clicksCount]',
+                               filtering: false
+                           },
+                           {
+                               title: I18n.t('js.admin.topics.table.columns.searches_count'),
+                               field: 'tracker[searchesCount]',
+                               filtering: false
+                           },
+                           {
+                               title: I18n.t('js.admin.topics.table.columns.created_at'),
+                               field: 'createdAt',
+                               filtering: false
+                           },
+                       ]}
+                       options={{
+                           columnsButton: true,
+                           exportButton: true,
+                           filtering: true,
+                           actionsColumnIndex: -1,
+                           pageSize: 50,
+                           pageSizeOptions: [50, 100, 200],
+                           emptyRowsWhenPaging: false
+                       }}
+                       actions={[
+                           {
+                               icon: 'open_in_new',
+                               tooltip: I18n.t('js.admin.common.open_link'),
+                               onClick: (event, topic) => window.open(topic.link, '_blank')
+                           }
+                       ]}/>
+            </div>
+        );
+    }
+}
+

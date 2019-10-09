@@ -7,7 +7,7 @@ import api from '../middlewares/api';
 // Articles
 export const fetchArticles = (filter = {}, options = {}, payload = {}) => ({
     actionType: ActionTypes.ARTICLE,
-    fetchAPI: () => api.get(`/api/v1/articles`, {
+    fetchAPI: () => api.get('/api/v1/articles', {
         filter,
         ...options
     }),
@@ -31,7 +31,7 @@ export const fetchSharedArticle = (articleId, publicLink, options = {}) => ({
 // Article mutations
 export const addArticle = (article, options = {}) => ({
     actionType: ActionTypes.ARTICLE,
-    mutationAPI: () => api.post(`/api/v1/articles`, {
+    mutationAPI: () => api.post('/api/v1/articles', {
         article,
         ...options
     })

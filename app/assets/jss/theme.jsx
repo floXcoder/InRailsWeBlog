@@ -5,42 +5,45 @@ import {
 } from '@material-ui/core/styles';
 
 // Sizes
-const headerHeight = 64;
-const drawerWidth = 280;
-const mainWidth = 1200;
-const articleWidth = 780;
-const articleAppendixWidth = 924;
-const gridWidth = 1180;
-const storiesWidth = 920;
+export const headerHeight = 64;
+export const drawerWidth = 280;
+export const mainWidth = 1200;
+export const articleWidth = 780;
+export const articleAppendixWidth = 924;
+export const gridWidth = 1180;
+export const storiesWidth = 920;
 
 // zIndex
-const mainZIndex = 1;
-const topicZIndex = 60;
-const mobileStepperZIndex = 1000;
-const appBarZIndex = 1100;
-const drawerZIndex = 1200;
-const modalZIndex = 1300;
-const sortZIndex = 1400;
-const snackbarZIndex = 1500;
-const tooltipZIndex = 1600;
+export const mainZIndex = 1;
+export const topicZIndex = 60;
+export const mobileStepperZIndex = 1000;
+export const appBarZIndex = 1100;
+export const drawerZIndex = 1200;
+export const modalZIndex = 1300;
+export const sortZIndex = 1400;
+export const snackbarZIndex = 1500;
+export const tooltipZIndex = 1600;
 // const dropdownIndex = 1700;
 
 // Headers font
-const h1Size = '3rem';
-const h1SizeMobile = '2.4rem';
-const h1Weight = 600;
-const h1LineHeight = '3rem';
-const h1Spacing = 3.5;
+export const h1Size = '3rem';
+export const h1SizeMobile = '2.4rem';
+export const h1Weight = 600;
+export const h1LineHeight = '3rem';
+export const h1Spacing = 3.5;
 
-const h1SizeGrid = '1.4rem';
-const h1WeightGrid = 500;
-const h1LineHeightGrid = '1.4rem';
-const h1SpacingGrid = 1.8;
+export const h1SizeGrid = '1.4rem';
+export const h1WeightGrid = 500;
+export const h1LineHeightGrid = '1.4rem';
+export const h1SpacingGrid = 1.8;
 
-const h1SizeExtract = '2rem';
-const h1WeightExtract = 600;
-const h1LineHeightExtract = '2rem';
-const h1SpacingExtract = 2.6;
+export const h1SizeExtract = '2rem';
+export const h1WeightExtract = 600;
+export const h1LineHeightExtract = '2rem';
+export const h1SpacingExtract = 2.6;
+
+// Admin
+export const adminDrawerWidth = 250;
 
 const theme = createMuiTheme({
     breakpoints: {
@@ -111,42 +114,5 @@ const theme = createMuiTheme({
         }
     }
 });
-
-export {
-    //variables
-    headerHeight,
-    drawerWidth,
-    mainWidth,
-    articleWidth,
-    gridWidth,
-    articleAppendixWidth,
-    storiesWidth,
-
-    mainZIndex,
-    topicZIndex,
-    mobileStepperZIndex,
-    appBarZIndex,
-    drawerZIndex,
-    modalZIndex,
-    sortZIndex,
-    snackbarZIndex,
-    tooltipZIndex,
-
-    h1Size,
-    h1SizeMobile,
-    h1Weight,
-    h1LineHeight,
-    h1Spacing,
-
-    h1SizeGrid,
-    h1WeightGrid,
-    h1LineHeightGrid,
-    h1SpacingGrid,
-
-    h1SizeExtract,
-    h1WeightExtract,
-    h1LineHeightExtract,
-    h1SpacingExtract
-}
 
 export default theme;

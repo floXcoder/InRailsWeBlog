@@ -1,0 +1,62 @@
+'use strict';
+
+import {
+    hot
+} from 'react-hot-loader/root';
+
+import Container from '@material-ui/core/Container';
+import Button from '@material-ui/core/Button/Button';
+import Paper from '@material-ui/core/Paper';
+
+import {
+    flushCache
+} from '../../actions/admin';
+
+export default @connect(null, {
+    flushCache
+})
+@hot
+class AdminCache extends React.Component {
+    static propTypes = {
+        // from connect
+        flushCache: PropTypes.func
+    };
+
+    constructor(props) {
+        super(props);
+    }
+
+    _handleCacheSubmit = () => {
+        this.props.flushCache()
+            .then((json) => {
+                if (json.success) {
+                    Notification.success(I18n.t('js.admin.cache.successful'));
+                } else {
+                    Notification.error(I18n.t('js.admin.cache.error'));
+                }
+            });
+    };
+
+    render() {
+        return (
+            <div className="center-align">
+                <h1>
+                    {I18n.t('js.admin.cache.title')}
+                </h1>
+
+                <Container style={{margin: '2rem auto'}}
+                           maxWidth="sm">
+                    <Paper style={{padding: '1.2rem'}}
+                           square={true}>
+                        <Button color="primary"
+                                variant="outlined"
+                                onClick={this._handleCacheSubmit}>
+                            {I18n.t('js.admin.cache.button')}
+                        </Button>
+                    </Paper>
+                </Container>
+            </div>
+        );
+    }
+}
+

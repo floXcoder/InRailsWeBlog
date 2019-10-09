@@ -280,6 +280,7 @@ class HeaderLayoutUser extends React.PureComponent {
                             <HeaderUserMenu classes={this.props.classes}
                                             isNested={true}
                                             userSlug={this.props.userSlug}
+                                            isAdminConnected={this.props.isAdminConnected}
                                             onPreferenceClick={this._handlePreferenceClick}
                                             onLogoutClick={this._handleLogoutClick}/>
                         </Collapse>

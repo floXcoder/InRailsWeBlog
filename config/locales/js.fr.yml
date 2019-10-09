@@ -71,10 +71,11 @@ fr:
         email: "Email"
         last_sign_in_at: "Dernière connexion"
       login:
-        title: "Connection"
+        title: "Connexion"
         login: "Pseudo ou Email"
         password: "Mot de passe"
         remember_me: "Se souvenir de moi"
+        new_password: "Mot de passe oublié ?"
         cancel: "Annuler"
         submit: "Connexion"
         connecting: "Connexion en cours"
@@ -97,6 +98,17 @@ fr:
         externals:
           google: "S'inscrire avec Google"
           facebook: "S'inscrire avec Facebook"
+      password:
+        new:
+          title: "Changer votre mot de passe"
+          email: "Votre email"
+          back: "Retourner à la page d'accueil"
+          button: "Envoyez-moi un nouveau mot de passe"
+        edit:
+          title: "Mot de passe oublié ?"
+          password: "Nouveau mot de passe"
+          password_confirmation: "Confirmer votre nouveau mot de passe"
+          button: "Changer mon mot de passe"
       home:
         private:
           title: "Vos thèmes privés"
@@ -453,6 +465,7 @@ fr:
           only_me: "Privé"
         mode:
           story: "Article"
+          inventory: "Inventaire"
           note: "Note"
           link: "Lien"
       flash:
@@ -689,6 +702,131 @@ fr:
       queries_count: "Requêtes"
       clicks_count: "Clics"
       searches_count: "Searches"
+    admin:
+      common:
+        title: "Admin"
+        open_link: "Consulter"
+      menu:
+        dashboard: "Dashboard"
+        users: "Utilisateurs"
+        comments: "Commentaires"
+        topics: "Thèmes"
+        tags: "Labels"
+        articles: "Articles"
+        blogs: "Notes internes"
+        jobs: "Jobs"
+        logs: "Logs"
+        cache: "Cache"
+        back_home: "Retour au site"
+        log_out: "Déconnexion"
+      search:
+        placeholder: "Rechercher label, thème, article, ..."
+        help:
+          title: "Options de recherche"
+          articles: "Articles"
+          tags: "Labels"
+          topics: "Thèmes"
+          users: "Utilisateurs"
+          button: "OK"
+      dashboard:
+        title: "Liste des menus d'administration"
+        button: "Accéder"
+      users:
+        title: "Utilisateurs"
+        table:
+          title: "Liste des utilisateurs"
+          columns:
+            id: "Id"
+            pseudo: "Pseudo"
+            email: "Email"
+            name: "Nom"
+            created_at: "Date de création"
+            last_sign_in_at: "Dernière connexion"
+            locale: "Locale"
+            articles_count: "Nombre d'articles"
+      comments:
+        title: "Commentaires"
+        table:
+          title: "Liste des commentaires"
+          columns:
+            id: "Id"
+            title: "Titre"
+            body: "Contenu"
+            posted_at: "Posté le"
+      topics:
+        title: "Thèmes"
+        table:
+          title: "Liste des thèmes"
+          columns:
+            id: "Id"
+            user_id: "Id de l'utilisateur"
+            mode: "Type"
+            name: "Nom"
+            priority: "Priorité"
+            visibility: "Visibilité"
+            articles_count: "Articles associés"
+            views_count: "Nb de vues"
+            clicks_count: "Nb de clics"
+            searches_count: "Nb de recherches"
+            created_at: "Créé le"
+      tags:
+        title: "Labels"
+        table:
+          title: "Liste des labels"
+          columns:
+            id: "Id"
+            name: "Nom"
+            description: "Description"
+            synonyms: "Synonymes"
+            priority: "Priorité"
+            visibility: "Visibilité"
+            tagged_articles_count: "Articles associés"
+            views_count: "Nb de vues"
+            clicks_count: "Nb de clics"
+            searches_count: "Nb de recherches"
+      articles:
+        title: "Articles"
+        table:
+          title: "Liste des articles"
+          columns:
+            id: "Id"
+            topic_id: "Id du thème"
+            mode: "Type"
+            title: "Titre"
+            priority: "Priorité"
+            visibility: "Visibilité"
+            comments_count: "Nb de commentaires"
+            views_count: "Nb de vues"
+            clicks_count: "Nb de clics"
+            searches_count: "Nb de recherches"
+            date: "Posté le"
+      blogs:
+        title: "Notes"
+        add: "Ajouter bog"
+        form:
+          title: "Titre"
+          content: "Votre note ..."
+          add: "Ajouter"
+          update: "Mettre à jour"
+          cancel: "Annuler"
+      logs:
+        input:
+          title: "Recherche"
+        help:
+          title: "Options de recherche des logs"
+          all: "Rechercher n'importe quel terme dans les logs"
+          status: "status:200 => retourne toutes les requêtes avec ce status"
+          ip: "ip:127.0.0.1 => retourne toutes les requêtes avec cet IP"
+          host: "host:www.your-domain.com => retourne toutes les requêtes pour ce domaine"
+          session: "sessionId:xxxx-xxxx-xxxx => retourne toutes les requêtes pour cette session"
+          level: "level:INFO => retourne toutes les requêtes de ce niveau de log"
+          bot: "bot:googlebot => retourne toutes les requêtes effectuées par ce bot"
+          button: "OK"
+      cache:
+        title: "Supprimer tout le cache"
+        button: "Supprimer !"
+        successful: "Le cache a été vidé"
+        error: "Problème lors de la suppression du cache"
     form:
       errors:
         text: "Ce champ est requis"
