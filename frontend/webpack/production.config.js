@@ -85,7 +85,9 @@ webPackConfig.optimization = {
                 reuseExistingChunk: true,
                 test: function (module) {
                     if (module.resource) {
-                        return !module.resource.includes('/admin/');
+                        return !module.resource.includes('/admins') && !module.resource.includes('/admin') && config.admin.modules.every((am) => !module.resource.includes(am));
+                    } else {
+                        return false;
                     }
                 }
             }

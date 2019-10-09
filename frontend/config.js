@@ -109,6 +109,9 @@ module.exports = {
                 to: 'logos'
             }
         ],
+        admin: {
+            modules: ['material-table', 'styled-components', 'react-beautiful-dnd', 'material-ui-pickers', 'date-fns', 'filefy', 'react-double-scrollbar', 'downshift', 'downshift', '@reach']
+        },
         development: {
             assetPath: 'http://localhost:8080/assets/',
             filename: '[name]',
