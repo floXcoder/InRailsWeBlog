@@ -4,6 +4,8 @@ import {
     Suspense
 } from 'react';
 
+import Paper from '@material-ui/core/Paper';
+
 import {
     ArticleInlineEditionDisplay
 } from '../../loaders/components';
@@ -16,6 +18,7 @@ import {
     getArticleIsOwner
 } from '../../../selectors';
 
+import ArticleMiniCardDisplay from './items/miniCard';
 import ArticleCardDisplay from './items/card';
 import ArticleInlineDisplay from './items/inline';
 import ArticleGridDisplay from './items/grid';
@@ -64,13 +67,33 @@ class ArticleItemsDisplay extends React.Component {
     };
 
     render() {
-        if (this.props.articleDisplayMode === 'edit' || this.props.articleEditionId === this.props.article.id) {
+        if (this.props.articleEditionId === this.props.article.id) {
             return (
                 <Suspense fallback={<div/>}>
                     <ArticleInlineEditionDisplay article={this.props.article}
                                                  currentTopicId={this.props.currentUserTopicId}
                                                  isOwner={this.props.isOwner}/>
                 </Suspense>
+            );
+        } else if (this.props.articleDisplayMode === 'summary') {
+            return (
+                <Paper>
+                    <ArticleMiniCardDisplay article={this.props.article}
+                                            isTagDown={true}/>
+                </Paper>
+            );
+        } else if (this.props.articleDisplayMode === 'card') {
+            return (
+                <ArticleCardDisplay article={this.props.article}
+                                    currentUserSlug={this.props.currentUserSlug}
+                                    currentUserTopicSlug={this.props.currentUserTopicSlug}
+                                    isOwner={this.props.isOwner}
+                                    hasActions={this.props.hasCardActions}
+                                    isMinimized={this.props.isMinimized}
+                                    onInlineEdit={this._handleInlineEditClick}
+                                    onEnter={this.props.onEnter}
+                                    onExit={this.props.onExit}
+                                    onClick={this.props.onClick}/>
             );
         } else if (this.props.articleDisplayMode === 'inline') {
             return (
@@ -86,19 +109,6 @@ class ArticleItemsDisplay extends React.Component {
                                       onEnter={this.props.onEnter}
                                       onExit={this.props.onExit}
                                       onInlineEdit={this._handleInlineEditClick}/>
-            );
-        } else if (this.props.articleDisplayMode === 'card') {
-            return (
-                <ArticleCardDisplay article={this.props.article}
-                                    currentUserSlug={this.props.currentUserSlug}
-                                    currentUserTopicSlug={this.props.currentUserTopicSlug}
-                                    isOwner={this.props.isOwner}
-                                    hasActions={this.props.hasCardActions}
-                                    isMinimized={this.props.isMinimized}
-                                    onInlineEdit={this._handleInlineEditClick}
-                                    onEnter={this.props.onEnter}
-                                    onExit={this.props.onExit}
-                                    onClick={this.props.onClick}/>
             );
         } else if (this.props.articleDisplayMode === 'grid') {
             return (

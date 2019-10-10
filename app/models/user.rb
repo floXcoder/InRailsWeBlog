@@ -72,7 +72,7 @@ class User < ApplicationRecord
   include Storext.model
   store_attributes :settings do
     articles_loader String, default: 'infinite' # Load articles by: all / paginate / infinite
-    article_display String, default: 'card' # Display articles: inline / card (with inline edit) / grid
+    article_display String, default: 'summary' # Display articles: summary / card / inline / grid
     article_order String, default: 'priority_desc' # Order articles by: priority_asc, priority_desc, id_asc, id_desc, created_asc, created_desc, updated_asc, updated_desc, tag_asc, tags_desc, rank_asc, rank_desc, popularity_asc, popularity_desc, default
 
     tag_sidebar_pin Boolean, default: true # Tag sidebar pinned by default

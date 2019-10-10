@@ -167,11 +167,12 @@ fr:
               pagination: "Utiliser une pagination"
               all: "Tous charger"
           display:
-            title: "Affichage d'un article"
+            title: "Affichage des articles"
             mode:
-              card: "Cartes indépendantes"
-              inline: "Un seul article global"
-              grid: "En grille"
+              summary: "Résumé des articles seulement"
+              card: "Articles complets"
+              inline: "Articles unifiés"
+              grid: "Articles en grille"
         tag:
           title: "Labels"
           sidebar:

@@ -167,11 +167,12 @@ en:
               pagination: "Use pagination"
               all: "Display all"
           display:
-            title: "Articles"
+            title: "Articles display"
             mode:
-              card: "Independent cards"
-              inline: "On global article"
-              grid: "In grid"
+              summary: "Articles summary only"
+              card: "Full articles"
+              inline: "Unified articles"
+              grid: "Article in grid"
         tag:
           title: "Tags"
           sidebar:

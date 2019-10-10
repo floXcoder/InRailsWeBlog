@@ -425,8 +425,8 @@ class Article < ApplicationRecord
     return formatted_content
   end
 
-  def summary_content(size = 90, current_user_id = nil)
-    adapted_content(current_user_id)&.summary(size)
+  def summary_content(size = 180, strip_html = true, current_user_id = nil)
+    adapted_content(current_user_id)&.summary(size, strip_html)
   end
 
   def tag_names

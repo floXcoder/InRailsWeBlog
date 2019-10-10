@@ -30,17 +30,39 @@ class ArticleMiniCardDisplay extends React.Component {
     static propTypes = {
         article: PropTypes.object.isRequired,
         hasTags: PropTypes.bool,
+        isTagDown: PropTypes.bool,
         // from styles
         classes: PropTypes.object
     };
 
     static defaultProps = {
-        hasTags: true
+        hasTags: true,
+        isTagDown: false
     };
 
     constructor(props) {
         super(props);
     }
+
+    _renderArticleTags = () => {
+        return (
+            <div className={this.props.classes.articleTags}>
+                {
+                    this.props.article.tags.map((tag) => (
+                        <Chip key={tag.id}
+                              className={this.props.classes.articleTag}
+                              component={Link}
+                              to={`/tagged/${tag.slug}`}
+                              onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.name)}
+                              icon={<LabelIcon/>}
+                              label={tag.name}
+                              clickable={true}
+                              variant="outlined"/>
+                    ))
+                }
+            </div>
+        )
+    };
 
     render() {
         return (
@@ -58,23 +80,7 @@ class ArticleMiniCardDisplay extends React.Component {
                                     </h1>
                                 </Link>
                             }
-                            subheader={this.props.hasTags && (
-                                <div className={this.props.classes.articleTags}>
-                                    {
-                                        this.props.article.tags.map((tag) => (
-                                            <Chip key={tag.id}
-                                                  className={this.props.classes.articleTag}
-                                                  component={Link}
-                                                  to={`/tagged/${tag.slug}`}
-                                                  onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.name)}
-                                                  icon={<LabelIcon/>}
-                                                  label={tag.name}
-                                                  clickable={true}
-                                                  variant="outlined"/>
-                                        ))
-                                    }
-                                </div>
-                            )}
+                            subheader={(this.props.hasTags && !this.props.isTagDown) && this._renderArticleTags()}
                 />
 
                 <CardContent classes={{
@@ -115,28 +121,47 @@ class ArticleMiniCardDisplay extends React.Component {
                           }}
                           spacing={2}
                           direction="row"
-                          justify="flex-start"
+                          justify="space-between"
                           alignItems="center">
                         <Grid item={true}
                               className={this.props.classes.headerItem}>
-                            <Link className={this.props.classes.userPseudo}
-                                  to={`/users/${this.props.article.user.slug}`}
-                                  onClick={spyTrackClick.bind(null, 'user', this.props.article.user.id, this.props.article.user.slug, this.props.article.user.pseudo)}>
-                                {this.props.article.user.pseudo}
-                            </Link>
+                            <Grid container={true}
+                                  classes={{
+                                      container: this.props.classes.articleInfo
+                                  }}
+                                  spacing={2}
+                                  direction="row"
+                                  justify="flex-start"
+                                  alignItems="center">
+                                <Grid item={true}
+                                      className={this.props.classes.headerItem}>
+                                    <Link className={this.props.classes.userPseudo}
+                                          to={`/users/${this.props.article.user.slug}`}
+                                          onClick={spyTrackClick.bind(null, 'user', this.props.article.user.id, this.props.article.user.slug, this.props.article.user.pseudo)}>
+                                        {this.props.article.user.pseudo}
+                                    </Link>
+                                </Grid>
+
+                                <Grid item={true}
+                                      className={this.props.classes.headerItem}>
+                                    <div className={this.props.classes.separator}/>
+                                </Grid>
+
+                                <Grid item={true}
+                                      className={this.props.classes.headerItem}>
+                                    <div className={this.props.classes.date}>
+                                        {this.props.article.date}
+                                    </div>
+                                </Grid>
+                            </Grid>
                         </Grid>
 
-                        <Grid item={true}
-                              className={this.props.classes.headerItem}>
-                            <div className={this.props.classes.separator}/>
-                        </Grid>
-
-                        <Grid item={true}
-                              className={this.props.classes.headerItem}>
-                            <div className={this.props.classes.date}>
-                                {this.props.article.date}
-                            </div>
-                        </Grid>
+                        {
+                            this.props.isTagDown &&
+                            <Grid item={true}>
+                                {this._renderArticleTags()}
+                            </Grid>
+                        }
                     </Grid>
                 </CardContent>
             </Card>

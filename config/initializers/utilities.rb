@@ -131,39 +131,14 @@ class String
     end.join(' ')
   end
 
-  def summary(length = 60)
-    end_line = self.html_safe.index(' ', length - 10)
-    if end_line && self.html_safe.length > length
-      desc = self[0...end_line] + '...'
-      desc.html_safe
-    else
-      self.html_safe
+  def summary(length = 60, strip_html = false)
+    string = strip_html ? Sanitize.fragment(self).strip.squish : self.html_safe
+    end_line = string.index(' ', length - 10)
+    if end_line && string.length > length
+      string = "#{string[0...end_line]}..."
     end
-  end
 
-  def caesar_cipher(shift = 1)
-    alphabet = Array('a'..'z')
-    non_caps = Hash[alphabet.zip(alphabet.rotate(shift))]
-
-    alphabet = Array('A'..'Z')
-    caps     = Hash[alphabet.zip(alphabet.rotate(shift))]
-
-    encrypter = non_caps.merge(caps)
-
-    self.chars.map { |c| encrypter.fetch(c, c) }.join
-  end
-end
-
-###
-# Add round and floor methods
-###
-class Time
-  def round_off(seconds = 60)
-    Time.at((self.to_f / seconds).round * seconds).utc
-  end
-
-  def floor_off(seconds = 60)
-    Time.at((self.to_f / seconds).floor * seconds).utc
+    return string
   end
 end
 

@@ -25,7 +25,7 @@ const styles = (theme) => ({
     },
     extractTitle: {
         color: theme.palette.primary.main,
-        margin: '1rem 0 .3rem',
+        margin: '1rem 0 .6rem',
         fontSize: h1SizeExtract,
         fontWeight: h1WeightExtract,
         lineHeight: h1LineHeightExtract,
