@@ -95,23 +95,24 @@ test:rails:
     - master
   when: on_success
 
-test:browser:
-  stage: test
-  variables:
-    TEST_PORT: 3021
-    RAILS_ENV: "test"
-    DATABASE_TEST_NAME: "inrailsweblog_test"
-    DATABASE_TEST_USERNAME: "inrailsweblog_test"
-    DATABASE_TEST_PASSWORD: "inrailsweblog"
-  <<: *pull-cache
-  script:
-    - bundle exec rspec --tag advanced spec/
-  interruptible: true
-  # Unstable tests
-  allow_failure: true
-  only:
-    - master
-  when: on_success
+# Inconsistent tests
+#test:browser:
+#  stage: test
+#  variables:
+#    TEST_PORT: 3021
+#    RAILS_ENV: "test"
+#    DATABASE_TEST_NAME: "inrailsweblog_test"
+#    DATABASE_TEST_USERNAME: "inrailsweblog_test"
+#    DATABASE_TEST_PASSWORD: "inrailsweblog"
+#  <<: *pull-cache
+#  script:
+#    - bundle exec rspec --tag advanced spec/
+#  interruptible: true
+#  # Unstable tests
+#  allow_failure: true
+#  only:
+#    - master
+#  when: on_success
 
 test:npm:
   stage: test
