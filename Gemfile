@@ -96,7 +96,7 @@ gem 'http',                     '4.1.1'
 
 # Dummy data
 gem 'factory_bot_rails',        '5.1.1',   require: false
-gem 'faker',                    '2.5.0',   require: false
+gem 'faker',                    '2.6.0',   require: false
 
 # Deployment
 gem 'capistrano',               '3.11.2'
@@ -149,7 +149,7 @@ end
 
 group :test do
   # Test tools
-  gem 'rspec-rails',                '3.8.2'
+  gem 'rspec-rails',                '3.9.0'
   gem 'shoulda-matchers',           '4.1.2',  require: false
   gem 'shoulda-callback-matchers',  '1.1.4',  require: false
   gem 'simplecov',                  '0.17.1', require: false
