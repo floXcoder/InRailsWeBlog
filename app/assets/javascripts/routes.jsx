@@ -268,6 +268,10 @@ export default {
         ],
         article: [
             {
+                path: 'tracking-article',
+                component: () => RouteComponents.ArticleTracking
+            },
+            {
                 path: 'share-article',
                 component: () => RouteComponents.ArticleShare
             }

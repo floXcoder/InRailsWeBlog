@@ -485,6 +485,7 @@ fr:
         cancel: "Annuler"
         update: "Mettre à jour"
         share: "Partager cet article"
+        tracking: "Statistiques des vues"
         delete: "Supprimer cet article"
         updated_at: "Dernière modification"
       masonry:
@@ -523,6 +524,14 @@ fr:
         form_title: "Modification de : %{title}"
         submit: "Mettre à jour"
         exit: "Êtes-vous sûr de quitter sans sauvegarder ?"
+      tracking:
+        title: "Statistiques"
+        views: "Nombre d'impressions dans toutes les pages"
+        clicks: "Nombre de clics sur l'article"
+        searches: "Nombre de fois retourné dans la recherche"
+        bookmarks: "Nombre de fois ajouté dans les favoris"
+        comments: "Nombre de commentaires associés"
+        cancel: "Annuler"
       share:
         title: "Partager cet article"
         content: "Copier le lien suivant pour partager l'article :"
@@ -699,8 +708,8 @@ fr:
     tracker:
       sign_in_count: "Connexions"
       views_count: "Vues"
-      queries_count: "Requêtes"
       clicks_count: "Clics"
+      queries_count: "Requêtes"
       searches_count: "Searches"
     admin:
       common:

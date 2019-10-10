@@ -97,6 +97,7 @@ module Api::V1
                  with_share:    true,
                  with_vote:     true,
                  with_outdated: true,
+                 with_tracking: params[:complete] && current_user && article.user?(current_user),
                  meta:          meta_attributes
         end
       end

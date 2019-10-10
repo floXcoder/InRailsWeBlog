@@ -22,8 +22,8 @@ export const SettingsRecord = new Record({
 
 export const TrackerRecord = new Record({
     viewsCount: undefined,
-    queriesCount: undefined,
     clicksCount: undefined,
+    queriesCount: undefined,
     searchesCount: undefined
 });
 

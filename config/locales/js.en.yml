@@ -485,6 +485,7 @@ en:
         cancel: "Cancel"
         update: "Update"
         share: "Share this article"
+        tracking: "Views statistic"
         delete: "Remove this article"
         updated_at: "Last modification"
       masonry:
@@ -527,6 +528,14 @@ en:
         title: "Share this theme"
         content: "Copy the following link to share the article:"
         button: "Shared by a link"
+        cancel: "Cancel"
+      tracking:
+        title: "Statistics"
+        views: "Impression in all pages"
+        clicks: "Number of clicks"
+        searches: "Articles appears in search result"
+        bookmarks: "Articles added to bookmarks"
+        comments: "Number of associated comments"
         cancel: "Cancel"
       sort:
         title: "Sort by"
@@ -699,8 +708,8 @@ en:
     tracker:
       sign_in_count: "Connections"
       views_count: "Views"
-      queries_count: "Queries"
       clicks_count: "Clicks"
+      queries_count: "Queries"
       searches_count: "Searches"
     admin:
       common:
