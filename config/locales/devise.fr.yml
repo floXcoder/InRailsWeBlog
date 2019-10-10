@@ -48,8 +48,6 @@ fr:
         new: "Nouveau mot de passe"
         confirm: "Confirmer votre nouveau mot de passe"
         submit: "Changer mon mot de passe"
-      user:
-        password: "password"
     registrations:
       destroyed: "Votre compte a été supprimé avec succès. Nous espérons vous revoir bientôt."
       signed_up: "Bienvenue, vous êtes connecté sur InRailsWeBlog !"

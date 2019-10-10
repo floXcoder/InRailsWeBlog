@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'support/helpers/session_helpers'
 require 'support/helpers/form_helpers'
 
 class SitePage
@@ -8,7 +7,6 @@ class SitePage
   include Capybara::DSL
   include Rails.application.routes.url_helpers
   include AbstractController::Translation
-  include Features::SessionHelpers
   include Features::FormHelpers
 
   HTMLValidation.show_warnings = false

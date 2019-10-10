@@ -48,9 +48,9 @@ en:
         error_creation: "Cannot create the topic, please correct the errors"
         successful_edition: "Topic updated"
         error_edition: "Cannot update the topic!"
+        successful_deletion: "Topic deleted"
         successful_priority_update: "Topics order changed"
         error_priority_update: "Cannot change topics order"
-        successful_deletion: "Topic deleted"
         error_deletion: "Problem during topic deletion: %{errors}"
     inventory_field:
       flash:
