@@ -17,7 +17,8 @@ class UserCompleteSerializer < ActiveModel::Serializer
              :slug,
              :sign_in_count,
              :last_sign_in_at,
-             :articles_count
+             :articles_count,
+             :link
 
   has_one :tracker
 
@@ -31,5 +32,9 @@ class UserCompleteSerializer < ActiveModel::Serializer
 
   def articles_count
     object.articles.size
+  end
+
+  def link
+    Rails.application.routes.url_helpers.show_user_path(user_slug: object.slug)
   end
 end

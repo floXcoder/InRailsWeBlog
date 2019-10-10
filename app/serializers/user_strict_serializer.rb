@@ -7,7 +7,8 @@ class UserStrictSerializer < ActiveModel::Serializer
              :pseudo,
              :date,
              :avatar_url,
-             :slug
+             :slug,
+             :link
 
   def id
     object.id
@@ -27,5 +28,9 @@ class UserStrictSerializer < ActiveModel::Serializer
 
   def slug
     object.slug
+  end
+
+  def link
+    Rails.application.routes.url_helpers.show_user_path(user_slug: object.slug) if instance_options[:with_link]
   end
 end

@@ -6,6 +6,8 @@ export const lazyWithPreload = (factory) => {
     return Component;
 };
 
+// webpackChunkName cannot contain "tracking"!!!
+
 export const HomeHome = lazyWithPreload(() => import(/* webpackChunkName: "home-index" */ '../home/home'));
 
 export const TopicShow = lazyWithPreload(() => import(/* webpackChunkName: "topic-show" */ '../topics/show'));
@@ -20,6 +22,7 @@ export const ArticleShow = lazyWithPreload(() => import(/* webpackPrefetch: true
 export const ArticleNew = lazyWithPreload(() => import(/* webpackChunkName: "article-new" */ '../articles/new'));
 export const ArticleEdit = lazyWithPreload(() => import(/* webpackChunkName: "article-edit" */ '../articles/edit'));
 export const ArticleHistory = lazyWithPreload(() => import(/* webpackChunkName: "article-history" */ '../articles/history'));
+export const ArticleTracking = lazyWithPreload(() => import(/* webpackChunkName: "article-tracker" */ '../articles/tracking'));
 export const ArticleShare = lazyWithPreload(() => import(/* webpackChunkName: "article-share" */ '../articles/share'));
 export const ArticleShared = lazyWithPreload(() => import(/* webpackChunkName: "article-share" */ '../articles/shared'));
 export const ArticleSort = lazyWithPreload(() => import(/* webpackChunkName: "article-sort" */ '../articles/sort'));
@@ -39,6 +42,7 @@ export const UserHome = lazyWithPreload(() => import(/* webpackChunkName: "user-
 // export const UserEdit = lazyWithPreload(() => import(/* webpackChunkName: "user-edit" */ '../users/edit'));
 export const UserSignup = lazyWithPreload(() => import(/* webpackChunkName: "user-signup" */ '../users/signup'));
 export const UserLogin = lazyWithPreload(() => import(/* webpackChunkName: "user-login" */ '../users/login'));
+export const UserPassword = lazyWithPreload(() => import(/* webpackChunkName: "user-password" */ '../users/password'));
 export const UserPreference = lazyWithPreload(() => import(/* webpackChunkName: "user-preference" */ '../users/preference'));
 
 export const HomeSearchHeader = lazyWithPreload(() => import(/* webpackPrefetch: true, webpackChunkName: "search-header" */ '../layouts/header/search'));

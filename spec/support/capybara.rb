@@ -5,11 +5,11 @@ Selenium::WebDriver::Chrome.path = ENV['CI'] ? '/usr/bin/chromium' : '/usr/bin/c
 
 Capybara.run_server = true
 
-Capybara.app_host    = 'http://localhost:3020'
+Capybara.app_host    = "http://localhost:#{ENV['TEST_PORT']}"
 Capybara.server_host = 'localhost'
-Capybara.server_port = '3020'
+Capybara.server_port = ENV['TEST_PORT']
 Capybara.configure do |config|
-  config.default_host = 'http://localhost:3020'
+  config.default_host = "http://localhost:#{ENV['TEST_PORT']}"
 end
 
 # # Full chrome version

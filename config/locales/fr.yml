@@ -10,38 +10,6 @@ fr:
       flash:
         successful_edition: "Profil mis à jour"
         error_edition: "Le profil n'est pas été mis à jour, merci de corriger les erreurs indiquées"
-      signup:
-        title: "Créer un compte sur InRailsWeBlog"
-        subtitle: "Rentrer les détails pour votre compte"
-        password_hint: "caractères minimums"
-        confirm_password: "Confirmer le mot de passe"
-        terms_of_use: "En vous inscrivant sur %{website}, vous acceptez les"
-        terms_of_use_name: "conditions d'utilisations"
-        back_home: "Retourner à la page d'accueil"
-        submit: "Créer mon compte"
-        tooltip:
-          pseudo: "Pseudo requis pour vous identifier"
-          email: "Email requis pour vérifier votre compte"
-          password: "N'oubliez pas votre mot de passe"
-          password_confirmation: "Vérification du mot de passe"
-        externals:
-          google: "S'inscrire avec Google"
-          facebook: "S'inscrire avec Facebook"
-        flash:
-          message: "Penser à valider votre adresse email"
-          webmail: "Vous pouvez vous connecter à %{webmail} pour confirmer votre email"
-      login:
-        title: "Se connecter"
-        subtitle: "Merci de rentrer votre email et mot de passe"
-        remember: "Se souvenir de moi"
-        back_home: "Retourner à la page d'accueil"
-        submit: "Connexion"
-        externals:
-          google: "Se connecter avec Google"
-          facebook: "Se connecter avec Facebook"
-        flash:
-          message: "Vous avez %{days} pour confirmer votre adresse email"
-          webmail: "Vous pouvez vous connecter à %{webmail} pour confirmer votre email"
       index:
         title: "Tous les utilisateurs"
         description: "Liste de tous les utilisateurs"
@@ -110,7 +78,7 @@ fr:
       show:
         title: "%{title} - %{topic}"
       edit:
-        title: "Modification de %{title} - %{topic}"
+        title: "Édition : %{title} - %{topic}"
         description: "Modification de l'article : %{title} - %{topic}"
       history:
         title: "Historique de %{title} - %{topic}"
@@ -148,6 +116,30 @@ fr:
         title: "Se connecter (Admin)"
       dashboard:
         title: "Admin"
+      users:
+        title: "Utilisateurs"
+      comments:
+        title: "Commentaires"
+      topics:
+        title: "Thèmes"
+      tags:
+        title: "Labels"
+      articles:
+        title: "Articles"
+      blogs:
+        title: "Notes"
+      logs:
+        title: "Logs"
+      cache:
+        title: "Cache"
+      blog:
+        flash:
+          successful_creation: "Article ajouté"
+          error_creation: "L'article n'a pas été créé, merci de corriger les erreurs indiquées"
+          successful_edition: "Article mis à jour"
+          error_edition: "Problème lors de la mise à jour de l'article"
+          successful_deletion: "Article supprimé"
+          error_deletion: "Problème lors de la suppression de l'article"
     errors:
       flash:
         successful_deletion: "L'erreur a bien été supprimée"

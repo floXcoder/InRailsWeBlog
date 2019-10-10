@@ -160,6 +160,9 @@ class ArticleIndex extends React.Component {
 
     _fetchArticles = () => {
         let options = {};
+        if (this.props.articleDisplayMode === 'summary') {
+            options.summary = true;
+        }
         if (this.props.articlesLoaderMode === 'all') {
             options.limit = 1000;
         }
@@ -178,6 +181,10 @@ class ArticleIndex extends React.Component {
             const options = {
                 page: (params.selected || this.props.articlePagination.currentPage) + 1
             };
+
+            if (this.props.articleDisplayMode === 'summary') {
+                options.summary = true;
+            }
 
             this._isFetchingNext = true;
 

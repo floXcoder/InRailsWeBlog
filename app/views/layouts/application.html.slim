@@ -1,18 +1,16 @@
 doctype html
 html lang="#{I18n.locale}"
-
-  = render 'layouts/head'
-
-  body.blog class="lang-#{I18n.locale}"
-    #head-component
   
+  = render 'layouts/head'
+  
+  body.blog class="lang-#{I18n.locale}"
     = yield
     
     = render 'layouts/flash_messages', flash: flash
-
+    
     = render 'layouts/javascript'
-
+    
     - if ENV['METRICS_ADDRESS'] && Rails.env.production?
       = render 'layouts/metrics'
-
+    
     = render 'layouts/stylesheet'

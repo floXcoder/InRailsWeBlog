@@ -26,7 +26,7 @@ module Api::V1
     end
 
     def failure
-      error_msg = I18n.t('devise.failure.invalid', authentication_keys: params[resource_name] ? params[resource_name][:login] : '')
+      error_msg = I18n.t('devise.failure.invalid', authentication_keys: params[resource_name] ? params[resource_name][:login] : params[:login])
       redirect_after_failure(error_msg)
     end
 
@@ -53,19 +53,8 @@ module Api::V1
       end
     end
 
-    def flash_message(user)
-      if user.is_a?(Admin) || user.confirmed?
-        flash[:success] = t('devise.sessions.signed_in')
-      else
-        webmail_name, webmail_address = webmail_from_email(resource.email)
-        webmail                       = content_tag(:a, webmail_name, href: webmail_address)
-
-        message = t('devise.sessions.signed_in')
-        message << ' ' << t('views.user.login.flash.message')
-        message << '<br>' << t('views.user.login.flash.webmail', webmail: webmail) if webmail_name
-
-        flash[:alert] = message
-      end
+    def flash_message(_user)
+      flash[:success] = t('devise.sessions.signed_in')
     end
 
     def check_unconfirmed_user

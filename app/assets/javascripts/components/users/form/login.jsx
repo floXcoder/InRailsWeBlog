@@ -1,6 +1,10 @@
 'use strict';
 
 import {
+    Link
+} from 'react-router-dom';
+
+import {
     Field,
     reduxForm
 } from 'redux-form/immutable';
@@ -66,7 +70,7 @@ class LoginForm extends React.Component {
 
     render() {
         return (
-            <form className={classNames('blog-form', 'connection', {'form-invalid': this.props.invalid})}
+            <form className={classNames('connection', {'form-invalid': this.props.invalid})}
                   onSubmit={this.props.handleSubmit}>
                 <EnsureValidity/>
 
@@ -124,6 +128,14 @@ class LoginForm extends React.Component {
                                color="primary"/>
                     </Grid>
                 </Grid>
+
+                <div>
+                    <Link className={this.props.classes.password}
+                          to="/users/password/new"
+                          onClick={this.props.onCancel}>
+                        {I18n.t('js.user.login.new_password')}
+                    </Link>
+                </div>
 
                 <Grid className="center-align margin-top-15 margin-bottom-25"
                       container={true}

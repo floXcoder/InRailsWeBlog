@@ -6,7 +6,17 @@ module.exports = {
         context: './app/assets',
         entries: {
             home: ['./javascripts/pages/home/home.jsx'],
-            user: ['./javascripts/pages/home/user.jsx']
+            user: ['./javascripts/pages/home/user.jsx'],
+            'admins/login': ['./javascripts/pages/admins/login.jsx'],
+            'admins/dashboard': ['./javascripts/pages/admins/dashboard.jsx'],
+            'admins/users': ['./javascripts/pages/admins/users.jsx'],
+            'admins/comments': ['./javascripts/pages/admins/comments.jsx'],
+            'admins/topics': ['./javascripts/pages/admins/topics.jsx'],
+            'admins/tags': ['./javascripts/pages/admins/tags.jsx'],
+            'admins/articles': ['./javascripts/pages/admins/articles.jsx'],
+            'admins/blogs': ['./javascripts/pages/admins/blogs.jsx'],
+            'admins/logs': ['./javascripts/pages/admins/logs.jsx'],
+            'admins/cache': ['./javascripts/pages/admins/cache.jsx']
         },
         output: {
             path: './public/assets',
@@ -99,6 +109,9 @@ module.exports = {
                 to: 'logos'
             }
         ],
+        admin: {
+            modules: ['material-table', 'styled-components', 'react-beautiful-dnd', 'material-ui-pickers', 'date-fns', 'filefy', 'react-double-scrollbar', 'downshift', 'downshift', '@reach']
+        },
         development: {
             assetPath: 'http://localhost:8080/assets/',
             filename: '[name]',
@@ -112,7 +125,7 @@ module.exports = {
             ]
         },
         test: {
-            assetPath: 'http://localhost:3020/assets/',
+            assetPath: 'http://localhost:PORT/assets/',
             filename: '[name]',
             chunkFilename: '[name]'
         },

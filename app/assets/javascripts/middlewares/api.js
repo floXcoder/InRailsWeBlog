@@ -29,7 +29,8 @@ const getDataHeaders = () => {
     return {
         credentials: 'same-origin',
         headers: new Headers({
-            'X-CSRF-Token': token
+            'X-CSRF-Token': token,
+            'Accept': 'application/json'
         })
     };
 };
@@ -175,11 +176,11 @@ const api = {
     },
 
     post: (url, params, isData = false) => {
+        const headers = isData ? getDataHeaders() : getHeaders();
         const parameters = isData ? params : JSON.stringify(params);
-        const postHeaders = isData ? getDataHeaders() : getHeaders();
 
         return fetch(url, {
-            ...postHeaders,
+            ...headers,
             method: 'POST',
             body: parameters
         })
@@ -192,9 +193,9 @@ const api = {
             )
     },
 
-    update: (url, params) => {
-        const headers = getHeaders();
-        const parameters = JSON.stringify(params);
+    update: (url, params, isData = false) => {
+        const headers = isData ? getDataHeaders() : getHeaders();
+        const parameters = isData ? params : JSON.stringify(params);
 
         return fetch(url, {
             ...headers,

@@ -41,16 +41,19 @@ build:
     - gem install bundler
     - bundle install --quiet --path=vendor/bundle --binstubs vendor/bundle/bin --jobs $(nproc) "${FLAGS[@]}"
     - yarn install --frozen-lockfile --cache-folder .yarn-cache
+  interruptible: true
   only:
-    - develop
+    - master
 
 check_code:
   stage: test
   <<: *pull-cache
   script:
     - bundle exec rails InRailsWeBlog:check_code
+  interruptible: true
   only:
-    - develop
+    - master
+  when: on_success
 
 audit:
   stage: test
@@ -58,18 +61,22 @@ audit:
   script:
     - gem install bundler-audit
     - bundle audit check --update --ignore CVE-2015-9284
+  interruptible: true
   allow_failure: true
   only:
-    - develop
+    - master
+  when: on_success
 
 brakeman:
   stage: test
   <<: *pull-cache
   script:
     - bundle exec brakeman -q
+  interruptible: true
   allow_failure: true
   only:
-    - develop
+    - master
+  when: on_success
 
 test:rails:
   stage: test
@@ -83,12 +90,15 @@ test:rails:
   <<: *pull-cache
   script:
     - bundle exec rspec --tag basic spec/
+  interruptible: true
   only:
-    - develop
+    - master
+  when: on_success
 
 test:browser:
   stage: test
   variables:
+    TEST_PORT: 3021
     RAILS_ENV: "test"
     DATABASE_TEST_NAME: "inrailsweblog_test"
     DATABASE_TEST_USERNAME: "inrailsweblog_test"
@@ -96,18 +106,22 @@ test:browser:
   <<: *pull-cache
   script:
     - bundle exec rspec --tag advanced spec/
+  interruptible: true
   # Unstable tests
   allow_failure: true
   only:
-    - develop
+    - master
+  when: on_success
 
 test:npm:
   stage: test
   <<: *pull-cache
   script:
     - npm run test
+  interruptible: true
   only:
-    - develop
+    - master
+  when: on_success
 
 deploy:
   stage: deploy
@@ -126,14 +140,18 @@ deploy:
   <<: *pull-cache
   script:
     - bundle exec cap production deploy
+  interruptible: true
   only:
     - master
+  when: on_success
 
 check:deploy:
   stage: check
   cache: {}
   script:
-    - sh -c '[ $(curl -s -o /dev/null -I -w "%{http_code}" https://www.inrailsweblog.com/health_check) -eq 200 ]'
-    - sh -c '[ $(curl -s -o /dev/null -I -w "%{http_code}" https://www.inrailsweblog.com) -eq 200 ]'
+    - sh -c '[ $(curl --head -o /dev/null -L -s -w "%{http_code}" https://www.inrailsweblog.com/health_check) -eq 200 ]'
+    - sh -c '[ $(curl --head -o /dev/null -L -s -w "%{http_code}" https://www.inrailsweblog.com) -eq 200 ]'
+  interruptible: true
   only:
     - master
+  when: on_success

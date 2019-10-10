@@ -90,6 +90,8 @@ module Articles
                                  # indices_boost: { "articles-#{I18n.locale}" => 5 },
                                  execute: !@params[:defer])
 
+        track_results(results)
+
         if @params[:defer]
           success(results)
         else

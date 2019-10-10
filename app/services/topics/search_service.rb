@@ -84,6 +84,8 @@ module Topics
                                includes:     includes,
                                execute:      !@params[:defer])
 
+        track_results(results)
+
         if @params[:defer]
           success(results)
         else

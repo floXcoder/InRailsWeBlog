@@ -11,8 +11,8 @@ import List from '@material-ui/core/List';
 
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import PortraitIcon from '@material-ui/icons/Portrait';
-import CancelIcon from '@material-ui/icons/Cancel';
 import SettingsIcon from '@material-ui/icons/Settings';
+import CancelIcon from '@material-ui/icons/Cancel';
 
 export default class HeaderUserMenu extends React.Component {
     static propTypes = {
@@ -33,13 +33,14 @@ export default class HeaderUserMenu extends React.Component {
         const adminContent = (
             <>
                 <ListItem button={true}
-                          component={Link}
-                          to={`/admin`}>
+                          component="a"
+                          className={this.props.classes.link}
+                          href={'/admins'}>
                     <ListItemIcon>
                         <DashboardIcon/>
                     </ListItemIcon>
 
-                    <ListItemText className={this.props.classes.link}>
+                    <ListItemText classes={{primary: this.props.classes.link}}>
                         {I18n.t('js.views.header.user.administration')}
                     </ListItemText>
                 </ListItem>
@@ -52,6 +53,11 @@ export default class HeaderUserMenu extends React.Component {
             })}
                   component="div"
                   disablePadding={this.props.isNested}>
+                {
+                    this.props.isAdminConnected &&
+                    adminContent
+                }
+
                 <ListItem button={true}
                           component={Link}
                           className={this.props.classes.link}
@@ -87,11 +93,6 @@ export default class HeaderUserMenu extends React.Component {
                         {I18n.t('js.views.header.user.log_out')}
                     </ListItemText>
                 </ListItem>
-
-                {
-                    this.props.isAdminConnected &&
-                    adminContent
-                }
             </List>
         );
     }

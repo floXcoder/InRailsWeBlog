@@ -1,28 +1,27 @@
 # frozen_string_literal: true
-
 # == Schema Information
 #
 # Table name: topics
 #
-#  id                       :bigint           not null, primary key
-#  user_id                  :bigint
+#  id                       :integer          not null, primary key
+#  user_id                  :integer
 #  name                     :string           not null
-#  description_translations :jsonb
-#  languages                :string           default([]), is an Array
+#  description_translations :jsonb            default("{}")
+#  languages                :string           default("{}"), is an Array
 #  color                    :string
-#  priority                 :integer          default(0), not null
-#  visibility               :integer          default("everyone"), not null
-#  accepted                 :boolean          default(TRUE), not null
-#  archived                 :boolean          default(FALSE), not null
-#  pictures_count           :integer          default(0)
-#  articles_count           :integer          default(0)
-#  bookmarks_count          :integer          default(0)
+#  priority                 :integer          default("0"), not null
+#  visibility               :integer          default("0"), not null
+#  accepted                 :boolean          default("true"), not null
+#  archived                 :boolean          default("false"), not null
+#  pictures_count           :integer          default("0")
+#  articles_count           :integer          default("0")
+#  bookmarks_count          :integer          default("0")
 #  slug                     :string
 #  deleted_at               :datetime
 #  created_at               :datetime         not null
 #  updated_at               :datetime         not null
-#  settings                 :jsonb            not null
-#  mode                     :integer          default("default"), not null
+#  settings                 :jsonb            default("{}"), not null
+#  mode                     :integer          default("0"), not null
 #
 
 class Topic < ApplicationRecord
@@ -44,7 +43,7 @@ class Topic < ApplicationRecord
   # Settings are inherited from user
   store_attributes :settings do
     articles_loader String, default: nil # Load articles by: all / paginate / infinite
-    article_display String, default: nil # Display articles: inline / card (with inline edit) / grid
+    article_display String, default: nil # Display articles: summary / card / inline / grid
     article_order String, default: nil # Order articles by: priority_asc, priority_desc, id_asc, id_desc, created_asc, created_desc, updated_asc, updated_desc, tag_asc, tags_desc, rank_asc, rank_desc, popularity_asc, popularity_desc, default
 
     tag_sidebar_pin Boolean, default: nil # Tag sidebar pinned by default

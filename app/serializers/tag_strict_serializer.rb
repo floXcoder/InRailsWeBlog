@@ -13,7 +13,8 @@ class TagStrictSerializer < ActiveModel::Serializer
              :synonyms,
              :date,
              :visibility,
-             :slug
+             :slug,
+             :link
 
   def id
     object.id
@@ -45,5 +46,9 @@ class TagStrictSerializer < ActiveModel::Serializer
 
   def slug
     object.slug
+  end
+
+  def link
+    Rails.application.routes.url_helpers.show_tag_path(tag_slug: object.slug) if instance_options[:with_link]
   end
 end

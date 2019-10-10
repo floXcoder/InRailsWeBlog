@@ -19,6 +19,7 @@ class HomeUserHeader extends React.PureComponent {
         userSlug: PropTypes.string.isRequired,
         onLogoutClick: PropTypes.func.isRequired,
         onPreferenceClick: PropTypes.func.isRequired,
+        isAdminConnected: PropTypes.bool,
         // from styles
         classes: PropTypes.object
     };
@@ -36,6 +37,7 @@ class HomeUserHeader extends React.PureComponent {
                       hasWavesEffect={false}
                       hasArrow={true}>
                 <HeaderUserMenu classes={this.props.classes}
+                                isAdminConnected={this.props.isAdminConnected}
                                 userSlug={this.props.userSlug}
                                 onPreferenceClick={this.props.onPreferenceClick}
                                 onLogoutClick={this.props.onLogoutClick}/>

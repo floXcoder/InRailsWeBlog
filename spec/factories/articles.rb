@@ -1,35 +1,34 @@
 # frozen_string_literal: true
-
 # == Schema Information
 #
 # Table name: articles
 #
-#  id                      :bigint           not null, primary key
-#  user_id                 :bigint
-#  topic_id                :bigint
-#  mode                    :integer          default("note"), not null
-#  title_translations      :jsonb
-#  summary_translations    :jsonb
-#  content_translations    :jsonb            not null
-#  languages               :string           default([]), not null, is an Array
+#  id                      :integer          not null, primary key
+#  user_id                 :integer
+#  topic_id                :integer
+#  mode                    :integer          default("0"), not null
+#  title_translations      :jsonb            default("{}")
+#  summary_translations    :jsonb            default("{}")
+#  content_translations    :jsonb            default("{}"), not null
+#  languages               :string           default("{}"), not null, is an Array
 #  reference               :text
-#  draft                   :boolean          default(FALSE), not null
-#  notation                :integer          default(0)
-#  priority                :integer          default(0)
-#  visibility              :integer          default("everyone"), not null
-#  accepted                :boolean          default(TRUE), not null
-#  archived                :boolean          default(FALSE), not null
-#  allow_comment           :boolean          default(TRUE), not null
-#  pictures_count          :integer          default(0)
-#  outdated_articles_count :integer          default(0)
-#  bookmarks_count         :integer          default(0)
-#  comments_count          :integer          default(0)
+#  draft                   :boolean          default("false"), not null
+#  notation                :integer          default("0")
+#  priority                :integer          default("0")
+#  visibility              :integer          default("0"), not null
+#  accepted                :boolean          default("true"), not null
+#  archived                :boolean          default("false"), not null
+#  allow_comment           :boolean          default("true"), not null
+#  pictures_count          :integer          default("0")
+#  outdated_articles_count :integer          default("0")
+#  bookmarks_count         :integer          default("0")
+#  comments_count          :integer          default("0")
 #  slug                    :string
 #  deleted_at              :datetime
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
-#  contributor_id          :bigint
-#  inventories             :jsonb            not null
+#  contributor_id          :integer
+#  inventories             :jsonb            default("{}"), not null
 #
 
 FactoryBot.define do

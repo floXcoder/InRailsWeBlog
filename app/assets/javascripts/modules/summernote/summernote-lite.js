@@ -7397,7 +7397,7 @@
                 '<div class="form-group note-group-image-url" style="overflow:auto;">',
                 '<label class="note-form-label">' + this.lang.image.url + '</label>',
                 '<input class="note-image-url form-control note-form-control note-input ',
-                ' col-md-12" type="text" />',
+                ' col m12" type="text" />',
                 '</div>',
             ].join('');
             var buttonClass = 'btn btn-primary note-btn note-btn-primary note-image-btn';
@@ -7801,7 +7801,7 @@
         HelpDialog.prototype.initialize = function () {
             var $container = this.options.dialogsInBody ? this.$body : this.$editor;
             var body = [
-                '<p class="text-center">',
+                '<p class="center-align">',
                 '<a href="http://summernote.org/" target="_blank">Summernote 0.8.12</a> · ',
                 '<a href="https://github.com/summernote/summernote" target="_blank">Project</a> · ',
                 '<a href="https://github.com/summernote/summernote/issues" target="_blank">Issues</a>',

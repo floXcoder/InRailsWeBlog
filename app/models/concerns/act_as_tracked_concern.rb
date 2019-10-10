@@ -95,7 +95,7 @@ module ActAsTrackedConcern
 
     # Tracker model method to increment search count
     def track_searches(record_ids)
-      return unless self.tracker_metrics.include? :searches
+      return unless self.tracker_metrics.include?(:searches)
 
       record_ids.each do |record_id|
         $redis.incr(redis_key(record_id, 'searches'))
@@ -104,7 +104,7 @@ module ActAsTrackedConcern
 
     # Tracker model method to increment click count
     def track_clicks(record_id, user_id = nil, parent_id = nil)
-      return unless self.tracker_metrics.include? :clicks
+      return unless self.tracker_metrics.include?(:clicks)
 
       if record_id.is_a? Array
         record_id.each do |id|
@@ -119,7 +119,7 @@ module ActAsTrackedConcern
 
     # Tracker model method to increment view count
     def track_views(record_id)
-      return unless self.tracker_metrics.include? :views
+      return unless self.tracker_metrics.include?(:views)
 
       if record_id.is_a? Array
         record_id.each do |id|
@@ -134,15 +134,17 @@ module ActAsTrackedConcern
 
     # Private model method to increment find count
     def track_queries
-      return unless self.tracker_metrics.include? :queries
+      return unless self.tracker_metrics.include?(:queries)
 
       after_find do |record|
         $redis.incr(redis_key(record, 'queries'))
       end
     end
 
-    # Private method to add a cron job to update database each x minutes
+    # Private method to add a cron job to update database each InRailsWeBlog.config.tracker_cron minutes
+    # Automatically added to cron jobs when loading application
     def tracker_cron_job
+      # Get current class name
       formatted_name = self.name.underscore
       cron_job_name  = "#{formatted_name}_tracker"
 

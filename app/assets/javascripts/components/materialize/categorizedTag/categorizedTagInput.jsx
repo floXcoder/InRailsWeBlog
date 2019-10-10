@@ -80,16 +80,16 @@ export default class CategorizedTagInput extends React.Component {
         animateTagValue: undefined
     };
 
-    componentWillReceiveProps(nextProps) {
-        if (this.props.value !== nextProps.value) {
+    componentDidUpdate(prevProps) {
+        if (this.props.value !== prevProps.value) {
             this.setState({
-                selectedTags: nextProps.value || []
+                selectedTags: this.props.value || []
             });
         }
 
-        if (this.props.categories !== nextProps.categories) {
+        if (this.props.categories !== prevProps.categories) {
             this.setState({
-                categories: nextProps.categories || []
+                categories: this.props.categories || []
             });
         }
     }

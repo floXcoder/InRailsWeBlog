@@ -24,6 +24,16 @@ module Tags
       return @relation
     end
 
+    def complete(_params = {})
+      @relation = @relation
+                    .includes(:user, :parents, :children, :tracker)
+                    .with_adapted_visibility(@current_user, @current_admin)
+                    .order_by('name')
+                    .distinct
+
+      return @relation
+    end
+
     def populars(params = {})
       @relation = @relation
                     .include_collection
@@ -34,7 +44,7 @@ module Tags
     end
 
     module Scopes
-      def include_collection(filter_by_topic)
+      def include_collection(filter_by_topic = false)
         filter_by_topic ? includes(:parent_relationships, :child_relationships, :tagged_articles) : includes(:child_relationships, :tagged_articles)
       end
 

@@ -37,6 +37,8 @@ module Articles
                                  limit:        limit,
                                  execute:      !@params[:defer])
 
+        track_results(results)
+
         if @params[:defer]
           success(results)
         else

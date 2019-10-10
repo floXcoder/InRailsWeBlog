@@ -38,7 +38,7 @@ module Api::V1
 
       respond_to do |format|
         format.json do
-          if params[:complete]
+          if params[:complete] && admin_signed_in?
             render json:            comments,
                    each_serializer: CommentFullSerializer,
                    meta:            meta_attributes(pagination: comments)

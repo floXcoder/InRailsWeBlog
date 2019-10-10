@@ -1,5 +1,7 @@
 'use strict';
 
+import _ from 'lodash';
+
 import {
     hot
 } from 'react-hot-loader/root';
@@ -41,6 +43,7 @@ import {
 } from '../../selectors';
 
 import {
+    maxSearchRate,
     autocompleteLimit
 } from '../modules/constants';
 
@@ -139,6 +142,8 @@ class SearchIndex extends React.Component {
         if (this._request && this._request.signal) {
             this._request.signal.abort();
         }
+
+        this._handleFetch.cancel();
     }
 
     _handleKeyDown = (event) => {
@@ -210,8 +215,16 @@ class SearchIndex extends React.Component {
 
         this.props.setSearchQuery(query);
 
+        this._handleFetch(query);
+    };
+
+    _handleFetch = _.debounce((query) => {
+        if(this._request) {
+            this._request.signal.abort();
+        }
+
         // Autocomplete tags only
-        this.props.fetchAutocomplete({
+        this._request = this.props.fetchAutocomplete({
             selectedTypes: ['tag'],
             query: query,
             userId: this.props.currentUserId,
@@ -219,7 +232,7 @@ class SearchIndex extends React.Component {
             tagIds: this.props.selectedTags.map((tag) => tag.id),
             limit: autocompleteLimit
         });
-    };
+    }, maxSearchRate);
 
     _handleSuggestionClick = (suggestion) => {
         this._performSearch(suggestion);

@@ -86,18 +86,10 @@ class SearchModule extends React.Component {
 
     constructor(props) {
         super(props);
-
-        this._request = null;
     }
 
     componentDidMount() {
         setTimeout(() => SearchIndex.preload(), 5000);
-    }
-
-    componentWillUnmount() {
-        if (this._request && this._request.signal) {
-            this._request.signal.abort();
-        }
     }
 
     _handleTagSelection = (tag) => {

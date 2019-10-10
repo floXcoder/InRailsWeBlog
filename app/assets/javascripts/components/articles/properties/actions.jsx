@@ -2,10 +2,11 @@
 
 import Hidden from '@material-ui/core/Hidden';
 
+import ArticleDeleteIcon from '../icons/delete';
+import ArticleTrackingIcon from '../icons/tracking';
 import ArticleShareIcon from '../icons/share';
 import ArticleBookmarkIcon from '../icons/bookmark';
 import ArticleHistoryIcon from '../icons/history';
-import ArticleDeleteIcon from '../icons/delete';
 import ArticleEditIcon from '../icons/edit';
 import ArticleLinkIcon from '../icons/link';
 
@@ -21,6 +22,17 @@ const ArticleActions = ({classes, isInline, userSlug, articleId, articleSlug, ar
                                    color={color}
                                    onDeleteClick={onDeleteClick}/>
             </li>
+        }
+
+        {
+            !isInline &&
+            <Hidden mdDown={true}>
+                <li className={classes.actionItem}>
+                    <ArticleTrackingIcon articleId={articleId}
+                                         size={size}
+                                         color={color}/>
+                </li>
+            </Hidden>
         }
 
         {

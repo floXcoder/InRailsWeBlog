@@ -137,9 +137,6 @@ module Searches
         end
       end
 
-      # Track search results
-      @params[:model].track_searches(results.map(&:id))
-
       # Format results into JSON
       highlight_results = {}
       results.with_highlights.each do |item, highlights|
@@ -155,6 +152,11 @@ module Searches
         total_count:  results.total_count,
         total_pages:  results.total_pages
       }.merge(formatted_results)
+    end
+
+    def track_results(results)
+      # Track search results
+      @params[:model].track_searches(results.map(&:id))
     end
   end
 end

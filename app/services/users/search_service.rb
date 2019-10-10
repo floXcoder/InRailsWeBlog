@@ -68,6 +68,8 @@ module Users
                               where:        where_options,
                               order:        order)
 
+        track_results(results)
+
         if @params[:defer]
           success(results)
         else

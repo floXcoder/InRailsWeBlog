@@ -171,4 +171,3 @@ end
 
 # Commands:
 # cap production deploy
-# cap production deploy:flush_redis

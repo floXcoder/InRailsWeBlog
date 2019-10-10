@@ -6,10 +6,6 @@ import {
     fromJS
 } from 'immutable';
 
-const emptyMetaTags = new Map();
-const emptyPagination = new Map();
-const emptyErrors = new Map();
-
 export const fetchReducer = (state, action, payloadReducer, omitItems = []) => {
     const actionName = action.type.split('/')[1];
 
@@ -26,14 +22,14 @@ export const fetchReducer = (state, action, payloadReducer, omitItems = []) => {
                 ...Utils.omit(actionContent, omitItems)
             });
         case 'FETCH_SUCCESS':
-            return state.merge({
+            return state.merge(Utils.compact({
                 isFetching,
                 ...Utils.omit(actionContent, omitItems),
                 ...payloadReducer({...actionContent, meta}),
-                metaTags: meta && meta.metaTags ? fromJS(meta.metaTags) : emptyMetaTags,
-                pagination: meta && meta.pagination ? fromJS(meta.pagination) : emptyPagination,
-                errors: emptyErrors
-            });
+                metaTags: meta && meta.metaTags ? fromJS(meta.metaTags) : undefined,
+                pagination: meta && meta.pagination ? fromJS(meta.pagination) : undefined,
+                errors: new Map()
+            }));
         case 'FETCH_ERROR':
             return state.merge({
                 isFetching,

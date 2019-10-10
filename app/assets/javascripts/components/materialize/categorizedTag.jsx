@@ -52,9 +52,9 @@ export default class CategorizedTag extends React.Component {
         selectedTags: []
     };
 
-    componentWillReceiveProps(nextProps) {
-        if (this.props.children !== nextProps.children) {
-            let nextTags = nextProps.children;
+    componentDidUpdate(prevProps) {
+        if (this.props.children !== prevProps.children) {
+            let nextTags = this.props.children;
 
             if (this.props.transformInitialTags) {
                 nextTags = nextTags.map(this.props.transformInitialTags).compact();
@@ -64,9 +64,7 @@ export default class CategorizedTag extends React.Component {
                 selectedTags: nextTags
             });
         }
-    }
 
-    componentDidUpdate(prevProps) {
         if (this.props.hasChildTagFocus !== prevProps.hasChildTagFocus) {
             this.focus();
         }

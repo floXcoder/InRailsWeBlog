@@ -11,6 +11,10 @@ import Chip from '@material-ui/core/Chip';
 
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 
+import {
+    spyTrackClick
+} from '../../../actions';
+
 import styles from '../../../../jss/article/breadcrumb';
 
 export default @withStyles(styles)
@@ -20,14 +24,13 @@ class ArticleBreadcrumbDisplay extends React.Component {
         topic: PropTypes.object.isRequired,
         article: PropTypes.object,
         tags: PropTypes.object,
-        // isForm: PropTypes.bool,
         // from styles
         classes: PropTypes.object
     };
 
-    // static defaultProps = {
-    //     isForm: false
-    // };
+    _handleElementClick = (elementName, elementId, elementSlug, elementTitle) => {
+        spyTrackClick(elementName, elementId, elementSlug, elementTitle);
+    };
 
     render() {
         return (
@@ -42,7 +45,8 @@ class ArticleBreadcrumbDisplay extends React.Component {
                           to={`/users/${this.props.user.slug}`}
                           itemType="http://schema.org/Thing"
                           itemProp="item"
-                          itemScope={true}>
+                          itemScope={true}
+                          onClick={this._handleElementClick.bind(this, 'user', this.props.user.id, this.props.user.slug, this.props.user.pseudo)}>
                         <span itemProp="name">
                             {this.props.user.pseudo}
                         </span>
@@ -65,7 +69,8 @@ class ArticleBreadcrumbDisplay extends React.Component {
                           to={`/users/${this.props.user.slug}/topics/${this.props.topic.slug}`}
                           itemType="http://schema.org/Thing"
                           itemProp="item"
-                          itemScope={true}>
+                          itemScope={true}
+                          onClick={this._handleElementClick.bind(this, 'topic', this.props.topic.id, this.props.topic.slug, this.props.topic.name)}>
                         <span itemProp="name">
                             {this.props.topic.name}
                             {
@@ -94,7 +99,8 @@ class ArticleBreadcrumbDisplay extends React.Component {
                                 to={`/users/${this.props.article.user.slug}/articles/${this.props.article.slug}`}
                                 itemType="http://schema.org/Thing"
                                 itemProp="item"
-                                itemScope={true}>
+                                itemScope={true}
+                                onClick={this._handleElementClick.bind(this, 'article', this.props.article.id, this.props.article.slug, this.props.article.title)}>>
                             <span itemProp="name">
                                 {this.props.article.title}
                             </span>
@@ -116,7 +122,8 @@ class ArticleBreadcrumbDisplay extends React.Component {
                               label={tag.name}
                               variant="outlined"
                               component={Link}
-                              to={`/tagged/${tag.slug}`}/>
+                              to={`/tagged/${tag.slug}`}
+                              onClick={this._handleElementClick.bind(this, 'tag', tag.id, tag.slug, tag.name)}/>
                     ))
                 }
             </ul>

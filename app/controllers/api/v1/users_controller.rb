@@ -49,7 +49,13 @@ module Api::V1
 
     def index
       users = User.include_collection.all.order('users.id ASC')
-      users = users.paginate(page: params[:page], per_page: InRailsWeBlog.config.per_page)
+
+      complete = filter_params[:complete] && admin_signed_in?
+      if complete
+        users = users.includes(:tracker)
+      else
+        users = users.paginate(page: params[:page], per_page: InRailsWeBlog.config.per_page)
+      end
 
       respond_to do |format|
         format.html do
@@ -60,9 +66,14 @@ module Api::V1
           render :index, locals: { users: users }
         end
         format.json do
-          render json:            users,
-                 each_serializer: UserSampleSerializer,
-                 meta:            meta_attributes(pagination: users)
+          if complete
+            render json:            users,
+                   each_serializer: UserCompleteSerializer
+          else
+            render json:            users,
+                   each_serializer: UserSampleSerializer,
+                   meta:            meta_attributes(pagination: users)
+          end
         end
       end
     end
@@ -250,6 +261,14 @@ module Api::V1
     end
 
     private
+
+    def filter_params
+      if params[:filter]
+        params.require(:filter).permit(:complete).reject { |_, v| v.blank? }
+      else
+        {}
+      end
+    end
 
     def user_params
       params.require(:user).permit(:first_name,

@@ -32,12 +32,14 @@ module Api::V1
           elsif pref_value == 'false'
             pref_value = false
           end
-          if topic && !topic.settings[pref_type.to_s.downcase].nil?
+
+          if topic && topic.storext_definitions.key?(pref_type.to_sym)
             topic.settings[pref_type.to_s.downcase] = pref_value
           else
             user.settings[pref_type.to_s.downcase] = pref_value
           end
         end
+
         topic ? topic.save : user.save
       end
 

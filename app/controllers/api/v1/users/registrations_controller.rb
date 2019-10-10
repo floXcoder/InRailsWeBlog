@@ -17,7 +17,7 @@ module Api::V1
       if resource.persisted?
         @location = ''
         if resource.active_for_authentication?
-          flash[:success] = t('devise.registrations.signed_up') << ' ' << t('views.user.signup.flash.message') if is_flashing_format? || request.format.js?
+          flash[:success] = t('devise.registrations.signed_up') if is_flashing_format? || request.format.js?
           sign_up(resource_name, resource)
           @location = after_sign_up_path_for(resource)
         else

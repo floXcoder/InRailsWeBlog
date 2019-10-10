@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-RSpec.describe DeviseMailer, type: :mailer do
+RSpec.describe DeviseMailer, type: :mailer, advanced: true do
 
   before(:all) do
     @user = create(:user, not_confirmed: true)
   end
 
-  describe 'account activation', advanced: true do
+  describe 'account activation' do
     let(:mail) { DeviseMailer.confirmation_instructions(@user, @user.confirmation_token) }
 
     it 'renders the headers' do
@@ -21,7 +21,7 @@ RSpec.describe DeviseMailer, type: :mailer do
     end
   end
 
-  describe 'reset password instructions', advanced: true do
+  describe 'reset password instructions' do
     before { @user.send_reset_password_instructions }
 
     let(:mail) { DeviseMailer.reset_password_instructions(@user, @user.reset_password_token) }
@@ -38,7 +38,7 @@ RSpec.describe DeviseMailer, type: :mailer do
     end
   end
 
-  describe 'unlock instructions', advanced: true do
+  describe 'unlock instructions' do
     before { @user.send_unlock_instructions }
 
     let(:mail) { DeviseMailer.unlock_instructions(@user, @user.unlock_token) }

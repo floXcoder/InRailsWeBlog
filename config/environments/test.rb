@@ -13,7 +13,7 @@ Rails.application.configure do
   # just for the purpose of running a single test. If you are using a tool that
   # preloads Rails for running tests, you may have to set it to true.
   config.allow_concurrency = false
-  config.eager_load = false
+  config.eager_load        = false
 
   # Configure public file server for tests with Cache-Control for performance.
   config.public_file_server.enabled = true
@@ -41,8 +41,9 @@ Rails.application.configure do
   # ActionMailer::Base.deliveries array.
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.delivery_method       = :test
-  host                                       = 'localhost:3020'
+  host                                       = "localhost:#{ENV['TEST_PORT']}"
   config.action_mailer.default_url_options   = { host: host }
+  config.action_mailer.preview_path          = Rails.root.join('spec', 'mailers', 'previews')
 
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
@@ -55,7 +56,7 @@ Rails.application.configure do
 
   # Logs
   unless ENV['RAILS_ENABLE_TEST_LOG']
-    config.logger = Logger.new(nil)
+    config.logger    = Logger.new(nil)
     config.log_level = :error
   end
 end

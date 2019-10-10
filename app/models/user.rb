@@ -1,10 +1,9 @@
 # frozen_string_literal: true
-
 # == Schema Information
 #
 # Table name: users
 #
-#  id                     :bigint           not null, primary key
+#  id                     :integer          not null, primary key
 #  pseudo                 :string           default(""), not null
 #  first_name             :string
 #  last_name              :string
@@ -18,16 +17,16 @@
 #  additional_info        :string
 #  birth_date             :date
 #  locale                 :string           default("fr")
-#  settings               :jsonb            not null
-#  allow_comment          :boolean          default(TRUE), not null
-#  visibility             :integer          default("everyone"), not null
+#  settings               :jsonb            default("{}"), not null
+#  allow_comment          :boolean          default("true"), not null
+#  visibility             :integer          default("0"), not null
 #  current_topic_id       :integer
-#  pictures_count         :integer          default(0)
-#  topics_count           :integer          default(0)
-#  articles_count         :integer          default(0)
-#  tags_count             :integer          default(0)
-#  bookmarks_count        :integer          default(0)
-#  comments_count         :integer          default(0)
+#  pictures_count         :integer          default("0")
+#  topics_count           :integer          default("0")
+#  articles_count         :integer          default("0")
+#  tags_count             :integer          default("0")
+#  bookmarks_count        :integer          default("0")
+#  comments_count         :integer          default("0")
 #  slug                   :string
 #  deleted_at             :datetime
 #  created_at             :datetime         not null
@@ -37,7 +36,7 @@
 #  reset_password_token   :string
 #  reset_password_sent_at :datetime
 #  remember_created_at    :datetime
-#  sign_in_count          :integer          default(0), not null
+#  sign_in_count          :integer          default("0"), not null
 #  current_sign_in_at     :datetime
 #  last_sign_in_at        :datetime
 #  current_sign_in_ip     :inet
@@ -46,7 +45,7 @@
 #  confirmed_at           :datetime
 #  confirmation_sent_at   :datetime
 #  unconfirmed_email      :string
-#  failed_attempts        :integer          default(0), not null
+#  failed_attempts        :integer          default("0"), not null
 #  unlock_token           :string
 #  locked_at              :datetime
 #
@@ -73,7 +72,7 @@ class User < ApplicationRecord
   include Storext.model
   store_attributes :settings do
     articles_loader String, default: 'infinite' # Load articles by: all / paginate / infinite
-    article_display String, default: 'card' # Display articles: inline / card (with inline edit) / grid
+    article_display String, default: 'summary' # Display articles: summary / card / inline / grid
     article_order String, default: 'priority_desc' # Order articles by: priority_asc, priority_desc, id_asc, id_desc, created_asc, created_desc, updated_asc, updated_desc, tag_asc, tags_desc, rank_asc, rank_desc, popularity_asc, popularity_desc, default
 
     tag_sidebar_pin Boolean, default: true # Tag sidebar pinned by default

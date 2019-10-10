@@ -6,6 +6,10 @@ import {
 
 import Chip from '@material-ui/core/Chip';
 
+import {
+    spyTrackClick
+} from '../../../actions';
+
 export default class SearchTopicModule extends React.Component {
     static propTypes = {
         classes: PropTypes.object.isRequired,
@@ -24,7 +28,8 @@ export default class SearchTopicModule extends React.Component {
                   color="primary"
                   variant="outlined"
                   component={Link}
-                  to={`/users/${topic.user.slug}/topics/${topic.slug}`}/>
+                  to={`/users/${topic.user.slug}/topics/${topic.slug}`}
+                  onClick={spyTrackClick.bind(null, 'topic', topic.id, topic.slug, topic.name)}/>
         );
     };
 
