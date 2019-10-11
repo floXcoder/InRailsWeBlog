@@ -6,6 +6,7 @@ const ManifestPlugin = require('webpack-manifest-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const config = require('../config').webpack;
 let webPackConfig = module.exports = require('./main.config.js');
@@ -80,29 +81,35 @@ webPackConfig.optimization = {
             default: false,
             commonsAdmins: {
                 name: 'admins-commons',
-                chunks: 'initial',
                 minChunks: 2,
                 reuseExistingChunk: true,
-                test: function (module, chunks) {
-                    if(chunks[0] && chunks[0].name) {
-                        return chunks[0].name.includes('admin');
-                    } else {
-                        return false;
-                    }
+                // chunks: 'initial',
+                chunks: function (chunk) {
+                    return chunk.name.includes('admin');
                 }
+                // test: function (module, chunks) {
+                //     if(chunks[0] && chunks[0].name) {
+                //         return chunks[0].name.includes('admin');
+                //     } else {
+                //         return false;
+                //     }
+                // }
             },
             commons: {
                 name: 'commons',
-                chunks: 'initial',
                 minChunks: 2,
                 reuseExistingChunk: true,
-                test: function (module, chunks) {
-                    if(chunks[0] && chunks[0].name) {
-                        return !chunks[0].name.includes('admin');
-                    } else {
-                        return false;
-                    }
+                // chunks: 'initial',
+                chunks: function (chunk) {
+                    return chunk.name === 'home' || chunk.name === 'user';
                 }
+                // test: function (module, chunks) {
+                //     if(chunks[0] && chunks[0].name) {
+                //         return !chunks[0].name.includes('admin');
+                //     } else {
+                //         return false;
+                //     }
+                // }
             }
         }
     },
@@ -182,5 +189,36 @@ webPackConfig.plugins.push(
         // both options are optional
         filename: config.production.filename + '.css',
         chunkFilename: config.production.chunkFilename + '.css'
-    })
+    }),
+    // new BundleAnalyzerPlugin({
+    //     // Can be `server`, `static` or `disabled`.
+    //     // In `server` mode analyzer will start HTTP server to show bundle report.
+    //     // In `static` mode single HTML file with bundle report will be generated.
+    //     // In `disabled` mode you can use this plugin to just generate Webpack Stats JSON file by setting `generateStatsFile` to `true`.
+    //     analyzerMode: 'server',
+    //     // Host that will be used in `server` mode to start HTTP server.
+    //     analyzerHost: '127.0.0.1',
+    //     // Port that will be used in `server` mode to start HTTP server.
+    //     analyzerPort: 8888,
+    //     // Path to bundle report file that will be generated in `static` mode.
+    //     // Relative to bundles output directory.
+    //     reportFilename: 'report.html',
+    //     // Module sizes to show in report by default.
+    //     // Should be one of `stat`, `parsed` or `gzip`.
+    //     // See "Definitions" section for more information.
+    //     defaultSizes: 'parsed',
+    //     // Automatically open report in default browser
+    //     openAnalyzer: true,
+    //     // If `true`, Webpack Stats JSON file will be generated in bundles output directory
+    //     generateStatsFile: false,
+    //     // Name of Webpack Stats JSON file that will be generated if `generateStatsFile` is `true`.
+    //     // Relative to bundles output directory.
+    //     statsFilename: 'stats.json',
+    //     // Options for `stats.toJson()` method.
+    //     // For example you can exclude sources of your modules from stats file with `source: false` option.
+    //     // See more options here: https://github.com/webpack/webpack/blob/webpack-1/lib/Stats.js#L21
+    //     statsOptions: null,
+    //     // Log level. Can be 'info', 'warn', 'error' or 'silent'.
+    //     logLevel: 'info'
+    // })
 );
