@@ -3,23 +3,23 @@
 #
 # Table name: tags
 #
-#  id                       :integer          not null, primary key
-#  user_id                  :integer
+#  id                       :bigint           not null, primary key
+#  user_id                  :bigint
 #  name                     :string           not null
-#  description_translations :jsonb            default("{}")
-#  languages                :string           default("{}"), is an Array
-#  synonyms                 :string           default("{}"), is an Array
+#  description_translations :jsonb
+#  languages                :string           default([]), is an Array
+#  synonyms                 :string           default([]), is an Array
 #  color                    :string
-#  notation                 :integer          default("0")
-#  priority                 :integer          default("0")
-#  visibility               :integer          default("0"), not null
-#  accepted                 :boolean          default("true"), not null
-#  archived                 :boolean          default("false"), not null
-#  allow_comment            :boolean          default("true"), not null
-#  pictures_count           :integer          default("0")
-#  tagged_articles_count    :integer          default("0")
-#  bookmarks_count          :integer          default("0")
-#  comments_count           :integer          default("0")
+#  notation                 :integer          default(0)
+#  priority                 :integer          default(0)
+#  visibility               :integer          default("everyone"), not null
+#  accepted                 :boolean          default(TRUE), not null
+#  archived                 :boolean          default(FALSE), not null
+#  allow_comment            :boolean          default(TRUE), not null
+#  pictures_count           :integer          default(0)
+#  tagged_articles_count    :integer          default(0)
+#  bookmarks_count          :integer          default(0)
+#  comments_count           :integer          default(0)
 #  slug                     :string
 #  deleted_at               :datetime
 #  created_at               :datetime         not null

@@ -2,9 +2,9 @@
 #
 # Table name: admin_blogs
 #
-#  id         :integer          not null, primary key
-#  admin_id   :integer          not null
-#  visibility :integer          default("0"), not null
+#  id         :bigint           not null, primary key
+#  admin_id   :bigint           not null
+#  visibility :integer          default(0), not null
 #  title      :string           not null
 #  content    :text             not null
 #  created_at :datetime         not null

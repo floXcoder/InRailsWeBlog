@@ -3,23 +3,23 @@
 #
 # Table name: admins
 #
-#  id                     :integer          not null, primary key
+#  id                     :bigint           not null, primary key
 #  pseudo                 :string           default(""), not null
 #  additional_info        :string
 #  locale                 :string           default("fr")
-#  settings               :jsonb            default("{}"), not null
+#  settings               :jsonb            not null
 #  slug                   :string
 #  email                  :string           default(""), not null
 #  encrypted_password     :string           default(""), not null
 #  reset_password_token   :string
 #  reset_password_sent_at :datetime
 #  remember_created_at    :datetime
-#  sign_in_count          :integer          default("0"), not null
+#  sign_in_count          :integer          default(0), not null
 #  current_sign_in_at     :datetime
 #  last_sign_in_at        :datetime
 #  current_sign_in_ip     :inet
 #  last_sign_in_ip        :inet
-#  failed_attempts        :integer          default("0"), not null
+#  failed_attempts        :integer          default(0), not null
 #  unlock_token           :string
 #  locked_at              :datetime
 #  created_at             :datetime         not null

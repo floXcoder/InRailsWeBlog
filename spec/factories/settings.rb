@@ -3,10 +3,10 @@
 #
 # Table name: settings
 #
-#  id         :integer          not null, primary key
+#  id         :bigint           not null, primary key
 #  name       :string           not null
 #  value      :text
-#  value_type :integer          default("0"), not null
+#  value_type :integer          default("string_type"), not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
