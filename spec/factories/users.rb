@@ -3,7 +3,7 @@
 #
 # Table name: users
 #
-#  id                     :integer          not null, primary key
+#  id                     :bigint           not null, primary key
 #  pseudo                 :string           default(""), not null
 #  first_name             :string
 #  last_name              :string
@@ -17,16 +17,16 @@
 #  additional_info        :string
 #  birth_date             :date
 #  locale                 :string           default("fr")
-#  settings               :jsonb            default("{}"), not null
-#  allow_comment          :boolean          default("true"), not null
-#  visibility             :integer          default("0"), not null
+#  settings               :jsonb            not null
+#  allow_comment          :boolean          default(TRUE), not null
+#  visibility             :integer          default("everyone"), not null
 #  current_topic_id       :integer
-#  pictures_count         :integer          default("0")
-#  topics_count           :integer          default("0")
-#  articles_count         :integer          default("0")
-#  tags_count             :integer          default("0")
-#  bookmarks_count        :integer          default("0")
-#  comments_count         :integer          default("0")
+#  pictures_count         :integer          default(0)
+#  topics_count           :integer          default(0)
+#  articles_count         :integer          default(0)
+#  tags_count             :integer          default(0)
+#  bookmarks_count        :integer          default(0)
+#  comments_count         :integer          default(0)
 #  slug                   :string
 #  deleted_at             :datetime
 #  created_at             :datetime         not null
@@ -36,7 +36,7 @@
 #  reset_password_token   :string
 #  reset_password_sent_at :datetime
 #  remember_created_at    :datetime
-#  sign_in_count          :integer          default("0"), not null
+#  sign_in_count          :integer          default(0), not null
 #  current_sign_in_at     :datetime
 #  last_sign_in_at        :datetime
 #  current_sign_in_ip     :inet
@@ -45,7 +45,7 @@
 #  confirmed_at           :datetime
 #  confirmation_sent_at   :datetime
 #  unconfirmed_email      :string
-#  failed_attempts        :integer          default("0"), not null
+#  failed_attempts        :integer          default(0), not null
 #  unlock_token           :string
 #  locked_at              :datetime
 #

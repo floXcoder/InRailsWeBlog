@@ -126,14 +126,27 @@ webPackConfig.optimization = {
         name: true,
         cacheGroups: {
             default: false,
+            commonsAdmins: {
+                name: 'admins-commons',
+                chunks: 'initial',
+                minChunks: 2,
+                reuseExistingChunk: true,
+                test: function (module, chunks) {
+                    if(chunks[0] && chunks[0].name) {
+                        return chunks[0].name.includes('admin');
+                    } else {
+                        return false;
+                    }
+                }
+            },
             commons: {
                 name: 'commons',
                 chunks: 'initial',
                 minChunks: 2,
                 reuseExistingChunk: true,
-                test: function (module) {
-                    if (module.resource) {
-                        return !module.resource.includes('/admins') && !module.resource.includes('/admin') && config.admin.modules.every((am) => !module.resource.includes(am));
+                test: function (module, chunks) {
+                    if(chunks[0] && chunks[0].name) {
+                        return !chunks[0].name.includes('admin');
                     } else {
                         return false;
                     }

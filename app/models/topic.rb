@@ -3,25 +3,25 @@
 #
 # Table name: topics
 #
-#  id                       :integer          not null, primary key
-#  user_id                  :integer
+#  id                       :bigint           not null, primary key
+#  user_id                  :bigint
 #  name                     :string           not null
-#  description_translations :jsonb            default("{}")
-#  languages                :string           default("{}"), is an Array
+#  description_translations :jsonb
+#  languages                :string           default([]), is an Array
 #  color                    :string
-#  priority                 :integer          default("0"), not null
-#  visibility               :integer          default("0"), not null
-#  accepted                 :boolean          default("true"), not null
-#  archived                 :boolean          default("false"), not null
-#  pictures_count           :integer          default("0")
-#  articles_count           :integer          default("0")
-#  bookmarks_count          :integer          default("0")
+#  priority                 :integer          default(0), not null
+#  visibility               :integer          default("everyone"), not null
+#  accepted                 :boolean          default(TRUE), not null
+#  archived                 :boolean          default(FALSE), not null
+#  pictures_count           :integer          default(0)
+#  articles_count           :integer          default(0)
+#  bookmarks_count          :integer          default(0)
 #  slug                     :string
 #  deleted_at               :datetime
 #  created_at               :datetime         not null
 #  updated_at               :datetime         not null
-#  settings                 :jsonb            default("{}"), not null
-#  mode                     :integer          default("0"), not null
+#  settings                 :jsonb            not null
+#  mode                     :integer          default("default"), not null
 #
 
 class Topic < ApplicationRecord

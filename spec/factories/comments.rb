@@ -3,18 +3,18 @@
 #
 # Table name: comments
 #
-#  id               :integer          not null, primary key
-#  user_id          :integer          not null
+#  id               :bigint           not null, primary key
+#  user_id          :bigint           not null
 #  commentable_type :string           not null
-#  commentable_id   :integer          not null
+#  commentable_id   :bigint           not null
 #  title            :string
 #  subject          :string
 #  body             :text
-#  rating           :integer          default("0")
-#  positive_reviews :integer          default("0")
-#  negative_reviews :integer          default("0")
-#  accepted         :boolean          default("true"), not null
-#  ask_for_deletion :boolean          default("false"), not null
+#  rating           :integer          default(0)
+#  positive_reviews :integer          default(0)
+#  negative_reviews :integer          default(0)
+#  accepted         :boolean          default(TRUE), not null
+#  ask_for_deletion :boolean          default(FALSE), not null
 #  deleted_at       :datetime
 #  parent_id        :integer
 #  lft              :integer

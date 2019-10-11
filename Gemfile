@@ -89,7 +89,7 @@ gem 'browser',                  '2.6.1'
 
 # SEO
 gem 'friendly_id',              '5.3.0'
-gem 'meta-tags',                '2.12.0'
+gem 'meta-tags',                '2.13.0'
 
 # HTTP request
 gem 'http',                     '4.1.1'
