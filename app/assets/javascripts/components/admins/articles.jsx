@@ -58,6 +58,7 @@ class AdminArticles extends React.Component {
                 </h1>
 
                 <Table title={I18n.t('js.admin.articles.table.title')}
+                       locale={I18n.locale}
                        data={this.props.articles}
                        columns={[
                            {
@@ -98,11 +99,6 @@ class AdminArticles extends React.Component {
                                }
                            },
                            {
-                               title: I18n.t('js.admin.articles.table.columns.comments_count'),
-                               field: 'commentsCount',
-                               filtering: false
-                           },
-                           {
                                title: I18n.t('js.admin.articles.table.columns.views_count'),
                                field: 'tracker[viewsCount]',
                                filtering: false
@@ -118,10 +114,15 @@ class AdminArticles extends React.Component {
                                filtering: false
                            },
                            {
-                               title: I18n.t('js.admin.articles.table.columns.date'),
-                               render: (article) => article.dateShort.join(' '),
+                               title: I18n.t('js.admin.articles.table.columns.comments_count'),
+                               field: 'commentsCount',
                                filtering: false
                            },
+                           {
+                               title: I18n.t('js.admin.articles.table.columns.date'),
+                               field: 'date',
+                               filtering: false
+                           }
                        ]}
                        options={{
                            columnsButton: true,

@@ -512,7 +512,7 @@ fr:
       default: "%d %B %Y %Hh %Mmin %Ss"
       long: "%A %d %B %Y %Hh%M"
       short: "%d %b %Hh%M"
-      custom: "Le %d %b à %Hh%M"
+      custom: "Le %d %b %y à %Hh%M"
       custom_date: "%d %b"
       custom_full_date: "%d %B %Y"
       custom_begin: "Du %d %b à %Hh%M"

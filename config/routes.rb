@@ -224,5 +224,5 @@ Rails.application.routes.draw do
   # SEO
   get '/robots.:format' => 'pages#robots'
 
-  match '*path' => redirect('/404'), via: :get
+  match '*path' => redirect('/404'), via: :all
 end

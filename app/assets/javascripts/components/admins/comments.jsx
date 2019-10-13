@@ -52,6 +52,7 @@ class AdminComments extends React.Component {
                 </h1>
 
                 <Table title={I18n.t('js.admin.comments.table.title')}
+                       locale={I18n.locale}
                        data={this.props.comments}
                        columns={[
                            {

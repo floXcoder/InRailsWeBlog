@@ -51,7 +51,7 @@ export default class MenuLayout extends React.PureComponent {
     render() {
         return (
             <>
-                <Item href="/admins/users"
+                <Item href="/admins"
                       text={I18n.t('js.admin.menu.dashboard')}
                       icon={<DashboardIcon/>}/>
 

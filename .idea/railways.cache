@@ -159,5 +159,5 @@ cancel_admin_registration GET      /admins/cancel(.:format)                     
 flush_cache_admins_caches POST     /admins/caches/flush_cache(.:format)                  admins/caches#flush_cache
             admins_caches GET      /admins/caches(.:format)                              admins/caches#index
                           GET      /robots.:format                                       pages#robots
-                          GET      /*path(.:format)                                      redirect(301, /404)
+                                   /*path(.:format)                                      application#not_found_error
                           GET|POST /health_check(/:checks)(.:format)                     health_check/health_check#index {:format=>"txt"}

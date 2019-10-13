@@ -46,7 +46,7 @@ gem 'auto_strip_attributes',    '2.5.0'
 gem 'sanitize',                 '5.1.0'
 
 # Run asynschronous process
-gem 'sidekiq',                  '6.0.1'
+gem 'sidekiq',                  '6.0.2'
 gem 'sidekiq-statistic',        '1.4.0'
 gem 'sidekiq-cron',             '1.1.0'
 gem 'attentive_sidekiq',        '0.3.3'

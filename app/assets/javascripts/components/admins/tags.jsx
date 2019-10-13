@@ -58,6 +58,7 @@ class AdminTags extends React.Component {
                 </h1>
 
                 <Table title={I18n.t('js.admin.tags.table.title')}
+                       locale={I18n.locale}
                        data={this.props.tags}
                        columns={[
                            {
@@ -72,6 +73,7 @@ class AdminTags extends React.Component {
                            {
                                title: I18n.t('js.admin.tags.table.columns.description'),
                                field: 'description',
+                               hidden: true
                            },
                            {
                                title: I18n.t('js.admin.tags.table.columns.synonyms'),
@@ -106,6 +108,11 @@ class AdminTags extends React.Component {
                                field: 'tracker[searchesCount]',
                                filtering: false
                            },
+                           {
+                               title: I18n.t('js.admin.tags.table.columns.date'),
+                               field: 'date',
+                               filtering: false
+                           }
                        ]}
                        options={{
                            columnsButton: true,

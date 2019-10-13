@@ -55,7 +55,7 @@ export const updateBlog = (blogId, blogData) => ({
 
 // Logs
 export const fetchLogs = (data) => () => (
-    api.post('/admins/logs/stream_log', {
+    api.post('/admins/logs/stream', {
         logs: data
     })
 );
