@@ -70,8 +70,8 @@ shared: &shared
   # Article validation parameters
   admin_blog_title_min_length: 1
   admin_blog_title_max_length: 128
-  admin_blog_content_min_length: 3
-  admin_blog_content_max_length: 256
+  admin_blog_content_min_length: 1
+  admin_blog_content_max_length: 512_000
 
   # Notation validation parameters
   notation_min: 0
