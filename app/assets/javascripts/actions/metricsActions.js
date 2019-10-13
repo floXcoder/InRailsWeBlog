@@ -49,22 +49,12 @@ export const spySearchResults = (searchParams, response) => {
     }
 };
 
-const sendViewTimer = 2000;
-const elementsViewed = {};
-const sendTrackView = _.debounce((elementsViewed) => {
-    Object.keys(elementsViewed).forEach((elementName) => {
-        api.post(`/api/v1/${elementName}s/viewed`,
-            {
-                ids: elementsViewed[elementName]
-            });
-        elementsViewed[elementName] = [];
-    });
-}, sendViewTimer);
 export const spyTrackView = (elementName, elementId) => {
-    if (process.env.NODE_ENV === 'production') {
-        elementsViewed[elementName] = (elementsViewed[elementName] || []).concat(elementId);
-        sendTrackView(elementsViewed);
-    }
+    return api
+        .post(`/api/v1/${elementName}s/${elementId}/viewed`,
+            {
+                id: elementId
+            });
 };
 
 export const spyTrackClick = (elementName, elementId, elementSlug = null, elementTitle = null) => {

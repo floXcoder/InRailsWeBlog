@@ -794,6 +794,7 @@ en:
             views_count: "Views count"
             clicks_count: "Clicks count"
             searches_count: "Searches count"
+            date: "Created at"
       articles:
         title: "Articles"
         table:

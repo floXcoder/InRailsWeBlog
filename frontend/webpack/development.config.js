@@ -128,28 +128,18 @@ webPackConfig.optimization = {
             default: false,
             commonsAdmins: {
                 name: 'admins-commons',
-                chunks: 'initial',
                 minChunks: 2,
                 reuseExistingChunk: true,
-                test: function (module, chunks) {
-                    if(chunks[0] && chunks[0].name) {
-                        return chunks[0].name.includes('admin');
-                    } else {
-                        return false;
-                    }
+                chunks: function (chunk) {
+                    return chunk.name.includes('admin');
                 }
             },
             commons: {
                 name: 'commons',
-                chunks: 'initial',
                 minChunks: 2,
                 reuseExistingChunk: true,
-                test: function (module, chunks) {
-                    if(chunks[0] && chunks[0].name) {
-                        return !chunks[0].name.includes('admin');
-                    } else {
-                        return false;
-                    }
+                chunks: function (chunk) {
+                    return chunk.name === 'home' || chunk.name === 'user';
                 }
             }
         }

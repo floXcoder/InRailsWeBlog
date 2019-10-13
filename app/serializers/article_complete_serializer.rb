@@ -46,7 +46,7 @@ class ArticleCompleteSerializer < ActiveModel::Serializer
   has_one :tracker
 
   def date
-    I18n.l(object.updated_at, format: :custom_full_date).sub(/^[0]+/, '')
+    I18n.l(object.updated_at, format: :custom).sub(/^[0]+/, '')
   end
 
   def date_short

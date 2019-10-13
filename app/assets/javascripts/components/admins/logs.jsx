@@ -195,7 +195,7 @@ class AdminLogs extends React.PureComponent {
 
     _scrollToBottomLog = () => {
         if (this._logParentNode && this._logNode) {
-            this._logParentNode.scrollTop = this._logNode.scrollHeight
+            this._logParentNode.scrollTop = this._logNode.scrollHeight;
         }
     };
 

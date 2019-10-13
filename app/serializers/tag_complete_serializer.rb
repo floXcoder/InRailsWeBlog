@@ -11,6 +11,7 @@ class TagCompleteSerializer < ActiveModel::Serializer
              :visibility,
              :visibility_translated,
              :tagged_articles_count,
+             :date,
              :slug,
              :parents,
              :children,
@@ -22,6 +23,10 @@ class TagCompleteSerializer < ActiveModel::Serializer
 
   def visibility_translated
     object.visibility_to_tr
+  end
+
+  def date
+    I18n.l(object.created_at, format: :custom).sub(/^[0]+/, '')
   end
 
   def parents

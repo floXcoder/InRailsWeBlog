@@ -512,7 +512,7 @@ en:
       default: "%a, %d %b %Y %H:%M:%S %z"
       long: "%B %d, %Y %H:%M"
       short: "%d %b %H:%M"
-      custom: "%d %b at %H:%M"
+      custom: "%d %b %y at %H:%M"
       custom_date: "%d %b"
       custom_full_date: "%d %B %Y"
       custom_begin: "From %d %b at %Hh%M"

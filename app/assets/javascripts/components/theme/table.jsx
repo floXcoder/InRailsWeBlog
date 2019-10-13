@@ -8,12 +8,63 @@ import {
     CsvBuilder
 } from 'filefy';
 
+const Localizations = {
+    fr: {
+        pagination: {
+            labelDisplayedRows: '{from}-{to} sur {count}', // {from}-{to} of {count}
+            labelRowsPerPage: 'Colonnes par page :', // Rows per page:
+            labelRowsSelect: 'colonnes',
+            firstAriaLabel: 'Première page', // First Page
+            firstTooltip: 'Première page', // First Page
+            previousAriaLabel: 'Page précédente', // Previous Page
+            previousTooltip: 'Page précédente', // Previous Page
+            nextAriaLabel: 'Page suivante', // Next Page
+            nextTooltip: 'Page suivante', // Next Page
+            lastAriaLabel: 'Dernière page', // Last Page
+            lastTooltip: 'Dernière page' // Last Page
+        },
+        toolbar: {
+            addRemoveColumns: 'Ajouter ou supprimer colonnes',
+            nRowsSelected: '{0} colonne(s) sélectionnées', // {0} row(s) selected
+            showColumnsTitle: 'Afficher les colonnes', // Show Columns
+            showColumnsAriaLabel: 'Afficher les colonnes', // Show Columns
+            exportTitle: 'Exporter', // Export
+            exportAriaLabel: 'Exporter', // Export
+            exportName: 'Exporter en CSV', // Export as CSV
+            searchTooltip: 'Rechercher', // Search
+            searchPlaceholder: 'Rechercher' // Search
+        },
+        header: {
+            actions: 'Actions' // Actions
+        },
+        grouping: {
+            groupedBy: 'Grouper par',
+            placeholder: 'Déplacer l\'en-tête ici pour regrouper par'
+        },
+        body: {
+            emptyDataSourceMessage: 'Pas de données à afficher', // No records to display
+            filterRow: {
+                filterTooltip: 'Filtrer' // Filter
+            },
+            editRow: {
+                saveTooltip: 'Enregistrer',
+                cancelTooltip: 'Annuler',
+                deleteText: 'Êtes-vous sûr de supprimer cette colonne ?'
+            },
+            addTooltip: 'Ajouter',
+            deleteTooltip: 'Supprimer',
+            editTooltip: 'Modifier'
+        }
+    }
+};
+
 export default class Table extends React.Component {
     static propTypes = {
         title: PropTypes.string.isRequired,
         data: PropTypes.array.isRequired,
         columns: PropTypes.array.isRequired,
         options: PropTypes.object.isRequired,
+        locale: PropTypes.array,
         actions: PropTypes.array,
         detailPanel: PropTypes.array,
         isExpandedRow: PropTypes.bool,
@@ -22,6 +73,7 @@ export default class Table extends React.Component {
     };
 
     static defaultProps = {
+        locale: 'en',
         isExpandedRow: false
     };
 
@@ -54,7 +106,7 @@ export default class Table extends React.Component {
     render() {
         return (
             <Paper className="margin-top-30"
-                   // style={{maxWidth: 'calc(94vw - 15px)'}}
+                // style={{maxWidth: 'calc(94vw - 15px)'}}
                    square={true}>
                 <MaterialTable title={this.props.title}
                                columns={this.props.columns}
@@ -68,52 +120,7 @@ export default class Table extends React.Component {
                                onRowClick={this.props.isExpandedRow ? this._toggleRow : undefined}
                                editable={this.props.editable}
                                onSelectionChange={this.props.onSelectionChange}
-                               localization={{
-                                   pagination: {
-                                       labelDisplayedRows: '{from}-{to} sur {count}', // {from}-{to} of {count}
-                                       labelRowsPerPage: 'Colonnes par page :', // Rows per page:
-                                       labelRowsSelect: 'colonnes',
-                                       firstAriaLabel: 'Première page', // First Page
-                                       firstTooltip: 'Première page', // First Page
-                                       previousAriaLabel: 'Page précédente', // Previous Page
-                                       previousTooltip: 'Page précédente', // Previous Page
-                                       nextAriaLabel: 'Page suivante', // Next Page
-                                       nextTooltip: 'Page suivante', // Next Page
-                                       lastAriaLabel: 'Dernière page', // Last Page
-                                       lastTooltip: 'Dernière page' // Last Page
-                                   },
-                                   toolbar: {
-                                       addRemoveColumns: 'Ajouter ou supprimer colonnes',
-                                       nRowsSelected: '{0} colonne(s) sélectionnées', // {0} row(s) selected
-                                       showColumnsTitle: 'Afficher les colonnes', // Show Columns
-                                       showColumnsAriaLabel: 'Afficher les colonnes', // Show Columns
-                                       exportTitle: 'Exporter', // Export
-                                       exportAriaLabel: 'Exporter', // Export
-                                       exportName: 'Exporter en CSV', // Export as CSV
-                                       searchTooltip: 'Rechercher' // Search
-                                   },
-                                   header: {
-                                       actions: 'Actions' // Actions
-                                   },
-                                   grouping: {
-                                       groupedBy: 'Grouper par',
-                                       placeholder: 'Déplacer l\'en-tête ici pour regrouper par'
-                                   },
-                                   body: {
-                                       emptyDataSourceMessage: 'Pas de données à afficher', // No records to display
-                                       filterRow: {
-                                           filterTooltip: 'Filtrer' // Filter
-                                       },
-                                       editRow: {
-                                           saveTooltip: 'Enregistrer',
-                                           cancelTooltip: 'Annuler',
-                                           deleteText: 'Êtes-vous sûr de supprimer cette colonne ?'
-                                       },
-                                       addTooltip: 'Ajouter',
-                                       deleteTooltip: 'Supprimer',
-                                       editTooltip: 'Modifier'
-                                   }
-                               }}/>
+                               localization={Localizations[this.props.locale] || {}}/>
             </Paper>
         );
     }

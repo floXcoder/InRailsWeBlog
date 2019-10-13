@@ -794,6 +794,7 @@ fr:
             views_count: "Nb de vues"
             clicks_count: "Nb de clics"
             searches_count: "Nb de recherches"
+            date: "Créé le"
       articles:
         title: "Articles"
         table:
@@ -812,7 +813,7 @@ fr:
             date: "Posté le"
       blogs:
         title: "Notes"
-        add: "Ajouter bog"
+        add: "Ajouter blog"
         form:
           title: "Titre"
           content: "Votre note ..."

@@ -58,6 +58,7 @@ class AdminTopics extends React.Component {
                 </h1>
 
                 <Table title={I18n.t('js.admin.topics.table.title')}
+                       locale={I18n.locale}
                        data={this.props.topics}
                        columns={[
                            {
@@ -115,7 +116,7 @@ class AdminTopics extends React.Component {
                                title: I18n.t('js.admin.topics.table.columns.created_at'),
                                field: 'createdAt',
                                filtering: false
-                           },
+                           }
                        ]}
                        options={{
                            columnsButton: true,
