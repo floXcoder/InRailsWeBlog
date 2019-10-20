@@ -28,7 +28,7 @@ gem 'oj',                       '3.9.2'
 gem 'slim-rails',               '3.2.0'
 
 # Internationalization
-gem 'i18n-js',                  '3.3.0'
+gem 'i18n-js',                  '3.4.0'
 gem 'geocoder',                 '1.5.2'
 gem 'maxminddb',                '0.1.22'
 
@@ -167,7 +167,7 @@ group :test do
 
   # static analyzer
   gem 'rails_best_practices',       '1.19.4',   require: false
-  gem 'brakeman',                   '4.6.1',    require: false
+  gem 'brakeman',                   '4.7.0',    require: false
   gem 'i18n-tasks',                 '0.9.29',   require: false
 end
 
@@ -176,7 +176,7 @@ group :development, :test do
   gem 'bootsnap',                   '1.4.5',   require: false
 
   # Check errors
-  gem 'rubocop',                    '0.75.0',  require: false
+  gem 'rubocop',                    '0.75.1',  require: false
   gem 'rubocop-rails',              '2.3.2',   require: false
   gem 'rubocop-performance',        '1.5.0',   require: false
   gem 'rubocop-rspec',              '1.36.0',  require: false
@@ -184,7 +184,7 @@ end
 
 group :production do
   # Errors reporting
-  gem 'sentry-raven',     '2.11.3'
+  gem 'sentry-raven',     '2.12.0'
 
   # Improve log outputs
   gem 'lograge',          '0.11.2'

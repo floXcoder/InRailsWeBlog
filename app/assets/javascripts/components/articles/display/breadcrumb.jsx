@@ -100,10 +100,10 @@ class ArticleBreadcrumbDisplay extends React.Component {
                                 itemType="http://schema.org/Thing"
                                 itemProp="item"
                                 itemScope={true}
-                                onClick={this._handleElementClick.bind(this, 'article', this.props.article.id, this.props.article.slug, this.props.article.title)}>>
-                            <span itemProp="name">
-                                {this.props.article.title}
-                            </span>
+                                onClick={this._handleElementClick.bind(this, 'article', this.props.article.id, this.props.article.slug, this.props.article.title)}>
+                                <span itemProp="name">
+                                    {this.props.article.title}
+                                </span>
                             </Link>
                             <meta itemProp="position"
                                   content="3"/>
