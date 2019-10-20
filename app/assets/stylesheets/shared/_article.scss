@@ -220,7 +220,7 @@
     white-space: nowrap;
   }
 
-  h1, h2, h3, h4, h5, h6, dl, dd, ol, ul, li, menu, figure, blockquote, p, pre, form, b, i, th, td {
+  h1, h2, h3, h4, h5, h6, dl, dd, ol, ul, li, menu, figure, blockquote, p, form, b, i, th, td {
     color: $text-color;
     margin: 0;
     padding: 0;
@@ -344,19 +344,13 @@
     padding-left: 2.5rem;
   }
 
-  pre,
-  code {
-    margin: 0;
-    padding: 0;
-  }
-
   pre {
     display: block;
-    background-color: #fff;
+    //background-color: #fff;
     border: 2px solid $border-color;
     border-radius: .25rem;
     margin: .8rem .4rem;
-    padding: .25rem;
+    //padding: .25rem;
     white-space: pre-wrap;
     word-wrap: break-word;
   }
