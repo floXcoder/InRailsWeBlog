@@ -1,5 +1,7 @@
 'use strict';
 
+import '../../../stylesheets/components/highlight.scss';
+
 import {
     getDisplayName
 } from './common';
