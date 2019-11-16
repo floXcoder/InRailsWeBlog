@@ -17,14 +17,16 @@ Rails.application.configure do
   # Enable/disable caching. By default caching is disabled.
   # Run rails dev:cache to toggle caching.
   if Rails.root.join('tmp', 'caching-dev.txt').exist?
-    config.action_controller.perform_caching = true
+    config.action_controller.perform_caching               = true
+    config.action_controller.enable_fragment_cache_logging = true
 
     config.cache_store                = :memory_store
     config.public_file_server.headers = {
       'Cache-Control' => "public, max-age=#{2.days.to_i}"
     }
   else
-    config.action_controller.perform_caching = false
+    config.action_controller.perform_caching               = false
+    config.action_controller.enable_fragment_cache_logging = false
 
     config.cache_store = :null_store
   end
@@ -47,11 +49,14 @@ Rails.application.configure do
   # Raise an error on page load if there are pending migrations.
   config.active_record.migration_error = :page_load
 
-  # Raises error for missing translations
-  config.action_view.raise_on_missing_translations = true
+  # Highlight code that triggered database queries in logs.
+  config.active_record.verbose_query_logs = true
 
   # Raise warning when loading large data set
   config.active_record.warn_on_records_fetched_greater_than = 1500
+
+  # Raises error for missing translations.
+  config.action_view.raise_on_missing_translations = true
 
   # Use an evented file watcher to asynchronously detect changes in source code,
   # routes, locales, etc. This feature depends on the listen gem.

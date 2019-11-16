@@ -11,7 +11,7 @@ describe 'Static pages API', type: :request, basic: true do
       get '/robots.txt', as: :text
 
       expect(response.status).to eq(200)
-      expect(response.content_type).to eq('text/plain')
+      expect(response.media_type).to eq('text/plain')
       expect(response.body).to match(/User-Agent/)
     end
   end

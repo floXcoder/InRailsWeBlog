@@ -3,7 +3,7 @@
 RSpec::Matchers.define :be_unauthorized do |_value|
   match do |actual|
     expect(actual.status).to eq(403)
-    expect(actual.content_type).to eq('application/json')
+    expect(actual.media_type).to eq('application/json')
 
     response_json = JSON.parse(actual.body)
 
