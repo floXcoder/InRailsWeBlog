@@ -3,10 +3,10 @@
 # Run by whenever: add to cron table
 set :output, Whenever.path + '/log/cron.log'
 
-# noinspection RubyArgCount
-every 3.days, at: '8pm', roles: [:test] do
-  rake 'InRailsWeBlog:static_analysis:all'
-end
+# # noinspection RubyArgCount
+# every 3.days, at: '8pm', roles: [:test] do
+#   rake 'InRailsWeBlog:static_analysis:all'
+# end
 
 # noinspection RubyArgCount
 every :month, at: '8pm', roles: [:production] do
@@ -14,6 +14,11 @@ every :month, at: '8pm', roles: [:production] do
 end
 
 # noinspection RubyArgCount
-every :day, at: '11pm', roles: [:production] do
+every :day, at: '1am', roles: [:production] do
+  rake 'InRailsWeBlog:generate_sitemap'
+end
+
+# noinspection RubyArgCount
+every :day, at: '2am', roles: [:production] do
   rake 'InRailsWeBlog:populate_seo_cache'
 end

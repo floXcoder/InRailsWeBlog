@@ -27,7 +27,7 @@ class GenerateCacheUrls
   end
 
   def url_tags
-    Article.select(:slug, :visibility).everyone.map do |tag|
+    Tag.select(:slug, :visibility).everyone.map do |tag|
       [
         "/tags/#{tag.slug}",
         "/tagged/#{tag.slug}"

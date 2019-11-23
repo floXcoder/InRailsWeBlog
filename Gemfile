@@ -72,7 +72,7 @@ gem 'carrierwave',              '2.0.2'
 gem 'mini_magick',              '4.9.5'
 
 # Search in database
-gem 'searchkick',               '4.1.0'
+gem 'searchkick',               '4.1.1'
 gem 'typhoeus',                 '1.3.1'
 
 # Votable models
@@ -90,6 +90,7 @@ gem 'browser',                  '2.7.0'
 # SEO
 gem 'friendly_id',              '5.3.0'
 gem 'meta-tags',                '2.13.0'
+gem 'sitemap_generator',        '6.0.2'
 
 # HTTP request
 gem 'http',                     '4.2.0'
@@ -190,5 +191,5 @@ group :production do
   gem 'lograge',          '0.11.2'
 
   # Prerender html pages for SEO
-  # gem 'seo_cache',        '0.10.0' # Not compatible with Rails 6
+  gem 'seo_cache',        '0.11.0' # Not compatible with Rails 6
 end
