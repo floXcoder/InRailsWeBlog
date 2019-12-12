@@ -35,10 +35,10 @@ describe('Comments actions', () => {
 
             return dispatch(store, CommentActions.fetchComments({}))
                 .then((state) => {
-                    expect(CommentSelectors.getComments(state)).toHaveLength(comments.length);
-                    expect(CommentSelectors.getComments(state).first().id).toEqual(1);
-                    expect(CommentSelectors.getCommentPagination(state).currentPage).toEqual(1);
-                    expect(CommentSelectors.getCommentPagination(state).totalPages).toEqual(3);
+                    expect(state.commentState.comments).toHaveLength(comments.length);
+                    expect(state.commentState.comments.first().id).toEqual(1);
+                    expect(state.commentState.pagination.currentPage).toEqual(1);
+                    expect(state.commentState.pagination.totalPages).toEqual(3);
                 });
         });
     });
@@ -54,8 +54,8 @@ describe('Comments actions', () => {
 
             return dispatch(store, CommentActions.addComment(newComment, 'article', 1))
                 .then((state) => {
-                    expect(CommentSelectors.getComments(state)).toHaveLength(1);
-                    expect(CommentSelectors.getCommentErrors(state)).toEqual([]);
+                    expect(state.commentState.comments).toHaveLength(1);
+                    expect(CommentSelectors.getCommentErrors(state)).toEqual(undefined);
                 });
         });
 
@@ -70,7 +70,7 @@ describe('Comments actions', () => {
 
             return dispatch(store, CommentActions.addComment(newComment, 'article', 1))
                 .then((state) => {
-                    expect(CommentSelectors.getComments(state)).toHaveLength(0);
+                    expect(state.commentState.comments).toHaveLength(0);
                     expect(CommentSelectors.getCommentErrors(state)).toEqual([I18n.t('js.comment.model.title') + ' ' + titleError]);
                 });
         });
@@ -88,8 +88,8 @@ describe('Comments actions', () => {
 
             return dispatch(store, CommentActions.updateComment({id: comment.id, ...updateParameters}, 'article', 1))
                 .then((state) => {
-                    expect(CommentSelectors.getComments(state)).toHaveLength(1);
-                    expect(CommentSelectors.getCommentErrors(state)).toEqual([]);
+                    expect(state.commentState.comments).toHaveLength(1);
+                    expect(CommentSelectors.getCommentErrors(state)).toEqual(undefined);
                 });
         });
     });
@@ -105,8 +105,8 @@ describe('Comments actions', () => {
 
             return dispatch(store, CommentActions.deleteComment(comment.id, 'article', 1))
                 .then((state) => {
-                    expect(CommentSelectors.getComments(state)).toHaveLength(0);
-                    expect(CommentSelectors.getCommentErrors(state)).toEqual([]);
+                    expect(state.commentState.comments).toHaveLength(0);
+                    expect(CommentSelectors.getCommentErrors(state)).toEqual(undefined);
                 });
         });
     });

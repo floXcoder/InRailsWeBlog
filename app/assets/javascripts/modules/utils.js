@@ -106,6 +106,10 @@ Array.prototype.removeIndex = function (index) {
     }
 };
 
+Array.prototype.insert = function (index, item) {
+    this.splice(index, 0, item);
+};
+
 Array.prototype.addOrRemove = function (item) {
     if (this) {
         return this.includes(item) ? this.remove(item) : this.concat(item);

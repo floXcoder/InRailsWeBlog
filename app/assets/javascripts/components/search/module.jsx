@@ -30,11 +30,7 @@ import {
 
 import {
     getUserRecentTags,
-    getUserRecentArticles,
-    getAutocompleteSelectedTags,
-    getAutocompleteTopics,
-    getAutocompleteTags,
-    getAutocompleteArticles
+    getUserRecentArticles
 } from '../../selectors';
 
 import Loader from '../theme/loader';
@@ -54,10 +50,10 @@ export default @withRouter
     query: state.autocompleteState.query,
     highlightedTag: state.autocompleteState.highlightedTag,
     highlightedArticle: state.autocompleteState.highlightedArticle,
-    topics: getAutocompleteTopics(state),
-    tags: getAutocompleteTags(state),
-    selectedTags: getAutocompleteSelectedTags(state),
-    articles: getAutocompleteArticles(state)
+    topics: state.autocompleteState.topics,
+    tags: state.autocompleteState.tags,
+    selectedTags: state.autocompleteState.selectedTags,
+    articles: state.autocompleteState.articles
 }), {
     setAutocompleteSelectedTag
 })
@@ -150,7 +146,8 @@ class SearchModule extends React.Component {
                           direction="row-reverse"
                           justify="space-between"
                           alignItems="flex-start">
-                        <Grid item={true}
+                        <Grid className={this.props.classes.gridItem}
+                              item={true}
                               xs={12}
                               sm={6}
                               md={3}
@@ -167,7 +164,8 @@ class SearchModule extends React.Component {
                                                topics={this.props.topics}/>
                         </Grid>
 
-                        <Grid item={true}
+                        <Grid className={this.props.classes.gridItem}
+                              item={true}
                               xs={12}
                               sm={6}
                               md={9}

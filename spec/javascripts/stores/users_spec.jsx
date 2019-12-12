@@ -35,10 +35,10 @@ describe('Users actions', () => {
 
             return dispatch(store, UserActions.fetchUsers())
                 .then((state) => {
-                    expect(UserSelectors.getUsers(state)).toHaveLength(users.length);
-                    expect(UserSelectors.getUsers(state).first().id).toEqual(1);
-                    expect(UserSelectors.getUserPagination(state).currentPage).toEqual(1);
-                    expect(UserSelectors.getUserPagination(state).totalPages).toEqual(1);
+                    expect(state.userState.users).toHaveLength(users.length);
+                    expect(state.userState.users.first().id).toEqual(1);
+                    expect(state.userState.pagination.currentPage).toEqual(1);
+                    expect(state.userState.pagination.totalPages).toEqual(1);
                 });
         });
     });
@@ -54,8 +54,8 @@ describe('Users actions', () => {
 
             return dispatch(store, UserActions.fetchUser(user.id))
                 .then((state) => {
-                    expect(UserSelectors.getUser(state).id).toEqual(user.id);
-                    expect(UserSelectors.getUser(state).email).toEqual(user.email);
+                    expect(state.userState.user.id).toEqual(user.id);
+                    expect(state.userState.user.email).toEqual(user.email);
                 });
         });
     });
@@ -71,8 +71,8 @@ describe('Users actions', () => {
 
             return dispatch(store, UserActions.initUser(user.id, {profile: true}))
                 .then((state) => {
-                    expect(UserSelectors.getUser(state).id).toEqual(user.id);
-                    expect(UserSelectors.getUser(state).email).toEqual(user.email);
+                    expect(state.userState.user.id).toEqual(user.id);
+                    expect(state.userState.user.email).toEqual(user.email);
                     expect(state.userState.isLoaded).toBe(true);
                 });
         });
@@ -105,8 +105,8 @@ describe('Users actions', () => {
 
             return dispatch(store, UserActions.signupUser(user))
                 .then((state) => {
-                    expect(UserSelectors.getUser(state).id).toEqual(user.id);
-                    expect(UserSelectors.getUser(state).email).toEqual(user.email);
+                    expect(state.userState.user.id).toEqual(user.id);
+                    expect(state.userState.user.email).toEqual(user.email);
                     expect(state.userState.isConnected).toBe(true);
                 });
         });
@@ -123,8 +123,8 @@ describe('Users actions', () => {
 
             return dispatch(store, UserActions.loginUser(user))
                 .then((state) => {
-                    expect(UserSelectors.getUser(state).id).toEqual(user.id);
-                    expect(UserSelectors.getUser(state).email).toEqual(user.email);
+                    expect(state.userState.user.id).toEqual(user.id);
+                    expect(state.userState.user.email).toEqual(user.email);
                     expect(state.userState.isConnected).toBe(true);
                 });
         });
@@ -152,7 +152,7 @@ describe('Users actions', () => {
                 articleDisplay: 'grid'
             }))
                 .then((state) => {
-                    expect(UserSelectors.getUser(state).settings.articleDisplay).toEqual('grid');
+                    expect(state.userState.user.settings.articleDisplay).toEqual('grid');
                 });
         });
     });

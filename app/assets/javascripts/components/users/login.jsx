@@ -31,7 +31,7 @@ class Login extends React.PureComponent {
     }
 
     _handleSubmit = (values) => {
-        this.props.loginUser(values.toJS())
+        this.props.loginUser(values)
             .then((response) => {
                 if (response && response.errors) {
                     Notification.error(response.errors);
@@ -93,8 +93,8 @@ class Login extends React.PureComponent {
 
                     {
                         (!this.props.isProcessing && !this.props.isConnected) &&
-                        <LoginForm onCancel={this.props.onModalChange}
-                                   onSubmit={this._handleSubmit}/>
+                        <LoginForm onSubmit={this._handleSubmit}
+                                   onCancel={this.props.onModalChange}/>
                     }
                 </div>
             </Modal>

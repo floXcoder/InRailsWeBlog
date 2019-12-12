@@ -16,6 +16,8 @@ module Api::V1
   class TagsController < ApiController
     skip_before_action :authenticate_user!, only: [:index, :show]
 
+    before_action :set_context_user, except: [:index]
+
     after_action :verify_authorized, except: [:index]
 
     include TrackerConcern
@@ -32,13 +34,12 @@ module Api::V1
                ::Tags::FindQueries.new(nil, current_admin).complete
              elsif params[:populars]
                ::Tags::FindQueries.new.populars(limit: params[:limit])
-             elsif filter_params[:topic_slug].present? || filter_params[:topic_id].present?
+             elsif params[:user_id] && (filter_params[:topic_slug].present? || filter_params[:topic_id].present?)
                topic_id = if filter_params[:topic_slug]
-                            Topic.friendly.find(filter_params[:topic_slug]).id
+                            User.friendly.find(params[:user_id]).topics.friendly.find(filter_params[:topic_slug]).id
                           else
                             filter_params[:topic_id].to_i
                           end
-
                Rails.cache.fetch("user_tags:#{current_user&.id}_for_#{topic_id || current_user&.current_topic_id}", expires_in: InRailsWeBlog.config.cache_time) do
                  ::Tags::FindQueries.new(current_user, current_admin).all(filter_params.merge(topic_id: topic_id, limit: params[:limit]))
                end
@@ -65,7 +66,7 @@ module Api::V1
     end
 
     def show
-      tag = Tag.include_element.friendly.find(params[:id])
+      tag = @context_user.tags.include_element.friendly.find(params[:id])
       authorize tag
 
       respond_to do |format|
@@ -83,7 +84,7 @@ module Api::V1
     end
 
     def edit
-      tag = Tag.include_element.friendly.find(params[:id])
+      tag = current_user.tags.include_element.friendly.find(params[:id])
       authorize tag
 
       respond_to do |format|
@@ -100,7 +101,7 @@ module Api::V1
     end
 
     def update
-      tag = Tag.find(params[:id])
+      tag = current_user.tags.find(params[:id])
       admin_or_authorize tag
 
       stored_tag = ::Tags::StoreService.new(tag, tag_params.merge(current_user: current_user)).perform
@@ -145,7 +146,7 @@ module Api::V1
     end
 
     def destroy
-      tag = Tag.find(params[:id])
+      tag = current_user.tags.find(params[:id])
       admin_or_authorize tag
 
       respond_to do |format|

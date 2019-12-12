@@ -18,7 +18,6 @@ import {
 } from '../../actions';
 
 import {
-    getArticleMetaTags,
     getArticleIsOwner,
     getCurrentUserTopicVisibility,
     getCurrentLocale
@@ -36,9 +35,9 @@ import ArticleFormDisplay from './display/form';
 
 import styles from '../../../jss/article/form';
 
-export default @articleMutationManager('edit', `article-${Utils.uuid()}`)
+export default @articleMutationManager('edit')
 @connect((state, props) => ({
-    metaTags: getArticleMetaTags(state),
+    metaTags: state.articleState.metaTags,
     userSlug: state.userState.currentSlug,
     isOwner: getArticleIsOwner(state, props.article),
     inheritVisibility: getCurrentUserTopicVisibility(state)
@@ -51,13 +50,13 @@ export default @articleMutationManager('edit', `article-${Utils.uuid()}`)
 class ArticleEdit extends React.Component {
     static propTypes = {
         // from articleMutationManager
-        formId: PropTypes.string,
         currentUser: PropTypes.object,
         currentTopic: PropTypes.object,
         isFetching: PropTypes.bool,
         article: PropTypes.object,
         isDraft: PropTypes.bool,
         articleErrors: PropTypes.array,
+        onFormChange: PropTypes.func,
         onSubmit: PropTypes.func,
         // from connect
         metaTags: PropTypes.object,
@@ -116,7 +115,7 @@ class ArticleEdit extends React.Component {
             this.props.article.inventories.map((field) => inventoryData[field.fieldName] = field.value);
         }
 
-        const initialValues = {
+        const article = {
             mode: this.props.article.mode,
             title: this.props.article.title,
             summary: this.props.article.summary,
@@ -144,15 +143,16 @@ class ArticleEdit extends React.Component {
                     }
                 </div>
 
-                <ArticleFormDisplay form={this.props.formId}
-                                    initialValues={initialValues}
+                <ArticleFormDisplay article={article}
                                     inheritVisibility={this.props.inheritVisibility}
                                     userSlug={this.props.userSlug}
+                                    currentUser={this.props.currentUser}
                                     currentTopic={this.props.currentTopic}
                                     currentMode={this.props.article.mode}
                                     isEditing={true}
                                     isDraft={this.props.article.isDraft}
                                     articleErrors={this.props.articleErrors}
+                                    onFormChange={this.props.onFormChange}
                                     onSubmit={this.props.onSubmit}>
                     {this.props.article}
                 </ArticleFormDisplay>

@@ -327,11 +327,6 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def append_info_to_payload(payload)
-    super
-    payload[:referer] = request.referer
-  end
-
   private
 
   def set_raven_context

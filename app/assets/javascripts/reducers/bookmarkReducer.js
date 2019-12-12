@@ -1,50 +1,40 @@
 'use strict';
 
-import {
-    Record,
-    Map,
-    List
-} from 'immutable';
-
 import * as ActionTypes from '../constants/actionTypes';
-
-import * as Records from '../constants/records';
 
 import {
     fetchReducer,
-    toList,
-    mutateArray
+    addOrReplaceIn,
+    removeIn
 } from './mutators';
 
-const initState = new Record({
+const initState = {
     isFetching: false,
     isProcessing: false,
-    errors: new Map(),
-    metaTags: new Map(),
-    pagination: new Map(),
+    errors: {},
+    metaTags: {},
+    pagination: {},
 
-    bookmarks: new List(),
-    unbookmarks: new List()
-});
+    bookmarks: [],
+    unbookmarks: []
+};
 
-export default function bookmarkReducer(state = new initState(), action) {
+export default function bookmarkReducer(state = initState, action) {
     switch (action.type) {
         case ActionTypes.BOOKMARK_FETCH_INIT:
         case ActionTypes.BOOKMARK_FETCH_SUCCESS:
         case ActionTypes.BOOKMARK_FETCH_ERROR:
-            return fetchReducer(state, action, (payload) => ({
-                bookmarks: toList(payload.bookmarks, Records.BookmarkRecord)
-            }));
+            return fetchReducer(state, action, (state) => {
+                state.bookmarks = action.bookmarks || [];
+            });
 
         case ActionTypes.BOOKMARK_ADD:
-            return state.merge({
-                bookmarks: mutateArray(state.bookmarks, action.bookmark, null, 'bookmarkedId')
-            });
+            state.bookmarks = addOrReplaceIn(state.bookmarks, action.bookmark, 'bookmarkedId');
+            return state;
         case ActionTypes.BOOKMARK_DELETE:
-            return state.merge({
-                bookmarks: mutateArray(state.bookmarks, action.bookmark, action.removedBookmarkedId, 'bookmarkedId'),
-                unbookmarks: state.bookmarks.concat([action.bookmark])
-            });
+            state.bookmarks = removeIn(state.bookmarks, action.removedBookmarkedId, 'bookmarkedId');
+            state.unbookmarks = state.bookmarks.concat([action.bookmark]);
+            return state;
 
         default:
             return state;

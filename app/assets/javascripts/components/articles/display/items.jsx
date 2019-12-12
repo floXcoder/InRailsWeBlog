@@ -4,8 +4,6 @@ import {
     Suspense
 } from 'react';
 
-import Paper from '@material-ui/core/Paper';
-
 import {
     ArticleInlineEditionDisplay
 } from '../../loaders/components';
@@ -77,10 +75,9 @@ class ArticleItemsDisplay extends React.Component {
             );
         } else if (this.props.articleDisplayMode === 'summary') {
             return (
-                <Paper>
-                    <ArticleMiniCardDisplay article={this.props.article}
-                                            isTagDown={true}/>
-                </Paper>
+                <ArticleMiniCardDisplay article={this.props.article}
+                                        isPaper={true}
+                                        isTagDown={true}/>
             );
         } else if (this.props.articleDisplayMode === 'card') {
             return (

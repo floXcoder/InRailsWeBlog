@@ -7,7 +7,8 @@ const styles = (theme) => ({
         paddingBottom: 80,
         [theme.breakpoints.down('md')]: {
             margin: '.4rem .6rem'
-        }
+        },
+        height: '90vh'
     },
     cloudTopic: {
         margin: '1.3rem .4rem .3rem',
@@ -71,7 +72,8 @@ const styles = (theme) => ({
         visibility: 'hidden',
         opacity: 0,
         marginTop: '1rem',
-        transition: 'visibility .35s, opacity .35s ease-in-out'
+        transition: 'visibility .35s, opacity .35s ease-in-out',
+        height: '90vh'
     },
     tagsOpen: {
         visibility: 'visible',

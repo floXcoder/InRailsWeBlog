@@ -3,6 +3,7 @@
 import ArticleEditIcon from '../icons/edit';
 import ArticleHistoryIcon from '../icons/history';
 import ArticleLinkIcon from '../icons/link';
+import ArticleTopicLinkIcon from '../icons/topicLink';
 import ArticleBookmarkIcon from '../icons/bookmark';
 
 export default class ArticleFloatingIcons extends React.PureComponent {
@@ -14,9 +15,11 @@ export default class ArticleFloatingIcons extends React.PureComponent {
         articleId: PropTypes.number.isRequired,
         articleSlug: PropTypes.string.isRequired,
         articleTitle: PropTypes.string,
+        topicSlug: PropTypes.string,
         display: PropTypes.oneOf(['list', 'item']),
         size: PropTypes.oneOf(['small', 'default', 'large']),
         color: PropTypes.oneOf(['primary', 'secondary', 'action']),
+        history: PropTypes.object,
         isOwner: PropTypes.bool
     };
 
@@ -57,8 +60,16 @@ export default class ArticleFloatingIcons extends React.PureComponent {
                     this.props.isOwner &&
                     <ArticleEditIcon userSlug={this.props.userSlug}
                                      articleSlug={this.props.articleSlug}
+                                     history={this.props.history}
                                      size="large"
                                      color={this.props.color}/>
+                }
+
+                {
+                    this.props.topicSlug &&
+                    <ArticleTopicLinkIcon userSlug={this.props.userSlug}
+                                          topicSlug={this.props.topicSlug}
+                                          color={this.props.color}/>
                 }
 
                 {

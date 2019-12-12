@@ -18,23 +18,23 @@ import {
 } from '../../actions';
 
 import {
-    getTagMetaTags,
     getCurrentUser,
     getTagErrors
 } from '../../selectors';
 
 import Loader from '../theme/loader';
 
-import TagFormDisplay from './display/form';
-
 import HeadLayout from '../layouts/head';
 import NotAuthorized from '../layouts/notAuthorized';
+
+import TagFormDisplay from './display/form';
+import TagErrorField from './display/fields/error';
 
 import styles from '../../../jss/tag/edit';
 
 export default @withRouter
 @connect((state) => ({
-    metaTags: getTagMetaTags(state),
+    metaTags: state.tagState.metaTags,
     tag: state.tagState.tag,
     currentUser: getCurrentUser(state),
     tagErrors: getTagErrors(state)
@@ -68,12 +68,10 @@ class TagEdit extends React.Component {
         this.props.fetchTag(this.props.routeParams.tagSlug, {edit: true});
     }
 
-    _handleSubmit = (values) => {
-        let formData = values.toJS();
+    values = (values) => {
+        values.id = this.props.tag.id;
 
-        formData.id = this.props.tag.id;
-
-        this.props.updateTag(formData)
+        this.props.updateTag(values)
             .then((response) => {
                 if (response.tag) {
                     this.props.history.push({
@@ -87,6 +85,14 @@ class TagEdit extends React.Component {
     };
 
     render() {
+        if (this.props.tagErrors) {
+            return (
+                <div>
+                    <TagErrorField errors={this.props.tagErrors}/>
+                </div>
+            );
+        }
+
         if (!this.props.tag || !this.props.currentUser) {
             return (
                 <div className="center margin-top-20">
@@ -103,17 +109,13 @@ class TagEdit extends React.Component {
             )
         }
 
-        const {name, description, visibility, synonyms, ...otherProps} = this.props.tag;
-
         return (
             <div className={this.props.classes.root}>
                 <HeadLayout metaTags={this.props.metaTags}/>
 
-                <TagFormDisplay initialValues={{name, description, visibility, synonyms}}
-                                id={`tag-edit-${this.props.tag.id}`}
-                                tagId={this.props.tag.id}
+                <TagFormDisplay id={`tag-edit-${this.props.tag.id}`}
+                                tagId={this.props.tag}
                                 isEditing={true}
-                                tagErrors={this.props.tagErrors}
                                 onSubmit={this._handleSubmit}>
                     {this.props.tag}
                 </TagFormDisplay>

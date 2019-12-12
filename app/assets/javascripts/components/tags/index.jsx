@@ -28,7 +28,6 @@ import {
 } from '../../actions';
 
 import {
-    getTagMetaTags,
     getPublicTags,
     getPrivateTags
 } from '../../selectors';
@@ -44,7 +43,7 @@ import HeadLayout from '../layouts/head';
 import styles from '../../../jss/tag/index';
 
 export default @connect((state) => ({
-    metaTags: getTagMetaTags(state),
+    metaTags: state.tagState.metaTags,
     isUserConnected: state.userState.isConnected,
     currentUser: state.userState.user,
     currentTopic: state.topicState.currentTopic,
@@ -77,15 +76,16 @@ class TagIndex extends React.Component {
     }
 
     componentDidMount() {
-        if (this.props.routeParams.userSlug) {
-            this.props.fetchTags({
-                userSlug: this.props.routeParams.userSlug
-            }, {
-                limit: tagSidebarLimit
-            });
-        } else if (this.props.routeParams.topicSlug) {
+        if (this.props.routeParams.topicSlug) {
             this.props.fetchTags({
                 topicSlug: this.props.routeParams.topicSlug
+            }, {
+                userId: this.props.routeParams.userSlug,
+                limit: tagSidebarLimit
+            });
+        } else if (this.props.routeParams.userSlug) {
+            this.props.fetchTags({
+                userSlug: this.props.routeParams.userSlug
             }, {
                 limit: tagSidebarLimit
             });

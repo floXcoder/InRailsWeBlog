@@ -26,6 +26,7 @@ module Api::V1
     end
 
     def failure
+      # Called by recall below
       error_msg = I18n.t('devise.failure.invalid', authentication_keys: params[resource_name] ? params[resource_name][:login] : params[:login])
       redirect_after_failure(error_msg)
     end
@@ -48,7 +49,7 @@ module Api::V1
 
         format.json do
           flash.now[:error] = error_msg
-          render json: { error: error_msg }
+          render json: { error: error_msg }, status: :unauthorized
         end
       end
     end

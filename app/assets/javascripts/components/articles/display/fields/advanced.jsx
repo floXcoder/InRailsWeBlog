@@ -2,7 +2,7 @@
 
 import {
     Field
-} from 'redux-form/immutable';
+} from 'react-final-form';
 
 import {
     withStyles

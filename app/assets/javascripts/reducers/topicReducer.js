@@ -2,101 +2,84 @@
 
 'use strict';
 
-import {
-    Record,
-    List,
-    Map
-} from 'immutable';
-
 import * as ActionTypes from '../constants/actionTypes';
 
-import * as Records from '../constants/records';
-
 import {
-    toList,
     fetchReducer,
     mutationReducer,
     findItemIndex,
-    mutateArray
+    removeIn,
+    addOrReplaceIn
 } from './mutators';
 
-const initState = new Record({
+const initState = {
     isFetching: false,
     isProcessing: false,
-    errors: new Map(),
+    errors: undefined,
 
-    topics: new List(),
-    metaTags: new Map(),
-    pagination: new Map(),
+    topics: [],
+    metaTags: {},
+    pagination: {},
 
-    userTopics: new List(),
-    contributedTopics: new List(),
+    userTopics: [],
+    contributedTopics: [],
 
     currentUserTopicId: window.currentTopicId ? parseInt(window.currentTopicId, 10) : undefined,
     currentUserTopicSlug: window.currentTopicSlug,
     currentTopic: undefined,
 
     topic: undefined
-});
+};
 
-export default function topicReducer(state = new initState(), action) {
+export default function topicReducer(state = initState, action) {
     switch (action.type) {
         case ActionTypes.TOPIC_FETCH_INIT:
         case ActionTypes.TOPIC_FETCH_SUCCESS:
         case ActionTypes.TOPIC_FETCH_ERROR:
-            return fetchReducer(state, action, (payload) => {
-                    if (payload.isSwitching) {
-                        window.currentUserTopicId = payload.topic.id;
+            return fetchReducer(state, action, (state) => {
+                if (action.isSwitching) {
+                    window.currentUserTopicId = action.topic.id;
 
-                        return {
-                            currentUserTopicId: payload.topic.id,
-                            currentUserTopicSlug: payload.topic.slug,
-                            currentTopic: new Records.TopicRecord(payload.topic)
-                        };
-                    } else if (payload.topic) {
-                        return {
-                            topic: new Records.TopicRecord(payload.topic)
-                        };
-                    } else {
-                        return {
-                            topics: toList(payload.topics, Records.TopicRecord)
-                        };
-                    }
-                }, ['isSwitching', 'topic']);
+                    state.currentUserTopicId = action.topic.id;
+                    state.currentUserTopicSlug = action.topic.slug;
+                    state.currentTopic = action.topic;
+                } else if (action.topic) {
+                    state.topic = action.topic;
+                } else {
+                    state.topics = action.topics || [];
+                }
+            });
 
         case ActionTypes.TOPIC_CHANGE_INIT:
         case ActionTypes.TOPIC_CHANGE_SUCCESS:
         case ActionTypes.TOPIC_CHANGE_ERROR:
-            return mutationReducer(state, action, (payload) => {
-                if (payload.priority) {
+            return mutationReducer(state, action, (state) => {
+                if (action.priority) {
                     // User topics are returned after priority changed
-                    return ({
-                        userTopics: toList(action.topics, Records.TopicRecord)
-                    });
+                    state.userTopics = action.topics;
                 } else {
-                    return ({
-                        topic: payload.topic ? new Records.TopicRecord(payload.topic) : undefined,
-                        userTopics: mutateArray(state.userTopics, payload.topic && (new Records.TagRecord(payload.topic)), action.removedId),
-                        currentUserTopicId: (payload.topic && payload.topic.id) === (state.currentTopic && state.currentTopic.id) || findItemIndex(state.userTopics, payload.topic.id) === -1 ? (payload.topic && payload.topic.id) : state.currentUserTopicId,
-                        currentUserTopicSlug: (payload.topic && payload.topic.id) === (state.currentTopic && state.currentTopic.id) || findItemIndex(state.userTopics, payload.topic.id) === -1 ? (payload.topic && payload.topic.slug) : state.currentUserTopicSlug,
-                        currentTopic: (payload.topic && payload.topic.id) === (state.currentTopic && state.currentTopic.id) || findItemIndex(state.userTopics, payload.topic.id) === -1 ? new Records.TopicRecord(payload.topic) : state.currentTopic
-                    });
+                    state.topic = action.topic;
+                    if (action.removedId) {
+                        state.userTopics = removeIn(state.userTopics, action.removedId);
+                    } else {
+                        state.userTopics = addOrReplaceIn(state.userTopics, action.topic);
+                    }
+                    state.currentUserTopicId = (action.topic && action.topic.id) === (state.currentTopic && state.currentTopic.id) || findItemIndex(state.userTopics, action.topic && action.topic.id) !== -1 ? (action.topic && action.topic.id) : state.currentUserTopicId;
+                    state.currentUserTopicSlug = (action.topic && action.topic.id) === (state.currentTopic && state.currentTopic.id) || findItemIndex(state.userTopics, action.topic && action.topic.id) !== -1 ? (action.topic && action.topic.slug) : state.currentUserTopicSlug;
+                    state.currentTopic = (action.topic && action.topic.id) === (state.currentTopic && state.currentTopic.id) || findItemIndex(state.userTopics, action.topic && action.topic.id) !== -1 ? action.topic : state.currentTopic;
                 }
-            }, ['priority']);
+            });
 
         case ActionTypes.USER_FETCH_SUCCESS:
         case ActionTypes.USER_CHANGE_SUCCESS:
             if (action.user && action.connection && action.user.currentTopic) {
-                return state.merge({
-                    currentUserTopicSlug: action.user.currentTopic.slug,
-                    currentUserTopicId: action.user.currentTopic.id,
-                    currentTopic: new Records.TopicRecord(action.user.currentTopic),
-                    userTopics: toList(action.user.topics, Records.TopicRecord),
-                    contributedTopics: toList(action.user.contributedTopics, Records.TopicRecord)
-                });
-            } else {
-                return state;
+                state.currentUserTopicSlug = action.user.currentTopic.slug;
+                state.currentUserTopicId = action.user.currentTopic.id;
+                state.currentTopic = action.user.currentTopic;
+                state.userTopics = action.user.topics;
+                state.contributedTopics = action.user.contributedTopics;
             }
+            return state;
 
         default:
             return state;

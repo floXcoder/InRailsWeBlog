@@ -26,7 +26,6 @@ export default class CommentForm extends React.PureComponent {
     };
 
     static defaultProps = {
-        formTitle: I18n.t('js.comment.form.title.default'),
         rating: 0,
         isAskingForDeletion: false
     };
@@ -82,7 +81,7 @@ export default class CommentForm extends React.PureComponent {
                 <div className="col s12">
                     <div className={classNames('card-panel', {'comment-form-owner': this.props.isOwner})}>
                         <div className="card-title comment-form-title">
-                            {this.props.formTitle}
+                            {this.props.formTitle || I18n.t('js.comment.form.title.default')}
                         </div>
 
                         <form id="comment-form"
@@ -165,15 +164,18 @@ export default class CommentForm extends React.PureComponent {
 
                             <div className="row margin-top-10">
                                 <div className="col s6">
-                                    <a className="btn-flat waves-effect waves-light"
-                                       onClick={this.props.onCancel}>
+                                    <Button color="default"
+                                            variant="outlined"
+                                            size="small"
+                                            onClick={this.props.onCancel}>
                                         {I18n.t('js.comment.form.cancel')}
-                                    </a>
+                                    </Button>
                                 </div>
 
                                 <div className="col s6 right-align">
                                     <Button color="primary"
                                             variant="contained"
+                                            size="small"
                                             onClick={this._handleSubmit}>
                                         {I18n.t('js.comment.form.submit')}
                                     </Button>

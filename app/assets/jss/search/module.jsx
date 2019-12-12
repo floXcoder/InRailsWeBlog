@@ -8,8 +8,16 @@ const styles = (theme) => ({
             marginTop: '1rem'
         }
     },
+    gridItem: {
+        [theme.breakpoints.down('md')]: {
+            padding: '8px 16px !important'
+        }
+    },
     category: {
         marginBottom: 16,
+        [theme.breakpoints.down('md')]: {
+            marginBottom: 8
+        }
     },
     categoryName: {
         marginTop: 10,
@@ -17,7 +25,8 @@ const styles = (theme) => ({
         fontSize: '1.6rem',
         fontWeight: 500,
         [theme.breakpoints.down('md')]: {
-            marginTop: 0
+            marginTop: 0,
+            marginBottom: 12
         }
     },
     categoryCount: {

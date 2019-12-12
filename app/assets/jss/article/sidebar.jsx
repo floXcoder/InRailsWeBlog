@@ -2,7 +2,7 @@
 
 const styles = (theme) => ({
     root: {
-        margin: '.4rem .6rem 2rem',
+        margin: '.1rem .2rem 2.5rem',
         paddingBottom: '1.5rem'
     },
     title: {
@@ -27,7 +27,8 @@ const styles = (theme) => ({
     },
     timeline: {
         marginTop: '.5rem',
-        marginBottom: '4rem'
+        marginBottom: '4rem',
+        height: '80vh'
     },
     moreArticles: {
         padding: '5px 12px',

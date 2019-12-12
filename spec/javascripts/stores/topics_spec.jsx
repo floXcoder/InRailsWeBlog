@@ -35,9 +35,9 @@ describe('Topics actions', () => {
 
             return dispatch(store, TopicActions.fetchTopics(1))
                 .then((state) => {
-                    expect(TopicSelectors.getTopics(state)).toHaveLength(topics.length);
-                    expect(TopicSelectors.getTopicPagination(state).currentPage).toEqual(1);
-                    expect(TopicSelectors.getTopicPagination(state).totalPages).toEqual(3);
+                    expect(state.topicState.topics).toHaveLength(topics.length);
+                    expect(state.topicState.pagination.currentPage).toEqual(1);
+                    expect(state.topicState.pagination.totalPages).toEqual(3);
                 });
         });
     });
@@ -53,7 +53,7 @@ describe('Topics actions', () => {
 
             return dispatch(store, TopicActions.fetchTopic(1, topic.id))
                 .then((state) => {
-                    expect(TopicSelectors.getTopic(state).id).toEqual(topic.id);
+                    expect(state.topicState.topic.id).toEqual(topic.id);
                 });
         });
     });
@@ -69,7 +69,7 @@ describe('Topics actions', () => {
 
             return dispatch(store, TopicActions.switchTopic())
                 .then((state) => {
-                    expect(TopicSelectors.getCurrentUserTopic(state).id).toEqual(topic.id);
+                    expect(state.topicState.currentTopic.id).toEqual(topic.id);
                     expect(TopicSelectors.getCurrentUserTopicVisibility(state)).toEqual('everyone');
                 });
         });
@@ -86,9 +86,9 @@ describe('Topics actions', () => {
 
             return dispatch(store, TopicActions.addTopic(1, newTopic))
                 .then((state) => {
-                    expect(TopicSelectors.getCurrentUserTopic(state).id).toEqual(newTopic.id);
+                    expect(state.topicState.currentTopic.id).toEqual(newTopic.id);
                     expect(TopicSelectors.getCurrentUserTopicVisibility(state)).toEqual('everyone');
-                    expect(TopicSelectors.getTopicErrors(state)).toEqual([]);
+                    expect(TopicSelectors.getTopicErrors(state)).toEqual(undefined);
                 });
         });
 
@@ -103,7 +103,7 @@ describe('Topics actions', () => {
 
             return dispatch(store, TopicActions.addTopic(1, newTopic))
                 .then((state) => {
-                    expect(TopicSelectors.getCurrentUserTopic(state)).toBeUndefined();
+                    expect(state.topicState.currentTopic).toBeUndefined();
                     expect(TopicSelectors.getTopicErrors(state)).toEqual([I18n.t('js.topic.model.name') + ' ' + nameError]);
                 });
         });
@@ -121,8 +121,8 @@ describe('Topics actions', () => {
 
             return dispatch(store, TopicActions.updateTopic(1, {id: topic.id, ...updateParameters}))
                 .then((state) => {
-                    expect(TopicSelectors.getCurrentUserTopic(state).id).toEqual(topic.id);
-                    expect(TopicSelectors.getTopicErrors(state)).toEqual([]);
+                    expect(state.topicState.currentTopic.id).toEqual(topic.id);
+                    expect(TopicSelectors.getTopicErrors(state)).toEqual(undefined);
                 });
         });
     });
@@ -135,7 +135,7 @@ describe('Topics actions', () => {
 
             return dispatch(store, TopicActions.deleteTopic(1, topic.id))
                 .then((state) => {
-                    expect(TopicSelectors.getTopicErrors(state)).toEqual([]);
+                    expect(TopicSelectors.getTopicErrors(state)).toEqual(undefined);
                 });
         });
     });

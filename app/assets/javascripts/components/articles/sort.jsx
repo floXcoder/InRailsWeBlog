@@ -18,10 +18,6 @@ import {
 } from '../../actions';
 
 import {
-    getArticles
-} from '../../selectors';
-
-import {
     sortItemLimit
 } from '../modules/constants';
 
@@ -38,7 +34,7 @@ export default @withRouter
     currentUserTopicId: state.topicState.currentUserTopicId,
     currentUserTopicSlug: state.topicState.currentUserTopicSlug,
     isFetching: state.articleState.isFetching,
-    articles: getArticles(state)
+    articles: state.articleState.articles
 }), {
     fetchArticles,
     updateArticlePriority

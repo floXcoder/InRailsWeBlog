@@ -23,7 +23,7 @@ class ArticleBreadcrumbDisplay extends React.Component {
         user: PropTypes.object.isRequired,
         topic: PropTypes.object.isRequired,
         article: PropTypes.object,
-        tags: PropTypes.object,
+        tags: PropTypes.array,
         // from styles
         classes: PropTypes.object
     };

@@ -1,12 +1,10 @@
 'use strict';
 
-import {
-    Record
-} from 'immutable';
+import produce from 'immer';
 
 import {
     combineReducers
-} from 'redux-immutable';
+} from 'redux-immer';
 
 import {
     loadingBarReducer
@@ -23,19 +21,7 @@ import {
 } from './searchReducer';
 import commentReducer from './commentReducer';
 
-const ReducerRecord = Record({
-    adminState: undefined,
-    userState: undefined,
-    topicState: undefined,
-    tagState: undefined,
-    articleState: undefined,
-    autocompleteState: undefined,
-    searchState: undefined,
-    commentState: undefined,
-    loadingBar: undefined
-});
-
-const rootAdminReducer = combineReducers({
+export default combineReducers(produce, {
     adminState: adminReducer,
     userState: userReducer,
     topicState: topicReducer,
@@ -45,6 +31,4 @@ const rootAdminReducer = combineReducers({
     searchState: searchReducer,
     commentState: commentReducer,
     loadingBar: loadingBarReducer
-}, ReducerRecord);
-
-export default rootAdminReducer;
+});

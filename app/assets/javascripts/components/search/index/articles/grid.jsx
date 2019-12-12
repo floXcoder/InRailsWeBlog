@@ -86,7 +86,7 @@ class ArticleItemDisplay extends React.Component {
                 </CardContent>
 
                 {
-                    this.props.article.tags.size > 0 &&
+                    this.props.article.tags.length > 0 &&
                     <CardActions className={this.props.classes.actions}
                                  disableSpacing={true}>
                         <div className={this.props.classes.articleTags}>

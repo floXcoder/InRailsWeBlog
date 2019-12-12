@@ -35,10 +35,10 @@ describe('Articles actions', () => {
 
             return dispatch(store, ArticleActions.fetchArticles())
                 .then((state) => {
-                    expect(ArticleSelectors.getArticles(state)).toHaveLength(articles.length);
-                    expect(ArticleSelectors.getArticles(state).first().id).toEqual(1);
-                    expect(ArticleSelectors.getArticlePagination(state).currentPage).toEqual(1);
-                    expect(ArticleSelectors.getArticlePagination(state).totalPages).toEqual(3);
+                    expect(state.articleState.articles).toHaveLength(articles.length);
+                    expect(state.articleState.articles.first().id).toEqual(1);
+                    expect(state.articleState.pagination.currentPage).toEqual(1);
+                    expect(state.articleState.pagination.totalPages).toEqual(3);
                 });
         });
     });
@@ -47,15 +47,15 @@ describe('Articles actions', () => {
         it('should fetch one article', () => {
             const article = FactoryGenerator.create('articles');
 
-            mock(`/api/v1/articles/${article.id}.json`, 200, () => ({
+            mock(`/api/v1/articles/${article.id}.json?userId=${article.user.id}`, 200, () => ({
                     article: article
                 })
             );
 
-            return dispatch(store, ArticleActions.fetchArticle(article.id))
+            return dispatch(store, ArticleActions.fetchArticle(article.user.id, article.id))
                 .then((state) => {
-                    expect(ArticleSelectors.getArticle(state).id).toEqual(article.id);
-                    expect(ArticleSelectors.getArticle(state).title).toEqual(article.title);
+                    expect(state.articleState.article.id).toEqual(article.id);
+                    expect(state.articleState.article.title).toEqual(article.title);
                 });
         });
     });
@@ -71,9 +71,9 @@ describe('Articles actions', () => {
 
             return dispatch(store, ArticleActions.addArticle(newArticle))
                 .then((state) => {
-                    expect(ArticleSelectors.getArticle(state).title).toEqual(newArticle.title);
-                    expect(ArticleSelectors.getArticle(state).user.id).toEqual(newArticle.user.id);
-                    expect(ArticleSelectors.getArticleErrors(state)).toEqual([]);
+                    expect(state.articleState.article.title).toEqual(newArticle.title);
+                    expect(state.articleState.article.user.id).toEqual(newArticle.user.id);
+                    expect(ArticleSelectors.getArticleErrors(state)).toEqual(undefined);
                 });
         });
 
@@ -88,7 +88,7 @@ describe('Articles actions', () => {
 
             return dispatch(store, ArticleActions.addArticle(newArticle))
                 .then((state) => {
-                    expect(ArticleSelectors.getArticle(state)).toBeUndefined();
+                    expect(state.articleState.article).toBeUndefined();
                     expect(ArticleSelectors.getArticleErrors(state)).toEqual([I18n.t('js.article.model.content') + ' ' + contentError]);
                 });
         });
@@ -116,8 +116,8 @@ describe('Articles actions', () => {
 
             return dispatch(store, ArticleActions.updateArticle({id: article.id, ...updateParameters}))
                 .then((state) => {
-                    expect(ArticleSelectors.getArticle(state).content).toEqual(updateParameters.content);
-                    expect(ArticleSelectors.getArticleErrors(state)).toEqual([]);
+                    expect(state.articleState.article.content).toEqual(updateParameters.content);
+                    expect(ArticleSelectors.getArticleErrors(state)).toEqual(undefined);
                 });
         });
     });
@@ -133,9 +133,9 @@ describe('Articles actions', () => {
 
             return dispatch(store, ArticleActions.updateArticlePriority(articles.slice().reverse().map((article) => article.id)))
                 .then((state) => {
-                    expect(ArticleSelectors.getArticles(state)).toHaveLength(articles.length);
-                    expect(ArticleSelectors.getArticles(state).first().id).toEqual(articles.last().id);
-                    expect(ArticleSelectors.getArticles(state).last().id).toEqual(articles.first().id);
+                    expect(state.articleState.articles).toHaveLength(articles.length);
+                    expect(state.articleState.articles.first().id).toEqual(articles.last().id);
+                    expect(state.articleState.articles.last().id).toEqual(articles.first().id);
                 });
         });
     });
@@ -148,8 +148,8 @@ describe('Articles actions', () => {
 
             return dispatch(store, ArticleActions.deleteArticle(article.id))
                 .then((state) => {
-                    expect(ArticleSelectors.getArticle(state)).toBeUndefined();
-                    expect(ArticleSelectors.getArticleErrors(state)).toEqual([]);
+                    expect(state.articleState.article).toBeUndefined();
+                    expect(ArticleSelectors.getArticleErrors(state)).toEqual(undefined);
                 });
         });
     });
@@ -166,9 +166,9 @@ describe('Articles actions', () => {
 
             return dispatch(store, ArticleActions.fetchArticleHistory(article.id))
                 .then((state) => {
-                    expect(ArticleSelectors.getArticleVersions(state)).toHaveLength(histories.length);
-                    expect(ArticleSelectors.getArticleVersions(state).first().articleId).toEqual(1);
-                    expect(ArticleSelectors.getArticleVersions(state).first().changeset).toBeTruthy();
+                    expect(state.articleState.articleVersions).toHaveLength(histories.length);
+                    expect(state.articleState.articleVersions.first().articleId).toEqual(1);
+                    expect(state.articleState.articleVersions.first().changeset).toBeTruthy();
                 });
         });
     });
@@ -184,9 +184,9 @@ describe('Articles actions', () => {
 
             return dispatch(store, ArticleActions.restoreArticle(articleRestored.id))
                 .then((state) => {
-                    expect(ArticleSelectors.getArticle(state).id).toEqual(articleRestored.id);
-                    expect(ArticleSelectors.getArticle(state).title).toEqual(articleRestored.title);
-                    expect(ArticleSelectors.getArticleVersions(state)).toBeUndefined();
+                    expect(state.articleState.article.id).toEqual(articleRestored.id);
+                    expect(state.articleState.article.title).toEqual(articleRestored.title);
+                    expect(state.articleState.articleVersions).toBeUndefined();
                 });
         });
     });

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataSource name="PostgreSQL - InRailsWeBlog">
-  <database-model serializer="dbm" dbms="POSTGRES" family-id="POSTGRES" format-version="4.16">
+  <database-model serializer="dbm" dbms="POSTGRES" family-id="POSTGRES" format-version="4.17">
     <root id="1">
       <ServerVersion>11.3</ServerVersion>
     </root>
@@ -9,23 +9,23 @@
       <Owner>inrailsweblog</Owner>
       <IntrospectionStateNumber>45960</IntrospectionStateNumber>
       <Current>1</Current>
-      <Relations>sequence|table|16524|16519|1
-sequence|table|16619|16612|1
-sequence|table|16610|16604|1
+      <Relations>sequence|table|16517|16514|1
+sequence|table|16479|16476|1
+sequence|table|16419|16416|1
 sequence|table|16443|16421|1
-sequence|table|16579|16566|1
-sequence|table|16564|16547|1
-sequence|table|16408|16395|1
-sequence|table|16545|16526|1
-sequence|table|16465|16454|1
 sequence|table|16602|16581|1
-sequence|table|16489|16481|1
-sequence|table|16393|16387|1
+sequence|table|16564|16547|1
+sequence|table|16545|16526|1
+sequence|table|16408|16395|1
+sequence|table|16579|16566|1
 sequence|table|16474|16467|1
 sequence|table|16452|16445|1
-sequence|table|16479|16476|1
-sequence|table|16517|16514|1
-sequence|table|16419|16416|1
+sequence|table|16393|16387|1
+sequence|table|16465|16454|1
+sequence|table|16524|16519|1
+sequence|table|16619|16612|1
+sequence|table|16489|16481|1
+sequence|table|16610|16604|1
 </Relations>
     </database>
     <database id="3" parent="1" name="inrailsweblog_test">

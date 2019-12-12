@@ -4,6 +4,7 @@ module CommentConcern
   extend ActiveSupport::Concern
 
   included do
+    skip_before_action :set_context_user, only: [:comments]
     skip_before_action :authenticate_user!, only: [:comments]
     skip_after_action :verify_authorized, only: [:comments]
   end

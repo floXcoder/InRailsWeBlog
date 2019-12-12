@@ -23,7 +23,7 @@ const ArticleCardSort = ({classes, article}) => (
                 root: classes.content
             }}>
                 {
-                    article.tags.size > 0 &&
+                    article.tags.length > 0 &&
                     <ArticleTags articleId={article.id}
                                  tags={article.tags}
                                  parentTagIds={article.parentTagIds}

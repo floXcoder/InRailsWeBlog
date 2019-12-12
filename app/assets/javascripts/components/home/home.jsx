@@ -16,12 +16,6 @@ import {
 } from '../../actions';
 
 import {
-    getHomeArticles,
-    getPopularArticles,
-    getPopularTags
-} from '../../selectors';
-
-import {
     homeHomeLimit,
     homePopularsLimit,
 } from '../modules/constants';
@@ -32,9 +26,9 @@ import TagChipDisplay from '../tags/display/chip';
 import styles from '../../../jss/home/index';
 
 export default @connect((state) => ({
-    homeArticles: getHomeArticles(state),
-    popularArticles: getPopularArticles(state),
-    popularTags: getPopularTags(state)
+    homeArticles: state.articleState.homeArticles,
+    popularArticles: state.articleState.popularArticles,
+    popularTags: state.tagState.popularTags
 }), {
     fetchArticles,
     fetchTags

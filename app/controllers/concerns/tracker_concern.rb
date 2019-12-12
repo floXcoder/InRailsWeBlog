@@ -11,6 +11,8 @@ module TrackerConcern
     skip_before_action :authenticate_user!, only: [:clicked, :viewed]
     # For locale, skip locale set up
     skip_before_action :set_locale, only: [:clicked, :viewed]
+    # Do not set current user
+    skip_before_action :set_context_user, only: [:clicked, :viewed]
     # For pundit, skip authorization
     skip_after_action :verify_authorized, only: [:clicked, :viewed]
     # For Rails, skip token verification

@@ -8,39 +8,14 @@ import {
     createSelector
 } from 'reselect';
 
-export const getTags = createSelector(
-    (state) => state.tagState.tags,
-    (tags) => tags.toArray()
-);
-
-export const getTagMetaTags = createSelector(
-    (state) => state.tagState.metaTags,
-    (metaTags) => metaTags.toJS()
-);
-
-export const getTopicTags = createSelector(
-    (state) => state.tagState.topicTags,
-    (tags) => tags.toArray()
-);
-
 export const getPublicTags = createSelector(
     (state) => state.tagState.tags,
-    (tags) => tags.filter((tag) => tag.visibility === 'everyone').toArray()
+    (tags) => tags.filter((tag) => tag.visibility === 'everyone')
 );
 
 export const getPrivateTags = createSelector(
     (state) => state.tagState.tags,
-    (tags) => tags.filter((tag) => tag.visibility === 'only_me').toArray()
-);
-
-export const getPopularTags = createSelector(
-    (state) => state.tagState.popularTags,
-    (tags) => tags.toArray()
-);
-
-export const getTag = createSelector(
-    (state) => state.tagState.tag,
-    (tag) => tag
+    (tags) => tags.filter((tag) => tag.visibility === 'only_me')
 );
 
 export const getSortedTopicTags = createSelector(
@@ -49,8 +24,6 @@ export const getSortedTopicTags = createSelector(
     (state) => state.userState.user && state.userState.user.settings.tagOrder,
     (state) => state.tagState.filterText,
     (tags, displayChildWithParent, tagOrder, filterText) => {
-        tags = tags.toJS();
-
         if (tagOrder === 'priority') {
             tags = _.sortBy(tags, (t) => -t.priority);
         }
@@ -139,7 +112,7 @@ export const getCategorizedTags = createSelector(
 
 export const getCurrentTagSlugs = createSelector(
     (state) => state.tagState.currentTagSlugs,
-    (tags) => tags.toArray().compact()
+    (tags) => tags && tags.compact()
 );
 
 // export const getTagIsOwner = (state, tag) => (
@@ -149,14 +122,14 @@ export const getCurrentTagSlugs = createSelector(
 export const getTagErrors = createSelector(
     (state) => state.tagState.errors,
     (errors) => {
-        let errorContent = [];
+        let errorContent = undefined;
         if (typeof errors === 'string') {
             errorContent = [errors];
-        } else {
-            errors.mapKeys((errorName, errorDescriptions) => {
-                errorDescriptions = errorDescriptions.toJS();
+        } else if(!Utils.isEmpty(errors)) {
+            errorContent = [];
+            Object.entries(errors).forEach(([errorName, errorDescriptions]) => {
                 errorContent.push(I18n.t(`js.tag.model.${errorName}`) + ' ' + (Array.isArray(errorDescriptions) ? errorDescriptions.join(I18n.t('js.helpers.and')) : errorDescriptions));
-            }).toArray();
+            });
         }
         return errorContent;
     }

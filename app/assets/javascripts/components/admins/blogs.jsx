@@ -15,15 +15,11 @@ import {
     updateBlog
 } from '../../actions/admin';
 
-import {
-    getBlogs
-} from '../../selectors/admin';
-
 import AdminBlogCard from './blogs/card';
 import AdminBlogForm from './blogs/form';
 
 export default @connect((state) => ({
-    blogs: getBlogs(state)
+    blogs: state.adminState.blogs
 }), {
     fetchBlogs,
     addBlog,
@@ -137,7 +133,6 @@ class AdminBlogs extends React.Component {
                 {
                     (this.state.isAddingBlog || this.state.editingBlog) &&
                     <Paper className="paper-explanation margin-top-30 margin-bottom-40"
-                           style={{width: '95%'}}
                            elevation={1}>
                         <AdminBlogForm isNew={this.state.isNew}
                                        blog={this.state.editingBlog}

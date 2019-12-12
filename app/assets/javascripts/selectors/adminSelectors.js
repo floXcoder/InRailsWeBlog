@@ -10,7 +10,7 @@ export const getMetaResults = createSelector(
     (metaResults) => {
         let results = [];
 
-        Object.entries(metaResults.toJS()).forEach(([model, values]) => {
+        Object.entries(metaResults).forEach(([model, values]) => {
             values.map((value) => {
                 if(model === 'articles') {
                     results.push({
@@ -46,10 +46,4 @@ export const getMetaResults = createSelector(
 
         return results;
     }
-);
-
-// Blogs
-export const getBlogs = createSelector(
-    (state) => state.adminState.blogs,
-    (blogs) => blogs.toArray()
 );

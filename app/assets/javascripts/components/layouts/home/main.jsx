@@ -14,7 +14,6 @@ import {
 } from '@material-ui/core/styles';
 
 import RouteManager from '../../layouts/managers/route';
-import NotFound from '../../layouts/notFound';
 
 import styles from '../../../../jss/home/main';
 

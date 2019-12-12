@@ -89,7 +89,7 @@ test:rails:
     COVERAGE: "true"
   <<: *pull-cache
   script:
-    - bundle exec rspec --tag basic spec/
+    - bundle exec rspec --tag basic --format RspecJunitFormatter --out rspec.xml spec/
   interruptible: true
   only:
     - master

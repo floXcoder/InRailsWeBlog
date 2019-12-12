@@ -1,26 +1,17 @@
 'use strict';
 
-import {
-    Record,
-    Map,
-    List
-} from 'immutable';
-
 import * as ActionTypes from '../constants/actionTypes';
 
-import * as Records from '../constants/records';
-
 import {
-    toList,
     fetchReducer,
     mutationReducer
 } from './mutators';
 
-const initState = new Record({
+const initState = {
     // Required for fetchReducer/mutationReducer
     isFetching: false,
     isProcessing: false,
-    errors: new Map(),
+    errors: undefined,
 
     currentId: window.currentUserId ? parseInt(window.currentUserId, 10) : undefined,
     currentSlug: window.currentUserSlug,
@@ -28,78 +19,66 @@ const initState = new Record({
     isLoaded: false,
     isAdminConnected: !!window.currentAdminId,
 
-    users: new List(),
-    metaTags: new Map(),
-    pagination: new Map(),
+    users: [],
+    metaTags: {},
+    pagination: {},
 
     user: undefined,
 
-    recentTopics: new List(),
-    recentTags: new List(),
-    recentArticles: new List()
-});
+    recentTopics: [],
+    recentTags: [],
+    recentArticles: []
+};
 
-export default function userReducer(state = new initState(), action) {
+export default function userReducer(state = initState, action) {
     switch (action.type) {
         case ActionTypes.USER_FETCH_INIT:
         case ActionTypes.USER_FETCH_SUCCESS:
         case ActionTypes.USER_FETCH_ERROR:
-            return fetchReducer(state, action, (payload) => {
-                if (payload.connection) {
-                    window.currentUserId = payload.user.id;
+            return fetchReducer(state, action, (state) => {
+                if (action.connection) {
+                    window.currentUserId = action.user.id;
 
-                    return {
-                        currentId: payload.user.id,
-                        user: new Records.UserRecord(payload.user),
-                        isLoaded: payload.connection && !!payload.user,
-                        isConnected: true
-                    };
-                } else if (payload.user) {
-                    return {
-                        user: new Records.UserRecord(payload.user),
-                        isLoaded: payload.connection && !!payload.user
-                    };
+                    state.currentId = action.user.id;
+                    state.user = action.user;
+                    state.isLoaded = action.connection && !!action.user;
+                    state.isConnected = true;
+                } else if (action.user) {
+                    state.user = action.user;
+                    state.isLoaded = action.connection && !!action.user;
                 } else {
-                    return {
-                        users: toList(payload.users, Records.UserRecord)
-                    };
+                    state.users = action.users
                 }
-            }, ['connection']);
+            });
 
         case ActionTypes.USER_CHANGE_INIT:
         case ActionTypes.USER_CHANGE_SUCCESS:
         case ActionTypes.USER_CHANGE_ERROR:
-            return mutationReducer(state, action, (payload) => {
-                if (payload.connection) {
-                    window.currentUserId = payload.user.id;
+            return mutationReducer(state, action, (state) => {
+                if (action.connection) {
+                    window.currentUserId = action.user.id;
 
-                    return {
-                        currentId: payload.user.id,
-                        user: new Records.UserRecord(payload.user),
-                        isConnected: true
-                    };
-                } else if (payload.settings && (!payload.meta || !payload.meta.topic)) {
-                    return {
-                        user: state.user && state.user.merge({settings: new Records.SettingsRecord(payload.settings)})
-                    };
-                } else if (payload.user) {
-                    return {
-                        user: new Records.UserRecord(payload.user)
-                    };
-                } else {
-                    return {};
+                    state.currentId = action.user.id;
+                    state.user = action.user;
+                    state.isConnected = true;
+                } else if (action.settings && (!action.meta || !action.meta.topic)) {
+                    state.user = state.user && {...state.user, settings: action.settings};
+                } else if (action.user) {
+                    state.user = action.user;
                 }
-            }, ['connection', 'settings', 'meta']);
+            });
 
         case ActionTypes.USER_RECENTS:
         case ActionTypes.USER_RECENTS_CHANGE_INIT:
         case ActionTypes.USER_RECENTS_CHANGE_SUCCESS:
         case ActionTypes.USER_RECENTS_CHANGE_ERROR:
-            return state.merge({
-                recentTopics: toList(action.topics, Records.TopicRecord),
-                recentTags: toList(action.tags, Records.TagRecord),
-                recentArticles: toList(action.articles, Records.ArticleRecord)
-            });
+            if(action.local) {
+            } else {
+                state.recentTopics = action.topics;
+                state.recentTags = action.tags;
+                state.recentArticles = action.articles;
+            }
+            return state;
 
         default:
             return state;

@@ -4,18 +4,13 @@ import {
     fetchComments
 } from '../../actions';
 
-import {
-    getComments,
-    getCommentPagination
-} from '../../selectors';
-
 import CommentTableDisplay from './display/table';
 
 export default @connect((state, props) => ({
     hasInitialComments: !Utils.isEmpty(props.comments),
     isLoading: state.commentState.isFetching,
-    comments: props.comments || getComments(state),
-    commentPagination: getCommentPagination(state)
+    comments: props.comments || state.commentState.comments,
+    commentPagination: state.commentState.pagination
 }), {
     fetchComments
 })

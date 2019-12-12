@@ -28,10 +28,8 @@ import {
 } from '../../actions';
 
 import {
-    getUser,
     getPublicTopics,
-    getPrivateTopics,
-    getContributedTopics
+    getPrivateTopics
 } from '../../selectors';
 
 import Loader from '../theme/loader';
@@ -42,10 +40,10 @@ import styles from '../../../jss/user/home';
 
 export default @connect((state) => ({
     isFetching: state.userState.isFetching,
-    user: getUser(state),
+    user: state.userState.user,
     publicTopics: getPublicTopics(state),
     privateTopics: getPrivateTopics(state),
-    contributedTopics: getContributedTopics(state)
+    contributedTopics: state.topicState.contributedTopics
 }))
 @hot
 @withStyles(styles)

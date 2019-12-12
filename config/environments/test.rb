@@ -57,6 +57,6 @@ Rails.application.configure do
   # Logs
   unless ENV['RAILS_ENABLE_TEST_LOG']
     config.logger    = Logger.new(nil)
-    config.log_level = :error
+    config.log_level = :info
   end
 end

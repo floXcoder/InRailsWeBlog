@@ -14,9 +14,10 @@ export const fetchArticles = (filter = {}, options = {}, payload = {}) => ({
     payload
 });
 
-export const fetchArticle = (articleId, options = {}) => ({
+export const fetchArticle = (userId, articleId, options = {}) => ({
     actionType: ActionTypes.ARTICLE,
     fetchAPI: () => api.get(options.edit ? `/api/v1/articles/${articleId}/edit` : `/api/v1/articles/${articleId}`, {
+        userId: userId,
         ...options
     })
 });

@@ -11,9 +11,7 @@ import {
 
 import {
     getArticlesCount,
-    getCategorizedArticles,
-    getArticlePagination,
-    getCurrentArticles
+    getCategorizedArticles
 } from '../../selectors';
 
 import ArticleOrderDisplay from './display/order';
@@ -29,8 +27,8 @@ export default @connect((state, props) => ({
     articleOrderMode: state.uiState.articleOrderMode,
     articlesCount: getArticlesCount(state),
     categorizedArticles: getCategorizedArticles(state, props),
-    articlePagination: getArticlePagination(state),
-    currentArticles: getCurrentArticles(state)
+    articlePagination: state.articleState.pagination,
+    currentArticles: state.uiState.currentArticles
 }), {
     switchArticleMinimized,
     updateUserSettings

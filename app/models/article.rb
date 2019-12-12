@@ -488,7 +488,7 @@ class Article < ApplicationRecord
   def add_visit_activity(user_id = nil, parent_id = nil)
     return unless user_id
 
-    user = User.find_by(id: user_id)
+    user = self.user || User.find_by(id: user_id)
     return unless user
 
     user.create_activity(:visit, recipient: self, owner: user, params: { topic_id: parent_id })

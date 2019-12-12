@@ -11,7 +11,7 @@ import {
 } from 'react-router-dom';
 
 import {
-    ImmutableLoadingBar as LoadingBar
+    LoadingBar
 } from 'react-redux-loading-bar';
 
 import {
@@ -44,17 +44,12 @@ import {
     showUserLogin
 } from '../../../actions';
 
-import {
-    getRouteProperties,
-    getRouteLocation
-} from '../../../selectors';
-
 import styles from '../../../../jss/home/header';
 
 export default @withRouter
 @connect((state) => ({
-    routeProperties: getRouteProperties(state),
-    routeLocation: getRouteLocation(state),
+    routeProperties: state.routerState.currentRoute,
+    routeLocation: state.routerState.location,
     isUserSignupOpen: state.uiState.isUserSignupOpen,
     isUserLoginOpen: state.uiState.isUserLoginOpen
 }), {

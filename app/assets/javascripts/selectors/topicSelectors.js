@@ -5,47 +5,17 @@ import {
 } from 'reselect';
 
 // Topics
-export const getTopics = createSelector(
-    (state) => state.topicState.topics,
-    (topics) => topics.toArray()
-);
-
-export const getTopicMetaTags = createSelector(
-    (state) => state.topicState.metaTags,
-    (metaTags) => metaTags.toJS()
-);
-
-export const getTopicPagination = createSelector(
-    (state) => state.topicState.pagination,
-    (pagination) => pagination.toJS()
-);
-
-export const getUserTopics = createSelector(
-    (state) => state.topicState.userTopics,
-    (topics) => topics.toArray()
-);
-
-export const getContributedTopics = createSelector(
-    (state) => state.topicState.contributedTopics,
-    (topics) => topics.toArray()
-);
-
 export const getPublicTopics = createSelector(
     (state) => state.topicState.userTopics,
-    (topics) => topics.filter((topic) => topic.visibility === 'everyone').sort((a, b) => b.priority - a.priority).toArray()
+    (topics) => topics.filter((topic) => topic.visibility === 'everyone').sort((a, b) => b.priority - a.priority)
 );
 
 export const getPrivateTopics = createSelector(
     (state) => state.topicState.userTopics,
-    (topics) => topics.filter((topic) => topic.visibility === 'only_me').sort((a, b) => b.priority - a.priority).toArray()
+    (topics) => topics.filter((topic) => topic.visibility === 'only_me').sort((a, b) => b.priority - a.priority)
 );
 
 // Topic
-export const getTopic = createSelector(
-    (state) => state.topicState.topic,
-    (topic) => topic
-);
-
 export const getEditingTopic = createSelector(
     (state) => state.topicState.userTopics,
     (_, routerState) => routerState && routerState.topicId,
@@ -64,18 +34,13 @@ export const getStoryTopic = createSelector(
     (topic, articles) => {
         if (topic) {
             return topic;
-        } else if (articles && articles.size > 0) {
+        } else if (articles && articles.length > 0) {
             return articles.first().topic;
         }
     }
 );
 
 // Current topic of user
-export const getCurrentUserTopic = createSelector(
-    (state) => state.topicState.currentTopic,
-    (topic) => topic
-);
-
 export const getCurrentUserTopicVisibility = createSelector(
     (state) => state.topicState.currentTopic,
     (topic) => topic && topic.visibility
@@ -103,14 +68,14 @@ export const getIsCurrentTopicOwner = createSelector(
 export const getTopicErrors = createSelector(
     (state) => state.topicState.errors,
     (errors) => {
-        let errorContent = [];
+        let errorContent = undefined;
         if (typeof errors === 'string') {
             errorContent = [errors];
-        } else {
-            errors.mapKeys((errorName, errorDescriptions) => {
-                errorDescriptions = errorDescriptions.toJS();
+        } else if(!Utils.isEmpty(errors)) {
+            errorContent = [];
+            Object.entries(errors).forEach(([errorName, errorDescriptions]) => {
                 errorContent.push(I18n.t(`js.topic.model.${errorName}`) + ' ' + (Array.isArray(errorDescriptions) ? errorDescriptions.join(I18n.t('js.helpers.and')) : errorDescriptions));
-            }).toArray();
+            });
         }
         return errorContent;
     }

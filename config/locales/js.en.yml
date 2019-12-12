@@ -483,6 +483,7 @@ en:
         history: "See article history"
         link: "This is a link"
         link_to: "Go to article"
+        topic_link: "Got to the topic"
         cancel: "Cancel"
         update: "Update"
         share: "Share this article"

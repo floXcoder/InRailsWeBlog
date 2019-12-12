@@ -16,7 +16,7 @@ const MultipleSelectFormField = ({input, label, helperText, options, meta: {touc
 
         <Select multiple={true}
                 input={<Input {...input}/>}
-                value={typeof input.value.size !== 'undefined' ? input.value.toJS() : input.value}
+                value={input.value}
                 error={touched && !!error}
                 renderValue={(selected) => (
                     <div style={{

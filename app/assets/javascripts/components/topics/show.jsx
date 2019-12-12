@@ -24,10 +24,6 @@ import {
     spyTrackClick
 } from '../../actions';
 
-import {
-    getTopicMetaTags
-} from '../../selectors';
-
 import UserAvatarIcon from '../users/icons/avatar';
 
 import Loader from '../theme/loader';
@@ -38,8 +34,8 @@ import NotFound from '../layouts/notFound';
 import styles from '../../../jss/topic/show';
 
 export default @connect((state) => ({
-    metaTags: getTopicMetaTags(state),
-    userId: state.userState.currentId,
+    metaTags: state.topicState.metaTags,
+    currentUserId: state.userState.currentId,
     isFetching: state.topicState.isFetching,
     topic: state.topicState.topic
 }), {
@@ -53,7 +49,7 @@ class TopicShow extends React.Component {
         routeParams: PropTypes.object.isRequired,
         // from connect
         metaTags: PropTypes.object,
-        userId: PropTypes.number,
+        currentUserId: PropTypes.number,
         isFetching: PropTypes.bool,
         topic: PropTypes.object,
         fetchTopic: PropTypes.func,
@@ -83,7 +79,7 @@ class TopicShow extends React.Component {
     _handleTopicDelete = (event) => {
         event.preventDefault();
 
-        this.props.deleteTopic(this.props.userId, this.props.topic.id)
+        this.props.deleteTopic(this.props.currentUserId, this.props.topic.id)
             .then(() => window.location = '/');
     };
 

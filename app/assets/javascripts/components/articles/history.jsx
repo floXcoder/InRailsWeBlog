@@ -19,10 +19,7 @@ import {
 } from '../../actions';
 
 import {
-    getArticleMetaTags,
-    getCurrentUserTopic,
-    getCurrentUser,
-    getArticleVersions
+    getCurrentUser
 } from '../../selectors';
 
 import highlight from '../modules/highlight';
@@ -39,11 +36,11 @@ import styles from '../../../jss/article/history';
 
 export default @withRouter
 @connect((state) => ({
-    metaTags: getArticleMetaTags(state),
+    metaTags: state.articleState.metaTags,
     currentUser: getCurrentUser(state),
-    currentTopic: getCurrentUserTopic(state),
+    currentTopic: state.topicState.currentTopic,
     article: state.articleState.article,
-    articleVersions: getArticleVersions(state)
+    articleVersions: state.articleState.articleVersions
 }), {
     fetchArticle,
     fetchArticleHistory,
@@ -77,7 +74,7 @@ class ArticleHistory extends React.Component {
     }
 
     componentDidMount() {
-        this.props.fetchArticle(this.props.routeParams.articleSlug)
+        this.props.fetchArticle(this.props.routeParams.userSlug, this.props.routeParams.articleSlug)
             .fetch
             .then(() => this.props.fetchArticleHistory(this.props.routeParams.articleSlug));
     }

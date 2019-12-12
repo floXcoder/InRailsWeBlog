@@ -18,10 +18,6 @@ import {
     fetchSharedArticle
 } from '../../actions';
 
-import {
-    getArticleMetaTags
-} from '../../selectors';
-
 import highlight from '../modules/highlight';
 
 import Loader from '../theme/loader';
@@ -33,7 +29,7 @@ import styles from '../../../jss/article/show';
 
 export default @withRouter
 @connect((state) => ({
-    metaTags: getArticleMetaTags(state),
+    metaTags: state.articleState.metaTags,
     isFetching: state.articleState.isFetching,
     article: state.articleState.article
 }), {

@@ -114,7 +114,7 @@ class TagSidebarLayout extends React.PureComponent {
             <Drawer anchor="left"
                     variant="permanent"
                     classes={{
-                        paper: classNames(this.props.classes.drawerPaper, !this.state.isExpanded && this.props.classes.drawerPaperClose),
+                        paper: classNames(this.props.classes.drawerPaper, this.props.classes.drawerPaperOverflow, !this.state.isExpanded && this.props.classes.drawerPaperClose),
                     }}
                     open={this.state.isExpanded}
                     onMouseOver={this._handleDrawerOver}

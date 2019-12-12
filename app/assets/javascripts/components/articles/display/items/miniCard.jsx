@@ -13,6 +13,7 @@ import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import Chip from '@material-ui/core/Chip';
+import Paper from '@material-ui/core/Paper';
 
 import LabelIcon from '@material-ui/icons/Label';
 
@@ -29,6 +30,7 @@ export default @highlight()
 class ArticleMiniCardDisplay extends React.Component {
     static propTypes = {
         article: PropTypes.object.isRequired,
+        isPaper: PropTypes.bool,
         hasTags: PropTypes.bool,
         isTagDown: PropTypes.bool,
         // from styles
@@ -36,6 +38,7 @@ class ArticleMiniCardDisplay extends React.Component {
     };
 
     static defaultProps = {
+        isPaper: false,
         hasTags: true,
         isTagDown: false
     };
@@ -64,9 +67,10 @@ class ArticleMiniCardDisplay extends React.Component {
         )
     };
 
-    render() {
+    _renderCard = () => {
         return (
-            <Card className={this.props.classes.card}
+            <Card id={`article-${this.props.article.id}`}
+                  className={this.props.classes.card}
                   component="article">
                 <CardHeader classes={{
                     root: this.props.classes.header,
@@ -74,7 +78,7 @@ class ArticleMiniCardDisplay extends React.Component {
                 }}
                             title={
                                 <Link to={`/users/${this.props.article.user.slug}/articles/${this.props.article.slug}`}
-                                      onClick={spyTrackClick.bind(null, 'tag', this.props.article.id, this.props.article.slug, this.props.article.title)}>
+                                      onClick={spyTrackClick.bind(null, 'article', this.props.article.id, this.props.article.slug, this.props.article.title)}>
                                     <h1 className={this.props.classes.extractTitle}>
                                         {this.props.article.title}
                                     </h1>
@@ -166,5 +170,18 @@ class ArticleMiniCardDisplay extends React.Component {
                 </CardContent>
             </Card>
         );
+    };
+
+    render() {
+        if (this.props.isPaper) {
+            return (
+                <Paper className={this.props.classes.paper}
+                       elevation={0}>
+                    {this._renderCard()}
+                </Paper>
+            )
+        } else {
+            return this._renderCard();
+        }
     }
 }

@@ -27,7 +27,7 @@ import ArticleFormDisplay from './display/form';
 
 import styles from '../../../jss/article/form';
 
-export default @articleMutationManager('new', `article-${Utils.uuid()}`)
+export default @articleMutationManager('new')
 @connect((state) => ({
     userSlug: state.userState.currentSlug,
     inheritVisibility: getCurrentUserTopicVisibility(state)
@@ -39,14 +39,14 @@ export default @articleMutationManager('new', `article-${Utils.uuid()}`)
 class ArticleNew extends React.Component {
     static propTypes = {
         // from articleMutationManager
-        formId: PropTypes.string,
         currentUser: PropTypes.object,
         currentTopic: PropTypes.object,
         article: PropTypes.object,
         currentMode: PropTypes.string,
         pasteContent: PropTypes.string,
         articleErrors: PropTypes.array,
-        onCancelClick: PropTypes.func,
+        onCancel: PropTypes.func,
+        onFormChange: PropTypes.func,
         onSubmit: PropTypes.func,
         // from connect
         userSlug: PropTypes.string,
@@ -79,7 +79,7 @@ class ArticleNew extends React.Component {
             );
         }
 
-        const initialValues = {
+        const article = {
             topicId: this.props.currentTopic.id,
             picture_ids: '',
             visibility: this.props.inheritVisibility,
@@ -92,21 +92,21 @@ class ArticleNew extends React.Component {
         if (this.props.pasteContent) {
             isPaste = true;
 
-            initialValues.isDraft = true;
+            article.isDraft = true;
 
             const isURL = Utils.isURL(this.props.pasteContent.trim());
 
             if (isURL) {
-                initialValues.mode = 'link';
-                initialValues.reference = this.props.pasteContent.trim();
+                article.mode = 'link';
+                article.reference = this.props.pasteContent.trim();
             } else {
-                initialValues.mode = 'story';
-                initialValues.content = this.props.pasteContent;
+                article.mode = 'story';
+                article.content = this.props.pasteContent;
             }
         }
 
         let errorStep = null;
-        if (this.props.articleErrors.length > 0) {
+        if (this.props.articleErrors && this.props.articleErrors.length > 0) {
             if (this.props.articleErrors.some((error) => error.includes('Tags') || error.includes('Labels'))) {
                 errorStep = 'tag';
             } else {
@@ -130,16 +130,17 @@ class ArticleNew extends React.Component {
                     }
                 </div>
 
-                <ArticleFormDisplay form={this.props.formId}
-                                    initialValues={initialValues}
+                <ArticleFormDisplay article={article}
                                     isPaste={isPaste}
                                     inheritVisibility={this.props.inheritVisibility}
                                     userSlug={this.props.userSlug}
+                                    currentUser={this.props.currentUser}
                                     currentTopic={this.props.currentTopic}
                                     currentMode={this.props.currentMode}
                                     errorStep={errorStep}
                                     articleErrors={this.props.articleErrors}
-                                    onCancelClick={this.props.onCancelClick}
+                                    onFormChange={this.props.onFormChange}
+                                    onCancel={this.props.onCancel}
                                     onSubmit={this.props.onSubmit}>
                     {this.props.article}
                 </ArticleFormDisplay>

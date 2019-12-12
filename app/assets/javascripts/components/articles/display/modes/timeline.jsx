@@ -6,14 +6,10 @@ import {
 
 import AssignmentIcon from '@material-ui/icons/Assignment';
 
-import {
-    getArticles
-} from '../../../../selectors';
-
 import ArticleSummaryDisplay from '../items/summary';
 
 export default @connect((state) => ({
-    articles: getArticles(state),
+    articles: state.articleState.articles,
     articleDisplayMode: state.uiState.articleDisplayMode
 }))
 @hot

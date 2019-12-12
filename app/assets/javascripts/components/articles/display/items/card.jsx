@@ -215,7 +215,7 @@ class ArticleCardDisplay extends React.PureComponent {
                             <CardActions className={this.props.classes.actions}
                                          disableSpacing={true}>
                                 {
-                                    this.props.article.tags.size > 0 &&
+                                    this.props.article.tags.length > 0 &&
                                     <ArticleTags articleId={this.props.article.id}
                                                  tags={this.props.article.tags}
                                                  currentUserSlug={this.props.currentUserSlug}

@@ -32,7 +32,7 @@ import styles from '../../../jss/topic/persistence';
 
 export default @withRouter
 @connect((state, props) => ({
-    userId: state.userState.currentId,
+    currentUserId: state.userState.currentId,
     userSlug: state.userState.currentSlug,
     editingTopic: getEditingTopic(state, props.routeState)
 }), {
@@ -50,7 +50,7 @@ class TopicPersistence extends React.Component {
         // from router
         history: PropTypes.object,
         // from connect
-        userId: PropTypes.number,
+        currentUserId: PropTypes.number,
         userSlug: PropTypes.string,
         editingTopic: PropTypes.object,
         addTopic: PropTypes.func,
@@ -86,7 +86,7 @@ class TopicPersistence extends React.Component {
 
     _handleTopicSubmit = (topicName, topicMode, topicDescription, topicVisibility) => {
         if (this.props.editingTopic) {
-            this.props.updateTopic(this.props.userId, {
+            this.props.updateTopic(this.props.currentUserId, {
                 id: this.props.editingTopic.id,
                 name: topicName,
                 mode: topicMode,
@@ -105,7 +105,7 @@ class TopicPersistence extends React.Component {
                     }
                 });
         } else {
-            this.props.addTopic(this.props.userId, {
+            this.props.addTopic(this.props.currentUserId, {
                 name: topicName,
                 mode: topicMode,
                 description: topicDescription,
@@ -142,7 +142,7 @@ class TopicPersistence extends React.Component {
     };
 
     _handleTopicDelete = (topicId) => {
-        this.props.deleteTopic(this.props.userId, topicId)
+        this.props.deleteTopic(this.props.currentUserId, topicId)
             .then(() => this.props.showTopicPopup())
             .then(() => this.setState({
                 isOpen: false

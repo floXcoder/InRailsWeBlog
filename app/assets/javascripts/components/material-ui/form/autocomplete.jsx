@@ -5,7 +5,7 @@ import Autocomplete from '../../theme/autocomplete';
 const AutocompleteFormField = ({input, label, helperText, meta: {touched, error}, ...custom}) => (
     <Autocomplete {...input}
                   label={label}
-                  value={typeof input.value.size !== 'undefined' ? input.value.toJS() : input.value}
+                  value={input.value}
                   helperText={!!error ? error : helperText}
                   error={touched && !!error}
                   {...custom}/>

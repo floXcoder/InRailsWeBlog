@@ -35,10 +35,8 @@ import {
 } from '../../actions';
 
 import {
-    getArticleMetaTags,
     getArticleSiblingStories,
     getCurrentUser,
-    getCurrentUserTopic,
     getIsCurrentTopicOwner,
     getArticleIsOwner
 } from '../../selectors';
@@ -75,9 +73,9 @@ import styles from '../../../jss/article/show';
 
 export default @withRouter
 @connect((state, props) => ({
-    metaTags: getArticleMetaTags(state),
+    metaTags: state.articleState.metaTags,
     currentUser: getCurrentUser(state),
-    currentTopic: getCurrentUserTopic(state),
+    currentTopic: state.topicState.currentTopic,
     isCurrentTopicOwner: getIsCurrentTopicOwner(state, props.routeParams),
     isFetching: state.articleState.isFetching,
     article: state.articleState.article,
@@ -130,7 +128,7 @@ class ArticleShow extends React.Component {
     }
 
     componentDidMount() {
-        this._request = this.props.fetchArticle(this.props.routeParams.articleSlug);
+        this._request = this.props.fetchArticle(this.props.routeParams.userSlug, this.props.routeParams.articleSlug);
 
         this._fetchStories();
 
@@ -147,7 +145,7 @@ class ArticleShow extends React.Component {
         }
 
         if (!Object.equals(this.props.routeParams, prevProps.routeParams)) {
-            this._request = this.props.fetchArticle(this.props.routeParams.articleSlug);
+            this._request = this.props.fetchArticle(this.props.routeParams.userSlug, this.props.routeParams.articleSlug);
         }
 
         this._fetchStories();
@@ -229,7 +227,8 @@ class ArticleShow extends React.Component {
 
                     {
                         isStories &&
-                        <SummaryStoriesTopic topic={this.props.article.topic}/>
+                        <SummaryStoriesTopic userSlug={this.props.routeParams.userSlug}
+                                             topic={this.props.article.topic}/>
                     }
 
                     {
@@ -258,11 +257,13 @@ class ArticleShow extends React.Component {
                                                                   display="item"
                                                                   size="default"
                                                                   color="action"
+                                                                  history={this.props.history}
                                                                   isOwner={this.props.isOwner}
                                                                   userSlug={this.props.article.user.slug}
                                                                   articleId={this.props.article.id}
                                                                   articleSlug={this.props.article.slug}
-                                                                  articleTitle={this.props.article.title}/>
+                                                                  articleTitle={this.props.article.title}
+                                                                  topicSlug={this.props.article.slug.split('@').last()}/>
                                         )}
                                     </Sticky>
                                 </div>
@@ -330,7 +331,7 @@ class ArticleShow extends React.Component {
 
                                 {
                                     this.props.article.mode === 'inventory'
-                                    ?
+                                        ?
                                         <ArticleInventoryDisplay inventories={this.props.article.inventories}/>
                                         :
                                         <div className={classNames('normalized-content')}
@@ -350,7 +351,7 @@ class ArticleShow extends React.Component {
 
                                 <div className={this.props.classes.actions}>
                                     {
-                                        this.props.article.tags.size > 0 &&
+                                        this.props.article.tags.length > 0 &&
                                         <ArticleTags articleId={this.props.article.id}
                                                      tags={this.props.article.tags}
                                                      parentTagIds={this.props.article.parentTagIds}

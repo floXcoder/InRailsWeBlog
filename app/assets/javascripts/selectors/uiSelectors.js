@@ -14,9 +14,3 @@ export const getSidebarState = createSelector(
     (_, isCloud) => isCloud,
     (isTagSidebarOpen, isCloud) => isCloud ? true : isTagSidebarOpen
 );
-
-// Articles
-export const getCurrentArticles = createSelector(
-    (state) => state.uiState.currentArticles,
-    (articles) => articles.toArray()
-);

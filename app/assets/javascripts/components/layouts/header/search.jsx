@@ -25,10 +25,6 @@ import {
 } from '../../../actions';
 
 import {
-    getAutocompleteSelectedTags
-} from '../../../selectors';
-
-import {
     maxSearchRate,
     autocompleteLimit
 } from '../../modules/constants';
@@ -42,7 +38,7 @@ export default @withRouter
     query: state.autocompleteState.query,
     currentUserId: state.userState.currentId,
     currentUserTopicId: state.topicState.currentUserTopicId,
-    selectedTags: getAutocompleteSelectedTags(state),
+    selectedTags: state.autocompleteState.selectedTags,
     highlightedTag: state.autocompleteState.highlightedTag,
     highlightedArticle: state.autocompleteState.highlightedArticle
 }), {
@@ -96,7 +92,7 @@ class HomeSearchHeader extends React.Component {
     };
 
     _handleFetch = _.debounce((query) => {
-        if(this._request) {
+        if (this._request) {
             this._request.signal.abort();
         }
 
@@ -248,9 +244,11 @@ class HomeSearchHeader extends React.Component {
                                onChange={this._handleChange}/>
                     </div>
 
-                    <button className="search-header-submit"
+                    <button style={{display: 'none'}}
                             type="submit"
-                            name="action"/>
+                            name="action">
+                        Search
+                    </button>
                 </div>
             </form>
         );

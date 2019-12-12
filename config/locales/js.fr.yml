@@ -318,7 +318,7 @@ fr:
           only_me: "Privé"
         mode:
           default: "Défaut"
-          stories: "Histoire"
+          stories: "Storie"
           inventories: "Inventaire"
       show:
         share: "Partager ce thème"
@@ -425,9 +425,9 @@ fr:
         no_results:
           topic:
             title:
-              default: "Pas encore d'articles associés à ce thème"
-              tag: "Pas encore d'articles associés à ce thème pour ce label"
-              child_tag: "Pas encore d'articles associés à ce thème pour ce sous-label"
+              default: "Ajouter un article à ce thème"
+              tag: "Ajouter un article à ce thème pour ce label"
+              child_tag: "Ajouter un article à ce thème pour ce sous-label"
             button: "Ajouter nouvel article"
           search:
             title: "Pas d'articles trouvés"
@@ -483,6 +483,7 @@ fr:
         history: "Voir les anciennes révisions de l'article"
         link: "C'est un lien"
         link_to: "Aller vers l'article"
+        topic_link: "Aller vers le thème"
         cancel: "Annuler"
         update: "Mettre à jour"
         share: "Partager cet article"

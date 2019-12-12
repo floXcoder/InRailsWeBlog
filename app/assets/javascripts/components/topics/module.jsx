@@ -17,16 +17,12 @@ import {
     spyTrackClick
 } from '../../actions';
 
-import {
-    getUserTopics
-} from '../../selectors';
-
 import styles from '../../../jss/topic/module';
 
 export default @connect((state) => ({
     userSlug: state.userState.currentSlug,
     currentUserTopicId: state.topicState.currentUserTopicId,
-    topics: getUserTopics(state)
+    topics: state.topicState.userTopics
 }), {
     showTopicPopup
 })

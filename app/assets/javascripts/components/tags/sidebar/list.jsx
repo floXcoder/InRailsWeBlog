@@ -9,6 +9,8 @@ import Zoom from '@material-ui/core/Zoom';
 
 import OpenInNewIcon from '@material-ui/icons/OpenInNew';
 
+import Scrollbar from '../../theme/scrollbar';
+
 import TagRelationshipDisplay from '../display/relationship';
 
 export default class TagSidebarList extends React.Component {
@@ -94,12 +96,14 @@ export default class TagSidebarList extends React.Component {
                     <div className={classNames(this.props.classes.tags,
                         {[this.props.classes.tagsOpen]: this.props.isOpen})
                     }>
-                        <TagRelationshipDisplay tags={this.props.tags}
-                                                hasChildInMainList={this.props.hasChildInMainList}
-                                                currentTagSlug={this.props.currentTagSlug}
-                                                currentChildTagSlug={this.props.currentChildTagSlug}
-                                                isFiltering={isFiltering}
-                                                onTagClick={this.props.onTagClick}/>
+                        <Scrollbar>
+                            <TagRelationshipDisplay tags={this.props.tags}
+                                                    hasChildInMainList={this.props.hasChildInMainList}
+                                                    currentTagSlug={this.props.currentTagSlug}
+                                                    currentChildTagSlug={this.props.currentChildTagSlug}
+                                                    isFiltering={isFiltering}
+                                                    onTagClick={this.props.onTagClick}/>
+                        </Scrollbar>
                     </div>
                 }
 
