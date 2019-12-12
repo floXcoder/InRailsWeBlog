@@ -6,9 +6,9 @@ import {
 } from 'react-router-dom';
 
 import {
-    reduxForm,
+    Form,
     Field
-} from 'redux-form/immutable';
+} from 'react-final-form';
 
 import {
     withStyles
@@ -19,32 +19,20 @@ import {
     validateTopic
 } from '../../../forms/topic';
 
-import TopicErrorField from './fields/error';
-
 import EditorField from '../../editor/form/editor';
 
 import TextFormField from '../../material-ui/form/text';
 
 import styles from '../../../../jss/topic/form';
 
-export default @reduxForm({
-    form: 'topic',
-    validateTopic,
-    enableReinitialize: true
-})
-@withStyles(styles)
+export default @withStyles(styles)
 class TopicFormDisplay extends React.Component {
     static propTypes = {
         id: PropTypes.string.isRequired,
-        topicId: PropTypes.number.isRequired,
+        topic: PropTypes.number.isRequired,
+        onSubmit: PropTypes.func.isRequired,
         isEditing: PropTypes.bool,
         children: PropTypes.object,
-        topicErrors: PropTypes.array,
-        // from reduxForm
-        handleSubmit: PropTypes.func,
-        submitting: PropTypes.bool,
-        submitSucceeded: PropTypes.bool,
-        dirty: PropTypes.bool,
         // from styles
         classes: PropTypes.object
     };
@@ -64,101 +52,105 @@ class TopicFormDisplay extends React.Component {
 
     render() {
         return (
-            <form id={this.props.id}
-                  onSubmit={this.props.handleSubmit}>
-                <Prompt when={this.props.dirty && !this.props.submitSucceeded}
-                        message={this._onUnsavedExit}/>
+            <Form initialValues={this.props.topic}
+                  validate={validateTopic}
+                  onSubmit={this.props.onSubmit}>
+                {
+                    ({handleSubmit, dirty, submitting}) => (
+                        <form id={this.props.id}
+                              onSubmit={handleSubmit}>
+                            <Prompt when={dirty}
+                                    message={this._onUnsavedExit}/>
 
-                <div className="row">
-                    {
-                        this.props.children.name &&
-                        <div className="col s12">
-                            <h1>
-                                {I18n.t('js.topic.edit.title', {topic: this.props.children.name})}
-                            </h1>
-                        </div>
-                    }
-
-                    {
-                        this.props.topicErrors &&
-                        <div className="col s12">
-                            <TopicErrorField errors={this.props.topicErrors}/>
-                        </div>
-                    }
-
-                    <div className="col s12">
-                        <Field name="name"
-                               component={TextFormField}
-                               className={this.props.classes.name}
-                               InputLabelProps={{
-                                   classes: {
-                                       root: this.props.classes.nameLabel
-                                   }
-                               }}
-                               InputProps={{
-                                   classes: {
-                                       underline: !this.props.children.name && this.props.classes.nameUnderline
-                                   }
-                               }}
-                               id="topic_name"
-                               label={I18n.t('js.topic.common.placeholders.name')}
-                               autoFocus={true}
-                               required={true}
-                               color="primary"/>
-                    </div>
-
-                    <div className="col s12 margin-top-25">
-                        <Field name="description"
-                               component={EditorField}
-                               id="topic_description"
-                               modelName="topic"
-                               modelId={this.props.topicId}
-                               placeholder={I18n.t('js.topic.common.placeholders.description')}
-                               onSubmit={this.props.handleSubmit}
-                               componentContent={this.props.children.description}/>
-                    </div>
-
-                    <div className="col s12 center-align margin-top-35">
-                        <Button color="primary"
-                                variant="outlined"
-                                size="small"
-                                component={Link}
-                                to={`/users/${this.props.children.user.slug}/topics/${this.props.children.slug}/edit-inventories`}>
-                            {I18n.t('js.topic.edit.update_inventories')}
-                        </Button>
-                    </div>
-                </div>
-
-                <div className="margin-top-50 margin-bottom-20">
-                    <div className="row">
-                        <div className="col s6 center-align">
-                            <Button color="default"
-                                    variant="text"
-                                    size="small"
-                                    component={Link}
-                                    to={this.props.isEditing ? `/users/${this.props.children.user.slug}/topics/${this.props.children.slug}/show` : '/'}>
-                                {I18n.t('js.topic.edit.back_button')}
-                            </Button>
-                        </div>
-
-                        <div className="col s6 center-align">
-                            <Button color="primary"
-                                    variant="contained"
-                                    size="small"
-                                    disabled={this.props.submitting}
-                                    onClick={this.props.handleSubmit}>
+                            <div className="row">
                                 {
-                                    this.props.isEditing
-                                        ?
-                                        I18n.t('js.topic.edit.submit')
-                                        :
-                                        I18n.t('js.topic.new.submit')
+                                    this.props.children.name &&
+                                    <div className="col s12">
+                                        <h1>
+                                            {I18n.t('js.topic.edit.title', {topic: this.props.children.name})}
+                                        </h1>
+                                    </div>
                                 }
-                            </Button>
-                        </div>
-                    </div>
-                </div>
-            </form>
+
+                                <div className="col s12">
+                                    <Field name="name"
+                                           component={TextFormField}
+                                           className={this.props.classes.name}
+                                           InputLabelProps={{
+                                               classes: {
+                                                   root: this.props.classes.nameLabel
+                                               }
+                                           }}
+                                           InputProps={{
+                                               classes: {
+                                                   underline: !this.props.children.name && this.props.classes.nameUnderline
+                                               }
+                                           }}
+                                           id="topic_name"
+                                           label={I18n.t('js.topic.common.placeholders.name')}
+                                           autoFocus={true}
+                                           required={true}
+                                           color="primary"/>
+                                </div>
+
+                                <div className="col s12 margin-top-25">
+                                    <Field name="description"
+                                           component={EditorField}
+                                           id="topic_description"
+                                           modelName="topic"
+                                           modelId={this.props.topic.id}
+                                           placeholder={I18n.t('js.topic.common.placeholders.description')}
+                                           onSubmit={handleSubmit}
+                                           componentContent={this.props.children.description}/>
+                                </div>
+
+                                {
+                                    this.props.topic.mode === 'inventories' &&
+                                    <div className="col s12 center-align margin-top-35">
+                                        <Button color="primary"
+                                                variant="outlined"
+                                                size="small"
+                                                component={Link}
+                                                to={`/users/${this.props.children.user.slug}/topics/${this.props.children.slug}/edit-inventories`}>
+                                            {I18n.t('js.topic.edit.update_inventories')}
+                                        </Button>
+                                    </div>
+                                }
+                            </div>
+
+                            <div className="margin-top-50 margin-bottom-20">
+                                <div className="row">
+                                    <div className="col s6 center-align">
+                                        <Button color="default"
+                                                variant="text"
+                                                size="small"
+                                                component={Link}
+                                                to={this.props.isEditing ? `/users/${this.props.children.user.slug}/topics/${this.props.children.slug}/show` : '/'}>
+                                            {I18n.t('js.topic.edit.back_button')}
+                                        </Button>
+                                    </div>
+
+                                    <div className="col s6 center-align">
+                                        <Button color="primary"
+                                                variant="contained"
+                                                size="small"
+                                                disabled={submitting}
+                                                onClick={handleSubmit}>
+                                            {
+                                                this.props.isEditing
+                                                    ?
+                                                    I18n.t('js.topic.edit.submit')
+                                                    :
+                                                    I18n.t('js.topic.new.submit')
+                                            }
+                                        </Button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    )
+                }
+            </Form>
         );
     }
 }

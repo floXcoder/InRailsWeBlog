@@ -12,16 +12,12 @@ import {
     setCurrentTags
 } from '../../../actions';
 
-import {
-    getUserTopics
-} from '../../../selectors';
-
 export default @connect((state) => ({
-    userId: state.userState.currentId,
+    currentUserId: state.userState.currentId,
     currentUser: state.userState.user,
     currentUserTopicId: state.topicState.currentUserTopicId,
     currentUserTopicSlug: state.topicState.currentUserTopicSlug,
-    userTopics: getUserTopics(state)
+    userTopics: state.topicState.userTopics
 }), {
     initUser,
     fetchTags,
@@ -38,7 +34,7 @@ class UserManager extends React.Component {
         routeParams: PropTypes.object.isRequired,
         routeState: PropTypes.object,
         // from connect
-        userId: PropTypes.number,
+        currentUserId: PropTypes.number,
         currentUser: PropTypes.object,
         currentUserTopicId: PropTypes.number,
         currentUserTopicSlug: PropTypes.string,
@@ -65,7 +61,7 @@ class UserManager extends React.Component {
         // Get current user details with all topics (called each time route has changed)
         // currentUser is defined only when route changed
         if (!this.props.currentUser) {
-            this.props.initUser(this.props.userId, {
+            this.props.initUser(this.props.currentUserId, {
                 profile: true,
                 topicSlug: this.props.routeParams.topicSlug,
                 articleSlug: this.props.routeParams.articleSlug
@@ -77,7 +73,9 @@ class UserManager extends React.Component {
                         this.props.fetchTags({
                                 topicSlug: currentTopicSlug
                             },
-                            {},
+                            {
+                                userId: this.props.currentUserId
+                            },
                             {
                                 topicTags: true
                             });
@@ -93,9 +91,9 @@ class UserManager extends React.Component {
                     Utils.defer.then(() => {
                         if (userJustSign) {
                             sessionStorage.removeItem('user-connection');
-                            this.props.updateUserRecents(this.props.userId, getTracksClick(true));
+                            this.props.updateUserRecents(this.props.currentUserId, getTracksClick(true));
                         } else {
-                            this.props.fetchUserRecents(this.props.userId, {limit: 10});
+                            this.props.fetchUserRecents(this.props.currentUserId, {limit: 10});
                         }
                     });
 
@@ -106,7 +104,7 @@ class UserManager extends React.Component {
 
                         // this.props.fetchBookmarks(this.props.userId, {topicId: this.props.currentUserTopicId});
 
-                        this.props.fetchBookmarks(this.props.userId);
+                        this.props.fetchBookmarks(this.props.currentUserId);
                     });
                 }
             });
@@ -147,19 +145,23 @@ class UserManager extends React.Component {
             this.props.fetchTags({
                     topicId: this.props.currentUserTopicId
                 },
-                {},
+                {
+                    userId: this.props.currentUserId
+                },
                 {
                     topicTags: true
                 });
         } else if (!topicSlug) {
             this.props.fetchTags({
-                userId: this.props.userId
+                userId: this.props.currentUserId
             });
         } else if (this.props.currentUserTopicSlug !== topicSlug) {
             this.props.fetchTags({
                     topicSlug: topicSlug
                 },
-                {},
+                {
+                    userId: this.props.currentUserId
+                },
                 {
                     topicTags: true
                 });
@@ -173,7 +175,7 @@ class UserManager extends React.Component {
         }
 
         if (this.props.currentUserTopicSlug !== topicSlug) {
-            this.props.switchTopic(this.props.userId, topicSlug);
+            this.props.switchTopic(this.props.currentUserId, topicSlug);
         }
     };
 

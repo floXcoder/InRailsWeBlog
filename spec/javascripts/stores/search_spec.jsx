@@ -56,9 +56,9 @@ describe('Search actions', () => {
                 limit: 6
             }))
                 .then((state) => {
-                    expect(SearchSelectors.getAutocompleteArticles(state)).toHaveLength(articles.length);
-                    expect(SearchSelectors.getAutocompleteTags(state)).toHaveLength(tags.length);
-                    expect(SearchSelectors.getAutocompleteTopics(state)).toHaveLength(topics.length);
+                    expect(state.autocompleteState.articles).toHaveLength(articles.length);
+                    expect(state.autocompleteState.tags).toHaveLength(tags.length);
+                    expect(state.autocompleteState.topics).toHaveLength(topics.length);
                     expect(SearchSelectors.getAutocompleteResults(state)).toHaveLength(articles.length + tags.length + topics.length);
                 });
         });
@@ -70,7 +70,7 @@ describe('Search actions', () => {
 
             const state = dispatch(store, SearchActions.setSelectedTag(tag));
 
-            expect(SearchSelectors.getSelectedTags(state)).toHaveLength(1);
+            expect(state.searchState.selectedTags).toHaveLength(1);
         });
     });
 
@@ -93,9 +93,9 @@ describe('Search actions', () => {
                 limit: 6
             }))
                 .then((state) => {
-                    expect(SearchSelectors.getSearchArticles(state)).toHaveLength(articles.length);
-                    expect(SearchSelectors.getSearchTags(state)).toHaveLength(tags.length);
-                    expect(SearchSelectors.getSearchTopics(state)).toHaveLength(topics.length);
+                    expect(state.searchState.articles).toHaveLength(articles.length);
+                    expect(state.searchState.tags).toHaveLength(tags.length);
+                    expect(state.searchState.topics).toHaveLength(topics.length);
                 });
         });
     });

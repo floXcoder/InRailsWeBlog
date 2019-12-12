@@ -32,10 +32,8 @@ import {
 } from '../../actions';
 
 import {
-    getArticleMetaTags,
     getArticlesCurrentMode,
     getArticlesCount,
-    getArticlePagination,
     getStoryTopic
 } from '../../selectors';
 
@@ -51,13 +49,13 @@ import ArticleNoneDisplay from './display/items/none';
 import styles from '../../../jss/article/index';
 
 export default @connect((state) => ({
-    metaTags: getArticleMetaTags(state),
-    userId: state.userState.currentId,
+    metaTags: state.articleState.metaTags,
+    currentUserId: state.userState.currentId,
     userSlug: state.userState.currentSlug,
     storyTopic: getStoryTopic(state),
     isFetching: state.articleState.isFetching,
     articlesCount: getArticlesCount(state),
-    articlePagination: getArticlePagination(state),
+    articlePagination: state.articleState.pagination,
     articleCurrentMode: getArticlesCurrentMode(state),
     articlesLoaderMode: state.uiState.articlesLoaderMode,
     articleDisplayMode: state.uiState.articleDisplayMode,
@@ -77,7 +75,7 @@ class ArticleIndex extends React.Component {
         routeHash: PropTypes.string,
         // from connect
         metaTags: PropTypes.object,
-        userId: PropTypes.number,
+        currentUserId: PropTypes.number,
         userSlug: PropTypes.string,
         storyTopic: PropTypes.object,
         isFetching: PropTypes.bool,
@@ -168,7 +166,7 @@ class ArticleIndex extends React.Component {
         }
 
         this._request = this.props.fetchArticles({
-            userId: this.props.userId,
+            userId: this.props.currentUserId,
             ...this._formatParams(),
         }, options);
 
@@ -189,7 +187,7 @@ class ArticleIndex extends React.Component {
             this._isFetchingNext = true;
 
             this._request = this.props.fetchArticles({
-                userId: this.props.userId,
+                userId: this.props.currentUserId,
                 ...this._formatParams(),
                 ...queryParams
             }, options, {infinite: !params.selected});
@@ -259,7 +257,8 @@ class ArticleIndex extends React.Component {
             <div ref={this._articles}>
                 {
                     this.props.articleCurrentMode === 'stories' && this.props.storyTopic &&
-                    <SummaryStoriesTopic topic={this.props.storyTopic}/>
+                    <SummaryStoriesTopic userSlug={this.props.routeParams.userSlug}
+                                         topic={this.props.storyTopic}/>
                 }
 
                 <div className={classNames(this.props.classes.articleIndex, {

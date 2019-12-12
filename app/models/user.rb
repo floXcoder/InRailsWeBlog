@@ -341,7 +341,7 @@ class User < ApplicationRecord
   def switch_topic(new_topic)
     if self.current_topic_id == new_topic.id
       return new_topic
-    elsif self.id != new_topic.user_id
+    elsif self.id != new_topic.user_id && !self.contributed_topic_ids.include?(new_topic.id)
       self.errors.add(:topic, I18n.t('activerecord.errors.models.topic.not_owner'))
       return false
     else

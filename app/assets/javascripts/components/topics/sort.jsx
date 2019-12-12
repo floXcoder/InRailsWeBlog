@@ -19,10 +19,6 @@ import {
     updateTopicPriority
 } from '../../actions';
 
-import {
-    getTopics
-} from '../../selectors';
-
 import Loader from '../theme/loader';
 
 import TopicSorter from './sort/sorter';
@@ -35,7 +31,7 @@ export default @withRouter
     currentUserTopicId: state.topicState.currentUserTopicId,
     currentUserTopicSlug: state.topicState.currentUserTopicSlug,
     isFetching: state.topicState.isFetching,
-    topics: getTopics(state)
+    topics: state.topicState.topics
 }), {
     fetchTopics,
     updateTopicPriority

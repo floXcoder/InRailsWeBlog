@@ -8,15 +8,11 @@ import {
     fetchTags
 } from '../../actions';
 
-import {
-    getTags
-} from '../../selectors';
-
 import Loader from '../theme/loader';
 import Table from '../theme/table';
 
 export default @connect((state) => ({
-    tags: getTags(state)
+    tags: state.tagState.tags
 }), {
     fetchTags
 })
@@ -59,7 +55,7 @@ class AdminTags extends React.Component {
 
                 <Table title={I18n.t('js.admin.tags.table.title')}
                        locale={I18n.locale}
-                       data={this.props.tags}
+                       data={this.props.tags.map((tag) => Object.assign({}, tag))}
                        columns={[
                            {
                                title: I18n.t('js.admin.tags.table.columns.id'),

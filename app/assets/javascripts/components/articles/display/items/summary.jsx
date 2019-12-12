@@ -115,7 +115,7 @@ class ArticleSummaryDisplay extends React.Component {
                     </div>
 
                     {
-                        this.props.article.tags.size > 0 &&
+                        this.props.article.tags.length > 0 &&
                         <ArticleTags articleId={this.props.article.id}
                                      tags={this.props.article.tags}
                                      parentTagIds={this.props.article.parentTagIds}

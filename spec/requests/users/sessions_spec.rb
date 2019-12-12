@@ -28,7 +28,7 @@ describe 'Users Session API', type: :request, basic: true do
         expect(response).to be_json_response(401)
 
         user = JSON.parse(response.body)
-        expect(user['error']).to eq(I18n.t('devise.failure.invalid', authentication_keys: 'Login'))
+        expect(user['error']).to eq(I18n.t('devise.failure.invalid', authentication_keys: 'Main User'))
       end
 
       it 'returns an error for incorrect password' do
@@ -37,7 +37,7 @@ describe 'Users Session API', type: :request, basic: true do
         expect(response).to be_json_response(401)
 
         user = JSON.parse(response.body)
-        expect(user['error']).to eq(I18n.t('devise.failure.invalid', authentication_keys: 'Login'))
+        expect(user['error']).to eq(I18n.t('devise.failure.invalid', authentication_keys: 'bad_user'))
       end
     end
   end

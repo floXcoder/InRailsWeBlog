@@ -1,33 +1,25 @@
 'use strict';
 
-import {
-    Record,
-    Map,
-    List
-} from 'immutable';
-
 import * as ActionTypes from '../constants/actionTypes';
 
-import * as Records from '../constants/records';
-
 import {
-    toList,
     fetchReducer,
     mutationReducer,
-    mutateArray
+    addOrReplaceIn,
+    removeIn
 } from './mutators';
 
-const initState = new Record({
+const initState = {
     isFetching: false,
     isProcessing: false,
-    errors: new Map(),
+    errors: undefined,
 
-    articles: new List(),
-    metaTags: new Map(),
-    pagination: new Map(),
+    articles: [],
+    metaTags: {},
+    pagination: {},
 
-    homeArticles: new List(),
-    popularArticles: new List(),
+    homeArticles: [],
+    popularArticles: [],
 
     article: undefined,
     articleEditionId: undefined,
@@ -35,73 +27,64 @@ const initState = new Record({
     articleStories: undefined,
 
     articleVersions: undefined
-});
+};
 
-export default function articleReducer(state = new initState(), action) {
+export default function articleReducer(state = initState, action) {
     switch (action.type) {
         case ActionTypes.ARTICLE_FETCH_INIT:
         case ActionTypes.ARTICLE_FETCH_SUCCESS:
         case ActionTypes.ARTICLE_FETCH_ERROR:
-            return fetchReducer(state, action, (payload) => {
-                if (payload.article) {
-                    return {
-                        article: new Records.ArticleRecord(payload.article)
-                    };
+            return fetchReducer(state, action, (state) => {
+                if (action.article) {
+                    state.article = action.article;
                 } else {
-                    if (payload.infinite) {
-                        return {
-                            articles: state.articles.concat(toList(payload.articles, Records.ArticleRecord))
-                        };
-                    } else if (payload.home) {
-                        return {
-                            homeArticles: toList(payload.articles, Records.ArticleRecord)
-                        };
-                    } else if (payload.populars) {
-                        return {
-                            popularArticles: toList(payload.articles, Records.ArticleRecord)
-                        };
+                    if (action.infinite) {
+                        state.articles.push(...action.articles);
+                    } else if (action.home) {
+                        state.homeArticles = action.articles;
+                    } else if (action.populars) {
+                        state.popularArticles = action.articles;
                     } else {
-                        return {
-                            articles: toList(payload.articles, Records.ArticleRecord)
-                        };
+                        state.articles = action.articles;
                     }
                 }
-            }, ['infinite', 'home', 'populars']);
+            });
 
         case ActionTypes.ARTICLE_EDITION:
-            return state.merge({
-                articleEditionId: action.articleId
-            });
+            state.articleEditionId = action.articleId;
+            return state;
 
         case ActionTypes.ARTICLE_CHANGE_INIT:
         case ActionTypes.ARTICLE_CHANGE_SUCCESS:
         case ActionTypes.ARTICLE_CHANGE_ERROR:
-            return mutationReducer(state, action, (payload) =>
-                payload.articles ? ({
-                    articles: toList(payload.articles, Records.ArticleRecord)
-                }) : ({
-                    article: payload.article && (new Records.ArticleRecord(payload.article)),
-                    articles: mutateArray(state.articles, payload.article && (new Records.ArticleRecord(payload.article)), action.removedId)
-                }) /*, ['article']*/);
+            return mutationReducer(state, action, (state) => {
+                if (action.articles) {
+                    state.articles = action.articles;
+                } else {
+                    state.article = action.article;
+                    if(action.removedId) {
+                        removeIn(state.articles, action.removedId);
+                    } else {
+                        addOrReplaceIn(state.articles, action.article);
+                    }
+                }
+            });
 
         // Topic stories
         case ActionTypes.ARTICLE_STORIES:
-            return state.merge({
-                articleStories: toList(action.stories, Records.ArticleRecord)
-            });
+            state.articleStories = action.stories;
+            return state;
 
         // History and restoration
         case ActionTypes.ARTICLE_HISTORY:
-            return state.merge({
-                articleVersions: action.versions,
-                metaTags: action.meta && action.meta.metaTags ? action.meta.metaTags : state.metaTags
-            });
+            state.articleVersions = action.versions;
+            state.metaTags = action.meta && action.meta.metaTags ? action.meta.metaTags : state.metaTags;
+            return state;
 
         case ActionTypes.ARTICLE_RESTORE:
-            return state.merge({
-                article: new Records.ArticleRecord(action.article),
-                articleVersions: undefined
-            });
+            state.article = action.article;
+            state.articleVersions = undefined;
+            return state;
 
         default:
             return state;

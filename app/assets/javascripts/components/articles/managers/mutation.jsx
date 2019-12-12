@@ -7,13 +7,6 @@ import {
 } from 'react-router-dom';
 
 import {
-    isDirty,
-    isValid,
-    isSubmitting,
-    getFormValues
-} from 'redux-form/immutable';
-
-import {
     saveLocalData,
     getLocalData,
     removeLocalData
@@ -27,9 +20,7 @@ import {
 } from '../../../actions';
 
 import {
-    getTopicTags,
     getCurrentUser,
-    getCurrentUserTopic,
     getArticleErrors
 } from '../../../selectors';
 
@@ -47,21 +38,17 @@ import {
     articleUnsavedDataName
 } from '../../modules/constants';
 
-export default function articleMutationManager(mode, formId) {
+export default function articleMutationManager(mode) {
     return function articleMutation(WrappedComponent) {
         @withRouter
         @connect((state) => ({
             isUserConnected: state.userState.isConnected,
             currentUser: getCurrentUser(state),
-            currentTopic: getCurrentUserTopic(state),
-            tags: getTopicTags(state),
+            currentTopic: state.topicState.currentTopic,
+            tags: state.tagState.topicTags,
             isFetching: state.articleState.isFetching,
             article: mode === 'edit' ? state.articleState.article : undefined,
-            articleErrors: getArticleErrors(state),
-            isDirty: isDirty(formId)(state),
-            isValid: isValid(formId)(state),
-            isSubmitting: isSubmitting(formId)(state),
-            formValues: getFormValues(formId)(state)
+            articleErrors: getArticleErrors(state)
         }), {
             showUserLogin,
             addArticle,
@@ -84,10 +71,6 @@ export default function articleMutationManager(mode, formId) {
                 isFetching: PropTypes.bool,
                 article: PropTypes.object,
                 articleErrors: PropTypes.array,
-                isDirty: PropTypes.bool,
-                isValid: PropTypes.bool,
-                isSubmitting: PropTypes.bool,
-                formValues: PropTypes.object,
                 showUserLogin: PropTypes.func,
                 addArticle: PropTypes.func,
                 fetchArticle: PropTypes.func,
@@ -101,7 +84,7 @@ export default function articleMutationManager(mode, formId) {
                 const unsavedArticle = getLocalData(articleUnsavedDataName, true);
 
                 if (props.routeParams.articleSlug) {
-                    props.fetchArticle(props.routeParams.articleSlug, {edit: true});
+                    props.fetchArticle(props.routeParams.userSlug, props.routeParams.articleSlug, {edit: true});
                 } else if (props.routeState) {
                     this.state.article = props.routeState;
 
@@ -153,12 +136,18 @@ export default function articleMutationManager(mode, formId) {
                 return null;
             }
 
-            componentDidUpdate(prevProps) {
-                if (prevProps.isDirty && prevProps.isValid && !prevProps.isSubmitting && prevProps.formValues !== this.props.formValues) {
-                    this._handleChange(this.props.formValues);
+            componentDidMount() {
+                if (this.props.routeState && this.props.routeState.position) {
+                    setTimeout(() => {
+                        window.scrollTo(this.props.routeState.position.left || 0, (this.props.routeState.position.top || 0) + 100);
+                    }, 600);
                 }
+            }
 
-                this._promptUnsavedChange(this.props.isDirty);
+            componentDidUpdate(prevProps) {
+                if (!Utils.isEmpty(this.props.articleErrors) && prevProps.articleErrors !== this.props.articleErrors) {
+                    Notification.error(this.props.articleErrors);
+                }
             }
 
             componentWillUnmount() {
@@ -167,12 +156,20 @@ export default function articleMutationManager(mode, formId) {
                 this._handleChange.cancel();
             }
 
-            _promptUnsavedChange = (isUnsaved = false) => {
-                const leaveMessage = I18n.t('js.article.form.unsaved');
+            _handleFormChange = (formState, values) => {
+                if (formState.isDirty && !formState.submitting && !formState.invalid && !formState.submitSucceeded) {
+                    this._handleChange(formState.values);
+                }
 
-                // Detecting browser close
-                window.onbeforeunload = isUnsaved ? (() => leaveMessage) : null;
+                // this._promptUnsavedChange(this.props.isDirty);
             };
+
+            // _promptUnsavedChange = (isUnsaved = false) => {
+            //     const leaveMessage = I18n.t('js.article.form.unsaved');
+            //
+            //     // Detecting browser close
+            //     window.onbeforeunload = isUnsaved ? (() => leaveMessage) : null;
+            // };
 
             _handleCancel = () => {
                 if (this.state.article && this.state.article.id) {
@@ -194,13 +191,13 @@ export default function articleMutationManager(mode, formId) {
                     return;
                 }
 
-                let formData = values.toJS();
+                let formData = values;
 
                 // If article exists update the current article
                 if (this.state.article && this.state.article.id) {
                     formData.id = this.props.article.id;
 
-                    formatTagArticles(formData, this.props.article.tags.toJS(), {
+                    formatTagArticles(formData, this.props.article.tags, {
                         parentTagIds: this.props.article.parentTagIds.length === 0 ? this.props.article.tags.map((tag) => tag.id) : this.props.article.parentTagIds,
                         childTagIds: this.props.article.childTagIds
                     });
@@ -294,13 +291,13 @@ export default function articleMutationManager(mode, formId) {
                 const propsProxy = {
                     currentUser: this.props.currentUser,
                     currentTopic: this.props.currentTopic,
-                    formId: formId,
-                    onCancelClick: this._handleCancel,
+                    onCancel: this._handleCancel,
                     onSubmit: this._handleSubmit,
                     article: article,
                     currentMode: currentMode,
                     pasteContent: pasteContent,
-                    articleErrors: this.props.articleErrors
+                    articleErrors: this.props.articleErrors,
+                    onFormChange: this._handleFormChange
                 };
 
                 return <WrappedComponent {...propsProxy}/>;

@@ -5,11 +5,6 @@ import {
 } from '@material-ui/core/styles';
 import withWidth from '@material-ui/core/withWidth';
 
-import {
-    getRouteProperties,
-    getRouteParams
-} from '../../../selectors';
-
 import ErrorBoundary from '../../errors/boundary';
 
 import TagSidebarLayout from './tagSidebar';
@@ -20,8 +15,8 @@ import SearchSidebarLayout from './searchSidebar';
 import styles from '../../../../jss/user/main';
 
 export default @connect((state) => ({
-    routeProperties: getRouteProperties(state),
-    routeParams: getRouteParams(state),
+    routeProperties: state.routerState.currentRoute,
+    routeParams: state.routerState.params,
     articleDisplayMode: state.uiState.articleDisplayMode
 }))
 @withWidth()

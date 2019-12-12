@@ -18,25 +18,24 @@ import {
 } from '../../actions';
 
 import {
-    getTopicMetaTags,
-    getCurrentUser,
     getTopicErrors
 } from '../../selectors';
 
 import Loader from '../theme/loader';
 
-import TopicFormDisplay from './display/form';
-
 import HeadLayout from '../layouts/head';
 import NotAuthorized from '../layouts/notAuthorized';
+
+import TopicFormDisplay from './display/form';
+import TopicErrorField from './display/fields/error';
 
 import styles from '../../../jss/topic/edit';
 
 export default @withRouter
 @connect((state) => ({
-    metaTags: getTopicMetaTags(state),
+    currentUserId: state.userState.currentId,
+    metaTags: state.topicState.metaTags,
     topic: state.topicState.topic,
-    currentUser: getCurrentUser(state),
     topicErrors: getTopicErrors(state)
 }), {
     fetchTopic,
@@ -52,7 +51,7 @@ class TopicEdit extends React.Component {
         // from connect
         metaTags: PropTypes.object,
         topic: PropTypes.object,
-        currentUser: PropTypes.object,
+        currentUserId: PropTypes.number,
         topicErrors: PropTypes.array,
         fetchTopic: PropTypes.func,
         updateTopic: PropTypes.func,
@@ -65,15 +64,13 @@ class TopicEdit extends React.Component {
     }
 
     componentDidMount() {
-        this.props.fetchTopic(this.props.routeParams.userSlug, this.props.routeParams.topicSlug, {edit: true});
+        this.props.fetchTopic(this.props.currentUserId, this.props.routeParams.topicSlug, {edit: true});
     }
 
     _handleSubmit = (values) => {
-        let formData = values.toJS();
+        values.id = this.props.topic.id;
 
-        formData.id = this.props.topic.id;
-
-        this.props.updateTopic(this.props.topic.user.id, formData)
+        this.props.updateTopic(this.props.topic.user.id, values)
             .then((response) => {
                 if (response.topic) {
                     this.props.history.push({
@@ -86,7 +83,15 @@ class TopicEdit extends React.Component {
     };
 
     render() {
-        if (!this.props.topic || !this.props.currentUser) {
+        if (this.props.topicErrors) {
+            return (
+                <div>
+                    <TopicErrorField errors={this.props.topicErrors}/>
+                </div>
+            );
+        }
+
+        if (!this.props.topic) {
             return (
                 <div className="center margin-top-20">
                     <Loader size="big"/>
@@ -94,7 +99,7 @@ class TopicEdit extends React.Component {
             );
         }
 
-        if (!this.props.currentUser || this.props.currentUser.id !== this.props.topic.user.id) {
+        if (this.props.currentUserId !== this.props.topic.user.id) {
             return (
                 <div className="center margin-top-20">
                     <NotAuthorized/>
@@ -102,17 +107,13 @@ class TopicEdit extends React.Component {
             )
         }
 
-        const {name, description, ...otherProps} = this.props.topic;
-
         return (
             <div className={this.props.classes.root}>
                 <HeadLayout metaTags={this.props.metaTags}/>
 
-                <TopicFormDisplay initialValues={{name, description}}
-                                  id={`topic-edit-${this.props.topic.id}`}
-                                  topicId={this.props.topic.id}
+                <TopicFormDisplay id={`topic-edit-${this.props.topic.id}`}
+                                  topic={this.props.topic}
                                   isEditing={true}
-                                  topicErrors={this.props.topicErrors}
                                   onSubmit={this._handleSubmit}>
                     {this.props.topic}
                 </TopicFormDisplay>

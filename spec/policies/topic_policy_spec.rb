@@ -22,8 +22,9 @@ describe TopicPolicy, basic: true do
     context 'for a visitor' do
       let(:user) { nil }
 
+      it { should grant(:show) }
+
       it { should_not grant(:switch) }
-      it { should_not grant(:show) }
       it { should_not grant(:create) }
       it { should_not grant(:update) }
       it { should_not grant(:share) }
@@ -33,10 +34,10 @@ describe TopicPolicy, basic: true do
     context 'for other users' do
       let(:user) { @other_user }
 
+      it { should grant(:show) }
       it { should grant(:create) }
 
       it { should_not grant(:switch) }
-      it { should_not grant(:show) }
       it { should_not grant(:update) }
       it { should_not grant(:share) }
       it { should_not grant(:destroy) }
@@ -45,10 +46,10 @@ describe TopicPolicy, basic: true do
     context 'for a contributor' do
       let(:user) { @contributed_user }
 
+      it { should grant(:show) }
       it { should grant(:create) }
       it { should grant(:switch) }
 
-      it { should_not grant(:show) }
       it { should_not grant(:update) }
       it { should_not grant(:share) }
       it { should_not grant(:destroy) }

@@ -10,10 +10,6 @@ import {
 } from '../../actions';
 
 import {
-    getTags
-} from '../../selectors';
-
-import {
     sortItemLimit
 } from '../modules/constants';
 
@@ -26,7 +22,7 @@ export default @withRouter
     currentUserId: state.userState.currentId,
     currentUserSlug: state.userState.currentSlug,
     isFetching: state.tagState.isFetching,
-    tags: getTags(state)
+    tags: state.tagState.tags
 }), {
     fetchTags,
     updateTagPriority

@@ -42,23 +42,13 @@ const articlesByTag = (articles, sortedTags, parentTag) => {
     return orderedArticles;
 };
 
-export const getArticleMetaTags = createSelector(
-    (state) => state.articleState.metaTags,
-    (metaTags) => metaTags.toJS()
-);
-
-export const getArticles = createSelector(
-    (state) => state.articleState.articles,
-    (articles) => articles.toArray()
-);
-
 export const getArticlesCurrentMode = createSelector(
     (state) => state.articleState.articles,
     (state) => state.topicState.currentTopic,
     (articles, currentTopic) => {
         if (currentTopic) {
             return currentTopic.mode;
-        } else if (articles && articles.size > 0) {
+        } else if (articles && articles.length > 0) {
             if (articles.every((article) => article.mode === 'story')) {
                 return 'stories';
             } else if (articles.every((article) => article.mode === 'inventory')) {
@@ -70,7 +60,7 @@ export const getArticlesCurrentMode = createSelector(
 
 export const getArticlesCount = createSelector(
     (state) => state.articleState.articles,
-    (articles) => articles.size
+    (articles) => articles ? articles.length : 0
 );
 
 export const getOrderedArticles = createSelector(
@@ -84,7 +74,7 @@ export const getOrderedArticles = createSelector(
         if (isSortedByTag) {
             return articlesByTag(articles, sortedTags, parentTag);
         } else {
-            return articles.toArray();
+            return articles;
         }
     }
 );
@@ -103,7 +93,7 @@ export const getCategorizedArticles = createSelector(
             });
         } else if (articleOrderMode === 'tag_asc' || articleOrderMode === 'tag_desc') {
             categorizedArticles = articlesByTag(articles, sortedTags);
-        } else {
+        } else if (articles) {
             categorizedArticles['all_articles'] = [];
             articles.forEach((article) => {
                 categorizedArticles['all_articles'].push(article);
@@ -114,55 +104,35 @@ export const getCategorizedArticles = createSelector(
     }
 );
 
-export const getArticlePagination = createSelector(
-    (state) => state.articleState.pagination,
-    (pagination) => pagination.toJS()
-);
-
 export const getArticleStories = createSelector(
     (state) => state.articleState.articleStories,
-    (articles) => articles && articles.toArray()
+    (articles) => articles
 );
 
 export const getArticleSiblingStories = createSelector(
     (state) => state.articleState.articleStories,
     (state) => state.articleState.article,
     (articles, article) => {
-        if (articles && articles.size > 1 && article) {
+        if (articles && articles.length > 1 && article) {
             const currentIndex = articles.findIndex((item) => item.id === article.id);
             if (currentIndex === 0) {
                 return [
-                    articles.get(1)
+                    articles[1]
                 ];
-            } else if (currentIndex === articles.size - 1) {
+            } else if (currentIndex === articles.length - 1) {
                 return [
-                    articles.get(currentIndex - 1)
+                    articles[currentIndex - 1]
                 ];
             } else {
                 return [
-                    articles.get(currentIndex - 1),
-                    articles.get(currentIndex + 1)
+                    articles[currentIndex - 1],
+                    articles[currentIndex + 1]
                 ];
             }
         } else {
             return null;
         }
     }
-);
-
-export const getHomeArticles = createSelector(
-    (state) => state.articleState.homeArticles,
-    (articles) => articles.toArray()
-);
-
-export const getPopularArticles = createSelector(
-    (state) => state.articleState.popularArticles,
-    (articles) => articles.toArray()
-);
-
-export const getArticle = createSelector(
-    (state) => state.articleState.article,
-    (article) => article
 );
 
 export const getArticleIsOwner = (state, article) => {
@@ -197,12 +167,7 @@ export const getArticleParentTags = createSelector(
             }
         });
 
-        // Use isImmutable function in new version
-        if (tags && tags.size !== undefined) {
-            return tags.toArray();
-        } else {
-            return tags;
-        }
+        return tags;
     }
 );
 
@@ -213,32 +178,22 @@ export const getArticleChildTags = createSelector(
             article.childTagSlugs ? article.childTagSlugs.includes(tag.slug) : article.childTagIds && article.childTagIds.includes(tag.id)
         ));
 
-        // Use isImmutable in new version
-        if (tags && tags.size !== undefined) {
-            return tags.toArray();
-        } else {
-            return tags;
-        }
+        return tags;
     }
 );
 
 export const getArticleErrors = createSelector(
     (state) => state.articleState.errors,
     (errors) => {
-        let errorContent = [];
+        let errorContent = undefined;
         if (typeof errors === 'string') {
             errorContent = [errors];
-        } else {
-            errors.mapKeys((errorName, errorDescriptions) => {
-                errorDescriptions = errorDescriptions.toJS();
+        } else if(!Utils.isEmpty(errors)) {
+            errorContent = [];
+            Object.entries(errors).forEach(([errorName, errorDescriptions]) => {
                 errorContent.push(I18n.t(`js.article.model.${errorName}`) + ' ' + (Array.isArray(errorDescriptions) ? errorDescriptions.join(I18n.t('js.helpers.and')) : errorDescriptions));
-            }).toArray();
+            });
         }
         return errorContent;
     }
-);
-
-export const getArticleVersions = createSelector(
-    (state) => state.articleState.articleVersions,
-    (articleVersions) => articleVersions && articleVersions.toJS()
 );

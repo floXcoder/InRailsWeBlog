@@ -13,7 +13,7 @@ class TopicPolicy
   end
 
   def show?
-    owner?
+    correct_user?
   end
 
   def create?

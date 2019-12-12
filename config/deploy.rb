@@ -148,12 +148,12 @@ namespace :deploy do
     end
   end
 
-  desc 'Regenerate sitemap'
+  desc 'Regenerate sitemap file'
   task :generate_sitemap do
     on roles(:production), in: :sequence, wait: 5 do
       within release_path do
         with rails_env: 'production' do
-          execute :rake, 'InRailsWeBlog:seo[sitemap]'
+          execute :rake, 'InRailsWeBlog:generate_sitemap'
         end
       end
     end
@@ -164,7 +164,7 @@ namespace :deploy do
   after :finishing, :restart_sidekiq
   after :publishing, :elastic_search
   after :publishing, :update_revision_file
-  # after :publishing, :generate_sitemap
+  after :publishing, :generate_sitemap
 
   after :finishing, :cleanup
 end

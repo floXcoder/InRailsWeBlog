@@ -4,10 +4,6 @@ import {
     hot
 } from 'react-hot-loader/root';
 
-import {
-    getArticles
-} from '../../../../selectors';
-
 import MasonryWrapper from '../../../theme/masonry';
 
 import ArticleItemsDisplay from '../items';
@@ -15,7 +11,7 @@ import ArticleItemsDisplay from '../items';
 const ArticleMasonry = MasonryWrapper(ArticleItemsDisplay, {articleDisplayMode: 'grid'}, ArticleItemsDisplay, {articleDisplayMode: 'card'});
 
 export default @connect((state) => ({
-    articles: getArticles(state)
+    articles: state.articleState.articles
 }))
 @hot
 class ArticleMasonryMode extends React.Component {

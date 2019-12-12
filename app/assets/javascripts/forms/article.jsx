@@ -3,7 +3,7 @@
 export const validateArticle = (values) => {
     const errors = {};
 
-    const title = values.get('title');
+    const title = values.title;
     if (title) {
         // I18n.t('js.article.common.tooltips.title_too_short');
         if (title.length < window.settings.article_title_min_length || title.length > window.settings.article_title_max_length) {
@@ -14,7 +14,7 @@ export const validateArticle = (values) => {
         }
     }
 
-    const summary = values.get('summary');
+    const summary = values.summary;
     if (summary) {
         // I18n.t('js.article.common.tooltips.summary_too_short');
         if (summary.length < window.settings.article_summary_min_length || summary.length > window.settings.article_summary_max_length) {
@@ -25,7 +25,7 @@ export const validateArticle = (values) => {
         }
     }
 
-    let content = values.get('content');
+    let content = values.content;
     if (content) {
         content = content.replace(/<(?:.|\n)*?>/gm, '');
         if (content.length < window.settings.article_content_min_length || content.length > window.settings.article_content_max_length) {
@@ -34,8 +34,8 @@ export const validateArticle = (values) => {
                 max: window.settings.article_content_max_length
             });
         }
-    } else {
-        errors.content = I18n.t('js.article.common.tooltips.content_too_short');
+    // } else {
+    //     errors.content = I18n.t('js.article.common.tooltips.content_too_short');
     }
 
     return errors;

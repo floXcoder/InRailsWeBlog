@@ -26,13 +26,13 @@ export default class AssociatedTagList extends React.PureComponent {
 
     render() {
         return (
-            <div className="blog-associated-tag">
+            <div>
                 {
                     this.props.tags.map((tag, i) => (
                         <div key={i}
                              className={
                                  classNames(
-                                     'btn-small waves-light article-tag',
+                                     'article-tag',
                                      {
                                          'tag-inactive': this.state.classByTag[tag.id],
                                          'tag-active': !this.state.classByTag[tag.id]

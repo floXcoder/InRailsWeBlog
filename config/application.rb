@@ -25,7 +25,7 @@ end
 module InRailsWeBlog
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 5.2
+    config.load_defaults 6.0
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers
@@ -46,9 +46,10 @@ module InRailsWeBlog
 
     # Load files from lib directory
     config.enable_dependency_loading = true
-    config.autoload_paths            += Dir["#{config.root}/app/services/**/"]
-    config.autoload_paths            += Dir["#{config.root}/lib/inrailsweblog/**/"]
-    config.autoload_paths            += Dir["#{config.root}/lib/populate/**/"]
+    config.eager_load_paths          << "#{config.root}/app/services"
+    config.eager_load_paths          += Dir["#{config.root}/lib/inrailsweblog/**/"]
+    config.eager_load_paths          += Dir["#{config.root}/lib/populate/**/"]
+    config.eager_load_paths          << "#{config.root}/spec/mailers/previews/"
 
     # Database time zone
     config.time_zone                      = 'Paris'
@@ -63,7 +64,7 @@ module InRailsWeBlog
     # I18n configuration
     config.i18n.load_path      += Dir[Rails.root.join('config', 'locales', '*.{ yml }').to_s]
     config.i18n.default_locale = :fr
-    config.i18n.fallbacks      = [I18n.default_locale]
+    config.i18n.fallbacks      = [:fr]
 
     # Enable per-form CSRF tokens. Previous versions had false.
     config.action_controller.per_form_csrf_tokens = false

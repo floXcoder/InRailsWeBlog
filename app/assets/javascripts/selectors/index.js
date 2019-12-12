@@ -1,6 +1,5 @@
 'use strict';
 
-export * from './routerSelectors';
 export * from './uiSelectors';
 export * from './userSelectors';
 export * from './bookmarkSelectors';

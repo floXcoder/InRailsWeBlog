@@ -55,11 +55,9 @@ export default class AdminBlogForm extends React.Component {
 
     render() {
         return (
-            <form className="admin-form"
-                  encType="multipart/form-data"
+            <form encType="multipart/form-data"
                   noValidate={true}
                   onSubmit={this._handlePersistBlog.bind(this, this.props.blog)}>
-
                 <div className="row margin-top-20 margin-bottom-20">
                     <div className="col s12 center-align">
                         <TextField className="field-input"

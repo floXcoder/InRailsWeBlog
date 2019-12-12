@@ -12,7 +12,7 @@ export const fetchTags = (filter, options = {}, payload = {}) => ({
         ...options
     }),
     shouldCallAPI: (state) => {
-        return !state.userState.isConnected && payload.topicTags ? state.tagState.topicTags.size === 0 : true;
+        return !state.userState.isConnected && payload.topicTags ? state.tagState.topicTags.length === 0 : true;
     },
     payload
 });

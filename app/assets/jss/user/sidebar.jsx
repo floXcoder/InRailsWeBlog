@@ -20,6 +20,9 @@ const styles = (theme) => ({
         borderRight: 0,
         borderLeft: 0
     },
+    drawerPaperOverflow: {
+        overflow: 'hidden'
+    },
     drawerPaperClose: {
         overflowX: 'hidden',
         transition: theme.transitions.create('width', {

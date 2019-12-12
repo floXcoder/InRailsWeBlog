@@ -1,7 +1,5 @@
 'use strict';
 
-import _ from 'lodash';
-
 import {
     configureStore
 } from '../stores';
@@ -13,6 +11,7 @@ import {
     saveLocalArray,
     getLocalData
 } from '../middlewares/localStorage';
+import * as ActionTypes from "../constants/actionTypes";
 
 // Unused for now
 // export const spyHeartbeat = (value) => {
@@ -61,7 +60,7 @@ export const spyTrackClick = (elementName, elementId, elementSlug = null, elemen
     const currentUserId = configureStore.getState().userState.currentId;
     const currentUserTopicId = configureStore.getState().topicState.currentUserTopicId;
 
-    if (hasLocalStorage && elementSlug && elementTitle) {
+    if (!currentUserId && hasLocalStorage && elementSlug && elementTitle) {
         saveLocalArray('recents', {
             type: elementName,
             elementId: elementId,
@@ -72,6 +71,13 @@ export const spyTrackClick = (elementName, elementId, elementSlug = null, elemen
             parentId: currentUserTopicId
         });
     }
+
+    // configureStore.dispatch({
+    //     type: ActionTypes.USER_RECENTS,
+    //     local: true,
+    //     element: elementName,
+    //     recents: []
+    // });
 
     return api
         .post(`/api/v1/${elementName}s/${elementId}/clicked`,

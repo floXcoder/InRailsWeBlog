@@ -8,6 +8,11 @@ import {
 } from '../theme';
 
 const styles = (theme) => ({
+    paper: {
+        marginTop: 30,
+        borderBottom: '1px solid rgba(0, 0, 0, .12)',
+        borderRadius: 0
+    },
     card: {
         position: 'relative',
         margin: '.4rem .3rem 1.2rem',

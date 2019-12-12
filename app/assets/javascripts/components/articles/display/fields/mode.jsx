@@ -4,7 +4,7 @@ const ArticleModeField = ({currentMode, onModeClick}) => (
     <div className="article-mode-form">
         <div className="row center-align">
             <div className="col s4">
-                <a className={classNames('btn-flat waves-effect waves-spectra article-mode-btn', {
+                <a className={classNames('article-mode-btn', {
                     'article-mode-selected': currentMode === 'story'
                 })}
                    href="#"
@@ -17,7 +17,7 @@ const ArticleModeField = ({currentMode, onModeClick}) => (
             </div>
 
             <div className="col s4">
-                <a className={classNames('btn-flat waves-effect waves-spectra article-mode-btn', {
+                <a className={classNames('article-mode-btn', {
                     'article-mode-selected': currentMode === 'note'
                 })}
                    href="#"
@@ -30,7 +30,7 @@ const ArticleModeField = ({currentMode, onModeClick}) => (
             </div>
 
             <div className="col s4">
-                <a className={classNames('btn-flat waves-effect waves-spectra article-mode-btn', {
+                <a className={classNames('article-mode-btn', {
                     'article-mode-selected': currentMode === 'link'
                 })}
                    href="#"

@@ -26,7 +26,7 @@ class ArticleSidebarLayout extends React.PureComponent {
             <Drawer anchor="right"
                     variant="permanent"
                     classes={{
-                        paper: classNames(this.props.classes.drawerPaper, this.props.classes.drawerPaperBorderless)
+                        paper: classNames(this.props.classes.drawerPaper, this.props.classes.drawerPaperBorderless, this.props.classes.drawerPaperOverflow)
                     }}
                     open={true}>
                 <ArticleSidebar parentTag={this.props.parentTag}/>

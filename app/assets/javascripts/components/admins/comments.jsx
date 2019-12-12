@@ -8,15 +8,11 @@ import {
     fetchComments
 } from '../../actions';
 
-import {
-    getComments
-} from '../../selectors';
-
 import Loader from '../theme/loader';
 import Table from '../theme/table';
 
 export default @connect((state) => ({
-    comments: getComments(state)
+    comments: state.commentState.comments
 }), {
     fetchComments
 })
@@ -53,7 +49,7 @@ class AdminComments extends React.Component {
 
                 <Table title={I18n.t('js.admin.comments.table.title')}
                        locale={I18n.locale}
-                       data={this.props.comments}
+                       data={this.props.comments.map((comment) => Object.assign({}, comment))}
                        columns={[
                            {
                                title: I18n.t('js.admin.comments.table.columns.id'),

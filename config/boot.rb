@@ -17,7 +17,7 @@ if ENV['RAILS_ENV'] != 'production' && ENV['RAILS_ENV'] != 'beta'
     end
   end
 
-  require 'bootsnap' # Speed up boot time by caching expensive operations.
+  require 'bootsnap/setup' # Speed up boot time by caching expensive operations.
 
   Bootsnap.setup(
     compile_cache_iseq: !ENV["COVERAGE"], # Compile Ruby code into ISeq cache, breaks coverage reporting

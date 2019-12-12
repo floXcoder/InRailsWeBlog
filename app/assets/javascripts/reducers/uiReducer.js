@@ -1,13 +1,8 @@
 'use strict';
 
-import {
-    Record,
-    List
-} from 'immutable';
-
 import * as ActionTypes from '../constants/actionTypes';
 
-const initState = new Record({
+const initState = {
     isUserSignupOpen: false,
     isUserLoginOpen: false,
     isUserPreferenceOpen: false,
@@ -21,103 +16,81 @@ const initState = new Record({
     articleOrderMode: undefined,
 
     areArticlesMinimized: false,
-    currentArticles: new List(),
+    currentArticles: [],
 
     tagOrderMode: undefined
-});
+};
 
-export default function uiReducer(state = new initState(), action) {
+export default function uiReducer(state = initState, action) {
     switch (action.type) {
         // UI states
         case ActionTypes.UI_SWITCH_USER_SIGNUP:
-            return state.merge({
-                isUserSignupOpen: !state.isUserSignupOpen
-            });
+            state.isUserSignupOpen = !state.isUserSignupOpen;
+            return state;
         case ActionTypes.UI_SWITCH_USER_LOGIN:
-            return state.merge({
-                isUserLoginOpen: !state.isUserLoginOpen
-            });
+            state.isUserLoginOpen = !state.isUserLoginOpen;
+            return state;
         case ActionTypes.UI_SWITCH_USER_PREFERENCE:
-            return state.merge({
-                isUserPreferenceOpen: !state.isUserPreferenceOpen
-            });
+            state.isUserPreferenceOpen = !state.isUserPreferenceOpen;
+            return state;
 
         case ActionTypes.UI_SWITCH_TAG_SIDEBAR:
-            return state.merge({
-                isTagSidebarOpen: action.isOpen
-            });
+            state.isTagSidebarOpen = action.isOpen;
+            return state;
 
         case ActionTypes.UI_SWITCH_TOPIC_HEADER:
-            return state.merge({
-                isTopicPopupOpen: !state.isTopicPopupOpen
-            });
+            state.isTopicPopupOpen = !state.isTopicPopupOpen;
+            return state;
 
         case ActionTypes.UI_CHANGE_ARTICLE_ORDER:
-            return state.merge({
-                articleOrderMode: action.order
-            });
+            state.articleOrderMode = action.order;
+            return state;
         case ActionTypes.UI_SWITCH_ARTICLE_MINIMIZED:
-            return state.merge({
-                areArticlesMinimized: !state.areArticlesMinimized
-            });
+            state.areArticlesMinimized = !state.areArticlesMinimized;
+            return state;
         case ActionTypes.UI_CHANGE_CURRENT_ARTICLES:
-            if(action.action === 'add') {
-                return state.merge({
-                    currentArticles: state.currentArticles.concat(action.articleId)
-                });
+            if (action.action === 'add') {
+                state.currentArticles.push(action.articleId)
             } else {
-                return state.merge({
-                    currentArticles: state.currentArticles.filter((articleId) => articleId !== action.articleId)
-                });
+                state.currentArticles = state.currentArticles.filter((articleId) => articleId !== action.articleId)
             }
+            return state;
 
         case ActionTypes.UI_CHANGE_TAG_ORDER:
-            return state.merge({
-                tagOrderMode: action.order
-            });
+            state.tagOrderMode = action.order;
+            return state;
 
         // Update UI according to user settings
         case ActionTypes.USER_FETCH_SUCCESS:
         case ActionTypes.USER_CHANGE_SUCCESS:
             if (action.connection && action.user && action.user.settings) {
-                return state.merge(Utils.compact({
-                    articlesLoaderMode: action.user.currentTopic && action.user.currentTopic.settings && typeof action.user.currentTopic.settings.articlesLoader === 'string' ? action.user.currentTopic.settings.articlesLoader : action.user.settings.articlesLoader,
-                    articleDisplayMode: action.user.currentTopic && action.user.currentTopic.settings && typeof action.user.currentTopic.settings.articleDisplay === 'string' ? action.user.currentTopic.settings.articleDisplay : action.user.settings.articleDisplay,
-                    articleOrderMode: action.user.currentTopic && action.user.currentTopic.settings && typeof action.user.currentTopic.settings.articleOrder === 'string' ? action.user.currentTopic.settings.articleOrder : action.user.settings.articleOrder,
-                    tagOrderMode: action.user.currentTopic && action.user.currentTopic.settings && typeof action.user.currentTopic.settings.tagOrder === 'string' ? action.user.currentTopic.settings.tagOrder : action.user.settings.tagOrder,
-                    isTagSidebarOpen: action.user.currentTopic && action.user.currentTopic.settings && typeof action.user.currentTopic.settings.tagSidebarPin === 'boolean' ? !action.user.currentTopic.settings.tagSidebarPin : !action.user.settings.tagSidebarPin
-                }));
+                state.articlesLoaderMode = action.user.currentTopic && action.user.currentTopic.settings && typeof action.user.currentTopic.settings.articlesLoader === 'string' ? action.user.currentTopic.settings.articlesLoader : action.user.settings.articlesLoader;
+                state.articleDisplayMode = action.user.currentTopic && action.user.currentTopic.settings && typeof action.user.currentTopic.settings.articleDisplay === 'string' ? action.user.currentTopic.settings.articleDisplay : action.user.settings.articleDisplay;
+                state.articleOrderMode = action.user.currentTopic && action.user.currentTopic.settings && typeof action.user.currentTopic.settings.articleOrder === 'string' ? action.user.currentTopic.settings.articleOrder : action.user.settings.articleOrder;
+                state.tagOrderMode = action.user.currentTopic && action.user.currentTopic.settings && typeof action.user.currentTopic.settings.tagOrder === 'string' ? action.user.currentTopic.settings.tagOrder : action.user.settings.tagOrder;
+                state.isTagSidebarOpen = action.user.currentTopic && action.user.currentTopic.settings && typeof action.user.currentTopic.settings.tagSidebarPin === 'boolean' ? !action.user.currentTopic.settings.tagSidebarPin : !action.user.settings.tagSidebarPin
             } else if (action.settings && action.meta && !action.meta.topic) {
-                return state.merge(Utils.compact({
-                    articlesLoaderMode: action.user && action.user.currentTopic && action.user.currentTopic.settings && typeof action.user.currentTopic.settings.articlesLoader === 'string' ? action.user.currentTopic.settings.articlesLoader : action.settings.articlesLoader,
-                    articleDisplayMode: action.user && action.user.currentTopic && action.user.currentTopic.settings && typeof action.user.currentTopic.settings.articleDisplay === 'string' ? action.user.currentTopic.settings.articleDisplay : action.settings.articleDisplay,
-                    articleOrderMode: action.user && action.user.currentTopic && action.user.currentTopic.settings && typeof action.user.currentTopic.settings.articleOrder === 'string' ? action.user.currentTopic.settings.articleOrder : action.settings.articleOrder,
-                    tagOrderMode: action.user && action.user.currentTopic && action.user.currentTopic.settings && typeof action.user.currentTopic.settings.tagOrder === 'string' ? action.user.currentTopic.settings.tagOrder : action.settings.tagOrder,
-                    isTagSidebarOpen: action.user && action.user.currentTopic && action.user.currentTopic.settings && typeof action.user.currentTopic.settings.tagSidebarPin === 'boolean' ? !action.user.currentTopic.settings.tagSidebarPin : !action.settings.tagSidebarPin
-                }));
+                state.articlesLoaderMode = action.user && action.user.currentTopic && action.user.currentTopic.settings && typeof action.user.currentTopic.settings.articlesLoader === 'string' ? action.user.currentTopic.settings.articlesLoader : action.settings.articlesLoader;
+                state.articleDisplayMode = action.user && action.user.currentTopic && action.user.currentTopic.settings && typeof action.user.currentTopic.settings.articleDisplay === 'string' ? action.user.currentTopic.settings.articleDisplay : action.settings.articleDisplay;
+                state.articleOrderMode = action.user && action.user.currentTopic && action.user.currentTopic.settings && typeof action.user.currentTopic.settings.articleOrder === 'string' ? action.user.currentTopic.settings.articleOrder : action.settings.articleOrder;
+                state.tagOrderMode = action.user && action.user.currentTopic && action.user.currentTopic.settings && typeof action.user.currentTopic.settings.tagOrder === 'string' ? action.user.currentTopic.settings.tagOrder : action.settings.tagOrder;
+                state.isTagSidebarOpen = action.user && action.user.currentTopic && action.user.currentTopic.settings && typeof action.user.currentTopic.settings.tagSidebarPin === 'boolean' ? !action.user.currentTopic.settings.tagSidebarPin : !action.settings.tagSidebarPin
             } else if (action.settings && action.meta && action.meta.topic) {
-                return state.merge(Utils.compact({
-                    articlesLoaderMode: action.settings.articlesLoader,
-                    articleDisplayMode: action.settings.articleDisplay,
-                    articleOrderMode: action.settings.articleOrder,
-                    tagOrderMode: action.settings.tagOrder,
-                    isTagSidebarOpen: !action.settings.tagSidebarPin
-                }));
-            } else {
-                return state;
+                state.articlesLoaderMode = action.settings.articlesLoader;
+                state.articleDisplayMode = action.settings.articleDisplay;
+                state.articleOrderMode = action.settings.articleOrder;
+                state.tagOrderMode = action.settings.tagOrder;
+                state.isTagSidebarOpen = !action.settings.tagSidebarPin;
             }
-
+            return state;
 
         case ActionTypes.TOPIC_FETCH_SUCCESS:
             if (action.isSwitching && action.topic && action.topic.settings) {
-                return state.merge({
-                    isTopicPopupOpen: false,
-                    articleOrderMode: typeof action.topic.settings.articleOrder === 'string' ? action.topic.settings.articleOrder : state.articleOrder,
-                    isTagSidebarOpen: typeof action.topic.settings.tagSidebarPin === 'boolean' ? !action.topic.settings.tagSidebarPin : state.isTagSidebarOpen
-                })
-            } else {
-                return state;
+                state.isTopicPopupOpen = false;
+                state.articleOrderMode = typeof action.topic.settings.articleOrder === 'string' ? action.topic.settings.articleOrder : state.articleOrder;
+                state.isTagSidebarOpen = typeof action.topic.settings.tagSidebarPin === 'boolean' ? !action.topic.settings.tagSidebarPin : state.isTagSidebarOpen;
             }
+            return state;
 
         default:
             return state;

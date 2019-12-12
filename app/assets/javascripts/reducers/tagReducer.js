@@ -1,88 +1,75 @@
 'use strict';
 
-import {
-    Record,
-    Map,
-    List
-} from 'immutable';
-
 import * as ActionTypes from '../constants/actionTypes';
 
-import * as Records from '../constants/records';
-
 import {
-    toList,
     fetchReducer,
     mutationReducer,
-    mutateArray
+    removeIn,
+    addOrReplaceIn
 } from './mutators';
 
-const initState = new Record({
+const initState = {
     isFetching: false,
     isProcessing: false,
-    errors: new Map(),
+    errors: undefined,
 
-    tags: new List(),
-    metaTags: new Map(),
-    pagination: new Map(),
+    tags: [],
+    metaTags: {},
+    pagination: {},
 
-    popularTags: new List(),
+    popularTags: [],
 
-    topicTags: new List(),
-    currentTagSlugs: new List(),
+    topicTags: [],
+    currentTagSlugs: [],
 
     tag: undefined,
 
     filterText: undefined
-});
+};
 
-export default function tagReducer(state = new initState(), action) {
+export default function tagReducer(state = initState, action) {
     switch (action.type) {
         case ActionTypes.TAG_FETCH_INIT:
         case ActionTypes.TAG_FETCH_SUCCESS:
         case ActionTypes.TAG_FETCH_ERROR:
-            return fetchReducer(state, action, (payload) => {
-                if (payload.tag) {
-                    return {
-                        tag: new Records.TagRecord(payload.tag)
-                    };
+            return fetchReducer(state, action, (state) => {
+                if (action.tag) {
+                    state.tag = action.tag;
                 } else {
-                    if (payload.topicTags) {
-                        return {
-                            topicTags: toList(payload.tags, Records.TagRecord)
-                        };
-                    } else if (payload.populars) {
-                        return {
-                            popularTags: toList(payload.tags, Records.TagRecord)
-                        };
+                    if (action.topicTags) {
+                        state.topicTags = action.tags;
+                    } else if (action.populars) {
+                        state.popularTags = action.tags;
                     } else {
-                        return {
-                            tags: toList(payload.tags, Records.TagRecord)
-                        };
+                        state.tags = action.tags || [];
                     }
                 }
-            }, ['tags', 'topicTags', 'populars']);
+            });
 
         case ActionTypes.TAG_CHANGE_INIT:
         case ActionTypes.TAG_CHANGE_SUCCESS:
         case ActionTypes.TAG_CHANGE_ERROR:
-            return mutationReducer(state, action, (payload) =>
-                payload.tags ? ({
-                    tags: toList(payload.tags, Records.TagRecord)
-                }) : ({
-                    tag: payload.tag && (new Records.TagRecord(payload.tag)),
-                    tags: mutateArray(state.tags, payload.tag && (new Records.TagRecord(payload.tag)), action.removedId)
-                })/*, ['tag']*/);
+            return mutationReducer(state, action, (state) => {
+                if (action.tags) {
+                    state.tags = action.tags;
+                } else {
+                    if(action.removedId) {
+                        state.tags = removeIn(state.tags, action.removedId);
+                    } else {
+                        state.tag = action.tag;
+                        state.tags = addOrReplaceIn(state.tags, action.tag);
+                    }
+                }
+            });
 
         case ActionTypes.TAG_FILTER_SIDEBAR:
-            return state.merge({
-                filterText: action.filterText
-            });
+            state.filterText = action.filterText;
+            return state;
 
         case ActionTypes.TAG_SET_CURRENT_TAGS:
-            return state.merge({
-                currentTagSlugs: new List(action.tags)
-            });
+            state.currentTagSlugs = action.tags || [];
+            return state;
 
         default:
             return state;

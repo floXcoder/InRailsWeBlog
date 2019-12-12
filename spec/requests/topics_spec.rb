@@ -166,10 +166,14 @@ describe 'Topic API', type: :request, basic: true do
 
   describe '/api/v1/topics/:id' do
     context 'when user is not connected' do
-      it 'returns an error message' do
+      it 'returns the topic' do
         get "/api/v1/topics/#{@public_topic.id}", params: { user_id: @user.id }, as: :json
 
-        expect(response).to be_unauthenticated
+        expect(response).to be_json_response
+
+        topic = JSON.parse(response.body)
+        expect(topic['topic']).not_to be_empty
+        expect(topic['topic']['name']).to eq(@public_topic.name)
       end
     end
 
@@ -178,10 +182,14 @@ describe 'Topic API', type: :request, basic: true do
         login_as(@other_user, scope: :user, run_callbacks: false)
       end
 
-      it 'returns an error message' do
+      it 'returns the topic' do
         get "/api/v1/topics/#{@public_topic.id}", params: { user_id: @user.id }, as: :json
 
-        expect(response).to be_unauthorized
+        expect(response).to be_json_response
+
+        topic = JSON.parse(response.body)
+        expect(topic['topic']).not_to be_empty
+        expect(topic['topic']['name']).to eq(@public_topic.name)
       end
     end
 
@@ -190,7 +198,7 @@ describe 'Topic API', type: :request, basic: true do
         login_as(@user, scope: :user, run_callbacks: false)
       end
 
-      it 'returns the new topic' do
+      it 'returns the topic' do
         get "/api/v1/topics/#{@public_topic.id}", params: { user_id: @user.id }, as: :json
 
         expect(response).to be_json_response

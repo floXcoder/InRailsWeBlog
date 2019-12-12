@@ -17,9 +17,7 @@ export default class ErrorBoundary extends React.Component {
     };
 
     static defaultProps = {
-        errorType: 'card',
-        errorTitle: I18n.t('js.helpers.errors.boundary.title'),
-        errorMessage: I18n.t('js.helpers.errors.boundary.message')
+        errorType: 'card'
     };
 
     constructor(props) {
@@ -44,7 +42,7 @@ export default class ErrorBoundary extends React.Component {
                 return (
                     <h3 className={this.props.className}
                         style={{margin: '1rem 0', textAlign: 'center'}}>
-                        {this.props.errorTitle}
+                        {this.props.errorTitle || I18n.t('js.helpers.errors.boundary.title')}
                     </h3>
                 );
             } else {
@@ -52,11 +50,11 @@ export default class ErrorBoundary extends React.Component {
                     <div className="card-panel">
                         <h3 className={this.props.className}
                             style={{margin: '1rem 0', textAlign: 'center'}}>
-                            {this.props.errorTitle}
+                            {this.props.errorTitle || I18n.t('js.helpers.errors.boundary.title')}
                         </h3>
 
                         <p style={{margin: '2rem', fontStyle: 'italic', textAlign: 'center'}}>
-                            {this.props.errorMessage}
+                            {this.props.errorMessage || I18n.t('js.helpers.errors.boundary.message')}
                         </p>
                     </div>
                 );

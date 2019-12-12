@@ -24,6 +24,8 @@ module Api::V1
 
     before_action :honeypot_protection, only: [:create, :update]
 
+    before_action :set_context_user, except: [:index]
+
     after_action :verify_authorized, except: [:index, :stories]
 
     include TrackerConcern
@@ -76,7 +78,7 @@ module Api::V1
     end
 
     def show
-      article = Article.include_element.friendly.find(params[:id])
+      article = @context_user.articles.include_element.friendly.find(params[:id])
       admin_or_authorize article
 
       respond_to do |format|
@@ -104,7 +106,7 @@ module Api::V1
     end
 
     def shared
-      article             = Article.include_element.friendly.find(params[:id])
+      article             = @context_user.articles.include_element.friendly.find(params[:id])
       article.shared_link = params[:public_link]
       admin_or_authorize article
 
@@ -129,9 +131,9 @@ module Api::V1
     end
 
     def stories
-      article = Article.include_element.friendly.find(params[:id])
+      article = @context_user.articles.include_element.friendly.find(params[:id])
 
-      articles = ::Articles::FindQueries.new(current_user, current_admin).stories(topic_id: article.topic_id)
+      articles = ::Articles::FindQueries.new(@context_user, current_admin).stories(topic_id: article.topic_id)
 
       respond_to do |format|
         format.json do
@@ -143,7 +145,7 @@ module Api::V1
     end
 
     def history
-      article = Article.friendly.find(params[:id])
+      article = current_user.articles.friendly.find(params[:id])
       admin_or_authorize article
 
       article_versions = article.versions.where(event: 'update').map.with_index { |h, i| h.object_changes.present? || i == 0 ? h : nil }.compact.reverse
@@ -184,7 +186,7 @@ module Api::V1
     end
 
     def edit
-      article = Article.include_element.friendly.find(params[:id])
+      article = current_user.articles.include_element.friendly.find(params[:id])
       admin_or_authorize article
 
       respond_to do |format|
@@ -200,7 +202,7 @@ module Api::V1
     end
 
     def update
-      article = Article.find(params[:id])
+      article = current_user.articles.friendly.find(params[:id])
       admin_or_authorize article
 
       stored_article = ::Articles::StoreService.new(article, article_params.merge(current_user: current_user)).perform
@@ -249,7 +251,7 @@ module Api::V1
     end
 
     def restore
-      article = Article.with_deleted.find(params[:id])
+      article = current_user.articles.with_deleted.find(params[:id])
       admin_or_authorize article
 
       version = PaperTrail::Version.find_by(id: params[:version_id])
@@ -278,7 +280,7 @@ module Api::V1
     end
 
     def destroy
-      article = Article.find(params[:id])
+      article = current_user.articles.find(params[:id])
       admin_or_authorize article
 
       respond_to do |format|

@@ -16,12 +16,11 @@ const saveCurrentState = (paramsToSerialize, paramsToUrl, replaceOnly = false, r
 
         const urlData = urlParser(location.href).data;
         let newPath = urlData.attr.path;
-        paramsToUrl = omitEmptyParams(paramsToUrl);
         const currentUrlParams = omitEmptyParams(urlData.param.query);
 
-        const newParams = reuseExistingParams ? {...currentUrlParams, ...paramsToUrl} : paramsToUrl;
+        const newParams = omitEmptyParams({...currentUrlParams, ...paramsToUrl});
 
-        if (!Utils.isEmpty(Utils.toParams(paramsToUrl))) {
+        if (!Utils.isEmpty(Utils.toParams(newParams))) {
             newPath += '?' + Utils.toParams(newParams);
         }
 

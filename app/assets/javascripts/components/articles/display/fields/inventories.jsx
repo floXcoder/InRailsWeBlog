@@ -1,9 +1,8 @@
 'use strict';
 
 import {
-    FormSection,
     Field
-} from 'redux-form/immutable';
+} from 'react-final-form';
 
 import {
     withStyles
@@ -57,7 +56,7 @@ class ArticleInventoriesField extends React.Component {
     _renderFieldByType = (field) => {
         if (field.valueType === 'string_type') {
             return (
-                <Field name={field.fieldName}
+                <Field name={`inventories[${field.fieldName}]`}
                        component={TextFormField}
                        className={this.props.classes.inventoryField}
                        variant="outlined"
@@ -69,7 +68,7 @@ class ArticleInventoriesField extends React.Component {
             );
         } else if (field.valueType === 'date_type') {
             return (
-                <Field name={field.fieldName}
+                <Field name={`inventories[${field.fieldName}]`}
                        component={DateFormField}
                        className={this.props.classes.inventoryField}
                        variant="outlined"
@@ -81,7 +80,7 @@ class ArticleInventoriesField extends React.Component {
             );
         } else if (field.valueType === 'number_type') {
             return (
-                <Field name={field.fieldName}
+                <Field name={`inventories[${field.fieldName}]`}
                        component={NumberFormField}
                        className={this.props.classes.inventoryField}
                        variant="outlined"
@@ -93,7 +92,7 @@ class ArticleInventoriesField extends React.Component {
             );
         } else if (field.valueType === 'boolean_type') {
             return (
-                <Field name={field.fieldName}
+                <Field name={`inventories[${field.fieldName}]`}
                        type="checkbox"
                        component={CheckBoxFormField}
                        className={this.props.classes.inventoryField}
@@ -103,7 +102,7 @@ class ArticleInventoriesField extends React.Component {
             );
         } else if (field.valueType === 'text_type') {
             return (
-                <Field name={field.fieldName}
+                <Field name={`inventories[${field.fieldName}]`}
                        component={EditorField}
                        id={field.fieldName}
                        className={this.props.classes.inventoryField}
@@ -139,19 +138,15 @@ class ArticleInventoriesField extends React.Component {
                            color="primary"/>
                 </Grid>
 
-                <FormSection name="inventories"
-                             component="section"
-                             style={{width: '100%'}}>
-                    {
-                        this.props.inventoryFields.map((field, i) => (
-                            <Grid key={`${this.props.article.id}-${field.fieldName}-${i}`}
-                                  item={true}
-                                  sm={12}>
-                                {this._renderFieldByType(field)}
-                            </Grid>
-                        ))
-                    }
-                </FormSection>
+                {
+                    this.props.inventoryFields.map((field, i) => (
+                        <Grid key={`${this.props.article.id}-${field.fieldName}-${i}`}
+                              item={true}
+                              sm={12}>
+                            {this._renderFieldByType(field)}
+                        </Grid>
+                    ))
+                }
             </Grid>
         );
     }

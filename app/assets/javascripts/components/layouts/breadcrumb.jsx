@@ -15,10 +15,6 @@ import ClassIcon from '@material-ui/icons/Class';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 import {
-    getTracksClick
-} from '../../actions';
-
-import {
     getUserRecents
 } from '../../selectors';
 
@@ -58,12 +54,12 @@ class BreadcrumbLayout extends React.Component {
 
         if (prevState.recents !== nextProps.recents) {
             return {
-                recents: _formatRecents(nextProps.recents.concat(getTracksClick()), nextProps.recentsLimit),
+                recents: _formatRecents(nextProps.recents, nextProps.recentsLimit),
                 currentPath: prevState.currentPath
             };
         } else if (prevState.currentPath !== nextProps.currentPath) {
             return {
-                recents: _formatRecents(prevState.recents.concat(getTracksClick()), nextProps.recentsLimit),
+                recents: _formatRecents(prevState.recents, nextProps.recentsLimit),
                 currentPath: nextProps.currentPath
             };
         }

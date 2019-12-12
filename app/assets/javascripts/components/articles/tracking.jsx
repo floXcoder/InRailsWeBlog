@@ -30,10 +30,6 @@ import {
     fetchArticle
 } from '../../actions';
 
-import {
-    getArticle
-} from '../../selectors';
-
 import styles from '../../../jss/article/share';
 //  root: {
 //     width: '100%',
@@ -43,9 +39,7 @@ import styles from '../../../jss/article/share';
 
 export default @withRouter
 @connect((state) => ({
-    userId: state.userState.currentId,
-    userSlug: state.userState.currentSlug,
-    article: getArticle(state)
+    article: state.articleState.article
 }), {
     fetchArticle
 })
@@ -72,13 +66,13 @@ class TrackingArticleModal extends React.Component {
 
     componentDidMount() {
         if (this.props.article) {
-            this.props.fetchArticle(this.props.article.id, {complete: true});
+            this.props.fetchArticle(this.props.article.user.id, this.props.article.id, {complete: true});
         }
     }
 
     componentDidUpdate() {
         if (!this.props.article) {
-            this.props.fetchArticle(this.props.article.id, {complete: true});
+            this.props.fetchArticle(this.props.article.user.id, this.props.article.id, {complete: true});
         }
     }
 

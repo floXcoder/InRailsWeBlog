@@ -18,7 +18,6 @@ import {
 } from '../../actions';
 
 import {
-    getTopicMetaTags,
     getCurrentUser,
     getTopicErrors
 } from '../../selectors';
@@ -34,7 +33,7 @@ import styles from '../../../jss/topic/edit';
 
 export default @withRouter
 @connect((state) => ({
-    metaTags: getTopicMetaTags(state),
+    metaTags: state.topicState.metaTags,
     topic: state.topicState.topic,
     currentUser: getCurrentUser(state),
     topicErrors: getTopicErrors(state)

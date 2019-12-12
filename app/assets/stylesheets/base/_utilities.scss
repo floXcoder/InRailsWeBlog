@@ -7,53 +7,53 @@
   }
 }
 
-.hide-on-med-and-down {
-  @media #{$medium-and-down} {
-    display: none !important;
-  }
-}
+//.hide-on-med-and-down {
+//  @media #{$medium-and-down} {
+//    display: none !important;
+//  }
+//}
 
-.hide-on-med-and-up {
-  @media #{$medium-and-up} {
-    display: none !important;
-  }
-}
+//.hide-on-med-and-up {
+//  @media #{$medium-and-up} {
+//    display: none !important;
+//  }
+//}
 
-.hide-on-med-only {
-  @media only screen and (min-width: $small-screen) and (max-width: $medium-screen) {
-    display: none !important;
-  }
-}
+//.hide-on-med-only {
+//  @media only screen and (min-width: $small-screen) and (max-width: $medium-screen) {
+//    display: none !important;
+//  }
+//}
 
-.hide-on-large-only {
-  @media #{$large-and-up} {
-    display: none !important;
-  }
-}
+//.hide-on-large-only {
+//  @media #{$large-and-up} {
+//    display: none !important;
+//  }
+//}
 
-.hide-on-extra-large-only {
-  @media #{$extra-large-and-up} {
-    display: none !important;
-  }
-}
+//.hide-on-extra-large-only {
+//  @media #{$extra-large-and-up} {
+//    display: none !important;
+//  }
+//}
 
-.show-on-extra-large {
-  @media #{$extra-large-and-up} {
-    display: block !important;
-  }
-}
+//.show-on-extra-large {
+//  @media #{$extra-large-and-up} {
+//    display: block !important;
+//  }
+//}
 
-.show-on-large {
-  @media #{$large-and-up} {
-    display: block !important;
-  }
-}
+//.show-on-large {
+//  @media #{$large-and-up} {
+//    display: block !important;
+//  }
+//}
 
-.show-on-medium {
-  @media only screen and (min-width: $small-screen) and (max-width: $medium-screen) {
-    display: block !important;
-  }
-}
+//.show-on-medium {
+//  @media only screen and (min-width: $small-screen) and (max-width: $medium-screen) {
+//    display: block !important;
+//  }
+//}
 
 .show-on-small {
   @media #{$small-and-down} {
@@ -61,36 +61,36 @@
   }
 }
 
-.show-on-medium-and-up {
-  @media #{$medium-and-up} {
-    display: block !important;
-  }
-}
+//.show-on-medium-and-up {
+//  @media #{$medium-and-up} {
+//    display: block !important;
+//  }
+//}
 
-.show-on-medium-and-down {
-  @media #{$medium-and-down} {
-    display: block !important;
-  }
-}
+//.show-on-medium-and-down {
+//  @media #{$medium-and-down} {
+//    display: block !important;
+//  }
+//}
 
-.hide-on-med-to-large-only {
-  @media only screen and (min-width: $medium-screen) and (max-width: $large-screen) {
-    display: none !important;
-  }
-}
+//.hide-on-med-to-large-only {
+//  @media only screen and (min-width: $medium-screen) and (max-width: $large-screen) {
+//    display: none !important;
+//  }
+//}
 
-.show-on-med-to-large-only {
-  @media only screen and (min-width: $medium-screen) and (max-width: $large-screen) {
-    width: 100% !important;
-  }
-}
+//.show-on-med-to-large-only {
+//  @media only screen and (min-width: $medium-screen) and (max-width: $large-screen) {
+//    width: 100% !important;
+//  }
+//}
 
-// Center text on mobile
-.center-on-small-only {
-  @media #{$small-and-down} {
-    text-align: center;
-  }
-}
+//// Center text on mobile
+//.center-on-small-only {
+//  @media #{$small-and-down} {
+//    text-align: center;
+//  }
+//}
 
 .hide {
   display: none !important;
@@ -103,15 +103,6 @@
 // Inline element
 .inline {
   display: inline;
-}
-
-// Font properties
-.italic {
-  font-style: italic;
-}
-
-.bold {
-  font-weight: 600;
 }
 
 // Text Align
@@ -136,15 +127,15 @@
   float: right !important;
 }
 
-.center-block {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
+//.center-block {
+//  display: block;
+//  margin-left: auto;
+//  margin-right: auto;
+//}
 
-.no-padding {
-  padding: 0 !important;
-}
+//.no-padding {
+//  padding: 0 !important;
+//}
 
 // For honeypot
 .ensure-validity {
@@ -173,44 +164,6 @@
   z-index: 100; // Because for user-select:none, Safari won't allow input
 }
 
-.cursor-pointer {
-  cursor: pointer;
-}
-
-@for $i from 0 through 20 {
-  .margin-bottom-#{$i * 5} {
-    clear: both;
-    margin-bottom: $i * 5px !important;
-  }
-
-  .margin-top-#{$i * 5} {
-    clear: both;
-    margin-top: $i * 5px !important;
-  }
-}
-
-@for $i from 0 through 10 {
-  @media (max-width: $small-screen) {
-    .sm-margin-top-#{$i * 10} {
-      margin-top: $i * 10px !important;
-    }
-
-    .sm-margin-bottom-#{$i * 10} {
-      margin-bottom: $i * 10px !important;
-    }
-  }
-
-  @media (max-width: $medium-screen) {
-    .md-margin-top-#{$i * 10} {
-      margin-top: $i * 10px !important;
-    }
-
-    .md-margin-bottom-#{$i * 10} {
-      margin-bottom: $i * 10px !important;
-    }
-  }
-}
-
 .hr-around-text {
   align-items: center;
   display: flex;
@@ -222,15 +175,5 @@
     content: '';
     flex: 1;
     margin: 0 .8rem;
-  }
-}
-
-.clearfix {
-  &::before,
-  &::after {
-    content: '.';
-    display: block;
-    height: 0;
-    overflow: hidden;
   }
 }

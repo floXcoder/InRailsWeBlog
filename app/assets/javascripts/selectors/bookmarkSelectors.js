@@ -6,7 +6,7 @@ import {
 
 export const getBookmarks = createSelector(
     (state) => state.bookmarkState.bookmarks,
-    (bookmarks) => bookmarks.toArray()
+    (bookmarks) => bookmarks
 );
 
 export const getBookmark = createSelector(

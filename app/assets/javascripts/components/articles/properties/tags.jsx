@@ -23,7 +23,7 @@ export default @withStyles(styles)
 class ArticleTags extends React.PureComponent {
     static propTypes = {
         articleId: PropTypes.number.isRequired,
-        tags: PropTypes.object.isRequired,
+        tags: PropTypes.array.isRequired,
         currentUserSlug: PropTypes.string,
         currentUserTopicSlug: PropTypes.string,
         parentTagIds: PropTypes.array,
@@ -67,7 +67,7 @@ class ArticleTags extends React.PureComponent {
         let parentTags = this.props.tags.filter((tag) => this.props.parentTagIds.includes(tag.id));
         const childTags = this.props.tags.filter((tag) => this.props.childTagIds.includes(tag.id));
 
-        if (childTags.size === 0) {
+        if (childTags.length === 0) {
             parentTags = this.props.tags;
         }
 

@@ -29,10 +29,10 @@ describe('Tags actions', () => {
 
             return dispatch(store, TagActions.fetchTags())
                 .then((state) => {
-                    expect(TagSelectors.getTags(state)).toHaveLength(publicTags.length + privateTags.length);
+                    expect(state.tagState.tags).toHaveLength(publicTags.length + privateTags.length);
                     expect(TagSelectors.getPublicTags(state)).toHaveLength(publicTags.length);
                     expect(TagSelectors.getPrivateTags(state)).toHaveLength(privateTags.length);
-                    expect(TagSelectors.getTags(state).first().id).toEqual(1);
+                    expect(state.tagState.tags.first().id).toEqual(1);
                     expect(TagSelectors.getCategorizedTags(state, 'everyone')).toHaveLength(1);
                     expect(TagSelectors.getCategorizedTags(state, 'everyone').first().id).toEqual('everyone');
                     expect(TagSelectors.getCategorizedTags(state, 'only_me')).toHaveLength(1);
@@ -52,8 +52,8 @@ describe('Tags actions', () => {
 
             return dispatch(store, TagActions.fetchTag(tag.id))
                 .then((state) => {
-                    expect(TagSelectors.getTag(state).id).toEqual(tag.id);
-                    expect(TagSelectors.getTag(state).name).toEqual(tag.name);
+                    expect(state.tagState.tag.id).toEqual(tag.id);
+                    expect(state.tagState.tag.name).toEqual(tag.name);
                 });
         });
     });
@@ -88,9 +88,9 @@ describe('Tags actions', () => {
 
             return dispatch(store, TagActions.addTag(newTag))
                 .then((state) => {
-                    expect(TagSelectors.getTag(state).name).toEqual(newTag.name);
-                    expect(TagSelectors.getTag(state).user.id).toEqual(newTag.user.id);
-                    expect(TagSelectors.getTagErrors(state)).toEqual([]);
+                    expect(state.tagState.tag.name).toEqual(newTag.name);
+                    expect(state.tagState.tag.user.id).toEqual(newTag.user.id);
+                    expect(TagSelectors.getTagErrors(state)).toEqual(undefined);
                 });
         });
 
@@ -105,7 +105,7 @@ describe('Tags actions', () => {
 
             return dispatch(store, TagActions.addTag(newTag))
                 .then((state) => {
-                    expect(TagSelectors.getTag(state)).toBeUndefined();
+                    expect(state.tagState.tag).toBeUndefined();
                 });
         });
     });
@@ -122,8 +122,8 @@ describe('Tags actions', () => {
 
             return dispatch(store, TagActions.updateTag({id: tag.id, ...updateParameters}))
                 .then((state) => {
-                    expect(TagSelectors.getTag(state).name).toEqual(updateParameters.name);
-                    expect(TagSelectors.getTagErrors(state)).toEqual([]);
+                    expect(state.tagState.tag.name).toEqual(updateParameters.name);
+                    expect(TagSelectors.getTagErrors(state)).toEqual(undefined);
                 });
         });
     });
@@ -136,8 +136,8 @@ describe('Tags actions', () => {
 
             return dispatch(store, TagActions.deleteTag(tag.id))
                 .then((state) => {
-                    expect(TagSelectors.getTag(state)).toBeUndefined();
-                    expect(TagSelectors.getTagErrors(state)).toEqual([]);
+                    expect(state.tagState.tag).toBeUndefined();
+                    expect(TagSelectors.getTagErrors(state)).toEqual(undefined);
                 });
         });
     });

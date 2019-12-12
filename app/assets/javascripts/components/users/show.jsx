@@ -4,16 +4,12 @@ import {
     withStyles
 } from '@material-ui/core/styles';
 
-import {
-    getUser,
-} from '../../selectors';
-
 import UserComplete from './complete';
 
 // import styles from '../../../jss/user/show';
 
 export default @connect((state) => ({
-    user: getUser(state)
+    user: state.userState.user
 }), {
     // fetchUser,
 })

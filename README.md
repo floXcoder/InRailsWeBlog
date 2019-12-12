@@ -339,7 +339,7 @@ Gitlab is used for automatic deployment:
 
 
     RAILS_ENV=production bundle exec rails InRailsWeBlog:update_geolite --silent
-    RAILS_ENV=production bundle exec rails InRailsWeBlog:seo[sitemap] --silent
+    RAILS_ENV=production bundle exec rails InRailsWeBlog:generate_sitemap --silent
 
 - Other commands:
 

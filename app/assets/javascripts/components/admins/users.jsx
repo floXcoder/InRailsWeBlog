@@ -8,15 +8,11 @@ import {
     fetchUsers
 } from '../../actions';
 
-import {
-    getUsers
-} from '../../selectors';
-
 import Loader from '../theme/loader';
 import Table from '../theme/table';
 
 export default @connect((state) => ({
-    users: getUsers(state)
+    users: state.userState.users
 }), {
     fetchUsers
 })
@@ -59,7 +55,7 @@ class AdminUsers extends React.Component {
 
                 <Table title={I18n.t('js.admin.users.table.title')}
                        locale={I18n.locale}
-                       data={this.props.users}
+                       data={this.props.users.map((user) => Object.assign({}, user))}
                        columns={[
                            {
                                title: I18n.t('js.admin.users.table.columns.id'),

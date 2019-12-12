@@ -31,7 +31,7 @@ class Signup extends React.Component {
     }
 
     _handleSubmit = (values) => {
-        this.props.signupUser(values.toJS())
+        this.props.signupUser(values)
             .then((response) => {
                 if (response && response.errors) {
                     Notification.error(response.errors);
@@ -93,8 +93,8 @@ class Signup extends React.Component {
 
                     {
                         (!this.props.isProcessing && !this.props.isConnected) &&
-                        <SignupForm onCancel={this.props.onModalChange}
-                                    onSubmit={this._handleSubmit}/>
+                        <SignupForm onSubmit={this._handleSubmit}
+                                    onCancel={this.props.onModalChange}/>
                     }
                 </div>
             </Modal>

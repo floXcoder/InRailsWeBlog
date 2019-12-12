@@ -58,13 +58,41 @@ const Localizations = {
     }
 };
 
+const byString = (o, s) => {
+    if (!s) {
+        return;
+    }
+
+    s = s.replace(/\[(\w+)\]/g, '.$1'); // convert indexes to properties
+    s = s.replace(/^\./, '');           // strip a leading dot
+    var a = s.split('.');
+    for (var i = 0, n = a.length; i < n; ++i) {
+        var x = a[i];
+        if (o && x in o) {
+            o = o[x];
+        } else {
+            return;
+        }
+    }
+    return o;
+};
+
+const getFieldValue = (rowData, columnDef, lookup = true) => {
+    let value = (typeof rowData[columnDef.field] !== 'undefined' ? rowData[columnDef.field] : byString(rowData, columnDef.field));
+    if (columnDef.lookup && lookup) {
+        value = columnDef.lookup[value];
+    }
+
+    return value;
+};
+
 export default class Table extends React.Component {
     static propTypes = {
         title: PropTypes.string.isRequired,
         data: PropTypes.array.isRequired,
         columns: PropTypes.array.isRequired,
         options: PropTypes.object.isRequired,
-        locale: PropTypes.array,
+        locale: PropTypes.string,
         actions: PropTypes.array,
         detailPanel: PropTypes.array,
         isExpandedRow: PropTypes.bool,
@@ -73,7 +101,6 @@ export default class Table extends React.Component {
     };
 
     static defaultProps = {
-        locale: 'en',
         isExpandedRow: false
     };
 
@@ -84,11 +111,7 @@ export default class Table extends React.Component {
             });
 
         const renderData = data.map((rowData) =>
-            renderColumns.map((columnDef) => {
-                return columnDef.lookup
-                    ? columnDef.lookup[rowData[columnDef.field]]
-                    : rowData[columnDef.field];
-            })
+            renderColumns.map((columnDef) => getFieldValue(rowData, columnDef))
         );
 
         const builder = new CsvBuilder(this.props.title + '.csv');

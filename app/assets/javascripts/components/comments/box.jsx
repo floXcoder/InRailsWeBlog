@@ -26,8 +26,6 @@ import {
 
 import {
     getIsPrimaryUser,
-    getComments,
-    getCommentPagination
 } from '../../selectors';
 
 import Pagination from '../theme/pagination';
@@ -42,8 +40,8 @@ export default @connect((state) => ({
     isUserConnected: state.userState.isConnected,
     currentUserId: state.userState.currentId,
     isSuperUserConnected: getIsPrimaryUser(state),
-    comments: getComments(state),
-    commentsPagination: getCommentPagination(state),
+    comments: state.commentState.comments,
+    commentsPagination: state.commentState.pagination,
     isLoadingComments: state.commentState.isFetching
 }), {
     fetchComments,

@@ -5,9 +5,9 @@ import {
 } from 'react-router-dom';
 
 import {
-    Field,
-    reduxForm
-} from 'redux-form/immutable';
+    Form,
+    Field
+} from 'react-final-form';
 
 import {
     withStyles
@@ -30,36 +30,26 @@ import CheckBoxFormField from '../../material-ui/form/checkbox';
 
 import styles from '../../../../jss/user/connection';
 
-const asyncValidate = (values /*, dispatch */) => {
-    if (values.get('login')) {
+const loginValidation = (loginValue) => {
+    if (loginValue) {
         return (
-            validateUser(values.get('login')).then((response) => {
+            validateUser(loginValue).then((response) => {
                 if (!response.success) {
-                    throw {
-                        login: I18n.t('js.user.errors.login.invalid')
-                    };
+                    return I18n.t('js.user.errors.login.invalid');
                 }
             })
         );
     } else {
-        return Promise.resolve();
+        return undefined;
     }
 };
 
 
-export default @reduxForm({
-    form: 'login',
-    asyncValidate,
-    asyncBlurFields: ['login']
-})
-@withStyles(styles)
+export default @withStyles(styles)
 class LoginForm extends React.Component {
     static propTypes = {
+        onSubmit: PropTypes.func.isRequired,
         onCancel: PropTypes.func.isRequired,
-        // from reduxForm
-        handleSubmit: PropTypes.func,
-        submitting: PropTypes.bool,
-        invalid: PropTypes.bool,
         // from styles
         classes: PropTypes.object
     };
@@ -70,120 +60,127 @@ class LoginForm extends React.Component {
 
     render() {
         return (
-            <form className={classNames('connection', {'form-invalid': this.props.invalid})}
-                  onSubmit={this.props.handleSubmit}>
-                <EnsureValidity/>
+            <Form onSubmit={this.props.onSubmit}>
+                {
+                    ({handleSubmit, submitting}) => (
+                        <form className="connection"
+                              onSubmit={handleSubmit}>
+                            <EnsureValidity/>
 
-                <Grid classes={{container: this.props.classes.container}}
-                      container={true}
-                      spacing={2}
-                      direction="column"
-                      justify="space-between"
-                      alignItems="center">
-                    <Grid classes={{item: this.props.classes.fieldItem}}
-                          item={true}>
-                        <Field name="login"
-                               component={TextFormField}
-                               id="user_login_login"
-                               className={this.props.classes.textField}
-                               label={I18n.t('js.user.login.login')}
-                               autoFocus={true}
-                               required={true}
-                               color="primary"
-                               InputProps={{
-                                   startAdornment: (
-                                       <InputAdornment position="start">
-                                           <AccountCircleIcon/>
-                                       </InputAdornment>
-                                   )
-                               }}/>
-                    </Grid>
+                            <Grid classes={{container: this.props.classes.container}}
+                                  container={true}
+                                  spacing={2}
+                                  direction="column"
+                                  justify="space-between"
+                                  alignItems="center">
+                                <Grid classes={{item: this.props.classes.fieldItem}}
+                                      item={true}>
+                                    <Field name="login"
+                                           component={TextFormField}
+                                           validate={loginValidation}
+                                           id="user_login_login"
+                                           className={this.props.classes.textField}
+                                           label={I18n.t('js.user.login.login')}
+                                           autoFocus={true}
+                                           required={true}
+                                           color="primary"
+                                           InputProps={{
+                                               startAdornment: (
+                                                   <InputAdornment position="start">
+                                                       <AccountCircleIcon/>
+                                                   </InputAdornment>
+                                               )
+                                           }}/>
+                                </Grid>
 
-                    <Grid classes={{item: this.props.classes.fieldItem}}
-                          item={true}>
-                        <Field name="password"
-                               component={TextFormField}
-                               id="user_password_login"
-                               className={this.props.classes.textField}
-                               label={I18n.t('js.user.login.password')}
-                               required={true}
-                               autoComplete="off"
-                               color="primary"
-                               type="password"
-                               InputProps={{
-                                   startAdornment: (
-                                       <InputAdornment position="start">
-                                           <LockIcon/>
-                                       </InputAdornment>
-                                   )
-                               }}/>
-                    </Grid>
+                                <Grid classes={{item: this.props.classes.fieldItem}}
+                                      item={true}>
+                                    <Field name="password"
+                                           component={TextFormField}
+                                           id="user_password_login"
+                                           className={this.props.classes.textField}
+                                           label={I18n.t('js.user.login.password')}
+                                           required={true}
+                                           autoComplete="off"
+                                           color="primary"
+                                           type="password"
+                                           InputProps={{
+                                               startAdornment: (
+                                                   <InputAdornment position="start">
+                                                       <LockIcon/>
+                                                   </InputAdornment>
+                                               )
+                                           }}/>
+                                </Grid>
 
-                    <Grid item={true}>
-                        <Field name="remember_me"
-                               type="checkbox"
-                               component={CheckBoxFormField}
-                               id="user_remember_me"
-                               label={I18n.t('js.user.login.remember_me')}
-                               color="primary"/>
-                    </Grid>
-                </Grid>
+                                <Grid item={true}>
+                                    <Field name="remember_me"
+                                           type="checkbox"
+                                           component={CheckBoxFormField}
+                                           id="user_remember_me"
+                                           label={I18n.t('js.user.login.remember_me')}
+                                           color="primary"/>
+                                </Grid>
+                            </Grid>
 
-                <div>
-                    <Link className={this.props.classes.password}
-                          to="/users/password/new"
-                          onClick={this.props.onCancel}>
-                        {I18n.t('js.user.login.new_password')}
-                    </Link>
-                </div>
+                            <div>
+                                <Link className={this.props.classes.password}
+                                      to="/users/password/new"
+                                      onClick={this.props.onCancel}>
+                                    {I18n.t('js.user.login.new_password')}
+                                </Link>
+                            </div>
 
-                <Grid className="center-align margin-top-15 margin-bottom-25"
-                      container={true}
-                      spacing={2}
-                      direction="row-reverse"
-                      justify="space-between"
-                      alignItems="center">
-                    <Grid item={true}>
-                        <Button type="submit"
-                                id="login-submit"
-                                variant="contained"
-                                color="primary"
-                                disabled={this.props.submitting}>
-                            {I18n.t('js.user.login.submit')}
-                        </Button>
-                    </Grid>
+                            <Grid className="center-align margin-top-15 margin-bottom-25"
+                                  container={true}
+                                  spacing={2}
+                                  direction="row-reverse"
+                                  justify="space-between"
+                                  alignItems="center">
+                                <Grid item={true}>
+                                    <Button type="submit"
+                                            id="login-submit"
+                                            variant="contained"
+                                            color="primary"
+                                            disabled={submitting}>
+                                        {I18n.t('js.user.login.submit')}
+                                    </Button>
+                                </Grid>
 
-                    <Grid item={true}>
-                        <Button onClick={this.props.onCancel}>
-                            {I18n.t('js.user.login.cancel')}
-                        </Button>
-                    </Grid>
-                </Grid>
+                                <Grid item={true}>
+                                    <Button onClick={this.props.onCancel}>
+                                        {I18n.t('js.user.login.cancel')}
+                                    </Button>
+                                </Grid>
+                            </Grid>
 
-                {/*<div className="connection-or-separator hr-around-text">*/}
-                {/*    {I18n.t('js.helpers.or')}*/}
-                {/*</div>*/}
+                            {/*<div className="connection-or-separator hr-around-text">*/}
+                            {/*    {I18n.t('js.helpers.or')}*/}
+                            {/*</div>*/}
 
-                {/*<div className="row connection-externals margin-top-20 margin-bottom-5">*/}
-                {/*    <div className="col s12 l6">*/}
-                {/*        <div className="connection-google">*/}
-                {/*            <a className="connection-google-button"*/}
-                {/*               href="/users/auth/google_oauth2">*/}
-                {/*                {I18n.t('js.user.login.externals.google')}*/}
-                {/*            </a>*/}
-                {/*        </div>*/}
-                {/*    </div>*/}
+                            {/*<div className="row connection-externals margin-top-20 margin-bottom-5">*/}
+                            {/*    <div className="col s12 l6">*/}
+                            {/*        <div className="connection-google">*/}
+                            {/*            <a className="connection-google-button"*/}
+                            {/*               href="/users/auth/google_oauth2">*/}
+                            {/*                {I18n.t('js.user.login.externals.google')}*/}
+                            {/*            </a>*/}
+                            {/*        </div>*/}
+                            {/*    </div>*/}
 
-                {/*    <div className="col s12 l6">*/}
-                {/*        <div className="connection-facebook">*/}
-                {/*            <a className="connection-facebook-button"*/}
-                {/*               href="/users/auth/facebook">*/}
-                {/*                {I18n.t('js.user.login.externals.facebook')}*/}
-                {/*            </a>*/}
-                {/*        </div>*/}
-                {/*    </div>*/}
-                {/*</div>*/}
-            </form>
+                            {/*    <div className="col s12 l6">*/}
+                            {/*        <div className="connection-facebook">*/}
+                            {/*            <a className="connection-facebook-button"*/}
+                            {/*               href="/users/auth/facebook">*/}
+                            {/*                {I18n.t('js.user.login.externals.facebook')}*/}
+                            {/*            </a>*/}
+                            {/*        </div>*/}
+                            {/*    </div>*/}
+                            {/*</div>*/}
+                        </form>
+                    )
+                }
+            </Form>
         );
     }
 }

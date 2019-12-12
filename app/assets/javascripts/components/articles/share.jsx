@@ -19,17 +19,11 @@ import {
     shareArticle
 } from '../../actions';
 
-import {
-    getArticle
-} from '../../selectors';
-
 import styles from '../../../jss/article/share';
 
 export default @withRouter
 @connect((state) => ({
-    userId: state.userState.currentId,
-    userSlug: state.userState.currentSlug,
-    article: getArticle(state)
+    article: state.articleState.article
 }), {
     shareArticle
 })

@@ -249,7 +249,7 @@ describe 'Article API', type: :request, basic: true do
       it 'returns an error message' do
         get "/api/v1/articles/#{@private_article.id}", as: :json
 
-        expect(response).to be_unauthorized
+        expect(response).to be_not_found
       end
     end
 
@@ -261,7 +261,7 @@ describe 'Article API', type: :request, basic: true do
       it 'returns an error message' do
         get "/api/v1/articles/#{@private_article.id}", as: :json
 
-        expect(response).to be_unauthorized
+        expect(response).to be_not_found
       end
     end
 
@@ -283,7 +283,7 @@ describe 'Article API', type: :request, basic: true do
 
     context 'when article is public' do
       it 'returns the associated article' do
-        get "/api/v1/articles/#{@article.id}", as: :json
+        get "/api/v1/articles/#{@article.id}", params: { user_id: @article.user.slug }, as: :json
 
         expect(response).to be_json_response
 
@@ -293,7 +293,7 @@ describe 'Article API', type: :request, basic: true do
       end
 
       it 'returns the article without private tags' do
-        get "/api/v1/articles/#{@article_with_mixed_tags.id}", as: :json
+        get "/api/v1/articles/#{@article_with_mixed_tags.id}", params: { user_id: @article_with_mixed_tags.user.slug }, as: :json
 
         expect(response).to be_json_response
 
@@ -311,7 +311,7 @@ describe 'Article API', type: :request, basic: true do
 
     context 'when user is not connected and incorrect shared link' do
       it 'returns an error message' do
-        get "/api/v1/articles/#{@private_tags_article.id}/shared/#{SecureRandom.uuid}", as: :json
+        get "/api/v1/articles/#{@private_tags_article.id}/shared/#{SecureRandom.uuid}", params: { user_id: @private_tags_article.user.slug }, as: :json
 
         expect(response).to be_unauthorized
       end
@@ -319,7 +319,7 @@ describe 'Article API', type: :request, basic: true do
 
     context 'when user is not connected and correct public link' do
       it 'returns the shared article' do
-        get "/api/v1/articles/#{@private_tags_article.id}/shared/#{@shared_link.public_link}", as: :json
+        get "/api/v1/articles/#{@private_tags_article.id}/shared/#{@shared_link.public_link}", params: { user_id: @private_tags_article.user.slug }, as: :json
 
         expect(response).to be_json_response
 

@@ -41,6 +41,8 @@ module Api::V1
     skip_before_action :authenticate_user!, only: [:index, :show, :validation]
     skip_before_action :set_locale, only: [:validation]
 
+    before_action :set_context_user, only: []
+
     after_action :verify_authorized, except: [:index, :validation]
 
     include TrackerConcern
@@ -131,7 +133,7 @@ module Api::V1
                          end
 
             if topic_slug && current_user.current_topic.slug != topic_slug
-              topic = Topic.friendly.find_by(slug: topic_slug)
+              topic = Topic.find_by(slug: topic_slug)
               user.switch_topic(topic) && user.save if topic && topic.user_id == user.id
             end
 

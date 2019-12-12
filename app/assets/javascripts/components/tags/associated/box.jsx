@@ -39,7 +39,7 @@ export default class AssociatedTagBox extends React.Component {
 
     render() {
         return (
-            <div className="blog-associated-tag center-align">
+            <div className="center-align">
                 {
                     this.state.associatedTags &&
                     <AssociatedTagList tags={this.state.associatedTags}

@@ -10,7 +10,7 @@ import {
 } from 'react-router-dom';
 
 import {
-    ImmutableLoadingBar as LoadingBar
+    LoadingBar
 } from 'react-redux-loading-bar';
 
 import {
@@ -55,10 +55,7 @@ import {
 } from '../../../actions';
 
 import {
-    getRouteParams,
-    getRouteLocation,
-    getCurrentTagSlugs,
-    getRouteProperties
+    getCurrentTagSlugs
 } from '../../../selectors';
 
 import TopicModule from '../../topics/module';
@@ -83,9 +80,9 @@ import {
 } from '../../modules/constants';
 
 export default @connect((state) => ({
-    routeProperties: getRouteProperties(state),
-    routeParams: getRouteParams(state),
-    routeLocation: getRouteLocation(state),
+    routeProperties: state.routerState.currentRoute,
+    routeParams: state.routerState.params,
+    routeLocation: state.routerState.location,
     isUserPreferenceOpen: state.uiState.isUserPreferenceOpen,
     isTopicPopupOpen: state.uiState.isTopicPopupOpen,
     isUserConnected: state.userState.isConnected,
@@ -179,7 +176,10 @@ class HeaderLayoutUser extends React.PureComponent {
     };
 
     _handleLogoutClick = () => {
-        logoutUser().then(() => window.location = '/');
+        logoutUser().then(() => {
+            window.location.assign('/');
+            window.location.reload();
+        });
     };
 
     _renderDesktopMenu = () => {

@@ -355,6 +355,25 @@
     word-wrap: break-word;
   }
 
+  table {
+    width: 100%;
+    border-collapse: collapse;
+
+    td,
+    th {
+      padding: 5px 3px;
+      border: 1px solid #ececec;
+    }
+
+    sup {
+      vertical-align: super;
+    }
+
+    sub {
+      vertical-align: sub;
+    }
+  }
+
   & > code,
   li > code,
   p > code {

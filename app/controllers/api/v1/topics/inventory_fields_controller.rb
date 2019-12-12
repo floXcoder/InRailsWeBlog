@@ -2,6 +2,8 @@
 
 module Api::V1
   class Topics::InventoryFieldsController < ApiController
+    before_action :set_context_user
+
     after_action :verify_authorized
 
     include TrackerConcern

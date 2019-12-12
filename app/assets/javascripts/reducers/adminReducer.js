@@ -1,24 +1,14 @@
 'use strict';
 
-import {
-    Record,
-    List,
-    Map,
-    fromJS
-} from 'immutable';
-
 import * as ActionTypes from '../constants/actionTypes';
 
-import * as Records from '../constants/records';
-
 import {
-    toList,
     fetchReducer,
     mutationReducer,
-    mutateArray
+    addOrReplaceIn
 } from './mutators';
 
-const initState = new Record({
+const initState = {
     currentId: window.currentAdminId ? parseInt(window.currentAdminId, 10) : undefined,
     isConnected: !!window.currentAdminId,
 
@@ -27,39 +17,37 @@ const initState = new Record({
 
     isSearching: false,
     metaQuery: undefined,
-    metaResults: new Map(),
+    metaResults: {},
 
-    blogs: new List(),
+    blogs: [],
 
-    errors: new Map()
-});
+    errors: {}
+};
 
-export default function adminReducer(state = new initState(), action) {
+export default function adminReducer(state = initState, action) {
     switch (action.type) {
         case ActionTypes.ADMIN_META_SEARCH_INIT:
-            return state.merge({
-                isSearching: false
-            });
+            state.isSearching = false;
+            return state;
         case ActionTypes.ADMIN_META_SEARCH_SUCCESS:
-            return state.merge({
-                isSearching: action.isSearching,
-                metaQuery: action.query,
-                metaResults: fromJS(action.metaResults)
-            });
+            state.isSearching = action.isSearching;
+            state.metaQuery = action.query;
+            state.metaResults = action.metaResults;
+            return state;
 
         case ActionTypes.ADMIN_BLOG_FETCH_INIT:
         case ActionTypes.ADMIN_BLOG_FETCH_SUCCESS:
         case ActionTypes.ADMIN_BLOG_FETCH_ERROR:
-            return fetchReducer(state, action, (payload) => ({
-                blogs: toList(payload.blogs, Records.AdminBlogRecord)
-            }));
+            return fetchReducer(state, action, (state) => {
+                state.blogs = action.blogs;
+            });
 
         case ActionTypes.ADMIN_BLOG_CHANGE_INIT:
         case ActionTypes.ADMIN_BLOG_CHANGE_SUCCESS:
         case ActionTypes.ADMIN_BLOG_CHANGE_ERROR:
-            return mutationReducer(state, action, (payload) => ({
-                blogs: mutateArray(state.blogs, payload.blog && (new Records.AdminBlogRecord(payload.blog)))
-            }), ['blog']);
+            return mutationReducer(state, action, (state) => {
+                state.blogs = addOrReplaceIn(state.blogs, action.blog);
+            });
 
         default:
             return state;

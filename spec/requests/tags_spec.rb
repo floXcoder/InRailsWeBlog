@@ -147,7 +147,7 @@ describe 'Tag API', type: :request, basic: true do
       it 'returns an error message' do
         get "/api/v1/tags/#{@private_tags[0].id}", as: :json
 
-        expect(response).to be_unauthorized
+        expect(response).to be_not_found
       end
     end
 
@@ -157,7 +157,7 @@ describe 'Tag API', type: :request, basic: true do
       end
 
       it 'returns an error message' do
-        get "/api/v1/tags/#{@private_tags[0].id}", as: :json
+        get "/api/v1/tags/#{@private_tags[0].id}", params: { user_id: @private_tags[0].user.slug }, as: :json
 
         expect(response).to be_unauthorized
       end
@@ -169,7 +169,7 @@ describe 'Tag API', type: :request, basic: true do
       end
 
       it 'returns the associated tag' do
-        get "/api/v1/tags/#{@private_tags[0].id}", as: :json
+        get "/api/v1/tags/#{@private_tags[0].id}", params: { user_id: @private_tags[0].user.slug }, as: :json
 
         expect(response).to be_json_response
 
@@ -181,7 +181,7 @@ describe 'Tag API', type: :request, basic: true do
 
     context 'when tag is public' do
       it 'returns the associated tag' do
-        get "/api/v1/tags/#{@tags[0].id}", as: :json
+        get "/api/v1/tags/#{@tags[0].id}", params: { user_id: @tags[0].user.slug }, as: :json
 
         expect(response).to be_json_response
 

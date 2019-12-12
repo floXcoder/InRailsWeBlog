@@ -11,9 +11,7 @@ import {
 } from '../../actions';
 
 import {
-    getTags,
-    getSortedTopicTags,
-    getUserTopics
+    getSortedTopicTags
 } from '../../selectors';
 
 import Loader from '../theme/loader';
@@ -31,8 +29,8 @@ export default @connect((state, props) => ({
     filterText: state.tagState.filterText,
     currentUserSlug: state.userState.currentSlug,
     currentUserTopicSlug: state.topicState.currentUserTopicSlug,
-    currentUserTopics: props.isCloud ? getUserTopics(state) : undefined,
-    tags: props.isCloud ? getTags(state) : getSortedTopicTags(state)
+    currentUserTopics: props.isCloud ? state.topicState.userTopics : undefined,
+    tags: props.isCloud ? state.tagState.tags : getSortedTopicTags(state)
 }), {
     // filterTags
 })

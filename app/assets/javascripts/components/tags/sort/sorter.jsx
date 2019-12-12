@@ -4,6 +4,8 @@ import {
     Link
 } from 'react-router-dom';
 
+import Button from '@material-ui/core/Button';
+
 import arrayMove from 'array-move';
 
 import {
@@ -67,20 +69,24 @@ export default class TagSorterDisplay extends React.Component {
     render() {
         return (
             <div className="tag-sorting">
-                <div className="row tag-sorting-buttons">
+                <div className="row">
                     <div className="col s12 m6 center-align">
-                        <Link className="btn-flat waves-effect waves-teal"
-                              to={`/tags/${this.props.userSlug}`}>
+                        <Button color="default"
+                                variant="outlined"
+                                size="small"
+                                component={Link}
+                                to={`/tags/${this.props.userSlug}`}>
                             {I18n.t('js.helpers.buttons.cancel')}
-                        </Link>
+                        </Button>
                     </div>
 
                     <div className="col s12 m6 center-align">
-                        <a className="btn waves-effect waves-spectra"
-                           href="#"
-                           onClick={this._handleSavePriority}>
+                        <Button color="primary"
+                                variant="contained"
+                                size="small"
+                                onClick={this._handleSavePriority}>
                             {I18n.t('js.helpers.buttons.apply')}
-                        </a>
+                        </Button>
                     </div>
                 </div>
 

@@ -8,15 +8,11 @@ import {
     fetchTopics
 } from '../../actions';
 
-import {
-    getTopics
-} from '../../selectors';
-
 import Loader from '../theme/loader';
 import Table from '../theme/table';
 
 export default @connect((state) => ({
-    topics: getTopics(state)
+    topics: state.topicState.topics
 }), {
     fetchTopics
 })
@@ -59,7 +55,7 @@ class AdminTopics extends React.Component {
 
                 <Table title={I18n.t('js.admin.topics.table.title')}
                        locale={I18n.locale}
-                       data={this.props.topics}
+                       data={this.props.topics.map((topic) => Object.assign({}, topic))}
                        columns={[
                            {
                                title: I18n.t('js.admin.topics.table.columns.id'),

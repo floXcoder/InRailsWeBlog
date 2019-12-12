@@ -183,7 +183,7 @@ export const fetchSearch = (searchData, saveHistory = true) => (dispatch, getSta
 };
 
 export const filterSearch = (filters) => (dispatch, getState) => {
-    const searchParams = getState().searchState.searchParams.concat({filters}).toJS();
+    const searchParams = getState().searchState.searchParams.concat({filters});
 
     _saveHistory(getState().searchState, searchParams);
 

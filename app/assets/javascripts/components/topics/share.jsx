@@ -29,8 +29,6 @@ import styles from '../../../jss/topic/share';
 
 export default @withRouter
 @connect((state, props) => ({
-    userId: state.userState.currentId,
-    userSlug: state.userState.currentSlug,
     sharingTopic: getSharingTopic(state, props.routeState)
 }), {
     shareTopic

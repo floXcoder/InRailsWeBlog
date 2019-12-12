@@ -19,6 +19,7 @@ import styles from '../../../../jss/topic/stories/summary';
 export default @withStyles(styles)
 class SummaryStoriesTopic extends React.Component {
     static propTypes = {
+        userSlug: PropTypes.string.isRequired,
         topic: PropTypes.object.isRequired,
         // from styles
         classes: PropTypes.object
@@ -37,9 +38,9 @@ class SummaryStoriesTopic extends React.Component {
             <div className={this.props.classes.container}>
                 <div className={this.props.classes.root}>
                     {
-                        this.props.topic.user.slug
+                        this.props.userSlug
                             ?
-                            <Link to={`/users/${this.props.topic.user.slug}/topics/${this.props.topic.slug}`}
+                            <Link to={`/users/${this.props.userSlug}/topics/${this.props.topic.slug}`}
                                   onClick={this._handleTopicClick.bind(this, this.props.topic.id, this.props.topic.slug, this.props.topic.name)}>
                                 <Typography className={this.props.classes.topicTitle}
                                             variant="h4"

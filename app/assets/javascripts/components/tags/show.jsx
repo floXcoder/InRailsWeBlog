@@ -19,10 +19,6 @@ import {
     spyTrackClick
 } from '../../actions';
 
-import {
-    getTagMetaTags
-} from '../../selectors';
-
 import UserAvatarIcon from '../users/icons/avatar';
 
 import Loader from '../theme/loader';
@@ -33,7 +29,7 @@ import NotFound from '../layouts/notFound';
 import styles from '../../../jss/tag/show';
 
 export default @connect((state) => ({
-    metaTags: getTagMetaTags(state),
+    metaTags: state.tagState.metaTags,
     isFetching: state.tagState.isFetching,
     tag: state.tagState.tag
 }), {
@@ -120,7 +116,7 @@ class TagShow extends React.Component {
                             </Typography>
 
                             {
-                                this.props.tag.parents.size > 0
+                                this.props.tag.parents.length > 0
                                     ?
                                     <div className="tag-parents">
                                         {
@@ -148,7 +144,7 @@ class TagShow extends React.Component {
                             </Typography>
 
                             {
-                                this.props.tag.children.size > 0
+                                this.props.tag.children.length > 0
                                     ?
                                     <div>
                                         {
