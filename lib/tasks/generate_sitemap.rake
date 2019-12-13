@@ -8,7 +8,7 @@ namespace :InRailsWeBlog do
     Rails.logger = ActiveRecord::Base.logger = Logger.new(STDOUT)
     Rails.logger.warn("#{Time.now} : Generate sitemap task")
 
-    InRailsWeBlog::SEO.generate_sitemap
+    InRailsWeBlog::Seo.generate_sitemap
   end
 
 end

@@ -46,10 +46,10 @@ module InRailsWeBlog
 
     # Load files from lib directory
     config.enable_dependency_loading = true
-    config.eager_load_paths          << "#{config.root}/app/services"
-    config.eager_load_paths          += Dir["#{config.root}/lib/inrailsweblog/**/"]
-    config.eager_load_paths          += Dir["#{config.root}/lib/populate/**/"]
-    config.eager_load_paths          << "#{config.root}/spec/mailers/previews/"
+    config.eager_load_paths << "#{config.root}/app/services"
+    config.eager_load_paths += Dir["#{config.root}/lib/inrailsweblog/**/"]
+    config.eager_load_paths += Dir["#{config.root}/lib/populate/**/"]
+    config.eager_load_paths << "#{config.root}/spec/mailers/previews/"
 
     # Database time zone
     config.time_zone                      = 'Paris'
@@ -100,10 +100,15 @@ module InRailsWeBlog
     config.active_job.queue_adapter = :sidekiq
 
     # Cache with Redis
-    config.cache_store = :readthis_store, {
-      expires_in: 2.weeks.to_i,
-      redis:      { url: "redis://#{ENV['REDIS_HOST']}:#{ENV['REDIS_PORT']}", driver: :hiredis },
-      namespace:  "_#{ENV['WEBSITE_NAME']}_#{Rails.env}:cache"
+    config.cache_store = :redis_cache_store, {
+      url:             "redis://#{ENV['REDIS_HOST']}:#{ENV['REDIS_PORT']}",
+      expires_in:      2.weeks.to_i,
+      namespace:       "_#{ENV['WEBSITE_NAME']}_#{Rails.env}:cache",
+      driver:          :hiredis,
+      connect_timeout: 30, # Defaults to 20 seconds
+      read_timeout: 0.2, # Defaults to 1 second
+      write_timeout: 0.2, # Defaults to 1 second
+      reconnect_attempts: 1, # Defaults to 0
     }
 
     # Errors handling

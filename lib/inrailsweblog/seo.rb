@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class SEO
+class Seo
   def self.generate_sitemap
     if Rails.env.production?
       Rake::Task['sitemap:refresh'].reenable

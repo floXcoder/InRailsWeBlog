@@ -55,7 +55,6 @@ gem 'whenever',                 '1.0.0', require: false
 # Redis session store and cache
 gem 'redis-namespace',          '1.7.0'
 gem 'redis-session-store',      '0.11.1'
-gem 'readthis',                 '2.2.0'
 gem 'hiredis',                  '0.6.3'
 
 # Global and model settings
