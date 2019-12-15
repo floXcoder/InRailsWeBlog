@@ -92,7 +92,7 @@ class HomeSearchHeader extends React.Component {
     };
 
     _handleFetch = _.debounce((query) => {
-        if (this._request) {
+        if (this._request && this._request.signal) {
             this._request.signal.abort();
         }
 
@@ -196,11 +196,21 @@ class HomeSearchHeader extends React.Component {
 
     render() {
         return (
-            <form className="blog-search-header"
-                  autoComplete="off"
-                  acceptCharset="UTF-8">
-                <div>
+            <section itemScope={true}
+                     itemType="https://schema.org/WebSite">
+                <meta itemProp="url"
+                      content={window.websiteUrl}/>
+
+                <form className="blog-search-header"
+                      autoComplete="off"
+                      acceptCharset="UTF-8"
+                      itemProp="potentialAction"
+                      itemScope={true}
+                      itemType="https://schema.org/SearchAction">
                     <EnsureValidity/>
+
+                    <meta itemProp="target"
+                          content={`${window.websiteUrl}/search?query={search}`}/>
 
                     <div className={this.props.classes.search}>
                         <div className={this.props.classes.searchIcon}>
@@ -215,6 +225,9 @@ class HomeSearchHeader extends React.Component {
                         <Input id="search-module"
                                name="search"
                                type="search"
+                               inputProps={{
+                                   itemProp: 'query-input'
+                               }}
                                classes={{
                                    root: this.props.classes.inputRoot,
                                    input: this.props.isSearchActive ? this.props.classes.inputInputFocus : this.props.classes.inputInput
@@ -249,8 +262,8 @@ class HomeSearchHeader extends React.Component {
                             name="action">
                         Search
                     </button>
-                </div>
-            </form>
+                </form>
+            </section>
         );
     }
 }

@@ -17,6 +17,7 @@ import {
 
 const ArticleAvatarIcon = ({classes, user, articleDate}) => (
     <div itemScope={true}
+         itemProp="author"
          itemType="https://schema.org/Person">
         <ListItem component="div"
                   className={classes.avatarContainer}>
@@ -30,9 +31,14 @@ const ArticleAvatarIcon = ({classes, user, articleDate}) => (
             </ListItemAvatar>
 
             <ListItemText classes={{secondary: classes.avatarDate}}
-                          secondary={articleDate}>
+                          secondary={
+                              <time dateTime={articleDate}
+                                    itemProp="datePublished">
+                                  {articleDate}
+                              </time>}>
                 <Link className={classes.avatarUser}
                       to={`/users/${user.slug}`}
+                      itemProp="url"
                       onClick={spyTrackClick.bind(null, 'user', user.id, user.slug, user.pseudo)}>
                     <span itemProp="name">
                         {user.pseudo}

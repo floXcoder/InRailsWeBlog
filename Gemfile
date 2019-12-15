@@ -9,7 +9,7 @@ end
 ruby '2.6.3'
 
 # Rails version
-gem 'rails',                    '6.0.1'
+gem 'rails',                    '6.0.2'
 
 # Use postgresql as the database for Active Record
 gem 'pg',                       '1.1.4'
@@ -91,9 +91,6 @@ gem 'friendly_id',              '5.3.0'
 gem 'meta-tags',                '2.13.0'
 gem 'sitemap_generator',        '6.0.2'
 
-# HTTP request
-gem 'http',                     '4.2.0'
-
 # Dummy data
 gem 'factory_bot_rails',        '5.1.1',   require: false
 gem 'faker',                    '2.8.1',   require: false
@@ -128,17 +125,17 @@ group :development do
   # Guard and its minions
   gem 'guard',                  '2.16.1'
   gem 'guard-rails',            '0.8.1'
-  gem 'guard-annotate',         '2.3'
   gem 'guard-bundler',          '2.2.1'
   gem 'guard-migrate',          '2.0.0'
-  # gem 'guard-rake',             '1.0.0'
-  # gem 'guard-rspec',            '4.7.3',  require: false
   gem 'guard-sidekiq',          '0.1.0'
   gem 'guard-process',          '1.2.1'
 
+  # Annotate models from DB
+  gem 'annotate',               '3.0.3'
+
   # Find index to add
   # gem 'lol_dba',                '2.1.8', require: false # Not compatible with Rails 6
-  gem 'unique_validation_inspector', '0.3.0', require: false
+  #gem 'unique_validation_inspector', '0.3.0', require: false
 
   # Faster ruby code
   gem 'fasterer',               '0.8.1', require: false
@@ -191,5 +188,5 @@ group :production do
   gem 'lograge',          '0.11.2'
 
   # Prerender html pages for SEO
-  gem 'seo_cache',        '0.11.0' # Not compatible with Rails 6
+  gem 'seo_cache',        '0.11.0'
 end

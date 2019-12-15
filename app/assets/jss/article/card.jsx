@@ -38,7 +38,6 @@ const styles = (theme) => ({
     title: {
         marginTop: '1rem',
         marginBottom: '0',
-        color: theme.palette.text.dark,
         fontSize: h1Size,
         fontWeight: h1Weight,
         lineHeight: h1LineHeight,
@@ -57,6 +56,9 @@ const styles = (theme) => ({
         lineHeight: h1LineHeightGrid,
         letterSpacing: h1SpacingGrid,
         margin: 'inherit'
+    },
+    gridTitleLink: {
+        color: theme.palette.primary.dark
     },
     expand: {
         transform: 'rotate(0deg)',

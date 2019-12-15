@@ -111,7 +111,9 @@ class TagEdit extends React.Component {
 
         return (
             <div className={this.props.classes.root}>
-                <HeadLayout metaTags={this.props.metaTags}/>
+                <HeadLayout>
+                    {this.props.metaTags}
+                </HeadLayout>
 
                 <TagFormDisplay id={`tag-edit-${this.props.tag.id}`}
                                 tagId={this.props.tag}

@@ -28,11 +28,13 @@ const styles = (theme) => ({
         display: 'none',
         margin: '5px 15px',
         fontSize: '1.6rem',
-        color: theme.palette.text.primary,
         [theme.breakpoints.up('sm')]: {
             display: 'block',
             fontSize: '2rem'
         }
+    },
+    titleLink: {
+        color: theme.palette.text.primary
     },
     websiteTitle: {
         fontSize: '1.6rem',

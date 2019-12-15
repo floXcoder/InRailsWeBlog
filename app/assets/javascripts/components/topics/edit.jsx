@@ -109,7 +109,9 @@ class TopicEdit extends React.Component {
 
         return (
             <div className={this.props.classes.root}>
-                <HeadLayout metaTags={this.props.metaTags}/>
+                <HeadLayout>
+                    {this.props.metaTags}
+                </HeadLayout>
 
                 <TopicFormDisplay id={`topic-edit-${this.props.topic.id}`}
                                   topic={this.props.topic}

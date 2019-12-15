@@ -22,15 +22,15 @@ class GenerateCacheUrls
 
   def url_users
     User.select(:slug, :visibility).everyone.map do |user|
-      "/users/#{user.slug}"
+      user.link_path(index: true)
     end
   end
 
   def url_tags
     Tag.select(:slug, :visibility).everyone.map do |tag|
       [
-        "/tags/#{tag.slug}",
-        "/tagged/#{tag.slug}"
+        tag.link_path,
+        tag.link_path(index: true)
       ]
     end
   end
@@ -38,15 +38,15 @@ class GenerateCacheUrls
   def url_topics
     Topic.select(:slug, :visibility, :user_id).everyone.map do |topic|
       [
-        "/users/#{topic.user.slug}/topics/#{topic.slug}",
-        "/users/#{topic.user.slug}/topics/#{topic.slug}/tags"
+        topic.link_path(index: true),
+        topic.link_path(tags: true)
       ]
     end
   end
 
   def url_articles
     Article.select(:slug, :visibility, :user_id).everyone.map do |article|
-      "/users/#{article.user.slug}/articles/#{article.slug}"
+      article.link_path
     end
   end
 end

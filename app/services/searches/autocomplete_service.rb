@@ -16,7 +16,9 @@ module Searches
       }.compact
       visibility    = if @current_user
                         { _or: [{ visibility: 'only_me', user_id: @current_user.id }, { visibility: 'everyone' }] }
-                      elsif !@current_admin
+                      elsif @current_admin
+                        { visibility: @params[:visibility] }
+                      else
                         { visibility: 'everyone' }
                       end
       where_options.merge!(visibility)

@@ -29,13 +29,15 @@ const styles = (theme) => ({
         paddingBottom: '0 !important'
     },
     extractTitle: {
-        color: theme.palette.primary.main,
         margin: '1rem 0 .6rem',
         fontSize: h1SizeExtract,
         fontWeight: h1WeightExtract,
         lineHeight: h1LineHeightExtract,
         letterSpacing: h1SpacingExtract,
         textAlign: 'left'
+    },
+    extractTitleLink: {
+        color: theme.palette.primary.main
     },
     articleInfo: {
         color: '#999',

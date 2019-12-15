@@ -105,7 +105,9 @@ class ArticleHistory extends React.Component {
 
         return (
             <div className={this.props.classes.history}>
-                <HeadLayout metaTags={this.props.metaTags}/>
+                <HeadLayout>
+                    {this.props.metaTags}
+                </HeadLayout>
 
                 <div className={this.props.classes.breadcrumb}>
                     <ArticleBreadcrumbDisplay user={this.props.currentUser}

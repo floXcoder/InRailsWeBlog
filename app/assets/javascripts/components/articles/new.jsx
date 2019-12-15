@@ -116,10 +116,12 @@ class ArticleNew extends React.Component {
 
         return (
             <div className={this.props.classes.root}>
-                <HeadLayout metaTags={{
-                    title: I18n.t('js.article.new.meta.title', {topic: this.props.currentTopic ? this.props.currentTopic.name : null}),
-                    description: I18n.t('js.article.new.meta.description')
-                }}/>
+                <HeadLayout>
+                    {{
+                        title: I18n.t('js.article.new.meta.title', {topic: this.props.currentTopic ? this.props.currentTopic.name : null}),
+                        description: I18n.t('js.article.new.meta.description')
+                    }}
+                </HeadLayout>
 
                 <div className={this.props.classes.breadcrumb}>
                     {

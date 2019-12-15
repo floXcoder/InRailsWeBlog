@@ -34,7 +34,8 @@ class HomeArticleHeader extends React.PureComponent {
     render() {
         return (
             <Dropdown button={
-                <IconButton color="primary">
+                <IconButton color="primary"
+                            itemProp="url">
                     {
                         this.props.hasTemporaryArticle
                             ?

@@ -1,6 +1,11 @@
 'use strict';
 
 import {
+    MuiThemeProvider
+} from '@material-ui/core/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
+
+import {
     Provider,
     ReactReduxContext
 } from 'react-redux';
@@ -10,9 +15,8 @@ import {
 } from 'react-router-dom';
 
 import {
-    MuiThemeProvider
-} from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
+    HelmetProvider
+} from 'react-helmet-async';
 
 import {
     configureStore
@@ -47,33 +51,35 @@ export default class ApplicationLayoutUser extends React.Component {
 
                 <Provider store={configureStore}
                           context={ReactReduxContext}>
-                    <Router history={browserHistory}>
-                        <PasteManager>
-                            <ScrollBackManager>
-                                <HotkeyManager>
-                                    <>
-                                        <ErrorBoundary errorType="text"
-                                                       errorTitle={I18n.t('js.helpers.errors.boundary.header')}>
-                                            <HeaderLayoutUser hashRoutes={routes.hashes}/>
-                                        </ErrorBoundary>
+                    <HelmetProvider>
+                        <Router history={browserHistory}>
+                            <PasteManager>
+                                <ScrollBackManager>
+                                    <HotkeyManager>
+                                        <>
+                                            <ErrorBoundary errorType="text"
+                                                           errorTitle={I18n.t('js.helpers.errors.boundary.header')}>
+                                                <HeaderLayoutUser hashRoutes={routes.hashes}/>
+                                            </ErrorBoundary>
 
-                                        <ErrorBoundary errorType="card">
-                                            <MainLayoutUser routes={routes.static.user}/>
-                                        </ErrorBoundary>
+                                            <ErrorBoundary errorType="card">
+                                                <MainLayoutUser routes={routes.static.user}/>
+                                            </ErrorBoundary>
 
-                                        <ErrorBoundary errorType="card">
-                                            <SidebarLayoutUser/>
-                                        </ErrorBoundary>
+                                            <ErrorBoundary errorType="card">
+                                                <SidebarLayoutUser/>
+                                            </ErrorBoundary>
 
-                                        <ErrorBoundary errorType="text"
-                                                       errorTitle={I18n.t('js.helpers.errors.boundary.footer')}>
-                                            <FooterLayoutUser/>
-                                        </ErrorBoundary>
-                                    </>
-                                </HotkeyManager>
-                            </ScrollBackManager>
-                        </PasteManager>
-                    </Router>
+                                            <ErrorBoundary errorType="text"
+                                                           errorTitle={I18n.t('js.helpers.errors.boundary.footer')}>
+                                                <FooterLayoutUser/>
+                                            </ErrorBoundary>
+                                        </>
+                                    </HotkeyManager>
+                                </ScrollBackManager>
+                            </PasteManager>
+                        </Router>
+                    </HelmetProvider>
                 </Provider>
             </MuiThemeProvider>
         );

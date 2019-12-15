@@ -15,7 +15,9 @@ module Api::V1
         current_user&.create_activity(:search, params: { query: search_params[:query], count: search_results.result[:totalCount].values.reduce(:+) })
 
         respond_to do |format|
-          set_meta_tags title: titleize(I18n.t('views.search.index.title', query: search_params[:query]))
+          set_meta_tags title: titleize(I18n.t('views.search.index.title', query: search_params[:query])),
+                        description: 'Search page',
+                        canonical:   '/search'
 
           format.json do
             render json: search_results.result.merge(meta: meta_attributes)

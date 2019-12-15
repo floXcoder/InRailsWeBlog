@@ -18,6 +18,7 @@ class ArticleSampleSerializer < ActiveModel::Serializer
              :current_language,
              :date,
              :date_short,
+             :date_iso,
              :default_picture,
              :slug,
              :outdated_articles_count,
@@ -62,6 +63,10 @@ class ArticleSampleSerializer < ActiveModel::Serializer
 
   def date_short
     I18n.l(object.updated_at, format: :short).split(' ').map(&:capitalize)
+  end
+
+  def date_iso
+    object.created_at.strftime('%Y-%m-%d')
   end
 
   def parent_tag_ids

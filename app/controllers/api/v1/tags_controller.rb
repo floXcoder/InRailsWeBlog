@@ -49,11 +49,17 @@ module Api::V1
 
       respond_to do |format|
         if filter_params[:user_slug].present?
-          set_meta_tags title: titleize(I18n.t('views.tag.index.title.user', user: User.find_by(slug: filter_params[:user_slug]).pseudo))
+          set_meta_tags title: titleize(I18n.t('views.tag.index.title.user', user: User.find_by(slug: filter_params[:user_slug]).pseudo)),
+                        description: 'Tags for user',
+                        canonical: ''
         elsif filter_params[:topic_slug].present?
-          set_meta_tags title: titleize(I18n.t('views.tag.index.title.topic', topic: Topic.friendly.find(filter_params[:topic_slug]).name))
+          set_meta_tags title: titleize(I18n.t('views.tag.index.title.topic', topic: Topic.friendly.find(filter_params[:topic_slug]).name)),
+                        description: 'Tags for topic',
+                        canonical: ''
         elsif filter_params[:user_id].blank?
-          set_meta_tags title: titleize(I18n.t('views.tag.index.title.default'))
+          set_meta_tags title: titleize(I18n.t('views.tag.index.title.default')),
+                        description: 'Tags for user',
+                        canonical: ''
         end
 
         format.json do
@@ -73,7 +79,8 @@ module Api::V1
         format.json do
           set_meta_tags title:       titleize(I18n.t('views.tag.show.title', name: tag.name)),
                         description: tag.meta_description,
-                        author:      tag.user.pseudo
+                        author:      tag.user.pseudo,
+                        canonical:   ''
 
           render json:            tag,
                  serializer:      TagCompleteSerializer,
@@ -90,7 +97,8 @@ module Api::V1
       respond_to do |format|
         format.json do
           set_meta_tags title:       titleize(I18n.t('views.tag.edit.title', name: tag.name)),
-                        description: tag.meta_description
+                        description: tag.meta_description,
+                        canonical:   ''
 
           render json:            tag,
                  serializer:      TagCompleteSerializer,

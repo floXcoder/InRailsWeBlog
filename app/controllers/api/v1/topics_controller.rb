@@ -55,7 +55,8 @@ module Api::V1
         format.json do
           set_meta_tags title:       titleize(I18n.t('views.topic.show.title', name: topic.name)),
                         description: topic.meta_description,
-                        author:      topic.user.pseudo
+                        author:      topic.user.pseudo,
+                        canonical:   ''
 
           render json:       topic,
                  serializer: TopicSerializer,

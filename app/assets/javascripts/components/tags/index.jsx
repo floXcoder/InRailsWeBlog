@@ -177,7 +177,9 @@ class TagIndex extends React.Component {
 
         return (
             <div className={this.props.classes.root}>
-                <HeadLayout metaTags={this.props.metaTags}/>
+                <HeadLayout>
+                    {this.props.metaTags}
+                </HeadLayout>
 
                 <div className="margin-bottom-20">
                     <Typography className={this.props.classes.title}

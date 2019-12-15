@@ -18,10 +18,10 @@ module Searches
       results_format = @params[:complete] ? 'complete' : 'sample'
       visibility     = if @current_user
                          { _or: [{ visibility: 'only_me', user_id: @current_user.id }, { visibility: 'everyone' }] }
-                       elsif !@current_admin
-                         { visibility: 'everyone' }
-                       else
+                       elsif @current_admin
                          { visibility: @params[:visibility] }
+                       else
+                         { visibility: 'everyone' }
                        end
 
       if search_type('article', @params[:selected_types])

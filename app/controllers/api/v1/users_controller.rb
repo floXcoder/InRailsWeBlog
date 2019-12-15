@@ -63,7 +63,8 @@ module Api::V1
         format.html do
           expires_in InRailsWeBlog.config.cache_time, public: true
           set_meta_tags title:       titleize(I18n.t('views.user.index.title')),
-                        description: I18n.t('views.user.index.description')
+                        description: I18n.t('views.user.index.description'),
+                        canonical:   ''
 
           render :index, locals: { users: users }
         end
@@ -104,21 +105,15 @@ module Api::V1
 
       respond_to do |format|
         format.json do
-          #  Add meta tags (and expiration ?) to react
-          #   expires_in InRailsWeBlog.config.cache_time, public: true
-          #   set_meta_tags title:       titleize(I18n.t('views.user.show.title')),
-          #                 description: I18n.t('views.user.show.description')
-          # set_meta_tags title:       titleize(I18n.t('views.user.show.title', pseudo: user.pseudo)),
-          #               description: I18n.t('views.user.show.description', pseudo: user.pseudo),
-          #               author:      alternate_urls('users', user.slug)['fr'],
-          #               canonical:   alternate_urls('users', user.slug)['fr'],
-          #               alternate:   alternate_urls('users', user.slug),
-          #               og:          {
-          #                 type:  "#{ENV['WEBSITE_NAME']}:user",
-          #                 url:   user_url(user),
-          #                 image: user.avatar_url
-          #               }
-          #
+          set_meta_tags title:       titleize(I18n.t('views.user.show.title', pseudo: user.pseudo)),
+                        description: user.meta_description,
+                        author:      user.pseudo,
+                        canonical:   user.link_path(host: ENV['WEBSITE_FULL_ADDRESS']),
+                        og:          {
+                                       type:  "#{ENV['WEBSITE_NAME']}:article",
+                                       url:   user.link_path(host: ENV['WEBSITE_FULL_ADDRESS']),
+                                       image: image_url('logos/favicon-192x192.png')
+                                     }.compact
 
           if params[:complete] && (current_user&.id == user.id || current_user.admin?)
             User.track_views(user.id)

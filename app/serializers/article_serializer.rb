@@ -46,6 +46,7 @@ class ArticleSerializer < ActiveModel::Serializer
              :inventories,
              :date,
              :date_short,
+             :date_iso,
              :visibility,
              :visibility_translated,
              :allow_comment,
@@ -107,6 +108,10 @@ class ArticleSerializer < ActiveModel::Serializer
 
   def date_short
     I18n.l(object.updated_at, format: :short).split(' ').map(&:capitalize)
+  end
+
+  def date_iso
+    object.created_at.strftime('%Y-%m-%d')
   end
 
   def visibility_translated

@@ -141,13 +141,18 @@ class HeaderLayoutHome extends React.Component {
 
     _renderDesktopMenu = () => {
         return (
-            <div className={this.props.classes.sectionDesktop}>
+            <div className={this.props.classes.sectionDesktop}
+                 aria-label="Navigation"
+                 itemScope={true}
+                 itemType="https://schema.org/SiteNavigationElement">
                 <Button color="primary"
+                        itemProp="url"
                         onClick={this._handleSignupClick}>
                     {I18n.t('js.views.header.user.sign_up')}
                 </Button>
 
                 <Button color="primary"
+                        itemProp="url"
                         onClick={this._handleLoginClick}>
                     {I18n.t('js.views.header.user.log_in')}
                 </Button>
@@ -174,12 +179,14 @@ class HeaderLayoutHome extends React.Component {
                              onOpen={this._handleDrawerToggle}>
                 <>
                     <div className={this.props.classes.mobileToolbar}>
-                        <Link className={this.props.classes.mobileTitle}
-                              to="/">
-                            <Typography variant="h5">
+                        <h5 className={this.props.classes.mobileTitle}
+                            itemProp="name">
+                            <Link className={this.props.classes.titleLink}
+                                  to="/"
+                                  itemProp="url">
                                 {I18n.t('js.views.header.title')}
-                            </Typography>
-                        </Link>
+                            </Link>
+                        </h5>
                     </div>
 
                     <List>
@@ -210,17 +217,22 @@ class HeaderLayoutHome extends React.Component {
         return (
             <>
                 <AppBar position="fixed"
-                        className={classNames('animate-search', this.props.classes.appBar)}>
+                        className={classNames('animate-search', this.props.classes.appBar)}
+                        itemScope={true}
+                        itemType="https://schema.org/Organization">
                     <LoadingBar showFastActions={true}
                                 style={{backgroundColor: '#233348', height: '2px'}}/>
 
                     <Toolbar className={classNames(this.props.classes.toolbar)}>
                         <div className={this.props.classes.sectionDesktop}>
-                            <Link to="/">
-                                <h1 className={this.props.classes.title}>
+                            <h1 className={this.props.classes.title}
+                                itemProp="name">
+                                <Link className={this.props.classes.titleLink}
+                                      to="/"
+                                      itemProp="url">
                                     {I18n.t('js.views.header.title')}
-                                </h1>
-                            </Link>
+                                </Link>
+                            </h1>
                         </div>
 
                         <div className={this.props.classes.sectionMobile}>

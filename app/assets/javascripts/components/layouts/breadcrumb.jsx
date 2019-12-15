@@ -99,7 +99,8 @@ class BreadcrumbLayout extends React.Component {
         // this.props.currentTopic && this.props.currentTopic.name
 
         return (
-            <div className={this.props.classes.breadcrumb}>
+            <div className={this.props.classes.breadcrumb}
+                 aria-label="Breadcrumb navigation">
                 {
                     this.state.recents.map((recent, i) => (
                         <Chip key={i}

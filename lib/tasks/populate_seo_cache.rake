@@ -9,10 +9,11 @@ namespace :InRailsWeBlog do
     Rails.logger = Logger.new(STDOUT)
     Rails.logger.warn("#{Time.zone.now} : Cache pages with prerender for SEO")
 
+    require 'seo_cache'
     require 'seo_cache/populate_cache'
 
     paths = GenerateCacheUrls.new.all_urls
 
-    SeoCache::PopulateCache.new(Rails.env.beta? ? 'https://www.inrailsweblog.com' : 'http://localhost:3000', paths).perform
+    SeoCache::PopulateCache.new(Rails.env.production? ? ENV['WEBSITE_FULL_ADDRESS'] : 'http://localhost:3000', paths).perform
   end
 end
