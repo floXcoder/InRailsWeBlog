@@ -40,9 +40,8 @@ guard :sidekiq, environment: 'development' do
   watch(%r{^config/sidekiq\.yml})
 end
 
-guard :annotate, routes: false do
+guard :process, name: 'Annotate', command: 'annotate' do
   watch(%r{^db/schema\.rb})
-  # watch(%r{^app/models/.+\.rb$})
 end
 
 # Not watching root files

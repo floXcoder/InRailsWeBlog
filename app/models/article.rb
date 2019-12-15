@@ -331,6 +331,16 @@ class Article < ApplicationRecord
     user.id == self.user_id if user
   end
 
+  def link_path(options = {})
+    if options[:edit]
+      "/users/#{self.user.slug}/articles/#{self.slug}/edit"
+    elsif options[:host]
+      "#{options[:host]}/users/#{self.user.slug}/articles/#{self.slug}"
+    else
+      "/users/#{self.user.slug}/articles/#{self.slug}"
+    end
+  end
+
   def default_picture
     default_picture = ''
 

@@ -125,7 +125,9 @@ class ArticleCardDisplay extends React.PureComponent {
                           id={`article-${this.props.article.id}`}
                           className={classNames(this.props.classes.articleCard, {
                               [this.props.classes.outdated]: this.props.article.outdated
-                          })}>
+                          })}
+                          itemScope={true}
+                          itemType="https://schema.org/BlogPosting">
                         {
                             (this.props.hasActions && !this.state.isFolded) &&
                             <div className={this.props.classes.floatingButtons}>
@@ -149,8 +151,8 @@ class ArticleCardDisplay extends React.PureComponent {
                         }
 
                         <CardHeader classes={{
-                                        root: this.props.classes.header
-                                    }}
+                            root: this.props.classes.header
+                        }}
                                     action={
                                         <IconButton className={classNames(this.props.classes.expand, {
                                             [this.props.classes.expandOpen]: this.state.isFolded
@@ -181,12 +183,15 @@ class ArticleCardDisplay extends React.PureComponent {
                                         </Grid>
                                     }
                                     subheader={
-                                        <Link to={`/users/${this.props.article.user.slug}/articles/${this.props.article.slug}`}
-                                              onClick={this._handleTitleClick}>
-                                            <h1 className={this.props.classes.title}>
+                                        <h1 className={this.props.classes.title}
+                                            itemProp="name headline">
+                                            <Link className={this.props.classes.titleLink}
+                                                  to={`/users/${this.props.article.user.slug}/articles/${this.props.article.slug}`}
+                                                  itemProp="mainEntityOfPage url"
+                                                  onClick={this._handleTitleClick}>
                                                 {this.props.article.title}
-                                            </h1>
-                                        </Link>
+                                            </Link>
+                                        </h1>
                                     }/>
 
                         <Collapse in={!this.state.isFolded}
@@ -202,14 +207,62 @@ class ArticleCardDisplay extends React.PureComponent {
                             <CardContent classes={{
                                 root: this.props.classes.content
                             }}>
+                                <meta itemProp="dateModified"
+                                      content={this.props.classes.dateIso}/>
+
+                                <div itemType="https://schema.org/Organization"
+                                     itemProp="publisher"
+                                     itemScope={true}>
+                                    <div itemType="https://schema.org/ImageObject"
+                                         itemProp="logo"
+                                         itemScope={true}>
+                                        <meta itemProp="url"
+                                              content={window.logoUrl}/>
+                                        <meta itemProp="width"
+                                              content="192"/>
+                                        <meta itemProp="height"
+                                              content="192"/>
+                                    </div>
+                                    <meta itemProp="name"
+                                          content="InRailsWeBlog"/>
+                                </div>
+
                                 {
-                                    this.props.article.mode === 'inventory'
+                                    this.props.article.defaultPicture
                                         ?
-                                        <ArticleInventoryDisplay inventories={this.props.article.inventories}/>
+                                        <div itemType="https://schema.org/ImageObject"
+                                             itemScope={true}
+                                             itemProp="image">
+                                            <meta itemProp="url"
+                                                  content={this.props.article.defaultPicture}/>
+                                            <meta itemProp="width"
+                                                  content="320"/>
+                                            <meta itemProp="height"
+                                                  content="320"/>
+                                        </div>
                                         :
-                                        <div className="normalized-content"
-                                             dangerouslySetInnerHTML={{__html: this.props.article.content}}/>
+                                        <div itemType="https://schema.org/ImageObject"
+                                             itemScope={true}
+                                             itemProp="image">
+                                            <meta itemProp="url"
+                                                  content={window.logoUrl}/>
+                                            <meta itemProp="width"
+                                                  content="320"/>
+                                            <meta itemProp="height"
+                                                  content="320"/>
+                                        </div>
                                 }
+
+                                <div itemProp="articleBody">
+                                    {
+                                        this.props.article.mode === 'inventory'
+                                            ?
+                                            <ArticleInventoryDisplay inventories={this.props.article.inventories}/>
+                                            :
+                                            <div className="normalized-content"
+                                                 dangerouslySetInnerHTML={{__html: this.props.article.content}}/>
+                                    }
+                                </div>
                             </CardContent>
 
                             <CardActions className={this.props.classes.actions}

@@ -233,8 +233,13 @@ class ArticleShow extends React.Component {
 
                     {
                         !this.props.isFetching &&
-                        <article className={this.props.classes.root}>
-                            <HeadLayout metaTags={this.props.metaTags}/>
+                        <article className={this.props.classes.root}
+                                 itemProp="blogPost"
+                                 itemScope={true}
+                                 itemType="https://schema.org/BlogPosting">
+                            <HeadLayout>
+                                {this.props.metaTags}
+                            </HeadLayout>
 
                             {
                                 this.props.isCurrentTopicOwner &&
@@ -277,7 +282,7 @@ class ArticleShow extends React.Component {
                                         this.props.article.summary &&
                                         <Grid item={true}
                                               xs={12}>
-                                            <h2 className="blog-article-summary">
+                                            <h2 itemProp="description">
                                                 {this.props.article.summary}
                                             </h2>
                                         </Grid>
@@ -325,22 +330,25 @@ class ArticleShow extends React.Component {
                                 </Grid>
 
                                 <Typography className={this.props.classes.title}
-                                            variant="h1">
+                                            variant="h1"
+                                            itemProp="name headline">
                                     {this.props.article.title}
                                 </Typography>
 
-                                {
-                                    this.props.article.mode === 'inventory'
-                                        ?
-                                        <ArticleInventoryDisplay inventories={this.props.article.inventories}/>
-                                        :
-                                        <div className={classNames('normalized-content')}
-                                             dangerouslySetInnerHTML={{__html: this.props.article.content}}/>
-                                }
+                                <div itemProp="articleBody">
+                                    {
+                                        this.props.article.mode === 'inventory'
+                                            ?
+                                            <ArticleInventoryDisplay inventories={this.props.article.inventories}/>
+                                            :
+                                            <div className={classNames('normalized-content')}
+                                                 dangerouslySetInnerHTML={{__html: this.props.article.content}}/>
+                                    }
+                                </div>
 
                                 {
                                     this.props.article.reference &&
-                                    <div className="blog-article-info">
+                                    <div>
                                         <a href={this.props.article.reference}
                                            rel="noopener noreferrer"
                                            target="_blank">

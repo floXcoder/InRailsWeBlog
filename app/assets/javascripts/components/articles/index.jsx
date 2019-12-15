@@ -213,14 +213,12 @@ class ArticleIndex extends React.Component {
     render() {
         if (this.props.articlesCount === 0 && !this.props.isFetching) {
             return (
-                <div className="blog-article-box">
-                    <ArticleNoneDisplay userSlug={this.props.routeParams.userSlug}
-                                        topicSlug={this.props.routeParams.topicSlug}
-                                        tagSlug={this.props.routeParams.tagSlug}
-                                        childTagSlug={this.props.routeParams.childTagSlug}
-                                        isTopicPage={true}
-                                        isSearchPage={false}/>
-                </div>
+                <ArticleNoneDisplay userSlug={this.props.routeParams.userSlug}
+                                    topicSlug={this.props.routeParams.topicSlug}
+                                    tagSlug={this.props.routeParams.tagSlug}
+                                    childTagSlug={this.props.routeParams.childTagSlug}
+                                    isTopicPage={true}
+                                    isSearchPage={false}/>
             );
         }
 
@@ -265,7 +263,9 @@ class ArticleIndex extends React.Component {
                     [this.props.classes.largeContainer]: isLargeContainer,
                     [this.props.classes.fullContainer]: isFullContainer
                 })}>
-                    <HeadLayout metaTags={this.props.metaTags}/>
+                    <HeadLayout>
+                        {this.props.metaTags}
+                    </HeadLayout>
 
                     {
                         this.props.isFetching &&

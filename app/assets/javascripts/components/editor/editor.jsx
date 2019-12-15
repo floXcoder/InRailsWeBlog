@@ -492,9 +492,6 @@ class Editor extends React.Component {
             <div className={classNames('editor-reset', this.props.className)}>
                 <div ref={this._editorRef}
                      id={this.props.id}
-                     className={classNames({
-                         'blog-article-content': this.props.mode === EditorMode.INLINE_EDIT
-                     })}
                      dangerouslySetInnerHTML={{__html: this._formatContent(this.props.children)}}/>
             </div>
         );

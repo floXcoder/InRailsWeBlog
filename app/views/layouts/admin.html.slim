@@ -3,7 +3,7 @@ html lang="#{I18n.locale}"
   
   = render 'layouts/head'
   
-  body.blog-admin
+  body
     = yield
     
     = render 'layouts/flash_messages', flash: flash

@@ -81,7 +81,55 @@ class ArticleSummaryDisplay extends React.Component {
                      className={classNames(this.props.className, {
                          'is-hidden': !this.state.isVisible,
                          'bounce-in': this.state.isVisible
-                     })}>
+                     })}
+                     itemScope={true}
+                     itemType="https://schema.org/BlogPosting">
+                    <meta itemProp="dateModified"
+                          content={this.props.classes.dateIso}/>
+
+                    <div itemType="https://schema.org/Organization"
+                         itemProp="publisher"
+                         itemScope={true}>
+                        <div itemType="https://schema.org/ImageObject"
+                             itemProp="logo"
+                             itemScope={true}>
+                            <meta itemProp="url"
+                                  content={window.logoUrl}/>
+                            <meta itemProp="width"
+                                  content="192"/>
+                            <meta itemProp="height"
+                                  content="192"/>
+                        </div>
+                        <meta itemProp="name"
+                              content="InRailsWeBlog"/>
+                    </div>
+
+                    {
+                        this.props.article.defaultPicture
+                            ?
+                            <div itemType="https://schema.org/ImageObject"
+                                 itemScope={true}
+                                 itemProp="image">
+                                <meta itemProp="url"
+                                      content={this.props.article.defaultPicture}/>
+                                <meta itemProp="width"
+                                      content="320"/>
+                                <meta itemProp="height"
+                                      content="320"/>
+                            </div>
+                            :
+                            <div itemType="https://schema.org/ImageObject"
+                                 itemScope={true}
+                                 itemProp="image">
+                                <meta itemProp="url"
+                                      content={window.logoUrl}/>
+                                <meta itemProp="width"
+                                      content="320"/>
+                                <meta itemProp="height"
+                                      content="320"/>
+                            </div>
+                    }
+
                     <div className={this.props.classes.heading}>
                         <Grid container={true}
                               classes={{
@@ -101,15 +149,19 @@ class ArticleSummaryDisplay extends React.Component {
                             </Grid>
                         </Grid>
 
-                        <Link to={`/users/${this.props.article.user.slug}/articles/${this.props.article.slug}`}
-                              onClick={this._handleTitleClick}>
-                            <h1 className={this.props.classes.title}>
+                        <h1 className={this.props.classes.title}
+                            itemProp="name headline">
+                            <Link className={this.props.classes.titleLink}
+                                  to={`/users/${this.props.article.user.slug}/articles/${this.props.article.slug}`}
+                                  itemProp="mainEntityOfPage url"
+                                  onClick={this._handleTitleClick}>
                                 {this.props.article.title}
-                            </h1>
-                        </Link>
+                            </Link>
+                        </h1>
                     </div>
 
-                    <div className={this.props.classes.summaryContent}>
+                    <div className={this.props.classes.summaryContent}
+                         itemProp="articleBody">
                         <div className="normalized-content normalized-content-extract"
                              dangerouslySetInnerHTML={{__html: this.props.article.content}}/>
                     </div>

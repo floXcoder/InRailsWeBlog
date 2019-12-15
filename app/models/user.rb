@@ -330,6 +330,18 @@ class User < ApplicationRecord
     user.id == self.id
   end
 
+  def link_path(options = {})
+    if options[:edit]
+      "/users/#{self.slug}/edit"
+    elsif options[:host]
+      "#{options[:host]}/users/#{self.slug}"
+    elsif options[:index]
+      "/users/#{self.slug}"
+    else
+      "/users/#{self.slug}/show"
+    end
+  end
+
   def avatar_url
     self.picture&.image&.url(:mini)
   end

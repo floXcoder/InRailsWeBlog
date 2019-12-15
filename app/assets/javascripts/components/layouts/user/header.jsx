@@ -184,7 +184,10 @@ class HeaderLayoutUser extends React.PureComponent {
 
     _renderDesktopMenu = () => {
         return (
-            <div className={this.props.classes.sectionDesktop}>
+            <div className={this.props.classes.sectionDesktop}
+                 aria-label="Navigation"
+                 itemScope={true}
+                 itemType="https://schema.org/SiteNavigationElement">
                 <HomeArticleHeader routeParams={this.props.routeParams}
                                    userSlug={this.props.userSlug}
                                    topicSlug={this.props.topicSlug}
@@ -222,12 +225,14 @@ class HeaderLayoutUser extends React.PureComponent {
                              onOpen={this._handleTagDrawerToggle}>
                 <>
                     <div className={this.props.classes.mobileToolbar}>
-                        <Link className={this.props.classes.mobileTitle}
-                              to="/">
-                            <Typography variant="h5">
+                        <h5 className={this.props.classes.mobileTitle}
+                            itemProp="name">
+                            <Link className={this.props.classes.titleLink}
+                                  to="/"
+                                  itemProp="url">
                                 {I18n.t('js.views.header.title')}
-                            </Typography>
-                        </Link>
+                            </Link>
+                        </h5>
                     </div>
 
                     <List>
@@ -352,7 +357,9 @@ class HeaderLayoutUser extends React.PureComponent {
         return (
             <>
                 <AppBar position="fixed"
-                        className={classNames('animate-search', this.props.classes.appBar)}>
+                        className={classNames('animate-search', this.props.classes.appBar)}
+                        itemScope={true}
+                        itemType="https://schema.org/Organization">
                     <LoadingBar showFastActions={true}
                                 style={{backgroundColor: '#233348', height: '2px'}}/>
 
@@ -365,12 +372,14 @@ class HeaderLayoutUser extends React.PureComponent {
                                 <MenuIcon/>
                             </IconButton>
 
-                            <Link className={this.props.classes.title}
-                                  to="/">
-                                <h1 className={this.props.classes.websiteTitle}>
+                            <h1 className={this.props.classes.title}
+                                itemProp="name">
+                                <Link className={this.props.classes.titleLink}
+                                      to="/"
+                                      itemProp="url">
                                     InR
-                                </h1>
-                            </Link>
+                                </Link>
+                            </h1>
                         </div>
 
                         {

@@ -269,6 +269,18 @@ class Tag < ApplicationRecord
     self.user_id == user.id if user
   end
 
+  def link_path(options = {})
+    if options[:edit]
+      "/tags/#{self.user.slug}/edit"
+    elsif options[:host]
+      "#{options[:host]}/tags/#{self.slug}"
+    elsif options[:index]
+      "/tagged/#{self.slug}"
+    else
+      "/tags/#{self.slug}"
+    end
+  end
+
   def default_picture
     default_picture = ''
 

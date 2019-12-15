@@ -227,6 +227,20 @@ class Topic < ApplicationRecord
     self.user_id == user.id if user
   end
 
+  def link_path(options = {})
+    if options[:edit]
+      "/users/#{self.user.slug}/topics/#{self.slug}/edit"
+    elsif options[:host]
+      "#{options[:host]}/users/#{self.user.slug}/topics/#{self.slug}/show"
+    elsif options[:index]
+      "/users/#{self.user.slug}/topics/#{self.slug}"
+    elsif options[:tags]
+      "/users/#{self.user.slug}/topics/#{self.slug}/tags"
+    else
+      "/users/#{self.user.slug}/topics/#{self.slug}/show"
+    end
+  end
+
   def bookmarked?(user)
     user ? user_bookmarks.include?(user) : false
   end

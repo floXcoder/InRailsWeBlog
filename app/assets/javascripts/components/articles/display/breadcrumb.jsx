@@ -35,6 +35,7 @@ class ArticleBreadcrumbDisplay extends React.Component {
     render() {
         return (
             <ul className={this.props.classes.breadcrumb}
+                aria-label="Breadcrumb navigation"
                 itemType="http://schema.org/BreadcrumbList"
                 itemScope={true}>
                 <li className={this.props.classes.breadcrumbItem}
@@ -45,7 +46,6 @@ class ArticleBreadcrumbDisplay extends React.Component {
                           to={`/users/${this.props.user.slug}`}
                           itemType="http://schema.org/Thing"
                           itemProp="item"
-                          itemScope={true}
                           onClick={this._handleElementClick.bind(this, 'user', this.props.user.id, this.props.user.slug, this.props.user.pseudo)}>
                         <span itemProp="name">
                             {this.props.user.pseudo}
@@ -69,7 +69,6 @@ class ArticleBreadcrumbDisplay extends React.Component {
                           to={`/users/${this.props.user.slug}/topics/${this.props.topic.slug}`}
                           itemType="http://schema.org/Thing"
                           itemProp="item"
-                          itemScope={true}
                           onClick={this._handleElementClick.bind(this, 'topic', this.props.topic.id, this.props.topic.slug, this.props.topic.name)}>
                         <span itemProp="name">
                             {this.props.topic.name}
@@ -99,7 +98,6 @@ class ArticleBreadcrumbDisplay extends React.Component {
                                 to={`/users/${this.props.article.user.slug}/articles/${this.props.article.slug}`}
                                 itemType="http://schema.org/Thing"
                                 itemProp="item"
-                                itemScope={true}
                                 onClick={this._handleElementClick.bind(this, 'article', this.props.article.id, this.props.article.slug, this.props.article.title)}>
                                 <span itemProp="name">
                                     {this.props.article.title}

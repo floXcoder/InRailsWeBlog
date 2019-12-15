@@ -82,7 +82,9 @@ class TagShow extends React.Component {
 
         return (
             <article className={this.props.classes.root}>
-                <HeadLayout metaTags={this.props.metaTags}/>
+                <HeadLayout>
+                    {this.props.metaTags}
+                </HeadLayout>
 
                 <Typography className={this.props.classes.title}
                             component="h1"

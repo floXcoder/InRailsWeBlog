@@ -100,14 +100,16 @@ class ArticleShared extends React.Component {
 
         return (
             <article className={this.props.classes.root}>
-                <HeadLayout metaTags={this.props.metaTags}/>
+                <HeadLayout>
+                    {this.props.metaTags}
+                </HeadLayout>
 
                 <Grid container={true}>
                     {
                         this.props.article.summary &&
                         <Grid item={true}
                               xs={12}>
-                            <h2 className="blog-article-summary">
+                            <h2>
                                 {this.props.article.summary}
                             </h2>
                         </Grid>
@@ -124,7 +126,7 @@ class ArticleShared extends React.Component {
 
                 {
                     this.props.article.reference &&
-                    <div className="blog-article-info">
+                    <div>
                         <a href={this.props.article.reference}
                            rel="noopener noreferrer"
                            target="_blank">

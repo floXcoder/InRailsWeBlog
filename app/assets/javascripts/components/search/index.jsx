@@ -63,6 +63,7 @@ export default @connect((state) => ({
     searchDisplay: state.userState.user && state.userState.user.settings.searchDisplay,
     query: state.searchState.query,
     selectedTags: state.searchState.selectedTags,
+    isSearching: state.searchState.isSearching,
     hasResults: state.searchState.hasResults,
     tags: state.searchState.tags,
     tagSuggestions: getTagSuggestions(state),
@@ -94,6 +95,7 @@ class SearchIndex extends React.Component {
         searchDisplay: PropTypes.string,
         query: PropTypes.string,
         selectedTags: PropTypes.array,
+        isSearching: PropTypes.bool,
         hasResults: PropTypes.bool,
         tags: PropTypes.array,
         tagSuggestions: PropTypes.array,
@@ -214,7 +216,7 @@ class SearchIndex extends React.Component {
     };
 
     _handleFetch = _.debounce((query) => {
-        if(this._request) {
+        if (this._request && this._request.signal) {
             this._request.signal.abort();
         }
 
@@ -293,11 +295,13 @@ class SearchIndex extends React.Component {
 
         const isDesktop = window.innerWidth > 1024;
 
-        const searchDisplay = this.state.forceDisplay || (this.props.currentUserTopicMode === 'inventories' ? 'grid' : this.props.searchDisplay);
+        const searchDisplay = this.state.forceDisplay || (this.props.currentUserTopicMode === 'inventories' ? 'grid' : this.props.searchDisplay) || 'card';
 
         return (
             <div className={this.props.classes.root}>
-                <HeadLayout metaTags={this.props.metaTags}/>
+                <HeadLayout>
+                    {this.props.metaTags}
+                </HeadLayout>
 
                 <form onSubmit={this._handleSubmit}>
                     <EnsureValidity/>
@@ -357,6 +361,13 @@ class SearchIndex extends React.Component {
                         </Grid>
                     </Grid>
                 </form>
+
+                {
+                    this.props.isSearching &&
+                    <div className="center margin-top-35 margin-bottom-60">
+                        <Loader size="big"/>
+                    </div>
+                }
 
                 <SearchSuggestionIndex classes={this.props.classes}
                                        articleSuggestions={this.props.articleSuggestions}

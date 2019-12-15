@@ -71,18 +71,23 @@ class ArticleMiniCardDisplay extends React.Component {
         return (
             <Card id={`article-${this.props.article.id}`}
                   className={this.props.classes.card}
-                  component="article">
+                  component="article"
+                  itemScope={true}
+                  itemType="https://schema.org/BlogPosting">
                 <CardHeader classes={{
                     root: this.props.classes.header,
                     subheader: this.props.classes.articleSubtitle
                 }}
                             title={
-                                <Link to={`/users/${this.props.article.user.slug}/articles/${this.props.article.slug}`}
-                                      onClick={spyTrackClick.bind(null, 'article', this.props.article.id, this.props.article.slug, this.props.article.title)}>
-                                    <h1 className={this.props.classes.extractTitle}>
+                                <h1 className={this.props.classes.extractTitle}
+                                    itemProp="name headline">
+                                    <Link className={this.props.classes.extractTitleLink}
+                                          to={`/users/${this.props.article.user.slug}/articles/${this.props.article.slug}`}
+                                          itemProp="mainEntityOfPage url"
+                                          onClick={spyTrackClick.bind(null, 'article', this.props.article.id, this.props.article.slug, this.props.article.title)}>
                                         {this.props.article.title}
-                                    </h1>
-                                </Link>
+                                    </Link>
+                                </h1>
                             }
                             subheader={(this.props.hasTags && !this.props.isTagDown) && this._renderArticleTags()}
                 />
@@ -90,6 +95,52 @@ class ArticleMiniCardDisplay extends React.Component {
                 <CardContent classes={{
                     root: this.props.classes.articleContent
                 }}>
+                    <meta itemProp="dateModified"
+                          content={this.props.classes.dateIso}/>
+
+                    <div itemType="https://schema.org/Organization"
+                         itemProp="publisher"
+                         itemScope={true}>
+                        <div itemType="https://schema.org/ImageObject"
+                             itemProp="logo"
+                             itemScope={true}>
+                            <meta itemProp="url"
+                                  content={window.logoUrl}/>
+                            <meta itemProp="width"
+                                  content="192"/>
+                            <meta itemProp="height"
+                                  content="192"/>
+                        </div>
+                        <meta itemProp="name"
+                              content="InRailsWeBlog"/>
+                    </div>
+
+                    {
+                        this.props.article.defaultPicture
+                            ?
+                            <div itemType="https://schema.org/ImageObject"
+                                 itemScope={true}
+                                 itemProp="image">
+                                <meta itemProp="url"
+                                      content={this.props.article.defaultPicture}/>
+                                <meta itemProp="width"
+                                      content="320"/>
+                                <meta itemProp="height"
+                                      content="320"/>
+                            </div>
+                            :
+                            <div itemType="https://schema.org/ImageObject"
+                                 itemScope={true}
+                                 itemProp="image">
+                                <meta itemProp="url"
+                                      content={window.logoUrl}/>
+                                <meta itemProp="width"
+                                      content="320"/>
+                                <meta itemProp="height"
+                                      content="320"/>
+                            </div>
+                    }
+
                     <Grid container={true}
                           classes={{
                               container: this.props.classes.articleInfo
@@ -100,7 +151,8 @@ class ArticleMiniCardDisplay extends React.Component {
                           alignItems="center">
                         <Grid item={true}
                               xs={this.props.article.defaultPicture ? 8 : 12}
-                              className={this.props.classes.headerItem}>
+                              className={this.props.classes.headerItem}
+                              itemProp="articleBody">
                             <div className="normalized-content normalized-content-extract"
                                  dangerouslySetInnerHTML={{__html: this.props.article.content}}/>
 
@@ -139,6 +191,9 @@ class ArticleMiniCardDisplay extends React.Component {
                                   alignItems="center">
                                 <Grid item={true}
                                       className={this.props.classes.headerItem}>
+                                    <meta itemProp="author"
+                                          content={this.props.classes.userPseudo}/>
+
                                     <Link className={this.props.classes.userPseudo}
                                           to={`/users/${this.props.article.user.slug}`}
                                           onClick={spyTrackClick.bind(null, 'user', this.props.article.user.id, this.props.article.user.slug, this.props.article.user.pseudo)}>
@@ -153,9 +208,12 @@ class ArticleMiniCardDisplay extends React.Component {
 
                                 <Grid item={true}
                                       className={this.props.classes.headerItem}>
-                                    <div className={this.props.classes.date}>
+                                    <meta itemProp="datePublished"
+                                          content={this.props.article.dateIso}/>
+
+                                    <time className={this.props.classes.date}>
                                         {this.props.article.date}
-                                    </div>
+                                    </time>
                                 </Grid>
                             </Grid>
                         </Grid>

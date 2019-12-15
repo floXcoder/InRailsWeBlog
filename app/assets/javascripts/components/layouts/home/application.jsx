@@ -1,6 +1,11 @@
 'use strict';
 
 import {
+    MuiThemeProvider
+} from '@material-ui/core/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
+
+import {
     Provider,
     ReactReduxContext
 } from 'react-redux';
@@ -10,9 +15,8 @@ import {
 } from 'react-router-dom';
 
 import {
-    MuiThemeProvider
-} from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
+    HelmetProvider
+} from 'react-helmet-async';
 
 import {
     configureStore
@@ -43,25 +47,27 @@ export default class ApplicationLayoutHome extends React.Component {
 
                 <Provider store={configureStore}
                           context={ReactReduxContext}>
-                    <Router history={browserHistory}>
-                        <ScrollBackManager>
-                            <>
-                                <ErrorBoundary errorType="text"
-                                               errorTitle={I18n.t('js.helpers.errors.boundary.header')}>
-                                    <HeaderLayoutHome hashRoutes={routes.hashes}/>
-                                </ErrorBoundary>
+                    <HelmetProvider>
+                        <Router history={browserHistory}>
+                            <ScrollBackManager>
+                                <>
+                                    <ErrorBoundary errorType="text"
+                                                   errorTitle={I18n.t('js.helpers.errors.boundary.header')}>
+                                        <HeaderLayoutHome hashRoutes={routes.hashes}/>
+                                    </ErrorBoundary>
 
-                                <ErrorBoundary errorType="card">
-                                    <MainLayoutHome routes={routes.static.home}/>
-                                </ErrorBoundary>
+                                    <ErrorBoundary errorType="card">
+                                        <MainLayoutHome routes={routes.static.home}/>
+                                    </ErrorBoundary>
 
-                                <ErrorBoundary errorType="text"
-                                               errorTitle={I18n.t('js.helpers.errors.boundary.footer')}>
-                                    <FooterLayoutHome/>
-                                </ErrorBoundary>
-                            </>
-                        </ScrollBackManager>
-                    </Router>
+                                    <ErrorBoundary errorType="text"
+                                                   errorTitle={I18n.t('js.helpers.errors.boundary.footer')}>
+                                        <FooterLayoutHome/>
+                                    </ErrorBoundary>
+                                </>
+                            </ScrollBackManager>
+                        </Router>
+                    </HelmetProvider>
                 </Provider>
             </MuiThemeProvider>
         );

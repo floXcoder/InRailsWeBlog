@@ -33,7 +33,7 @@ SitemapGenerator::Sitemap.create do
   group(filename: :articles) do
     Article.includes(:user, :pictures).everyone.find_in_batches(batch_size: 200) do |articles|
       articles.each do |article|
-        add "/users/#{article.user.slug}/articles/#{article.slug}",
+        add article.link_path,
             changefreq: 'weekly',
             priority:   0.7,
             lastmod:    article.updated_at,
@@ -49,14 +49,14 @@ SitemapGenerator::Sitemap.create do
   group(filename: :topics) do
     Topic.everyone.find_in_batches(batch_size: 200) do |topics|
       topics.each do |topic|
-        add "/users/#{topic.user.slug}/topics/#{topic.slug}",
+        add topic.link_path(index: true),
             changefreq: 'weekly',
             priority:   0.7,
             lastmod:    topic.updated_at
       end
 
       topics.each do |topic|
-        add "/users/#{topic.user.slug}/topics/#{topic.slug}/tags",
+        add topic.link_path(tags: true),
             changefreq: 'weekly',
             priority:   0.7,
             lastmod:    topic.updated_at
@@ -67,14 +67,14 @@ SitemapGenerator::Sitemap.create do
   group(filename: :tags) do
     Tag.everyone.find_in_batches(batch_size: 200) do |tags|
       tags.each do |tag|
-        add "/tags/#{tag.slug}",
+        add tag.link_path,
             changefreq: 'weekly',
             priority:   0.7,
             lastmod:    tag.updated_at
       end
 
       tags.each do |tag|
-        add "/tagged/#{tag.slug}",
+        add tag.link_path(index: true),
             changefreq: 'weekly',
             priority:   0.7,
             lastmod:    tag.updated_at
@@ -85,7 +85,7 @@ SitemapGenerator::Sitemap.create do
   group(filename: :users) do
     User.everyone.find_in_batches(batch_size: 200) do |users|
       users.each do |user|
-        add "/users/#{user.slug}",
+        add user.link_path(index: true),
             changefreq: 'weekly',
             priority:   0.5,
             lastmod:    user.updated_at

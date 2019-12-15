@@ -50,14 +50,22 @@ module Api::V1
         format.json do
           if filter_params[:parent_tag_slug].present? || filter_params[:tag_slug].present?
             if filter_params[:topic_slug].present?
-              set_meta_tags title: titleize(I18n.t('views.article.index.title.tagged_topic', tag: Tag.find_by(slug: filter_params[:parent_tag_slug].presence || filter_params[:tag_slug].presence)&.name, topic: Topic.find_by(slug: filter_params[:topic_slug])&.name))
+              set_meta_tags title: titleize(I18n.t('views.article.index.title.tagged_topic', tag: Tag.find_by(slug: filter_params[:parent_tag_slug].presence || filter_params[:tag_slug].presence)&.name, topic: Topic.find_by(slug: filter_params[:topic_slug])&.name)),
+                            description: 'Article index for tag in topic',
+                            canonical: ''
             else
-              set_meta_tags title: titleize(I18n.t('views.article.index.title.tagged', tag: Tag.find_by(slug: filter_params[:parent_tag_slug].presence || filter_params[:tag_slug].presence)&.name))
+              set_meta_tags title: titleize(I18n.t('views.article.index.title.tagged', tag: Tag.find_by(slug: filter_params[:parent_tag_slug].presence || filter_params[:tag_slug].presence)&.name)),
+                            description: 'Article index for tag',
+                            canonical: ''
             end
           elsif filter_params[:topic_slug].present?
-            set_meta_tags title: titleize(I18n.t('views.article.index.title.topic', topic: Topic.find_by(slug: filter_params[:topic_slug]).name))
+            set_meta_tags title: titleize(I18n.t('views.article.index.title.topic', topic: Topic.find_by(slug: filter_params[:topic_slug]).name)),
+                          description: 'Article index for topic',
+                          canonical: ''
           else
-            set_meta_tags title: titleize(I18n.t('views.article.index.title.default'))
+            set_meta_tags title: titleize(I18n.t('views.article.index.title.default')),
+                          description: 'Article index',
+                          canonical: ''
           end
 
           if complete
@@ -85,14 +93,13 @@ module Api::V1
         format.json do
           set_meta_tags title:       titleize(I18n.t('views.article.show.title', title: article.title, topic: article.topic.name)),
                         description: article.meta_description,
-                        author:      article.user.pseudo
-          # canonical:   alternate_urls(article.slug)['fr'],
-          # alternate:   alternate_urls('articles', article.slug),
-          # og: {
-          #       type:  "#{ENV['WEBSITE_NAME']}:article",
-          #       url:   article_url(article),
-          #       image: article.default_picture ? (root_url + article.default_picture) : nil
-          #     }.compact
+                        author:      article.user.pseudo,
+                        canonical:   article.link_path(host: ENV['WEBSITE_FULL_ADDRESS']),
+                        og:          {
+                                       type:  "#{ENV['WEBSITE_NAME']}:article",
+                                       url:   article.link_path(host: ENV['WEBSITE_FULL_ADDRESS']),
+                                       image: article.default_picture ? (root_url + article.default_picture) : nil
+                                     }.compact
 
           render json:          article,
                  serializer:    ArticleSerializer,
@@ -114,14 +121,13 @@ module Api::V1
         format.json do
           set_meta_tags title:       titleize(I18n.t('views.article.show.title', title: article.title, topic: article.topic.name)),
                         description: article.meta_description,
-                        author:      article.user.pseudo
-          # canonical:   alternate_urls(article.slug)['fr'],
-          # alternate:   alternate_urls('articles', article.slug),
-          # og: {
-          #       type:  "#{ENV['WEBSITE_NAME']}:article",
-          #       url:   article_url(article),
-          #       image: article.default_picture ? (root_url + article.default_picture) : nil
-          #     }.compact
+                        author:      article.user.pseudo,
+                        canonical:   article.link_path(host: ENV['WEBSITE_FULL_ADDRESS']),
+                        og:          {
+                                       type:  "#{ENV['WEBSITE_NAME']}:article",
+                                       url:   article.link_path(host: ENV['WEBSITE_FULL_ADDRESS']),
+                                       image: article.default_picture ? (root_url + article.default_picture) : nil
+                                     }.compact
 
           render json:       article,
                  serializer: ArticleSerializer,

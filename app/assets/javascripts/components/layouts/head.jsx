@@ -2,58 +2,60 @@
 
 import {
     Helmet
-} from 'react-helmet';
+} from 'react-helmet-async';
 
-export default class HeadLayout extends React.Component {
-    static propTypes = {
-        // from connect
-        metaTags: PropTypes.object
-    };
+const HeadLayout = ({children: {title, description, author, canonical, og}}) => (
+    <Helmet>
+        <title>
+            {title}
+        </title>
 
-    static defaultProps = {
-        metaTags: {
-            og: {}
+        <meta itemProp="mainEntityOfPage"
+              content={window.location}/>
+
+        <meta name="description"
+              content={description}/>
+
+        {
+            canonical &&
+            <link rel="canonical"
+                  href={canonical}/>
         }
-    };
 
-    constructor(props) {
-        super(props);
-    }
+        {
+            author &&
+            <meta property="author"
+                  content={author}/>
+        }
 
-    render() {
-        return (
-            <Helmet>
-                <title>
-                    {this.props.metaTags.title}
-                </title>
+        {
+            title &&
+            <meta property="og:title"
+                  content={title}/>
+        }
 
-                <meta name="description"
-                      content={this.props.metaTags.description}/>
+        {
+            (og && og.type) &&
+            <meta property="og:type"
+                  content={og.type}/>
+        }
 
-                {
-                    this.props.metaTags.author &&
-                    <meta property="author"
-                          content={this.props.metaTags.author}/>
-                }
+        {
+            (og && og.url) &&
+            <meta property="og:url"
+                  content={og.url}/>
+        }
 
-                {
-                    this.props.metaTags.og_type &&
-                    <meta property="og:type"
-                          content={this.props.metaTags.og.type}/>
-                }
+        {
+            (og && og.image) &&
+            <meta property="og:image"
+                  content={og.image || window.logoUrl}/>
+        }
+    </Helmet>
+);
 
-                {
-                    this.props.metaTags.og_url &&
-                    <meta property="og:url"
-                          content={this.props.metaTags.og.url}/>
-                }
+HeadLayout.propTypes = {
+    children: PropTypes.object.isRequired
+};
 
-                {
-                    this.props.metaTags.og_type &&
-                    <meta property="og:image"
-                          content={this.props.metaTags.og.image}/>
-                }
-            </Helmet>
-        );
-    }
-}
+export default HeadLayout;

@@ -22,12 +22,14 @@ const styles = (theme) => ({
     title: {
         marginTop: '1rem',
         marginBottom: '0',
-        color: theme.palette.text.dark,
         fontSize: '2rem',
         fontWeight: h1Weight,
         lineHeight: h1LineHeight,
         letterSpacing: h1Spacing,
         margin: 'inherit'
+    },
+    titleLink: {
+        color: theme.palette.primary.dark
     },
     avatarContainer: {
         paddingTop: 4,
