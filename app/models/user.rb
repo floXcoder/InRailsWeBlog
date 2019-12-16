@@ -432,7 +432,7 @@ class User < ApplicationRecord
 
   # SEO
   def meta_description
-    [self.pseudo, self.additional_info.summary(60)].join(I18n.t('helpers.colon'))
+    [self.pseudo, self.additional_info&.summary(60)].compact.join(I18n.t('helpers.colon'))
   end
 
   private
