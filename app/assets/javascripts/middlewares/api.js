@@ -87,7 +87,7 @@ const manageError = (origin, error, url) => {
 
 const handleResponseErrors = (response, url) => {
     if (!response.ok) {
-        manageError('client', response, url);
+        manageError('server', response, url);
     }
 
     return response;

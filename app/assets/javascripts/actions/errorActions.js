@@ -2,7 +2,7 @@
 
 import {
     withScope as SentryWithScope,
-    captureException as SentryCaptureException
+    captureMessage as SentrycaptureMessage
 } from '@sentry/browser';
 
 export const pushError = (error, errorInfo = null) => {
@@ -13,7 +13,7 @@ export const pushError = (error, errorInfo = null) => {
     if (window.SENTRY_JAVASCRIPT_KEY) {
         SentryWithScope((scope) => {
             scope.setExtras(errorInfo);
-            SentryCaptureException(error);
+            SentrycaptureMessage(`error.statusText (${error.status} : ${error.url})`);
         });
     }
 };
