@@ -11,7 +11,6 @@ import {
     saveLocalArray,
     getLocalData
 } from '../middlewares/localStorage';
-import * as ActionTypes from "../constants/actionTypes";
 
 // Unused for now
 // export const spyHeartbeat = (value) => {

@@ -93,7 +93,7 @@ gem 'sitemap_generator',        '6.0.2'
 
 # Dummy data
 gem 'factory_bot_rails',        '5.1.1',   require: false
-gem 'faker',                    '2.8.1',   require: false
+gem 'faker',                    '2.9.0',   require: false
 
 # Deployment
 gem 'capistrano',               '3.11.2'
@@ -177,16 +177,16 @@ group :development, :test do
   gem 'rubocop',                    '0.77.0',  require: false
   gem 'rubocop-rails',              '2.4.0',   require: false
   gem 'rubocop-performance',        '1.5.1',   require: false
-  gem 'rubocop-rspec',              '1.37.0',  require: false
+  gem 'rubocop-rspec',              '1.37.1',  require: false
 end
 
 group :production do
   # Errors reporting
-  gem 'sentry-raven',     '2.12.3'
+  gem 'sentry-raven',     '2.13.0'
 
   # Improve log outputs
   gem 'lograge',          '0.11.2'
 
   # Prerender html pages for SEO
-  gem 'seo_cache',        '0.11.0'
+  gem 'seo_cache',        '0.12.0'
 end

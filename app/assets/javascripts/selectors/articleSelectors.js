@@ -104,18 +104,15 @@ export const getCategorizedArticles = createSelector(
     }
 );
 
-export const getArticleStories = createSelector(
-    (state) => state.articleState.articleStories,
-    (articles) => articles
-);
-
 export const getArticleSiblingStories = createSelector(
     (state) => state.articleState.articleStories,
     (state) => state.articleState.article,
     (articles, article) => {
         if (articles && articles.length > 1 && article) {
             const currentIndex = articles.findIndex((item) => item.id === article.id);
-            if (currentIndex === 0) {
+            if (currentIndex === -1) {
+                return null;
+            } else if (currentIndex === 0) {
                 return [
                     articles[1]
                 ];

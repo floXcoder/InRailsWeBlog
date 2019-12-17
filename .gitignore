@@ -4,14 +4,15 @@
 # Ignore all logfiles, tempfiles, assets and upload files
 /log/*.log
 /tmp
-/public/sitemap.xml.gz
 /public/assets
 /public/fonts
 /public/javascripts
+/public/node_modules
+/public/seo_cache
+/public/sitemap.xml.gz
 /public/stylesheets
 /public/uploads
 /public/vendor
-/public/node_modules
 
 # Ignore application documentation
 /doc
