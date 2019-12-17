@@ -390,7 +390,7 @@ class ArticleShow extends React.Component {
                     !this.props.isFetching &&
                     <div className={this.props.classes.storiesContainer}>
                         {
-                            this.props.articleSiblingStories &&
+                            (this.props.articleSiblingStories && this.props.articleSiblingStories.length > 0) &&
                             <Grid container={true}
                                   direction="row"
                                   justify="space-evenly"

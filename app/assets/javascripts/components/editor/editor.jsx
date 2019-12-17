@@ -403,11 +403,11 @@ class Editor extends React.Component {
         }
     };
 
-    getContent = () => {
-        if (this._editor) {
-            return this._editor.summernote('code');
-        }
-    };
+    // getContent = () => {
+    //     if (this._editor) {
+    //         return this._editor.summernote('code');
+    //     }
+    // };
 
     reset = () => {
         if (this._editor) {

@@ -389,35 +389,35 @@ export const compact = (object) => {
     return newObject;
 };
 
-export const omit = (obj, props, fn) => {
-    if (typeof obj !== 'object') return {};
-
-    if (typeof props === 'function') {
-        fn = props;
-        props = [];
-    }
-
-    if (typeof props === 'string') {
-        props = [props];
-    }
-
-    const isFunction = typeof fn === 'function';
-    const keys = Object.keys(obj);
-    let res = {};
-
-    for (let i = 0; i < keys.length; i++) {
-        let key = keys[i];
-        let val = obj[key];
-
-        if (!props || (props.indexOf(key) === -1 && (!isFunction || fn(val, key, obj)))) {
-            res[key] = val;
-        }
-    }
-    return res;
-};
+// export const omit = (obj, props, fn) => {
+//     if (typeof obj !== 'object') return {};
+//
+//     if (typeof props === 'function') {
+//         fn = props;
+//         props = [];
+//     }
+//
+//     if (typeof props === 'string') {
+//         props = [props];
+//     }
+//
+//     const isFunction = typeof fn === 'function';
+//     const keys = Object.keys(obj);
+//     let res = {};
+//
+//     for (let i = 0; i < keys.length; i++) {
+//         let key = keys[i];
+//         let val = obj[key];
+//
+//         if (!props || (props.indexOf(key) === -1 && (!isFunction || fn(val, key, obj)))) {
+//             res[key] = val;
+//         }
+//     }
+//     return res;
+// };
 
 /** ARRAY **/
-export const toMap = (object, callback) => Object.keys(object).map((key, i) => callback(key, object[key], i));
+// export const toMap = (object, callback) => Object.keys(object).map((key, i) => callback(key, object[key], i));
 
 // Not used
 // export const arraySearchForValue = (arr, val, key) => {
