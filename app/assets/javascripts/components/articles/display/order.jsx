@@ -7,38 +7,36 @@ import VerticalAlignBottomIcon from '@material-ui/icons/VerticalAlignBottom';
 import ArticleSortMenu from '../sort/dropdown';
 // import ArticleFilterMenu from '../filter/dropdown';
 
-export default class ArticleOrderDisplay extends React.Component {
-    static propTypes = {
-        classes: PropTypes.object.isRequired,
-        onMinimized: PropTypes.func.isRequired,
-        onOrderChange: PropTypes.func.isRequired,
-        currentUserSlug: PropTypes.string,
-        currentUserTopicSlug: PropTypes.string,
-        articleOrderMode: PropTypes.string
-    };
+const ArticleOrderDisplay = (props) => (
+    <div className={props.classes.order}>
+        <ArticleSortMenu currentUserSlug={props.currentUserSlug}
+                         currentUserTopicSlug={props.currentUserTopicSlug}
+                         currentOrder={props.articleOrderMode}
+                         onOrderChange={props.onOrderChange}/>
 
-    constructor(props) {
-        super(props);
-    }
+        {
+            // this.props.currentUserId &&
+            // <ArticleFilterMenu/>
+        }
 
-    render() {
-        return (
-            <div className={this.props.classes.order}>
-                <ArticleSortMenu currentUserSlug={this.props.currentUserSlug}
-                                 currentUserTopicSlug={this.props.currentUserTopicSlug}
-                                 currentOrder={this.props.articleOrderMode}
-                                 onOrderChange={this.props.onOrderChange}/>
+        {
+            (props.articleDisplayMode === 'card' || props.articleDisplayMode === 'grid') &&
+            <IconButton aria-label="Minimize all"
+                        onClick={props.onMinimized}>
+                <VerticalAlignBottomIcon className={props.classes.button}/>
+            </IconButton>
+        }
+    </div>
+);
 
-                {
-                    // this.props.currentUserId &&
-                    // <ArticleFilterMenu/>
-                }
+ArticleOrderDisplay.propTypes = {
+    classes: PropTypes.object.isRequired,
+    onMinimized: PropTypes.func.isRequired,
+    onOrderChange: PropTypes.func.isRequired,
+    currentUserSlug: PropTypes.string,
+    currentUserTopicSlug: PropTypes.string,
+    articleOrderMode: PropTypes.string,
+    articleDisplayMode: PropTypes.string
+};
 
-                <IconButton aria-label="Minimize all"
-                            onClick={this.props.onMinimized}>
-                    <VerticalAlignBottomIcon className={this.props.classes.button}/>
-                </IconButton>
-            </div>
-        );
-    }
-}
+export default React.memo(ArticleOrderDisplay);

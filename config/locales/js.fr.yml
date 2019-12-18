@@ -726,6 +726,7 @@ fr:
         articles: "Articles"
         blogs: "Notes internes"
         jobs: "Jobs"
+        postgres: "Database"
         logs: "Logs"
         cache: "Cache"
         back_home: "Retour au site"

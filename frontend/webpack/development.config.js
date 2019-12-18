@@ -167,6 +167,11 @@ webPackConfig.plugins.push(
         to: image.to + '/' + config.development.filename + '.[ext]',
         toType: 'template'
     }))),
+    new CopyWebpackPlugin(_.map(config.datas, (data) => ({
+        from: data.from,
+        to: data.to + config.development.filename + '.[ext]',
+        toType: 'template'
+    }))),
     new MiniCssExtractPlugin({
         // Options similar to the same options in webpackOptions.output
         // both options are optional

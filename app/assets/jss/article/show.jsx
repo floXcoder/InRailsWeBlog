@@ -32,6 +32,13 @@ const styles = (theme) => ({
             fontSize: h1SizeMobile
         }
     },
+    reference: {
+        margin: theme.spacing(1, 0)
+    },
+    referenceLink: {
+        color: theme.palette.text.primary,
+        fontStyle: 'italic'
+    },
     media: {
         height: 0,
         paddingTop: '56.25%' // 16:9

@@ -73,8 +73,10 @@ const receiveArticleStories = (stories) => ({
     type: ActionTypes.ARTICLE_STORIES,
     stories
 });
-export const fetchArticleStories = (articleId) => (dispatch) => (
-    api.get(`/api/v1/articles/${articleId}/stories`)
+export const fetchArticleStories = (userId, articleId) => (dispatch) => (
+    api.get(`/api/v1/articles/${articleId}/stories`,{
+        userId
+    })
         .promise
         .then((response) => dispatch(receiveArticleStories(response.stories)))
 );

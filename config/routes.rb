@@ -188,6 +188,9 @@ Rails.application.routes.draw do
   authenticate :admin do
     # Sidekiq interface
     mount Sidekiq::Web => '/admins/sidekiq'
+
+    # Postgres requests analysis
+    mount PgHero::Engine, at: '/admins/postgres'
   end
 
   # resources :admins

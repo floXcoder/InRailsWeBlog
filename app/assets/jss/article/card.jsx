@@ -47,6 +47,9 @@ const styles = (theme) => ({
             fontSize: h1SizeMobile
         }
     },
+    titleLink: {
+        color: theme.palette.primary.dark
+    },
     gridTitle: {
         marginTop: '.6rem',
         marginBottom: '0',

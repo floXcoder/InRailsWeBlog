@@ -170,6 +170,11 @@ webPackConfig.plugins.push(
         to: image.to + '/' + config.production.filenameData + '.[ext]',
         toType: 'template'
     }))),
+    new CopyWebpackPlugin(_.map(config.datas, (data) => ({
+        from: data.from,
+        to: data.to + config.production.filenameData + '.[ext]',
+        toType: 'template'
+    }))),
     new webpack.HashedModuleIdsPlugin(),
     new ManifestPlugin({
         fileName: config.production.manifestFilename,
