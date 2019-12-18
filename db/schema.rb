@@ -2,15 +2,15 @@
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
 #
-# Note that this schema.rb definition is the authoritative source for your
-# database schema. If you need to create the application database on another
-# system, you should be using db:schema:load, not running all the migrations
-# from scratch. The latter is a flawed and unsustainable approach (the more migrations
-# you'll amass, the slower it'll run and the greater likelihood for issues).
+# This file is the source Rails uses to define your schema when running `rails
+# db:schema:load`. When creating a new database, `rails db:schema:load` tends to
+# be faster and is potentially less error prone than running all of your
+# migrations from scratch. Old migrations may fail to apply correctly if those
+# migrations use external dependencies or application code.
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_08_155138) do
+ActiveRecord::Schema.define(version: 2019_12_18_140406) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -151,31 +151,6 @@ ActiveRecord::Schema.define(version: 2019_10_08_155138) do
     t.index ["user_id"], name: "index_comments_on_user_id", where: "(deleted_at IS NULL)"
   end
 
-  create_table "error_messages", force: :cascade do |t|
-    t.integer "origin", default: 0, null: false
-    t.text "class_name"
-    t.text "message"
-    t.text "trace"
-    t.text "line_number"
-    t.text "column_number"
-    t.text "params"
-    t.text "target_url"
-    t.text "referer_url"
-    t.text "user_agent"
-    t.string "request_format"
-    t.string "app_name"
-    t.string "app_version"
-    t.string "doc_root"
-    t.string "user_id"
-    t.string "user_pseudo"
-    t.string "user_locale"
-    t.string "user_ip"
-    t.string "bot_agent"
-    t.string "os_agent"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "outdated_articles", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "article_id", null: false
@@ -184,6 +159,26 @@ ActiveRecord::Schema.define(version: 2019_10_08_155138) do
     t.index ["article_id", "user_id"], name: "index_outdated_articles_on_article_id_and_user_id", unique: true
     t.index ["article_id"], name: "index_outdated_articles_on_article_id"
     t.index ["user_id"], name: "index_outdated_articles_on_user_id"
+  end
+
+  create_table "pghero_query_stats", force: :cascade do |t|
+    t.text "database"
+    t.text "user"
+    t.text "query"
+    t.bigint "query_hash"
+    t.float "total_time"
+    t.bigint "calls"
+    t.datetime "captured_at"
+    t.index ["database", "captured_at"], name: "index_pghero_query_stats_on_database_and_captured_at"
+  end
+
+  create_table "pghero_space_stats", force: :cascade do |t|
+    t.text "database"
+    t.text "schema"
+    t.text "relation"
+    t.bigint "size"
+    t.datetime "captured_at"
+    t.index ["database", "captured_at"], name: "index_pghero_space_stats_on_database_and_captured_at"
   end
 
   create_table "pictures", force: :cascade do |t|

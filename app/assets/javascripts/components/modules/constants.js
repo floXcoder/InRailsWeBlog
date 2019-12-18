@@ -20,7 +20,7 @@ export const tagSidebarLimit = 1000;
 
 // Search
 export const autocompleteLimit = 8;
-export const maxSearchRate = 350;
+export const maxSearchRate = 250;
 
 // Meta search
 export const metaSearchLimit = 20;

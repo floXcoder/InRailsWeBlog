@@ -14,6 +14,10 @@ gem 'rails',                    '6.0.2'
 # Use postgresql as the database for Active Record
 gem 'pg',                       '1.1.4'
 gem 'active_record_extended',   '1.4.0'
+gem 'activerecord-explain-analyze', '0.1.0'
+gem 'query_track',              '0.0.8'
+gem 'pghero',                   '2.4.1'
+gem 'pg_query',                 '1.2.0'
 
 # HTTP Response
 gem 'responders',               '3.0.0'

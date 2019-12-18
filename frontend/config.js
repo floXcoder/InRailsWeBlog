@@ -71,6 +71,12 @@ module.exports = {
                 }
             }
         },
+        datas: [
+            {
+                from: './data/pghero/**/*',
+                to: 'pghero/'
+            }
+        ],
         alias: {
             react: 'node_modules/react',
             'react-dom': 'node_modules/react-dom',
@@ -128,7 +134,7 @@ module.exports = {
         production: {
             assetPath: 'https://assets.inrailsweblog.com/assets/',
             filename: '[name].[hash]',
-            filenameData: '[name].[hash]',
+            filenameData: '[name]',
             chunkFilename: '[name].[hash].[id]',
             manifestFilename: 'manifest.json'
         }

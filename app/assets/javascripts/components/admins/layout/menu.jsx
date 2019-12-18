@@ -17,6 +17,7 @@ import ListIcon from '@material-ui/icons/List';
 import CachedIcon from '@material-ui/icons/Cached';
 import HomeIcon from '@material-ui/icons/Home';
 import CancelIcon from '@material-ui/icons/Cancel';
+import AllInboxIcon from '@material-ui/icons/AllInbox';
 
 function ListItemLink(props) {
     return (
@@ -90,6 +91,10 @@ export default class MenuLayout extends React.PureComponent {
                 <Item href="/admins/sidekiq"
                       text={I18n.t('js.admin.menu.jobs')}
                       icon={<SettingsApplicationsIcon/>}/>
+
+                <Item href="/admins/postgres"
+                      text={I18n.t('js.admin.menu.postgres')}
+                      icon={<AllInboxIcon/>}/>
 
                 <Divider/>
 

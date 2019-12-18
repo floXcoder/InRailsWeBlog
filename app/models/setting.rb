@@ -40,11 +40,15 @@ class Setting < ApplicationRecord
   def self.all_settings
     static_settings = Rails.configuration.x
 
-    cached_settings = Rails.cache.fetch('settings', expires_in: 1.week) do
-      vars   = unscoped.select('name, value, value_type')
-      result = {}
-      vars.each { |record| result[record.name] = convert_value_type(record.value_type, record.value) }
-      result.with_indifferent_access
+    begin
+      cached_settings = Rails.cache.fetch('settings', expires_in: 1.week) do
+        vars   = unscoped.select('name, value, value_type')
+        result = {}
+        vars.each { |record| result[record.name] = convert_value_type(record.value_type, record.value) }
+        result.with_indifferent_access
+      end
+    rescue StandardError => error
+      cached_settings = {}
     end
 
     OpenStruct.new(static_settings.merge(cached_settings))
