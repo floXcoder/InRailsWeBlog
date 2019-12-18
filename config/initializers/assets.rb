@@ -50,6 +50,17 @@ module ActionView
 
         sources_tags
       end
+
+      def favicon_link_tag(source = "favicon.ico", options = {})
+        # Change url source
+        source = AssetManifest.image_path(source)
+
+        tag("link", {
+          rel: "shortcut icon",
+          type: "image/x-icon",
+          href: path_to_image(source, skip_pipeline: options.delete(:skip_pipeline))
+        }.merge!(options.symbolize_keys))
+      end
     end
   end
 end

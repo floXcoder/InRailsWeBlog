@@ -86,11 +86,10 @@ class ParentTag extends React.Component {
             <>
                 <ListItem button={true}
                           component={Link}
-                          className={this.props.classes.label}
                           to={`/tagged/${this.props.tag.slug}`}
                           onClick={this._handleTagClick.bind(this, this.props.tag.id, this.props.tag.name, this.props.tag.slug, true)}>
                     <ListItemText classes={{
-                        primary: classNames({
+                        primary: classNames(this.props.classes.label, {
                             [this.props.classes.selectedLabel]: this.props.currentTagSlug ? this.props.currentTagSlug === this.props.tag.slug : this.props.currentTagSlugs.includes(this.props.tag.slug)
                         })
                     }}>

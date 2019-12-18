@@ -159,7 +159,7 @@ class ArticleShow extends React.Component {
 
     _fetchStories = () => {
         if (this.props.article && this.props.article.mode === 'story' && !this.props.articleSiblingStories) {
-            this.props.fetchArticleStories(this.props.article.id);
+            this.props.fetchArticleStories(this.props.routeParams.userSlug, this.props.article.id);
         }
     };
 
@@ -348,8 +348,9 @@ class ArticleShow extends React.Component {
 
                                 {
                                     this.props.article.reference &&
-                                    <div>
+                                    <div className={this.props.classes.reference}>
                                         <a href={this.props.article.reference}
+                                           className={this.props.classes.referenceLink}
                                            rel="noopener noreferrer"
                                            target="_blank">
                                             {Utils.normalizeLink(this.props.article.reference)}

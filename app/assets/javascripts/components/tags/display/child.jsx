@@ -10,11 +10,10 @@ import ListItemText from '@material-ui/core/ListItemText';
 const ChildTag = ({tag, parentTagSlug, isExpanded, currentChildTagSlug, currentTagSlugs, onTagClick, classes}) => (
     <ListItem button={true}
               component={Link}
-              className={classes.nestedLabel}
               to={`/tagged/${parentTagSlug}/${tag.slug}`}
               onClick={onTagClick}>
         <ListItemText classes={{
-            primary: classNames({
+            primary: classNames(classes.nestedLabel, {
                 [classes.selectedLabel]: currentChildTagSlug ? currentChildTagSlug === tag.slug : currentTagSlugs.includes(tag.slug)
             })
         }}

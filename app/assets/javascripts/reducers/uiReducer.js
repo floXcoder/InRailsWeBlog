@@ -21,6 +21,24 @@ const initState = {
     tagOrderMode: undefined
 };
 
+const _updateSettings = (state, settings) => {
+    if(settings && typeof settings.articlesLoader === 'string') {
+        state.articlesLoaderMode = settings.articlesLoader;
+    }
+    if(settings && typeof settings.articleDisplayMode === 'string') {
+        state.articleDisplayMode = settings.articleDisplayMode;
+    }
+    if(settings && typeof settings.articleOrderMode === 'string') {
+        state.articleOrderMode = settings.articleOrderMode;
+    }
+    if(settings && typeof settings.tagOrderMode === 'string') {
+        state.tagOrderMode = settings.tagOrderMode;
+    }
+    if(settings && typeof settings.tagSidebarPin === 'boolean') {
+        state.isTagSidebarOpen = !settings.tagSidebarPin;
+    }
+};
+
 export default function uiReducer(state = initState, action) {
     switch (action.type) {
         // UI states
@@ -64,24 +82,13 @@ export default function uiReducer(state = initState, action) {
         case ActionTypes.USER_FETCH_SUCCESS:
         case ActionTypes.USER_CHANGE_SUCCESS:
             if (action.connection && action.user && action.user.settings) {
-                state.articlesLoaderMode = action.user.currentTopic && action.user.currentTopic.settings && typeof action.user.currentTopic.settings.articlesLoader === 'string' ? action.user.currentTopic.settings.articlesLoader : action.user.settings.articlesLoader;
-                state.articleDisplayMode = action.user.currentTopic && action.user.currentTopic.settings && typeof action.user.currentTopic.settings.articleDisplay === 'string' ? action.user.currentTopic.settings.articleDisplay : action.user.settings.articleDisplay;
-                state.articleOrderMode = action.user.currentTopic && action.user.currentTopic.settings && typeof action.user.currentTopic.settings.articleOrder === 'string' ? action.user.currentTopic.settings.articleOrder : action.user.settings.articleOrder;
-                state.tagOrderMode = action.user.currentTopic && action.user.currentTopic.settings && typeof action.user.currentTopic.settings.tagOrder === 'string' ? action.user.currentTopic.settings.tagOrder : action.user.settings.tagOrder;
-                state.isTagSidebarOpen = action.user.currentTopic && action.user.currentTopic.settings && typeof action.user.currentTopic.settings.tagSidebarPin === 'boolean' ? !action.user.currentTopic.settings.tagSidebarPin : !action.user.settings.tagSidebarPin
+                _updateSettings(state, action.user.currentTopic ? action.user.currentTopic.settings : action.user.settings);
             } else if (action.settings && action.meta && !action.meta.topic) {
-                state.articlesLoaderMode = action.user && action.user.currentTopic && action.user.currentTopic.settings && typeof action.user.currentTopic.settings.articlesLoader === 'string' ? action.user.currentTopic.settings.articlesLoader : action.settings.articlesLoader;
-                state.articleDisplayMode = action.user && action.user.currentTopic && action.user.currentTopic.settings && typeof action.user.currentTopic.settings.articleDisplay === 'string' ? action.user.currentTopic.settings.articleDisplay : action.settings.articleDisplay;
-                state.articleOrderMode = action.user && action.user.currentTopic && action.user.currentTopic.settings && typeof action.user.currentTopic.settings.articleOrder === 'string' ? action.user.currentTopic.settings.articleOrder : action.settings.articleOrder;
-                state.tagOrderMode = action.user && action.user.currentTopic && action.user.currentTopic.settings && typeof action.user.currentTopic.settings.tagOrder === 'string' ? action.user.currentTopic.settings.tagOrder : action.settings.tagOrder;
-                state.isTagSidebarOpen = action.user && action.user.currentTopic && action.user.currentTopic.settings && typeof action.user.currentTopic.settings.tagSidebarPin === 'boolean' ? !action.user.currentTopic.settings.tagSidebarPin : !action.settings.tagSidebarPin
+                _updateSettings(state, action.user && action.user.currentTopic ? action.user.currentTopic.settings : action.settings);
             } else if (action.settings && action.meta && action.meta.topic) {
-                state.articlesLoaderMode = action.settings.articlesLoader;
-                state.articleDisplayMode = action.settings.articleDisplay;
-                state.articleOrderMode = action.settings.articleOrder;
-                state.tagOrderMode = action.settings.tagOrder;
-                state.isTagSidebarOpen = !action.settings.tagSidebarPin;
+                _updateSettings(state, action.settings);
             }
+
             return state;
 
         case ActionTypes.TOPIC_FETCH_SUCCESS:

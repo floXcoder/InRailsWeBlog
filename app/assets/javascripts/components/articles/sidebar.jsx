@@ -25,6 +25,7 @@ export default @connect((state, props) => ({
     currentUserTopicId: state.topicState.currentUserTopicId,
     currentUserTopicSlug: state.topicState.currentUserTopicSlug,
     articleOrderMode: state.uiState.articleOrderMode,
+    articleDisplayMode: state.uiState.articleDisplayMode,
     articlesCount: getArticlesCount(state),
     categorizedArticles: getCategorizedArticles(state, props),
     articlePagination: state.articleState.pagination,
@@ -42,6 +43,7 @@ class ArticleSidebar extends React.Component {
         currentUserTopicId: PropTypes.number,
         currentUserTopicSlug: PropTypes.string,
         articleOrderMode: PropTypes.string,
+        articleDisplayMode: PropTypes.string,
         articlesCount: PropTypes.number,
         categorizedArticles: PropTypes.object,
         articlePagination: PropTypes.object,
@@ -84,6 +86,7 @@ class ArticleSidebar extends React.Component {
                                                  currentUserSlug={this.props.currentUserSlug}
                                                  currentUserTopicSlug={this.props.currentUserTopicSlug}
                                                  articleOrderMode={this.props.articleOrderMode}
+                                                 articleDisplayMode={this.props.articleDisplayMode}
                                                  onMinimized={this.props.switchArticleMinimized}
                                                  onOrderChange={this._handleOrderChange}/>
 

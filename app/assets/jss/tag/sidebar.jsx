@@ -14,7 +14,7 @@ const styles = (theme) => ({
         margin: '1.3rem .4rem .3rem',
         fontSize: '1rem',
         fontWeight: 600,
-        borderBottom: `1px solid ${theme.palette.grey[200]}`,
+        borderBottom: `1px solid ${theme.palette.grey[200]}`
     },
     cloudTag: {
         margin: theme.spacing(0.5),
@@ -85,11 +85,14 @@ const styles = (theme) => ({
         padding: '2px 8px 2px 8px'
     },
     label: {
-        fontSize: '1.2rem',
+        margin: theme.spacing(0.5),
+        fontWeight: 400,
+        fontSize: '1rem',
         color: theme.palette.text.primary
     },
     nestedLabel: {
-        fontSize: '1.1rem',
+        fontSize: '.9rem',
+        fontWeight: 400,
         color: theme.palette.text.primary
     },
     selectedLabel: {

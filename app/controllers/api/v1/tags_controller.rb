@@ -16,7 +16,7 @@ module Api::V1
   class TagsController < ApiController
     skip_before_action :authenticate_user!, only: [:index, :show]
 
-    before_action :set_context_user, except: [:index]
+    before_action :set_context_user, only: []
 
     after_action :verify_authorized, except: [:index]
 
@@ -72,7 +72,7 @@ module Api::V1
     end
 
     def show
-      tag = @context_user.tags.include_element.friendly.find(params[:id])
+      tag = Tag.include_element.friendly.find(params[:id])
       authorize tag
 
       respond_to do |format|
