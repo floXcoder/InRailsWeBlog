@@ -15,7 +15,6 @@ gem 'rails',                    '6.0.2'
 gem 'pg',                       '1.1.4'
 gem 'active_record_extended',   '1.4.0'
 gem 'activerecord-explain-analyze', '0.1.0'
-gem 'query_track',              '0.0.8'
 gem 'pghero',                   '2.4.1'
 gem 'pg_query',                 '1.2.0'
 
@@ -185,6 +184,9 @@ group :development, :test do
 end
 
 group :production do
+  # Track activre record query time
+  gem 'query_track',      '0.0.8'
+
   # Errors reporting
   gem 'sentry-raven',     '2.13.0'
 
@@ -192,5 +194,5 @@ group :production do
   gem 'lograge',          '0.11.2'
 
   # Prerender html pages for SEO
-  gem 'seo_cache',        '0.12.0'
+  gem 'seo_cache',        '0.13.0'
 end

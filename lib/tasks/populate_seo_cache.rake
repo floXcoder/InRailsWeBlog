@@ -14,6 +14,6 @@ namespace :InRailsWeBlog do
 
     paths = GenerateCacheUrls.new.all_urls
 
-    SeoCache::PopulateCache.new(Rails.env.production? ? ENV['WEBSITE_FULL_ADDRESS'] : 'http://localhost:3000', paths).perform
+    SeoCache::PopulateCache.new(Rails.env.production? ? ENV['WEBSITE_FULL_ADDRESS'] : 'http://localhost:3000', paths, force_cache: true).perform
   end
 end
