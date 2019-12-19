@@ -26,5 +26,6 @@ search:
     - spec/
   exclude:
     - app/assets/javascripts/modules/summernote
+    - app/assets/data
     - spec/javascripts/translations
   strict: false

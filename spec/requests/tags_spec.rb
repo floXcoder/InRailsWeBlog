@@ -147,7 +147,7 @@ describe 'Tag API', type: :request, basic: true do
       it 'returns an error message' do
         get "/api/v1/tags/#{@private_tags[0].id}", as: :json
 
-        expect(response).to be_not_found
+        expect(response).to be_unauthorized
       end
     end
 
