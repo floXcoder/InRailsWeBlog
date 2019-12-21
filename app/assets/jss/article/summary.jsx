@@ -2,8 +2,8 @@
 
 import {
     h1Weight,
-    h1LineHeight,
-    h1Spacing
+    h1LineHeightExtract,
+    h1SpacingExtract
 } from '../theme';
 
 const styles = (theme) => ({
@@ -24,8 +24,8 @@ const styles = (theme) => ({
         marginBottom: '0',
         fontSize: '2rem',
         fontWeight: h1Weight,
-        lineHeight: h1LineHeight,
-        letterSpacing: h1Spacing,
+        lineHeight: h1LineHeightExtract,
+        letterSpacing: h1SpacingExtract,
         margin: 'inherit'
     },
     titleLink: {

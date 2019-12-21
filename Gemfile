@@ -31,7 +31,7 @@ gem 'oj',                       '3.10.0'
 gem 'slim-rails',               '3.2.0'
 
 # Internationalization
-gem 'i18n-js',                  '3.5.0'
+gem 'i18n-js',                  '3.5.1'
 gem 'geocoder',                 '1.5.2'
 gem 'maxminddb',                '0.1.22'
 
@@ -49,7 +49,9 @@ gem 'auto_strip_attributes',    '2.5.0'
 gem 'sanitize',                 '5.1.0'
 
 # Run asynschronous process
-gem 'sidekiq',                  '6.0.3'
+gem 'sidekiq',                  '6.0.4'
+gem 'rack',                     '2.0.7' # Sidekiq not working with 2.0.8
+
 gem 'sidekiq-statistic',        '1.4.0'
 gem 'sidekiq-cron',             '1.1.0'
 gem 'attentive_sidekiq',        '0.3.3'
@@ -74,7 +76,7 @@ gem 'carrierwave',              '2.0.2'
 gem 'mini_magick',              '4.9.5'
 
 # Search in database
-gem 'searchkick',               '4.1.1'
+gem 'searchkick',               '4.2.0'
 gem 'typhoeus',                 '1.3.1'
 
 # Votable models
@@ -177,7 +179,7 @@ group :development, :test do
   gem 'bootsnap',                   '1.4.5',   require: false
 
   # Check errors
-  gem 'rubocop',                    '0.77.0',  require: false
+  gem 'rubocop',                    '0.78.0',  require: false
   gem 'rubocop-rails',              '2.4.0',   require: false
   gem 'rubocop-performance',        '1.5.1',   require: false
   gem 'rubocop-rspec',              '1.37.1',  require: false
@@ -185,7 +187,7 @@ end
 
 group :production do
   # Track activre record query time
-  gem 'query_track',      '0.0.8'
+  gem 'query_track',      '0.0.9'
 
   # Errors reporting
   gem 'sentry-raven',     '2.13.0'

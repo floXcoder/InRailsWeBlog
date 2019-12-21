@@ -29,8 +29,8 @@ export const tooltipZIndex = 1600;
 export const h1Size = '3rem';
 export const h1SizeMobile = '2.4rem';
 export const h1Weight = 600;
-export const h1LineHeight = '2rem';
-export const h1Spacing = 2.5;
+export const h1LineHeight = '3rem';
+export const h1Spacing = 3.5;
 
 export const h1SizeGrid = '1.4rem';
 export const h1WeightGrid = 500;
