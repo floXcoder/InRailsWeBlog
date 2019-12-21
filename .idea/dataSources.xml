@@ -15,5 +15,21 @@
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
       <jdbc-url>jdbc:postgresql://127.0.0.1:5432/inrailsweblog_dev</jdbc-url>
     </data-source>
+    <data-source source="LOCAL" name="Rails InRailsWeBlog: test" uuid="04b1f705-6fe3-410e-accb-24b3b75fa11a">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <imported>true</imported>
+      <remarks>$PROJECT_DIR$/config/database.yml</remarks>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://127.0.0.1:5432/inrailsweblog_dev</jdbc-url>
+    </data-source>
+    <data-source source="LOCAL" name="Rails InRailsWeBlog: production" uuid="ca02ee48-0484-44df-8f07-e884577c53d1">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <imported>true</imported>
+      <remarks>$PROJECT_DIR$/config/database.yml</remarks>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://127.0.0.1:5432/&lt;%= ENV['DATABASE_PROD_DBNAME'] %&gt;</jdbc-url>
+    </data-source>
   </component>
 </project>
