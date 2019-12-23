@@ -89,12 +89,7 @@ test:rails:
     COVERAGE: "true"
   <<: *pull-cache
   script:
-    - bundle exec rspec --tag basic --format RspecJunitFormatter --out rspec.xml spec/
-  artifacts:
-    paths:
-      - rspec.xml
-    reports:
-      junit: rspec.xml
+    - bundle exec rspec --tag basic
   interruptible: true
   only:
     - master
