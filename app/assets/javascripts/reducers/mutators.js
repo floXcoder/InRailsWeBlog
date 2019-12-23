@@ -107,7 +107,7 @@ export const addOrRemoveIn = (itemArray, itemToRemove, prepend = false, id = 'id
 
 export const removeIn = (itemArray, removedId, id = 'id') => {
     if (removedId) {
-        delete itemArray[findItemIndex(itemArray, removedId, id)];
+        itemArray.splice(findItemIndex(itemArray, removedId, id), 1);
     }
 
     return itemArray;
