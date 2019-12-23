@@ -97,8 +97,9 @@ class SearchSidebar extends React.Component {
                 <FormControlLabel label={filter.name}
                                   labelPlacement="end"
                                   control={
-                                      <Checkbox checked={this.props.searchFilters[filter.fieldName] || this.state.activeFilters[filter.fieldName] || false}
-                                                onChange={this._handleBoolChange.bind(this, filter.fieldName)}/>
+                                      <Checkbox
+                                          checked={this.props.searchFilters[filter.fieldName] || this.state.activeFilters[filter.fieldName] || false}
+                                          onChange={this._handleBoolChange.bind(this, filter.fieldName)}/>
                                   }/>
             );
         } else if (filter.valueType === 'number_type') {
@@ -168,8 +169,8 @@ class SearchSidebar extends React.Component {
             );
         }
 
-        if(this.props.articleAvailableFilters.length === 0) {
-            return  null;
+        if (this.props.articleAvailableFilters && this.props.articleAvailableFilters.length === 0) {
+            return null;
         }
 
         return (

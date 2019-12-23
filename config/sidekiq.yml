@@ -6,7 +6,7 @@
 :logfile: ./log/sidekiq.log
 
 production:
-  :concurrency: 20
+  :concurrency: <%= ENV.fetch('SIDEKIQ_WORKERS') { 10 } %>
 
 :queues:
   - [high, 2]

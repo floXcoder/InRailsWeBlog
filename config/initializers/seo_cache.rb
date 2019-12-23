@@ -3,8 +3,7 @@
 if Rails.env.production?
   require 'seo_cache'
 
-  #SeoCache.cache_mode = Rails.env.development? ? 'memory' : 'disk'
-  SeoCache.cache_mode = 'disk'
+  SeoCache.cache_mode = Rails.env.development? ? 'memory' : 'disk'
   SeoCache.cache_path = Rails.root.join('public', 'seo_cache')
 
   SeoCache.chrome_path = Rails.env.production? ? '/usr/bin/chromium' : '/usr/bin/chromium-browser'

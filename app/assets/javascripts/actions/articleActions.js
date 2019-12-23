@@ -74,7 +74,7 @@ const receiveArticleStories = (stories) => ({
     stories
 });
 export const fetchArticleStories = (userId, articleId) => (dispatch) => (
-    api.get(`/api/v1/articles/${articleId}/stories`,{
+    api.get(`/api/v1/articles/${articleId}/stories`, {
         userId
     })
         .promise

@@ -2,32 +2,36 @@
 
 class GenerateCacheUrls
   def all_urls
-    [
-      url_statics,
-      url_users,
-      url_tags,
-      url_topics,
-      url_articles
-    ].flatten.compact.uniq
+    I18n.available_locales.map do |locale|
+      I18n.with_locale(locale) do
+        [
+          url_statics(locale),
+          url_users(locale),
+          url_tags(locale),
+          url_topics(locale),
+          url_articles(locale)
+        ].flatten.compact.uniq
+      end
+    end.flatten
   end
 
   private
 
-  def url_statics
+  def url_statics(locale)
     [
       '/',
       '/tags'
     ]
   end
 
-  def url_users
-    User.select(:slug, :visibility).everyone.map do |user|
+  def url_users(locale)
+    User.everyone.map do |user|
       user.link_path(index: true)
     end
   end
 
-  def url_tags
-    Tag.select(:slug, :visibility).everyone.map do |tag|
+  def url_tags(locale)
+    Tag.everyone.map do |tag|
       [
         tag.link_path,
         tag.link_path(index: true)
@@ -35,8 +39,8 @@ class GenerateCacheUrls
     end
   end
 
-  def url_topics
-    Topic.select(:slug, :visibility, :user_id).everyone.map do |topic|
+  def url_topics(locale)
+    Topic.everyone.map do |topic|
       [
         topic.link_path(index: true),
         topic.link_path(tags: true)
@@ -44,8 +48,8 @@ class GenerateCacheUrls
     end
   end
 
-  def url_articles
-    Article.select(:slug, :visibility, :user_id).everyone.map do |article|
+  def url_articles(locale)
+    Article.everyone.map do |article|
       article.link_path
     end
   end

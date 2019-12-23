@@ -186,7 +186,7 @@ group :development, :test do
 end
 
 group :production do
-  # Track activre record query time
+  # Track active record query time
   gem 'query_track',      '0.0.9'
 
   # Errors reporting

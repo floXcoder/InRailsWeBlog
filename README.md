@@ -2,6 +2,8 @@
 
 This is a not so simple blog.
 
+Official website based on InRailsWeBlog project: https://www.ginkonote.com
+
 ## Operating rules
 
 ### Users
