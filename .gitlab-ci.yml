@@ -90,6 +90,11 @@ test:rails:
   <<: *pull-cache
   script:
     - bundle exec rspec --tag basic --format RspecJunitFormatter --out rspec.xml spec/
+  artifacts:
+    paths:
+      - rspec.xml
+    reports:
+      junit: rspec.xml
   interruptible: true
   only:
     - master
