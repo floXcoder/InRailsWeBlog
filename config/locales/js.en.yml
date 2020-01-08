@@ -2,7 +2,6 @@ en:
   js:
     views:
       header:
-        title: "InRailsWeBlog"
         topic:
           button: "Topics (%{current})"
           title: "Your topics"
@@ -526,11 +525,6 @@ en:
         form_title: "Update of: %{title}"
         submit: "Update"
         exit: "Are you sure to exit without saving?"
-      share:
-        title: "Share this theme"
-        content: "Copy the following link to share the article:"
-        button: "Shared by a link"
-        cancel: "Cancel"
       tracking:
         title: "Statistics"
         views: "Impression in all pages"
@@ -538,6 +532,11 @@ en:
         searches: "Articles appears in search result"
         bookmarks: "Articles added to bookmarks"
         comments: "Number of associated comments"
+        cancel: "Cancel"
+      share:
+        title: "Share this theme"
+        content: "Copy the following link to share the article:"
+        button: "Shared by a link"
         cancel: "Cancel"
       sort:
         title: "Sort by"
@@ -828,6 +827,7 @@ en:
         help:
           title: "Search log options"
           all: "Search for a string"
+          date: "date:15:14 => all requests from this hour"
           status: "status:200 => all requests with this status"
           ip: "ip:127.0.0.1 => all requests with this IP"
           host: "host:www.your-domain.com => all requests with this host"

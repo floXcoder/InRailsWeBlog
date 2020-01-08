@@ -35,6 +35,9 @@ export default class LogHelp extends React.Component {
                                 {I18n.t('js.admin.logs.help.all')}
                             </li>
                             <li>
+                                {I18n.t('js.admin.logs.help.date')}
+                            </li>
+                            <li>
                                 {I18n.t('js.admin.logs.help.status')}
                             </li>
                             <li>

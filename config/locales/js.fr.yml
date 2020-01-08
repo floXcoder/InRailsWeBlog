@@ -827,6 +827,7 @@ fr:
         help:
           title: "Options de recherche des logs"
           all: "Rechercher n'importe quel terme dans les logs"
+          date: "date:15:14 => retourne toutes les requêtes après cette heure"
           status: "status:200 => retourne toutes les requêtes avec ce status"
           ip: "ip:127.0.0.1 => retourne toutes les requêtes avec cet IP"
           host: "host:www.your-domain.com => retourne toutes les requêtes pour ce domaine"
