@@ -15,7 +15,7 @@ namespace :InRailsWeBlog do
 
         cookies policy: 'compatibility', clear_each_iteration: true
 
-        visit name: 'Home page', url: 'https://www.inrailsweblog.com'
+        visit name: 'Home page', url: 'https://www.ginkonote.com'
 
         header [
                  { name: 'Content-Type', value: 'application/json' }
@@ -29,36 +29,36 @@ namespace :InRailsWeBlog do
           }
         }
         submit name:          'Login',
-               url:           'https://www.inrailsweblog.com/api/v1/login',
+               url:           'https://www.ginkonote.com/api/v1/login',
                always_encode: true,
                raw_body:      params.to_json do
           with_xhr
         end
 
-        visit name: 'Home content', url: 'https://www.inrailsweblog.com' do
+        visit name: 'Home content', url: 'https://www.ginkonote.com' do
           assert contains: 'window.currentUserSlug = "flo";'
         end
 
         get name: 'User profile',
-            url:  'https://www.inrailsweblog.com/api/v1/users/2.json?profile=true' do
+            url:  'https://www.ginkonote.com/api/v1/users/2.json?profile=true' do
           with_xhr
           assert contains: 'pseudo'
         end
 
         get name: 'Switch topic',
-            url:  'https://www.inrailsweblog.com/api/v1/topics/switch.json?userId=2&newTopicId=4' do
+            url:  'https://www.ginkonote.com/api/v1/topics/switch.json?userId=2&newTopicId=4' do
           with_xhr
           assert contains: 'Perso'
         end
 
         get name: 'Tags list',
-            url:  'https://www.inrailsweblog.com/api/v1/tags.json?filter%5BtopicId%5D=4' do
+            url:  'https://www.ginkonote.com/api/v1/tags.json?filter%5BtopicId%5D=4' do
           with_xhr
           assert contains: 'Firefox'
         end
 
         get name: 'Article index',
-            url:  'https://www.inrailsweblog.com/api/v1/articles.json?filter%5BuserId%5D=2&filter%5BtopicId%5D=4&filter%5BuserSlug%5D=flo&filter%5BtopicSlug%5D=perso' do
+            url:  'https://www.ginkonote.com/api/v1/articles.json?filter%5BuserId%5D=2&filter%5BtopicId%5D=4&filter%5BuserSlug%5D=flo&filter%5BtopicSlug%5D=perso' do
           with_xhr
           assert contains: 'story'
         end

@@ -50,7 +50,7 @@ fr:
         submit: "Changer mon mot de passe"
     registrations:
       destroyed: "Votre compte a été supprimé avec succès. Nous espérons vous revoir bientôt."
-      signed_up: "Bienvenue, vous êtes connecté sur InRailsWeBlog !"
+      signed_up: "Bienvenue, vous êtes maintenant connecté !"
       signed_up_but_inactive: "Vous êtes bien enregistré. Vous ne pouvez cependant pas vous connecter car votre compte n'est pas encore activé."
       signed_up_but_locked: "Vous êtes bien enregistré. Vous ne pouvez cependant pas vous connecter car votre compte est verrouillé."
       signed_up_but_unconfirmed: "Un message contenant un lien de confirmation a été envoyé à votre adresse email. Cliquer sur ce lien pour confirmer votre compte puis connectez-vous."

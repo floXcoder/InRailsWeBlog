@@ -193,7 +193,7 @@ class ArticleGridDisplay extends React.PureComponent {
                                           content="192"/>
                                 </div>
                                 <meta itemProp="name"
-                                      content="InRailsWeBlog"/>
+                                      content={window.settings.website_name}/>
                             </div>
 
                             {

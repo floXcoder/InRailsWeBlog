@@ -23,7 +23,7 @@ const styles = (theme) => ({
         width: '100%'
     },
     button: {
-        color: theme.palette.primary.main
+        color: theme.palette.text.secondary
     },
     timeline: {
         marginTop: '.5rem',
@@ -37,7 +37,7 @@ const styles = (theme) => ({
         textAlign: 'center'
     },
     articleLink: {
-        color: theme.palette.primary.dark,
+        color: theme.palette.text.secondary,
         fontSize: '.9rem'
     },
     currentLink: {

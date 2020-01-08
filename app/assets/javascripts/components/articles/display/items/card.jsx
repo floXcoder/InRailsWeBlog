@@ -139,7 +139,7 @@ class ArticleCardDisplay extends React.PureComponent {
                                                               isSticky={isSticky}
                                                               display="list"
                                                               size="default"
-                                                              color="primary"
+                                                              color="action"
                                                               isOwner={this.props.isOwner}
                                                               userSlug={this.props.article.user.slug}
                                                               articleId={this.props.article.id}
@@ -224,7 +224,7 @@ class ArticleCardDisplay extends React.PureComponent {
                                               content="192"/>
                                     </div>
                                     <meta itemProp="name"
-                                          content="InRailsWeBlog"/>
+                                          content={window.settings.website_name}/>
                                 </div>
 
                                 {

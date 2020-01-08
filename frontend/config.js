@@ -132,7 +132,7 @@ module.exports = {
             chunkFilename: '[name]'
         },
         production: {
-            assetPath: 'https://assets.inrailsweblog.com/assets/',
+            assetPath: 'https://assets.ginkonote.com/assets/',
             filename: '[name].[hash]',
             filenameData: '[name]',
             chunkFilename: '[name].[hash].[id]',

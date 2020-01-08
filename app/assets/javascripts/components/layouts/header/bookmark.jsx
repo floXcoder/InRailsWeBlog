@@ -23,7 +23,7 @@ class HomeBookmarkHeader extends React.PureComponent {
     render() {
         return (
             <Dropdown button={
-                <IconButton color="primary"
+                <IconButton color="default"
                             itemProp="url">
                     <FavoriteIcon/>
                 </IconButton>

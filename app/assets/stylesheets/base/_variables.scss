@@ -1,11 +1,13 @@
 // Path
 // ------------------------------------
+$images-path: '/assets';
 $roboto-font-path: '../../../fonts/roboto/';
 $icons-font-path: '../../../fonts/';
 
 // Colors
 // ------------------------------------
 $text-color: rgba(0, 0, 0, .87);
+$text-color-secondary: rgba(0, 0, 0, 0.63);
 $background-color: #f9f9f9;
 
 $secret-color: #ffab91;
@@ -16,12 +18,12 @@ $deadend-color: #bcaaa4;
 $default-shadow: 0 3px 5px -1px rgba(0, 0, 0, .2), 0 6px 10px 0 rgba(0, 0, 0, .14), 0 1px 18px 0 rgba(0, 0, 0, .12);
 
 // Primary
-$primary-color: #334a67;
-$primary-color-light: #5b6e85;
-$primary-color-dark: #233348;
+$primary-color: #1cd13b;
+$primary-color-light: #199332;
+$primary-color-dark: #036603;
 
 // Secondary
-$secondary-color: #ffc253;
+$secondary-color: #bd9d3c;
 
 // Link
 $link-color: #5b96ec !default;
@@ -36,11 +38,11 @@ $error-color: #f44336 !default;
 
 // Media Query Ranges
 $small-screen-up: 601px;
-$medium-screen-up: 993px;
-$large-screen-up: 1201px;
+$medium-screen-up: 961px;
+$large-screen-up: 1281px;
 $small-screen: 600px;
-$medium-screen: 992px;
-$large-screen: 1200px;
+$medium-screen: 960px;
+$large-screen: 1280px;
 
 $medium-and-up: "only screen and (min-width: #{$small-screen-up})";
 $large-and-up: "only screen and (min-width: #{$medium-screen-up})";

@@ -27,7 +27,7 @@ class HomeUserHeader extends React.PureComponent {
     render() {
         return (
             <Dropdown button={
-                <IconButton color="primary"
+                <IconButton color="action"
                             itemProp="url">
                     <AccountCircleIcon/>
                 </IconButton>

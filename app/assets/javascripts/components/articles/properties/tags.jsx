@@ -86,7 +86,6 @@ class ArticleTags extends React.PureComponent {
                                       to={`/tagged/${tag.slug}`}
                                       label={tag.name}
                                       variant="outlined"
-                                      color="primary"
                                       icon={<LabelIcon/>}
                                       clickable={true}
                                       onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.name)}

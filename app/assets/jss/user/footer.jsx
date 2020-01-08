@@ -7,8 +7,8 @@ const styles = (theme) => ({
         marginLeft: 'auto',
         marginRight: 'auto',
         width: '70%',
-        borderTop: `1px solid ${theme.palette.grey[300]}`,
-    },
+        borderTop: `1px solid ${theme.palette.grey[300]}`
+    }
 });
 
 export default styles;

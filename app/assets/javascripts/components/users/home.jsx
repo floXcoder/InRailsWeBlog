@@ -125,11 +125,11 @@ class UserHome extends React.Component {
                                             pathname: `/users/${this.props.user.slug}/topics/${topic.slug}`,
                                         }}
                                               onClick={this._handleTopicClick.bind(this, topic)}>
-                                            <Paper className={classNames(this.props.classes.theme, {
-                                                [this.props.classes.storyTheme]: topic.mode === 'stories'
+                                            <Paper className={classNames(this.props.classes.topic, {
+                                                [this.props.classes.storyTopic]: topic.mode === 'stories'
                                             })}
                                                    elevation={1}>
-                                                <Typography className={this.props.classes.themeTitle}
+                                                <Typography className={this.props.classes.topicTitle}
                                                             variant="h5"
                                                             component="h2">
                                                     {topic.name}
@@ -163,9 +163,9 @@ class UserHome extends React.Component {
                                         visibility: 'only_me'
                                     }
                                 }}>
-                                    <Paper className={this.props.classes.themeNew}
+                                    <Paper className={this.props.classes.topicNew}
                                            elevation={1}>
-                                        <Typography className={this.props.classes.themeNewTitle}
+                                        <Typography className={this.props.classes.topicNewTitle}
                                                     variant="h5"
                                                     component="h2">
                                             {I18n.t('js.user.home.add_topic')}
@@ -216,11 +216,11 @@ class UserHome extends React.Component {
                                             pathname: `/users/${this.props.user.slug}/topics/${topic.slug}`
                                         }}
                                               onClick={this._handleTopicClick.bind(this, topic)}>
-                                            <Paper className={classNames(this.props.classes.theme, {
-                                                [this.props.classes.storyTheme]: topic.mode === 'stories'
+                                            <Paper className={classNames(this.props.classes.topic, {
+                                                [this.props.classes.storyTopic]: topic.mode === 'stories'
                                             })}
                                                    elevation={1}>
-                                                <Typography className={this.props.classes.themeTitle}
+                                                <Typography className={this.props.classes.topicTitle}
                                                             variant="h5"
                                                             component="h2">
                                                     {topic.name}
@@ -254,9 +254,9 @@ class UserHome extends React.Component {
                                         visibility: 'everyone'
                                     }
                                 }}>
-                                    <Paper className={this.props.classes.themeNew}
+                                    <Paper className={this.props.classes.topicNew}
                                            elevation={1}>
-                                        <Typography className={this.props.classes.themeNewTitle}
+                                        <Typography className={this.props.classes.topicNewTitle}
                                                     variant="h5"
                                                     component="h2">
                                             {I18n.t('js.user.home.add_topic')}
@@ -300,9 +300,9 @@ class UserHome extends React.Component {
                                                     pathname: `/users/${this.props.user.slug}/shared-topics/${topic.slug}`,
                                                 }}
                                                       onClick={this._handleTopicClick.bind(this, topic)}>
-                                                    <Paper className={this.props.classes.theme}
+                                                    <Paper className={this.props.classes.topic}
                                                            elevation={1}>
-                                                        <Typography className={this.props.classes.themeTitle}
+                                                        <Typography className={this.props.classes.topicTitle}
                                                                     variant="h5"
                                                                     component="h2">
                                                             {topic.name}

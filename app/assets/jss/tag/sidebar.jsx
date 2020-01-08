@@ -88,12 +88,12 @@ const styles = (theme) => ({
         margin: theme.spacing(0.5),
         fontWeight: 400,
         fontSize: '1rem',
-        color: theme.palette.text.primary
+        color: theme.palette.text.secondary
     },
     nestedLabel: {
         fontSize: '.9rem',
         fontWeight: 400,
-        color: theme.palette.text.primary
+        color: theme.palette.text.secondary
     },
     selectedLabel: {
         fontSize: '1.3rem !important',

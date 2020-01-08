@@ -163,7 +163,7 @@ class ApplicationController < ActionController::Base
   end
 
   def image_url(url)
-    (Rails.env.production? ? "https://#{ENV['WEBSITE_ASSET']}/" : root_url) + 'assets/' + url
+    ("#{Rails.env.production? ? 'https' : 'http'}://#{ENV['WEBSITE_ASSET']}/") + 'assets/' + url
   end
 
   def js_request?

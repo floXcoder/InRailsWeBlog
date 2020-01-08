@@ -30,15 +30,12 @@ const styles = (theme) => ({
     },
     title: {
         display: 'none',
-        margin: '5px 15px',
+        margin: '10px 15px 0',
         fontSize: '1.6rem',
         [theme.breakpoints.up('sm')]: {
             display: 'block',
             fontSize: '2rem'
         }
-    },
-    titleLink: {
-        color: theme.palette.text.primary
     },
     menuButton: {
         marginLeft: -12,
@@ -69,7 +66,7 @@ const styles = (theme) => ({
         paddingLeft: 12
     },
     mobileTitle: {
-        margin: '5px 15px',
+        margin: '5px 2px',
         color: theme.palette.text.primary,
         display: 'block',
         fontSize: '2rem'

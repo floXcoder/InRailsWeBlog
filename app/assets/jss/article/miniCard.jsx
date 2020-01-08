@@ -37,7 +37,7 @@ const styles = (theme) => ({
         textAlign: 'left'
     },
     extractTitleLink: {
-        color: theme.palette.primary.main
+        color: theme.palette.text.primary
     },
     articleInfo: {
         color: '#999',

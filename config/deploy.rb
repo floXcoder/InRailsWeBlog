@@ -36,7 +36,7 @@ set :pty, false
 set :log_level, :debug
 
 # files we want symlinking to specific entries in shared.
-set :linked_files, %w[config/application.yml config/sidekiq.yml config/puma.rb]
+set :linked_files, %w[config/application.yml]
 
 # dirs we want symlinking to shared
 set :linked_dirs, %w[db/dump log public/prerender_cache public/uploads public/system tmp/pids tmp/cache tmp/sockets vendor/bundle]

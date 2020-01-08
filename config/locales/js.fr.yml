@@ -2,7 +2,6 @@ fr:
   js:
     views:
       header:
-        title: "InRailsWeBlog"
         topic:
           button: "Thèmes (%{current})"
           title: "Vos thèmes"

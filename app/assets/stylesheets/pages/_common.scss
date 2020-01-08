@@ -20,3 +20,23 @@
 .infinite-scroll-component {
   overflow: initial !important;
 }
+
+.header-brand-logo {
+  background: url("#{$images-path}/logos/header-logo.png") 0 0 no-repeat;
+  display: block;
+  text-indent: -9999em;
+  transition: color .6s ease-in-out;
+  width: 335px;
+
+  @media #{$large-and-down} {
+    display: none;
+  }
+}
+
+.header-brand-logo-mobile {
+  background: url("#{$images-path}/logos/header-logo-mobile.png") 0 0 no-repeat;
+  display: block;
+  text-indent: -9999em;
+  transition: color .6s ease-in-out;
+  width: 335px;
+}

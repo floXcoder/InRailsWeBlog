@@ -48,7 +48,7 @@ const styles = (theme) => ({
         }
     },
     titleLink: {
-        color: theme.palette.primary.dark
+        color: theme.palette.text.primary
     },
     gridTitle: {
         marginTop: '.6rem',

@@ -31,10 +31,10 @@ const styles = (theme) => ({
     gridTheme: {
         position: 'relative'
     },
-    theme: {
+    topic: {
         position: 'relative',
         height: '6rem',
-        backgroundColor: theme.palette.primary.light,
+        backgroundColor: theme.palette.primary.main,
         ...theme.mixins.gutters(),
         paddingTop: theme.spacing(2),
         paddingBottom: theme.spacing(2),
@@ -42,21 +42,21 @@ const styles = (theme) => ({
             height: '5rem'
         }
     },
-    storyTheme: {
-        backgroundColor: theme.palette.secondary.dark
+    storyTopic: {
+        backgroundColor: theme.palette.secondary.main
     },
-    themeTitle: {
+    topicTitle: {
         color: '#fff',
         fontSize: '1.2rem'
     },
-    themeNew: {
+    topicNew: {
         height: '6rem',
         backgroundColor: theme.palette.grey[300],
         [theme.breakpoints.down('md')]: {
             height: '5rem'
         }
     },
-    themeNewTitle: {
+    topicNewTitle: {
         fontSize: '1.2rem',
         paddingTop: '15%',
         textAlign: 'center',
@@ -72,13 +72,13 @@ const styles = (theme) => ({
         width: '44px !important',
         borderRadius: '25px !important',
         margin: theme.spacing(1),
-        backgroundColor: theme.palette.primary.light,
+        backgroundColor: theme.palette.primary.main,
         [theme.breakpoints.down('md')]: {
             display: 'none'
         }
     },
     storyTopicLink: {
-        backgroundColor: theme.palette.secondary.dark
+        backgroundColor: theme.palette.secondary.main
     }
 });
 

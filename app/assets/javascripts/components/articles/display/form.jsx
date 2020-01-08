@@ -225,7 +225,7 @@ class ArticleFormDisplay extends React.Component {
                                             <div className="center-align margin-top-20">
                                                 <div className="row">
                                                     <div className="col s12 margin-bottom-25">
-                                                        <Button color="primary"
+                                                        <Button color="secondary"
                                                                 variant="outlined"
                                                                 disabled={isNextDisabled}
                                                                 onClick={this._handleButtonChange.bind(this, 1)}>
@@ -269,7 +269,7 @@ class ArticleFormDisplay extends React.Component {
                                                               onSubmit={handleSubmit}/>
 
                                             <div className="center-align margin-top-30">
-                                                <Button color="primary"
+                                                <Button color="secondary"
                                                         variant="outlined"
                                                         disabled={isNextDisabled}
                                                         onClick={this._handleButtonChange.bind(this, 2)}>
@@ -298,7 +298,7 @@ class ArticleFormDisplay extends React.Component {
                                                 </div>
 
                                                 <div className="col s6 right-align">
-                                                    <Button color="primary"
+                                                    <Button color="secondary"
                                                             variant="outlined"
                                                             disabled={submitting}
                                                             onClick={handleSubmit}>

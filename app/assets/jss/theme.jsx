@@ -45,6 +45,7 @@ export const h1SpacingExtract = 2.6;
 // Admin
 export const adminDrawerWidth = 250;
 
+// Variables also present in _variables.scss
 const theme = createMuiTheme({
     breakpoints: {
         keys: ['xs', 'sm', 'md', 'lg', 'xl'],
@@ -68,19 +69,22 @@ const theme = createMuiTheme({
         },
         text: {
             primary: 'rgba(0, 0, 0, 0.87)',
-            secondary: 'rgba(0, 0, 0, 0.54)',
+            secondary: 'rgba(0, 0, 0, 0.63)',
             disabled: 'rgba(0, 0, 0, 0.38)',
             hint: 'rgba(0, 0, 0, 0.38)'
         },
         primary: {
-            light: '#5b6e85',
-            main: '#334a67',
-            dark: '#233348'
+            light: '#1cd13b',
+            main: '#199332',
+            dark: '#036603'
         },
         secondary: {
-            light: '#ffc253',
-            main: '#ffb328',
-            dark: '#b27d1c'
+            light: '#fbda41',
+            main: '#bd9d3c',
+            dark: '#937e2e'
+        },
+        action: {
+            active: 'rgba(0, 0, 0, 0.66)'
         }
     },
 
@@ -94,6 +98,42 @@ const theme = createMuiTheme({
     },
 
     overrides: {
+        MuiButton: {
+            // root: {
+            //     color: theme.palette.text.primary
+            // },
+            // textPrimary: {
+            //     color: theme.palette.primary.main
+            // },
+            // textSecondary: {
+            //     color: theme.palette.secondary.main
+            // },
+            sizeSmall: {
+                fontSize: '0.95rem'
+            }
+        },
+        MuiIcon: {
+            // colorPrimary: {
+            //     color: theme.palette.primary.main
+            // },
+            // colorSecondary: {
+            //     color: theme.palette.secondary.main
+            // },
+            // colorAction: {
+            //     color: theme.palette.action.active
+            // }
+        },
+        MuiIconButton: {
+            // root: {
+            //     color: theme.palette.action.active
+            // },
+            // colorPrimary: {
+            //     color: theme.palette.primary.main
+            // },
+            // colorSecondary: {
+            //     color: theme.palette.secondary.main
+            // }
+        },
         MuiSvgIcon: {
             root: {
                 fontSize: '1.4rem',
@@ -105,11 +145,15 @@ const theme = createMuiTheme({
             },
             fontSizeLarge: {
                 fontSize: '2.3rem'
-            }
-        },
-        MuiButton: {
-            sizeSmall: {
-                fontSize: '0.95rem'
+            },
+            // colorPrimary: {
+            //     color: theme.palette.primary.main
+            // },
+            // colorSecondary: {
+            //     color: theme.palette.secondary.main
+            // },
+            colorAction: {
+                color: '#036603'
             }
         }
     }

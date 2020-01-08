@@ -227,10 +227,11 @@ class HeaderLayoutUser extends React.PureComponent {
                     <div className={this.props.classes.mobileToolbar}>
                         <h5 className={this.props.classes.mobileTitle}
                             itemProp="name">
-                            <Link className={this.props.classes.titleLink}
+                            <Link className="header-brand-logo-mobile"
                                   to="/"
+                                  title={window.settings.website_name}
                                   itemProp="url">
-                                {I18n.t('js.views.header.title')}
+                                {window.settings.website_name}
                             </Link>
                         </h5>
                     </div>
@@ -361,7 +362,7 @@ class HeaderLayoutUser extends React.PureComponent {
                         itemScope={true}
                         itemType="https://schema.org/Organization">
                     <LoadingBar showFastActions={true}
-                                style={{backgroundColor: '#233348', height: '2px'}}/>
+                                style={{backgroundColor: '#036603', height: '2px'}}/>
 
                     <Toolbar className={classNames(this.props.classes.toolbar)}>
                         <div className={this.props.classes.sectionMobile}>
@@ -371,15 +372,6 @@ class HeaderLayoutUser extends React.PureComponent {
                                         onClick={this._handleTagDrawerToggle}>
                                 <MenuIcon/>
                             </IconButton>
-
-                            <h1 className={this.props.classes.title}
-                                itemProp="name">
-                                <Link className={this.props.classes.titleLink}
-                                      to="/"
-                                      itemProp="url">
-                                    InR
-                                </Link>
-                            </h1>
                         </div>
 
                         {
@@ -418,11 +410,15 @@ class HeaderLayoutUser extends React.PureComponent {
                         }
 
                         <div className={this.props.classes.sectionDesktop}>
-                            <Link to="/">
-                                <h1 className={this.props.classes.title}>
-                                    {I18n.t('js.views.header.title')}
-                                </h1>
-                            </Link>
+                            <h1 className={this.props.classes.title}
+                                itemProp="name">
+                                <Link className="header-brand-logo"
+                                      to="/"
+                                      title={window.settings.website_name}
+                                      itemProp="url">
+                                    {window.settings.website_name}
+                                </Link>
+                            </h1>
                         </div>
 
                         <div className={this.props.classes.grow}/>
