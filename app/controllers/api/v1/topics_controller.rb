@@ -53,10 +53,10 @@ module Api::V1
 
       respond_to do |format|
         format.json do
-          set_meta_tags title:       titleize(I18n.t('views.topic.show.title', name: topic.name)),
-                        description: topic.meta_description,
-                        author:      topic.user.pseudo,
-                        canonical:   ''
+          set_seo_data(:user_topic,
+                       tag_slug:  topic.name,
+                       user_slug: topic.user.pseudo,
+                       author:    topic.user.pseudo)
 
           render json:       topic,
                  serializer: TopicSerializer,

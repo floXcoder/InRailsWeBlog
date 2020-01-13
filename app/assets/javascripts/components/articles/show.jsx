@@ -26,6 +26,10 @@ import {
 } from '../loaders/components';
 
 import {
+    topicArticlesPath
+} from '../../constants/routesHelper';
+
+import {
     fetchArticle,
     fetchArticleStories,
     markArticleOutdated,
@@ -180,7 +184,7 @@ class ArticleShow extends React.Component {
 
         this.props.deleteArticle(this.props.article.id)
             .then(() => this.props.history.push({
-                    pathname: `/users/${this.props.currentUser.slug}/topics/${this.props.currentTopic.slug}`,
+                    pathname: topicArticlesPath(this.props.currentUser.slug, this.props.currentTopic.slug),
                     state: {reloadTags: true}
                 })
             );

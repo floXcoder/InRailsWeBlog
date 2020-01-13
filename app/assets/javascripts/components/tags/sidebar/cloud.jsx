@@ -6,6 +6,10 @@ import {
 
 import Chip from '@material-ui/core/Chip';
 
+import {
+    taggedTopicArticlesPath
+} from '../../../constants/routesHelper';
+
 import Scrollbar from '../../theme/scrollbar';
 
 export default class TagSidebarCloud extends React.Component {
@@ -43,7 +47,7 @@ export default class TagSidebarCloud extends React.Component {
                                               color="primary"
                                               variant="outlined"
                                               component={Link}
-                                              to={`/users/${this.props.currentUserSlug}/topics/${topic.slug}/tagged/${tag.slug}`}
+                                              to={taggedTopicArticlesPath(this.props.currentUserSlug, topic.slug, tag.slug)}
                                               onClick={this.props.onTagClick.bind(this, tag.id, tag.name, tag.slug)}/>
                                     ))
                                 }

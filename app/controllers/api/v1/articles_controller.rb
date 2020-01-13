@@ -48,24 +48,24 @@ module Api::V1
 
       respond_to do |format|
         format.json do
-          if filter_params[:parent_tag_slug].present? || filter_params[:tag_slug].present?
+          if filter_params[:tag_slug].present?
             if filter_params[:topic_slug].present?
-              set_meta_tags title: titleize(I18n.t('views.article.index.title.tagged_topic', tag: Tag.find_by(slug: filter_params[:parent_tag_slug].presence || filter_params[:tag_slug].presence)&.name, topic: Topic.find_by(slug: filter_params[:topic_slug])&.name)),
-                            description: 'Article index for tag in topic',
-                            canonical: ''
+              set_seo_data(:tagged_topic_articles,
+                           tag_slug: Tag.find_by(slug: filter_params[:parent_tag_slug].presence || filter_params[:tag_slug].presence)&.name,
+                           topic_slug: Topic.find_by(slug: filter_params[:topic_slug])&.name,
+                           user_slug: User.find_by(slug: filter_params[:user_slug])&.pseudo)
             else
-              set_meta_tags title: titleize(I18n.t('views.article.index.title.tagged', tag: Tag.find_by(slug: filter_params[:parent_tag_slug].presence || filter_params[:tag_slug].presence)&.name)),
-                            description: 'Article index for tag',
-                            canonical: ''
+              set_seo_data(:tagged_articles,
+                           tag_slug: Tag.find_by(slug: filter_params[:parent_tag_slug].presence || filter_params[:tag_slug].presence)&.name,
+                           user_slug: User.find_by(slug: filter_params[:user_slug])&.pseudo)
             end
           elsif filter_params[:topic_slug].present?
-            set_meta_tags title: titleize(I18n.t('views.article.index.title.topic', topic: Topic.find_by(slug: filter_params[:topic_slug]).name)),
-                          description: 'Article index for topic',
-                          canonical: ''
+            set_seo_data(:topic_articles,
+                         topic_slug: Topic.find_by(slug: filter_params[:topic_slug]).name,
+                         user_slug: User.find_by(slug: filter_params[:user_slug]).pseudo)
           else
-            set_meta_tags title: titleize(I18n.t('views.article.index.title.default')),
-                          description: 'Article index',
-                          canonical: ''
+            set_seo_data(:user_articles,
+                         user_slug: User.find_by(slug: filter_params[:user_slug]))
           end
 
           if complete
@@ -91,15 +91,17 @@ module Api::V1
 
       respond_to do |format|
         format.json do
-          set_meta_tags title:       titleize(I18n.t('views.article.show.title', title: article.title, topic: article.topic.name)),
-                        description: article.meta_description,
-                        author:      article.user.pseudo,
-                        canonical:   article.link_path(host: ENV['WEBSITE_FULL_ADDRESS']),
-                        og:          {
-                                       type:  "#{ENV['WEBSITE_NAME']}:article",
-                                       url:   article.link_path(host: ENV['WEBSITE_FULL_ADDRESS']),
-                                       image: article.default_picture ? (root_url + article.default_picture) : nil
-                                     }.compact
+          set_seo_data(:user_article,
+                       article_slug: article.title,
+                       topic_slug: article.topic.name,
+                       user_slug: article.user.pseudo,
+                       author: article.user.pseudo,
+                       canonical: article.link_path(host: ENV['WEBSITE_FULL_ADDRESS']),
+                       og:          {
+                                      type:  "#{ENV['WEBSITE_NAME']}:article",
+                                      url:   article.link_path(host: ENV['WEBSITE_FULL_ADDRESS']),
+                                      image: article.default_picture ? (root_url + article.default_picture) : nil
+                                    }.compact)
 
           render json:          article,
                  serializer:    ArticleSerializer,
@@ -119,15 +121,17 @@ module Api::V1
 
       respond_to do |format|
         format.json do
-          set_meta_tags title:       titleize(I18n.t('views.article.show.title', title: article.title, topic: article.topic.name)),
-                        description: article.meta_description,
-                        author:      article.user.pseudo,
-                        canonical:   article.link_path(host: ENV['WEBSITE_FULL_ADDRESS']),
-                        og:          {
+          set_seo_data(:shared_article,
+                       article_slug: article.title,
+                       topic_slug: article.topic.name,
+                       user_slug: article.user.pseudo,
+                       author: article.user.pseudo,
+                       canonical: article.link_path(host: ENV['WEBSITE_FULL_ADDRESS']),
+                       og:          {
                                        type:  "#{ENV['WEBSITE_NAME']}:article",
                                        url:   article.link_path(host: ENV['WEBSITE_FULL_ADDRESS']),
                                        image: article.default_picture ? (root_url + article.default_picture) : nil
-                                     }.compact
+                                     }.compact)
 
           render json:       article,
                  serializer: ArticleSerializer,
@@ -158,8 +162,11 @@ module Api::V1
 
       respond_to do |format|
         format.json do
-          set_meta_tags title:       titleize(I18n.t('views.article.history.title', title: article.title, topic: article.topic.name)),
-                        description: I18n.t('views.article.history.description', title: article.title, topic: article.topic.name)
+          set_seo_data(:history_article,
+                       article_slug: article.title,
+                       topic_slug: article.topic.name,
+                       user_slug: article.user.pseudo,
+                       author: article.user.pseudo)
 
           render json:            article_versions,
                  root:            'history',
@@ -197,8 +204,11 @@ module Api::V1
 
       respond_to do |format|
         format.json do
-          set_meta_tags title:       titleize(I18n.t('views.article.edit.title', title: article.title, topic: article.topic.name)),
-                        description: I18n.t('views.article.edit.description', title: article.title, topic: article.topic.name)
+          set_seo_data(:edit_article,
+                       article_slug: article.title,
+                       topic_slug: article.topic.name,
+                       user_slug: article.user.pseudo,
+                       author: article.user.pseudo)
 
           render json:       article,
                  serializer: ArticleSerializer,

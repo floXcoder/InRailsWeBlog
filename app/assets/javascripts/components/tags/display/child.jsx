@@ -7,10 +7,14 @@ import {
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 
+import {
+    taggedArticlesPath
+} from '../../../constants/routesHelper';
+
 const ChildTag = ({tag, parentTagSlug, isExpanded, currentChildTagSlug, currentTagSlugs, onTagClick, classes}) => (
     <ListItem button={true}
               component={Link}
-              to={`/tagged/${parentTagSlug}/${tag.slug}`}
+              to={taggedArticlesPath(parentTagSlug, tag.slug)}
               onClick={onTagClick}>
         <ListItemText classes={{
             primary: classNames(classes.nestedLabel, {

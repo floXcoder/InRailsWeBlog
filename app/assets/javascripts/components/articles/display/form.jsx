@@ -27,6 +27,12 @@ import {
 } from '../../../../jss/theme';
 
 import {
+    userArticlePath,
+    userArticlesPath,
+    editInventoriesTopicPath
+} from '../../../constants/routesHelper';
+
+import {
     fetchTags
 } from '../../../actions';
 
@@ -216,7 +222,7 @@ class ArticleFormDisplay extends React.Component {
                                                             color="primary"
                                                             variant="contained"
                                                             component={Link}
-                                                            to={`/users/${this.props.currentUser.slug}/topics/${this.props.currentTopic.slug}/edit-inventories`}>
+                                                            to={editInventoriesTopicPath(this.props.currentUser.slug, this.props.currentTopic.slug)}>
                                                         {I18n.t('js.article.form.inventory_button')}
                                                     </Button>
                                                 </div>
@@ -242,7 +248,7 @@ class ArticleFormDisplay extends React.Component {
                                                                     variant="text"
                                                                     size="small"
                                                                     component={Link}
-                                                                    to={`/users/${this.props.currentUser.slug}/topics/${this.props.currentTopic.slug}/edit-inventories`}>
+                                                                    to={editInventoriesTopicPath(this.props.currentUser.slug, this.props.currentTopic.slug)}>
                                                                 {I18n.t('js.article.form.inventory_button')}
                                                             </Button>
                                                         </div>
@@ -251,7 +257,7 @@ class ArticleFormDisplay extends React.Component {
                                                     <div className="col s12 margin-top-25">
                                                         <Button size="small"
                                                                 component={Link}
-                                                                to={this.props.isEditing ? `/users/${this.props.userSlug}/articles/${this.props.children.slug}` : `/users/${this.props.userSlug}`}
+                                                                to={this.props.isEditing ? userArticlePath(this.props.userSlug, this.props.children.slug) : userArticlesPath(this.props.userSlug)}
                                                                 onClick={this.props.onCancel}>
                                                             {I18n.t('js.helpers.buttons.cancel')}
                                                         </Button>
@@ -291,7 +297,7 @@ class ArticleFormDisplay extends React.Component {
                                                     <Button color="default"
                                                             size="small"
                                                             component={Link}
-                                                            to={this.props.isEditing ? `/users/${this.props.userSlug}/articles/${this.props.children.slug}` : `/users/${this.props.userSlug}`}
+                                                            to={this.props.isEditing ? userArticlePath(this.props.userSlug,this.props.children.slug) : userArticlesPath(this.props.userSlug)}
                                                             onClick={this.props.onCancel}>
                                                         {I18n.t('js.helpers.buttons.cancel')}
                                                     </Button>

@@ -84,8 +84,38 @@ const theme = createMuiTheme({
             dark: '#937e2e'
         },
         action: {
-            active: 'rgba(0, 0, 0, 0.66)'
-        }
+            active: 'rgba(0, 0, 0, 0.66)',
+            // hover: 'rgba(0, 0, 0, 0.08)',
+            // hoverOpacity: 0.08,
+            // selected: 'rgba(0, 0, 0, 0.14)',
+            // disabled: 'rgba(0, 0, 0, 0.26)',
+            // disabledBackground: 'rgba(0, 0, 0, 0.12)'
+        },
+        // error: {
+        //     light: '#e57373',
+        //     main: '#f44336',
+        //     dark: '#d32f2f',
+        //     contrastText: '#fff'
+        // },
+        // warning: {
+        //     light: '#ffb74d',
+        //     main: '#ff9800',
+        //     dark: '#f57c00',
+        //     contrastText: 'rgba(0, 0, 0, 0.87)'
+        // },
+        // info: {
+        //     light: '#64b5f6',
+        //     main: '#2196f3',
+        //     dark: '#1976d2',
+        //     contrastText: '#fff'
+        // },
+        // success: {
+        //     light: '#81c784',
+        //     main: '#4caf50',
+        //     dark: '#388e3c',
+        //     contrastText: 'rgba(0, 0, 0, 0.87)'
+        // }
+        // divider: 'rgba(0, 0, 0, 0.12)'
     },
 
     zIndex: {

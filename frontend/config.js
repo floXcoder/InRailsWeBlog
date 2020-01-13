@@ -15,6 +15,7 @@ module.exports = {
             'admins/tags': ['./javascripts/pages/admins/tags.jsx'],
             'admins/articles': ['./javascripts/pages/admins/articles.jsx'],
             'admins/blogs': ['./javascripts/pages/admins/blogs.jsx'],
+            'admins/seo': ['./javascripts/pages/admins/seo.jsx'],
             'admins/logs': ['./javascripts/pages/admins/logs.jsx'],
             'admins/cache': ['./javascripts/pages/admins/cache.jsx']
         },

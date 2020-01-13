@@ -19,6 +19,12 @@ import LabelIcon from '@material-ui/icons/Label';
 import ShareIcon from '@material-ui/icons/Share';
 
 import {
+    taggedTopicArticlesPath,
+    editTopicPath,
+    shareTopicParam
+} from '../../constants/routesHelper';
+
+import {
     fetchTopic,
     deleteTopic,
     spyTrackClick
@@ -102,7 +108,9 @@ class TopicShow extends React.Component {
 
         return (
             <article className={this.props.classes.root}>
-                <HeadLayout metaTags={this.props.metaTags}/>
+                <HeadLayout>
+                    {this.props.metaTags}
+                </HeadLayout>
 
                 <Typography className={this.props.classes.title}
                             component="h1"
@@ -144,7 +152,7 @@ class TopicShow extends React.Component {
                                           color="primary"
                                           variant="outlined"
                                           component={Link}
-                                          to={`/users/${this.props.topic.user.slug}/topics/${this.props.topic.slug}/tagged/${tag.slug}`}
+                                          to={taggedTopicArticlesPath(this.props.topic.user.slug, this.props.topic.slug, tag.slug)}
                                           onClick={this._handleTagClick.bind(this, tag)}/>
                                 ))
                             }
@@ -186,7 +194,7 @@ class TopicShow extends React.Component {
                                         size="small"
                                         component={Link}
                                         to={{
-                                            hash: '#share-topic',
+                                            hash: '#' + shareTopicParam,
                                             state: {
                                                 topicId: this.props.topic.id
                                             }
@@ -228,7 +236,7 @@ class TopicShow extends React.Component {
                             variant="outlined"
                             size="small"
                             component={Link}
-                            to={`/users/${this.props.topic.user.slug}/topics/${this.props.topic.slug}/edit`}>
+                            to={editTopicPath(this.props.topic.user.slug, this.props.topic.slug)}>
                         {I18n.t('js.topic.show.edit_link')}
                     </Button>
                 </div>

@@ -20,7 +20,6 @@ import {
 import withWidth from '@material-ui/core/withWidth';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import ListItem from '@material-ui/core/ListItem';
@@ -32,6 +31,10 @@ import Button from '@material-ui/core/Button';
 import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
+
+import {
+    searchParam
+} from '../../../constants/routesHelper';
 
 import {
     HomeSearchHeader,
@@ -87,7 +90,7 @@ class HeaderLayoutHome extends React.Component {
     _handleSearchOpen = () => {
         if (this.props.routeLocation.hash !== '#search') {
             this.props.history.push({
-                hash: 'search'
+                hash: searchParam
             });
         }
     };

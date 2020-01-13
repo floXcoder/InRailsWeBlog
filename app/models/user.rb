@@ -332,13 +332,11 @@ class User < ApplicationRecord
 
   def link_path(options = {})
     if options[:edit]
-      "/users/#{self.slug}/edit"
-    elsif options[:host]
-      "#{options[:host]}/users/#{self.slug}"
+      Rails.application.routes.url_helpers.edit_user_path(user_slug: self.slug)
     elsif options[:index]
       "/users/#{self.slug}"
     else
-      "/users/#{self.slug}/show"
+      Rails.application.routes.url_helpers.show_user_path(user_slug: self.slug)
     end
   end
 
@@ -428,11 +426,6 @@ class User < ApplicationRecord
       updated_at:      updated_at,
       slug:            slug
     }
-  end
-
-  # SEO
-  def meta_description
-    [self.pseudo, self.additional_info&.summary(60)].compact.join(I18n.t('helpers.colon'))
   end
 
   private

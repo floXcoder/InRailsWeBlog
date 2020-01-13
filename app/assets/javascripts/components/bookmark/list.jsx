@@ -19,6 +19,10 @@ import ListItemText from '@material-ui/core/ListItemText';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 
 import {
+    userArticlePath
+} from '../../constants/routesHelper';
+
+import {
     getBookmarks
 } from '../../selectors';
 
@@ -57,7 +61,7 @@ class BookmarkList extends React.Component {
                                     <Fragment key={i}>
                                         <ListItem button={true}
                                                   component={Link}
-                                                  to={`/users/${bookmark.parentSlug}/articles/${bookmark.slug}`}>
+                                                  to={userArticlePath(bookmark.parentSlug, bookmark.slug)}>
                                             <ListItemIcon>
                                                 <AssignmentIcon/>
                                             </ListItemIcon>

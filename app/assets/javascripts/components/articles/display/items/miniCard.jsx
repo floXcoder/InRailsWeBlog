@@ -18,6 +18,12 @@ import Paper from '@material-ui/core/Paper';
 import LabelIcon from '@material-ui/icons/Label';
 
 import {
+    userArticlePath,
+    userArticlesPath,
+    taggedArticlesPath
+} from '../../../../constants/routesHelper';
+
+import {
     spyTrackClick
 } from '../../../../actions';
 
@@ -55,7 +61,7 @@ class ArticleMiniCardDisplay extends React.Component {
                         <Chip key={tag.id}
                               className={this.props.classes.articleTag}
                               component={Link}
-                              to={`/tagged/${tag.slug}`}
+                              to={taggedArticlesPath(tag.slug)}
                               onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.name)}
                               icon={<LabelIcon/>}
                               label={tag.name}
@@ -82,7 +88,7 @@ class ArticleMiniCardDisplay extends React.Component {
                                 <h1 className={this.props.classes.extractTitle}
                                     itemProp="name headline">
                                     <Link className={this.props.classes.extractTitleLink}
-                                          to={`/users/${this.props.article.user.slug}/articles/${this.props.article.slug}`}
+                                          to={userArticlePath(this.props.article.user.slug, this.props.article.slug)}
                                           itemProp="mainEntityOfPage url"
                                           onClick={spyTrackClick.bind(null, 'article', this.props.article.id, this.props.article.slug, this.props.article.title)}>
                                         {this.props.article.title}
@@ -195,7 +201,7 @@ class ArticleMiniCardDisplay extends React.Component {
                                           content={this.props.classes.userPseudo}/>
 
                                     <Link className={this.props.classes.userPseudo}
-                                          to={`/users/${this.props.article.user.slug}`}
+                                          to={userArticlesPath(this.props.article.user.slug)}
                                           onClick={spyTrackClick.bind(null, 'user', this.props.article.user.id, this.props.article.user.slug, this.props.article.user.pseudo)}>
                                         {this.props.article.user.pseudo}
                                     </Link>

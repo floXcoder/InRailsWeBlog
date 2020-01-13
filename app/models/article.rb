@@ -45,7 +45,7 @@ class Article < ApplicationRecord
   enums_to_tr('article', [:mode, :visibility])
 
   include TranslationConcern
-  # Add current_language to model
+  # Add current_language as attribute
   translates :title, :summary, :content,
              auto_strip_translation_fields:    [:title, :summary],
              fallbacks_for_empty_translations: true
@@ -333,11 +333,11 @@ class Article < ApplicationRecord
 
   def link_path(options = {})
     if options[:edit]
-      "/users/#{self.user.slug}/articles/#{self.slug}/edit"
+      Rails.application.routes.url_helpers.edit_article_path(user_slug: self.user.slug, article_slug: self.slug)
     elsif options[:host]
-      "#{options[:host]}/users/#{self.user.slug}/articles/#{self.slug}"
+      Rails.application.routes.url_helpers.user_article_url(user_slug: self.user.slug, article_slug: self.slug, host: options[:host])
     else
-      "/users/#{self.user.slug}/articles/#{self.slug}"
+      Rails.application.routes.url_helpers.user_article_path(user_slug: self.user.slug, article_slug: self.slug)
     end
   end
 
@@ -486,11 +486,6 @@ class Article < ApplicationRecord
 
   def public_share_link
     self.share&.public_link
-  end
-
-  # SEO
-  def meta_description
-    [self.title, self.summary&.summary(60)].compact.join(I18n.t('helpers.colon'))
   end
 
   private

@@ -40,9 +40,8 @@ fr:
         pin: "Pin"
         unpin: "Unpin"
       footer:
-        title: "In Rails We Blog"
-        description: "Un blog pensé pour les développeurs"
-        copyright: "Copyright 2019 - InRailsWeBlog (%{version}). Tous droits réservés."
+        description: "Un blog pour tous"
+        copyright: "Copyright 2019 (%{version}). Tous droits réservés."
         links:
           title: "Liens utiles"
           contact: "Me contacter par email"
@@ -512,8 +511,8 @@ fr:
           next: "Storie suivante"
       new:
         meta:
-          title: "Nouvel article - %{topic} - InRailsWeBlog"
-          description: "Ajout d'un article - InRailsWeBlog"
+          title: "Nouvel article - %{topic}"
+          description: "Ajout d'un article"
         title: "Créer un nouvel article"
         tags:
           title: "Ajouter des labels (clic droit : label parent / clic gauche : label enfant)"
@@ -724,6 +723,7 @@ fr:
         tags: "Labels"
         articles: "Articles"
         blogs: "Notes internes"
+        seo: "SEO"
         jobs: "Jobs"
         postgres: "Database"
         logs: "Logs"
@@ -821,6 +821,34 @@ fr:
           add: "Ajouter"
           update: "Mettre à jour"
           cancel: "Annuler"
+      seo:
+        title: "Gestion SEO"
+        add: "Ajouter données SEO"
+        table:
+          title: "Liste des pages"
+          columns:
+            id: "Id"
+            name: "Nom de la route"
+            locale: "Locale"
+            parameters: "Paramètres"
+            page_title: "Titre de la page"
+            meta_desc: "Meta Desc"
+        form:
+          title: "Sélectionner la route ou l'URL"
+          select:
+            route: "Nom de la route"
+            or: "ou"
+            url: "URL du site"
+          seo_fields: "Définition des champs SEO"
+          page_title: "Titre de la page"
+          meta_desc: "Meta description"
+          parameters: "Paramètres à utiliser : %{parameters}"
+          no_parameters: "Aucun paramètres requis"
+          add: "Ajouter"
+          update: "Modifier"
+          delete: "SUPPRIMER"
+          delete_confirmation: "Supprimer cette donnée SEO : %{name} ?"
+          cancel: "Annuler"
       logs:
         input:
           title: "Recherche"
@@ -859,7 +887,7 @@ fr:
         already_exists: "Le label existe déjà"
         too_long: "Le nom de l'élément est trop long"
     cookies:
-      message: "Bienvenue sur InRailsWeBlog ! En poursuivant votre navigation, vous acceptez l'utilisation de cookies. "
+      message: "Bienvenue sur %{website} ! En poursuivant votre navigation, vous acceptez l'utilisation de cookies. "
       link: "En savoir plus"
       validation: "D'accord"
     rating:

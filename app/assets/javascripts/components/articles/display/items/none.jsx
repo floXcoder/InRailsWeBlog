@@ -6,6 +6,10 @@ import {
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 
+import {
+    newArticlePath
+} from '../../../../constants/routesHelper';
+
 const ArticleNoneDisplay = ({userSlug, topicSlug, tagSlug, childTagSlug, isTopicPage, isSearchPage}) => (
     <div className="row margin-top-30">
         <div className="col m6 offset-m3 s10 offset-s1">
@@ -56,7 +60,7 @@ const ArticleNoneDisplay = ({userSlug, topicSlug, tagSlug, childTagSlug, isTopic
                                 variant="outlined"
                                 size="small"
                                 component={Link}
-                                to={`/users/${userSlug}/topics/${topicSlug}/article-new`}>
+                                to={newArticlePath(userSlug, topicSlug)}>
                             {I18n.t('js.article.common.no_results.topic.button')}
                         </Button>
                     </p>

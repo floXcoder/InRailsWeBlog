@@ -15,6 +15,11 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
 import {
+    showTagPath,
+    editTagPath
+} from '../../constants/routesHelper';
+
+import {
     fetchTag,
     spyTrackClick
 } from '../../actions';
@@ -124,7 +129,7 @@ class TagShow extends React.Component {
                                         {
                                             this.props.tag.parents.map((tag) => (
                                                 <Link key={tag.id}
-                                                      to={`/tags/${tag.slug}`}
+                                                      to={showTagPath(tag.slug)}
                                                       onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.name)}>
                                                     {tag.name}
                                                 </Link>
@@ -152,7 +157,7 @@ class TagShow extends React.Component {
                                         {
                                             this.props.tag.children.map((tag) => (
                                                 <Link key={tag.id}
-                                                      to={`/tags/${tag.slug}`}
+                                                      to={showTagPath(tag.slug)}
                                                       onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.name)}>
                                                     {tag.name}
                                                 </Link>
@@ -252,7 +257,7 @@ class TagShow extends React.Component {
                             variant="outlined"
                             size="small"
                             component={Link}
-                            to={`/tags/${this.props.tag.slug}/edit`}>
+                            to={editTagPath(this.props.tag.slug)}>
                         {I18n.t('js.tag.show.edit_link')}
                     </Button>
                 </div>

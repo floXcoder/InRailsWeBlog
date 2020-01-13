@@ -10,6 +10,10 @@ import {
 } from '@material-ui/core/styles';
 
 import {
+    userArticlePath
+} from '../../../../constants/routesHelper';
+
+import {
     inlineEditArticle,
     updateArticle,
     deleteArticle,
@@ -85,7 +89,7 @@ class ArticleInlineEditionDisplay extends React.Component {
 
                 {
                     this.props.article.title &&
-                    <Link to={`/users/${this.props.article.user.slug}/articles/${this.props.article.slug}`}
+                    <Link to={userArticlePath(this.props.article.user.slug, this.props.article.slug)}
                           onClick={this._handleTitleClick}>
                         <h1 className={this.props.classes.title}>
                             {this.props.article.title}

@@ -15,6 +15,10 @@ import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 
 import {
+    taggedArticlesPath
+} from '../../../constants/routesHelper';
+
+import {
     getCurrentTagSlugs
 } from '../../../selectors';
 
@@ -86,7 +90,7 @@ class ParentTag extends React.Component {
             <>
                 <ListItem button={true}
                           component={Link}
-                          to={`/tagged/${this.props.tag.slug}`}
+                          to={taggedArticlesPath(this.props.tag.slug)}
                           onClick={this._handleTagClick.bind(this, this.props.tag.id, this.props.tag.name, this.props.tag.slug, true)}>
                     <ListItemText classes={{
                         primary: classNames(this.props.classes.label, {

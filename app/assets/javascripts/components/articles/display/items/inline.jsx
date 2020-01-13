@@ -16,6 +16,10 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import EditIcon from '@material-ui/icons/EditOutlined';
 
 import {
+    userArticlePath
+} from '../../../../constants/routesHelper';
+
+import {
     spyTrackClick,
     spyTrackView
 } from '../../../../actions';
@@ -133,7 +137,7 @@ class ArticleInlineDisplay extends React.PureComponent {
 
                     {
                         this.props.title &&
-                        <Link to={`/users/${this.props.userSlug}/articles/${this.props.slug}`}
+                        <Link to={userArticlePath(this.props.userSlug, this.props.slug)}
                               onClick={this._handleTitleClick}>
                             <h1 className={this.props.classes.title}>
                                 {this.props.title}

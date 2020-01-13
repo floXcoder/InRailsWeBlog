@@ -60,6 +60,27 @@ class ApplicationController < ActionController::Base
     @user_longitude = (request.respond_to?(:location) ? request.location.longitude : 0) rescue 0
   end
 
+  def set_seo_data(named_route, parameters = {})
+    seo_data = Seo::Data.find_by(
+      #locale: params[:locale] || I18n.locale,
+      name: named_route
+    )
+
+    if seo_data
+      page_title = Seo::Data.convert_parameters(seo_data.page_title, parameters)
+      meta_desc = Seo::Data.convert_parameters(seo_data.meta_desc, parameters)
+    else
+      page_title = I18n.t('seo.default.page_title')
+      meta_desc = I18n.t('seo.default.meta_desc')
+    end
+
+    set_meta_tags title: titleize(page_title),
+                  description: meta_desc,
+                  author: parameters[:author],
+                  canonical: parameters[:canonical],
+                  og: parameters[:og]
+  end
+
   # Redirection when Javascript is used.
   # +flash_type+ parameters:
   #  success
@@ -131,7 +152,7 @@ class ApplicationController < ActionController::Base
   def titleize(page_title)
     base_title = page_title
     base_title = "(#{Rails.env.capitalize}) | #{base_title}" unless Rails.env.production?
-    base_title += " - #{ENV['WEBSITE_NAME']}"
+    base_title += " | #{ENV['WEBSITE_NAME']}"
 
     base_title.html_safe
   end
@@ -139,7 +160,7 @@ class ApplicationController < ActionController::Base
   def titleize_admin(page_title)
     base_title = "(ADMIN) | #{page_title}"
     base_title = "(#{Rails.env.capitalize}) | #{base_title}" unless Rails.env.production?
-    base_title += " - #{ENV['WEBSITE_NAME']}"
+    base_title += " | #{ENV['WEBSITE_NAME']}"
 
     base_title.html_safe
   end

@@ -5,6 +5,10 @@ import {
 } from 'react-router-dom';
 
 import {
+    showTagPath
+} from '../../constants/routesHelper';
+
+import {
     fetchTags,
     updateTagPriority
 } from '../../actions';
@@ -57,7 +61,7 @@ class TagSort extends React.Component {
 
     _handleUpdatePriority = (tagIds) => {
         this.props.updateTagPriority(tagIds)
-            .then(() => this.props.history.push(`/tags/${this.props.currentUserSlug}`));
+            .then(() => this.props.history.push(showTagPath(this.props.currentUserSlug)));
     };
 
     render() {

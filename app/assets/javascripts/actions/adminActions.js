@@ -53,6 +53,41 @@ export const updateBlog = (blogId, blogData) => ({
     mutationAPI: () => api.update(`/admins/blogs/${blogId}`, blogData, true)
 });
 
+// SEO Data
+export const fetchSeoData = (filter, options = {}) => ({
+    actionType: ActionTypes.ADMIN_SEO_DATA,
+    fetchAPI: () => api.get('/admins/seo', {
+        filter,
+        ...options
+    })
+});
+
+export const retrieveParametersSeoData = (urlOrRoute) => () => (
+    api.post('/admins/seo/retrieve_parameters', {
+        ...urlOrRoute
+    })
+);
+
+export const addSeoData = (seoData) => ({
+    actionType: ActionTypes.ADMIN_SEO_DATA,
+    mutationAPI: () => api.post('/admins/seo', seoData, true)
+});
+
+export const updateSeoData = (seoDataId, seoData) => ({
+    actionType: ActionTypes.ADMIN_SEO_DATA,
+    mutationAPI: () => api.update(`/admins/seo/${seoDataId}`, seoData, true)
+});
+
+export const deleteSeoData = (seoDataId, options = {}) => ({
+    actionType: ActionTypes.ADMIN_SEO_DATA,
+    mutationAPI: () => api.delete(`/admins/seo/${seoDataId}`, {
+        ...options
+    }),
+    payload: {
+        removedId: seoDataId
+    }
+});
+
 // Logs
 export const fetchLogs = (data) => () => (
     api.post('/admins/logs/stream', {

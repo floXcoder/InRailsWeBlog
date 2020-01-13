@@ -64,7 +64,7 @@ class AdminTags extends React.Component {
                            },
                            {
                                title: I18n.t('js.admin.tags.table.columns.name'),
-                               field: 'name',
+                               field: 'name'
                            },
                            {
                                title: I18n.t('js.admin.tags.table.columns.description'),

@@ -13,6 +13,10 @@ import {
 } from '@material-ui/core/styles';
 
 import {
+    userTopicPath
+} from '../../constants/routesHelper';
+
+import {
     fetchTopic,
     updateTopic
 } from '../../actions';
@@ -74,7 +78,7 @@ class TopicEdit extends React.Component {
             .then((response) => {
                 if (response.topic) {
                     this.props.history.push({
-                        pathname: `/users/${this.props.topic.user.slug}/topics/${this.props.topic.slug}/show`
+                        pathname: userTopicPath(this.props.topic.user.slug, this.props.topic.slug)
                     });
                 }
             });

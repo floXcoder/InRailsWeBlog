@@ -18,6 +18,7 @@ import CachedIcon from '@material-ui/icons/Cached';
 import HomeIcon from '@material-ui/icons/Home';
 import CancelIcon from '@material-ui/icons/Cancel';
 import AllInboxIcon from '@material-ui/icons/AllInbox';
+import ListAltIcon from '@material-ui/icons/ListAlt';
 
 function ListItemLink(props) {
     return (
@@ -85,6 +86,12 @@ export default class MenuLayout extends React.PureComponent {
                 <Item href="/admins/blogs"
                       text={I18n.t('js.admin.menu.blogs')}
                       icon={<ChromeReaderModeIcon/>}/>
+
+                <Divider/>
+
+                <Item href="/admins/seo"
+                      text={I18n.t('js.admin.menu.seo')}
+                      icon={<ListAltIcon/>}/>
 
                 <Divider/>
 

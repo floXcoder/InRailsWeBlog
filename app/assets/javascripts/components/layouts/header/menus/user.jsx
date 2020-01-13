@@ -14,6 +14,10 @@ import PortraitIcon from '@material-ui/icons/Portrait';
 import SettingsIcon from '@material-ui/icons/Settings';
 import CancelIcon from '@material-ui/icons/Cancel';
 
+import {
+    userArticlesPath
+} from '../../../../constants/routesHelper';
+
 export default class HeaderUserMenu extends React.Component {
     static propTypes = {
         classes: PropTypes.object.isRequired,
@@ -61,7 +65,7 @@ export default class HeaderUserMenu extends React.Component {
                 <ListItem button={true}
                           component={Link}
                           className={this.props.classes.link}
-                          to={`/users/${this.props.userSlug}`}>
+                          to={userArticlesPath(this.props.userSlug)}>
                     <ListItemIcon>
                         <PortraitIcon/>
                     </ListItemIcon>

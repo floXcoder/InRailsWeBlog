@@ -20,6 +20,10 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import LockIcon from '@material-ui/icons/Lock';
 
 import {
+    newPasswordPath
+} from '../../../constants/routesHelper';
+
+import {
     validateUser
 } from '../../../actions/userActions';
 
@@ -125,7 +129,7 @@ class LoginForm extends React.Component {
 
                             <div>
                                 <Link className={this.props.classes.password}
-                                      to="/users/password/new"
+                                      to={newPasswordPath()}
                                       onClick={this.props.onCancel}>
                                     {I18n.t('js.user.login.new_password')}
                                 </Link>

@@ -9,6 +9,10 @@ import Zoom from '@material-ui/core/Zoom';
 
 import OpenInNewIcon from '@material-ui/icons/OpenInNew';
 
+import {
+    topicTagsPath
+} from '../../../constants/routesHelper';
+
 import Scrollbar from '../../theme/scrollbar';
 
 import TagRelationshipDisplay from '../display/relationship';
@@ -39,7 +43,7 @@ export default class TagSidebarList extends React.Component {
                 <Zoom in={this.props.isOpen}
                       timeout={350}>
                     <Link className={this.props.classes.labelsLink}
-                          to={`/users/${this.props.currentUserSlug}/topics/${this.props.currentUserTopicSlug}/tags`}>
+                          to={topicTagsPath(this.props.currentUserSlug, this.props.currentUserTopicSlug)}>
                         <OpenInNewIcon className={this.props.classes.labelsIcon}/>
                     </Link>
                 </Zoom>

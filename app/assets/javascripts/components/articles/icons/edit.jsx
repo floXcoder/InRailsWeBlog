@@ -6,10 +6,14 @@ import {
 
 import EditIcon from '@material-ui/icons/EditOutlined';
 
+import {
+    editArticlePath
+} from '../../../constants/routesHelper';
+
 const ArticleEditIcon = ({userSlug, articleSlug, history, size, color}) => (
     <span className="tooltip-bottom"
           data-tooltip={I18n.t('js.article.tooltip.edit')}>
-        <Link to={`/users/${userSlug}/articles/${articleSlug}/edit`}
+        <Link to={editArticlePath(userSlug, articleSlug)}
               onClick={_redirectToEdit.bind(undefined, userSlug, articleSlug, history)}>
             <EditIcon color={color}
                       fontSize={size}/>
@@ -22,7 +26,7 @@ const _redirectToEdit = (userSlug, articleSlug, history, event) => {
         event.preventDefault();
 
         history.push({
-            pathname: `/users/${userSlug}/articles/${articleSlug}/edit`,
+            pathname: editArticlePath(userSlug, articleSlug),
             state: {
                 position: _getScreenPosition()
             }

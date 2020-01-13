@@ -21,6 +21,10 @@ import Grid from '@material-ui/core/Grid';
 import CloseIcon from '@material-ui/icons/Close';
 
 import {
+    searchPath
+} from '../../constants/routesHelper';
+
+import {
     SearchIndex
 } from '../loaders/components';
 
@@ -94,7 +98,7 @@ class SearchModule extends React.Component {
 
     _performSearch = () => {
         this.props.history.push({
-            pathname: '/search',
+            pathname: searchPath,
             search: Utils.toParams(Utils.compact({
                 query: this.props.query,
                 tags: this.props.selectedTags.map((tag) => tag.slug)

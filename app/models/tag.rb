@@ -271,13 +271,15 @@ class Tag < ApplicationRecord
 
   def link_path(options = {})
     if options[:edit]
-      "/tags/#{self.user.slug}/edit"
-    elsif options[:host]
-      "#{options[:host]}/tags/#{self.slug}"
+      Rails.application.routes.url_helpers.edit_tag_path(tag_slug: self.slug)
     elsif options[:index]
-      "/tagged/#{self.slug}"
+      Rails.application.routes.url_helpers.tagged_articles_path(tag_slug: self.slug)
+    elsif options[:index] && options[:host]
+      Rails.application.routes.url_helpers.tagged_articles_path(tag_slug: self.slug, host: options[:host])
+    elsif options[:host]
+      Rails.application.routes.url_helpers.show_tag_url(tag_slug: self.slug, host: options[:host])
     else
-      "/tags/#{self.slug}"
+      Rails.application.routes.url_helpers.show_tag_path(tag_slug: self.slug)
     end
   end
 
@@ -360,11 +362,6 @@ class Tag < ApplicationRecord
       tagged_articles_count: tagged_articles_count,
       slug:                  slug
     }
-  end
-
-  # SEO
-  def meta_description
-    [self.name, self.description&.summary(60)].compact.join(I18n.t('helpers.colon'))
   end
 
   private

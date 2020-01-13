@@ -7,6 +7,10 @@
 // import File from '../materialize/file';
 // import Submit from '../materialize/submit';
 
+import {
+    userArticlesPath
+} from '../../constants/routesHelper';
+
 export default class UserEdit extends React.Component {
     static propTypes = {
         // userId: PropTypes.string,
@@ -44,7 +48,7 @@ export default class UserEdit extends React.Component {
         return (
             <div className="card">
                 <Form id={`edit_user_${this.state.user.id}`}
-                      action={`/users/${this.state.user.slug}`}
+                      action={userArticlesPath(this.state.user.slug)}
                       isMultipart={true}>
 
                     <div className="card-content">
@@ -78,9 +82,9 @@ export default class UserEdit extends React.Component {
                             </div>
 
                             <div className="col s12 center-align">
-                                <a href="/users/edit">
-                                    {I18n.t('js.user.edit.connection_parameters')}
-                                </a>
+                                {/*<a href="/users/edit">*/}
+                                {/*    {I18n.t('js.user.edit.connection_parameters')}*/}
+                                {/*</a>*/}
                             </div>
                         </div>
 

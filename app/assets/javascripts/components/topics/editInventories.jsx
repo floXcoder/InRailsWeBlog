@@ -13,6 +13,10 @@ import {
 } from '@material-ui/core/styles';
 
 import {
+    topicArticlesPath
+} from '../../constants/routesHelper';
+
+import {
     fetchTopic,
     updateTopicInventories
 } from '../../actions';
@@ -82,7 +86,7 @@ class TopicEditInventories extends React.Component {
             .then((response) => {
                 if (response.topic) {
                     this.props.history.push({
-                        pathname: `/users/${this.props.topic.user.slug}/topics/${this.props.topic.slug}`
+                        pathname: topicArticlesPath(this.props.topic.user.slug, this.props.topic.slug)
                     });
                 }
             });
@@ -111,7 +115,9 @@ class TopicEditInventories extends React.Component {
 
         return (
             <div className={this.props.classes.root}>
-                <HeadLayout metaTags={this.props.metaTags}/>
+                <HeadLayout>
+                    {this.props.metaTags}
+                </HeadLayout>
 
                 <TopicFormInventoriesDisplay initialValues={{inventoryFields}}
                                              id={`topic-edit-inventories-${this.props.topic.id}`}

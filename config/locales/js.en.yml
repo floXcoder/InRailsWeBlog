@@ -40,9 +40,8 @@ en:
         pin: "Pin"
         unpin: "Unpin"
       footer:
-        title: "In Rails We Blog"
-        description: "A blog for developer"
-        copyright: "Copyright 2019 - InRailsWeBlog (%{version}). All rights reserved."
+        description: "A blog for everyone"
+        copyright: "Copyright 2019 (%{version}). All rights reserved."
         links:
           title: "Links"
           contact: "Contact us by email"
@@ -88,7 +87,7 @@ en:
         email: "Email"
         password: "Password"
         confirm_password: "Password checking"
-        terms_of_use: "By subscribing on InRailsWeBlog, you accept our"
+        terms_of_use: "By subscribing on %{website}, you accept our"
         terms_of_use_name: "terms of use."
         cancel: "Cancel"
         submit: "Create my account"
@@ -512,8 +511,8 @@ en:
           next: "Next story"
       new:
         meta:
-          title: "New article - %{topic} - InRailsWeBlog"
-          description: "Add a new article - InRailsWeBlog"
+          title: "New article - %{topic}"
+          description: "Add a new article"
         title: "Create a new article"
         tags:
           title: "Add tags (right click: parent tag / left click: children tag)"
@@ -724,6 +723,7 @@ en:
         tags: "Tags"
         articles: "Articles"
         blogs: "Notes"
+        seo: "SEO"
         jobs: "Jobs"
         postgres: "Database"
         logs: "Logs"
@@ -821,6 +821,34 @@ en:
           add: "Add"
           update: "Update"
           cancel: "Cancel"
+      seo:
+        title: "SEO management"
+        add: "Add SEO data"
+        table:
+          title: "Pages list"
+          columns:
+            id: "Id"
+            name: "Route name"
+            locale: "Locale"
+            parameters: "Parameters"
+            page_title: "Page title"
+            meta_desc: "Meta Desc"
+        form:
+          title: "Select route or URL"
+          select:
+            route: "Named route"
+            or: "or"
+            url: "Website URL"
+          seo_fields: "SEO fields"
+          page_title: "Page title"
+          meta_desc: "Meta description"
+          parameters: "Parameters to use: %{parameters}"
+          no_parameters: "No parameters required"
+          add: "Add"
+          update: "Edit"
+          delete: "REMOVE"
+          delete_confirmation: "Are you sure to remove: %{name}?"
+          cancel: "Cancel"
       logs:
         input:
           title: "Search"
@@ -859,7 +887,7 @@ en:
         already_exists: "Tag already exist"
         too_long: "Name too long"
     cookies:
-      message: "Welcome to InRailsWeBlog! This website uses cookies to ensure you get the best experience on our website. "
+      message: "Welcome to %{website}! This website uses cookies to ensure you get the best experience on our website. "
       link: "More info"
       validation: "Got it!"
     rating:

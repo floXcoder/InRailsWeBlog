@@ -1,5 +1,9 @@
 'use strict';
 
+import {
+    userArticlesPath
+} from '../../../constants/routesHelper';
+
 const UserCardDisplay = ({user, onUserClick}) => (
     <div className="card small hoverable user-card">
         <div className="user-image center-align">
@@ -21,7 +25,7 @@ const UserCardDisplay = ({user, onUserClick}) => (
 
         <div className="card-action center-align">
             {
-                <a href={`/users/${user.id}`}
+                <a href={userArticlesPath(user.id)}
                    onClick={_handleClick.bind(null, user.id, onUserClick)}>
                     {I18n.t('js.user.index.link_to_user')}
                 </a>

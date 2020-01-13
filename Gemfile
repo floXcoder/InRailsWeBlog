@@ -12,7 +12,7 @@ ruby '2.6.3'
 gem 'rails',                    '6.0.2'
 
 # Use postgresql as the database for Active Record
-gem 'pg',                       '1.2.1'
+gem 'pg',                       '1.2.2'
 gem 'active_record_extended',   '1.4.0'
 gem 'activerecord-explain-analyze', '0.1.0'
 gem 'pghero',                   '2.4.1'
@@ -153,7 +153,7 @@ group :test do
   # Test tools
   gem 'rspec-rails',                '3.9.0'
   gem 'rspec_junit_formatter',      '0.4.1'
-  gem 'shoulda-matchers',           '4.1.2',  require: false
+  gem 'shoulda-matchers',           '4.2.0',  require: false
   gem 'shoulda-callback-matchers',  '1.1.4',  require: false
   gem 'simplecov',                  '0.17.1', require: false
   gem 'fuubar',                     '2.5.0'

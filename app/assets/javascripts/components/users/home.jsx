@@ -24,6 +24,13 @@ import CompareArrowsIcon from '@material-ui/icons/CompareArrows';
 import OpenInNewIcon from '@material-ui/icons/OpenInNew';
 
 import {
+    topicArticlesPath,
+    userTopicPath,
+    newTopicParam,
+    sortTopicParam
+} from '../../constants/routesHelper';
+
+import {
     spyTrackClick
 } from '../../actions';
 
@@ -98,7 +105,7 @@ class UserHome extends React.Component {
                                     <IconButton className={this.props.classes.sortIcon}
                                                 component={Link}
                                                 to={{
-                                                    hash: '#sort-topic',
+                                                    hash: '#' + sortTopicParam,
                                                     state: {
                                                         visibility: 'only_me'
                                                     }
@@ -122,7 +129,7 @@ class UserHome extends React.Component {
                                           sm={6}
                                           lg={4}>
                                         <Link to={{
-                                            pathname: `/users/${this.props.user.slug}/topics/${topic.slug}`,
+                                            pathname: topicArticlesPath(this.props.user.slug, topic.slug),
                                         }}
                                               onClick={this._handleTopicClick.bind(this, topic)}>
                                             <Paper className={classNames(this.props.classes.topic, {
@@ -137,7 +144,7 @@ class UserHome extends React.Component {
                                             </Paper>
                                         </Link>
 
-                                        <Link to={`/users/${this.props.user.slug}/topics/${topic.slug}/show`}>
+                                        <Link to={userTopicPath(this.props.user.slug, topic.slug)}>
                                             <Fab className={classNames(this.props.classes.topicLink, {
                                                 [this.props.classes.storyTopicLink]: topic.mode === 'stories'
                                             })}
@@ -157,7 +164,7 @@ class UserHome extends React.Component {
                                   sm={6}
                                   lg={4}>
                                 <Link to={{
-                                    hash: '#new-topic',
+                                    hash: '#' + newTopicParam,
                                     state: {
                                         mode: 'default',
                                         visibility: 'only_me'
@@ -189,7 +196,7 @@ class UserHome extends React.Component {
                                     <IconButton className={this.props.classes.sortIcon}
                                                 component={Link}
                                                 to={{
-                                                    hash: '#sort-topic',
+                                                    hash: '#' + sortTopicParam,
                                                     state: {
                                                         visibility: 'everyone'
                                                     }
@@ -213,7 +220,7 @@ class UserHome extends React.Component {
                                           sm={6}
                                           lg={4}>
                                         <Link to={{
-                                            pathname: `/users/${this.props.user.slug}/topics/${topic.slug}`
+                                            pathname: topicArticlesPath(this.props.user.slug, topic.slug)
                                         }}
                                               onClick={this._handleTopicClick.bind(this, topic)}>
                                             <Paper className={classNames(this.props.classes.topic, {
@@ -228,7 +235,7 @@ class UserHome extends React.Component {
                                             </Paper>
                                         </Link>
 
-                                        <Link to={`/users/${this.props.user.slug}/topics/${topic.slug}/show`}>
+                                        <Link to={userTopicPath(this.props.user.slug, topic.slug)}>
                                             <Fab className={classNames(this.props.classes.topicLink, {
                                                 [this.props.classes.storyTopicLink]: topic.mode === 'stories'
                                             })}
@@ -248,7 +255,7 @@ class UserHome extends React.Component {
                                   sm={6}
                                   lg={4}>
                                 <Link to={{
-                                    hash: '#new-topic',
+                                    hash: '#' + newTopicParam,
                                     state: {
                                         mode: 'default',
                                         visibility: 'everyone'
@@ -297,7 +304,7 @@ class UserHome extends React.Component {
                                                   sm={6}
                                                   lg={4}>
                                                 <Link to={{
-                                                    pathname: `/users/${this.props.user.slug}/shared-topics/${topic.slug}`,
+                                                    pathname: topicArticlesPath(this.props.user.slug, topic.slug, 'shared-topics'),
                                                 }}
                                                       onClick={this._handleTopicClick.bind(this, topic)}>
                                                     <Paper className={this.props.classes.topic}
@@ -310,7 +317,7 @@ class UserHome extends React.Component {
                                                     </Paper>
                                                 </Link>
 
-                                                <Link to={`/users/${this.props.user.slug}/topics/${topic.slug}/show`}>
+                                                <Link to={userTopicPath(this.props.user.slug, topic.slug)}>
                                                     <Fab className={this.props.classes.topicLink}
                                                          variant="extended"
                                                          size="small"

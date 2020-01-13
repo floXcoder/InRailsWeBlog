@@ -13,6 +13,10 @@ import {
 } from '@material-ui/core/styles';
 
 import {
+    showTagPath
+} from '../../constants/routesHelper';
+
+import {
     fetchTag,
     updateTag
 } from '../../actions';
@@ -75,7 +79,7 @@ class TagEdit extends React.Component {
             .then((response) => {
                 if (response.tag) {
                     this.props.history.push({
-                        pathname: `/tags/${response.tag.slug}`,
+                        pathname: showTagPath(response.tag.slug),
                         state: {reloadTags: true}
                     });
                 }

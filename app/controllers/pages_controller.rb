@@ -11,25 +11,24 @@ class PagesController < ApplicationController
         expires_in InRailsWeBlog.config.cache_time, public: true
 
         if current_user
-          set_meta_tags title:       titleize(I18n.t('views.user.show.title', pseudo: current_user.pseudo)),
-                        description: I18n.t('views.home.description', pseudo: current_user.pseudo),
-                        canonical:   canonical_url(root_url),
-                        og:          {
-                          type:  "#{ENV['WEBSITE_NAME']}:home",
-                          url:   root_url,
-                          image: image_url('logos/favicon-192x192.png')
-                        }
+          set_seo_data(:user_home,
+                       user_slug: current_user.pseudo,
+                       canonical: canonical_url(root_url),
+                       og:        {
+                         type:  "#{ENV['WEBSITE_NAME']}:home",
+                         url:   root_url,
+                         image: image_url('logos/favicon-192x192.png')
+                       })
 
           render :user
         else
-          set_meta_tags title:       titleize(I18n.t('views.home.title')),
-                        description: I18n.t('views.home.description'),
-                        canonical:   canonical_url(root_url),
-                        og:          {
-                          type:  "#{ENV['WEBSITE_NAME']}:home",
-                          url:   root_url,
-                          image: image_url('logos/favicon-192x192.png')
-                        }
+          set_seo_data(:home,
+                       canonical: canonical_url(root_url),
+                       og:        {
+                         type:  "#{ENV['WEBSITE_NAME']}:home",
+                         url:   root_url,
+                         image: image_url('logos/favicon-192x192.png')
+                       })
 
           render :home
         end

@@ -15,6 +15,11 @@ import Typography from '@material-ui/core/Typography';
 import Modal from '@material-ui/core/Modal';
 
 import {
+    topicArticlesPath,
+    editInventoriesTopicPath
+} from '../../constants/routesHelper';
+
+import {
     addTopic,
     updateTopic,
     deleteTopic,
@@ -101,7 +106,7 @@ class TopicPersistence extends React.Component {
                 })
                 .then((response) => {
                     if (response.topic) {
-                        return this.props.history.push(`/users/${this.props.userSlug}/topics/${response.topic.slug}`);
+                        return this.props.history.push(topicArticlesPath(this.props.userSlug, response.topic.slug));
                     }
                 });
         } else {
@@ -130,9 +135,9 @@ class TopicPersistence extends React.Component {
                         if (response.topic.mode === 'inventories') {
                             Notification.success('Vous pouvez maintenant ajouter les champs personnalisés pour les articles');
 
-                            this.props.history.push(`/users/${this.props.userSlug}/topics/${response.topic.slug}/edit-inventories`);
+                            this.props.history.push(editInventoriesTopicPath(this.props.userSlug, response.topic.slug));
                         } else {
-                            this.props.history.push(`/users/${this.props.userSlug}/topics/${response.topic.slug}`);
+                            this.props.history.push(topicArticlesPath(this.props.userSlug, response.topic.slug));
                         }
                     }
 

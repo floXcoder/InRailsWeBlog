@@ -11,6 +11,10 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import Button from '@material-ui/core/Button';
 
+import {
+    sortTopicArticlesPath
+} from '../../../constants/routesHelper';
+
 import styles from '../../../../jss/article/filter';
 
 const sortOptions = [
@@ -69,7 +73,7 @@ class ArticleSortMenu extends React.Component {
         if (this.props.currentUserSlug && this.props.currentUserTopicSlug) {
             options.push(
                 <Link key={4}
-                      to={`/users/${this.props.currentUserSlug}/topics/${this.props.currentUserTopicSlug}/sort`}>
+                      to={sortTopicArticlesPath(this.props.currentUserSlug, this.props.currentUserTopicSlug)}>
                     {I18n.t('js.article.sort.link')}
                 </Link>
             );

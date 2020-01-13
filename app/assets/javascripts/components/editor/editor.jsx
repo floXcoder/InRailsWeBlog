@@ -5,6 +5,11 @@ import $ from 'jquery';
 import withWidth from '@material-ui/core/withWidth';
 
 import {
+    userArticlePath,
+    topicArticlesPath
+} from '../../constants/routesHelper';
+
+import {
     uploadImages,
     deleteImage,
     loadAutocomplete
@@ -120,10 +125,10 @@ class Editor extends React.Component {
                         let nodeItem = document.createElement('a');
                         nodeItem.target = '_blank';
                         if (type === 'topic') {
-                            nodeItem.href = `/users/${parentSlug}/topics/${slug}`;
+                            nodeItem.href = topicArticlesPath(parentSlug, slug);
                             nodeItem.innerHTML = `#${title}`;
                         } else {
-                            nodeItem.href = `/users/${parentSlug}/articles/${slug}`;
+                            nodeItem.href = userArticlePath(parentSlug, slug);
                             nodeItem.setAttribute('data-article-relation-id', id);
                             nodeItem.innerHTML = `#${title}`;
                         }

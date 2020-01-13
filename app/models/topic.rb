@@ -229,15 +229,15 @@ class Topic < ApplicationRecord
 
   def link_path(options = {})
     if options[:edit]
-      "/users/#{self.user.slug}/topics/#{self.slug}/edit"
-    elsif options[:host]
-      "#{options[:host]}/users/#{self.user.slug}/topics/#{self.slug}/show"
-    elsif options[:index]
-      "/users/#{self.user.slug}/topics/#{self.slug}"
+      Rails.application.routes.url_helpers.edit_topic_path(user_slug: self.user.slug, topic_slug: self.slug)
     elsif options[:tags]
-      "/users/#{self.user.slug}/topics/#{self.slug}/tags"
+      Rails.application.routes.url_helpers.topic_tags_path(user_slug: self.user.slug, topic_slug: self.slug)
+    elsif options[:index]
+      Rails.application.routes.url_helpers.topic_articles_path(user_slug: self.user.slug, topic_slug: self.slug)
+    elsif options[:host]
+      Rails.application.routes.url_helpers.topic_articles_url(user_slug: self.user.slug, topic_slug: self.slug, host: options[:host])
     else
-      "/users/#{self.user.slug}/topics/#{self.slug}/show"
+      Rails.application.routes.url_helpers.user_topic_path(user_slug: self.user.slug, topic_slug: self.slug)
     end
   end
 
@@ -277,11 +277,6 @@ class Topic < ApplicationRecord
       updated_at:      updated_at,
       slug:            slug
     }
-  end
-
-  # SEO
-  def meta_description
-    [self.name, self.description&.summary(60)].compact.join(I18n.t('helpers.colon'))
   end
 
   private

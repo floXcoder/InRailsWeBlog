@@ -7,6 +7,10 @@ import {
 } from 'react-router-dom';
 
 import {
+    userArticlePath
+} from '../../../constants/routesHelper';
+
+import {
     saveLocalData,
     getLocalData,
     removeLocalData
@@ -114,7 +118,7 @@ export default function articleMutationManager(mode) {
                         .then((response) => {
                             if (response.article) {
                                 this.props.history.push({
-                                    pathname: `/users/${response.article.user.slug}/articles/${response.article.slug}`,
+                                    pathname: userArticlePath(response.article.user.slug, response.article.slug),
                                     state: {reloadTags: true}
                                 });
                             }
@@ -212,7 +216,7 @@ export default function articleMutationManager(mode) {
                             }
 
                             this.props.history.push({
-                                pathname: `/users/${response.article.user.slug}/articles/${response.article.slug}`,
+                                pathname: userArticlePath(response.article.user.slug, response.article.slug),
                                 state: {reloadTags: true}
                             });
                         });
@@ -264,7 +268,7 @@ export default function articleMutationManager(mode) {
                                 .then((response) => {
                                     if (response.article) {
                                         this.props.history.push({
-                                            pathname: `/users/${response.article.user.slug}/articles/${response.article.slug}`,
+                                            pathname: userArticlePath(response.article.user.slug, response.article.slug),
                                             state: {reloadTags: true}
                                         });
                                     }

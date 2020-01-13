@@ -13,6 +13,10 @@ import {
 } from '@material-ui/core/styles';
 
 import {
+    topicArticlesPath
+} from '../../constants/routesHelper';
+
+import {
     fetchArticles,
     updateArticlePriority
 } from '../../actions';
@@ -77,7 +81,7 @@ class ArticleSort extends React.Component {
 
     _handleUpdatePriority = (articleIds) => {
         this.props.updateArticlePriority(articleIds)
-            .then(() => this.props.history.push(`/users/${this.props.currentUserSlug}/topics/${this.props.currentUserTopicSlug}`));
+            .then(() => this.props.history.push(topicArticlesPath(this.props.currentUserSlug, this.props.currentUserTopicSlug)));
     };
 
     render() {
@@ -95,7 +99,7 @@ class ArticleSort extends React.Component {
                     <ArticleSorter key={Utils.uuid()}
                                    classes={this.props.classes}
                                    articles={this.props.articles}
-                                   topicSlug={this.props.currentUserTopicSlug}
+                                   currentUserSlug={this.props.currentUserSlug}
                                    updateArticlePriority={this._handleUpdatePriority}/>
                 }
             </div>

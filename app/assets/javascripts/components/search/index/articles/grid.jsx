@@ -15,6 +15,11 @@ import Chip from '@material-ui/core/Chip';
 import Typography from '@material-ui/core/Typography';
 
 import {
+    userArticlePath,
+    taggedArticlesPath
+} from '../../../../constants/routesHelper';
+
+import {
     spyTrackClick
 } from '../../../../actions';
 
@@ -50,7 +55,7 @@ class ArticleItemDisplay extends React.Component {
                     }}
                     title={
                         <Link className={this.props.classes.articleGridTitle}
-                              to={`/users/${this.props.article.user.slug}/articles/${this.props.article.slug}`}
+                              to={userArticlePath(this.props.article.user.slug, this.props.article.slug)}
                               onClick={this._handleArticleClick}>
                             {
                                 isInventoryMode
@@ -95,7 +100,7 @@ class ArticleItemDisplay extends React.Component {
                                     <Chip key={tag.id}
                                           className={this.props.classes.articleTag}
                                           component={Link}
-                                          to={`/tagged/${tag.slug}`}
+                                          to={taggedArticlesPath(tag.slug)}
                                           label={tag.name}
                                           clickable={true}
                                           variant="outlined"/>

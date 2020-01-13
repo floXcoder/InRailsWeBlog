@@ -13,6 +13,10 @@ import {
     SortableElement
 } from 'react-sortable-hoc';
 
+import {
+    rootPath
+} from '../../../constants/routesHelper';
+
 import TopicCardSort from './card';
 
 const SortableItem = SortableElement(({classes, topic}) => (
@@ -77,7 +81,7 @@ export default class TopicSorter extends React.Component {
                                 variant="outlined"
                                 size="small"
                                 component={Link}
-                                to={'/'}>
+                                to={rootPath()}>
                             {I18n.t('js.helpers.buttons.cancel')}
                         </Button>
                     </div>

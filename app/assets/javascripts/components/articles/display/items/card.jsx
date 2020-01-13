@@ -26,6 +26,10 @@ import Grid from '@material-ui/core/Grid';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import {
+    userArticlePath
+} from '../../../../constants/routesHelper';
+
+import {
     spyTrackClick,
     spyTrackView
 } from '../../../../actions';
@@ -186,7 +190,7 @@ class ArticleCardDisplay extends React.PureComponent {
                                         <h1 className={this.props.classes.title}
                                             itemProp="name headline">
                                             <Link className={this.props.classes.titleLink}
-                                                  to={`/users/${this.props.article.user.slug}/articles/${this.props.article.slug}`}
+                                                  to={userArticlePath(this.props.article.user.slug, this.props.article.slug)}
                                                   itemProp="mainEntityOfPage url"
                                                   onClick={this._handleTitleClick}>
                                                 {this.props.article.title}

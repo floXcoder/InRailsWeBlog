@@ -60,14 +60,6 @@ module Api::V1
       end
 
       respond_to do |format|
-        format.html do
-          expires_in InRailsWeBlog.config.cache_time, public: true
-          set_meta_tags title:       titleize(I18n.t('views.user.index.title')),
-                        description: I18n.t('views.user.index.description'),
-                        canonical:   ''
-
-          render :index, locals: { users: users }
-        end
         format.json do
           if complete
             render json:            users,
@@ -105,15 +97,15 @@ module Api::V1
 
       respond_to do |format|
         format.json do
-          set_meta_tags title:       titleize(I18n.t('views.user.show.title', pseudo: user.pseudo)),
-                        description: user.meta_description,
-                        author:      user.pseudo,
-                        canonical:   user.link_path(host: ENV['WEBSITE_FULL_ADDRESS']),
-                        og:          {
-                                       type:  "#{ENV['WEBSITE_NAME']}:article",
-                                       url:   user.link_path(host: ENV['WEBSITE_FULL_ADDRESS']),
-                                       image: image_url('logos/favicon-192x192.png')
-                                     }.compact
+          set_seo_data(:show_user,
+                       user_slug: user.pseudo,
+                       author:    user.pseudo,
+                       canonical: user.link_path(host: ENV['WEBSITE_FULL_ADDRESS']),
+                       og:        {
+                                    type:  "#{ENV['WEBSITE_NAME']}:article",
+                                    url:   user.link_path(host: ENV['WEBSITE_FULL_ADDRESS']),
+                                    image: image_url('logos/favicon-192x192.png')
+                                  }.compact)
 
           if params[:complete] && (current_user&.id == user.id || current_user.admin?)
             User.track_views(user.id)

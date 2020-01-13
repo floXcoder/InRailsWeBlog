@@ -21,6 +21,10 @@ import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import {
+    userArticlePath
+} from '../../../../constants/routesHelper';
+
+import {
     spyTrackClick,
     spyTrackView
 } from '../../../../actions';
@@ -162,7 +166,7 @@ class ArticleGridDisplay extends React.PureComponent {
                                                 noWrap={true}
                                                 itemProp="name headline">
                                         <Link className={this.props.classes.gridTitleLink}
-                                              to={`/users/${this.props.article.user.slug}/articles/${this.props.article.slug}`}
+                                              to={userArticlePath(this.props.article.user.slug, this.props.article.slug)}
                                               itemProp="mainEntityOfPage url"
                                               onClick={spyTrackClick.bind(null, 'article', this.props.article.id, this.props.article.slug, this.props.article.title)}>
                                             {this.props.article.title}

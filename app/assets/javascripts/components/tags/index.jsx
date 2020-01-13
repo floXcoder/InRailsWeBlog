@@ -23,6 +23,13 @@ import EditIcon from '@material-ui/icons/Edit';
 import LabelIcon from '@material-ui/icons/Label';
 
 import {
+    tagsPath,
+    showTagPath,
+    editTagPath,
+    sortTagPath
+} from '../../constants/routesHelper';
+
+import {
     fetchTags,
     spyTrackClick
 } from '../../actions';
@@ -120,7 +127,7 @@ class TagIndex extends React.Component {
                     }}
                                 title={
                                     <Link className={this.props.classes.tagTitle}
-                                          to={`/tags/${tag.slug}`}
+                                          to={showTagPath(tag.slug)}
                                           onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.name)}>
                                         {tag.name}
                                     </Link>
@@ -148,14 +155,14 @@ class TagIndex extends React.Component {
                             <IconButton aria-label="Edit"
                                         component={Link}
                                         className={this.props.classes.tagButton}
-                                        to={`/tags/${tag.slug}/edit`}>
+                                        to={editTagPath(tag.slug)}>
                                 <EditIcon/>
                             </IconButton>
 
                             <IconButton aria-label="Show"
                                         component={Link}
                                         className={this.props.classes.tagButton}
-                                        to={`/tags/${tag.slug}`}
+                                        to={showTagPath(tag.slug)}
                                         onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.name)}>
                                 <LabelIcon/>
                             </IconButton>
@@ -195,7 +202,7 @@ class TagIndex extends React.Component {
                                     variant="outlined"
                                     size="small"
                                     component={Link}
-                                    to={`/tags/${this.props.currentUser.slug}/sort`}>
+                                    to={sortTagPath(this.props.currentUser.slug)}>
                                 {I18n.t('js.tag.index.sort')}
                             </Button>
                         </div>
@@ -264,7 +271,7 @@ class TagIndex extends React.Component {
                                         variant="outlined"
                                         size="small"
                                         component={Link}
-                                        to={`/tags/${this.props.currentUser.slug}`}>
+                                        to={showTagPath(this.props.currentUser.slug)}>
                                     {I18n.t('js.tag.index.links.user_tags')}
                                 </Button>
                             </div>
@@ -274,7 +281,7 @@ class TagIndex extends React.Component {
                                         variant="outlined"
                                         size="small"
                                         component={Link}
-                                        to={'/tags'}>
+                                        to={tagsPath()}>
                                     {I18n.t('js.tag.index.links.all_tags')}
                                 </Button>
                             </div>

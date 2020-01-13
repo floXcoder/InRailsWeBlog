@@ -9,6 +9,10 @@ import Chip from '@material-ui/core/Chip';
 import LabelIcon from '@material-ui/icons/Label';
 
 import {
+    taggedArticlesPath
+} from '../../../constants/routesHelper';
+
+import {
     spyTrackClick
 } from '../../../actions';
 
@@ -46,7 +50,7 @@ export default class SearchTagIndex extends React.PureComponent {
                               color="primary"
                               variant="outlined"
                               component={Link}
-                              to={`/tagged/${tag.slug}`}
+                              to={taggedArticlesPath(tag.slug)}
                               onClick={this._handleTagClick.bind(this, tag)}/>
                     ))
                 }

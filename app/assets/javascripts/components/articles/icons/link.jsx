@@ -7,13 +7,17 @@ import {
 import AssignmentIcon from '@material-ui/icons/AssignmentOutlined';
 
 import {
+    userArticlePath
+} from '../../../constants/routesHelper';
+
+import {
     spyTrackClick
 } from '../../../actions';
 
 const ArticleLinkIcon = ({userSlug, articleSlug, articleId, articleTitle, size, color}) => (
     <span className="tooltip-bottom"
           data-tooltip={I18n.t('js.article.tooltip.link_to')}>
-        <Link to={`/users/${userSlug}/articles/${articleSlug}`}
+        <Link to={userArticlePath(userSlug, articleSlug)}
               onClick={spyTrackClick.bind(null, 'article', articleId, articleSlug, articleTitle)}>
             <AssignmentIcon color={color}
                             fontSize={size}/>

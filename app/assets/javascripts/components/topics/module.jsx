@@ -13,6 +13,11 @@ import EditIcon from '@material-ui/icons/Edit';
 import CloseIcon from '@material-ui/icons/Close';
 
 import {
+    topicArticlesPath,
+    newTopicParam
+} from '../../constants/routesHelper';
+
+import {
     showTopicPopup,
     spyTrackClick
 } from '../../actions';
@@ -85,7 +90,7 @@ class TopicModule extends React.Component {
                              className={this.props.classes.list}
                              onMouseEnter={this._handleOverEdit.bind(this, topic.id)}
                              onMouseLeave={this._handleOverEdit.bind(this, null)}>
-                            <Link to={`/users/${this.props.userSlug}/topics/${topic.slug}`}
+                            <Link to={topicArticlesPath(this.props.userSlug, topic.slug)}
                                   onClick={this._handleSwitchTopicClick.bind(this, topic.id)}>
                                     <span className={this.props.classes.item}>
                                         <span className={classNames(
@@ -101,7 +106,7 @@ class TopicModule extends React.Component {
                                 this.state.overTopicId === topic.id &&
                                 <Link className={this.props.classes.edition}
                                       to={{
-                                          hash: '#new-topic',
+                                          hash: '#' + newTopicParam,
                                           state: {
                                               topicId: topic.id
                                           }
@@ -121,7 +126,7 @@ class TopicModule extends React.Component {
                              className={this.props.classes.list}
                              onMouseEnter={this._handleOverEdit.bind(this, topic.id)}
                              onMouseLeave={this._handleOverEdit.bind(this, null)}>
-                            <Link to={`/users/${this.props.userSlug}/topics/${topic.slug}`}
+                            <Link to={topicArticlesPath(this.props.userSlug, topic.slug)}
                                   onClick={this._handleSwitchTopicClick.bind(this, topic.id)}>
                                     <span className={this.props.classes.item}>
                                         <span className={classNames(
@@ -137,7 +142,7 @@ class TopicModule extends React.Component {
                                 this.state.overTopicId === topic.id &&
                                 <Link className={this.props.classes.edition}
                                       to={{
-                                          hash: '#new-topic',
+                                          hash: '#' + newTopicParam,
                                           state: {
                                               topicId: topic.id
                                           }
@@ -151,7 +156,7 @@ class TopicModule extends React.Component {
 
                 <div className={this.props.classes.addTopic}>
                     <Link to={{
-                        hash: '#new-topic'
+                        hash: '#' + newTopicParam
                     }}>
                         {I18n.t('js.views.header.topic.add')}
                     </Link>

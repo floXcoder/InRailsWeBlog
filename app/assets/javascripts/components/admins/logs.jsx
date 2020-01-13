@@ -108,7 +108,7 @@ class AdminLogs extends React.PureComponent {
             value: value
         };
 
-        if (element === 'search' && value.startsWith('date=')) {
+        if (element === 'search' && value && value.startsWith('date=')) {
             data = {
                 element: 'date',
                 value: value.split('date=')[1]
@@ -134,7 +134,7 @@ class AdminLogs extends React.PureComponent {
                         this._logParentNode.scrollTop = this._logNode.scrollHeight - previousScrollHeight - 44;
                     } else if (element === 'refresh') {
                         // do nothing
-                    } else if (element === 'date' || value.startsWith('date=')) {
+                    } else if (element === 'date' || (value && value.startsWith('date='))) {
                         this._scrollToTopLog();
                     } else {
                         this._scrollToBottomLog();

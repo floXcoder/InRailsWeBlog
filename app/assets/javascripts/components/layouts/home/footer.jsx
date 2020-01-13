@@ -46,7 +46,7 @@ class FooterLayoutHome extends React.Component {
                 {/*    <Grid item={true}*/}
                 {/*          md={6}>*/}
                 {/*        <h5>*/}
-                {/*            {I18n.t('js.views.footer.title')}*/}
+                {/*            {window.settings.website_name}
                 {/*        </h5>*/}
 
                 {/*        <p>*/}

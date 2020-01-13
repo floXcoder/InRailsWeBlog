@@ -60,8 +60,7 @@ export default class AdminBlogForm extends React.Component {
                   onSubmit={this._handlePersistBlog.bind(this, this.props.blog)}>
                 <div className="row margin-top-20 margin-bottom-20">
                     <div className="col s12 center-align">
-                        <TextField className="field-input"
-                                   variant="outlined"
+                        <TextField variant="outlined"
                                    margin="normal"
                                    name="blog[title]"
                                    label={I18n.t('js.admin.blogs.form.title')}

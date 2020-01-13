@@ -1,26 +1,13 @@
 fr:
-  head:
-    author: "InRailsWeBlog"
-    copyright: "InRailsWeBlog©"
+  seo:
+    default:
+      page_title: "Blog pour tout le monde"
+      meta_desc: "Blog pour tout le monde"
   views:
-    home:
-      title: "InRailsWeBlog"
-      description: "InRailsWeBlog blog"
     user:
       flash:
         successful_edition: "Profil mis à jour"
         error_edition: "Le profil n'est pas été mis à jour, merci de corriger les erreurs indiquées"
-      index:
-        title: "Tous les utilisateurs"
-        description: "Liste de tous les utilisateurs"
-      show:
-        title: "%{pseudo} sur InRailsWeBlog"
-        description: "Articles de l'utilisateur : %{pseudo}"
-      edit:
-        title: "Mise à jour de mes informations personnelles"
-      bookmarks:
-        title: "%{pseudo} : Mes favoris"
-        description: "%{pseudo} : Mes favoris"
     tag:
       flash:
         successful_creation: "Label ajouté"
@@ -31,18 +18,7 @@ fr:
         error_priority_update: "Problème lors du changement de priorité des labels"
         successful_deletion: "L'article a été supprimé"
         error_deletion: "Problème lors de la suppression de l'article : %{errors}"
-      index:
-        title:
-          default: "Liste des labels"
-          user: "Labels de l'utilisateur : %{user}"
-          topic: "Labels du thème : %{topic}"
-      show:
-        title: "Label : %{name}"
-      edit:
-        title: "Modification du Label : %{name}"
     topic:
-      show:
-        title: "%{name} : détails du thème"
       flash:
         successful_creation: "Thème ajouté"
         error_creation: "Le thème n'a pas été créé, merci de corriger les erreurs indiquées"
@@ -71,9 +47,6 @@ fr:
         successful_undeletion: "Article restauré"
       index:
         title:
-          default: "Liste des articles"
-          tagged: "Liste des articles pour %{tag}"
-          tagged_topic: "Liste des articles pour %{tag} dans %{topic}"
           topic: "Articles pour %{topic}"
       show:
         title: "%{title} - %{topic}"
@@ -97,9 +70,6 @@ fr:
         error_edition: "Problème lors de la mise à jour du commentaire"
         successful_deletion: "Commentaire supprimé"
         error_deletion: "Problème lors de la suppression du commentaire"
-    search:
-      index:
-        title: "Recherche : %{query}"
     share:
       success:
         link_message: "Partage de l'article créé"
@@ -128,18 +98,28 @@ fr:
         title: "Articles"
       blogs:
         title: "Notes"
+      seo:
+        title: "Gestion du SEO"
       logs:
         title: "Logs"
       cache:
         title: "Cache"
       blog:
         flash:
-          successful_creation: "Article ajouté"
-          error_creation: "L'article n'a pas été créé, merci de corriger les erreurs indiquées"
-          successful_edition: "Article mis à jour"
-          error_edition: "Problème lors de la mise à jour de l'article"
-          successful_deletion: "Article supprimé"
-          error_deletion: "Problème lors de la suppression de l'article"
+          successful_creation: "Blog ajouté"
+          error_creation: "Le blog n'a pas été créé, merci de corriger les erreurs indiquées"
+          successful_edition: "Blog mis à jour"
+          error_edition: "Problème lors de la mise à jour du blog"
+          successful_deletion: "Blog supprimé"
+          error_deletion: "Problème lors de la suppression du blog"
+      seo_data:
+        flash:
+          successful_creation: "Donnée SEO ajoutée"
+          error_creation: "Donnée SEO non créée, merci de corriger les erreurs indiquées"
+          successful_edition: "Donnée SEO mise à jour"
+          error_edition: "Problème lors de la mise à jour de la donnée SEO"
+          successful_deletion: "Donnée SEO supprimé"
+          error_deletion: "Problème lors de la suppression de la donnée SEO"
     errors:
       flash:
         successful_deletion: "L'erreur a bien été supprimée"
@@ -226,25 +206,6 @@ fr:
       title: "Admin"
   email:
     hello: "Bonjour"
-    contact:
-      message:
-        subject: "Nouvel avis !"
-        title: "Nouveau message de la part de %{name}"
-        content: "Contenu du message :"
-        footer: "InRailsWeBlog"
-      answer:
-        subject: "Merci pour votre avis !"
-        message: "Merci de nous avoir contacté. On vous tiens au courant pour la suite."
-        footer: "InRailsWeBlog"
-      flash:
-        email_sent: "Merci pour votre avis, il va permettre d'améliorer le site"
-        email_not_sent: "Le message n'a pas été envoyé, les champs ont-ils été remplis ?"
-    registration:
-      welcome:
-        subject: "Bienvenue sur InRailsWeBlog"
-        hello: "Hello,"
-        thanks: "Merci de vous être inscrit sur InRailsWeBlog.config."
-        bye: "Bonne visite sur notre site :)"
     confirmation:
       instruction: "Cliquer sur le lien ci-dessous pour confirmer l'email de votre compte"
     reset_password:

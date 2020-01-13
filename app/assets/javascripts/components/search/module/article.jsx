@@ -11,6 +11,10 @@ import Chip from '@material-ui/core/Chip';
 // import EditIcon from '@material-ui/icons/Edit';
 
 import {
+    userArticlePath
+} from '../../../constants/routesHelper';
+
+import {
     spyTrackClick
 } from '../../../actions';
 
@@ -65,7 +69,7 @@ export default class SearchArticleModule extends React.PureComponent {
                             [this.props.classes.articleSecondaryResult]: !primary,
                             [this.props.classes.articleHighlighted]: this.props.highlightedArticleId === article.id
                         })}
-                              to={`/users/${article.user.slug}/articles/${article.slug}`}
+                              to={userArticlePath(article.user.slug, article.slug)}
                               onClick={this._handleArticleClick.bind(this, article)}>
                             {article.title || article.slug}
                         </Link>
@@ -82,7 +86,7 @@ export default class SearchArticleModule extends React.PureComponent {
                     </Grid>
 
                     {/*<Grid item={true}>*/}
-                    {/*    <Link to={`/users/${article.user.slug}/articles/${article.slug}/edit`}>*/}
+                    {/*    <Link to={editArticlePath(article.user.slug, article.slug)}>*/}
                     {/*        <EditIcon className={this.props.classes.articleEdit}/>*/}
                     {/*    </Link>*/}
                     {/*</Grid>*/}

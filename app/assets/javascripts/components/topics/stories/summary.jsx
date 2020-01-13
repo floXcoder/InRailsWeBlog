@@ -11,6 +11,10 @@ import {
 import Typography from '@material-ui/core/Typography';
 
 import {
+    topicArticlesPath
+} from '../../../constants/routesHelper';
+
+import {
     spyTrackClick
 } from '../../../actions';
 
@@ -40,7 +44,7 @@ class SummaryStoriesTopic extends React.Component {
                     {
                         this.props.userSlug
                             ?
-                            <Link to={`/users/${this.props.userSlug}/topics/${this.props.topic.slug}`}
+                            <Link to={topicArticlesPath(this.props.userSlug, this.props.topic.slug)}
                                   onClick={this._handleTopicClick.bind(this, this.props.topic.id, this.props.topic.slug, this.props.topic.name)}>
                                 <Typography className={this.props.classes.topicTitle}
                                             variant="h4"
