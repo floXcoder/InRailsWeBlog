@@ -63,7 +63,7 @@ class ApplicationController < ActionController::Base
   def set_seo_data(named_route, parameters = {})
     seo_data = Seo::Data.find_by(
       #locale: params[:locale] || I18n.locale,
-      name: named_route
+      name: named_route.to_sym
     )
 
     if seo_data

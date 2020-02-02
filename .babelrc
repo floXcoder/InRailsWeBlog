@@ -28,12 +28,6 @@
       }
     ],
     [
-      "@babel/plugin-proposal-object-rest-spread",
-      {
-        "useBuiltIns": true
-      }
-    ],
-    [
       "@babel/plugin-proposal-class-properties",
       {
         "loose": true

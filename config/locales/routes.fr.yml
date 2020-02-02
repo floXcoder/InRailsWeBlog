@@ -1,0 +1,14 @@
+fr:
+  routes:
+    search: "recherche"
+    tags: "labels"
+    tagged: "labelise"
+    topics: "themes"
+    shared-topics: "themes-partage"
+    articles: "articles"
+    shared: "partage"
+    users: "utilisateurs"
+    signup: "connexion"
+    login: "inscription"
+    new: "nouveau"
+    edit: "edition"

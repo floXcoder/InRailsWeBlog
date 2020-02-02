@@ -1,19 +1,21 @@
 #dropdown-component
 
 javascript:
-    window.railsEnv = "#{Rails.env}";
+    window.railsEnv = '#{Rails.env}';
     window.settings = JSON.parse('#{raw InRailsWeBlog.config.to_h.to_json}');
 
     window.I18n = {};
-    window.defaultLocale = "#{I18n.default_locale}";
-    window.locale = "#{I18n.locale}";
+    window.defaultLocale = '#{I18n.default_locale}';
+    window.locale = '#{I18n.locale}';
+    window.locales = JSON.parse('#{raw I18n.available_locales.to_json}');
+    window.localizedRoutes = JSON.parse('#{raw localized_routes.to_json}');
     
     window.websiteUrl = "#{ENV['WEBSITE_FULL_ADDRESS']}";
     window.logoUrl = "#{AssetManifest.image_path('logos/favicon-192x192.png')}";
 
 - if Rails.env.production?
   javascript:
-      window.revision = "#{REVISION}";
+      // window.revision = "#{REVISION}";
 
       window.SENTRY_JAVASCRIPT_KEY = "#{ENV['SENTRY_JAVASCRIPT_KEY']}";
       

@@ -1,0 +1,14 @@
+en:
+  routes:
+    search: "search"
+    tags: "tag"
+    tagged: "tagged"
+    topics: "topic"
+    shared-topics: "shared-topic"
+    articles: "article"
+    shared: "shared"
+    users: "users"
+    signup: "signup"
+    login: "login"
+    new: "new"
+    edit: "edit"

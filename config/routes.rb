@@ -7,58 +7,60 @@ Rails.application.routes.draw do
   # Root path
   root 'pages#home'
 
-  ### Routes managed by javascript router (routes.jsx)
-  # Base routes
-  get '/', to: 'pages#home', as: :home, defaults: { name: 'home' }
+  localized do
+    ### Routes managed by javascript router (routes.jsx)
+    # Base routes
+    get '/', to: 'pages#home', as: :home, defaults: { name: 'home' }
 
-  authenticate :user do
-    get '/', to: 'pages#home', as: :user_home, defaults: { name: 'user_home' }
+    authenticate :user do
+      get '/', to: 'pages#home', as: :user_home, defaults: { name: 'user_home' }
+    end
+
+    # Search
+    get '/search(/:query)', to: 'pages#home', as: :search, defaults: { name: 'search' }
+
+    # Tags
+    get '/tags', to: 'pages#home', as: :tags, defaults: { name: 'tags' }
+    get '/users/:user_slug/topics/:topic_slug/tags', to: 'pages#home', as: :topic_tags, defaults: { name: 'topic_tags' }
+    get '/tags/:tag_slug', to: 'pages#home', as: :show_tag, defaults: { name: 'show_tag' }
+    get '/tags/:tag_slug/edit', to: 'pages#home', as: :edit_tag, defaults: { name: 'edit_tag' }
+    get '/tags/:tag_slug/sort', to: 'pages#home', as: :sort_tag, defaults: { name: 'sort_tag' }
+
+    # Topics
+    get '/users/:user_slug/topics', to: 'pages#home', as: :user_topics, defaults: { name: 'user_topics' }
+    get '/users/:user_slug/topics/:topic_slug/show', to: 'pages#home', as: :user_topic, defaults: { name: 'user_topic' }
+    get '/users/:user_slug/topics/:topic_slug/edit', to: 'pages#home', as: :edit_topic, defaults: { name: 'edit_topic' }
+    get '/users/:user_slug/topics/:topic_slug/edit-inventories', to: 'pages#home', as: :edit_inventories_topic, defaults: { name: 'edit_inventories_topic' }
+
+    # Articles
+    get '/users/:user_slug', to: 'pages#home', as: :user_articles, defaults: { name: 'user_articles' }
+    get '/users/:user_slug/topics/:topic_slug', to: 'pages#home', as: :topic_articles, defaults: { name: 'topic_articles' }
+    get '/users/:user_slug/topics/:topic_slug/tagged/:tag_slug(/:child_tag_slug)', to: 'pages#home', as: :tagged_topic_articles, defaults: { name: 'tagged_topic_articles' }
+    get '/tagged/:tag_slug(/:child_tag_slug)', to: 'pages#home', as: :tagged_articles, defaults: { name: 'tagged_articles' }
+    get '/users/:user_slug/topics/:topic_slug/order/:order', to: 'pages#home', as: :order_topic_articles, defaults: { name: 'order_topic_articles' }
+    get '/users/:user_slug/topics/:topic_slug/sort', to: 'pages#home', as: :sort_topic_articles, defaults: { name: 'sort_topic_articles' }
+    get '/users/:user_slug/articles/:article_slug', to: 'pages#home', as: :user_article, defaults: { name: 'user_article' }
+    get '/articles/shared/:article_slug/:public_link', to: 'pages#home', as: :shared_article, defaults: { name: 'shared_article' }
+    get '/users/:user_slug/topics/:topic_slug/article-new', to: 'pages#home', as: :new_article, defaults: { name: 'new_article' }
+    get '/users/:user_slug/articles/:article_slug/edit', to: 'pages#home', as: :edit_article, defaults: { name: 'edit_article' }
+    get '/users/:user_slug/articles/:article_slug/history', to: 'pages#home', as: :history_article, defaults: { name: 'history_article' }
+
+    # Users
+    get '/users', to: 'pages#home', as: :users, defaults: { name: 'users' }
+    get '/users/:user_slug/show', to: 'pages#home', as: :show_user, defaults: { name: 'show_user' }
+    get '/users/:user_slug/edit', to: 'pages#home', as: :edit_user, defaults: { name: 'edit_user' }
+    get '/users/password/new', to: 'pages#home', as: :new_password, defaults: { name: 'new_password' }
+    get '/users/password/edit', to: 'pages#home', as: :edit_password, defaults: { name: 'edit_password' }
+
+    # Other unnamed routes
+    get '/search/*path', to: 'pages#home'
+    get '/tags/*path', to: 'pages#home'
+    get '/tagged/*path', to: 'pages#home'
+    get '/articles/*path', to: 'pages#home'
+    get '/users/*path', to: 'pages#home'
+
+    get '/404', to: 'pages#home'
   end
-
-  # Search
-  get '/search(/:query)', to: 'pages#home', as: :search, defaults: { name: 'search' }
-
-  # Tags
-  get '/tags', to: 'pages#home', as: :tags, defaults: { name: 'tags' }
-  get '/users/:user_slug/topics/:topic_slug/tags', to: 'pages#home', as: :topic_tags, defaults: { name: 'topic_tags' }
-  get '/tags/:tag_slug', to: 'pages#home', as: :show_tag, defaults: { name: 'show_tag' }
-  get '/tags/:tag_slug/edit', to: 'pages#home', as: :edit_tag, defaults: { name: 'edit_tag' }
-  get '/tags/:tag_slug/sort', to: 'pages#home', as: :sort_tag, defaults: { name: 'sort_tag' }
-
-  # Topics
-  get '/users/:user_slug/topics', to: 'pages#home', as: :user_topics, defaults: { name: 'user_topics' }
-  get '/users/:user_slug/topics/:topic_slug/show', to: 'pages#home', as: :user_topic, defaults: { name: 'user_topic' }
-  get '/users/:user_slug/topics/:topic_slug/edit', to: 'pages#home', as: :edit_topic, defaults: { name: 'edit_topic' }
-  get '/users/:user_slug/topics/:topic_slug/edit-inventories', to: 'pages#home', as: :edit_inventories_topic, defaults: { name: 'edit_inventories_topic' }
-
-  # Articles
-  get '/users/:user_slug', to: 'pages#home', as: :user_articles, defaults: { name: 'user_articles' }
-  get '/users/:user_slug/topics/:topic_slug', to: 'pages#home', as: :topic_articles, defaults: { name: 'topic_articles' }
-  get '/users/:user_slug/topics/:topic_slug/tagged/:tag_slug(/:child_tag_slug)', to: 'pages#home', as: :tagged_topic_articles, defaults: { name: 'tagged_topic_articles' }
-  get '/tagged/:tag_slug(/:child_tag_slug)', to: 'pages#home', as: :tagged_articles, defaults: { name: 'tagged_articles' }
-  get '/users/:user_slug/topics/:topic_slug/order/:order', to: 'pages#home', as: :order_topic_articles, defaults: { name: 'order_topic_articles' }
-  get '/users/:user_slug/topics/:topic_slug/sort', to: 'pages#home', as: :sort_topic_articles, defaults: { name: 'sort_topic_articles' }
-  get '/users/:user_slug/articles/:article_slug', to: 'pages#home', as: :user_article, defaults: { name: 'user_article' }
-  get '/articles/shared/:article_slug/:public_link', to: 'pages#home', as: :shared_article, defaults: { name: 'shared_article' }
-  get '/users/:user_slug/topics/:topic_slug/article-new', to: 'pages#home', as: :new_article, defaults: { name: 'new_article' }
-  get '/users/:user_slug/articles/:article_slug/edit', to: 'pages#home', as: :edit_article, defaults: { name: 'edit_article' }
-  get '/users/:user_slug/articles/:article_slug/history', to: 'pages#home', as: :history_article, defaults: { name: 'history_article' }
-
-  # Users
-  get '/users', to: 'pages#home', as: :users, defaults: { name: 'users' }
-  get '/users/:user_slug/show', to: 'pages#home', as: :show_user, defaults: { name: 'show_user' }
-  get '/users/:user_slug/edit', to: 'pages#home', as: :edit_user, defaults: { name: 'edit_user' }
-  get '/users/password/new', to: 'pages#home', as: :new_password, defaults: { name: 'new_password' }
-  get '/users/password/edit', to: 'pages#home', as: :edit_password, defaults: { name: 'edit_password' }
-
-  # Other unnamed routes
-  get '/search/*path', to: 'pages#home'
-  get '/tags/*path', to: 'pages#home'
-  get '/tagged/*path', to: 'pages#home'
-  get '/articles/*path', to: 'pages#home'
-  get '/users/*path', to: 'pages#home'
-
-  get '/404', to: 'pages#home'
 
   # Concerns
   concern :tracker do |options|

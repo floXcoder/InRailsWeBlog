@@ -134,7 +134,7 @@ export function autocompleteReducer(state = autocompleteState, action) {
             return state;
 
         case ActionTypes.SEARCH_AUTOCOMPLETE_TAG_SELECTED:
-            state.selectedTags = action.tag ? addOrRemoveArray(state.selectedTags, action.tag) : [];
+            state.selectedTags = action.tag ? addOrRemoveIn(state.selectedTags, action.tag) : [];
             state.topics = [];
             state.tags = [];
             state.articles = [];

@@ -21,18 +21,18 @@ gem 'pg_query',                 '1.2.0'
 # HTTP Response
 gem 'responders',               '3.0.0'
 gem 'http_accept_language',     '2.1.1'
-gem 'secure_headers',           '6.1.2'
+gem 'secure_headers',           '6.3.0'
 
 # JSON
 gem 'active_model_serializers', '0.10.10'
-gem 'oj',                       '3.10.0'
+gem 'oj',                       '3.10.2'
 
 # Use slim instead of erb
 gem 'slim-rails',               '3.2.0'
 
 # Internationalization
 gem 'i18n-js',                  '3.5.1'
-gem 'geocoder',                 '1.6.0'
+gem 'geocoder',                 '1.6.1'
 gem 'maxminddb',                '0.1.22'
 
 # Model versioning
@@ -50,7 +50,7 @@ gem 'sanitize',                 '5.1.0'
 
 # Run asynschronous process
 gem 'sidekiq',                  '6.0.4'
-gem 'rack',                     '2.0.7' # Sidekiq not working with 2.0.8
+gem 'rack',                     '2.0.7' # Sidekiq not working with > 2.0.8
 
 gem 'sidekiq-statistic',        '1.4.0'
 gem 'sidekiq-cron',             '1.1.0'
@@ -76,7 +76,7 @@ gem 'carrierwave',              '2.0.2'
 gem 'mini_magick',              '4.10.1'
 
 # Search in database
-gem 'searchkick',               '4.2.0'
+gem 'searchkick',               '4.2.1'
 gem 'typhoeus',                 '1.3.1'
 
 # Votable models
@@ -89,16 +89,17 @@ gem 'acts_as_commentable_with_threading', '2.0.1'
 gem 'premailer-rails',          '1.10.3'
 
 # Detect browser and bots
-gem 'browser',                  '3.0.1'
+gem 'browser',                  '3.0.3'
 
 # SEO
 gem 'friendly_id',              '5.3.0'
+gem 'route_translator',         '7.1.1'
 gem 'meta-tags',                '2.13.0'
 gem 'sitemap_generator',        '6.1.0'
 
 # Dummy data
 gem 'factory_bot_rails',        '5.1.1',   require: false
-gem 'faker',                    '2.10.0',   require: false
+gem 'faker',                    '2.10.1',   require: false
 
 # Deployment
 gem 'capistrano',               '3.11.2'
@@ -155,13 +156,13 @@ group :test do
   gem 'rspec_junit_formatter',      '0.4.1'
   gem 'shoulda-matchers',           '4.2.0',  require: false
   gem 'shoulda-callback-matchers',  '1.1.4',  require: false
-  gem 'simplecov',                  '0.17.1', require: false
+  gem 'simplecov',                  '0.18.1', require: false
   gem 'fuubar',                     '2.5.0'
-  gem 'database_cleaner',           '1.7.0'
+  gem 'database_cleaner',           '1.8.1'
   gem 'db-query-matchers',          '0.10.0'
 
   # Browser tests
-  gem 'capybara',                   '3.30.0'
+  gem 'capybara',                   '3.31.0'
   gem 'capybara-email',             '3.0.1'
   gem 'capybara-screenshot',        '1.0.24'
   gem 'selenium-webdriver',         '3.142.7'
@@ -171,7 +172,7 @@ group :test do
   # static analyzer
   gem 'rails_best_practices',       '1.19.5',   require: false
   gem 'brakeman',                   '4.7.2',    require: false
-  gem 'i18n-tasks',                 '0.9.29',   require: false
+  gem 'i18n-tasks',                 '0.9.30',   require: false
 end
 
 group :development, :test do
@@ -180,7 +181,7 @@ group :development, :test do
 
   # Check errors
   gem 'rubocop',                    '0.79.0',  require: false
-  gem 'rubocop-rails',              '2.4.1',   require: false
+  gem 'rubocop-rails',              '2.4.2',   require: false
   gem 'rubocop-performance',        '1.5.2',   require: false
   gem 'rubocop-rspec',              '1.37.1',  require: false
 end

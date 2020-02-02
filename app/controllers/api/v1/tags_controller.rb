@@ -49,9 +49,10 @@ module Api::V1
 
       respond_to do |format|
         if filter_params[:topic_slug].present?
+          topic = Topic.friendly.find(filter_params[:topic_slug])
           set_seo_data(:topic_tags,
-                       topic_slug: Topic.friendly.find(filter_params[:topic_slug]).name,
-                       user_slug:  User.find_by(slug: filter_params[:user_slug]).pseudo)
+                       topic_slug: topic.name,
+                       user_slug:  topic.user.pseudo)
         elsif filter_params[:user_id].blank?
           set_seo_data(:tags)
         end

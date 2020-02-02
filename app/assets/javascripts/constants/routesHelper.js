@@ -1,48 +1,53 @@
 'use strict';
 
+// Build routes from translated routes in locales/routes.*.yml
+const buildRoute = (locale, path) => [window.localizedRoutes[locale].locale].concat(path.substr(1).split('/').map((p) => window.localizedRoutes[locale][p] || p)).join('/');
+const buildRoutes = (path) => window.locales.map((l) => [window.localizedRoutes[l].locale].concat(path.substr(1).split('/').map((p) => p.includes('|') ? '(' + p.substr(1).slice(0, -1).split('|').map((s) => window.localizedRoutes[l][s] || s).join('|') + ')' : window.localizedRoutes[l][p] || p)).join('/'));
+const routeBuilder = (path, locale) => locale ? buildRoute(locale, path) : buildRoutes(path);
+
 // Common routes
-export const rootPath = () => '/';
+export const rootPath = (locale = window.locale) => '/';
 
 // Search routes
-export const searchPath = () => '/search';
+export const searchPath = (locale = window.locale) => routeBuilder('/search', locale);
 
 // Tags routes
-export const tagsPath = () => `/tags`;
+export const tagsPath = (locale = window.locale) => routeBuilder('/tags', locale);
 
-export const topicTagsPath = (userSlug, topicSlug) => `/users/${userSlug}/topics/${topicSlug}/tags`;
+export const topicTagsPath = (userSlug, topicSlug, locale = window.locale) => routeBuilder(`/users/${userSlug}/topics/${topicSlug}/tags`, locale);
 
-export const showTagPath = (tagSlug) => `/tags/${tagSlug}`;
-export const editTagPath = (tagSlug) => `/tags/${tagSlug}/edit`;
-export const sortTagPath = (tagSlug) => `/tags/${tagSlug}/sort`;
+export const showTagPath = (tagSlug, locale = window.locale) => routeBuilder(`/tags/${tagSlug}`, locale);
+export const editTagPath = (tagSlug, locale = window.locale) => routeBuilder(`/tags/${tagSlug}/edit`, locale);
+export const sortTagPath = (tagSlug, locale = window.locale) => routeBuilder(`/tags/${tagSlug}/sort`, locale);
 
 // Topic routes
-export const userTopicsPath = (userSlug) => `/users/${userSlug}/topics`;
-export const userTopicPath = (userSlug, topicSlug) => `/users/${userSlug}/topics/${topicSlug}/show`;
-export const editTopicPath = (userSlug, topicSlug) => `/users/${userSlug}/topics/${topicSlug}/edit`;
-export const editInventoriesTopicPath = (userSlug, topicSlug) => `/users/${userSlug}/topics/${topicSlug}/edit-inventories`;
+export const userTopicsPath = (userSlug, locale = window.locale) => routeBuilder(`/users/${userSlug}/topics`, locale);
+export const userTopicPath = (userSlug, topicSlug, locale = window.locale) => routeBuilder(`/users/${userSlug}/topics/${topicSlug}/show`, locale);
+export const editTopicPath = (userSlug, topicSlug, locale = window.locale) => routeBuilder(`/users/${userSlug}/topics/${topicSlug}/edit`, locale);
+export const editInventoriesTopicPath = (userSlug, topicSlug, locale = window.locale) => routeBuilder(`/users/${userSlug}/topics/${topicSlug}/edit-inventories`, locale);
 
 // Articles routes
-export const topicArticlesPath = (userSlug, topicSlug, topicType = 'topics') => `/users/${userSlug}/${topicType}/${topicSlug}`;
-export const taggedTopicArticlesPath = (userSlug, topicSlug, tagSlug, childTagSlug, topicType = 'topics') => childTagSlug ? `/users/${userSlug}/${topicType}/${topicSlug}/tagged/${tagSlug}` : `/users/${userSlug}/${topicType}/${topicSlug}/tagged/${tagSlug}/${childTagSlug}`;
-export const taggedArticlesPath = (tagSlug, childTagSlug) => childTagSlug ? `/tagged/${tagSlug}/${childTagSlug}` : `/tagged/${tagSlug}`;
-export const userArticlesPath = (userSlug) => `/users/${userSlug}`;
+export const topicArticlesPath = (userSlug, topicSlug, topicType = 'topics', locale = window.locale) => routeBuilder(`/users/${userSlug}/${topicType}/${topicSlug}`, locale);
+export const taggedTopicArticlesPath = (userSlug, topicSlug, tagSlug, childTagSlug, topicType = 'topics', locale = window.locale) => childTagSlug ? routeBuilder(`/users/${userSlug}/${topicType}/${topicSlug}/tagged/${tagSlug}/${childTagSlug}`, locale) : routeBuilder(`/users/${userSlug}/${topicType}/${topicSlug}/tagged/${tagSlug}`, locale);
+export const taggedArticlesPath = (tagSlug, childTagSlug, locale = window.locale) => childTagSlug ? routeBuilder(`/tagged/${tagSlug}/${childTagSlug}`, locale) : routeBuilder(`/tagged/${tagSlug}`, locale);
+export const userArticlesPath = (userSlug, locale = window.locale) => routeBuilder(`/users/${userSlug}`, locale);
 
-export const orderTopicArticlesPath = (userSlug, topicSlug, order, topicType = 'topics') => `/users/${userSlug}/${topicType}/${topicSlug}/order/${order}`;
-export const sortTopicArticlesPath = (userSlug, topicSlug) => `/users/${userSlug}/topics/${topicSlug}/sort`;
+export const orderTopicArticlesPath = (userSlug, topicSlug, order, topicType = 'topics', locale = window.locale) => routeBuilder(`/users/${userSlug}/${topicType}/${topicSlug}/order/${order}`, locale);
+export const sortTopicArticlesPath = (userSlug, topicSlug, locale = window.locale) => routeBuilder(`/users/${userSlug}/topics/${topicSlug}/sort`, locale);
 
-export const userArticlePath = (userSlug, articleSlug) => `/users/${userSlug}/articles/${articleSlug}`;
-export const sharedArticlePath = (articleSlug, publicLink) => `/articles/shared/${articleSlug}/${publicLink}`;
+export const userArticlePath = (userSlug, articleSlug, locale = window.locale) => routeBuilder(`/users/${userSlug}/articles/${articleSlug}`, locale);
+export const sharedArticlePath = (articleSlug, publicLink, locale = window.locale) => routeBuilder(`/articles/shared/${articleSlug}/${publicLink}`, locale);
 
-export const newArticlePath = (userSlug, topicSlug, topicType = 'topics') => `/users/${userSlug}/${topicType}/${topicSlug}/article-new`;
-export const newArticleRedirectPath = () => '/articles/article-new';
-export const editArticlePath = (userSlug, articleSlug) => `/users/${userSlug}/articles/${articleSlug}/edit`;
-export const historyArticlePath = (userSlug, articleSlug) => `/users/${userSlug}/articles/${articleSlug}/history`;
+export const newArticlePath = (userSlug, topicSlug, topicType = 'topics', locale = window.locale) => routeBuilder(`/users/${userSlug}/${topicType}/${topicSlug}/article-new`, locale);
+export const newArticleRedirectPath = (locale = window.locale) => routeBuilder('/articles/article-new', locale);
+export const editArticlePath = (userSlug, articleSlug, locale = window.locale) => routeBuilder(`/users/${userSlug}/articles/${articleSlug}/edit`, locale);
+export const historyArticlePath = (userSlug, articleSlug, locale = window.locale) => routeBuilder(`/users/${userSlug}/articles/${articleSlug}/history`, locale);
 
 // Users routes
-// export const userPath = (userSlug) => `/users/${userSlug}/show`;
-// export const userEditPath = (userSlug) => `/users/${userSlug}/edit`;
-export const newPasswordPath = () => '/users/password/new';
-export const editPasswordPath = () => '/users/password/edit';
+// export const userPath = (userSlug) => routeBuilder(`/users/${userSlug}/show`, locale);
+// export const userEditPath = (userSlug) => routeBuilder(`/users/${userSlug}/edit`, locale);
+export const newPasswordPath = (locale = window.locale) => routeBuilder('/users/password/new', locale);
+export const editPasswordPath = (locale = window.locale) => routeBuilder('/users/password/edit', locale);
 
 // URL hash params
 export const searchParam = 'search';

@@ -96,7 +96,7 @@ module Searches
       begin
         searches = Searchkick.multi_search([article_search&.perform&.result, tag_search&.perform&.result].compact)
 
-        searches.map do |search|
+        searches&.map do |search|
           case search.model_name.human
           when 'Article'
             article_results = article_search&.parsed_search(search.execute)
@@ -133,7 +133,11 @@ module Searches
           search_results[:selectedTags] = Tag.as_flat_json(Tag.where(slug: @params[:tags]), strict: true)
         end
 
-        success(search_results)
+        if searches
+          success(search_results)
+        else
+          error(I18n.t('search.errors.search'))
+        end
       rescue StandardError => error
         error(I18n.t('search.errors.search'), error)
       end

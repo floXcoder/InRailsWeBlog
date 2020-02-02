@@ -1,192 +1,260 @@
 do /home/flo/Projects/InRailsWeBlog/bin/bundle exec /home/flo/.rvm/rubies/ruby-2.6.3/bin/ruby /home/flo/Projects/InRailsWeBlog/bin/rake routes --trace
-Ruby enVironment Manager 1.29.9 (latest) (c) 2009-2017 Michal Papis, Piotr Kuczynski, Wayne E. Seguin
+Ruby enVironment Manager 1.29.8 (latest) (c) 2009-2017 Michal Papis, Piotr Kuczynski, Wayne E. Seguin
 
-                              Prefix Verb     URI Pattern                                                                       Controller#Action
-                                root GET      /                                                                                 pages#home
-                                home GET      /                                                                                 pages#home {:name=>"home"}
-                           user_home GET      /                                                                                 pages#home {:name=>"user_home"}
-                              search GET      /search(/:query)(.:format)                                                        pages#home {:name=>"search"}
-                                tags GET      /tags(.:format)                                                                   pages#home {:name=>"tags"}
-                          topic_tags GET      /users/:user_slug/topics/:topic_slug/tags(.:format)                               pages#home {:name=>"topic_tags"}
-                            show_tag GET      /tags/:tag_slug(.:format)                                                         pages#home {:name=>"show_tag"}
-                            edit_tag GET      /tags/:tag_slug/edit(.:format)                                                    pages#home {:name=>"edit_tag"}
-                            sort_tag GET      /tags/:tag_slug/sort(.:format)                                                    pages#home {:name=>"sort_tag"}
-                         user_topics GET      /users/:user_slug/topics(.:format)                                                pages#home {:name=>"user_topics"}
-                          user_topic GET      /users/:user_slug/topics/:topic_slug/show(.:format)                               pages#home {:name=>"user_topic"}
-                          edit_topic GET      /users/:user_slug/topics/:topic_slug/edit(.:format)                               pages#home {:name=>"edit_topic"}
-              edit_inventories_topic GET      /users/:user_slug/topics/:topic_slug/edit-inventories(.:format)                   pages#home {:name=>"edit_inventories_topic"}
-                       user_articles GET      /users/:user_slug(.:format)                                                       pages#home {:name=>"user_articles"}
-                      topic_articles GET      /users/:user_slug/topics/:topic_slug(.:format)                                    pages#home {:name=>"topic_articles"}
-               tagged_topic_articles GET      /users/:user_slug/topics/:topic_slug/tagged/:tag_slug(/:child_tag_slug)(.:format) pages#home {:name=>"tagged_topic_articles"}
-                     tagged_articles GET      /tagged/:tag_slug(/:child_tag_slug)(.:format)                                     pages#home {:name=>"tagged_articles"}
-                order_topic_articles GET      /users/:user_slug/topics/:topic_slug/order/:order(.:format)                       pages#home {:name=>"order_topic_articles"}
-                 sort_topic_articles GET      /users/:user_slug/topics/:topic_slug/sort(.:format)                               pages#home {:name=>"sort_topic_articles"}
-                        user_article GET      /users/:user_slug/articles/:article_slug(.:format)                                pages#home {:name=>"user_article"}
-                      shared_article GET      /articles/shared/:article_slug/:public_link(.:format)                             pages#home {:name=>"shared_article"}
-                         new_article GET      /users/:user_slug/topics/:topic_slug/article-new(.:format)                        pages#home {:name=>"new_article"}
-                        edit_article GET      /users/:user_slug/articles/:article_slug/edit(.:format)                           pages#home {:name=>"edit_article"}
-                     history_article GET      /users/:user_slug/articles/:article_slug/history(.:format)                        pages#home {:name=>"history_article"}
-                               users GET      /users(.:format)                                                                  pages#home {:name=>"users"}
-                           show_user GET      /users/:user_slug/show(.:format)                                                  pages#home {:name=>"show_user"}
-                           edit_user GET      /users/:user_slug/edit(.:format)                                                  pages#home {:name=>"edit_user"}
-                        new_password GET      /users/password/new(.:format)                                                     pages#home {:name=>"new_password"}
-                       edit_password GET      /users/password/edit(.:format)                                                    pages#home {:name=>"edit_password"}
-                                     GET      /search/*path(.:format)                                                           pages#home
-                                     GET      /tags/*path(.:format)                                                             pages#home
-                                     GET      /tagged/*path(.:format)                                                           pages#home
-                                     GET      /articles/*path(.:format)                                                         pages#home
-                                     GET      /users/*path(.:format)                                                            pages#home
-                                     GET      /404(.:format)                                                                    pages#home
-                              signup GET      /api/v1/signup(.:format)                                                          api/v1/users/registrations#new
-                                     POST     /api/v1/signup(.:format)                                                          api/v1/users/registrations#create
-                               login GET      /api/v1/login(.:format)                                                           api/v1/users/sessions#new
-                                     POST     /api/v1/login(.:format)                                                           api/v1/users/sessions#create
-                              logout DELETE   /api/v1/logout(.:format)                                                          api/v1/users/sessions#destroy
-                    new_user_session GET      /api/v1/users/sign_in(.:format)                                                   api/v1/users/sessions#new
-                        user_session POST     /api/v1/users/sign_in(.:format)                                                   api/v1/users/sessions#create
-                destroy_user_session DELETE   /api/v1/users/sign_out(.:format)                                                  api/v1/users/sessions#destroy
-                   new_user_password GET      /api/v1/users/password/new(.:format)                                              api/v1/users/passwords#new
-                  edit_user_password GET      /api/v1/users/password/edit(.:format)                                             api/v1/users/passwords#edit
-                       user_password PATCH    /api/v1/users/password(.:format)                                                  api/v1/users/passwords#update
-                                     PUT      /api/v1/users/password(.:format)                                                  api/v1/users/passwords#update
-                                     POST     /api/v1/users/password(.:format)                                                  api/v1/users/passwords#create
-            cancel_user_registration GET      /api/v1/users/cancel(.:format)                                                    api/v1/users/registrations#cancel
-               new_user_registration GET      /api/v1/users/sign_up(.:format)                                                   api/v1/users/registrations#new
-              edit_user_registration GET      /api/v1/users/edit(.:format)                                                      api/v1/users/registrations#edit
-                   user_registration PATCH    /api/v1/users(.:format)                                                           api/v1/users/registrations#update
-                                     PUT      /api/v1/users(.:format)                                                           api/v1/users/registrations#update
-                                     DELETE   /api/v1/users(.:format)                                                           api/v1/users/registrations#destroy
-                                     POST     /api/v1/users(.:format)                                                           api/v1/users/registrations#create
-               new_user_confirmation GET      /api/v1/users/confirmation/new(.:format)                                          api/v1/users/confirmations#new
-                   user_confirmation GET      /api/v1/users/confirmation(.:format)                                              api/v1/users/confirmations#show
-                                     POST     /api/v1/users/confirmation(.:format)                                              api/v1/users/confirmations#create
-                     new_user_unlock GET      /api/v1/users/unlock/new(.:format)                                                api/v1/users/unlocks#new
-                         user_unlock GET      /api/v1/users/unlock(.:format)                                                    api/v1/users/unlocks#show
-                                     POST     /api/v1/users/unlock(.:format)                                                    api/v1/users/unlocks#create
-                    validation_users GET      /api/v1/users/validation(.:format)                                                api/v1/users#validation
-                                user GET      /api/v1/users/:id(.:format)                                                       api/v1/users#show
-                       comments_user GET      /api/v1/users/:id/comments(.:format)                                              api/v1/users#comments
-                        recents_user GET      /api/v1/users/:id/recents(.:format)                                               api/v1/users#recents
-                                     POST     /api/v1/users/:id/recents(.:format)                                               api/v1/users#update_recents
-                     activities_user GET      /api/v1/users/:id/activities(.:format)                                            api/v1/users#activities
-                        clicked_user POST     /api/v1/users/:id/clicked(.:format)                                               api/v1/users#clicked
-                         viewed_user POST     /api/v1/users/:id/viewed(.:format)                                                api/v1/users#viewed
-                      user_bookmarks GET      /api/v1/users/:user_id/bookmarks(.:format)                                        api/v1/users/bookmarks#index
-                                     POST     /api/v1/users/:user_id/bookmarks(.:format)                                        api/v1/users/bookmarks#create
-                       user_bookmark DELETE   /api/v1/users/:user_id/bookmarks/:id(.:format)                                    api/v1/users/bookmarks#destroy
-                       user_settings POST     /api/v1/users/:user_id/settings(.:format)                                         api/v1/users/settings#update
-                                     GET      /api/v1/users/:user_id/settings(.:format)                                         api/v1/users/settings#index
-                                     GET      /api/v1/users(.:format)                                                           api/v1/users#index
-                                     GET      /api/v1/users/:id(.:format)                                                       api/v1/users#show
-                                     PATCH    /api/v1/users/:id(.:format)                                                       api/v1/users#update
-                                     PUT      /api/v1/users/:id(.:format)                                                       api/v1/users#update
-                          activities GET      /api/v1/activities(.:format)                                                      api/v1/activities#index
-                       priority_tags PUT      /api/v1/tags/priority(.:format)                                                   api/v1/tags#update_priority
-                         clicked_tag POST     /api/v1/tags/:id/clicked(.:format)                                                api/v1/tags#clicked
-                          viewed_tag POST     /api/v1/tags/:id/viewed(.:format)                                                 api/v1/tags#viewed
-                        comments_tag GET      /api/v1/tags/:id/comments(.:format)                                               api/v1/tags#comments
-                                     POST     /api/v1/tags/:id/comments(.:format)                                               api/v1/tags#add_comment
-                                     PUT      /api/v1/tags/:id/comments(.:format)                                               api/v1/tags#update_comment
-                                     DELETE   /api/v1/tags/:id/comments(.:format)                                               api/v1/tags#remove_comment
-                                     GET      /api/v1/tags(.:format)                                                            api/v1/tags#index
-                                     GET      /api/v1/tags/:id/edit(.:format)                                                   api/v1/tags#edit
-                                 tag GET      /api/v1/tags/:id(.:format)                                                        api/v1/tags#show
-                                     PATCH    /api/v1/tags/:id(.:format)                                                        api/v1/tags#update
-                                     PUT      /api/v1/tags/:id(.:format)                                                        api/v1/tags#update
-                                     DELETE   /api/v1/tags/:id(.:format)                                                        api/v1/tags#destroy
-                       switch_topics GET      /api/v1/topics/switch(.:format)                                                   api/v1/topics#switch
-                     priority_topics PUT      /api/v1/topics/priority(.:format)                                                 api/v1/topics#update_priority
-                       clicked_topic POST     /api/v1/topics/:id/clicked(.:format)                                              api/v1/topics#clicked
-                        viewed_topic POST     /api/v1/topics/:id/viewed(.:format)                                               api/v1/topics#viewed
-              topic_inventory_fields POST     /api/v1/topics/:topic_id/inventory_fields(.:format)                               api/v1/topics/inventory_fields#create
-                              topics GET      /api/v1/topics(.:format)                                                          api/v1/topics#index
-                                     POST     /api/v1/topics(.:format)                                                          api/v1/topics#create
-                               topic GET      /api/v1/topics/:id(.:format)                                                      api/v1/topics#show
-                                     PATCH    /api/v1/topics/:id(.:format)                                                      api/v1/topics#update
-                                     PUT      /api/v1/topics/:id(.:format)                                                      api/v1/topics#update
-                                     DELETE   /api/v1/topics/:id(.:format)                                                      api/v1/topics#destroy
-                   priority_articles PUT      /api/v1/articles/priority(.:format)                                               api/v1/articles#update_priority
-                                     GET      /api/v1/articles/:id/shared/:public_link(.:format)                                api/v1/articles#shared
-                     stories_article GET      /api/v1/articles/:id/stories(.:format)                                            api/v1/articles#stories
-                                     GET      /api/v1/articles/:id/history(.:format)                                            api/v1/articles#history
-                     restore_article GET      /api/v1/articles/:id/restore(.:format)                                            api/v1/articles#restore
-                     clicked_article POST     /api/v1/articles/:id/clicked(.:format)                                            api/v1/articles#clicked
-                      viewed_article POST     /api/v1/articles/:id/viewed(.:format)                                             api/v1/articles#viewed
-                    comments_article GET      /api/v1/articles/:id/comments(.:format)                                           api/v1/articles#comments
-                                     POST     /api/v1/articles/:id/comments(.:format)                                           api/v1/articles#add_comment
-                                     PUT      /api/v1/articles/:id/comments(.:format)                                           api/v1/articles#update_comment
-                                     DELETE   /api/v1/articles/:id/comments(.:format)                                           api/v1/articles#remove_comment
-                    article_outdated DELETE   /api/v1/articles/:article_id/outdated(.:format)                                   api/v1/articles/outdated#destroy
-                                     POST     /api/v1/articles/:article_id/outdated(.:format)                                   api/v1/articles/outdated#create
-                       article_votes DELETE   /api/v1/articles/:article_id/votes(.:format)                                      api/v1/articles/votes#destroy
-                                     POST     /api/v1/articles/:article_id/votes(.:format)                                      api/v1/articles/votes#create
-                            articles GET      /api/v1/articles(.:format)                                                        api/v1/articles#index
-                                     POST     /api/v1/articles(.:format)                                                        api/v1/articles#create
-                                     GET      /api/v1/articles/:id/edit(.:format)                                               api/v1/articles#edit
-                             article GET      /api/v1/articles/:id(.:format)                                                    api/v1/articles#show
-                                     PATCH    /api/v1/articles/:id(.:format)                                                    api/v1/articles#update
-                                     PUT      /api/v1/articles/:id(.:format)                                                    api/v1/articles#update
-                                     DELETE   /api/v1/articles/:id(.:format)                                                    api/v1/articles#destroy
-                        topic_shares POST     /api/v1/shares/topic(.:format)                                                    api/v1/shares#topic
-                      article_shares POST     /api/v1/shares/article(.:format)                                                  api/v1/shares#article
-                              shares GET      /api/v1/shares(.:format)                                                          api/v1/shares#index
-           autocomplete_search_index GET      /api/v1/search/autocomplete(.:format)                                             api/v1/search#autocomplete
-                   meta_search_index POST     /api/v1/search/meta(.:format)                                                     api/v1/search#meta
-                        search_index GET      /api/v1/search(.:format)                                                          api/v1/search#index
-                            comments GET      /api/v1/comments(.:format)                                                        api/v1/comments#index
-                             uploads POST     /api/v1/uploads(.:format)                                                         api/v1/uploads#create
-                              upload PATCH    /api/v1/uploads/:id(.:format)                                                     api/v1/uploads#update
-                                     PUT      /api/v1/uploads/:id(.:format)                                                     api/v1/uploads#update
-                                     DELETE   /api/v1/uploads/:id(.:format)                                                     api/v1/uploads#destroy
-                         login_admin GET      /admins/login(.:format)                                                           admins/sessions#new
-                        admins_login POST     /admins/login(.:format)                                                           admins/sessions#create
-                        logout_admin DELETE   /admins/logout(.:format)                                                          admins/sessions#destroy
-                   new_admin_session GET      /admins/sign_in(.:format)                                                         admins/sessions#new
-                       admin_session POST     /admins/sign_in(.:format)                                                         admins/sessions#create
-               destroy_admin_session DELETE   /admins/sign_out(.:format)                                                        admins/sessions#destroy
-                  new_admin_password GET      /admins/password/new(.:format)                                                    devise/passwords#new
-                 edit_admin_password GET      /admins/password/edit(.:format)                                                   devise/passwords#edit
-                      admin_password PATCH    /admins/password(.:format)                                                        devise/passwords#update
-                                     PUT      /admins/password(.:format)                                                        devise/passwords#update
-                                     POST     /admins/password(.:format)                                                        devise/passwords#create
-           cancel_admin_registration GET      /admins/cancel(.:format)                                                          devise/registrations#cancel
-              new_admin_registration GET      /admins/sign_up(.:format)                                                         devise/registrations#new
-             edit_admin_registration GET      /admins/edit(.:format)                                                            devise/registrations#edit
-                  admin_registration PATCH    /admins(.:format)                                                                 devise/registrations#update
-                                     PUT      /admins(.:format)                                                                 devise/registrations#update
-                                     DELETE   /admins(.:format)                                                                 devise/registrations#destroy
-                                     POST     /admins(.:format)                                                                 devise/registrations#create
-                    new_admin_unlock GET      /admins/unlock/new(.:format)                                                      devise/unlocks#new
-                        admin_unlock GET      /admins/unlock(.:format)                                                          devise/unlocks#show
-                                     POST     /admins/unlock(.:format)                                                          devise/unlocks#create
-                         sidekiq_web          /admins/sidekiq                                                                   Sidekiq::Web
-                             pg_hero          /admins/postgres                                                                  PgHero::Engine
-                        users_admins GET      /admins/users(.:format)                                                           admins#users
-                     comments_admins GET      /admins/comments(.:format)                                                        admins#comments
-                       topics_admins GET      /admins/topics(.:format)                                                          admins#topics
-                         tags_admins GET      /admins/tags(.:format)                                                            admins#tags
-                     articles_admins GET      /admins/articles(.:format)                                                        admins#articles
-                              admins GET      /admins(.:format)                                                                 admins#index
-                        admins_blogs GET      /admins/blogs(.:format)                                                           admins/blogs#index
-                                     POST     /admins/blogs(.:format)                                                           admins/blogs#create
-                         admins_blog GET      /admins/blogs/:id(.:format)                                                       admins/blogs#show
-                                     PATCH    /admins/blogs/:id(.:format)                                                       admins/blogs#update
-                                     PUT      /admins/blogs/:id(.:format)                                                       admins/blogs#update
-                                     DELETE   /admins/blogs/:id(.:format)                                                       admins/blogs#destroy
-retrieve_parameters_admins_seo_index POST     /admins/seo/retrieve_parameters(.:format)                                         admins/seo#retrieve_parameters
-                    admins_seo_index GET      /admins/seo(.:format)                                                             admins/seo#index
-                                     POST     /admins/seo(.:format)                                                             admins/seo#create
-                          admins_seo GET      /admins/seo/:id(.:format)                                                         admins/seo#show
-                                     PATCH    /admins/seo/:id(.:format)                                                         admins/seo#update
-                                     PUT      /admins/seo/:id(.:format)                                                         admins/seo#update
-                                     DELETE   /admins/seo/:id(.:format)                                                         admins/seo#destroy
-                  stream_admins_logs POST     /admins/logs/stream(.:format)                                                     admins/logs#stream
-                         admins_logs GET      /admins/logs(.:format)                                                            admins/logs#index
-           flush_cache_admins_caches POST     /admins/caches/flush_cache(.:format)                                              admins/caches#flush_cache
-                       admins_caches GET      /admins/caches(.:format)                                                          admins/caches#index
-                                     GET      /robots.:format                                                                   pages#robots
-                                              /*path(.:format)                                                                  redirect(301, /404)
-                                     GET|POST /health_check(/:checks)(.:format)                                                 health_check/health_check#index {:format=>"txt"}
+                              Prefix Verb     URI Pattern                                                                                   Controller#Action
+                                root GET      /                                                                                             pages#home
+                             home_en GET      /en                                                                                           pages#home {:name=>"home", :locale=>"en"}
+                             home_fr GET      /fr                                                                                           pages#home {:name=>"home", :locale=>"fr"}
+                                     GET      /                                                                                             pages#home {:name=>"home"}
+                        user_home_en GET      /en                                                                                           pages#home {:name=>"user_home", :locale=>"en"}
+                        user_home_fr GET      /fr                                                                                           pages#home {:name=>"user_home", :locale=>"fr"}
+                                     GET      /                                                                                             pages#home {:name=>"user_home"}
+                           search_en GET      /en/search(/:query)(.:format)                                                                 pages#home {:name=>"search", :locale=>"en"}
+                           search_fr GET      /fr/recherche(/:query)(.:format)                                                              pages#home {:name=>"search", :locale=>"fr"}
+                                     GET      /search(/:query)(.:format)                                                                    pages#home {:name=>"search"}
+                             tags_en GET      /en/tag(.:format)                                                                             pages#home {:name=>"tags", :locale=>"en"}
+                             tags_fr GET      /fr/labels(.:format)                                                                          pages#home {:name=>"tags", :locale=>"fr"}
+                                     GET      /tags(.:format)                                                                               pages#home {:name=>"tags"}
+                       topic_tags_en GET      /en/users/:user_slug/topic/:topic_slug/tag(.:format)                                          pages#home {:name=>"topic_tags", :locale=>"en"}
+                       topic_tags_fr GET      /fr/utilisateurs/:user_slug/themes/:topic_slug/labels(.:format)                               pages#home {:name=>"topic_tags", :locale=>"fr"}
+                                     GET      /users/:user_slug/topics/:topic_slug/tags(.:format)                                           pages#home {:name=>"topic_tags"}
+                         show_tag_en GET      /en/tag/:tag_slug(.:format)                                                                   pages#home {:name=>"show_tag", :locale=>"en"}
+                         show_tag_fr GET      /fr/labels/:tag_slug(.:format)                                                                pages#home {:name=>"show_tag", :locale=>"fr"}
+                                     GET      /tags/:tag_slug(.:format)                                                                     pages#home {:name=>"show_tag"}
+                         edit_tag_en GET      /en/tag/:tag_slug/edit(.:format)                                                              pages#home {:name=>"edit_tag", :locale=>"en"}
+                         edit_tag_fr GET      /fr/labels/:tag_slug/edition(.:format)                                                        pages#home {:name=>"edit_tag", :locale=>"fr"}
+                                     GET      /tags/:tag_slug/edit(.:format)                                                                pages#home {:name=>"edit_tag"}
+                         sort_tag_en GET      /en/tag/:tag_slug/sort(.:format)                                                              pages#home {:name=>"sort_tag", :locale=>"en"}
+                         sort_tag_fr GET      /fr/labels/:tag_slug/sort(.:format)                                                           pages#home {:name=>"sort_tag", :locale=>"fr"}
+                                     GET      /tags/:tag_slug/sort(.:format)                                                                pages#home {:name=>"sort_tag"}
+                      user_topics_en GET      /en/users/:user_slug/topic(.:format)                                                          pages#home {:name=>"user_topics", :locale=>"en"}
+                      user_topics_fr GET      /fr/utilisateurs/:user_slug/themes(.:format)                                                  pages#home {:name=>"user_topics", :locale=>"fr"}
+                                     GET      /users/:user_slug/topics(.:format)                                                            pages#home {:name=>"user_topics"}
+                       user_topic_en GET      /en/users/:user_slug/topic/:topic_slug/show(.:format)                                         pages#home {:name=>"user_topic", :locale=>"en"}
+                       user_topic_fr GET      /fr/utilisateurs/:user_slug/themes/:topic_slug/show(.:format)                                 pages#home {:name=>"user_topic", :locale=>"fr"}
+                                     GET      /users/:user_slug/topics/:topic_slug/show(.:format)                                           pages#home {:name=>"user_topic"}
+                       edit_topic_en GET      /en/users/:user_slug/topic/:topic_slug/edit(.:format)                                         pages#home {:name=>"edit_topic", :locale=>"en"}
+                       edit_topic_fr GET      /fr/utilisateurs/:user_slug/themes/:topic_slug/edition(.:format)                              pages#home {:name=>"edit_topic", :locale=>"fr"}
+                                     GET      /users/:user_slug/topics/:topic_slug/edit(.:format)                                           pages#home {:name=>"edit_topic"}
+           edit_inventories_topic_en GET      /en/users/:user_slug/topic/:topic_slug/edit-inventories(.:format)                             pages#home {:name=>"edit_inventories_topic", :locale=>"en"}
+           edit_inventories_topic_fr GET      /fr/utilisateurs/:user_slug/themes/:topic_slug/edit-inventories(.:format)                     pages#home {:name=>"edit_inventories_topic", :locale=>"fr"}
+                                     GET      /users/:user_slug/topics/:topic_slug/edit-inventories(.:format)                               pages#home {:name=>"edit_inventories_topic"}
+                    user_articles_en GET      /en/users/:user_slug(.:format)                                                                pages#home {:name=>"user_articles", :locale=>"en"}
+                    user_articles_fr GET      /fr/utilisateurs/:user_slug(.:format)                                                         pages#home {:name=>"user_articles", :locale=>"fr"}
+                                     GET      /users/:user_slug(.:format)                                                                   pages#home {:name=>"user_articles"}
+                   topic_articles_en GET      /en/users/:user_slug/topic/:topic_slug(.:format)                                              pages#home {:name=>"topic_articles", :locale=>"en"}
+                   topic_articles_fr GET      /fr/utilisateurs/:user_slug/themes/:topic_slug(.:format)                                      pages#home {:name=>"topic_articles", :locale=>"fr"}
+                                     GET      /users/:user_slug/topics/:topic_slug(.:format)                                                pages#home {:name=>"topic_articles"}
+            tagged_topic_articles_en GET      /en/users/:user_slug/topic/:topic_slug/tagged/:tag_slug(/:child_tag_slug)(.:format)           pages#home {:name=>"tagged_topic_articles", :locale=>"en"}
+            tagged_topic_articles_fr GET      /fr/utilisateurs/:user_slug/themes/:topic_slug/labelise/:tag_slug(/:child_tag_slug)(.:format) pages#home {:name=>"tagged_topic_articles", :locale=>"fr"}
+                                     GET      /users/:user_slug/topics/:topic_slug/tagged/:tag_slug(/:child_tag_slug)(.:format)             pages#home {:name=>"tagged_topic_articles"}
+                  tagged_articles_en GET      /en/tagged/:tag_slug(/:child_tag_slug)(.:format)                                              pages#home {:name=>"tagged_articles", :locale=>"en"}
+                  tagged_articles_fr GET      /fr/labelise/:tag_slug(/:child_tag_slug)(.:format)                                            pages#home {:name=>"tagged_articles", :locale=>"fr"}
+                                     GET      /tagged/:tag_slug(/:child_tag_slug)(.:format)                                                 pages#home {:name=>"tagged_articles"}
+             order_topic_articles_en GET      /en/users/:user_slug/topic/:topic_slug/order/:order(.:format)                                 pages#home {:name=>"order_topic_articles", :locale=>"en"}
+             order_topic_articles_fr GET      /fr/utilisateurs/:user_slug/themes/:topic_slug/order/:order(.:format)                         pages#home {:name=>"order_topic_articles", :locale=>"fr"}
+                                     GET      /users/:user_slug/topics/:topic_slug/order/:order(.:format)                                   pages#home {:name=>"order_topic_articles"}
+              sort_topic_articles_en GET      /en/users/:user_slug/topic/:topic_slug/sort(.:format)                                         pages#home {:name=>"sort_topic_articles", :locale=>"en"}
+              sort_topic_articles_fr GET      /fr/utilisateurs/:user_slug/themes/:topic_slug/sort(.:format)                                 pages#home {:name=>"sort_topic_articles", :locale=>"fr"}
+                                     GET      /users/:user_slug/topics/:topic_slug/sort(.:format)                                           pages#home {:name=>"sort_topic_articles"}
+                     user_article_en GET      /en/users/:user_slug/article/:article_slug(.:format)                                          pages#home {:name=>"user_article", :locale=>"en"}
+                     user_article_fr GET      /fr/utilisateurs/:user_slug/articles/:article_slug(.:format)                                  pages#home {:name=>"user_article", :locale=>"fr"}
+                                     GET      /users/:user_slug/articles/:article_slug(.:format)                                            pages#home {:name=>"user_article"}
+                   shared_article_en GET      /en/article/shared/:article_slug/:public_link(.:format)                                       pages#home {:name=>"shared_article", :locale=>"en"}
+                   shared_article_fr GET      /fr/articles/partage/:article_slug/:public_link(.:format)                                     pages#home {:name=>"shared_article", :locale=>"fr"}
+                                     GET      /articles/shared/:article_slug/:public_link(.:format)                                         pages#home {:name=>"shared_article"}
+                      new_article_en GET      /en/users/:user_slug/topic/:topic_slug/article-new(.:format)                                  pages#home {:name=>"new_article", :locale=>"en"}
+                      new_article_fr GET      /fr/utilisateurs/:user_slug/themes/:topic_slug/article-new(.:format)                          pages#home {:name=>"new_article", :locale=>"fr"}
+                                     GET      /users/:user_slug/topics/:topic_slug/article-new(.:format)                                    pages#home {:name=>"new_article"}
+                     edit_article_en GET      /en/users/:user_slug/article/:article_slug/edit(.:format)                                     pages#home {:name=>"edit_article", :locale=>"en"}
+                     edit_article_fr GET      /fr/utilisateurs/:user_slug/articles/:article_slug/edition(.:format)                          pages#home {:name=>"edit_article", :locale=>"fr"}
+                                     GET      /users/:user_slug/articles/:article_slug/edit(.:format)                                       pages#home {:name=>"edit_article"}
+                  history_article_en GET      /en/users/:user_slug/article/:article_slug/history(.:format)                                  pages#home {:name=>"history_article", :locale=>"en"}
+                  history_article_fr GET      /fr/utilisateurs/:user_slug/articles/:article_slug/history(.:format)                          pages#home {:name=>"history_article", :locale=>"fr"}
+                                     GET      /users/:user_slug/articles/:article_slug/history(.:format)                                    pages#home {:name=>"history_article"}
+                            users_en GET      /en/users(.:format)                                                                           pages#home {:name=>"users", :locale=>"en"}
+                            users_fr GET      /fr/utilisateurs(.:format)                                                                    pages#home {:name=>"users", :locale=>"fr"}
+                                     GET      /users(.:format)                                                                              pages#home {:name=>"users"}
+                        show_user_en GET      /en/users/:user_slug/show(.:format)                                                           pages#home {:name=>"show_user", :locale=>"en"}
+                        show_user_fr GET      /fr/utilisateurs/:user_slug/show(.:format)                                                    pages#home {:name=>"show_user", :locale=>"fr"}
+                                     GET      /users/:user_slug/show(.:format)                                                              pages#home {:name=>"show_user"}
+                        edit_user_en GET      /en/users/:user_slug/edit(.:format)                                                           pages#home {:name=>"edit_user", :locale=>"en"}
+                        edit_user_fr GET      /fr/utilisateurs/:user_slug/edition(.:format)                                                 pages#home {:name=>"edit_user", :locale=>"fr"}
+                                     GET      /users/:user_slug/edit(.:format)                                                              pages#home {:name=>"edit_user"}
+                     new_password_en GET      /en/users/password/new(.:format)                                                              pages#home {:name=>"new_password", :locale=>"en"}
+                     new_password_fr GET      /fr/utilisateurs/password/nouveau(.:format)                                                   pages#home {:name=>"new_password", :locale=>"fr"}
+                                     GET      /users/password/new(.:format)                                                                 pages#home {:name=>"new_password"}
+                    edit_password_en GET      /en/users/password/edit(.:format)                                                             pages#home {:name=>"edit_password", :locale=>"en"}
+                    edit_password_fr GET      /fr/utilisateurs/password/edition(.:format)                                                   pages#home {:name=>"edit_password", :locale=>"fr"}
+                                     GET      /users/password/edit(.:format)                                                                pages#home {:name=>"edit_password"}
+                                     GET      /en/search/*path(.:format)                                                                    pages#home {:locale=>"en"}
+                                     GET      /fr/recherche/*path(.:format)                                                                 pages#home {:locale=>"fr"}
+                                     GET      /search/*path(.:format)                                                                       pages#home
+                                     GET      /en/tag/*path(.:format)                                                                       pages#home {:locale=>"en"}
+                                     GET      /fr/labels/*path(.:format)                                                                    pages#home {:locale=>"fr"}
+                                     GET      /tags/*path(.:format)                                                                         pages#home
+                                     GET      /en/tagged/*path(.:format)                                                                    pages#home {:locale=>"en"}
+                                     GET      /fr/labelise/*path(.:format)                                                                  pages#home {:locale=>"fr"}
+                                     GET      /tagged/*path(.:format)                                                                       pages#home
+                                     GET      /en/article/*path(.:format)                                                                   pages#home {:locale=>"en"}
+                                     GET      /fr/articles/*path(.:format)                                                                  pages#home {:locale=>"fr"}
+                                     GET      /articles/*path(.:format)                                                                     pages#home
+                                     GET      /en/users/*path(.:format)                                                                     pages#home {:locale=>"en"}
+                                     GET      /fr/utilisateurs/*path(.:format)                                                              pages#home {:locale=>"fr"}
+                                     GET      /users/*path(.:format)                                                                        pages#home
+                                     GET      /en/404(.:format)                                                                             pages#home {:locale=>"en"}
+                                     GET      /fr/404(.:format)                                                                             pages#home {:locale=>"fr"}
+                                     GET      /404(.:format)                                                                                pages#home
+                              signup GET      /api/v1/signup(.:format)                                                                      api/v1/users/registrations#new
+                                     POST     /api/v1/signup(.:format)                                                                      api/v1/users/registrations#create
+                               login GET      /api/v1/login(.:format)                                                                       api/v1/users/sessions#new
+                                     POST     /api/v1/login(.:format)                                                                       api/v1/users/sessions#create
+                              logout DELETE   /api/v1/logout(.:format)                                                                      api/v1/users/sessions#destroy
+                    new_user_session GET      /api/v1/users/sign_in(.:format)                                                               api/v1/users/sessions#new
+                        user_session POST     /api/v1/users/sign_in(.:format)                                                               api/v1/users/sessions#create
+                destroy_user_session DELETE   /api/v1/users/sign_out(.:format)                                                              api/v1/users/sessions#destroy
+                   new_user_password GET      /api/v1/users/password/new(.:format)                                                          api/v1/users/passwords#new
+                  edit_user_password GET      /api/v1/users/password/edit(.:format)                                                         api/v1/users/passwords#edit
+                       user_password PATCH    /api/v1/users/password(.:format)                                                              api/v1/users/passwords#update
+                                     PUT      /api/v1/users/password(.:format)                                                              api/v1/users/passwords#update
+                                     POST     /api/v1/users/password(.:format)                                                              api/v1/users/passwords#create
+            cancel_user_registration GET      /api/v1/users/cancel(.:format)                                                                api/v1/users/registrations#cancel
+               new_user_registration GET      /api/v1/users/sign_up(.:format)                                                               api/v1/users/registrations#new
+              edit_user_registration GET      /api/v1/users/edit(.:format)                                                                  api/v1/users/registrations#edit
+                   user_registration PATCH    /api/v1/users(.:format)                                                                       api/v1/users/registrations#update
+                                     PUT      /api/v1/users(.:format)                                                                       api/v1/users/registrations#update
+                                     DELETE   /api/v1/users(.:format)                                                                       api/v1/users/registrations#destroy
+                                     POST     /api/v1/users(.:format)                                                                       api/v1/users/registrations#create
+               new_user_confirmation GET      /api/v1/users/confirmation/new(.:format)                                                      api/v1/users/confirmations#new
+                   user_confirmation GET      /api/v1/users/confirmation(.:format)                                                          api/v1/users/confirmations#show
+                                     POST     /api/v1/users/confirmation(.:format)                                                          api/v1/users/confirmations#create
+                     new_user_unlock GET      /api/v1/users/unlock/new(.:format)                                                            api/v1/users/unlocks#new
+                         user_unlock GET      /api/v1/users/unlock(.:format)                                                                api/v1/users/unlocks#show
+                                     POST     /api/v1/users/unlock(.:format)                                                                api/v1/users/unlocks#create
+                    validation_users GET      /api/v1/users/validation(.:format)                                                            api/v1/users#validation
+                                user GET      /api/v1/users/:id(.:format)                                                                   api/v1/users#show
+                       comments_user GET      /api/v1/users/:id/comments(.:format)                                                          api/v1/users#comments
+                        recents_user GET      /api/v1/users/:id/recents(.:format)                                                           api/v1/users#recents
+                                     POST     /api/v1/users/:id/recents(.:format)                                                           api/v1/users#update_recents
+                     activities_user GET      /api/v1/users/:id/activities(.:format)                                                        api/v1/users#activities
+                        clicked_user POST     /api/v1/users/:id/clicked(.:format)                                                           api/v1/users#clicked
+                         viewed_user POST     /api/v1/users/:id/viewed(.:format)                                                            api/v1/users#viewed
+                      user_bookmarks GET      /api/v1/users/:user_id/bookmarks(.:format)                                                    api/v1/users/bookmarks#index
+                                     POST     /api/v1/users/:user_id/bookmarks(.:format)                                                    api/v1/users/bookmarks#create
+                       user_bookmark DELETE   /api/v1/users/:user_id/bookmarks/:id(.:format)                                                api/v1/users/bookmarks#destroy
+                       user_settings POST     /api/v1/users/:user_id/settings(.:format)                                                     api/v1/users/settings#update
+                                     GET      /api/v1/users/:user_id/settings(.:format)                                                     api/v1/users/settings#index
+                               users GET      /api/v1/users(.:format)                                                                       api/v1/users#index
+                                     GET      /api/v1/users/:id(.:format)                                                                   api/v1/users#show
+                                     PATCH    /api/v1/users/:id(.:format)                                                                   api/v1/users#update
+                                     PUT      /api/v1/users/:id(.:format)                                                                   api/v1/users#update
+                          activities GET      /api/v1/activities(.:format)                                                                  api/v1/activities#index
+                       priority_tags PUT      /api/v1/tags/priority(.:format)                                                               api/v1/tags#update_priority
+                         clicked_tag POST     /api/v1/tags/:id/clicked(.:format)                                                            api/v1/tags#clicked
+                          viewed_tag POST     /api/v1/tags/:id/viewed(.:format)                                                             api/v1/tags#viewed
+                        comments_tag GET      /api/v1/tags/:id/comments(.:format)                                                           api/v1/tags#comments
+                                     POST     /api/v1/tags/:id/comments(.:format)                                                           api/v1/tags#add_comment
+                                     PUT      /api/v1/tags/:id/comments(.:format)                                                           api/v1/tags#update_comment
+                                     DELETE   /api/v1/tags/:id/comments(.:format)                                                           api/v1/tags#remove_comment
+                                tags GET      /api/v1/tags(.:format)                                                                        api/v1/tags#index
+                            edit_tag GET      /api/v1/tags/:id/edit(.:format)                                                               api/v1/tags#edit
+                                 tag GET      /api/v1/tags/:id(.:format)                                                                    api/v1/tags#show
+                                     PATCH    /api/v1/tags/:id(.:format)                                                                    api/v1/tags#update
+                                     PUT      /api/v1/tags/:id(.:format)                                                                    api/v1/tags#update
+                                     DELETE   /api/v1/tags/:id(.:format)                                                                    api/v1/tags#destroy
+                       switch_topics GET      /api/v1/topics/switch(.:format)                                                               api/v1/topics#switch
+                     priority_topics PUT      /api/v1/topics/priority(.:format)                                                             api/v1/topics#update_priority
+                       clicked_topic POST     /api/v1/topics/:id/clicked(.:format)                                                          api/v1/topics#clicked
+                        viewed_topic POST     /api/v1/topics/:id/viewed(.:format)                                                           api/v1/topics#viewed
+              topic_inventory_fields POST     /api/v1/topics/:topic_id/inventory_fields(.:format)                                           api/v1/topics/inventory_fields#create
+                              topics GET      /api/v1/topics(.:format)                                                                      api/v1/topics#index
+                                     POST     /api/v1/topics(.:format)                                                                      api/v1/topics#create
+                               topic GET      /api/v1/topics/:id(.:format)                                                                  api/v1/topics#show
+                                     PATCH    /api/v1/topics/:id(.:format)                                                                  api/v1/topics#update
+                                     PUT      /api/v1/topics/:id(.:format)                                                                  api/v1/topics#update
+                                     DELETE   /api/v1/topics/:id(.:format)                                                                  api/v1/topics#destroy
+                   priority_articles PUT      /api/v1/articles/priority(.:format)                                                           api/v1/articles#update_priority
+                                     GET      /api/v1/articles/:id/shared/:public_link(.:format)                                            api/v1/articles#shared
+                     stories_article GET      /api/v1/articles/:id/stories(.:format)                                                        api/v1/articles#stories
+                     history_article GET      /api/v1/articles/:id/history(.:format)                                                        api/v1/articles#history
+                     restore_article GET      /api/v1/articles/:id/restore(.:format)                                                        api/v1/articles#restore
+                     clicked_article POST     /api/v1/articles/:id/clicked(.:format)                                                        api/v1/articles#clicked
+                      viewed_article POST     /api/v1/articles/:id/viewed(.:format)                                                         api/v1/articles#viewed
+                    comments_article GET      /api/v1/articles/:id/comments(.:format)                                                       api/v1/articles#comments
+                                     POST     /api/v1/articles/:id/comments(.:format)                                                       api/v1/articles#add_comment
+                                     PUT      /api/v1/articles/:id/comments(.:format)                                                       api/v1/articles#update_comment
+                                     DELETE   /api/v1/articles/:id/comments(.:format)                                                       api/v1/articles#remove_comment
+                    article_outdated DELETE   /api/v1/articles/:article_id/outdated(.:format)                                               api/v1/articles/outdated#destroy
+                                     POST     /api/v1/articles/:article_id/outdated(.:format)                                               api/v1/articles/outdated#create
+                       article_votes DELETE   /api/v1/articles/:article_id/votes(.:format)                                                  api/v1/articles/votes#destroy
+                                     POST     /api/v1/articles/:article_id/votes(.:format)                                                  api/v1/articles/votes#create
+                            articles GET      /api/v1/articles(.:format)                                                                    api/v1/articles#index
+                                     POST     /api/v1/articles(.:format)                                                                    api/v1/articles#create
+                        edit_article GET      /api/v1/articles/:id/edit(.:format)                                                           api/v1/articles#edit
+                             article GET      /api/v1/articles/:id(.:format)                                                                api/v1/articles#show
+                                     PATCH    /api/v1/articles/:id(.:format)                                                                api/v1/articles#update
+                                     PUT      /api/v1/articles/:id(.:format)                                                                api/v1/articles#update
+                                     DELETE   /api/v1/articles/:id(.:format)                                                                api/v1/articles#destroy
+                        topic_shares POST     /api/v1/shares/topic(.:format)                                                                api/v1/shares#topic
+                      article_shares POST     /api/v1/shares/article(.:format)                                                              api/v1/shares#article
+                              shares GET      /api/v1/shares(.:format)                                                                      api/v1/shares#index
+           autocomplete_search_index GET      /api/v1/search/autocomplete(.:format)                                                         api/v1/search#autocomplete
+                   meta_search_index POST     /api/v1/search/meta(.:format)                                                                 api/v1/search#meta
+                        search_index GET      /api/v1/search(.:format)                                                                      api/v1/search#index
+                            comments GET      /api/v1/comments(.:format)                                                                    api/v1/comments#index
+                             uploads POST     /api/v1/uploads(.:format)                                                                     api/v1/uploads#create
+                              upload PATCH    /api/v1/uploads/:id(.:format)                                                                 api/v1/uploads#update
+                                     PUT      /api/v1/uploads/:id(.:format)                                                                 api/v1/uploads#update
+                                     DELETE   /api/v1/uploads/:id(.:format)                                                                 api/v1/uploads#destroy
+                         login_admin GET      /admins/login(.:format)                                                                       admins/sessions#new
+                        admins_login POST     /admins/login(.:format)                                                                       admins/sessions#create
+                        logout_admin DELETE   /admins/logout(.:format)                                                                      admins/sessions#destroy
+                   new_admin_session GET      /admins/sign_in(.:format)                                                                     admins/sessions#new
+                       admin_session POST     /admins/sign_in(.:format)                                                                     admins/sessions#create
+               destroy_admin_session DELETE   /admins/sign_out(.:format)                                                                    admins/sessions#destroy
+                  new_admin_password GET      /admins/password/new(.:format)                                                                devise/passwords#new
+                 edit_admin_password GET      /admins/password/edit(.:format)                                                               devise/passwords#edit
+                      admin_password PATCH    /admins/password(.:format)                                                                    devise/passwords#update
+                                     PUT      /admins/password(.:format)                                                                    devise/passwords#update
+                                     POST     /admins/password(.:format)                                                                    devise/passwords#create
+           cancel_admin_registration GET      /admins/cancel(.:format)                                                                      devise/registrations#cancel
+              new_admin_registration GET      /admins/sign_up(.:format)                                                                     devise/registrations#new
+             edit_admin_registration GET      /admins/edit(.:format)                                                                        devise/registrations#edit
+                  admin_registration PATCH    /admins(.:format)                                                                             devise/registrations#update
+                                     PUT      /admins(.:format)                                                                             devise/registrations#update
+                                     DELETE   /admins(.:format)                                                                             devise/registrations#destroy
+                                     POST     /admins(.:format)                                                                             devise/registrations#create
+                    new_admin_unlock GET      /admins/unlock/new(.:format)                                                                  devise/unlocks#new
+                        admin_unlock GET      /admins/unlock(.:format)                                                                      devise/unlocks#show
+                                     POST     /admins/unlock(.:format)                                                                      devise/unlocks#create
+                         sidekiq_web          /admins/sidekiq                                                                               Sidekiq::Web
+                             pg_hero          /admins/postgres                                                                              PgHero::Engine
+                        users_admins GET      /admins/users(.:format)                                                                       admins#users
+                     comments_admins GET      /admins/comments(.:format)                                                                    admins#comments
+                       topics_admins GET      /admins/topics(.:format)                                                                      admins#topics
+                         tags_admins GET      /admins/tags(.:format)                                                                        admins#tags
+                     articles_admins GET      /admins/articles(.:format)                                                                    admins#articles
+                              admins GET      /admins(.:format)                                                                             admins#index
+                        admins_blogs GET      /admins/blogs(.:format)                                                                       admins/blogs#index
+                                     POST     /admins/blogs(.:format)                                                                       admins/blogs#create
+                         admins_blog GET      /admins/blogs/:id(.:format)                                                                   admins/blogs#show
+                                     PATCH    /admins/blogs/:id(.:format)                                                                   admins/blogs#update
+                                     PUT      /admins/blogs/:id(.:format)                                                                   admins/blogs#update
+                                     DELETE   /admins/blogs/:id(.:format)                                                                   admins/blogs#destroy
+retrieve_parameters_admins_seo_index POST     /admins/seo/retrieve_parameters(.:format)                                                     admins/seo#retrieve_parameters
+                    admins_seo_index GET      /admins/seo(.:format)                                                                         admins/seo#index
+                                     POST     /admins/seo(.:format)                                                                         admins/seo#create
+                          admins_seo GET      /admins/seo/:id(.:format)                                                                     admins/seo#show
+                                     PATCH    /admins/seo/:id(.:format)                                                                     admins/seo#update
+                                     PUT      /admins/seo/:id(.:format)                                                                     admins/seo#update
+                                     DELETE   /admins/seo/:id(.:format)                                                                     admins/seo#destroy
+                  stream_admins_logs POST     /admins/logs/stream(.:format)                                                                 admins/logs#stream
+                         admins_logs GET      /admins/logs(.:format)                                                                        admins/logs#index
+           flush_cache_admins_caches POST     /admins/caches/flush_cache(.:format)                                                          admins/caches#flush_cache
+                       admins_caches GET      /admins/caches(.:format)                                                                      admins/caches#index
+                                     GET      /robots.:format                                                                               pages#robots
+                                              /*path(.:format)                                                                              redirect(301, /404)
+                                     GET|POST /health_check(/:checks)(.:format)                                                             health_check/health_check#index {:format=>"txt"}
 
 Routes for PgHero::Engine:
                     space GET  (/:database)/space(.:format)                     pg_hero/home#space
