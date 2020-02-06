@@ -7,13 +7,17 @@ import {
 const styles = (theme) => ({
     history: {
         position: 'relative',
-        margin: '1rem auto 4rem',
-        overflow: 'visible',
-        maxWidth: articleWidth
+        margin: '.5rem auto 4rem',
+        overflow: 'visible'
     },
     breadcrumb: {
         margin: '1.5rem 0rem',
         position: 'relative'
+    },
+    currentArticle: {
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        maxWidth: articleWidth
     },
     card: {
         marginTop: 12,

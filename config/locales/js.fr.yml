@@ -492,6 +492,7 @@ fr:
         add_column: "Ajouter colonne"
         remove_column: "Enlever colonne"
       history:
+        initial: "Version initiale"
         changed_at: "Version modifiée"
         restore: "Restaurer cette version"
         none: "Aucun historique pour cet article !"

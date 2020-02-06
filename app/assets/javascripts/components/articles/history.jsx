@@ -119,8 +119,10 @@ class ArticleHistory extends React.Component {
                                               article={this.props.article}/>
                 </div>
 
-                <ArticleCardDisplay article={this.props.article}
-                                    hasActions={false}/>
+                <div className={this.props.classes.currentArticle}>
+                    <ArticleCardDisplay article={this.props.article}
+                                        hasActions={false}/>
+                </div>
 
                 <ArticleVersionsDisplay currentArticle={this.props.article}
                                         articleVersions={this.props.articleVersions}
