@@ -105,32 +105,32 @@ module Searches
             search_results[:articles]                = article_results[:articles]
             search_results[:suggestions][:articles]  = article_results[:suggestions]
             search_results[:aggregations][:articles] = article_results[:aggregations]
-            search_results[:totalCount][:articles]   = article_results[:total_count]
-            search_results[:totalPages][:articles]   = article_results[:total_pages]
+            search_results[:totalCount][:articles]   = article_results[:totalCount]
+            search_results[:totalPages][:articles]   = article_results[:totalPages]
           when 'Tag'
             tag_results = tag_search&.parsed_search(search.execute)
             next if tag_results[:tags].empty?
 
             search_results[:tags]               = tag_results[:tags]
             search_results[:suggestions][:tags] = tag_results[:suggestions]
-            search_results[:totalCount][:tags]  = tag_results[:total_count]
-            search_results[:totalPages][:tags]  = tag_results[:total_pages]
+            search_results[:totalCount][:tags]  = tag_results[:totalCount]
+            search_results[:totalPages][:tags]  = tag_results[:totalPages]
             # when 'Topic'
             #   topic_results = topic_search&.parsed_search(search)
             #
             #   next if topic_results[:topics].empty?
             #   search_results[:topics]               = topic_results[:topics]
             #   search_results[:suggestions][:topics] = topic_results[:suggestions]
-            #   search_results[:totalCount][:topics]  = topic_results[:total_count]
-            #   search_results[:totalPages][:topics]  = topic_results[:total_pages]
+            #   search_results[:totalCount][:topics]  = topic_results[:totalCount]
+            #   search_results[:totalPages][:topics]  = topic_results[:totalPages]
           end
         end
 
         # Add query params to search results
         if @params[:tags_ids].present?
-          search_results[:selectedTags] = Tag.as_flat_json(Tag.where(id: @params[:tags_ids]), strict: true)
+          search_results[:selectedTags] = TagStrictSerializer.new(Tag.where(id: @params[:tags_ids])).serializable_hash[:data]
         elsif @params[:tags].present?
-          search_results[:selectedTags] = Tag.as_flat_json(Tag.where(slug: @params[:tags]), strict: true)
+          search_results[:selectedTags] = TagStrictSerializer.new(Tag.where(slug: @params[:tags])).serializable_hash[:data]
         end
 
         if searches

@@ -203,11 +203,11 @@ ActiveRecord::Schema.define(version: 2020_01_10_133725) do
   end
 
   create_table "seo_datas", force: :cascade do |t|
-    t.integer "name", null: false
+    t.string "name", null: false
     t.string "locale", null: false
     t.string "parameters", default: [], null: false, array: true
-    t.jsonb "page_title_translations", default: {}, null: false
-    t.jsonb "meta_desc_translations", default: {}, null: false
+    t.jsonb "page_title", null: false
+    t.jsonb "meta_desc", null: false
     t.string "languages", default: [], null: false, array: true
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

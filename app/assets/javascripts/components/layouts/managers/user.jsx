@@ -67,7 +67,7 @@ class UserManager extends React.Component {
                 articleSlug: this.props.routeParams.articleSlug
             })
                 .fetch.then((response) => {
-                if (response && response.user) {
+                if (response?.user) {
                     const currentTopicSlug = (this.props.routeParams.topicSlug || this.props.routeParams.articleSlug) && response.user.currentTopic ? response.user.currentTopic.slug : null;
                     if (currentTopicSlug) {
                         this.props.fetchTags({
@@ -86,7 +86,7 @@ class UserManager extends React.Component {
                     }
 
                     // Send local recent clicks otherwise fetch them
-                    const userJustSign = sessionStorage && sessionStorage.getItem('user-connection');
+                    const userJustSign = sessionStorage?.getItem('user-connection');
 
                     Utils.defer.then(() => {
                         if (userJustSign) {

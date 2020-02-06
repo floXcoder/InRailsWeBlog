@@ -61,9 +61,10 @@ class ApplicationController < ActionController::Base
   end
 
   def set_seo_data(named_route, parameters = {})
+    current_locale = params[:locale] || I18n.locale
     seo_data = Seo::Data.find_by(
-      #locale: params[:locale] || I18n.locale,
-      name: named_route.to_sym
+      #locale: current_locale,
+      name: "#{named_route.to_sym}_#{current_locale}"
     )
 
     if seo_data
@@ -276,9 +277,9 @@ class ApplicationController < ActionController::Base
     meta_data              = {}
 
     meta_data[:pagination] = {
-      current_page: attributes[:pagination].current_page,
-      total_pages:  attributes[:pagination].total_pages,
-      total_count:  attributes[:pagination].total_count
+      currentPage: attributes[:pagination].current_page,
+      totalPages:  attributes[:pagination].total_pages,
+      totalCount:  attributes[:pagination].total_count
     } if attributes[:pagination]
 
     meta_data[:metaTags] = meta_tags.meta_tags if meta_tags&.meta_tags.present?

@@ -842,7 +842,7 @@ fr:
           seo_fields: "Définition des champs SEO"
           page_title: "Titre de la page"
           meta_desc: "Meta description"
-          parameters: "Paramètres à utiliser : %{parameters}"
+          parameters: "Paramètres disponibles : %{parameters}"
           no_parameters: "Aucun paramètres requis"
           add: "Ajouter"
           update: "Modifier"

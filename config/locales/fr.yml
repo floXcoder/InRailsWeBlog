@@ -273,6 +273,8 @@ fr:
           attributes:
             imageable:
               required: "Le modèle de l'image est requis"
+        seo_data:
+          bad_route_name: "Cette route n'est pas disponible"
   errors:
     format: "%{attribute} %{message}"
     messages:

@@ -71,8 +71,9 @@ describe 'Article API', type: :request, basic: true do
 
         json_articles = JSON.parse(response.body)
 
-        expect(json_articles['articles']).not_to be_empty
-        expect(json_articles['articles'].size).to eq(Article.everyone.count)
+        expect(json_articles['meta']['root']).to eq('articles')
+        expect(json_articles['data']).not_to be_empty
+        expect(json_articles['data'].size).to eq(Article.everyone.count)
       end
 
       it 'returns articles in summary format' do
@@ -82,8 +83,9 @@ describe 'Article API', type: :request, basic: true do
 
         json_articles = JSON.parse(response.body)
 
-        expect(json_articles['articles']).not_to be_empty
-        expect(json_articles['articles'].size).to eq(Article.everyone.count)
+        expect(json_articles['meta']['root']).to eq('articles')
+        expect(json_articles['data']).not_to be_empty
+        expect(json_articles['data'].size).to eq(Article.everyone.count)
       end
 
       it 'limits the number of articles' do
@@ -92,8 +94,10 @@ describe 'Article API', type: :request, basic: true do
         get '/api/v1/articles', as: :json
 
         json_articles = JSON.parse(response.body)
-        expect(json_articles['articles']).not_to be_empty
-        expect(json_articles['articles'].size).to be <= InRailsWeBlog.config.per_page
+
+        expect(json_articles['meta']['root']).to eq('articles')
+        expect(json_articles['data']).not_to be_empty
+        expect(json_articles['data'].size).to be <= InRailsWeBlog.config.per_page
       end
     end
 
@@ -109,8 +113,9 @@ describe 'Article API', type: :request, basic: true do
 
         json_articles = JSON.parse(response.body)
 
-        expect(json_articles['articles']).not_to be_empty
-        expect(json_articles['articles'].size).to eq(7)
+        expect(json_articles['meta']['root']).to eq('articles')
+        expect(json_articles['data']).not_to be_empty
+        expect(json_articles['data'].size).to eq(7)
       end
     end
 
@@ -122,11 +127,13 @@ describe 'Article API', type: :request, basic: true do
       it 'returns articles for user topic' do
         get '/api/v1/articles', params: { filter: { user_id: @user.id, topic_id: @topic.id } }, as: :json
         json_articles = JSON.parse(response.body)
-        expect(json_articles['articles'].size).to eq(6)
+        expect(json_articles['meta']['root']).to eq('articles')
+        expect(json_articles['data'].size).to eq(6)
 
         get '/api/v1/articles', params: { filter: { user_id: @user.id, topic_id: @second_topic.id } }, as: :json
         json_articles = JSON.parse(response.body)
-        expect(json_articles['articles'].size).to eq(1)
+        expect(json_articles['meta']['root']).to eq('articles')
+        expect(json_articles['data'].size).to eq(1)
       end
 
       it 'returns articles for this tag only' do
@@ -135,11 +142,12 @@ describe 'Article API', type: :request, basic: true do
 
         get '/api/v1/articles', params: { filter: { tag_slug: @public_tags[0].slug } }, as: :json
         json_articles = JSON.parse(response.body)
-        expect(json_articles['articles'].size).to eq(1)
+        expect(json_articles['meta']['root']).to eq('articles')
+        expect(json_articles['data'].size).to eq(1)
 
         # get '/api/v1/articles', params: { filter: { tag_slugs: [@public_tags[0].slug, @public_tags[1].slug] } }, as: :json
         # json_articles = JSON.parse(response.body)
-        # expect(json_articles['articles'].size).to eq(7)
+        # expect(json_articles['data'].size).to eq(7)
       end
 
       it 'returns articles for this tag and its children' do
@@ -148,53 +156,62 @@ describe 'Article API', type: :request, basic: true do
 
         get '/api/v1/articles', params: { filter: { tag_slug: @public_tags[0].slug } }, as: :json
         json_articles = JSON.parse(response.body)
-        expect(json_articles['articles'].size).to eq(2)
+        expect(json_articles['meta']['root']).to eq('articles')
+        expect(json_articles['data'].size).to eq(2)
 
         # get '/api/v1/articles', params: { filter: { tag_slugs: [@public_tags[0].slug, @public_tags[1].slug] } }, as: :json
         # json_articles = JSON.parse(response.body)
-        # expect(json_articles['articles'].size).to eq(7)
+        # expect(json_articles['data'].size).to eq(7)
       end
 
       it 'returns articles for parent and child tags' do
         get '/api/v1/articles', params: { filter: { parent_tag_slug: @public_tags[0].slug, child_tag_slug: @public_tags[1].slug } }, as: :json
         json_articles = JSON.parse(response.body)
-        expect(json_articles['articles'].size).to eq(1)
+        expect(json_articles['meta']['root']).to eq('articles')
+        expect(json_articles['data'].size).to eq(1)
 
         get '/api/v1/articles', params: { filter: { parent_tag_slug: @public_tags[1].slug, child_tag_slug: @public_tags[3].slug } }, as: :json
         json_articles = JSON.parse(response.body)
-        expect(json_articles['articles'].size).to eq(1)
+        expect(json_articles['meta']['root']).to eq('articles')
+        expect(json_articles['data'].size).to eq(1)
       end
 
       it 'returns articles for parent tags' do
         get '/api/v1/articles', params: { filter: { parent_tag_slug: @public_tags[0].slug } }, as: :json
         json_articles = JSON.parse(response.body)
-        expect(json_articles['articles'].size).to eq(1)
+        expect(json_articles['meta']['root']).to eq('articles')
+        expect(json_articles['data'].size).to eq(1)
 
         get '/api/v1/articles', params: { filter: { parent_tag_slug: @public_tags[1].slug } }, as: :json
         json_articles = JSON.parse(response.body)
-        expect(json_articles['articles'].size).to eq(2)
+        expect(json_articles['meta']['root']).to eq('articles')
+        expect(json_articles['data'].size).to eq(2)
       end
 
       it 'returns articles for child tags' do
         get '/api/v1/articles', params: { filter: { child_tag_slug: @public_tags[0].slug } }, as: :json
         json_articles = JSON.parse(response.body)
-        expect(json_articles['articles']).to be_empty
+        expect(json_articles['meta']['root']).to eq('articles')
+        expect(json_articles['data']).to be_empty
 
         get '/api/v1/articles', params: { filter: { child_tag_slug: @public_tags[2].slug } }, as: :json
         json_articles = JSON.parse(response.body)
-        expect(json_articles['articles'].size).to eq(1)
+        expect(json_articles['meta']['root']).to eq('articles')
+        expect(json_articles['data'].size).to eq(1)
       end
 
       it 'returns bookmarked articles for current user' do
         get '/api/v1/articles', params: { filter: { bookmarked: true } }, as: :json
         json_articles = JSON.parse(response.body)
-        expect(json_articles['articles']).to be_empty
+        expect(json_articles['meta']['root']).to eq('articles')
+        expect(json_articles['data']).to be_empty
       end
 
       it 'returns draft articles for current user' do
         get '/api/v1/articles', params: { filter: { draft: true } }, as: :json
         json_articles = JSON.parse(response.body)
-        expect(json_articles['articles'].size).to eq(1)
+        expect(json_articles['meta']['root']).to eq('articles')
+        expect(json_articles['data'].size).to eq(1)
       end
     end
 
@@ -206,8 +223,9 @@ describe 'Article API', type: :request, basic: true do
 
         json_articles = JSON.parse(response.body)
 
-        tags_for_mixed_article = json_articles['articles'].select { |article| article['title'] == 'mixed_tags' }.first['tags'].map { |tag| tag['name'] }
-        expect(tags_for_mixed_article.sort).to eq([@public_tags[0].name, @public_tags[1].name].sort)
+        expect(json_articles['meta']['root']).to eq('articles')
+        tags_for_mixed_article = json_articles['data'].select { |article| article['attributes']['title'] == 'mixed_tags' }.first['relationships']['tags']['data'].map { |tag| tag['id'] }
+        expect(tags_for_mixed_article.sort).to eq([@public_tags[0].id.to_s, @public_tags[1].id.to_s].sort)
       end
     end
 
@@ -238,8 +256,9 @@ describe 'Article API', type: :request, basic: true do
         get '/api/v1/articles', as: :json
 
         json_articles = JSON.parse(response.body)
-        expect(json_articles['articles']).not_to be_empty
-        expect(json_articles['articles'].size).to eq(7)
+        expect(json_articles['meta']['root']).to eq('articles')
+        expect(json_articles['data']).not_to be_empty
+        expect(json_articles['data'].size).to eq(7)
       end
     end
   end
@@ -276,8 +295,8 @@ describe 'Article API', type: :request, basic: true do
         expect(response).to be_json_response
 
         article = JSON.parse(response.body)
-        expect(article['article']).not_to be_empty
-        expect(article['article']['title']).to eq(@private_article.title)
+        expect(article['data']['attributes']).not_to be_empty
+        expect(article['data']['attributes']['title']).to eq(@private_article.title)
       end
     end
 
@@ -288,8 +307,8 @@ describe 'Article API', type: :request, basic: true do
         expect(response).to be_json_response
 
         article = JSON.parse(response.body)
-        expect(article['article']).not_to be_empty
-        expect(article['article']['title']).to eq(@article.title)
+        expect(article['data']['attributes']).not_to be_empty
+        expect(article['data']['attributes']['title']).to eq(@article.title)
       end
 
       it 'returns the article without private tags' do
@@ -298,8 +317,8 @@ describe 'Article API', type: :request, basic: true do
         expect(response).to be_json_response
 
         article = JSON.parse(response.body)
-        expect(article['article']).not_to be_empty
-        expect(article['article']['tags'].map { |tag| tag['name'] }.sort).to eq([@public_tags[0].name, @public_tags[1].name].sort)
+        expect(article['data']['attributes']).not_to be_empty
+        expect(article['data']['relationships']['tags']['data'].map { |tag| tag['id'] }.sort).to eq([@public_tags[0].id.to_s, @public_tags[1].id.to_s].sort)
       end
     end
   end
@@ -324,8 +343,8 @@ describe 'Article API', type: :request, basic: true do
         expect(response).to be_json_response
 
         article = JSON.parse(response.body)
-        expect(article['article']).not_to be_empty
-        expect(article['article']['title']).to eq(@private_tags_article.title)
+        expect(article['data']['attributes']).not_to be_empty
+        expect(article['data']['attributes']['title']).to eq(@private_tags_article.title)
       end
     end
 
@@ -340,8 +359,8 @@ describe 'Article API', type: :request, basic: true do
         expect(response).to be_json_response
 
         article = JSON.parse(response.body)
-        expect(article['article']).not_to be_empty
-        expect(article['article']['title']).to eq(@private_tags_article.title)
+        expect(article['data']['attributes']).not_to be_empty
+        expect(article['data']['attributes']['title']).to eq(@private_tags_article.title)
       end
     end
   end
@@ -367,10 +386,10 @@ describe 'Article API', type: :request, basic: true do
           expect(response).to be_json_response(201)
 
           article = JSON.parse(response.body)
-          expect(article['article']).not_to be_empty
-          expect(article['article']['title']).to eq(article_attributes[:article][:title])
-          expect(article['article']['topicId']).to eq(@user.current_topic_id)
-          expect(article['article']['tags'].size).to eq(1)
+          expect(article['data']['attributes']).not_to be_empty
+          expect(article['data']['attributes']['title']).to eq(article_attributes[:article][:title])
+          expect(article['data']['attributes']['topicId']).to eq(@user.current_topic_id)
+          expect(article['data']['relationships']['tags'].size).to eq(1)
         }.to change(Article, :count).by(1).and change(Tag, :count).by(0).and change(TagRelationship, :count).by(0)
       end
 
@@ -381,8 +400,8 @@ describe 'Article API', type: :request, basic: true do
           expect(response).to be_json_response(201)
 
           article = JSON.parse(response.body)
-          expect(article['article']).not_to be_empty
-          expect(article['article']['reference']).to eq('http://test.com')
+          expect(article['data']['attributes']).not_to be_empty
+          expect(article['data']['attributes']['reference']).to eq('http://test.com')
         }.to change(Article, :count).by(1)
       end
 
@@ -393,8 +412,8 @@ describe 'Article API', type: :request, basic: true do
           expect(response).to be_json_response(201)
 
           article = JSON.parse(response.body)
-          expect(article['article']).not_to be_empty
-          expect(article['article']['currentLanguage']).to eq('en')
+          expect(article['data']['attributes']).not_to be_empty
+          expect(article['data']['attributes']['currentLanguage']).to eq('en')
           expect(Article.last.title_translations).to eq({ 'en' => article_attributes[:article][:title] })
         }.to change(Article, :count).by(1)
       end
@@ -406,13 +425,13 @@ describe 'Article API', type: :request, basic: true do
           expect(response).to be_json_response(201)
 
           article = JSON.parse(response.body)
-          expect(article['article']).not_to be_empty
-          expect(article['article']['content']).to match('data-article-relation-id')
+          expect(article['data']['attributes']).not_to be_empty
+          expect(article['data']['attributes']['content']).to match('data-article-relation-id')
 
           relationships = Article.last.child_relationships.last
           expect(relationships).not_to be nil
           expect(relationships.parent_id).to eq(@private_article.id)
-          expect(relationships.child_id).to eq(article['article']['id'])
+          expect(relationships.child_id).to eq(article['data']['attributes']['id'])
         }.to change(Article, :count).by(1)
       end
 
@@ -423,10 +442,10 @@ describe 'Article API', type: :request, basic: true do
           expect(response).to be_json_response(201)
 
           article = JSON.parse(response.body)
-          expect(article['article']).not_to be_empty
-          expect(article['article']['tags'].size).to eq(2)
-          expect(article['article']['parentTagIds']).to be_empty
-          expect(article['article']['childTagIds']).to be_empty
+          expect(article['data']['attributes']).not_to be_empty
+          expect(article['data']['relationships']['tags']['data'].size).to eq(2)
+          expect(article['data']['attributes']['parentTagIds']).to be_empty
+          expect(article['data']['attributes']['childTagIds']).to be_empty
 
           expect(Tag.last(2).first.topics.last).to eq(@user.current_topic)
           expect(Tag.last(2).second.topics.last).to eq(@user.current_topic)
@@ -440,10 +459,10 @@ describe 'Article API', type: :request, basic: true do
           expect(response).to be_json_response(201)
 
           article = JSON.parse(response.body)
-          expect(article['article']).not_to be_empty
-          expect(article['article']['tags'].size).to eq(2)
-          expect(article['article']['parentTagIds']).to be_empty
-          expect(article['article']['childTagIds']).to be_empty
+          expect(article['data']['attributes']).not_to be_empty
+          expect(article['data']['relationships']['tags']['data'].size).to eq(2)
+          expect(article['data']['attributes']['parentTagIds']).to be_empty
+          expect(article['data']['attributes']['childTagIds']).to be_empty
 
           expect(@public_tags[0].topics).to include(@user.current_topic)
           expect(@public_tags[1].topics).to include(@user.current_topic)
@@ -457,10 +476,10 @@ describe 'Article API', type: :request, basic: true do
           expect(response).to be_json_response(201)
 
           article = JSON.parse(response.body)
-          expect(article['article']).not_to be_empty
-          expect(article['article']['tags'].size).to eq(2)
-          expect(article['article']['parentTagIds'].size).to eq(1)
-          expect(article['article']['childTagIds'].size).to eq(1)
+          expect(article['data']['attributes']).not_to be_empty
+          expect(article['data']['relationships']['tags']['data'].size).to eq(2)
+          expect(article['data']['attributes']['parentTagIds'].size).to eq(1)
+          expect(article['data']['attributes']['childTagIds'].size).to eq(1)
 
           expect(@public_tags[2].children.last).to eq(@public_tags[3])
           expect(@public_tags[3].parents.last).to eq(@public_tags[2])
@@ -474,8 +493,8 @@ describe 'Article API', type: :request, basic: true do
           expect(response).to be_json_response(201)
 
           article = JSON.parse(response.body)
-          expect(article['article']).not_to be_empty
-          expect(article['article']['tags'].size).to eq(2)
+          expect(article['data']['attributes']).not_to be_empty
+          expect(article['data']['relationships']['tags']['data'].size).to eq(2)
 
           expect(Tag.find_by(name: 'Tag public').visibility).to eq('everyone')
           expect(Tag.find_by(name: 'Tag private').visibility).to eq('only_me')
@@ -489,8 +508,8 @@ describe 'Article API', type: :request, basic: true do
           expect(response).to be_json_response(201)
 
           article = JSON.parse(response.body)
-          expect(article['article']).not_to be_empty
-          expect(article['article']['tags'].size).to eq(2)
+          expect(article['data']['attributes']).not_to be_empty
+          expect(article['data']['relationships']['tags']['data'].size).to eq(2)
 
           parent_tag = Tag.find_by(name: 'Parent tag public')
           child_tag  = Tag.find_by(name: 'Child tag public')
@@ -508,8 +527,8 @@ describe 'Article API', type: :request, basic: true do
           expect(response).to be_json_response(201)
 
           article = JSON.parse(response.body)
-          expect(article['article']).not_to be_empty
-          expect(article['article']['tags'].size).to eq(2)
+          expect(article['data']['attributes']).not_to be_empty
+          expect(article['data']['relationships']['tags']['data'].size).to eq(2)
         }.to change(Article, :count).by(1).and change(Tag, :count).by(1)
       end
 
@@ -523,8 +542,8 @@ describe 'Article API', type: :request, basic: true do
             expect(response).to be_json_response(201)
 
             article = JSON.parse(response.body)
-            expect(article['article']).not_to be_empty
-            expect(article['article']['tags'].size).to eq(2)
+            expect(article['data']['attributes']).not_to be_empty
+            expect(article['data']['relationships']['tags']['data'].size).to eq(2)
           }.to change(Article, :count).by(1).and change(Tag, :count).by(0)
         ensure
           @user.update_attribute(:current_topic_id, @topic.id)
@@ -538,10 +557,9 @@ describe 'Article API', type: :request, basic: true do
           expect(response).to be_json_response(201)
 
           article = JSON.parse(response.body)
-          expect(article['article']).not_to be_empty
-          expect(article['article']['tags'].size).to eq(1)
-
-          expect(Tag.find(article['article']['tags'][0]['id']).visibility).to eq('only_me')
+          expect(article['data']['attributes']).not_to be_empty
+          expect(article['data']['relationships']['tags']['data'].size).to eq(1)
+          expect(Tag.find(article['data']['relationships']['tags']['data'][0]['id']).visibility).to eq('only_me')
         }.to change(Article, :count).by(1).and change(Tag, :count).by(1)
       end
 
@@ -554,9 +572,9 @@ describe 'Article API', type: :request, basic: true do
           expect(response).to be_json_response(201)
 
           article = JSON.parse(response.body)
-          expect(article['article']).not_to be_empty
-          expect(article['article']['mode']).to eq('inventory')
-          expect(article['article']['inventories'].size).to eq(2)
+          expect(article['data']['attributes']).not_to be_empty
+          expect(article['data']['attributes']['mode']).to eq('inventory')
+          expect(article['data']['attributes']['inventories'].size).to eq(2)
         }.to change(Article, :count).by(1)
       ensure
         @user.update_attribute(:current_topic_id, @topic.id)
@@ -575,8 +593,8 @@ describe 'Article API', type: :request, basic: true do
           expect(response).to be_json_response(201)
 
           article = JSON.parse(response.body)
-          expect(article['article']).not_to be_empty
-          expect(article['article']['topicId']).to eq(@second_topic.id)
+          expect(article['data']['attributes']).not_to be_empty
+          expect(article['data']['attributes']['topicId']).to eq(@second_topic.id)
         }.to change(Article, :count).by(1).and change(Tag, :count).by(0).and change(TagRelationship, :count).by(0)
       end
     end
@@ -632,9 +650,9 @@ describe 'Article API', type: :request, basic: true do
           expect(response).to be_json_response
 
           article = JSON.parse(response.body)
-          expect(article['article']).not_to be_empty
-          expect(article['article']['title']).to eq(updated_article_attributes[:article][:title])
-          expect(article['article']['tags'].size).to eq(3)
+          expect(article['data']['attributes']).not_to be_empty
+          expect(article['data']['attributes']['title']).to eq(updated_article_attributes[:article][:title])
+          expect(article['data']['relationships']['tags']['data'].size).to eq(3)
         }.to change(Article, :count).by(0).and change(Tag, :count).by(0).and change(TagRelationship, :count).by(0)
       end
 
@@ -652,14 +670,14 @@ describe 'Article API', type: :request, basic: true do
           expect(response).to be_json_response
 
           article = JSON.parse(response.body)
-          expect(article['article']).not_to be_empty
-          expect(article['article']['content']).to match('data-article-relation-id')
+          expect(article['data']['attributes']).not_to be_empty
+          expect(article['data']['attributes']['content']).to match('data-article-relation-id')
 
           @article.reload
           relationships = @article.child_relationships
           expect(relationships.count).to eq(1)
           expect(relationships.first.parent_id).to eq(@second_article.id)
-          expect(relationships.first.child_id).to eq(article['article']['id'])
+          expect(relationships.first.child_id).to eq(article['data']['attributes']['id'])
         }.not_to change(Article, :count)
       end
 
@@ -670,14 +688,14 @@ describe 'Article API', type: :request, basic: true do
           expect(response).to be_json_response
 
           article = JSON.parse(response.body)
-          expect(article['article']).not_to be_empty
-          expect(article['article']['tags'].size).to eq(2)
-          expect(article['article']['tags'].map { |t| t['name'] }).to include('new tag 1', 'new tag 2')
-          expect(article['article']['parentTagIds']).to be_empty
-          expect(article['article']['childTagIds']).to be_empty
+          expect(article['data']['attributes']).not_to be_empty
+          expect(article['data']['relationships']['tags']['data'].size).to eq(2)
+          # expect(article['data']['relationships']['tags']['data'].map { |t| t['name'] }).to include('new tag 1', 'new tag 2')
+          expect(article['data']['attributes']['parentTagIds']).to be_empty
+          expect(article['data']['attributes']['childTagIds']).to be_empty
 
-          expect(TaggedArticle.where(article_id: article['article']['id']).first.tag.name).to eq('new tag 1')
-          expect(TaggedArticle.where(article_id: article['article']['id']).second.tag.name).to eq('new tag 2')
+          expect(TaggedArticle.where(article_id: article['data']['attributes']['id']).first.tag.name).to eq('new tag 1')
+          expect(TaggedArticle.where(article_id: article['data']['attributes']['id']).second.tag.name).to eq('new tag 2')
         }.to change(Article, :count).by(0).and change(Tag, :count).by(2).and change(TaggedArticle, :count).by(-1)
       end
 
@@ -688,10 +706,10 @@ describe 'Article API', type: :request, basic: true do
           expect(response).to be_json_response
 
           article = JSON.parse(response.body)
-          expect(article['article']).not_to be_empty
-          expect(article['article']['tags'].size).to eq(2)
-          expect(article['article']['parentTagIds'].size).to eq(1)
-          expect(article['article']['childTagIds'].size).to eq(1)
+          expect(article['data']['attributes']).not_to be_empty
+          expect(article['data']['relationships']['tags']['data'].size).to eq(2)
+          expect(article['data']['attributes']['parentTagIds'].size).to eq(1)
+          expect(article['data']['attributes']['childTagIds'].size).to eq(1)
         }.to change(Article, :count).by(0).and change(Tag, :count).by(0).and change(TaggedArticle, :count).by(-1).and change(TagRelationship, :count).by(-1)
       end
 
@@ -724,9 +742,9 @@ describe 'Article API', type: :request, basic: true do
         expect(response).to be_json_response
 
         article = JSON.parse(response.body)
-        expect(article['article']).not_to be_empty
-        expect(article['article']['topicId']).to eq(@article.topic_id)
-        expect(article['article']['topicId']).not_to eq(@second_topic.id)
+        expect(article['data']['attributes']).not_to be_empty
+        expect(article['data']['attributes']['topicId']).to eq(@article.topic_id)
+        expect(article['data']['attributes']['topicId']).not_to eq(@second_topic.id)
       end
     end
   end
@@ -807,8 +825,9 @@ describe 'Article API', type: :request, basic: true do
         expect(response).to be_json_response
 
         json_comments = JSON.parse(response.body)
-        expect(json_comments['comments']).not_to be_empty
-        expect(json_comments['comments'].size).to eq(5)
+        expect(json_comments['meta']['root']).to eq('comments')
+        expect(json_comments['data']).not_to be_empty
+        expect(json_comments['data'].size).to eq(5)
       end
     end
 
@@ -832,8 +851,8 @@ describe 'Article API', type: :request, basic: true do
           expect(response).to be_json_response(202)
 
           json_comment = JSON.parse(response.body)
-          expect(json_comment['comment']).not_to be_empty
-          expect(json_comment['comment']['title']).to eq(comment_attributes[:comment][:title])
+          expect(json_comment['data']['attributes']).not_to be_empty
+          expect(json_comment['data']['attributes']['title']).to eq(comment_attributes[:comment][:title])
         end
 
         it 'returns the errors for incorrect attributes' do
@@ -870,8 +889,8 @@ describe 'Article API', type: :request, basic: true do
           expect(response).to be_json_response(202)
 
           json_comment = JSON.parse(response.body)
-          expect(json_comment['comment']).not_to be_empty
-          expect(json_comment['comment']['title']).to eq(comment_updated_attributes[:comment][:title])
+          expect(json_comment['data']['attributes']).not_to be_empty
+          expect(json_comment['data']['attributes']['title']).to eq(comment_updated_attributes[:comment][:title])
         end
       end
     end

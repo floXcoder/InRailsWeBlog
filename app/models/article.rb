@@ -297,33 +297,17 @@ class Article < ApplicationRecord
   # after_commit :update_search_index
 
   # == Class Methods ========================================================
-  def self.as_json(articles, options = {})
-    return nil unless articles
+  def self.as_flat_json(articles, format, **options)
+    data = case format
+           when 'strict'
+             ArticleStrictSerializer.new(articles, **options)
+           when 'complete'
+             ArticleCompleteSerializer.new(articles, include: [:tracker], includes: [], **options)
+           else
+             ArticleSampleSerializer.new(articles, include: [:user, :tags], **options)
+           end
 
-    serializer_options = {
-      root: articles.is_a?(Article) ? 'article' : 'articles'
-    }
-
-    serializer_options.merge(
-      scope:      options.delete(:current_user),
-      scope_name: :current_user
-    ) if options.key?(:current_user)
-
-    serializer_options[articles.is_a?(Article) ? :serializer : :each_serializer] = if options[:strict]
-                                                                                     ArticleStrictSerializer
-                                                                                   elsif options[:sample]
-                                                                                     ArticleSampleSerializer
-                                                                                   else
-                                                                                     ArticleSerializer
-                                                                                   end
-
-    ActiveModelSerializers::SerializableResource.new(articles, serializer_options.merge(options)).as_json
-  end
-
-  def self.as_flat_json(articles, options = {})
-    return nil unless articles
-
-    as_json(articles, options)[articles.is_a?(Article) ? :article : :articles]
+    data.flat_serializable_hash
   end
 
   # == Instance Methods =====================================================

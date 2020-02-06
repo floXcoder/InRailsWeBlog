@@ -22,7 +22,8 @@ describe 'Users API', type: :request, basic: true do
         expect(response).to be_json_response
 
         users = JSON.parse(response.body)
-        expect(users['users']).not_to be_empty
+        expect(users['meta']['root']).to eq('users')
+        expect(users['data']).not_to be_empty
         # expect(users['users'].size).to eq(6)
       end
 
@@ -32,8 +33,9 @@ describe 'Users API', type: :request, basic: true do
         get '/api/v1/users', as: :json
 
         users = JSON.parse(response.body)
-        expect(users['users']).not_to be_empty
-        expect(users['users'].size).to be <= InRailsWeBlog.config.per_page
+        expect(users['meta']['root']).to eq('users')
+        expect(users['data']).not_to be_empty
+        expect(users['data'].size).to be <= InRailsWeBlog.config.per_page
       end
     end
   end
@@ -65,8 +67,8 @@ describe 'Users API', type: :request, basic: true do
       expect(response).to be_json_response
 
       user = JSON.parse(response.body)
-      expect(user['user']).not_to be_empty
-      expect(user['user']['pseudo']).to eq('Main User')
+      expect(user['data']['attributes']).not_to be_empty
+      expect(user['data']['attributes']['pseudo']).to eq('Main User')
     end
   end
 
@@ -92,8 +94,8 @@ describe 'Users API', type: :request, basic: true do
         expect(response).to be_json_response
 
         comments = JSON.parse(response.body)
-        expect(comments['comments']).not_to be_empty
-        expect(comments['comments'].size).to eq(5)
+        expect(comments['data']).not_to be_empty
+        expect(comments['data'].size).to eq(5)
       end
     end
   end
@@ -127,7 +129,7 @@ describe 'Users API', type: :request, basic: true do
         recents = JSON.parse(response.body)
         expect(recents['articles']).to be_empty
         expect(recents['tags']).not_to be_empty
-        expect(recents['tags'].first['id']).to eq(tag.id)
+        expect(recents['tags'].first['id'].to_s).to eq(tag.id.to_s)
       end
     end
   end
@@ -152,7 +154,8 @@ describe 'Users API', type: :request, basic: true do
         expect(response).to be_json_response
 
         activities = JSON.parse(response.body)
-        expect(activities['activities']).not_to be_empty
+        expect(activities['meta']['root']).to eq('activities')
+        expect(activities['data']).not_to be_empty
       end
     end
   end

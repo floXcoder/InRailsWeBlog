@@ -17,15 +17,15 @@ export default @connect((state) => ({
     currentUserId: state.userState.currentId,
     user: state.userState.user,
     settings: state.userState.user.settings,
-    articlesLoader: state.userState.user && state.userState.user.settings.articlesLoader,
-    articleDisplay: state.userState.user && state.userState.user.settings.articleDisplay,
-    tagParentAndChild: state.userState.user && state.userState.user.settings.tagParentAndChild,
-    tagSidebarPin: state.userState.user && state.userState.user.settings.tagSidebarPin,
-    tagSidebarWithChild: state.userState.user && state.userState.user.settings.tagSidebarWithChild,
-    tagOrder: state.userState.user && state.userState.user.settings.tagOrder,
-    searchHighlight: state.userState.user && state.userState.user.settings.searchHighlight,
-    searchOperator: state.userState.user && state.userState.user.settings.searchOperator,
-    searchExact: state.userState.user && state.userState.user.settings.searchExact
+    articlesLoader: state.userState.user?.settings?.articlesLoader,
+    articleDisplay: state.userState.user?.settings?.articleDisplay,
+    tagParentAndChild: state.userState.user?.settings?.tagParentAndChild,
+    tagSidebarPin: state.userState.user?.settings?.tagSidebarPin,
+    tagSidebarWithChild: state.userState.user?.settings?.tagSidebarWithChild,
+    tagOrder: state.userState.user?.settings?.tagOrder,
+    searchHighlight: state.userState.user?.settings?.searchHighlight,
+    searchOperator: state.userState.user?.settings?.searchOperator,
+    searchExact: state.userState.user?.settings?.searchExact
 }), {
     updateUserSettings
 })

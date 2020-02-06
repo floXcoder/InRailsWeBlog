@@ -1,7 +1,13 @@
 # frozen_string_literal: true
 
-class TagCompleteSerializer < ActiveModel::Serializer
-  cache key: 'tag_complete', expires_in: InRailsWeBlog.config.cache_time
+class TagCompleteSerializer
+  include FastJsonapi::ObjectSerializer
+
+  set_type :tag
+
+  cache_options enabled: true, cache_length: InRailsWeBlog.config.cache_time
+
+  set_key_transform :camel_lower
 
   attributes :id,
              :name,
@@ -9,35 +15,31 @@ class TagCompleteSerializer < ActiveModel::Serializer
              :synonyms,
              :priority,
              :visibility,
-             :visibility_translated,
              :tagged_articles_count,
-             :date,
              :slug,
-             :parents,
-             :children,
-             :link
+             :parents
 
   belongs_to :user, serializer: UserSampleSerializer
 
   has_one :tracker
 
-  def visibility_translated
+  attribute :visibility_translated do |object|
     object.visibility_to_tr
   end
 
-  def date
+  attribute :date do |object|
     I18n.l(object.created_at, format: :custom).sub(/^[0]+/, '')
   end
 
-  def parents
-    object.parents_for_user(instance_options[:current_user_id])
+  attribute :parents do |object, params|
+    object.parents_for_user(params[:current_user_id])
   end
 
-  def children
-    object.children_for_user(instance_options[:current_user_id])
+  attribute :children do |object, params|
+    object.children_for_user(params[:current_user_id])
   end
 
-  def link
+  attribute :link do |object|
     Rails.application.routes.url_helpers.show_tag_path(tag_slug: object.slug)
   end
 end

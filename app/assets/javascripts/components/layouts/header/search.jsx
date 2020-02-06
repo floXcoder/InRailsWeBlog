@@ -83,7 +83,7 @@ class HomeSearchHeader extends React.Component {
     }
 
     componentWillUnmount() {
-        if (this._request && this._request.signal) {
+        if (this._request?.signal) {
             this._request.signal.abort();
         }
 
@@ -99,7 +99,7 @@ class HomeSearchHeader extends React.Component {
     };
 
     _handleFetch = _.debounce((query) => {
-        if (this._request && this._request.signal) {
+        if (this._request?.signal) {
             this._request.signal.abort();
         }
 

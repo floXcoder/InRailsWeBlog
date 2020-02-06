@@ -273,6 +273,8 @@ en:
           attributes:
             imageable:
               required: "Image model is required"
+        seo_data:
+          bad_route_name: "Route not available"
   errors:
     format: "%{attribute} %{message}"
     messages:

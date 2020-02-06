@@ -1,48 +1,44 @@
 # frozen_string_literal: true
 
-class ArticleSampleSerializer < ActiveModel::Serializer
+class ArticleSampleSerializer
+  include FastJsonapi::ObjectSerializer
   include NullAttributesRemover
 
-  # cache key: 'article_sample', expires_in: InRailsWeBlog.config.cache_time
+  set_type :article
+
+  cache_options enabled: true, cache_length: InRailsWeBlog.config.cache_time
+
+  set_key_transform :camel_lower
 
   attributes :id,
              :topic_id,
              :mode,
-             :mode_translated,
-             :title,
              :summary,
-             :content,
-             :inventories,
              :draft,
              :visibility,
              :current_language,
-             :date,
-             :date_short,
-             :date_iso,
              :default_picture,
              :slug,
              :outdated_articles_count,
-             :comments_count,
-             :parent_tag_ids,
-             :child_tag_ids
+             :comments_count
 
   belongs_to :user, serializer: UserSampleSerializer
 
   has_many :tags, serializer: TagSampleSerializer
 
-  def mode_translated
+  attribute :mode_translated do |object|
     object.mode_to_tr
   end
 
-  def title
-    instance_options.dig(:highlight_results, object.id, :title).presence || object.title
+  attribute :title do |object, params|
+    params.dig(:highlight_results, object.id, :title).presence || object.title
   end
 
-  def content
-    instance_options.dig(:highlight_results, object.id, :content).presence || object.summary_content
+  attribute :content do |object, params|
+    params.dig(:highlight_results, object.id, :content).presence || object.summary_content
   end
 
-  def inventories
+  attribute :inventories do |object|
     if object.inventory?
       object.topic.inventory_fields.map do |inventory_field|
         inventory_value = object.inventories[inventory_field.field_name]
@@ -57,23 +53,23 @@ class ArticleSampleSerializer < ActiveModel::Serializer
     end
   end
 
-  def date
+  attribute :date do |object|
     I18n.l(object.updated_at, format: :custom_full_date).sub(/^[0]+/, '')
   end
 
-  def date_short
+  attribute :date_short do |object|
     I18n.l(object.updated_at, format: :short).split(' ').map(&:capitalize)
   end
 
-  def date_iso
+  attribute :date_iso do |object|
     object.created_at.strftime('%Y-%m-%d')
   end
 
-  def parent_tag_ids
+  attribute :parent_tag_ids do |object|
     object.tagged_articles.select(&:parent?).map(&:tag_id)
   end
 
-  def child_tag_ids
+  attribute :child_tag_ids do |object|
     object.tagged_articles.select(&:child?).map(&:tag_id)
   end
 end

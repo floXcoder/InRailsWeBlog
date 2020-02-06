@@ -191,7 +191,7 @@ class HeaderLayoutUser extends React.PureComponent {
                 <HomeArticleHeader routeParams={this.props.routeParams}
                                    userSlug={this.props.userSlug}
                                    topicSlug={this.props.topicSlug}
-                                   currentTopicMode={this.props.currentTopic && this.props.currentTopic.mode}
+                                   currentTopicMode={this.props.currentTopic?.mode}
                                    currentTagSlugs={this.props.currentTagSlugs}
                                    hasTemporaryArticle={this.state.hasTemporaryArticle}/>
 
@@ -253,7 +253,7 @@ class HeaderLayoutUser extends React.PureComponent {
                                                routeParams={this.props.routeParams}
                                                userSlug={this.props.userSlug}
                                                topicSlug={this.props.topicSlug}
-                                               currentTopicMode={this.props.currentTopic && this.props.currentTopic.mode}
+                                               currentTopicMode={this.props.currentTopic?.mode}
                                                currentTagSlugs={this.props.currentTagSlugs}
                                                hasTemporaryArticle={this.state.hasTemporaryArticle}/>
                         </Collapse>

@@ -1,7 +1,13 @@
 # frozen_string_literal: true
 
-class TopicCompleteSerializer < ActiveModel::Serializer
-  cache key: 'topic_complete', expires_in: InRailsWeBlog.config.cache_time
+class TopicCompleteSerializer
+  include FastJsonapi::ObjectSerializer
+
+  set_type :topic
+
+  cache_options enabled: true, cache_length: InRailsWeBlog.config.cache_time
+
+  set_key_transform :camel_lower
 
   attributes :id,
              :user_id,
@@ -10,30 +16,27 @@ class TopicCompleteSerializer < ActiveModel::Serializer
              :description,
              :priority,
              :visibility,
-             :visibility_translated,
              :settings,
              :slug,
-             :articles_count,
-             :created_at,
-             :link
+             :articles_count
 
-  belongs_to :user, if: -> { instance_options[:complete] }, serializer: UserSampleSerializer
+  belongs_to :user, if: Proc.new { |_record, params| params[:complete] }, serializer: UserSampleSerializer
 
   has_many :inventory_fields, serializer: Topic::InventoryFieldSerializer
 
-  has_many :contributors, serializer: UserStrictSerializer
+  has_many :contributors, record_type: :user, serializer: UserStrictSerializer
 
   has_one :tracker
 
-  def visibility_translated
+  attribute :visibility_translated do |object|
     object.visibility_to_tr
   end
 
-  def created_at
+  attribute :created_at do |object|
     I18n.l(object.created_at, format: :custom).mb_chars.downcase.to_s
   end
 
-  def link
+  attribute :link do |object|
     Rails.application.routes.url_helpers.show_topic_path(user_slug: object.user.slug, topic_slug: object.slug)
   end
 end

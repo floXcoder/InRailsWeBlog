@@ -15,10 +15,9 @@ module Api::V1
           if article.mark_as_outdated(current_user)
             article.create_activity(action: :outdated_up, owner: current_user)
 
-            render json:          article,
-                   serializer:    ArticleSerializer,
-                   with_vote:     true,
-                   with_outdated: true
+            render json: ArticleSerializer.new(article,
+                                               include: [:user, :topic, :tracker, :tags],
+                                               params:  { current_user_id: current_user&.id, with_vote: true, with_outdated: true })
           else
             render json:   { errors: article.errors.messages[:outdated].first },
                    status: :unprocessable_entity
@@ -36,10 +35,9 @@ module Api::V1
           if article.remove_outdated(current_user)
             article.create_activity(action: :outdated_down, owner: current_user)
 
-            render json:          article,
-                   serializer:    ArticleSerializer,
-                   with_vote:     true,
-                   with_outdated: true
+            render json: ArticleSerializer.new(article,
+                                               include: [:user, :topic, :tracker, :tags],
+                                               params:  { current_user_id: current_user&.id, with_vote: true, with_outdated: true })
           else
             render json:   { errors: article.errors.messages[:outdated].first },
                    status: :unprocessable_entity

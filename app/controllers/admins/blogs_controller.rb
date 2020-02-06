@@ -13,9 +13,8 @@ class Admins::BlogsController < AdminsController
       format.json do
         blogs = Admin::Blog.all
 
-        render json:            blogs,
-               root:            'blogs',
-               each_serializer: Admin::BlogSerializer
+        render json: Admin::BlogSerializer.new(blogs,
+                                               meta: { root: 'blogs' })
       end
     end
   end
@@ -27,10 +26,8 @@ class Admins::BlogsController < AdminsController
       format.json do
         if blog.save
           flash.now[:success] = t('views.admin.blog.flash.successful_creation')
-          render json:       blog,
-                 root:       'blog',
-                 serializer: Admin::BlogSerializer,
-                 status:     :created
+          render json:   Admin::BlogSerializer.new(blog),
+                 status: :created
         else
           flash.now[:error] = t('views.admin.blog.flash.error_creation')
           render json:   { errors: blog.errors },
@@ -47,10 +44,8 @@ class Admins::BlogsController < AdminsController
       format.json do
         if blog.update(blog_params)
           flash.now[:success] = t('views.admin.blog.flash.successful_edition')
-          render json:       blog,
-                 root:       'blog',
-                 serializer: Admin::BlogSerializer,
-                 status:     :ok
+          render json:   Admin::BlogSerializer.new(blog),
+                 status: :ok
         else
           flash.now[:error] = t('views.admin.blog.flash.error_edition')
           render json:   { errors: blog.errors },

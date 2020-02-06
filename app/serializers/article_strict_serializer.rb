@@ -1,9 +1,15 @@
 # frozen_string_literal: true
 
-class ArticleStrictSerializer < ActiveModel::Serializer
+class ArticleStrictSerializer
+  include FastJsonapi::ObjectSerializer
   include NullAttributesRemover
 
-  # cache key: 'article_strict', expires_in: InRailsWeBlog.config.cache_time
+  set_type :article
+
+  # Cache not available without model object
+  # cache_options enabled: true, cache_length: InRailsWeBlog.config.cache_time
+
+  set_key_transform :camel_lower
 
   # Methods with attributes must be overrided to work with searchkick results
   attributes :id,
@@ -13,69 +19,22 @@ class ArticleStrictSerializer < ActiveModel::Serializer
              :title,
              :summary,
              :draft,
-             :date,
              :visibility,
              :current_language,
              :slug,
-             :tag_names,
-             :user,
-             :link
+             :tag_names
 
-  def id
-    object.id
-  end
-
-  def topic_id
-    object.topic_id
-  end
-
-  def mode
-    object.mode
-  end
-
-  def mode_translated
-    object.mode_translated
-  end
-
-  def title
-    object.title
-  end
-
-  def summary
-    object.summary
-  end
-
-  def draft
-    object.draft
-  end
-
-  def date
+  attribute :date do |object|
     object.created_at.to_i
   end
 
-  def visibility
-    object.visibility
-  end
-
-  def current_language
-    object.current_language
-  end
-
-  def slug
-    object.slug
-  end
-
-  def tag_names
-    object.tag_names
-  end
-
-  def user
+  attribute :user do |object|
     {
       slug: object.respond_to?(:user_slug) ? object.user_slug : object.user.slug
     }
   end
 
-  def link
-    Rails.application.routes.url_helpers.show_article_path(user_slug: object.user.slug, article_slug: object.slug) if instance_options[:with_link]
+  attribute :link do |object, params|
+    Rails.application.routes.url_helpers.show_article_path(user_slug: object.user.slug, article_slug: object.slug) if params[:with_link]
   end
 end

@@ -245,6 +245,19 @@ class User < ApplicationRecord
   after_create :create_default_topic
 
   # == Class Methods ========================================================
+  def self.as_flat_json(users, format, **options)
+    data = case format
+           when 'strict'
+             UserStrictSerializer.new(users, **options)
+           when 'complete'
+             UserCompleteSerializer.new(users, include: [:tracker], includes: [], **options)
+           else
+             UserSampleSerializer.new(users, **options)
+           end
+
+    data.flat_serializable_hash
+  end
+
   def self.order_by(order)
     case order
     when 'id_asc'
@@ -296,33 +309,6 @@ class User < ApplicationRecord
     else
       where(conditions.to_h).first
     end
-  end
-
-  def self.as_json(users, options = {})
-    return nil unless users
-
-    serializer_options = {}
-
-    serializer_options.merge(
-      scope:      options.delete(:current_user),
-      scope_name: :current_user
-    ) if options.key?(:current_user)
-
-    serializer_options[users.is_a?(User) ? :serializer : :each_serializer] = if options[:strict]
-                                                                               UserStrictSerializer
-                                                                             elsif options[:sample]
-                                                                               UserSampleSerializer
-                                                                             else
-                                                                               UserSerializer
-                                                                             end
-
-    ActiveModelSerializers::SerializableResource.new(users, serializer_options.merge(options)).as_json
-  end
-
-  def self.as_flat_json(users, options = {})
-    return nil unless users
-
-    as_json(users, options)[users.is_a?(User) ? :user : :users]
   end
 
   # == Instance Methods =====================================================

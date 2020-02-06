@@ -4,6 +4,10 @@ import * as ActionTypes from '../constants/actionTypes';
 
 import api from '../middlewares/api';
 
+import {
+    convertJsonApi
+} from '../middlewares/json';
+
 // Articles
 export const fetchArticles = (filter = {}, options = {}, payload = {}) => ({
     actionType: ActionTypes.ARTICLE,
@@ -69,7 +73,7 @@ export const deleteArticle = (articleId, options = {}) => ({
 });
 
 // Article stories
-const receiveArticleStories = (stories) => ({
+const receiveArticleStories = ({stories}) => ({
     type: ActionTypes.ARTICLE_STORIES,
     stories
 });
@@ -78,22 +82,22 @@ export const fetchArticleStories = (userId, articleId) => (dispatch) => (
         userId
     })
         .promise
-        .then((response) => dispatch(receiveArticleStories(response.stories)))
+        .then((response) => dispatch(receiveArticleStories(convertJsonApi(response))))
 );
 
 // Article history
-const receiveArticleVersions = (versions, meta) => ({
+const receiveArticleVersions = ({history, meta}) => ({
     type: ActionTypes.ARTICLE_HISTORY,
-    versions,
+    versions: history,
     meta
 });
 export const fetchArticleHistory = (articleId) => (dispatch) => (
     api.get(`/api/v1/articles/${articleId}/history`)
         .promise
-        .then((response) => dispatch(receiveArticleVersions(response.history, response.meta)))
+        .then((response) => dispatch(receiveArticleVersions(convertJsonApi(response))))
 );
 
-const receiveArticleRestored = (article) => ({
+const receiveArticleRestored = ({article}) => ({
     type: ActionTypes.ARTICLE_RESTORE,
     article
 });
@@ -102,7 +106,7 @@ export const restoreArticle = (articleId, versionId) => (dispatch) => (
         versionId
     })
         .promise
-        .then((response) => dispatch(receiveArticleRestored(response.article)))
+        .then((response) => dispatch(receiveArticleRestored(convertJsonApi(response))))
 );
 
 // Article outdate

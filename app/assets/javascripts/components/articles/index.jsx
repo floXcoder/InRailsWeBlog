@@ -126,7 +126,7 @@ class ArticleIndex extends React.Component {
     }
 
     componentWillUnmount() {
-        if (this._request && this._request.signal) {
+        if (this._request?.signal) {
             this._request.signal.abort();
         }
     }
@@ -298,7 +298,7 @@ class ArticleIndex extends React.Component {
 
                     {
                         this.props.articlesLoaderMode === 'pagination' &&
-                        <Pagination totalPages={this.props.articlePagination && this.props.articlePagination.totalPages}
+                        <Pagination totalPages={this.props.articlePagination?.totalPages}
                                     onPaginationClick={this._fetchNextArticles}/>
                     }
                 </div>

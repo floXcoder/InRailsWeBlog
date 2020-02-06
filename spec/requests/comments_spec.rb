@@ -21,8 +21,9 @@ describe 'Comments API', type: :request, basic: true do
 
       comments = JSON.parse(response.body)
 
+      expect(comments['meta']['root']).to eq('comments')
       expect(comments).not_to be_empty
-      expect(comments['comments'].size).to eq(5)
+      expect(comments['data'].size).to eq(5)
       expect(comments['meta']['pagination']['totalCount']).to eq(5)
     end
   end

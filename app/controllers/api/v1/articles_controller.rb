@@ -51,35 +51,38 @@ module Api::V1
           if filter_params[:tag_slug].present?
             if filter_params[:topic_slug].present?
               set_seo_data(:tagged_topic_articles,
-                           tag_slug: Tag.find_by(slug: filter_params[:parent_tag_slug].presence || filter_params[:tag_slug].presence)&.name,
+                           tag_slug:   Tag.find_by(slug: filter_params[:parent_tag_slug].presence || filter_params[:tag_slug].presence)&.name,
                            topic_slug: Topic.find_by(slug: filter_params[:topic_slug])&.name,
-                           user_slug: User.find_by(slug: filter_params[:user_slug])&.pseudo)
+                           user_slug:  User.find_by(slug: filter_params[:user_slug])&.pseudo)
             else
               set_seo_data(:tagged_articles,
-                           tag_slug: Tag.find_by(slug: filter_params[:parent_tag_slug].presence || filter_params[:tag_slug].presence)&.name,
+                           tag_slug:  Tag.find_by(slug: filter_params[:parent_tag_slug].presence || filter_params[:tag_slug].presence)&.name,
                            user_slug: User.find_by(slug: filter_params[:user_slug])&.pseudo)
             end
           elsif filter_params[:topic_slug].present?
             set_seo_data(:topic_articles,
                          topic_slug: Topic.find_by(slug: filter_params[:topic_slug]).name,
-                         user_slug: User.find_by(slug: filter_params[:user_slug]).pseudo)
+                         user_slug:  User.find_by(slug: filter_params[:user_slug]).pseudo)
           else
             set_seo_data(:user_articles,
                          user_slug: User.find_by(slug: filter_params[:user_slug]))
           end
 
           if complete
-            render json:            articles,
-                   each_serializer: ArticleCompleteSerializer
+            render json: ArticleCompleteSerializer.new(articles,
+                                                       include: [:tracker],
+                                                       meta:    { root: 'articles', **meta_attributes })
           elsif params[:summary]
-            render json:            articles,
-                   each_serializer: ArticleSampleSerializer,
-                   meta:            meta_attributes(pagination: articles)
+            render json: ArticleSampleSerializer.new(articles,
+                                                     include: [:user, :tags],
+                                                     meta:    { root: 'articles', **meta_attributes }),
+                   meta: meta_attributes(pagination: articles)
           else
-            render json:            articles,
-                   each_serializer: ArticleSerializer,
-                   with_outdated:   true,
-                   meta:            meta_attributes(pagination: articles)
+            render json: ArticleSerializer.new(articles,
+                                               include: [:user, :topic, :tracker, :tags],
+                                               params:  { current_user_id: current_user&.id, with_outdated: true },
+                                               meta:    { root: 'articles', **meta_attributes }),
+                   meta: meta_attributes(pagination: articles)
           end
         end
       end
@@ -93,23 +96,26 @@ module Api::V1
         format.json do
           set_seo_data(:user_article,
                        article_slug: article.title,
-                       topic_slug: article.topic.name,
-                       user_slug: article.user.pseudo,
-                       author: article.user.pseudo,
-                       canonical: article.link_path(host: ENV['WEBSITE_FULL_ADDRESS']),
-                       og:          {
-                                      type:  "#{ENV['WEBSITE_NAME']}:article",
-                                      url:   article.link_path(host: ENV['WEBSITE_FULL_ADDRESS']),
-                                      image: article.default_picture ? (root_url + article.default_picture) : nil
-                                    }.compact)
+                       topic_slug:   article.topic.name,
+                       user_slug:    article.user.pseudo,
+                       author:       article.user.pseudo,
+                       canonical:    article.link_path(host: ENV['WEBSITE_FULL_ADDRESS']),
+                       og:           {
+                                       type:  "#{ENV['WEBSITE_NAME']}:article",
+                                       url:   article.link_path(host: ENV['WEBSITE_FULL_ADDRESS']),
+                                       image: article.default_picture ? (root_url + article.default_picture) : nil
+                                     }.compact)
 
-          render json:          article,
-                 serializer:    ArticleSerializer,
-                 with_share:    true,
-                 with_vote:     true,
-                 with_outdated: true,
-                 with_tracking: params[:complete] && current_user && article.user?(current_user),
-                 meta:          meta_attributes
+          render json: ArticleSerializer.new(article,
+                                             include: [:user, :topic, :tracker, :tags],
+                                             params:  {
+                                               current_user_id: current_user&.id,
+                                               with_share:      true,
+                                               with_vote:       true,
+                                               with_outdated:   true,
+                                               with_tracking:   params[:complete] && current_user && article.user?(current_user)
+                                             },
+                                             meta:    meta_attributes)
         end
       end
     end
@@ -123,19 +129,20 @@ module Api::V1
         format.json do
           set_seo_data(:shared_article,
                        article_slug: article.title,
-                       topic_slug: article.topic.name,
-                       user_slug: article.user.pseudo,
-                       author: article.user.pseudo,
-                       canonical: article.link_path(host: ENV['WEBSITE_FULL_ADDRESS']),
-                       og:          {
+                       topic_slug:   article.topic.name,
+                       user_slug:    article.user.pseudo,
+                       author:       article.user.pseudo,
+                       canonical:    article.link_path(host: ENV['WEBSITE_FULL_ADDRESS']),
+                       og:           {
                                        type:  "#{ENV['WEBSITE_NAME']}:article",
                                        url:   article.link_path(host: ENV['WEBSITE_FULL_ADDRESS']),
                                        image: article.default_picture ? (root_url + article.default_picture) : nil
                                      }.compact)
 
-          render json:       article,
-                 serializer: ArticleSerializer,
-                 meta:       meta_attributes
+          render json: ArticleSerializer.new(article,
+                                             include: [:user, :topic, :tracker, :tags],
+                                             params:  { current_user_id: current_user&.id },
+                                             meta:    meta_attributes)
         end
       end
     end
@@ -147,9 +154,9 @@ module Api::V1
 
       respond_to do |format|
         format.json do
-          render json:            articles,
-                 root:            'stories',
-                 each_serializer: ArticleSampleSerializer
+          render json: ArticleSampleSerializer.new(articles,
+                                                   include: [:user, :tags],
+                                                   meta:    { root: 'stories' })
         end
       end
     end
@@ -164,14 +171,12 @@ module Api::V1
         format.json do
           set_seo_data(:history_article,
                        article_slug: article.title,
-                       topic_slug: article.topic.name,
-                       user_slug: article.user.pseudo,
-                       author: article.user.pseudo)
+                       topic_slug:   article.topic.name,
+                       user_slug:    article.user.pseudo,
+                       author:       article.user.pseudo)
 
-          render json:            article_versions,
-                 root:            'history',
-                 each_serializer: HistorySerializer,
-                 meta:            meta_attributes
+          render json: HistorySerializer.new(article_versions,
+                                             meta: { root: 'history', **meta_attributes })
         end
       end
     end
@@ -186,9 +191,10 @@ module Api::V1
         format.json do
           if stored_article.success?
             flash.now[:success] = stored_article.message
-            render json:       stored_article.result,
-                   serializer: ArticleSerializer,
-                   status:     :created
+            render json:   ArticleSerializer.new(stored_article.result,
+                                                 include: [:user, :topic, :tracker, :tags],
+                                                 params:  { current_user_id: current_user&.id }),
+                   status: :created
           else
             flash.now[:error] = stored_article.message
             render json:   { errors: stored_article.errors },
@@ -206,13 +212,14 @@ module Api::V1
         format.json do
           set_seo_data(:edit_article,
                        article_slug: article.title,
-                       topic_slug: article.topic.name,
-                       user_slug: article.user.pseudo,
-                       author: article.user.pseudo)
+                       topic_slug:   article.topic.name,
+                       user_slug:    article.user.pseudo,
+                       author:       article.user.pseudo)
 
-          render json:       article,
-                 serializer: ArticleSerializer,
-                 meta:       meta_attributes
+          render json: ArticleSerializer.new(article,
+                                             include: [:user, :topic, :tracker, :tags],
+                                             params:  { current_user_id: current_user&.id },
+                                             meta:    meta_attributes)
         end
       end
     end
@@ -227,12 +234,15 @@ module Api::V1
         format.json do
           if stored_article.success?
             flash.now[:success] = stored_article.message unless params[:auto_save]
-            render json:          stored_article.result,
-                   serializer:    ArticleSerializer,
-                   with_share:    true,
-                   with_vote:     true,
-                   with_outdated: true,
-                   status:        :ok
+            render json:   ArticleSerializer.new(stored_article.result,
+                                                 params:  {
+                                                   current_user_id: current_user&.id,
+                                                   with_share:      true,
+                                                   with_vote:       true,
+                                                   with_outdated:   true
+                                                 },
+                                                 include: [:user, :topic, :tracker, :tags]),
+                   status: :ok
           else
             flash.now[:error] = stored_article.message
             render json:   { errors: stored_article.errors },
@@ -254,9 +264,11 @@ module Api::V1
         format.json do
           if articles.present?
             flash.now[:success] = t('views.article.flash.successful_priority_update')
-            render json:            articles.reverse,
-                   each_serializer: ArticleSerializer,
-                   status:          :ok
+            render json:   ArticleSerializer.new(articles.reverse,
+                                                 include: [:user, :topic, :tracker, :tags],
+                                                 params:  { current_user_id: current_user&.id },
+                                                 meta:    { root: 'articles' }),
+                   status: :ok
           else
             flash.now[:error] = t('views.article.flash.error_priority_update')
             render json:   { errors: t('views.article.flash.error_priority_update') },
@@ -280,7 +292,9 @@ module Api::V1
         respond_to do |format|
           flash.now[:success] = t('views.article.flash.successful_undeletion') if params[:from_deletion]
           format.json do
-            render json:   article,
+            render json:   ArticleSerializer.new(article,
+                                                 include: [:user, :topic, :tracker, :tags],
+                                                 params:  { current_user_id: current_user&.id }),
                    status: :accepted
           end
         end

@@ -14,8 +14,14 @@
 #
 
 
-class Admin::BlogSerializer < ActiveModel::Serializer
-  cache key: 'admin_blog', expires_in: InRailsWeBlog.config.cache_time
+class Admin::BlogSerializer
+  include FastJsonapi::ObjectSerializer
+
+  set_type :blog
+
+  cache_options enabled: true, cache_length: InRailsWeBlog.config.cache_time
+
+  set_key_transform :camel_lower
 
   attributes :id,
              :admin_id,

@@ -1,7 +1,13 @@
 # frozen_string_literal: true
 
-class UserProfileSerializer < ActiveModel::Serializer
-  # cache key: 'user_profile', expires_in: InRailsWeBlog.config.cache_time
+class UserProfileSerializer
+  include FastJsonapi::ObjectSerializer
+
+  set_type :user
+
+  cache_options enabled: true, cache_length: InRailsWeBlog.config.cache_time
+
+  set_key_transform :camel_lower
 
   attributes :id,
              :pseudo,
@@ -10,22 +16,25 @@ class UserProfileSerializer < ActiveModel::Serializer
              :last_name,
              :locale,
              :slug,
-             :avatar_url,
-             :articles_count,
-             :draft_count,
-             :settings
+             :avatar_url
 
-  has_one :current_topic, serializer: TopicSerializer
+  has_one :current_topic, record_type: :topic, serializer: TopicSerializer
 
   has_many :topics, serializer: TopicSampleSerializer
 
-  has_many :contributed_topics, serializer: TopicSampleSerializer
+  has_many :contributed_topics, record_type: :topic, serializer: TopicSampleSerializer
 
-  def articles_count
+  has_many :topics, serializer: TopicSampleSerializer
+
+  attribute :articles_count do |object|
     object.articles.size
   end
 
-  def draft_count
+  attribute :draft_count do |object|
     object.draft_articles.size
+  end
+
+  attribute :settings do |object|
+    UserSettingSerializer.new(object).serializable_hash[:data][:attributes]
   end
 end

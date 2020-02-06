@@ -39,13 +39,13 @@ module Api::V1
       respond_to do |format|
         format.json do
           if params[:complete] && admin_signed_in?
-            render json:            comments,
-                   each_serializer: CommentFullSerializer,
-                   meta:            meta_attributes(pagination: comments)
+            render json: CommentFullSerializer.new(comments,
+                                                   include: [:user, :commentable],
+                                                   meta:    { root: 'comments', **meta_attributes(pagination: comments) })
           else
-            render json:            comments,
-                   each_serializer: CommentSerializer,
-                   meta:            meta_attributes(pagination: comments)
+            render json: CommentSerializer.new(comments,
+                                               include: [:user],
+                                               meta:    { root: 'comments', **meta_attributes(pagination: comments) })
           end
         end
       end

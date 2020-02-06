@@ -161,7 +161,7 @@ export default function articleMutationManager(mode) {
             }
 
             _handleFormChange = (formState, values) => {
-                if (formState.isDirty && !formState.submitting && !formState.invalid && !formState.submitSucceeded) {
+                if (formState.dirty && !formState.submitting && !formState.invalid && !formState.submitSucceeded) {
                     this._handleChange(formState.values);
                 }
 
@@ -176,7 +176,7 @@ export default function articleMutationManager(mode) {
             // };
 
             _handleCancel = () => {
-                if (this.state.article && this.state.article.id) {
+                if (this.state.article?.id) {
                     return;
                 }
 
@@ -190,7 +190,7 @@ export default function articleMutationManager(mode) {
                 this._handleSubmit(values, true);
             }, articleWaitTimeBeforeSaving);
 
-            _handleSubmit = (values, autoSave = false) => {
+            _handleSubmit = (values, autoSave) => {
                 if (!values) {
                     return;
                 }
@@ -198,7 +198,7 @@ export default function articleMutationManager(mode) {
                 let formData = values;
 
                 // If article exists update the current article
-                if (this.state.article && this.state.article.id) {
+                if (this.state.article?.id) {
                     formData.id = this.props.article.id;
 
                     formatTagArticles(formData, this.props.article.tags, {
@@ -206,7 +206,7 @@ export default function articleMutationManager(mode) {
                         childTagIds: this.props.article.childTagIds
                     });
 
-                    const updatePromise = this.props.updateArticle(formData, {autoSave});
+                    const updatePromise = this.props.updateArticle(formData, {autoSave: (autoSave === true)});
                     if (autoSave === true) {
                         return updatePromise;
                     } else {
@@ -231,7 +231,7 @@ export default function articleMutationManager(mode) {
                         };
                     }
 
-                    formatTagArticles(formData, this.state.article && this.state.article.tags, tagParams);
+                    formatTagArticles(formData, this.state.article?.tags, tagParams);
 
                     // Merge previous data if any
                     if (this.state.article) {
@@ -279,7 +279,7 @@ export default function articleMutationManager(mode) {
             };
 
             render() {
-                let currentMode = (this.props.routeState && this.props.routeState.mode) || 'note';
+                let currentMode = (this.props.routeState?.mode) || 'note';
                 if (this.props.currentTopic && this.props.currentTopic.mode === 'stories') {
                     currentMode = 'story';
                 }

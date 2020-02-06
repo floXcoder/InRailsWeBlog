@@ -28,14 +28,14 @@ describe 'Context API', type: :request, basic: true do
         get "/api/v1/articles/#{@public_article.slug}", params: { user_id: @public_article.user.slug }, as: :json
         expect(response).to be_json_response
         article = JSON.parse(response.body)
-        expect(article['article']).not_to be_empty
-        expect(article['article']['id']).to eq(@public_article.id)
+        expect(article['data']['attributes']).not_to be_empty
+        expect(article['data']['attributes']['id']).to eq(@public_article.id)
 
         get "/api/v1/articles/#{@other_public_article.slug}", params: { user_id: @other_public_article.user.slug }, as: :json
         expect(response).to be_json_response
         article = JSON.parse(response.body)
-        expect(article['article']).not_to be_empty
-        expect(article['article']['id']).to eq(@other_public_article.id)
+        expect(article['data']['attributes']).not_to be_empty
+        expect(article['data']['attributes']['id']).to eq(@other_public_article.id)
       end
     end
 
@@ -58,14 +58,14 @@ describe 'Context API', type: :request, basic: true do
         get "/api/v1/articles/#{@public_article.slug}", params: { user_id: @public_article.user.slug }, as: :json
         expect(response).to be_json_response
         article = JSON.parse(response.body)
-        expect(article['article']).not_to be_empty
-        expect(article['article']['id']).to eq(@public_article.id)
+        expect(article['data']['attributes']).not_to be_empty
+        expect(article['data']['attributes']['id']).to eq(@public_article.id)
 
         get "/api/v1/articles/#{@other_public_article.slug}", params: { user_id: @other_public_article.user.slug }, as: :json
         expect(response).to be_json_response
         article = JSON.parse(response.body)
-        expect(article['article']).not_to be_empty
-        expect(article['article']['id']).to eq(@other_public_article.id)
+        expect(article['data']['attributes']).not_to be_empty
+        expect(article['data']['attributes']['id']).to eq(@other_public_article.id)
       end
     end
 
@@ -88,14 +88,14 @@ describe 'Context API', type: :request, basic: true do
         get "/api/v1/topics/#{@public_topic.slug}", params: { user_id: @public_topic.user.slug }, as: :json
         expect(response).to be_json_response
         topic = JSON.parse(response.body)
-        expect(topic['topic']).not_to be_empty
-        expect(topic['topic']['id']).to eq(@public_topic.id)
+        expect(topic['data']['attributes']).not_to be_empty
+        expect(topic['data']['attributes']['id']).to eq(@public_topic.id)
 
         get "/api/v1/topics/#{@other_public_topic.slug}", params: { user_id: @other_public_topic.user.slug }, as: :json
         expect(response).to be_json_response
         topic = JSON.parse(response.body)
-        expect(topic['topic']).not_to be_empty
-        expect(topic['topic']['id']).to eq(@other_public_topic.id)
+        expect(topic['data']['attributes']).not_to be_empty
+        expect(topic['data']['attributes']['id']).to eq(@other_public_topic.id)
       end
     end
 
@@ -118,14 +118,14 @@ describe 'Context API', type: :request, basic: true do
         get "/api/v1/tags/#{@public_tags[0].slug}", params: { user_id: @public_tags[0].user.slug }, as: :json
         expect(response).to be_json_response
         tag = JSON.parse(response.body)
-        expect(tag['tag']).not_to be_empty
-        expect(tag['tag']['id']).to eq(@public_tags[0].id)
+        expect(tag['data']['attributes']).not_to be_empty
+        expect(tag['data']['attributes']['id']).to eq(@public_tags[0].id)
 
         get "/api/v1/tags/#{@other_public_tags[0].slug}", params: { user_id: @other_public_tags[0].user.slug }, as: :json
         expect(response).to be_json_response
         tag = JSON.parse(response.body)
-        expect(tag['tag']).not_to be_empty
-        expect(tag['tag']['id']).to eq(@other_public_tags[0].id)
+        expect(tag['data']['attributes']).not_to be_empty
+        expect(tag['data']['attributes']['id']).to eq(@other_public_tags[0].id)
       end
     end
 

@@ -12,9 +12,7 @@ module Api::V1
 
       respond_to do |format|
         format.json do
-          render json:       user,
-                 root:       'settings',
-                 serializer: UserSettingSerializer
+          render json: UserSettingSerializer.new(user)
         end
       end
     end
@@ -45,10 +43,8 @@ module Api::V1
 
       respond_to do |format|
         format.json do
-          render json:       (topic || user),
-                 root:       'settings',
-                 meta:       { topic: !!topic },
-                 serializer: UserSettingSerializer
+          render json: UserSettingSerializer.new(topic || user,
+                                                 meta: { topic: !!topic })
         end
       end
     end

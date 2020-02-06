@@ -353,21 +353,6 @@ RSpec.describe User, type: :model, basic: true do
       it { is_expected.to respond_to(:find_for_database_authentication) }
       it { expect(User.find_for_database_authentication(login: @user.login, email: @user.email)).to eq(@user) }
     end
-
-    describe '::as_json' do
-      it { is_expected.to respond_to(:as_json) }
-      it { expect(User.as_json(@user)).to be_a(Hash) }
-      it { expect(User.as_json(@user)[:user]).to be_a(Hash) }
-      it { expect(User.as_json([@user])).to be_a(Hash) }
-      it { expect(User.as_json([@user])[:users]).to be_a(Array) }
-      it { expect(User.as_json([@user], sample: true)[:users]).to be_a(Array) }
-    end
-
-    describe '::as_flat_json' do
-      it { is_expected.to respond_to(:as_flat_json) }
-      it { expect(User.as_flat_json(@user)).to be_a(Hash) }
-      it { expect(User.as_flat_json([@user])).to be_a(Array) }
-    end
   end
 
   context 'Instance Methods' do
@@ -440,11 +425,6 @@ RSpec.describe User, type: :model, basic: true do
     describe '.search_data' do
       it { is_expected.to respond_to(:search_data) }
       it { expect(@user.search_data).to be_a Hash }
-    end
-
-    describe '.meta_description' do
-      it { is_expected.to respond_to(:meta_description) }
-      it { expect(@user.meta_description).to be_a(String) }
     end
   end
 

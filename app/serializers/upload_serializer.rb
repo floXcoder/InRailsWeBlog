@@ -1,29 +1,29 @@
 # frozen_string_literal: true
 
-class UploadSerializer < ActiveModel::Serializer
-  cache key: 'upload', expires_in: InRailsWeBlog.config.cache_time
+class UploadSerializer
+  include FastJsonapi::ObjectSerializer
+
+  cache_options enabled: true, cache_length: InRailsWeBlog.config.cache_time
+
+  set_key_transform :camel_lower
 
   attributes :id,
-             :url,
-             :medium_url,
-             :mini_url,
-             :filename,
              :description,
              :copyright
 
-  def url
+  attribute :url do |object|
     object.image.url
   end
 
-  def medium_url
+  attribute :medium_url do |object|
     object.image&.medium&.url
   end
 
-  def mini_url
+  attribute :mini_url do |object|
     object.image&.mini&.url
   end
 
-  def filename
+  attribute :filename do |object|
     object.original_filename
   end
 end

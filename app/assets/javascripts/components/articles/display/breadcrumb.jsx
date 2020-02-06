@@ -90,7 +90,7 @@ class ArticleBreadcrumbDisplay extends React.Component {
                 </li>
 
                 {
-                    this.props.article && this.props.article.title &&
+                    this.props.article?.title &&
                     <>
                         <li className={this.props.classes.breadcrumbSeparator}>
                             <KeyboardArrowRight/>

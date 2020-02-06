@@ -4,7 +4,7 @@ class Admins::SeoController < AdminsController
   def index
     respond_to do |format|
       format.html do
-        seo_pages = Seo::Data::NAMED_ROUTES
+        seo_pages = Seo::Data.local_named_routes
 
         set_meta_tags title:   titleize_admin(I18n.t('views.admin.seo.title')),
                       noindex: true, nofollow: true
@@ -15,9 +15,8 @@ class Admins::SeoController < AdminsController
       format.json do
         seo_data = Seo::Data.all
 
-        render json:            seo_data,
-               root:            'seo_data',
-               each_serializer: Seo::DataSerializer
+        render json: Seo::DataSerializer.new(seo_data,
+                                             meta: { root: 'seoData' })
       end
     end
   end
@@ -68,10 +67,8 @@ class Admins::SeoController < AdminsController
       format.json do
         if seo_data.save
           flash.now[:success] = t('views.admin.seo_data.flash.successful_creation')
-          render json:       seo_data,
-                 root:       'seo_data',
-                 serializer: Seo::DataSerializer,
-                 status:     :created
+          render json:   Seo::DataSerializer.new(seo_data),
+                 status: :created
         else
           flash.now[:error] = t('views.admin.seo_data.flash.error_creation')
           render json:   { errors: seo_data.errors },
@@ -88,10 +85,8 @@ class Admins::SeoController < AdminsController
       format.json do
         if seo_data.update(seo_params.except(:local, :name, :parameters))
           flash.now[:success] = t('views.admin.seo_data.flash.successful_edition')
-          render json:       seo_data,
-                 root:       'seo_data',
-                 serializer: Seo::DataSerializer,
-                 status:     :ok
+          render json:   Seo::DataSerializer.new(seo_data),
+                 status: :ok
         else
           flash.now[:error] = t('views.admin.seo_data.flash.error_edition')
           render json:   { errors: seo_data.errors },

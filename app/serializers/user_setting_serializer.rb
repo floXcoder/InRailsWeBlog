@@ -1,63 +1,54 @@
 # frozen_string_literal: true
 
-class UserSettingSerializer < ActiveModel::Serializer
+class UserSettingSerializer
+  include FastJsonapi::ObjectSerializer
   include NullAttributesRemover
 
-  cache key: 'settings', expires_in: InRailsWeBlog.config.cache_time
+  set_type :settings
 
-  attributes :articles_loader,
-             :article_display,
-             :article_order,
-             :tag_parent_and_child,
-             :tag_sidebar_pin,
-             :tag_sidebar_with_child,
-             :tag_order,
-             :search_display,
-             :search_highlight,
-             :search_operator,
-             :search_exact
+  set_key_transform :camel_lower
 
-  def articles_loader
+  attribute :articles_loader do |object|
     object.respond_to?(:articles_loader) ? object.articles_loader : nil
   end
 
-  def article_display
+  attribute :article_display do |object|
     object.respond_to?(:article_display) ? object.article_display : nil
   end
 
-  def article_order
+  attribute :article_order do |object|
     object.respond_to?(:article_order) ? object.article_order : nil
   end
 
-  def tag_parent_and_child
+  attribute :tag_parent_and_child do |object|
     object.respond_to?(:tag_parent_and_child) ? object.tag_parent_and_child : nil
   end
 
-  def tag_sidebar_pin
+  attribute :tag_sidebar_pin do |object|
     object.respond_to?(:tag_sidebar_pin) ? object.tag_sidebar_pin : nil
   end
 
-  def tag_sidebar_with_child
+  attribute :tag_sidebar_with_child do |object|
     object.respond_to?(:tag_sidebar_with_child) ? object.tag_sidebar_with_child : nil
   end
 
-  def tag_order
+  attribute :tag_order do |object|
     object.respond_to?(:tag_order) ? object.tag_order : nil
   end
 
-  def search_display
+  attribute :search_display do |object|
     object.respond_to?(:search_display) ? object.search_display : nil
   end
 
-  def search_highlight
+  attribute :search_highlight do |object|
     object.respond_to?(:search_highlight) ? object.search_highlight : nil
   end
 
-  def search_operator
+  attribute :search_operator do |object|
     object.respond_to?(:search_operator) ? object.search_operator : nil
   end
 
-  def search_exact
+  attribute :search_exact do |object|
     object.respond_to?(:search_exact) ? object.search_exact : nil
   end
 end

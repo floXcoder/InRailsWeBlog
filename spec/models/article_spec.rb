@@ -422,22 +422,6 @@ RSpec.describe Article, type: :model, basic: true do
       it { expect(Article.bookmarked_by_user(@user)).to include(@article) }
       it { expect(Article.bookmarked_by_user(@user)).not_to include(other_article) }
     end
-
-    describe '::as_json' do
-      it { is_expected.to respond_to(:as_json) }
-      it { expect(Article.as_json(@article)).to be_a(Hash) }
-      it { expect(Article.as_json(@article)[:article]).to be_a(Hash) }
-      it { expect(Article.as_json([@article])).to be_a(Hash) }
-      it { expect(Article.as_json([@article])[:articles]).to be_a(Array) }
-      it { expect(Article.as_json([@article], strict: true)[:articles]).to be_a(Array) }
-      it { expect(Article.as_json([@article], sample: true)[:articles]).to be_a(Array) }
-    end
-
-    describe '::as_flat_json' do
-      it { is_expected.to respond_to(:as_flat_json) }
-      it { expect(Article.as_flat_json(@article)).to be_a(Hash) }
-      it { expect(Article.as_flat_json([@article])).to be_a(Array) }
-    end
   end
 
   context 'Instance Methods' do
@@ -576,11 +560,6 @@ RSpec.describe Article, type: :model, basic: true do
     describe '.public_share_link' do
       it { is_expected.to respond_to(:public_share_link) }
       it { expect(@article.public_share_link).to be_nil }
-    end
-
-    describe '.meta_description' do
-      it { is_expected.to respond_to(:meta_description) }
-      it { expect(@article.meta_description).to be_a(String) }
     end
   end
 

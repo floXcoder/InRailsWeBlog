@@ -195,32 +195,19 @@ class Topic < ApplicationRecord
   after_update :regenerate_article_slug
 
   # == Class Methods ========================================================
-  def self.as_json(topics, options = {})
-    return nil unless topics
+  def self.as_flat_json(topics, format, **options)
+    data = case format
+           when 'strict'
+             TopicStrictSerializer.new(topics, **options)
+           when 'complete'
+             TopicCompleteSerializer.new(topics, include: [:user, :inventory_fields, :contributors, :tracker], includes: [], **options)
+           else
+             TopicSampleSerializer.new(topics, **options)
+           end
 
-    serializer_options = {
-      root: topics.is_a?(Topic) ? 'topic' : 'topics'
-    }
-
-    serializer_options.merge(scope:      options.delete(:current_user),
-                             scope_name: :current_user) if options.key?(:current_user)
-
-    serializer_options[topics.is_a?(Topic) ? :serializer : :each_serializer] = if options[:strict]
-                                                                                 TopicStrictSerializer
-                                                                               elsif options[:sample]
-                                                                                 TopicSampleSerializer
-                                                                               else
-                                                                                 TopicSerializer
-                                                                               end
-
-    ActiveModelSerializers::SerializableResource.new(topics, serializer_options.merge(options)).as_json
+    data.flat_serializable_hash
   end
 
-  def self.as_flat_json(topics, options = {})
-    return nil unless topics
-
-    as_json(topics, options)[topics.is_a?(Topic) ? :topic : :topics]
-  end
 
   # == Instance Methods =====================================================
   def user?(user)

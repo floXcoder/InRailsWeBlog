@@ -842,7 +842,7 @@ en:
           seo_fields: "SEO fields"
           page_title: "Page title"
           meta_desc: "Meta description"
-          parameters: "Parameters to use: %{parameters}"
+          parameters: "Parameters available: %{parameters}"
           no_parameters: "No parameters required"
           add: "Add"
           update: "Edit"

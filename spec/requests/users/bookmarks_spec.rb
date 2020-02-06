@@ -46,8 +46,9 @@ describe 'User Bookmarks API', type: :request, basic: true do
         expect(response).to be_json_response
 
         bookmarks = JSON.parse(response.body)
-        expect(bookmarks['bookmarks']).not_to be_empty
-        expect(bookmarks['bookmarks'].size).to eq(2)
+        expect(bookmarks['meta']['root']).to eq('bookmarks')
+        expect(bookmarks['data']).not_to be_empty
+        expect(bookmarks['data'].size).to eq(2)
       end
 
       it 'returns all bookmarks for a given topic' do
@@ -56,8 +57,9 @@ describe 'User Bookmarks API', type: :request, basic: true do
         expect(response).to be_json_response
 
         bookmarks = JSON.parse(response.body)
-        expect(bookmarks['bookmarks']).not_to be_empty
-        expect(bookmarks['bookmarks'].size).to eq(1)
+        expect(bookmarks['meta']['root']).to eq('bookmarks')
+        expect(bookmarks['data']).not_to be_empty
+        expect(bookmarks['data'].size).to eq(1)
       end
     end
   end
@@ -85,8 +87,8 @@ describe 'User Bookmarks API', type: :request, basic: true do
           expect(response).to be_json_response(201)
 
           bookmark = JSON.parse(response.body)
-          expect(bookmark['bookmark']).not_to be_empty
-          expect(bookmark['bookmark']['bookmarkedType']).to eq('Article')
+          expect(bookmark['data']).not_to be_empty
+          expect(bookmark['data']['attributes']['bookmarkedType']).to eq('Article')
         }.to change(Bookmark, :count).by(1)
       end
     end

@@ -78,7 +78,7 @@ export default function articleReducer(state = initState, action) {
         // History and restoration
         case ActionTypes.ARTICLE_HISTORY:
             state.articleVersions = action.versions;
-            state.metaTags = action.meta && action.meta.metaTags ? action.meta.metaTags : state.metaTags;
+            state.metaTags = action.meta?.metaTags || state.metaTags;
             return state;
 
         case ActionTypes.ARTICLE_RESTORE:

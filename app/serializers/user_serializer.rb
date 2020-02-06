@@ -51,8 +51,12 @@
 #  locked_at              :datetime
 #
 
-class UserSerializer < ActiveModel::Serializer
-  cache key: 'user', expires_in: InRailsWeBlog.config.cache_time
+class UserSerializer
+  include FastJsonapi::ObjectSerializer
+
+  cache_options enabled: true, cache_length: InRailsWeBlog.config.cache_time
+
+  set_key_transform :camel_lower
 
   attributes :id,
              :pseudo,

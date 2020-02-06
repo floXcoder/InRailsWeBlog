@@ -2,6 +2,10 @@
 
 import * as ActionTypes from '../constants/actionTypes';
 
+import {
+    convertJsonApi
+} from './json';
+
 // Example:
 // export function loadPosts(userId) {
 //     return {
@@ -82,7 +86,7 @@ export default function fetchMiddleware({dispatch, getState}) {
                 } else {
                     return dispatch({
                         ...payload,
-                        ...response,
+                        ...convertJsonApi(response),
                         isFetching: false,
                         type: successType
                     });

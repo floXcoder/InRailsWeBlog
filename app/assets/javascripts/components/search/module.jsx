@@ -178,7 +178,7 @@ class SearchModule extends React.Component {
                                                  currentTopicId={this.props.currentTopicId}
                                                  hasQuery={hasQuery}
                                                  selectedTags={this.props.selectedTags}
-                                                 highlightedArticleId={this.props.highlightedArticle && this.props.highlightedArticle.id}
+                                                 highlightedArticleId={this.props.highlightedArticle?.id}
                                                  articles={articles}/>
                         </Grid>
                     </Grid>

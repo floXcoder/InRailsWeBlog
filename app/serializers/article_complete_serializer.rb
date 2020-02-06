@@ -1,7 +1,13 @@
 # frozen_string_literal: true
 
-class ArticleCompleteSerializer < ActiveModel::Serializer
-  cache key: 'article_complete', expires_in: InRailsWeBlog.config.cache_time
+class ArticleCompleteSerializer
+  include FastJsonapi::ObjectSerializer
+
+  set_type :article
+
+  cache_options enabled: true, cache_length: InRailsWeBlog.config.cache_time
+
+  set_key_transform :camel_lower
 
   attributes :id,
              :topic_id,
@@ -12,80 +18,58 @@ class ArticleCompleteSerializer < ActiveModel::Serializer
              # :content,
              :reference,
              # :inventories,
-             :date,
-             :date_short,
              :visibility,
-             :visibility_translated,
              :allow_comment,
              :draft,
              :current_language,
              :slug,
-             :public_share_link,
-             :votes_up,
-             :votes_down,
              :pictures_count,
              :bookmarks_count,
-             :comments_count,
-             :outdated_count,
-             :parent_tag_ids,
-             :child_tag_ids,
-             :link
+             :comments_count
 
-  # belongs_to :user, serializer: UserSampleSerializer
-  #
-  # belongs_to :topic, if: -> { object.story? }, serializer: TopicSampleSerializer
-  #
-  # has_many :tags, serializer: TagSampleSerializer do
-  #   if scope.is_a?(User)
-  #     object.tags
-  #   else
-  #     object.tags.select { |tag| tag.visibility == 'everyone' }
-  #   end
-  # end
+  has_one :tracker, serializer: TrackerSerializer
 
-  has_one :tracker
-
-  def date
+  attribute :date do |object|
     I18n.l(object.updated_at, format: :custom).sub(/^[0]+/, '')
   end
 
-  def date_short
+  attribute :date_short do |object|
     I18n.l(object.updated_at, format: :short).split(' ').map(&:capitalize)
   end
 
-  def visibility_translated
+  attribute :visibility_translated do |object|
     object.visibility_to_tr
   end
 
-  def public_share_link
-    "#{Rails.application.routes.url_helpers.root_url(host: ENV['WEBSITE_ADDRESS'])}articles/shared/#{object.slug}/#{object.share&.public_link}" if instance_options[:with_share]
+  attribute :public_share_link do |object, params|
+    "#{Rails.application.routes.url_helpers.root_url(host: ENV['WEBSITE_ADDRESS'])}articles/shared/#{object.slug}/#{object.share&.public_link}" if params[:with_share]
   end
 
-  def votes_up
+  attribute :votes_up do |object|
     object.votes_for
   end
 
-  def votes_down
+  attribute :votes_down do |object|
     object.votes_against
   end
 
-  def outdated_count
+  attribute :outdated_count do |object|
     object.outdated_articles_count
   end
 
-  def comments
-    object.comments_tree.flatten if instance_options[:comments]
+  attribute :comments do |object, params|
+    object.comments_tree.flatten if params[:comments]
   end
 
-  def parent_tag_ids
+  attribute :parent_tag_ids do |object|
     object.tagged_articles.select(&:parent?).map(&:tag_id)
   end
 
-  def child_tag_ids
+  attribute :child_tag_ids do |object|
     object.tagged_articles.select(&:child?).map(&:tag_id)
   end
 
-  def link
+  attribute :link do |object|
     Rails.application.routes.url_helpers.show_article_path(user_slug: object.user.slug, article_slug: object.slug)
   end
 end

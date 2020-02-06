@@ -1,9 +1,13 @@
 # frozen_string_literal: true
 
-class CommentFullSerializer < ActiveModel::Serializer
-  include Rails.application.routes.url_helpers
+class CommentFullSerializer
+  include FastJsonapi::ObjectSerializer
 
-  # cache key: 'comment_full', expires_in: InRailsWeBlog.config.cache_time
+  set_type :comment
+
+  cache_options enabled: true, cache_length: InRailsWeBlog.config.cache_time
+
+  set_key_transform :camel_lower
 
   attributes :id,
              :title,
@@ -11,35 +15,33 @@ class CommentFullSerializer < ActiveModel::Serializer
              :subject,
              :rating,
              :parent_id,
-             :nested_level,
-             :posted_at,
              :accepted,
              :user,
-             :commentable_type,
-             :link
+             :commentable_type
 
-  belongs_to :commentable
+  belongs_to :commentable, polymorphic: true
+
   belongs_to :user, serializer: UserSampleSerializer
 
-  def nested_level
+  attribute :nested_level do |object|
     object.level
   end
 
-  def posted_at
+  attribute :posted_at do |object|
     I18n.l(object.created_at, format: :custom).mb_chars.downcase.to_s
   end
 
-  def link
+  attribute :link do |object|
     if object.commentable.is_a?(Article)
-      "#{article_path(object.commentable)}#comment-#{object.id}"
+      "#{Rails.application.routes.url_helpers.article_path(object.commentable)}#comment-#{object.id}"
     else
       '#'
     end
   end
 
-  def commentable
+  attribute :commentable do |object|
     if object.commentable.is_a?(Article)
-      ArticleSampleSerializer.new(object.commentable, base_url: true).attributes
+      ArticleSampleSerializer.new(object.commentable, include: [:user, :tags], params: { base_url: true })
     else
       object.commentable
     end

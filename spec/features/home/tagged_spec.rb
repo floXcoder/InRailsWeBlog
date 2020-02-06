@@ -25,7 +25,7 @@ feature 'Tagged articles', advanced: true, js: true do
       let(:content) {
         {
           current_page: tagged_page,
-          title:        I18n.t('views.article.index.title.tagged', tag: @tags.first.name),
+          # title:        I18n.t('views.article.index.title.tagged', tag: @tags.first.name),
           asset_name:   'assets/home',
           common_js:    ['assets/runtime', 'assets/home']
         }

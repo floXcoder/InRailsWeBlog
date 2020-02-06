@@ -22,10 +22,8 @@ module Api::V1
         format.json do
           if upload.save
             # flash.now[:success] = t('views.upload.flash.successful_creation')
-            render json:       upload,
-                   root:       'upload',
-                   serializer: UploadSerializer,
-                   status:     :created
+            render json:   UploadSerializer.new(upload),
+                   status: :created
           else
             # flash.now[:error] = t('views.upload.flash.error_creation')
             render json:   { errors: upload.errors.full_messages },
@@ -51,10 +49,8 @@ module Api::V1
         format.json do
           if upload.save
             # flash.now[:success] = t('views.upload.flash.successful_edition')
-            render json:       upload,
-                   root:       'upload',
-                   serializer: UploadSerializer,
-                   status:     :ok
+            render json:   UploadSerializer.new(upload),
+                   status: :ok
           else
             # flash.now[:error] = t('views.upload.flash.error_edition')
             render json:   { errors: upload.errors.full_messages },

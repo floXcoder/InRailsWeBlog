@@ -59,8 +59,8 @@ export default @connect((state) => ({
     currentUserId: state.userState.currentId,
     currentUser: state.userState.user,
     currentUserTopicId: state.topicState.currentUserTopicId,
-    currentUserTopicMode: state.topicState.currentTopic && state.topicState.currentTopic.mode,
-    searchDisplay: state.userState.user && state.userState.user.settings.searchDisplay,
+    currentUserTopicMode: state.topicState.currentTopic?.mode,
+    searchDisplay: state.userState.user?.settings?.searchDisplay,
     query: state.searchState.query,
     selectedTags: state.searchState.selectedTags,
     isSearching: state.searchState.isSearching,
@@ -136,7 +136,7 @@ class SearchIndex extends React.Component {
     }
 
     componentWillUnmount() {
-        if (this._request && this._request.signal) {
+        if (this._request?.signal) {
             this._request.signal.abort();
         }
 
@@ -216,7 +216,7 @@ class SearchIndex extends React.Component {
     };
 
     _handleFetch = _.debounce((query) => {
-        if (this._request && this._request.signal) {
+        if (this._request?.signal) {
             this._request.signal.abort();
         }
 

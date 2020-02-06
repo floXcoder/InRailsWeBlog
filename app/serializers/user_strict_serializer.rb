@@ -1,36 +1,25 @@
 # frozen_string_literal: true
 
-class UserStrictSerializer < ActiveModel::Serializer
-  # cache key: 'user_strict', expires_in: InRailsWeBlog.config.cache_time
+class UserStrictSerializer
+  include FastJsonapi::ObjectSerializer
+
+  set_type :user
+
+  # Cache not available without model object
+  # cache_options enabled: true, cache_length: InRailsWeBlog.config.cache_time
+
+  set_key_transform :camel_lower
 
   attributes :id,
              :pseudo,
-             :date,
              :avatar_url,
-             :slug,
-             :link
+             :slug
 
-  def id
-    object.id
-  end
-
-  def pseudo
-    object.pseudo
-  end
-
-  def date
+  attribute :date do |object|
     object.created_at.to_i
   end
 
-  def avatar_url
-    object.avatar_url
-  end
-
-  def slug
-    object.slug
-  end
-
-  def link
-    Rails.application.routes.url_helpers.show_user_path(user_slug: object.slug) if instance_options[:with_link]
+  attribute :link do |object, params|
+    Rails.application.routes.url_helpers.show_user_path(user_slug: object.slug) if params[:with_link]
   end
 end

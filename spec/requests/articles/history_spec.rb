@@ -37,13 +37,14 @@ describe 'History API', type: :request, basic: true do
         expect(response).to be_json_response
         json_history = JSON.parse(response.body)
 
-        expect(json_history['history']).not_to be_empty
-        expect(json_history['history'].size).to eq(3)
-        article_titles_history = json_history['history'].map { |m| m['article']['title'] }
+        expect(json_history['meta']['root']).to eq('history')
+        expect(json_history['data']).not_to be_empty
+        expect(json_history['data'].size).to eq(3)
+        article_titles_history = json_history['data'].map { |m| m['attributes']['article']['title'] }
         expect(article_titles_history).to eq(['title 3', 'title 2', @original_title])
 
-        last_changeset = json_history['history'].first
-        expect(last_changeset['changeset']['titleTranslations'].size).to eq(2)
+        last_changeset = json_history['data'].first['attributes']
+        expect(last_changeset['changeset']['title_translations'].size).to eq(2)
       end
     end
   end
@@ -75,8 +76,8 @@ describe 'History API', type: :request, basic: true do
 
         expect(response).to be_json_response(202)
         json_history = JSON.parse(response.body)
-        expect(json_history['article']).not_to be_empty
-        expect(json_history['article']['title']).to eq(@original_title)
+        expect(json_history['data']['attributes']).not_to be_empty
+        expect(json_history['data']['attributes']['title']).to eq(@original_title)
       end
     end
   end

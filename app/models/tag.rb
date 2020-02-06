@@ -208,6 +208,19 @@ class Tag < ApplicationRecord
   after_commit :invalidate_tag_cache
 
   # == Class Methods ========================================================
+  def self.as_flat_json(tags, format, **options)
+    data = case format
+           when 'strict'
+             TagStrictSerializer.new(tags, **options)
+           when 'complete'
+             TagCompleteSerializer.new(tags, include: [:user, :tracker], includes: [], **options)
+           else
+             TagSampleSerializer.new(tags, **options)
+           end
+
+    data.flat_serializable_hash
+  end
+
   def self.parse_tags(tags, current_user_id)
     return [] unless tags.is_a?(Array) || !tags.empty?
 
@@ -235,33 +248,6 @@ class Tag < ApplicationRecord
     tags.map do |tag|
       tag.destroy if tag.tagged_articles_count.zero?
     end
-  end
-
-  def self.as_json(tags, options = {})
-    return nil unless tags
-
-    serializer_options = {
-      root: tags.is_a?(Tag) ? 'tag' : 'tags'
-    }
-
-    serializer_options.merge(scope:      options.delete(:current_user),
-                             scope_name: :current_user) if options.key?(:current_user)
-
-    serializer_options[tags.is_a?(Tag) ? :serializer : :each_serializer] = if options[:strict]
-                                                                             TagStrictSerializer
-                                                                           elsif options[:sample]
-                                                                             TagSampleSerializer
-                                                                           else
-                                                                             TagSerializer
-                                                                           end
-
-    ActiveModelSerializers::SerializableResource.new(tags, serializer_options.merge(options)).as_json
-  end
-
-  def self.as_flat_json(tags, options = {})
-    return nil unless tags
-
-    as_json(tags, options)[tags.is_a?(Tag) ? :tag : :tags]
   end
 
   # == Instance Methods =====================================================

@@ -27,7 +27,7 @@ feature 'Home User page for users', advanced: true, js: true do
       let(:content) {
         {
           current_page: homepage,
-          title:        I18n.t('views.user.show.title', pseudo: @user.pseudo),
+          # title:        I18n.t('views.user.show.title', pseudo: @user.pseudo),
           asset_name:   'assets/user',
           common_js:    ['assets/runtime', 'assets/user'],
           connected:    true

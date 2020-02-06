@@ -90,26 +90,14 @@ module Searches
     end
 
     def format_search(results, highlight_results = nil)
-      serializer_options                     = case @params[:format]
-                                               when 'strict'
-                                                 {
-                                                   root:   @params[:model].model_name.plural,
-                                                   strict: true
-                                                 }
-                                               when 'complete'
-                                                 {
-                                                   complete: true
-                                                 }
-                                               else
-                                                 {
-                                                   sample: true
-                                                 }
-                                               end
+      # The following serializers must exist for each model: StrictSerializer, SampleSerializer, CompleteSerializer
+      serializer_parameters = {}
+      serializer_parameters[:highlight_results] = highlight_results if highlight_results
+      serializer_parameters[:current_user]      = @current_user if @current_user
 
-      serializer_options[:highlight_results] = highlight_results if highlight_results
-      serializer_options[:current_user]      = @current_user if @current_user
-
-      @params[:model].as_json(results, serializer_options)
+      result_data = {}
+      result_data[@params[:model].name.underscore.pluralize.to_sym] = @params[:model].as_flat_json(results, @params[:format], params: serializer_parameters, meta: {root: @params[:model].model_name.plural})
+      result_data
     end
 
     def parsed_search(results)
@@ -149,8 +137,8 @@ module Searches
       {
         suggestions:  results.suggestions,
         aggregations: formatted_aggregations,
-        total_count:  results.total_count,
-        total_pages:  results.total_pages
+        totalCount:  results.total_count,
+        totalPages:  results.total_pages
       }.merge(formatted_results)
     end
 

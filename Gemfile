@@ -24,7 +24,7 @@ gem 'http_accept_language',     '2.1.1'
 gem 'secure_headers',           '6.3.0'
 
 # JSON
-gem 'active_model_serializers', '0.10.10'
+gem 'fast_jsonapi',             '1.6.0', git: 'https://github.com/fast-jsonapi/fast_jsonapi'
 gem 'oj',                       '3.10.2'
 
 # Use slim instead of erb
@@ -144,7 +144,7 @@ group :development do
   #gem 'unique_validation_inspector', '0.3.0', require: false
 
   # Faster ruby code
-  gem 'fasterer',               '0.8.1', require: false
+  gem 'fasterer',               '0.8.2', require: false
 
   # Load tests
   gem 'ruby-jmeter',            '3.1.08', require: false
@@ -158,7 +158,7 @@ group :test do
   gem 'shoulda-callback-matchers',  '1.1.4',  require: false
   gem 'simplecov',                  '0.18.1', require: false
   gem 'fuubar',                     '2.5.0'
-  gem 'database_cleaner',           '1.8.1'
+  gem 'database_cleaner',           '1.8.2'
   gem 'db-query-matchers',          '0.10.0'
 
   # Browser tests

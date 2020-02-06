@@ -27,8 +27,12 @@
 #  updated_at               :datetime         not null
 #
 
-class TagSerializer < ActiveModel::Serializer
-  # cache key: 'tag', expires_in: InRailsWeBlog.config.cache_time
+class TagSerializer
+  include FastJsonapi::ObjectSerializer
+
+  cache_options enabled: true, cache_length: InRailsWeBlog.config.cache_time
+
+  set_key_transform :camel_lower
 
   attributes :id,
              :name,
@@ -36,31 +40,26 @@ class TagSerializer < ActiveModel::Serializer
              :synonyms,
              :priority,
              :visibility,
-             :visibility_translated,
              :tagged_articles_count,
-             :slug,
-             :child_only,
-             :parent_ids,
-             :child_ids,
-             :topic_ids
+             :slug
 
-  def visibility_translated
+  attribute :visibility_translated do |object|
     object.visibility_to_tr
   end
 
-  def child_only
-    object.child_only_for_topic(instance_options[:current_topic_id])
+  attribute :child_only do |object, params|
+    object.child_only_for_topic(params[:current_topic_id])
   end
 
-  def parent_ids
-    object.child_relationships.select { |relation| relation.topic_id == instance_options[:current_topic_id] }.map(&:parent_id).uniq if instance_options[:current_topic_id]
+  attribute :parent_ids do |object, params|
+    object.child_relationships.select { |relation| relation.topic_id == params[:current_topic_id] }.map(&:parent_id).uniq if params[:current_topic_id]
   end
 
-  def child_ids
-    object.parent_relationships.select { |relation| relation.topic_id == instance_options[:current_topic_id] }.map(&:child_id).uniq if instance_options[:current_topic_id]
+  attribute :child_ids do |object, params|
+    object.parent_relationships.select { |relation| relation.topic_id == params[:current_topic_id] }.map(&:child_id).uniq if params[:current_topic_id]
   end
 
-  def topic_ids
+  attribute :topic_ids do |object|
     object.tagged_articles.map(&:topic_id).uniq
   end
 end

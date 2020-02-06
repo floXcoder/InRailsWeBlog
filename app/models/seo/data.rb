@@ -5,13 +5,9 @@ class Seo::Data < ApplicationRecord
   # == Attributes ===========================================================
   # Always add new routes to the end of the array
   NAMED_ROUTES = [:home, :user_home, :search, :tags, :topic_tags, :show_tag, :edit_tag, :sort_tag, :user_topics, :user_topic, :edit_topic, :edit_inventories_topic, :user_articles, :topic_articles, :tagged_topic_articles, :tagged_articles, :order_topic_articles, :sort_topic_articles, :user_article, :shared_article, :new_article, :edit_article, :history_article, :show_user, :edit_user, :new_password, :edit_password]
-  enum name: NAMED_ROUTES
 
-  include TranslationConcern
-  # Add current_language as attribute
-  translates :page_title, :meta_desc,
-             auto_strip_translation_fields:    [:page_title, :meta_desc],
-             fallbacks_for_empty_translations: true
+  # Strip whitespaces
+  auto_strip_attributes :page_title, :meta_desc
 
   # == Extensions ===========================================================
 
@@ -25,11 +21,17 @@ class Seo::Data < ApplicationRecord
   validates :page_title,
             presence: true
 
+  validate :route_name
+
   # == Scopes ===============================================================
 
   # == Callbacks ============================================================
 
   # == Class Methods ========================================================
+  def self.local_named_routes
+    NAMED_ROUTES.map { |route| I18n.available_locales.map { |locale| "#{route}_#{locale}" } }.flatten
+  end
+
   def self.convert_parameters(string, parameters)
     string.gsub(/:(\w+)/) do |match|
       key = ($1 || $2 || match.tr(':', '')).to_sym
@@ -52,5 +54,15 @@ class Seo::Data < ApplicationRecord
   end
 
   # == Instance Methods =====================================================
+
+  private
+
+  def route_name
+    return unless self.name.present? && self.name_changed?
+
+    unless Seo::Data.local_named_routes.include?(self.name)
+      errors.add(:base, I18n.t('activerecord.errors.models.seo_data.bad_route_name'))
+    end
+  end
 
 end

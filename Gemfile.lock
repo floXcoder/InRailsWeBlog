@@ -1,3 +1,10 @@
+GIT
+  remote: https://github.com/fast-jsonapi/fast_jsonapi
+  revision: 79a49fb3bdb920658b069f5898624d18ac2940ff
+  specs:
+    fast_jsonapi (1.6.0)
+      activesupport (>= 4.2)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -37,11 +44,6 @@ GEM
       erubi (~> 1.4)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.1, >= 1.2.0)
-    active_model_serializers (0.10.10)
-      actionpack (>= 4.1, < 6.1)
-      activemodel (>= 4.1, < 6.1)
-      case_transform (>= 0.2)
-      jsonapi-renderer (>= 0.1.1.beta1, < 0.3)
     active_record_extended (1.4.0)
       activerecord (>= 5.0, < 6.1)
       ar_outer_joins (~> 0.2)
@@ -148,8 +150,6 @@ GEM
       image_processing (~> 1.1)
       mimemagic (>= 0.3.0)
       mini_mime (>= 0.1.3)
-    case_transform (0.2)
-      activesupport
     childprocess (3.0.0)
     chronic (0.10.2)
     code_analyzer (0.5.1)
@@ -163,7 +163,7 @@ GEM
     crass (1.0.6)
     css_parser (1.7.1)
       addressable
-    database_cleaner (1.8.1)
+    database_cleaner (1.8.2)
     db-query-matchers (0.10.0)
       activesupport (>= 4.0, < 7)
       rspec (~> 3.0)
@@ -209,7 +209,7 @@ GEM
       i18n (>= 1.6, < 2)
     faraday (0.17.3)
       multipart-post (>= 1.2, < 3)
-    fasterer (0.8.1)
+    fasterer (0.8.2)
       colorize (~> 0.7)
       ruby_parser (>= 3.14.1)
     ffi (1.12.2)
@@ -283,7 +283,6 @@ GEM
       ruby-vips (>= 2.0.17, < 3)
     jaro_winkler (1.5.4)
     json (2.3.0)
-    jsonapi-renderer (0.2.2)
     launchy (2.4.3)
       addressable (~> 2.3)
     listen (3.2.1)
@@ -297,7 +296,7 @@ GEM
     loofah (2.4.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
-    lumberjack (1.2.1)
+    lumberjack (1.2.4)
     mail (2.7.1)
       mini_mime (>= 0.1.1)
     marcel (0.3.3)
@@ -314,7 +313,7 @@ GEM
     mini_mime (1.0.2)
     mini_portile2 (2.4.0)
     minitest (5.14.0)
-    msgpack (1.3.1)
+    msgpack (1.3.3)
     multi_json (1.14.1)
     multipart-post (2.1.1)
     nenv (0.3.0)
@@ -599,7 +598,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  active_model_serializers (= 0.10.10)
   active_record_extended (= 1.4.0)
   activerecord-explain-analyze (= 0.1.0)
   acts_as_commentable_with_threading (= 2.0.1)
@@ -623,12 +621,13 @@ DEPENDENCIES
   capybara-email (= 3.0.1)
   capybara-screenshot (= 1.0.24)
   carrierwave (= 2.0.2)
-  database_cleaner (= 1.8.1)
+  database_cleaner (= 1.8.2)
   db-query-matchers (= 0.10.0)
   devise (= 4.7.1)
   factory_bot_rails (= 5.1.1)
   faker (= 2.10.1)
-  fasterer (= 0.8.1)
+  fast_jsonapi (= 1.6.0)!
+  fasterer (= 0.8.2)
   friendly_id (= 5.3.0)
   fuubar (= 2.5.0)
   geocoder (= 1.6.1)

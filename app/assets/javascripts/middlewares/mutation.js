@@ -2,6 +2,10 @@
 
 import * as ActionTypes from '../constants/actionTypes';
 
+import {
+    convertJsonApi
+} from './json';
+
 // Example of CRUD mutation:
 // export function loadPosts(userId) {
 //     return {
@@ -74,7 +78,7 @@ export default function mutationMiddleware({dispatch}) {
                 } else {
                     return dispatch({
                         ...payload,
-                        ...response,
+                        ...convertJsonApi(response),
                         isProcessing: false,
                         type: successType
                     });

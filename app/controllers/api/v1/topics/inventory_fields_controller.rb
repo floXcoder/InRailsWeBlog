@@ -20,10 +20,10 @@ module Api::V1
         format.json do
           if inventory_topic.success?
             flash.now[:success] = inventory_topic.message
-            render json:       inventory_topic.result,
-                   serializer: TopicSerializer,
-                   complete:   true,
-                   status:     :ok
+            render json:   TopicSerializer.new(inventory_topic.result,
+                                               include: [:user, :inventory_fields, :tags, :contributors],
+                                               params:  { complete: true }),
+                   status: :ok
           else
             flash.now[:error] = inventory_topic.message
             render json:   { errors: inventory_topic.errors },

@@ -41,9 +41,9 @@ describe 'Share API', type: :request, basic: true do
           expect(response).to be_json_response
 
           topic = JSON.parse(response.body)
-          expect(topic['topic']).not_to be_empty
-          expect(topic['topic']['contributors'].size).to eq(1)
-          expect(topic['topic']['contributors'][0]['id']).to eq(@contributed_user.id)
+          expect(topic['data']['attributes']).not_to be_empty
+          expect(topic['data']['relationships']['contributors']['data'].size).to eq(1)
+          expect(topic['data']['relationships']['contributors']['data'][0]['id']).to eq(@contributed_user.id.to_s)
         }.to change(Share, :count).by(1)
 
         expect(@public_topic.contributors).to match_array([@contributed_user])
@@ -104,8 +104,8 @@ describe 'Share API', type: :request, basic: true do
           expect(response).to be_json_response
 
           article = JSON.parse(response.body)
-          expect(article['article']).not_to be_empty
-          expect(article['article']['publicShareLink']).to be_a(String)
+          expect(article['data']['attributes']).not_to be_empty
+          expect(article['data']['attributes']['publicShareLink']).to be_a(String)
         }.to change(Share, :count).by(1)
 
         expect(@private_article.public_share_link).to be_a(String)

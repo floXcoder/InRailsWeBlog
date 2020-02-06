@@ -58,10 +58,16 @@ module Api::V1
         end
 
         format.json do
-          render json:             tags,
-                 each_serializer:  complete ? TagCompleteSerializer : TagSerializer,
-                 current_topic_id: topic_id,
-                 meta:             meta_attributes
+          if complete
+            render json: TagCompleteSerializer.new(tags,
+                                                   include: [:user, :tracker],
+                                                   params:  { current_topic_id: topic_id },
+                                                   meta:    { root: 'tags', **meta_attributes })
+          else
+            render json: TagSerializer.new(tags,
+                                           params: { current_topic_id: topic_id },
+                                           meta:   { root: 'tags', **meta_attributes })
+          end
         end
       end
     end
@@ -77,10 +83,10 @@ module Api::V1
                        user_slug: tag.user.pseudo,
                        author:    tag.user.pseudo)
 
-          render json:            tag,
-                 serializer:      TagCompleteSerializer,
-                 current_user_id: current_user&.id,
-                 meta:            meta_attributes
+          render json: TagCompleteSerializer.new(tag,
+                                                 include: [:user, :tracker],
+                                                 params:  { current_user_id: current_user&.id },
+                                                 meta:    meta_attributes)
         end
       end
     end
@@ -96,10 +102,10 @@ module Api::V1
                        user_slug: tag.user.pseudo,
                        author:    tag.user.pseudo)
 
-          render json:            tag,
-                 serializer:      TagCompleteSerializer,
-                 current_user_id: current_user&.id,
-                 meta:            meta_attributes
+          render json: TagCompleteSerializer.new(tag,
+                                                 include: [:user, :tracker],
+                                                 params:  { current_user_id: current_user&.id },
+                                                 meta:    meta_attributes)
         end
       end
     end
@@ -113,9 +119,9 @@ module Api::V1
       respond_to do |format|
         format.json do
           if stored_tag.success?
-            render json:             stored_tag.result,
-                   serializer:       TagSerializer,
-                   current_topic_id: current_user&.current_topic_id
+            render json: TagSerializer.new(stored_tag.result,
+                                           params: { current_topic_id: current_user&.current_topic_id },
+                                           meta:   meta_attributes)
           else
             flash.now[:error] = stored_tag.message
             render json:   { errors: stored_tag.errors },
@@ -137,9 +143,9 @@ module Api::V1
         format.json do
           if tags.present?
             flash.now[:success] = t('views.tag.flash.successful_priority_update')
-            render json:            tags.reverse,
-                   each_serializer: TagSerializer,
-                   status:          :ok
+            render json:   TagSerializer.new(tags.reverse,
+                                             meta: { root: 'tags' }),
+                   status: :ok
           else
             flash.now[:error] = t('views.tag.flash.error_priority_update')
             render json:   { errors: t('views.tag.flash.error_priority_update') },

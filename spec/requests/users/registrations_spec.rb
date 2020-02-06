@@ -17,12 +17,12 @@ describe 'Users Registration API', type: :request, basic: true do
           expect(response).to be_json_response(201)
 
           user = JSON.parse(response.body)
-          expect(user['user']).not_to be_empty
-          expect(user['user']['pseudo']).to eq('pseudo')
-          expect(user['user']['slug']).to eq('pseudo')
-          expect(user['user']['settings']).not_to be_empty
-          expect(user['user']['currentTopic']).not_to be_empty
-          expect(user['user']['topics']).not_to be_empty
+          expect(user['data']['attributes']).not_to be_empty
+          expect(user['data']['attributes']['pseudo']).to eq('pseudo')
+          expect(user['data']['attributes']['slug']).to eq('pseudo')
+          expect(user['data']['attributes']['settings']).not_to be_empty
+          expect(user['data']['relationships']['currentTopic']).not_to be_empty
+          expect(user['data']['relationships']['topics']).not_to be_empty
         }.to change(User, :count).by(1)
 
         expect(User.last.pseudo).to eq('pseudo')

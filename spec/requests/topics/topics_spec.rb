@@ -68,9 +68,9 @@ describe 'Topic Inventory Fields API', type: :request, basic: true do
           expect(response).to be_json_response(200)
 
           topic = JSON.parse(response.body)
-          expect(topic['topic']).not_to be_empty
-          expect(topic['topic']['inventoryFields']).not_to be_empty
-          #expect(topic['topic']['inventoryFields'].last['name']).to eq(field_attributes.first[:name])
+          expect(topic['data']).not_to be_empty
+          expect(topic['data']['attributes']).not_to be_empty
+          #expect(topic['data']['attributes'].last['name']).to eq(field_attributes.first[:name])
         }.to change(Topic::InventoryField, :count).by(2)
       end
 
@@ -83,9 +83,9 @@ describe 'Topic Inventory Fields API', type: :request, basic: true do
           expect(response).to be_json_response(200)
 
           topic = JSON.parse(response.body)
-          expect(topic['topic']).not_to be_empty
-          expect(topic['topic']['inventoryFields']).not_to be_empty
-          #expect(topic['topic']['inventoryFields'].first['name']).to eq(updated_field_attributes.first[:name])
+          expect(topic['data']).not_to be_empty
+          expect(topic['data']['attributes']).not_to be_empty
+          #expect(topic['data']['attributes'].first['name']).to eq(updated_field_attributes.first[:name])
         }.not_to change(Topic::InventoryField, :count)
       end
     end

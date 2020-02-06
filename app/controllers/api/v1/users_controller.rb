@@ -62,12 +62,12 @@ module Api::V1
       respond_to do |format|
         format.json do
           if complete
-            render json:            users,
-                   each_serializer: UserCompleteSerializer
+            render json: UserCompleteSerializer.new(users,
+                                                    include: [:tracker],
+                                                    meta:    { root: 'users' })
           else
-            render json:            users,
-                   each_serializer: UserSampleSerializer,
-                   meta:            meta_attributes(pagination: users)
+            render json: UserSampleSerializer.new(users,
+                                                  meta: { root: 'users', **meta_attributes(pagination: users) })
           end
         end
       end
@@ -97,21 +97,11 @@ module Api::V1
 
       respond_to do |format|
         format.json do
-          set_seo_data(:show_user,
-                       user_slug: user.pseudo,
-                       author:    user.pseudo,
-                       canonical: user.link_path(host: ENV['WEBSITE_FULL_ADDRESS']),
-                       og:        {
-                                    type:  "#{ENV['WEBSITE_NAME']}:article",
-                                    url:   user.link_path(host: ENV['WEBSITE_FULL_ADDRESS']),
-                                    image: image_url('logos/favicon-192x192.png')
-                                  }.compact)
-
           if params[:complete] && (current_user&.id == user.id || current_user.admin?)
             User.track_views(user.id)
-            render json:       user,
-                   serializer: UserCompleteSerializer,
-                   meta:       meta_attributes
+            render json: UserCompleteSerializer.new(user,
+                                                    include: [:tracker],
+                                                    meta:    meta_attributes)
           elsif params[:profile] && current_user&.id == user.id
             topic_slug = if params[:topic_slug].present?
                            params[:topic_slug]
@@ -124,13 +114,23 @@ module Api::V1
               user.switch_topic(topic) && user.save if topic && topic.user_id == user.id
             end
 
-            render json:       user,
-                   serializer: UserProfileSerializer
+            render json: UserProfileSerializer.new(user,
+                                                   include: [:current_topic, :topics, :contributed_topics])
           else
             User.track_views(user.id)
-            render json:       user,
-                   serializer: UserSerializer,
-                   meta:       meta_attributes
+
+            set_seo_data(:show_user,
+                         user_slug: user.pseudo,
+                         author:    user.pseudo,
+                         canonical: user.link_path(host: ENV['WEBSITE_FULL_ADDRESS']),
+                         og:        {
+                                      type:  "#{ENV['WEBSITE_NAME']}:article",
+                                      url:   user.link_path(host: ENV['WEBSITE_FULL_ADDRESS']),
+                                      image: image_url('logos/favicon-192x192.png')
+                                    }.compact)
+
+            render json: UserSerializer.new(user,
+                                            meta: meta_attributes)
           end
         end
       end
@@ -145,9 +145,9 @@ module Api::V1
 
       respond_to do |format|
         format.json do
-          render json:            user_comments,
-                 each_serializer: CommentFullSerializer,
-                 meta:            meta_attributes(pagination: user_comments)
+          render json: CommentFullSerializer.new(user_comments,
+                                                 include: [:user, :commentable],
+                                                 meta:    { root: 'comments', **meta_attributes(pagination: user_comments) })
         end
       end
     end
@@ -157,17 +157,13 @@ module Api::V1
       admin_or_authorize user
 
       user_recents = user.recent_visits(params[:limit])
-      recents      = {
-        tags:     Tag.as_flat_json(user_recents[:tags], strict: true),
-        articles: Article.as_flat_json(user_recents[:articles], strict: true)
-        # topics: Topic.as_flat_json(user_recents[:topics], strict: true)
-        # users: User.as_flat_json(user_recents[:users], strict: true)
-      }
 
       respond_to do |format|
         format.json do
-          render json: recents,
-                 root: 'recents'
+          render json: {
+            tags:     Tag.as_flat_json(user_recents[:tags], 'strict'),
+            articles: Article.as_flat_json(user_recents[:articles], 'strict')
+          }
         end
       end
     end
@@ -187,15 +183,14 @@ module Api::V1
       end
 
       user_recents = user.recent_visits(params[:limit])
-      recents      = {
-        tags:     Tag.as_flat_json(user_recents[:tags], strict: true),
-        articles: Article.as_flat_json(user_recents[:articles], strict: true)
-      }
 
       respond_to do |format|
         format.json do
-          render json: recents,
-                 root: 'recents'
+          render json: UserRecentSerializer.new(user,
+                                                params: {
+                                                  tags:     user_recents[:tags],
+                                                  articles: user_recents[:articles]
+                                                })
         end
       end
     end
@@ -209,10 +204,8 @@ module Api::V1
 
       respond_to do |format|
         format.json do
-          render json:            user_activities,
-                 each_serializer: PublicActivitiesSerializer,
-                 root:            'activities',
-                 meta:            meta_attributes(pagination: user_activities)
+          render json: PublicActivitiesSerializer.new(user_activities,
+                                                      meta: { root: 'activities', **meta_attributes(pagination: user_activities) })
         end
       end
     end
@@ -229,12 +222,11 @@ module Api::V1
           format.json do
             if params[:complete] && current_user
               authorize current_user, :admin?
-              render json:       stored_user.result,
-                     serializer: UserCompleteSerializer,
-                     status:     :ok
+              render json:   UserCompleteSerializer.new(stored_user.result,
+                                                        include: [:tracker]),
+                     status: :ok
             else
-              render json:       stored_user.result,
-                     serializer: UserSerializer
+              render json: UserSerializer.new(stored_user.result)
             end
           end
         end
