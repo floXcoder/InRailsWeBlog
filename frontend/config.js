@@ -27,7 +27,7 @@ module.exports = {
             includes: [
                 'node_modules'
             ],
-            // noParse: // // Must not contains any imports mechanism
+            // noParse: // Must not contain any import mechanism
         },
         rules: {
             javascript: {
@@ -44,7 +44,7 @@ module.exports = {
                         assetDir + '/stylesheets',
                         frontendDir
                     ],
-                    indentedSyntax: false // use cscc syntax and not sass
+                    indentedSyntax: false // Use cscc syntax and not sass
                 }
             },
             file: {

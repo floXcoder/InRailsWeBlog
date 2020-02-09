@@ -1,0 +1,12 @@
+en:
+  statics:
+    about_us:
+      title: "Legal notice"
+      info:
+        title: "Informations générales"
+        content_1: "Le présent site web est édité et exploité par GinkoNote."
+      host:
+        title: "Hébergement du site"
+        content_1: "OVH"
+        content_2: "2 rue Kellermann BP 80157 59053 ROUBAIX Cedex 1"
+        content_3: "+33 (0)8 203 203 63 / support@ovh.com"

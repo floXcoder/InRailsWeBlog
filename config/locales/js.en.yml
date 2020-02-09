@@ -45,8 +45,8 @@ en:
         links:
           title: "Links"
           contact: "Contact us"
-          support: "Help"
           about: "About us"
+          support: "Help"
           github: "Github"
           github_src: "https://github.com/floXcoder/InRailsWeBlog"
         languages: "Languages"

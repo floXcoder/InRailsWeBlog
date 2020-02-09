@@ -52,6 +52,9 @@ Rails.application.routes.draw do
     get '/users/password/new', to: 'pages#home', as: :new_password, defaults: { name: 'new_password' }
     get '/users/password/edit', to: 'pages#home', as: :edit_password, defaults: { name: 'edit_password' }
 
+    # Static routes
+    get '/about-us', to: 'pages#home', as: :about_us, defaults: { name: 'about_us' }
+
     # Other unnamed routes
     get '/search/*path', to: 'pages#home'
     get '/tags/*path', to: 'pages#home'

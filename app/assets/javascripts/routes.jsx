@@ -90,6 +90,11 @@ export default {
                 exact: true,
                 component: () => RouteComponents.ArticleShared
             },
+            // Static pages
+            {
+                path: Routes.aboutUs(false),
+                component: () => RouteComponents.AboutUs
+            },
             // Miscellaneous
             {
                 path: Routes.notFoundPath(false),

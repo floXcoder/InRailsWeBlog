@@ -1,5 +1,5 @@
 do /home/flo/Projects/InRailsWeBlog/bin/bundle exec /home/flo/.rvm/rubies/ruby-2.6.3/bin/ruby /home/flo/Projects/InRailsWeBlog/bin/rake routes --trace
-Ruby enVironment Manager 1.29.9 (latest) (c) 2009-2017 Michal Papis, Piotr Kuczynski, Wayne E. Seguin
+Ruby enVironment Manager 1.29.8 (latest) (c) 2009-2017 Michal Papis, Piotr Kuczynski, Wayne E. Seguin
 
                               Prefix Verb     URI Pattern                                                                                   Controller#Action
                                 root GET      /                                                                                             pages#home
@@ -59,6 +59,8 @@ Ruby enVironment Manager 1.29.9 (latest) (c) 2009-2017 Michal Papis, Piotr Kuczy
                      new_password_en GET      /users/password/new(.:format)                                                                 pages#home {:name=>"new_password", :locale=>"en"}
                     edit_password_fr GET      /fr/utilisateurs/password/edition(.:format)                                                   pages#home {:name=>"edit_password", :locale=>"fr"}
                     edit_password_en GET      /users/password/edit(.:format)                                                                pages#home {:name=>"edit_password", :locale=>"en"}
+                         about_us_fr GET      /fr/about_us(.:format)                                                                        pages#home {:name=>"about_us", :locale=>"fr"}
+                         about_us_en GET      /about_us(.:format)                                                                           pages#home {:name=>"about_us", :locale=>"en"}
                                      GET      /fr/recherche/*path(.:format)                                                                 pages#home {:locale=>"fr"}
                                      GET      /search/*path(.:format)                                                                       pages#home {:locale=>"en"}
                                      GET      /fr/labels/*path(.:format)                                                                    pages#home {:locale=>"fr"}

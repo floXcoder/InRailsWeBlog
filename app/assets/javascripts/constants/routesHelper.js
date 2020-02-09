@@ -49,6 +49,9 @@ export const historyArticlePath = (userSlug, articleSlug, locale = window.locale
 export const newPasswordPath = (locale = window.locale) => routeBuilder('/users/password/new', locale);
 export const editPasswordPath = (locale = window.locale) => routeBuilder('/users/password/edit', locale);
 
+// Static routes
+export const aboutUs = (locale = window.locale) => routeBuilder('/about-us', locale);
+
 // URL hash params
 export const searchParam = 'search';
 

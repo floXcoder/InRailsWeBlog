@@ -1,9 +1,8 @@
 'use strict';
 
 import {
-    gridWidth,
     articleAppendixWidth
-} from '../theme';
+} from './theme';
 
 const styles = (theme) => ({
     root: {
@@ -12,20 +11,18 @@ const styles = (theme) => ({
         overflow: 'visible',
         maxWidth: articleAppendixWidth
     },
-    grid: {
-        maxWidth: gridWidth
-    },
-    tag: {
-        margin: theme.spacing(1)
-    },
-    category: {
-        marginBottom: 32
-    },
-    categoryName: {
+    title: {
         marginTop: 8,
+        color: theme.palette.primary.dark,
+        fontSize: '1.8rem',
+        fontWeight: 600,
+        fontStyle: 'center',
+        textTransform: 'uppercase'
+    },
+    subtitle: {
+        margin: '2.5rem 0 .5rem',
         fontSize: '1.6rem',
-        fontWeight: 500,
-        borderBottom: `1px solid ${theme.palette.grey[300]}`
+        color: theme.palette.primary.dark
     }
 });
 

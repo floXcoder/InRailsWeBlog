@@ -11,7 +11,8 @@ import {
 import Grid from '@material-ui/core/Grid';
 
 import {
-    rootPath
+    // rootPath,
+    aboutUs
 } from '../../../constants/routesHelper';
 
 import styles from '../../../../jss/home/footer';
@@ -99,22 +100,24 @@ class FooterLayoutHome extends React.PureComponent {
                         </h3>
 
                         <p>
+                            <a className={this.props.classes.footerLink}
+                               href={"mailto:" + window.settings.website_email}>
+                                {I18n.t('js.views.footer.links.contact')}
+                            </a>
+                        </p>
+
+                        <p>
                             <Link className={this.props.classes.footerLink}
-                                  to='#'>
+                                  to={aboutUs()}>
                                 {I18n.t('js.views.footer.links.about')}
                             </Link>
                         </p>
+
                         <p>
                             <Link className={this.props.classes.footerLink}
                                   to='#'>
                                 {I18n.t('js.views.footer.links.support')}
                             </Link>
-                        </p>
-                        <p>
-                            <a className={this.props.classes.footerLink}
-                               href={"mailto:" + window.settings.website_email}>
-                                {I18n.t('js.views.footer.links.contact')}
-                            </a>
                         </p>
                     </Grid>
 
