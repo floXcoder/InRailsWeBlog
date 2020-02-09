@@ -18,7 +18,6 @@ const initState = {
     errors: undefined,
 
     topics: [],
-    metaTags: {},
     pagination: {},
 
     userTopics: [],

@@ -36,38 +36,38 @@ module Api::V1
     def index
       complete = filter_params[:complete] && admin_signed_in?
 
-      articles = if complete
-                   ::Articles::FindQueries.new(nil, current_admin).complete
-                 elsif params[:home]
-                   ::Articles::FindQueries.new.home(limit: params[:limit])
-                 elsif params[:populars]
-                   ::Articles::FindQueries.new.populars(limit: params[:limit])
-                 else
-                   ::Articles::FindQueries.new(current_user, current_admin).all(filter_params.merge(page: params[:page], limit: params[:limit]))
-                 end
+      if complete
+        articles = ::Articles::FindQueries.new(nil, current_admin).complete
+      elsif params[:populars]
+        articles = ::Articles::FindQueries.new.populars(limit: params[:limit])
+      elsif params[:home]
+        articles = ::Articles::FindQueries.new.home(limit: params[:limit])
+      else
+        if filter_params[:tag_slug].present?
+          if filter_params[:topic_slug].present?
+            set_seo_data(:tagged_topic_articles,
+                         tag_slug:   Tag.find_by(slug: filter_params[:parent_tag_slug].presence || filter_params[:tag_slug].presence)&.name,
+                         topic_slug: Topic.find_by(slug: filter_params[:topic_slug])&.name,
+                         user_slug:  User.find_by(slug: filter_params[:user_slug])&.pseudo)
+          else
+            set_seo_data(:tagged_articles,
+                         tag_slug:  Tag.find_by(slug: filter_params[:parent_tag_slug].presence || filter_params[:tag_slug].presence)&.name,
+                         user_slug: User.find_by(slug: filter_params[:user_slug])&.pseudo)
+          end
+        elsif filter_params[:topic_slug].present?
+          set_seo_data(:topic_articles,
+                       topic_slug: Topic.find_by(slug: filter_params[:topic_slug]).name,
+                       user_slug:  User.find_by(slug: filter_params[:user_slug]).pseudo)
+        else
+          set_seo_data(:user_articles,
+                       user_slug: User.find_by(slug: filter_params[:user_slug]))
+        end
+
+        articles = ::Articles::FindQueries.new(current_user, current_admin).all(filter_params.merge(page: params[:page], limit: params[:limit]))
+      end
 
       respond_to do |format|
         format.json do
-          if filter_params[:tag_slug].present?
-            if filter_params[:topic_slug].present?
-              set_seo_data(:tagged_topic_articles,
-                           tag_slug:   Tag.find_by(slug: filter_params[:parent_tag_slug].presence || filter_params[:tag_slug].presence)&.name,
-                           topic_slug: Topic.find_by(slug: filter_params[:topic_slug])&.name,
-                           user_slug:  User.find_by(slug: filter_params[:user_slug])&.pseudo)
-            else
-              set_seo_data(:tagged_articles,
-                           tag_slug:  Tag.find_by(slug: filter_params[:parent_tag_slug].presence || filter_params[:tag_slug].presence)&.name,
-                           user_slug: User.find_by(slug: filter_params[:user_slug])&.pseudo)
-            end
-          elsif filter_params[:topic_slug].present?
-            set_seo_data(:topic_articles,
-                         topic_slug: Topic.find_by(slug: filter_params[:topic_slug]).name,
-                         user_slug:  User.find_by(slug: filter_params[:user_slug]).pseudo)
-          else
-            set_seo_data(:user_articles,
-                         user_slug: User.find_by(slug: filter_params[:user_slug]))
-          end
-
           if complete
             render json: ArticleCompleteSerializer.new(articles,
                                                        include: [:tracker],
@@ -75,14 +75,12 @@ module Api::V1
           elsif params[:summary]
             render json: ArticleSampleSerializer.new(articles,
                                                      include: [:user, :tags],
-                                                     meta:    { root: 'articles', **meta_attributes }),
-                   meta: meta_attributes(pagination: articles)
+                                                     meta:    { root: 'articles', **meta_attributes(pagination: articles) })
           else
             render json: ArticleSerializer.new(articles,
                                                include: [:user, :topic, :tracker, :tags],
                                                params:  { current_user_id: current_user&.id, with_outdated: true },
-                                               meta:    { root: 'articles', **meta_attributes }),
-                   meta: meta_attributes(pagination: articles)
+                                               meta:    { root: 'articles', **meta_attributes(pagination: articles) })
           end
         end
       end
@@ -99,7 +97,7 @@ module Api::V1
                        topic_slug:   article.topic.name,
                        user_slug:    article.user.pseudo,
                        author:       article.user.pseudo,
-                       canonical:    article.link_path(host: ENV['WEBSITE_FULL_ADDRESS']),
+                       model:        article,
                        og:           {
                                        type:  "#{ENV['WEBSITE_NAME']}:article",
                                        url:   article.link_path(host: ENV['WEBSITE_FULL_ADDRESS']),
@@ -132,7 +130,7 @@ module Api::V1
                        topic_slug:   article.topic.name,
                        user_slug:    article.user.pseudo,
                        author:       article.user.pseudo,
-                       canonical:    article.link_path(host: ENV['WEBSITE_FULL_ADDRESS']),
+                       model:        article,
                        og:           {
                                        type:  "#{ENV['WEBSITE_NAME']}:article",
                                        url:   article.link_path(host: ENV['WEBSITE_FULL_ADDRESS']),
@@ -341,24 +339,26 @@ module Api::V1
                                       :allow_comment,
                                       :draft,
                                       :topic_id,
-                                      :language,
                                       :picture_ids,
-                                      inventories: {},
-                                      tags:        [
-                                                     :name,
-                                                     :visibility,
-                                                     :new
-                                                   ],
-                                      parent_tags: [
-                                                     :name,
-                                                     :visibility,
-                                                     :new
-                                                   ],
-                                      child_tags:  [
-                                                     :name,
-                                                     :visibility,
-                                                     :new
-                                                   ])
+                                      title_translations:   {},
+                                      summary_translations: {},
+                                      content_translations: {},
+                                      inventories:          {},
+                                      tags:                 [
+                                                              :name,
+                                                              :visibility,
+                                                              :new
+                                                            ],
+                                      parent_tags:          [
+                                                              :name,
+                                                              :visibility,
+                                                              :new
+                                                            ],
+                                      child_tags:           [
+                                                              :name,
+                                                              :visibility,
+                                                              :new
+                                                            ])
     end
 
     def filter_params

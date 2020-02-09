@@ -57,6 +57,7 @@ import ArticleErrorField from './fields/error';
 import EnsureValidity from '../../modules/ensureValidity';
 
 export default @connect((state, props) => ({
+    articleMultilanguage: state.uiState.articleMultilanguage,
     currentUserTopicId: state.topicState.currentUserTopicId,
     availableParentTags: getCategorizedTags(state, props.inheritVisibility),
     availableChildTags: getCategorizedTags(state, props.inheritVisibility, true),
@@ -82,6 +83,7 @@ class ArticleFormDisplay extends React.Component {
         onCancel: PropTypes.func,
         children: PropTypes.object,
         // from connect
+        articleMultilanguage: PropTypes.bool,
         currentUserTopicId: PropTypes.number,
         availableParentTags: PropTypes.array,
         availableChildTags: PropTypes.array,
@@ -203,6 +205,7 @@ class ArticleFormDisplay extends React.Component {
                                                         change={change}/>
                                                     :
                                                     <ArticleCommonField currentMode={currentMode}
+                                                                        articleMultilanguage={this.props.articleMultilanguage}
                                                                         currentTopicId={this.props.currentUserTopicId}
                                                                         isPaste={this.props.isPaste}
                                                                         article={this.props.children}

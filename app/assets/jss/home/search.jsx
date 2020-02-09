@@ -47,7 +47,7 @@ const styles = (theme) => ({
         },
         '&:hover': {
             [theme.breakpoints.up('md')]: {
-                width: '30vw'
+                width: '26vw'
             }
         }
     },
@@ -55,7 +55,7 @@ const styles = (theme) => ({
         paddingTop: theme.spacing(1),
         paddingRight: theme.spacing(1),
         paddingBottom: theme.spacing(1),
-        width: '30vw'
+        width: '26vw'
     },
     selectedTagsChip: {
         margin: theme.spacing(0.5, 0.5),

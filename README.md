@@ -238,7 +238,7 @@ http://localhost:9200/_plugin/head/
 
 Update all indexes:
 
-    rails searchkick:reindex:all
+    rails InRailsWeBlog:search_reindex
 
 #### Maxminddb
 

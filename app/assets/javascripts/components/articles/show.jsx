@@ -59,7 +59,6 @@ import CommentCountIcon from '../comments/icons/count';
 
 import CommentBox from '../loaders/commentBox';
 
-import HeadLayout from '../layouts/head';
 import NotFound from '../layouts/notFound';
 
 import SummaryStoriesTopic from '../topics/stories/summary';
@@ -77,7 +76,6 @@ import styles from '../../../jss/article/show';
 
 export default @withRouter
 @connect((state, props) => ({
-    metaTags: state.articleState.metaTags,
     currentUser: getCurrentUser(state),
     currentTopic: state.topicState.currentTopic,
     isCurrentTopicOwner: getIsCurrentTopicOwner(state, props.routeParams),
@@ -104,7 +102,6 @@ class ArticleShow extends React.Component {
         // from router
         history: PropTypes.object,
         // from connect
-        metaTags: PropTypes.object,
         currentUser: PropTypes.object,
         currentTopic: PropTypes.object,
         isCurrentTopicOwner: PropTypes.bool,
@@ -241,10 +238,6 @@ class ArticleShow extends React.Component {
                                  itemProp="blogPost"
                                  itemScope={true}
                                  itemType="https://schema.org/BlogPosting">
-                            <HeadLayout>
-                                {this.props.metaTags}
-                            </HeadLayout>
-
                             {
                                 this.props.isCurrentTopicOwner &&
                                 <div className={this.props.classes.breadcrumb}>

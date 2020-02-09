@@ -41,14 +41,18 @@ fr:
         unpin: "Unpin"
       footer:
         description: "Un blog pour tous"
-        copyright: "Copyright 2019 (%{version}). Tous droits réservés."
+        copyright: "Copyright 2020 (%{version}). Tous droits réservés."
         links:
           title: "Liens utiles"
-          contact: "Me contacter par email"
+          contact: "Contacter par email"
           support: "Aide"
           about: "A propos de moi"
           github: "Source sous Github"
           github_src: "https://github.com/floXcoder/InRailsWeBlog"
+        languages: "Langues"
+        locales:
+          en: "Anglais"
+          fr: "Français"
       home:
         loader: "Chargement"
         articles:
@@ -171,6 +175,9 @@ fr:
               card: "Articles complets"
               inline: "Articles unifiés"
               grid: "Articles en grille"
+          multilanguage:
+            title: "Multi-langues"
+            name: "Écrire les articles en plusieurs langues"
         tag:
           title: "Labels"
           sidebar:
@@ -894,7 +901,7 @@ fr:
     rating:
       clear: "Effacer"
     languages:
-      fr: "Français"
+      fr: "French"
       en: "English"
     editor:
       helper:

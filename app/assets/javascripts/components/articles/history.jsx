@@ -30,8 +30,6 @@ import highlight from '../modules/highlight';
 
 import Loader from '../theme/loader';
 
-import HeadLayout from '../layouts/head';
-
 import ArticleBreadcrumbDisplay from './display/breadcrumb';
 import ArticleCardDisplay from './display/items/card';
 import ArticleVersionsDisplay from './display/versions';
@@ -40,7 +38,6 @@ import styles from '../../../jss/article/history';
 
 export default @withRouter
 @connect((state) => ({
-    metaTags: state.articleState.metaTags,
     currentUser: getCurrentUser(state),
     currentTopic: state.topicState.currentTopic,
     article: state.articleState.article,
@@ -59,7 +56,6 @@ class ArticleHistory extends React.Component {
         // from router
         history: PropTypes.object,
         // from connect
-        metaTags: PropTypes.object,
         currentUser: PropTypes.object,
         currentTopic: PropTypes.object,
         article: PropTypes.object,
@@ -109,10 +105,6 @@ class ArticleHistory extends React.Component {
 
         return (
             <div className={this.props.classes.history}>
-                <HeadLayout>
-                    {this.props.metaTags}
-                </HeadLayout>
-
                 <div className={this.props.classes.breadcrumb}>
                     <ArticleBreadcrumbDisplay user={this.props.currentUser}
                                               topic={this.props.currentTopic}

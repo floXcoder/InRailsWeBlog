@@ -12,7 +12,7 @@ const initState = {
     isFetching: false,
     isProcessing: false,
     errors: {},
-    metaTags: {},
+
     pagination: {},
 
     bookmarks: [],

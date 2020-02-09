@@ -256,17 +256,22 @@ class Tag < ApplicationRecord
   end
 
   def link_path(options = {})
-    if options[:edit]
-      Rails.application.routes.url_helpers.edit_tag_path(tag_slug: self.slug)
-    elsif options[:index]
-      Rails.application.routes.url_helpers.tagged_articles_path(tag_slug: self.slug)
-    elsif options[:index] && options[:host]
-      Rails.application.routes.url_helpers.tagged_articles_path(tag_slug: self.slug, host: options[:host])
-    elsif options[:host]
-      Rails.application.routes.url_helpers.show_tag_url(tag_slug: self.slug, host: options[:host])
-    else
-      Rails.application.routes.url_helpers.show_tag_path(tag_slug: self.slug)
-    end
+    locale = options[:locale] || 'en'
+
+    route_name = case options[:route_name]
+                 when 'edit'
+                   'edit_tag'
+                 when 'index'
+                   'tagged_articles'
+                 else
+                   'show_tag'
+                 end
+
+    params        = { tag_slug: self.slug }
+
+    params[:host] = ENV['WEBSITE_ADDRESS'] if options[:host]
+
+    Rails.application.routes.url_helpers.send("#{route_name}_#{locale}_#{options[:host] ? 'url' : 'path'}", **params)
   end
 
   def default_picture
@@ -327,26 +332,26 @@ class Tag < ApplicationRecord
 
   def search_data
     {
-      id:                    id,
-      user_id:               user_id,
-      topic_ids:             topics.ids,
-      child_ids:             child_ids,
-      parent_ids:            parent_ids,
-      name:                  name,
-      description:           description,
-      languages:             languages,
-      synonyms:              synonyms,
-      notation:              notation,
-      priority:              priority,
-      visibility:            visibility,
-      archived:              archived,
-      accepted:              accepted,
-      created_at:            created_at,
-      updated_at:            updated_at,
-      rank:                  rank,
-      popularity:            popularity,
-      tagged_articles_count: tagged_articles_count,
-      slug:                  slug
+      id:                    self.id,
+      user_id:               self.user_id,
+      topic_ids:             self.topics.ids,
+      child_ids:             self.child_ids,
+      parent_ids:            self.parent_ids,
+      name:                  self.name,
+      description:           self.description,
+      languages:             self.languages,
+      synonyms:              self.synonyms,
+      notation:              self.notation,
+      priority:              self.priority,
+      visibility:            self.visibility,
+      archived:              self.archived,
+      accepted:              self.accepted,
+      created_at:            self.created_at,
+      updated_at:            self.updated_at,
+      rank:                  self.rank,
+      popularity:            self.popularity,
+      tagged_articles_count: self.tagged_articles_count,
+      slug:                  self.slug
     }
   end
 

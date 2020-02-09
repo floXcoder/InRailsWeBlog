@@ -19,6 +19,8 @@ const styles = (theme) => ({
     toolbar: {
         marginLeft: 'auto',
         marginRight: 'auto',
+        paddingLeft: theme.spacing(2),
+        paddingRight: theme.spacing(2),
         width: '70%',
         borderBottom: `1px solid ${theme.palette.grey[300]}`,
         [theme.breakpoints.down('lg')]: {
@@ -28,9 +30,9 @@ const styles = (theme) => ({
     grow: {
         flexGrow: 1
     },
-    title: {
+    headerTitle: {
         display: 'none',
-        margin: '10px 15px 0',
+        margin: '10px 8px 0',
         fontSize: '1.6rem',
         [theme.breakpoints.up('sm')]: {
             display: 'block',

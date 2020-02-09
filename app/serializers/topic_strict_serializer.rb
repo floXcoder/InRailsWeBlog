@@ -11,7 +11,6 @@ class TopicStrictSerializer
 
   set_key_transform :camel_lower
 
-  # Methods with attributes must be overrided to work with searchkick results
   attributes :id,
              :user_id,
              :mode,

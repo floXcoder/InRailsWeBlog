@@ -22,14 +22,12 @@ import highlight from '../modules/highlight';
 
 import Loader from '../theme/loader';
 
-import HeadLayout from '../layouts/head';
 import NotFound from '../layouts/notFound';
 
 import styles from '../../../jss/article/show';
 
 export default @withRouter
 @connect((state) => ({
-    metaTags: state.articleState.metaTags,
     isFetching: state.articleState.isFetching,
     article: state.articleState.article
 }), {
@@ -42,7 +40,6 @@ class ArticleShared extends React.Component {
     static propTypes = {
         routeParams: PropTypes.object.isRequired,
         // from connect
-        metaTags: PropTypes.object,
         isFetching: PropTypes.bool,
         article: PropTypes.object,
         fetchSharedArticle: PropTypes.func,
@@ -100,10 +97,6 @@ class ArticleShared extends React.Component {
 
         return (
             <article className={this.props.classes.root}>
-                <HeadLayout>
-                    {this.props.metaTags}
-                </HeadLayout>
-
                 <Grid container={true}>
                     {
                         this.props.article.summary &&

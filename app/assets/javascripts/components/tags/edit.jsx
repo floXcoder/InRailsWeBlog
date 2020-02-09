@@ -28,7 +28,6 @@ import {
 
 import Loader from '../theme/loader';
 
-import HeadLayout from '../layouts/head';
 import NotAuthorized from '../layouts/notAuthorized';
 
 import TagFormDisplay from './display/form';
@@ -38,7 +37,6 @@ import styles from '../../../jss/tag/edit';
 
 export default @withRouter
 @connect((state) => ({
-    metaTags: state.tagState.metaTags,
     tag: state.tagState.tag,
     currentUser: getCurrentUser(state),
     tagErrors: getTagErrors(state)
@@ -54,7 +52,6 @@ class TagEdit extends React.Component {
         // from router
         history: PropTypes.object,
         // from connect
-        metaTags: PropTypes.object,
         tag: PropTypes.object,
         currentUser: PropTypes.object,
         tagErrors: PropTypes.array,
@@ -115,10 +112,6 @@ class TagEdit extends React.Component {
 
         return (
             <div className={this.props.classes.root}>
-                <HeadLayout>
-                    {this.props.metaTags}
-                </HeadLayout>
-
                 <TagFormDisplay id={`tag-edit-${this.props.tag.id}`}
                                 tagId={this.props.tag}
                                 isEditing={true}

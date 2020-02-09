@@ -30,14 +30,12 @@ import Loader from '../theme/loader';
 
 import TopicFormInventoriesDisplay from './display/formInventories';
 
-import HeadLayout from '../layouts/head';
 import NotAuthorized from '../layouts/notAuthorized';
 
 import styles from '../../../jss/topic/edit';
 
 export default @withRouter
 @connect((state) => ({
-    metaTags: state.topicState.metaTags,
     topic: state.topicState.topic,
     currentUser: getCurrentUser(state),
     topicErrors: getTopicErrors(state)
@@ -53,7 +51,6 @@ class TopicEditInventories extends React.Component {
         // from router
         history: PropTypes.object,
         // from connect
-        metaTags: PropTypes.object,
         topic: PropTypes.object,
         currentUser: PropTypes.object,
         topicErrors: PropTypes.array,
@@ -115,10 +112,6 @@ class TopicEditInventories extends React.Component {
 
         return (
             <div className={this.props.classes.root}>
-                <HeadLayout>
-                    {this.props.metaTags}
-                </HeadLayout>
-
                 <TopicFormInventoriesDisplay initialValues={{inventoryFields}}
                                              id={`topic-edit-inventories-${this.props.topic.id}`}
                                              topic={this.props.topic}

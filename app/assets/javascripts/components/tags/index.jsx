@@ -45,12 +45,9 @@ import {
 
 import Loader from '../theme/loader';
 
-import HeadLayout from '../layouts/head';
-
 import styles from '../../../jss/tag/index';
 
 export default @connect((state) => ({
-    metaTags: state.tagState.metaTags,
     isUserConnected: state.userState.isConnected,
     currentUser: state.userState.user,
     currentTopic: state.topicState.currentTopic,
@@ -66,7 +63,6 @@ class TagIndex extends React.Component {
     static propTypes = {
         routeParams: PropTypes.object.isRequired,
         // from connect
-        metaTags: PropTypes.object,
         isUserConnected: PropTypes.bool,
         currentUser: PropTypes.object,
         currentTopic: PropTypes.object,
@@ -184,10 +180,6 @@ class TagIndex extends React.Component {
 
         return (
             <div className={this.props.classes.root}>
-                <HeadLayout>
-                    {this.props.metaTags}
-                </HeadLayout>
-
                 <div className="margin-bottom-20">
                     <Typography className={this.props.classes.title}
                                 component="h1"

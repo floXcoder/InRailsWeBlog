@@ -17,6 +17,10 @@ import Typography from '@material-ui/core/Typography';
 import EmailIcon from '@material-ui/icons/Email';
 import LockIcon from '@material-ui/icons/Lock';
 
+import {
+    rootPath
+} from '../../constants/routesHelper';
+
 import styles from '../../../jss/user/password';
 
 export default @withStyles(styles)
@@ -147,7 +151,7 @@ class UserPassword extends React.Component {
 
                     <div className="margin-top-25 margin-bottom-25">
                         <Link className={this.props.classes.link}
-                              to="/">
+                              to={rootPath()}>
                             {I18n.t('js.user.password.new.back')}
                         </Link>
                     </div>

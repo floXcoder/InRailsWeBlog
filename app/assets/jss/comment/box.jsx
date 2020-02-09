@@ -23,12 +23,15 @@ const styles = (theme) => ({
         padding: 24,
         border: '1px solid #e0e0e0'
     },
+    headline: {
+        fontSize: '1rem'
+    },
     actions: {
         display: 'flex'
     },
     leftIcon: {
         marginRight: theme.spacing(1)
-    },
+    }
 });
 
 export default styles;

@@ -9,7 +9,7 @@ const HeadLayout = ({children}) => {
         return null;
     }
 
-    const {title, description, author, canonical, og} = children;
+    const {title, description, author, canonical, alternate, og} = children;
 
     return (
         <Helmet>
@@ -27,6 +27,16 @@ const HeadLayout = ({children}) => {
                 canonical &&
                 <link rel="canonical"
                       href={canonical}/>
+            }
+
+            {
+                alternate &&
+                Object.keys(alternate).map((locale) => (
+                    <link key={locale}
+                          rel="alternate"
+                          hrefLang={locale}
+                          href={alternate[locale]}/>
+                ))
             }
 
             {

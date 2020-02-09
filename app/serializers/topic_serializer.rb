@@ -39,7 +39,6 @@ class TopicSerializer
              :description,
              :priority,
              :visibility,
-             :settings,
              :slug,
              :articles_count
 
@@ -55,5 +54,9 @@ class TopicSerializer
 
   attribute :visibility_translated do |object|
     object.visibility_to_tr
+  end
+
+  attribute :settings do |object|
+    UserSettingSerializer.new(object).serializable_hash[:data][:attributes].compact
   end
 end

@@ -106,7 +106,7 @@ module Api::V1
             topic_slug = if params[:topic_slug].present?
                            params[:topic_slug]
                          elsif params[:article_slug].present?
-                           params[:article_slug].scan(/@(.*?)$/).last.first
+                           params[:article_slug].scan(/@(.*?)$/)&.last&.first
                          end
 
             if topic_slug && current_user.current_topic.slug != topic_slug
@@ -122,7 +122,7 @@ module Api::V1
             set_seo_data(:show_user,
                          user_slug: user.pseudo,
                          author:    user.pseudo,
-                         canonical: user.link_path(host: ENV['WEBSITE_FULL_ADDRESS']),
+                         model:     user,
                          og:        {
                                       type:  "#{ENV['WEBSITE_NAME']}:article",
                                       url:   user.link_path(host: ENV['WEBSITE_FULL_ADDRESS']),
@@ -186,11 +186,10 @@ module Api::V1
 
       respond_to do |format|
         format.json do
-          render json: UserRecentSerializer.new(user,
-                                                params: {
-                                                  tags:     user_recents[:tags],
-                                                  articles: user_recents[:articles]
-                                                })
+          render json: {
+            tags:     Tag.as_flat_json(user_recents[:tags], 'strict'),
+            articles: Article.as_flat_json(user_recents[:articles], 'strict')
+          }
         end
       end
     end

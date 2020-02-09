@@ -150,6 +150,8 @@ class HomeSearchHeader extends React.Component {
                     event.preventDefault();
 
                     this.props.setAutocompleteAction(event.key);
+                } else if (Utils.NAVIGATION_KEYMAP[event.which] === 'enter') {
+                    event.preventDefault();
                 }
             }
         }
@@ -182,6 +184,10 @@ class HomeSearchHeader extends React.Component {
     };
 
     _performSearch = () => {
+        if(!this.props.query || this.props.query === '') {
+            return;
+        }
+
         this.props.setAutocompleteSelectedTag();
 
         this.props.history.push({

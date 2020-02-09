@@ -1,5 +1,6 @@
 fr:
   routes:
+    home: "fr"
     search: "recherche"
     tags: "labels"
     tagged: "labelise"

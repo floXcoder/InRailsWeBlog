@@ -11,8 +11,9 @@ export const showUserLogin = () => ({
     type: ActionTypes.UI_SWITCH_USER_LOGIN
 });
 
-export const showUserPreference = () => ({
-    type: ActionTypes.UI_SWITCH_USER_PREFERENCE
+export const showUserPreference = (view) => ({
+    type: ActionTypes.UI_SWITCH_USER_PREFERENCE,
+    view
 });
 
 // Topics

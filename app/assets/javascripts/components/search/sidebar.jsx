@@ -169,7 +169,7 @@ class SearchSidebar extends React.Component {
             );
         }
 
-        if (this.props.articleAvailableFilters && this.props.articleAvailableFilters.length === 0) {
+        if (!this.props.articleAvailableFilters || this.props.articleAvailableFilters?.length === 0) {
             return null;
         }
 

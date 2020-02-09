@@ -20,6 +20,10 @@ class UserSettingSerializer
     object.respond_to?(:article_order) ? object.article_order : nil
   end
 
+  attribute :article_multilanguage do |object|
+    object.respond_to?(:article_multilanguage) ? object.article_multilanguage : nil
+  end
+
   attribute :tag_parent_and_child do |object|
     object.respond_to?(:tag_parent_and_child) ? object.tag_parent_and_child : nil
   end

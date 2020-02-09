@@ -30,33 +30,34 @@ module Api::V1
 
       complete = filter_params[:complete] && admin_signed_in?
 
-      tags = if complete
-               ::Tags::FindQueries.new(nil, current_admin).complete
-             elsif params[:populars]
-               ::Tags::FindQueries.new.populars(limit: params[:limit])
-             elsif params[:user_id] && (filter_params[:topic_slug].present? || filter_params[:topic_id].present?)
-               topic_id = if filter_params[:topic_slug]
-                            User.friendly.find(params[:user_id]).topics.friendly.find(filter_params[:topic_slug]).id
-                          else
-                            filter_params[:topic_id].to_i
-                          end
-               Rails.cache.fetch("user_tags:#{current_user&.id}_for_#{topic_id || current_user&.current_topic_id}", expires_in: InRailsWeBlog.config.cache_time) do
-                 ::Tags::FindQueries.new(current_user, current_admin).all(filter_params.merge(topic_id: topic_id, limit: params[:limit]))
-               end
-             else
-               ::Tags::FindQueries.new(current_user, current_admin).all(filter_params.merge(limit: params[:limit]))
-             end
+      if complete
+        tags = ::Tags::FindQueries.new(nil, current_admin).complete
+      elsif params[:populars]
+        tags = ::Tags::FindQueries.new.populars(limit: params[:limit])
+      elsif params[:user_id] && (filter_params[:topic_slug].present? || filter_params[:topic_id].present?)
+        topic_id = if filter_params[:topic_slug]
+                     User.friendly.find(params[:user_id]).topics.friendly.find(filter_params[:topic_slug]).id
+                   else
+                     filter_params[:topic_id].to_i
+                   end
 
-      respond_to do |format|
-        if filter_params[:topic_slug].present?
+        if filter_params[:topic_slug]
           topic = Topic.friendly.find(filter_params[:topic_slug])
           set_seo_data(:topic_tags,
                        topic_slug: topic.name,
                        user_slug:  topic.user.pseudo)
-        elsif filter_params[:user_id].blank?
-          set_seo_data(:tags)
         end
 
+        tags = Rails.cache.fetch("user_tags:#{current_user&.id}_for_#{topic_id || current_user&.current_topic_id}", expires_in: InRailsWeBlog.config.cache_time) do
+          ::Tags::FindQueries.new(current_user, current_admin).all(filter_params.merge(topic_id: topic_id, limit: params[:limit]))
+        end
+      else
+        # set_seo_data(:tags)
+
+        tags = ::Tags::FindQueries.new(current_user, current_admin).all(filter_params.merge(limit: params[:limit]))
+      end
+
+      respond_to do |format|
         format.json do
           if complete
             render json: TagCompleteSerializer.new(tags,

@@ -39,10 +39,9 @@ import {
 
 import {
     maxSearchRate,
-    autocompleteLimit
+    autocompleteLimit,
+    searchGridColumns
 } from '../modules/constants';
-
-import HeadLayout from '../layouts/head';
 
 import EnsureValidity from '../modules/ensureValidity';
 
@@ -55,7 +54,6 @@ import SearchArticleIndex from './index/article';
 import styles from '../../../jss/search/index';
 
 export default @connect((state) => ({
-    metaTags: state.searchState.metaTags,
     currentUserId: state.userState.currentId,
     currentUser: state.userState.user,
     currentUserTopicId: state.topicState.currentUserTopicId,
@@ -87,7 +85,6 @@ export default @connect((state) => ({
 class SearchIndex extends React.Component {
     static propTypes = {
         // from connect
-        metaTags: PropTypes.object,
         currentUserId: PropTypes.number,
         currentUser: PropTypes.object,
         currentUserTopicId: PropTypes.number,
@@ -299,10 +296,6 @@ class SearchIndex extends React.Component {
 
         return (
             <div className={this.props.classes.root}>
-                <HeadLayout>
-                    {this.props.metaTags}
-                </HeadLayout>
-
                 <form onSubmit={this._handleSubmit}>
                     <EnsureValidity/>
 
@@ -404,6 +397,7 @@ class SearchIndex extends React.Component {
                                         selectedTagIds={this.props.selectedTags.map((tag) => tag.id)}
                                         articles={this.props.articles}
                                         searchDisplay={searchDisplay}
+                                        searchGridColumns={searchGridColumns}
                                         onSettingsClick={this.props.showUserPreference}
                                         onOrderChange={this._handleOrderChange}
                                         onDisplayChange={this._handleDisplayChange}/>

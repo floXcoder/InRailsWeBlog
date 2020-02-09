@@ -9,14 +9,15 @@ javascript:
     window.locale = '#{I18n.locale}';
     window.locales = JSON.parse('#{raw I18n.available_locales.to_json}');
     window.localizedRoutes = JSON.parse('#{raw localized_routes.to_json}');
-    
+    window.defaultMetaTags = JSON.parse('#{raw meta_tags&.meta_tags.to_json}');
+
     window.websiteUrl = "#{ENV['WEBSITE_FULL_ADDRESS']}";
     window.logoUrl = "#{AssetManifest.image_path('logos/favicon-192x192.png')}";
 
+    window.revision = "#{REVISION}";
+
 - if Rails.env.production?
   javascript:
-      // window.revision = "#{REVISION}";
-
       window.SENTRY_JAVASCRIPT_KEY = "#{ENV['SENTRY_JAVASCRIPT_KEY']}";
       
       window.METRICS_ADDRESS = "#{ENV['METRICS_ADDRESS']}";

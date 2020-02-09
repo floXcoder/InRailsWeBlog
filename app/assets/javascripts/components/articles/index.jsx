@@ -40,8 +40,6 @@ import {
 import Loader from '../theme/loader';
 import Pagination from '../theme/pagination';
 
-import HeadLayout from '../layouts/head';
-
 import SummaryStoriesTopic from '../topics/stories/summary';
 
 import ArticleNoneDisplay from './display/items/none';
@@ -49,7 +47,6 @@ import ArticleNoneDisplay from './display/items/none';
 import styles from '../../../jss/article/index';
 
 export default @connect((state) => ({
-    metaTags: state.articleState.metaTags,
     currentUserId: state.userState.currentId,
     userSlug: state.userState.currentSlug,
     storyTopic: getStoryTopic(state),
@@ -74,7 +71,6 @@ class ArticleIndex extends React.Component {
         routeParams: PropTypes.object.isRequired,
         routeHash: PropTypes.string,
         // from connect
-        metaTags: PropTypes.object,
         currentUserId: PropTypes.number,
         userSlug: PropTypes.string,
         storyTopic: PropTypes.object,
@@ -263,10 +259,6 @@ class ArticleIndex extends React.Component {
                     [this.props.classes.largeContainer]: isLargeContainer,
                     [this.props.classes.fullContainer]: isFullContainer
                 })}>
-                    <HeadLayout>
-                        {this.props.metaTags}
-                    </HeadLayout>
-
                     {
                         this.props.isFetching &&
                         <div className={this.props.classes.articleIndex}>

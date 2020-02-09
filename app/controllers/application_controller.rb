@@ -34,52 +34,14 @@ class ApplicationController < ActionController::Base
   after_action :flash_to_headers
 
   def set_locale
-    I18n.locale =
-      if params[:locale].present?
-        session[:locale] = params[:locale]
-      elsif session[:locale].present?
-        session[:locale]
-      elsif defined?(current_user) && current_user
-        current_user.locale
-        # elsif request.location&.present? && !request.location.country_code.empty?
-        #   if %w[FR BE CH].any? { |country_code| request.location.country_code.casecmp(country_code).zero? }
-        #     :fr
-        #   else
-        #     :en
-        #   end
-        # elsif http_accept_language.compatible_language_from(I18n.available_locales)
-        #   http_accept_language.compatible_language_from(I18n.available_locales)
-      else
-        :fr
-      end
+    user_env = ::Users::EnvironmentService.new(session,
+                                               cookies,
+                                               http_accept_language,
+                                               locale:       params[:locale],
+                                               force_locale: params[:force_locale],
+                                               current_user: current_user).perform
 
-    current_user.update_columns(locale: params[:new_lang]) if params[:new_lang] && current_user && current_user.locale.to_s != params[:new_lang]
-
-    # Set user location
-    @user_latitude = (request.respond_to?(:location) ? request.location.latitude : 0) rescue 0
-    @user_longitude = (request.respond_to?(:location) ? request.location.longitude : 0) rescue 0
-  end
-
-  def set_seo_data(named_route, parameters = {})
-    current_locale = params[:locale] || I18n.locale
-    seo_data = Seo::Data.find_by(
-      #locale: current_locale,
-      name: "#{named_route.to_sym}_#{current_locale}"
-    )
-
-    if seo_data
-      page_title = Seo::Data.convert_parameters(seo_data.page_title, parameters)
-      meta_desc = Seo::Data.convert_parameters(seo_data.meta_desc, parameters)
-    else
-      page_title = I18n.t('seo.default.page_title')
-      meta_desc = I18n.t('seo.default.meta_desc')
-    end
-
-    set_meta_tags title: titleize(page_title),
-                  description: meta_desc,
-                  author: parameters[:author],
-                  canonical: parameters[:canonical],
-                  og: parameters[:og]
+    I18n.locale = user_env.result[:locale]
   end
 
   # Redirection when Javascript is used.
@@ -150,6 +112,57 @@ class ApplicationController < ActionController::Base
   protected
 
   # SEO
+  def set_seo_data(named_route, parameters = {})
+    current_locale = params[:locale] || I18n.locale
+    model          = parameters.delete(:model)
+    canonical      = parameters.delete(:canonical)
+    alternate      = parameters.delete(:alternate)
+    author         = parameters.delete(:author)
+    og             = parameters.delete(:og)
+
+    seo_data = Seo::Data.find_by(
+      #locale: current_locale,
+      name: "#{named_route.to_sym}_#{current_locale}"
+    )
+
+    if seo_data
+      page_title = Seo::Data.convert_parameters(seo_data.page_title, parameters)
+      meta_desc  = Seo::Data.convert_parameters(seo_data.meta_desc, parameters)
+    else
+      page_title = I18n.t('seo.default.page_title')
+      meta_desc  = I18n.t('seo.default.meta_desc')
+    end
+
+    canonical = canonical_url(named_route, model, current_locale, parameters) unless canonical
+    alternate = alternate_urls(named_route, model, parameters) unless alternate
+
+    set_meta_tags title:       titleize(page_title),
+                  description: meta_desc,
+                  canonical:   canonical,
+                  alternate:   alternate,
+                  author:      author,
+                  og:          og
+  end
+
+  def canonical_url(named_route, model, locale = I18n.locale, **params)
+    locale = locale || 'en'
+    host   = Rails.env.development? ? nil : ENV['WEBSITE_ADDRESS']
+
+    if model
+      model.link_path(locale: locale, route_name: named_route, host: host)
+    else
+      Rails.application.routes.url_helpers.send("#{named_route}_#{locale}_#{host ? 'url' : 'path'}", **params.merge(host: host))
+    end
+  end
+
+  def alternate_urls(named_route, model, **params)
+    Hash[I18n.available_locales.map { |locale| [locale.to_s, canonical_url(named_route, model, locale, params)] }]
+  end
+
+  def image_url(url)
+    ("#{Rails.env.production? ? 'https' : 'http'}://#{ENV['WEBSITE_ASSET']}/") + 'assets/' + url
+  end
+
   def titleize(page_title)
     base_title = page_title
     base_title = "(#{Rails.env.capitalize}) | #{base_title}" unless Rails.env.production?
@@ -164,28 +177,6 @@ class ApplicationController < ActionController::Base
     base_title += " | #{ENV['WEBSITE_NAME']}"
 
     base_title.html_safe
-  end
-
-  def canonical_url(url)
-    params = request.fullpath[/\?.*/]
-    params ? url + params : url
-  end
-
-  def alternate_urls(path)
-    params = request.fullpath[/\?.*/]
-    if path.is_a?(Hash)
-      if params
-        path.each { |locale, url| path[locale] = url + params }
-      else
-        path
-      end
-    else
-      Hash[I18n.available_locales.map { |locale| [locale.to_s, params ? send("#{path}_#{locale}_url") + params : send("#{path}_#{locale}_url")] }]
-    end
-  end
-
-  def image_url(url)
-    ("#{Rails.env.production? ? 'https' : 'http'}://#{ENV['WEBSITE_ASSET']}/") + 'assets/' + url
   end
 
   def js_request?
@@ -282,7 +273,7 @@ class ApplicationController < ActionController::Base
       totalCount:  attributes[:pagination].total_count
     } if attributes[:pagination]
 
-    meta_data[:metaTags] = meta_tags.meta_tags if meta_tags&.meta_tags.present?
+    meta_data[:metaTags]   = meta_tags.meta_tags if meta_tags&.meta_tags.present?
 
     return meta_data
   end

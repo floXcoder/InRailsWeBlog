@@ -16,8 +16,8 @@ import {
 
 import MasonryLoader from '../../loaders/masonry';
 
-const transitionDuration = 600;
-const columns = {
+const TRANSITION_DURATION = 600;
+const COLUMNS = {
     1: 12,
     2: 6,
     3: 4,
@@ -69,7 +69,7 @@ const MasonryWrapper = (ComponentCard, componentCardProps, ComponentExposed, com
     state = {
         Masonry: undefined,
         masonryOptions: {
-            transitionDuration: `${transitionDuration}ms`,
+            transitionDuration: `${TRANSITION_DURATION}ms`,
             itemSelector: '.masonry-grid-item',
             percentPosition: true
         },
@@ -123,7 +123,7 @@ const MasonryWrapper = (ComponentCard, componentCardProps, ComponentExposed, com
                 const {pageYOffset} = window;
                 const elementTop = pageYOffset + ReactDOM.findDOMNode(this.refs[elementId]).getBoundingClientRect().top - (this.props.topOffset || 0);
                 window.scroll({ top: elementTop, behavior: 'smooth' });
-            }, transitionDuration);
+            }, TRANSITION_DURATION);
         }
         this.setState({
             exposedComponents: exposedComponents
@@ -138,7 +138,7 @@ const MasonryWrapper = (ComponentCard, componentCardProps, ComponentExposed, com
                 'col s12',
                 {
                     'l4': !this.props.columnCount,
-                    [`m${columns[this.state.columnCount]}`]: this.props.columnCount
+                    [`m${COLUMNS[this.state.columnCount]}`]: this.props.columnCount
                 },
                 'masonry-grid-item',
                 {

@@ -215,17 +215,24 @@ class Topic < ApplicationRecord
   end
 
   def link_path(options = {})
-    if options[:edit]
-      Rails.application.routes.url_helpers.edit_topic_path(user_slug: self.user.slug, topic_slug: self.slug)
-    elsif options[:tags]
-      Rails.application.routes.url_helpers.topic_tags_path(user_slug: self.user.slug, topic_slug: self.slug)
-    elsif options[:index]
-      Rails.application.routes.url_helpers.topic_articles_path(user_slug: self.user.slug, topic_slug: self.slug)
-    elsif options[:host]
-      Rails.application.routes.url_helpers.topic_articles_url(user_slug: self.user.slug, topic_slug: self.slug, host: options[:host])
-    else
-      Rails.application.routes.url_helpers.user_topic_path(user_slug: self.user.slug, topic_slug: self.slug)
-    end
+    locale = options[:locale] || 'en'
+
+    route_name = case options[:route_name]
+                 when 'edit'
+                   'edit_topic'
+                 when 'tags'
+                   'topic_tags'
+                 when 'index'
+                   'topic_tags'
+                 else
+                   'user_article'
+                 end
+
+    params        = { user_slug: self.user.slug, topic_slug: self.slug }
+
+    params[:host] = ENV['WEBSITE_ADDRESS'] if options[:host]
+
+    Rails.application.routes.url_helpers.send("#{route_name}_#{locale}_#{options[:host] ? 'url' : 'path'}", **params)
   end
 
   def bookmarked?(user)
@@ -248,21 +255,21 @@ class Topic < ApplicationRecord
 
   def search_data
     {
-      id:              id,
-      user_id:         user_id,
-      user_slug:       user.slug,
-      mode:            mode,
+      id:              self.id,
+      user_id:         self.user_id,
+      user_slug:       self.user.slug,
+      mode:            self.mode,
       mode_translated: mode_translated,
-      name:            name,
-      description:     description,
-      languages:       languages,
-      priority:        priority,
-      visibility:      visibility,
-      archived:        archived,
-      accepted:        accepted,
-      created_at:      created_at,
-      updated_at:      updated_at,
-      slug:            slug
+      name:            self.name,
+      description:     self.description,
+      languages:       self.languages,
+      priority:        self.priority,
+      visibility:      self.visibility,
+      archived:        self.archived,
+      accepted:        self.accepted,
+      created_at:      self.created_at,
+      updated_at:      self.updated_at,
+      slug:            self.slug
     }
   end
 

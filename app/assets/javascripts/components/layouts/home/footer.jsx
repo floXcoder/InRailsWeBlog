@@ -1,17 +1,35 @@
 'use strict';
 
 import {
-    withRouter
+    withRouter,
+    Link
 } from 'react-router-dom';
 
-// import styles from '../../../../jss/home/footer';
+import {
+    withStyles
+} from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
+
+import {
+    rootPath
+} from '../../../constants/routesHelper';
+
+import styles from '../../../../jss/home/footer';
 
 export default @withRouter
-class FooterLayoutHome extends React.Component {
+@connect((state) => ({
+    metaTags: state.uiState.metaTags
+}))
+@withStyles(styles)
+class FooterLayoutHome extends React.PureComponent {
     static propTypes = {
         // from router
         location: PropTypes.object,
-        history: PropTypes.object
+        history: PropTypes.object,
+        // from connect
+        metaTags: PropTypes.object,
+        // from styles
+        classes: PropTypes.object
     };
 
     _handleSearchClose = () => {
@@ -38,58 +56,82 @@ class FooterLayoutHome extends React.Component {
                 })}
                      onClick={this._handleCoverClick}/>
 
-                {/*<Grid className={this.props.classes.footer}*/}
-                {/*      container={true}*/}
-                {/*      direction="row"*/}
-                {/*      justify="space-around"*/}
-                {/*      alignItems="stretch">*/}
-                {/*    <Grid item={true}*/}
-                {/*          md={6}>*/}
-                {/*        <h5>*/}
-                {/*            {window.settings.website_name}
-                {/*        </h5>*/}
+                <Grid className={this.props.classes.footer}
+                      container={true}
+                      direction="row"
+                      justify="space-around"
+                      alignItems="stretch">
+                    {/*<Grid item={true}*/}
+                    {/*      xs={12}>*/}
+                    {/*    <h2 className={this.props.classes.footerTitle}>*/}
+                    {/*        <Link className="header-brand-logo"*/}
+                    {/*              to={rootPath()}*/}
+                    {/*              title={window.settings.website_name}*/}
+                    {/*              itemProp="url">*/}
+                    {/*            {window.settings.website_name}*/}
+                    {/*        </Link>*/}
+                    {/*    </h2>*/}
+                    {/*</Grid>*/}
 
-                {/*        <p>*/}
-                {/*            {I18n.t('js.views.footer.description')}*/}
-                {/*        </p>*/}
-                {/*    </Grid>*/}
+                    <Grid item={true}
+                          md={6}>
+                        <h3 className={this.props.classes.footerSubtitle}>
+                            {I18n.t('js.views.footer.languages')}
+                        </h3>
 
-                {/*    <Grid item={true}*/}
-                {/*          md={6}>*/}
-                {/*        <h5>*/}
-                {/*            {I18n.t('js.views.footer.links.title')}*/}
-                {/*        </h5>*/}
+                        {
+                            this.props.metaTags.alternate &&
+                            Object.keys(this.props.metaTags.alternate).map((locale) => (
+                                <p key={locale}>
+                                    <a className={this.props.classes.footerLink}
+                                       href={this.props.metaTags.alternate[locale]}>
+                                        {I18n.t(`js.views.footer.locales.${locale}`)}
+                                    </a>
+                                </p>
+                            ))
+                        }
+                    </Grid>
 
-                {/*        <p>*/}
-                {/*            <Link to='#'>*/}
-                {/*                {I18n.t('js.views.footer.links.about')}*/}
-                {/*            </Link>*/}
-                {/*        </p>*/}
-                {/*        <p>*/}
-                {/*            <Link to='#'>*/}
-                {/*                {I18n.t('js.views.footer.links.support')}*/}
-                {/*            </Link>*/}
-                {/*        </p>*/}
-                {/*        <p>*/}
-                {/*            <a href={"mailto:" + window.settings.website_email}>*/}
-                {/*                {I18n.t('js.views.footer.links.contact')}*/}
-                {/*            </a>*/}
-                {/*        </p>*/}
-                {/*    </Grid>*/}
+                    <Grid item={true}
+                          md={6}>
+                        <h3 className={this.props.classes.footerSubtitle}>
+                            {I18n.t('js.views.footer.links.title')}
+                        </h3>
 
-                {/*    <Grid item={true}*/}
-                {/*          xs={6}>*/}
-                {/*        <div className="footer-copyright">*/}
-                {/*            <a href={I18n.t('js.views.footer.links.github_src')}>*/}
-                {/*                {I18n.t('js.views.footer.links.github')}*/}
-                {/*            </a>*/}
+                        <p>
+                            <Link className={this.props.classes.footerLink}
+                                  to='#'>
+                                {I18n.t('js.views.footer.links.about')}
+                            </Link>
+                        </p>
+                        <p>
+                            <Link className={this.props.classes.footerLink}
+                                  to='#'>
+                                {I18n.t('js.views.footer.links.support')}
+                            </Link>
+                        </p>
+                        <p>
+                            <a className={this.props.classes.footerLink}
+                               href={"mailto:" + window.settings.website_email}>
+                                {I18n.t('js.views.footer.links.contact')}
+                            </a>
+                        </p>
+                    </Grid>
 
-                {/*            <div className="container center-align">*/}
-                {/*                &copy; {I18n.t('js.views.footer.copyright', {version: window.revision})}*/}
-                {/*            </div>*/}
-                {/*        </div>*/}
-                {/*    </Grid>*/}
-                {/*</Grid>*/}
+                    <Grid item={true}
+                          xs={12}>
+                        <div className="footer-copyright">
+                            <a className={this.props.classes.footerLink}
+                               href={I18n.t('js.views.footer.links.github_src')}>
+                                {I18n.t('js.views.footer.links.github')}
+                            </a>
+
+                            <div className="container center-align margin-top-15">
+                                &copy; {I18n.t('js.views.footer.copyright', {version: window.revision})}
+                            </div>
+                        </div>
+                    </Grid>
+                </Grid>
             </>
         );
     }

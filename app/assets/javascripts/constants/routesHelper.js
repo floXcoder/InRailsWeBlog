@@ -6,7 +6,7 @@ const buildRoutes = (path) => window.locales.map((l) => [window.localizedRoutes[
 const routeBuilder = (path, locale) => locale ? buildRoute(locale, path) : buildRoutes(path);
 
 // Common routes
-export const rootPath = (locale = window.locale) => '/';
+export const rootPath = (locale = window.locale) => routeBuilder('/', locale);
 
 // Search routes
 export const searchPath = (locale = window.locale) => routeBuilder('/search', locale);

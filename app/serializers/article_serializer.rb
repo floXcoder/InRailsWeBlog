@@ -70,8 +70,16 @@ class ArticleSerializer
     end
   end
 
+  attribute :title_translations do |object|
+    object.title_translations if object.user.article_multilanguage
+  end
+
   attribute :content do |object, params|
     object.adapted_content(params[:current_user_id])
+  end
+
+  attribute :content_translations do |object, params|
+    object.adapted_content(params[:current_user_id], true) if object.user.article_multilanguage
   end
 
   attribute :inventories do |object|

@@ -43,6 +43,7 @@ describe 'User Settings API', type: :request, basic: true do
         settings = JSON.parse(response.body)
         expect(settings['data']['attributes']['articlesLoader']).to eq('infinite')
         expect(settings['data']['attributes']['articleDisplay']).to eq('summary')
+        expect(settings['data']['attributes']['articleMultilanguage']).to be false
         expect(settings['data']['attributes']['tagSidebarWithChild']).to be false
         expect(settings['data']['attributes']['searchDisplay']).to eq('card')
         expect(settings['data']['attributes']['searchHighlight']).to be true

@@ -8,6 +8,11 @@
 // import Submit from '../materialize/submit';
 
 import {
+    Link
+} from 'react-router-dom';
+
+import {
+    rootPath,
     userArticlesPath
 } from '../../constants/routesHelper';
 
@@ -184,7 +189,7 @@ export default class UserEdit extends React.Component {
                                         variant="outlined"
                                         size="small"
                                         component={Link}
-                                        to="/">
+                                        to={rootPath()}>
                                     {I18n.t('js.user.edit.back_button')}
                                 </Button>
                             </div>

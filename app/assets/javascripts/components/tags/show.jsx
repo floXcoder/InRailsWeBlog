@@ -28,13 +28,11 @@ import UserAvatarIcon from '../users/icons/avatar';
 
 import Loader from '../theme/loader';
 
-import HeadLayout from '../layouts/head';
 import NotFound from '../layouts/notFound';
 
 import styles from '../../../jss/tag/show';
 
 export default @connect((state) => ({
-    metaTags: state.tagState.metaTags,
     isFetching: state.tagState.isFetching,
     tag: state.tagState.tag
 }), {
@@ -46,7 +44,6 @@ class TagShow extends React.Component {
     static propTypes = {
         routeParams: PropTypes.object.isRequired,
         // from connect
-        metaTags: PropTypes.object,
         isFetching: PropTypes.bool,
         tag: PropTypes.object,
         fetchTag: PropTypes.func,
@@ -87,10 +84,6 @@ class TagShow extends React.Component {
 
         return (
             <article className={this.props.classes.root}>
-                <HeadLayout>
-                    {this.props.metaTags}
-                </HeadLayout>
-
                 <Typography className={this.props.classes.title}
                             component="h1"
                             variant="h1">

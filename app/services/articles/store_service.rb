@@ -33,45 +33,50 @@ module Articles
         @article.mode = :inventory
       end
 
-      # Language
-      if @article.languages.empty? || @params[:language].present?
-        new_language       = (@params.delete(:language) || @current_user.locale || I18n.locale).to_s
-        @article.languages |= [new_language]
+      # Languages
+      if !@params[:title_translations].nil?
+        @article.languages = @params[:title_translations].select { |_, value| value.present? }.keys
+      else
+        @article.languages = [I18n.locale]
       end
 
       I18n.locale = new_language.to_sym if new_language != current_language.to_s
 
       # Sanitization
-      if !@params[:title].nil?
-        sanitized_title = Sanitize.fragment(@params.delete(:title))
+      if !@params[:title_translations].nil?
+        @params.delete(:title_translations).each do |locale, title|
+          @article.title_translations[locale] = Sanitize.fragment(title)
+          @article.slug                       = nil if I18n.locale.to_s == locale.to_s && Sanitize.fragment(title) != @article.title
+        end
+      elsif !@params[:title].nil?
+        sanitized_title = Sanitize.fragment(@params[:title])
         @article.slug   = nil if sanitized_title != @article.title
         @article.title  = sanitized_title
-      else
-        @params.delete(:title)
       end
+      @params.delete(:title)
 
-      if !@params[:summary].nil?
+      if !@params[:summary_translations].nil?
+        @params.delete(:summary_translations).each do |locale, summary|
+          @article.summary_translations[locale] = Sanitize.fragment(summary)
+        end
+      elsif !@params[:summary].nil?
         @article.summary = Sanitize.fragment(@params.delete(:summary))
       else
         @params.delete(:summary)
       end
 
-      if !@params[:content].nil?
-        @article.content = ::Sanitizer.new.sanitize_html(@params.delete(:content))
-
-        # Extract all relationship ids
-        other_ids             = []
-        article_relationships = []
-        @article.content.scan(/data-article-relation-id="(\d+)"/) { |other_id| other_ids << other_id }
-
-        other_ids.flatten.map do |other_id|
-          article_relationships << @article.child_relationships.find_or_initialize_by(user: @article.user, child: @article, parent_id: other_id)
+      if !@params[:content_translations].nil?
+        @params.delete(:content_translations).each do |locale, content|
+          @article.content_translations[locale] = ::Sanitizer.new.sanitize_html(content)
         end
 
-        @article.child_relationships = article_relationships
-      else
-        @params.delete(:content)
+        @article.child_relationships = extract_relationships(@article.content)
+      elsif !@params[:content].nil?
+        @article.content = ::Sanitizer.new.sanitize_html(@params[:content])
+
+        @article.child_relationships = extract_relationships(@article.content)
       end
+      @params.delete(:content)
 
       unless @params[:reference].nil?
         reference_url      = ActionController::Base.helpers.sanitize(@params.delete(:reference))
@@ -191,6 +196,21 @@ module Articles
       end
     ensure
       I18n.locale = current_language.to_sym if new_language != current_language.to_s
+    end
+
+    private
+
+    def extract_relationships(content)
+      # Extract all relationship ids
+      other_ids             = []
+      article_relationships = []
+      content.scan(/data-article-relation-id="(\d+)"/) { |other_id| other_ids << other_id }
+
+      other_ids.flatten.map do |other_id|
+        article_relationships << @article.child_relationships.find_or_initialize_by(user: @article.user, child: @article, parent_id: other_id)
+      end
+
+      return article_relationships
     end
 
   end

@@ -19,13 +19,11 @@ import {
 
 import {
     getArticleIsOwner,
-    getCurrentUserTopicVisibility,
-    getCurrentLocale
+    getCurrentUserTopicVisibility
 } from '../../selectors';
 
 import Loader from '../theme/loader';
 
-import HeadLayout from '../layouts/head';
 import NotAuthorized from '../layouts/notAuthorized';
 
 import articleMutationManager from './managers/mutation';
@@ -37,7 +35,6 @@ import styles from '../../../jss/article/form';
 
 export default @articleMutationManager('edit')
 @connect((state, props) => ({
-    metaTags: state.articleState.metaTags,
     userSlug: state.userState.currentSlug,
     isOwner: getArticleIsOwner(state, props.article),
     inheritVisibility: getCurrentUserTopicVisibility(state)
@@ -59,7 +56,6 @@ class ArticleEdit extends React.Component {
         onFormChange: PropTypes.func,
         onSubmit: PropTypes.func,
         // from connect
-        metaTags: PropTypes.object,
         userSlug: PropTypes.string,
         isOwner: PropTypes.bool,
         inheritVisibility: PropTypes.string,
@@ -118,23 +114,20 @@ class ArticleEdit extends React.Component {
         const article = {
             mode: this.props.article.mode,
             title: this.props.article.title,
+            title_translations: this.props.article.titleTranslations,
             summary: this.props.article.summary,
             reference: this.props.article.reference,
             content: this.props.article.content,
+            content_translations: this.props.article.contentTranslations,
             inventories: inventoryData,
             picture_ids: '',
             draft: this.props.isDraft || this.props.article.draft,
             visibility: this.props.article.visibility || this.props.inheritVisibility,
-            language: this.props.article.language || getCurrentLocale(),
             allowComment: typeof this.props.article.allowComment === 'undefined' && this.props.inheritVisibility === 'only_me' ? false : this.props.article.allowComment
         };
 
         return (
             <div className={this.props.classes.root}>
-                <HeadLayout>
-                    {this.props.metaTags}
-                </HeadLayout>
-
                 <div className={this.props.classes.breadcrumb}>
                     {
                         (this.props.currentUser && this.props.currentTopic) &&

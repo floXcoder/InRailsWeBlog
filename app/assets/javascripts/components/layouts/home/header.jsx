@@ -33,6 +33,7 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 
 import {
+    rootPath,
     searchParam
 } from '../../../constants/routesHelper';
 
@@ -47,12 +48,15 @@ import {
     showUserLogin
 } from '../../../actions';
 
+import HeadLayout from '../head';
+
 import styles from '../../../../jss/home/header';
 
 export default @withRouter
 @connect((state) => ({
     routeProperties: state.routerState.currentRoute,
     routeLocation: state.routerState.location,
+    metaTags: state.uiState.metaTags,
     isUserSignupOpen: state.uiState.isUserSignupOpen,
     isUserLoginOpen: state.uiState.isUserLoginOpen
 }), {
@@ -69,6 +73,7 @@ class HeaderLayoutHome extends React.Component {
         // from connect
         routeProperties: PropTypes.object,
         routeLocation: PropTypes.object,
+        metaTags: PropTypes.object,
         isUserSignupOpen: PropTypes.bool,
         isUserLoginOpen: PropTypes.bool,
         showUserSignup: PropTypes.func,
@@ -185,7 +190,7 @@ class HeaderLayoutHome extends React.Component {
                         <h5 className={this.props.classes.mobileTitle}
                             itemProp="name">
                             <Link className="header-brand-logo-mobile"
-                                  to="/"
+                                  to={rootPath()}
                                   title={window.settings.website_name}
                                   itemProp="url">
                                 {window.settings.website_name}
@@ -229,10 +234,10 @@ class HeaderLayoutHome extends React.Component {
 
                     <Toolbar className={classNames(this.props.classes.toolbar)}>
                         <div className={this.props.classes.sectionDesktop}>
-                            <h1 className={this.props.classes.title}
+                            <h1 className={this.props.classes.headerTitle}
                                 itemProp="name">
                                 <Link className="header-brand-logo"
-                                      to="/"
+                                      to={rootPath()}
                                       title={window.settings.website_name}
                                       itemProp="url">
                                     {window.settings.website_name}
@@ -278,6 +283,10 @@ class HeaderLayoutHome extends React.Component {
                 </AppBar>
 
                 {this._renderMobileDrawer()}
+
+                <HeadLayout>
+                    {this.props.metaTags}
+                </HeadLayout>
 
                 <div id="clipboard-area"
                      className="hidden">

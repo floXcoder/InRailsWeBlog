@@ -58,6 +58,16 @@ import {
     getCurrentTagSlugs
 } from '../../../selectors';
 
+import {
+    rootPath
+} from '../../../constants/routesHelper';
+
+import {
+    articleTemporaryDataName
+} from '../../modules/constants';
+
+import HeadLayout from '../head';
+
 import TopicModule from '../../topics/module';
 
 import BookmarkList from '../../bookmark/list';
@@ -75,14 +85,11 @@ import HeaderArticleMenu from '../header/menus/article';
 
 import styles from '../../../../jss/user/header';
 
-import {
-    articleTemporaryDataName
-} from '../../modules/constants';
-
 export default @connect((state) => ({
     routeProperties: state.routerState.currentRoute,
     routeParams: state.routerState.params,
     routeLocation: state.routerState.location,
+    metaTags: state.uiState.metaTags,
     isUserPreferenceOpen: state.uiState.isUserPreferenceOpen,
     isTopicPopupOpen: state.uiState.isTopicPopupOpen,
     isUserConnected: state.userState.isConnected,
@@ -105,6 +112,7 @@ class HeaderLayoutUser extends React.PureComponent {
         routeProperties: PropTypes.object,
         routeParams: PropTypes.object,
         routeLocation: PropTypes.object,
+        metaTags: PropTypes.object,
         isUserPreferenceOpen: PropTypes.bool,
         isTopicPopupOpen: PropTypes.bool,
         isUserConnected: PropTypes.bool,
@@ -228,7 +236,7 @@ class HeaderLayoutUser extends React.PureComponent {
                         <h5 className={this.props.classes.mobileTitle}
                             itemProp="name">
                             <Link className="header-brand-logo-mobile"
-                                  to="/"
+                                  to={rootPath()}
                                   title={window.settings.website_name}
                                   itemProp="url">
                                 {window.settings.website_name}
@@ -413,7 +421,7 @@ class HeaderLayoutUser extends React.PureComponent {
                             <h1 className={this.props.classes.title}
                                 itemProp="name">
                                 <Link className="header-brand-logo"
-                                      to="/"
+                                      to={rootPath()}
                                       title={window.settings.website_name}
                                       itemProp="url">
                                     {window.settings.website_name}
@@ -461,6 +469,10 @@ class HeaderLayoutUser extends React.PureComponent {
                 <Suspense fallback={<div/>}>
                     {this._renderHashRoutes(this.props.hashRoutes.article)}
                 </Suspense>
+
+                <HeadLayout>
+                    {this.props.metaTags}
+                </HeadLayout>
 
                 <div id="clipboard-area"
                      className="hidden">

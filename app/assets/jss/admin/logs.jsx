@@ -50,7 +50,7 @@ const styles = (theme) => ({
         },
         '&:hover': {
             [theme.breakpoints.up('md')]: {
-                width: '30vw'
+                width: '26vw'
             }
         }
     },

@@ -34,13 +34,11 @@ import UserAvatarIcon from '../users/icons/avatar';
 
 import Loader from '../theme/loader';
 
-import HeadLayout from '../layouts/head';
 import NotFound from '../layouts/notFound';
 
 import styles from '../../../jss/topic/show';
 
 export default @connect((state) => ({
-    metaTags: state.topicState.metaTags,
     currentUserId: state.userState.currentId,
     isFetching: state.topicState.isFetching,
     topic: state.topicState.topic
@@ -54,7 +52,6 @@ class TopicShow extends React.Component {
     static propTypes = {
         routeParams: PropTypes.object.isRequired,
         // from connect
-        metaTags: PropTypes.object,
         currentUserId: PropTypes.number,
         isFetching: PropTypes.bool,
         topic: PropTypes.object,
@@ -108,10 +105,6 @@ class TopicShow extends React.Component {
 
         return (
             <article className={this.props.classes.root}>
-                <HeadLayout>
-                    {this.props.metaTags}
-                </HeadLayout>
-
                 <Typography className={this.props.classes.title}
                             component="h1"
                             variant="h1">

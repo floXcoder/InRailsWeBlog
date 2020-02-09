@@ -26,7 +26,7 @@ class GenerateCacheUrls
 
   def url_users(locale)
     User.everyone.map do |user|
-      user.link_path(index: true)
+      user.link_path(route_name: 'index')
     end
   end
 
@@ -34,7 +34,7 @@ class GenerateCacheUrls
     Tag.everyone.map do |tag|
       [
         tag.link_path,
-        tag.link_path(index: true)
+        tag.link_path(route_name: 'index')
       ]
     end
   end
@@ -42,8 +42,8 @@ class GenerateCacheUrls
   def url_topics(locale)
     Topic.everyone.map do |topic|
       [
-        topic.link_path(index: true),
-        topic.link_path(tags: true)
+        topic.link_path(route_name: 'index'),
+        topic.link_path(route_name: 'tags')
       ]
     end
   end

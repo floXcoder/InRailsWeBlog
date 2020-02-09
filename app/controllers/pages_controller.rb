@@ -13,7 +13,6 @@ class PagesController < ApplicationController
         if current_user
           set_seo_data(:user_home,
                        user_slug: current_user.pseudo,
-                       canonical: canonical_url(root_url),
                        og:        {
                          type:  "#{ENV['WEBSITE_NAME']}:home",
                          url:   root_url,
@@ -23,7 +22,6 @@ class PagesController < ApplicationController
           render :user
         else
           set_seo_data(:home,
-                       canonical: canonical_url(root_url),
                        og:        {
                          type:  "#{ENV['WEBSITE_NAME']}:home",
                          url:   root_url,

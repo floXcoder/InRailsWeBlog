@@ -1,110 +1,76 @@
 do /home/flo/Projects/InRailsWeBlog/bin/bundle exec /home/flo/.rvm/rubies/ruby-2.6.3/bin/ruby /home/flo/Projects/InRailsWeBlog/bin/rake routes --trace
-Ruby enVironment Manager 1.29.8 (latest) (c) 2009-2017 Michal Papis, Piotr Kuczynski, Wayne E. Seguin
+Ruby enVironment Manager 1.29.9 (latest) (c) 2009-2017 Michal Papis, Piotr Kuczynski, Wayne E. Seguin
 
                               Prefix Verb     URI Pattern                                                                                   Controller#Action
                                 root GET      /                                                                                             pages#home
-                             home_en GET      /en                                                                                           pages#home {:name=>"home", :locale=>"en"}
                              home_fr GET      /fr                                                                                           pages#home {:name=>"home", :locale=>"fr"}
-                                     GET      /                                                                                             pages#home {:name=>"home"}
-                        user_home_en GET      /en                                                                                           pages#home {:name=>"user_home", :locale=>"en"}
+                             home_en GET      /                                                                                             pages#home {:name=>"home", :locale=>"en"}
                         user_home_fr GET      /fr                                                                                           pages#home {:name=>"user_home", :locale=>"fr"}
-                                     GET      /                                                                                             pages#home {:name=>"user_home"}
-                           search_en GET      /en/search(/:query)(.:format)                                                                 pages#home {:name=>"search", :locale=>"en"}
+                        user_home_en GET      /                                                                                             pages#home {:name=>"user_home", :locale=>"en"}
                            search_fr GET      /fr/recherche(/:query)(.:format)                                                              pages#home {:name=>"search", :locale=>"fr"}
-                                     GET      /search(/:query)(.:format)                                                                    pages#home {:name=>"search"}
-                             tags_en GET      /en/tag(.:format)                                                                             pages#home {:name=>"tags", :locale=>"en"}
+                           search_en GET      /search(/:query)(.:format)                                                                    pages#home {:name=>"search", :locale=>"en"}
                              tags_fr GET      /fr/labels(.:format)                                                                          pages#home {:name=>"tags", :locale=>"fr"}
-                                     GET      /tags(.:format)                                                                               pages#home {:name=>"tags"}
-                       topic_tags_en GET      /en/users/:user_slug/topic/:topic_slug/tag(.:format)                                          pages#home {:name=>"topic_tags", :locale=>"en"}
+                             tags_en GET      /tags(.:format)                                                                               pages#home {:name=>"tags", :locale=>"en"}
                        topic_tags_fr GET      /fr/utilisateurs/:user_slug/themes/:topic_slug/labels(.:format)                               pages#home {:name=>"topic_tags", :locale=>"fr"}
-                                     GET      /users/:user_slug/topics/:topic_slug/tags(.:format)                                           pages#home {:name=>"topic_tags"}
-                         show_tag_en GET      /en/tag/:tag_slug(.:format)                                                                   pages#home {:name=>"show_tag", :locale=>"en"}
+                       topic_tags_en GET      /users/:user_slug/topics/:topic_slug/tags(.:format)                                           pages#home {:name=>"topic_tags", :locale=>"en"}
                          show_tag_fr GET      /fr/labels/:tag_slug(.:format)                                                                pages#home {:name=>"show_tag", :locale=>"fr"}
-                                     GET      /tags/:tag_slug(.:format)                                                                     pages#home {:name=>"show_tag"}
-                         edit_tag_en GET      /en/tag/:tag_slug/edit(.:format)                                                              pages#home {:name=>"edit_tag", :locale=>"en"}
+                         show_tag_en GET      /tags/:tag_slug(.:format)                                                                     pages#home {:name=>"show_tag", :locale=>"en"}
                          edit_tag_fr GET      /fr/labels/:tag_slug/edition(.:format)                                                        pages#home {:name=>"edit_tag", :locale=>"fr"}
-                                     GET      /tags/:tag_slug/edit(.:format)                                                                pages#home {:name=>"edit_tag"}
-                         sort_tag_en GET      /en/tag/:tag_slug/sort(.:format)                                                              pages#home {:name=>"sort_tag", :locale=>"en"}
+                         edit_tag_en GET      /tags/:tag_slug/edit(.:format)                                                                pages#home {:name=>"edit_tag", :locale=>"en"}
                          sort_tag_fr GET      /fr/labels/:tag_slug/sort(.:format)                                                           pages#home {:name=>"sort_tag", :locale=>"fr"}
-                                     GET      /tags/:tag_slug/sort(.:format)                                                                pages#home {:name=>"sort_tag"}
-                      user_topics_en GET      /en/users/:user_slug/topic(.:format)                                                          pages#home {:name=>"user_topics", :locale=>"en"}
+                         sort_tag_en GET      /tags/:tag_slug/sort(.:format)                                                                pages#home {:name=>"sort_tag", :locale=>"en"}
                       user_topics_fr GET      /fr/utilisateurs/:user_slug/themes(.:format)                                                  pages#home {:name=>"user_topics", :locale=>"fr"}
-                                     GET      /users/:user_slug/topics(.:format)                                                            pages#home {:name=>"user_topics"}
-                       user_topic_en GET      /en/users/:user_slug/topic/:topic_slug/show(.:format)                                         pages#home {:name=>"user_topic", :locale=>"en"}
+                      user_topics_en GET      /users/:user_slug/topics(.:format)                                                            pages#home {:name=>"user_topics", :locale=>"en"}
                        user_topic_fr GET      /fr/utilisateurs/:user_slug/themes/:topic_slug/show(.:format)                                 pages#home {:name=>"user_topic", :locale=>"fr"}
-                                     GET      /users/:user_slug/topics/:topic_slug/show(.:format)                                           pages#home {:name=>"user_topic"}
-                       edit_topic_en GET      /en/users/:user_slug/topic/:topic_slug/edit(.:format)                                         pages#home {:name=>"edit_topic", :locale=>"en"}
+                       user_topic_en GET      /users/:user_slug/topics/:topic_slug/show(.:format)                                           pages#home {:name=>"user_topic", :locale=>"en"}
                        edit_topic_fr GET      /fr/utilisateurs/:user_slug/themes/:topic_slug/edition(.:format)                              pages#home {:name=>"edit_topic", :locale=>"fr"}
-                                     GET      /users/:user_slug/topics/:topic_slug/edit(.:format)                                           pages#home {:name=>"edit_topic"}
-           edit_inventories_topic_en GET      /en/users/:user_slug/topic/:topic_slug/edit-inventories(.:format)                             pages#home {:name=>"edit_inventories_topic", :locale=>"en"}
+                       edit_topic_en GET      /users/:user_slug/topics/:topic_slug/edit(.:format)                                           pages#home {:name=>"edit_topic", :locale=>"en"}
            edit_inventories_topic_fr GET      /fr/utilisateurs/:user_slug/themes/:topic_slug/edit-inventories(.:format)                     pages#home {:name=>"edit_inventories_topic", :locale=>"fr"}
-                                     GET      /users/:user_slug/topics/:topic_slug/edit-inventories(.:format)                               pages#home {:name=>"edit_inventories_topic"}
-                    user_articles_en GET      /en/users/:user_slug(.:format)                                                                pages#home {:name=>"user_articles", :locale=>"en"}
+           edit_inventories_topic_en GET      /users/:user_slug/topics/:topic_slug/edit-inventories(.:format)                               pages#home {:name=>"edit_inventories_topic", :locale=>"en"}
                     user_articles_fr GET      /fr/utilisateurs/:user_slug(.:format)                                                         pages#home {:name=>"user_articles", :locale=>"fr"}
-                                     GET      /users/:user_slug(.:format)                                                                   pages#home {:name=>"user_articles"}
-                   topic_articles_en GET      /en/users/:user_slug/topic/:topic_slug(.:format)                                              pages#home {:name=>"topic_articles", :locale=>"en"}
+                    user_articles_en GET      /users/:user_slug(.:format)                                                                   pages#home {:name=>"user_articles", :locale=>"en"}
                    topic_articles_fr GET      /fr/utilisateurs/:user_slug/themes/:topic_slug(.:format)                                      pages#home {:name=>"topic_articles", :locale=>"fr"}
-                                     GET      /users/:user_slug/topics/:topic_slug(.:format)                                                pages#home {:name=>"topic_articles"}
-            tagged_topic_articles_en GET      /en/users/:user_slug/topic/:topic_slug/tagged/:tag_slug(/:child_tag_slug)(.:format)           pages#home {:name=>"tagged_topic_articles", :locale=>"en"}
+                   topic_articles_en GET      /users/:user_slug/topics/:topic_slug(.:format)                                                pages#home {:name=>"topic_articles", :locale=>"en"}
             tagged_topic_articles_fr GET      /fr/utilisateurs/:user_slug/themes/:topic_slug/labelise/:tag_slug(/:child_tag_slug)(.:format) pages#home {:name=>"tagged_topic_articles", :locale=>"fr"}
-                                     GET      /users/:user_slug/topics/:topic_slug/tagged/:tag_slug(/:child_tag_slug)(.:format)             pages#home {:name=>"tagged_topic_articles"}
-                  tagged_articles_en GET      /en/tagged/:tag_slug(/:child_tag_slug)(.:format)                                              pages#home {:name=>"tagged_articles", :locale=>"en"}
+            tagged_topic_articles_en GET      /users/:user_slug/topics/:topic_slug/tagged/:tag_slug(/:child_tag_slug)(.:format)             pages#home {:name=>"tagged_topic_articles", :locale=>"en"}
                   tagged_articles_fr GET      /fr/labelise/:tag_slug(/:child_tag_slug)(.:format)                                            pages#home {:name=>"tagged_articles", :locale=>"fr"}
-                                     GET      /tagged/:tag_slug(/:child_tag_slug)(.:format)                                                 pages#home {:name=>"tagged_articles"}
-             order_topic_articles_en GET      /en/users/:user_slug/topic/:topic_slug/order/:order(.:format)                                 pages#home {:name=>"order_topic_articles", :locale=>"en"}
+                  tagged_articles_en GET      /tagged/:tag_slug(/:child_tag_slug)(.:format)                                                 pages#home {:name=>"tagged_articles", :locale=>"en"}
              order_topic_articles_fr GET      /fr/utilisateurs/:user_slug/themes/:topic_slug/order/:order(.:format)                         pages#home {:name=>"order_topic_articles", :locale=>"fr"}
-                                     GET      /users/:user_slug/topics/:topic_slug/order/:order(.:format)                                   pages#home {:name=>"order_topic_articles"}
-              sort_topic_articles_en GET      /en/users/:user_slug/topic/:topic_slug/sort(.:format)                                         pages#home {:name=>"sort_topic_articles", :locale=>"en"}
+             order_topic_articles_en GET      /users/:user_slug/topics/:topic_slug/order/:order(.:format)                                   pages#home {:name=>"order_topic_articles", :locale=>"en"}
               sort_topic_articles_fr GET      /fr/utilisateurs/:user_slug/themes/:topic_slug/sort(.:format)                                 pages#home {:name=>"sort_topic_articles", :locale=>"fr"}
-                                     GET      /users/:user_slug/topics/:topic_slug/sort(.:format)                                           pages#home {:name=>"sort_topic_articles"}
-                     user_article_en GET      /en/users/:user_slug/article/:article_slug(.:format)                                          pages#home {:name=>"user_article", :locale=>"en"}
+              sort_topic_articles_en GET      /users/:user_slug/topics/:topic_slug/sort(.:format)                                           pages#home {:name=>"sort_topic_articles", :locale=>"en"}
                      user_article_fr GET      /fr/utilisateurs/:user_slug/articles/:article_slug(.:format)                                  pages#home {:name=>"user_article", :locale=>"fr"}
-                                     GET      /users/:user_slug/articles/:article_slug(.:format)                                            pages#home {:name=>"user_article"}
-                   shared_article_en GET      /en/article/shared/:article_slug/:public_link(.:format)                                       pages#home {:name=>"shared_article", :locale=>"en"}
+                     user_article_en GET      /users/:user_slug/articles/:article_slug(.:format)                                            pages#home {:name=>"user_article", :locale=>"en"}
                    shared_article_fr GET      /fr/articles/partage/:article_slug/:public_link(.:format)                                     pages#home {:name=>"shared_article", :locale=>"fr"}
-                                     GET      /articles/shared/:article_slug/:public_link(.:format)                                         pages#home {:name=>"shared_article"}
-                      new_article_en GET      /en/users/:user_slug/topic/:topic_slug/article-new(.:format)                                  pages#home {:name=>"new_article", :locale=>"en"}
+                   shared_article_en GET      /articles/shared/:article_slug/:public_link(.:format)                                         pages#home {:name=>"shared_article", :locale=>"en"}
                       new_article_fr GET      /fr/utilisateurs/:user_slug/themes/:topic_slug/article-new(.:format)                          pages#home {:name=>"new_article", :locale=>"fr"}
-                                     GET      /users/:user_slug/topics/:topic_slug/article-new(.:format)                                    pages#home {:name=>"new_article"}
-                     edit_article_en GET      /en/users/:user_slug/article/:article_slug/edit(.:format)                                     pages#home {:name=>"edit_article", :locale=>"en"}
+                      new_article_en GET      /users/:user_slug/topics/:topic_slug/article-new(.:format)                                    pages#home {:name=>"new_article", :locale=>"en"}
                      edit_article_fr GET      /fr/utilisateurs/:user_slug/articles/:article_slug/edition(.:format)                          pages#home {:name=>"edit_article", :locale=>"fr"}
-                                     GET      /users/:user_slug/articles/:article_slug/edit(.:format)                                       pages#home {:name=>"edit_article"}
-                  history_article_en GET      /en/users/:user_slug/article/:article_slug/history(.:format)                                  pages#home {:name=>"history_article", :locale=>"en"}
+                     edit_article_en GET      /users/:user_slug/articles/:article_slug/edit(.:format)                                       pages#home {:name=>"edit_article", :locale=>"en"}
                   history_article_fr GET      /fr/utilisateurs/:user_slug/articles/:article_slug/history(.:format)                          pages#home {:name=>"history_article", :locale=>"fr"}
-                                     GET      /users/:user_slug/articles/:article_slug/history(.:format)                                    pages#home {:name=>"history_article"}
-                            users_en GET      /en/users(.:format)                                                                           pages#home {:name=>"users", :locale=>"en"}
+                  history_article_en GET      /users/:user_slug/articles/:article_slug/history(.:format)                                    pages#home {:name=>"history_article", :locale=>"en"}
                             users_fr GET      /fr/utilisateurs(.:format)                                                                    pages#home {:name=>"users", :locale=>"fr"}
-                                     GET      /users(.:format)                                                                              pages#home {:name=>"users"}
-                        show_user_en GET      /en/users/:user_slug/show(.:format)                                                           pages#home {:name=>"show_user", :locale=>"en"}
+                            users_en GET      /users(.:format)                                                                              pages#home {:name=>"users", :locale=>"en"}
                         show_user_fr GET      /fr/utilisateurs/:user_slug/show(.:format)                                                    pages#home {:name=>"show_user", :locale=>"fr"}
-                                     GET      /users/:user_slug/show(.:format)                                                              pages#home {:name=>"show_user"}
-                        edit_user_en GET      /en/users/:user_slug/edit(.:format)                                                           pages#home {:name=>"edit_user", :locale=>"en"}
+                        show_user_en GET      /users/:user_slug/show(.:format)                                                              pages#home {:name=>"show_user", :locale=>"en"}
                         edit_user_fr GET      /fr/utilisateurs/:user_slug/edition(.:format)                                                 pages#home {:name=>"edit_user", :locale=>"fr"}
-                                     GET      /users/:user_slug/edit(.:format)                                                              pages#home {:name=>"edit_user"}
-                     new_password_en GET      /en/users/password/new(.:format)                                                              pages#home {:name=>"new_password", :locale=>"en"}
+                        edit_user_en GET      /users/:user_slug/edit(.:format)                                                              pages#home {:name=>"edit_user", :locale=>"en"}
                      new_password_fr GET      /fr/utilisateurs/password/nouveau(.:format)                                                   pages#home {:name=>"new_password", :locale=>"fr"}
-                                     GET      /users/password/new(.:format)                                                                 pages#home {:name=>"new_password"}
-                    edit_password_en GET      /en/users/password/edit(.:format)                                                             pages#home {:name=>"edit_password", :locale=>"en"}
+                     new_password_en GET      /users/password/new(.:format)                                                                 pages#home {:name=>"new_password", :locale=>"en"}
                     edit_password_fr GET      /fr/utilisateurs/password/edition(.:format)                                                   pages#home {:name=>"edit_password", :locale=>"fr"}
-                                     GET      /users/password/edit(.:format)                                                                pages#home {:name=>"edit_password"}
-                                     GET      /en/search/*path(.:format)                                                                    pages#home {:locale=>"en"}
+                    edit_password_en GET      /users/password/edit(.:format)                                                                pages#home {:name=>"edit_password", :locale=>"en"}
                                      GET      /fr/recherche/*path(.:format)                                                                 pages#home {:locale=>"fr"}
-                                     GET      /search/*path(.:format)                                                                       pages#home
-                                     GET      /en/tag/*path(.:format)                                                                       pages#home {:locale=>"en"}
+                                     GET      /search/*path(.:format)                                                                       pages#home {:locale=>"en"}
                                      GET      /fr/labels/*path(.:format)                                                                    pages#home {:locale=>"fr"}
-                                     GET      /tags/*path(.:format)                                                                         pages#home
-                                     GET      /en/tagged/*path(.:format)                                                                    pages#home {:locale=>"en"}
+                                     GET      /tags/*path(.:format)                                                                         pages#home {:locale=>"en"}
                                      GET      /fr/labelise/*path(.:format)                                                                  pages#home {:locale=>"fr"}
-                                     GET      /tagged/*path(.:format)                                                                       pages#home
-                                     GET      /en/article/*path(.:format)                                                                   pages#home {:locale=>"en"}
+                                     GET      /tagged/*path(.:format)                                                                       pages#home {:locale=>"en"}
                                      GET      /fr/articles/*path(.:format)                                                                  pages#home {:locale=>"fr"}
-                                     GET      /articles/*path(.:format)                                                                     pages#home
-                                     GET      /en/users/*path(.:format)                                                                     pages#home {:locale=>"en"}
+                                     GET      /articles/*path(.:format)                                                                     pages#home {:locale=>"en"}
                                      GET      /fr/utilisateurs/*path(.:format)                                                              pages#home {:locale=>"fr"}
-                                     GET      /users/*path(.:format)                                                                        pages#home
-                                     GET      /en/404(.:format)                                                                             pages#home {:locale=>"en"}
+                                     GET      /users/*path(.:format)                                                                        pages#home {:locale=>"en"}
                                      GET      /fr/404(.:format)                                                                             pages#home {:locale=>"fr"}
-                                     GET      /404(.:format)                                                                                pages#home
+                                     GET      /404(.:format)                                                                                pages#home {:locale=>"en"}
                               signup GET      /api/v1/signup(.:format)                                                                      api/v1/users/registrations#new
                                      POST     /api/v1/signup(.:format)                                                                      api/v1/users/registrations#create
                                login GET      /api/v1/login(.:format)                                                                       api/v1/users/sessions#new

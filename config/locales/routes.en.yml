@@ -1,11 +1,12 @@
 en:
   routes:
+    home: ""
     search: "search"
-    tags: "tag"
+    tags: "tags"
     tagged: "tagged"
-    topics: "topic"
+    topics: "topics"
     shared-topics: "shared-topic"
-    articles: "article"
+    articles: "articles"
     shared: "shared"
     users: "users"
     signup: "signup"
