@@ -44,7 +44,7 @@ fr:
         copyright: "Copyright 2020 (%{version}). Tous droits réservés."
         links:
           title: "Liens utiles"
-          contact: "Contacter par email"
+          contact: "Nous contacter"
           support: "Aide"
           about: "A propos de moi"
           github: "Source sous Github"
