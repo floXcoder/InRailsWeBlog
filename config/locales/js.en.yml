@@ -896,9 +896,28 @@ en:
         already_exists: "Tag already exist"
         too_long: "Name too long"
     cookies:
-      message: "Welcome to %{website}! This website uses cookies to ensure you get the best experience on our website. "
-      link: "More info"
-      validation: "Got it!"
+      title: "This website uses cookies"
+      content: "Our website uses cookies to personalize and improve your comfort of use. By continuing to browse this site, you accept our personal data protection policy and our policy cookies."
+      button: "I agree"
+      link: "Our policy"
+      details: "Cookies guarantee an optimal browsing experience.\nClick on each category to enable or disable the use of cookies.  The coloured button indicates whether cookies are active (green) or inactive (grey)."
+      website:
+        title: "Website"
+        details: "These cookies guarantee the functioning of the site and allow its optimization."
+      analytics:
+        title: "Web Analytics"
+        details: "These cookies allow anonymous and aggregated tracking of Web Analytics tools."
+      social:
+        title: "Social"
+        details: "These cookies allow you to interact with the social modules on the site."
+      advertisement:
+        title: "Advertisement"
+        details: "These cookies make it possible to better target the ads that are offered to you on the Internet."
+    no_cookies:
+      title: "You didn't enable cookies!"
+      content: "Cookies are not enabled on your browser, so you will not be able to log in to add photographs to the shopping cart if cookies are disabled. Consult our data use policy to find out how it is used."
+      button: "I understand"
+      link: "Our policy"
     rating:
       clear: "Clear"
     languages:
