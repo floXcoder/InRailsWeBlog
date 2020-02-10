@@ -49,6 +49,7 @@ const _updateSettings = (state, settings) => {
 export default function uiReducer(state = initState, action) {
     switch (action.type) {
         // Get metaTags
+        case ActionTypes.UI_CHANGE_META_TAGS:
         case ActionTypes.ARTICLE_FETCH_SUCCESS:
         case ActionTypes.ARTICLE_HISTORY:
         case ActionTypes.TAG_FETCH_SUCCESS:

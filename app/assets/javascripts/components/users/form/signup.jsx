@@ -20,6 +20,10 @@ import {
     validateUser
 } from '../../../actions/userActions';
 
+import {
+    terms
+} from '../../../constants/routesHelper';
+
 import EnsureValidity from '../../modules/ensureValidity';
 
 import TextFormField from '../../material-ui/form/text';
@@ -202,7 +206,8 @@ class SignupForm extends React.Component {
                                            label={
                                                <span className={this.props.classes.terms}>
                                                     {I18n.t('js.user.signup.terms_of_use', {website: window.settings.website_name}) + ' '}
-                                                   <a href="/terms">
+                                                   <a href={terms()}
+                                                      target="_blank">
                                                         {I18n.t('js.user.signup.terms_of_use_name')}
                                                    </a>
                                                </span>

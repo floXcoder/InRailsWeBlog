@@ -2,6 +2,21 @@
 
 import * as ActionTypes from '../constants/actionTypes';
 
+import api from '../middlewares/api';
+
+// MetaTags
+const receiveMetaTags = (meta) => ({
+    type: ActionTypes.UI_CHANGE_META_TAGS,
+    meta
+});
+export const fetchMetaTags = (routeName) => (dispatch) => (
+    api.get(`/meta-tags`, {
+        routeName
+    })
+        .promise
+        .then((response) => dispatch(receiveMetaTags(response)))
+);
+
 // Users
 export const showUserSignup = () => ({
     type: ActionTypes.UI_SWITCH_USER_SIGNUP

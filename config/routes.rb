@@ -53,7 +53,9 @@ Rails.application.routes.draw do
     get '/users/password/edit', to: 'pages#home', as: :edit_password, defaults: { name: 'edit_password' }
 
     # Static routes
-    get '/about-us', to: 'pages#home', as: :about_us, defaults: { name: 'about_us' }
+    get '/about', to: 'pages#home', as: :about_us, defaults: { name: 'about_us' }
+    get '/terms', to: 'pages#home', as: :terms, defaults: { name: 'terms' }
+    get '/policy', to: 'pages#home', as: :policy, defaults: { name: 'policy' }
 
     # Other unnamed routes
     get '/search/*path', to: 'pages#home'
@@ -61,6 +63,8 @@ Rails.application.routes.draw do
     get '/tagged/*path', to: 'pages#home'
     get '/articles/*path', to: 'pages#home'
     get '/users/*path', to: 'pages#home'
+
+    get '/meta-tags', to: 'pages#meta_tag', as: :meta_tag
 
     get '/404', to: 'pages#home'
   end

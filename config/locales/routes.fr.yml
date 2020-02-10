@@ -13,4 +13,6 @@ fr:
     login: "inscription"
     new: "nouveau"
     edit: "edition"
-    about-us: "a-propos"
+    about: "a-propos"
+    terms: "conditions-utilisations"
+    policy: "politique-des-donnees"

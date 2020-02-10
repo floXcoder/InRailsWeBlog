@@ -3,7 +3,7 @@
 class PagesController < ApplicationController
   before_action :verify_requested_format!
 
-  respond_to :html, :text
+  respond_to :html, :text, :json
 
   def home
     respond_to do |format|
@@ -37,6 +37,12 @@ class PagesController < ApplicationController
   # SEO
   def robots
     respond_to :text
+  end
+
+  def meta_tag
+    set_seo_data(params[:route_name])
+
+    render json: meta_attributes
   end
 
 end

@@ -50,7 +50,9 @@ export const newPasswordPath = (locale = window.locale) => routeBuilder('/users/
 export const editPasswordPath = (locale = window.locale) => routeBuilder('/users/password/edit', locale);
 
 // Static routes
-export const aboutUs = (locale = window.locale) => routeBuilder('/about-us', locale);
+export const about = (locale = window.locale) => routeBuilder('/about', locale);
+export const terms = (locale = window.locale) => routeBuilder('/terms', locale);
+export const policy = (locale = window.locale) => routeBuilder('/policy', locale);
 
 // URL hash params
 export const searchParam = 'search';

@@ -59,8 +59,12 @@ Ruby enVironment Manager 1.29.8 (latest) (c) 2009-2017 Michal Papis, Piotr Kuczy
                      new_password_en GET      /users/password/new(.:format)                                                                 pages#home {:name=>"new_password", :locale=>"en"}
                     edit_password_fr GET      /fr/utilisateurs/password/edition(.:format)                                                   pages#home {:name=>"edit_password", :locale=>"fr"}
                     edit_password_en GET      /users/password/edit(.:format)                                                                pages#home {:name=>"edit_password", :locale=>"en"}
-                         about_us_fr GET      /fr/about_us(.:format)                                                                        pages#home {:name=>"about_us", :locale=>"fr"}
-                         about_us_en GET      /about_us(.:format)                                                                           pages#home {:name=>"about_us", :locale=>"en"}
+                         about_us_fr GET      /fr/a-propos(.:format)                                                                        pages#home {:name=>"about_us", :locale=>"fr"}
+                         about_us_en GET      /about(.:format)                                                                              pages#home {:name=>"about_us", :locale=>"en"}
+                            terms_fr GET      /fr/conditions-utilisations(.:format)                                                         pages#home {:name=>"terms", :locale=>"fr"}
+                            terms_en GET      /terms(.:format)                                                                              pages#home {:name=>"terms", :locale=>"en"}
+                           policy_fr GET      /fr/politique-des-donnees(.:format)                                                           pages#home {:name=>"policy", :locale=>"fr"}
+                           policy_en GET      /privacy-policy(.:format)                                                                     pages#home {:name=>"policy", :locale=>"en"}
                                      GET      /fr/recherche/*path(.:format)                                                                 pages#home {:locale=>"fr"}
                                      GET      /search/*path(.:format)                                                                       pages#home {:locale=>"en"}
                                      GET      /fr/labels/*path(.:format)                                                                    pages#home {:locale=>"fr"}
@@ -71,6 +75,8 @@ Ruby enVironment Manager 1.29.8 (latest) (c) 2009-2017 Michal Papis, Piotr Kuczy
                                      GET      /articles/*path(.:format)                                                                     pages#home {:locale=>"en"}
                                      GET      /fr/utilisateurs/*path(.:format)                                                              pages#home {:locale=>"fr"}
                                      GET      /users/*path(.:format)                                                                        pages#home {:locale=>"en"}
+                         meta_tag_fr GET      /fr/meta-tags(.:format)                                                                       pages#meta_tag {:locale=>"fr"}
+                         meta_tag_en GET      /meta-tags(.:format)                                                                          pages#meta_tag {:locale=>"en"}
                                      GET      /fr/404(.:format)                                                                             pages#home {:locale=>"fr"}
                                      GET      /404(.:format)                                                                                pages#home {:locale=>"en"}
                               signup GET      /api/v1/signup(.:format)                                                                      api/v1/users/registrations#new

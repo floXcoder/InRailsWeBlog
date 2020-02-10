@@ -92,8 +92,16 @@ export default {
             },
             // Static pages
             {
-                path: Routes.aboutUs(false),
-                component: () => RouteComponents.AboutUs
+                path: Routes.about(false),
+                component: () => RouteComponents.About
+            },
+            {
+                path: Routes.terms(false),
+                component: () => RouteComponents.Terms
+            },
+            {
+                path: Routes.policy(false),
+                component: () => RouteComponents.Policy
             },
             // Miscellaneous
             {
