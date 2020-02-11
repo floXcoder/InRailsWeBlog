@@ -1,0 +1,967 @@
+de:
+  js:
+    views:
+      footer:
+        copyright: Urheberrecht 2020 (%{Version}). Alle Rechte vorbehalten.
+        description: Ein Blog für alle
+        languages: Sprachen
+        links:
+          about: Über uns
+          contact: Kontaktieren Sie uns
+          github: Quelle unter Github
+          github_src: https://github.com/floXcoder/InRailsWeBlog
+          policy: Datenpolitik
+          terms: Bedingungen und Konditionen der Nutzung
+          title: Nützliche Links
+        locales:
+          en: Englisch
+          fr: Französisch
+      header:
+        article:
+          button: Artikel
+          menu:
+            add:
+              default: Artikel hinzufügen
+              inventories: Inventar hinzufügen
+              stories: Geschichte schreiben
+            bookmark: Bevorzugte Artikel
+            draft: Vorübergehend
+            new: Neuer Artikel
+            temporary: Aktueller Artikel
+            user: Meine Artikel
+        search:
+          button: Suche
+        settings:
+          button: Präferenzen
+        tags:
+          button: Beschriftungen
+        topic:
+          add: Ein neues Thema hinzufügen
+          button: Themen (%{aktuell})
+          title: Ihre Themen
+        user:
+          administration: Verwaltung
+          articles: Artikel
+          bookmarks: Favoriten
+          languages:
+            english: Français
+            french: Französisch
+          log_in: Anmelden
+          log_out: Abmelden
+          profile: Mein Konto
+          settings: Meine Einstellungen
+          sign_up: Jetzt anmelden
+      home:
+        articles:
+          title: Beliebte Artikel erforschen
+        loader: Laden von
+        tags:
+          title: Beschriftungen
+      sidebar:
+        pin: Kiefer
+        unpin: Entnadeln Sie
+    user:
+      edit:
+        back_button: Zurück
+        connection_parameters: Ändern Sie Ihre Verbindungseinstellungen
+        current_picture: 'Ihr aktuelles Bild :'
+        local_picture: Lokales Bild
+        login_header: Anmeldeinformationen
+        no_picture: Sie haben kein Bild, das mit Ihrem Konto verknüpft ist.
+        or: oder
+        page_title: Mein Profil bearbeiten
+        personal_information_header: Persönliche Informationen
+        placeholder_picture: Verwenden Sie ein lokales Bild oder eine Url
+        profile_picture: Bild für Ihr Profil
+        remote_picture: Bild-URL
+        remove_picture: Dieses Bild löschen
+        replace_picture: Sie können Ihr Bild durch die Angabe eines anderen Bildes entweder lokal oder über eine Url ersetzen
+        title: Mein Profil bearbeiten
+        update_profile: Mein Profil aktualisieren
+      errors:
+        email:
+          already_taken: bereits besetzt ist, wählen Sie bitte eine andere E-Mail-Adresse
+          invalid: Die E-Mail-Adresse ist ungültig
+          required: Bitte geben Sie eine E-Mail-Adresse ein
+        login:
+          invalid: nicht vorhanden ist, geben Sie bitte eine gültige E-Mail-Adresse oder einen Spitznamen ein
+          required: Bitte geben Sie Ihre E-Mail-Adresse oder Ihren Spitznamen ein
+        password:
+          mismatch: Passwort und Passwortbestätigung stimmen nicht überein
+          required: Bitte geben Sie ein Passwort ein
+          size: Das Passwort muss zwischen %{min} und %{max} Zeichen liegen
+        policy: Bitte akzeptieren Sie zunächst die Nutzungsbedingungen
+        pseudo:
+          already_taken: bereits vergeben ist, wählen Sie bitte einen anderen Spitznamen
+          required: Bitte geben Sie Ihren Spitznamen ein
+          size: Das Pseudo muss zwischen %{min} und %{max} Zeichen liegen
+      home:
+        private:
+          subtitle: Zugehörige Artikel werden nur von Ihnen gesehen (mit Ihren eigenen Etiketten)
+          title: Ihre privaten Themen
+        public:
+          subtitle: Die Artikel werden der ganzen Welt zugänglich gemacht (mit gemeinsamen Etiketten)
+          title: Ihre öffentlichen Themen
+        shared:
+          subtitle: Themen, die andere Benutzer mit Ihnen teilen
+          title: Ihre gemeinsamen Themen
+        add_topic: Ein Thema hinzufügen
+      index:
+        link_to_user: Benutzer-Details
+        search: Benutzer suchen
+      login:
+        cancel: Abbrechen
+        connected: Umleitung auf Ihr Konto
+        connecting: Anmeldung in Bearbeitung
+        externals:
+          facebook: Mit Facebook verbinden
+          google: Bei Google anmelden
+        login: Benutzername oder E-Mail
+        new_password: Haben Sie Ihr Passwort vergessen?
+        password: Kennwort
+        remember_me: Erinnern Sie sich an mich
+        submit: Anmeldung
+        title: Anmeldung
+      model:
+        additional_info: Persönliche Informationen
+        admin: Direktor
+        city: Stadt
+        country: Land
+        created_at: Datum der Kontoerstellung
+        email: E-Mail
+        first_name: Vorname
+        last_name: Name
+        last_sign_in_at: Letzte Anmeldung
+        locale: Sprache
+        pseudo: Spitzname
+      password:
+        edit:
+          button: Mein Passwort ändern
+          password: Neues Kennwort
+          password_confirmation: Bestätigen Sie Ihr neues Passwort
+          title: Haben Sie Ihr Passwort vergessen?
+        new:
+          back: Zurück zur Startseite
+          button: Schicken Sie mir ein neues Passwort
+          email: Ihre E-Mail Adresse
+          title: Ändern Sie Ihr Passwort
+      settings:
+        article:
+          display:
+            mode:
+              card: Vollständige Artikel
+              grid: Gitter-Elemente
+              inline: Einheitliche Artikel
+              summary: Nur Abstracts von Artikeln
+            title: Anzeige von Artikeln
+          loader:
+            mode:
+              all: Alle laden
+              infinite: Bildlaufelemente anzeigen
+              pagination: Verwenden Sie eine Paginierung
+            title: Laden von Artikeln
+          multilanguage:
+            name: Artikel in mehreren Sprachen verfassen
+            title: Mehrsprachig
+          title: Artikel
+        search:
+          exact: Das/die spezifische(n) Wort(e)
+          highlight: Hervorheben
+          operator:
+            mode:
+              and: Alle Wörter
+              or: Mindestens ein Wort
+            title: Betreiber
+          options: Ergebnisse
+          title: Suche
+        tag:
+          order:
+            mode:
+              name: Name
+              priority: Priorität
+            title: Standard-Etikettenreihenfolge
+          parent_and_child: Untergeordnete Elemente mit übergeordnetem Element anzeigen
+          sidebar:
+            pin: Liste der sichtbaren Etiketten standardmäßig
+            title: Seitenleiste
+            with_child: Untergeordnete Etiketten in der Hauptliste anzeigen
+          title: Beschriftungen
+      signup:
+        cancel: Abbrechen
+        confirm_password: Passwort bestätigen
+        connected: Umleitung auf Ihr Konto
+        connecting: Registrierung läuft
+        email: E-Mail
+        externals:
+          facebook: Anmelden bei Facebook
+          google: Bei Google anmelden
+        password: Kennwort
+        pseudo: Spitzname
+        submit: Mein Konto erstellen
+        terms_of_use: Mit der Registrierung auf %{Website} erklären Sie sich damit einverstanden, die
+        terms_of_use_name: nutzungsbedingungen.
+        title: Ein Konto erstellen
+    bookmark:
+      common:
+        add: Zu den Favoriten hinzufügen
+        added:
+          article: Der Artikel wurde zu den Favoriten hinzugefügt
+          tag: Das Label wurde den Favoriten hinzugefügt
+          topic: Das Thema wurde zu den Favoriten hinzugefügt
+          user: Benutzer wurde zu den Favoriten hinzugefügt
+        remove: Favoriten entfernen
+        removed:
+          article: Der Artikel wurde aus den Favoriten entfernt
+          tag: Das Etikett wurde von den Favoriten entfernt
+          topic: Das Thema wurde aus den Favoriten entfernt
+          user: Benutzer wurde aus den Favoriten entfernt
+      list:
+        none: Keine Favoriten
+        title: Ihre Favoriten
+      notification:
+        connection: Anmelden
+        not_connected: Sie müssen angemeldet sein, um Favoriten hinzufügen oder entfernen zu können
+        saved_later: Sie sind nicht eingeloggt. Der Favorit wird mit Ihrem Konto verknüpft, sobald Sie eingeloggt sind.
+        text: Lesezeichen hinzugefügt
+    tag:
+      common:
+        associated: Zugehörige Etiketten
+        filter: Nach Etiketten filtern ...
+        link: Siehe Einzelheiten des Etiketts
+        list: Beschriftungen
+        no_children: Keine zugehörigen Sohnetiketten
+        no_description: Keine Beschreibung in Verbindung mit dem Etikett
+        no_parents: Keine zugeordneten übergeordneten Etiketten
+        no_privates: Keine Eigenmarken
+        no_publics: Keine Eigenmarken
+        no_results: 'Keine Etiketten gefunden für :'
+        no_synonyms: Keine Synonyme in Verbindung mit dem Etikett
+        no_tags: Noch keine Tags für dieses Thema
+        placeholders:
+          description: Beschreibung des Etiketts
+          name: Name des Etiketts
+        privates: Eigenmarken
+        publics: Öffentliche Labels
+        stats:
+          clicks: klicken
+          searches: 'Forschung '
+          title: Statistik
+          views: Ansichten
+        synonyms: Synonyme der Bezeichnung ...
+        usage: "%{Zahl} Verwendungen"
+        visibility: Sichtbarkeit wählen
+        visibility_immutable: Der Name eines öffentlichen Labels darf nicht geändert werden
+      edit:
+        back_button: Abbrechen
+        submit: Aktualisieren Sie das Etikett
+        title: 'Änderung des Etiketts: %{Tag}'
+      enums:
+        visibility:
+          everyone: Öffentlich
+          only_me: Privat
+      errors:
+        default: Unmöglich, das Label zu erstellen! Danke, dass Sie es noch einmal versucht haben.
+        description:
+          size: Die Beschreibung des Etiketts muss zwischen %{min} und %{max} Zeichen liegen
+        name:
+          size: Der Name des Etiketts muss zwischen %{min} und %{max} Zeichen liegen
+        not_authorized: Sie haben keine Erlaubnis, auf dieses Etikett zuzugreifen!
+      form:
+        unsaved: Beenden, ohne den Tag zu speichern?
+      index:
+        links:
+          all_tags: Alle öffentlichen Labels anzeigen
+          user_tags: Sehen Sie alle Ihre gebrauchten Etiketten
+        sort: Sortieren Sie Ihre Etiketten nach Priorität
+        titles:
+          all: Alle öffentlichen Labels
+          topic: 'Etiketten, die mit dem Thema verbunden sind: %{Thema}'
+          user: Alle Ihre Etiketten
+      model:
+        articles_count: Anzahl der Elemente
+        children: Gewinde-Etiketten
+        description: Beschreibung
+        name: Name des Etiketts
+        owner: Schöpfer
+        parents: Übergeordnete Etiketten
+        synonyms: Synonyme
+        visibility: Sichtbarkeit
+      new:
+        submit: Erstellen des Etiketts
+        title: Hinzufügen eines Etiketts
+      show:
+        back_button: Abbrechen
+        edit_link: Dieses Etikett ändern
+    topic:
+      common:
+        modes:
+          inventories: Liste von Elementen mit benutzerdefinierten Feldern
+          stories: Liste der Chroniken in Form einer Zeitleiste
+        no_description: Keine Beschreibung in Verbindung mit diesem Thema
+        placeholders:
+          description: Beschreibung des Themas
+          name: Name des Themas
+        user_current_topic: Aktuelles Thema
+        user_topics: Meine Themen
+        visibility: Sichtbarkeit wählen
+      edit:
+        back_button: Abbrechen
+        delete: Löschen Sie
+        description: Beschreibung
+        mode: Geben Sie  ein
+        name: Name des Themas
+        submit: Aktualisieren Sie das Thema
+        title: 'Änderung des Themas: %{Thema}'
+        update_inventories: Benutzerdefinierte Felder modifizieren
+      edit_inventories:
+        add_field: Neues Feld hinzufügen
+        field_props: Feld-Eigenschaften
+        mandatory_field: Pflichtfeld für die Suche
+        remove_field: Löschen Sie dieses Feld
+        title: 'Benutzerdefinierte Felder für das Thema: %{Thema}'
+      enums:
+        mode:
+          default: Standardmäßig
+          inventories: Bestandsaufnahme
+          stories: Geschichte
+        visibility:
+          everyone: Öffentlich
+          only_me: Privat
+      errors:
+        default: Unmöglich, das Thema zu erstellen! Danke, dass Sie es noch einmal versucht haben.
+        description:
+          size: Die Beschreibung des Etiketts muss zwischen %{min} und %{max} Zeichen liegen
+        name:
+          size: Der Name des Etiketts muss zwischen %{min} und %{max} Zeichen liegen
+        not_authorized: Sie haben keine Erlaubnis, auf dieses Thema zuzugreifen!
+      form:
+        unsaved: Beenden, ohne das Thema zu speichern?
+      model:
+        articles_count: Anzahl der Elemente
+        contributors: Mitwirkende
+        description: Einzelheiten
+        inventory_fields:
+          name: Feldname
+        mode: Geben Sie  ein
+        name: Name
+        owner: Schöpfer
+        tags: Zugehörige Etiketten
+        tags_count: Anzahl der Etiketten
+        visibility: Sichtbarkeit
+      new:
+        cancel: Abbrechen
+        description: Beschreibung
+        mode: Geben Sie  ein
+        name: Name des Themas
+        submit: Hinzufügen
+        title: Ein Thema hinzufügen
+      share:
+        cancel: Abbrechen
+        errors:
+          unknown: Benutzer nicht gefunden
+          user_empty: Danke für die Angabe des Spitznamens oder der E-Mail
+        form:
+          submit: Teilen Sie
+          user_name: Benutzername oder Benutzer-E-Mail
+        title: Das Thema teilen
+      show:
+        back_button: Abbrechen
+        edit_link: Ändern Sie dieses Thema
+        share: Teilen Sie dieses Thema
+      sort:
+        title: Änderung der Reihenfolge der Themen
+    inventory_fields:
+      enums:
+        value_type:
+          boolean_type: Wahr/Falsch
+          date_type: Datum
+          number_type: Nummer
+          string_type: Kanal
+          text_type: Text
+      model:
+        filterable: Filter für die Suche ?
+        name: Feldname
+        required: Pflichtfeld ?
+        searchable: In die Suche einbeziehen?
+        value_type: Feldtyp
+    article:
+      bookmark:
+        added: Artikel zu den Favoriten hinzugefügt
+        removed: Artikel aus den Favoriten gelöscht
+      clipboard: Temporärer Artikel, der mit kopierten Daten erstellt wurde
+      common:
+        actions: Aktionen
+        allow_comment:
+          falsy: Nein
+          title: Erlauben Sie Kommentare?
+          truthy: Ja
+        draft: Vorläufige Notiz?
+        external_source: Externer Bezug?
+        infinite:
+          loading: Laden von Gegenständen ...
+        link: Ist eine Verbindung?
+        no_results:
+          search:
+            content: Versuchen Sie etwas anderes :)
+            title: Keine Artikel gefunden
+          topic:
+            button: Neuen Artikel hinzufügen
+            title:
+              child_tag: Fügen Sie einen Artikel zu diesem Thema für dieses Unter-Label hinzu
+              default: Einen Artikel zu diesem Thema hinzufügen
+              tag: Einen Artikel zu diesem Thema für dieses Label hinzufügen
+        not_connected:
+          message: Bitte loggen Sie sich ein, bevor Sie den Artikel veröffentlichen
+        outdated: Als veraltet markierter Artikel!
+        placeholders:
+          content:
+            link: Beschreibung des Links
+            note: Hinzuzufügender Inhalt
+            story: Inhalt Ihres Artikels
+          reference:
+            inventory: Link zur Originalquelle
+            link: Link zur Referenz
+            note: Link zur Originalquelle
+            story: Link zur Originalquelle
+          title:
+            inventory: Titel für das Inventar
+            note: Titel Ihres Artikels
+            story: Titel Ihrer Geschichte
+        tags:
+          add: 'Fügen Sie das Etikett hinzu:'
+          child: Hinzufügen von Sekundäretiketten
+          default: Etiketten zum Artikel hinzufügen
+          everyone: Gemeinsame Etiketten
+          none: Ohne Etiketten
+          only_me: Persönliche Etiketten
+          parent: Hauptetiketten hinzufügen
+          placeholder: Geben Sie den Namen des Etiketts ein
+        tooltips:
+          content_too_short: Der Inhalt ist zu kurz
+          summary_too_short: Abstrakt ist zu kurz
+          title_too_short: Der Titel ist zu kurz
+        url: Liste der Artikel
+        validation_error:
+          common: Bitte füllen Sie den Artikel wie angegeben aus, bevor Sie fortfahren
+        visibility: Sichtbarkeit wählen
+      edit:
+        exit: Sind Sie sicher, dass Sie ohne zu sparen gehen?
+        form_title: 'Modifikation von : <Ich weiß es nicht. Ich bin nicht sicher'
+        submit: Aktualisierung
+        title: Ändern eines Materials
+      enums:
+        mode:
+          inventory: Bestandsaufnahme
+          link: Link
+          note: Hinweis
+          story: Artikel
+        visibility:
+          everyone: Öffentlich
+          only_me: Privat
+      errors:
+        bookmark:
+          bookmark: "<Ich habe eine Nachricht für Sie"
+          default: Kann nicht zu den Favoriten hinzugefügt werden! Versuchen Sie, die Verbindung wieder herzustellen.
+          not_authorized: Sie haben nicht die Erlaubnis, diesen Artikel als Lesezeichen zu speichern!
+        content:
+          size: Der Inhalt des Artikels muss zwischen %{min} und %{max} Zeichen liegen
+        default: Unmöglich, den Artikel zu erstellen! Danke, dass Sie es noch einmal versucht haben.
+        not_authorized: Sie haben keine Berechtigung, auf diesen Artikel zuzugreifen!
+        summary:
+          size: Die Zusammenfassung des Artikels muss zwischen %{min} und %{max} Zeichen liegen
+        title:
+          size: Der Titel des Artikels muss zwischen %{min} und %{max} Zeichen liegen
+        topic: Kein Thema mit dem Artikel verbunden
+      filter:
+        filters:
+          bookmark: Favoriten
+          draft: Entwürfe
+          link: Links
+          note: Anmerkungen
+          story: Artikel
+        title: Filtern nach
+      flash:
+        creation_unpermitted: Anmeldung zum Schreiben eines Artikels
+        deletion_successful: Der Artikel wurde gelöscht.
+        undelete_link: Brechen Sie die Löschung ab.
+      form:
+        inventories:
+          filterable: Dieses Feld wird in die Suche einbezogen
+          searchable: Dieses Feld wird in die Suche einbezogen
+        inventory_button: Hinzufügen oder Ändern von benutzerdefinierten Feldern
+        next: Nächste
+        no_inventories: 'Sie haben noch keine benutzerdefinierten Felder definiert. Danke, dass Sie sie erstellt haben:'
+        unsaved: Beenden, ohne den Artikel zu speichern?
+      history:
+        changed_at: Geänderte Version
+        initial: Erste Version
+        none: Keine Geschichte für diesen Artikel!
+        restore: Diese Version wiederherstellen
+        restored: Restaurierte Version
+      masonry:
+        add_column: Spalte hinzufügen
+        remove_column: Spalte entfernen
+      model:
+        allow_comment: Kommentare erlauben
+        child_tags: Sekundäre Etiketten
+        comment:
+          'false': Behinderte
+          'true': Aktiviert
+        content: Inhalt
+        draft: Vorläufige Notiz
+        inventories: Benutzerdefinierte Felder
+        language: Sprache
+        parent_tags: Hauptetiketten
+        reference: Link
+        summary: Abstrakt
+        tagged_articles: Beschriftung des Artikels
+        tags: Beschriftungen
+        title: Titel
+        topic: Thema
+        visibility: Sichtbarkeit
+      new:
+        exit: Sind Sie sicher, dass Sie ohne zu sparen gehen?
+        meta:
+          description: Einen Artikel hinzufügen
+          title: Neuer Artikel - %{Thema}
+        submit: Erstellen Sie den Artikel
+        tags:
+          placeholder: Zugehörige Etiketten
+          title: 'Etiketten hinzufügen (Rechtsklick : übergeordnete Etiketten / Linksklick : untergeordnete Etiketten)'
+        title: Einen neuen Artikel erstellen
+      outdated:
+        added: Als veraltet markierter Artikel
+        removed: Artikel aus veralteter Fassung entfernt
+      share:
+        button: Durch einen Link teilen
+        cancel: Abbrechen
+        content: 'Kopieren Sie den folgenden Link, um den Artikel freizugeben:'
+        title: Diesen Artikel weitergeben
+      show:
+        stories:
+          next: Nächste Kategorie
+          previous: Vorherige Geschichte
+          show: Lesen Sie die Geschichte
+      sort:
+        link: Änderung der Priorität
+        link_title: Reihenfolge ändern
+        order:
+          priority_desc: Priorität
+          tag_asc: Etikett
+          updated_asc: Ältere
+          updated_desc: Jüngste
+        title: Sortieren nach
+      timeline:
+        no_articles: Keine anzuzeigenden Elemente
+        title: 'Neuer Artikel :'
+      toc:
+        no_articles: Noch keine Artikel
+        title: Das Inhaltsverzeichnis
+      tooltip:
+        add_bookmark: Zu den Favoriten hinzufügen
+        add_outdated: Als veraltet markiert
+        cancel: Abbrechen
+        delete: Diesen Artikel löschen
+        edit: Den Artikel modifizieren
+        history: Frühere Überarbeitungen des Artikels ansehen
+        link: Es ist ein Link
+        link_to: Zum Artikel gehen
+        remove_bookmark: Favoriten entfernen
+        remove_outdated: Entfernung veralteter Produkte
+        share: Diesen Artikel weitergeben
+        topic_link: Gehen Sie zum Thema
+        tracking: Statistik anzeigen
+        update: Aktualisierung
+        updated_at: Zuletzt geändert
+        visibility: 'Sichtbarkeit: %{Sichtbarkeit}'
+      tracking:
+        bookmarks: Anzahl von Malen, die zu den Favoriten hinzugefügt wurden
+        cancel: Abbrechen
+        clicks: Anzahl der Klicks auf den Artikel
+        comments: Anzahl der zugehörigen Kommentare
+        searches: Anzahl der in der Suche zurückgegebenen Male
+        title: Statistik
+        views: Anzahl der Ausdrucke auf allen Seiten
+      vote:
+        added: Ihre Stimme wurde berücksichtigt
+    search:
+      display:
+        card: Liste
+        grid: Raster
+      index:
+        articles:
+          title: Artikel
+        button: Finden Sie
+        no_results: Keine Ergebnisse gefunden
+        placeholder: Suche
+        results:
+          one: 1 Ergebnis
+          other: "%{Zahl} Ergebnisse"
+        suggestions:
+          articles: 'Versuchen Sie es mit der Rechtschreibung:'
+          tags: 'Versuchen Sie die folgenden Tags :'
+        topic:
+          current: Aktuelles Thema
+          others: Andere Themen
+      module:
+        articles:
+          recents: "(Neueste Artikel)"
+          title: Artikel
+        button: Suche
+        helpers:
+          select_tag: Wählen Sie ein Etikett mit den Pfeilen und dann die Registerkarte
+          tagged_articles: 'Suche nach Artikeln mit Etiketten: %{Tags}'
+        placeholder: Suche
+        tags:
+          no_tags: Keine Etiketten gefunden
+          recents: "(Neueste Etiketten)"
+          title: Beschriftungen
+        topics:
+          title: Themenbereiche
+      orders:
+        date: Datum
+        priority: Priorität
+      sidebar:
+        filter: Ergebnisse filtern
+    comment:
+      ask_for_deletion:
+        button: Antrag auf Löschung eines Kommentars
+      common:
+        actions: Aktionen
+        empty: Seien Sie der Erste, der Ihren Kommentar abgibt!
+        loading: Kommentare laden ...
+        no_data: Keine Kommentare für diese Auswahl anzeigen
+        no_opinion: Noch keine Kommentare zu Ihrem Artikel
+        route: kommentare
+        title: Kommentare
+      delete:
+        button: Löschen Sie
+        confirmation_button: Löschung
+        confirmation_message: Bitte bestätigen Sie die Löschung
+      edit:
+        button: Bearbeiten
+      errors:
+        body:
+          size: Der Inhalt des Kommentars muss zwischen %{min} und %{max} Zeichen liegen
+        default: Es ist unmöglich, den Kommentar zu erstellen! Danke, dass Sie es noch einmal versucht haben.
+        not_authorized: Sie haben keine Berechtigung, auf diesen Kommentar zuzugreifen!
+        title:
+          size: Der Titel des Kommentars muss zwischen %{min} und %{max} Zeichen liegen
+      flash:
+        creation_unpermitted: Sie müssen sich einloggen, um einen Kommentar zu verfassen
+      form:
+        cancel: Abbrechen
+        comment:
+          body: Ihr Kommentar ...
+          body_for_deletion: Grund für die Streichung des Kommentars
+          notation: 'Anmerkung:'
+          title: Beitragstitel
+          title_for_deletion: Antrag auf Löschung
+        explanation: Um Ihre Nachricht zu schreiben, können Sie die
+        submit: Poster
+        syntax: abschreibungssyntax
+        title:
+          default: Einen Kommentar hinzufügen
+          deletion_reply: Aufforderung zum Löschen eines Kommentars
+          modify: Ändern Sie Ihren Kommentar
+          owner_reply: Antwort auf einen Kommentar als Eigentümer
+          reply: Auf Kommentar antworten
+      model:
+        body: Nachricht
+        commentable_type: Kommentiertes Modell
+        posted_at: Geschrieben am
+        title: Titel
+        user: Kommentator
+      new:
+        button: Einen Kommentar hinzufügen
+      reply:
+        ask_for_deletion: Löschungsantrag in Bearbeitung
+        button: Antwort
+        owner: Antwort des Eigentümers
+        owner_button: Als Eigentümer antworten
+      timeline:
+        link: 'Kommentar in Verbindung mit :'
+        no_comments: Keine anzuzeigenden Kommentare
+      tooltip:
+        count: "%{Zahl} Kommentare"
+    picture:
+      copyright:
+        default: Von
+      model:
+        errors:
+          title: Bild zu groß
+          text: Die Dateigröße übersteigt 5MB, bitte wählen Sie ein kleineres Bild
+          type:
+            image: Die Datei ist keine Bilddatei, bitte wählen Sie eine jpp-, jpeg-, png- oder bmp-Datei
+    activities:
+      no_activities: Keine Aktivitäten anzuzeigen
+      article:
+        create: Artikel erstellt
+        destroy: Artikel gelöscht
+        update: Aktualisierter Artikel
+      bookmarked_article:
+        create: Artikel zu den Favoriten hinzugefügt
+        destroy: Artikel aus den Favoriten gelöscht
+      comment:
+        create: Kommentar hinzugefügt
+        destroy: Kommentar gelöscht
+        update: Aktualisierter Kommentar
+      tag:
+        create: Etikett erstellt
+        destroy: Etikett gelöscht
+        update: Aktualisiertes Etikett
+      tagged_article:
+        create: Etikettierter Artikel
+        destroy: Etikett des gelöschten Artikels
+        update: Etikett des aktualisierten Artikels
+    tracker:
+      clicks_count: Klicks
+      queries_count: Anfragen
+      searches_count: Durchsucht
+      sign_in_count: Verbindungen
+      views_count: Ansichten
+    admin:
+      common:
+        open_link: Siehe
+        title: Verwaltung
+      menu:
+        articles: Artikel
+        back_home: Zurück zur Website
+        blogs: Interne Notizen
+        cache: Cache
+        comments: Kommentare
+        dashboard: Dashboard
+        jobs: Jobs
+        log_out: Abmelden
+        logs: Protokolle
+        postgres: Datenbank
+        seo: SEO
+        tags: Beschriftungen
+        topics: Themenbereiche
+        users: Benutzer
+      articles:
+        table:
+          columns:
+            clicks_count: Anzahl der Klicks
+            comments_count: Anzahl der Kommentare
+            date: Geschrieben am
+            id: Id
+            mode: Geben Sie  ein
+            priority: Priorität
+            searches_count: Anzahl der Suchvorgänge
+            title: Titel
+            topic_id: Thema Id
+            views_count: Anzahl der Ansichten
+            visibility: Sichtbarkeit
+          title: Liste der Artikel
+        title: Artikel
+      blogs:
+        add: Blog hinzufügen
+        form:
+          add: Hinzufügen
+          cancel: Abbrechen
+          content: Ihre Notiz...
+          title: Titel
+          update: Aktualisierung
+        title: Anmerkungen
+      cache:
+        button: Löschen Sie!
+        error: Problem beim Löschen des Caches
+        successful: Der Cache ist geleert worden
+        title: Löschen Sie den gesamten Cache
+      comments:
+        table:
+          columns:
+            body: Inhalt
+            id: Id
+            posted_at: Geschrieben am
+            title: Titel
+          title: Liste der Kommentare
+        title: Kommentare
+      dashboard:
+        button: Zugang
+        title: Liste der Verwaltungsmenüs
+      logs:
+        help:
+          all: Suche nach einem beliebigen Begriff in den Protokollen
+          bot: bot:googlebot => gibt alle von diesem Bot erstellten Abfragen zurück
+          button: OK
+          date: date:15:14 => gibt alle Abfragen nach dieser Zeit zurück
+          host: host:www.your-domain.com => gibt alle Anfragen für diese Domain zurück
+          ip: ip:127.0.0.1 => gibt alle Abfragen mit dieser IP zurück
+          level: level:INFO => liefert alle Anfragen dieser Protokollebene
+          session: sessionId:xxxx-xxxx-xxxx => gibt alle Anfragen für diese Sitzung zurück
+          status: status:200 => gibt alle Anfragen mit diesem Status zurück
+          title: Optionen für die Log-Suche
+        input:
+          title: Suche
+      search:
+        help:
+          articles: Artikel
+          button: OK
+          tags: Beschriftungen
+          title: Suchoptionen
+          topics: Themenbereiche
+          users: Benutzer
+        placeholder: Suche nach Etikett, Thema, Artikel, ...
+      seo:
+        add: SEO-Daten hinzufügen
+        form:
+          add: Hinzufügen
+          cancel: Abbrechen
+          delete: LÖSCHEN
+          delete_confirmation: 'Löschen Sie diese SEO-Daten: %{Name} ?'
+          meta_desc: Meta-Beschreibung
+          no_parameters: Keine Parameter erforderlich
+          page_title: Titel der Seite
+          parameters: 'Verfügbare Parameter: %{Parameter}'
+          select:
+            or: oder
+            route: Name der Straße
+            url: Website-URL
+          seo_fields: Definition der SEO-Felder
+          title: Route oder URL auswählen
+          update: Bearbeiten
+        table:
+          columns:
+            id: Id
+            locale: Lokale
+            meta_desc: Meta Desc
+            name: Name der Straße
+            page_title: Titel der Seite
+            parameters: Einstellungen
+          title: Liste der Seiten
+        title: SEO-Management
+      tags:
+        table:
+          columns:
+            clicks_count: Anzahl der Klicks
+            date: Erstellt am
+            description: Beschreibung
+            id: Id
+            name: Name
+            priority: Priorität
+            searches_count: Anzahl der Suchvorgänge
+            synonyms: Synonyme
+            tagged_articles_count: Verwandte Artikel
+            views_count: Anzahl der Ansichten
+            visibility: Sichtbarkeit
+          title: Liste der Etiketten
+        title: Beschriftungen
+      topics:
+        table:
+          columns:
+            articles_count: Verwandte Artikel
+            clicks_count: Anzahl der Klicks
+            created_at: Erstellt am
+            id: Id
+            mode: Geben Sie  ein
+            name: Name
+            priority: Priorität
+            searches_count: Anzahl der Suchvorgänge
+            user_id: Benutzer-ID
+            views_count: Anzahl der Ansichten
+            visibility: Sichtbarkeit
+          title: Liste der Themen
+        title: Themenbereiche
+      users:
+        table:
+          columns:
+            articles_count: Anzahl der Elemente
+            created_at: Erstellungsdatum
+            email: E-Mail
+            id: Id
+            last_sign_in_at: Letzte Anmeldung
+            locale: Lokale
+            name: Name
+            pseudo: Spitzname
+          title: Benutzer-Liste
+        title: Benutzer
+    form:
+      errors:
+        text: Dieses Feld muss ausgefüllt werden
+        alphanumeric: Darf nur Buchstaben, Zahlen oder Bindestriche enthalten
+        select: Wählen Sie eine der vorgeschlagenen Optionen
+        date: Geben Sie ein gültiges Datum an
+        datetime: Geben Sie ein gültiges Datum und eine gültige Uhrzeit an
+        stripped_text_size: Die Feldlänge muss zwischen %{minCount} und %{maxCount} liegen
+        picture:
+          title: Bild zu groß
+          text: Die Dateigröße übersteigt 5MB, bitte wählen Sie ein kleineres Bild
+    selecter:
+      no_results: Keine Ergebnisse gefunden
+      tags:
+        type: Geben Sie Zeichen zum Hinzufügen eines Labels ein
+        add: Hinzufügen
+        already_exists: Das Etikett existiert bereits
+        too_long: Der Name des Elements ist zu lang
+    cookies:
+      title: Diese Website verwendet Cookies
+      content: Unsere Website verwendet Cookies, um Ihr Nutzererlebnis zu personalisieren und zu verbessern. Wenn Sie Ihre Navigation auf dieser Website fortsetzen, akzeptieren Sie unsere Datenschutzpolitik und unsere Cookie-Politik.
+      button: Ich akzeptiere
+      link: Ich habe
+      details: Cookies garantieren ein optimales Surferlebnis. Klicken Sie auf jede Kategorie, um die Verwendung von Cookies zu aktivieren oder zu deaktivieren. Die farbige Schaltfläche zeigt an, ob Cookies aktiv (grün) oder inaktiv (grau) sind.
+      website:
+        title: Betrieb
+        details: Diese Cookies garantieren das Funktionieren der Website und ermöglichen ihre Optimierung.
+      analytics:
+        title: Web-Analyse
+        details: Diese Cookies ermöglichen eine anonyme und aggregierte Verfolgung von Webanalyse-Tools.
+      social:
+        title: Soziales
+        details: Diese Cookies ermöglichen Ihnen die Interaktion mit den sozialen Modulen der Website.
+      advertisement:
+        title: Werbung
+        details: Diese Cookies ermöglichen es uns, die Ihnen im Internet angebotene Werbung besser zu steuern.
+    no_cookies:
+      title: Sie haben keine Cookies aktiviert!
+      content: Cookies sind in Ihrem Browser nicht aktiviert, so dass Sie sich nicht einloggen können, um Fotos in den Warenkorb zu legen, wenn Cookies deaktiviert sind. Bitte informieren Sie sich in unserer Datennutzungsrichtlinie, wie wir Ihre Daten verwenden.
+      button: Ich verstehe schon
+      link: Unsere Politik
+    rating:
+      clear: Löschen Sie
+    languages:
+      en: Français
+      fr: Französisch
+    editor:
+      helper:
+        title: Hilfe
+        article_hint: zum Link-Artikel
+      buttons:
+        code: Einfacher Code
+        pre: Mehrzeiliger Code (CTRL+E)
+        advice: Rat
+        secret: Geheimnis
+        cleaner: Saubere Formatierung
+      hint:
+        input: Titel des Artikels oder Themas
+        article: artikel
+        topic: thema
+    helpers:
+      home: Startseite
+      colon: ": "
+      or: " oder "
+      and: " und "
+      back: Vorige Seite
+      buttons:
+        apply: Bestätigen Sie
+        cancel: Abbrechen
+      select:
+        prompt: Bitte wählen Sie
+      form:
+        ensure_validity: Lassen Sie das Feld frei
+      not_found:
+        title: Pfad nicht gefunden!
+      not_authorized:
+        title: Sie können nicht auf dieses Element zugreifen
+      errors:
+        not_authorized: Sie haben keine Berechtigung, auf diese Ressource zuzugreifen!
+        frontend: Es ist ein Fehler aufgetreten, versuchen Sie eine Aktualisierung oder die Rückkehr zur Homepage
+        unprocessable: Dieses Element kann nicht berücksichtigt werden, falsche Daten
+        network: Netzwerkproblem, bitte überprüfen Sie Ihre Verbindung
+        server: Ein Serverfehler ist aufgetreten, bitte versuchen Sie es später noch einmal
+        boundary:
+          title: Die Komponente kann nicht angezeigt werden
+          message: Bei der Anzeige der Komponente ist ein Fehler aufgetreten. Bitte laden Sie die Seite neu.
+          header: Das Menü kann nicht angezeigt werden
+          footer: Fußzeile kann nicht angezeigt werden

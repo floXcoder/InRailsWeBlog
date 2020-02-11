@@ -1,0 +1,516 @@
+fr:
+  seo:
+    default:
+      page_title: "Blog pour tout le monde"
+      meta_desc: "Blog pour tout le monde"
+  views:
+    user:
+      flash:
+        successful_edition: "Profil mis à jour"
+        error_edition: "Le profil n'est pas été mis à jour, merci de corriger les erreurs indiquées"
+    tag:
+      flash:
+        successful_creation: "Label ajouté"
+        error_creation: "Le label n'a pas été créé, merci de corriger les erreurs indiquées"
+        successful_edition: "Label mis à jour"
+        error_edition: "Problème lors de la mise à jour du label !"
+        successful_priority_update: "L'ordre des labels a été changé"
+        error_priority_update: "Problème lors du changement de priorité des labels"
+        successful_deletion: "L'article a été supprimé"
+        error_deletion: "Problème lors de la suppression de l'article : %{errors}"
+    topic:
+      flash:
+        successful_creation: "Thème ajouté"
+        error_creation: "Le thème n'a pas été créé, merci de corriger les erreurs indiquées"
+        successful_edition: "Thème mis à jour"
+        error_edition: "Problème lors de la mise à jour du thème !"
+        successful_deletion: "Le thème a été supprimé"
+        successful_priority_update: "L'ordre des thèmes a été changé"
+        error_priority_update: "Problème lors du changement de priorité des thèmes"
+        error_deletion: "Problème lors de la suppression du thème : %{errors}"
+    inventory_field:
+      flash:
+        successful_edition: "Champs personnalisés mis à jour. Vous pouvez utiliser ces champs pour vos articles."
+        error_edition: "Problème lors de la mise à jour des champs personnalisés !"
+    article:
+      flash:
+        not_found: "L'article n'a pas été trouvé"
+        undelete_link: "Annuler la suppression."
+        successful_creation: "Article ajouté : %{title}"
+        error_creation: "L'article n'a pas été créé, merci de corriger les erreurs indiquées"
+        successful_edition: "Article mis à jour : %{title}"
+        error_edition: "Problème lors de la mise à jour de l'article !"
+        successful_priority_update: "L'ordre des articles a été changé"
+        error_priority_update: "Problème lors du changement de priorité des articles"
+        successful_deletion: "L'article a été supprimé"
+        error_deletion: "Problème lors de la suppression de l'article : %{errors}"
+        successful_undeletion: "Article restauré"
+      index:
+        title:
+          topic: "Articles pour %{topic}"
+      show:
+        title: "%{title} - %{topic}"
+      edit:
+        title: "Édition : %{title} - %{topic}"
+        description: "Modification de l'article : %{title} - %{topic}"
+      history:
+        title: "Historique de %{title} - %{topic}"
+        description: "Historique de l'article : %{title} - %{topic}"
+    picture:
+      flash:
+        successful_deletion: "L'image a bien été supprimée"
+        error_deletion: "Problème lors de la suppression de l'image"
+      copyright:
+        default: "De "
+    comment:
+      flash:
+        successful_creation: "Commentaire ajouté"
+        error_creation: "Le commentaire n'a pas été créé, merci de corriger les erreurs indiquées"
+        successful_edition: "Commentaire mis à jour"
+        error_edition: "Problème lors de la mise à jour du commentaire"
+        successful_deletion: "Commentaire supprimé"
+        error_deletion: "Problème lors de la suppression du commentaire"
+    share:
+      success:
+        link_message: "Partage de l'article créé"
+        user_message: "Thème partagé avec : %{user}"
+      errors:
+        user_not_found: "Utilisateur inconnu"
+        useless_shareable: "Un élément public est inutile à partager"
+        private_shareable: "Un élément privé ne peut être partagé"
+        link_already_shared: "Déjà partagé par un lien"
+        user_already_shared: "Déjà partagé avec cet utilisateur"
+        creation: "Impossible de partager cet élément"
+    admin:
+      login:
+        title: "Se connecter (Admin)"
+      dashboard:
+        title: "Admin"
+      users:
+        title: "Utilisateurs"
+      comments:
+        title: "Commentaires"
+      topics:
+        title: "Thèmes"
+      tags:
+        title: "Labels"
+      articles:
+        title: "Articles"
+      blogs:
+        title: "Notes"
+      seo:
+        title: "Gestion du SEO"
+      logs:
+        title: "Logs"
+      cache:
+        title: "Cache"
+      blog:
+        flash:
+          successful_creation: "Blog ajouté"
+          error_creation: "Le blog n'a pas été créé, merci de corriger les erreurs indiquées"
+          successful_edition: "Blog mis à jour"
+          error_edition: "Problème lors de la mise à jour du blog"
+          successful_deletion: "Blog supprimé"
+          error_deletion: "Problème lors de la suppression du blog"
+      seo_data:
+        flash:
+          successful_creation: "Donnée SEO ajoutée"
+          error_creation: "Donnée SEO non créée, merci de corriger les erreurs indiquées"
+          successful_edition: "Donnée SEO mise à jour"
+          error_edition: "Problème lors de la mise à jour de la donnée SEO"
+          successful_deletion: "Donnée SEO supprimé"
+          error_deletion: "Problème lors de la suppression de la donnée SEO"
+    errors:
+      flash:
+        successful_deletion: "L'erreur a bien été supprimée"
+        error_deletion: "Problème lors de la suppression de l'erreur"
+        successful_all_deletion: "Toutes les erreurs ont été supprimées"
+        error_all_deletion: "Problème lors de la suppression des erreurs (ou pas d'erreurs à supprimer)"
+    error:
+      title: "Vous venez de rencontrer une erreur"
+      description: "Une erreur est survenue"
+      status:
+        title:
+          default: "Une erreur est arrivée :("
+          '404': "Page introuvable"
+          '422': "Requêtes non permises !"
+          '500': "Erreur interne du site !"
+        explanation:
+          default: "Une erreur interne s'est produite. Le problème a été signalé, merci d'essayer une autre action en attendant :)"
+          '404': "La page n'a pas été trouvée sur le serveur, elle a peut être été supprimée !"
+          '422': "Impossible de satisfaire votre requête"
+          '500': "Une erreur interne s'est produite. Le problème a été signalé, merci d'essayer une autre action en attendant :)"
+      back_button: "Page précédente"
+      home_button: "Retourner à l'acceuil"
+  user:
+    model:
+      login: "Pseudo ou Email"
+      pseudo: "Pseudo"
+      email: "Email"
+      password: "Mot de passe"
+      first_name: "Prénom"
+      last_name: "Nom"
+      street: "Adresse"
+      city: "Ville"
+      postcode: "Code postale"
+      birth_date: "Date de naissance"
+      phone_number: "Numéro de téléphone"
+      mobile_number: "Numéro de mobile"
+      additional_info: "Informations personnelles"
+      country: "Pays"
+      local_picture: "Image locale"
+      remote_picture: "Url d'une image"
+    enums:
+      visibility:
+        everyone: "Public"
+        only_me: "Privé"
+  topic:
+    default_name: "Défaut"
+    enums:
+      visibility:
+        everyone: "Public"
+        only_me: "Privé"
+      mode:
+        default: "Défaut"
+        stories: "Histoire"
+        inventories: "Inventaire"
+  tag:
+    enums:
+      visibility:
+        everyone: "Public"
+        only_me: "Privé"
+  article:
+    enums:
+      visibility:
+        everyone: "Public"
+        only_me: "Privé"
+      mode:
+        note: "Note"
+        story: "Article"
+        inventory: "Inventaire"
+        link: "Lien"
+  share:
+    enums:
+      mode:
+        complete: "Autorisation totale"
+  search:
+    errors:
+      search: "Erreur lors de la recherche, merci d'essayer avec un autre terme"
+      autocomplete: "Erreur lors de la recherche, merci d'essayer avec un autre terme"
+      article: "Recherche : impossible de rechercher les articles"
+      tag: "Recherche : impossible de rechercher les labels"
+      topic: "Recherche : impossible de rechercher les thèmes"
+      user: "Recherche : impossible de rechercher les utilisateurs"
+  admin:
+    dashboard:
+      title: "Admin"
+  email:
+    hello: "Bonjour"
+    confirmation:
+      instruction: "Cliquer sur le lien ci-dessous pour confirmer l'email de votre compte"
+    reset_password:
+      instruction: "Une personne a demandé de changer votre mot de passe. Vous pouvez le faire en cliquant sur le lien ci-dessous."
+      comment: "Si vous n'avez pas demandé de renouveler votre mot de passe. Merci d'ignorer cet e-mail. Votre mot de passe ne sera pas changé tant que vous n'avez pas cliqué sur le lien ci-dessus."
+    unlock:
+      instruction: "Votre compte a été bloqué suite à un nombre important de tentative d'accès avec un mauvais mot de passe. Cliquer sur le lien ci-dessus pour débloquer votre compte."
+    greeting: "Bonne journée de la part de l'équipe !"
+  pundit:
+    default: "Vous n'êtes pas autorisé(e) à réaliser cette action"
+    flash:
+      not_authorized:
+        user: "Votre compte doit être complété avant (nom, prénom et ville)"
+    user_policy:
+      show: "Vous ne pouvez pas voir le compte d'autres utilisateurs"
+  activerecord:
+    errors:
+      messages:
+        record_invalid: 'La validation a échoué : %{errors}'
+        restrict_dependent_destroy:
+          has_one: "Vous ne pouvez pas supprimer l'enregistrement car un(e) %{record} dépendant(e) existe"
+          has_many: "Vous ne pouvez pas supprimer l'enregistrement parce que les %{record} dépendants existent"
+      models:
+        article:
+          pertinent_tags: "Les labels doivent être du même type que le thème (soit public soit privé)"
+          bad_topic_owner: "Le thème n'appartient pas au créateur de l'article"
+          prevent_revert_to_draft: "Un article public ne peut pas être un brouillon"
+          required_inventory_field: "%{field} est obligatoire"
+        article_relationship:
+          already_linked: "Ces deux articles sont déjà liés entre eux"
+        outdated_article:
+          already_outdated: "Article déjà marqué comme périmé !"
+          not_outdated: "Article non présent dans les périmés !"
+        tag:
+          already_exist: "Un label avec le même nom existe déjà"
+          already_exist_in_public: "Un label public avec le même nom existe déjà"
+          public_name_immutable: "Un label public ne peut changer de nom"
+          public_visibility_immutable: "La visibilité d'un label public ne peut plus être changé (utilisé par d'autres utilisateurs)"
+        tag_relationship:
+          already_linked: "Ces deux labels sont déjà liés entre eux dans ce topic"
+        tagged_article:
+          already_tagged: "Ce label existe déjà pour cet article"
+          incorrect_tag_affiliation: "Ce label ne peut être appliqué à l'article car il n'appartient pas au même thème"
+          incorrect_topic_affiliation: "Ce label ne peut être appliqué à l'article car l'article n'est pas associé au thème courant"
+        share:
+          link_already_shared: "Élément déjà partagé par un lien"
+          user_already_shared: "Élément déjà partagé avec cet utilisateur"
+        bookmark:
+          already_bookmarked: "Élément déjà ajouté aux favoris !"
+          model_unknown: "Impossible d'ajouter ou de supprimer cet élément dans les favoris"
+          not_bookmarked: "Élément non existant dans les favoris !"
+        topic:
+          required: "Un thème est requis pour créer l'article"
+          already_selected: "Le nouveau thème est déjà celui utilisé"
+          already_exist: "Un thème avec le même nom existe déjà"
+          not_owner: "Vous devez être le propriétaire du thème pour l'utiliser"
+        inventory_field:
+          already_exist: "Un champ avec le même nom existe déjà"
+        vote:
+          already_voted: "Vous ne pouvez pas voter une seconde fois"
+        picture:
+          image_size: "doit être inférieur à 5Mo"
+          attributes:
+            imageable:
+              required: "Le modèle de l'image est requis"
+        seo_data:
+          bad_route_name: "Cette route n'est pas disponible"
+  errors:
+    format: "%{attribute} %{message}"
+    messages:
+      accepted: "doit être accepté(e)"
+      blank: "doit être rempli(e)"
+      present: "doit être vide"
+      confirmation: "ne concorde pas avec la confirmation"
+      empty: "doit être rempli(e)"
+      equal_to: "doit être égal à %{count}"
+      odd: "doit être impair"
+      even: "doit être pair"
+      model_invalid: "La validation a échoué : %{errors}"
+      inclusion: "n'est pas inclus(e) dans la liste"
+      exclusion: "n'est pas disponible"
+      invalid: "n'est pas valide"
+      greater_than: "doit être supérieur à %{count}"
+      greater_than_or_equal_to: "doit être supérieur ou égal à %{count}"
+      less_than: "doit être inférieur à %{count}"
+      less_than_or_equal_to: "doit être inférieur ou égal à %{count}"
+      not_a_number: "n'est pas un nombre"
+      not_an_integer: "doit être un nombre entier"
+      required: doit exister
+      taken: "n'est pas disponible"
+      too_long:
+        one: "est trop long (pas plus d'un caractère)"
+        other: "est trop long (pas plus de %{count} caractères)"
+      too_short:
+        one: "est trop court (au moins un caractère)"
+        other: "est trop court (au moins %{count} caractères)"
+      wrong_length:
+        one: "ne fait pas la bonne longueur (doit comporter un seul caractère)"
+        other: "ne fait pas la bonne longueur (doit comporter %{count} caractères)"
+      other_than: "doit être différent de %{count}"
+      carrierwave_processing_error: "Impossible de redimensionner l'image"
+      carrierwave_integrity_error: "Ce n'est pas une image"
+      carrierwave_download_error: "Impossible de télécharger l'image"
+      extension_whitelist_error: "Vous n'êtes pas autorisé à uploader des fichiers %{extension}, types autorisés: %{allowed_types}"
+      extension_blacklist_error: "Vous n'êtes pas autorisé à uploader des fichiers %{extension}, types interdits: %{prohibited_types}"
+      content_type_whitelist_error: "Vous n'êtes pas autorisé à uploader des fichiers de type %{content_type}"
+      content_type_blacklist_error: "Vous n'êtes pas autorisé à uploader des fichiers de type %{content_type}"
+      rmagick_processing_error: "La manipulation d'image avec rmagick a échoué. Peut-être que ce n'est pas une image ? Erreur originale: %{e}"
+      mini_magick_processing_error: "La manipulation d'image avec MiniMagick a échoué. Peut-être que ce n'est pas une image ? Erreur originale: %{e}"
+      min_size_error: "La taille du fichier doit être supérieure à %{min_size}"
+      max_size_error: "La taille du fichier doit être inférieure à %{max_size}"
+    template: &errors_template
+      body: "Veuillez vérifier les champs suivants : "
+      header:
+        one:   "Impossible d'enregistrer ce(tte) %{model} : 1 erreur"
+        other: "Impossible d'enregistrer ce(tte) %{model} : %{count} erreurs"
+  number:
+    currency:
+      format:
+        delimiter: " "
+        format: "%n %u"
+        precision: 2
+        separator: ","
+        significant: false
+        strip_insignificant_zeros: false
+        unit: "€"
+    format:
+      delimiter: " "
+      precision: 3
+      separator: ","
+      significant: false
+      strip_insignificant_zeros: false
+    human:
+      decimal_units:
+        format: "%n %u"
+        units:
+          billion: "milliard"
+          million: "million"
+          quadrillion: "million de milliards"
+          thousand: "millier"
+          trillion: "billion"
+          unit: ""
+      format:
+        delimiter: ""
+        precision: 2
+        significant: true
+        strip_insignificant_zeros: true
+      storage_units:
+        format: "%n %u"
+        units:
+          byte:
+            one: "octet"
+            other: "octets"
+          gb: "Go"
+          kb: "ko"
+          mb: "Mo"
+          tb: "To"
+    percentage:
+      format:
+        delimiter: ""
+        format: "%n%"
+    precision:
+      format:
+        delimiter: ""
+  date:
+    abbr_day_names:
+      - "dim"
+      - "lun"
+      - "mar"
+      - "mer"
+      - "jeu"
+      - "ven"
+      - "sam"
+    abbr_month_names:
+      - ~
+      - "jan."
+      - "fév."
+      - "mar."
+      - "avr."
+      - "mai"
+      - "juin"
+      - "juil."
+      - "août"
+      - "sept."
+      - "oct."
+      - "nov."
+      - "déc."
+    day_names:
+      - "dimanche"
+      - "lundi"
+      - "mardi"
+      - "mercredi"
+      - "jeudi"
+      - "vendredi"
+      - "samedi"
+    formats:
+      default: "%d/%m/%Y"
+      short: "%e %b %Y"
+      long: "%e %B %Y"
+    month_names:
+      - ~
+      - "janvier"
+      - "février"
+      - "mars"
+      - "avril"
+      - "mai"
+      - "juin"
+      - "juillet"
+      - "août"
+      - "septembre"
+      - "octobre"
+      - "novembre"
+      - "décembre"
+    order:
+      - :day
+      - :month
+      - :year
+  datetime:
+    distance_in_words:
+      about_x_hours:
+        one: "environ une heure"
+        other: "environ %{count} heures"
+      about_x_months:
+        one: "environ un mois"
+        other: "environ %{count} mois"
+      about_x_years:
+        one: "environ un an"
+        other: "environ %{count} ans"
+      almost_x_years:
+        one: "presqu'un an"
+        other: "presque %{count} ans"
+      half_a_minute: "une demi-minute"
+      less_than_x_minutes:
+        zero:  "moins d'une minute"
+        one:   "moins d'une minute"
+        other: "moins de %{count} minutes"
+      less_than_x_seconds:
+        zero: "moins d'une seconde"
+        one: "moins d'une seconde"
+        other: "moins de %{count} secondes"
+      over_x_years:
+        one: "plus d'un an"
+        other: "plus de %{count} ans"
+      x_days:
+        one: "1 jour"
+        other: "%{count} jours"
+      x_seconds:
+        one: "1 seconde"
+        other: "%{count} secondes"
+      x_minutes:
+        one: "1 minute"
+        other: "%{count} minutes"
+      x_months:
+        one: "1 mois"
+        other: "%{count} mois"
+      x_years:
+        one: 1 an
+        other: "%{count} ans"
+    prompts:
+      day: "Jour"
+      hour: "Heure"
+      minute: "Minute"
+      month: "Mois"
+      second: "Seconde"
+      year: "Année"
+  time:
+    am: "am"
+    formats:
+      default: "%d %B %Y %Hh %Mmin %Ss"
+      long: "%A %d %B %Y %Hh%M"
+      short: "%d %b %Hh%M"
+      custom: "Le %d %b %y à %Hh%M"
+      custom_date: "%d %b"
+      custom_full_date: "%d %B %Y"
+      custom_begin: "Du %d %b à %Hh%M"
+      custom_end: "Au %d %b à %Hh%M"
+    pm: "pm"
+  time_helper:
+    date_range:
+      different_months_same_year: "%{from_day} %{from_month} %{sep} %{to_day} %{to_month}"
+      different_years: "%{from_day} %{from_month} %{from_year} %{sep} %{to_day} %{to_month} %{to_year}"
+      same_month: "%{from_day} %{sep} %{to_day} %{month}"
+      same_date: "%{from_day} %{month}"
+      with_year: "%{date_range} %{year}"
+    distance_in_words:
+      template: "%{count} %{unit}"
+      template_long: "%{rest} et %{last}"
+      units:
+        second: "seconde"
+        minute: "minute"
+        hour: "heure"
+        day: "jour"
+        month: "mois"
+        year: "année"
+      special:
+        half_an_hour: "une demi-heure"
+        and_a_half: "et demi"
+  support:
+    array:
+      last_word_connector: " et "
+      two_words_connector: " et "
+      words_connector: ", "
+  helpers:
+    colon: " : "
+    or: " ou "
+    and: " et "
+    back: "Page précédente"
+  hello: "Bonjour"
