@@ -1,331 +1,331 @@
-fr:
+es:
   seo:
     default:
-      page_title: "Blog pour tout le monde"
-      meta_desc: "Blog pour tout le monde"
+      page_title: Blog para todos
+      meta_desc: Blog para todos
   views:
     user:
       flash:
-        successful_edition: "Profil mis à jour"
-        error_edition: "Le profil n'est pas été mis à jour, merci de corriger les erreurs indiquées"
+        error_edition: El perfil no ha sido actualizado, por favor corrija los errores indicados
+        successful_edition: Perfil actualizado
     tag:
       flash:
-        successful_creation: "Label ajouté"
-        error_creation: "Le label n'a pas été créé, merci de corriger les erreurs indiquées"
-        successful_edition: "Label mis à jour"
-        error_edition: "Problème lors de la mise à jour du label !"
-        successful_priority_update: "L'ordre des labels a été changé"
-        error_priority_update: "Problème lors du changement de priorité des labels"
-        successful_deletion: "L'article a été supprimé"
-        error_deletion: "Problème lors de la suppression de l'article : %{errors}"
+        error_creation: La etiqueta no ha sido creada, por favor corrija los errores indicados
+        error_deletion: 'Problema al borrar el artículo: %{errores}'
+        error_edition: "¡Problema al actualizar la etiqueta!"
+        error_priority_update: Problema al cambiar la prioridad de las etiquetas
+        successful_creation: Etiqueta añadida
+        successful_deletion: El artículo ha sido eliminado
+        successful_edition: Etiqueta actualizada
+        successful_priority_update: El orden de las etiquetas ha sido cambiado
     topic:
       flash:
-        successful_creation: "Thème ajouté"
-        error_creation: "Le thème n'a pas été créé, merci de corriger les erreurs indiquées"
-        successful_edition: "Thème mis à jour"
-        error_edition: "Problème lors de la mise à jour du thème !"
-        successful_deletion: "Le thème a été supprimé"
-        successful_priority_update: "L'ordre des thèmes a été changé"
-        error_priority_update: "Problème lors du changement de priorité des thèmes"
-        error_deletion: "Problème lors de la suppression du thème : %{errors}"
+        error_creation: El tema no ha sido creado, por favor corrija los errores indicados
+        error_deletion: 'Problema al borrar el tema : %{errores}'
+        error_edition: "¡Problema al actualizar el tema!"
+        error_priority_update: Problema al cambiar la prioridad de los temas
+        successful_creation: Tema añadido
+        successful_deletion: El tema ha sido eliminado
+        successful_edition: Tema actualizado
+        successful_priority_update: El orden de los temas ha sido cambiado
     inventory_field:
       flash:
-        successful_edition: "Champs personnalisés mis à jour. Vous pouvez utiliser ces champs pour vos articles."
-        error_edition: "Problème lors de la mise à jour des champs personnalisés !"
+        error_edition: "¡Problema al actualizar los campos personalizados!"
+        successful_edition: Campos personalizados actualizados. Puedes usar estos campos para tus artículos.
     article:
+      edit:
+        description: 'Modificación del artículo: %{title} - %{topic}'
+        title: 'Edición: %{title} - %{topic}'
       flash:
-        not_found: "L'article n'a pas été trouvé"
-        undelete_link: "Annuler la suppression."
-        successful_creation: "Article ajouté : %{title}"
-        error_creation: "L'article n'a pas été créé, merci de corriger les erreurs indiquées"
-        successful_edition: "Article mis à jour : %{title}"
-        error_edition: "Problème lors de la mise à jour de l'article !"
-        successful_priority_update: "L'ordre des articles a été changé"
-        error_priority_update: "Problème lors du changement de priorité des articles"
-        successful_deletion: "L'article a été supprimé"
-        error_deletion: "Problème lors de la suppression de l'article : %{errors}"
-        successful_undeletion: "Article restauré"
+        error_creation: El artículo no ha sido creado, por favor corrija los errores indicados
+        error_deletion: 'Problema al borrar el artículo: %{errores}'
+        error_edition: "¡Problema al actualizar el artículo!"
+        error_priority_update: Problema al cambiar la prioridad de los artículos
+        not_found: El artículo no se encontró
+        successful_creation: 'Artículo añadido: %{title}'
+        successful_deletion: El artículo ha sido eliminado
+        successful_edition: 'Artículo actualizado: %{title}'
+        successful_priority_update: El orden de los artículos ha sido cambiado
+        successful_undeletion: Artículo restaurado
+        undelete_link: Cancele la eliminación.
+      history:
+        description: 'Historia del artículo: %{title} - %{topic}'
+        title: La historia de %{title} - %{topic}
       index:
         title:
-          topic: "Articles pour %{topic}"
+          topic: Artículos para %{topic}
       show:
         title: "%{title} - %{topic}"
-      edit:
-        title: "Édition : %{title} - %{topic}"
-        description: "Modification de l'article : %{title} - %{topic}"
-      history:
-        title: "Historique de %{title} - %{topic}"
-        description: "Historique de l'article : %{title} - %{topic}"
     picture:
-      flash:
-        successful_deletion: "L'image a bien été supprimée"
-        error_deletion: "Problème lors de la suppression de l'image"
       copyright:
-        default: "De "
+        default: De
+      flash:
+        error_deletion: Problema al borrar la imagen
+        successful_deletion: La imagen ha sido borrada
     comment:
       flash:
-        successful_creation: "Commentaire ajouté"
-        error_creation: "Le commentaire n'a pas été créé, merci de corriger les erreurs indiquées"
-        successful_edition: "Commentaire mis à jour"
-        error_edition: "Problème lors de la mise à jour du commentaire"
-        successful_deletion: "Commentaire supprimé"
-        error_deletion: "Problème lors de la suppression du commentaire"
+        error_creation: El comentario no ha sido creado, por favor corrija los errores indicados
+        error_deletion: Problema al borrar el comentario
+        error_edition: Problema al actualizar el comentario
+        successful_creation: Comentario añadido
+        successful_deletion: Comentario eliminado
+        successful_edition: Comentario actualizado
     share:
-      success:
-        link_message: "Partage de l'article créé"
-        user_message: "Thème partagé avec : %{user}"
       errors:
-        user_not_found: "Utilisateur inconnu"
-        useless_shareable: "Un élément public est inutile à partager"
-        private_shareable: "Un élément privé ne peut être partagé"
-        link_already_shared: "Déjà partagé par un lien"
-        user_already_shared: "Déjà partagé avec cet utilisateur"
-        creation: "Impossible de partager cet élément"
+        creation: No puede compartir este artículo
+        link_already_shared: Ya compartido por un enlace
+        private_shareable: Un artículo privado no puede ser compartido
+        useless_shareable: Un artículo público es inútil de compartir
+        user_already_shared: Ya compartido con este usuario
+        user_not_found: Usuario desconocido
+      success:
+        link_message: Compartir el artículo creado
+        user_message: 'Tema compartido con : <No lo sé, no lo sé, no lo sé'
     admin:
-      login:
-        title: "Se connecter (Admin)"
-      dashboard:
-        title: "Admin"
-      users:
-        title: "Utilisateurs"
-      comments:
-        title: "Commentaires"
-      topics:
-        title: "Thèmes"
-      tags:
-        title: "Labels"
       articles:
-        title: "Articles"
-      blogs:
-        title: "Notes"
-      seo:
-        title: "Gestion du SEO"
-      logs:
-        title: "Logs"
-      cache:
-        title: "Cache"
+        title: Artículos
       blog:
         flash:
-          successful_creation: "Blog ajouté"
-          error_creation: "Le blog n'a pas été créé, merci de corriger les erreurs indiquées"
-          successful_edition: "Blog mis à jour"
-          error_edition: "Problème lors de la mise à jour du blog"
-          successful_deletion: "Blog supprimé"
-          error_deletion: "Problème lors de la suppression du blog"
+          error_creation: El blog no ha sido creado, por favor corrija los errores indicados
+          error_deletion: Problema al borrar el blog
+          error_edition: Problema al actualizar el blog
+          successful_creation: Blog añadido
+          successful_deletion: Blog eliminado
+          successful_edition: Blog actualizado
+      blogs:
+        title: Notas
+      cache:
+        title: Cache
+      comments:
+        title: Comentarios
+      dashboard:
+        title: Admin
+      login:
+        title: Login (Admin)
+      logs:
+        title: Registros
+      seo:
+        title: Gestión de SEO
       seo_data:
         flash:
-          successful_creation: "Donnée SEO ajoutée"
-          error_creation: "Donnée SEO non créée, merci de corriger les erreurs indiquées"
-          successful_edition: "Donnée SEO mise à jour"
-          error_edition: "Problème lors de la mise à jour de la donnée SEO"
-          successful_deletion: "Donnée SEO supprimé"
-          error_deletion: "Problème lors de la suppression de la donnée SEO"
+          error_creation: Datos de SEO no creados, por favor corrija los errores indicados
+          error_deletion: Problema al borrar los datos del SEO
+          error_edition: Problema al actualizar los datos de SEO
+          successful_creation: Datos de SEO añadidos
+          successful_deletion: Datos de SEO borrados
+          successful_edition: Datos actualizados de SEO
+      tags:
+        title: Etiquetas
+      topics:
+        title: Temas
+      users:
+        title: Usuarios
     errors:
       flash:
-        successful_deletion: "L'erreur a bien été supprimée"
-        error_deletion: "Problème lors de la suppression de l'erreur"
-        successful_all_deletion: "Toutes les erreurs ont été supprimées"
-        error_all_deletion: "Problème lors de la suppression des erreurs (ou pas d'erreurs à supprimer)"
+        error_all_deletion: Problema al eliminar los errores (o no hay errores que eliminar)
+        error_deletion: Problema al eliminar el error
+        successful_all_deletion: Todos los errores han sido eliminados
+        successful_deletion: El error ha sido eliminado
     error:
-      title: "Vous venez de rencontrer une erreur"
-      description: "Une erreur est survenue"
+      back_button: Página anterior
+      description: Se ha producido un error
+      home_button: Volver a la página de inicio
       status:
-        title:
-          default: "Une erreur est arrivée :("
-          '404': "Page introuvable"
-          '422': "Requêtes non permises !"
-          '500': "Erreur interne du site !"
         explanation:
-          default: "Une erreur interne s'est produite. Le problème a été signalé, merci d'essayer une autre action en attendant :)"
-          '404': "La page n'a pas été trouvée sur le serveur, elle a peut être été supprimée !"
-          '422': "Impossible de satisfaire votre requête"
-          '500': "Une erreur interne s'est produite. Le problème a été signalé, merci d'essayer une autre action en attendant :)"
-      back_button: "Page précédente"
-      home_button: "Retourner à l'acceuil"
+          '404': La página no se encontró en el servidor, ¡puede haber sido borrada!
+          '422': Incapaz de satisfacer su petición
+          '500': Se ha producido un error interno. El problema ha sido reportado, por favor intente otra acción mientras tanto :)
+          default: Se ha producido un error interno. El problema ha sido reportado, por favor intente otra acción mientras tanto :)
+        title:
+          '404': Página no encontrada
+          '422': "¡Solicitudes no permitidas!"
+          '500': "¡Error interno del sitio!"
+          default: Ha ocurrido un error
+      title: Acaba de encontrar un error
   user:
     model:
-      login: "Pseudo ou Email"
-      pseudo: "Pseudo"
-      email: "Email"
-      password: "Mot de passe"
-      first_name: "Prénom"
-      last_name: "Nom"
-      street: "Adresse"
-      city: "Ville"
-      postcode: "Code postale"
-      birth_date: "Date de naissance"
-      phone_number: "Numéro de téléphone"
-      mobile_number: "Numéro de mobile"
-      additional_info: "Informations personnelles"
-      country: "Pays"
-      local_picture: "Image locale"
-      remote_picture: "Url d'une image"
+      additional_info: Información personal
+      birth_date: Fecha de nacimiento
+      city: Ciudad
+      country: País
+      email: Correo electrónico
+      first_name: Nombre de pila
+      last_name: Nombre
+      local_picture: Imagen local
+      login: Nombre de usuario o correo electrónico
+      mobile_number: Número de teléfono móvil
+      password: Contraseña
+      phone_number: Número de teléfono
+      postcode: Código postal
+      pseudo: Apodo
+      remote_picture: Url de una imagen
+      street: Dirección
     enums:
       visibility:
-        everyone: "Public"
-        only_me: "Privé"
+        everyone: Público
+        only_me: Privado
   topic:
-    default_name: "Défaut"
+    default_name: Por defecto
     enums:
-      visibility:
-        everyone: "Public"
-        only_me: "Privé"
       mode:
-        default: "Défaut"
-        stories: "Histoire"
-        inventories: "Inventaire"
+        default: Por defecto
+        inventories: Inventario
+        stories: Historia
+      visibility:
+        everyone: Público
+        only_me: Privado
   tag:
     enums:
       visibility:
-        everyone: "Public"
-        only_me: "Privé"
+        everyone: Público
+        only_me: Privado
   article:
     enums:
-      visibility:
-        everyone: "Public"
-        only_me: "Privé"
       mode:
-        note: "Note"
-        story: "Article"
-        inventory: "Inventaire"
-        link: "Lien"
+        inventory: Inventario
+        link: Enlace
+        note: Nota
+        story: Artículo
+      visibility:
+        everyone: Público
+        only_me: Privado
   share:
     enums:
       mode:
-        complete: "Autorisation totale"
+        complete: Autorización total
   search:
     errors:
-      search: "Erreur lors de la recherche, merci d'essayer avec un autre terme"
-      autocomplete: "Erreur lors de la recherche, merci d'essayer avec un autre terme"
-      article: "Recherche : impossible de rechercher les articles"
-      tag: "Recherche : impossible de rechercher les labels"
-      topic: "Recherche : impossible de rechercher les thèmes"
-      user: "Recherche : impossible de rechercher les utilisateurs"
+      article: 'Búsqueda: imposible buscar artículos'
+      autocomplete: Error en la búsqueda, por favor intente con otro término
+      search: Error en la búsqueda, por favor intente con otro término
+      tag: 'Búsqueda: imposible buscar etiquetas'
+      topic: 'Búsqueda: imposible buscar temas'
+      user: 'Búsqueda: imposible buscar usuarios'
   admin:
     dashboard:
-      title: "Admin"
+      title: Admin
   email:
-    hello: "Bonjour"
+    hello: Hola
     confirmation:
-      instruction: "Cliquer sur le lien ci-dessous pour confirmer l'email de votre compte"
+      instruction: Haga clic en el siguiente enlace para confirmar el correo electrónico de su cuenta
     reset_password:
-      instruction: "Une personne a demandé de changer votre mot de passe. Vous pouvez le faire en cliquant sur le lien ci-dessous."
-      comment: "Si vous n'avez pas demandé de renouveler votre mot de passe. Merci d'ignorer cet e-mail. Votre mot de passe ne sera pas changé tant que vous n'avez pas cliqué sur le lien ci-dessus."
+      comment: Si no ha solicitado renovar su contraseña. Por favor, ignora este e-mail. Su contraseña no se cambiará hasta que haga clic en el enlace de arriba.
+      instruction: Alguien pidió que cambiaras tu contraseña. Puede hacerlo haciendo clic en el siguiente enlace.
     unlock:
-      instruction: "Votre compte a été bloqué suite à un nombre important de tentative d'accès avec un mauvais mot de passe. Cliquer sur le lien ci-dessus pour débloquer votre compte."
-    greeting: "Bonne journée de la part de l'équipe !"
+      instruction: Su cuenta ha sido bloqueada después de un gran número de intentos de acceder a ella con una contraseña incorrecta. Haga clic en el enlace de arriba para desbloquear su cuenta.
+    greeting: "¡Buenos días del equipo!"
   pundit:
-    default: "Vous n'êtes pas autorisé(e) à réaliser cette action"
+    default: No está autorizado a realizar esta acción
     flash:
       not_authorized:
-        user: "Votre compte doit être complété avant (nom, prénom et ville)"
+        user: Su cuenta debe ser completada antes de (apellido, nombre y ciudad)
     user_policy:
-      show: "Vous ne pouvez pas voir le compte d'autres utilisateurs"
+      show: No puedes ver las cuentas de otros usuarios
   activerecord:
     errors:
       messages:
-        record_invalid: 'La validation a échoué : %{errors}'
+        record_invalid: 'La validación falló: %{errors}'
         restrict_dependent_destroy:
-          has_one: "Vous ne pouvez pas supprimer l'enregistrement car un(e) %{record} dépendant(e) existe"
-          has_many: "Vous ne pouvez pas supprimer l'enregistrement parce que les %{record} dépendants existent"
+          has_many: No se puede eliminar el registro porque existen %{record} dependientes
+          has_one: No se puede eliminar el registro porque existe un %{record} dependiente
       models:
         article:
-          pertinent_tags: "Les labels doivent être du même type que le thème (soit public soit privé)"
-          bad_topic_owner: "Le thème n'appartient pas au créateur de l'article"
-          prevent_revert_to_draft: "Un article public ne peut pas être un brouillon"
-          required_inventory_field: "%{field} est obligatoire"
+          bad_topic_owner: El tema no pertenece al creador del artículo
+          pertinent_tags: Las etiquetas deben ser del mismo tipo que el tema (ya sea público o privado)
+          prevent_revert_to_draft: Un artículo público no puede ser un borrador
+          required_inventory_field: "<es obligatorio"
         article_relationship:
-          already_linked: "Ces deux articles sont déjà liés entre eux"
-        outdated_article:
-          already_outdated: "Article déjà marqué comme périmé !"
-          not_outdated: "Article non présent dans les périmés !"
-        tag:
-          already_exist: "Un label avec le même nom existe déjà"
-          already_exist_in_public: "Un label public avec le même nom existe déjà"
-          public_name_immutable: "Un label public ne peut changer de nom"
-          public_visibility_immutable: "La visibilité d'un label public ne peut plus être changé (utilisé par d'autres utilisateurs)"
-        tag_relationship:
-          already_linked: "Ces deux labels sont déjà liés entre eux dans ce topic"
-        tagged_article:
-          already_tagged: "Ce label existe déjà pour cet article"
-          incorrect_tag_affiliation: "Ce label ne peut être appliqué à l'article car il n'appartient pas au même thème"
-          incorrect_topic_affiliation: "Ce label ne peut être appliqué à l'article car l'article n'est pas associé au thème courant"
-        share:
-          link_already_shared: "Élément déjà partagé par un lien"
-          user_already_shared: "Élément déjà partagé avec cet utilisateur"
+          already_linked: Estos dos artículos ya están vinculados
         bookmark:
-          already_bookmarked: "Élément déjà ajouté aux favoris !"
-          model_unknown: "Impossible d'ajouter ou de supprimer cet élément dans les favoris"
-          not_bookmarked: "Élément non existant dans les favoris !"
-        topic:
-          required: "Un thème est requis pour créer l'article"
-          already_selected: "Le nouveau thème est déjà celui utilisé"
-          already_exist: "Un thème avec le même nom existe déjà"
-          not_owner: "Vous devez être le propriétaire du thème pour l'utiliser"
+          already_bookmarked: "¡Un artículo ya añadido a los favoritos!"
+          model_unknown: No se puede añadir o eliminar este elemento en los favoritos
+          not_bookmarked: "¡El elemento no existe en los favoritos!"
         inventory_field:
-          already_exist: "Un champ avec le même nom existe déjà"
-        vote:
-          already_voted: "Vous ne pouvez pas voter une seconde fois"
+          already_exist: Ya existe un campo con el mismo nombre
+        outdated_article:
+          already_outdated: "¡El artículo ya está marcado como caducado!"
+          not_outdated: "¡El artículo no está presente en el anticuado!"
         picture:
-          image_size: "doit être inférieur à 5Mo"
           attributes:
             imageable:
-              required: "Le modèle de l'image est requis"
+              required: Se requiere una plantilla de imágenes
+          image_size: debe ser inferior a 5Mo
         seo_data:
-          bad_route_name: "Cette route n'est pas disponible"
+          bad_route_name: Esta ruta no está disponible
+        share:
+          link_already_shared: Elemento ya compartido por un enlace
+          user_already_shared: Artículo ya compartido con este usuario
+        tag:
+          already_exist: Ya existe una etiqueta con el mismo nombre
+          already_exist_in_public: Ya existe una etiqueta pública con el mismo nombre
+          public_name_immutable: Una etiqueta pública no puede cambiar su nombre
+          public_visibility_immutable: La visibilidad de una etiqueta pública ya no puede ser cambiada (utilizada por otros usuarios)
+        tag_relationship:
+          already_linked: Estas dos etiquetas ya están unidas en este tema
+        tagged_article:
+          already_tagged: Esta etiqueta ya existe para este artículo
+          incorrect_tag_affiliation: Esta etiqueta no puede aplicarse al artículo ya que no pertenece al mismo tema
+          incorrect_topic_affiliation: Esta etiqueta no se puede aplicar al artículo porque el artículo no está asociado con el tema actual
+        topic:
+          already_exist: Ya existe un tema con el mismo nombre
+          already_selected: El nuevo tema ya es el utilizado
+          not_owner: Debes ser el dueño del tema para usarlo
+          required: Se requiere un tema para crear el artículo
+        vote:
+          already_voted: No puedes votar por segunda vez
   errors:
     format: "%{attribute} %{message}"
     messages:
-      accepted: "doit être accepté(e)"
-      blank: "doit être rempli(e)"
-      present: "doit être vide"
-      confirmation: "ne concorde pas avec la confirmation"
-      empty: "doit être rempli(e)"
-      equal_to: "doit être égal à %{count}"
-      odd: "doit être impair"
-      even: "doit être pair"
-      model_invalid: "La validation a échoué : %{errors}"
-      inclusion: "n'est pas inclus(e) dans la liste"
-      exclusion: "n'est pas disponible"
-      invalid: "n'est pas valide"
-      greater_than: "doit être supérieur à %{count}"
-      greater_than_or_equal_to: "doit être supérieur ou égal à %{count}"
-      less_than: "doit être inférieur à %{count}"
-      less_than_or_equal_to: "doit être inférieur ou égal à %{count}"
-      not_a_number: "n'est pas un nombre"
-      not_an_integer: "doit être un nombre entier"
-      required: doit exister
-      taken: "n'est pas disponible"
+      accepted: debe ser aceptado
+      blank: no puede estar en blanco
+      carrierwave_download_error: No se puede descargar la imagen
+      carrierwave_integrity_error: No es una imagen
+      carrierwave_processing_error: No se puede cambiar el tamaño de la imagen
+      confirmation: no coincide
+      content_type_blacklist_error: No se le permite subir archivos de tipo %{content_type}
+      content_type_whitelist_error: No se le permite subir archivos de tipo %{content_type}
+      empty: no puede estar vacío
+      equal_to: debe ser igual a %{count}
+      even: debe ser par
+      exclusion: está reservado
+      extension_blacklist_error: 'No está permitido subir archivos %{extensión}, tipos prohibidos: %{tipos_prohibidos}'
+      extension_whitelist_error: 'No se le permite subir archivos %{extensión}, tipos de archivo permitidos: %{tipos_permitidos}'
+      greater_than: debe ser mayor que %{count}
+      greater_than_or_equal_to: debe ser mayor que o igual a %{count}
+      inclusion: no está incluido en la lista
+      invalid: no es válido
+      less_than: debe ser menor que %{count}
+      less_than_or_equal_to: debe ser menor que o igual a %{count}
+      max_size_error: El tamaño del archivo debe ser inferior a %{tamaño_máximo}
+      min_size_error: El tamaño del archivo debe ser mayor que %{min_size}
+      mini_magick_processing_error: 'La manipulación de imágenes con MiniMagick falló. ¿Tal vez no es una imagen? Error original: %{e}'
+      model_invalid: 'La validación falló: %{errors}'
+      not_a_number: no es un número
+      not_an_integer: debe ser un entero
+      odd: debe ser impar
+      other_than: debe ser distinto de %{count}
+      present: debe estar en blanco
+      required: debe existir
+      rmagick_processing_error: 'La manipulación de la imagen con rmagick falló. ¿Tal vez no es una imagen? Error original: %{e}'
+      taken: ya está en uso
       too_long:
-        one: "est trop long (pas plus d'un caractère)"
-        other: "est trop long (pas plus de %{count} caractères)"
+        one: es demasiado largo (1 carácter máximo)
+        other: es demasiado largo (%{count} caracteres máximo)
       too_short:
-        one: "est trop court (au moins un caractère)"
-        other: "est trop court (au moins %{count} caractères)"
+        one: es demasiado corto (1 carácter mínimo)
+        other: es demasiado corto (%{count} caracteres mínimo)
       wrong_length:
-        one: "ne fait pas la bonne longueur (doit comporter un seul caractère)"
-        other: "ne fait pas la bonne longueur (doit comporter %{count} caractères)"
-      other_than: "doit être différent de %{count}"
-      carrierwave_processing_error: "Impossible de redimensionner l'image"
-      carrierwave_integrity_error: "Ce n'est pas une image"
-      carrierwave_download_error: "Impossible de télécharger l'image"
-      extension_whitelist_error: "Vous n'êtes pas autorisé à uploader des fichiers %{extension}, types autorisés: %{allowed_types}"
-      extension_blacklist_error: "Vous n'êtes pas autorisé à uploader des fichiers %{extension}, types interdits: %{prohibited_types}"
-      content_type_whitelist_error: "Vous n'êtes pas autorisé à uploader des fichiers de type %{content_type}"
-      content_type_blacklist_error: "Vous n'êtes pas autorisé à uploader des fichiers de type %{content_type}"
-      rmagick_processing_error: "La manipulation d'image avec rmagick a échoué. Peut-être que ce n'est pas une image ? Erreur originale: %{e}"
-      mini_magick_processing_error: "La manipulation d'image avec MiniMagick a échoué. Peut-être que ce n'est pas une image ? Erreur originale: %{e}"
-      min_size_error: "La taille du fichier doit être supérieure à %{min_size}"
-      max_size_error: "La taille du fichier doit être inférieure à %{max_size}"
-    template: &errors_template
-      body: "Veuillez vérifier les champs suivants : "
+        one: no tiene la longitud correcta (1 carácter exactos)
+        other: no tiene la longitud correcta (%{count} caracteres exactos)
+    template:
+      body: 'Se encontraron problemas con los siguientes campos:'
       header:
-        one:   "Impossible d'enregistrer ce(tte) %{model} : 1 erreur"
-        other: "Impossible d'enregistrer ce(tte) %{model} : %{count} erreurs"
+        one: No se pudo guardar este/a %{model} porque se encontró 1 error
+        other: No se pudo guardar este/a %{model} porque se encontraron %{count} errores
   number:
     currency:
       format:
-        delimiter: " "
+        delimiter: "."
         format: "%n %u"
         precision: 2
         separator: ","
@@ -333,7 +333,7 @@ fr:
         strip_insignificant_zeros: false
         unit: "€"
     format:
-      delimiter: " "
+      delimiter: "."
       precision: 3
       separator: ","
       significant: false
@@ -342,175 +342,179 @@ fr:
       decimal_units:
         format: "%n %u"
         units:
-          billion: "milliard"
-          million: "million"
-          quadrillion: "million de milliards"
-          thousand: "millier"
-          trillion: "billion"
-          unit: ""
+          billion: mil millones
+          million:
+            one: millón
+            other: millones
+          quadrillion: mil billones
+          thousand: mil
+          trillion:
+            one: billón
+            other: billones
+          unit: ''
       format:
-        delimiter: ""
-        precision: 2
+        delimiter: ''
+        precision: 1
         significant: true
         strip_insignificant_zeros: true
       storage_units:
         format: "%n %u"
         units:
           byte:
-            one: "octet"
-            other: "octets"
-          gb: "Go"
-          kb: "ko"
-          mb: "Mo"
-          tb: "To"
+            one: Byte
+            other: Bytes
+          eb: EB
+          gb: GB
+          kb: KB
+          mb: MB
+          pb: PB
+          tb: TB
     percentage:
       format:
-        delimiter: ""
-        format: "%n%"
+        delimiter: ''
+        format: "%n %"
     precision:
       format:
-        delimiter: ""
+        delimiter: ''
   date:
     abbr_day_names:
-      - "dim"
-      - "lun"
-      - "mar"
-      - "mer"
-      - "jeu"
-      - "ven"
-      - "sam"
+    - dom
+    - lun
+    - mar
+    - mié
+    - jue
+    - vie
+    - sáb
     abbr_month_names:
-      - ~
-      - "jan."
-      - "fév."
-      - "mar."
-      - "avr."
-      - "mai"
-      - "juin"
-      - "juil."
-      - "août"
-      - "sept."
-      - "oct."
-      - "nov."
-      - "déc."
+    -
+    - ene
+    - feb
+    - mar
+    - abr
+    - may
+    - jun
+    - jul
+    - ago
+    - sep
+    - oct
+    - nov
+    - dic
     day_names:
-      - "dimanche"
-      - "lundi"
-      - "mardi"
-      - "mercredi"
-      - "jeudi"
-      - "vendredi"
-      - "samedi"
+    - domingo
+    - lunes
+    - martes
+    - miércoles
+    - jueves
+    - viernes
+    - sábado
     formats:
-      default: "%d/%m/%Y"
-      short: "%e %b %Y"
-      long: "%e %B %Y"
+      default: "%-d/%-m/%Y"
+      long: "%-d de %B de %Y"
+      short: "%-d de %b"
     month_names:
-      - ~
-      - "janvier"
-      - "février"
-      - "mars"
-      - "avril"
-      - "mai"
-      - "juin"
-      - "juillet"
-      - "août"
-      - "septembre"
-      - "octobre"
-      - "novembre"
-      - "décembre"
+    -
+    - enero
+    - febrero
+    - marzo
+    - abril
+    - mayo
+    - junio
+    - julio
+    - agosto
+    - septiembre
+    - octubre
+    - noviembre
+    - diciembre
     order:
-      - :day
-      - :month
-      - :year
+    - :day
+    - :month
+    - :year
   datetime:
     distance_in_words:
       about_x_hours:
-        one: "environ une heure"
-        other: "environ %{count} heures"
+        one: alrededor de 1 hora
+        other: alrededor de %{count} horas
       about_x_months:
-        one: "environ un mois"
-        other: "environ %{count} mois"
+        one: alrededor de 1 mes
+        other: alrededor de %{count} meses
       about_x_years:
-        one: "environ un an"
-        other: "environ %{count} ans"
+        one: alrededor de 1 año
+        other: alrededor de %{count} años
       almost_x_years:
-        one: "presqu'un an"
-        other: "presque %{count} ans"
-      half_a_minute: "une demi-minute"
+        one: casi 1 año
+        other: casi %{count} años
+      half_a_minute: medio minuto
       less_than_x_minutes:
-        zero:  "moins d'une minute"
-        one:   "moins d'une minute"
-        other: "moins de %{count} minutes"
+        one: menos de 1 minuto
+        other: menos de %{count} minutos
       less_than_x_seconds:
-        zero: "moins d'une seconde"
-        one: "moins d'une seconde"
-        other: "moins de %{count} secondes"
+        one: menos de 1 segundo
+        other: menos de %{count} segundos
       over_x_years:
-        one: "plus d'un an"
-        other: "plus de %{count} ans"
+        one: más de 1 año
+        other: más de %{count} años
       x_days:
-        one: "1 jour"
-        other: "%{count} jours"
-      x_seconds:
-        one: "1 seconde"
-        other: "%{count} secondes"
+        one: 1 día
+        other: "%{count} días"
       x_minutes:
-        one: "1 minute"
-        other: "%{count} minutes"
+        one: 1 minuto
+        other: "%{count} minutos"
       x_months:
-        one: "1 mois"
-        other: "%{count} mois"
+        one: 1 mes
+        other: "%{count} meses"
+      x_seconds:
+        one: 1 segundo
+        other: "%{count} segundos"
       x_years:
-        one: 1 an
-        other: "%{count} ans"
+        one: 1 año
+        other: "%{count} años"
     prompts:
-      day: "Jour"
-      hour: "Heure"
-      minute: "Minute"
-      month: "Mois"
-      second: "Seconde"
-      year: "Année"
+      day: Día
+      hour: Hora
+      minute: Minuto
+      month: Mes
+      second: Segundo
+      year: Año
   time:
-    am: "am"
+    am: am
     formats:
-      default: "%d %B %Y %Hh %Mmin %Ss"
-      long: "%A %d %B %Y %Hh%M"
-      short: "%d %b %Hh%M"
-      custom: "Le %d %b %y à %Hh%M"
+      custom: El %d %b %y a %Hh%M
+      custom_begin: De %d %b a %Hh%M
       custom_date: "%d %b"
+      custom_end: A %d %b a %Hh%M
       custom_full_date: "%d %B %Y"
-      custom_begin: "Du %d %b à %Hh%M"
-      custom_end: "Au %d %b à %Hh%M"
-    pm: "pm"
+      default: "%A, %-d de %B de %Y %H:%M:%S %z"
+      long: "%-d de %B de %Y %H:%M"
+      short: "%-d de %b %H:%M"
+    pm: pm
   time_helper:
     date_range:
       different_months_same_year: "%{from_day} %{from_month} %{sep} %{to_day} %{to_month}"
       different_years: "%{from_day} %{from_month} %{from_year} %{sep} %{to_day} %{to_month} %{to_year}"
-      same_month: "%{from_day} %{sep} %{to_day} %{month}"
       same_date: "%{from_day} %{month}"
+      same_month: "%{from_day} %{sep} %{to_day} %{month}"
       with_year: "%{date_range} %{year}"
     distance_in_words:
+      special:
+        and_a_half: et demi
+        half_an_hour: une demi-heure
       template: "%{count} %{unit}"
       template_long: "%{rest} et %{last}"
       units:
-        second: "seconde"
-        minute: "minute"
-        hour: "heure"
-        day: "jour"
-        month: "mois"
-        year: "année"
-      special:
-        half_an_hour: "une demi-heure"
-        and_a_half: "et demi"
+        day: jour
+        hour: heure
+        minute: minute
+        month: mois
+        second: seconde
+        year: année
   support:
     array:
-      last_word_connector: " et "
-      two_words_connector: " et "
+      last_word_connector: " y "
+      two_words_connector: " y "
       words_connector: ", "
   helpers:
-    colon: " : "
-    or: " ou "
-    and: " et "
-    back: "Page précédente"
-  hello: "Bonjour"
+    colon: ": "
+    or: " o "
+    and: " y "
+    back: Página anterior
+  hello: "Hola"
