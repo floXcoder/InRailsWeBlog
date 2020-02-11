@@ -134,7 +134,7 @@ fr:
           default: "Une erreur est arrivée :("
           '404': "Page introuvable"
           '422': "Requêtes non permises !"
-          '500': "Erreur interne du site In Rails We Blog"
+          '500': "Erreur interne du site !"
         explanation:
           default: "Une erreur interne s'est produite. Le problème a été signalé, merci d'essayer une autre action en attendant :)"
           '404': "La page n'a pas été trouvée sur le serveur, elle a peut être été supprimée !"
@@ -210,11 +210,9 @@ fr:
       instruction: "Cliquer sur le lien ci-dessous pour confirmer l'email de votre compte"
     reset_password:
       instruction: "Une personne a demandé de changer votre mot de passe. Vous pouvez le faire en cliquant sur le lien ci-dessous."
-      comment: "Si vous n'avez pas demandé de renouveler votre mot de passe. Merci d'ignorer cet e-mail.
-               Votre mot de passe ne sera pas changé tant que vous n'avez pas cliqué sur le lien ci-dessus."
+      comment: "Si vous n'avez pas demandé de renouveler votre mot de passe. Merci d'ignorer cet e-mail. Votre mot de passe ne sera pas changé tant que vous n'avez pas cliqué sur le lien ci-dessus."
     unlock:
-      instruction: "Votre compte a été bloqué suite à un nombre important de tentative d'accès avec un mauvais mot de passe.
-                   Cliquer sur le lien ci-dessus pour débloquer votre compte."
+      instruction: "Votre compte a été bloqué suite à un nombre important de tentative d'accès avec un mauvais mot de passe. Cliquer sur le lien ci-dessus pour débloquer votre compte."
     greeting: "Bonne journée de la part de l'équipe !"
   pundit:
     default: "Vous n'êtes pas autorisé(e) à réaliser cette action"
@@ -296,6 +294,7 @@ fr:
       less_than_or_equal_to: "doit être inférieur ou égal à %{count}"
       not_a_number: "n'est pas un nombre"
       not_an_integer: "doit être un nombre entier"
+      required: doit exister
       taken: "n'est pas disponible"
       too_long:
         one: "est trop long (pas plus d'un caractère)"
@@ -453,15 +452,18 @@ fr:
       x_days:
         one: "1 jour"
         other: "%{count} jours"
+      x_seconds:
+        one: "1 seconde"
+        other: "%{count} secondes"
       x_minutes:
         one: "1 minute"
         other: "%{count} minutes"
       x_months:
         one: "1 mois"
         other: "%{count} mois"
-      x_seconds:
-        one: "1 seconde"
-        other: "%{count} secondes"
+      x_years:
+        one: 1 an
+        other: "%{count} ans"
     prompts:
       day: "Jour"
       hour: "Heure"
@@ -501,13 +503,14 @@ fr:
       special:
         half_an_hour: "une demi-heure"
         and_a_half: "et demi"
+  support:
+    array:
+      last_word_connector: " et "
+      two_words_connector: " et "
+      words_connector: ", "
   helpers:
     colon: " : "
     or: " ou "
     and: " et "
     back: "Page précédente"
-    array:
-      last_word_connector: " et "
-      two_words_connector: " et "
-      words_connector: ", "
   hello: "Bonjour"

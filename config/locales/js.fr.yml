@@ -948,10 +948,6 @@ fr:
         cancel: "Annuler"
       select:
         prompt: "Veuillez sélectionner"
-      array:
-        last_word_connector: " et "
-        two_words_connector: " et "
-        words_connector: ", "
       form:
         ensure_validity: "Laisser vide"
       not_found:
