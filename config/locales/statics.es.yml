@@ -3,7 +3,7 @@ es:
     about:
       title: Aviso legal
       info:
-        content_1: Este sitio web es publicado y operado por GinkoNote.
+        content_1: "Este sitio web es publicado y operado por %{website}."
         content_2: 'Contacto: %{email}.'
         title: Información general
       host:

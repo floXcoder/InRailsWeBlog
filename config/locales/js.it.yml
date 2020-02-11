@@ -3,63 +3,69 @@ it:
     views:
       header:
         article:
-          button: Articoli
+          button: "Articoli"
           menu:
             add:
-              default: Aggiungi articolo
-              inventories: Aggiungere l'inventario
-              stories: Scrivi una storia
-            bookmark: Articoli preferiti
-            draft: Temporaneo
-            new: Nuovo articolo
-            temporary: Articolo corrente
-            user: I miei articoli
+              default: "Aggiungi articolo"
+              inventories: "Aggiungere l'inventario"
+              stories: "Scrivi una storia"
+            bookmark: "Articoli preferiti"
+            draft: "Temporaneo"
+            new: "Nuovo articolo"
+            temporary: "Articolo corrente"
+            user: "I miei articoli"
         search:
-          button: Ricerca
+          button: "Ricerca"
         settings:
-          button: Preferenze
+          button: "Preferenze"
         tags:
-          button: Etichette
+          button: "Etichette"
         topic:
-          add: Aggiungere un nuovo tema
-          button: Temi (%{corrente})
-          title: I vostri temi
+          add: "Aggiungere un nuovo tema"
+          button: "Temi (%{current})"
+          title: "I vostri temi"
         user:
-          administration: Amministrazione
-          articles: Articoli
-          bookmarks: Preferiti
+          administration: "Amministrazione"
+          articles: "Articoli"
+          bookmarks: "Preferiti"
           languages:
-            english: Français
-            french: Francese
-          log_in: Accesso
-          log_out: Logout
-          profile: Il mio conto
-          settings: Le mie impostazioni
-          sign_up: Iscriviti ora
+            en: "Inglese"
+            fr: "Francés"
+            de: "Tedesco"
+            es: "Spagnolo"
+            it: "Italiano"
+          log_in: "Accesso"
+          log_out: "Logout"
+          profile: "Il mio conto"
+          settings: "Le mie impostazioni"
+          sign_up: "Registrati"
       sidebar:
-        pin: Pino
-        unpin: Disinserire
+        pin: "Pino"
+        unpin: "Disinserire"
       footer:
-        copyright: Copyright 2020 (%{versione}). Tutti i diritti riservati.
-        description: Un blog per tutti
-        languages: Lingue
+        copyright: "Copyright 2020 (%{version}). Tutti i diritti riservati."
+        description: "Un blog per tutti"
+        languages: "Lingue"
         links:
-          about: Chi siamo
-          contact: Contattateci
-          github: Fonte sotto Github
-          github_src: https://github.com/floXcoder/InRailsWeBlog
-          policy: Politica dei dati
-          terms: Termini e condizioni di utilizzo
-          title: Link utili
+          about: "Chi siamo"
+          contact: "Contattateci"
+          github: "Fonte sotto Github"
+          github_src: "https://github.com/floXcoder/InRailsWeBlog"
+          policy: "Politica dei dati"
+          terms: "Termini e condizioni di utilizzo"
+          title: "Link utili"
         locales:
-          en: Italiano
-          fr: Francese
+          en: "Inglese"
+          fr: "Francés"
+          de: "Tedesco"
+          es: "Spagnolo"
+          it: "Italiano"
       home:
         articles:
-          title: Esplora gli articoli popolari
-        loader: Caricamento
+          title: "Esplora gli articoli popolari"
+        loader: "Caricamento"
         tags:
-          title: Etichette
+          title: "Etichette"
     user:
       model:
         additional_info: Informazioni personali
@@ -67,7 +73,7 @@ it:
         city: Città
         country: Paese
         created_at: Data di creazione del conto
-        email: Invia un'e-mail a
+        email: Il vostro email
         first_name: Nome
         last_name: Nome
         last_sign_in_at: Ultimo accesso
@@ -91,14 +97,14 @@ it:
         confirm_password: Conferma la password
         connected: Reindirizzamento sul tuo conto
         connecting: Registrazione in corso
-        email: Invia un'e-mail a
+        email: Il vostro email
         externals:
           facebook: Iscriviti con Facebook
           google: Iscriviti a Google
         password: Password
         pseudo: Soprannome
         submit: Crea il mio conto
-        terms_of_use: Registrandoti su %{sito web}, accetti di accettare il
+        terms_of_use: Registrandoti su %{website}, accetti di accettare il
         terms_of_use_name: condizioni di utilizzo.
         title: Crea un conto
       password:
@@ -154,12 +160,12 @@ it:
         password:
           mismatch: La password e la conferma della password non corrispondono
           required: Inserisci una password
-          size: La password deve essere compresa tra i caratteri %{min}%{max}</i18n
+          size: La password deve essere compresa tra i caratteri %{min}%{max}
         policy: Si prega di accettare prima i termini e le condizioni di utilizzo
         pseudo:
           already_taken: è già preso, si prega di scegliere un altro soprannome
           required: Inserisci il tuo nickname
-          size: Lo Pseudo deve essere compreso tra i caratteri %{min}%{max}</i18n
+          size: Lo Pseudo deve essere compreso tra i caratteri %{min}%{max}
       settings:
         article:
           display:
@@ -273,7 +279,7 @@ it:
         sort: Ordina le etichette per priorità
         titles:
           all: Tutte le etichette pubbliche
-          topic: 'Etichette associate al tema: %{argomento}</i18n'
+          topic: 'Etichette associate al tema: %{topic}'
           user: Tutte le vostre etichette
       show:
         back_button: Annulla
@@ -284,13 +290,13 @@ it:
       edit:
         back_button: Annulla
         submit: Aggiornare l'etichetta
-        title: 'Modifica dell''etichetta: %{tag}</i18n'
+        title: 'Modifica dell''etichetta: %{tag}'
       errors:
         default: Impossibile creare l'etichetta! Grazie per averci riprovato.
         description:
-          size: La descrizione dell'etichetta deve essere compresa tra i caratteri %{min}%{max}</i18n
+          size: La descrizione dell'etichetta deve essere compresa tra i caratteri %{min}%{max}
         name:
-          size: Il nome dell'etichetta deve essere compreso tra i caratteri %{min}%{max}</i18n
+          size: Il nome dell'etichetta deve essere compreso tra i caratteri %{min}%{max}
         not_authorized: Non avete il permesso di accedere a questa etichetta!
     topic:
       common:
@@ -344,14 +350,14 @@ it:
         mode: Tipo
         name: Nome del tema
         submit: Aggiornare il tema
-        title: 'Modifica del tema: %{argomento}</i18n'
+        title: 'Modifica del tema: %{topic}'
         update_inventories: Modificare i campi personalizzati
       edit_inventories:
         add_field: Aggiungere un nuovo campo
         field_props: Proprietà del campo
         mandatory_field: Campo obbligatorio per la ricerca
         remove_field: Cancellare questo campo
-        title: 'Campi personalizzati per il tema: %{argomento}'
+        title: 'Campi personalizzati per il tema: %{topic}'
       share:
         cancel: Annulla
         errors:
@@ -366,9 +372,9 @@ it:
       errors:
         default: Impossibile creare il tema! Grazie per averci riprovato.
         description:
-          size: La descrizione dell'etichetta deve essere compresa tra i caratteri %{min}%{max}</i18n
+          size: La descrizione dell'etichetta deve essere compresa tra i caratteri %{min}%{max}
         name:
-          size: Il nome dell'etichetta deve essere compreso tra i caratteri %{min}%{max}</i18n
+          size: Il nome dell'etichetta deve essere compreso tra i caratteri %{min}%{max}
         not_authorized: Non hai il permesso di accedere a questo tema!
     inventory_fields:
       model:
@@ -495,7 +501,7 @@ it:
         tracking: Visualizza le statistiche
         update: Aggiorna
         updated_at: Ultima modifica
-        visibility: 'Visibilità: %{visibilità}'
+        visibility: 'Visibilità: %{visibility}'
       masonry:
         add_column: Aggiungi colonna
         remove_column: Rimuovere la colonna
@@ -522,7 +528,7 @@ it:
         exit: Sei sicuro di andartene senza risparmiare?
         meta:
           description: Aggiunta di un articolo
-          title: Nuovo articolo - %{articolo}</i18n
+          title: Nuovo articolo - %{article}
         submit: Crea l'articolo
         tags:
           placeholder: Etichette associate
@@ -530,7 +536,7 @@ it:
         title: Creare un nuovo articolo
       edit:
         exit: Sei sicuro di andartene senza risparmiare?
-        form_title: 'Modifica di : <Non lo so, non ne sono sicuro'
+        form_title: 'Modifica di : %{title}'
         submit: Aggiorna
         title: Cambiare un materiale
       tracking:
@@ -572,17 +578,17 @@ it:
       clipboard: Articolo temporaneo creato con dati copiati
       errors:
         bookmark:
-          bookmark: "<Ho un messaggio per te"
+          bookmark: "%{message}"
           default: Non può essere aggiunto ai preferiti! Prova a ricollegarti.
           not_authorized: Non hai il permesso di aggiungere questo articolo ai preferiti!
         content:
-          size: Il contenuto dell'articolo deve essere compreso tra i caratteri %{min}%{max}</i18n
+          size: Il contenuto dell'articolo deve essere compreso tra i caratteri %{min}%{max}
         default: Impossibile creare l'articolo! Grazie per averci riprovato.
         not_authorized: Non hai il permesso di accedere a questo articolo!
         summary:
-          size: L'abstract dell'articolo deve essere compreso tra i caratteri %{min}%{max}</i18n
+          size: L'abstract dell'articolo deve essere compreso tra i caratteri %{min}%{max}
         title:
-          size: Il titolo dell'articolo deve essere compreso tra i caratteri %{min}%{max}</i18n
+          size: Il titolo dell'articolo deve essere compreso tra i caratteri %{min}%{max}
         topic: Nessun tema associato all'articolo
     search:
       display:
@@ -598,7 +604,7 @@ it:
         button: Ricerca
         helpers:
           select_tag: Selezionare un'etichetta con le frecce e poi la scheda
-          tagged_articles: 'Ricerca articoli con etichette: %{tags}</i18n'
+          tagged_articles: 'Ricerca articoli con etichette: %{tags}'
         placeholder: Ricerca
         tags:
           no_tags: Nessuna etichetta trovata
@@ -679,11 +685,11 @@ it:
         creation_unpermitted: È necessario effettuare il login per inserire un commento
       errors:
         body:
-          size: Il contenuto del commento deve essere compreso tra i caratteri %{min}%{max}</i18n
+          size: Il contenuto del commento deve essere compreso tra i caratteri %{min}%{max}
         default: Impossibile creare il commento! Grazie per averci riprovato.
         not_authorized: Non hai il permesso di accedere a questo commento!
         title:
-          size: Il titolo del commento deve essere compreso tra i caratteri %{min}%{max}</i18n
+          size: Il titolo del commento deve essere compreso tra i caratteri %{min}%{max}
     picture:
       copyright:
         default: Da
@@ -756,7 +762,7 @@ it:
           columns:
             articles_count: Numero di articoli
             created_at: Data di creazione
-            email: Invia un'e-mail a
+            email: Il vostro email
             id: Id
             last_sign_in_at: Ultimo accesso
             locale: Locale
@@ -840,7 +846,7 @@ it:
           meta_desc: Meta descrizione
           no_parameters: Nessun parametro richiesto
           page_title: Titolo della pagina
-          parameters: 'Parametri disponibili: %{parametri}</i18n'
+          parameters: 'Parametri disponibili: %{parameters}'
           select:
             or: oppure
             route: Nome della strada
@@ -922,8 +928,11 @@ it:
     rating:
       clear: Cancellare
     languages:
-      fr: Francese
-      en: Français
+      en: "Inglese"
+      fr: "Francés"
+      de: "Tedesco"
+      es: "Spagnolo"
+      it: "Italiano"
     editor:
       helper:
         article_hint: per collegare l'articolo

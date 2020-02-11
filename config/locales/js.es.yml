@@ -3,63 +3,69 @@ es:
     views:
       header:
         article:
-          button: Artículos
+          button: "Artículos"
           menu:
             add:
-              default: Añadir artículo
-              inventories: Añade el inventario
-              stories: Escriba la historia
-            bookmark: Artículos favoritos
-            draft: Temporal
-            new: Nuevo artículo
-            temporary: Artículo actual
-            user: Mis artículos
+              default: "Añadir artículo"
+              inventories: "Añade el inventario"
+              stories: "Escriba la historia"
+            bookmark: "Artículos favoritos"
+            draft: "Temporal"
+            new: "Nuevo artículo"
+            temporary: "Artículo actual"
+            user: "Mis artículos"
         search:
-          button: Busca en
+          button: "Busca en"
         settings:
-          button: Preferencias
+          button: "Preferencias"
         tags:
-          button: Etiquetas
+          button: "Etiquetas"
         topic:
-          add: Añade un nuevo tema
-          button: Temas (%{corriente})
-          title: Sus temas
+          add: "Añade un nuevo tema"
+          button: "Temas (%{current})"
+          title: "Sus temas"
         user:
-          administration: Administración
-          articles: Artículos
-          bookmarks: Favoritos
+          administration: "Administración"
+          articles: "Artículos"
+          bookmarks: "Favoritos"
           languages:
-            english: Français
-            french: Francés
-          log_in: Entrar en el sistema..
-          log_out: Cierre de sesión
-          profile: Mi cuenta
-          settings: Mis ajustes
-          sign_up: Inscríbete ahora
+            en: "Inglés"
+            fr: "Francés"
+            de: "Alemán"
+            es: "Español"
+            it: "Italiano"
+          log_in: "Entrar en el sistema.."
+          log_out: "Cierre de sesión"
+          profile: "Mi cuenta"
+          settings: "Mis ajustes"
+          sign_up: "Regístrate"
       sidebar:
-        pin: Pino
-        unpin: Despinchar
+        pin: "Pino"
+        unpin: "Despinchar"
       footer:
-        copyright: Copyright 2020 (%{versión}). Todos los derechos reservados.
-        description: Un blog para todos
-        languages: Idiomas
+        copyright: "Copyright 2020 (%{version}). Todos los derechos reservados."
+        description: "Un blog para todos"
+        languages: "Idiomas"
         links:
-          about: Sobre nosotros
-          contact: Contáctanos
-          github: Fuente en Github
-          github_src: https://github.com/floXcoder/InRailsWeBlog
-          policy: Política de datos
-          terms: Condiciones de uso
-          title: Enlaces útiles
+          about: "Sobre nosotros"
+          contact: "Contáctanos"
+          github: "Fuente en Github"
+          github_src: "https://github.com/floXcoder/InRailsWeBlog"
+          policy: "Política de datos"
+          terms: "Condiciones de uso"
+          title: "Enlaces útiles"
         locales:
-          en: Inglés
-          fr: Francés
+          en: "Inglés"
+          fr: "Francés"
+          de: "Alemán"
+          es: "Español"
+          it: "Italiano"
       home:
         articles:
-          title: Explorar los artículos populares
-        loader: Cargando
+          title: "Explorar los artículos populares"
+        loader: "Cargando"
         tags:
-          title: Etiquetas
+          title: "Etiquetas"
     user:
       model:
         additional_info: Información personal
@@ -248,7 +254,7 @@ es:
           title: Estadísticas
           views: Vistas
         synonyms: Sinónimos de la etiqueta ...
-        usage: "%{cuenta} usos"
+        usage: "%{count} usos"
         visibility: Elija la visibilidad
         visibility_immutable: El nombre de una etiqueta pública no puede ser cambiado
       form:
@@ -495,7 +501,7 @@ es:
         tracking: Ver estadísticas
         update: Actualización
         updated_at: Última modificación
-        visibility: 'Visibilidad: %{visibilidad}'
+        visibility: 'Visibilidad: %{visibility}'
       masonry:
         add_column: Añadir columna
         remove_column: Quitar la columna
@@ -531,7 +537,7 @@ es:
         title: Crear un nuevo artículo
       edit:
         exit: "¿Estás seguro de que te vas sin ahorrar?"
-        form_title: 'Modificación de : <No lo sé. No estoy seguro'
+        form_title: 'Modificación de : %{title}'
         submit: Actualización
         title: Cambiar un material
       tracking:
@@ -573,7 +579,7 @@ es:
       clipboard: Artículo temporal creado con datos copiados
       errors:
         bookmark:
-          bookmark: "<Tengo un mensaje para ti"
+          bookmark: "%{message}"
           default: No se puede añadir a los favoritos! Intenta reconectarte.
           not_authorized: "¡No tienes permiso para marcar este artículo!"
         content:
@@ -617,7 +623,7 @@ es:
         placeholder: Busca en
         results:
           one: 1 resultado
-          other: "%{cuenta} resultados"
+          other: "%{count} resultados"
         suggestions:
           articles: 'Intenta con la ortografía:'
           tags: 'Pruebe con las siguientes etiquetas:'
@@ -640,7 +646,7 @@ es:
         title: Título
         user: Comentarista
       tooltip:
-        count: "%{cuenta} comentarios"
+        count: "%{count} comentarios"
       timeline:
         link: 'Comentario asociado con :'
         no_comments: No hay comentarios que mostrar
@@ -841,7 +847,7 @@ es:
           meta_desc: Meta descripción
           no_parameters: No se requieren parámetros
           page_title: Título de la página
-          parameters: 'Parámetros disponibles: %{parámetros}'
+          parameters: 'Parámetros disponibles: %{parameters}'
           select:
             or: o
             route: Nombre de la carretera
@@ -923,8 +929,11 @@ es:
     rating:
       clear: Eliminar
     languages:
-      fr: Francés
-      en: Français
+      en: "Inglés"
+      fr: "Francés"
+      de: "Alemán"
+      es: "Español"
+      it: "Italiano"
     editor:
       helper:
         article_hint: para vincular el artículo

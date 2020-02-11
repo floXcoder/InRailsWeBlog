@@ -378,7 +378,7 @@ class Article < ApplicationRecord
 
   def slug_candidates
     [
-      "#{self.title}__at__#{self.topic.slug}"
+      "#{self.title}__at__#{self.topic&.slug}"
     ]
   end
 
@@ -463,7 +463,7 @@ class Article < ApplicationRecord
       mode:             self.mode,
       mode_translated:  mode_translated,
       current_language: current_language,
-      title:            self.title,
+      title:            self.title, # Fetch first translation if title not found in current locale
       content:          formatted_content(I18n.locale.to_s),
       reference:        self.reference,
       languages:        self.languages,

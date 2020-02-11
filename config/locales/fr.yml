@@ -294,7 +294,7 @@ fr:
       less_than_or_equal_to: "doit être inférieur ou égal à %{count}"
       not_a_number: "n'est pas un nombre"
       not_an_integer: "doit être un nombre entier"
-      required: doit exister
+      required: "doit exister"
       taken: "n'est pas disponible"
       too_long:
         one: "est trop long (pas plus d'un caractère)"
@@ -462,7 +462,7 @@ fr:
         one: "1 mois"
         other: "%{count} mois"
       x_years:
-        one: 1 an
+        one: "1 an"
         other: "%{count} ans"
     prompts:
       day: "Jour"

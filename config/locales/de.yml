@@ -17,7 +17,7 @@ de:
         successful_priority_update: Die Reihenfolge der Etiketten wurde geändert
         error_priority_update: Problem beim Ändern der Priorität von Etiketten
         successful_deletion: Der Artikel wurde gelöscht
-        error_deletion: 'Problem beim Löschen des Artikels: %{Fehler}'
+        error_deletion: 'Problem beim Löschen des Artikels: %{errors}'
     topic:
       flash:
         successful_creation: Thema hinzugefügt
@@ -27,7 +27,7 @@ de:
         successful_deletion: Das Thema wurde entfernt
         successful_priority_update: Die Reihenfolge der Themen wurde geändert
         error_priority_update: Problem bei der Änderung der Priorität von Themen
-        error_deletion: 'Problem beim Löschen des Themas : %{Fehler}'
+        error_deletion: 'Problem beim Löschen des Themas : %{errors}'
     inventory_field:
       flash:
         successful_edition: Benutzerdefinierte Felder aktualisiert. Sie können diese Felder für Ihre Artikel verwenden.
@@ -36,26 +36,26 @@ de:
       flash:
         not_found: Der Artikel wurde nicht gefunden
         error_creation: Der Artikel ist nicht erstellt worden, bitte korrigieren Sie die angegebenen Fehler
-        error_deletion: 'Problem beim Löschen des Artikels: %{Fehler}'
+        error_deletion: 'Problem beim Löschen des Artikels: %{errors}'
         error_edition: Problem bei der Aktualisierung des Artikels!
         error_priority_update: Problem bei der Änderung der Priorität von Gegenständen
-        successful_creation: 'Artikel hinzugefügt: %{Titel}'
+        successful_creation: 'Artikel hinzugefügt: %{title}'
         successful_deletion: Der Artikel wurde gelöscht
-        successful_edition: 'Aktualisierter Artikel: %{Titel}'
+        successful_edition: 'Aktualisierter Artikel: %{title}'
         successful_priority_update: Die Reihenfolge der Artikel wurde geändert
         successful_undeletion: Restaurierter Artikel
         undelete_link: Brechen Sie die Löschung ab.
       index:
         title:
-          topic: Artikel für %{Thema}
+          topic: Artikel für %{topic}
       show:
-        title: "%{Titel} - %{Thema}"
+        title: "%{title} - %{topic}"
       edit:
-        title: 'Ausgabe: %{Titel} - %{Thema}'
-        description: 'Modifikation des Artikels: %{Titel} - %{Thema}'
+        title: 'Ausgabe: %{title} - %{topic}'
+        description: 'Modifikation des Artikels: %{title} - %{topic}'
       history:
-        title: Geschichte von %{Titel} - %{Thema}
-        description: 'Geschichte des Artikels: %{Titel} - %{Thema}'
+        title: Geschichte von %{title} - %{topic}
+        description: 'Geschichte des Artikels: %{title} - %{topic}'
     picture:
       flash:
         successful_deletion: Das Bild wurde gelöscht
@@ -73,7 +73,7 @@ de:
     share:
       success:
         link_message: Den erstellten Artikel freigeben
-        user_message: 'Thema geteilt mit : <Ich weiß es nicht, ich weiß es nicht, ich weiß es nicht'
+        user_message: 'Thema geteilt mit : %{user}'
       errors:
         creation: Kann diesen Artikel nicht freigeben
         link_already_shared: Bereits durch einen Link geteilt
@@ -309,8 +309,8 @@ de:
       carrierwave_processing_error: Kann die Größe des Bildes nicht ändern
       carrierwave_integrity_error: Es ist kein Bild
       carrierwave_download_error: Bild kann nicht heruntergeladen werden
-      extension_whitelist_error: 'Es ist nicht erlaubt, Dateien %{erweiterung} hochzuladen, erlaubte Dateitypen: %{erlaubte_Typen}'
-      extension_blacklist_error: 'Es ist nicht erlaubt, Dateien %{erweiterung} hochzuladen, verbotene Typen: %{verbotene_Typen}'
+      extension_whitelist_error: 'Es ist nicht erlaubt, Dateien %{extension} hochzuladen, erlaubte Dateitypen: %{allowed_types}'
+      extension_blacklist_error: 'Es ist nicht erlaubt, Dateien %{extension} hochzuladen, verbotene Typen: %{prohibited_types}'
       content_type_whitelist_error: Es ist nicht erlaubt, Dateien vom Typ %{content_type} hochzuladen
       content_type_blacklist_error: Es ist nicht erlaubt, Dateien vom Typ %{content_type} hochzuladen
       rmagick_processing_error: 'Die Bildmanipulation mit rmagick ist fehlgeschlagen. Vielleicht ist es kein Bild? Ursprünglicher Fehler: %{e}'
@@ -320,8 +320,8 @@ de:
     template:
       body: Bitte überprüfen Sie die folgenden Felder
       header:
-        one: 'Diese(tte) konnte nicht gespeichert werden %{Modell} : 1 Fehler'
-        other: 'Diese(tte) konnte nicht gespeichert werden : %{Modell} : %{Zahl} Fehler'
+        one: 'Diese(tte) konnte nicht gespeichert werden %{model} : 1 Fehler'
+        other: 'Diese(tte) konnte nicht gespeichert werden : %{model} : %{count} Fehler'
   number:
     currency:
       format:
@@ -493,14 +493,14 @@ de:
     pm: nachmittags
   time_helper:
     date_range:
-      different_months_same_year: "%{von_Tag} %{von_Monat} %{sep}%{bis_Tag} %{bis_Monat}"
-      different_years: "%{von_Tag} %{von_Monat} %{von_Jahr} %{sep} %{bis_Tag}%{bis_Monat}"
-      same_month: "%{von_Tag} %{sep} %{bis_Tag}%{Monat}"
-      same_date: "%{von_Tag} %{Monat}"
-      with_year: "%{Datumsbereich} %{Jahr}"
+      different_months_same_year: "%{from_day} %{from_month} %{sep}%{to_day} %{to_month}"
+      different_years: "%{from_day} %{from_month} %{from_year} %{sep} %{to_day}%{to_month} %{to_year}"
+      same_month: "%{from_day} %{sep} %{to_day} %{month}"
+      same_date: "%{from_day} %{month}"
+      with_year: "%{date_range} %{year}"
     distance_in_words:
-      template: "%{Zahl} %{Einheit}"
-      template_long: "<und I18n>%{Rest} und I18n>%{letzter}"
+      template: "%{count} %{unit}"
+      template_long: "%{rest} und %{last}"
       units:
         second: zweite
         minute: minute

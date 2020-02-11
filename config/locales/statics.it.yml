@@ -1,20 +1,20 @@
 it:
   statics:
     about:
-      title: Avviso legale
+      title: "Avviso legale"
       info:
-        content_1: Questo sito web è pubblicato e gestito da GinkoNote.
-        content_2: 'Contatto: %{email}.'
-        title: Informazioni generali
+        content_1: "Questo sito web è pubblicato e gestito da %{website}."
+        content_2: "Contatto: %{email}."
+        title: "Informazioni generali"
       host:
-        content_1: OVH
-        content_2: 2 rue Kellermann BP 80157 59053 ROUBAIX Cedex 1
+        content_1: "OVH"
+        content_2: "2 rue Kellermann BP 80157 59053 ROUBAIX Cedex 1"
         content_3: "+33 (0)8 203 203 203 63 / support@ovh.com"
-        title: Hosting del sito
+        title: "Hosting del sito"
     terms:
-      title: Termini e condizioni di utilizzo
-      content_1: Benvenuti al %{sito web} (di seguito il "Sito")! Vi invitiamo ad accedere ai nostri siti web e ad utilizzare il servizio %{sito web}. Si prega di notare, tuttavia, che questo invito è condizionato all'accettazione delle presenti Condizioni di servizio. Il presente documento descrive in dettaglio i vostri e i nostri diritti in relazione alla fornitura del Servizio (come definito di seguito). Si prega di leggere attentamente i presenti Termini e Condizioni.
-      content_2: 'Data di entrata in vigore: 10 febbraio 2020'
+      title: "Termini e condizioni di utilizzo"
+      content_1: Benvenuti al %{website} (di seguito il "Sito")! Vi invitiamo ad accedere ai nostri siti web e ad utilizzare il servizio %{sito web}. Si prega di notare, tuttavia, che questo invito è condizionato all'accettazione delle presenti Condizioni di servizio. Il presente documento descrive in dettaglio i vostri e i nostri diritti in relazione alla fornitura del Servizio (come definito di seguito). Si prega di leggere attentamente i presenti Termini e Condizioni.
+      content_2: "Data di entrata in vigore: 10 febbraio 2020"
       conditions:
         content_1: Le Condizioni d'uso costituiscono un contratto tra il Sito e l'utente. Le Condizioni includono le disposizioni di seguito esposte nel presente documento e nell'Informativa sulla privacy e altri termini che possiamo presentarvi di volta in volta e che potete accettare in relazione a specifiche offerte di servizi (collettivamente i "Termini di servizio" o "Condizioni"). Se non si accettano queste Condizioni, non si può accedere o utilizzare il nostro Servizio. Se l'utente si registra o utilizza il nostro Servizio in qualsiasi altro modo, ciò sarà considerato una conferma della sua accettazione dei Termini e del suo consenso ad essere vincolato dagli obblighi del presente contratto di cui diventa parte.
         content_2: Utilizzando il Servizio, l'utente riconosce e accetta tutte le disposizioni della nostra Politica sulla Privacy, incluso, senza limitazioni, l'uso e l'elaborazione del testo, delle immagini e degli altri dati che sceglie di inserire, caricare o memorizzare sul Sito (tali dati sono collettivamente denominati "Contenuti") e le sue informazioni personali in conformità con la Politica sulla Privacy.
@@ -83,7 +83,7 @@ it:
     policy:
       title: Politica per la protezione dei dati personali
       privacy:
-        content_1: Per consentirvi di navigare con fiducia nel %{sito web} (di seguito il "Sito") e, in qualità di Titolare del trattamento, vi spieghiamo come trattiamo i vostri Dati.
+        content_1: Per consentirvi di navigare con fiducia nel %{website} (di seguito il "Sito") e, in qualità di Titolare del trattamento, vi spieghiamo come trattiamo i vostri Dati.
         content_2: Il "Sito" si impegna a proteggere la privacy degli utenti del Sito (di seguito collettivamente, i "Membri") e la riservatezza delle informazioni fornite dai Membri attraverso il Sito. Tutte le informazioni raccolte dai Membri nel contesto del loro uso del Sito e/o della loro registrazione online sono mantenute dal Sito come riservate.
         content_3: Quando il Socio è invitato a comunicare i dati personali attraverso il Sito, il Sito indicherà, nel modulo di raccolta, i dati personali che il Socio deve obbligatoriamente comunicare per poter usufruire del servizio in questione. Laddove la comunicazione di alcuni dati personali sia facoltativa, l'Iscritto non è obbligato a comunicare i dati così richiesti per poter usufruire del servizio. Tuttavia, la mancata comunicazione di tali dati potrebbe impedire all'Iscritto di beneficiare di alcune funzionalità dei servizi offerti dal Sito.
         content_4: I dati personali raccolti dal Sito sono essenziali per consentire la gestione degli account dei Soci, per garantire il regolare svolgimento delle transazioni concluse tra acquirenti e venditori attraverso il Sito, per gestire forum e blog, per gestire le richieste di informazioni online e gli invii di marketing ai Soci che hanno accettato di ricevere questo tipo di informazioni, per inviare varie comunicazioni di natura amministrativa, per garantire la gestione delle azioni svolte dai Soci sui Siti e per migliorare i servizi offerti ai propri Soci.

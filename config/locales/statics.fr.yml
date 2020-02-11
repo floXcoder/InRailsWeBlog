@@ -4,7 +4,7 @@ fr:
       title: "Mentions légales"
       info:
         title: "Informations générales"
-        content_1: "Le présent site web est édité et exploité par GinkoNote."
+        content_1: "Le présent site web est édité et exploité par %{website}."
         content_2: "Contact : %{email}."
       host:
         title: "Hébergement du site"

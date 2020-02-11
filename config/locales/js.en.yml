@@ -32,8 +32,11 @@ en:
           log_in: "Log in"
           log_out: "Log out"
           languages:
-            french: "French"
-            english: "English"
+            en: "English"
+            fr: "French"
+            de: "German"
+            es: "Spanish"
+            it: "Italian"
           profile: "My account"
           administration: "Administration"
       sidebar:
@@ -54,6 +57,9 @@ en:
         locales:
           en: "English"
           fr: "French"
+          de: "German"
+          es: "Spanish"
+          it: "Italian"
       home:
         loader: "Loading"
         articles:
@@ -921,8 +927,11 @@ en:
     rating:
       clear: "Clear"
     languages:
-      fr: "Français"
-      en: "Anglais"
+      en: "English"
+      fr: "French"
+      de: "German"
+      es: "Spanish"
+      it: "Italian"
     editor:
       helper:
         title: "Help: "

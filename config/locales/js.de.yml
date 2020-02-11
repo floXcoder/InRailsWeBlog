@@ -2,64 +2,70 @@ de:
   js:
     views:
       footer:
-        copyright: Urheberrecht 2020 (%{Version}). Alle Rechte vorbehalten.
-        description: Ein Blog für alle
-        languages: Sprachen
+        copyright: "Urheberrecht 2020 (%{version}). Alle Rechte vorbehalten."
+        description: "Ein Blog für alle"
+        languages: "Sprachen"
         links:
-          about: Über uns
-          contact: Kontaktieren Sie uns
-          github: Quelle unter Github
-          github_src: https://github.com/floXcoder/InRailsWeBlog
-          policy: Datenpolitik
-          terms: Bedingungen und Konditionen der Nutzung
-          title: Nützliche Links
+          about: "Über uns"
+          contact: "Kontaktieren Sie uns"
+          github: "Quellcode unter Github"
+          github_src: "https://github.com/floXcoder/InRailsWeBlog"
+          policy: "Datenpolitik"
+          terms: "Bedingungen und Konditionen der Nutzung"
+          title: "Nützliche Links"
         locales:
-          en: Englisch
-          fr: Französisch
+          en: "Englisch"
+          fr: "Französisch"
+          de: "Deutsch"
+          es: "Spanisch"
+          it: "Italienisch"
       header:
         article:
-          button: Artikel
+          button: "Artikel"
           menu:
             add:
-              default: Artikel hinzufügen
-              inventories: Inventar hinzufügen
-              stories: Geschichte schreiben
-            bookmark: Bevorzugte Artikel
-            draft: Vorübergehend
-            new: Neuer Artikel
-            temporary: Aktueller Artikel
-            user: Meine Artikel
+              default: "Artikel hinzufügen"
+              inventories: "Inventar hinzufügen"
+              stories: "Geschichte schreiben"
+            bookmark: "Bevorzugte Artikel"
+            draft: "Vorübergehend"
+            new: "Neuer Artikel"
+            temporary: "Aktueller Artikel"
+            user: "Meine Artikel"
         search:
-          button: Suche
+          button: "Suchen"
         settings:
-          button: Präferenzen
+          button: "Präferenzen"
         tags:
-          button: Beschriftungen
+          button: "Beschriftungen"
         topic:
-          add: Ein neues Thema hinzufügen
-          button: Themen (%{aktuell})
-          title: Ihre Themen
+          add: "Ein neues Thema hinzufügen"
+          button: "Themen (%{current})"
+          title: "Ihre Themen"
         user:
-          administration: Verwaltung
-          articles: Artikel
-          bookmarks: Favoriten
+          administration: "Verwaltung"
+          articles: "Artikel"
+          bookmarks: "Favoriten"
           languages:
-            english: Français
-            french: Französisch
-          log_in: Anmelden
-          log_out: Abmelden
-          profile: Mein Konto
-          settings: Meine Einstellungen
-          sign_up: Jetzt anmelden
+            en: "Englisch"
+            fr: "Französisch"
+            de: "Deutsch"
+            es: "Spanisch"
+            it: "Italienisch"
+          log_in: "Anmelden"
+          log_out: "Abmelden"
+          profile: "Mein Konto"
+          settings: "Meine Einstellungen"
+          sign_up: "Registrieren"
       home:
         articles:
-          title: Beliebte Artikel erforschen
-        loader: Laden von
+          title: "Beliebte Artikel erforschen"
+        loader: "Laden von"
         tags:
-          title: Beschriftungen
+          title: "Beschriftungen"
       sidebar:
-        pin: Kiefer
-        unpin: Entnadeln Sie
+        pin: "Kiefer"
+        unpin: "Entnadeln Sie"
     user:
       edit:
         back_button: Zurück
@@ -173,7 +179,7 @@ de:
               or: Mindestens ein Wort
             title: Betreiber
           options: Ergebnisse
-          title: Suche
+          title: Suchen
         tag:
           order:
             mode:
@@ -198,7 +204,7 @@ de:
         password: Kennwort
         pseudo: Spitzname
         submit: Mein Konto erstellen
-        terms_of_use: Mit der Registrierung auf %{Website} erklären Sie sich damit einverstanden, die
+        terms_of_use: Mit der Registrierung auf %{website} erklären Sie sich damit einverstanden, die
         terms_of_use_name: nutzungsbedingungen.
         title: Ein Konto erstellen
     bookmark:
@@ -248,13 +254,13 @@ de:
           title: Statistik
           views: Ansichten
         synonyms: Synonyme der Bezeichnung ...
-        usage: "%{Zahl} Verwendungen"
+        usage: "%{count} Verwendungen"
         visibility: Sichtbarkeit wählen
         visibility_immutable: Der Name eines öffentlichen Labels darf nicht geändert werden
       edit:
+        title: 'Änderung des Etiketts: %{tag}'
         back_button: Abbrechen
         submit: Aktualisieren Sie das Etikett
-        title: 'Änderung des Etiketts: %{Tag}'
       enums:
         visibility:
           everyone: Öffentlich
@@ -275,7 +281,7 @@ de:
         sort: Sortieren Sie Ihre Etiketten nach Priorität
         titles:
           all: Alle öffentlichen Labels
-          topic: 'Etiketten, die mit dem Thema verbunden sind: %{Thema}'
+          topic: 'Etiketten, die mit dem Thema verbunden sind: %{topic}'
           user: Alle Ihre Etiketten
       model:
         articles_count: Anzahl der Elemente
@@ -311,14 +317,14 @@ de:
         mode: Geben Sie  ein
         name: Name des Themas
         submit: Aktualisieren Sie das Thema
-        title: 'Änderung des Themas: %{Thema}'
+        title: 'Änderung des Themas: %{topic}'
         update_inventories: Benutzerdefinierte Felder modifizieren
       edit_inventories:
         add_field: Neues Feld hinzufügen
         field_props: Feld-Eigenschaften
         mandatory_field: Pflichtfeld für die Suche
         remove_field: Löschen Sie dieses Feld
-        title: 'Benutzerdefinierte Felder für das Thema: %{Thema}'
+        title: 'Benutzerdefinierte Felder für das Thema: %{topic}'
       enums:
         mode:
           default: Standardmäßig
@@ -446,7 +452,7 @@ de:
         visibility: Sichtbarkeit wählen
       edit:
         exit: Sind Sie sicher, dass Sie ohne zu sparen gehen?
-        form_title: 'Modifikation von : <Ich weiß es nicht. Ich bin nicht sicher'
+        form_title: 'Modifikation von : %{title}'
         submit: Aktualisierung
         title: Ändern eines Materials
       enums:
@@ -460,7 +466,7 @@ de:
           only_me: Privat
       errors:
         bookmark:
-          bookmark: "<Ich habe eine Nachricht für Sie"
+          bookmark: "%{message}"
           default: Kann nicht zu den Favoriten hinzugefügt werden! Versuchen Sie, die Verbindung wieder herzustellen.
           not_authorized: Sie haben nicht die Erlaubnis, diesen Artikel als Lesezeichen zu speichern!
         content:
@@ -523,7 +529,7 @@ de:
         exit: Sind Sie sicher, dass Sie ohne zu sparen gehen?
         meta:
           description: Einen Artikel hinzufügen
-          title: Neuer Artikel - %{Thema}
+          title: Neuer Artikel - %{topic}
         submit: Erstellen Sie den Artikel
         tags:
           placeholder: Zugehörige Etiketten
@@ -573,7 +579,7 @@ de:
         tracking: Statistik anzeigen
         update: Aktualisierung
         updated_at: Zuletzt geändert
-        visibility: 'Sichtbarkeit: %{Sichtbarkeit}'
+        visibility: 'Sichtbarkeit: %{visibility}'
       tracking:
         bookmarks: Anzahl von Malen, die zu den Favoriten hinzugefügt wurden
         cancel: Abbrechen
@@ -593,10 +599,10 @@ de:
           title: Artikel
         button: Finden Sie
         no_results: Keine Ergebnisse gefunden
-        placeholder: Suche
+        placeholder: Suchen
         results:
           one: 1 Ergebnis
-          other: "%{Zahl} Ergebnisse"
+          other: "%{count} Ergebnisse"
         suggestions:
           articles: 'Versuchen Sie es mit der Rechtschreibung:'
           tags: 'Versuchen Sie die folgenden Tags :'
@@ -607,11 +613,11 @@ de:
         articles:
           recents: "(Neueste Artikel)"
           title: Artikel
-        button: Suche
+        button: Suchen
         helpers:
           select_tag: Wählen Sie ein Etikett mit den Pfeilen und dann die Registerkarte
-          tagged_articles: 'Suche nach Artikeln mit Etiketten: %{Tags}'
-        placeholder: Suche
+          tagged_articles: 'Suche nach Artikeln mit Etiketten: %{tags}'
+        placeholder: Suchen
         tags:
           no_tags: Keine Etiketten gefunden
           recents: "(Neueste Etiketten)"
@@ -683,7 +689,7 @@ de:
         link: 'Kommentar in Verbindung mit :'
         no_comments: Keine anzuzeigenden Kommentare
       tooltip:
-        count: "%{Zahl} Kommentare"
+        count: "%{count} Kommentare"
     picture:
       copyright:
         default: Von
@@ -794,7 +800,7 @@ de:
           status: status:200 => gibt alle Anfragen mit diesem Status zurück
           title: Optionen für die Log-Suche
         input:
-          title: Suche
+          title: Suchen
       search:
         help:
           articles: Artikel
@@ -810,11 +816,11 @@ de:
           add: Hinzufügen
           cancel: Abbrechen
           delete: LÖSCHEN
-          delete_confirmation: 'Löschen Sie diese SEO-Daten: %{Name} ?'
+          delete_confirmation: 'Löschen Sie diese SEO-Daten: %{name} ?'
           meta_desc: Meta-Beschreibung
           no_parameters: Keine Parameter erforderlich
           page_title: Titel der Seite
-          parameters: 'Verfügbare Parameter: %{Parameter}'
+          parameters: 'Verfügbare Parameter: %{parameters}'
           select:
             or: oder
             route: Name der Straße
@@ -921,8 +927,11 @@ de:
     rating:
       clear: Löschen Sie
     languages:
-      en: Français
-      fr: Französisch
+      en: "Englisch"
+      fr: "Französisch"
+      de: "Deutsch"
+      es: "Spanisch"
+      it: "Italienisch"
     editor:
       helper:
         title: Hilfe

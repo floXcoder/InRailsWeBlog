@@ -11,7 +11,7 @@ it:
     tag:
       flash:
         error_creation: L'etichetta non è stata creata, si prega di correggere gli errori indicati
-        error_deletion: 'Problema durante la cancellazione dell''articolo: %{errorrorifichi}</i18n'
+        error_deletion: 'Problema durante la cancellazione dell''articolo: %{errors}'
         error_edition: Problema nell'aggiornamento dell'etichetta!
         error_priority_update: Problema quando si cambia la priorità delle etichette
         successful_creation: Etichetta aggiunta
@@ -21,7 +21,7 @@ it:
     topic:
       flash:
         error_creation: Il tema non è stato creato, si prega di correggere gli errori indicati
-        error_deletion: 'Problema quando si elimina il tema : %{errori}</i18n'
+        error_deletion: 'Problema quando si elimina il tema : %{errors}'
         error_edition: Problema nell'aggiornamento del tema!
         error_priority_update: Problema quando si cambia la priorità dei temi
         successful_creation: Tema aggiunto
@@ -34,28 +34,28 @@ it:
         successful_edition: Campi personalizzati aggiornati. Potete utilizzare questi campi per i vostri articoli.
     article:
       edit:
-        description: 'Modifica dell''articolo: %{titolo} - %{argomento}'
-        title: 'Edizione: %{titolo} - %{argomento}'
+        description: 'Modifica dell''articolo: %{title} - %{topic}'
+        title: 'Edizione: %{title} - %{topic}'
       flash:
         error_creation: L'articolo non è stato creato, si prega di correggere gli errori indicati
-        error_deletion: 'Problema durante la cancellazione dell''articolo: %{errorrorifichi}</i18n'
+        error_deletion: 'Problema durante la cancellazione dell''articolo: %{errors}'
         error_edition: Problema nell'aggiornamento dell'articolo!
         error_priority_update: Problema quando si cambia la priorità degli articoli
         not_found: L'articolo non è stato trovato
-        successful_creation: 'Aggiunto articolo: %{titolo}'
+        successful_creation: 'Aggiunto articolo: %{title}'
         successful_deletion: L'articolo è stato cancellato
-        successful_edition: 'Articolo aggiornato: %{titolo}</i18n'
+        successful_edition: 'Articolo aggiornato: %{title}'
         successful_priority_update: L'ordine degli articoli è stato modificato
         successful_undeletion: Articolo restaurato
         undelete_link: Annulla la cancellazione.
       history:
-        description: 'Storia dell''articolo: %{titolo} - %{argomento}</i18n'
-        title: Storia di %{titolo} - %{argomento}</i18n
+        title: Storia di %{title} - %{topic}
+        description: "Storia dell'articolo: %{title} - %{topic}"
       index:
         title:
-          topic: Articoli per %{articolo}</i18n
+          topic: Articoli per %{article}
       show:
-        title: "%{titolo} - %{argomento}</i18n"
+        title: "%{title} - %{topic}"
     picture:
       copyright:
         default: Da
@@ -80,7 +80,7 @@ it:
         user_not_found: Utente sconosciuto
       success:
         link_message: Condividere l'articolo creato
-        user_message: 'Tema condiviso con : <Non lo so, non lo so, non lo so'
+        user_message: 'Tema condiviso con : %{user}'
     admin:
       articles:
         title: Articoli
@@ -233,7 +233,7 @@ it:
           bad_topic_owner: Il tema non appartiene al creatore dell'articolo
           pertinent_tags: Le etichette devono essere dello stesso tipo del tema (pubbliche o private)
           prevent_revert_to_draft: Un articolo pubblico non può essere una bozza
-          required_inventory_field: "<è obbligatorio"
+          required_inventory_field: "%{field} è obbligatorio"
         article_relationship:
           already_linked: Questi due articoli sono già collegati
         bookmark:
@@ -282,14 +282,14 @@ it:
       carrierwave_integrity_error: Non è un'immagine
       carrierwave_processing_error: Non è possibile ridimensionare l'immagine
       confirmation: non coincide con %{attribute}
-      content_type_blacklist_error: Non è consentito caricare file di tipo %{contenuto_tipo}
-      content_type_whitelist_error: Non è consentito caricare file di tipo %{contenuto_tipo}
+      content_type_blacklist_error: Non è consentito caricare file di tipo %{content_type}
+      content_type_whitelist_error: Non è consentito caricare file di tipo %{content_type}
       empty: non può essere vuoto
       equal_to: deve essere uguale a %{count}
       even: deve essere pari
       exclusion: è riservato
-      extension_blacklist_error: 'Non è permesso caricare file %{estensione}, tipi proibiti: %{tipi_proibiti}'
-      extension_whitelist_error: 'Non è consentito caricare file %{estensione}, tipi di file consentiti: %{tipi_consentiti}'
+      extension_blacklist_error: 'Non è permesso caricare file %{extension}, tipi proibiti: %{allowed_types}'
+      extension_whitelist_error: 'Non è consentito caricare file %{extension}, tipi di file consentiti: %{prohibited_types}'
       greater_than: deve essere maggiore di %{count}
       greater_than_or_equal_to: deve essere maggiore o uguale a %{count}
       inclusion: non è compreso tra le opzioni disponibili
@@ -298,7 +298,7 @@ it:
       less_than_or_equal_to: deve essere minore o uguale a %{count}
       max_size_error: La dimensione del file deve essere inferiore a %{max_size}
       min_size_error: La dimensione del file deve essere maggiore di %{min_size}
-      mini_magick_processing_error: 'Manipolazione delle immagini con MiniMagick fallita. Forse non è un''immagine? Errore originale: %{e}</i18n'
+      mini_magick_processing_error: 'Manipolazione delle immagini con MiniMagick fallita. Forse non è un''immagine? Errore originale: %{e}'
       model_invalid: 'Convalida fallita: %{errors}'
       not_a_number: non è un numero
       not_an_integer: non è un numero intero
@@ -306,7 +306,7 @@ it:
       other_than: devono essere di numero diverso da %{count}
       present: deve essere lasciato in bianco
       required: deve esistere
-      rmagick_processing_error: 'Manipolazione delle immagini con rmagick fallita. Forse non è un''immagine? Errore originale: %{e}</i18n'
+      rmagick_processing_error: 'Manipolazione delle immagini con rmagick fallita. Forse non è un''immagine? Errore originale: %{e}'
       taken: è già presente
       too_long:
         one: è troppo lungo (il massimo è 1 carattere)
@@ -483,17 +483,17 @@ it:
     pm: pm
   time_helper:
     date_range:
-      different_months_same_year: "%{da_giorno} %{da_mese} %{sep}%{giorno} %{al_mese} %{al_mese}"
-      different_years: "%{da_giorno} %{da_mese} %{da_anno} %{sep} %{giorno}%{al_giorno}%{al_mese}"
-      same_date: "%{da_giorno} %{mese}"
-      same_month: "%{da_giorno} %{sep} %{al_giorno}%{al_mese}%{mese} <i18n"
-      with_year: "%{date_range} %{anno} <i18n"
+      different_months_same_year: "%{from_day} %{from_month} %{sep} %{to_day} %{to_month}"
+      different_years: "%{from_day} %{from_month} %{from_year} %{sep} %{to_day} %{to_month} %{to_year}"
+      same_date: "%{from_day} %{month}"
+      same_month: "%{from_day} %{sep} %{to_day} %{month}"
+      with_year: "%{date_range} %{year}"
     distance_in_words:
       special:
-        and_a_half: e mezzo
-        half_an_hour: mezz'ora
-      template: "%{count} %{unità}"
-      template_long: "<e I18n>%{rest} e I18n>%{last}"
+        and_a_half: "e mezzo"
+        half_an_hour: "mezz'ora"
+      template: "%{count} %{unit}"
+      template_long: "%{rest} e %{last}"
       units:
         day: giorno
         hour: tempo

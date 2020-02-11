@@ -11,7 +11,7 @@ es:
     tag:
       flash:
         error_creation: La etiqueta no ha sido creada, por favor corrija los errores indicados
-        error_deletion: 'Problema al borrar el artículo: %{errores}'
+        error_deletion: 'Problema al borrar el artículo: %{errors}'
         error_edition: "¡Problema al actualizar la etiqueta!"
         error_priority_update: Problema al cambiar la prioridad de las etiquetas
         successful_creation: Etiqueta añadida
@@ -21,7 +21,7 @@ es:
     topic:
       flash:
         error_creation: El tema no ha sido creado, por favor corrija los errores indicados
-        error_deletion: 'Problema al borrar el tema : %{errores}'
+        error_deletion: 'Problema al borrar el tema : %{errors}'
         error_edition: "¡Problema al actualizar el tema!"
         error_priority_update: Problema al cambiar la prioridad de los temas
         successful_creation: Tema añadido
@@ -38,7 +38,7 @@ es:
         title: 'Edición: %{title} - %{topic}'
       flash:
         error_creation: El artículo no ha sido creado, por favor corrija los errores indicados
-        error_deletion: 'Problema al borrar el artículo: %{errores}'
+        error_deletion: 'Problema al borrar el artículo: %{errors}'
         error_edition: "¡Problema al actualizar el artículo!"
         error_priority_update: Problema al cambiar la prioridad de los artículos
         not_found: El artículo no se encontró
@@ -80,7 +80,7 @@ es:
         user_not_found: Usuario desconocido
       success:
         link_message: Compartir el artículo creado
-        user_message: 'Tema compartido con : <No lo sé, no lo sé, no lo sé'
+        user_message: 'Tema compartido con : %{user}'
     admin:
       articles:
         title: Artículos
@@ -233,7 +233,7 @@ es:
           bad_topic_owner: El tema no pertenece al creador del artículo
           pertinent_tags: Las etiquetas deben ser del mismo tipo que el tema (ya sea público o privado)
           prevent_revert_to_draft: Un artículo público no puede ser un borrador
-          required_inventory_field: "<es obligatorio"
+          required_inventory_field: "%{field} es obligatorio"
         article_relationship:
           already_linked: Estos dos artículos ya están vinculados
         bookmark:
@@ -288,8 +288,8 @@ es:
       equal_to: debe ser igual a %{count}
       even: debe ser par
       exclusion: está reservado
-      extension_blacklist_error: 'No está permitido subir archivos %{extensión}, tipos prohibidos: %{tipos_prohibidos}'
-      extension_whitelist_error: 'No se le permite subir archivos %{extensión}, tipos de archivo permitidos: %{tipos_permitidos}'
+      extension_blacklist_error: 'No está permitido subir archivos %{extension}, tipos prohibidos: %{allowed_types}'
+      extension_whitelist_error: 'No se le permite subir archivos %{extension}, tipos de archivo permitidos: %{prohibited_types}'
       greater_than: debe ser mayor que %{count}
       greater_than_or_equal_to: debe ser mayor que o igual a %{count}
       inclusion: no está incluido en la lista
@@ -363,11 +363,9 @@ es:
           byte:
             one: Byte
             other: Bytes
-          eb: EB
           gb: GB
           kb: KB
           mb: MB
-          pb: PB
           tb: TB
     percentage:
       format:

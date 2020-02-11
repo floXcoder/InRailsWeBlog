@@ -32,8 +32,11 @@ fr:
           log_in: "Se connecter"
           log_out: "Déconnexion"
           languages:
-            french: "Français"
-            english: "English"
+            en: "English"
+            fr: "Français"
+            de: "Allemand"
+            es: "Espagnol"
+            it: "Italien"
           profile: "Mon compte"
           administration: "Administration"
       sidebar:
@@ -52,8 +55,11 @@ fr:
           github_src: "https://github.com/floXcoder/InRailsWeBlog"
         languages: "Langues"
         locales:
-          en: "Anglais"
+          en: "English"
           fr: "Français"
+          de: "Allemand"
+          es: "Espagnol"
+          it: "Italien"
       home:
         loader: "Chargement"
         articles:
@@ -921,8 +927,11 @@ fr:
     rating:
       clear: "Effacer"
     languages:
-      fr: "French"
       en: "English"
+      fr: "Français"
+      de: "Allemand"
+      es: "Espagnol"
+      it: "Italien"
     editor:
       helper:
         title: "Aide : "

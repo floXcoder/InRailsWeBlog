@@ -3,7 +3,7 @@ de:
     about:
       title: "Rechtlicher Hinweis"
       info:
-        content_1: "Diese Website wird von GinkoNote veröffentlicht und betrieben."
+        content_1: "Diese Website wird von %{website} veröffentlicht und betrieben."
         content_2: 'Kontakt: %{email}.'
         title: "Allgemeine Informationen"
       host:
@@ -34,7 +34,7 @@ de:
         content_2: Durch die Nutzung des Dienstes erkennen Sie alle Bestimmungen unserer Datenschutzrichtlinie an und erklären sich damit einverstanden, einschließlich, ohne Einschränkung, der Nutzung und Verarbeitung der Texte, Bilder und anderer Daten, die Sie auf der Website eingeben, hochladen oder speichern (diese Daten werden zusammenfassend als "Inhalt" bezeichnet), sowie Ihrer persönlichen Daten in Übereinstimmung mit der Datenschutzrichtlinie.
         content_3: Sie, der Kontoinhaber, sind eine Partei dieser Vereinbarung. Der Kontoinhaber ist die natürliche oder juristische Person, die mit der Site als individueller Benutzer oder als Kunde einen Vertrag abgeschlossen hat.
         title: Was sind die Nutzungsbedingungen?
-      content_1: Willkommen bei %{Website} (im Folgenden die "Website")! Wir laden Sie ein, auf unsere Websites zuzugreifen und den Service %{Website} zu nutzen. Bitte beachten Sie jedoch, dass diese Einladung von der Annahme dieser Nutzungsbedingungen abhängig ist. Dieses Dokument beschreibt detailliert Ihre und unsere Rechte in Bezug auf die Bereitstellung des Dienstes (wie unten definiert). Bitte lesen Sie diese Geschäftsbedingungen sorgfältig durch.
+      content_1: Willkommen bei %{website} (im Folgenden die "Website")! Wir laden Sie ein, auf unsere Websites zuzugreifen und den Service %{Website} zu nutzen. Bitte beachten Sie jedoch, dass diese Einladung von der Annahme dieser Nutzungsbedingungen abhängig ist. Dieses Dokument beschreibt detailliert Ihre und unsere Rechte in Bezug auf die Bereitstellung des Dienstes (wie unten definiert). Bitte lesen Sie diese Geschäftsbedingungen sorgfältig durch.
       content_2: 'Datum des Inkrafttretens: 10. Februar 2020'
       copyrights:
         content_1: Wir reagieren auf klare und vollständige Hinweise auf angebliche Urheberrechts-, Marken- oder andere Verletzungen von Rechten an geistigem Eigentum, die die Anforderungen dieser Bedingungen erfüllen (die unserer Meinung nach mit dem U.S. Digital Millennium Copyright Act und anderen anwendbaren Gesetzen übereinstimmen). Wenn Sie der Meinung sind, dass Ihre Rechte an geistigem Eigentum verletzt wurden, benachrichtigen Sie bitte unser Compliance-Team, indem Sie die Anweisungen unseres IP-Compliance-Programms befolgen, und wir werden Ihre Anfrage untersuchen. Bitte beachten Sie, dass jeder Inhaber von Rechten an geistigem Eigentum für den Schutz seiner Rechte und für das Ergreifen von rechtlichen oder anderen Maßnahmen, die er für angemessen hält, verantwortlich ist, und dass die Site keine Verpflichtung übernimmt, bestimmte Maßnahmen zur Durchsetzung oder zum Schutz der Rechte an geistigem Eigentum einer Partei in ihrem Namen zu ergreifen.
@@ -84,7 +84,7 @@ de:
       title: Politik zum Schutz Ihrer persönlichen Daten
       privacy:
         title: Ethik-Charta und Privatsphäre
-        content_1: Damit Sie die %{Website} (im Folgenden die "Site") vertrauensvoll durchsuchen können, erklären wir als Datenverarbeiter, wie wir Ihre Daten verarbeiten.
+        content_1: Damit Sie die %{website} (im Folgenden die "Site") vertrauensvoll durchsuchen können, erklären wir als Datenverarbeiter, wie wir Ihre Daten verarbeiten.
         content_2: Die "Website" verpflichtet sich, die Privatsphäre der Nutzer der Website (im Folgenden gemeinsam die "Mitglieder") und die Vertraulichkeit der von den Mitgliedern über die Website bereitgestellten Informationen zu schützen. Alle Informationen, die von den Mitgliedern im Zusammenhang mit ihrer Nutzung der Website und/oder ihrer Online-Registrierung gesammelt werden, werden von der Website vertraulich behandelt.
         content_3: Wenn das Mitglied aufgefordert wird, persönliche Daten über die Website zu übermitteln, gibt die Website auf dem Erfassungsformular die persönlichen Daten an, die das Mitglied obligatorisch mitteilen muss, um den betreffenden Dienst nutzen zu können. Wenn die Mitteilung bestimmter persönlicher Daten fakultativ ist, ist das Mitglied nicht verpflichtet, die so angeforderten Daten mitzuteilen, um die Dienstleistung in Anspruch nehmen zu können. Die Nichtübermittlung dieser Daten könnte jedoch dazu führen, dass das Mitglied bestimmte Funktionen der von der Website angebotenen Dienste nicht nutzen kann.
         content_4: Die von der Website gesammelten persönlichen Daten sind unerlässlich, um die Verwaltung der Konten der Mitglieder zu ermöglichen, den reibungslosen Ablauf der über die Website abgeschlossenen Transaktionen zwischen Käufern und Verkäufern zu gewährleisten, Foren und Blogs zu verwalten, Online-Anfragen nach Informationen und Marketing-Mailings an Mitglieder, die dem Erhalt dieser Art von Informationen zugestimmt haben, zu verwalten, verschiedene Mitteilungen administrativer Art zu versenden, die von den Mitgliedern auf den Websites ausgeführten Aktionen zu verwalten und die den Mitgliedern angebotenen Dienstleistungen zu verbessern.

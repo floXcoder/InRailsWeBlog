@@ -4,7 +4,7 @@ en:
       title: "Legal notice"
       info:
         title: "General information"
-        content_1: "The present website is edited by GinkoNote."
+        content_1: "The present website is edited by %{website}."
         content_2: "Contact: %{email}."
       host:
         title: "Hosting"

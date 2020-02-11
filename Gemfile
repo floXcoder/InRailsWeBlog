@@ -9,7 +9,7 @@ end
 ruby '2.6.3'
 
 # Rails version
-gem 'rails',                    '6.0.2'
+gem 'rails',                    '6.0.2.1'
 
 # Use postgresql as the database for Active Record
 gem 'pg',                       '1.2.2'
@@ -50,8 +50,6 @@ gem 'sanitize',                 '5.1.0'
 
 # Run asynschronous process
 gem 'sidekiq',                  '6.0.4'
-gem 'rack',                     '2.0.7' # Sidekiq not working with > 2.0.8
-
 gem 'sidekiq-statistic',        '1.4.0'
 gem 'sidekiq-cron',             '1.1.0'
 gem 'attentive_sidekiq',        '0.3.3'
@@ -102,7 +100,7 @@ gem 'factory_bot_rails',        '5.1.1',   require: false
 gem 'faker',                    '2.10.1',   require: false
 
 # Deployment
-gem 'capistrano',               '3.11.2'
+gem 'capistrano',               '3.12.0'
 gem 'capistrano-rails',         '1.4.0'
 gem 'capistrano-rvm',           '0.1.2',   require: false
 gem 'capistrano-bundler',       '1.6.0',   require: false
@@ -183,7 +181,7 @@ group :development, :test do
   gem 'rubocop',                    '0.79.0',  require: false
   gem 'rubocop-rails',              '2.4.2',   require: false
   gem 'rubocop-performance',        '1.5.2',   require: false
-  gem 'rubocop-rspec',              '1.37.1',  require: false
+  gem 'rubocop-rspec',              '1.38.0',  require: false
 end
 
 group :production do
