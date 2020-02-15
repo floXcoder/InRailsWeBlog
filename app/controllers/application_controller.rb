@@ -122,7 +122,7 @@ class ApplicationController < ActionController::Base
 
     seo_data = Seo::Data.find_by(
       #locale: current_locale,
-      name: "#{named_route.to_sym}_#{current_locale}"
+      name: "#{named_route}_#{current_locale}"
     )
 
     if seo_data

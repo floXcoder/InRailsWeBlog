@@ -53,7 +53,7 @@ Rails.application.routes.draw do
     get '/users/password/edit', to: 'pages#home', as: :edit_password, defaults: { name: 'edit_password' }
 
     # Static routes
-    get '/about', to: 'pages#home', as: :about_us, defaults: { name: 'about_us' }
+    get '/about', to: 'pages#home', as: :about, defaults: { name: 'about' }
     get '/terms', to: 'pages#home', as: :terms, defaults: { name: 'terms' }
     get '/policy', to: 'pages#home', as: :policy, defaults: { name: 'policy' }
 

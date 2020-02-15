@@ -74,7 +74,7 @@ class User < ApplicationRecord
     articles_loader String, default: 'infinite' # Load articles by: all / paginate / infinite
     article_display String, default: 'summary' # Display articles: summary / card / inline / grid
     article_order String, default: 'priority_desc' # Order articles by: priority_asc, priority_desc, id_asc, id_desc, created_asc, created_desc, updated_asc, updated_desc, tag_asc, tags_desc, rank_asc, rank_desc, popularity_asc, popularity_desc, default
-    article_multilanguage Boolean, default: false # Manage multi-language for articles
+    article_multilanguage Boolean, default: false # Write articles in multi-language
 
     tag_sidebar_pin Boolean, default: true # Tag sidebar pinned by default
     tag_sidebar_with_child Boolean, default: false # Display child only tags in sidebar

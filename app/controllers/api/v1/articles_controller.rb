@@ -58,7 +58,7 @@ module Api::V1
           set_seo_data(:topic_articles,
                        topic_slug: Topic.find_by(slug: filter_params[:topic_slug]).name,
                        user_slug:  User.find_by(slug: filter_params[:user_slug]).pseudo)
-        else
+        elsif filter_params[:user_slug].present?
           set_seo_data(:user_articles,
                        user_slug: User.find_by(slug: filter_params[:user_slug]))
         end

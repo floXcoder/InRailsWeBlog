@@ -45,7 +45,6 @@ class Article < ApplicationRecord
   enums_to_tr('article', [:mode, :visibility])
 
   include TranslationConcern
-  # Add current_language as attribute
   translates :title, :summary, :content,
              auto_strip_translation_fields:    [:title, :summary],
              fallbacks_for_empty_translations: true
@@ -91,8 +90,6 @@ class Article < ApplicationRecord
   # Cannot search in inventory fields if these options are used:
   # searchable:  [:title, :content, :reference],
   # filterable:  [:mode, :visibility, :draft, :languages, :notation, :accepted, :home_page, :user_id, :topic_id, :tag_ids, :tag_slugs],
-  # For multi-languages search, use multi-indexes:
-  # index_name:  -> { "#{name.tableize}-#{self.current_language || I18n.locale}" }
 
   # Comments
   ## scopes: most_rated, recently_rated
@@ -295,8 +292,6 @@ class Article < ApplicationRecord
     article.allow_comment = false if article.visibility == 'only_me'
   end
 
-  # after_commit :update_search_index
-
   # == Class Methods ========================================================
   def self.as_flat_json(articles, format, **options)
     data = case format
@@ -462,7 +457,6 @@ class Article < ApplicationRecord
       tag_slugs:        self.tags.map(&:slug),
       mode:             self.mode,
       mode_translated:  mode_translated,
-      current_language: current_language,
       title:            self.title, # Fetch first translation if title not found in current locale
       content:          formatted_content(I18n.locale.to_s),
       reference:        self.reference,
@@ -480,14 +474,6 @@ class Article < ApplicationRecord
       slug:             self.slug
     }.merge(inventories)
   end
-
-  # def update_search_index
-  #   # Update index to handle multi-languages
-  #   self.reindex
-  #
-  #   # Needed?
-  #   # Article.search_index.promote("#{self.class.name.tableize}-#{self.class.current_language || I18n.locale}")
-  # end
 
   def public_share_link
     self.share&.public_link

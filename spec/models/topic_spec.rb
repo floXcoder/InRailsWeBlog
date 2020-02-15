@@ -38,7 +38,7 @@ RSpec.describe Topic, type: :model, basic: true do
       mode:        :default,
       name:        'Topic',
       description: 'Topic description',
-      languages:   ['fr'],
+      languages:   ['en'],
       color:       '#000000',
       priority:    1,
       visibility:  :everyone,
@@ -69,7 +69,7 @@ RSpec.describe Topic, type: :model, basic: true do
     it { expect(@topic.name).to eq('Topic') }
     it { expect(@topic.mode).to eq('default') }
     it { expect(@topic.description).to eq('Topic description') }
-    it { expect(@topic.languages).to eq(['fr']) }
+    it { expect(@topic.languages).to eq(['en']) }
     it { expect(@topic.color).to eq('#000000') }
     it { expect(@topic.priority).to eq(1) }
     it { expect(@topic.visibility).to eq('everyone') }

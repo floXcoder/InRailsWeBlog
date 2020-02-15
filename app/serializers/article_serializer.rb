@@ -49,7 +49,7 @@ class ArticleSerializer
              :visibility,
              :allow_comment,
              :draft,
-             :current_language,
+             :languages,
              :default_picture,
              :slug,
              :pictures_count,

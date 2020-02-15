@@ -44,7 +44,13 @@ describe 'Article API', type: :request, basic: true do
 
   let(:article_attributes) {
     {
-      article: { title: 'title', summary: 'summary', content: 'content', visibility: 'only_me', tags: [{ name: @private_tags[0].name, visibility: @private_tags[0].visibility }] }
+      article: {
+        title:      'title',
+        summary:    'summary',
+        content:    'content',
+        visibility: 'only_me',
+        tags:       [{ name: @private_tags[0].name, visibility: @private_tags[0].visibility }]
+      }
     }
   }
   let(:article_error_attributes) {
@@ -247,6 +253,21 @@ describe 'Article API', type: :request, basic: true do
       end
     end
 
+    context 'when seo data are defined' do
+      before do
+        Seo::Data.create(name: 'user_articles_en', locale: 'en', page_title: 'User articles title', meta_desc: 'User articles meta-desc')
+      end
+
+      it 'return articles with seo data' do
+        get '/api/v1/articles', params: { filter: { user_slug: @user.slug } }, as: :json
+        json_articles = JSON.parse(response.body)
+        expect(json_articles['meta']['metaTags']).to be_a(Hash)
+        expect(json_articles['meta']['metaTags']['title']).to include('User articles title')
+        expect(json_articles['meta']['metaTags']['description']).to eq('User articles meta-desc')
+        expect(json_articles['meta']['metaTags']['alternate']).not_to be_empty
+      end
+    end
+
     context 'when admin is connected' do
       before do
         login_as(@admin, scope: :admin, run_callbacks: false)
@@ -405,19 +426,6 @@ describe 'Article API', type: :request, basic: true do
         }.to change(Article, :count).by(1)
       end
 
-      it 'returns a new article with a different language' do
-        expect {
-          post '/api/v1/articles', params: article_attributes.deep_merge(article: { language: 'en' }), as: :json
-
-          expect(response).to be_json_response(201)
-
-          article = JSON.parse(response.body)
-          expect(article['data']['attributes']).not_to be_empty
-          expect(article['data']['attributes']['currentLanguage']).to eq('en')
-          expect(Article.last.title_translations).to eq({ 'en' => article_attributes[:article][:title] })
-        }.to change(Article, :count).by(1)
-      end
-
       it 'returns a new article with relationships to other articles' do
         expect {
           post '/api/v1/articles', params: article_attributes.deep_merge(article: { content: "link to other <a data-article-relation-id=#{@private_article.id}>article</a>." }), as: :json
@@ -429,7 +437,7 @@ describe 'Article API', type: :request, basic: true do
           expect(article['data']['attributes']['content']).to match('data-article-relation-id')
 
           relationships = Article.last.child_relationships.last
-          expect(relationships).not_to be nil
+          expect(relationships).not_to be_nil
           expect(relationships.parent_id).to eq(@private_article.id)
           expect(relationships.child_id).to eq(article['data']['attributes']['id'])
         }.to change(Article, :count).by(1)
@@ -581,6 +589,41 @@ describe 'Article API', type: :request, basic: true do
       end
     end
 
+    context 'when user is connected and has multilanguage option' do
+      before do
+        login_as(@user, scope: :user, run_callbacks: false)
+
+        @user.update(article_multilanguage: true)
+      end
+
+      after do
+        @user.update(article_multilanguage: false)
+      end
+
+      it 'returns a new article with multiple languages' do
+        expect {
+          post '/api/v1/articles', params: article_attributes.deep_merge(article: {
+            title:                nil,
+            title_translations:   { en: 'title en', fr: 'title fr' },
+            content_translations: { en: 'content en', fr: 'content fr' }
+          }), as:                          :json
+
+          expect(response).to be_json_response(201)
+
+          article = JSON.parse(response.body)
+          expect(article['data']['attributes']).not_to be_empty
+          expect(article['data']['attributes']['languages']).to eq(['en', 'fr'])
+          expect(article['data']['attributes']['titleTranslations']['fr']).to eq('title fr')
+          expect(article['data']['attributes']['titleTranslations']['en']).to eq('title en')
+          expect(article['data']['attributes']['content']).to eq('content en')
+          expect(article['data']['attributes']['contentTranslations']['fr']).to eq('content fr')
+          expect(article['data']['attributes']['contentTranslations']['en']).to eq('content en')
+        }.to change(Article, :count).by(1)
+      ensure
+        I18n.locale = I18n.default_locale
+      end
+    end
+
     context 'when user is connected with another current topic' do
       before do
         login_as(@user, scope: :user, run_callbacks: false)
@@ -658,7 +701,7 @@ describe 'Article API', type: :request, basic: true do
 
       it 'returns updated article with new relationships' do
         expect {
-          ::Articles::StoreService.new(@article, content: "link to other <a data-article-relation-id=#{@private_article.id}>article</a>.", current_user: @user).perform
+          ::Articles::StoreService.new(@article, title: "Test linked articles", content: "link to other <a data-article-relation-id=#{@private_article.id}>article</a>.", current_user: @user).perform
           @article.save!
           relationships = @article.child_relationships
           expect(relationships.count).to eq(1)

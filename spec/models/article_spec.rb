@@ -47,7 +47,7 @@ RSpec.describe Article, type: :model, basic: true do
       title:         'My title',
       summary:       'Summary of my article',
       content:       'Content of my article',
-      languages:     ['fr'],
+      languages:     ['en'],
       visibility:    'everyone',
       notation:      1,
       priority:      1,
@@ -89,7 +89,7 @@ RSpec.describe Article, type: :model, basic: true do
     it { expect(@article.title).to eq('My title') }
     it { expect(@article.summary).to eq('Summary of my article') }
     it { expect(@article.content).to eq('Content of my article') }
-    it { expect(@article.languages).to eq(['fr']) }
+    it { expect(@article.languages).to eq(['en']) }
     it { expect(@article.reference).to be_nil }
     it { expect(@article.notation).to eq(1) }
     it { expect(@article.priority).to eq(1) }
@@ -111,7 +111,7 @@ RSpec.describe Article, type: :model, basic: true do
           topic:     @topic,
           title:     'Title',
           content:   'Content of my article',
-          languages: ['fr']
+          languages: ['en']
         )
 
         @article.tagged_articles << build(:tagged_article, tag: Tag.create(name: SecureRandom.uuid, user: @article.user, visibility: @article.visibility), user: @article.user, topic: @article.topic)

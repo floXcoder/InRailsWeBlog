@@ -21,7 +21,6 @@ class ArticleCompleteSerializer
              :visibility,
              :allow_comment,
              :draft,
-             :current_language,
              :slug,
              :pictures_count,
              :bookmarks_count,

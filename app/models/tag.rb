@@ -34,7 +34,6 @@ class Tag < ApplicationRecord
   enums_to_tr('tag', [:visibility])
 
   include TranslationConcern
-  # Add current_language to model
   translates :description,
              auto_strip_translation_fields:    [:description],
              fallbacks_for_empty_translations: true

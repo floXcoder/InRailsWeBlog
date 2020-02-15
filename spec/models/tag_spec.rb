@@ -40,7 +40,7 @@ RSpec.describe Tag, type: :model, basic: true do
       user:        @user,
       name:        'Tag',
       description: 'Tag description',
-      languages:   ['fr'],
+      languages:   ['en'],
       synonyms:    ['tagged'],
       color:       '#000000',
       priority:    1,
@@ -73,7 +73,7 @@ RSpec.describe Tag, type: :model, basic: true do
 
     it { expect(@tag.name).to eq('Tag') }
     it { expect(@tag.description).to eq('Tag description') }
-    it { expect(@tag.languages).to eq(['fr']) }
+    it { expect(@tag.languages).to eq(['en']) }
     it { expect(@tag.synonyms).to eq(['tagged']) }
     it { expect(@tag.color).to eq('#000000') }
     it { expect(@tag.priority).to eq(1) }

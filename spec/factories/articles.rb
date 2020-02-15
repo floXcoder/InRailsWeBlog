@@ -41,7 +41,7 @@ FactoryBot.define do
     title         { Faker::Lorem.sentence } # title_translations
     summary       { Faker::Lorem.paragraph(sentence_count: 1) } # summary_translations
     content       { Faker::Lorem.paragraph(sentence_count: 1..20) } # content_translations
-    languages     { ['fr'] }
+    languages     { ['en'] }
     reference     { Faker::Internet.url }
     inventories   { {} }
     notation      { Random.rand(1..5) }

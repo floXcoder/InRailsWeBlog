@@ -11,6 +11,8 @@ describe 'Search API', type: :request, basic: true do
     @tags     = create_list(:tag, 5, user: @user, visibility: :everyone) # Tags are generated with "tag" in name
     @articles = create_list(:article, 5, user: @user, topic: @topic, title: 'article name', visibility: :everyone, tags: [@tags[0]])
 
+    @multilang_article = create(:article, user: @user, topic: @topic, title_translations: { en: 'multilanguage', fr: 'multi-langues' })
+
     @private_article = create(:article, user: @user, topic: @topic, title: 'article private name', visibility: :only_me, tags: [@tags[1]])
 
     @second_private_topic   = create(:topic, user: @user, visibility: :only_me)
@@ -22,8 +24,14 @@ describe 'Search API', type: :request, basic: true do
     @other_public_article  = create(:article, user: @other_user, topic: @other_topic, title: 'article public other name', visibility: :everyone, tags: [@other_tag])
     @other_private_article = create(:article, user: @other_user, topic: @other_topic, title: 'article private other name', visibility: :only_me, tags: [@other_tag])
 
-    Article.reindex
-    Article.search_index.refresh
+    I18n.with_locale(:en) do
+      Article.reindex
+      Article.search_index.refresh
+    end
+    I18n.with_locale(:fr) do
+      Article.reindex
+      Article.search_index.refresh
+    end
     Topic.reindex
     Topic.search_index.refresh
     Tag.reindex
@@ -88,7 +96,7 @@ describe 'Search API', type: :request, basic: true do
         expect(response).to be_json_response
 
         results = JSON.parse(response.body)
-        expect(results['articles'].size).to eq(6)
+        expect(results['articles'].size).to eq(7)
         expect(results['articles'].first['id']).to eq(@other_public_article.id)
       end
     end
@@ -127,6 +135,26 @@ describe 'Search API', type: :request, basic: true do
 
         expect(results['articles'].size).to eq(7)
         expect(results['totalCount']['articles']).to eq(7)
+      end
+    end
+
+    context 'when multilanguages is activated' do
+      it 'returns articles for the current locale only' do
+        get '/api/v1/search', params: { search: { query: 'multilanguage' } }, as: :json
+
+        expect(response).to be_json_response
+        results = JSON.parse(response.body)
+        expect(results['totalCount']['articles']).to eq(1)
+        expect(results['articles'].first['title']).to include('multilanguage')
+      end
+
+      it 'returns articles for the other locales' do
+        get '/api/v1/search', params: { locale: 'fr', search: { query: 'multi-langues' } }, as: :json
+
+        expect(response).to be_json_response
+        results = JSON.parse(response.body)
+        expect(results['totalCount']['articles']).to eq(1)
+        expect(results['articles'].first['title']).to include('multi-langues')
       end
     end
   end

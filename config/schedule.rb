@@ -19,6 +19,11 @@ end
 #  rake 'InRailsWeBlog:populate_seo_cache'
 #end
 
+# Ensure all locale indexes are reindexed
+every :day, at: '1am', roles: [:production] do
+  rake 'InRailsWeBlog:search_reindex'
+end
+
 every '*/5 * * * *' do
   rake 'pghero:clean_query_stats'
 end

@@ -19,7 +19,6 @@ class ArticleStrictSerializer
              :summary,
              :draft,
              :visibility,
-             :current_language,
              :slug,
              :tag_names
 

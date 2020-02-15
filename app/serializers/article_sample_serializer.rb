@@ -16,7 +16,6 @@ class ArticleSampleSerializer
              :summary,
              :draft,
              :visibility,
-             :current_language,
              :default_picture,
              :slug,
              :outdated_articles_count,

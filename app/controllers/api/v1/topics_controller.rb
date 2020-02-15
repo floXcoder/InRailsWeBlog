@@ -61,9 +61,9 @@ module Api::V1
       respond_to do |format|
         format.json do
           set_seo_data(:user_topic,
-                       tag_slug:  topic.name,
-                       user_slug: topic.user.pseudo,
-                       author:    topic.user.pseudo)
+                       topic_slug: topic.name,
+                       user_slug:  topic.user.pseudo,
+                       author:     topic.user.pseudo)
 
           render json: TopicSerializer.new(topic,
                                            include: [:user, :inventory_fields, :tags, :contributors],
