@@ -7,6 +7,7 @@ namespace :InRailsWeBlog do
   desc 'Regenerate slugs for all models'
   task :regenerate_slugs, [] => :environment do |_task, _args|
     Rails.logger = ActiveRecord::Base.logger = Logger.new(STDOUT)
+    Rails.logger.level = Logger::WARN
     Rails.logger.warn("#{Time.now} : Regenerate slugs task")
 
     ::Slug::regenerate
