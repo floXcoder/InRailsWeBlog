@@ -25,12 +25,14 @@ describe('Bookmarks actions', () => {
             const bookmarkedArticle = FactoryGenerator.create('articles');
 
             mock(`/api/v1/users/${currentUser.id}/bookmarks`, 200, () => ({
-                    bookmark: {
-                        id: 1,
-                        userId: currentUser.id,
-                        bookmarkedId: bookmarkedArticle.id,
-                        bookmarkedType: 'article',
-                        follow: false
+                    data: {
+                        attributes: {
+                            id: 1,
+                            userId: currentUser.id,
+                            bookmarkedId: bookmarkedArticle.id,
+                            bookmarkedType: 'article',
+                            follow: false
+                        }
                     }
                 })
             );
