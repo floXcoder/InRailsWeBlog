@@ -5,6 +5,7 @@ namespace :InRailsWeBlog do
   desc 'Dump database into YAML files'
   task :dump, [:dir_name] => :environment do |_task, args|
     Rails.logger = ActiveRecord::Base.logger = Logger.new(STDOUT)
+    Rails.logger.level = Logger::WARN
     Rails.logger.warn("#{Time.now} : Dump database task")
 
     dump_path = Rails.root.join('db', 'dump')

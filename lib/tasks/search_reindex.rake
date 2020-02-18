@@ -7,6 +7,7 @@ namespace :InRailsWeBlog do
   desc 'Reindex all models by locale'
   task :search_reindex, [] => :environment do |_task, _args|
     Rails.logger = ActiveRecord::Base.logger = Logger.new(STDOUT)
+    Rails.logger.level = Logger::WARN
     Rails.logger.warn("#{Time.now} : Reindex models by local")
 
     # Search index is by locale

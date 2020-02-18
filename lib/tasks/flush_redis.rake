@@ -7,6 +7,7 @@ namespace :InRailsWeBlog do
   desc 'Flush all Redis keys related to the application (by default, only cache keys).'
   task :flush_redis, [:option] => :environment do |_task, args|
     Rails.logger = ActiveRecord::Base.logger = Logger.new(STDOUT)
+    Rails.logger.level = Logger::WARN
     Rails.logger.warn("#{Time.zone.now} : Flush redis task")
 
     # Keys to flush:
