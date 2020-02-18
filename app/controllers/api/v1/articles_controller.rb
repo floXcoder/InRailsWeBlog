@@ -198,7 +198,7 @@ module Api::V1
         format.json do
           if stored_article.success?
             flash.now[:success] = stored_article.message
-            render json:   ArticleCompleteSerializer.new(stored_article,
+            render json:   ArticleCompleteSerializer.new(stored_article.result,
                                                          include: [:user, :topic, :tracker, :tags],
                                                          meta:    meta_attributes),
                    status: :created
@@ -240,7 +240,7 @@ module Api::V1
         format.json do
           if stored_article.success?
             flash.now[:success] = stored_article.message unless params[:auto_save]
-            render json:   ArticleCompleteSerializer.new(stored_article,
+            render json:   ArticleCompleteSerializer.new(stored_article.result,
                                                          include: [:user, :topic, :tracker, :tags],
                                                          meta:    meta_attributes),
                    status: :ok

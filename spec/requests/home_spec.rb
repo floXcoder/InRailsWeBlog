@@ -14,7 +14,6 @@ describe 'Home API', type: :request, basic: true do
       expect(response).to be_html_response
       expect(response.body).to match('id="home-component"')
       expect(response.body).to match('lang="en"')
-      expect(response.body).to match("'en'")
     end
 
     context 'when seo data are changed' do
@@ -38,7 +37,6 @@ describe 'Home API', type: :request, basic: true do
 
       expect(response).to be_html_response
       expect(response.body).to match('lang="fr"')
-      expect(response.body).to match("'fr'")
     ensure
       I18n.locale = I18n.default_locale
     end
@@ -50,7 +48,6 @@ describe 'Home API', type: :request, basic: true do
 
       expect(response).to be_html_response
       expect(response.body).to match('lang="de"')
-      expect(response.body).to match("'de'")
     ensure
       I18n.locale = I18n.default_locale
     end
@@ -62,7 +59,6 @@ describe 'Home API', type: :request, basic: true do
 
       expect(response).to be_html_response
       expect(response.body).to match('lang="es"')
-      expect(response.body).to match("'es'")
     ensure
       I18n.locale = I18n.default_locale
     end
@@ -74,7 +70,6 @@ describe 'Home API', type: :request, basic: true do
 
       expect(response).to be_html_response
       expect(response.body).to match('lang="it"')
-      expect(response.body).to match("'it'")
     ensure
       I18n.locale = I18n.default_locale
     end

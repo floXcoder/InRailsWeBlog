@@ -72,7 +72,7 @@ class ArticleCompleteSerializer
   end
 
   attribute :content_translations do |object|
-    object.content if object.languages.size > 1
+    object.content_translations if object.languages.size > 1
   end
 
   attribute :inventories do |object|
@@ -109,7 +109,7 @@ class ArticleCompleteSerializer
   end
 
   attribute :public_share_link do |object, params|
-    "#{Rails.application.routes.url_helpers.root_url(host: ENV['WEBSITE_ADDRESS'])}articles/shared/#{object.slug}/#{object.share&.public_link}" if params[:with_share]
+    "#{Rails.application.routes.url_helpers.root_url(host: ENV['WEBSITE_ADDRESS'])}articles/shared/#{object.slug}/#{object.share&.public_link}"
   end
 
   attribute :parent_tag_ids do |object|
