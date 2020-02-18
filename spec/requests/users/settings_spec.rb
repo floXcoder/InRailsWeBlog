@@ -41,11 +41,12 @@ describe 'User Settings API', type: :request, basic: true do
         expect(response).to be_json_response
 
         settings = JSON.parse(response.body)
-        expect(settings['settings']['articlesLoader']).to eq('infinite')
-        expect(settings['settings']['articleDisplay']).to eq('summary')
-        expect(settings['settings']['tagSidebarWithChild']).to be false
-        expect(settings['settings']['searchDisplay']).to eq('card')
-        expect(settings['settings']['searchHighlight']).to be true
+        expect(settings['data']['attributes']['articlesLoader']).to eq('infinite')
+        expect(settings['data']['attributes']['articleDisplay']).to eq('summary')
+        expect(settings['data']['attributes']['articleMultilanguage']).to be false
+        expect(settings['data']['attributes']['tagSidebarWithChild']).to be false
+        expect(settings['data']['attributes']['searchDisplay']).to eq('card')
+        expect(settings['data']['attributes']['searchHighlight']).to be true
       end
     end
   end
@@ -70,9 +71,9 @@ describe 'User Settings API', type: :request, basic: true do
         expect(response).to be_json_response
 
         settings = JSON.parse(response.body)
-        expect(settings['settings']['articleDisplay']).to eq('inline')
-        expect(settings['settings']['tagSidebarWithChild']).to be false
-        expect(settings['settings']['searchHighlight']).to be false
+        expect(settings['data']['attributes']['articleDisplay']).to eq('inline')
+        expect(settings['data']['attributes']['tagSidebarWithChild']).to be false
+        expect(settings['data']['attributes']['searchHighlight']).to be false
       end
     end
   end

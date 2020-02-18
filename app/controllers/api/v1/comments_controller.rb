@@ -36,16 +36,19 @@ module Api::V1
       comments = comments.filter_by(comments, filter_params) unless filter_params.empty?
       comments = comments.order_by(filter_params[:order]) if filter_params[:order]
 
-      respond_to do |format|
-        format.json do
-          if params[:complete] && admin_signed_in?
-            render json:            comments,
-                   each_serializer: CommentFullSerializer,
-                   meta:            meta_attributes(pagination: comments)
-          else
-            render json:            comments,
-                   each_serializer: CommentSerializer,
-                   meta:            meta_attributes(pagination: comments)
+      expires_in InRailsWeBlog.config.cache_time, public: true
+      if stale?(comments, template: false, public: true)
+        respond_to do |format|
+          format.json do
+            if params[:complete] && admin_signed_in?
+              render json: CommentFullSerializer.new(comments,
+                                                     include: [:user, :commentable],
+                                                     meta:    { root: 'comments', **meta_attributes(pagination: comments) })
+            else
+              render json: CommentSerializer.new(comments,
+                                                 include: [:user],
+                                                 meta:    { root: 'comments', **meta_attributes(pagination: comments) })
+            end
           end
         end
       end

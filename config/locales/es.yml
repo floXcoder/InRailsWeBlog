@@ -1,0 +1,518 @@
+es:
+  seo:
+    default:
+      page_title: "Bienvenido al blog de la %{website}"
+      meta_desc: "Ven y descubre los diferentes artículos en %{website}."
+  views:
+    user:
+      flash:
+        error_edition: El perfil no ha sido actualizado, por favor corrija los errores indicados
+        successful_edition: Perfil actualizado
+    tag:
+      flash:
+        error_creation: La etiqueta no ha sido creada, por favor corrija los errores indicados
+        error_deletion: 'Problema al borrar el artículo: %{errors}'
+        error_edition: "¡Problema al actualizar la etiqueta!"
+        error_priority_update: Problema al cambiar la prioridad de las etiquetas
+        successful_creation: Etiqueta añadida
+        successful_deletion: El artículo ha sido eliminado
+        successful_edition: Etiqueta actualizada
+        successful_priority_update: El orden de las etiquetas ha sido cambiado
+    topic:
+      flash:
+        error_creation: El tema no ha sido creado, por favor corrija los errores indicados
+        error_deletion: 'Problema al borrar el tema : %{errors}'
+        error_edition: "¡Problema al actualizar el tema!"
+        error_priority_update: Problema al cambiar la prioridad de los temas
+        successful_creation: Tema añadido
+        successful_deletion: El tema ha sido eliminado
+        successful_edition: Tema actualizado
+        successful_priority_update: El orden de los temas ha sido cambiado
+    inventory_field:
+      flash:
+        error_edition: "¡Problema al actualizar los campos personalizados!"
+        successful_edition: Campos personalizados actualizados. Puedes usar estos campos para tus artículos.
+    article:
+      edit:
+        description: 'Modificación del artículo: %{title} - %{topic}'
+        title: 'Edición: %{title} - %{topic}'
+      flash:
+        error_creation: El artículo no ha sido creado, por favor corrija los errores indicados
+        error_deletion: 'Problema al borrar el artículo: %{errors}'
+        error_edition: "¡Problema al actualizar el artículo!"
+        error_priority_update: Problema al cambiar la prioridad de los artículos
+        not_found: El artículo no se encontró
+        successful_creation: 'Artículo añadido: %{title}'
+        successful_deletion: El artículo ha sido eliminado
+        successful_edition: 'Artículo actualizado: %{title}'
+        successful_priority_update: El orden de los artículos ha sido cambiado
+        successful_undeletion: Artículo restaurado
+        undelete_link: Cancele la eliminación.
+      history:
+        description: 'Historia del artículo: %{title} - %{topic}'
+        title: La historia de %{title} - %{topic}
+      index:
+        title:
+          topic: Artículos para %{topic}
+      show:
+        title: "%{title} - %{topic}"
+    picture:
+      copyright:
+        default: De
+      flash:
+        error_deletion: Problema al borrar la imagen
+        successful_deletion: La imagen ha sido borrada
+    comment:
+      flash:
+        error_creation: El comentario no ha sido creado, por favor corrija los errores indicados
+        error_deletion: Problema al borrar el comentario
+        error_edition: Problema al actualizar el comentario
+        successful_creation: Comentario añadido
+        successful_deletion: Comentario eliminado
+        successful_edition: Comentario actualizado
+    share:
+      errors:
+        creation: No puede compartir este artículo
+        link_already_shared: Ya compartido por un enlace
+        private_shareable: Un artículo privado no puede ser compartido
+        useless_shareable: Un artículo público es inútil de compartir
+        user_already_shared: Ya compartido con este usuario
+        user_not_found: Usuario desconocido
+      success:
+        link_message: Compartir el artículo creado
+        user_message: 'Tema compartido con : %{user}'
+    admin:
+      articles:
+        title: Artículos
+      blog:
+        flash:
+          error_creation: El blog no ha sido creado, por favor corrija los errores indicados
+          error_deletion: Problema al borrar el blog
+          error_edition: Problema al actualizar el blog
+          successful_creation: Blog añadido
+          successful_deletion: Blog eliminado
+          successful_edition: Blog actualizado
+      blogs:
+        title: Notas
+      cache:
+        title: Cache
+      comments:
+        title: Comentarios
+      dashboard:
+        title: Admin
+      login:
+        title: Login (Admin)
+      logs:
+        title: Registros
+      seo:
+        title: Gestión de SEO
+      seo_data:
+        flash:
+          error_creation: Datos de SEO no creados, por favor corrija los errores indicados
+          error_deletion: Problema al borrar los datos del SEO
+          error_edition: Problema al actualizar los datos de SEO
+          successful_creation: Datos de SEO añadidos
+          successful_deletion: Datos de SEO borrados
+          successful_edition: Datos actualizados de SEO
+      tags:
+        title: Etiquetas
+      topics:
+        title: Temas
+      users:
+        title: Usuarios
+    errors:
+      flash:
+        error_all_deletion: Problema al eliminar los errores (o no hay errores que eliminar)
+        error_deletion: Problema al eliminar el error
+        successful_all_deletion: Todos los errores han sido eliminados
+        successful_deletion: El error ha sido eliminado
+    error:
+      back_button: Página anterior
+      description: Se ha producido un error
+      home_button: Volver a la página de inicio
+      status:
+        explanation:
+          '404': La página no se encontró en el servidor, ¡puede haber sido borrada!
+          '422': Incapaz de satisfacer su petición
+          '500': Se ha producido un error interno. El problema ha sido reportado, por favor intente otra acción mientras tanto :)
+          default: Se ha producido un error interno. El problema ha sido reportado, por favor intente otra acción mientras tanto :)
+        title:
+          '404': Página no encontrada
+          '422': "¡Solicitudes no permitidas!"
+          '500': "¡Error interno del sitio!"
+          default: Ha ocurrido un error
+      title: Acaba de encontrar un error
+  user:
+    model:
+      additional_info: Información personal
+      birth_date: Fecha de nacimiento
+      city: Ciudad
+      country: País
+      email: Correo electrónico
+      first_name: Nombre de pila
+      last_name: Nombre
+      local_picture: Imagen local
+      login: Nombre de usuario o correo electrónico
+      mobile_number: Número de teléfono móvil
+      password: Contraseña
+      phone_number: Número de teléfono
+      postcode: Código postal
+      pseudo: Apodo
+      remote_picture: Url de una imagen
+      street: Dirección
+    enums:
+      visibility:
+        everyone: Público
+        only_me: Privado
+  topic:
+    default_name: Por defecto
+    enums:
+      mode:
+        default: Por defecto
+        inventories: Inventario
+        stories: Historia
+      visibility:
+        everyone: Público
+        only_me: Privado
+  tag:
+    enums:
+      visibility:
+        everyone: Público
+        only_me: Privado
+  article:
+    enums:
+      mode:
+        inventory: Inventario
+        link: Enlace
+        note: Nota
+        story: Artículo
+      visibility:
+        everyone: Público
+        only_me: Privado
+  share:
+    enums:
+      mode:
+        complete: Autorización total
+  search:
+    errors:
+      article: 'Búsqueda: imposible buscar artículos'
+      autocomplete: Error en la búsqueda, por favor intente con otro término
+      search: Error en la búsqueda, por favor intente con otro término
+      tag: 'Búsqueda: imposible buscar etiquetas'
+      topic: 'Búsqueda: imposible buscar temas'
+      user: 'Búsqueda: imposible buscar usuarios'
+  admin:
+    dashboard:
+      title: Admin
+  email:
+    hello: Hola
+    confirmation:
+      instruction: Haga clic en el siguiente enlace para confirmar el correo electrónico de su cuenta
+    reset_password:
+      comment: Si no ha solicitado renovar su contraseña. Por favor, ignora este e-mail. Su contraseña no se cambiará hasta que haga clic en el enlace de arriba.
+      instruction: Alguien pidió que cambiaras tu contraseña. Puede hacerlo haciendo clic en el siguiente enlace.
+    unlock:
+      instruction: Su cuenta ha sido bloqueada después de un gran número de intentos de acceder a ella con una contraseña incorrecta. Haga clic en el enlace de arriba para desbloquear su cuenta.
+    greeting: "¡Buenos días del equipo!"
+  pundit:
+    default: No está autorizado a realizar esta acción
+    flash:
+      not_authorized:
+        user: Su cuenta debe ser completada antes de (apellido, nombre y ciudad)
+    user_policy:
+      show: No puedes ver las cuentas de otros usuarios
+  activerecord:
+    errors:
+      messages:
+        record_invalid: 'La validación falló: %{errors}'
+        restrict_dependent_destroy:
+          has_many: No se puede eliminar el registro porque existen %{record} dependientes
+          has_one: No se puede eliminar el registro porque existe un %{record} dependiente
+      models:
+        article:
+          bad_topic_owner: El tema no pertenece al creador del artículo
+          pertinent_tags: Las etiquetas deben ser del mismo tipo que el tema (ya sea público o privado)
+          prevent_revert_to_draft: Un artículo público no puede ser un borrador
+          required_inventory_field: "%{field} es obligatorio"
+        article_relationship:
+          already_linked: Estos dos artículos ya están vinculados
+        bookmark:
+          already_bookmarked: "¡Un artículo ya añadido a los favoritos!"
+          model_unknown: No se puede añadir o eliminar este elemento en los favoritos
+          not_bookmarked: "¡El elemento no existe en los favoritos!"
+        inventory_field:
+          already_exist: Ya existe un campo con el mismo nombre
+        outdated_article:
+          already_outdated: "¡El artículo ya está marcado como caducado!"
+          not_outdated: "¡El artículo no está presente en el anticuado!"
+        picture:
+          attributes:
+            imageable:
+              required: Se requiere una plantilla de imágenes
+          image_size: debe ser inferior a 5Mo
+        seo_data:
+          bad_route_name: Esta ruta no está disponible
+        share:
+          link_already_shared: Elemento ya compartido por un enlace
+          user_already_shared: Artículo ya compartido con este usuario
+        tag:
+          already_exist: Ya existe una etiqueta con el mismo nombre
+          already_exist_in_public: Ya existe una etiqueta pública con el mismo nombre
+          public_name_immutable: Una etiqueta pública no puede cambiar su nombre
+          public_visibility_immutable: La visibilidad de una etiqueta pública ya no puede ser cambiada (utilizada por otros usuarios)
+        tag_relationship:
+          already_linked: Estas dos etiquetas ya están unidas en este tema
+        tagged_article:
+          already_tagged: Esta etiqueta ya existe para este artículo
+          incorrect_tag_affiliation: Esta etiqueta no puede aplicarse al artículo ya que no pertenece al mismo tema
+          incorrect_topic_affiliation: Esta etiqueta no se puede aplicar al artículo porque el artículo no está asociado con el tema actual
+        topic:
+          already_exist: Ya existe un tema con el mismo nombre
+          already_selected: El nuevo tema ya es el utilizado
+          not_owner: Debes ser el dueño del tema para usarlo
+          required: Se requiere un tema para crear el artículo
+        vote:
+          already_voted: No puedes votar por segunda vez
+  errors:
+    format: "%{attribute} %{message}"
+    messages:
+      accepted: debe ser aceptado
+      blank: no puede estar en blanco
+      carrierwave_download_error: No se puede descargar la imagen
+      carrierwave_integrity_error: No es una imagen
+      carrierwave_processing_error: No se puede cambiar el tamaño de la imagen
+      confirmation: no coincide
+      content_type_blacklist_error: No se le permite subir archivos de tipo %{content_type}
+      content_type_whitelist_error: No se le permite subir archivos de tipo %{content_type}
+      empty: no puede estar vacío
+      equal_to: debe ser igual a %{count}
+      even: debe ser par
+      exclusion: está reservado
+      extension_blacklist_error: 'No está permitido subir archivos %{extension}, tipos prohibidos: %{allowed_types}'
+      extension_whitelist_error: 'No se le permite subir archivos %{extension}, tipos de archivo permitidos: %{prohibited_types}'
+      greater_than: debe ser mayor que %{count}
+      greater_than_or_equal_to: debe ser mayor que o igual a %{count}
+      inclusion: no está incluido en la lista
+      invalid: no es válido
+      less_than: debe ser menor que %{count}
+      less_than_or_equal_to: debe ser menor que o igual a %{count}
+      max_size_error: El tamaño del archivo debe ser inferior a %{tamaño_máximo}
+      min_size_error: El tamaño del archivo debe ser mayor que %{min_size}
+      mini_magick_processing_error: 'La manipulación de imágenes con MiniMagick falló. ¿Tal vez no es una imagen? Error original: %{e}'
+      model_invalid: 'La validación falló: %{errors}'
+      not_a_number: no es un número
+      not_an_integer: debe ser un entero
+      odd: debe ser impar
+      other_than: debe ser distinto de %{count}
+      present: debe estar en blanco
+      required: debe existir
+      rmagick_processing_error: 'La manipulación de la imagen con rmagick falló. ¿Tal vez no es una imagen? Error original: %{e}'
+      taken: ya está en uso
+      too_long:
+        one: es demasiado largo (1 carácter máximo)
+        other: es demasiado largo (%{count} caracteres máximo)
+      too_short:
+        one: es demasiado corto (1 carácter mínimo)
+        other: es demasiado corto (%{count} caracteres mínimo)
+      wrong_length:
+        one: no tiene la longitud correcta (1 carácter exactos)
+        other: no tiene la longitud correcta (%{count} caracteres exactos)
+    template:
+      body: 'Se encontraron problemas con los siguientes campos:'
+      header:
+        one: No se pudo guardar este/a %{model} porque se encontró 1 error
+        other: No se pudo guardar este/a %{model} porque se encontraron %{count} errores
+  number:
+    currency:
+      format:
+        delimiter: "."
+        format: "%n %u"
+        precision: 2
+        separator: ","
+        significant: false
+        strip_insignificant_zeros: false
+        unit: "€"
+    format:
+      delimiter: "."
+      precision: 3
+      separator: ","
+      significant: false
+      strip_insignificant_zeros: false
+    human:
+      decimal_units:
+        format: "%n %u"
+        units:
+          billion: mil millones
+          million:
+            one: millón
+            other: millones
+          quadrillion: mil billones
+          thousand: mil
+          trillion:
+            one: billón
+            other: billones
+          unit: ''
+      format:
+        delimiter: ''
+        precision: 1
+        significant: true
+        strip_insignificant_zeros: true
+      storage_units:
+        format: "%n %u"
+        units:
+          byte:
+            one: Byte
+            other: Bytes
+          gb: GB
+          kb: KB
+          mb: MB
+          tb: TB
+    percentage:
+      format:
+        delimiter: ''
+        format: "%n %"
+    precision:
+      format:
+        delimiter: ''
+  date:
+    abbr_day_names:
+    - dom
+    - lun
+    - mar
+    - mié
+    - jue
+    - vie
+    - sáb
+    abbr_month_names:
+    -
+    - ene
+    - feb
+    - mar
+    - abr
+    - may
+    - jun
+    - jul
+    - ago
+    - sep
+    - oct
+    - nov
+    - dic
+    day_names:
+    - domingo
+    - lunes
+    - martes
+    - miércoles
+    - jueves
+    - viernes
+    - sábado
+    formats:
+      default: "%-d/%-m/%Y"
+      long: "%-d de %B de %Y"
+      short: "%-d de %b"
+    month_names:
+    -
+    - enero
+    - febrero
+    - marzo
+    - abril
+    - mayo
+    - junio
+    - julio
+    - agosto
+    - septiembre
+    - octubre
+    - noviembre
+    - diciembre
+    order:
+    - :day
+    - :month
+    - :year
+  datetime:
+    distance_in_words:
+      about_x_hours:
+        one: alrededor de 1 hora
+        other: alrededor de %{count} horas
+      about_x_months:
+        one: alrededor de 1 mes
+        other: alrededor de %{count} meses
+      about_x_years:
+        one: alrededor de 1 año
+        other: alrededor de %{count} años
+      almost_x_years:
+        one: casi 1 año
+        other: casi %{count} años
+      half_a_minute: medio minuto
+      less_than_x_minutes:
+        one: menos de 1 minuto
+        other: menos de %{count} minutos
+      less_than_x_seconds:
+        one: menos de 1 segundo
+        other: menos de %{count} segundos
+      over_x_years:
+        one: más de 1 año
+        other: más de %{count} años
+      x_days:
+        one: 1 día
+        other: "%{count} días"
+      x_minutes:
+        one: 1 minuto
+        other: "%{count} minutos"
+      x_months:
+        one: 1 mes
+        other: "%{count} meses"
+      x_seconds:
+        one: 1 segundo
+        other: "%{count} segundos"
+      x_years:
+        one: 1 año
+        other: "%{count} años"
+    prompts:
+      day: Día
+      hour: Hora
+      minute: Minuto
+      month: Mes
+      second: Segundo
+      year: Año
+  time:
+    am: am
+    formats:
+      custom: El %d %b %y a %Hh%M
+      custom_begin: De %d %b a %Hh%M
+      custom_date: "%d %b"
+      custom_end: A %d %b a %Hh%M
+      custom_full_date: "%d %B %Y"
+      default: "%A, %-d de %B de %Y %H:%M:%S %z"
+      long: "%-d de %B de %Y %H:%M"
+      short: "%-d de %b %H:%M"
+    pm: pm
+  time_helper:
+    date_range:
+      different_months_same_year: "%{from_day} %{from_month} %{sep} %{to_day} %{to_month}"
+      different_years: "%{from_day} %{from_month} %{from_year} %{sep} %{to_day} %{to_month} %{to_year}"
+      same_date: "%{from_day} %{month}"
+      same_month: "%{from_day} %{sep} %{to_day} %{month}"
+      with_year: "%{date_range} %{year}"
+    distance_in_words:
+      special:
+        and_a_half: et demi
+        half_an_hour: une demi-heure
+      template: "%{count} %{unit}"
+      template_long: "%{rest} et %{last}"
+      units:
+        day: jour
+        hour: heure
+        minute: minute
+        month: mois
+        second: seconde
+        year: année
+  support:
+    array:
+      last_word_connector: " y "
+      two_words_connector: " y "
+      words_connector: ", "
+  helpers:
+    colon: ": "
+    or: " o "
+    and: " y "
+    back: Página anterior
+  hello: "Hola"

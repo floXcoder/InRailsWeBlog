@@ -1,26 +1,13 @@
 fr:
-  head:
-    author: "InRailsWeBlog"
-    copyright: "InRailsWeBlog©"
+  seo:
+    default:
+      page_title: "Bienvenue sur le blog %{website} !"
+      meta_desc: "Venez découvrir les différents articles sur %{website}"
   views:
-    home:
-      title: "InRailsWeBlog"
-      description: "InRailsWeBlog blog"
     user:
       flash:
         successful_edition: "Profil mis à jour"
         error_edition: "Le profil n'est pas été mis à jour, merci de corriger les erreurs indiquées"
-      index:
-        title: "Tous les utilisateurs"
-        description: "Liste de tous les utilisateurs"
-      show:
-        title: "%{pseudo} sur InRailsWeBlog"
-        description: "Articles de l'utilisateur : %{pseudo}"
-      edit:
-        title: "Mise à jour de mes informations personnelles"
-      bookmarks:
-        title: "%{pseudo} : Mes favoris"
-        description: "%{pseudo} : Mes favoris"
     tag:
       flash:
         successful_creation: "Label ajouté"
@@ -31,18 +18,7 @@ fr:
         error_priority_update: "Problème lors du changement de priorité des labels"
         successful_deletion: "L'article a été supprimé"
         error_deletion: "Problème lors de la suppression de l'article : %{errors}"
-      index:
-        title:
-          default: "Liste des labels"
-          user: "Labels de l'utilisateur : %{user}"
-          topic: "Labels du thème : %{topic}"
-      show:
-        title: "Label : %{name}"
-      edit:
-        title: "Modification du Label : %{name}"
     topic:
-      show:
-        title: "%{name} : détails du thème"
       flash:
         successful_creation: "Thème ajouté"
         error_creation: "Le thème n'a pas été créé, merci de corriger les erreurs indiquées"
@@ -71,9 +47,6 @@ fr:
         successful_undeletion: "Article restauré"
       index:
         title:
-          default: "Liste des articles"
-          tagged: "Liste des articles pour %{tag}"
-          tagged_topic: "Liste des articles pour %{tag} dans %{topic}"
           topic: "Articles pour %{topic}"
       show:
         title: "%{title} - %{topic}"
@@ -97,9 +70,6 @@ fr:
         error_edition: "Problème lors de la mise à jour du commentaire"
         successful_deletion: "Commentaire supprimé"
         error_deletion: "Problème lors de la suppression du commentaire"
-    search:
-      index:
-        title: "Recherche : %{query}"
     share:
       success:
         link_message: "Partage de l'article créé"
@@ -128,18 +98,28 @@ fr:
         title: "Articles"
       blogs:
         title: "Notes"
+      seo:
+        title: "Gestion du SEO"
       logs:
         title: "Logs"
       cache:
         title: "Cache"
       blog:
         flash:
-          successful_creation: "Article ajouté"
-          error_creation: "L'article n'a pas été créé, merci de corriger les erreurs indiquées"
-          successful_edition: "Article mis à jour"
-          error_edition: "Problème lors de la mise à jour de l'article"
-          successful_deletion: "Article supprimé"
-          error_deletion: "Problème lors de la suppression de l'article"
+          successful_creation: "Blog ajouté"
+          error_creation: "Le blog n'a pas été créé, merci de corriger les erreurs indiquées"
+          successful_edition: "Blog mis à jour"
+          error_edition: "Problème lors de la mise à jour du blog"
+          successful_deletion: "Blog supprimé"
+          error_deletion: "Problème lors de la suppression du blog"
+      seo_data:
+        flash:
+          successful_creation: "Donnée SEO ajoutée"
+          error_creation: "Donnée SEO non créée, merci de corriger les erreurs indiquées"
+          successful_edition: "Donnée SEO mise à jour"
+          error_edition: "Problème lors de la mise à jour de la donnée SEO"
+          successful_deletion: "Donnée SEO supprimé"
+          error_deletion: "Problème lors de la suppression de la donnée SEO"
     errors:
       flash:
         successful_deletion: "L'erreur a bien été supprimée"
@@ -154,7 +134,7 @@ fr:
           default: "Une erreur est arrivée :("
           '404': "Page introuvable"
           '422': "Requêtes non permises !"
-          '500': "Erreur interne du site In Rails We Blog"
+          '500': "Erreur interne du site !"
         explanation:
           default: "Une erreur interne s'est produite. Le problème a été signalé, merci d'essayer une autre action en attendant :)"
           '404': "La page n'a pas été trouvée sur le serveur, elle a peut être été supprimée !"
@@ -226,34 +206,13 @@ fr:
       title: "Admin"
   email:
     hello: "Bonjour"
-    contact:
-      message:
-        subject: "Nouvel avis !"
-        title: "Nouveau message de la part de %{name}"
-        content: "Contenu du message :"
-        footer: "InRailsWeBlog"
-      answer:
-        subject: "Merci pour votre avis !"
-        message: "Merci de nous avoir contacté. On vous tiens au courant pour la suite."
-        footer: "InRailsWeBlog"
-      flash:
-        email_sent: "Merci pour votre avis, il va permettre d'améliorer le site"
-        email_not_sent: "Le message n'a pas été envoyé, les champs ont-ils été remplis ?"
-    registration:
-      welcome:
-        subject: "Bienvenue sur InRailsWeBlog"
-        hello: "Hello,"
-        thanks: "Merci de vous être inscrit sur InRailsWeBlog.config."
-        bye: "Bonne visite sur notre site :)"
     confirmation:
       instruction: "Cliquer sur le lien ci-dessous pour confirmer l'email de votre compte"
     reset_password:
       instruction: "Une personne a demandé de changer votre mot de passe. Vous pouvez le faire en cliquant sur le lien ci-dessous."
-      comment: "Si vous n'avez pas demandé de renouveler votre mot de passe. Merci d'ignorer cet e-mail.
-               Votre mot de passe ne sera pas changé tant que vous n'avez pas cliqué sur le lien ci-dessus."
+      comment: "Si vous n'avez pas demandé de renouveler votre mot de passe. Merci d'ignorer cet e-mail. Votre mot de passe ne sera pas changé tant que vous n'avez pas cliqué sur le lien ci-dessus."
     unlock:
-      instruction: "Votre compte a été bloqué suite à un nombre important de tentative d'accès avec un mauvais mot de passe.
-                   Cliquer sur le lien ci-dessus pour débloquer votre compte."
+      instruction: "Votre compte a été bloqué suite à un nombre important de tentative d'accès avec un mauvais mot de passe. Cliquer sur le lien ci-dessus pour débloquer votre compte."
     greeting: "Bonne journée de la part de l'équipe !"
   pundit:
     default: "Vous n'êtes pas autorisé(e) à réaliser cette action"
@@ -312,6 +271,8 @@ fr:
           attributes:
             imageable:
               required: "Le modèle de l'image est requis"
+        seo_data:
+          bad_route_name: "Cette route n'est pas disponible"
   errors:
     format: "%{attribute} %{message}"
     messages:
@@ -333,6 +294,7 @@ fr:
       less_than_or_equal_to: "doit être inférieur ou égal à %{count}"
       not_a_number: "n'est pas un nombre"
       not_an_integer: "doit être un nombre entier"
+      required: "doit exister"
       taken: "n'est pas disponible"
       too_long:
         one: "est trop long (pas plus d'un caractère)"
@@ -490,15 +452,18 @@ fr:
       x_days:
         one: "1 jour"
         other: "%{count} jours"
+      x_seconds:
+        one: "1 seconde"
+        other: "%{count} secondes"
       x_minutes:
         one: "1 minute"
         other: "%{count} minutes"
       x_months:
         one: "1 mois"
         other: "%{count} mois"
-      x_seconds:
-        one: "1 seconde"
-        other: "%{count} secondes"
+      x_years:
+        one: "1 an"
+        other: "%{count} ans"
     prompts:
       day: "Jour"
       hour: "Heure"
@@ -538,13 +503,14 @@ fr:
       special:
         half_an_hour: "une demi-heure"
         and_a_half: "et demi"
+  support:
+    array:
+      last_word_connector: " et "
+      two_words_connector: " et "
+      words_connector: ", "
   helpers:
     colon: " : "
     or: " ou "
     and: " et "
     back: "Page précédente"
-    array:
-      last_word_connector: " et "
-      two_words_connector: " et "
-      words_connector: ", "
   hello: "Bonjour"

@@ -15,7 +15,6 @@ const initState = {
     errors: undefined,
 
     tags: [],
-    metaTags: {},
     pagination: {},
 
     popularTags: [],

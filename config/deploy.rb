@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-lock '3.11.2'
+lock '3.12.0'
 
 set :application, 'InRailsWeBlog'
 set :repo_url, ENV['GIT_REPO_ADDRESS']
@@ -36,7 +36,7 @@ set :pty, false
 set :log_level, :debug
 
 # files we want symlinking to specific entries in shared.
-set :linked_files, %w[config/application.yml config/sidekiq.yml config/puma.rb]
+set :linked_files, %w[config/application.yml]
 
 # dirs we want symlinking to shared
 set :linked_dirs, %w[db/dump log public/prerender_cache public/uploads public/system tmp/pids tmp/cache tmp/sockets vendor/bundle]
@@ -142,7 +142,7 @@ namespace :deploy do
     on roles(:app), in: :sequence, wait: 5 do
       within release_path do
         with rails_env: fetch(:rails_env) do
-          execute :rake, 'searchkick:reindex:all'
+          execute :rake, 'InRailsWeBlog:search_reindex'
         end
       end
     end

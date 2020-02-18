@@ -60,8 +60,9 @@ class AdminLogs extends React.PureComponent {
         environmentLog: this.props.environmentLog,
         hasMore: true,
         isFetching: false,
+        isFetchingTop: false,
         errors: null,
-        isAutoRefresh: true,
+        isAutoRefresh: false,
         searchTags: [],
         isHelpOpen: false
     };
@@ -97,7 +98,8 @@ class AdminLogs extends React.PureComponent {
     _fetchLog = (element, value, logName = 'environment') => {
         if (element !== 'refresh') {
             this.setState({
-                isFetching: true
+                isFetching: true,
+                isFetchingTop: element === 'top'
             });
         }
 
@@ -105,6 +107,13 @@ class AdminLogs extends React.PureComponent {
             element: element,
             value: value
         };
+
+        if (element === 'search' && value && value.startsWith('date=')) {
+            data = {
+                element: 'date',
+                value: value.split('date=')[1]
+            };
+        }
 
         if (Array.isArray(element)) {
             data = {tags: element};
@@ -116,14 +125,17 @@ class AdminLogs extends React.PureComponent {
 
                 this.setState({
                     isFetching: false,
+                    isFetchingTop: false,
                     environmentLog: data.environmentLog,
                     hasMore: !element || element === 'refresh' || element === 'top',
                     errors: null
                 }, () => {
                     if (element === 'top') {
-                        this._logParentNode.scrollTop = this._logNode.scrollHeight - previousScrollHeight;
+                        this._logParentNode.scrollTop = this._logNode.scrollHeight - previousScrollHeight - 44;
                     } else if (element === 'refresh') {
                         // do nothing
+                    } else if (element === 'date' || (value?.startsWith('date='))) {
+                        this._scrollToTopLog();
                     } else {
                         this._scrollToBottomLog();
                     }
@@ -137,20 +149,33 @@ class AdminLogs extends React.PureComponent {
     _handleLineElementClick = (element, value, event) => {
         event.preventDefault();
 
-        if (this.state.searchTags.filter((searchTag) => searchTag.element === element).length > 0) {
-            return;
+        if (element === 'date') {
+            this.setState({
+                searchTags: [
+                    {
+                        element: 'date',
+                        value: value
+                    }
+                ]
+            });
+
+            this._fetchLog('date', value);
+        } else {
+            if (this.state.searchTags.filter((searchTag) => searchTag.element === element).length > 0) {
+                return;
+            }
+
+            const newSearchTags = this.state.searchTags.concat([{
+                element,
+                value
+            }]);
+
+            this.setState({
+                searchTags: newSearchTags
+            });
+
+            this._fetchLog(newSearchTags);
         }
-
-        const newSearchTags = this.state.searchTags.concat([{
-            element,
-            value
-        }]);
-
-        this.setState({
-            searchTags: newSearchTags
-        });
-
-        this._fetchLog(newSearchTags);
     };
 
     _handleTagSearchAdd = (query) => {
@@ -191,6 +216,12 @@ class AdminLogs extends React.PureComponent {
         });
 
         this._fetchLog(newSearchTags);
+    };
+
+    _scrollToTopLog = () => {
+        if (this._logParentNode && this._logNode) {
+            this._logParentNode.scrollTop = 0;
+        }
     };
 
     _scrollToBottomLog = () => {
@@ -236,7 +267,7 @@ class AdminLogs extends React.PureComponent {
                         </div>
 
                         {
-                            this.state.isFetching &&
+                            (this.state.isFetching && !this.state.isFetchingTop) &&
                             <div className="file-loading">
                                 <div className="file-loading-loader">
                                     <Loader size="big"/>
@@ -281,7 +312,7 @@ class AdminLogs extends React.PureComponent {
                         <div className="file-content logs">
                             <ol>
                                 {
-                                    this.props.jobLog && this.props.jobLog.map((line, i) => (
+                                    this.props.jobLog?.map((line, i) => (
                                         <li key={i}>
                                             <p dangerouslySetInnerHTML={{__html: line}}/>
                                         </li>
@@ -301,7 +332,7 @@ class AdminLogs extends React.PureComponent {
                         <div className="file-content logs">
                             <ol>
                                 {
-                                    this.props.cronLog && this.props.cronLog.map((line, i) => (
+                                    this.props.cronLog?.map((line, i) => (
                                         <li key={i}>
                                             <p dangerouslySetInnerHTML={{__html: line}}/>
                                         </li>

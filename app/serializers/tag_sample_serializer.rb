@@ -1,20 +1,24 @@
 # frozen_string_literal: true
 
-class TagSampleSerializer < ActiveModel::Serializer
+class TagSampleSerializer
+  include FastJsonapi::ObjectSerializer
   include NullAttributesRemover
 
-  cache key: 'tag_sample', expires_in: InRailsWeBlog.config.cache_time
+  set_type :tag
+
+  cache_options enabled: true, cache_length: InRailsWeBlog.config.cache_time
+
+  set_key_transform :camel_lower
 
   attributes :id,
              :user_id,
              :name,
-             :description,
              :synonyms,
              :visibility,
              :tagged_articles_count,
              :slug
 
-  def description
+  attribute :description do |object|
     object.description&.summary
   end
 end

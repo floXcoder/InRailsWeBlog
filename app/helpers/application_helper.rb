@@ -1,6 +1,17 @@
 # frozen_string_literal: true
 
 module ApplicationHelper
+  def localized_routes
+    routes = {}
+
+    I18n.available_locales.each do |locale|
+      routes[locale] = I18n.t('routes', locale: locale)
+      routes[locale][:locale] = "/#{locale}" if locale != :en
+    end
+
+    return routes
+  end
+
   def titleize(page_title)
     base_title = page_title
     base_title = "(#{Rails.env.capitalize}) | #{base_title}" unless Rails.env.production?

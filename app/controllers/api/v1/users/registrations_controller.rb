@@ -26,7 +26,9 @@ module Api::V1
           @location = after_inactive_sign_up_path_for(resource)
         end
 
-        respond_with resource, location: @location, serializer: UserProfileSerializer
+        respond_with UserProfileSerializer.new(resource,
+                                               include: [:current_topic, :topics, :contributed_topics]),
+                     location: @location
       else
         respond_to do |format|
           format.html do

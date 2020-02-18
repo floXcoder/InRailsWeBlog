@@ -21,10 +21,20 @@ module Api::V1
                  ::Topics::FindQueries.new(current_user, current_admin).all(filter_params.merge(user_id: params[:user_id]))
                end
 
-      respond_to do |format|
-        format.json do
-          render json:            topics,
-                 each_serializer: complete ? TopicCompleteSerializer : TopicSerializer
+      expires_in InRailsWeBlog.config.cache_time, public: true
+      if stale?(topics, template: false, public: true)
+        respond_to do |format|
+          format.json do
+            if complete
+              render json: TopicCompleteSerializer.new(topics,
+                                                       include: [:user, :inventory_fields, :contributors, :tracker],
+                                                       meta:    { root: 'topics' })
+            else
+              render json: TopicSerializer.new(topics,
+                                               include: [:user, :inventory_fields, :tags, :contributors],
+                                               meta:    { root: 'topics' })
+            end
+          end
         end
       end
     end
@@ -36,9 +46,9 @@ module Api::V1
       respond_to do |format|
         format.json do
           if current_user.switch_topic(topic) && current_user.save
-            render json:       topic,
-                   serializer: TopicSerializer,
-                   status:     :ok
+            render json:   TopicSerializer.new(topic,
+                                               include: [:user, :inventory_fields, :tags, :contributors]),
+                   status: :ok
           else
             render json:   { errors: current_user.errors },
                    status: :forbidden
@@ -51,17 +61,20 @@ module Api::V1
       topic = @context_user.topics.friendly.find(params[:id])
       authorize topic
 
-      respond_to do |format|
-        format.json do
-          set_meta_tags title:       titleize(I18n.t('views.topic.show.title', name: topic.name)),
-                        description: topic.meta_description,
-                        author:      topic.user.pseudo,
-                        canonical:   ''
+      expires_in InRailsWeBlog.config.cache_time, public: true
+      if stale?(topic, template: false, public: true)
+        respond_to do |format|
+          format.json do
+            set_seo_data(:user_topic,
+                         topic_slug: topic.name,
+                         user_slug:  topic.user.pseudo,
+                         author:     topic.user.pseudo)
 
-          render json:       topic,
-                 serializer: TopicSerializer,
-                 complete:   true,
-                 meta:       meta_attributes
+            render json: TopicSerializer.new(topic,
+                                             include: [:user, :inventory_fields, :tags, :contributors],
+                                             params:  { complete: true },
+                                             meta:    meta_attributes)
+          end
         end
       end
     end
@@ -75,10 +88,10 @@ module Api::V1
       respond_to do |format|
         format.json do
           if stored_topic.success? && current_user.switch_topic(topic) && current_user.save
-            render json:       stored_topic.result,
-                   serializer: TopicSerializer,
-                   complete:   true,
-                   status:     :created
+            render json:   TopicSerializer.new(stored_topic.result,
+                                               include: [:user, :inventory_fields, :tags, :contributors],
+                                               params:  { complete: true }),
+                   status: :created
           else
             flash.now[:error] = stored_topic.message
             render json:   { errors: stored_topic.errors },
@@ -98,10 +111,10 @@ module Api::V1
         format.json do
           if stored_topic.success?
             flash.now[:success] = stored_topic.message
-            render json:       stored_topic.result,
-                   serializer: TopicSerializer,
-                   complete:   true,
-                   status:     :ok
+            render json:   TopicSerializer.new(stored_topic.result,
+                                               include: [:user, :inventory_fields, :tags, :contributors],
+                                               params:  { complete: true }),
+                   status: :ok
           else
             flash.now[:error] = stored_topic.message
             render json:   { errors: stored_topic.errors },
@@ -121,9 +134,9 @@ module Api::V1
         format.json do
           flash.now[:success] = shared_topic.message
           if shared_topic.success?
-            render json:       shared_topic.result,
-                   serializer: TopicSerializer,
-                   status:     :ok
+            render json:   TopicSerializer.new(shared_topic.result,
+                                               include: [:user, :inventory_fields, :tags, :contributors]),
+                   status: :ok
           else
             flash.now[:error] = shared_topic.message
             render json:   { errors: shared_topic.errors },
@@ -145,9 +158,9 @@ module Api::V1
         format.json do
           if topics.present?
             flash.now[:success] = t('views.topic.flash.successful_priority_update')
-            render json:            current_user.topics,
-                   each_serializer: TopicSampleSerializer,
-                   status:          :ok
+            render json:   TopicSampleSerializer.new(current_user.topics,
+                                                     meta: { root: 'topics' }),
+                   status: :ok
           else
             flash.now[:error] = t('views.topic.flash.error_priority_update')
             render json:   { errors: t('views.topic.flash.error_priority_update') },
@@ -173,9 +186,9 @@ module Api::V1
             end
 
             flash.now[:success] = I18n.t('views.topic.flash.successful_deletion')
-            render json:       current_topic,
-                   serializer: TopicSerializer,
-                   status:     :ok
+            render json:   TopicSerializer.new(current_topic,
+                                               include: [:user, :inventory_fields, :tags, :contributors]),
+                   status: :ok
           else
             flash.now[:error] = I18n.t('views.topic.flash.error_deletion', errors: topic.errors.to_s)
             render json:   { errors: topic.errors },

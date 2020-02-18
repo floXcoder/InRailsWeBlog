@@ -16,8 +16,7 @@ export const fetchReducer = (state, action, payloadReducer) => {
             break;
         case 'FETCH_SUCCESS':
             state.isFetching = isFetching;
-            state.metaTags = meta && meta.metaTags ? meta.metaTags : undefined;
-            state.pagination = meta && meta.pagination ? meta.pagination : undefined;
+            state.pagination = meta?.pagination || undefined;
             state.errors = {};
             payloadReducer(state);
             break;

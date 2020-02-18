@@ -39,26 +39,6 @@ class Admin::Blog < ApplicationRecord
   # == Callbacks ============================================================
 
   # == Class Methods ========================================================
-  def self.as_json(blogs, options = {})
-    return nil unless blogs
-
-    serializer_options = { root: blogs.is_a?(Admin::Blog) ? 'blog' : 'blogs' }
-
-    serializer_options.merge(
-      scope:      options.delete(:current_user),
-      scope_name: :current_user
-    ) if options.has_key?(:current_user)
-
-    serializer_options[blogs.is_a?(Admin::Blog) ? :serializer : :each_serializer] = Admin::BlogSerializer
-
-    ActiveModelSerializers::SerializableResource.new(blogs, serializer_options.merge(options)).as_json
-  end
-
-  def self.as_flat_json(blogs, options = {})
-    return nil unless blogs
-
-    as_json(blogs, options)[blogs.is_a?(Admin::Blog) ? :blog : :blogs]
-  end
 
   # == Instance Methods =====================================================
   def user?(admin)

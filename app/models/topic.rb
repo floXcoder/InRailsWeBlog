@@ -33,7 +33,6 @@ class Topic < ApplicationRecord
   enums_to_tr('topic', [:mode, :visibility])
 
   include TranslationConcern
-  # Add current_language to model
   translates :description,
              auto_strip_translation_fields:    [:description],
              fallbacks_for_empty_translations: true
@@ -195,32 +194,19 @@ class Topic < ApplicationRecord
   after_update :regenerate_article_slug
 
   # == Class Methods ========================================================
-  def self.as_json(topics, options = {})
-    return nil unless topics
+  def self.as_flat_json(topics, format, **options)
+    data = case format
+           when 'strict'
+             TopicStrictSerializer.new(topics, **options)
+           when 'complete'
+             TopicCompleteSerializer.new(topics, include: [:user, :inventory_fields, :contributors, :tracker], includes: [], **options)
+           else
+             TopicSampleSerializer.new(topics, **options)
+           end
 
-    serializer_options = {
-      root: topics.is_a?(Topic) ? 'topic' : 'topics'
-    }
-
-    serializer_options.merge(scope:      options.delete(:current_user),
-                             scope_name: :current_user) if options.key?(:current_user)
-
-    serializer_options[topics.is_a?(Topic) ? :serializer : :each_serializer] = if options[:strict]
-                                                                                 TopicStrictSerializer
-                                                                               elsif options[:sample]
-                                                                                 TopicSampleSerializer
-                                                                               else
-                                                                                 TopicSerializer
-                                                                               end
-
-    ActiveModelSerializers::SerializableResource.new(topics, serializer_options.merge(options)).as_json
+    data.flat_serializable_hash
   end
 
-  def self.as_flat_json(topics, options = {})
-    return nil unless topics
-
-    as_json(topics, options)[topics.is_a?(Topic) ? :topic : :topics]
-  end
 
   # == Instance Methods =====================================================
   def user?(user)
@@ -228,17 +214,24 @@ class Topic < ApplicationRecord
   end
 
   def link_path(options = {})
-    if options[:edit]
-      "/users/#{self.user.slug}/topics/#{self.slug}/edit"
-    elsif options[:host]
-      "#{options[:host]}/users/#{self.user.slug}/topics/#{self.slug}/show"
-    elsif options[:index]
-      "/users/#{self.user.slug}/topics/#{self.slug}"
-    elsif options[:tags]
-      "/users/#{self.user.slug}/topics/#{self.slug}/tags"
-    else
-      "/users/#{self.user.slug}/topics/#{self.slug}/show"
-    end
+    locale = options[:locale] || 'en'
+
+    route_name = case options[:route_name]
+                 when 'edit'
+                   'edit_topic'
+                 when 'tags'
+                   'topic_tags'
+                 when 'index'
+                   'topic_tags'
+                 else
+                   'user_article'
+                 end
+
+    params        = { user_slug: self.user.slug, topic_slug: self.slug }
+
+    params[:host] = ENV['WEBSITE_ADDRESS'] if options[:host]
+
+    Rails.application.routes.url_helpers.send("#{route_name}_#{locale}_#{options[:host] ? 'url' : 'path'}", **params)
   end
 
   def bookmarked?(user)
@@ -261,27 +254,22 @@ class Topic < ApplicationRecord
 
   def search_data
     {
-      id:              id,
-      user_id:         user_id,
-      user_slug:       user.slug,
-      mode:            mode,
+      id:              self.id,
+      user_id:         self.user_id,
+      user_slug:       self.user.slug,
+      mode:            self.mode,
       mode_translated: mode_translated,
-      name:            name,
-      description:     description,
-      languages:       languages,
-      priority:        priority,
-      visibility:      visibility,
-      archived:        archived,
-      accepted:        accepted,
-      created_at:      created_at,
-      updated_at:      updated_at,
-      slug:            slug
+      name:            self.name,
+      description:     self.description,
+      languages:       self.languages,
+      priority:        self.priority,
+      visibility:      self.visibility,
+      archived:        self.archived,
+      accepted:        self.accepted,
+      created_at:      self.created_at,
+      updated_at:      self.updated_at,
+      slug:            self.slug
     }
-  end
-
-  # SEO
-  def meta_description
-    [self.name, self.description&.summary(60)].compact.join(I18n.t('helpers.colon'))
   end
 
   private

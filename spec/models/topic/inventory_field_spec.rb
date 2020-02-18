@@ -41,7 +41,7 @@ RSpec.describe Topic::InventoryField, type: :model, basic: true do
     it { expect(@inventory_field.name).to eq('String field') }
     it { expect(@inventory_field.field_name).to eq('string_field') }
     it { expect(@inventory_field.value_type).to eq('string_type') }
-    it { expect(@inventory_field.parent_category).to be nil }
+    it { expect(@inventory_field.parent_category).to be_nil }
     it { expect(@inventory_field.required).to be false }
     it { expect(@inventory_field.searchable).to be false }
     it { expect(@inventory_field.filterable).to be false }

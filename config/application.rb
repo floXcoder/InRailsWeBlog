@@ -63,8 +63,8 @@ module InRailsWeBlog
 
     # I18n configuration
     config.i18n.load_path      += Dir[Rails.root.join('config', 'locales', '*.{ yml }').to_s]
-    config.i18n.default_locale = :fr
-    config.i18n.fallbacks      = [:fr]
+    config.i18n.default_locale = :en
+    config.i18n.fallbacks      = [:en, :fr]
 
     # Enable per-form CSRF tokens. Previous versions had false.
     config.action_controller.per_form_csrf_tokens = false

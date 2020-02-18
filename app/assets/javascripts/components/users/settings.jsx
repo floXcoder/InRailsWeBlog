@@ -13,29 +13,36 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 
+const PREFERENCE_VIEWS = {
+    ARTICLES: 0,
+    TAGS: 1,
+    SEARCH: 2
+};
+
 export default @connect((state) => ({
     currentUserId: state.userState.currentId,
-    user: state.userState.user,
-    settings: state.userState.user.settings,
-    articlesLoader: state.userState.user && state.userState.user.settings.articlesLoader,
-    articleDisplay: state.userState.user && state.userState.user.settings.articleDisplay,
-    tagParentAndChild: state.userState.user && state.userState.user.settings.tagParentAndChild,
-    tagSidebarPin: state.userState.user && state.userState.user.settings.tagSidebarPin,
-    tagSidebarWithChild: state.userState.user && state.userState.user.settings.tagSidebarWithChild,
-    tagOrder: state.userState.user && state.userState.user.settings.tagOrder,
-    searchHighlight: state.userState.user && state.userState.user.settings.searchHighlight,
-    searchOperator: state.userState.user && state.userState.user.settings.searchOperator,
-    searchExact: state.userState.user && state.userState.user.settings.searchExact
+    userPreferenceView: state.uiState.userPreferenceView,
+    articlesLoader: state.userState.user?.settings?.articlesLoader,
+    articleDisplay: state.userState.user?.settings?.articleDisplay,
+    articleMultilanguage: state.userState.user?.settings?.articleMultilanguage,
+    tagParentAndChild: state.userState.user?.settings?.tagParentAndChild,
+    tagSidebarPin: state.userState.user?.settings?.tagSidebarPin,
+    tagSidebarWithChild: state.userState.user?.settings?.tagSidebarWithChild,
+    tagOrder: state.userState.user?.settings?.tagOrder,
+    searchHighlight: state.userState.user?.settings?.searchHighlight,
+    searchOperator: state.userState.user?.settings?.searchOperator,
+    searchExact: state.userState.user?.settings?.searchExact
 }), {
     updateUserSettings
 })
-
 class UserSettings extends React.Component {
     static propTypes = {
         // from connect
         currentUserId: PropTypes.number,
+        userPreferenceView: PropTypes.string,
         articlesLoader: PropTypes.string,
         articleDisplay: PropTypes.string,
+        articleMultilanguage: PropTypes.bool,
         tagParentAndChild: PropTypes.bool,
         tagSidebarPin: PropTypes.bool,
         tagSidebarWithChild: PropTypes.bool,
@@ -51,9 +58,10 @@ class UserSettings extends React.Component {
     }
 
     state = {
-        tabIndex: 0,
+        tabIndex: PREFERENCE_VIEWS[this.props.userPreferenceView || 'ARTICLES'],
         articlesLoader: this.props.articlesLoader,
         articleDisplay: this.props.articleDisplay,
+        articleMultilanguage: this.props.articleMultilanguage,
         tagParentAndChild: this.props.tagParentAndChild,
         tagSidebarPin: this.props.tagSidebarPin,
         tagSidebarWithChild: this.props.tagSidebarWithChild,
@@ -105,7 +113,7 @@ class UserSettings extends React.Component {
                 </Tabs>
 
                 {
-                    this.state.tabIndex === 0 &&
+                    this.state.tabIndex === PREFERENCE_VIEWS.ARTICLES &&
                     <div className="row margin-top-15">
                         <div className="col s12 margin-top-15">
                             <FormControl className="margin-top-20"
@@ -150,11 +158,23 @@ class UserSettings extends React.Component {
                                 </RadioGroup>
                             </FormControl>
                         </div>
+
+                        <div className="col s12 margin-top-15">
+                            <FormLabel component="legend">
+                                {I18n.t('js.user.settings.article.multilanguage.title')}
+                            </FormLabel>
+
+                            <FormControlLabel label={I18n.t('js.user.settings.article.multilanguage.name')}
+                                              control={
+                                                  <Switch checked={this.state.articleMultilanguage}
+                                                          onChange={this._onSettingSwitchChange.bind(this, 'articleMultilanguage')}/>
+                                              }/>
+                        </div>
                     </div>
                 }
 
                 {
-                    this.state.tabIndex === 1 &&
+                    this.state.tabIndex === PREFERENCE_VIEWS.TAGS &&
                     <div className="row margin-top-15">
                         <div className="col s12">
                             <FormLabel component="legend">
@@ -206,7 +226,7 @@ class UserSettings extends React.Component {
                 }
 
                 {
-                    this.state.tabIndex === 2 &&
+                    this.state.tabIndex === PREFERENCE_VIEWS.SEARCH &&
                     <div className="row margin-top-15">
                         <div className="col s12">
                             <FormControl className="margin-top-20"

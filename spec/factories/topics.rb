@@ -31,7 +31,7 @@ FactoryBot.define do
 
     sequence(:name)          { |n| "Topic #{n}" }
     sequence(:description)   { |n| "Topic description #{n}" } # description_translations
-    languages                     { ['fr'] }
+    languages                     { ['en'] }
     priority                      { 0 }
     visibility                    { 'everyone' }
     # settings                    { {} }

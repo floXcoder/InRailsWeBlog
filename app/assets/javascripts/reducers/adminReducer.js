@@ -5,7 +5,7 @@ import * as ActionTypes from '../constants/actionTypes';
 import {
     fetchReducer,
     mutationReducer,
-    addOrReplaceIn
+    addOrReplaceIn, removeIn
 } from './mutators';
 
 const initState = {
@@ -20,6 +20,8 @@ const initState = {
     metaResults: {},
 
     blogs: [],
+
+    seoData: [],
 
     errors: {}
 };
@@ -47,6 +49,24 @@ export default function adminReducer(state = initState, action) {
         case ActionTypes.ADMIN_BLOG_CHANGE_ERROR:
             return mutationReducer(state, action, (state) => {
                 state.blogs = addOrReplaceIn(state.blogs, action.blog);
+            });
+
+        case ActionTypes.ADMIN_SEO_DATA_FETCH_INIT:
+        case ActionTypes.ADMIN_SEO_DATA_FETCH_SUCCESS:
+        case ActionTypes.ADMIN_SEO_DATA_FETCH_ERROR:
+            return fetchReducer(state, action, (state) => {
+                state.seoData = action.seoData;
+            });
+
+        case ActionTypes.ADMIN_SEO_DATA_CHANGE_INIT:
+        case ActionTypes.ADMIN_SEO_DATA_CHANGE_SUCCESS:
+        case ActionTypes.ADMIN_SEO_DATA_CHANGE_ERROR:
+            return mutationReducer(state, action, (state) => {
+                if(action.removedId) {
+                    removeIn(state.seoData, action.removedId);
+                } else {
+                    addOrReplaceIn(state.seoData, action.seoData);
+                }
             });
 
         default:

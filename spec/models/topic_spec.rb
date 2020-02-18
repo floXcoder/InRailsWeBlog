@@ -38,7 +38,7 @@ RSpec.describe Topic, type: :model, basic: true do
       mode:        :default,
       name:        'Topic',
       description: 'Topic description',
-      languages:   ['fr'],
+      languages:   ['en'],
       color:       '#000000',
       priority:    1,
       visibility:  :everyone,
@@ -69,7 +69,7 @@ RSpec.describe Topic, type: :model, basic: true do
     it { expect(@topic.name).to eq('Topic') }
     it { expect(@topic.mode).to eq('default') }
     it { expect(@topic.description).to eq('Topic description') }
-    it { expect(@topic.languages).to eq(['fr']) }
+    it { expect(@topic.languages).to eq(['en']) }
     it { expect(@topic.color).to eq('#000000') }
     it { expect(@topic.priority).to eq(1) }
     it { expect(@topic.visibility).to eq('everyone') }
@@ -226,22 +226,6 @@ RSpec.describe Topic, type: :model, basic: true do
       it { expect(Topic.bookmarked_by_user(@user)).to include(@topic) }
       it { expect(Topic.bookmarked_by_user(@user)).not_to include(other_topic) }
     end
-
-    describe '::as_json' do
-      it { is_expected.to respond_to(:as_json) }
-      it { expect(Topic.as_json(@topic)).to be_a(Hash) }
-      it { expect(Topic.as_json(@topic)[:topic]).to be_a(Hash) }
-      it { expect(Topic.as_json([@topic])).to be_a(Hash) }
-      it { expect(Topic.as_json([@topic])[:topics]).to be_a(Array) }
-      it { expect(Topic.as_json([@topic], strict: true)[:topics]).to be_a(Array) }
-      it { expect(Topic.as_json([@topic], sample: true)[:topics]).to be_a(Array) }
-    end
-
-    describe '::as_flat_json' do
-      it { is_expected.to respond_to(:as_flat_json) }
-      it { expect(Topic.as_flat_json(@topic)).to be_a(Hash) }
-      it { expect(Topic.as_flat_json([@topic])).to be_a(Array) }
-    end
   end
 
   context 'Instance Methods' do
@@ -281,11 +265,6 @@ RSpec.describe Topic, type: :model, basic: true do
     describe '.search_data' do
       it { is_expected.to respond_to(:search_data) }
       it { expect(@topic.search_data).to be_a(Hash) }
-    end
-
-    describe '.meta_description' do
-      it { is_expected.to respond_to(:meta_description) }
-      it { expect(@topic.meta_description).to be_a(String) }
     end
   end
 

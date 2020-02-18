@@ -45,6 +45,8 @@ class Admins::LogsController < AdminsController
                    Logging.read_latest_for(log_filename, log_params[:value].to_i + 2_000)
                  elsif log_params[:element] == 'refresh'
                    Logging.read_latest_for(log_filename, 2_000)
+                 elsif log_params[:element] == 'date'
+                   Logging.grep_date_for(log_filename, log_params[:value], 2_000)
                  elsif log_params[:value].present?
                    Logging.grep_for(log_filename, format_search(log_params[:element], log_params[:value]), 6_000)
                  end

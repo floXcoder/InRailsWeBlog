@@ -18,7 +18,6 @@ const initState = {
     errors: undefined,
 
     topics: [],
-    metaTags: {},
     pagination: {},
 
     userTopics: [],
@@ -64,15 +63,15 @@ export default function topicReducer(state = initState, action) {
                     } else {
                         state.userTopics = addOrReplaceIn(state.userTopics, action.topic);
                     }
-                    state.currentUserTopicId = (action.topic && action.topic.id) === (state.currentTopic && state.currentTopic.id) || findItemIndex(state.userTopics, action.topic && action.topic.id) !== -1 ? (action.topic && action.topic.id) : state.currentUserTopicId;
-                    state.currentUserTopicSlug = (action.topic && action.topic.id) === (state.currentTopic && state.currentTopic.id) || findItemIndex(state.userTopics, action.topic && action.topic.id) !== -1 ? (action.topic && action.topic.slug) : state.currentUserTopicSlug;
-                    state.currentTopic = (action.topic && action.topic.id) === (state.currentTopic && state.currentTopic.id) || findItemIndex(state.userTopics, action.topic && action.topic.id) !== -1 ? action.topic : state.currentTopic;
+                    state.currentUserTopicId = (action.topic?.id) === (state.currentTopic?.id) || findItemIndex(state.userTopics, action.topic?.id) !== -1 ? (action.topic && action.topic.id) : state.currentUserTopicId;
+                    state.currentUserTopicSlug = (action.topic?.id) === (state.currentTopic?.id) || findItemIndex(state.userTopics, action.topic?.id) !== -1 ? (action.topic?.slug) : state.currentUserTopicSlug;
+                    state.currentTopic = (action.topic?.id) === (state.currentTopic?.id) || findItemIndex(state.userTopics, action.topic?.id) !== -1 ? action.topic : state.currentTopic;
                 }
             });
 
         case ActionTypes.USER_FETCH_SUCCESS:
         case ActionTypes.USER_CHANGE_SUCCESS:
-            if (action.user && action.connection && action.user.currentTopic) {
+            if (action.user?.currentTopic && action.connection) {
                 state.currentUserTopicSlug = action.user.currentTopic.slug;
                 state.currentUserTopicId = action.user.currentTopic.id;
                 state.currentTopic = action.user.currentTopic;

@@ -45,7 +45,6 @@ class Article < ApplicationRecord
   enums_to_tr('article', [:mode, :visibility])
 
   include TranslationConcern
-  # Add current_language to model
   translates :title, :summary, :content,
              auto_strip_translation_fields:    [:title, :summary],
              fallbacks_for_empty_translations: true
@@ -84,14 +83,13 @@ class Article < ApplicationRecord
   # Search
   # Only filterable can be used in where options!
   searchkick word_middle: [:title, :content], # To improve speed for autocomplete
-             suggest:   [:title],
-             highlight: [:title, :content],
-             language:  -> { I18n.locale == :fr ? 'french' : 'english' }
+             suggest:    [:title],
+             highlight:  [:title, :content],
+             language:   -> { I18n.locale == :fr ? 'french' : 'english' },
+             index_name: -> { "#{self.name.tableize}-#{I18n.locale}" }
   # Cannot search in inventory fields if these options are used:
   # searchable:  [:title, :content, :reference],
   # filterable:  [:mode, :visibility, :draft, :languages, :notation, :accepted, :home_page, :user_id, :topic_id, :tag_ids, :tag_slugs],
-  # For multi-languages search, use multi-indexes:
-  # index_name:  -> { "#{name.tableize}-#{self.current_language || I18n.locale}" }
 
   # Comments
   ## scopes: most_rated, recently_rated
@@ -294,36 +292,18 @@ class Article < ApplicationRecord
     article.allow_comment = false if article.visibility == 'only_me'
   end
 
-  # after_commit :update_search_index
-
   # == Class Methods ========================================================
-  def self.as_json(articles, options = {})
-    return nil unless articles
+  def self.as_flat_json(articles, format, **options)
+    data = case format
+           when 'strict'
+             ArticleStrictSerializer.new(articles, **options)
+           when 'complete'
+             ArticleCompleteSerializer.new(articles, include: [:tracker], includes: [], **options)
+           else
+             ArticleSampleSerializer.new(articles, include: [:user, :tags], **options)
+           end
 
-    serializer_options = {
-      root: articles.is_a?(Article) ? 'article' : 'articles'
-    }
-
-    serializer_options.merge(
-      scope:      options.delete(:current_user),
-      scope_name: :current_user
-    ) if options.key?(:current_user)
-
-    serializer_options[articles.is_a?(Article) ? :serializer : :each_serializer] = if options[:strict]
-                                                                                     ArticleStrictSerializer
-                                                                                   elsif options[:sample]
-                                                                                     ArticleSampleSerializer
-                                                                                   else
-                                                                                     ArticleSerializer
-                                                                                   end
-
-    ActiveModelSerializers::SerializableResource.new(articles, serializer_options.merge(options)).as_json
-  end
-
-  def self.as_flat_json(articles, options = {})
-    return nil unless articles
-
-    as_json(articles, options)[articles.is_a?(Article) ? :article : :articles]
+    data.flat_serializable_hash
   end
 
   # == Instance Methods =====================================================
@@ -332,13 +312,20 @@ class Article < ApplicationRecord
   end
 
   def link_path(options = {})
-    if options[:edit]
-      "/users/#{self.user.slug}/articles/#{self.slug}/edit"
-    elsif options[:host]
-      "#{options[:host]}/users/#{self.user.slug}/articles/#{self.slug}"
-    else
-      "/users/#{self.user.slug}/articles/#{self.slug}"
-    end
+    locale = options[:locale] || 'en'
+
+    route_name = case options[:route_name]
+                 when 'edit'
+                   'edit_article'
+                 else
+                   'user_article'
+                 end
+
+    params        = { user_slug: self.user.slug, article_slug: self.slug }
+
+    params[:host] = ENV['WEBSITE_ADDRESS'] if options[:host]
+
+    Rails.application.routes.url_helpers.send("#{route_name}_#{locale}_#{options[:host] ? 'url' : 'path'}", **params)
   end
 
   def default_picture
@@ -386,7 +373,7 @@ class Article < ApplicationRecord
 
   def slug_candidates
     [
-      "#{self.title}__at__#{self.topic.slug}"
+      "#{self.title}__at__#{self.topic&.slug}"
     ]
   end
 
@@ -403,8 +390,8 @@ class Article < ApplicationRecord
   #   sanitize(self.content.gsub(/(<\/\w+>)/i, '\1 '), tags: [], attributes: []).squish if self.content
   # end
 
-  def formatted_content
-    formatted_content = public_content
+  def formatted_content(locale = nil)
+    formatted_content = public_content(true, locale)
     return formatted_content unless formatted_content
 
     # formatted_content = formatted_content.gsub(/<img (.*?)\/?>/im, '')
@@ -417,22 +404,35 @@ class Article < ApplicationRecord
     return formatted_content
   end
 
-  def public_content
-    self.content&.gsub(/<(\w+) class="secret">(.*?)<\/\1>/im, '')
+  def public_content(with_translations = false, locale = nil)
+    if with_translations && locale
+      if self.content_translations[locale.to_s].present?
+        ::Sanitizer.new.remove_secrets(self.content_translations[locale.to_s])
+      else
+        # Select first content not empty
+        ::Sanitizer.new.remove_secrets(self.content_translations.compact&.first&.last)
+      end
+    elsif with_translations
+      self.content_translations.transform_values { |c| ::Sanitizer.new.remove_secrets(c) }
+    else
+      ::Sanitizer.new.remove_secrets(self.content)
+    end
   end
 
   def private_content?
     self.content&.match?(/<(\w+) class="secret">.*?<\/\1>/im)
   end
 
-  def adapted_content(current_user_id)
-    formatted_content = if private_content? && self.user_id != current_user_id
-                          public_content
-                        else
-                          content
-                        end
-
-    return formatted_content
+  def adapted_content(current_user_id = nil, with_translations = false)
+    if private_content? && self.user_id != current_user_id
+      public_content(with_translations)
+    else
+      if with_translations
+        self.content_translations
+      else
+        self.content
+      end
+    end
   end
 
   def summary_content(size = 180, strip_html = true, current_user_id = nil)
@@ -446,51 +446,37 @@ class Article < ApplicationRecord
   def search_data
     # Only filterable can be used in where options!
     {
-      id:               id,
-      user_id:          user_id,
-      user_slug:        user.slug,
-      topic_id:         topic_id,
-      topic_name:       topic&.name,
-      topic_slug:       topic&.slug,
-      tag_ids:          tag_ids,
-      tag_names:        tags.map(&:name),
-      tag_slugs:        tags.map(&:slug),
-      mode:             mode,
+      id:               self.id,
+      user_id:          self.user_id,
+      user_slug:        self.user.slug,
+      topic_id:         self.topic_id,
+      topic_name:       self.topic&.name,
+      topic_slug:       self.topic&.slug,
+      tag_ids:          self.tag_ids,
+      tag_names:        self.tags.map(&:name),
+      tag_slugs:        self.tags.map(&:slug),
+      mode:             self.mode,
       mode_translated:  mode_translated,
-      current_language: current_language,
-      title:            title,
-      content:          formatted_content,
-      reference:        reference,
-      languages:        languages,
-      draft:            draft,
-      notation:         notation,
-      priority:         priority,
-      visibility:       visibility,
-      archived:         archived,
-      accepted:         accepted,
-      created_at:       created_at,
-      updated_at:       updated_at,
-      rank:             rank,
-      popularity:       popularity,
-      slug:             slug
+      title:            self.title, # Fetch first translation if title not found in current locale
+      content:          formatted_content(I18n.locale.to_s),
+      reference:        self.reference,
+      languages:        self.languages,
+      draft:            self.draft,
+      notation:         self.notation,
+      priority:         self.priority,
+      visibility:       self.visibility,
+      archived:         self.archived,
+      accepted:         self.accepted,
+      created_at:       self.created_at,
+      updated_at:       self.updated_at,
+      rank:             self.rank,
+      popularity:       self.popularity,
+      slug:             self.slug
     }.merge(inventories)
   end
 
-  # def update_search_index
-  #   # Update index to handle multi-languages
-  #   self.reindex
-  #
-  #   # Needed?
-  #   # Article.search_index.promote("#{self.class.name.tableize}-#{self.class.current_language || I18n.locale}")
-  # end
-
   def public_share_link
     self.share&.public_link
-  end
-
-  # SEO
-  def meta_description
-    [self.title, self.summary&.summary(60)].compact.join(I18n.t('helpers.colon'))
   end
 
   private

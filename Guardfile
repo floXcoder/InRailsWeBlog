@@ -17,6 +17,7 @@ end
 guard :process, name: 'i18n-js', command: 'rails i18n:js:export' do
   watch(%r{^config/i18n-js\.yml})
   watch(%r{^config/locales/js\..+\.yml})
+  watch(%r{^config/locales/statics\..+\.yml})
 end
 
 guard :process, name: 'Webpack', command: 'npm run development' do

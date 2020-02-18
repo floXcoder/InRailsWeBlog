@@ -6,11 +6,15 @@ import {
 
 import ExploreIcon from '@material-ui/icons/Explore';
 
+import {
+    trackingArticleParam
+} from '../../../constants/routesHelper';
+
 const ArticleTrackingIcon = ({articleId, size, color}) => (
     <span className="tooltip-bottom"
           data-tooltip={I18n.t('js.article.tooltip.tracking')}>
         <Link to={{
-            hash: '#tracking-article',
+            hash: '#' + trackingArticleParam,
             state: {
                 articleId
             }

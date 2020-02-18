@@ -14,10 +14,11 @@ module Api::V1
 
       bookmarks = bookmarks.where(topic_id: params[:topic_id]) if params[:topic_id].present?
 
+      expires_in InRailsWeBlog.config.cache_time, public: true
       respond_to do |format|
         format.json do
-          render json:            bookmarks,
-                 each_serializer: BookmarkSerializer
+          render json: BookmarkSerializer.new(bookmarks,
+                                              meta: { root: 'bookmarks' })
         end
       end
     end
@@ -30,9 +31,8 @@ module Api::V1
       respond_to do |format|
         format.json do
           if bookmark.add(user, bookmark_params[:bookmarked_type], bookmark_params[:bookmarked_id], bookmark_params[:topic_id])
-            render json:       bookmark,
-                   serializer: BookmarkSerializer,
-                   status:     :created
+            render json:   BookmarkSerializer.new(bookmark),
+                   status: :created
           else
             render json:   { errors: bookmark.errors },
                    status: :unprocessable_entity

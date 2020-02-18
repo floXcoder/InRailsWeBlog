@@ -10,7 +10,7 @@ import {
 
 const getHeaders = () => {
     const csrfToken = document.getElementsByName('csrf-token')[0];
-    const token = csrfToken && csrfToken.getAttribute('content');
+    const token = csrfToken?.getAttribute('content');
 
     return {
         credentials: 'same-origin',
@@ -24,7 +24,7 @@ const getHeaders = () => {
 
 const getDataHeaders = () => {
     const csrfToken = document.getElementsByName('csrf-token')[0];
-    const token = csrfToken && csrfToken.getAttribute('content');
+    const token = csrfToken?.getAttribute('content');
 
     return {
         credentials: 'same-origin',
@@ -41,7 +41,7 @@ const manageError = (origin, error, url) => {
     }
 
     // Error message display by handleFlashMessage function
-    if (error.headers && error.headers.get('X-Flash-Messages')) {
+    if (error.headers?.get('X-Flash-Messages')) {
         return;
     }
 
@@ -115,7 +115,7 @@ const handleFlashMessage = (response) => {
     if (flashMessage) {
         flashMessage = JSON.parse(decodeURIComponent(escape(flashMessage)));
 
-        if (flashMessage && flashMessage.success) {
+        if (flashMessage?.success) {
             Notification.success(flashMessage.success.replace(/&amp;/g, '&').replace(/&gt;/g, '<').replace(/&lt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'"));
         }
 
@@ -123,7 +123,7 @@ const handleFlashMessage = (response) => {
             Notification.alert((flashMessage.notice || flashMessage.alert).replace(/&amp;/g, '&').replace(/&gt;/g, '<').replace(/&lt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'"));
         }
 
-        if (flashMessage && flashMessage.error) {
+        if (flashMessage?.error) {
             Notification.error(flashMessage.error.replace(/&amp;/g, '&').replace(/&gt;/g, '<').replace(/&lt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'"));
         }
     }

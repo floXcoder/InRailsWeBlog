@@ -58,6 +58,16 @@ import {
     getCurrentTagSlugs
 } from '../../../selectors';
 
+import {
+    rootPath
+} from '../../../constants/routesHelper';
+
+import {
+    articleTemporaryDataName
+} from '../../modules/constants';
+
+import HeadLayout from '../head';
+
 import TopicModule from '../../topics/module';
 
 import BookmarkList from '../../bookmark/list';
@@ -75,14 +85,11 @@ import HeaderArticleMenu from '../header/menus/article';
 
 import styles from '../../../../jss/user/header';
 
-import {
-    articleTemporaryDataName
-} from '../../modules/constants';
-
 export default @connect((state) => ({
     routeProperties: state.routerState.currentRoute,
     routeParams: state.routerState.params,
     routeLocation: state.routerState.location,
+    metaTags: state.uiState.metaTags,
     isUserPreferenceOpen: state.uiState.isUserPreferenceOpen,
     isTopicPopupOpen: state.uiState.isTopicPopupOpen,
     isUserConnected: state.userState.isConnected,
@@ -105,6 +112,7 @@ class HeaderLayoutUser extends React.PureComponent {
         routeProperties: PropTypes.object,
         routeParams: PropTypes.object,
         routeLocation: PropTypes.object,
+        metaTags: PropTypes.object,
         isUserPreferenceOpen: PropTypes.bool,
         isTopicPopupOpen: PropTypes.bool,
         isUserConnected: PropTypes.bool,
@@ -129,7 +137,7 @@ class HeaderLayoutUser extends React.PureComponent {
 
         // Check if temporary article in local storage
         const temporaryArticle = getLocalData(articleTemporaryDataName);
-        if (temporaryArticle && temporaryArticle.length > 0) {
+        if (temporaryArticle?.length > 0) {
             this.state.hasTemporaryArticle = true;
         }
     }
@@ -191,7 +199,7 @@ class HeaderLayoutUser extends React.PureComponent {
                 <HomeArticleHeader routeParams={this.props.routeParams}
                                    userSlug={this.props.userSlug}
                                    topicSlug={this.props.topicSlug}
-                                   currentTopicMode={this.props.currentTopic && this.props.currentTopic.mode}
+                                   currentTopicMode={this.props.currentTopic?.mode}
                                    currentTagSlugs={this.props.currentTagSlugs}
                                    hasTemporaryArticle={this.state.hasTemporaryArticle}/>
 
@@ -227,10 +235,11 @@ class HeaderLayoutUser extends React.PureComponent {
                     <div className={this.props.classes.mobileToolbar}>
                         <h5 className={this.props.classes.mobileTitle}
                             itemProp="name">
-                            <Link className={this.props.classes.titleLink}
-                                  to="/"
+                            <Link className="header-brand-logo-mobile"
+                                  to={rootPath()}
+                                  title={window.settings.website_name}
                                   itemProp="url">
-                                {I18n.t('js.views.header.title')}
+                                {window.settings.website_name}
                             </Link>
                         </h5>
                     </div>
@@ -252,7 +261,7 @@ class HeaderLayoutUser extends React.PureComponent {
                                                routeParams={this.props.routeParams}
                                                userSlug={this.props.userSlug}
                                                topicSlug={this.props.topicSlug}
-                                               currentTopicMode={this.props.currentTopic && this.props.currentTopic.mode}
+                                               currentTopicMode={this.props.currentTopic?.mode}
                                                currentTagSlugs={this.props.currentTagSlugs}
                                                hasTemporaryArticle={this.state.hasTemporaryArticle}/>
                         </Collapse>
@@ -361,7 +370,7 @@ class HeaderLayoutUser extends React.PureComponent {
                         itemScope={true}
                         itemType="https://schema.org/Organization">
                     <LoadingBar showFastActions={true}
-                                style={{backgroundColor: '#233348', height: '2px'}}/>
+                                style={{backgroundColor: '#036603', height: '2px'}}/>
 
                     <Toolbar className={classNames(this.props.classes.toolbar)}>
                         <div className={this.props.classes.sectionMobile}>
@@ -371,15 +380,6 @@ class HeaderLayoutUser extends React.PureComponent {
                                         onClick={this._handleTagDrawerToggle}>
                                 <MenuIcon/>
                             </IconButton>
-
-                            <h1 className={this.props.classes.title}
-                                itemProp="name">
-                                <Link className={this.props.classes.titleLink}
-                                      to="/"
-                                      itemProp="url">
-                                    InR
-                                </Link>
-                            </h1>
                         </div>
 
                         {
@@ -418,11 +418,15 @@ class HeaderLayoutUser extends React.PureComponent {
                         }
 
                         <div className={this.props.classes.sectionDesktop}>
-                            <Link to="/">
-                                <h1 className={this.props.classes.title}>
-                                    {I18n.t('js.views.header.title')}
-                                </h1>
-                            </Link>
+                            <h1 className={this.props.classes.title}
+                                itemProp="name">
+                                <Link className="header-brand-logo"
+                                      to={rootPath()}
+                                      title={window.settings.website_name}
+                                      itemProp="url">
+                                    {window.settings.website_name}
+                                </Link>
+                            </h1>
                         </div>
 
                         <div className={this.props.classes.grow}/>
@@ -465,6 +469,10 @@ class HeaderLayoutUser extends React.PureComponent {
                 <Suspense fallback={<div/>}>
                     {this._renderHashRoutes(this.props.hashRoutes.article)}
                 </Suspense>
+
+                <HeadLayout>
+                    {this.props.metaTags}
+                </HeadLayout>
 
                 <div id="clipboard-area"
                      className="hidden">

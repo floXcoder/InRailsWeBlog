@@ -1,0 +1,18 @@
+fr:
+  routes:
+    home: "fr"
+    search: "recherche"
+    tags: "labels"
+    tagged: "labelise"
+    topics: "themes"
+    shared-topics: "themes-partage"
+    articles: "articles"
+    shared: "partage"
+    users: "utilisateurs"
+    signup: "connexion"
+    login: "inscription"
+    new: "nouveau"
+    edit: "edition"
+    about: "a-propos"
+    terms: "conditions-utilisations"
+    policy: "politique-des-donnees"

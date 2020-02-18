@@ -8,6 +8,10 @@ import Chip from '@material-ui/core/Chip';
 import Divider from '@material-ui/core/Divider';
 
 import {
+    taggedArticlesPath
+} from '../../../constants/routesHelper';
+
+import {
     spyTrackClick
 } from '../../../actions';
 
@@ -63,7 +67,7 @@ export default class SearchTagModule extends React.Component {
                   color="primary"
                   variant="outlined"
                   component={Link}
-                  to={`/tagged/${tag.slug}`}
+                  to={taggedArticlesPath(tag.slug)}
                   onClick={this._handleTagClick.bind(this, tag)}/>
         );
     };

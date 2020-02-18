@@ -67,7 +67,7 @@ const styles = (theme) => ({
         overflow: 'hidden',
         textOverflow: 'ellipsis',
         whiteSpace: 'nowrap',
-        background: theme.palette.primary.light,
+        background: theme.palette.primary.dark,
         color: '#fff',
         padding: '0 .8rem',
         transition: '.25s all ease',

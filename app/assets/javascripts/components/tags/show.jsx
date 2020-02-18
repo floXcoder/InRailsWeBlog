@@ -15,6 +15,11 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
 import {
+    showTagPath,
+    editTagPath
+} from '../../constants/routesHelper';
+
+import {
     fetchTag,
     spyTrackClick
 } from '../../actions';
@@ -23,13 +28,11 @@ import UserAvatarIcon from '../users/icons/avatar';
 
 import Loader from '../theme/loader';
 
-import HeadLayout from '../layouts/head';
 import NotFound from '../layouts/notFound';
 
 import styles from '../../../jss/tag/show';
 
 export default @connect((state) => ({
-    metaTags: state.tagState.metaTags,
     isFetching: state.tagState.isFetching,
     tag: state.tagState.tag
 }), {
@@ -41,7 +44,6 @@ class TagShow extends React.Component {
     static propTypes = {
         routeParams: PropTypes.object.isRequired,
         // from connect
-        metaTags: PropTypes.object,
         isFetching: PropTypes.bool,
         tag: PropTypes.object,
         fetchTag: PropTypes.func,
@@ -82,10 +84,6 @@ class TagShow extends React.Component {
 
         return (
             <article className={this.props.classes.root}>
-                <HeadLayout>
-                    {this.props.metaTags}
-                </HeadLayout>
-
                 <Typography className={this.props.classes.title}
                             component="h1"
                             variant="h1">
@@ -124,7 +122,7 @@ class TagShow extends React.Component {
                                         {
                                             this.props.tag.parents.map((tag) => (
                                                 <Link key={tag.id}
-                                                      to={`/tags/${tag.slug}`}
+                                                      to={showTagPath(tag.slug)}
                                                       onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.name)}>
                                                     {tag.name}
                                                 </Link>
@@ -152,7 +150,7 @@ class TagShow extends React.Component {
                                         {
                                             this.props.tag.children.map((tag) => (
                                                 <Link key={tag.id}
-                                                      to={`/tags/${tag.slug}`}
+                                                      to={showTagPath(tag.slug)}
                                                       onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.name)}>
                                                     {tag.name}
                                                 </Link>
@@ -252,7 +250,7 @@ class TagShow extends React.Component {
                             variant="outlined"
                             size="small"
                             component={Link}
-                            to={`/tags/${this.props.tag.slug}/edit`}>
+                            to={editTagPath(this.props.tag.slug)}>
                         {I18n.t('js.tag.show.edit_link')}
                     </Button>
                 </div>

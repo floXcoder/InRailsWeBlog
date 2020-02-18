@@ -30,43 +30,48 @@ module Api::V1
 
       complete = filter_params[:complete] && admin_signed_in?
 
-      tags = if complete
-               ::Tags::FindQueries.new(nil, current_admin).complete
-             elsif params[:populars]
-               ::Tags::FindQueries.new.populars(limit: params[:limit])
-             elsif params[:user_id] && (filter_params[:topic_slug].present? || filter_params[:topic_id].present?)
-               topic_id = if filter_params[:topic_slug]
-                            User.friendly.find(params[:user_id]).topics.friendly.find(filter_params[:topic_slug]).id
-                          else
-                            filter_params[:topic_id].to_i
-                          end
-               Rails.cache.fetch("user_tags:#{current_user&.id}_for_#{topic_id || current_user&.current_topic_id}", expires_in: InRailsWeBlog.config.cache_time) do
-                 ::Tags::FindQueries.new(current_user, current_admin).all(filter_params.merge(topic_id: topic_id, limit: params[:limit]))
-               end
-             else
-               ::Tags::FindQueries.new(current_user, current_admin).all(filter_params.merge(limit: params[:limit]))
-             end
+      if complete
+        tags = ::Tags::FindQueries.new(nil, current_admin).complete
+      elsif params[:populars]
+        tags = ::Tags::FindQueries.new.populars(limit: params[:limit])
+      elsif params[:user_id] && (filter_params[:topic_slug].present? || filter_params[:topic_id].present?)
+        topic_id = if filter_params[:topic_slug]
+                     User.friendly.find(params[:user_id]).topics.friendly.find(filter_params[:topic_slug]).id
+                   else
+                     filter_params[:topic_id].to_i
+                   end
 
-      respond_to do |format|
-        if filter_params[:user_slug].present?
-          set_meta_tags title: titleize(I18n.t('views.tag.index.title.user', user: User.find_by(slug: filter_params[:user_slug]).pseudo)),
-                        description: 'Tags for user',
-                        canonical: ''
-        elsif filter_params[:topic_slug].present?
-          set_meta_tags title: titleize(I18n.t('views.tag.index.title.topic', topic: Topic.friendly.find(filter_params[:topic_slug]).name)),
-                        description: 'Tags for topic',
-                        canonical: ''
-        elsif filter_params[:user_id].blank?
-          set_meta_tags title: titleize(I18n.t('views.tag.index.title.default')),
-                        description: 'Tags for user',
-                        canonical: ''
+        if filter_params[:topic_slug] && params[:user_id]&.to_i == 0
+          topic = Topic.friendly.find(filter_params[:topic_slug])
+          set_seo_data(:topic_tags,
+                       topic_slug: topic.name,
+                       user_slug:  topic.user.pseudo)
         end
 
-        format.json do
-          render json:             tags,
-                 each_serializer:  complete ? TagCompleteSerializer : TagSerializer,
-                 current_topic_id: topic_id,
-                 meta:             meta_attributes
+        tags = Rails.cache.fetch("user_tags:#{current_user&.id}_for_#{topic_id || current_user&.current_topic_id}", expires_in: InRailsWeBlog.config.cache_time) do
+          ::Tags::FindQueries.new(current_user, current_admin).all(filter_params.merge(topic_id: topic_id, limit: params[:limit]))
+        end
+      else
+        # set_seo_data(:tags)
+
+        tags = ::Tags::FindQueries.new(current_user, current_admin).all(filter_params.merge(limit: params[:limit]))
+      end
+
+      expires_in InRailsWeBlog.config.cache_time, public: true
+      if stale?(tags, template: false, public: true)
+        respond_to do |format|
+          format.json do
+            if complete
+              render json: TagCompleteSerializer.new(tags,
+                                                     include: [:user, :tracker],
+                                                     params:  { current_topic_id: topic_id },
+                                                     meta:    { root: 'tags', **meta_attributes })
+            else
+              render json: TagSerializer.new(tags,
+                                             params: { current_topic_id: topic_id },
+                                             meta:   { root: 'tags', **meta_attributes })
+            end
+          end
         end
       end
     end
@@ -75,17 +80,20 @@ module Api::V1
       tag = Tag.include_element.friendly.find(params[:id])
       authorize tag
 
-      respond_to do |format|
-        format.json do
-          set_meta_tags title:       titleize(I18n.t('views.tag.show.title', name: tag.name)),
-                        description: tag.meta_description,
-                        author:      tag.user.pseudo,
-                        canonical:   ''
+      expires_in InRailsWeBlog.config.cache_time, public: true
+      if stale?(tag, template: false, public: true)
+        respond_to do |format|
+          format.json do
+            set_seo_data(:show_tag,
+                         tag_slug:  tag.name,
+                         user_slug: tag.user.pseudo,
+                         author:    tag.user.pseudo)
 
-          render json:            tag,
-                 serializer:      TagCompleteSerializer,
-                 current_user_id: current_user&.id,
-                 meta:            meta_attributes
+            render json: TagCompleteSerializer.new(tag,
+                                                   include: [:user, :tracker],
+                                                   params:  { current_user_id: current_user&.id },
+                                                   meta:    meta_attributes)
+          end
         end
       end
     end
@@ -96,14 +104,15 @@ module Api::V1
 
       respond_to do |format|
         format.json do
-          set_meta_tags title:       titleize(I18n.t('views.tag.edit.title', name: tag.name)),
-                        description: tag.meta_description,
-                        canonical:   ''
+          set_seo_data(:edit_tag,
+                       tag_slug:  tag.name,
+                       user_slug: tag.user.pseudo,
+                       author:    tag.user.pseudo)
 
-          render json:            tag,
-                 serializer:      TagCompleteSerializer,
-                 current_user_id: current_user&.id,
-                 meta:            meta_attributes
+          render json: TagCompleteSerializer.new(tag,
+                                                 include: [:user, :tracker],
+                                                 params:  { current_user_id: current_user&.id },
+                                                 meta:    meta_attributes)
         end
       end
     end
@@ -117,9 +126,9 @@ module Api::V1
       respond_to do |format|
         format.json do
           if stored_tag.success?
-            render json:             stored_tag.result,
-                   serializer:       TagSerializer,
-                   current_topic_id: current_user&.current_topic_id
+            render json: TagSerializer.new(stored_tag.result,
+                                           params: { current_topic_id: current_user&.current_topic_id },
+                                           meta:   meta_attributes)
           else
             flash.now[:error] = stored_tag.message
             render json:   { errors: stored_tag.errors },
@@ -141,9 +150,9 @@ module Api::V1
         format.json do
           if tags.present?
             flash.now[:success] = t('views.tag.flash.successful_priority_update')
-            render json:            tags.reverse,
-                   each_serializer: TagSerializer,
-                   status:          :ok
+            render json:   TagSerializer.new(tags.reverse,
+                                             meta: { root: 'tags' }),
+                   status: :ok
           else
             flash.now[:error] = t('views.tag.flash.error_priority_update')
             render json:   { errors: t('views.tag.flash.error_priority_update') },

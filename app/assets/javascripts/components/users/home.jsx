@@ -24,6 +24,13 @@ import CompareArrowsIcon from '@material-ui/icons/CompareArrows';
 import OpenInNewIcon from '@material-ui/icons/OpenInNew';
 
 import {
+    topicArticlesPath,
+    userTopicPath,
+    newTopicParam,
+    sortTopicParam
+} from '../../constants/routesHelper';
+
+import {
     spyTrackClick
 } from '../../actions';
 
@@ -98,7 +105,7 @@ class UserHome extends React.Component {
                                     <IconButton className={this.props.classes.sortIcon}
                                                 component={Link}
                                                 to={{
-                                                    hash: '#sort-topic',
+                                                    hash: '#' + sortTopicParam,
                                                     state: {
                                                         visibility: 'only_me'
                                                     }
@@ -122,14 +129,14 @@ class UserHome extends React.Component {
                                           sm={6}
                                           lg={4}>
                                         <Link to={{
-                                            pathname: `/users/${this.props.user.slug}/topics/${topic.slug}`,
+                                            pathname: topicArticlesPath(this.props.user.slug, topic.slug),
                                         }}
                                               onClick={this._handleTopicClick.bind(this, topic)}>
-                                            <Paper className={classNames(this.props.classes.theme, {
-                                                [this.props.classes.storyTheme]: topic.mode === 'stories'
+                                            <Paper className={classNames(this.props.classes.topic, {
+                                                [this.props.classes.storyTopic]: topic.mode === 'stories'
                                             })}
                                                    elevation={1}>
-                                                <Typography className={this.props.classes.themeTitle}
+                                                <Typography className={this.props.classes.topicTitle}
                                                             variant="h5"
                                                             component="h2">
                                                     {topic.name}
@@ -137,7 +144,7 @@ class UserHome extends React.Component {
                                             </Paper>
                                         </Link>
 
-                                        <Link to={`/users/${this.props.user.slug}/topics/${topic.slug}/show`}>
+                                        <Link to={userTopicPath(this.props.user.slug, topic.slug)}>
                                             <Fab className={classNames(this.props.classes.topicLink, {
                                                 [this.props.classes.storyTopicLink]: topic.mode === 'stories'
                                             })}
@@ -157,15 +164,15 @@ class UserHome extends React.Component {
                                   sm={6}
                                   lg={4}>
                                 <Link to={{
-                                    hash: '#new-topic',
+                                    hash: '#' + newTopicParam,
                                     state: {
                                         mode: 'default',
                                         visibility: 'only_me'
                                     }
                                 }}>
-                                    <Paper className={this.props.classes.themeNew}
+                                    <Paper className={this.props.classes.topicNew}
                                            elevation={1}>
-                                        <Typography className={this.props.classes.themeNewTitle}
+                                        <Typography className={this.props.classes.topicNewTitle}
                                                     variant="h5"
                                                     component="h2">
                                             {I18n.t('js.user.home.add_topic')}
@@ -189,7 +196,7 @@ class UserHome extends React.Component {
                                     <IconButton className={this.props.classes.sortIcon}
                                                 component={Link}
                                                 to={{
-                                                    hash: '#sort-topic',
+                                                    hash: '#' + sortTopicParam,
                                                     state: {
                                                         visibility: 'everyone'
                                                     }
@@ -213,14 +220,14 @@ class UserHome extends React.Component {
                                           sm={6}
                                           lg={4}>
                                         <Link to={{
-                                            pathname: `/users/${this.props.user.slug}/topics/${topic.slug}`
+                                            pathname: topicArticlesPath(this.props.user.slug, topic.slug)
                                         }}
                                               onClick={this._handleTopicClick.bind(this, topic)}>
-                                            <Paper className={classNames(this.props.classes.theme, {
-                                                [this.props.classes.storyTheme]: topic.mode === 'stories'
+                                            <Paper className={classNames(this.props.classes.topic, {
+                                                [this.props.classes.storyTopic]: topic.mode === 'stories'
                                             })}
                                                    elevation={1}>
-                                                <Typography className={this.props.classes.themeTitle}
+                                                <Typography className={this.props.classes.topicTitle}
                                                             variant="h5"
                                                             component="h2">
                                                     {topic.name}
@@ -228,7 +235,7 @@ class UserHome extends React.Component {
                                             </Paper>
                                         </Link>
 
-                                        <Link to={`/users/${this.props.user.slug}/topics/${topic.slug}/show`}>
+                                        <Link to={userTopicPath(this.props.user.slug, topic.slug)}>
                                             <Fab className={classNames(this.props.classes.topicLink, {
                                                 [this.props.classes.storyTopicLink]: topic.mode === 'stories'
                                             })}
@@ -248,15 +255,15 @@ class UserHome extends React.Component {
                                   sm={6}
                                   lg={4}>
                                 <Link to={{
-                                    hash: '#new-topic',
+                                    hash: '#' + newTopicParam,
                                     state: {
                                         mode: 'default',
                                         visibility: 'everyone'
                                     }
                                 }}>
-                                    <Paper className={this.props.classes.themeNew}
+                                    <Paper className={this.props.classes.topicNew}
                                            elevation={1}>
-                                        <Typography className={this.props.classes.themeNewTitle}
+                                        <Typography className={this.props.classes.topicNewTitle}
                                                     variant="h5"
                                                     component="h2">
                                             {I18n.t('js.user.home.add_topic')}
@@ -297,12 +304,12 @@ class UserHome extends React.Component {
                                                   sm={6}
                                                   lg={4}>
                                                 <Link to={{
-                                                    pathname: `/users/${this.props.user.slug}/shared-topics/${topic.slug}`,
+                                                    pathname: topicArticlesPath(this.props.user.slug, topic.slug, 'shared-topics'),
                                                 }}
                                                       onClick={this._handleTopicClick.bind(this, topic)}>
-                                                    <Paper className={this.props.classes.theme}
+                                                    <Paper className={this.props.classes.topic}
                                                            elevation={1}>
-                                                        <Typography className={this.props.classes.themeTitle}
+                                                        <Typography className={this.props.classes.topicTitle}
                                                                     variant="h5"
                                                                     component="h2">
                                                             {topic.name}
@@ -310,7 +317,7 @@ class UserHome extends React.Component {
                                                     </Paper>
                                                 </Link>
 
-                                                <Link to={`/users/${this.props.user.slug}/topics/${topic.slug}/show`}>
+                                                <Link to={userTopicPath(this.props.user.slug, topic.slug)}>
                                                     <Fab className={this.props.classes.topicLink}
                                                          variant="extended"
                                                          size="small"

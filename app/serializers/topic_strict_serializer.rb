@@ -1,52 +1,34 @@
 # frozen_string_literal: true
 
-class TopicStrictSerializer < ActiveModel::Serializer
+class TopicStrictSerializer
+  include FastJsonapi::ObjectSerializer
   include NullAttributesRemover
 
-  # cache key: 'topic_strict', expires_in: InRailsWeBlog.config.cache_time
+  set_type :topic
 
-  # Methods with attributes must be overrided to work with searchkick results
+  # Cache not available without model object
+  # cache_options enabled: true, cache_length: InRailsWeBlog.config.cache_time
+
+  set_key_transform :camel_lower
+
   attributes :id,
              :user_id,
              :mode,
              :name,
-             :date,
              :visibility,
-             :slug,
-             :user,
-             :link
+             :slug
 
-  def id
-    object.id
-  end
-
-  def user_id
-    object.user_id
-  end
-
-  def name
-    object.name
-  end
-
-  def date
+  attribute :date do |object|
     object.created_at.to_i
   end
 
-  def visibility
-    object.visibility
-  end
-
-  def slug
-    object.slug
-  end
-
-  def user
+  attribute :user do |object|
     {
       slug: object.respond_to?(:user_slug) ? object.user_slug : object.user.slug
     }
   end
 
-  def link
-    Rails.application.routes.url_helpers.show_topic_path(user_slug: object.user.slug, topic_slug: object.slug) if instance_options[:with_link]
+  attribute :link do |object, params|
+    Rails.application.routes.url_helpers.show_topic_path(user_slug: object.user.slug, topic_slug: object.slug) if params[:with_link]
   end
 end

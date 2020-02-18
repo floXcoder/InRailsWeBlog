@@ -74,6 +74,7 @@ class User < ApplicationRecord
     articles_loader String, default: 'infinite' # Load articles by: all / paginate / infinite
     article_display String, default: 'summary' # Display articles: summary / card / inline / grid
     article_order String, default: 'priority_desc' # Order articles by: priority_asc, priority_desc, id_asc, id_desc, created_asc, created_desc, updated_asc, updated_desc, tag_asc, tags_desc, rank_asc, rank_desc, popularity_asc, popularity_desc, default
+    article_multilanguage Boolean, default: false # Write articles in multi-language
 
     tag_sidebar_pin Boolean, default: true # Tag sidebar pinned by default
     tag_sidebar_with_child Boolean, default: false # Display child only tags in sidebar
@@ -245,6 +246,19 @@ class User < ApplicationRecord
   after_create :create_default_topic
 
   # == Class Methods ========================================================
+  def self.as_flat_json(users, format, **options)
+    data = case format
+           when 'strict'
+             UserStrictSerializer.new(users, **options)
+           when 'complete'
+             UserCompleteSerializer.new(users, include: [:tracker], includes: [], **options)
+           else
+             UserSampleSerializer.new(users, **options)
+           end
+
+    data.flat_serializable_hash
+  end
+
   def self.order_by(order)
     case order
     when 'id_asc'
@@ -298,48 +312,28 @@ class User < ApplicationRecord
     end
   end
 
-  def self.as_json(users, options = {})
-    return nil unless users
-
-    serializer_options = {}
-
-    serializer_options.merge(
-      scope:      options.delete(:current_user),
-      scope_name: :current_user
-    ) if options.key?(:current_user)
-
-    serializer_options[users.is_a?(User) ? :serializer : :each_serializer] = if options[:strict]
-                                                                               UserStrictSerializer
-                                                                             elsif options[:sample]
-                                                                               UserSampleSerializer
-                                                                             else
-                                                                               UserSerializer
-                                                                             end
-
-    ActiveModelSerializers::SerializableResource.new(users, serializer_options.merge(options)).as_json
-  end
-
-  def self.as_flat_json(users, options = {})
-    return nil unless users
-
-    as_json(users, options)[users.is_a?(User) ? :user : :users]
-  end
-
   # == Instance Methods =====================================================
   def user?(user)
     user.id == self.id
   end
 
   def link_path(options = {})
-    if options[:edit]
-      "/users/#{self.slug}/edit"
-    elsif options[:host]
-      "#{options[:host]}/users/#{self.slug}"
-    elsif options[:index]
-      "/users/#{self.slug}"
-    else
-      "/users/#{self.slug}/show"
-    end
+    locale = options[:locale] || 'en'
+
+    route_name = case options[:route_name]
+                 when 'edit'
+                   'edit_user'
+                 when 'index'
+                   'user_articles'
+                 else
+                   'show_user'
+                 end
+
+    params        = { user_slug: self.slug }
+
+    params[:host] = ENV['WEBSITE_ADDRESS'] if options[:host]
+
+    Rails.application.routes.url_helpers.send("#{route_name}_#{locale}_#{options[:host] ? 'url' : 'path'}", **params)
   end
 
   def avatar_url
@@ -413,26 +407,21 @@ class User < ApplicationRecord
 
   def search_data
     {
-      pseudo:          pseudo,
-      first_name:      first_name,
-      last_name:       last_name,
-      additional_info: Sanitize.fragment(additional_info),
-      street:          street,
-      city:            city,
-      postcode:        postcode,
-      state:           state,
-      country:         country,
-      phone_number:    phone_number,
-      mobile_number:   mobile_number,
-      created_at:      created_at,
-      updated_at:      updated_at,
-      slug:            slug
+      pseudo:          self.pseudo,
+      first_name:      self.first_name,
+      last_name:       self.last_name,
+      additional_info: Sanitize.fragment(self.additional_info),
+      street:          self.street,
+      city:            self.city,
+      postcode:        self.postcode,
+      state:           self.state,
+      country:         self.country,
+      phone_number:    self.phone_number,
+      mobile_number:   self.mobile_number,
+      created_at:      self.created_at,
+      updated_at:      self.updated_at,
+      slug:            self.slug
     }
-  end
-
-  # SEO
-  def meta_description
-    [self.pseudo, self.additional_info&.summary(60)].compact.join(I18n.t('helpers.colon'))
   end
 
   private

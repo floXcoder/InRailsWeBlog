@@ -152,9 +152,9 @@ export const getArticleParentTags = createSelector(
     (article) => article,
     (article) => {
         // If tags and no parents, set as parent tags for display
-        const hasParentSlugs = article && article.parentTagSlugs && article.parentTagSlugs.length > 0;
-        const hasParentIds = article && article.parentTagIds && article.parentTagIds.length > 0;
-        const tags = article && article.tags && article.tags.filter((tag) => {
+        const hasParentSlugs = article?.parentTagSlugs && article.parentTagSlugs.length > 0;
+        const hasParentIds = article?.parentTagIds && article.parentTagIds.length > 0;
+        const tags = article?.tags?.filter((tag) => {
             if (hasParentSlugs) {
                 return article.parentTagSlugs.includes(tag.slug);
             } else if (hasParentIds) {
@@ -171,7 +171,7 @@ export const getArticleParentTags = createSelector(
 export const getArticleChildTags = createSelector(
     (article) => article,
     (article) => {
-        const tags = article && article.tags && article.tags.filter((tag) => (
+        const tags = article?.tags?.filter((tag) => (
             article.childTagSlugs ? article.childTagSlugs.includes(tag.slug) : article.childTagIds && article.childTagIds.includes(tag.id)
         ));
 

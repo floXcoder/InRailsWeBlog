@@ -36,7 +36,7 @@ describe 'Outdated Article API', type: :request, basic: true do
 
           expect(response).to be_json_response
           article = JSON.parse(response.body)
-          expect(article['article']['id']).to eq(@article.id)
+          expect(article['data']['id']).to eq(@article.id.to_s)
         }.to change(OutdatedArticle, :count).by(1)
       end
     end
@@ -52,7 +52,7 @@ describe 'Outdated Article API', type: :request, basic: true do
 
           expect(response).to be_json_response
           article = JSON.parse(response.body)
-          expect(article['article']['id']).to eq(@article.id)
+          expect(article['data']['id']).to eq(@article.id.to_s)
         }.to change(OutdatedArticle, :count).by(1)
       end
     end
@@ -82,7 +82,7 @@ describe 'Outdated Article API', type: :request, basic: true do
 
           expect(response).to be_json_response
           article = JSON.parse(response.body)
-          expect(article['article']['id']).to eq(@article.id)
+          expect(article['data']['id']).to eq(@article.id.to_s)
         }.to change(OutdatedArticle, :count).by(-1)
       end
     end
@@ -116,7 +116,7 @@ describe 'Outdated Article API', type: :request, basic: true do
 
           expect(response).to be_json_response
           article = JSON.parse(response.body)
-          expect(article['article']['id']).to eq(@article.id)
+          expect(article['data']['id']).to eq(@article.id.to_s)
         }.to change(OutdatedArticle, :count).by(-1)
       end
     end

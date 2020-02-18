@@ -13,6 +13,7 @@ import ChromeReaderModeIcon from '@material-ui/icons/ChromeReaderMode';
 import SettingsApplicationsIcon from '@material-ui/icons/SettingsApplications';
 import ListIcon from '@material-ui/icons/List';
 import CachedIcon from '@material-ui/icons/Cached';
+import ListAltIcon from '@material-ui/icons/ListAlt';
 
 function Item({col, href, text, icon}) {
     return (
@@ -70,10 +71,15 @@ const AdminDashboard = () => (
                   text={I18n.t('js.admin.menu.articles')}
                   icon={<AssignmentIcon/>}/>
 
-            <Item col="s12"
+            <Item col="s6"
                   href="/admins/blogs"
                   text={I18n.t('js.admin.menu.blogs')}
                   icon={<ChromeReaderModeIcon/>}/>
+
+            <Item col="s6"
+                  href="/admins/seo"
+                  text={I18n.t('js.admin.menu.seo')}
+                  icon={<ListAltIcon/>}/>
 
             <Item col="s4"
                   href="/admins/sidekiq"

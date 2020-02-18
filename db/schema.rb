@@ -10,9 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_18_140406) do
+ActiveRecord::Schema.define(version: 2020_01_10_133725) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pg_stat_statements"
   enable_extension "plpgsql"
 
   create_table "activities", force: :cascade do |t|
@@ -199,6 +200,17 @@ ActiveRecord::Schema.define(version: 2019_12_18_140406) do
     t.index ["deleted_at"], name: "index_pictures_on_deleted_at"
     t.index ["imageable_id", "imageable_type"], name: "index_pictures_on_imageable_id_and_imageable_type", where: "(deleted_at IS NULL)"
     t.index ["user_id"], name: "index_pictures_on_user_id", where: "(deleted_at IS NULL)"
+  end
+
+  create_table "seo_datas", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "locale", null: false
+    t.string "parameters", default: [], null: false, array: true
+    t.jsonb "page_title", null: false
+    t.jsonb "meta_desc", null: false
+    t.string "languages", default: [], null: false, array: true
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "settings", force: :cascade do |t|

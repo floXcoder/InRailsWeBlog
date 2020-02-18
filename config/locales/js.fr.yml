@@ -2,7 +2,6 @@ fr:
   js:
     views:
       header:
-        title: "InRailsWeBlog"
         topic:
           button: "Thèmes (%{current})"
           title: "Vos thèmes"
@@ -33,24 +32,34 @@ fr:
           log_in: "Se connecter"
           log_out: "Déconnexion"
           languages:
-            french: "Français"
-            english: "English"
+            en: "English"
+            fr: "Français"
+            de: "Allemand"
+            es: "Espagnol"
+            it: "Italien"
           profile: "Mon compte"
           administration: "Administration"
       sidebar:
         pin: "Pin"
         unpin: "Unpin"
       footer:
-        title: "In Rails We Blog"
-        description: "Un blog pensé pour les développeurs"
-        copyright: "Copyright 2019 - InRailsWeBlog (%{version}). Tous droits réservés."
+        description: "Un blog pour tous"
+        copyright: "Copyright 2020 (%{version}). Tous droits réservés."
         links:
           title: "Liens utiles"
-          contact: "Me contacter par email"
-          support: "Aide"
-          about: "A propos de moi"
+          contact: "Nous contacter"
+          about: "À propos"
+          terms: "Conditions d'utilisation"
+          policy: "Politique des données"
           github: "Source sous Github"
           github_src: "https://github.com/floXcoder/InRailsWeBlog"
+        languages: "Langues"
+        locales:
+          en: "English"
+          fr: "Français"
+          de: "Allemand"
+          es: "Espagnol"
+          it: "Italien"
       home:
         loader: "Chargement"
         articles:
@@ -173,6 +182,9 @@ fr:
               card: "Articles complets"
               inline: "Articles unifiés"
               grid: "Articles en grille"
+          multilanguage:
+            title: "Multi-langues"
+            name: "Écrire les articles en plusieurs langues"
         tag:
           title: "Labels"
           sidebar:
@@ -494,6 +506,7 @@ fr:
         add_column: "Ajouter colonne"
         remove_column: "Enlever colonne"
       history:
+        initial: "Version initiale"
         changed_at: "Version modifiée"
         restore: "Restaurer cette version"
         none: "Aucun historique pour cet article !"
@@ -513,8 +526,8 @@ fr:
           next: "Storie suivante"
       new:
         meta:
-          title: "Nouvel article - %{topic} - InRailsWeBlog"
-          description: "Ajout d'un article - InRailsWeBlog"
+          title: "Nouvel article - %{topic}"
+          description: "Ajout d'un article"
         title: "Créer un nouvel article"
         tags:
           title: "Ajouter des labels (clic droit : label parent / clic gauche : label enfant)"
@@ -725,6 +738,7 @@ fr:
         tags: "Labels"
         articles: "Articles"
         blogs: "Notes internes"
+        seo: "SEO"
         jobs: "Jobs"
         postgres: "Database"
         logs: "Logs"
@@ -822,12 +836,41 @@ fr:
           add: "Ajouter"
           update: "Mettre à jour"
           cancel: "Annuler"
+      seo:
+        title: "Gestion SEO"
+        add: "Ajouter données SEO"
+        table:
+          title: "Liste des pages"
+          columns:
+            id: "Id"
+            name: "Nom de la route"
+            locale: "Locale"
+            parameters: "Paramètres"
+            page_title: "Titre de la page"
+            meta_desc: "Meta Desc"
+        form:
+          title: "Sélectionner la route ou l'URL"
+          select:
+            route: "Nom de la route"
+            or: "ou"
+            url: "URL du site"
+          seo_fields: "Définition des champs SEO"
+          page_title: "Titre de la page"
+          meta_desc: "Meta description"
+          parameters: "Paramètres disponibles : %{parameters}"
+          no_parameters: "Aucun paramètres requis"
+          add: "Ajouter"
+          update: "Modifier"
+          delete: "SUPPRIMER"
+          delete_confirmation: "Supprimer cette donnée SEO : %{name} ?"
+          cancel: "Annuler"
       logs:
         input:
           title: "Recherche"
         help:
           title: "Options de recherche des logs"
           all: "Rechercher n'importe quel terme dans les logs"
+          date: "date:15:14 => retourne toutes les requêtes après cette heure"
           status: "status:200 => retourne toutes les requêtes avec ce status"
           ip: "ip:127.0.0.1 => retourne toutes les requêtes avec cet IP"
           host: "host:www.your-domain.com => retourne toutes les requêtes pour ce domaine"
@@ -859,14 +902,36 @@ fr:
         already_exists: "Le label existe déjà"
         too_long: "Le nom de l'élément est trop long"
     cookies:
-      message: "Bienvenue sur InRailsWeBlog ! En poursuivant votre navigation, vous acceptez l'utilisation de cookies. "
-      link: "En savoir plus"
-      validation: "D'accord"
+      title: "Ce site utilise des cookies"
+      content: "Notre site utilise des cookies pour personnaliser et améliorer votre confort d'utilisation. En poursuivant votre navigation sur ce site, vous acceptez notre politique de protection des données personnelles et notre politique cookies."
+      button: "J'accepte"
+      link: "Je paramètre"
+      details: "Les cookies garantissent une expérience de navigation optimale.\nCliquez sur chaque catégorie pour activer ou désactiver l’utilisation des cookies. Le bouton de couleur indique si les cookies sont actifs (vert) ou inactifs (gris)."
+      website:
+        title: "Fonctionnement"
+        details: "Ces cookies garantissent le fonctionnement du site et permettent son optimisation."
+      analytics:
+        title: "Web Analytics"
+        details: "Ces cookies permettent le suivi anonyme et agrégé des outils de Web Analytics."
+      social:
+        title: "Social"
+        details: "Ces cookies vous permettent d’interagir avec les modules sociaux présents sur le site."
+      advertisement:
+        title: "Publicité"
+        details: "Ces cookies permettent de mieux cibler les publicités qui vous sont proposées sur Internet."
+    no_cookies:
+      title: "Vous n'avez pas activé les cookies !"
+      content: "Les cookies ne sont pas activés sur votre navigateur, vous ne pourrez donc vous connecter au ajouter des photos au panier si les cookies sont désactivés. Consulté notre politique d'utilisation des données pour en connaître leur utilisation."
+      button: "J'ai compris"
+      link: "Notre politique"
     rating:
       clear: "Effacer"
     languages:
-      fr: "Français"
       en: "English"
+      fr: "Français"
+      de: "Allemand"
+      es: "Espagnol"
+      it: "Italien"
     editor:
       helper:
         title: "Aide : "
@@ -892,10 +957,6 @@ fr:
         cancel: "Annuler"
       select:
         prompt: "Veuillez sélectionner"
-      array:
-        last_word_connector: " et "
-        two_words_connector: " et "
-        words_connector: ", "
       form:
         ensure_validity: "Laisser vide"
       not_found:

@@ -73,7 +73,7 @@ export default class ArticleSearchMenuDisplay extends React.PureComponent {
                             <Grid item={true}
                                   className={this.props.classes.categoryItem}>
                                 <Button className={this.props.classes.categoryFilterButton}
-                                        onClick={this.props.onSettingsClick}>
+                                        onClick={this.props.onSettingsClick.bind(this, 'SEARCH')}>
                                     <SettingsIcon/>
                                 </Button>
                             </Grid>

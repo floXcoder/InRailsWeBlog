@@ -6,11 +6,15 @@ import {
 
 import ShareIcon from '@material-ui/icons/Share';
 
+import {
+    shareArticleParam
+} from '../../../constants/routesHelper';
+
 const ArticleShareIcon = ({articleId, size, color}) => (
     <span className="tooltip-bottom"
           data-tooltip={I18n.t('js.article.tooltip.share')}>
         <Link to={{
-            hash: '#share-article',
+            hash: '#' + shareArticleParam,
             state: {
                 articleId
             }

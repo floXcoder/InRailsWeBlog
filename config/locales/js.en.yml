@@ -2,7 +2,6 @@ en:
   js:
     views:
       header:
-        title: "InRailsWeBlog"
         topic:
           button: "Topics (%{current})"
           title: "Your topics"
@@ -33,24 +32,34 @@ en:
           log_in: "Log in"
           log_out: "Log out"
           languages:
-            french: "French"
-            english: "English"
+            en: "English"
+            fr: "French"
+            de: "German"
+            es: "Spanish"
+            it: "Italian"
           profile: "My account"
           administration: "Administration"
       sidebar:
         pin: "Pin"
         unpin: "Unpin"
       footer:
-        title: "In Rails We Blog"
-        description: "A blog for developer"
-        copyright: "Copyright 2019 - InRailsWeBlog (%{version}). All rights reserved."
+        description: "A blog for everyone"
+        copyright: "Copyright 2020 (%{version}). All rights reserved."
         links:
           title: "Links"
-          contact: "Contact us by email"
-          support: "Help"
+          contact: "Contact us"
           about: "About us"
+          terms: "Terms of service"
+          policy: "Privacy policy"
           github: "Github"
           github_src: "https://github.com/floXcoder/InRailsWeBlog"
+        languages: "Languages"
+        locales:
+          en: "English"
+          fr: "French"
+          de: "German"
+          es: "Spanish"
+          it: "Italian"
       home:
         loader: "Loading"
         articles:
@@ -89,7 +98,7 @@ en:
         email: "Email"
         password: "Password"
         confirm_password: "Password checking"
-        terms_of_use: "By subscribing on InRailsWeBlog, you accept our"
+        terms_of_use: "By subscribing on %{website}, you accept our"
         terms_of_use_name: "terms of use."
         cancel: "Cancel"
         submit: "Create my account"
@@ -173,6 +182,9 @@ en:
               card: "Full articles"
               inline: "Unified articles"
               grid: "Article in grid"
+          multilanguage:
+            title: "Multilanguage"
+            name: "Write articles in several languages"
         tag:
           title: "Tags"
           sidebar:
@@ -494,6 +506,7 @@ en:
         add_column: "Add column"
         remove_column: "Remove column"
       history:
+        initial: "Initial version"
         changed_at: "Version changed"
         restore: "Restore this version"
         none: "No history for this article!"
@@ -513,8 +526,8 @@ en:
           next: "Next story"
       new:
         meta:
-          title: "New article - %{topic} - InRailsWeBlog"
-          description: "Add a new article - InRailsWeBlog"
+          title: "New article - %{topic}"
+          description: "Add a new article"
         title: "Create a new article"
         tags:
           title: "Add tags (right click: parent tag / left click: children tag)"
@@ -526,11 +539,6 @@ en:
         form_title: "Update of: %{title}"
         submit: "Update"
         exit: "Are you sure to exit without saving?"
-      share:
-        title: "Share this theme"
-        content: "Copy the following link to share the article:"
-        button: "Shared by a link"
-        cancel: "Cancel"
       tracking:
         title: "Statistics"
         views: "Impression in all pages"
@@ -538,6 +546,11 @@ en:
         searches: "Articles appears in search result"
         bookmarks: "Articles added to bookmarks"
         comments: "Number of associated comments"
+        cancel: "Cancel"
+      share:
+        title: "Share this theme"
+        content: "Copy the following link to share the article:"
+        button: "Shared by a link"
         cancel: "Cancel"
       sort:
         title: "Sort by"
@@ -725,6 +738,7 @@ en:
         tags: "Tags"
         articles: "Articles"
         blogs: "Notes"
+        seo: "SEO"
         jobs: "Jobs"
         postgres: "Database"
         logs: "Logs"
@@ -822,12 +836,41 @@ en:
           add: "Add"
           update: "Update"
           cancel: "Cancel"
+      seo:
+        title: "SEO management"
+        add: "Add SEO data"
+        table:
+          title: "Pages list"
+          columns:
+            id: "Id"
+            name: "Route name"
+            locale: "Locale"
+            parameters: "Parameters"
+            page_title: "Page title"
+            meta_desc: "Meta Desc"
+        form:
+          title: "Select route or URL"
+          select:
+            route: "Named route"
+            or: "or"
+            url: "Website URL"
+          seo_fields: "SEO fields"
+          page_title: "Page title"
+          meta_desc: "Meta description"
+          parameters: "Parameters available: %{parameters}"
+          no_parameters: "No parameters required"
+          add: "Add"
+          update: "Edit"
+          delete: "REMOVE"
+          delete_confirmation: "Are you sure to remove: %{name}?"
+          cancel: "Cancel"
       logs:
         input:
           title: "Search"
         help:
           title: "Search log options"
           all: "Search for a string"
+          date: "date:15:14 => all requests from this hour"
           status: "status:200 => all requests with this status"
           ip: "ip:127.0.0.1 => all requests with this IP"
           host: "host:www.your-domain.com => all requests with this host"
@@ -859,14 +902,36 @@ en:
         already_exists: "Tag already exist"
         too_long: "Name too long"
     cookies:
-      message: "Welcome to InRailsWeBlog! This website uses cookies to ensure you get the best experience on our website. "
-      link: "More info"
-      validation: "Got it!"
+      title: "This website uses cookies"
+      content: "Our website uses cookies to personalize and improve your comfort of use. By continuing to browse this site, you accept our personal data protection policy and our policy cookies."
+      button: "I agree"
+      link: "Our policy"
+      details: "Cookies guarantee an optimal browsing experience.\nClick on each category to enable or disable the use of cookies.  The coloured button indicates whether cookies are active (green) or inactive (grey)."
+      website:
+        title: "Website"
+        details: "These cookies guarantee the functioning of the site and allow its optimization."
+      analytics:
+        title: "Web Analytics"
+        details: "These cookies allow anonymous and aggregated tracking of Web Analytics tools."
+      social:
+        title: "Social"
+        details: "These cookies allow you to interact with the social modules on the site."
+      advertisement:
+        title: "Advertisement"
+        details: "These cookies make it possible to better target the ads that are offered to you on the Internet."
+    no_cookies:
+      title: "You didn't enable cookies!"
+      content: "Cookies are not enabled on your browser, so you will not be able to log in to add photographs to the shopping cart if cookies are disabled. Consult our data use policy to find out how it is used."
+      button: "I understand"
+      link: "Our policy"
     rating:
       clear: "Clear"
     languages:
-      fr: "Français"
       en: "English"
+      fr: "French"
+      de: "German"
+      es: "Spanish"
+      it: "Italian"
     editor:
       helper:
         title: "Help: "
@@ -892,10 +957,6 @@ en:
         cancel: "Cancel"
       select:
         prompt: "Please select"
-      array:
-        last_word_connector: " and "
-        two_words_connector: " and "
-        words_connector: ", "
       form:
         ensure_validity: "Leave it blank"
       not_found:

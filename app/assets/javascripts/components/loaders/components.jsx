@@ -51,3 +51,7 @@ export const SearchIndex = lazyWithPreload(() => import(/* webpackChunkName: "se
 export const ArticleGridModeSearch = lazyWithPreload(() => import(/* webpackChunkName: "article-search-masonry" */ '../search/index/display/grid'));
 
 export const Editor = lazyWithPreload(() => import(/* webpackChunkName: "editor" */ '../editor/editor'));
+
+export const About = lazyWithPreload(() => import(/* webpackChunkName: "static-about" */ '../statics/about'));
+export const Terms = lazyWithPreload(() => import(/* webpackChunkName: "static-terms" */ '../statics/terms'));
+export const Policy = lazyWithPreload(() => import(/* webpackChunkName: "static-policy" */ '../statics/policy'));

@@ -12,22 +12,6 @@ SitemapGenerator::Sitemap.create do
     add root_path,
         changefreq: 'daily',
         priority:   1
-
-    # add contact_path,
-    #     changefreq: 'monthly',
-    #     priority:   0.6
-    # add support_path,
-    #     changefreq: 'monthly',
-    #     priority:   0.6
-    # add about_us_path,
-    #     changefreq: 'monthly',
-    #     priority:   0.2
-    # add terms_path,
-    #     changefreq: 'monthly',
-    #     priority:   0.2
-    # add privacy_path,
-    #     changefreq: 'monthly',
-    #     priority:   0.2
   end
 
   group(filename: :articles) do
@@ -49,14 +33,14 @@ SitemapGenerator::Sitemap.create do
   group(filename: :topics) do
     Topic.everyone.find_in_batches(batch_size: 200) do |topics|
       topics.each do |topic|
-        add topic.link_path(index: true),
+        add topic.link_path(route_name: 'index'),
             changefreq: 'weekly',
             priority:   0.7,
             lastmod:    topic.updated_at
       end
 
       topics.each do |topic|
-        add topic.link_path(tags: true),
+        add topic.link_path(route_name: 'tags'),
             changefreq: 'weekly',
             priority:   0.7,
             lastmod:    topic.updated_at
@@ -74,7 +58,7 @@ SitemapGenerator::Sitemap.create do
       end
 
       tags.each do |tag|
-        add tag.link_path(index: true),
+        add tag.link_path(route_name: 'index'),
             changefreq: 'weekly',
             priority:   0.7,
             lastmod:    tag.updated_at
@@ -85,7 +69,7 @@ SitemapGenerator::Sitemap.create do
   group(filename: :users) do
     User.everyone.find_in_batches(batch_size: 200) do |users|
       users.each do |user|
-        add user.link_path(index: true),
+        add user.link_path(route_name: 'index'),
             changefreq: 'weekly',
             priority:   0.5,
             lastmod:    user.updated_at

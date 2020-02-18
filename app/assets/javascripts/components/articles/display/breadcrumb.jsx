@@ -12,6 +12,13 @@ import Chip from '@material-ui/core/Chip';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 
 import {
+    userArticlesPath,
+    topicArticlesPath,
+    userArticlePath,
+    taggedArticlesPath
+} from '../../../constants/routesHelper';
+
+import {
     spyTrackClick
 } from '../../../actions';
 
@@ -43,7 +50,7 @@ class ArticleBreadcrumbDisplay extends React.Component {
                     itemProp="itemListElement"
                     itemScope={true}>
                     <Link className={this.props.classes.breadcrumbLink}
-                          to={`/users/${this.props.user.slug}`}
+                          to={userArticlesPath(this.props.user.slug)}
                           itemType="http://schema.org/Thing"
                           itemProp="item"
                           onClick={this._handleElementClick.bind(this, 'user', this.props.user.id, this.props.user.slug, this.props.user.pseudo)}>
@@ -66,7 +73,7 @@ class ArticleBreadcrumbDisplay extends React.Component {
                     <Link className={classNames(this.props.classes.breadcrumbLink, {
                         [this.props.classes.breadcrumbLast]: !this.props.article
                     })}
-                          to={`/users/${this.props.user.slug}/topics/${this.props.topic.slug}`}
+                          to={topicArticlesPath(this.props.user.slug, this.props.topic.slug)}
                           itemType="http://schema.org/Thing"
                           itemProp="item"
                           onClick={this._handleElementClick.bind(this, 'topic', this.props.topic.id, this.props.topic.slug, this.props.topic.name)}>
@@ -83,7 +90,7 @@ class ArticleBreadcrumbDisplay extends React.Component {
                 </li>
 
                 {
-                    this.props.article && this.props.article.title &&
+                    this.props.article?.title &&
                     <>
                         <li className={this.props.classes.breadcrumbSeparator}>
                             <KeyboardArrowRight/>
@@ -95,7 +102,7 @@ class ArticleBreadcrumbDisplay extends React.Component {
                             itemScope={true}>
                             <Link
                                 className={classNames(this.props.classes.breadcrumbLink, this.props.classes.breadcrumbLast)}
-                                to={`/users/${this.props.article.user.slug}/articles/${this.props.article.slug}`}
+                                to={userArticlePath(this.props.article.user.slug, this.props.article.slug)}
                                 itemType="http://schema.org/Thing"
                                 itemProp="item"
                                 onClick={this._handleElementClick.bind(this, 'article', this.props.article.id, this.props.article.slug, this.props.article.title)}>
@@ -120,7 +127,7 @@ class ArticleBreadcrumbDisplay extends React.Component {
                               label={tag.name}
                               variant="outlined"
                               component={Link}
-                              to={`/tagged/${tag.slug}`}
+                              to={taggedArticlesPath(tag.slug)}
                               onClick={this._handleElementClick.bind(this, 'tag', tag.id, tag.slug, tag.name)}/>
                     ))
                 }

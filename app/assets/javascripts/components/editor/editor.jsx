@@ -5,6 +5,11 @@ import $ from 'jquery';
 import withWidth from '@material-ui/core/withWidth';
 
 import {
+    userArticlePath,
+    topicArticlesPath
+} from '../../constants/routesHelper';
+
+import {
     uploadImages,
     deleteImage,
     loadAutocomplete
@@ -13,7 +18,7 @@ import {
 import '../../modules/summernote';
 import SanitizePaste from '../../modules/sanitizePaste';
 
-export const EditorMode = {
+export const EDITOR_MODE = {
     EDIT: 1,
     INLINE_EDIT: 2
 };
@@ -46,7 +51,7 @@ class Editor extends React.Component {
     };
 
     static defaultProps = {
-        mode: EditorMode.EDIT,
+        mode: EDITOR_MODE.EDIT,
         id: `summernote-${Utils.uuid()}`,
         isDisabled: false,
         // isCodeView: false
@@ -120,10 +125,10 @@ class Editor extends React.Component {
                         let nodeItem = document.createElement('a');
                         nodeItem.target = '_blank';
                         if (type === 'topic') {
-                            nodeItem.href = `/users/${parentSlug}/topics/${slug}`;
+                            nodeItem.href = topicArticlesPath(parentSlug, slug);
                             nodeItem.innerHTML = `#${title}`;
                         } else {
-                            nodeItem.href = `/users/${parentSlug}/articles/${slug}`;
+                            nodeItem.href = userArticlePath(parentSlug, slug);
                             nodeItem.setAttribute('data-article-relation-id', id);
                             nodeItem.innerHTML = `#${title}`;
                         }
@@ -132,7 +137,7 @@ class Editor extends React.Component {
                 }
             };
 
-            if (this.props.mode === EditorMode.INLINE_EDIT) {
+            if (this.props.mode === EDITOR_MODE.INLINE_EDIT) {
                 let airToolbar = [
                     ['style', ['style', 'bold', 'italic', 'underline']],
                     ['specialStyle', ['pre', 'advice', 'secret']],
@@ -205,7 +210,7 @@ class Editor extends React.Component {
             this._noteStatusElement = $container.find('.note-status-element');
             this._noteStatusHelper = $container.find('.note-status-helper');
 
-            if (this.props.mode !== EditorMode.INLINE_EDIT) {
+            if (this.props.mode !== EDITOR_MODE.INLINE_EDIT) {
                 this._noteStatusHelper.html(I18n.t('js.editor.helper.title') + ' <strong>#</strong> ' + I18n.t('js.editor.helper.article_hint'));
             }
 
@@ -246,7 +251,7 @@ class Editor extends React.Component {
     }
 
     componentWillUnmount() {
-        if (this._editor && this._editor.summernote) {
+        if (this._editor?.summernote) {
             this._editor.empty();
             this._editor.summernote('destroy');
         }

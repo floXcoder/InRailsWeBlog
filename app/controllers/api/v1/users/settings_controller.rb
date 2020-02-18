@@ -10,11 +10,12 @@ module Api::V1
       user = User.find(params[:user_id])
       authorize user, :settings?
 
-      respond_to do |format|
-        format.json do
-          render json:       user,
-                 root:       'settings',
-                 serializer: UserSettingSerializer
+      expires_in InRailsWeBlog.config.cache_time, public: true
+      if stale?(user, template: false, public: true)
+        respond_to do |format|
+          format.json do
+            render json: UserSettingSerializer.new(user)
+          end
         end
       end
     end
@@ -45,10 +46,8 @@ module Api::V1
 
       respond_to do |format|
         format.json do
-          render json:       (topic || user),
-                 root:       'settings',
-                 meta:       { topic: !!topic },
-                 serializer: UserSettingSerializer
+          render json: UserSettingSerializer.new(topic || user,
+                                                 meta: { topic: !!topic })
         end
       end
     end

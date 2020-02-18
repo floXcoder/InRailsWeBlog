@@ -9,6 +9,10 @@ import {
 } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 
+import {
+    editTopicPath
+} from '../../../constants/routesHelper';
+
 import TopicFormMandatoryFieldDisplay from './inventories/mandatoryField';
 import TopicInventoryFieldSorter from './inventories/sorter';
 import TopicErrorField from './fields/error';
@@ -63,7 +67,7 @@ class TopicFormInventoriesDisplay extends React.Component {
                                     variant="text"
                                     size="small"
                                     component={Link}
-                                    to={`/users/${this.props.topic.user.slug}/topics/${this.props.topic.slug}/edit`}>
+                                    to={editTopicPath(this.props.topic.user.slug, this.props.topic.slug)}>
                                 {I18n.t('js.topic.edit.back_button')}
                             </Button>
                         </div>

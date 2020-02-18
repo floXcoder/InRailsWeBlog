@@ -13,6 +13,10 @@ import {
 } from '@material-ui/core/styles';
 
 import {
+    userTopicPath
+} from '../../constants/routesHelper';
+
+import {
     fetchTopic,
     updateTopic
 } from '../../actions';
@@ -23,7 +27,6 @@ import {
 
 import Loader from '../theme/loader';
 
-import HeadLayout from '../layouts/head';
 import NotAuthorized from '../layouts/notAuthorized';
 
 import TopicFormDisplay from './display/form';
@@ -34,7 +37,6 @@ import styles from '../../../jss/topic/edit';
 export default @withRouter
 @connect((state) => ({
     currentUserId: state.userState.currentId,
-    metaTags: state.topicState.metaTags,
     topic: state.topicState.topic,
     topicErrors: getTopicErrors(state)
 }), {
@@ -49,7 +51,6 @@ class TopicEdit extends React.Component {
         // from router
         history: PropTypes.object,
         // from connect
-        metaTags: PropTypes.object,
         topic: PropTypes.object,
         currentUserId: PropTypes.number,
         topicErrors: PropTypes.array,
@@ -74,7 +75,7 @@ class TopicEdit extends React.Component {
             .then((response) => {
                 if (response.topic) {
                     this.props.history.push({
-                        pathname: `/users/${this.props.topic.user.slug}/topics/${this.props.topic.slug}/show`
+                        pathname: userTopicPath(this.props.topic.user.slug, this.props.topic.slug)
                     });
                 }
             });
@@ -109,10 +110,6 @@ class TopicEdit extends React.Component {
 
         return (
             <div className={this.props.classes.root}>
-                <HeadLayout>
-                    {this.props.metaTags}
-                </HeadLayout>
-
                 <TopicFormDisplay id={`topic-edit-${this.props.topic.id}`}
                                   topic={this.props.topic}
                                   isEditing={true}

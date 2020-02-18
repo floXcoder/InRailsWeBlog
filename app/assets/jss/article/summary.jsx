@@ -29,7 +29,7 @@ const styles = (theme) => ({
         margin: 'inherit'
     },
     titleLink: {
-        color: theme.palette.primary.dark
+        color: theme.palette.text.primary
     },
     avatarContainer: {
         paddingTop: 4,

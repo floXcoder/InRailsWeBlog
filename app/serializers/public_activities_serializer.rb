@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-class PublicActivitiesSerializer < ActiveModel::Serializer
-  include Rails.application.routes.url_helpers
+class PublicActivitiesSerializer
+  include FastJsonapi::ObjectSerializer
 
-  # cache key: 'public_activities', expires_in: InRailsWeBlog.config.cache_time
+  set_key_transform :camel_lower
 
   attributes :id,
              :trackable_id,
@@ -11,23 +11,21 @@ class PublicActivitiesSerializer < ActiveModel::Serializer
              :key,
              :parameters,
              :recipient_id,
-             :recipient_type,
-             :performed_at,
-             :link
+             :recipient_type
 
-  def performed_at
+  attribute :performed_at do |object|
     I18n.l(object.created_at, format: :custom).mb_chars.downcase.to_s
   end
 
-  def link
+  attribute :link do |object|
     if object.trackable_type == 'Article'
-      article_path(object.trackable_id)
+      Rails.application.routes.url_helpers.article_path(object.trackable_id)
     elsif object.trackable_type == 'Tag'
-      tag_path(object.trackable_id)
+      Rails.application.routes.url_helpers.tag_path(object.trackable_id)
     elsif object.trackable_type == 'TaggedArticle'
-      article_path(object.recipient_id)
+      Rails.application.routes.url_helpers.article_path(object.recipient_id)
     elsif object.trackable_type == 'BookmarkedArticle'
-      article_path(object.recipient_id)
+      Rails.application.routes.url_helpers.article_path(object.recipient_id)
     elsif object.trackable_type == 'Comment'
       url_for(
         controller: object.recipient_type.tableize,

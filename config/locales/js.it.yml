@@ -1,0 +1,977 @@
+it:
+  js:
+    views:
+      header:
+        article:
+          button: "Articoli"
+          menu:
+            add:
+              default: "Aggiungi articolo"
+              inventories: "Aggiungere l'inventario"
+              stories: "Scrivi una storia"
+            bookmark: "Articoli preferiti"
+            draft: "Temporaneo"
+            new: "Nuovo articolo"
+            temporary: "Articolo corrente"
+            user: "I miei articoli"
+        search:
+          button: "Ricerca"
+        settings:
+          button: "Preferenze"
+        tags:
+          button: "Etichette"
+        topic:
+          add: "Aggiungere un nuovo tema"
+          button: "Temi (%{current})"
+          title: "I vostri temi"
+        user:
+          administration: "Amministrazione"
+          articles: "Articoli"
+          bookmarks: "Preferiti"
+          languages:
+            en: "Inglese"
+            fr: "Francés"
+            de: "Tedesco"
+            es: "Spagnolo"
+            it: "Italiano"
+          log_in: "Accesso"
+          log_out: "Logout"
+          profile: "Il mio conto"
+          settings: "Le mie impostazioni"
+          sign_up: "Registrati"
+      sidebar:
+        pin: "Pino"
+        unpin: "Disinserire"
+      footer:
+        copyright: "Copyright 2020 (%{version}). Tutti i diritti riservati."
+        description: "Un blog per tutti"
+        languages: "Lingue"
+        links:
+          about: "Chi siamo"
+          contact: "Contattateci"
+          github: "Fonte sotto Github"
+          github_src: "https://github.com/floXcoder/InRailsWeBlog"
+          policy: "Politica dei dati"
+          terms: "Termini e condizioni di utilizzo"
+          title: "Link utili"
+        locales:
+          en: "Inglese"
+          fr: "Francés"
+          de: "Tedesco"
+          es: "Spagnolo"
+          it: "Italiano"
+      home:
+        articles:
+          title: "Esplora gli articoli popolari"
+        loader: "Caricamento"
+        tags:
+          title: "Etichette"
+    user:
+      model:
+        additional_info: Informazioni personali
+        admin: Direttore
+        city: Città
+        country: Paese
+        created_at: Data di creazione del conto
+        email: Il vostro email
+        first_name: Nome
+        last_name: Nome
+        last_sign_in_at: Ultimo accesso
+        locale: Lingua
+        pseudo: Soprannome
+      login:
+        cancel: Annulla
+        connected: Reindirizzamento sul tuo conto
+        connecting: Login in corso
+        externals:
+          facebook: Connettiti con Facebook
+          google: Accedi con Google
+        login: Nome utente o e-mail
+        new_password: Hai dimenticato la tua password?
+        password: Password
+        remember_me: Ricordati di me
+        submit: Login
+        title: Login
+      signup:
+        cancel: Annulla
+        confirm_password: Conferma la password
+        connected: Reindirizzamento sul tuo conto
+        connecting: Registrazione in corso
+        email: Il vostro email
+        externals:
+          facebook: Iscriviti con Facebook
+          google: Iscriviti a Google
+        password: Password
+        pseudo: Soprannome
+        submit: Crea il mio conto
+        terms_of_use: Registrandoti su %{website}, accetti di accettare il
+        terms_of_use_name: condizioni di utilizzo.
+        title: Crea un conto
+      password:
+        edit:
+          button: Cambiare la mia password
+          password: Nuova password
+          password_confirmation: Confermare la nuova password
+          title: Hai dimenticato la tua password?
+        new:
+          back: Torna alla pagina iniziale
+          button: Inviatemi una nuova password
+          email: Il tuo indirizzo e-mail
+          title: Cambia la tua password
+      home:
+        add_topic: Aggiungi un tema
+        private:
+          subtitle: Gli articoli associati saranno visti solo da voi (con le vostre etichette)
+          title: I vostri temi privati
+        public:
+          subtitle: Gli articoli saranno condivisi per tutto il mondo (con etichette comuni)
+          title: I vostri temi pubblici
+        shared:
+          subtitle: Temi condivisi con voi da altri utenti
+          title: I vostri temi condivisi
+      index:
+        link_to_user: Dettagli utente
+        search: Ricerca utente
+      edit:
+        back_button: Indietro
+        connection_parameters: Modificare le impostazioni di connessione
+        current_picture: 'La tua immagine attuale :'
+        local_picture: Immagine locale
+        login_header: Informazioni di accesso
+        no_picture: Non hai un'immagine associata al tuo account.
+        or: oppure
+        page_title: Modifica il mio profilo
+        personal_information_header: Informazioni personali
+        placeholder_picture: Utilizzare un'immagine locale o un url
+        profile_picture: Immagine per il tuo profilo
+        remote_picture: Immagine URL
+        remove_picture: Cancella questa immagine
+        replace_picture: È possibile sostituire l'immagine specificandone un'altra a livello locale o da un url
+        title: Modifica il mio profilo
+        update_profile: Aggiornare il mio profilo
+      errors:
+        email:
+          already_taken: è già preso, si prega di scegliere un indirizzo e-mail diverso
+          invalid: L'indirizzo e-mail non è valido
+          required: Inserisci un indirizzo e-mail
+        login:
+          invalid: non esiste, si prega di fornire un indirizzo e-mail valido o un nickname
+          required: Inserisci la tua email o il tuo nickname
+        password:
+          mismatch: La password e la conferma della password non corrispondono
+          required: Inserisci una password
+          size: La password deve essere compresa tra i caratteri %{min}%{max}
+        policy: Si prega di accettare prima i termini e le condizioni di utilizzo
+        pseudo:
+          already_taken: è già preso, si prega di scegliere un altro soprannome
+          required: Inserisci il tuo nickname
+          size: Lo Pseudo deve essere compreso tra i caratteri %{min}%{max}
+      settings:
+        article:
+          display:
+            mode:
+              card: Articoli completi
+              grid: Articoli della griglia
+              inline: Articoli Unificati
+              summary: Solo estratti di articoli
+            title: Visualizzazione degli articoli
+          loader:
+            mode:
+              all: Carica tutti
+              infinite: Mostra gli elementi a scorrimento
+              pagination: Utilizzare una paginazione
+            title: Caricamento degli articoli
+          multilanguage:
+            name: Scrivere articoli in diverse lingue
+            title: Multi-lingue
+          title: Articoli
+        search:
+          exact: La parola o le parole specifiche
+          highlight: Evidenziare
+          operator:
+            mode:
+              and: Tutte le parole
+              or: Almeno una parola
+            title: Operatore
+          options: Risultati
+          title: Ricerca
+        tag:
+          order:
+            mode:
+              name: Nome
+              priority: Priorità
+            title: Ordine di etichette predefinito
+          parent_and_child: Visualizza gli articoli per bambini con il genitore
+          sidebar:
+            pin: Elenco delle etichette visibili di default
+            title: Barra laterale
+            with_child: Mostra le etichette dei bambini nell'elenco principale
+          title: Etichette
+    bookmark:
+      common:
+        add: Aggiungi ai preferiti
+        added:
+          article: L'articolo è stato aggiunto ai preferiti
+          tag: L'etichetta è stata aggiunta ai preferiti
+          topic: Il tema è stato aggiunto ai preferiti
+          user: L'utente è stato aggiunto ai preferiti
+        remove: Rimuovere i preferiti
+        removed:
+          article: L'articolo è stato rimosso dai preferiti
+          tag: L'etichetta è stata tolta dai preferiti
+          topic: Il tema è stato rimosso dai preferiti
+          user: L'utente è stato rimosso dai preferiti
+      notification:
+        connection: Accesso
+        not_connected: Per aggiungere o rimuovere i preferiti è necessario effettuare il login
+        saved_later: Non hai effettuato il login. Il favorito sarà associato al tuo account una volta effettuato il login.
+        text: Aggiunti i segnalibri
+      list:
+        none: Non ci sono favoriti
+        title: I tuoi preferiti
+    tag:
+      common:
+        associated: Etichette associate
+        filter: Filtrare per etichette ...
+        link: Vedi dettagli dell'etichetta
+        list: Etichette
+        no_children: Nessuna etichetta discografica associata
+        no_description: Nessuna descrizione associata all'etichetta
+        no_parents: Nessuna etichetta parentale associata
+        no_privates: Nessuna etichetta privata
+        no_publics: Nessuna etichetta privata
+        no_results: 'Non sono state trovate etichette per :'
+        no_synonyms: Nessun sinonimo associato all'etichetta
+        no_tags: Ancora nessun tag per questo argomento
+        placeholders:
+          description: Descrizione dell'etichetta
+          name: Nome dell'etichetta
+        privates: Etichette private
+        publics: Etichette pubbliche
+        stats:
+          clicks: cliccare
+          searches: 'Ricerca '
+          title: Statistiche
+          views: Viste
+        synonyms: Sinonimi dell'etichetta ...
+        usage: "%{count} utilizza"
+        visibility: Scegliere la visibilità
+        visibility_immutable: Il nome di un'etichetta pubblica non può essere cambiato
+      form:
+        unsaved: Uscire senza salvare il tag?
+      model:
+        articles_count: Numero di articoli
+        children: Etichette del filo
+        description: Descrizione
+        name: Nome dell'etichetta
+        owner: Creatore
+        parents: Etichette madri
+        synonyms: Sinonimi
+        visibility: Visibilità
+      enums:
+        visibility:
+          everyone: Pubblico
+          only_me: Privato
+      index:
+        links:
+          all_tags: Vedi tutte le etichette pubbliche
+          user_tags: Vedi tutte le etichette usate
+        sort: Ordina le etichette per priorità
+        titles:
+          all: Tutte le etichette pubbliche
+          topic: 'Etichette associate al tema: %{topic}'
+          user: Tutte le vostre etichette
+      show:
+        back_button: Annulla
+        edit_link: Cambia questa etichetta
+      new:
+        submit: Creazione dell'etichetta
+        title: Aggiunta di un'etichetta
+      edit:
+        back_button: Annulla
+        submit: Aggiornare l'etichetta
+        title: 'Modifica dell''etichetta: %{tag}'
+      errors:
+        default: Impossibile creare l'etichetta! Grazie per averci riprovato.
+        description:
+          size: La descrizione dell'etichetta deve essere compresa tra i caratteri %{min}%{max}
+        name:
+          size: Il nome dell'etichetta deve essere compreso tra i caratteri %{min}%{max}
+        not_authorized: Non avete il permesso di accedere a questa etichetta!
+    topic:
+      common:
+        modes:
+          inventories: Elenco degli articoli con campi personalizzati
+          stories: Elenco delle cronache in forma di cronologia
+        no_description: Nessuna descrizione associata a questo tema
+        placeholders:
+          description: Descrizione del tema
+          name: Nome del tema
+        user_current_topic: Tema attuale
+        user_topics: I miei temi
+        visibility: Scegliere la visibilità
+      form:
+        unsaved: Uscire senza salvare il tema?
+      model:
+        articles_count: Numero di articoli
+        contributors: Collaboratori
+        description: Dettagli
+        inventory_fields:
+          name: Nome del campo
+        mode: Tipo
+        name: Nome
+        owner: Creatore
+        tags: Etichette associate
+        tags_count: Numero di etichette
+        visibility: Visibilità
+      enums:
+        mode:
+          default: Predefinito
+          inventories: Inventario
+          stories: Storia
+        visibility:
+          everyone: Pubblico
+          only_me: Privato
+      show:
+        back_button: Annulla
+        edit_link: Modificare questo tema
+        share: Condividi questo argomento
+      new:
+        cancel: Annulla
+        description: Descrizione
+        mode: Tipo
+        name: Nome del tema
+        submit: Aggiungi
+        title: Aggiungi un tema
+      edit:
+        back_button: Annulla
+        delete: Cancellare
+        description: Descrizione
+        mode: Tipo
+        name: Nome del tema
+        submit: Aggiornare il tema
+        title: 'Modifica del tema: %{topic}'
+        update_inventories: Modificare i campi personalizzati
+      edit_inventories:
+        add_field: Aggiungere un nuovo campo
+        field_props: Proprietà del campo
+        mandatory_field: Campo obbligatorio per la ricerca
+        remove_field: Cancellare questo campo
+        title: 'Campi personalizzati per il tema: %{topic}'
+      share:
+        cancel: Annulla
+        errors:
+          unknown: Utente non trovato
+          user_empty: Grazie di compilare il nickname o l'e-mail
+        form:
+          submit: Condividi
+          user_name: Nome utente o email dell'utente
+        title: Condividi il tema
+      sort:
+        title: Cambiare l'ordine dei temi
+      errors:
+        default: Impossibile creare il tema! Grazie per averci riprovato.
+        description:
+          size: La descrizione dell'etichetta deve essere compresa tra i caratteri %{min}%{max}
+        name:
+          size: Il nome dell'etichetta deve essere compreso tra i caratteri %{min}%{max}
+        not_authorized: Non hai il permesso di accedere a questo tema!
+    inventory_fields:
+      model:
+        filterable: Filtro per la ricerca ?
+        name: Nome del campo
+        required: Campo obbligatorio?
+        searchable: Includere nella ricerca?
+        value_type: Tipo di campo
+      enums:
+        value_type:
+          boolean_type: Vero / falso
+          date_type: Data
+          number_type: Numero
+          string_type: Canale
+          text_type: Testo
+    article:
+      common:
+        actions: Azioni
+        allow_comment:
+          falsy: 'No'
+          title: Permettere commenti?
+          truthy: Sì
+        draft: Nota temporanea?
+        external_source: Riferimento esterno?
+        infinite:
+          loading: Caricamento degli articoli ...
+        link: C'è una connessione?
+        no_results:
+          search:
+            content: Prova qualcos'altro :)
+            title: Nessun articolo trovato
+          topic:
+            button: Aggiungi un nuovo articolo
+            title:
+              child_tag: Aggiungi un articolo a questo tema per questa sotto-etichetta
+              default: Aggiungi un articolo a questo argomento
+              tag: Aggiungi un articolo a questo tema per questa etichetta
+        not_connected:
+          message: Effettua il login prima di pubblicare l'articolo
+        outdated: Articolo contrassegnato come obsoleto!
+        placeholders:
+          content:
+            link: Descrizione del link
+            note: Contenuto da aggiungere
+            story: Contenuto dell'articolo
+          reference:
+            inventory: Collegamento alla fonte originale
+            link: Collegamento al riferimento
+            note: Collegamento alla fonte originale
+            story: Collegamento alla fonte originale
+          title:
+            inventory: Titolo per l'inventario
+            note: Titolo dell'articolo
+            story: Titolo della tua storia
+        tags:
+          add: 'Aggiungere l''etichetta :'
+          child: Aggiungere etichette secondarie
+          default: Aggiungere etichette all'articolo
+          everyone: Etichette condivise
+          none: Senza etichette
+          only_me: Etichette personali
+          parent: Aggiungere le etichette principali
+          placeholder: Inserire il nome dell'etichetta
+        tooltips:
+          content_too_short: Il contenuto è troppo breve
+          summary_too_short: L'astratto è troppo breve
+          title_too_short: Il titolo è troppo breve
+        url: Elenco degli articoli
+        validation_error:
+          common: Si prega di compilare l'articolo come indicato prima di continuare
+        visibility: Scegliere la visibilità
+      form:
+        inventories:
+          filterable: Questo campo è incluso nella ricerca
+          searchable: Questo campo è incluso nella ricerca
+        inventory_button: Aggiungere o modificare i campi personalizzati
+        next: Avanti
+        no_inventories: 'Non è stato ancora definito alcun campo personalizzato. Grazie per averli creati:'
+        unsaved: Uscire senza salvare l'articolo?
+      model:
+        allow_comment: Consentire commenti
+        child_tags: Etichette secondarie
+        comment:
+          'false': Disabili
+          'true': Attivato
+        content: Contenuto
+        draft: Nota temporanea
+        inventories: Campi personalizzati
+        language: Lingua
+        parent_tags: Etichette principali
+        reference: Link
+        summary: Abstract
+        tagged_articles: Etichette dell'articolo
+        tags: Etichette
+        title: Titolo
+        topic: Tema
+        visibility: Visibilità
+      enums:
+        mode:
+          inventory: Inventario
+          link: Link
+          note: Nota
+          story: Articolo
+        visibility:
+          everyone: Pubblico
+          only_me: Privato
+      flash:
+        creation_unpermitted: Accedi per scrivere un articolo
+        deletion_successful: L'articolo è stato cancellato.
+        undelete_link: Annulla la cancellazione.
+      tooltip:
+        add_bookmark: Aggiungi ai preferiti
+        add_outdated: Contrassegnato come obsoleto
+        cancel: Annulla
+        delete: Cancella questo articolo
+        edit: Modificare l'articolo
+        history: Visualizza le precedenti revisioni dell'articolo
+        link: È un link
+        link_to: Vai all'articolo
+        remove_bookmark: Rimuovere i preferiti
+        remove_outdated: Rimozione di prodotti obsoleti
+        share: Condividi questo articolo
+        topic_link: Vai al tema
+        tracking: Visualizza le statistiche
+        update: Aggiorna
+        updated_at: Ultima modifica
+        visibility: 'Visibilità: %{visibility}'
+      masonry:
+        add_column: Aggiungi colonna
+        remove_column: Rimuovere la colonna
+      history:
+        changed_at: Versione modificata
+        initial: Versione iniziale
+        none: Nessuna storia per questo articolo!
+        restore: Ripristina questa versione
+        restored: Versione restaurata
+      bookmark:
+        added: Articolo aggiunto ai preferiti
+        removed: Articolo cancellato dai preferiti
+      outdated:
+        added: Articolo contrassegnato come obsoleto
+        removed: Articolo rimosso da obsoleto
+      vote:
+        added: Il vostro voto è stato preso in considerazione
+      show:
+        stories:
+          next: Prossima categoria
+          previous: Storia precedente
+          show: Leggi la storia
+      new:
+        exit: Sei sicuro di andartene senza risparmiare?
+        meta:
+          description: Aggiunta di un articolo
+          title: Nuovo articolo - %{article}
+        submit: Crea l'articolo
+        tags:
+          placeholder: Etichette associate
+          title: 'Aggiungere etichette (clic destro : etichetta del genitore / clic sinistro : etichetta del figlio)'
+        title: Creare un nuovo articolo
+      edit:
+        exit: Sei sicuro di andartene senza risparmiare?
+        form_title: 'Modifica di : %{title}'
+        submit: Aggiorna
+        title: Cambiare un materiale
+      tracking:
+        bookmarks: Numero di volte aggiunte ai preferiti
+        cancel: Annulla
+        clicks: Numero di clic sull'articolo
+        comments: Numero di commenti associati
+        searches: Numero di volte restituite nella ricerca
+        title: Statistiche
+        views: Numero di stampe in tutte le pagine
+      share:
+        button: Condividi tramite un link
+        cancel: Annulla
+        content: 'Copiare il seguente link per condividere l''articolo:'
+        title: Condividi questo articolo
+      sort:
+        link: Cambiare la priorità
+        link_title: Cambia ordine
+        order:
+          priority_desc: Priorità
+          tag_asc: Etichetta
+          updated_asc: Vecchi
+          updated_desc: I più recenti
+        title: Ordina per
+      filter:
+        filters:
+          bookmark: Preferiti
+          draft: Bozze
+          link: Link
+          note: Note
+          story: Articoli
+        title: Filtrare per
+      timeline:
+        no_articles: Nessun articolo da visualizzare
+        title: 'Nuovo articolo :'
+      toc:
+        no_articles: Ancora nessun articolo
+        title: Indice
+      clipboard: Articolo temporaneo creato con dati copiati
+      errors:
+        bookmark:
+          bookmark: "%{message}"
+          default: Non può essere aggiunto ai preferiti! Prova a ricollegarti.
+          not_authorized: Non hai il permesso di aggiungere questo articolo ai preferiti!
+        content:
+          size: Il contenuto dell'articolo deve essere compreso tra i caratteri %{min}%{max}
+        default: Impossibile creare l'articolo! Grazie per averci riprovato.
+        not_authorized: Non hai il permesso di accedere a questo articolo!
+        summary:
+          size: L'abstract dell'articolo deve essere compreso tra i caratteri %{min}%{max}
+        title:
+          size: Il titolo dell'articolo deve essere compreso tra i caratteri %{min}%{max}
+        topic: Nessun tema associato all'articolo
+    search:
+      display:
+        card: Elenco
+        grid: Griglia
+      orders:
+        date: Data
+        priority: Priorità
+      module:
+        articles:
+          recents: "(Articoli recenti)"
+          title: Articoli
+        button: Ricerca
+        helpers:
+          select_tag: Selezionare un'etichetta con le frecce e poi la scheda
+          tagged_articles: 'Ricerca articoli con etichette: %{tags}'
+        placeholder: Ricerca
+        tags:
+          no_tags: Nessuna etichetta trovata
+          recents: "(Etichette recenti)"
+          title: Etichette
+        topics:
+          title: Temi
+      sidebar:
+        filter: Filtrare i risultati
+      index:
+        articles:
+          title: Articoli
+        button: Trova
+        no_results: Nessun risultato trovato
+        placeholder: Ricerca
+        results:
+          one: 1 risultato
+          other: "%{count} risultati"
+        suggestions:
+          articles: 'Prova con l''ortografia:'
+          tags: 'Prova i seguenti tag :'
+        topic:
+          current: Argomento attuale
+          others: Altri argomenti
+    comment:
+      common:
+        actions: Azioni
+        empty: Sii il primo a postare il tuo commento!
+        loading: Caricamento dei commenti ...
+        no_data: Nessun commento da visualizzare per questa selezione
+        no_opinion: Ancora nessun commento per il tuo articolo
+        route: commenti
+        title: Commenti
+      model:
+        body: Messaggio
+        commentable_type: Modello commentato
+        posted_at: Postato su
+        title: Titolo
+        user: Commentatore
+      tooltip:
+        count: "%{count} commenti"
+      timeline:
+        link: 'Commento associato a :'
+        no_comments: Nessun commento da visualizzare
+      form:
+        cancel: Annulla
+        comment:
+          body: Il tuo commento ...
+          body_for_deletion: Motivo della cancellazione del commento
+          notation: 'Nota:'
+          title: Titolo del post
+          title_for_deletion: Richiesta di cancellazione
+        explanation: Per scrivere il vostro messaggio, potete usare il
+        submit: Poster
+        syntax: sintassi di markdown
+        title:
+          default: Aggiungi un commento
+          deletion_reply: Richiesta di cancellazione di un commento
+          modify: Modifica il tuo commento
+          owner_reply: Rispondi al commento come proprietario
+          reply: Rispondi al commento
+      new:
+        button: Aggiungi un commento
+      reply:
+        ask_for_deletion: Richiesta di cancellazione in corso
+        button: Rispondi a
+        owner: Risposta del proprietario
+        owner_button: Rispondere come proprietario
+      edit:
+        button: Modifica
+      delete:
+        button: Cancellare
+        confirmation_button: Cancellazione
+        confirmation_message: Si prega di convalidare la cancellazione
+      ask_for_deletion:
+        button: Richiesta di cancellazione del commento
+      flash:
+        creation_unpermitted: È necessario effettuare il login per inserire un commento
+      errors:
+        body:
+          size: Il contenuto del commento deve essere compreso tra i caratteri %{min}%{max}
+        default: Impossibile creare il commento! Grazie per averci riprovato.
+        not_authorized: Non hai il permesso di accedere a questo commento!
+        title:
+          size: Il titolo del commento deve essere compreso tra i caratteri %{min}%{max}
+    picture:
+      copyright:
+        default: Da
+      model:
+        errors:
+          text: La dimensione del file supera i 5MB, scegliere un'immagine più piccola
+          title: Immagine troppo grande
+          type:
+            image: Il file non è un file immagine, scegliete un file jpp, jpeg, png o bmp
+    activities:
+      no_activities: Nessuna attività da visualizzare
+      article:
+        create: Articolo creato
+        destroy: Articolo soppresso
+        update: Articolo aggiornato
+      tag:
+        create: Etichetta creata
+        destroy: Etichetta cancellata
+        update: Etichetta aggiornata
+      tagged_article:
+        create: Articolo etichettato
+        destroy: Etichetta dell'articolo cancellato
+        update: Etichetta dell'articolo aggiornato
+      bookmarked_article:
+        create: Articolo aggiunto ai preferiti
+        destroy: Articolo cancellato dai preferiti
+      comment:
+        create: Commento aggiunto
+        destroy: Commento cancellato
+        update: Commento aggiornato
+    tracker:
+      sign_in_count: Collegamenti
+      views_count: Visualizzazioni
+      clicks_count: Clicchi su
+      queries_count: Richieste
+      searches_count: Ricerche
+    admin:
+      common:
+        open_link: Vedi
+        title: Admin
+      menu:
+        articles: Articoli
+        back_home: Torna al sito
+        blogs: Note interne
+        cache: Cache
+        comments: Commenti
+        dashboard: Cruscotto
+        jobs: Offerte di lavoro
+        log_out: Logout
+        logs: Diari
+        postgres: Banca dati
+        seo: SEO
+        tags: Etichette
+        topics: Temi
+        users: Utenti
+      search:
+        help:
+          articles: Articoli
+          button: OK
+          tags: Etichette
+          title: Opzioni di ricerca
+          topics: Temi
+          users: Utenti
+        placeholder: Ricerca per etichetta, tema, articolo, ...
+      dashboard:
+        button: Accesso
+        title: Elenco dei menu di amministrazione
+      users:
+        table:
+          columns:
+            articles_count: Numero di articoli
+            created_at: Data di creazione
+            email: Il vostro email
+            id: Id
+            last_sign_in_at: Ultimo accesso
+            locale: Locale
+            name: Nome
+            pseudo: Soprannome
+          title: Elenco utenti
+        title: Utenti
+      comments:
+        table:
+          columns:
+            body: Contenuto
+            id: Id
+            posted_at: Postato su
+            title: Titolo
+          title: Elenco dei commenti
+        title: Commenti
+      topics:
+        table:
+          columns:
+            articles_count: Articoli correlati
+            clicks_count: Nb di click
+            created_at: Creato su
+            id: Id
+            mode: Tipo
+            name: Nome
+            priority: Priorità
+            searches_count: Numero di ricerche
+            user_id: ID utente
+            views_count: N. di visualizzazioni
+            visibility: Visibilità
+          title: Elenco degli argomenti
+        title: Temi
+      tags:
+        table:
+          columns:
+            clicks_count: Nb di click
+            date: Creato su
+            description: Descrizione
+            id: Id
+            name: Nome
+            priority: Priorità
+            searches_count: Numero di ricerche
+            synonyms: Sinonimi
+            tagged_articles_count: Articoli correlati
+            views_count: N. di visualizzazioni
+            visibility: Visibilità
+          title: Elenco delle etichette
+        title: Etichette
+      articles:
+        table:
+          columns:
+            clicks_count: Nb di click
+            comments_count: N. di commenti
+            date: Postato su
+            id: Id
+            mode: Tipo
+            priority: Priorità
+            searches_count: Numero di ricerche
+            title: Titolo
+            topic_id: Tema Id
+            views_count: N. di visualizzazioni
+            visibility: Visibilità
+          title: Elenco degli articoli
+        title: Articoli
+      blogs:
+        add: Aggiungi blog
+        form:
+          add: Aggiungi
+          cancel: Annulla
+          content: Il tuo conto...
+          title: Titolo
+          update: Aggiorna
+        title: Note
+      seo:
+        add: Aggiungere dati SEO
+        form:
+          add: Aggiungi
+          cancel: Annulla
+          delete: CANCELLA
+          delete_confirmation: 'Cancellare questi dati SEO: %{name} ?'
+          meta_desc: Meta descrizione
+          no_parameters: Nessun parametro richiesto
+          page_title: Titolo della pagina
+          parameters: 'Parametri disponibili: %{parameters}'
+          select:
+            or: oppure
+            route: Nome della strada
+            url: URL del sito
+          seo_fields: Definizione dei campi SEO
+          title: Selezionare il percorso o l'URL
+          update: Modifica
+        table:
+          columns:
+            id: Id
+            locale: Locale
+            meta_desc: Meta Desc
+            name: Nome della strada
+            page_title: Titolo della pagina
+            parameters: Impostazioni
+          title: Elenco delle pagine
+        title: Gestione SEO
+      logs:
+        help:
+          all: Ricerca di qualsiasi termine nei registri
+          bot: bot:googlebot => restituisce tutte le richieste fatte da questo bot
+          button: OK
+          date: data:15:14 => restituisce tutte le richieste dopo questo tempo
+          host: host:www.your-domain.com => restituisce tutte le richieste per questo dominio
+          ip: ip:127.0.0.0.1 => restituisce tutte le query con questo IP
+          level: level:INFO => restituisce tutte le richieste di questo livello di log
+          session: sessionId:xxxx-xxxxxx-xxxx-xxxx => restituisce tutte le richieste per questa sessione
+          status: status:200 => restituisce tutte le richieste con questo stato
+          title: Opzioni di ricerca del registro
+        input:
+          title: Ricerca
+      cache:
+        button: Cancella!
+        error: Problema durante la cancellazione della cache
+        successful: La cache è stata svuotata
+        title: Cancellare l'intera cache
+    form:
+      errors:
+        alphanumeric: Deve contenere solo lettere, numeri o trattini
+        date: Indicare una data valida
+        datetime: Indicare una data e un'ora valide
+        picture:
+          text: La dimensione del file supera i 5MB, scegliere un'immagine più piccola
+          title: Immagine troppo grande
+        select: Scegliete una delle opzioni proposte
+        stripped_text_size: La lunghezza del campo deve essere compresa tra %{minCount} e %{maxCount}
+        text: Questo campo è obbligatorio
+    selecter:
+      no_results: Nessun risultato trovato
+      tags:
+        add: Aggiungi
+        already_exists: L'etichetta esiste già
+        too_long: Il nome dell'elemento è troppo lungo
+        type: Digitare i caratteri per aggiungere un'etichetta
+    cookies:
+      title: Questo sito utilizza i cookie
+      content: Il nostro sito utilizza i cookie per personalizzare e migliorare l'esperienza dell'utente. Continuando la vostra navigazione su questo sito, accettate la nostra politica di protezione dei dati personali e la nostra politica sui cookie.
+      button: Accetto
+      link: Ho impostato
+      details: I cookie garantiscono un'esperienza di navigazione ottimale.
+        Clicca su ogni categoria per attivare o disattivare l'uso dei cookie. Il pulsante colorato indica se i cookie sono attivi (verde) o inattivi (grigio).
+      website:
+        details: Questi cookies garantiscono il funzionamento del sito e ne permettono l'ottimizzazione.
+        title: Operazione
+      analytics:
+        details: Questi cookie consentono il tracciamento anonimo e aggregato degli strumenti di Web Analytics.
+        title: Analisi web
+      social:
+        details: Questi cookie consentono di interagire con i moduli sociali del sito.
+        title: Sociale
+      advertisement:
+        details: Questi cookie ci permettono di indirizzare meglio le pubblicità offerte su Internet.
+        title: Pubblicità
+    no_cookies:
+      title: Non hai abilitato i cookie!
+      content: I cookie non sono abilitati sul tuo browser, quindi non potrai accedere per aggiungere foto al carrello se i cookie sono disabilitati. Si prega di consultare la nostra politica di utilizzo dei dati per scoprire come utilizziamo i vostri dati.
+      button: Ho capito
+      link: La nostra politica
+    rating:
+      clear: Cancellare
+    languages:
+      en: "Inglese"
+      fr: "Francés"
+      de: "Tedesco"
+      es: "Spagnolo"
+      it: "Italiano"
+    editor:
+      helper:
+        article_hint: per collegare l'articolo
+        title: Aiuto
+      buttons:
+        advice: Consiglio
+        cleaner: Formattazione pulita
+        code: Codice semplice
+        pre: Codice multilinea (CTRL+E)
+        secret: Segreto
+      hint:
+        article: articolo
+        input: Titolo dell'articolo o tema
+        topic: tema
+    helpers:
+      home: Home page
+      colon: ": "
+      or: " oppure "
+      and: " e "
+      back: Pagina precedente
+      buttons:
+        apply: Convalida
+        cancel: Annulla
+      select:
+        prompt: Si prega di selezionare
+      form:
+        ensure_validity: Lasciare vuoto
+      not_found:
+        title: Percorso non trovato!
+      not_authorized:
+        title: Non è possibile accedere a questa voce
+      errors:
+        not_authorized: Non avete il permesso di accedere a questa risorsa!
+        frontend: Si è verificato un errore, provare a rinfrescare o tornare alla pagina iniziale
+        unprocessable: Impossibile prendere in considerazione questo elemento, dati non corretti
+        network: Problema di rete, si prega di controllare la connessione
+        server: Si è verificato un errore del server, si prega di riprovare più tardi
+        boundary:
+          footer: Impossibile visualizzare il piè di pagina
+          header: Impossibile visualizzare il menu
+          message: Si è verificato un errore durante la visualizzazione del componente. Si prega di ricaricare la pagina.
+          title: Non è possibile visualizzare il componente

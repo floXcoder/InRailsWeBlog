@@ -126,7 +126,7 @@ RSpec.describe User, type: :model, basic: true do
     it { expect(@user.state).to eq('state') }
     it { expect(@user.allow_comment).to be true }
     it { expect(@user.visibility).to eq('everyone') }
-    it { expect(@user.settings).to eq('articles_loader' => 'infinite', 'article_order' => 'priority_desc', 'article_display' => 'summary', 'tag_parent_and_child' => true, 'tag_sidebar_pin' => true, 'tag_sidebar_with_child' => false, 'tag_order' => 'name', 'search_display' => 'card', 'search_highlight' => true, 'search_operator' => 'and', 'search_exact' => true) }
+    it { expect(@user.settings).to eq('articles_loader' => 'infinite', 'article_order' => 'priority_desc', 'article_display' => 'summary', 'article_multilanguage' => false, 'tag_parent_and_child' => true, 'tag_sidebar_pin' => true, 'tag_sidebar_with_child' => false, 'tag_order' => 'name', 'search_display' => 'card', 'search_highlight' => true, 'search_operator' => 'and', 'search_exact' => true) }
     it { expect(@user.pictures_count).to eq(0) }
     it { expect(@user.topics_count).to eq(1) }
     it { expect(@user.articles_count).to eq(0) }
@@ -150,7 +150,7 @@ RSpec.describe User, type: :model, basic: true do
       it { expect(@user.locale).to eq('fr') }
       it { expect(@user.allow_comment).to be true }
       it { expect(@user.visibility).to eq('everyone') }
-      it { expect(@user.settings).to eq('articles_loader' => 'infinite', 'article_order' => 'priority_desc', 'article_display' => 'summary', 'tag_parent_and_child' => true, 'tag_sidebar_pin' => true, 'tag_sidebar_with_child' => false, 'tag_order' => 'name', 'search_display' => 'card', 'search_highlight' => true, 'search_operator' => 'and', 'search_exact' => true) }
+      it { expect(@user.settings).to eq('articles_loader' => 'infinite', 'article_order' => 'priority_desc', 'article_display' => 'summary', 'article_multilanguage' => false, 'tag_parent_and_child' => true, 'tag_sidebar_pin' => true, 'tag_sidebar_with_child' => false, 'tag_order' => 'name', 'search_display' => 'card', 'search_highlight' => true, 'search_operator' => 'and', 'search_exact' => true) }
       it { expect(@user.pictures_count).to eq(0) }
       it { expect(@user.topics_count).to eq(0) }
       it { expect(@user.articles_count).to eq(0) }
@@ -353,21 +353,6 @@ RSpec.describe User, type: :model, basic: true do
       it { is_expected.to respond_to(:find_for_database_authentication) }
       it { expect(User.find_for_database_authentication(login: @user.login, email: @user.email)).to eq(@user) }
     end
-
-    describe '::as_json' do
-      it { is_expected.to respond_to(:as_json) }
-      it { expect(User.as_json(@user)).to be_a(Hash) }
-      it { expect(User.as_json(@user)[:user]).to be_a(Hash) }
-      it { expect(User.as_json([@user])).to be_a(Hash) }
-      it { expect(User.as_json([@user])[:users]).to be_a(Array) }
-      it { expect(User.as_json([@user], sample: true)[:users]).to be_a(Array) }
-    end
-
-    describe '::as_flat_json' do
-      it { is_expected.to respond_to(:as_flat_json) }
-      it { expect(User.as_flat_json(@user)).to be_a(Hash) }
-      it { expect(User.as_flat_json([@user])).to be_a(Array) }
-    end
   end
 
   context 'Instance Methods' do
@@ -440,11 +425,6 @@ RSpec.describe User, type: :model, basic: true do
     describe '.search_data' do
       it { is_expected.to respond_to(:search_data) }
       it { expect(@user.search_data).to be_a Hash }
-    end
-
-    describe '.meta_description' do
-      it { is_expected.to respond_to(:meta_description) }
-      it { expect(@user.meta_description).to be_a(String) }
     end
   end
 

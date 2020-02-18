@@ -15,6 +15,13 @@ import ClassIcon from '@material-ui/icons/Class';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 import {
+    userArticlePath,
+    taggedArticlesPath,
+    topicArticlesPath,
+    userArticlesPath
+} from '../../constants/routesHelper';
+
+import {
     getUserRecents
 } from '../../selectors';
 
@@ -83,13 +90,13 @@ class BreadcrumbLayout extends React.Component {
 
     _linkFromRecent = (recent) => {
         if (recent.type === 'article') {
-            return `/users/${recent.userSlug}/articles/${recent.slug}`;
+            return userArticlePath(recent.userSlug, recent.slug);
         } else if (recent.type === 'tag') {
-            return `/tagged/${recent.slug}`;
+            return taggedArticlesPath(recent.slug);
         } else if (recent.type === 'topic') {
-            return `/users/${recent.userSlug}/topics/${recent.slug}`;
+            return topicArticlesPath(recent.userSlug, recent.slug);
         } else if (recent.type === 'user') {
-            return `/users/${recent.slug}`;
+            return userArticlesPath(recent.slug);
         } else {
             return '';
         }

@@ -6,10 +6,6 @@ module TranslationConcern
   class TranslationError < StandardError
   end
 
-  included do
-    attribute :current_language
-  end
-
   def translated?(field)
     self.translated_attribute_fields.include?(field.to_sym)
   end
@@ -79,7 +75,7 @@ module TranslationConcern
     end
 
     def apply_translations_options(options)
-      class_attribute :translated_attribute_fields, :translation_languages_field, :fallbacks_for_empty_translations, :auto_strip_translation_fields, :current_language
+      class_attribute :translated_attribute_fields, :translation_languages_field, :fallbacks_for_empty_translations, :auto_strip_translation_fields
       self.translated_attribute_fields      = []
       self.translation_languages_field      = :languages
       self.fallbacks_for_empty_translations = options[:fallbacks_for_empty_translations]
@@ -96,18 +92,15 @@ module TranslationConcern
 
     def define_translated_field_reader(field)
       define_method(field) do
-        self.current_language = I18n.locale.to_s
+        current_language = I18n.locale.to_s
 
         if self.fallbacks_for_empty_translations
           translation_keys = send("#{field}_translations").keys
           available_languages = send(:languages)
-          self.current_language = available_languages.first if !available_languages&.empty? && !translation_keys.include?(self.current_language)
+          current_language = available_languages.first if !available_languages&.empty? && !translation_keys.include?(current_language)
         end
 
-        # For search indexing
-        self.class.current_language = self.current_language
-
-        send("#{field}_translations")[self.current_language]
+        send("#{field}_translations")[current_language]
       end
     end
 

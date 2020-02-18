@@ -2,6 +2,8 @@
 
 import * as RouteComponents from './components/loaders/components';
 
+import * as Routes from './constants/routesHelper';
+
 import NotFound from './components/layouts/notFound';
 
 export default {
@@ -11,87 +13,100 @@ export default {
     // /login
     // /logout
     // /admin/*
-    // /terms_of_use
     // /errors/*
-    // /404
     // /422
     // /500
 
     static: {
         home: [
             {
-                path: '/',
+                path: Routes.rootPath(false),
                 exact: true,
                 component: () => RouteComponents.HomeHome
             },
             {
-                path: '/search',
+                path: Routes.searchPath(false),
+                exact: false,
+                strict: false,
                 noTagSidebar: true,
                 noHeaderSearch: true,
                 component: () => RouteComponents.SearchIndex
             },
             // tag
             {
-                path: '/tags/:tagSlug',
+                path: Routes.showTagPath(':tagSlug', false),
                 exact: true,
                 noTagSidebar: true,
                 component: () => RouteComponents.TagShow
             },
             {
-                path: '/tags',
+                path: Routes.tagsPath(false),
                 exact: true,
                 noTagSidebar: true,
                 component: () => RouteComponents.TagIndex
             },
             // tagged
             {
-                path: '/tagged/:tagSlug/:childTagSlug?',
+                path: Routes.taggedArticlesPath(':tagSlug', ':childTagSlug?', false),
                 exact: false,
                 component: () => RouteComponents.ArticleIndex
             },
             // user: password
             {
-                path: '/users/password/new',
+                path: Routes.newPasswordPath(false),
                 exact: true,
                 component: () => RouteComponents.UserPassword
             },
             {
-                path: '/users/password/edit',
+                path: Routes.editPasswordPath(false),
                 exact: true,
                 component: () => RouteComponents.UserPassword
             },
             // user: articles topic
             {
-                path: '/users/:userSlug/topics/:topicSlug',
+                path: Routes.topicArticlesPath(':userSlug', ':topicSlug', false),
                 exact: true,
                 component: () => RouteComponents.ArticleIndex
             },
             // user : tags topic
             {
-                path: '/users/:userSlug/topics/:topicSlug/tags',
+                path: Routes.topicTagsPath(':userSlug', ':topicSlug', false),
                 exact: true,
                 component: () => RouteComponents.TagIndex
             },
             // user: articles
             {
-                path: '/users/:userSlug',
+                path: Routes.userArticlesPath(':userSlug', false),
                 exact: true,
                 component: () => RouteComponents.ArticleIndex
             },
             {
-                path: '/users/:userSlug/articles/:articleSlug',
+                path: Routes.userArticlePath(':userSlug', ':articleSlug', false),
                 exact: true,
                 component: () => RouteComponents.ArticleShow
             },
             // articles: shared
             {
-                path: '/articles/shared/:articleSlug/:publicLink',
+                path: Routes.sharedArticlePath(':articleSlug', ':publicLink', false),
                 exact: true,
                 component: () => RouteComponents.ArticleShared
             },
+            // Static pages
+            {
+                path: Routes.about(false),
+                component: () => RouteComponents.About
+            },
+            {
+                path: Routes.terms(false),
+                component: () => RouteComponents.Terms
+            },
+            {
+                path: Routes.policy(false),
+                component: () => RouteComponents.Policy
+            },
             // Miscellaneous
             {
-                path: '/404',
+                path: Routes.notFoundPath(false),
                 component: () => NotFound
             },
             {
@@ -100,14 +115,14 @@ export default {
         ],
         user: [
             {
-                path: '/',
+                path: Routes.rootPath(false),
                 exact: true,
                 tagCloud: true,
                 component: () => RouteComponents.UserHome
             },
             // search
             {
-                path: '/search',
+                path: Routes.searchPath(false),
                 searchSidebar: true,
                 noTagSidebar: true,
                 noHeaderSearch: true,
@@ -115,130 +130,131 @@ export default {
             },
             // tag
             {
-                path: '/tags/:tagSlug/edit',
+                path: Routes.editTagPath(':tagSlug', false),
                 exact: true,
                 noTagSidebar: true,
                 component: () => RouteComponents.TagEdit
             },
             {
-                path: '/tags/:userSlug/sort',
+                path: Routes.sortTagPath(':tagSlug', false),
                 exact: true,
                 noTagSidebar: true,
                 component: () => RouteComponents.TagSort
             },
             {
-                path: '/tags/:tagSlug',
+                path: Routes.showTagPath(':tagSlug', false),
                 exact: true,
                 tagCloud: true,
                 component: () => RouteComponents.TagShow
             },
             {
-                path: '/tags',
+                path: Routes.tagsPath(false),
                 exact: true,
                 tagCloud: true,
                 component: () => RouteComponents.TagIndex
             },
             // tagged
             {
-                path: '/tagged/:tagSlug/:childTagSlug?',
+                path: Routes.taggedArticlesPath(':tagSlug', ':childTagSlug?', false),
                 exact: false,
                 tagCloud: true,
                 articleSidebar: true,
                 // redirect: (route, previousRoute) => !route.tagCloud || !previousRoute.tagCloud,
                 redirect: true,
-                redirectPath: (params) => `/users/${params.userSlug}/topics/${params.topicSlug}/tagged/${params.tagSlug}` + (params.childTagSlug ? `/${params.childTagSlug}` : ''),
+                redirectPath: (params) => Routes.taggedTopicArticlesPath(params.userSlug, params.topicSlug, params.tagSlug, params.childTagSlug),
                 component: () => RouteComponents.ArticleIndex
             },
             {
-                path: '/users/:userSlug/(topics|shared-topics)/:topicSlug/tagged/:tagSlug/:childTagSlug?',
+                path: Routes.taggedTopicArticlesPath(':userSlug', ':topicSlug', ':tagSlug', ':childTagSlug?', '(topics|shared-topics)', false),
                 exact: false,
                 articleSidebar: true,
                 component: () => RouteComponents.ArticleIndex
             },
             // user: topics
             {
-                path: '/users/:userSlug',
+                path: Routes.userArticlesPath(':userSlug', false),
                 exact: true,
                 redirect: true,
-                redirectPath: () => '/'
+                redirectPath: () => Routes.rootPath()
             },
             {
-                path: '/users/:userSlug/topics',
+                path: Routes.userTopicsPath(':userSlug', false),
                 exact: true,
                 component: () => RouteComponents.UserHome
             },
             {
-                path: '/users/:userSlug/topics/:topicSlug/show',
+                path: Routes.userTopicPath(':userSlug', ':topicSlug', false),
                 exact: true,
                 component: () => RouteComponents.TopicShow
             },
             {
-                path: '/users/:userSlug/topics/:topicSlug/edit',
+                path: Routes.editTopicPath(':userSlug', ':topicSlug', false),
                 exact: true,
                 noTagSidebar: true,
                 component: () => RouteComponents.TopicEdit
             },
             {
-                path: '/users/:userSlug/topics/:topicSlug/edit-inventories',
+                path: Routes.editInventoriesTopicPath(':userSlug', ':topicSlug', false),
                 exact: true,
                 noTagSidebar: true,
                 component: () => RouteComponents.TopicEditInventories
             },
             {
-                path: '/users/:userSlug/(topics|shared-topics)/:topicSlug/order/:order',
+                path: Routes.orderTopicArticlesPath(':userSlug', ':topicSlug', ':order', '(topics|shared-topics)', false),
                 exact: true,
                 articleSidebar: true,
                 component: () => RouteComponents.ArticleIndex
             },
             {
-                path: '/users/:userSlug/(topics|shared-topics)/:topicSlug',
+                path: Routes.topicArticlesPath(':userSlug', ':topicSlug', '(topics|shared-topics)', false),
                 exact: true,
                 articleSidebar: true,
                 component: () => RouteComponents.ArticleIndex
             },
             // user : tags
             {
-                path: '/users/:userSlug/topics/:topicSlug/tags',
+                path: Routes.topicTagsPath(':userSlug', ':topicSlug', false),
                 exact: true,
                 component: () => RouteComponents.TagIndex
             },
             // user: articles
             {
-                path: '/users/:userSlug/topics/:topicSlug/sort',
+                path: Routes.sortTopicArticlesPath(':userSlug', ':topicSlug', false),
                 exact: true,
                 component: () => RouteComponents.ArticleSort
             },
             {
-                path: '/users/:userSlug/(topics|shared-topics)/:topicSlug/article-new',
+                path: Routes.newArticlePath(':userSlug', ':topicSlug', '(topics|shared-topics)', false),
                 exact: true,
                 component: () => RouteComponents.ArticleNew
             },
             {
-                path: '/users/:userSlug/articles/:articleSlug/edit',
+                path: Routes.editArticlePath(':userSlug', ':articleSlug', false),
                 exact: true,
                 component: () => RouteComponents.ArticleEdit
             },
             {
-                path: '/users/:userSlug/articles/:articleSlug/history',
+                path: Routes.historyArticlePath(':userSlug', ':articleSlug', false),
                 exact: true,
                 component: () => RouteComponents.ArticleHistory
             },
             {
-                path: '/users/:userSlug/articles/:articleSlug',
+                path: Routes.userArticlePath(':userSlug', ':articleSlug', false),
                 exact: true,
                 component: () => RouteComponents.ArticleShow
             },
             // Redirection
             {
-                path: '/articles/new',
+                path: Routes.newArticleRedirectPath(false),
                 redirect: true,
-                redirectPath: (params) => `/users/${params.userSlug}/topics/${params.topicSlug}/article-new`,
+                redirectPath: (params) => Routes.newArticlePath(params.userSlug, params.topicSlug),
                 component: () => RouteComponents.ArticleNew
             },
 
             // Miscellaneous
             {
-                path: '/404',
+                path: Routes.notFoundPath(false),
+                status: 404,
                 component: () => NotFound
             }
         ]
@@ -248,32 +264,32 @@ export default {
     hashes: {
         search: [
             {
-                path: 'search',
+                path: Routes.searchParam,
                 component: () => RouteComponents.SearchModule
             },
         ],
         topic: [
             {
-                path: 'new-topic',
+                path: Routes.newTopicParam,
                 component: () => RouteComponents.TopicPersistence
             },
             {
-                path: 'share-topic',
+                path: Routes.shareTopicParam,
                 component: () => RouteComponents.TopicShare
             },
             {
-                path: 'sort-topic',
+                path: Routes.sortTopicParam,
                 component: () => RouteComponents.TopicSort
             }
         ],
         article: [
             {
-                path: 'tracking-article',
-                component: () => RouteComponents.ArticleTracking
+                path: Routes.shareArticleParam,
+                component: () => RouteComponents.ArticleShare
             },
             {
-                path: 'share-article',
-                component: () => RouteComponents.ArticleShare
+                path: Routes.trackingArticleParam,
+                component: () => RouteComponents.ArticleTracking
             }
         ]
     }

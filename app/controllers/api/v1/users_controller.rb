@@ -59,23 +59,18 @@ module Api::V1
         users = users.paginate(page: params[:page], per_page: InRailsWeBlog.config.per_page)
       end
 
-      respond_to do |format|
-        format.html do
-          expires_in InRailsWeBlog.config.cache_time, public: true
-          set_meta_tags title:       titleize(I18n.t('views.user.index.title')),
-                        description: I18n.t('views.user.index.description'),
-                        canonical:   ''
-
-          render :index, locals: { users: users }
-        end
-        format.json do
-          if complete
-            render json:            users,
-                   each_serializer: UserCompleteSerializer
-          else
-            render json:            users,
-                   each_serializer: UserSampleSerializer,
-                   meta:            meta_attributes(pagination: users)
+      expires_in InRailsWeBlog.config.cache_time, public: true
+      if stale?(users, template: false, public: true)
+        respond_to do |format|
+          format.json do
+            if complete
+              render json: UserCompleteSerializer.new(users,
+                                                      include: [:tracker],
+                                                      meta:    { root: 'users' })
+            else
+              render json: UserSampleSerializer.new(users,
+                                                    meta: { root: 'users', **meta_attributes(pagination: users) })
+            end
           end
         end
       end
@@ -103,28 +98,19 @@ module Api::V1
       user = User.friendly.find(params[:id])
       authorize user
 
+      expires_in InRailsWeBlog.config.cache_time, public: true
       respond_to do |format|
         format.json do
-          set_meta_tags title:       titleize(I18n.t('views.user.show.title', pseudo: user.pseudo)),
-                        description: user.meta_description,
-                        author:      user.pseudo,
-                        canonical:   user.link_path(host: ENV['WEBSITE_FULL_ADDRESS']),
-                        og:          {
-                                       type:  "#{ENV['WEBSITE_NAME']}:article",
-                                       url:   user.link_path(host: ENV['WEBSITE_FULL_ADDRESS']),
-                                       image: image_url('logos/favicon-192x192.png')
-                                     }.compact
-
           if params[:complete] && (current_user&.id == user.id || current_user.admin?)
             User.track_views(user.id)
-            render json:       user,
-                   serializer: UserCompleteSerializer,
-                   meta:       meta_attributes
+            render json: UserCompleteSerializer.new(user,
+                                                    include: [:tracker],
+                                                    meta:    meta_attributes)
           elsif params[:profile] && current_user&.id == user.id
             topic_slug = if params[:topic_slug].present?
                            params[:topic_slug]
                          elsif params[:article_slug].present?
-                           params[:article_slug].scan(/@(.*?)$/).last.first
+                           params[:article_slug].scan(/@(.*?)$/)&.last&.first
                          end
 
             if topic_slug && current_user.current_topic.slug != topic_slug
@@ -132,13 +118,25 @@ module Api::V1
               user.switch_topic(topic) && user.save if topic && topic.user_id == user.id
             end
 
-            render json:       user,
-                   serializer: UserProfileSerializer
+            render json: UserProfileSerializer.new(user,
+                                                   include: [:current_topic, :topics, :contributed_topics])
           else
             User.track_views(user.id)
-            render json:       user,
-                   serializer: UserSerializer,
-                   meta:       meta_attributes
+
+            set_seo_data(:show_user,
+                         user_slug: user.pseudo,
+                         author:    user.pseudo,
+                         model:     user,
+                         og:        {
+                                      type:  "#{ENV['WEBSITE_NAME']}:article",
+                                      url:   user.link_path(host: ENV['WEBSITE_FULL_ADDRESS']),
+                                      image: image_url('logos/favicon-192x192.png')
+                                    }.compact)
+
+            if stale?(user, template: false, public: true)
+              render json: UserSerializer.new(user,
+                                              meta: meta_attributes)
+            end
           end
         end
       end
@@ -151,11 +149,14 @@ module Api::V1
       user_comments = user.comments.order('comments.created_at DESC')
       user_comments = user_comments.paginate(page: params[:page], per_page: InRailsWeBlog.config.per_page) if params[:page]
 
-      respond_to do |format|
-        format.json do
-          render json:            user_comments,
-                 each_serializer: CommentFullSerializer,
-                 meta:            meta_attributes(pagination: user_comments)
+      expires_in InRailsWeBlog.config.cache_time, public: true
+      if stale?(user_comments, template: false, public: true)
+        respond_to do |format|
+          format.json do
+            render json: CommentFullSerializer.new(user_comments,
+                                                   include: [:user, :commentable],
+                                                   meta:    { root: 'comments', **meta_attributes(pagination: user_comments) })
+          end
         end
       end
     end
@@ -165,17 +166,13 @@ module Api::V1
       admin_or_authorize user
 
       user_recents = user.recent_visits(params[:limit])
-      recents      = {
-        tags:     Tag.as_flat_json(user_recents[:tags], strict: true),
-        articles: Article.as_flat_json(user_recents[:articles], strict: true)
-        # topics: Topic.as_flat_json(user_recents[:topics], strict: true)
-        # users: User.as_flat_json(user_recents[:users], strict: true)
-      }
 
       respond_to do |format|
         format.json do
-          render json: recents,
-                 root: 'recents'
+          render json: {
+            tags:     Tag.as_flat_json(user_recents[:tags], 'strict'),
+            articles: Article.as_flat_json(user_recents[:articles], 'strict')
+          }
         end
       end
     end
@@ -195,15 +192,13 @@ module Api::V1
       end
 
       user_recents = user.recent_visits(params[:limit])
-      recents      = {
-        tags:     Tag.as_flat_json(user_recents[:tags], strict: true),
-        articles: Article.as_flat_json(user_recents[:articles], strict: true)
-      }
 
       respond_to do |format|
         format.json do
-          render json: recents,
-                 root: 'recents'
+          render json: {
+            tags:     Tag.as_flat_json(user_recents[:tags], 'strict'),
+            articles: Article.as_flat_json(user_recents[:articles], 'strict')
+          }
         end
       end
     end
@@ -217,10 +212,8 @@ module Api::V1
 
       respond_to do |format|
         format.json do
-          render json:            user_activities,
-                 each_serializer: PublicActivitiesSerializer,
-                 root:            'activities',
-                 meta:            meta_attributes(pagination: user_activities)
+          render json: PublicActivitiesSerializer.new(user_activities,
+                                                      meta: { root: 'activities', **meta_attributes(pagination: user_activities) })
         end
       end
     end
@@ -237,12 +230,11 @@ module Api::V1
           format.json do
             if params[:complete] && current_user
               authorize current_user, :admin?
-              render json:       stored_user.result,
-                     serializer: UserCompleteSerializer,
-                     status:     :ok
+              render json:   UserCompleteSerializer.new(stored_user.result,
+                                                        include: [:tracker]),
+                     status: :ok
             else
-              render json:       stored_user.result,
-                     serializer: UserSerializer
+              render json: UserSerializer.new(stored_user.result)
             end
           end
         end

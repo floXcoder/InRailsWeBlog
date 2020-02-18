@@ -22,6 +22,7 @@ export default class SearchArticleIndex extends React.PureComponent {
         onOrderChange: PropTypes.func.isRequired,
         onDisplayChange: PropTypes.func.isRequired,
         searchDisplay: PropTypes.string.isRequired,
+        searchGridColumns: PropTypes.number,
         currentUserTopicId: PropTypes.number
     };
 
@@ -54,36 +55,39 @@ export default class SearchArticleIndex extends React.PureComponent {
                             ?
                             <Suspense fallback={<div/>}>
                                 {
-                                    currentTopicArticles && currentTopicArticles.length > 0 &&
+                                    currentTopicArticles?.length > 0 &&
                                     <>
                                         <Typography variant="subtitle2"
                                                     gutterBottom={true}>
                                             {I18n.t('js.search.index.topic.current')}
                                         </Typography>
-                                        <ArticleGridModeSearch articles={currentTopicArticles}/>
+                                        <ArticleGridModeSearch articles={currentTopicArticles}
+                                                               searchGridColumns={this.props.searchGridColumns}/>
                                     </>
                                 }
 
                                 {
-                                    (otherTopicsArticles && otherTopicsArticles.length > 0) &&
+                                    (otherTopicsArticles?.length > 0) &&
                                     <>
                                         <Typography variant="subtitle2"
                                                     gutterBottom={true}>
                                             {I18n.t('js.search.index.topic.others')}
                                         </Typography>
-                                        <ArticleGridModeSearch articles={otherTopicsArticles}/>
+                                        <ArticleGridModeSearch articles={otherTopicsArticles}
+                                                               searchGridColumns={this.props.searchGridColumns}/>
                                     </>
                                 }
 
                                 {
                                     !this.props.currentUserTopicId &&
-                                    <ArticleGridModeSearch articles={this.props.articles}/>
+                                    <ArticleGridModeSearch articles={this.props.articles}
+                                                           searchGridColumns={this.props.searchGridColumns}/>
                                 }
                             </Suspense>
                             :
                             <>
                                 {
-                                    currentTopicArticles && currentTopicArticles.length > 0 &&
+                                    currentTopicArticles?.length > 0 &&
                                     <>
                                         {/*<Typography variant="subtitle2"*/}
                                         {/*            gutterBottom={true}>*/}
@@ -101,7 +105,7 @@ export default class SearchArticleIndex extends React.PureComponent {
                                 }
 
                                 {
-                                    (otherTopicsArticles && otherTopicsArticles.length > 0) &&
+                                    (otherTopicsArticles?.length > 0) &&
                                     <>
                                         <Typography className={this.props.classes.articleOther}
                                                     variant="subtitle2"

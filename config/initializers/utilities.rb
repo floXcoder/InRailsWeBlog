@@ -132,7 +132,7 @@ class String
   end
 
   def summary(length = 60, strip_html = false)
-    string = strip_html ? Sanitize.fragment(self).strip.squish : self.html_safe
+    string   = strip_html ? Sanitize.fragment(self).strip.squish : self.html_safe
     end_line = string.index(' ', length - 10)
     if end_line && string.length > length
       string = "#{string[0...end_line]}..."

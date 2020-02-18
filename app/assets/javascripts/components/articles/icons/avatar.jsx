@@ -12,6 +12,10 @@ import Avatar from '@material-ui/core/Avatar';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 import {
+    userArticlesPath
+} from '../../../constants/routesHelper';
+
+import {
     spyTrackClick
 } from '../../../actions';
 
@@ -25,7 +29,7 @@ const ArticleAvatarIcon = ({classes, user, articleDate}) => (
                 <Avatar alt={user.pseudo}
                         className={classes.avatar}>
                     <AccountCircleIcon className={classes.avatarIcon}/>
-                    {/*<Link to={`/users/${user.slug}`}*/}
+                    {/*<Link to={userArticlesPath(user.slug)}*/}
                     {/*      onClick={spyTrackClick.bind(null, 'user', user.id, user.slug, user.pseudo)}/>*/}
                 </Avatar>
             </ListItemAvatar>
@@ -37,7 +41,7 @@ const ArticleAvatarIcon = ({classes, user, articleDate}) => (
                                   {articleDate}
                               </time>}>
                 <Link className={classes.avatarUser}
-                      to={`/users/${user.slug}`}
+                      to={userArticlesPath(user.slug)}
                       itemProp="url"
                       onClick={spyTrackClick.bind(null, 'user', user.id, user.slug, user.pseudo)}>
                     <span itemProp="name">

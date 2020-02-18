@@ -6,10 +6,14 @@ import {
 
 import HistoryIcon from '@material-ui/icons/HistoryOutlined';
 
+import {
+    historyArticlePath
+} from '../../../constants/routesHelper';
+
 const ArticleHistoryIcon = ({userSlug, articleSlug, size, color}) => (
     <span className="tooltip-bottom"
           data-tooltip={I18n.t('js.article.tooltip.history')}>
-        <Link to={`/users/${userSlug}/articles/${articleSlug}/history`}>
+        <Link to={historyArticlePath(userSlug, articleSlug)}>
             <HistoryIcon color={color}
                          fontSize={size}/>
         </Link>

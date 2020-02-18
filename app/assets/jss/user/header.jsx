@@ -19,14 +19,14 @@ const styles = (theme) => ({
     toolbar: {
         width: '100%',
         height: 64,
-        borderBottom: `1px solid ${theme.palette.grey[100]}`,
+        borderBottom: `1px solid ${theme.palette.grey[100]}`
     },
     grow: {
         flexGrow: 1
     },
     title: {
         display: 'none',
-        margin: '5px 15px',
+        margin: '10px 15px 0',
         fontSize: '1.6rem',
         [theme.breakpoints.up('sm')]: {
             display: 'block',
@@ -53,7 +53,7 @@ const styles = (theme) => ({
     headerButton: {
         display: 'block',
         margin: '0 12px',
-        width: 48,
+        width: 48
     },
     topicButton: {
         fontSize: '1rem',
@@ -65,7 +65,7 @@ const styles = (theme) => ({
         fontSize: '1rem',
         verticalAlign: 'middle',
         color: theme.palette.text.primary,
-        lineHeight: '1.2rem',
+        lineHeight: '1.2rem'
     },
     sectionDesktop: {
         marginLeft: 5,
@@ -93,7 +93,7 @@ const styles = (theme) => ({
         paddingLeft: 12
     },
     mobileTitle: {
-        margin: '5px 15px',
+        margin: '5px 2px',
         color: theme.palette.text.primary,
         display: 'block',
         fontSize: '2rem'

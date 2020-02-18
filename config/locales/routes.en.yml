@@ -1,0 +1,18 @@
+en:
+  routes:
+    home: ""
+    search: "search"
+    tags: "tags"
+    tagged: "tagged"
+    topics: "topics"
+    shared-topics: "shared-topic"
+    articles: "articles"
+    shared: "shared"
+    users: "users"
+    signup: "signup"
+    login: "login"
+    new: "new"
+    edit: "edit"
+    about: "about-us"
+    terms: "terms"
+    policy: "privacy-policy"

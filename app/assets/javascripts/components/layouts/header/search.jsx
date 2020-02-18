@@ -18,6 +18,13 @@ import SearchIcon from '@material-ui/icons/Search';
 import CancelIcon from '@material-ui/icons/Cancel';
 
 import {
+    taggedArticlesPath,
+    userArticlePath,
+    searchPath,
+    searchParam
+} from '../../../constants/routesHelper';
+
+import {
     setAutocompleteQuery,
     fetchAutocomplete,
     setAutocompleteAction,
@@ -76,7 +83,7 @@ class HomeSearchHeader extends React.Component {
     }
 
     componentWillUnmount() {
-        if (this._request && this._request.signal) {
+        if (this._request?.signal) {
             this._request.signal.abort();
         }
 
@@ -92,7 +99,7 @@ class HomeSearchHeader extends React.Component {
     };
 
     _handleFetch = _.debounce((query) => {
-        if (this._request && this._request.signal) {
+        if (this._request?.signal) {
             this._request.signal.abort();
         }
 
@@ -143,6 +150,8 @@ class HomeSearchHeader extends React.Component {
                     event.preventDefault();
 
                     this.props.setAutocompleteAction(event.key);
+                } else if (Utils.NAVIGATION_KEYMAP[event.which] === 'enter') {
+                    event.preventDefault();
                 }
             }
         }
@@ -155,30 +164,34 @@ class HomeSearchHeader extends React.Component {
     _handleSearchOpen = () => {
         if (this.props.location.hash !== '#search') {
             this.props.history.push({
-                hash: 'search'
+                hash: searchParam
             });
         }
     };
 
     _goToTag = (tag) => {
         this.props.history.push({
-            pathname: `/tagged/${tag.slug}`,
-            hash: 'search'
+            pathname: taggedArticlesPath(tag.slug),
+            hash: searchParam
         });
     };
 
     _goToArticle = (article) => {
         this.props.history.push({
-            pathname: `/users/${article.user.slug}/articles/${article.slug}`,
+            pathname: userArticlePath(article.user.slug, article.slug),
             hash: undefined
         });
     };
 
     _performSearch = () => {
+        if(!this.props.query || this.props.query === '') {
+            return;
+        }
+
         this.props.setAutocompleteSelectedTag();
 
         this.props.history.push({
-            pathname: '/search',
+            pathname: searchPath(),
             search: Utils.toParams(Utils.compact({
                 query: this.props.query,
                 tags: this.props.selectedTags.map((tag) => tag.slug)

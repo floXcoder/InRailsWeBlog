@@ -9,17 +9,26 @@ const formatTime = (string) => {
     return string.toString().length === 1 ? `0${string}` : string;
 };
 
-const formatDate = (stringDate) => {
+const formatDate = (stringDate, onLineElementClick) => {
     const date = new Date(Date.parse(stringDate));
 
-    return `${date.getDate()} ${monthNames[date.getMonth()]} - ${formatTime(date.getHours())}:${formatTime(date.getMinutes())}:${formatTime(date.getSeconds())}`;
+    const formattedTime = `${formatTime(date.getHours())}:${formatTime(date.getMinutes())}:${formatTime(date.getSeconds())}`;
+
+    return (
+        <span>
+            {`${date.getDate()} ${monthNames[date.getMonth()]} - `}
+            <a onClick={onLineElementClick.bind(null, 'date', formattedTime)}>
+                {formattedTime}
+            </a>
+        </span>
+    );
 };
 
 const logClass = (level) => {
     let logClass;
-    if(level === 'W') {
+    if (level === 'W') {
         logClass = 'file-line-warn';
-    } else if(level === 'E' || level === 'F') {
+    } else if (level === 'E' || level === 'F') {
         logClass = 'file-line-error';
     }
 
@@ -36,7 +45,8 @@ const LogLine = ({children, onLineElementClick}) => {
         return (
             <li>
                 <p className={`file-line-bot ${logClass(l)}`}>
-                    <a onClick={onLineElementClick.bind(null, 'level', level)}>{level}</a> - [{formatDate(date)}] : [<a
+                    <a onClick={onLineElementClick.bind(null, 'level', level)}>{level}</a> -
+                    [{formatDate(date, onLineElementClick)}] : [<a
                     onClick={onLineElementClick.bind(null, 'host', host)}>{host}</a>] [<a
                     onClick={onLineElementClick.bind(null, 'ip', ip)}>{ip}</a>] [<a
                     onClick={onLineElementClick.bind(null, 'bot', bot)}>bot:{bot}</a>] {other1} path=<a
@@ -51,7 +61,8 @@ const LogLine = ({children, onLineElementClick}) => {
         return (
             <li>
                 <p className={`file-line ${logClass(l)}`}>
-                    <a onClick={onLineElementClick.bind(null, 'level', level)}>{level}</a> - [{formatDate(date)}] : [<a
+                    <a onClick={onLineElementClick.bind(null, 'level', level)}>{level}</a> -
+                    [{formatDate(date, onLineElementClick)}] : [<a
                     onClick={onLineElementClick.bind(null, 'host', host)}>{host}</a>] [<a
                     onClick={onLineElementClick.bind(null, 'ip', ip)}>{ip}</a>] {other1} path=<a
                     href={path} target="_blank">{path}</a> {other2} status=<a

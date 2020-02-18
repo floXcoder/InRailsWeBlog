@@ -164,55 +164,50 @@ $.extend($.summernote.options.keyMap.mac, {
     'CMD+ENTER': 'Save',
 });
 
-const ui = $.summernote.ui;
-ui.icon = function (iconClassName, tagName) {
-    return '<span class="material-icons">' + iconClassName + '</span>';
-};
-
-const applyClass = (context, formatName) => {
-    let $node = $(context.invoke('restoreTarget'));
-    if ($node.length === 0) {
-        $node = $(document.getSelection().focusNode.parentElement, '.note-editable');
-    }
-
-    if ($node.hasClass('note-editable') || $node.hasClass('note-editing-area')) {
-        return;
-    }
-
-    $node.toggleClass(formatName);
-};
-
 const isPara = (node) => {
     return node && /^P|^LI|^H[1-7]/.test(node.nodeName.toUpperCase());
 };
 
-const areDifferentBlockElements = (startEl, endEl) => {
-    const startElDisplay = getComputedStyle(startEl, null).display;
-    const endElDisplay = getComputedStyle(endEl, null).display;
+// const applyClass = (context, formatName) => {
+//     let $node = $(context.invoke('restoreTarget'));
+//     if ($node.length === 0) {
+//         $node = $(document.getSelection().focusNode.parentElement, '.note-editable');
+//     }
+//
+//     if ($node.hasClass('note-editable') || $node.hasClass('note-editing-area')) {
+//         return;
+//     }
+//
+//     $node.toggleClass(formatName);
+// };
 
-    return startElDisplay !== 'inline' && endElDisplay !== 'inline';
-};
+// const areDifferentBlockElements = (startEl, endEl) => {
+//     const startElDisplay = getComputedStyle(startEl, null).display;
+//     const endElDisplay = getComputedStyle(endEl, null).display;
+//
+//     return startElDisplay !== 'inline' && endElDisplay !== 'inline';
+// };
 
-const isSelectionParsable = (startEl, endEl) => {
-    if (startEl.isSameNode(endEl)) {
-        return true;
-    }
-    if (areDifferentBlockElements(startEl, endEl)) {
-        return false;
-    }
-    // if they're not different block elements, then we need to check if they share a common block ancestor
-    // could do this recursively, if we want to back farther up the node chain...
-    const startElParent = startEl.parentElement;
-    const endElParent = endEl.parentElement;
-    if (startEl.isSameNode(endElParent)
-        || endEl.isSameNode(startElParent)
-        || startElParent.isSameNode(endElParent)) {
-        return true;
-    } else {
-        // console.error("Unable to parse across so many nodes. Sorry!");
-    }
-    return false;
-};
+// const isSelectionParsable = (startEl, endEl) => {
+//     if (startEl.isSameNode(endEl)) {
+//         return true;
+//     }
+//     if (areDifferentBlockElements(startEl, endEl)) {
+//         return false;
+//     }
+//     // if they're not different block elements, then we need to check if they share a common block ancestor
+//     // could do this recursively, if we want to back farther up the node chain...
+//     const startElParent = startEl.parentElement;
+//     const endElParent = endEl.parentElement;
+//     if (startEl.isSameNode(endElParent)
+//         || endEl.isSameNode(startElParent)
+//         || startElParent.isSameNode(endElParent)) {
+//         return true;
+//     } else {
+//         // console.error("Unable to parse across so many nodes. Sorry!");
+//     }
+//     return false;
+// };
 
 const applyTag = (context, tag, className) => {
     if (window.getSelection) {

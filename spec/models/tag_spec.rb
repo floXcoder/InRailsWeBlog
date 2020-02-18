@@ -40,7 +40,7 @@ RSpec.describe Tag, type: :model, basic: true do
       user:        @user,
       name:        'Tag',
       description: 'Tag description',
-      languages:   ['fr'],
+      languages:   ['en'],
       synonyms:    ['tagged'],
       color:       '#000000',
       priority:    1,
@@ -73,7 +73,7 @@ RSpec.describe Tag, type: :model, basic: true do
 
     it { expect(@tag.name).to eq('Tag') }
     it { expect(@tag.description).to eq('Tag description') }
-    it { expect(@tag.languages).to eq(['fr']) }
+    it { expect(@tag.languages).to eq(['en']) }
     it { expect(@tag.synonyms).to eq(['tagged']) }
     it { expect(@tag.color).to eq('#000000') }
     it { expect(@tag.priority).to eq(1) }
@@ -306,22 +306,6 @@ RSpec.describe Tag, type: :model, basic: true do
       it { is_expected.to respond_to(:remove_unused_tags) }
       it { expect { Tag.remove_unused_tags([private_tag]) }.to change(Tag, :count).by(-1) }
     end
-
-    describe '::as_json' do
-      it { is_expected.to respond_to(:as_json) }
-      it { expect(Tag.as_json(@tag)).to be_a(Hash) }
-      it { expect(Tag.as_json(@tag)[:tag]).to be_a(Hash) }
-      it { expect(Tag.as_json([@tag])).to be_a(Hash) }
-      it { expect(Tag.as_json([@tag])[:tags]).to be_a(Array) }
-      it { expect(Tag.as_json([@tag], strict: true)[:tags]).to be_a(Array) }
-      it { expect(Tag.as_json([@tag], sample: true)[:tags]).to be_a(Array) }
-    end
-
-    describe '::as_flat_json' do
-      it { is_expected.to respond_to(:as_flat_json) }
-      it { expect(Tag.as_flat_json(@tag)).to be_a(Hash) }
-      it { expect(Tag.as_flat_json([@tag])).to be_a(Array) }
-    end
   end
 
   context 'Instance Methods' do
@@ -388,11 +372,6 @@ RSpec.describe Tag, type: :model, basic: true do
     describe '.search_data' do
       it { is_expected.to respond_to(:search_data) }
       it { expect(@tag.search_data).to be_a(Hash) }
-    end
-
-    describe '.meta_description' do
-      it { is_expected.to respond_to(:meta_description) }
-      it { expect(@tag.meta_description).to be_a(String) }
     end
   end
 

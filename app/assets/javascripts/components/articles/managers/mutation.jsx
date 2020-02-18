@@ -7,6 +7,10 @@ import {
 } from 'react-router-dom';
 
 import {
+    userArticlePath
+} from '../../../constants/routesHelper';
+
+import {
     saveLocalData,
     getLocalData,
     removeLocalData
@@ -89,7 +93,7 @@ export default function articleMutationManager(mode) {
                     this.state.article = props.routeState;
 
                     if (props.routeState.parentTagSlug) {
-                        this.state.article = this.state.article || {};
+                        this.state.article = this.state.article ? {...this.state.article} : {};
 
                         this.state.article.tags = props.tags.filter((tag) => tag.slug === props.routeState.parentTagSlug || tag.slug === props.routeState.childTagSlug);
                         this.state.article.parentTagSlugs = [props.routeState.parentTagSlug];
@@ -100,7 +104,7 @@ export default function articleMutationManager(mode) {
 
                     if (props.routeState.temporary) {
                         const temporaryArticle = getLocalData(articleTemporaryDataName, true);
-                        if (temporaryArticle && temporaryArticle.article) {
+                        if (temporaryArticle?.article) {
                             this.state.article = temporaryArticle.article;
                         }
                     }
@@ -108,13 +112,13 @@ export default function articleMutationManager(mode) {
                     if (props.routeState.content) {
                         Notification.success(I18n.t('js.article.clipboard'));
                     }
-                } else if (unsavedArticle && unsavedArticle.length > 0) {
+                } else if (unsavedArticle?.length > 0) {
                     this.state.article = unsavedArticle.first().article;
                     this.props.addArticle(this.state.article)
                         .then((response) => {
                             if (response.article) {
                                 this.props.history.push({
-                                    pathname: `/users/${response.article.user.slug}/articles/${response.article.slug}`,
+                                    pathname: userArticlePath(response.article.user.slug, response.article.slug),
                                     state: {reloadTags: true}
                                 });
                             }
@@ -137,7 +141,7 @@ export default function articleMutationManager(mode) {
             }
 
             componentDidMount() {
-                if (this.props.routeState && this.props.routeState.position) {
+                if (this.props.routeState?.position) {
                     setTimeout(() => {
                         window.scrollTo(this.props.routeState.position.left || 0, (this.props.routeState.position.top || 0) + 100);
                     }, 600);
@@ -157,7 +161,7 @@ export default function articleMutationManager(mode) {
             }
 
             _handleFormChange = (formState, values) => {
-                if (formState.isDirty && !formState.submitting && !formState.invalid && !formState.submitSucceeded) {
+                if (formState.dirty && !formState.submitting && !formState.invalid && !formState.submitSucceeded) {
                     this._handleChange(formState.values);
                 }
 
@@ -172,12 +176,12 @@ export default function articleMutationManager(mode) {
             // };
 
             _handleCancel = () => {
-                if (this.state.article && this.state.article.id) {
+                if (this.state.article?.id) {
                     return;
                 }
 
                 const temporaryArticle = getLocalData(articletemporaryDataName);
-                if (temporaryArticle && temporaryArticle.length > 0) {
+                if (temporaryArticle?.length > 0) {
                     removeLocalData(articletemporaryDataName);
                 }
             };
@@ -186,7 +190,7 @@ export default function articleMutationManager(mode) {
                 this._handleSubmit(values, true);
             }, articleWaitTimeBeforeSaving);
 
-            _handleSubmit = (values, autoSave = false) => {
+            _handleSubmit = (values, autoSave) => {
                 if (!values) {
                     return;
                 }
@@ -194,7 +198,7 @@ export default function articleMutationManager(mode) {
                 let formData = values;
 
                 // If article exists update the current article
-                if (this.state.article && this.state.article.id) {
+                if (this.state.article?.id) {
                     formData.id = this.props.article.id;
 
                     formatTagArticles(formData, this.props.article.tags, {
@@ -202,7 +206,7 @@ export default function articleMutationManager(mode) {
                         childTagIds: this.props.article.childTagIds
                     });
 
-                    const updatePromise = this.props.updateArticle(formData, {autoSave});
+                    const updatePromise = this.props.updateArticle(formData, {autoSave: (autoSave === true)});
                     if (autoSave === true) {
                         return updatePromise;
                     } else {
@@ -212,7 +216,7 @@ export default function articleMutationManager(mode) {
                             }
 
                             this.props.history.push({
-                                pathname: `/users/${response.article.user.slug}/articles/${response.article.slug}`,
+                                pathname: userArticlePath(response.article.user.slug, response.article.slug),
                                 state: {reloadTags: true}
                             });
                         });
@@ -227,7 +231,7 @@ export default function articleMutationManager(mode) {
                         };
                     }
 
-                    formatTagArticles(formData, this.state.article && this.state.article.tags, tagParams);
+                    formatTagArticles(formData, this.state.article?.tags, tagParams);
 
                     // Merge previous data if any
                     if (this.state.article) {
@@ -264,7 +268,7 @@ export default function articleMutationManager(mode) {
                                 .then((response) => {
                                     if (response.article) {
                                         this.props.history.push({
-                                            pathname: `/users/${response.article.user.slug}/articles/${response.article.slug}`,
+                                            pathname: userArticlePath(response.article.user.slug, response.article.slug),
                                             state: {reloadTags: true}
                                         });
                                     }
@@ -275,7 +279,7 @@ export default function articleMutationManager(mode) {
             };
 
             render() {
-                let currentMode = (this.props.routeState && this.props.routeState.mode) || 'note';
+                let currentMode = (this.props.routeState?.mode) || 'note';
                 if (this.props.currentTopic && this.props.currentTopic.mode === 'stories') {
                     currentMode = 'story';
                 }

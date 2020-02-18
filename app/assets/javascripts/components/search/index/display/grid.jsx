@@ -13,7 +13,8 @@ const ArticleMasonry = MasonryWrapper(ArticleGridDisplay);
 export default @hot
 class ArticleGridModeSearch extends React.Component {
     static propTypes = {
-        articles: PropTypes.array.isRequired
+        articles: PropTypes.array.isRequired,
+        searchGridColumns: PropTypes.number
     };
 
     constructor(props) {
@@ -26,7 +27,7 @@ class ArticleGridModeSearch extends React.Component {
                             elements={this.props.articles}
                             topOffset={40}
                             hasColumnButtons={false}
-                            columnCount={3}
+                            columnCount={this.props.searchGridColumns}
                             hasExposedMode={false}
                             isActive={true}
                             isPaginated={false}/>

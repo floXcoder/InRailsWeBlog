@@ -45,7 +45,12 @@ class MainLayoutHome extends React.Component {
                         <Route key={route.path || i}
                                path={route.path}
                                exact={route.exact}
+                               strict={route.strict}
                                render={(router) => {
+                                   if (route.status) {
+                                       router.staticContext.status = route.status;
+                                   }
+
                                    const {component, ...routeProperties} = route;
                                    const Component = component();
 

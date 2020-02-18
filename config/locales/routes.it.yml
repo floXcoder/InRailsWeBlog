@@ -1,0 +1,18 @@
+it:
+  routes:
+    home: "it"
+    search: "ricerca"
+    tags: "etichette"
+    tagged: "etichetta"
+    topics: "temi"
+    shared-topics: "condivisione-di-temi"
+    articles: "articoli"
+    shared: "condividi"
+    users: "utenti"
+    signup: "collegamento"
+    login: "registrazione"
+    new: "nuovo"
+    edit: "edizione"
+    about: "a-proposito-di"
+    terms: "condizioni di utilizzo"
+    policy: "politica dei dati"

@@ -39,10 +39,9 @@ import {
 
 import {
     maxSearchRate,
-    autocompleteLimit
+    autocompleteLimit,
+    searchGridColumns
 } from '../modules/constants';
-
-import HeadLayout from '../layouts/head';
 
 import EnsureValidity from '../modules/ensureValidity';
 
@@ -55,12 +54,11 @@ import SearchArticleIndex from './index/article';
 import styles from '../../../jss/search/index';
 
 export default @connect((state) => ({
-    metaTags: state.searchState.metaTags,
     currentUserId: state.userState.currentId,
     currentUser: state.userState.user,
     currentUserTopicId: state.topicState.currentUserTopicId,
-    currentUserTopicMode: state.topicState.currentTopic && state.topicState.currentTopic.mode,
-    searchDisplay: state.userState.user && state.userState.user.settings.searchDisplay,
+    currentUserTopicMode: state.topicState.currentTopic?.mode,
+    searchDisplay: state.userState.user?.settings?.searchDisplay,
     query: state.searchState.query,
     selectedTags: state.searchState.selectedTags,
     isSearching: state.searchState.isSearching,
@@ -86,8 +84,8 @@ export default @connect((state) => ({
 @withStyles(styles)
 class SearchIndex extends React.Component {
     static propTypes = {
+        routeParams: PropTypes.object.isRequired,
         // from connect
-        metaTags: PropTypes.object,
         currentUserId: PropTypes.number,
         currentUser: PropTypes.object,
         currentUserTopicId: PropTypes.number,
@@ -129,14 +127,14 @@ class SearchIndex extends React.Component {
 
     componentDidMount() {
         // Retrieve search from url or history
-        this.props.getSearchContext();
+        this.props.getSearchContext(this.props.routeParams);
 
         // Save search in browser history
         this.props.searchOnHistoryChange();
     }
 
     componentWillUnmount() {
-        if (this._request && this._request.signal) {
+        if (this._request?.signal) {
             this._request.signal.abort();
         }
 
@@ -216,7 +214,7 @@ class SearchIndex extends React.Component {
     };
 
     _handleFetch = _.debounce((query) => {
-        if (this._request && this._request.signal) {
+        if (this._request?.signal) {
             this._request.signal.abort();
         }
 
@@ -291,7 +289,7 @@ class SearchIndex extends React.Component {
             );
         }
 
-        const hasNoResults = (this.props.query && this.props.query.length > 0) && !this.props.hasResults;
+        const hasNoResults = (this.props.query?.length > 0) && !this.props.hasResults;
 
         const isDesktop = window.innerWidth > 1024;
 
@@ -299,10 +297,6 @@ class SearchIndex extends React.Component {
 
         return (
             <div className={this.props.classes.root}>
-                <HeadLayout>
-                    {this.props.metaTags}
-                </HeadLayout>
-
                 <form onSubmit={this._handleSubmit}>
                     <EnsureValidity/>
 
@@ -404,6 +398,7 @@ class SearchIndex extends React.Component {
                                         selectedTagIds={this.props.selectedTags.map((tag) => tag.id)}
                                         articles={this.props.articles}
                                         searchDisplay={searchDisplay}
+                                        searchGridColumns={searchGridColumns}
                                         onSettingsClick={this.props.showUserPreference}
                                         onOrderChange={this._handleOrderChange}
                                         onDisplayChange={this._handleDisplayChange}/>

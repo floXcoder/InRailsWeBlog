@@ -15,6 +15,7 @@ module.exports = {
             'admins/tags': ['./javascripts/pages/admins/tags.jsx'],
             'admins/articles': ['./javascripts/pages/admins/articles.jsx'],
             'admins/blogs': ['./javascripts/pages/admins/blogs.jsx'],
+            'admins/seo': ['./javascripts/pages/admins/seo.jsx'],
             'admins/logs': ['./javascripts/pages/admins/logs.jsx'],
             'admins/cache': ['./javascripts/pages/admins/cache.jsx']
         },
@@ -26,7 +27,7 @@ module.exports = {
             includes: [
                 'node_modules'
             ],
-            // noParse: // // Must not contains any imports mechanism
+            // noParse: // Must not contain any import mechanism
         },
         rules: {
             javascript: {
@@ -43,7 +44,7 @@ module.exports = {
                         assetDir + '/stylesheets',
                         frontendDir
                     ],
-                    indentedSyntax: false // use cscc syntax and not sass
+                    indentedSyntax: false // Use cscc syntax and not sass
                 }
             },
             file: {
@@ -132,7 +133,7 @@ module.exports = {
             chunkFilename: '[name]'
         },
         production: {
-            assetPath: 'https://assets.inrailsweblog.com/assets/',
+            assetPath: 'https://assets.ginkonote.com/assets/',
             filename: '[name].[hash]',
             filenameData: '[name]',
             chunkFilename: '[name].[hash].[id]',

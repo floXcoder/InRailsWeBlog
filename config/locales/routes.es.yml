@@ -1,0 +1,18 @@
+es:
+  routes:
+    home: "es"
+    search: "investigacion"
+    tags: "etiquetas"
+    tagged: "etiqueta"
+    topics: "temas"
+    shared-topics: "intercambio-de-temas"
+    articles: "articulos"
+    shared: "compartir"
+    users: "usuarios"
+    signup: "conexion"
+    login: "registro"
+    new: "nuevo"
+    edit: "edicion"
+    about: "sobre"
+    terms: "condiciones-de-uso"
+    policy: "politica-de-datos"

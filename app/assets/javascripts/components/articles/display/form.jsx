@@ -27,6 +27,12 @@ import {
 } from '../../../../jss/theme';
 
 import {
+    userArticlePath,
+    userArticlesPath,
+    editInventoriesTopicPath
+} from '../../../constants/routesHelper';
+
+import {
     fetchTags
 } from '../../../actions';
 
@@ -51,6 +57,7 @@ import ArticleErrorField from './fields/error';
 import EnsureValidity from '../../modules/ensureValidity';
 
 export default @connect((state, props) => ({
+    articleMultilanguage: state.uiState.articleMultilanguage,
     currentUserTopicId: state.topicState.currentUserTopicId,
     availableParentTags: getCategorizedTags(state, props.inheritVisibility),
     availableChildTags: getCategorizedTags(state, props.inheritVisibility, true),
@@ -76,6 +83,7 @@ class ArticleFormDisplay extends React.Component {
         onCancel: PropTypes.func,
         children: PropTypes.object,
         // from connect
+        articleMultilanguage: PropTypes.bool,
         currentUserTopicId: PropTypes.number,
         availableParentTags: PropTypes.array,
         availableChildTags: PropTypes.array,
@@ -197,6 +205,7 @@ class ArticleFormDisplay extends React.Component {
                                                         change={change}/>
                                                     :
                                                     <ArticleCommonField currentMode={currentMode}
+                                                                        articleMultilanguage={this.props.articleMultilanguage}
                                                                         currentTopicId={this.props.currentUserTopicId}
                                                                         isPaste={this.props.isPaste}
                                                                         article={this.props.children}
@@ -216,7 +225,7 @@ class ArticleFormDisplay extends React.Component {
                                                             color="primary"
                                                             variant="contained"
                                                             component={Link}
-                                                            to={`/users/${this.props.currentUser.slug}/topics/${this.props.currentTopic.slug}/edit-inventories`}>
+                                                            to={editInventoriesTopicPath(this.props.currentUser.slug, this.props.currentTopic.slug)}>
                                                         {I18n.t('js.article.form.inventory_button')}
                                                     </Button>
                                                 </div>
@@ -225,7 +234,7 @@ class ArticleFormDisplay extends React.Component {
                                             <div className="center-align margin-top-20">
                                                 <div className="row">
                                                     <div className="col s12 margin-bottom-25">
-                                                        <Button color="primary"
+                                                        <Button color="secondary"
                                                                 variant="outlined"
                                                                 disabled={isNextDisabled}
                                                                 onClick={this._handleButtonChange.bind(this, 1)}>
@@ -242,7 +251,7 @@ class ArticleFormDisplay extends React.Component {
                                                                     variant="text"
                                                                     size="small"
                                                                     component={Link}
-                                                                    to={`/users/${this.props.currentUser.slug}/topics/${this.props.currentTopic.slug}/edit-inventories`}>
+                                                                    to={editInventoriesTopicPath(this.props.currentUser.slug, this.props.currentTopic.slug)}>
                                                                 {I18n.t('js.article.form.inventory_button')}
                                                             </Button>
                                                         </div>
@@ -251,7 +260,7 @@ class ArticleFormDisplay extends React.Component {
                                                     <div className="col s12 margin-top-25">
                                                         <Button size="small"
                                                                 component={Link}
-                                                                to={this.props.isEditing ? `/users/${this.props.userSlug}/articles/${this.props.children.slug}` : `/users/${this.props.userSlug}`}
+                                                                to={this.props.isEditing ? userArticlePath(this.props.userSlug, this.props.children.slug) : userArticlesPath(this.props.userSlug)}
                                                                 onClick={this.props.onCancel}>
                                                             {I18n.t('js.helpers.buttons.cancel')}
                                                         </Button>
@@ -269,7 +278,7 @@ class ArticleFormDisplay extends React.Component {
                                                               onSubmit={handleSubmit}/>
 
                                             <div className="center-align margin-top-30">
-                                                <Button color="primary"
+                                                <Button color="secondary"
                                                         variant="outlined"
                                                         disabled={isNextDisabled}
                                                         onClick={this._handleButtonChange.bind(this, 2)}>
@@ -291,14 +300,14 @@ class ArticleFormDisplay extends React.Component {
                                                     <Button color="default"
                                                             size="small"
                                                             component={Link}
-                                                            to={this.props.isEditing ? `/users/${this.props.userSlug}/articles/${this.props.children.slug}` : `/users/${this.props.userSlug}`}
+                                                            to={this.props.isEditing ? userArticlePath(this.props.userSlug,this.props.children.slug) : userArticlesPath(this.props.userSlug)}
                                                             onClick={this.props.onCancel}>
                                                         {I18n.t('js.helpers.buttons.cancel')}
                                                     </Button>
                                                 </div>
 
                                                 <div className="col s6 right-align">
-                                                    <Button color="primary"
+                                                    <Button color="secondary"
                                                             variant="outlined"
                                                             disabled={submitting}
                                                             onClick={handleSubmit}>

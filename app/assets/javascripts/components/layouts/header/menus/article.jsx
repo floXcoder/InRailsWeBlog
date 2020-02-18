@@ -13,6 +13,10 @@ import Divider from '@material-ui/core/Divider';
 import EditIcon from '@material-ui/icons/Edit';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 
+import {
+    newArticlePath
+} from '../../../../constants/routesHelper';
+
 export default class HeaderArticleMenu extends React.Component {
     static propTypes = {
         classes: PropTypes.object.isRequired,
@@ -47,7 +51,7 @@ export default class HeaderArticleMenu extends React.Component {
                                       component={Link}
                                       className={this.props.classes.link}
                                       to={{
-                                          pathname: `/users/${this.props.userSlug}/topics/${this.props.topicSlug}/article-new`,
+                                          pathname: newArticlePath(this.props.userSlug, this.props.topicSlug),
                                           state: {
                                               temporary: true
                                           }
@@ -69,7 +73,7 @@ export default class HeaderArticleMenu extends React.Component {
                               component={Link}
                               className={this.props.classes.link}
                               to={{
-                                  pathname: `/users/${this.props.userSlug}/topics/${this.props.topicSlug}/article-new`,
+                                  pathname: newArticlePath(this.props.userSlug, this.props.topicSlug),
                                   state: {
                                       parentTagSlug: parentTagSlug,
                                       childTagSlug: childTagSlug

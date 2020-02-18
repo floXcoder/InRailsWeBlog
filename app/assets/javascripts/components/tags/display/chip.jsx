@@ -12,6 +12,10 @@ import Chip from '@material-ui/core/Chip';
 import LabelIcon from '@material-ui/icons/Label';
 
 import {
+    taggedArticlesPath
+} from '../../../constants/routesHelper';
+
+import {
     spyTrackClick
 } from '../../../actions';
 
@@ -37,7 +41,7 @@ class TagChipDisplay extends React.Component {
                   color="primary"
                   variant="outlined"
                   component={Link}
-                  to={`/tagged/${this.props.tag.slug}`}
+                  to={taggedArticlesPath(this.props.tag.slug)}
                   onClick={spyTrackClick.bind(null, 'tag', this.props.tag.id, this.props.tag.slug, this.props.tag.name)}/>
         );
     }

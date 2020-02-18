@@ -43,8 +43,9 @@ describe 'Topic API', type: :request, basic: true do
         expect(response).to be_json_response
 
         json_topics = JSON.parse(response.body)
-        expect(json_topics['topics']).not_to be_empty
-        expect(json_topics['topics'].size).to eq(1)
+        expect(json_topics['meta']['root']).to eq('topics')
+        expect(json_topics['data']).not_to be_empty
+        expect(json_topics['data'].size).to eq(1)
       end
     end
 
@@ -59,8 +60,9 @@ describe 'Topic API', type: :request, basic: true do
         expect(response).to be_json_response
 
         json_topics = JSON.parse(response.body)
-        expect(json_topics['topics']).not_to be_empty
-        expect(json_topics['topics'].size).to eq(3)
+        expect(json_topics['meta']['root']).to eq('topics')
+        expect(json_topics['data']).not_to be_empty
+        expect(json_topics['data'].size).to eq(3)
       end
     end
 
@@ -72,7 +74,8 @@ describe 'Topic API', type: :request, basic: true do
       it 'returns bookmarked topics for current user' do
         get '/api/v1/topics', params: { user_id: @user.id, filter: { bookmarked: true } }, as: :json
         json_topics = JSON.parse(response.body)
-        expect(json_topics['topics']).to be_empty
+        expect(json_topics['meta']['root']).to eq('topics')
+        expect(json_topics['data']).to be_empty
       end
     end
 
@@ -80,7 +83,7 @@ describe 'Topic API', type: :request, basic: true do
       it 'limits the number of database queries' do
         expect {
           get '/api/v1/topics', params: { user_id: @user.id }, as: :json
-        }.to make_database_queries(count: 1..3)
+        }.to make_database_queries(count: 5..8)
       end
     end
 
@@ -93,8 +96,9 @@ describe 'Topic API', type: :request, basic: true do
         get '/api/v1/topics', params: { user_id: @user.id }, as: :json
 
         json_topics = JSON.parse(response.body)
-        expect(json_topics['topics']).not_to be_empty
-        expect(json_topics['topics'].size).to eq(1)
+        expect(json_topics['meta']['root']).to eq('topics')
+        expect(json_topics['data']).not_to be_empty
+        expect(json_topics['data'].size).to eq(1)
       end
     end
   end
@@ -131,8 +135,8 @@ describe 'Topic API', type: :request, basic: true do
         expect(response).to be_json_response
 
         topic = JSON.parse(response.body)
-        expect(topic['topic']).not_to be_empty
-        expect(topic['topic']['name']).to eq(@public_topic.name)
+        expect(topic['data']['attributes']).not_to be_empty
+        expect(topic['data']['attributes']['name']).to eq(@public_topic.name)
       end
 
       it 'returns an error if not topic owner' do
@@ -158,8 +162,8 @@ describe 'Topic API', type: :request, basic: true do
         expect(response).to be_json_response
 
         topic = JSON.parse(response.body)
-        expect(topic['topic']).not_to be_empty
-        expect(topic['topic']['name']).to eq(@public_topic.name)
+        expect(topic['data']['attributes']).not_to be_empty
+        expect(topic['data']['attributes']['name']).to eq(@public_topic.name)
       end
     end
   end
@@ -172,8 +176,8 @@ describe 'Topic API', type: :request, basic: true do
         expect(response).to be_json_response
 
         topic = JSON.parse(response.body)
-        expect(topic['topic']).not_to be_empty
-        expect(topic['topic']['name']).to eq(@public_topic.name)
+        expect(topic['data']['attributes']).not_to be_empty
+        expect(topic['data']['attributes']['name']).to eq(@public_topic.name)
       end
     end
 
@@ -188,8 +192,8 @@ describe 'Topic API', type: :request, basic: true do
         expect(response).to be_json_response
 
         topic = JSON.parse(response.body)
-        expect(topic['topic']).not_to be_empty
-        expect(topic['topic']['name']).to eq(@public_topic.name)
+        expect(topic['data']['attributes']).not_to be_empty
+        expect(topic['data']['attributes']['name']).to eq(@public_topic.name)
       end
     end
 
@@ -204,8 +208,8 @@ describe 'Topic API', type: :request, basic: true do
         expect(response).to be_json_response
 
         topic = JSON.parse(response.body)
-        expect(topic['topic']).not_to be_empty
-        expect(topic['topic']['name']).to eq(@public_topic.name)
+        expect(topic['data']['attributes']).not_to be_empty
+        expect(topic['data']['attributes']['name']).to eq(@public_topic.name)
       end
     end
   end
@@ -231,11 +235,11 @@ describe 'Topic API', type: :request, basic: true do
           expect(response).to be_json_response(201)
 
           topic = JSON.parse(response.body)
-          expect(topic['topic']).not_to be_empty
-          expect(topic['topic']['userId']).to eq(@user.id)
-          expect(topic['topic']['name']).to eq(topic_attributes[:topic][:name])
+          expect(topic['data']['attributes']).not_to be_empty
+          expect(topic['data']['attributes']['userId']).to eq(@user.id)
+          expect(topic['data']['attributes']['name']).to eq(topic_attributes[:topic][:name])
 
-          expect(@user.reload.current_topic_id).to eq(topic['topic']['id'])
+          expect(@user.reload.current_topic_id).to eq(topic['data']['attributes']['id'])
         }.to change(Topic, :count).by(1)
       end
     end
@@ -252,9 +256,9 @@ describe 'Topic API', type: :request, basic: true do
           expect(response).to be_json_response(201)
 
           topic = JSON.parse(response.body)
-          expect(topic['topic']).not_to be_empty
-          expect(topic['topic']['userId']).to eq(@user.id)
-          expect(topic['topic']['name']).to eq(@other_topic_name)
+          expect(topic['data']['attributes']).not_to be_empty
+          expect(topic['data']['attributes']['userId']).to eq(@user.id)
+          expect(topic['data']['attributes']['name']).to eq(@other_topic_name)
         }.to change(Topic, :count).by(1)
       end
 
@@ -313,9 +317,9 @@ describe 'Topic API', type: :request, basic: true do
           expect(response).to be_json_response
 
           topic = JSON.parse(response.body)
-          expect(topic['topic']).not_to be_empty
-          expect(topic['topic']['name']).to eq(updated_topic_attributes[:topic][:name])
-          expect(topic['topic']['description']).to eq(updated_topic_attributes[:topic][:description])
+          expect(topic['data']['attributes']).not_to be_empty
+          expect(topic['data']['attributes']['name']).to eq(updated_topic_attributes[:topic][:name])
+          expect(topic['data']['attributes']['description']).to eq(updated_topic_attributes[:topic][:description])
         }.not_to change(Topic, :count)
       end
 
@@ -361,7 +365,7 @@ describe 'Topic API', type: :request, basic: true do
           expect(response).to be_json_response
 
           topic = JSON.parse(response.body)
-          expect(topic['topic']).not_to be_empty
+          expect(topic['data']['attributes']).not_to be_empty
         }.to change(Topic, :count).by(-1).and change(Article, :count).by(-@public_topic.articles.count).and change(TaggedArticle, :count).by(-@public_topic.tags.count).and change(TagRelationship, :count).by(0)
       end
     end

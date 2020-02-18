@@ -54,4 +54,8 @@ class Sanitizer
 
     return html
   end
+
+  def remove_secrets(html)
+    html&.gsub(/<(\w+) class="secret">(.*?)<\/\1>/im, '')
+  end
 end

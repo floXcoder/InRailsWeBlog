@@ -1,14 +1,30 @@
 'use strict';
 
-// import Form from '../materialize/form';
-// import Input from '../materialize/input';
-// import Textarea from '../materialize/textarea';
-// import Checkbox from '../materialize/checkbox';
-// import File from '../materialize/file';
-// import Submit from '../materialize/submit';
+import {
+    hot
+} from 'react-hot-loader/root';
 
-export default class UserEdit extends React.Component {
+import {
+    Link
+} from 'react-router-dom';
+
+import {
+    fetchMetaTags
+} from '../../actions';
+
+import {
+    rootPath,
+    userArticlesPath
+} from '../../constants/routesHelper';
+
+export default @connect(null, {
+    fetchMetaTags
+})
+@hot
+class UserEdit extends React.Component {
     static propTypes = {
+        // from connect
+        fetchMetaTags: PropTypes.func,
         // userId: PropTypes.string,
         // params: PropTypes.object
     };
@@ -36,6 +52,10 @@ export default class UserEdit extends React.Component {
         user: {}
     };
 
+    componentDidMount() {
+        this.props.fetchMetaTags('edit_password');
+    }
+
     render() {
         if (Utils.isEmpty(this.state.user)) {
             return null;
@@ -44,7 +64,7 @@ export default class UserEdit extends React.Component {
         return (
             <div className="card">
                 <Form id={`edit_user_${this.state.user.id}`}
-                      action={`/users/${this.state.user.slug}`}
+                      action={userArticlesPath(this.state.user.slug)}
                       isMultipart={true}>
 
                     <div className="card-content">
@@ -78,9 +98,9 @@ export default class UserEdit extends React.Component {
                             </div>
 
                             <div className="col s12 center-align">
-                                <a href="/users/edit">
-                                    {I18n.t('js.user.edit.connection_parameters')}
-                                </a>
+                                {/*<a href="/users/edit">*/}
+                                {/*    {I18n.t('js.user.edit.connection_parameters')}*/}
+                                {/*</a>*/}
                             </div>
                         </div>
 
@@ -180,7 +200,7 @@ export default class UserEdit extends React.Component {
                                         variant="outlined"
                                         size="small"
                                         component={Link}
-                                        to="/">
+                                        to={rootPath()}>
                                     {I18n.t('js.user.edit.back_button')}
                                 </Button>
                             </div>

@@ -19,8 +19,6 @@ const autocompleteState = {
 
     query: '',
 
-    metaTags: {},
-
     highlightedTag: undefined,
     highlightedArticle: undefined,
 
@@ -134,7 +132,7 @@ export function autocompleteReducer(state = autocompleteState, action) {
             return state;
 
         case ActionTypes.SEARCH_AUTOCOMPLETE_TAG_SELECTED:
-            state.selectedTags = action.tag ? addOrRemoveArray(state.selectedTags, action.tag) : [];
+            state.selectedTags = action.tag ? addOrRemoveIn(state.selectedTags, action.tag) : [];
             state.topics = [];
             state.tags = [];
             state.articles = [];
@@ -162,8 +160,6 @@ const searchState = {
     articleAvailableFilters: [],
 
     query: '',
-
-    metaTags: {},
 
     selectedTags: [],
 
@@ -206,7 +202,7 @@ const _parseSearchResults = (searchState, action) => {
     searchState.tags = action.tags || [];
     searchState.articles = action.articles || [];
 
-    searchState.hasResults = !(Utils.isEmpty(searchState.topics) && Utils.isEmpty(searchState) && Utils.isEmpty(searchState.articles));
+    searchState.hasResults = !(Utils.isEmpty(searchState.topics) && Utils.isEmpty(searchState.tags) && Utils.isEmpty(searchState.articles));
 
     searchState.totalArticlePages = action.totalPages.articles;
     searchState.totalArticles = action.totalCount.articles;
@@ -217,27 +213,15 @@ const _parseSearchResults = (searchState, action) => {
 
     searchState.currentPage = parseInt(action.page || action.searchParams.page || 1, 10);
 
-    if (action.suggestions) {
-        searchState.topicSuggestions = action.suggestions.topics;
-        searchState.tagSuggestions = action.suggestions.tags;
-        searchState.articleSuggestions = action.suggestions.articles;
-    }
+    searchState.topicSuggestions = action.suggestions?.topics || [];
+    searchState.tagSuggestions = action.suggestions?.tags || [];
+    searchState.articleSuggestions = action.suggestions?.articles || [];
 
-    if (action.aggregations) {
-        searchState.articleAvailableFilters = action.aggregations.articles;
-    }
+    searchState.articleAvailableFilters = action.aggregations?.articles || [];
 
-    if (action.searchFilters) {
-        searchState.searchFilters = action.searchFilters;
-    }
+    searchState.searchFilters = action.searchFilters || {};
 
-    if (action.selectedTags) {
-        searchState.selectedTags = action.selectedTags;
-    }
-
-    if (action.meta && action.meta.metaTags) {
-        searchState.metaTags = action.meta.metaTags;
-    }
+    searchState.selectedTags = action.selectedTags || [];
 
     return searchState;
 };

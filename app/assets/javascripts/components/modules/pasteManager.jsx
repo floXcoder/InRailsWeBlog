@@ -4,6 +4,10 @@ import {
     withRouter
 } from 'react-router-dom';
 
+import {
+    newArticleRedirectPath
+} from '../../constants/routesHelper';
+
 import ClipboardManager from '../../modules/clipboard';
 
 export default @withRouter
@@ -24,9 +28,9 @@ class PasteManager extends React.Component {
     }
 
     _onPaste = (content) => {
-        if (content && this.props.location.pathname !== '/articles/new' && this.props.location.hash !== '#new-article') {
+        if (content && this.props.location.pathname !== newArticleRedirectPath()) {
             this.props.history.push({
-                pathname: '/articles/new',
+                pathname: newArticleRedirectPath(),
                 state: {
                     isPaste: true,
                     pasteContent: content

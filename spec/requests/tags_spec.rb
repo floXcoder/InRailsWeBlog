@@ -46,10 +46,11 @@ describe 'Tag API', type: :request, basic: true do
 
         json_tags = JSON.parse(response.body)
 
-        expect(json_tags['tags']).not_to be_empty
-        expect(json_tags['tags'].size).to eq(5)
+        expect(json_tags['meta']['root']).to eq('tags')
+        expect(json_tags['data']).not_to be_empty
+        expect(json_tags['data'].size).to eq(5)
 
-        tags_visibility = json_tags['tags'].map { |m| m['visibility'] }
+        tags_visibility = json_tags['data'].map { |m| m['attributes']['visibility'] }
         expect(tags_visibility).to match_array(['everyone'] * 5)
       end
 
@@ -60,8 +61,9 @@ describe 'Tag API', type: :request, basic: true do
 
         json_tags = JSON.parse(response.body)
 
-        expect(json_tags['tags']).not_to be_empty
-        expect(json_tags['tags'].size).to equal(5)
+        expect(json_tags['meta']['root']).to eq('tags')
+        expect(json_tags['data']).not_to be_empty
+        expect(json_tags['data'].size).to equal(5)
       end
     end
 
@@ -77,10 +79,11 @@ describe 'Tag API', type: :request, basic: true do
 
         json_tags = JSON.parse(response.body)
 
-        expect(json_tags['tags']).not_to be_empty
-        expect(json_tags['tags'].size).to eq(10)
+        expect(json_tags['meta']['root']).to eq('tags')
+        expect(json_tags['data']).not_to be_empty
+        expect(json_tags['data'].size).to eq(10)
 
-        tags_visibility = json_tags['tags'].map { |m| m['visibility'] }
+        tags_visibility = json_tags['data'].map { |m| m['attributes']['visibility'] }
         expect(tags_visibility).to match_array(['everyone'] * 5 + ['only_me'] * 5)
       end
     end
@@ -93,19 +96,22 @@ describe 'Tag API', type: :request, basic: true do
       it 'returns tags for ids' do
         get '/api/v1/tags', params: { filter: { tag_ids: [@tags[0].id, @tags[1].id] } }, as: :json
         json_tags = JSON.parse(response.body)
-        expect(json_tags['tags'].size).to eq(2)
+        expect(json_tags['meta']['root']).to eq('tags')
+        expect(json_tags['data'].size).to eq(2)
       end
 
       it 'returns tags for topic of user' do
         get '/api/v1/tags', params: { filter: { user_id: @user.id, topic_id: @topic.id } }, as: :json
         json_tags = JSON.parse(response.body)
-        expect(json_tags['tags'].size).to eq(3)
+        expect(json_tags['meta']['root']).to eq('tags')
+        expect(json_tags['data'].size).to eq(3)
       end
 
       it 'returns bookmarked tags for current user' do
         get '/api/v1/tags', params: { filter: { bookmarked: true } }, as: :json
         json_tags = JSON.parse(response.body)
-        expect(json_tags['tags']).to be_empty
+        expect(json_tags['meta']['root']).to eq('tags')
+        expect(json_tags['data']).to be_empty
       end
     end
 
@@ -136,8 +142,9 @@ describe 'Tag API', type: :request, basic: true do
         get '/api/v1/tags', as: :json
 
         json_tags = JSON.parse(response.body)
-        expect(json_tags['tags']).not_to be_empty
-        expect(json_tags['tags'].size).to eq(10)
+        expect(json_tags['meta']['root']).to eq('tags')
+        expect(json_tags['data']).not_to be_empty
+        expect(json_tags['data'].size).to eq(10)
       end
     end
   end
@@ -174,8 +181,8 @@ describe 'Tag API', type: :request, basic: true do
         expect(response).to be_json_response
 
         tag = JSON.parse(response.body)
-        expect(tag['tag']).not_to be_empty
-        expect(tag['tag']['name']).to eq(@private_tags[0].name)
+        expect(tag['data']['attributes']).not_to be_empty
+        expect(tag['data']['attributes']['name']).to eq(@private_tags[0].name)
       end
     end
 
@@ -186,8 +193,8 @@ describe 'Tag API', type: :request, basic: true do
         expect(response).to be_json_response
 
         tag = JSON.parse(response.body)
-        expect(tag['tag']).not_to be_empty
-        expect(tag['tag']['name']).to eq(@tags[0].name)
+        expect(tag['data']['attributes']).not_to be_empty
+        expect(tag['data']['attributes']['name']).to eq(@tags[0].name)
       end
     end
   end
@@ -213,9 +220,9 @@ describe 'Tag API', type: :request, basic: true do
           expect(response).to be_json_response
 
           tag = JSON.parse(response.body)
-          expect(tag['tag']).not_to be_empty
-          expect(tag['tag']['name']).to eq(updated_tag_attributes[:tag][:name])
-          expect(tag['tag']['description']).to eq(updated_tag_attributes[:tag][:description])
+          expect(tag['data']['attributes']).not_to be_empty
+          expect(tag['data']['attributes']['name']).to eq(updated_tag_attributes[:tag][:name])
+          expect(tag['data']['attributes']['description']).to eq(updated_tag_attributes[:tag][:description])
         }.not_to change(Tag, :count)
       end
 
@@ -310,8 +317,8 @@ describe 'Tag API', type: :request, basic: true do
         expect(response).to be_json_response
 
         json_comments = JSON.parse(response.body)
-        expect(json_comments['comments']).not_to be_empty
-        expect(json_comments['comments'].size).to eq(5)
+        expect(json_comments['data']).not_to be_empty
+        expect(json_comments['data'].size).to eq(5)
       end
     end
 
@@ -335,8 +342,8 @@ describe 'Tag API', type: :request, basic: true do
           expect(response).to be_json_response(202)
 
           json_comment = JSON.parse(response.body)
-          expect(json_comment['comment']).not_to be_empty
-          expect(json_comment['comment']['title']).to eq(comment_attributes[:comment][:title])
+          expect(json_comment['data']['attributes']).not_to be_empty
+          expect(json_comment['data']['attributes']['title']).to eq(comment_attributes[:comment][:title])
         end
       end
     end
@@ -361,8 +368,8 @@ describe 'Tag API', type: :request, basic: true do
           expect(response).to be_json_response(202)
 
           json_comment = JSON.parse(response.body)
-          expect(json_comment['comment']).not_to be_empty
-          expect(json_comment['comment']['title']).to eq(comment_updated_attributes[:comment][:title])
+          expect(json_comment['data']['attributes']).not_to be_empty
+          expect(json_comment['data']['attributes']['title']).to eq(comment_updated_attributes[:comment][:title])
         end
       end
     end

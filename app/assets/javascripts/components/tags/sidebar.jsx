@@ -19,7 +19,7 @@ import Loader from '../theme/loader';
 
 // import AssociatedTagBox from '../tags/associated/box';
 
-import TagSidebarCloud from './sidebar/cloud';
+// import TagSidebarCloud from './sidebar/cloud';
 import TagSidebarList from './sidebar/list';
 
 import styles from '../../../jss/tag/sidebar';
@@ -39,7 +39,7 @@ class TagSidebar extends React.Component {
     static propTypes = {
         currentTagSlug: PropTypes.string,
         currentChildTagSlug: PropTypes.string,
-        isCloud: PropTypes.bool,
+        // isCloud: PropTypes.bool,
         isOpen: PropTypes.bool,
         hasChildInMainList: PropTypes.bool,
         onTagClick: PropTypes.func,
@@ -84,15 +84,15 @@ class TagSidebar extends React.Component {
                     </div>
                 </List>
             )
-        } else if (this.props.isCloud) {
-            return (
-                <TagSidebarCloud classes={this.props.classes}
-                                 currentUserSlug={this.props.currentUserSlug}
-                                 currentTagSlug={this.props.currentTagSlug}
-                                 currentUserTopics={this.props.currentUserTopics}
-                                 tags={this.props.tags}
-                                 onTagClick={this._handleTagClick}/>
-            );
+        // } else if (this.props.isCloud) {
+        //     return (
+        //         <TagSidebarCloud classes={this.props.classes}
+        //                          currentUserSlug={this.props.currentUserSlug}
+        //                          currentTagSlug={this.props.currentTagSlug}
+        //                          currentUserTopics={this.props.currentUserTopics}
+        //                          tags={this.props.tags}
+        //                          onTagClick={this._handleTagClick}/>
+        //     );
         } else {
             return (
                 <TagSidebarList classes={this.props.classes}

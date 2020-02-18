@@ -13,6 +13,10 @@ import {
     SortableElement
 } from 'react-sortable-hoc';
 
+import {
+    showTagPath
+} from '../../../constants/routesHelper';
+
 const SortableItem = SortableElement(({tag}) => (
         <div key={tag.id}
              className="tag-sort-item">
@@ -75,7 +79,7 @@ export default class TagSorterDisplay extends React.Component {
                                 variant="outlined"
                                 size="small"
                                 component={Link}
-                                to={`/tags/${this.props.userSlug}`}>
+                                to={showTagPath(this.props.userSlug)}>
                             {I18n.t('js.helpers.buttons.cancel')}
                         </Button>
                     </div>

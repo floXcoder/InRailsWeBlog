@@ -4,6 +4,10 @@ import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 
+import {
+    userArticlePath
+} from '../../../constants/routesHelper';
+
 import ArticleInventoryDisplay from '../display/items/inventory';
 import ArticleTags from '../properties/tags';
 
@@ -34,7 +38,7 @@ const ArticleCardSort = ({classes, article}) => (
                 {
                     (article.visibility === 'everyone' && article.commentsCount > 0) &&
                     <CommentCountIcon className={classes.commentCount}
-                                      commentLink={`/users/${article.user.slug}/articles/${article.slug}#article-comments-${article.id}`}
+                                      commentLink={userArticlePath(article.user.slug, article.slug) + `#article-comments-${article.id}`}
                                       commentsCount={article.commentsCount}
                                       hasIcon={false}/>
                 }

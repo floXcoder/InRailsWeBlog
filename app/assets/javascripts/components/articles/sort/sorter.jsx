@@ -13,6 +13,10 @@ import {
     SortableElement
 } from 'react-sortable-hoc';
 
+import {
+    userArticlesPath
+} from '../../../constants/routesHelper';
+
 import ArticleCardSort from './card';
 
 const SortableItem = SortableElement(({classes, article}) => (
@@ -40,7 +44,7 @@ export default class ArticleSorter extends React.Component {
         classes: PropTypes.object.isRequired,
         // Articles must already be sorted by priority
         articles: PropTypes.array.isRequired,
-        topicSlug: PropTypes.string.isRequired,
+        currentUserSlug: PropTypes.string.isRequired,
         updateArticlePriority: PropTypes.func.isRequired
     };
 
@@ -73,7 +77,7 @@ export default class ArticleSorter extends React.Component {
                                 variant="outlined"
                                 size="small"
                                 component={Link}
-                                to={`/users/${this.props.topicSlug}`}>
+                                to={userArticlesPath(this.props.currentUserSlug)}>
                             {I18n.t('js.helpers.buttons.cancel')}
                         </Button>
                     </div>

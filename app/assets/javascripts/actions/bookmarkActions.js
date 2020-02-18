@@ -70,7 +70,7 @@ export const bookmark = (bookmarkedType, bookmarkedId, bookmarkData, currentUser
                         Notification.alert(I18n.t('js.bookmark.notification.text'));
                     }
 
-                    return dispatch(receiveBookmark(response));
+                    return dispatch(receiveBookmark({bookmark: response.data.attributes}));
                 });
         } else {
             return api

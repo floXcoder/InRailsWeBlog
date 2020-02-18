@@ -21,7 +21,13 @@
 #
 
 
-class Topic::InventoryFieldSerializer < ActiveModel::Serializer
+class Topic::InventoryFieldSerializer
+  include FastJsonapi::ObjectSerializer
+
+  set_type :inventory_field
+
+  set_key_transform :camel_lower
+
   attributes :id,
              :name,
              :field_name,

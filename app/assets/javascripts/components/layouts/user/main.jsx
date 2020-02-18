@@ -48,6 +48,7 @@ class MainLayoutUser extends React.Component {
                         <Route key={Array.isArray(route.path) ? route.path.join('-') : route.path}
                                path={route.path}
                                exact={route.exact}
+                               strict={route.strict}
                                render={(router) => {
                                    if (route.redirect) {
                                        return (
@@ -55,6 +56,8 @@ class MainLayoutUser extends React.Component {
                                                            routeState={router.location.state}
                                                            {...router.match.params}/>
                                        );
+                                   } else if (route.status) {
+                                       router.staticContext.status = route.status;
                                    }
 
                                    const {component, ...routeProperties} = route;

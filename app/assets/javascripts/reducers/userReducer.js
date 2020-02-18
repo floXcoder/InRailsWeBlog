@@ -20,7 +20,6 @@ const initState = {
     isAdminConnected: !!window.currentAdminId,
 
     users: [],
-    metaTags: {},
     pagination: {},
 
     user: undefined,

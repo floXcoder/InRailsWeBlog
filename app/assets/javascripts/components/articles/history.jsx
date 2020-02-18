@@ -13,6 +13,10 @@ import {
 } from '@material-ui/core/styles';
 
 import {
+    userArticlePath
+} from '../../constants/routesHelper';
+
+import {
     fetchArticle,
     fetchArticleHistory,
     restoreArticle
@@ -26,8 +30,6 @@ import highlight from '../modules/highlight';
 
 import Loader from '../theme/loader';
 
-import HeadLayout from '../layouts/head';
-
 import ArticleBreadcrumbDisplay from './display/breadcrumb';
 import ArticleCardDisplay from './display/items/card';
 import ArticleVersionsDisplay from './display/versions';
@@ -36,7 +38,6 @@ import styles from '../../../jss/article/history';
 
 export default @withRouter
 @connect((state) => ({
-    metaTags: state.articleState.metaTags,
     currentUser: getCurrentUser(state),
     currentTopic: state.topicState.currentTopic,
     article: state.articleState.article,
@@ -55,7 +56,6 @@ class ArticleHistory extends React.Component {
         // from router
         history: PropTypes.object,
         // from connect
-        metaTags: PropTypes.object,
         currentUser: PropTypes.object,
         currentTopic: PropTypes.object,
         article: PropTypes.object,
@@ -89,7 +89,7 @@ class ArticleHistory extends React.Component {
         this.props.restoreArticle(articleId, versionId)
             .then((response) => {
                 if (response.article) {
-                    return this.props.history.push(`/users/${response.article.user.slug}/articles/${response.article.slug}`);
+                    return this.props.history.push(userArticlePath(response.article.user.slug, response.article.slug));
                 }
             });
     };
@@ -105,18 +105,16 @@ class ArticleHistory extends React.Component {
 
         return (
             <div className={this.props.classes.history}>
-                <HeadLayout>
-                    {this.props.metaTags}
-                </HeadLayout>
-
                 <div className={this.props.classes.breadcrumb}>
                     <ArticleBreadcrumbDisplay user={this.props.currentUser}
                                               topic={this.props.currentTopic}
                                               article={this.props.article}/>
                 </div>
 
-                <ArticleCardDisplay article={this.props.article}
-                                    hasActions={false}/>
+                <div className={this.props.classes.currentArticle}>
+                    <ArticleCardDisplay article={this.props.article}
+                                        hasActions={false}/>
+                </div>
 
                 <ArticleVersionsDisplay currentArticle={this.props.article}
                                         articleVersions={this.props.articleVersions}

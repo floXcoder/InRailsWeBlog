@@ -7,7 +7,7 @@
   line-height: 18px;
   height: 20px;
   padding: 2px 0;
-  margin: 25px 0;
+  margin: 20px;
 
   &-h {
     display: inline-block;
@@ -47,7 +47,9 @@
       top: 8px;
     }
 
+    .separator-text,
     .material-icons {
+      color: #aaa;
       font-size: 16px;
       line-height: 16px;
       height: 16px;

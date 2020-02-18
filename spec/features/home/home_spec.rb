@@ -26,7 +26,7 @@ feature 'Home page for visitors', advanced: true, js: true do
       let(:content) {
         {
           current_page: homepage,
-          title:        I18n.t('views.home.title'),
+          # title:        I18n.t('views.home.title'),
           asset_name:   'assets/home',
           common_js:    ['assets/runtime', 'assets/home']
         }

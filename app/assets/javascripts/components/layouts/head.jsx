@@ -4,55 +4,73 @@ import {
     Helmet
 } from 'react-helmet-async';
 
-const HeadLayout = ({children: {title, description, author, canonical, og}}) => (
-    <Helmet>
-        <title>
-            {title}
-        </title>
+const HeadLayout = ({children}) => {
+    if (!children) {
+        return null;
+    }
 
-        <meta itemProp="mainEntityOfPage"
-              content={window.location}/>
+    const {title, description, author, canonical, alternate, og} = children;
 
-        <meta name="description"
-              content={description}/>
+    return (
+        <Helmet>
+            <title>
+                {title}
+            </title>
 
-        {
-            canonical &&
-            <link rel="canonical"
-                  href={canonical}/>
-        }
+            <meta itemProp="mainEntityOfPage"
+                  content={window.location}/>
 
-        {
-            author &&
-            <meta property="author"
-                  content={author}/>
-        }
+            <meta name="description"
+                  content={description}/>
 
-        {
-            title &&
-            <meta property="og:title"
-                  content={title}/>
-        }
+            {
+                canonical &&
+                <link rel="canonical"
+                      href={canonical}/>
+            }
 
-        {
-            (og && og.type) &&
-            <meta property="og:type"
-                  content={og.type}/>
-        }
+            {
+                alternate &&
+                Object.keys(alternate).map((locale) => (
+                    <link key={locale}
+                          rel="alternate"
+                          hrefLang={locale}
+                          href={alternate[locale]}/>
+                ))
+            }
 
-        {
-            (og && og.url) &&
-            <meta property="og:url"
-                  content={og.url}/>
-        }
+            {
+                author &&
+                <meta property="author"
+                      content={author}/>
+            }
 
-        {
-            (og && og.image) &&
-            <meta property="og:image"
-                  content={og.image || window.logoUrl}/>
-        }
-    </Helmet>
-);
+            {
+                title &&
+                <meta property="og:title"
+                      content={title}/>
+            }
+
+            {
+                (og?.type) &&
+                <meta property="og:type"
+                      content={og.type}/>
+            }
+
+            {
+                (og?.url) &&
+                <meta property="og:url"
+                      content={og.url}/>
+            }
+
+            {
+                (og?.image) &&
+                <meta property="og:image"
+                      content={og.image || window.logoUrl}/>
+            }
+        </Helmet>
+    );
+};
 
 HeadLayout.propTypes = {
     children: PropTypes.object.isRequired

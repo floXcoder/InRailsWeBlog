@@ -15,7 +15,7 @@ const styles = (theme) => ({
         margin: theme.spacing(1),
         padding: theme.spacing(0.25),
         fontSize: '.8rem',
-        color: theme.palette.primary.main
+        color: theme.palette.text.secondary
     },
     buttonLink: {
         margin: theme.spacing(1),

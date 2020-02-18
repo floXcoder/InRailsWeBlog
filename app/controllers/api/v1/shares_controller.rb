@@ -16,9 +16,9 @@ module Api::V1
         format.json do
           flash.now[:success] = shared_topic.message
           if shared_topic.success?
-            render json:       shared_topic.result,
-                   serializer: TopicSerializer,
-                   status:     :ok
+            render json:   TopicSerializer.new(shared_topic.result,
+                                               include: [:user, :inventory_fields, :tags, :contributors]),
+                   status: :ok
           else
             flash.now[:error] = shared_topic.message
             render json:   { errors: shared_topic.errors },
@@ -38,10 +38,10 @@ module Api::V1
         format.json do
           flash.now[:success] = shared_article.message
           if shared_article.success?
-            render json:       shared_article.result,
-                   serializer: ArticleSerializer,
-                   with_share: true,
-                   status:     :ok
+            render json:   ArticleSerializer.new(shared_article.result,
+                                                 params:  { current_user_id: current_user&.id, with_share: true },
+                                                 include: [:user, :topic, :tracker, :tags]),
+                   status: :ok
           else
             flash.now[:error] = shared_article.message
             render json:   { errors: shared_article.errors },

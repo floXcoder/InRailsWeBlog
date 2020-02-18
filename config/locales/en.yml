@@ -1,26 +1,13 @@
 en:
-  head:
-    author: "InRailsWeBlog"
-    copyright: "InRailsWeBlog©"
+  seo:
+    default:
+      page_title: "Welcome to the %{website} blog"
+      meta_desc: "Come and discover the different articles on %{website}."
   views:
-    home:
-      title: "InRailsWeBlog"
-      description: "InRailsWeBlog blog"
     user:
       flash:
         successful_edition: "Profile updated"
         error_edition: "Profile not updated. Please correct error fields"
-      index:
-        title: "All users"
-        description: "Users list"
-      show:
-        title: "%{pseudo}"
-        description: "User articles: %{pseudo}"
-      edit:
-        title: "Edit my profil"
-      bookmarks:
-        title: "%{pseudo}: My bookmarks"
-        description: "%{pseudo}: My bookmarks"
     tag:
       flash:
         successful_creation: "Tag added"
@@ -31,18 +18,7 @@ en:
         error_priority_update: "Cannot change tags order"
         successful_deletion: "Article has been removed"
         error_deletion: "Cannot delete article: %{errors}"
-      index:
-        title:
-          default: "Tags list"
-          user: "User tags: %{user}"
-          topic: "Topic tags: %{topic}"
-      show:
-        title: "Tag: %{name}"
-      edit:
-        title: "Tag edition: %{name}"
     topic:
-      show:
-        title: "%{name} : topic details"
       flash:
         successful_creation: "Topic added"
         error_creation: "Cannot create the topic, please correct the errors"
@@ -71,9 +47,6 @@ en:
         successful_undeletion: "Article restored"
       index:
         title:
-          default: "Articles list"
-          tagged: "List of articles for %{tag}"
-          tagged_topic: "List of articles for %{tag} in %{topic}"
           topic: "Articles for %{topic} topic"
       show:
         title: "%{title} - %{topic}"
@@ -97,9 +70,6 @@ en:
         error_edition: "Cannot update the comment"
         successful_deletion: "Comment removed"
         error_deletion: "Cannot remove the comment"
-    search:
-      index:
-        title: "Search: %{query}"
     share:
       success:
         link_message: "Shared article created"
@@ -128,18 +98,28 @@ en:
         title: "Articles"
       blogs:
         title: "Wikis"
+      seo:
+        title: "SEO management"
       logs:
         title: "Logs"
       cache:
         title: "Cache"
       blog:
         flash:
-          successful_creation: "Article added"
-          error_creation: "Cannot create the article, please correct error fields"
-          successful_edition: "Article updated"
-          error_edition: "Cannot update the article"
-          successful_deletion: "Article removed"
-          error_deletion: "Cannot removed the article"
+          successful_creation: "Blog added"
+          error_creation: "Cannot create the blog, please correct error fields"
+          successful_edition: "Blog updated"
+          error_edition: "Cannot update the blog"
+          successful_deletion: "Blog removed"
+          error_deletion: "Cannot removed the blog"
+      seo_data:
+        flash:
+          successful_creation: "SEO data added"
+          error_creation: "Cannot create the SEO data, please correct error fields"
+          successful_edition: "SEO data updated"
+          error_edition: "Cannot update the SEO data"
+          successful_deletion: "SEO data removed"
+          error_deletion: "Cannot removed the SEO data"
     errors:
       flash:
         successful_deletion: "Error removed"
@@ -226,25 +206,6 @@ en:
       title: "Admin"
   email:
     hello: "Hello"
-    contact:
-      message:
-        subject: "New contact !"
-        title: "New message from %{name}"
-        content: "Message content:"
-        footer: "In Rails We Blog"
-      answer:
-        subject: "Thanks for sharing!"
-        message: "Thank you for message. We'll keep you updated."
-        footer: "In Rails We Blog"
-      flash:
-        email_sent: "Thanks for sharing, we can improve the website"
-        email_not_sent: "Cannot send the message, the fields are correct ?"
-    registration:
-      welcome:
-        subject: "Welcome on In Rails We Blog"
-        hello: "Hello,"
-        thanks: "Thanks for your inscription on In Rails We Blog."
-        bye: "Have a goo trip on In Rails We Blog :)"
     confirmation:
       instruction: "You can confirm your account email through the link below"
     reset_password:
@@ -312,6 +273,8 @@ en:
           attributes:
             imageable:
               required: "Image model is required"
+        seo_data:
+          bad_route_name: "Route not available"
   errors:
     format: "%{attribute} %{message}"
     messages:
@@ -333,6 +296,7 @@ en:
       less_than_or_equal_to: "must be less than or equal to %{count}"
       not_a_number: "is not a number"
       not_an_integer: "must be an integer"
+      required: "must exist"
       taken: "not available"
       too_long:
         one: "is too long (maximum is 1 character)"
@@ -490,15 +454,18 @@ en:
       x_days:
         one: "1 day"
         other: ! "%{count} days"
+      x_seconds:
+        one: "1 second"
+        other: ! "%{count} seconds"
       x_minutes:
         one: "1 minute"
         other: ! "%{count} minutes"
       x_months:
         one: "1 month"
         other: ! "%{count} months"
-      x_seconds:
-        one: "1 second"
-        other: ! "%{count} seconds"
+      x_years:
+        one: "1 year"
+        other: ! "%{count} years"
     prompts:
       day: "Day"
       hour: "Hour"
@@ -538,13 +505,14 @@ en:
       special:
         half_an_hour: "half an hour"
         and_a_half: "and a half"
+  support:
+    array:
+      last_word_connector: ", and "
+      two_words_connector: " and "
+      words_connector: ", "
   helpers:
     colon: ": "
     or: " or "
     and: " and "
     back: "Page précédente"
-    array:
-      last_word_connector: ", and "
-      two_words_connector: " and "
-      words_connector: ", "
   hello: "Bonjour"

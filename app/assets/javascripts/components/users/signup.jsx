@@ -33,7 +33,7 @@ class Signup extends React.Component {
     _handleSubmit = (values) => {
         this.props.signupUser(values)
             .then((response) => {
-                if (response && response.errors) {
+                if (response?.errors) {
                     Notification.error(response.errors);
                 } else {
                     if (sessionStorage) {

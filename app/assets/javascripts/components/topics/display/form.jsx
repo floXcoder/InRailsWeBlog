@@ -16,6 +16,12 @@ import {
 import Button from '@material-ui/core/Button';
 
 import {
+    editInventoriesTopicPath,
+    userTopicPath,
+    rootPath
+} from '../../../constants/routesHelper';
+
+import {
     validateTopic
 } from '../../../forms/topic';
 
@@ -111,7 +117,7 @@ class TopicFormDisplay extends React.Component {
                                                 variant="outlined"
                                                 size="small"
                                                 component={Link}
-                                                to={`/users/${this.props.children.user.slug}/topics/${this.props.children.slug}/edit-inventories`}>
+                                                to={editInventoriesTopicPath(this.props.children.user.slug, this.props.children.slug)}>
                                             {I18n.t('js.topic.edit.update_inventories')}
                                         </Button>
                                     </div>
@@ -125,7 +131,7 @@ class TopicFormDisplay extends React.Component {
                                                 variant="text"
                                                 size="small"
                                                 component={Link}
-                                                to={this.props.isEditing ? `/users/${this.props.children.user.slug}/topics/${this.props.children.slug}/show` : '/'}>
+                                                to={this.props.isEditing ? userTopicPath(this.props.children.user.slug, this.props.children.slug) : rootPath()}>
                                             {I18n.t('js.topic.edit.back_button')}
                                         </Button>
                                     </div>

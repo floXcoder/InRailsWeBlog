@@ -18,13 +18,13 @@ export const getPrivateTopics = createSelector(
 // Topic
 export const getEditingTopic = createSelector(
     (state) => state.topicState.userTopics,
-    (_, routerState) => routerState && routerState.topicId,
+    (_, routerState) => routerState?.topicId,
     (topics, topicId) => topics.find((topic) => topic.id === topicId)
 );
 
 export const getSharingTopic = createSelector(
     (state) => state.topicState.userTopics,
-    (_, routerState) => routerState && routerState.topicId,
+    (_, routerState) => routerState?.topicId,
     (topics, topicId) => topics.find((topic) => topic.id === topicId)
 );
 
@@ -43,7 +43,7 @@ export const getStoryTopic = createSelector(
 // Current topic of user
 export const getCurrentUserTopicVisibility = createSelector(
     (state) => state.topicState.currentTopic,
-    (topic) => topic && topic.visibility
+    (topic) => topic?.visibility
 );
 
 export const getIsCurrentTopicOwner = createSelector(
@@ -58,7 +58,7 @@ export const getIsCurrentTopicOwner = createSelector(
 
         // Extract topicSlug from article if any
         if (params.articleSlug) {
-            currentTopicSlug = params.articleSlug.match(/@.*?$/).first().substr(1);
+            currentTopicSlug = params.articleSlug.match(/@.*?$/)?.first()?.substr(1);
         }
 
         return userTopics.some((topic) => topic.slug === currentTopicSlug);

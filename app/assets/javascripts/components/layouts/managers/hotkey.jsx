@@ -8,6 +8,11 @@ import {
 import Mousetrap from 'mousetrap';
 
 import {
+    newArticlePath,
+    searchParam
+} from '../../../constants/routesHelper';
+
+import {
     showUserLogin,
     showTopicPopup,
     showUserPreference
@@ -46,7 +51,7 @@ class HotkeyManager extends React.Component {
     _setHotkeys = () => {
         Mousetrap.bind('alt+a', (event) => {
             event.preventDefault();
-            this.props.history.push(`/users/${this.props.currentUserSlug}/topics/${this.props.currentUserTopicSlug}/article-new`);
+            this.props.history.push(newArticlePath(this.props.currentUserSlug, this.props.currentUserTopicSlug));
         }, 'keydown');
 
         Mousetrap.bind('alt+l', (event) => {
@@ -62,7 +67,7 @@ class HotkeyManager extends React.Component {
         Mousetrap.bind('alt+s', (event) => {
             event.preventDefault();
             this.props.history.push({
-                hash: 'search'
+                hash: searchParam
             });
         }, 'keydown');
 

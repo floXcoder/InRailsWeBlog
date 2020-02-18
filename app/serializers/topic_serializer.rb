@@ -25,8 +25,12 @@
 #  mode                     :integer          default("default"), not null
 #
 
-class TopicSerializer < ActiveModel::Serializer
-  # cache key: 'topic', expires_in: InRailsWeBlog.config.cache_time
+class TopicSerializer
+  include FastJsonapi::ObjectSerializer
+
+  # cache_options enabled: true, cache_length: InRailsWeBlog.config.cache_time
+
+  set_key_transform :camel_lower
 
   attributes :id,
              :user_id,
@@ -35,22 +39,24 @@ class TopicSerializer < ActiveModel::Serializer
              :description,
              :priority,
              :visibility,
-             :visibility_translated,
-             :settings,
              :slug,
              :articles_count
 
-  belongs_to :user, if: -> { instance_options[:complete] }, serializer: UserSampleSerializer
+  belongs_to :user, if: Proc.new { |_record, params| params[:complete] }, serializer: UserSampleSerializer
 
   has_many :inventory_fields, serializer: Topic::InventoryFieldSerializer
 
-  has_many :tags, if: -> { instance_options[:complete] }, serializer: TagSerializer do
+  has_many :tags, if: Proc.new { |_record, params| params[:complete] }, serializer: TagSerializer do |object|
     Tag.includes(:parents, :children, :tagged_articles, :child_relationships).for_topic_id(object.id).order('tags.priority', 'tags.name')
   end
 
-  has_many :contributors, serializer: UserStrictSerializer
+  has_many :contributors, record_type: :user, serializer: UserStrictSerializer
 
-  def visibility_translated
+  attribute :visibility_translated do |object|
     object.visibility_to_tr
+  end
+
+  attribute :settings do |object|
+    UserSettingSerializer.new(object).serializable_hash[:data][:attributes].compact
   end
 end

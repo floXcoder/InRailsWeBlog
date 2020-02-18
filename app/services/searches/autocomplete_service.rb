@@ -66,7 +66,7 @@ module Searches
       begin
         searches = Searchkick.multi_search([articles_autocomplete&.perform&.result, tags_autocomplete&.perform&.result, topics_autocomplete&.perform&.result].compact)
 
-        searches.map do |search|
+        searches&.map do |search|
           case search.model_name.human
           when 'Article'
             article_results = articles_autocomplete&.format_search(search.results)
@@ -74,19 +74,23 @@ module Searches
 
             autocomplete_results[:articles] = article_results[:articles]
           when 'Tag'
-            tag_results = tags_autocomplete&.format_search(search)
+            tag_results = tags_autocomplete&.format_search(search.results)
             next if tag_results[:tags].empty?
 
             autocomplete_results[:tags] = tag_results[:tags]
           when 'Topic'
-            topic_results = topics_autocomplete&.format_search(search)
+            topic_results = topics_autocomplete&.format_search(search.results)
             next if topic_results[:topics].empty?
 
             autocomplete_results[:topics] = topic_results[:topics]
           end
         end
 
-        success(autocomplete_results)
+        if searches
+          success(autocomplete_results)
+        else
+          error(I18n.t('search.errors.autocomplete'))
+        end
       rescue StandardError => error
         error(I18n.t('search.errors.autocomplete'), error)
       end

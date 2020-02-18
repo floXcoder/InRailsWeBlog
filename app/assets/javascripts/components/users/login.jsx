@@ -33,7 +33,7 @@ class Login extends React.PureComponent {
     _handleSubmit = (values) => {
         this.props.loginUser(values)
             .then((response) => {
-                if (response && response.errors) {
+                if (response?.errors) {
                     Notification.error(response.errors);
                 } else {
                     if (sessionStorage) {

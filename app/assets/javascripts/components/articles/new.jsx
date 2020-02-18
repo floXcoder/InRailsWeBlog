@@ -13,13 +13,10 @@ import {
 } from '../../actions';
 
 import {
-    getCurrentUserTopicVisibility,
-    getCurrentLocale
+    getCurrentUserTopicVisibility
 } from '../../selectors';
 
 import Loader from '../theme/loader';
-
-import HeadLayout from '../layouts/head';
 
 import articleMutationManager from './managers/mutation';
 import ArticleBreadcrumbDisplay from './display/breadcrumb';
@@ -83,7 +80,6 @@ class ArticleNew extends React.Component {
             topicId: this.props.currentTopic.id,
             picture_ids: '',
             visibility: this.props.inheritVisibility,
-            language: getCurrentLocale(),
             allowComment: this.props.inheritVisibility !== 'only_me'
         };
 
@@ -106,7 +102,7 @@ class ArticleNew extends React.Component {
         }
 
         let errorStep = null;
-        if (this.props.articleErrors && this.props.articleErrors.length > 0) {
+        if (this.props.articleErrors?.length > 0) {
             if (this.props.articleErrors.some((error) => error.includes('Tags') || error.includes('Labels'))) {
                 errorStep = 'tag';
             } else {
@@ -116,13 +112,6 @@ class ArticleNew extends React.Component {
 
         return (
             <div className={this.props.classes.root}>
-                <HeadLayout>
-                    {{
-                        title: I18n.t('js.article.new.meta.title', {topic: this.props.currentTopic ? this.props.currentTopic.name : null}),
-                        description: I18n.t('js.article.new.meta.description')
-                    }}
-                </HeadLayout>
-
                 <div className={this.props.classes.breadcrumb}>
                     {
                         (this.props.currentUser && this.props.currentTopic) &&

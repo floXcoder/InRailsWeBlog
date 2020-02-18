@@ -20,7 +20,6 @@ import {
 import withWidth from '@material-ui/core/withWidth';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import ListItem from '@material-ui/core/ListItem';
@@ -34,6 +33,11 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 
 import {
+    rootPath,
+    searchParam
+} from '../../../constants/routesHelper';
+
+import {
     HomeSearchHeader,
     UserSignup,
     UserLogin
@@ -44,12 +48,15 @@ import {
     showUserLogin
 } from '../../../actions';
 
+import HeadLayout from '../head';
+
 import styles from '../../../../jss/home/header';
 
 export default @withRouter
 @connect((state) => ({
     routeProperties: state.routerState.currentRoute,
     routeLocation: state.routerState.location,
+    metaTags: state.uiState.metaTags,
     isUserSignupOpen: state.uiState.isUserSignupOpen,
     isUserLoginOpen: state.uiState.isUserLoginOpen
 }), {
@@ -66,6 +73,7 @@ class HeaderLayoutHome extends React.Component {
         // from connect
         routeProperties: PropTypes.object,
         routeLocation: PropTypes.object,
+        metaTags: PropTypes.object,
         isUserSignupOpen: PropTypes.bool,
         isUserLoginOpen: PropTypes.bool,
         showUserSignup: PropTypes.func,
@@ -87,7 +95,7 @@ class HeaderLayoutHome extends React.Component {
     _handleSearchOpen = () => {
         if (this.props.routeLocation.hash !== '#search') {
             this.props.history.push({
-                hash: 'search'
+                hash: searchParam
             });
         }
     };
@@ -145,13 +153,13 @@ class HeaderLayoutHome extends React.Component {
                  aria-label="Navigation"
                  itemScope={true}
                  itemType="https://schema.org/SiteNavigationElement">
-                <Button color="primary"
+                <Button color="default"
                         itemProp="url"
                         onClick={this._handleSignupClick}>
                     {I18n.t('js.views.header.user.sign_up')}
                 </Button>
 
-                <Button color="primary"
+                <Button color="default"
                         itemProp="url"
                         onClick={this._handleLoginClick}>
                     {I18n.t('js.views.header.user.log_in')}
@@ -181,10 +189,11 @@ class HeaderLayoutHome extends React.Component {
                     <div className={this.props.classes.mobileToolbar}>
                         <h5 className={this.props.classes.mobileTitle}
                             itemProp="name">
-                            <Link className={this.props.classes.titleLink}
-                                  to="/"
+                            <Link className="header-brand-logo-mobile"
+                                  to={rootPath()}
+                                  title={window.settings.website_name}
                                   itemProp="url">
-                                {I18n.t('js.views.header.title')}
+                                {window.settings.website_name}
                             </Link>
                         </h5>
                     </div>
@@ -221,16 +230,17 @@ class HeaderLayoutHome extends React.Component {
                         itemScope={true}
                         itemType="https://schema.org/Organization">
                     <LoadingBar showFastActions={true}
-                                style={{backgroundColor: '#233348', height: '2px'}}/>
+                                style={{backgroundColor: '#036603', height: '2px'}}/>
 
                     <Toolbar className={classNames(this.props.classes.toolbar)}>
                         <div className={this.props.classes.sectionDesktop}>
-                            <h1 className={this.props.classes.title}
+                            <h1 className={this.props.classes.headerTitle}
                                 itemProp="name">
-                                <Link className={this.props.classes.titleLink}
-                                      to="/"
+                                <Link className="header-brand-logo"
+                                      to={rootPath()}
+                                      title={window.settings.website_name}
                                       itemProp="url">
-                                    {I18n.t('js.views.header.title')}
+                                    {window.settings.website_name}
                                 </Link>
                             </h1>
                         </div>
@@ -242,13 +252,6 @@ class HeaderLayoutHome extends React.Component {
                                         onClick={this._handleDrawerToggle}>
                                 <MenuIcon/>
                             </IconButton>
-
-                            <Link className={this.props.classes.title}
-                                  to="/">
-                                <Typography variant="h5">
-                                    InR
-                                </Typography>
-                            </Link>
                         </div>
 
                         <div className={this.props.classes.grow}/>
@@ -280,6 +283,10 @@ class HeaderLayoutHome extends React.Component {
                 </AppBar>
 
                 {this._renderMobileDrawer()}
+
+                <HeadLayout>
+                    {this.props.metaTags}
+                </HeadLayout>
 
                 <div id="clipboard-area"
                      className="hidden">

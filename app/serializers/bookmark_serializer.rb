@@ -14,29 +14,30 @@
 #  topic_id        :bigint
 #
 
-class BookmarkSerializer < ActiveModel::Serializer
-  # cache key: 'bookmark', expires_in: InRailsWeBlog.config.cache_time
+class BookmarkSerializer
+  include FastJsonapi::ObjectSerializer
+
+  cache_options enabled: true, cache_length: InRailsWeBlog.config.cache_time
+
+  set_key_transform :camel_lower
 
   attributes :id,
              :user_id,
              :bookmarked_id,
              :bookmarked_type,
-             :follow,
-             :name,
-             :parent_slug,
-             :slug
+             :follow
 
-  def name
+  attribute :name do |object|
     object.bookmarked.title
   end
 
-  def parent_slug
+  attribute :parent_slug do |object|
     if object.bookmarked.respond_to?(:user)
       object.bookmarked.user.slug
     end
   end
 
-  def slug
+  attribute :slug do |object|
     object.bookmarked.slug
   end
 end

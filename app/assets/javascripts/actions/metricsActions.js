@@ -35,7 +35,7 @@ import {
 
 export const spySearchResults = (searchParams, response) => {
     if (window._paq) {
-        const keywords = [searchParams.query, searchParams.location && searchParams.location.place_name].compact().join(', ');
+        const keywords = [searchParams.query, searchParams.location?.place_name].compact().join(', ');
         let totalResults = 0;
         for (const resultType in response.totalCount) {
             if (response.totalCount.hasOwnProperty(resultType)) {

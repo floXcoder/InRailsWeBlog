@@ -36,50 +36,53 @@ module Api::V1
     def index
       complete = filter_params[:complete] && admin_signed_in?
 
-      articles = if complete
-                   ::Articles::FindQueries.new(nil, current_admin).complete
-                 elsif params[:home]
-                   ::Articles::FindQueries.new.home(limit: params[:limit])
-                 elsif params[:populars]
-                   ::Articles::FindQueries.new.populars(limit: params[:limit])
-                 else
-                   ::Articles::FindQueries.new(current_user, current_admin).all(filter_params.merge(page: params[:page], limit: params[:limit]))
-                 end
-
-      respond_to do |format|
-        format.json do
-          if filter_params[:parent_tag_slug].present? || filter_params[:tag_slug].present?
-            if filter_params[:topic_slug].present?
-              set_meta_tags title: titleize(I18n.t('views.article.index.title.tagged_topic', tag: Tag.find_by(slug: filter_params[:parent_tag_slug].presence || filter_params[:tag_slug].presence)&.name, topic: Topic.find_by(slug: filter_params[:topic_slug])&.name)),
-                            description: 'Article index for tag in topic',
-                            canonical: ''
-            else
-              set_meta_tags title: titleize(I18n.t('views.article.index.title.tagged', tag: Tag.find_by(slug: filter_params[:parent_tag_slug].presence || filter_params[:tag_slug].presence)&.name)),
-                            description: 'Article index for tag',
-                            canonical: ''
-            end
-          elsif filter_params[:topic_slug].present?
-            set_meta_tags title: titleize(I18n.t('views.article.index.title.topic', topic: Topic.find_by(slug: filter_params[:topic_slug]).name)),
-                          description: 'Article index for topic',
-                          canonical: ''
+      if complete
+        articles = ::Articles::FindQueries.new(nil, current_admin).complete
+      elsif params[:populars]
+        articles = ::Articles::FindQueries.new.populars(limit: params[:limit])
+      elsif params[:home]
+        articles = ::Articles::FindQueries.new.home(limit: params[:limit])
+      else
+        if filter_params[:tag_slug].present?
+          if filter_params[:topic_slug].present?
+            set_seo_data(:tagged_topic_articles,
+                         tag_slug:   Tag.find_by(slug: filter_params[:parent_tag_slug].presence || filter_params[:tag_slug].presence)&.name,
+                         topic_slug: Topic.find_by(slug: filter_params[:topic_slug])&.name,
+                         user_slug:  User.find_by(slug: filter_params[:user_slug])&.pseudo)
           else
-            set_meta_tags title: titleize(I18n.t('views.article.index.title.default')),
-                          description: 'Article index',
-                          canonical: ''
+            set_seo_data(:tagged_articles,
+                         tag_slug:  Tag.find_by(slug: filter_params[:parent_tag_slug].presence || filter_params[:tag_slug].presence)&.name,
+                         user_slug: User.find_by(slug: filter_params[:user_slug])&.pseudo)
           end
+        elsif filter_params[:topic_slug].present?
+          set_seo_data(:topic_articles,
+                       topic_slug: Topic.find_by(slug: filter_params[:topic_slug])&.name,
+                       user_slug:  User.find_by(slug: filter_params[:user_slug])&.pseudo)
+        elsif filter_params[:user_slug].present?
+          set_seo_data(:user_articles,
+                       user_slug: User.find_by(slug: filter_params[:user_slug])&.pseudo)
+        end
 
-          if complete
-            render json:            articles,
-                   each_serializer: ArticleCompleteSerializer
-          elsif params[:summary]
-            render json:            articles,
-                   each_serializer: ArticleSampleSerializer,
-                   meta:            meta_attributes(pagination: articles)
-          else
-            render json:            articles,
-                   each_serializer: ArticleSerializer,
-                   with_outdated:   true,
-                   meta:            meta_attributes(pagination: articles)
+        articles = ::Articles::FindQueries.new(current_user, current_admin).all(filter_params.merge(page: params[:page], limit: params[:limit]))
+      end
+
+      expires_in InRailsWeBlog.config.cache_time, public: true
+      if stale?(articles, template: false, public: true)
+        respond_to do |format|
+          format.json do
+            if complete
+              render json: ArticleCompleteSerializer.new(articles,
+                                                         include: [:user, :topic, :tracker, :tags],
+                                                         meta:    { root: 'articles', **meta_attributes })
+            elsif params[:summary]
+              render json: ArticleSampleSerializer.new(articles,
+                                                       include: [:user, :tags],
+                                                       meta:    { root: 'articles', **meta_attributes(pagination: articles) })
+            else
+              render json: ArticleSerializer.new(articles,
+                                                 include: [:user, :topic, :tags],
+                                                 meta:    { root: 'articles', **meta_attributes(pagination: articles) })
+            end
           end
         end
       end
@@ -89,25 +92,32 @@ module Api::V1
       article = @context_user.articles.include_element.friendly.find(params[:id])
       admin_or_authorize article
 
-      respond_to do |format|
-        format.json do
-          set_meta_tags title:       titleize(I18n.t('views.article.show.title', title: article.title, topic: article.topic.name)),
-                        description: article.meta_description,
-                        author:      article.user.pseudo,
-                        canonical:   article.link_path(host: ENV['WEBSITE_FULL_ADDRESS']),
-                        og:          {
-                                       type:  "#{ENV['WEBSITE_NAME']}:article",
-                                       url:   article.link_path(host: ENV['WEBSITE_FULL_ADDRESS']),
-                                       image: article.default_picture ? (root_url + article.default_picture) : nil
-                                     }.compact
+      expires_in InRailsWeBlog.config.cache_time, public: true
+      if stale?(article, template: false, public: true)
+        respond_to do |format|
+          format.json do
+            set_seo_data(:user_article,
+                         article_slug: article.title,
+                         topic_slug:   article.topic.name,
+                         user_slug:    article.user.pseudo,
+                         author:       article.user.pseudo,
+                         model:        article,
+                         og:           {
+                                         type:  "#{ENV['WEBSITE_NAME']}:article",
+                                         url:   article.link_path(host: ENV['WEBSITE_FULL_ADDRESS']),
+                                         image: article.default_picture ? (root_url + article.default_picture) : nil
+                                       }.compact)
 
-          render json:          article,
-                 serializer:    ArticleSerializer,
-                 with_share:    true,
-                 with_vote:     true,
-                 with_outdated: true,
-                 with_tracking: params[:complete] && current_user && article.user?(current_user),
-                 meta:          meta_attributes
+            if current_user && article.user?(current_user)
+              render json: ArticleCompleteSerializer.new(article,
+                                                         include: [:user, :topic, :tracker, :tags],
+                                                         meta:    meta_attributes)
+            else
+              render json: ArticleSerializer.new(article,
+                                                 include: [:user, :topic, :tags],
+                                                 meta:    meta_attributes)
+            end
+          end
         end
       end
     end
@@ -117,21 +127,26 @@ module Api::V1
       article.shared_link = params[:public_link]
       admin_or_authorize article
 
-      respond_to do |format|
-        format.json do
-          set_meta_tags title:       titleize(I18n.t('views.article.show.title', title: article.title, topic: article.topic.name)),
-                        description: article.meta_description,
-                        author:      article.user.pseudo,
-                        canonical:   article.link_path(host: ENV['WEBSITE_FULL_ADDRESS']),
-                        og:          {
-                                       type:  "#{ENV['WEBSITE_NAME']}:article",
-                                       url:   article.link_path(host: ENV['WEBSITE_FULL_ADDRESS']),
-                                       image: article.default_picture ? (root_url + article.default_picture) : nil
-                                     }.compact
+      expires_in InRailsWeBlog.config.cache_time, public: true
+      if stale?(article, template: false, public: true)
+        respond_to do |format|
+          format.json do
+            set_seo_data(:shared_article,
+                         article_slug: article.title,
+                         topic_slug:   article.topic.name,
+                         user_slug:    article.user.pseudo,
+                         author:       article.user.pseudo,
+                         model:        article,
+                         og:           {
+                                         type:  "#{ENV['WEBSITE_NAME']}:article",
+                                         url:   article.link_path(host: ENV['WEBSITE_FULL_ADDRESS']),
+                                         image: article.default_picture ? (root_url + article.default_picture) : nil
+                                       }.compact)
 
-          render json:       article,
-                 serializer: ArticleSerializer,
-                 meta:       meta_attributes
+            render json: ArticleSerializer.new(article,
+                                               include: [:user, :topic, :tags],
+                                               meta:    meta_attributes)
+          end
         end
       end
     end
@@ -141,11 +156,14 @@ module Api::V1
 
       articles = ::Articles::FindQueries.new(@context_user, current_admin).stories(topic_id: article.topic_id)
 
-      respond_to do |format|
-        format.json do
-          render json:            articles,
-                 root:            'stories',
-                 each_serializer: ArticleSampleSerializer
+      expires_in InRailsWeBlog.config.cache_time, public: true
+      if stale?(articles, template: false, public: true)
+        respond_to do |format|
+          format.json do
+            render json: ArticleSampleSerializer.new(articles,
+                                                     include: [:user, :tags],
+                                                     meta:    { root: 'stories' })
+          end
         end
       end
     end
@@ -158,13 +176,14 @@ module Api::V1
 
       respond_to do |format|
         format.json do
-          set_meta_tags title:       titleize(I18n.t('views.article.history.title', title: article.title, topic: article.topic.name)),
-                        description: I18n.t('views.article.history.description', title: article.title, topic: article.topic.name)
+          set_seo_data(:history_article,
+                       article_slug: article.title,
+                       topic_slug:   article.topic.name,
+                       user_slug:    article.user.pseudo,
+                       author:       article.user.pseudo)
 
-          render json:            article_versions,
-                 root:            'history',
-                 each_serializer: HistorySerializer,
-                 meta:            meta_attributes
+          render json: HistorySerializer.new(article_versions,
+                                             meta: { root: 'history', **meta_attributes })
         end
       end
     end
@@ -179,9 +198,10 @@ module Api::V1
         format.json do
           if stored_article.success?
             flash.now[:success] = stored_article.message
-            render json:       stored_article.result,
-                   serializer: ArticleSerializer,
-                   status:     :created
+            render json:   ArticleCompleteSerializer.new(stored_article,
+                                                         include: [:user, :topic, :tracker, :tags],
+                                                         meta:    meta_attributes),
+                   status: :created
           else
             flash.now[:error] = stored_article.message
             render json:   { errors: stored_article.errors },
@@ -197,12 +217,15 @@ module Api::V1
 
       respond_to do |format|
         format.json do
-          set_meta_tags title:       titleize(I18n.t('views.article.edit.title', title: article.title, topic: article.topic.name)),
-                        description: I18n.t('views.article.edit.description', title: article.title, topic: article.topic.name)
+          set_seo_data(:edit_article,
+                       article_slug: article.title,
+                       topic_slug:   article.topic.name,
+                       user_slug:    article.user.pseudo,
+                       author:       article.user.pseudo)
 
-          render json:       article,
-                 serializer: ArticleSerializer,
-                 meta:       meta_attributes
+          render json: ArticleCompleteSerializer.new(article,
+                                                     include: [:user, :topic, :tracker, :tags],
+                                                     meta:    meta_attributes)
         end
       end
     end
@@ -217,12 +240,10 @@ module Api::V1
         format.json do
           if stored_article.success?
             flash.now[:success] = stored_article.message unless params[:auto_save]
-            render json:          stored_article.result,
-                   serializer:    ArticleSerializer,
-                   with_share:    true,
-                   with_vote:     true,
-                   with_outdated: true,
-                   status:        :ok
+            render json:   ArticleCompleteSerializer.new(stored_article,
+                                                         include: [:user, :topic, :tracker, :tags],
+                                                         meta:    meta_attributes),
+                   status: :ok
           else
             flash.now[:error] = stored_article.message
             render json:   { errors: stored_article.errors },
@@ -244,9 +265,10 @@ module Api::V1
         format.json do
           if articles.present?
             flash.now[:success] = t('views.article.flash.successful_priority_update')
-            render json:            articles.reverse,
-                   each_serializer: ArticleSerializer,
-                   status:          :ok
+            render json:   ArticleCompleteSerializer.new(articles.reverse,
+                                                         include: [:user, :topic, :tracker, :tags],
+                                                         meta:    { root: 'articles' }),
+                   status: :ok
           else
             flash.now[:error] = t('views.article.flash.error_priority_update')
             render json:   { errors: t('views.article.flash.error_priority_update') },
@@ -270,7 +292,8 @@ module Api::V1
         respond_to do |format|
           flash.now[:success] = t('views.article.flash.successful_undeletion') if params[:from_deletion]
           format.json do
-            render json:   article,
+            render json:   ArticleCompleteSerializer.new(article,
+                                                         include: [:user, :topic, :tracker, :tags]),
                    status: :accepted
           end
         end
@@ -317,24 +340,26 @@ module Api::V1
                                       :allow_comment,
                                       :draft,
                                       :topic_id,
-                                      :language,
                                       :picture_ids,
-                                      inventories: {},
-                                      tags:        [
-                                                     :name,
-                                                     :visibility,
-                                                     :new
-                                                   ],
-                                      parent_tags: [
-                                                     :name,
-                                                     :visibility,
-                                                     :new
-                                                   ],
-                                      child_tags:  [
-                                                     :name,
-                                                     :visibility,
-                                                     :new
-                                                   ])
+                                      title_translations:   {},
+                                      summary_translations: {},
+                                      content_translations: {},
+                                      inventories:          {},
+                                      tags:                 [
+                                                              :name,
+                                                              :visibility,
+                                                              :new
+                                                            ],
+                                      parent_tags:          [
+                                                              :name,
+                                                              :visibility,
+                                                              :new
+                                                            ],
+                                      child_tags:           [
+                                                              :name,
+                                                              :visibility,
+                                                              :new
+                                                            ])
     end
 
     def filter_params

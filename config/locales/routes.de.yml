@@ -1,0 +1,18 @@
+de:
+  routes:
+    home: "de"
+    search: "forschung"
+    tags: "etiketten"
+    tagged: "etikett"
+    topics: "themen"
+    shared-topics: "themenaustausch"
+    articles: "artikel"
+    shared: "teilen"
+    users: "benutzer"
+    signup: "verbindung"
+    login: "registrierung"
+    new: "neu"
+    edit: "ausgabe"
+    about: "rechtlicher-hinweis"
+    terms: "nutzungsbedingungen"
+    policy: "daten-politik"

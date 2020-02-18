@@ -7,6 +7,10 @@ import {
 import Chip from '@material-ui/core/Chip';
 
 import {
+    topicArticlesPath
+} from '../../../constants/routesHelper';
+
+import {
     spyTrackClick
 } from '../../../actions';
 
@@ -28,7 +32,7 @@ export default class SearchTopicModule extends React.Component {
                   color="primary"
                   variant="outlined"
                   component={Link}
-                  to={`/users/${topic.user.slug}/topics/${topic.slug}`}
+                  to={topicArticlesPath(topic.user.slug, topic.slug)}
                   onClick={spyTrackClick.bind(null, 'topic', topic.id, topic.slug, topic.name)}/>
         );
     };

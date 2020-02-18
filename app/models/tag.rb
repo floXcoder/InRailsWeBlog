@@ -34,7 +34,6 @@ class Tag < ApplicationRecord
   enums_to_tr('tag', [:visibility])
 
   include TranslationConcern
-  # Add current_language to model
   translates :description,
              auto_strip_translation_fields:    [:description],
              fallbacks_for_empty_translations: true
@@ -208,6 +207,19 @@ class Tag < ApplicationRecord
   after_commit :invalidate_tag_cache
 
   # == Class Methods ========================================================
+  def self.as_flat_json(tags, format, **options)
+    data = case format
+           when 'strict'
+             TagStrictSerializer.new(tags, **options)
+           when 'complete'
+             TagCompleteSerializer.new(tags, include: [:user, :tracker], includes: [], **options)
+           else
+             TagSampleSerializer.new(tags, **options)
+           end
+
+    data.flat_serializable_hash
+  end
+
   def self.parse_tags(tags, current_user_id)
     return [] unless tags.is_a?(Array) || !tags.empty?
 
@@ -237,48 +249,28 @@ class Tag < ApplicationRecord
     end
   end
 
-  def self.as_json(tags, options = {})
-    return nil unless tags
-
-    serializer_options = {
-      root: tags.is_a?(Tag) ? 'tag' : 'tags'
-    }
-
-    serializer_options.merge(scope:      options.delete(:current_user),
-                             scope_name: :current_user) if options.key?(:current_user)
-
-    serializer_options[tags.is_a?(Tag) ? :serializer : :each_serializer] = if options[:strict]
-                                                                             TagStrictSerializer
-                                                                           elsif options[:sample]
-                                                                             TagSampleSerializer
-                                                                           else
-                                                                             TagSerializer
-                                                                           end
-
-    ActiveModelSerializers::SerializableResource.new(tags, serializer_options.merge(options)).as_json
-  end
-
-  def self.as_flat_json(tags, options = {})
-    return nil unless tags
-
-    as_json(tags, options)[tags.is_a?(Tag) ? :tag : :tags]
-  end
-
   # == Instance Methods =====================================================
   def user?(user)
     self.user_id == user.id if user
   end
 
   def link_path(options = {})
-    if options[:edit]
-      "/tags/#{self.user.slug}/edit"
-    elsif options[:host]
-      "#{options[:host]}/tags/#{self.slug}"
-    elsif options[:index]
-      "/tagged/#{self.slug}"
-    else
-      "/tags/#{self.slug}"
-    end
+    locale = options[:locale] || 'en'
+
+    route_name = case options[:route_name]
+                 when 'edit'
+                   'edit_tag'
+                 when 'index'
+                   'tagged_articles'
+                 else
+                   'show_tag'
+                 end
+
+    params        = { tag_slug: self.slug }
+
+    params[:host] = ENV['WEBSITE_ADDRESS'] if options[:host]
+
+    Rails.application.routes.url_helpers.send("#{route_name}_#{locale}_#{options[:host] ? 'url' : 'path'}", **params)
   end
 
   def default_picture
@@ -339,32 +331,27 @@ class Tag < ApplicationRecord
 
   def search_data
     {
-      id:                    id,
-      user_id:               user_id,
-      topic_ids:             topics.ids,
-      child_ids:             child_ids,
-      parent_ids:            parent_ids,
-      name:                  name,
-      description:           description,
-      languages:             languages,
-      synonyms:              synonyms,
-      notation:              notation,
-      priority:              priority,
-      visibility:            visibility,
-      archived:              archived,
-      accepted:              accepted,
-      created_at:            created_at,
-      updated_at:            updated_at,
-      rank:                  rank,
-      popularity:            popularity,
-      tagged_articles_count: tagged_articles_count,
-      slug:                  slug
+      id:                    self.id,
+      user_id:               self.user_id,
+      topic_ids:             self.topics.ids,
+      child_ids:             self.child_ids,
+      parent_ids:            self.parent_ids,
+      name:                  self.name,
+      description:           self.description,
+      languages:             self.languages,
+      synonyms:              self.synonyms,
+      notation:              self.notation,
+      priority:              self.priority,
+      visibility:            self.visibility,
+      archived:              self.archived,
+      accepted:              self.accepted,
+      created_at:            self.created_at,
+      updated_at:            self.updated_at,
+      rank:                  self.rank,
+      popularity:            self.popularity,
+      tagged_articles_count: self.tagged_articles_count,
+      slug:                  self.slug
     }
-  end
-
-  # SEO
-  def meta_description
-    [self.name, self.description&.summary(60)].compact.join(I18n.t('helpers.colon'))
   end
 
   private

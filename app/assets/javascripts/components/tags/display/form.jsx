@@ -16,6 +16,11 @@ import {
 import Button from '@material-ui/core/Button';
 
 import {
+    rootPath,
+    showTagPath
+} from '../../../constants/routesHelper';
+
+import {
     validateTag
 } from '../../../forms/tag';
 
@@ -160,7 +165,7 @@ class TagFormDisplay extends React.Component {
                                                 variant="outlined"
                                                 size="small"
                                                 component={Link}
-                                                to={this.props.isEditing ? `/tags/${this.props.children.slug}` : '/'}>
+                                                to={this.props.isEditing ? showTagPath(this.props.children.slug) : rootPath()}>
                                             {I18n.t('js.tag.edit.back_button')}
                                         </Button>
                                     </div>

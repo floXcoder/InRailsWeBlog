@@ -13,6 +13,10 @@ import {
 } from '@material-ui/core/styles';
 
 import {
+    topicArticlesPath
+} from '../../constants/routesHelper';
+
+import {
     fetchTopic,
     updateTopicInventories
 } from '../../actions';
@@ -26,14 +30,12 @@ import Loader from '../theme/loader';
 
 import TopicFormInventoriesDisplay from './display/formInventories';
 
-import HeadLayout from '../layouts/head';
 import NotAuthorized from '../layouts/notAuthorized';
 
 import styles from '../../../jss/topic/edit';
 
 export default @withRouter
 @connect((state) => ({
-    metaTags: state.topicState.metaTags,
     topic: state.topicState.topic,
     currentUser: getCurrentUser(state),
     topicErrors: getTopicErrors(state)
@@ -49,7 +51,6 @@ class TopicEditInventories extends React.Component {
         // from router
         history: PropTypes.object,
         // from connect
-        metaTags: PropTypes.object,
         topic: PropTypes.object,
         currentUser: PropTypes.object,
         topicErrors: PropTypes.array,
@@ -82,7 +83,7 @@ class TopicEditInventories extends React.Component {
             .then((response) => {
                 if (response.topic) {
                     this.props.history.push({
-                        pathname: `/users/${this.props.topic.user.slug}/topics/${this.props.topic.slug}`
+                        pathname: topicArticlesPath(this.props.topic.user.slug, this.props.topic.slug)
                     });
                 }
             });
@@ -111,8 +112,6 @@ class TopicEditInventories extends React.Component {
 
         return (
             <div className={this.props.classes.root}>
-                <HeadLayout metaTags={this.props.metaTags}/>
-
                 <TopicFormInventoriesDisplay initialValues={{inventoryFields}}
                                              id={`topic-edit-inventories-${this.props.topic.id}`}
                                              topic={this.props.topic}

@@ -6,6 +6,22 @@ describe 'Static pages API', type: :request, basic: true do
     @user = create(:user)
   end
 
+  describe '/meta-tags (JSON)' do
+    before do
+      Seo::Data.create(name: 'about_en', locale: 'en', page_title: 'About title', meta_desc: 'Meta-desc description')
+    end
+
+    it 'returns the seo data of the route' do
+      get '/meta-tags', params: { route_name: 'about' }, as: :json
+
+      expect(response).to be_json_response
+
+      meta_tags = JSON.parse(response.body)
+      expect(meta_tags['metaTags']['title']).to include('About title')
+      expect(meta_tags['metaTags']['description']).to eq('Meta-desc description')
+    end
+  end
+
   describe '/robots.txt (TEXT)' do
     it 'returns the page' do
       get '/robots.txt', as: :text

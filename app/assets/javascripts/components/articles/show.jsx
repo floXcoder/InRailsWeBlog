@@ -26,6 +26,10 @@ import {
 } from '../loaders/components';
 
 import {
+    topicArticlesPath
+} from '../../constants/routesHelper';
+
+import {
     fetchArticle,
     fetchArticleStories,
     markArticleOutdated,
@@ -55,7 +59,6 @@ import CommentCountIcon from '../comments/icons/count';
 
 import CommentBox from '../loaders/commentBox';
 
-import HeadLayout from '../layouts/head';
 import NotFound from '../layouts/notFound';
 
 import SummaryStoriesTopic from '../topics/stories/summary';
@@ -73,7 +76,6 @@ import styles from '../../../jss/article/show';
 
 export default @withRouter
 @connect((state, props) => ({
-    metaTags: state.articleState.metaTags,
     currentUser: getCurrentUser(state),
     currentTopic: state.topicState.currentTopic,
     isCurrentTopicOwner: getIsCurrentTopicOwner(state, props.routeParams),
@@ -100,7 +102,6 @@ class ArticleShow extends React.Component {
         // from router
         history: PropTypes.object,
         // from connect
-        metaTags: PropTypes.object,
         currentUser: PropTypes.object,
         currentTopic: PropTypes.object,
         isCurrentTopicOwner: PropTypes.bool,
@@ -152,7 +153,7 @@ class ArticleShow extends React.Component {
     }
 
     componentWillUnmount() {
-        if (this._request && this._request.signal) {
+        if (this._request?.signal) {
             this._request.signal.abort();
         }
     }
@@ -168,10 +169,10 @@ class ArticleShow extends React.Component {
 
         if (this.props.article.outdated) {
             this.props.unmarkArticleOutdated(this.props.article.id)
-                .then((response) => response && response.errors && Notification.error(response.errors));
+                .then((response) => response?.errors && Notification.error(response.errors));
         } else {
             this.props.markArticleOutdated(this.props.article.id)
-                .then((response) => response && response.errors && Notification.error(response.errors));
+                .then((response) => response?.errors && Notification.error(response.errors));
         }
     };
 
@@ -180,7 +181,7 @@ class ArticleShow extends React.Component {
 
         this.props.deleteArticle(this.props.article.id)
             .then(() => this.props.history.push({
-                    pathname: `/users/${this.props.currentUser.slug}/topics/${this.props.currentTopic.slug}`,
+                    pathname: topicArticlesPath(this.props.currentUser.slug, this.props.currentTopic.slug),
                     state: {reloadTags: true}
                 })
             );
@@ -211,7 +212,7 @@ class ArticleShow extends React.Component {
             <div>
                 <StickyContainer>
                     {
-                        (this.props.routeState && this.props.routeState.position && this.props.isFetching) &&
+                        (this.props.routeState?.position && this.props.isFetching) &&
                         <div className="center margin-top-20">
                             <div>
                                 <span className="transition"
@@ -237,10 +238,6 @@ class ArticleShow extends React.Component {
                                  itemProp="blogPost"
                                  itemScope={true}
                                  itemType="https://schema.org/BlogPosting">
-                            <HeadLayout>
-                                {this.props.metaTags}
-                            </HeadLayout>
-
                             {
                                 this.props.isCurrentTopicOwner &&
                                 <div className={this.props.classes.breadcrumb}>
@@ -391,7 +388,7 @@ class ArticleShow extends React.Component {
                     !this.props.isFetching &&
                     <div className={this.props.classes.storiesContainer}>
                         {
-                            (this.props.articleSiblingStories && this.props.articleSiblingStories.length > 0) &&
+                            (this.props.articleSiblingStories?.length > 0) &&
                             <Grid container={true}
                                   direction="row"
                                   justify="space-evenly"

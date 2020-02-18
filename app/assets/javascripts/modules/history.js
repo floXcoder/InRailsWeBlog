@@ -11,7 +11,7 @@ import urlParser from './urlParser';
 const omitEmptyParams = (params) => _.omitBy(params, (value, key) => (Utils.isEmpty(value) || value === '') || (Utils.isEmpty(key) || key === ''));
 
 const saveCurrentState = (paramsToSerialize, paramsToUrl, replaceOnly = false, reuseExistingParams = true) => {
-    if (window.history && window.history.pushState) {
+    if (window.history?.pushState) {
         paramsToSerialize = omitEmptyParams(paramsToSerialize);
 
         const urlData = urlParser(location.href).data;
@@ -44,20 +44,20 @@ const saveCurrentState = (paramsToSerialize, paramsToUrl, replaceOnly = false, r
 
 const getPreviousState = (dataName, options) => {
     let params = {};
-    if (window.history && window.history.state) {
+    if (window.history?.state) {
         params = window.history.state;
     }
 
     if (params[dataName]) {
         let dataParams = params[dataName];
 
-        if (options && options.useUrlParams) {
+        if (options?.useUrlParams) {
             const urlParams = parse(window.location.search.substring(1));
             dataParams = _.merge(urlParams, dataParams);
         }
 
         return dataParams;
-    } else if (options && options.useUrlParams) {
+    } else if (options?.useUrlParams) {
         return parse(window.location.search.substring(1));
     } else {
         return false;

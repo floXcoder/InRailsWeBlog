@@ -13,6 +13,11 @@ import CardContent from '@material-ui/core/CardContent';
 import Chip from '@material-ui/core/Chip';
 
 import {
+    userArticlePath,
+    taggedArticlesPath
+} from '../../../../constants/routesHelper';
+
+import {
     spyTrackClick
 } from '../../../../actions';
 
@@ -47,7 +52,7 @@ class ArticleSearchItemDisplay extends React.Component {
                   component="article">
                 <CardHeader title={
                     <Link className={this.props.classes.articleTitle}
-                          to={`/users/${this.props.article.user.slug}/articles/${this.props.article.slug}`}
+                          to={userArticlePath(this.props.article.user.slug, this.props.article.slug)}
                           onClick={this._handleArticleClick}>
                         <span dangerouslySetInnerHTML={{__html: this.props.article.title}}/>
                     </Link>
@@ -81,7 +86,7 @@ class ArticleSearchItemDisplay extends React.Component {
                                           }
                                       )}
                                       component={Link}
-                                      to={`/tagged/${tag.slug}`}
+                                      to={taggedArticlesPath(tag.slug)}
                                       onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.name)}
                                       label={tag.name}
                                       clickable={true}

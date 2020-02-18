@@ -32,8 +32,14 @@
 #  inventories             :jsonb            not null
 #
 
-class ArticleSerializer < ActiveModel::Serializer
-  # cache key: 'article', expires_in: InRailsWeBlog.config.cache_time
+class ArticleSerializer
+  include FastJsonapi::ObjectSerializer
+
+  set_type :article
+
+  # cache_options enabled: true, cache_length: InRailsWeBlog.config.cache_time
+
+  set_key_transform :camel_lower
 
   attributes :id,
              :topic_id,
@@ -41,51 +47,30 @@ class ArticleSerializer < ActiveModel::Serializer
              :mode_translated,
              :title,
              :summary,
-             :content,
              :reference,
-             :inventories,
-             :date,
-             :date_short,
-             :date_iso,
              :visibility,
-             :visibility_translated,
              :allow_comment,
              :draft,
-             :current_language,
-             :outdated,
+             :languages,
              :default_picture,
              :slug,
-             :public_share_link,
-             :votes_up,
-             :votes_down,
              :pictures_count,
              :bookmarks_count,
-             :comments_count,
-             :outdated_count,
-             :parent_tag_ids,
-             :child_tag_ids,
-             :new_tag_ids
+             :comments_count
 
   belongs_to :user, serializer: UserSampleSerializer
 
-  belongs_to :topic, if: -> { object.story? }, serializer: TopicSampleSerializer
+  belongs_to :topic, if: Proc.new { |record| record.story? }, serializer: TopicSampleSerializer
 
-  has_one :tracker, if: -> { instance_options[:with_tracking] }
-
-  has_many :tags, serializer: TagSampleSerializer do
-    if scope.is_a?(User)
-      object.tags
-    else
-      object.tags.select { |tag| tag.visibility == 'everyone' }
-    end
+  has_many :tags, serializer: TagSampleSerializer do |object|
+    object.tags.select { |tag| tag.visibility == 'everyone' }
   end
 
-  def content
-    current_user_id = defined?(current_user) && current_user&.id
-    object.adapted_content(current_user_id)
+  attribute :content do |object|
+    object.adapted_content
   end
 
-  def inventories
+  attribute :inventories do |object|
     if object.inventory?
       object.topic.inventory_fields.map do |inventory_field|
         inventory_value = object.inventories[inventory_field.field_name]
@@ -102,59 +87,47 @@ class ArticleSerializer < ActiveModel::Serializer
     end
   end
 
-  def date
+  attribute :date do |object|
     I18n.l(object.updated_at, format: :custom_full_date).sub(/^[0]+/, '')
   end
 
-  def date_short
+  attribute :date_short do |object|
     I18n.l(object.updated_at, format: :short).split(' ').map(&:capitalize)
   end
 
-  def date_iso
+  attribute :date_iso do |object|
     object.created_at.strftime('%Y-%m-%d')
   end
 
-  def visibility_translated
+  attribute :visibility_translated do |object|
     object.visibility_to_tr
   end
 
-  def outdated
-    if instance_options[:with_outdated] && defined?(current_user) && current_user
-      object.marked_as_outdated.exists?(current_user.id)
-    else
-      false
-    end
-  end
-
-  def public_share_link
-    "#{Rails.application.routes.url_helpers.root_url(host: ENV['WEBSITE_ADDRESS'])}articles/shared/#{object.slug}/#{object.share&.public_link}" if instance_options[:with_share]
-  end
-
-  def votes_up
-    object.votes_for if instance_options[:with_vote]
-  end
-
-  def votes_down
-    object.votes_against if instance_options[:with_vote]
-  end
-
-  def outdated_count
-    object.outdated_articles_count
-  end
-
-  def comments
-    object.comments_tree.flatten if instance_options[:comments]
-  end
-
-  def parent_tag_ids
+  attribute :parent_tag_ids do |object|
     object.tagged_articles.select(&:parent?).map(&:tag_id)
   end
 
-  def child_tag_ids
+  attribute :child_tag_ids do |object|
     object.tagged_articles.select(&:child?).map(&:tag_id)
   end
 
-  def new_tag_ids
-    instance_options[:new_tags].map(&:id) if instance_options[:new_tags].present?
-  end
+  # attribute :outdated_count do |object|
+  #   object.outdated_articles_count
+  # end
+
+  # attribute :outdated do |object, params|
+  #   if params[:with_outdated] && params[:current_user_id]
+  #     object.marked_as_outdated.exists?(params[:current_user_id])
+  #   else
+  #     false
+  #   end
+  # end
+
+  # attribute :votes_up do |object, params|
+  #   object.votes_for if params[:with_vote]
+  # end
+  #
+  # attribute :votes_down do |object, params|
+  #   object.votes_against if params[:with_vote]
+  # end
 end
