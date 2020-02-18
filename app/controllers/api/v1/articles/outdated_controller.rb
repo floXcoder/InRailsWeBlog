@@ -16,7 +16,7 @@ module Api::V1
             article.create_activity(action: :outdated_up, owner: current_user)
 
             render json: ArticleSerializer.new(article,
-                                               include: [:user, :topic, :tracker, :tags],
+                                               include: [:user, :topic, :tags],
                                                params:  { current_user_id: current_user&.id })
           else
             render json:   { errors: article.errors.messages[:outdated].first },
@@ -36,7 +36,7 @@ module Api::V1
             article.create_activity(action: :outdated_down, owner: current_user)
 
             render json: ArticleSerializer.new(article,
-                                               include: [:user, :topic, :tracker, :tags],
+                                               include: [:user, :topic, :tags],
                                                params:  { current_user_id: current_user&.id })
           else
             render json:   { errors: article.errors.messages[:outdated].first },

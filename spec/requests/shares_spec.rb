@@ -97,7 +97,7 @@ describe 'Share API', type: :request, basic: true do
         login_as(@user, scope: :user, run_callbacks: false)
       end
 
-      it 'returns the shared topic' do
+      it 'returns the shared article' do
         expect {
           post '/api/v1/shares/article', params: { share: { article_id: @private_article.id } }, as: :json
 
