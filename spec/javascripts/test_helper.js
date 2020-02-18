@@ -28,6 +28,17 @@ require('./translations/en');
 require('./translations/fr');
 I18n.defaultLocale = 'fr';
 I18n.locale = 'fr';
+window.defaultLocale = 'en';
+window.locale = 'en';
+window.locales = ['en', 'fr', 'de', 'es', 'it'];
+window.localizedRoutes = {
+    en: {'home': '', 'search': 'search'},
+    fr: {'home': 'fr', 'search': 'recherche', 'locale': '/fr'},
+    de: {'home': 'de', 'search': 'forschung', 'locale': '/de'},
+    es: {'home': 'es', 'search': 'investigacion', 'locale': '/es'},
+    it: {'home': 'it', 'search': 'ricerca', 'locale': '/it'}
+};
+window.defaultMetaTags = {};
 
 // Configure log level
 log.setLevel('info');
@@ -103,4 +114,4 @@ global.Notification = {
 
 // Environment configuration
 window.railsEnv = 'test';
-window.settings = JSON.parse('{"website_name":"ginkonote","website_email":"blog@ginkonote.com","cache_time":7200,"user_pseudo_min_length":3,"user_pseudo_max_length":60,"user_email_min_length":5,"user_email_max_length":128,"user_password_min_length":8,"user_password_max_length":128,"topic_name_min_length":1,"topic_name_max_length":128,"topic_description_min_length":3,"topic_description_max_length":3000,"article_title_min_length":3,"article_title_max_length":128,"article_summary_min_length":3,"article_summary_max_length":256,"article_content_min_length":3,"article_content_max_length":8000000,"tag_name_min_length":1,"tag_name_max_length":52,"tag_description_min_length":3,"tag_description_max_length":3000,"comment_title_min_length":1,"comment_title_max_length":256,"comment_body_min_length":1,"comment_body_max_length":1024,"notation_min":0,"notation_max":5,"per_page":20,"search_per_page":30,"image_size":8388608,"topic_color":"#e5e5e5","tag_color":"#e5e5e5","small_screen":600,"small_screen_up":601,"medium_screen":992,"medium_screen_up":993,"large_screen":1200,"large_screen_up":1201}');
+window.settings = JSON.parse('{"website_name":"ginkonote","website_email":"contact@ginkonote.com","cache_time":7200,"user_pseudo_min_length":3,"user_pseudo_max_length":60,"user_email_min_length":5,"user_email_max_length":128,"user_password_min_length":8,"user_password_max_length":128,"topic_name_min_length":1,"topic_name_max_length":128,"topic_description_min_length":3,"topic_description_max_length":3000,"article_title_min_length":3,"article_title_max_length":128,"article_summary_min_length":3,"article_summary_max_length":256,"article_content_min_length":3,"article_content_max_length":8000000,"tag_name_min_length":1,"tag_name_max_length":52,"tag_description_min_length":3,"tag_description_max_length":3000,"comment_title_min_length":1,"comment_title_max_length":256,"comment_body_min_length":1,"comment_body_max_length":1024,"notation_min":0,"notation_max":5,"per_page":20,"search_per_page":30,"image_size":8388608,"topic_color":"#e5e5e5","tag_color":"#e5e5e5","small_screen":600,"small_screen_up":601,"medium_screen":992,"medium_screen_up":993,"large_screen":1200,"large_screen_up":1201}');

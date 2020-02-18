@@ -35,7 +35,7 @@ export function convertJsonApi(response) {
         formattedResponse = response;
     }
 
-    if(response.meta) {
+    if(response?.meta) {
         const {root, ...meta} = response.meta;
         formattedResponse.meta = meta;
     }
