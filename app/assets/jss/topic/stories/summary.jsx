@@ -6,7 +6,10 @@ const styles = (theme) => ({
         margin: '1rem auto 1.5rem',
         overflow: 'visible',
         maxWidth: '100%',
-        backgroundColor: theme.palette.grey[100]
+        backgroundColor: theme.palette.grey[100],
+        [theme.breakpoints.down('md')]: {
+            margin: '.5rem auto 1rem'
+        }
     },
     root: {
         padding: '1rem',

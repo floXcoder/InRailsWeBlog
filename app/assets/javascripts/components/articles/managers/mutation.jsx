@@ -104,7 +104,7 @@ export default function articleMutationManager(mode) {
 
                     if (props.routeState.temporary) {
                         const temporaryArticle = getLocalData(articleTemporaryDataName, true);
-                        if (temporaryArticle && temporaryArticle.article) {
+                        if (temporaryArticle?.article) {
                             this.state.article = temporaryArticle.article;
                         }
                     }
@@ -112,7 +112,7 @@ export default function articleMutationManager(mode) {
                     if (props.routeState.content) {
                         Notification.success(I18n.t('js.article.clipboard'));
                     }
-                } else if (unsavedArticle && unsavedArticle.length > 0) {
+                } else if (unsavedArticle?.length > 0) {
                     this.state.article = unsavedArticle.first().article;
                     this.props.addArticle(this.state.article)
                         .then((response) => {
@@ -141,7 +141,7 @@ export default function articleMutationManager(mode) {
             }
 
             componentDidMount() {
-                if (this.props.routeState && this.props.routeState.position) {
+                if (this.props.routeState?.position) {
                     setTimeout(() => {
                         window.scrollTo(this.props.routeState.position.left || 0, (this.props.routeState.position.top || 0) + 100);
                     }, 600);
@@ -181,7 +181,7 @@ export default function articleMutationManager(mode) {
                 }
 
                 const temporaryArticle = getLocalData(articletemporaryDataName);
-                if (temporaryArticle && temporaryArticle.length > 0) {
+                if (temporaryArticle?.length > 0) {
                     removeLocalData(articletemporaryDataName);
                 }
             };

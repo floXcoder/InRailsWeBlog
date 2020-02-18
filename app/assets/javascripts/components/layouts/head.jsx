@@ -52,19 +52,19 @@ const HeadLayout = ({children}) => {
             }
 
             {
-                (og && og.type) &&
+                (og?.type) &&
                 <meta property="og:type"
                       content={og.type}/>
             }
 
             {
-                (og && og.url) &&
+                (og?.url) &&
                 <meta property="og:url"
                       content={og.url}/>
             }
 
             {
-                (og && og.image) &&
+                (og?.image) &&
                 <meta property="og:image"
                       content={og.image || window.logoUrl}/>
             }

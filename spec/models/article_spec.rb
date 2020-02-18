@@ -543,6 +543,7 @@ RSpec.describe Article, type: :model, basic: true do
         @article.update_attribute(:content, content_with_private)
 
         expect(@article.adapted_content(@user.id)).to eq(content_with_private)
+        expect(@article.adapted_content).to eq('test')
         expect(@article.adapted_content(other_user.id)).to eq('test')
       end
     end

@@ -76,7 +76,7 @@ export default function fetchMiddleware({dispatch, getState}) {
 
         const fetch = fetcher.promise.then(
             (response) => {
-                if (response && response.errors) {
+                if (response?.errors) {
                     return dispatch({
                         ...payload,
                         errors: response.errors || [],

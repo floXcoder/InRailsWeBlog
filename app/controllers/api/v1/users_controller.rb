@@ -59,15 +59,18 @@ module Api::V1
         users = users.paginate(page: params[:page], per_page: InRailsWeBlog.config.per_page)
       end
 
-      respond_to do |format|
-        format.json do
-          if complete
-            render json: UserCompleteSerializer.new(users,
-                                                    include: [:tracker],
-                                                    meta:    { root: 'users' })
-          else
-            render json: UserSampleSerializer.new(users,
-                                                  meta: { root: 'users', **meta_attributes(pagination: users) })
+      expires_in InRailsWeBlog.config.cache_time, public: true
+      if stale?(users, template: false, public: true)
+        respond_to do |format|
+          format.json do
+            if complete
+              render json: UserCompleteSerializer.new(users,
+                                                      include: [:tracker],
+                                                      meta:    { root: 'users' })
+            else
+              render json: UserSampleSerializer.new(users,
+                                                    meta: { root: 'users', **meta_attributes(pagination: users) })
+            end
           end
         end
       end
@@ -95,6 +98,7 @@ module Api::V1
       user = User.friendly.find(params[:id])
       authorize user
 
+      expires_in InRailsWeBlog.config.cache_time, public: true
       respond_to do |format|
         format.json do
           if params[:complete] && (current_user&.id == user.id || current_user.admin?)
@@ -129,8 +133,10 @@ module Api::V1
                                       image: image_url('logos/favicon-192x192.png')
                                     }.compact)
 
-            render json: UserSerializer.new(user,
-                                            meta: meta_attributes)
+            if stale?(user, template: false, public: true)
+              render json: UserSerializer.new(user,
+                                              meta: meta_attributes)
+            end
           end
         end
       end
@@ -143,11 +149,14 @@ module Api::V1
       user_comments = user.comments.order('comments.created_at DESC')
       user_comments = user_comments.paginate(page: params[:page], per_page: InRailsWeBlog.config.per_page) if params[:page]
 
-      respond_to do |format|
-        format.json do
-          render json: CommentFullSerializer.new(user_comments,
-                                                 include: [:user, :commentable],
-                                                 meta:    { root: 'comments', **meta_attributes(pagination: user_comments) })
+      expires_in InRailsWeBlog.config.cache_time, public: true
+      if stale?(user_comments, template: false, public: true)
+        respond_to do |format|
+          format.json do
+            render json: CommentFullSerializer.new(user_comments,
+                                                   include: [:user, :commentable],
+                                                   meta:    { root: 'comments', **meta_attributes(pagination: user_comments) })
+          end
         end
       end
     end

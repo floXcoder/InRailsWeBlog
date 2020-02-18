@@ -159,7 +159,7 @@ class AdminSeoData extends React.Component {
                            elevation={1}>
                         <AdminSeoDataForm classes={this.props.classes}
                                           seoPages={this.props.seoPages}
-                                          seoPagesUsed={this.props.seoData && this.props.seoData.map((seoData) => seoData.name)}
+                                          seoPagesUsed={this.props.seoData?.map((seoData) => seoData.name)}
                                           retrieveParameters={this.props.retrieveParametersSeoData}
                                           isNew={this.state.isNew}
                                           seoData={this.state.editingSeoData}

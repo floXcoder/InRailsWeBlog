@@ -56,31 +56,33 @@ module Api::V1
           end
         elsif filter_params[:topic_slug].present?
           set_seo_data(:topic_articles,
-                       topic_slug: Topic.find_by(slug: filter_params[:topic_slug]).name,
-                       user_slug:  User.find_by(slug: filter_params[:user_slug]).pseudo)
+                       topic_slug: Topic.find_by(slug: filter_params[:topic_slug])&.name,
+                       user_slug:  User.find_by(slug: filter_params[:user_slug])&.pseudo)
         elsif filter_params[:user_slug].present?
           set_seo_data(:user_articles,
-                       user_slug: User.find_by(slug: filter_params[:user_slug]))
+                       user_slug: User.find_by(slug: filter_params[:user_slug])&.pseudo)
         end
 
         articles = ::Articles::FindQueries.new(current_user, current_admin).all(filter_params.merge(page: params[:page], limit: params[:limit]))
       end
 
-      respond_to do |format|
-        format.json do
-          if complete
-            render json: ArticleCompleteSerializer.new(articles,
-                                                       include: [:tracker],
-                                                       meta:    { root: 'articles', **meta_attributes })
-          elsif params[:summary]
-            render json: ArticleSampleSerializer.new(articles,
-                                                     include: [:user, :tags],
-                                                     meta:    { root: 'articles', **meta_attributes(pagination: articles) })
-          else
-            render json: ArticleSerializer.new(articles,
-                                               include: [:user, :topic, :tracker, :tags],
-                                               params:  { current_user_id: current_user&.id, with_outdated: true },
-                                               meta:    { root: 'articles', **meta_attributes(pagination: articles) })
+      expires_in InRailsWeBlog.config.cache_time, public: true
+      if stale?(articles, template: false, public: true)
+        respond_to do |format|
+          format.json do
+            if complete
+              render json: ArticleCompleteSerializer.new(articles,
+                                                         include: [:user, :topic, :tracker, :tags],
+                                                         meta:    { root: 'articles', **meta_attributes })
+            elsif params[:summary]
+              render json: ArticleSampleSerializer.new(articles,
+                                                       include: [:user, :tags],
+                                                       meta:    { root: 'articles', **meta_attributes(pagination: articles) })
+            else
+              render json: ArticleSerializer.new(articles,
+                                                 include: [:user, :topic, :tags],
+                                                 meta:    { root: 'articles', **meta_attributes(pagination: articles) })
+            end
           end
         end
       end
@@ -90,30 +92,32 @@ module Api::V1
       article = @context_user.articles.include_element.friendly.find(params[:id])
       admin_or_authorize article
 
-      respond_to do |format|
-        format.json do
-          set_seo_data(:user_article,
-                       article_slug: article.title,
-                       topic_slug:   article.topic.name,
-                       user_slug:    article.user.pseudo,
-                       author:       article.user.pseudo,
-                       model:        article,
-                       og:           {
-                                       type:  "#{ENV['WEBSITE_NAME']}:article",
-                                       url:   article.link_path(host: ENV['WEBSITE_FULL_ADDRESS']),
-                                       image: article.default_picture ? (root_url + article.default_picture) : nil
-                                     }.compact)
+      expires_in InRailsWeBlog.config.cache_time, public: true
+      if stale?(article, template: false, public: true)
+        respond_to do |format|
+          format.json do
+            set_seo_data(:user_article,
+                         article_slug: article.title,
+                         topic_slug:   article.topic.name,
+                         user_slug:    article.user.pseudo,
+                         author:       article.user.pseudo,
+                         model:        article,
+                         og:           {
+                                         type:  "#{ENV['WEBSITE_NAME']}:article",
+                                         url:   article.link_path(host: ENV['WEBSITE_FULL_ADDRESS']),
+                                         image: article.default_picture ? (root_url + article.default_picture) : nil
+                                       }.compact)
 
-          render json: ArticleSerializer.new(article,
-                                             include: [:user, :topic, :tracker, :tags],
-                                             params:  {
-                                               current_user_id: current_user&.id,
-                                               with_share:      true,
-                                               with_vote:       true,
-                                               with_outdated:   true,
-                                               with_tracking:   params[:complete] && current_user && article.user?(current_user)
-                                             },
-                                             meta:    meta_attributes)
+            if current_user && article.user?(current_user)
+              render json: ArticleCompleteSerializer.new(article,
+                                                         include: [:user, :topic, :tracker, :tags],
+                                                         meta:    meta_attributes)
+            else
+              render json: ArticleSerializer.new(article,
+                                                 include: [:user, :topic, :tags],
+                                                 meta:    meta_attributes)
+            end
+          end
         end
       end
     end
@@ -123,24 +127,26 @@ module Api::V1
       article.shared_link = params[:public_link]
       admin_or_authorize article
 
-      respond_to do |format|
-        format.json do
-          set_seo_data(:shared_article,
-                       article_slug: article.title,
-                       topic_slug:   article.topic.name,
-                       user_slug:    article.user.pseudo,
-                       author:       article.user.pseudo,
-                       model:        article,
-                       og:           {
-                                       type:  "#{ENV['WEBSITE_NAME']}:article",
-                                       url:   article.link_path(host: ENV['WEBSITE_FULL_ADDRESS']),
-                                       image: article.default_picture ? (root_url + article.default_picture) : nil
-                                     }.compact)
+      expires_in InRailsWeBlog.config.cache_time, public: true
+      if stale?(article, template: false, public: true)
+        respond_to do |format|
+          format.json do
+            set_seo_data(:shared_article,
+                         article_slug: article.title,
+                         topic_slug:   article.topic.name,
+                         user_slug:    article.user.pseudo,
+                         author:       article.user.pseudo,
+                         model:        article,
+                         og:           {
+                                         type:  "#{ENV['WEBSITE_NAME']}:article",
+                                         url:   article.link_path(host: ENV['WEBSITE_FULL_ADDRESS']),
+                                         image: article.default_picture ? (root_url + article.default_picture) : nil
+                                       }.compact)
 
-          render json: ArticleSerializer.new(article,
-                                             include: [:user, :topic, :tracker, :tags],
-                                             params:  { current_user_id: current_user&.id },
-                                             meta:    meta_attributes)
+            render json: ArticleSerializer.new(article,
+                                               include: [:user, :topic, :tags],
+                                               meta:    meta_attributes)
+          end
         end
       end
     end
@@ -150,11 +156,14 @@ module Api::V1
 
       articles = ::Articles::FindQueries.new(@context_user, current_admin).stories(topic_id: article.topic_id)
 
-      respond_to do |format|
-        format.json do
-          render json: ArticleSampleSerializer.new(articles,
-                                                   include: [:user, :tags],
-                                                   meta:    { root: 'stories' })
+      expires_in InRailsWeBlog.config.cache_time, public: true
+      if stale?(articles, template: false, public: true)
+        respond_to do |format|
+          format.json do
+            render json: ArticleSampleSerializer.new(articles,
+                                                     include: [:user, :tags],
+                                                     meta:    { root: 'stories' })
+          end
         end
       end
     end
@@ -189,9 +198,9 @@ module Api::V1
         format.json do
           if stored_article.success?
             flash.now[:success] = stored_article.message
-            render json:   ArticleSerializer.new(stored_article.result,
-                                                 include: [:user, :topic, :tracker, :tags],
-                                                 params:  { current_user_id: current_user&.id }),
+            render json:   ArticleCompleteSerializer.new(stored_article,
+                                                         include: [:user, :topic, :tracker, :tags],
+                                                         meta:    meta_attributes),
                    status: :created
           else
             flash.now[:error] = stored_article.message
@@ -214,10 +223,9 @@ module Api::V1
                        user_slug:    article.user.pseudo,
                        author:       article.user.pseudo)
 
-          render json: ArticleSerializer.new(article,
-                                             include: [:user, :topic, :tracker, :tags],
-                                             params:  { current_user_id: current_user&.id },
-                                             meta:    meta_attributes)
+          render json: ArticleCompleteSerializer.new(article,
+                                                     include: [:user, :topic, :tracker, :tags],
+                                                     meta:    meta_attributes)
         end
       end
     end
@@ -232,14 +240,9 @@ module Api::V1
         format.json do
           if stored_article.success?
             flash.now[:success] = stored_article.message unless params[:auto_save]
-            render json:   ArticleSerializer.new(stored_article.result,
-                                                 params:  {
-                                                   current_user_id: current_user&.id,
-                                                   with_share:      true,
-                                                   with_vote:       true,
-                                                   with_outdated:   true
-                                                 },
-                                                 include: [:user, :topic, :tracker, :tags]),
+            render json:   ArticleCompleteSerializer.new(stored_article,
+                                                         include: [:user, :topic, :tracker, :tags],
+                                                         meta:    meta_attributes),
                    status: :ok
           else
             flash.now[:error] = stored_article.message
@@ -262,10 +265,9 @@ module Api::V1
         format.json do
           if articles.present?
             flash.now[:success] = t('views.article.flash.successful_priority_update')
-            render json:   ArticleSerializer.new(articles.reverse,
-                                                 include: [:user, :topic, :tracker, :tags],
-                                                 params:  { current_user_id: current_user&.id },
-                                                 meta:    { root: 'articles' }),
+            render json:   ArticleCompleteSerializer.new(articles.reverse,
+                                                         include: [:user, :topic, :tracker, :tags],
+                                                         meta:    { root: 'articles' }),
                    status: :ok
           else
             flash.now[:error] = t('views.article.flash.error_priority_update')
@@ -290,9 +292,8 @@ module Api::V1
         respond_to do |format|
           flash.now[:success] = t('views.article.flash.successful_undeletion') if params[:from_deletion]
           format.json do
-            render json:   ArticleSerializer.new(article,
-                                                 include: [:user, :topic, :tracker, :tags],
-                                                 params:  { current_user_id: current_user&.id }),
+            render json:   ArticleCompleteSerializer.new(article,
+                                                         include: [:user, :topic, :tracker, :tags]),
                    status: :accepted
           end
         end

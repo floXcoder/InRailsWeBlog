@@ -137,7 +137,7 @@ class HeaderLayoutUser extends React.PureComponent {
 
         // Check if temporary article in local storage
         const temporaryArticle = getLocalData(articleTemporaryDataName);
-        if (temporaryArticle && temporaryArticle.length > 0) {
+        if (temporaryArticle?.length > 0) {
             this.state.hasTemporaryArticle = true;
         }
     }

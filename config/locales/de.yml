@@ -1,8 +1,8 @@
 de:
   seo:
     default:
-      page_title: Blog für alle
-      meta_desc: Blog für alle
+      page_title: "Willkommen zum %{website}-Blog!"
+      meta_desc: "Kommen Sie und entdecken Sie die verschiedenen Artikel auf der %{website}."
   views:
     user:
       flash:

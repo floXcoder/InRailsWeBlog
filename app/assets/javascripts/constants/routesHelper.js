@@ -9,7 +9,7 @@ const routeBuilder = (path, locale) => locale ? buildRoute(locale, path) : build
 export const rootPath = (locale = window.locale) => routeBuilder('/', locale);
 
 // Search routes
-export const searchPath = (locale = window.locale) => routeBuilder('/search', locale);
+export const searchPath = (locale = window.locale) => routeBuilder(locale === false ? '/search/(.*)' : '/search/', locale);
 
 // Tags routes
 export const tagsPath = (locale = window.locale) => routeBuilder('/tags', locale);

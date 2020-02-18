@@ -55,7 +55,9 @@ const styles = (theme) => ({
         paddingTop: theme.spacing(1),
         paddingRight: theme.spacing(1),
         paddingBottom: theme.spacing(1),
-        width: '26vw'
+        [theme.breakpoints.up('md')]: {
+            width: '26vw'
+        }
     },
     selectedTagsChip: {
         margin: theme.spacing(0.5, 0.5),

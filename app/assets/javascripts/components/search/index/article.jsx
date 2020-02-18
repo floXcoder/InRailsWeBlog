@@ -55,7 +55,7 @@ export default class SearchArticleIndex extends React.PureComponent {
                             ?
                             <Suspense fallback={<div/>}>
                                 {
-                                    currentTopicArticles && currentTopicArticles.length > 0 &&
+                                    currentTopicArticles?.length > 0 &&
                                     <>
                                         <Typography variant="subtitle2"
                                                     gutterBottom={true}>
@@ -67,7 +67,7 @@ export default class SearchArticleIndex extends React.PureComponent {
                                 }
 
                                 {
-                                    (otherTopicsArticles && otherTopicsArticles.length > 0) &&
+                                    (otherTopicsArticles?.length > 0) &&
                                     <>
                                         <Typography variant="subtitle2"
                                                     gutterBottom={true}>
@@ -87,7 +87,7 @@ export default class SearchArticleIndex extends React.PureComponent {
                             :
                             <>
                                 {
-                                    currentTopicArticles && currentTopicArticles.length > 0 &&
+                                    currentTopicArticles?.length > 0 &&
                                     <>
                                         {/*<Typography variant="subtitle2"*/}
                                         {/*            gutterBottom={true}>*/}
@@ -105,7 +105,7 @@ export default class SearchArticleIndex extends React.PureComponent {
                                 }
 
                                 {
-                                    (otherTopicsArticles && otherTopicsArticles.length > 0) &&
+                                    (otherTopicsArticles?.length > 0) &&
                                     <>
                                         <Typography className={this.props.classes.articleOther}
                                                     variant="subtitle2"

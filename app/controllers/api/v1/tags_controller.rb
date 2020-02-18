@@ -41,7 +41,7 @@ module Api::V1
                      filter_params[:topic_id].to_i
                    end
 
-        if filter_params[:topic_slug]
+        if filter_params[:topic_slug] && params[:user_id]&.to_i == 0
           topic = Topic.friendly.find(filter_params[:topic_slug])
           set_seo_data(:topic_tags,
                        topic_slug: topic.name,
@@ -57,17 +57,20 @@ module Api::V1
         tags = ::Tags::FindQueries.new(current_user, current_admin).all(filter_params.merge(limit: params[:limit]))
       end
 
-      respond_to do |format|
-        format.json do
-          if complete
-            render json: TagCompleteSerializer.new(tags,
-                                                   include: [:user, :tracker],
-                                                   params:  { current_topic_id: topic_id },
-                                                   meta:    { root: 'tags', **meta_attributes })
-          else
-            render json: TagSerializer.new(tags,
-                                           params: { current_topic_id: topic_id },
-                                           meta:   { root: 'tags', **meta_attributes })
+      expires_in InRailsWeBlog.config.cache_time, public: true
+      if stale?(tags, template: false, public: true)
+        respond_to do |format|
+          format.json do
+            if complete
+              render json: TagCompleteSerializer.new(tags,
+                                                     include: [:user, :tracker],
+                                                     params:  { current_topic_id: topic_id },
+                                                     meta:    { root: 'tags', **meta_attributes })
+            else
+              render json: TagSerializer.new(tags,
+                                             params: { current_topic_id: topic_id },
+                                             meta:   { root: 'tags', **meta_attributes })
+            end
           end
         end
       end
@@ -77,17 +80,20 @@ module Api::V1
       tag = Tag.include_element.friendly.find(params[:id])
       authorize tag
 
-      respond_to do |format|
-        format.json do
-          set_seo_data(:show_tag,
-                       tag_slug:  tag.name,
-                       user_slug: tag.user.pseudo,
-                       author:    tag.user.pseudo)
+      expires_in InRailsWeBlog.config.cache_time, public: true
+      if stale?(tag, template: false, public: true)
+        respond_to do |format|
+          format.json do
+            set_seo_data(:show_tag,
+                         tag_slug:  tag.name,
+                         user_slug: tag.user.pseudo,
+                         author:    tag.user.pseudo)
 
-          render json: TagCompleteSerializer.new(tag,
-                                                 include: [:user, :tracker],
-                                                 params:  { current_user_id: current_user&.id },
-                                                 meta:    meta_attributes)
+            render json: TagCompleteSerializer.new(tag,
+                                                   include: [:user, :tracker],
+                                                   params:  { current_user_id: current_user&.id },
+                                                   meta:    meta_attributes)
+          end
         end
       end
     end

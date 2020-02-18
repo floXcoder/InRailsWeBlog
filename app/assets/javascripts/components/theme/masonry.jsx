@@ -61,7 +61,7 @@ const MasonryWrapper = (ComponentCard, componentCardProps, ComponentExposed, com
         }
 
         const localMasonry = getLocalData('masonry');
-        if(localMasonry && localMasonry.columnCount) {
+        if(localMasonry?.columnCount) {
             this.state.columnCount = localMasonry.columnCount
         }
     }
@@ -202,7 +202,7 @@ const MasonryWrapper = (ComponentCard, componentCardProps, ComponentExposed, com
                     <this.state.Masonry className="masonry-grid"
                                         elementType="div"
                                         options={this.state.masonryOptions}
-                                        ref={(ref) => this._masonry = ref && ref.masonry}>
+                                        ref={(ref) => this._masonry = ref?.masonry}>
                         {ComponentNodes}
                     </this.state.Masonry>
                 }

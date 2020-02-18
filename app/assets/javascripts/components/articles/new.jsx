@@ -102,7 +102,7 @@ class ArticleNew extends React.Component {
         }
 
         let errorStep = null;
-        if (this.props.articleErrors && this.props.articleErrors.length > 0) {
+        if (this.props.articleErrors?.length > 0) {
             if (this.props.articleErrors.some((error) => error.includes('Tags') || error.includes('Labels'))) {
                 errorStep = 'tag';
             } else {

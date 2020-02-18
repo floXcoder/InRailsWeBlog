@@ -17,7 +17,7 @@ module Api::V1
 
             render json: ArticleSerializer.new(article,
                                                include: [:user, :topic, :tracker, :tags],
-                                               params:  { current_user_id: current_user&.id, with_vote: true, with_outdated: true })
+                                               params:  { current_user_id: current_user&.id })
           else
             render json:   { errors: article.errors.messages[:outdated].first },
                    status: :unprocessable_entity
@@ -37,7 +37,7 @@ module Api::V1
 
             render json: ArticleSerializer.new(article,
                                                include: [:user, :topic, :tracker, :tags],
-                                               params:  { current_user_id: current_user&.id, with_vote: true, with_outdated: true })
+                                               params:  { current_user_id: current_user&.id })
           else
             render json:   { errors: article.errors.messages[:outdated].first },
                    status: :unprocessable_entity

@@ -24,14 +24,14 @@ gem 'http_accept_language',     '2.1.1'
 gem 'secure_headers',           '6.3.0'
 
 # JSON
-gem 'fast_jsonapi',             '1.6.0', git: 'https://github.com/fast-jsonapi/fast_jsonapi'
+gem 'fast_jsonapi',             '1.6.0', git: 'https://github.com/fast-jsonapi/fast_jsonapi', ref: '2172e40'
 gem 'oj',                       '3.10.2'
 
 # Use slim instead of erb
 gem 'slim-rails',               '3.2.0'
 
 # Internationalization
-gem 'i18n-js',                  '3.5.1'
+gem 'i18n-js',                  '3.6.0'
 gem 'geocoder',                 '1.6.1'
 gem 'maxminddb',                '0.1.22'
 
@@ -49,7 +49,7 @@ gem 'auto_strip_attributes',    '2.5.0'
 gem 'sanitize',                 '5.1.0'
 
 # Run asynschronous process
-gem 'sidekiq',                  '6.0.4'
+gem 'sidekiq',                  '6.0.5'
 gem 'sidekiq-statistic',        '1.4.0'
 gem 'sidekiq-cron',             '1.1.0'
 gem 'attentive_sidekiq',        '0.3.3'
@@ -70,7 +70,7 @@ gem 'devise',                   '4.7.1'
 gem 'pundit',                   '2.1.0'
 
 # Upload pictures
-gem 'carrierwave',              '2.0.2'
+gem 'carrierwave',              '2.1.0'
 gem 'mini_magick',              '4.10.1'
 
 # Search in database
@@ -97,7 +97,7 @@ gem 'sitemap_generator',        '6.1.0'
 
 # Dummy data
 gem 'factory_bot_rails',        '5.1.1',   require: false
-gem 'faker',                    '2.10.1',   require: false
+gem 'faker',                    '2.10.2',   require: false
 
 # Deployment
 gem 'capistrano',               '3.12.0'
@@ -154,7 +154,7 @@ group :test do
   gem 'rspec_junit_formatter',      '0.4.1'
   gem 'shoulda-matchers',           '4.2.0',  require: false
   gem 'shoulda-callback-matchers',  '1.1.4',  require: false
-  gem 'simplecov',                  '0.18.1', require: false
+  gem 'simplecov',                  '0.18.2', require: false
   gem 'fuubar',                     '2.5.0'
   gem 'database_cleaner',           '1.8.2'
   gem 'db-query-matchers',          '0.10.0'
@@ -181,7 +181,7 @@ group :development, :test do
   gem 'rubocop',                    '0.79.0',  require: false
   gem 'rubocop-rails',              '2.4.2',   require: false
   gem 'rubocop-performance',        '1.5.2',   require: false
-  gem 'rubocop-rspec',              '1.38.0',  require: false
+  gem 'rubocop-rspec',              '1.38.1',  require: false
 end
 
 group :production do

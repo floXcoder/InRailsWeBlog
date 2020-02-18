@@ -88,7 +88,7 @@ class ArticleSort extends React.Component {
         return (
             <div className={this.props.classes.root}>
                 {
-                    (this.props.isFetching && this.props.articles.length === 0) &&
+                    (this.props.isFetching?.length === 0) &&
                     <div className="center margin-top-20">
                         <Loader size="big"/>
                     </div>

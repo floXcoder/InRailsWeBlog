@@ -35,7 +35,9 @@
 class ArticleSerializer
   include FastJsonapi::ObjectSerializer
 
-  cache_options enabled: true, cache_length: InRailsWeBlog.config.cache_time
+  set_type :article
+
+  # cache_options enabled: true, cache_length: InRailsWeBlog.config.cache_time
 
   set_key_transform :camel_lower
 
@@ -60,26 +62,12 @@ class ArticleSerializer
 
   belongs_to :topic, if: Proc.new { |record| record.story? }, serializer: TopicSampleSerializer
 
-  has_one :tracker, if: Proc.new { |_record, params| params[:with_tracking] }
-
-  has_many :tags, serializer: TagSampleSerializer do |object, params|
-    if object.user_id == params[:current_user_id]
-      object.tags
-    else
-      object.tags.select { |tag| tag.visibility == 'everyone' }
-    end
+  has_many :tags, serializer: TagSampleSerializer do |object|
+    object.tags.select { |tag| tag.visibility == 'everyone' }
   end
 
-  attribute :title_translations do |object|
-    object.title_translations if object.user.article_multilanguage
-  end
-
-  attribute :content do |object, params|
-    object.adapted_content(params[:current_user_id])
-  end
-
-  attribute :content_translations do |object, params|
-    object.adapted_content(params[:current_user_id], true) if object.user.article_multilanguage
+  attribute :content do |object|
+    object.adapted_content
   end
 
   attribute :inventories do |object|
@@ -115,34 +103,6 @@ class ArticleSerializer
     object.visibility_to_tr
   end
 
-  attribute :outdated do |object, params|
-    if params[:with_outdated] && params[:current_user_id]
-      object.marked_as_outdated.exists?(params[:current_user_id])
-    else
-      false
-    end
-  end
-
-  attribute :public_share_link do |object, params|
-    "#{Rails.application.routes.url_helpers.root_url(host: ENV['WEBSITE_ADDRESS'])}articles/shared/#{object.slug}/#{object.share&.public_link}" if params[:with_share]
-  end
-
-  attribute :votes_up do |object, params|
-    object.votes_for if params[:with_vote]
-  end
-
-  attribute :votes_down do |object, params|
-    object.votes_against if params[:with_vote]
-  end
-
-  attribute :outdated_count do |object|
-    object.outdated_articles_count
-  end
-
-  attribute :comments do |object, params|
-    object.comments_tree.flatten if params[:comments]
-  end
-
   attribute :parent_tag_ids do |object|
     object.tagged_articles.select(&:parent?).map(&:tag_id)
   end
@@ -151,7 +111,23 @@ class ArticleSerializer
     object.tagged_articles.select(&:child?).map(&:tag_id)
   end
 
-  attribute :new_tag_ids do |_object, params|
-    params[:new_tags].map(&:id) if params[:new_tags].present?
-  end
+  # attribute :outdated_count do |object|
+  #   object.outdated_articles_count
+  # end
+
+  # attribute :outdated do |object, params|
+  #   if params[:with_outdated] && params[:current_user_id]
+  #     object.marked_as_outdated.exists?(params[:current_user_id])
+  #   else
+  #     false
+  #   end
+  # end
+
+  # attribute :votes_up do |object, params|
+  #   object.votes_for if params[:with_vote]
+  # end
+  #
+  # attribute :votes_down do |object, params|
+  #   object.votes_against if params[:with_vote]
+  # end
 end

@@ -20,8 +20,8 @@ export const getPrivateTags = createSelector(
 
 export const getSortedTopicTags = createSelector(
     (state) => state.tagState.topicTags,
-    (state) => state.userState.user && state.userState.user.settings.tagSidebarWithChild,
-    (state) => state.userState.user && state.userState.user.settings.tagOrder,
+    (state) => state.userState.user?.settings?.tagSidebarWithChild,
+    (state) => state.userState.user?.settings?.tagOrder,
     (state) => state.tagState.filterText,
     (tags, displayChildWithParent, tagOrder, filterText) => {
         if (tagOrder === 'priority') {
@@ -112,7 +112,7 @@ export const getCategorizedTags = createSelector(
 
 export const getCurrentTagSlugs = createSelector(
     (state) => state.tagState.currentTagSlugs,
-    (tags) => tags && tags.compact()
+    (tags) => tags?.compact()
 );
 
 // export const getTagIsOwner = (state, tag) => (

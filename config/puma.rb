@@ -15,6 +15,10 @@ port Integer(ENV.fetch('PUMA_PORT') { 3000 })
 #
 environment ENV.fetch('RAILS_ENV') { 'development' }
 
+# Store the pid of the server in the file at "path".
+#
+pidfile 'tmp/pids/puma.pid'
+
 # Specifies the number of `workers` to boot in clustered mode.
 # Workers are forked webserver processes. If using threads and workers together
 # the concurrency of the application would be max `threads` * `workers`.

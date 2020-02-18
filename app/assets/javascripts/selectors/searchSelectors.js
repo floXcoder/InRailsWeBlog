@@ -32,18 +32,18 @@ export const getAutocompleteResults = createSelector(
 // Suggestions
 export const getArticleSuggestions = createSelector(
     (state) => state.searchState.articleSuggestions,
-    (articleSuggestions) => articleSuggestions && articleSuggestions
+    (articleSuggestions) => articleSuggestions
 );
 
 export const getTagSuggestions = createSelector(
     (state) => state.searchState.tagSuggestions,
-    (tagSuggestions) => tagSuggestions && tagSuggestions
+    (tagSuggestions) => tagSuggestions
 );
 
 // Filters / Aggregations
 export const getSearchFilters = createSelector(
     (state) => state.searchState.searchFilters,
-    (searchFilters) => searchFilters && searchFilters
+    (searchFilters) => searchFilters
 );
 
 export const getArticleAvailableFilters = createSelector(

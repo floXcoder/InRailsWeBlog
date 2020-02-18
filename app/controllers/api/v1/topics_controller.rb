@@ -21,16 +21,19 @@ module Api::V1
                  ::Topics::FindQueries.new(current_user, current_admin).all(filter_params.merge(user_id: params[:user_id]))
                end
 
-      respond_to do |format|
-        format.json do
-          if complete
-            render json: TopicCompleteSerializer.new(topics,
-                                                     include: [:user, :inventory_fields, :contributors, :tracker],
-                                                     meta:    { root: 'topics' })
-          else
-            render json: TopicSerializer.new(topics,
-                                             include: [:user, :inventory_fields, :tags, :contributors],
-                                             meta:    { root: 'topics' })
+      expires_in InRailsWeBlog.config.cache_time, public: true
+      if stale?(topics, template: false, public: true)
+        respond_to do |format|
+          format.json do
+            if complete
+              render json: TopicCompleteSerializer.new(topics,
+                                                       include: [:user, :inventory_fields, :contributors, :tracker],
+                                                       meta:    { root: 'topics' })
+            else
+              render json: TopicSerializer.new(topics,
+                                               include: [:user, :inventory_fields, :tags, :contributors],
+                                               meta:    { root: 'topics' })
+            end
           end
         end
       end
@@ -58,17 +61,20 @@ module Api::V1
       topic = @context_user.topics.friendly.find(params[:id])
       authorize topic
 
-      respond_to do |format|
-        format.json do
-          set_seo_data(:user_topic,
-                       topic_slug: topic.name,
-                       user_slug:  topic.user.pseudo,
-                       author:     topic.user.pseudo)
+      expires_in InRailsWeBlog.config.cache_time, public: true
+      if stale?(topic, template: false, public: true)
+        respond_to do |format|
+          format.json do
+            set_seo_data(:user_topic,
+                         topic_slug: topic.name,
+                         user_slug:  topic.user.pseudo,
+                         author:     topic.user.pseudo)
 
-          render json: TopicSerializer.new(topic,
-                                           include: [:user, :inventory_fields, :tags, :contributors],
-                                           params:  { complete: true },
-                                           meta:    meta_attributes)
+            render json: TopicSerializer.new(topic,
+                                             include: [:user, :inventory_fields, :tags, :contributors],
+                                             params:  { complete: true },
+                                             meta:    meta_attributes)
+          end
         end
       end
     end

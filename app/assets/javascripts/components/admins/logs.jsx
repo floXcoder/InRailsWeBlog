@@ -134,7 +134,7 @@ class AdminLogs extends React.PureComponent {
                         this._logParentNode.scrollTop = this._logNode.scrollHeight - previousScrollHeight - 44;
                     } else if (element === 'refresh') {
                         // do nothing
-                    } else if (element === 'date' || (value && value.startsWith('date='))) {
+                    } else if (element === 'date' || (value?.startsWith('date='))) {
                         this._scrollToTopLog();
                     } else {
                         this._scrollToBottomLog();
@@ -312,7 +312,7 @@ class AdminLogs extends React.PureComponent {
                         <div className="file-content logs">
                             <ol>
                                 {
-                                    this.props.jobLog && this.props.jobLog.map((line, i) => (
+                                    this.props.jobLog?.map((line, i) => (
                                         <li key={i}>
                                             <p dangerouslySetInnerHTML={{__html: line}}/>
                                         </li>
@@ -332,7 +332,7 @@ class AdminLogs extends React.PureComponent {
                         <div className="file-content logs">
                             <ol>
                                 {
-                                    this.props.cronLog && this.props.cronLog.map((line, i) => (
+                                    this.props.cronLog?.map((line, i) => (
                                         <li key={i}>
                                             <p dangerouslySetInnerHTML={{__html: line}}/>
                                         </li>

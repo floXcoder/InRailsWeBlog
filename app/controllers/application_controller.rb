@@ -129,8 +129,8 @@ class ApplicationController < ActionController::Base
       page_title = Seo::Data.convert_parameters(seo_data.page_title, parameters)
       meta_desc  = Seo::Data.convert_parameters(seo_data.meta_desc, parameters)
     else
-      page_title = I18n.t('seo.default.page_title')
-      meta_desc  = I18n.t('seo.default.meta_desc')
+      page_title = I18n.t('seo.default.page_title', website: ENV['WEBSITE_NAME'])
+      meta_desc  = I18n.t('seo.default.meta_desc', website: ENV['WEBSITE_NAME'])
     end
 
     canonical = canonical_url(named_route, model, current_locale, parameters) unless canonical
@@ -151,12 +151,13 @@ class ApplicationController < ActionController::Base
     if model
       model.link_path(locale: locale, route_name: named_route, host: host)
     else
-      Rails.application.routes.url_helpers.send("#{named_route}_#{locale}_#{host ? 'url' : 'path'}", **params.merge(host: host))
+      Rails.application.routes.url_helpers.send("#{named_route}_#{locale}_#{host ? 'url' : 'path'}", **(params.transform_values { |v| v.to_s.downcase.strip.tr('&', 'and').tr('_', '-').parameterize }).merge(host: host))
     end
   end
 
   def alternate_urls(named_route, model, **params)
     Hash[I18n.available_locales.map { |locale| [locale.to_s, canonical_url(named_route, model, locale, params)] }]
+      .merge('x-default': canonical_url(named_route, model, 'en', params))
   end
 
   def image_url(url)

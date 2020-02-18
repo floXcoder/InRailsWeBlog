@@ -17,7 +17,7 @@ function convertRelationships(object, relationships, included) {
 export function convertJsonApi(response) {
     let formattedResponse = {};
 
-    if (response && response.data && response.data.type) {
+    if (response?.data?.type) {
         const rootKey = (response.meta && response.meta.root) || response.data.type;
 
         formattedResponse[rootKey] = {
@@ -25,8 +25,8 @@ export function convertJsonApi(response) {
         };
 
         convertRelationships(formattedResponse[rootKey], response.data.relationships, response.included);
-    } else if (response && response.data && Array.isArray(response.data)) {
-        if (response.meta && response.meta.root) {
+    } else if (response?.data && Array.isArray(response.data)) {
+        if (response.meta?.root) {
             formattedResponse[response.meta.root] = response.data.map((datum) => convertRelationships(datum.attributes, datum.relationships, response.included));
         } else {
             formattedResponse = response.data.map((datum) => convertRelationships(datum.attributes, datum.relationships, response.included));

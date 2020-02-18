@@ -1,23 +1,30 @@
 'use strict';
 
-// import Form from '../materialize/form';
-// import Input from '../materialize/input';
-// import Textarea from '../materialize/textarea';
-// import Checkbox from '../materialize/checkbox';
-// import File from '../materialize/file';
-// import Submit from '../materialize/submit';
+import {
+    hot
+} from 'react-hot-loader/root';
 
 import {
     Link
 } from 'react-router-dom';
 
 import {
+    fetchMetaTags
+} from '../../actions';
+
+import {
     rootPath,
     userArticlesPath
 } from '../../constants/routesHelper';
 
-export default class UserEdit extends React.Component {
+export default @connect(null, {
+    fetchMetaTags
+})
+@hot
+class UserEdit extends React.Component {
     static propTypes = {
+        // from connect
+        fetchMetaTags: PropTypes.func,
         // userId: PropTypes.string,
         // params: PropTypes.object
     };
@@ -44,6 +51,10 @@ export default class UserEdit extends React.Component {
     state = {
         user: {}
     };
+
+    componentDidMount() {
+        this.props.fetchMetaTags('edit_password');
+    }
 
     render() {
         if (Utils.isEmpty(this.state.user)) {

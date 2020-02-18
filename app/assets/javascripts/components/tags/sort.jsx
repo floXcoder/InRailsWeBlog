@@ -33,8 +33,8 @@ export default @withRouter
 })
 class TagSort extends React.Component {
     static propTypes = {
-        routeParams: PropTypes.object.isRequired,
         // from router
+        routeParams: PropTypes.object,
         history: PropTypes.object,
         // from connect
         currentUserId: PropTypes.number,

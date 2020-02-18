@@ -29,7 +29,7 @@ shared: &shared
   large_screen_up: 1201
 
   # Cache time
-  cache_time: <%= 12.hours %>
+  cache_time: <%= 7.days %>
 
   # User validation parameters
   user_pseudo_min_length: 3

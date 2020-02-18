@@ -169,10 +169,10 @@ class ArticleShow extends React.Component {
 
         if (this.props.article.outdated) {
             this.props.unmarkArticleOutdated(this.props.article.id)
-                .then((response) => response && response.errors && Notification.error(response.errors));
+                .then((response) => response?.errors && Notification.error(response.errors));
         } else {
             this.props.markArticleOutdated(this.props.article.id)
-                .then((response) => response && response.errors && Notification.error(response.errors));
+                .then((response) => response?.errors && Notification.error(response.errors));
         }
     };
 
@@ -212,7 +212,7 @@ class ArticleShow extends React.Component {
             <div>
                 <StickyContainer>
                     {
-                        (this.props.routeState && this.props.routeState.position && this.props.isFetching) &&
+                        (this.props.routeState?.position && this.props.isFetching) &&
                         <div className="center margin-top-20">
                             <div>
                                 <span className="transition"
@@ -388,7 +388,7 @@ class ArticleShow extends React.Component {
                     !this.props.isFetching &&
                     <div className={this.props.classes.storiesContainer}>
                         {
-                            (this.props.articleSiblingStories && this.props.articleSiblingStories.length > 0) &&
+                            (this.props.articleSiblingStories?.length > 0) &&
                             <Grid container={true}
                                   direction="row"
                                   justify="space-evenly"

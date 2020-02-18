@@ -27,6 +27,7 @@ export default {
             {
                 path: Routes.searchPath(false),
                 exact: false,
+                strict: false,
                 noTagSidebar: true,
                 noHeaderSearch: true,
                 component: () => RouteComponents.SearchIndex
@@ -253,6 +254,7 @@ export default {
             // Miscellaneous
             {
                 path: Routes.notFoundPath(false),
+                status: 404,
                 component: () => NotFound
             }
         ]

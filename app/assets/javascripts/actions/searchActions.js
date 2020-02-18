@@ -9,6 +9,7 @@ import * as ActionTypes from '../constants/actionTypes';
 import {
     spySearchResults
 } from './metricsActions';
+import {isEmpty} from "../modules/utils";
 
 // Autocomplete
 export const loadAutocomplete = (autocompleteParams) => (
@@ -66,6 +67,10 @@ export const setSelectedTag = (tag) => (dispatch) => {
 // Search history
 export const getSearchContext = (params = {}) => (dispatch) => {
     const previousSearchData = History.getPreviousState('globalSearchData', {useUrlParams: true});
+
+    if(Utils.isEmpty(previousSearchData) && params[0]) {
+        previousSearchData.query = params[0];
+    }
 
     const searchData = {...previousSearchData, ...params};
 

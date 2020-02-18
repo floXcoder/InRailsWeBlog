@@ -31,7 +31,7 @@ class AdminLogin extends React.Component {
 
     render() {
         const csrfToken = document.getElementsByName('csrf-token')[0];
-        const token = csrfToken && csrfToken.getAttribute('content');
+        const token = csrfToken?.getAttribute('content');
 
         return (
             <Container className={this.props.classes.container}

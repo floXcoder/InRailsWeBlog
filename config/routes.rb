@@ -66,7 +66,7 @@ Rails.application.routes.draw do
 
     get '/meta-tags', to: 'pages#meta_tag', as: :meta_tag
 
-    get '/404', to: 'pages#home'
+    get '/404', to: 'pages#not_found', as: :not_found
   end
 
   # Concerns

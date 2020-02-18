@@ -12,22 +12,6 @@ SitemapGenerator::Sitemap.create do
     add root_path,
         changefreq: 'daily',
         priority:   1
-
-    # add contact_path,
-    #     changefreq: 'monthly',
-    #     priority:   0.6
-    # add support_path,
-    #     changefreq: 'monthly',
-    #     priority:   0.6
-    # add about_us_path,
-    #     changefreq: 'monthly',
-    #     priority:   0.2
-    # add terms_path,
-    #     changefreq: 'monthly',
-    #     priority:   0.2
-    # add privacy_path,
-    #     changefreq: 'monthly',
-    #     priority:   0.2
   end
 
   group(filename: :articles) do

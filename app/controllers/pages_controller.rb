@@ -34,6 +34,17 @@ class PagesController < ApplicationController
     end
   end
 
+  def not_found
+    respond_to do |format|
+      format.html do
+        expires_in InRailsWeBlog.config.cache_time, public: true
+
+        set_seo_data(:not_found)
+        render :home, status: :not_found
+      end
+    end
+  end
+
   # SEO
   def robots
     respond_to :text

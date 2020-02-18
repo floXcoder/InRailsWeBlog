@@ -423,7 +423,7 @@ class Article < ApplicationRecord
     self.content&.match?(/<(\w+) class="secret">.*?<\/\1>/im)
   end
 
-  def adapted_content(current_user_id, with_translations = false)
+  def adapted_content(current_user_id = nil, with_translations = false)
     if private_content? && self.user_id != current_user_id
       public_content(with_translations)
     else

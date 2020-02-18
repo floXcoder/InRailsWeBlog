@@ -51,6 +51,8 @@ class FooterLayoutHome extends React.PureComponent {
     render() {
         const isSearchActive = this.props.location.hash === '#search';
 
+        const {'x-default': xDefault, ...alternates} = this.props.metaTags.alternate || {};
+
         return (
             <>
                 <div className={classNames('blog-cover-layer', {
@@ -82,11 +84,11 @@ class FooterLayoutHome extends React.PureComponent {
                         </h3>
 
                         {
-                            this.props.metaTags.alternate &&
-                            Object.keys(this.props.metaTags.alternate).map((locale) => (
+                            alternates &&
+                            Object.keys(alternates).map((locale) => (
                                 <p key={locale}>
                                     <a className={this.props.classes.footerLink}
-                                       href={this.props.metaTags.alternate[locale]}>
+                                       href={alternates[locale]}>
                                         {I18n.t(`js.views.footer.locales.${locale}`)}
                                     </a>
                                 </p>

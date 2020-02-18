@@ -84,6 +84,7 @@ export default @connect((state) => ({
 @withStyles(styles)
 class SearchIndex extends React.Component {
     static propTypes = {
+        routeParams: PropTypes.object.isRequired,
         // from connect
         currentUserId: PropTypes.number,
         currentUser: PropTypes.object,
@@ -126,7 +127,7 @@ class SearchIndex extends React.Component {
 
     componentDidMount() {
         // Retrieve search from url or history
-        this.props.getSearchContext();
+        this.props.getSearchContext(this.props.routeParams);
 
         // Save search in browser history
         this.props.searchOnHistoryChange();
@@ -288,7 +289,7 @@ class SearchIndex extends React.Component {
             );
         }
 
-        const hasNoResults = (this.props.query && this.props.query.length > 0) && !this.props.hasResults;
+        const hasNoResults = (this.props.query?.length > 0) && !this.props.hasResults;
 
         const isDesktop = window.innerWidth > 1024;
 

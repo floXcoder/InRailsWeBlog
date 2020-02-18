@@ -5,7 +5,7 @@ class TopicCompleteSerializer
 
   set_type :topic
 
-  cache_options enabled: true, cache_length: InRailsWeBlog.config.cache_time
+  # cache_options enabled: true, cache_length: InRailsWeBlog.config.cache_time
 
   set_key_transform :camel_lower
 
