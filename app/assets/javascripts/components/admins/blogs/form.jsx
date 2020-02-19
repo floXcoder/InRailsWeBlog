@@ -74,6 +74,7 @@ export default class AdminBlogForm extends React.Component {
                                     modelId={this.props.blog.id}
                                     mode={1}
                                     placeholder={I18n.t('js.admin.blogs.form.content')}
+                                    hasOuterHeight={false}
                                     onChange={this._handleEditorChange}>
                                 {this.props.blog.content}
                             </Editor>

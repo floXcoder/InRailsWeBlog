@@ -137,7 +137,7 @@ deploy:
     GIT_REPO_PORT: "$GIT_REPO_PORT"
   environment:
     name: production
-    url: https://www.inrailsweblog.com
+    url: https://www.ginkonote.com
   <<: *pull-cache
   script:
     - bundle exec cap production deploy
@@ -150,8 +150,8 @@ check:deploy:
   stage: check
   cache: {}
   script:
-    - sh -c '[ $(curl --head -o /dev/null -L -s -w "%{http_code}" https://www.inrailsweblog.com/health_check) -eq 200 ]'
-    - sh -c '[ $(curl --head -o /dev/null -L -s -w "%{http_code}" https://www.inrailsweblog.com) -eq 200 ]'
+    - sh -c '[ $(curl --head -o /dev/null -L -s -w "%{http_code}" https://www.ginkonote.com/health_check) -eq 200 ]'
+    - sh -c '[ $(curl --head -o /dev/null -L -s -w "%{http_code}" https://www.ginkonote.com) -eq 200 ]'
   interruptible: true
   only:
     - master

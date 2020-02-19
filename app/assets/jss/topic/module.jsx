@@ -89,10 +89,12 @@ const styles = (theme) => ({
         }
     },
     addTopic: {
-        cursor: 'pointer',
         margin: '6px 4px 0 0',
         padding: 8,
         position: 'relative',
+        fontSize: '.9rem',
+        fontStyle: 'italic',
+        cursor: 'pointer',
         '&:hover': {
             color: theme.palette.text.dark,
             textDecoration: 'underline'

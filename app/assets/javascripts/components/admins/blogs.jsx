@@ -104,7 +104,7 @@ class AdminBlogs extends React.Component {
     };
 
     render() {
-        const hasBlogs = this.props.blogs && this.props.blogs.length > 0;
+        const hasBlogs = this.props.blogs?.length > 0;
 
         return (
             <div>

@@ -26,6 +26,12 @@ const styles = (theme) => ({
         fontSize: '1.6rem',
         fontWeight: 500,
         borderBottom: `1px solid ${theme.palette.grey[300]}`
+    },
+    loader: {
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        marginTop: '1rem',
+        marginBottom: '1rem'
     }
 });
 

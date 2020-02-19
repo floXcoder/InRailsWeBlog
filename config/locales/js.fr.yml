@@ -121,10 +121,10 @@ fr:
       home:
         private:
           title: "Vos thèmes privés"
-          subtitle: "Les articles associés seront vus uniquement par vous (avec vos propres labels)"
+          subtitle: "Les articles sont vus uniquement par vous (avec vos propres labels)"
         public:
           title: "Vos thèmes publiques"
-          subtitle: "Les articles seront partagés pour tout le mondes (avec les labels communs)"
+          subtitle: "Les articles sont partagés pour tout le mondes (avec les labels communs)"
         shared:
           title: "Vos thèmes partagés"
           subtitle: "Les thèmes partagés avec vous par d'autres utilisateurs"

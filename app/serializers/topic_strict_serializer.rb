@@ -29,6 +29,6 @@ class TopicStrictSerializer
   end
 
   attribute :link do |object, params|
-    Rails.application.routes.url_helpers.show_topic_path(user_slug: object.user.slug, topic_slug: object.slug) if params[:with_link]
+    Rails.application.routes.url_helpers.user_topic_path(user_slug: object.user.slug, topic_slug: object.slug) if params[:with_link]
   end
 end

@@ -80,9 +80,21 @@ class UserManager extends React.Component {
                                 topicTags: true
                             });
                     } else if (response.user.id) {
+                        // Fetch all tags
                         this.props.fetchTags({
                             userId: response.user.id
                         });
+
+                        // Fetch also current topic tags
+                        this.props.fetchTags({
+                                topicSlug: response.user.currentTopic.slug
+                            },
+                            {
+                                userId: this.props.currentUserId
+                            },
+                            {
+                                topicTags: true
+                            });
                     }
 
                     // Send local recent clicks otherwise fetch them
