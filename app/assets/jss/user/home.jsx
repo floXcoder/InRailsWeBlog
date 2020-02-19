@@ -42,12 +42,14 @@ const styles = (theme) => ({
             height: '5rem'
         }
     },
-    storyTopic: {
-        backgroundColor: theme.palette.secondary.main
-    },
     topicTitle: {
         color: '#fff',
         fontSize: '1.2rem'
+    },
+    topicMode: {
+        color: '#fff',
+        fontSize: '.9rem',
+        fontStyle: 'italic'
     },
     topicNew: {
         height: '6rem',
@@ -76,9 +78,6 @@ const styles = (theme) => ({
         [theme.breakpoints.down('md')]: {
             display: 'none'
         }
-    },
-    storyTopicLink: {
-        backgroundColor: theme.palette.secondary.main
     }
 });
 

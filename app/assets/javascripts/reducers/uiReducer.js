@@ -42,7 +42,7 @@ const _updateSettings = (state, settings) => {
         state.tagOrderMode = settings.tagOrderMode;
     }
     if(settings && typeof settings.tagSidebarPin === 'boolean') {
-        state.isTagSidebarOpen = settings.tagSidebarPin;
+        state.isTagSidebarOpen = !settings.tagSidebarPin;
     }
 };
 

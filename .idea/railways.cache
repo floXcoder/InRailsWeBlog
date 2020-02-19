@@ -1,5 +1,5 @@
 do /home/flo/Projects/InRailsWeBlog/bin/bundle exec /home/flo/.rvm/rubies/ruby-2.6.3/bin/ruby /home/flo/Projects/InRailsWeBlog/bin/rake routes --trace
-Ruby enVironment Manager 1.29.9 (latest) (c) 2009-2017 Michal Papis, Piotr Kuczynski, Wayne E. Seguin
+Ruby enVironment Manager 1.29.8 (latest) (c) 2009-2017 Michal Papis, Piotr Kuczynski, Wayne E. Seguin
 
                               Prefix Verb     URI Pattern                                                                                   Controller#Action
                                 root GET      /                                                                                             pages#home

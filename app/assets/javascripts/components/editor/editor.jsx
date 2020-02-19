@@ -35,6 +35,7 @@ class Editor extends React.Component {
         isPaste: PropTypes.bool,
         placeholder: PropTypes.string,
         children: PropTypes.string,
+        hasOuterHeight: PropTypes.bool,
         isDisabled: PropTypes.bool,
         onLoaded: PropTypes.func,
         onFocus: PropTypes.func,
@@ -53,6 +54,7 @@ class Editor extends React.Component {
     static defaultProps = {
         mode: EDITOR_MODE.EDIT,
         id: `summernote-${Utils.uuid()}`,
+        hasOuterHeight: true,
         isDisabled: false,
         // isCodeView: false
     };
@@ -190,7 +192,7 @@ class Editor extends React.Component {
                     toolbar: toolbar,
                     followingToolbar: true,
                     // otherStaticBar: '#article-edit-stepper',
-                    otherStaticBarHeight: this.props.width === 'xs' ? 111 : (this.props.width === 'md' ? 128 : 142)
+                    otherStaticBarHeight: this.props.hasOuterHeight ? this.props.width === 'xs' ? 111 : (this.props.width === 'md' ? 128 : 142) : undefined
                 });
 
                 // if (this.props.isCodeView) {

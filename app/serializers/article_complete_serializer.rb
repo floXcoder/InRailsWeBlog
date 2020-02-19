@@ -67,12 +67,12 @@ class ArticleCompleteSerializer
 
   has_many :tags, serializer: TagSampleSerializer
 
-  attribute :title_translations do |object|
-    object.title_translations if object.languages.size > 1
+  attribute :title_translations do |object, params|
+    object.title_translations if object.languages.size > 1 || params[:with_multilang]
   end
 
-  attribute :content_translations do |object|
-    object.content_translations if object.languages.size > 1
+  attribute :content_translations do |object, params|
+    object.content_translations if object.languages.size > 1 || params[:with_multilang]
   end
 
   attribute :inventories do |object|

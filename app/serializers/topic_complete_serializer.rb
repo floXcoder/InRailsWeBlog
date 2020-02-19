@@ -37,6 +37,6 @@ class TopicCompleteSerializer
   end
 
   attribute :link do |object|
-    Rails.application.routes.url_helpers.show_topic_path(user_slug: object.user.slug, topic_slug: object.slug)
+    Rails.application.routes.url_helpers.user_topic_path(user_slug: object.user.slug, topic_slug: object.slug)
   end
 end

@@ -128,7 +128,7 @@ class ArticleCommonField extends React.Component {
     };
 
     _renderContent = (locale) => {
-        const fieldName = locale ? `content_translations[${locale}]` : 'title';
+        const fieldName = locale ? `content_translations[${locale}]` : 'content';
 
         return (
             <div className="col s12">

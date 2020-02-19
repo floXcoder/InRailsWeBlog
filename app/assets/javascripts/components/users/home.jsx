@@ -223,22 +223,25 @@ class UserHome extends React.Component {
                                             pathname: topicArticlesPath(this.props.user.slug, topic.slug)
                                         }}
                                               onClick={this._handleTopicClick.bind(this, topic)}>
-                                            <Paper className={classNames(this.props.classes.topic, {
-                                                [this.props.classes.storyTopic]: topic.mode === 'stories'
-                                            })}
+                                            <Paper className={this.props.classes.topic}
                                                    elevation={1}>
                                                 <Typography className={this.props.classes.topicTitle}
                                                             variant="h5"
                                                             component="h2">
                                                     {topic.name}
                                                 </Typography>
+
+                                                {
+                                                    topic.mode !== 'default' &&
+                                                    <div className={this.props.classes.topicMode}>
+                                                        ({I18n.t(`js.topic.enums.mode.${topic.mode}`)})
+                                                    </div>
+                                                }
                                             </Paper>
                                         </Link>
 
                                         <Link to={userTopicPath(this.props.user.slug, topic.slug)}>
-                                            <Fab className={classNames(this.props.classes.topicLink, {
-                                                [this.props.classes.storyTopicLink]: topic.mode === 'stories'
-                                            })}
+                                            <Fab className={this.props.classes.topicLink}
                                                  variant="extended"
                                                  size="small"
                                                  color="primary"

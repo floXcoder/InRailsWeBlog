@@ -81,6 +81,7 @@ module Api::V1
             else
               render json: ArticleSerializer.new(articles,
                                                  include: [:user, :topic, :tags],
+                                                 params:  { current_user_id: current_user&.id },
                                                  meta:    { root: 'articles', **meta_attributes(pagination: articles) })
             end
           end
@@ -225,6 +226,7 @@ module Api::V1
 
           render json: ArticleCompleteSerializer.new(article,
                                                      include: [:user, :topic, :tracker, :tags],
+                                                     params:  { with_multilang: current_user.article_multilanguage },
                                                      meta:    meta_attributes)
         end
       end

@@ -62,12 +62,16 @@ class ArticleSerializer
 
   belongs_to :topic, if: Proc.new { |record| record.story? }, serializer: TopicSampleSerializer
 
-  has_many :tags, serializer: TagSampleSerializer do |object|
-    object.tags.select { |tag| tag.visibility == 'everyone' }
+  has_many :tags, serializer: TagSampleSerializer do |object, params|
+    if object.user_id == params[:current_user_id]
+      object.tags
+    else
+      object.tags.select { |tag| tag.visibility == 'everyone' }
+    end
   end
 
-  attribute :content do |object|
-    object.adapted_content
+  attribute :content do |object, params|
+    object.adapted_content(params[:current_user_id])
   end
 
   attribute :inventories do |object|
