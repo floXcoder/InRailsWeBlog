@@ -126,8 +126,6 @@ class ArticleEdit extends React.Component {
             allowComment: typeof this.props.article.allowComment === 'undefined' && this.props.inheritVisibility === 'only_me' ? false : this.props.article.allowComment
         };
 
-        w(article)
-
         return (
             <div className={this.props.classes.root}>
                 <div className={this.props.classes.breadcrumb}>
