@@ -74,7 +74,7 @@ gem 'carrierwave',              '2.1.0'
 gem 'mini_magick',              '4.10.1'
 
 # Search in database
-gem 'searchkick',               '4.2.1'
+gem 'searchkick',               '4.3.0'
 gem 'typhoeus',                 '1.3.1'
 
 # Votable models
@@ -135,7 +135,7 @@ group :development do
   gem 'guard-process',          '1.2.1'
 
   # Annotate models from DB
-  gem 'annotate',               '3.0.3'
+  gem 'annotate',               '3.1.0'
 
   # Find index to add
   # gem 'lol_dba',                '2.1.8', require: false # Not compatible with Rails 6
@@ -152,11 +152,11 @@ group :test do
   # Test tools
   gem 'rspec-rails',                '3.9.0'
   gem 'rspec_junit_formatter',      '0.4.1'
-  gem 'shoulda-matchers',           '4.2.0',  require: false
+  gem 'shoulda-matchers',           '4.3.0',  require: false
   gem 'shoulda-callback-matchers',  '1.1.4',  require: false
   gem 'simplecov',                  '0.18.2', require: false
   gem 'fuubar',                     '2.5.0'
-  gem 'database_cleaner',           '1.8.2'
+  gem 'database_cleaner',           '1.8.3'
   gem 'db-query-matchers',          '0.10.0'
 
   # Browser tests
@@ -169,7 +169,7 @@ group :test do
 
   # static analyzer
   gem 'rails_best_practices',       '1.19.5',   require: false
-  gem 'brakeman',                   '4.7.2',    require: false
+  gem 'brakeman',                   '4.8.0',    require: false
   gem 'i18n-tasks',                 '0.9.30',   require: false
 end
 
@@ -178,7 +178,7 @@ group :development, :test do
   gem 'bootsnap',                   '1.4.5',   require: false
 
   # Check errors
-  gem 'rubocop',                    '0.79.0',  require: false
+  gem 'rubocop',                    '0.80.0',  require: false
   gem 'rubocop-rails',              '2.4.2',   require: false
   gem 'rubocop-performance',        '1.5.2',   require: false
   gem 'rubocop-rspec',              '1.38.1',  require: false
