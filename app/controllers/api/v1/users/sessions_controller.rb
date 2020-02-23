@@ -23,7 +23,8 @@ module Api::V1
         format.js
         format.json {
           render json: UserProfileSerializer.new(resource,
-                                                 include: [:current_topic, :topics, :contributed_topics])
+                                                 include: [:current_topic, :topics, :contributed_topics],
+                                                 meta:    { location: @location })
         }
       end
     end

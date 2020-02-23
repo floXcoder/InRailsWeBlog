@@ -27,7 +27,7 @@ fr:
         user:
           articles: "Articles"
           bookmarks: "Favoris"
-          settings: "Mes paramètres"
+          settings: "Mes préférences"
           sign_up: "S'inscrire"
           log_in: "Se connecter"
           log_out: "Déconnexion"
@@ -319,6 +319,7 @@ fr:
         mode: "Type"
         description: "Détails"
         visibility: "Visibilité"
+        languages: "Langues associés"
         articles_count: "Nombre d'articles"
         tags: "Labels associés"
         tags_count: "Nombre de labels"
@@ -599,6 +600,7 @@ fr:
         date: "Date"
       module:
         placeholder: "Recherche"
+        default: "Rechercher sur le site ..."
         button: "Rechercher"
         topics:
           title: "Thèmes"
@@ -790,6 +792,7 @@ fr:
             name: "Nom"
             priority: "Priorité"
             visibility: "Visibilité"
+            languages: "Langues"
             articles_count: "Articles associés"
             views_count: "Nb de vues"
             clicks_count: "Nb de clics"
@@ -927,7 +930,7 @@ fr:
     rating:
       clear: "Effacer"
     languages:
-      en: "English"
+      en: "Anglais"
       fr: "Français"
       de: "Allemand"
       es: "Espagnol"

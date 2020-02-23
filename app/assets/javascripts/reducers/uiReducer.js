@@ -69,7 +69,7 @@ export default function uiReducer(state = initState, action) {
             if (action.connection && action.user?.settings) {
                 _updateSettings(state, {...action.user.settings, ...(action.user.currentTopic?.settings || {})});
             } else if (action.settings && action.meta && !action.meta.topic) {
-                _updateSettings(state, {...action.user.settings, ...(action.user.currentTopic?.settings || {})});
+                _updateSettings(state, action.user?.currentTopic ? action.user.currentTopic.settings : action.settings);
             } else if (action.settings && action.meta && action.meta.topic) {
                 _updateSettings(state, action.settings);
             }

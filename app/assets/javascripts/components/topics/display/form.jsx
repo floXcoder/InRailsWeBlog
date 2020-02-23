@@ -28,6 +28,7 @@ import {
 import EditorField from '../../editor/form/editor';
 
 import TextFormField from '../../material-ui/form/text';
+import MultipleSelectFormField from '../../material-ui/form/multiple-select';
 
 import styles from '../../../../jss/topic/form';
 
@@ -35,9 +36,10 @@ export default @withStyles(styles)
 class TopicFormDisplay extends React.Component {
     static propTypes = {
         id: PropTypes.string.isRequired,
-        topic: PropTypes.number.isRequired,
+        topic: PropTypes.object.isRequired,
         onSubmit: PropTypes.func.isRequired,
         isEditing: PropTypes.bool,
+        articleMultilanguage: PropTypes.bool,
         children: PropTypes.object,
         // from styles
         classes: PropTypes.object
@@ -57,6 +59,9 @@ class TopicFormDisplay extends React.Component {
     };
 
     render() {
+        let localeOptions = {};
+        window.locales.map((locale) => localeOptions[locale] = I18n.t(`js.languages.${locale}`));
+
         return (
             <Form initialValues={this.props.topic}
                   validate={validateTopic}
@@ -65,7 +70,7 @@ class TopicFormDisplay extends React.Component {
                     ({handleSubmit, dirty, submitting}) => (
                         <form id={this.props.id}
                               onSubmit={handleSubmit}>
-                            <Prompt when={dirty}
+                            <Prompt when={dirty && !submitting}
                                     message={this._onUnsavedExit}/>
 
                             <div className="row">
@@ -106,6 +111,7 @@ class TopicFormDisplay extends React.Component {
                                            modelName="topic"
                                            modelId={this.props.topic.id}
                                            placeholder={I18n.t('js.topic.common.placeholders.description')}
+                                           hasOuterHeight={false}
                                            onSubmit={handleSubmit}
                                            componentContent={this.props.children.description}/>
                                 </div>
@@ -120,6 +126,18 @@ class TopicFormDisplay extends React.Component {
                                                 to={editInventoriesTopicPath(this.props.children.user.slug, this.props.children.slug)}>
                                             {I18n.t('js.topic.edit.update_inventories')}
                                         </Button>
+                                    </div>
+                                }
+
+                                {
+                                    this.props.articleMultilanguage &&
+                                    <div className="col s12 margin-top-25">
+                                        <Field name="languages"
+                                               component={MultipleSelectFormField}
+                                               id="topic_languages"
+                                               multiple={true}
+                                               label={I18n.t('js.topic.model.languages')}
+                                               options={localeOptions}/>
                                     </div>
                                 }
                             </div>

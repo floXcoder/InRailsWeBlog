@@ -93,7 +93,7 @@ module Api::V1
       article = @context_user.articles.include_element.friendly.find(params[:id])
       admin_or_authorize article
 
-      expires_in InRailsWeBlog.config.cache_time, public: true
+      article.user?(current_user) ? reset_cache_headers : expires_in(InRailsWeBlog.config.cache_time, public: true)
       if stale?(article, template: false, public: true)
         respond_to do |format|
           format.json do

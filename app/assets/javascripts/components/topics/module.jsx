@@ -65,6 +65,40 @@ class TopicModule extends React.Component {
         })
     };
 
+    _renderTopicList = (topic) => {
+        return (
+            <div key={topic.id}
+                 className={this.props.classes.list}
+                 onMouseEnter={this._handleOverEdit.bind(this, topic.id)}
+                 onMouseLeave={this._handleOverEdit.bind(this, null)}>
+                <Link to={topicArticlesPath(this.props.userSlug, topic.slug)}
+                      onClick={this._handleSwitchTopicClick.bind(this, topic.id)}>
+                                    <span className={this.props.classes.item}>
+                                        <span className={classNames(
+                                            this.props.classes.itemContent, {
+                                                [this.props.classes.currentItem]: topic.id === this.props.currentUserTopicId
+                                            })}>
+                                            {topic.name}
+                                        </span>
+                                    </span>
+                </Link>
+
+                {
+                    this.state.overTopicId === topic.id &&
+                    <Link className={this.props.classes.edition}
+                          to={{
+                              hash: '#' + newTopicParam,
+                              state: {
+                                  topicId: topic.id
+                              }
+                          }}>
+                        <EditIcon/>
+                    </Link>
+                }
+            </div>
+        );
+    };
+
     render() {
         const privateTopics = this.props.topics.filter((topic) => topic.visibility === 'only_me');
         const publicTopics = this.props.topics.filter((topic) => topic.visibility !== 'only_me');
@@ -85,79 +119,20 @@ class TopicModule extends React.Component {
                 </div>
 
                 {
-                    privateTopics.map((topic) => (
-                        <div key={topic.id}
-                             className={this.props.classes.list}
-                             onMouseEnter={this._handleOverEdit.bind(this, topic.id)}
-                             onMouseLeave={this._handleOverEdit.bind(this, null)}>
-                            <Link to={topicArticlesPath(this.props.userSlug, topic.slug)}
-                                  onClick={this._handleSwitchTopicClick.bind(this, topic.id)}>
-                                    <span className={this.props.classes.item}>
-                                        <span className={classNames(
-                                            this.props.classes.itemContent, {
-                                                [this.props.classes.currentItem]: topic.id === this.props.currentUserTopicId
-                                            })}>
-                                            {topic.name}
-                                        </span>
-                                    </span>
-                            </Link>
-
-                            {
-                                this.state.overTopicId === topic.id &&
-                                <Link className={this.props.classes.edition}
-                                      to={{
-                                          hash: '#' + newTopicParam,
-                                          state: {
-                                              topicId: topic.id
-                                          }
-                                      }}>
-                                    <EditIcon/>
-                                </Link>
-                            }
-                        </div>
-                    ))
+                    privateTopics.map(this._renderTopicList)
                 }
 
                 <hr/>
 
                 {
-                    publicTopics.map((topic) => (
-                        <div key={topic.id}
-                             className={this.props.classes.list}
-                             onMouseEnter={this._handleOverEdit.bind(this, topic.id)}
-                             onMouseLeave={this._handleOverEdit.bind(this, null)}>
-                            <Link to={topicArticlesPath(this.props.userSlug, topic.slug)}
-                                  onClick={this._handleSwitchTopicClick.bind(this, topic.id)}>
-                                    <span className={this.props.classes.item}>
-                                        <span className={classNames(
-                                            this.props.classes.itemContent, {
-                                                [this.props.classes.currentItem]: topic.id === this.props.currentUserTopicId
-                                            })}>
-                                            {topic.name}
-                                        </span>
-                                    </span>
-                            </Link>
-
-                            {
-                                this.state.overTopicId === topic.id &&
-                                <Link className={this.props.classes.edition}
-                                      to={{
-                                          hash: '#' + newTopicParam,
-                                          state: {
-                                              topicId: topic.id
-                                          }
-                                      }}>
-                                    <EditIcon/>
-                                </Link>
-                            }
-                        </div>
-                    ))
+                    publicTopics.map(this._renderTopicList)
                 }
 
                 <div className={this.props.classes.addTopic}>
                     <Link to={{
                         hash: '#' + newTopicParam
-                    }}>
+                    }}
+                          onClick={this.props.showTopicPopup}>
                         {I18n.t('js.views.header.topic.add')}
                     </Link>
                 </div>

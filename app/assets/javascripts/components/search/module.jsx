@@ -47,6 +47,7 @@ import styles from '../../../jss/search/module';
 
 export default @withRouter
 @connect((state) => ({
+    isUserConnected: state.userState.isConnected,
     currentTopicId: state.topicState.currentUserTopicId,
     recentTags: getUserRecentTags(state),
     recentArticles: getUserRecentArticles(state),
@@ -68,6 +69,7 @@ class SearchModule extends React.Component {
         // from router
         history: PropTypes.object,
         // from connect
+        isUserConnected: PropTypes.bool,
         currentTopicId: PropTypes.number,
         recentTags: PropTypes.array,
         recentArticles: PropTypes.array,
@@ -145,43 +147,52 @@ class SearchModule extends React.Component {
                         </div>
                     }
 
-                    <Grid container={true}
-                          spacing={4}
-                          direction="row-reverse"
-                          justify="space-between"
-                          alignItems="flex-start">
-                        <Grid className={this.props.classes.gridItem}
-                              item={true}
-                              xs={12}
-                              sm={6}
-                              md={3}
-                              lg={3}>
-                            <SearchTagModule classes={this.props.classes}
-                                             currentTopicId={this.props.currentTopicId}
-                                             hasQuery={hasQuery}
-                                             tags={tags}
-                                             selectedTags={this.props.selectedTags}
-                                             highlightedTagId={this.props.highlightedTag && this.props.highlightedTag.id}
-                                             onTagClick={this._handleTagSelection}/>
+                    {
+                        this.props.isUserConnected
+                            ?
+                            <Grid container={true}
+                                  spacing={4}
+                                  direction="row-reverse"
+                                  justify="space-between"
+                                  alignItems="flex-start">
+                                <Grid className={this.props.classes.gridItem}
+                                      item={true}
+                                      xs={12}
+                                      sm={4}
+                                      md={3}
+                                      lg={3}>
+                                    <SearchTagModule classes={this.props.classes}
+                                                     currentTopicId={this.props.currentTopicId}
+                                                     hasQuery={hasQuery}
+                                                     tags={tags}
+                                                     selectedTags={this.props.selectedTags}
+                                                     highlightedTagId={this.props.highlightedTag && this.props.highlightedTag.id}
+                                                     onTagClick={this._handleTagSelection}/>
 
-                            <SearchTopicModule classes={this.props.classes}
-                                               topics={this.props.topics}/>
-                        </Grid>
+                                    <SearchTopicModule classes={this.props.classes}
+                                                       topics={this.props.topics}/>
+                                </Grid>
 
-                        <Grid className={this.props.classes.gridItem}
-                              item={true}
-                              xs={12}
-                              sm={6}
-                              md={9}
-                              lg={9}>
-                            <SearchArticleModule classes={this.props.classes}
-                                                 currentTopicId={this.props.currentTopicId}
-                                                 hasQuery={hasQuery}
-                                                 selectedTags={this.props.selectedTags}
-                                                 highlightedArticleId={this.props.highlightedArticle?.id}
-                                                 articles={articles}/>
-                        </Grid>
-                    </Grid>
+                                <Grid className={this.props.classes.gridItem}
+                                      item={true}
+                                      xs={12}
+                                      sm={8}
+                                      md={9}
+                                      lg={9}>
+                                    <SearchArticleModule classes={this.props.classes}
+                                                         isUserConnected={this.props.isUserConnected}
+                                                         currentTopicId={this.props.currentTopicId}
+                                                         hasQuery={hasQuery}
+                                                         selectedTags={this.props.selectedTags}
+                                                         highlightedArticleId={this.props.highlightedArticle?.id}
+                                                         articles={articles}/>
+                                </Grid>
+                            </Grid>
+                            :
+                            <div className={this.props.classes.defaultMessage}>
+                                {I18n.t('js.search.module.default')}
+                            </div>
+                    }
 
                     <div className="center-align">
                         <Button color="primary"

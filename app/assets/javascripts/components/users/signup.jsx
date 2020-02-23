@@ -40,7 +40,11 @@ class Signup extends React.Component {
                         sessionStorage.setItem('user-connection', 'true');
                     }
 
-                    location.reload(true);
+                    if(response?.meta?.location) {
+                        window.location.replace(response.meta.location);
+                    } else {
+                        location.reload(true);
+                    }
                 }
             });
     };

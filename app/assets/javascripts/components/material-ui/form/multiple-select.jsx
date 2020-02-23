@@ -36,12 +36,21 @@ const MultipleSelectFormField = ({input, label, helperText, options, meta: {touc
                 )}
                 {...custom}>
             {
-                options.map((name) => (
-                    <MenuItem key={name}
-                              value={name}>
-                        {name}
-                    </MenuItem>
-                ))
+                Array.isArray(options)
+                    ?
+                    options.map((key, i) => (
+                        <MenuItem key={i}
+                                  value={key}>
+                            {key}
+                        </MenuItem>
+                    ))
+                    :
+                    Object.keys(options).map((key) => (
+                        <MenuItem key={key}
+                                  value={key}>
+                            {options[key]}
+                        </MenuItem>
+                    ))
             }
         </Select>
 

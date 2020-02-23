@@ -34,7 +34,7 @@ class ArticleCommonField extends React.Component {
         currentTopicId: PropTypes.number.isRequired,
         change: PropTypes.func.isRequired,
         onSubmit: PropTypes.func.isRequired,
-        articleMultilanguage: PropTypes.bool,
+        articleLanguages: PropTypes.array,
         isPaste: PropTypes.bool,
         article: PropTypes.object,
         // from styles
@@ -42,7 +42,6 @@ class ArticleCommonField extends React.Component {
     };
 
     static defaultProps = {
-        articleMultilanguage: false,
         isPaste: false,
         article: {}
     };
@@ -151,7 +150,7 @@ class ArticleCommonField extends React.Component {
         return (
             <div className={classNames('row', this.props.classes.root)}>
                 {
-                    this.props.articleMultilanguage
+                    this.props.articleLanguages?.length > 1
                         ?
                         <>
                             <Tabs value={this.state.tabStep}
@@ -160,7 +159,7 @@ class ArticleCommonField extends React.Component {
                                   centered={true}
                                   onChange={this._handleTabChange}>
                                 {
-                                    window.locales.map((locale) => (
+                                    this.props.articleLanguages.map((locale) => (
                                         <Tab key={locale}
                                              label={I18n.t(`js.languages.${locale}`)}/>
                                     ))
@@ -168,7 +167,7 @@ class ArticleCommonField extends React.Component {
                             </Tabs>
 
                             {
-                                window.locales.map((locale, i) => (
+                                this.props.articleLanguages.map((locale, i) => (
                                     <TabContainer key={locale}
                                                   isActive={this.state.tabStep === i}>
                                         {this._renderTitle(locale)}

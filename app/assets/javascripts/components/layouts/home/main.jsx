@@ -47,7 +47,7 @@ class MainLayoutHome extends React.Component {
                                exact={route.exact}
                                strict={route.strict}
                                render={(router) => {
-                                   if (route.status) {
+                                   if (route.status && router.staticContext) {
                                        router.staticContext.status = route.status;
                                    }
 

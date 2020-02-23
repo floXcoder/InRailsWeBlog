@@ -10,14 +10,26 @@ class DeviseMailer < Devise::Mailer
     # headers["Custom-header"] = "Bar"
     # opts[:from] = 'my_custom_from@domain.com'
     # opts[:reply_to] = 'my_custom_from@domain.com'
-    super
+    I18n.with_locale(record_locale(record)) do
+      super
+    end
   end
 
   def reset_password_instructions(record, token, opts = {})
-    super
+    I18n.with_locale(record_locale(record)) do
+      super
+    end
   end
 
   def unlock_instructions(record, token, opts = {})
-    super
+    I18n.with_locale(record_locale(record)) do
+      super
+    end
+  end
+
+  private
+
+  def record_locale(record)
+    record&.locale || I18n.default_locale
   end
 end

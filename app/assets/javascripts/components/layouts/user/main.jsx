@@ -56,7 +56,7 @@ class MainLayoutUser extends React.Component {
                                                            routeState={router.location.state}
                                                            {...router.match.params}/>
                                        );
-                                   } else if (route.status) {
+                                   } else if (route.status && router.staticContext) {
                                        router.staticContext.status = route.status;
                                    }
 

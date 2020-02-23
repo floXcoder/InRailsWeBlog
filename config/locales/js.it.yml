@@ -313,17 +313,18 @@ it:
       form:
         unsaved: Uscire senza salvare il tema?
       model:
-        articles_count: Numero di articoli
-        contributors: Collaboratori
-        description: Dettagli
+        articles_count: "Numero di articoli"
+        contributors: "Collaboratori"
+        description: "Dettagli"
         inventory_fields:
-          name: Nome del campo
-        mode: Tipo
-        name: Nome
-        owner: Creatore
-        tags: Etichette associate
-        tags_count: Numero di etichette
-        visibility: Visibilità
+          name: "Nome del campo"
+        mode: "Tipo"
+        name: "Nome"
+        owner: "Creatore"
+        tags: "Etichette associate"
+        tags_count: "Numero di etichette"
+        visibility: "Visibilità"
+        languages: "Lingue associate"
       enums:
         mode:
           default: Predefinito
@@ -598,20 +599,21 @@ it:
         date: Data
         priority: Priorità
       module:
+        placeholder: "Ricerca"
+        default: "Ricerca sul sito..."
+        button: "Ricerca"
+        topics:
+          title: "Temi"
+        tags:
+          no_tags: "Nessuna etichetta trovata"
+          recents: "(Etichette recenti)"
+          title: "Etichette"
         articles:
           recents: "(Articoli recenti)"
-          title: Articoli
-        button: Ricerca
+          title: "Articoli"
         helpers:
-          select_tag: Selezionare un'etichetta con le frecce e poi la scheda
+          select_tag: "Selezionare un'etichetta con le frecce e poi la scheda"
           tagged_articles: 'Ricerca articoli con etichette: %{tags}'
-        placeholder: Ricerca
-        tags:
-          no_tags: Nessuna etichetta trovata
-          recents: "(Etichette recenti)"
-          title: Etichette
-        topics:
-          title: Temi
       sidebar:
         filter: Filtrare i risultati
       index:
@@ -782,19 +784,20 @@ it:
       topics:
         table:
           columns:
-            articles_count: Articoli correlati
-            clicks_count: Nb di click
-            created_at: Creato su
-            id: Id
-            mode: Tipo
-            name: Nome
-            priority: Priorità
-            searches_count: Numero di ricerche
-            user_id: ID utente
-            views_count: N. di visualizzazioni
-            visibility: Visibilità
-          title: Elenco degli argomenti
-        title: Temi
+            articles_count: "Articoli correlati"
+            clicks_count: "Nb di click"
+            created_at: "Creato su"
+            id: "Id"
+            mode: "Tipo"
+            name: "Nome"
+            languages: "Lingue"
+            priority: "Priorità"
+            searches_count: "Numero di ricerche"
+            user_id: "ID utente"
+            views_count: "N. di visualizzazioni"
+            visibility: "Visibilità"
+          title: "Elenco degli argomenti"
+        title: "Temi"
       tags:
         table:
           columns:

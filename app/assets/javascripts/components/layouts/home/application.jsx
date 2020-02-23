@@ -57,7 +57,7 @@ export default class ApplicationLayoutHome extends React.Component {
                                     </ErrorBoundary>
 
                                     <ErrorBoundary errorType="card">
-                                        <MainLayoutHome routes={routes.static.home}/>
+                                        <MainLayoutHome routes={[...routes.static.common, ...routes.static.home]}/>
                                     </ErrorBoundary>
 
                                     <ErrorBoundary errorType="text"

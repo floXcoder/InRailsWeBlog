@@ -34,6 +34,7 @@ export default @connect((state) => ({
 @withStyles(styles)
 class BookmarkList extends React.Component {
     static propTypes = {
+        onBookmarkClick: PropTypes.func,
         // from connect
         bookmarks: PropTypes.array,
         // from styles
@@ -61,7 +62,8 @@ class BookmarkList extends React.Component {
                                     <Fragment key={i}>
                                         <ListItem button={true}
                                                   component={Link}
-                                                  to={userArticlePath(bookmark.parentSlug, bookmark.slug)}>
+                                                  to={userArticlePath(bookmark.parentSlug, bookmark.slug)}
+                                                  onClick={this.props.onBookmarkClick}>
                                             <ListItemIcon>
                                                 <AssignmentIcon/>
                                             </ListItemIcon>

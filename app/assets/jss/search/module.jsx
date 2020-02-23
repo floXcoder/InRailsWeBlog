@@ -38,6 +38,11 @@ const styles = (theme) => ({
     categoryDivider: {
         margin: theme.spacing(2)
     },
+    defaultMessage: {
+        margin: theme.spacing(4),
+        textAlign: 'center',
+        fontStyle: 'italic'
+    },
     helpMessage: {
         color: theme.palette.grey[600],
         fontStyle: 'italic',

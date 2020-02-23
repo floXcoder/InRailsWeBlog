@@ -12,7 +12,8 @@ const styles = (theme) => ({
         padding: theme.spacing(4),
     },
     topicField: {
-        margin: theme.spacing(1.5, .1)
+        margin: theme.spacing(1.5, .1),
+        width: '100%'
     },
     topicModeHelper: {
         margin: theme.spacing(.5, .1, 2),

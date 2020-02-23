@@ -228,6 +228,14 @@ Import/export production data:
     pg_restore --username inrailsweblog --clean --dbname inrailsweblog_dev inrailsweblog.sql
 
 
+### Display emails
+
+Sent email can be seen in two ways:
+
+- In console: the email content is fully display with headers in the console
+
+- In browser with email previewer: http://localhost:3000/rails/mailers/user_mailer
+
 ### External tools
 
 #### Elastic Search

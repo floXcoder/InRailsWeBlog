@@ -16,7 +16,7 @@ export const fetchTopics = (userId = null, filter = {}, options = {}) => ({
 
 export const fetchTopic = (userId, topicId, options = {}) => ({
     actionType: ActionTypes.TOPIC,
-    fetchAPI: () => api.get(`/api/v1/topics/${topicId}`, {
+    fetchAPI: () => api.get(options.edit ? `/api/v1/topics/${topicId}/edit` : `/api/v1/topics/${topicId}`, {
         userId,
         ...options
     })

@@ -46,11 +46,11 @@ class About extends React.Component {
 
                 <div>
                     <h2 className={this.props.classes.subtitle}>
-                        {I18n.t('statics.about.info.title', {website: window.settings.website_name})}
+                        {I18n.t('statics.about.info.title')}
                     </h2>
 
                     <p>
-                        {I18n.t('statics.about.info.content_1')}
+                        {I18n.t('statics.about.info.content_1', {website: window.settings.website_name})}
                     </p>
 
                     <p>

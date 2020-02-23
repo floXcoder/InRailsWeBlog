@@ -207,40 +207,19 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def previous_url(url)
-    if url &&
-      !url.include?('/users/sign_in') &&
-      !url.include?('/login') &&
-      !url.include?('admin/login') &&
-      !url.include?('/users/sign_up') &&
-      !url.include?('/signup') &&
-      !url.include?('/users/password/new') &&
-      !url.include?('/users/password/edit') &&
-      !url.include?('/users/confirmation') &&
-      !url.include?('/users/validation') &&
-      !url.include?('/users/logout') &&
-      !url.include?('/admin/logout') &&
-      !url.include?('/users/sign_out') &&
-      !url.include?('/admin/sign_out')
-      return url
-    end
-  end
-
   def store_current_location
     store_location_for(:user, request.url) if request.get?
   end
 
   # Called after sign in and sign up
   def after_sign_in_path_for(resource_or_scope)
-    session[:first_connection] = true
-
     if resource.is_a?(Admin)
       admins_path
     else
-      root_path     = signed_in_root_path(resource_or_scope)
+      root_path     = send("user_home_#{resource_or_scope.locale || 'en'}_path")
       previous_path = request.referer && URI.parse(request.referer).path
 
-      if previous_path =~ /\/login/ || previous_path =~ /\/signup/
+      if previous_path =~ /\/login/ || previous_path =~ /\/signup/ || previous_path == '/'
         root_path
       else
         request.env['omniauth.origin'] || stored_location_for(resource_or_scope) || previous_path || root_path

@@ -37,6 +37,7 @@ import styles from '../../../jss/topic/edit';
 export default @withRouter
 @connect((state) => ({
     currentUserId: state.userState.currentId,
+    articleMultilanguage: state.uiState.articleMultilanguage,
     topic: state.topicState.topic,
     topicErrors: getTopicErrors(state)
 }), {
@@ -51,8 +52,9 @@ class TopicEdit extends React.Component {
         // from router
         history: PropTypes.object,
         // from connect
-        topic: PropTypes.object,
         currentUserId: PropTypes.number,
+        articleMultilanguage: PropTypes.bool,
+        topic: PropTypes.object,
         topicErrors: PropTypes.array,
         fetchTopic: PropTypes.func,
         updateTopic: PropTypes.func,
@@ -113,6 +115,7 @@ class TopicEdit extends React.Component {
                 <TopicFormDisplay id={`topic-edit-${this.props.topic.id}`}
                                   topic={this.props.topic}
                                   isEditing={true}
+                                  articleMultilanguage={this.props.articleMultilanguage}
                                   onSubmit={this._handleSubmit}>
                     {this.props.topic}
                 </TopicFormDisplay>

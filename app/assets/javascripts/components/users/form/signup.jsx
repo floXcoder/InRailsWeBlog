@@ -81,7 +81,7 @@ const pseudoValidation = (loginValue) => {
         return (
             validateUser(loginValue).then((response) => {
                 if (response.success) {
-                    return I18n.t('js.user.errors.login.invalid');
+                    return I18n.t('js.user.errors.pseudo.already_taken');
                 }
             })
         );
