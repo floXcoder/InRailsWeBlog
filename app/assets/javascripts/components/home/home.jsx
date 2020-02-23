@@ -24,6 +24,7 @@ import Loader from '../theme/loader';
 
 import ArticleMiniCardDisplay from '../articles/display/items/miniCard';
 import TagChipDisplay from '../tags/display/chip';
+import MiniArticleSkeleton from '../loaders/skeletons/miniArticle';
 
 import styles from '../../../jss/home/index';
 
@@ -99,9 +100,18 @@ class HomeHome extends React.Component {
                                 </Grid>
                             ))
                             :
-                            <div className={this.props.classes.loader}>
-                                <Loader size="big"/>
-                            </div>
+                            <>
+                                <Grid item={true}
+                                      xs={12}
+                                      sm={6}>
+                                    <MiniArticleSkeleton/>
+                                </Grid>
+                                <Grid item={true}
+                                      xs={12}
+                                      sm={6}>
+                                    <MiniArticleSkeleton/>
+                                </Grid>
+                            </>
                     }
                 </Grid>
 
@@ -156,8 +166,10 @@ class HomeHome extends React.Component {
                                                                     article={article}/>
                                         ))
                                         :
-                                        <div className="center">
-                                            <Loader size="big"/>
+                                        <div>
+                                            <MiniArticleSkeleton/>
+                                            <MiniArticleSkeleton/>
+                                            <MiniArticleSkeleton/>
                                         </div>
                                 }
                             </div>

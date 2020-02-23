@@ -343,17 +343,18 @@ de:
       form:
         unsaved: Beenden, ohne das Thema zu speichern?
       model:
-        articles_count: Anzahl der Elemente
-        contributors: Mitwirkende
-        description: Einzelheiten
+        articles_count: "Anzahl der Elemente"
+        contributors: "Mitwirkende"
+        description: "Einzelheiten"
         inventory_fields:
-          name: Feldname
-        mode: Geben Sie  ein
-        name: Name
-        owner: Schöpfer
-        tags: Zugehörige Etiketten
-        tags_count: Anzahl der Etiketten
-        visibility: Sichtbarkeit
+          name: "Feldname"
+        mode: "Modus"
+        name: "Name"
+        owner: "Schöpfer"
+        tags: "Zugehörige Etiketten"
+        tags_count: "Anzahl der Etiketten"
+        visibility: "Sichtbarkeit"
+        languages: "Assoziierte Sprachen"
       new:
         cancel: Abbrechen
         description: Beschreibung
@@ -610,20 +611,21 @@ de:
           current: Aktuelles Thema
           others: Andere Themen
       module:
+        placeholder: "Suchen"
+        default: "Suche auf der Website..."
+        button: "Suchen"
+        topics:
+          title: "Themenbereiche"
+        tags:
+          no_tags: "Keine Etiketten gefunden"
+          recents: "(Neueste Etiketten)"
+          title: "Beschriftungen"
         articles:
           recents: "(Neueste Artikel)"
-          title: Artikel
-        button: Suchen
+          title: "Artikel"
         helpers:
-          select_tag: Wählen Sie ein Etikett mit den Pfeilen und dann die Registerkarte
+          select_tag: "Wählen Sie ein Etikett mit den Pfeilen und dann die Registerkarte"
           tagged_articles: 'Suche nach Artikeln mit Etiketten: %{tags}'
-        placeholder: Suchen
-        tags:
-          no_tags: Keine Etiketten gefunden
-          recents: "(Neueste Etiketten)"
-          title: Beschriftungen
-        topics:
-          title: Themenbereiche
       orders:
         date: Datum
         priority: Priorität
@@ -857,19 +859,20 @@ de:
       topics:
         table:
           columns:
-            articles_count: Verwandte Artikel
-            clicks_count: Anzahl der Klicks
-            created_at: Erstellt am
-            id: Id
-            mode: Geben Sie  ein
-            name: Name
-            priority: Priorität
-            searches_count: Anzahl der Suchvorgänge
-            user_id: Benutzer-ID
-            views_count: Anzahl der Ansichten
-            visibility: Sichtbarkeit
-          title: Liste der Themen
-        title: Themenbereiche
+            articles_count: "Verwandte Artikel"
+            clicks_count: "Anzahl der Klicks"
+            created_at: "Erstellt am"
+            id: "Id"
+            mode: "Modus"
+            name: "Name"
+            languages: "Sprachen"
+            priority: "Priorität"
+            searches_count: "Anzahl der Suchvorgänge"
+            user_id: "Benutzer-ID"
+            views_count: "Anzahl der Ansichten"
+            visibility: "Sichtbarkeit"
+          title: "Liste der Themen"
+        title: "Themenbereiche"
       users:
         table:
           columns:

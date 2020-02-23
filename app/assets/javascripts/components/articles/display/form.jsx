@@ -57,8 +57,6 @@ import ArticleErrorField from './fields/error';
 import EnsureValidity from '../../modules/ensureValidity';
 
 export default @connect((state, props) => ({
-    articleMultilanguage: state.uiState.articleMultilanguage,
-    currentUserTopicId: state.topicState.currentUserTopicId,
     availableParentTags: getCategorizedTags(state, props.inheritVisibility),
     availableChildTags: getCategorizedTags(state, props.inheritVisibility, true),
     parentTags: getArticleParentTags(props.children),
@@ -68,6 +66,7 @@ export default @connect((state, props) => ({
 })
 class ArticleFormDisplay extends React.Component {
     static propTypes = {
+        currentTopic: PropTypes.object.isRequired,
         article: PropTypes.object.isRequired,
         userSlug: PropTypes.string.isRequired,
         onFormChange: PropTypes.func.isRequired,
@@ -76,15 +75,12 @@ class ArticleFormDisplay extends React.Component {
         inheritVisibility: PropTypes.string,
         isEditing: PropTypes.bool,
         currentUser: PropTypes.object,
-        currentTopic: PropTypes.object,
         currentMode: PropTypes.string,
         errorStep: PropTypes.string,
         articleErrors: PropTypes.array,
         onCancel: PropTypes.func,
         children: PropTypes.object,
         // from connect
-        articleMultilanguage: PropTypes.bool,
-        currentUserTopicId: PropTypes.number,
         availableParentTags: PropTypes.array,
         availableChildTags: PropTypes.array,
         parentTags: PropTypes.array,
@@ -199,14 +195,14 @@ class ArticleFormDisplay extends React.Component {
                                                 this.props.currentTopic.mode === 'inventories'
                                                     ?
                                                     <ArticleInventoriesField
-                                                        currentTopicId={this.props.currentUserTopicId}
+                                                        currentTopicId={this.props.currentTopic.id}
                                                         inventoryFields={this.props.currentTopic.inventoryFields}
                                                         article={this.props.children}
                                                         change={change}/>
                                                     :
                                                     <ArticleCommonField currentMode={currentMode}
-                                                                        articleMultilanguage={this.props.articleMultilanguage}
-                                                                        currentTopicId={this.props.currentUserTopicId}
+                                                                        currentTopicId={this.props.currentTopic.id}
+                                                                        articleLanguages={this.props.currentTopic.languages}
                                                                         isPaste={this.props.isPaste}
                                                                         article={this.props.children}
                                                                         change={change}

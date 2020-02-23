@@ -14,10 +14,32 @@ export default {
     // /logout
     // /admin/*
     // /errors/*
+    // /health_check
     // /422
     // /500
 
     static: {
+        common: [
+            // Static pages
+            {
+                path: Routes.about(false),
+                component: () => RouteComponents.About
+            },
+            {
+                path: Routes.terms(false),
+                component: () => RouteComponents.Terms
+            },
+            {
+                path: Routes.policy(false),
+                component: () => RouteComponents.Policy
+            },
+            // Miscellaneous
+            {
+                path: Routes.notFoundPath(false),
+                status: 404,
+                component: () => NotFound
+            }
+        ],
         home: [
             {
                 path: Routes.rootPath(false),
@@ -90,27 +112,6 @@ export default {
                 path: Routes.sharedArticlePath(':articleSlug', ':publicLink', false),
                 exact: true,
                 component: () => RouteComponents.ArticleShared
-            },
-            // Static pages
-            {
-                path: Routes.about(false),
-                component: () => RouteComponents.About
-            },
-            {
-                path: Routes.terms(false),
-                component: () => RouteComponents.Terms
-            },
-            {
-                path: Routes.policy(false),
-                component: () => RouteComponents.Policy
-            },
-            // Miscellaneous
-            {
-                path: Routes.notFoundPath(false),
-                component: () => NotFound
-            },
-            {
-                component: () => NotFound
             }
         ],
         user: [
@@ -249,13 +250,6 @@ export default {
                 redirect: true,
                 redirectPath: (params) => Routes.newArticlePath(params.userSlug, params.topicSlug),
                 component: () => RouteComponents.ArticleNew
-            },
-
-            // Miscellaneous
-            {
-                path: Routes.notFoundPath(false),
-                status: 404,
-                component: () => NotFound
             }
         ]
     },

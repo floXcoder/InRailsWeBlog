@@ -26,7 +26,8 @@ export default class HeaderArticleMenu extends React.Component {
         hasTemporaryArticle: PropTypes.bool.isRequired,
         currentTopicMode: PropTypes.string,
         topicSlug: PropTypes.string,
-        isNested: PropTypes.bool
+        isNested: PropTypes.bool,
+        onItemClick: PropTypes.func
     };
 
     static defaultProps = {
@@ -78,7 +79,8 @@ export default class HeaderArticleMenu extends React.Component {
                                       parentTagSlug: parentTagSlug,
                                       childTagSlug: childTagSlug
                                   }
-                              }}>
+                              }}
+                              onClick={this.props.onItemClick}>
                         <ListItemIcon>
                             <AssignmentIcon/>
                         </ListItemIcon>

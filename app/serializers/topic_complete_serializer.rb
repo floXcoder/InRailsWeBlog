@@ -16,13 +16,18 @@ class TopicCompleteSerializer
              :description,
              :priority,
              :visibility,
+             :languages,
              :settings,
              :slug,
              :articles_count
 
-  belongs_to :user, if: Proc.new { |_record, params| params[:complete] }, serializer: UserSampleSerializer
+  belongs_to :user, serializer: UserSampleSerializer
 
   has_many :inventory_fields, serializer: Topic::InventoryFieldSerializer
+
+  has_many :tags, serializer: TagSerializer do |object|
+    Tag.includes(:parents, :children, :tagged_articles, :child_relationships).for_topic_id(object.id).order('tags.priority', 'tags.name')
+  end
 
   has_many :contributors, record_type: :user, serializer: UserStrictSerializer
 
@@ -34,6 +39,10 @@ class TopicCompleteSerializer
 
   attribute :created_at do |object|
     I18n.l(object.created_at, format: :custom).mb_chars.downcase.to_s
+  end
+
+  attribute :settings do |object|
+    UserSettingSerializer.new(object).serializable_hash[:data][:attributes].compact
   end
 
   attribute :link do |object|

@@ -94,6 +94,10 @@ class AdminTopics extends React.Component {
                                }
                            },
                            {
+                               title: I18n.t('js.admin.topics.table.columns.languages'),
+                               field: 'languages'
+                           },
+                           {
                                title: I18n.t('js.admin.topics.table.columns.articles_count'),
                                field: 'articlesCount',
                                filtering: false

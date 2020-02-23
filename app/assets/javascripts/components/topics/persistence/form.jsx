@@ -2,6 +2,12 @@
 
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
+import ListItemText from '@material-ui/core/ListItemText';
+import Select from '@material-ui/core/Select';
+import Checkbox from '@material-ui/core/Checkbox';
 import MenuItem from '@material-ui/core/MenuItem';
 import Button from '@material-ui/core/Button';
 
@@ -11,13 +17,16 @@ export default class PersistenceFormTopic extends React.Component {
         onCancel: PropTypes.func.isRequired,
         onSubmit: PropTypes.func.isRequired,
         onDelete: PropTypes.func.isRequired,
+        articleMultilanguage: PropTypes.bool,
         defaultMode: PropTypes.string,
         defaultVisibility: PropTypes.string,
+        defaultLocale: PropTypes.string,
         topic: PropTypes.object,
         isEditing: PropTypes.bool
     };
 
     static defaultProps = {
+        articleMultilanguage: false,
         defaultMode: 'default',
         defaultVisibility: 'only_me',
         topic: {},
@@ -32,7 +41,8 @@ export default class PersistenceFormTopic extends React.Component {
         name: this.props.isEditing ? this.props.topic.name : '',
         mode: this.props.isEditing ? this.props.topic.mode : this.props.defaultMode,
         description: this.props.isEditing ? this.props.topic.description : '',
-        visibility: this.props.isEditing ? this.props.topic.visibility : this.props.defaultVisibility
+        visibility: this.props.isEditing ? this.props.topic.visibility : this.props.defaultVisibility,
+        locales: this.props.isEditing ? this.props.topic.locales : [this.props.defaultLocale]
     };
 
     _handleNameChange = (event) => {
@@ -59,16 +69,30 @@ export default class PersistenceFormTopic extends React.Component {
         });
     };
 
+    _handleLocaleChange = event => {
+        this.setState({
+            locales: event.target.value
+        });
+    };
+
     _handleTopicSubmit = (event) => {
         event.preventDefault();
 
-        this.props.onSubmit(this.state.name, this.state.mode, this.state.description, this.state.visibility);
+        if (!event.target.checkValidity()) {
+            return;
+        }
+
+        this.props.onSubmit(this.state.name, this.state.mode, this.state.description, this.state.visibility, this.state.locales);
     };
 
     _handleTopicDelete = (event) => {
         event.preventDefault();
 
         this.props.onDelete(this.props.topic.id);
+    };
+
+    _renderLanguagesSelect = (selected) => {
+        return selected.join(', ');
     };
 
     render() {
@@ -79,6 +103,7 @@ export default class PersistenceFormTopic extends React.Component {
                            variant="outlined"
                            fullWidth={true}
                            autoFocus={true}
+                           required={true}
                            label={this.props.isEditing
                                ?
                                I18n.t('js.topic.edit.name')
@@ -91,6 +116,7 @@ export default class PersistenceFormTopic extends React.Component {
                     !this.props.topic.id &&
                     <TextField className={this.props.classes.topicField}
                                select={true}
+                               required={true}
                                variant="outlined"
                                fullWidth={true}
                                label={I18n.t('js.topic.model.mode')}
@@ -119,20 +145,24 @@ export default class PersistenceFormTopic extends React.Component {
                 {
                     this.state.mode === 'stories' &&
                     <TextField className={this.props.classes.topicField}
+                               required={true}
+                               variant="outlined"
                                fullWidth={true}
                                multiline={true}
-                               label={this.props.isEditing
-                                   ?
-                                   I18n.t('js.topic.edit.description')
-                                   :
-                                   I18n.t('js.topic.new.description')}
-                               variant="outlined"
+                               label={
+                                   this.props.isEditing
+                                       ?
+                                       I18n.t('js.topic.edit.description')
+                                       :
+                                       I18n.t('js.topic.new.description')
+                               }
                                value={this.state.description}
                                onChange={this._handleDescriptionChange}/>
                 }
 
                 <TextField className={this.props.classes.topicField}
                            select={true}
+                           required={true}
                            variant="outlined"
                            fullWidth={true}
                            label={I18n.t('js.topic.model.visibility')}
@@ -148,10 +178,38 @@ export default class PersistenceFormTopic extends React.Component {
                     }
                 </TextField>
 
+                {
+                    this.props.articleMultilanguage &&
+                    <FormControl className={this.props.classes.topicField}
+                                 fullWidth={true}>
+                        <InputLabel id="topic-languages-label">
+                            {I18n.t('js.topic.model.languages')}
+                        </InputLabel>
+
+                        <Select labelId="topic-languages-label"
+                                id="topic-languages"
+                                multiple={true}
+                                value={this.state.locales}
+                                onChange={this._handleLocaleChange}
+                                input={<Input/>}
+                                renderValue={this._renderLanguagesSelect}>
+                            {
+                                window.locales.map((locale) => (
+                                    <MenuItem key={locale}
+                                              value={locale}>
+                                        <Checkbox checked={this.state.locales.indexOf(locale) > -1}/>
+                                        <ListItemText primary={I18n.t(`js.languages.${locale}`)}/>
+                                    </MenuItem>
+                                ))
+                            }
+                        </Select>
+                    </FormControl>
+                }
+
                 <div className="center-align margin-top-20">
                     <Button color="primary"
                             variant="outlined"
-                            onClick={this._handleTopicSubmit}>
+                            type="submit">
                         {
                             this.props.isEditing
                                 ?

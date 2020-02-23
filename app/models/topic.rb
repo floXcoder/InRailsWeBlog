@@ -46,10 +46,6 @@ class Topic < ApplicationRecord
     article_order String, default: nil # Order articles by: priority_asc, priority_desc, id_asc, id_desc, created_asc, created_desc, updated_asc, updated_desc, tag_asc, tags_desc, rank_asc, rank_desc, popularity_asc, popularity_desc, default
 
     tag_sidebar_pin Boolean, default: nil # Tag sidebar pinned by default
-    # Not used for now
-    # tag_sidebar_with_child Boolean, default: nil # Display child only tags in sidebar
-    # tag_order String, default: 'name' # Order tags by: name, priority_asc, priority_desc, id_asc, id_desc, created_asc, created_desc, updated_asc, updated_desc, rank_asc, rank_desc, popularity_asc, popularity_desc, default
-    # tag_parent_and_child Boolean, default: nil # Display child articles for parent tag
   end
 
   # Strip whitespaces

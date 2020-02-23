@@ -52,7 +52,6 @@ import {
 
 import highlight from '../modules/highlight';
 
-import Loader from '../theme/loader';
 import LazyLoader from '../theme/lazyLoader';
 
 import CommentCountIcon from '../comments/icons/count';
@@ -71,6 +70,7 @@ import ArticleActions from './properties/actions';
 import ArticleBreadcrumbDisplay from './display/breadcrumb';
 import ArticleInventoryDisplay from './display/items/inventory';
 import ArticleMiniCardDisplay from './display/items/miniCard';
+import ArticleSkeleton from '../loaders/skeletons/article';
 
 import styles from '../../../jss/article/show';
 
@@ -200,7 +200,7 @@ class ArticleShow extends React.Component {
             return (
                 <div className={this.props.classes.root}>
                     <div className="center">
-                        <Loader size="big"/>
+                        <ArticleSkeleton isConnected={this.props.isCurrentTopicOwner}/>
                     </div>
                 </div>
             );

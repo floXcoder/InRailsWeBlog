@@ -39,16 +39,12 @@ class TopicSerializer
              :description,
              :priority,
              :visibility,
+             :languages,
+             :settings,
              :slug,
              :articles_count
 
-  belongs_to :user, if: Proc.new { |_record, params| params[:complete] }, serializer: UserSampleSerializer
-
   has_many :inventory_fields, serializer: Topic::InventoryFieldSerializer
-
-  has_many :tags, if: Proc.new { |_record, params| params[:complete] }, serializer: TagSerializer do |object|
-    Tag.includes(:parents, :children, :tagged_articles, :child_relationships).for_topic_id(object.id).order('tags.priority', 'tags.name')
-  end
 
   has_many :contributors, record_type: :user, serializer: UserStrictSerializer
 
@@ -56,7 +52,4 @@ class TopicSerializer
     object.visibility_to_tr
   end
 
-  attribute :settings do |object|
-    UserSettingSerializer.new(object).serializable_hash[:data][:attributes].compact
-  end
 end

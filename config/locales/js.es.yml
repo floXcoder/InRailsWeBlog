@@ -313,17 +313,18 @@ es:
       form:
         unsaved: "¿Salir sin guardar el tema?"
       model:
-        articles_count: Número de artículos
-        contributors: Colaboradores
-        description: Detalles
+        articles_count: "Número de artículos"
+        contributors: "Colaboradores"
+        description: "Detalles"
         inventory_fields:
-          name: Nombre del campo
-        mode: Escriba
-        name: Nombre
-        owner: Creador
-        tags: Etiquetas asociadas
-        tags_count: Número de etiquetas
-        visibility: Visibilidad
+          name: "Nombre del campo"
+        mode: "Escriba"
+        name: "Nombre"
+        owner: "Creador"
+        tags: "Etiquetas asociadas"
+        tags_count: "Número de etiquetas"
+        visibility: "Visibilidad"
+        languages: "Idiomas asociados"
       enums:
         mode:
           default: Por defecto
@@ -599,20 +600,21 @@ es:
         date: Fecha
         priority: Prioridad
       module:
+        button: "Busca en"
+        default: "Buscar en el sitio..."
+        placeholder: "Busca en"
+        topics:
+          title: "Temas"
+        tags:
+          no_tags: "No se encontraron etiquetas"
+          recents: "(Etiquetas recientes)"
+          title: "Etiquetas"
         articles:
           recents: "(Artículos recientes)"
-          title: Artículos
-        button: Busca en
+          title: "Artículos"
         helpers:
-          select_tag: Selecciona una etiqueta con las flechas y luego haz clic en la pestaña
+          select_tag: "Selecciona una etiqueta con las flechas y luego haz clic en la pestaña"
           tagged_articles: 'Buscar artículos con etiquetas: %{tags}'
-        placeholder: Busca en
-        tags:
-          no_tags: No se encontraron etiquetas
-          recents: "(Etiquetas recientes)"
-          title: Etiquetas
-        topics:
-          title: Temas
       sidebar:
         filter: Filtrar los resultados
       index:
@@ -783,19 +785,20 @@ es:
       topics:
         table:
           columns:
-            articles_count: Artículos relacionados
-            clicks_count: Nb de clics
-            created_at: Creado en
-            id: Id
-            mode: Escriba
-            name: Nombre
-            priority: Prioridad
-            searches_count: No. de búsquedas
-            user_id: Identificación de usuario
-            views_count: No. de opiniones
-            visibility: Visibilidad
-          title: Lista de temas
-        title: Temas
+            articles_count: "Artículos relacionados"
+            clicks_count: "Nb de clics"
+            created_at: "Creado en"
+            id: "Id"
+            mode: "Escriba"
+            name: "Nombre"
+            languages: "Idiomas"
+            priority: "Prioridad"
+            searches_count: "No. de búsquedas"
+            user_id: "Identificación de usuario"
+            views_count: "No. de opiniones"
+            visibility: "Visibilidad"
+          title: "Lista de temas"
+        title: "Temas"
       tags:
         table:
           columns:

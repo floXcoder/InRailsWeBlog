@@ -341,8 +341,8 @@ retrieve_parameters_admins_seo_index POST     /admins/seo/retrieve_parameters(.:
            flush_cache_admins_caches POST     /admins/caches/flush_cache(.:format)                                                          admins/caches#flush_cache
                        admins_caches GET      /admins/caches(.:format)                                                                      admins/caches#index
                                      GET      /robots.:format                                                                               pages#robots
-                                              /*path(.:format)                                                                              redirect(301, /404)
                                      GET|POST /health_check(/:checks)(.:format)                                                             health_check/health_check#index {:format=>"txt"}
+                                              /*path(.:format)                                                                              pages#not_found
 
 Routes for PgHero::Engine:
                     space GET  (/:database)/space(.:format)                     pg_hero/home#space

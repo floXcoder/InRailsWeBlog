@@ -180,6 +180,8 @@ class HeaderLayoutUser extends React.PureComponent {
     };
 
     _handlePreferenceClick = () => {
+        this._handleTagDrawerToggle();
+
         this.props.showUserPreference();
     };
 
@@ -238,7 +240,8 @@ class HeaderLayoutUser extends React.PureComponent {
                             <Link className="header-brand-logo-mobile"
                                   to={rootPath()}
                                   title={window.settings.website_name}
-                                  itemProp="url">
+                                  itemProp="url"
+                                  onClick={this._handleTagDrawerToggle}>
                                 {window.settings.website_name}
                             </Link>
                         </h5>
@@ -263,7 +266,8 @@ class HeaderLayoutUser extends React.PureComponent {
                                                topicSlug={this.props.topicSlug}
                                                currentTopicMode={this.props.currentTopic?.mode}
                                                currentTagSlugs={this.props.currentTagSlugs}
-                                               hasTemporaryArticle={this.state.hasTemporaryArticle}/>
+                                               hasTemporaryArticle={this.state.hasTemporaryArticle}
+                                               onItemClick={this._handleTagDrawerToggle}/>
                         </Collapse>
 
                         <ListItem button={true}
@@ -277,7 +281,7 @@ class HeaderLayoutUser extends React.PureComponent {
                         <Collapse in={this.state.isMobileBookmarkOpen}
                                   timeout="auto"
                                   unmountOnExit={true}>
-                            <BookmarkList/>
+                            <BookmarkList onBookmarkClick={this._handleTagDrawerToggle}/>
                         </Collapse>
 
                         <ListItem button={true}

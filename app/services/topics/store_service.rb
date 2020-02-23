@@ -11,11 +11,12 @@ module Topics
     def perform
       current_language = new_language = current_user&.locale || I18n.locale
 
-      # Language
-      if @topic.languages.empty? || @params[:language].present?
-        new_language = (@params.delete(:language) || current_user&.locale || I18n.locale).to_s
+      # Languages
+      if @params[:languages].present?
+        @topic.languages = @params.delete(:languages)
+      elsif @topic.languages.empty?
+        new_language = current_user&.locale || I18n.locale.to_s
         @topic.languages |= [new_language]
-        I18n.locale = new_language.to_sym if new_language != current_language.to_s
       end
 
       # Sanitization

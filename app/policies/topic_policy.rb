@@ -20,6 +20,10 @@ class TopicPolicy
     @current_user
   end
 
+  def edit?
+    owner?
+  end
+
   def update?
     owner?
   end

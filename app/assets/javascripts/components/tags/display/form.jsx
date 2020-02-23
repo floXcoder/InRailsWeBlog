@@ -66,7 +66,7 @@ class TagFormDisplay extends React.Component {
                     ({handleSubmit, dirty, submitting}) => (
                         <form id={this.props.id}
                               onSubmit={handleSubmit}>
-                            <Prompt when={dirty}
+                            <Prompt when={dirty && !submitting}
                                     message={this._onUnsavedExit}/>
 
                             <div>

@@ -150,7 +150,7 @@ check:deploy:
   stage: check
   cache: {}
   script:
-    - sh -c '[ $(curl --head -o /dev/null -L -s -w "%{http_code}" https://www.ginkonote.com/health_check) -eq 200 ]'
+    - sh -c '[ $(curl --head -o /dev/null -L -s -w "%{http_code}" https://www.ginkonote.com/health_check.json) -eq 200 ]'
     - sh -c '[ $(curl --head -o /dev/null -L -s -w "%{http_code}" https://www.ginkonote.com) -eq 200 ]'
   interruptible: true
   only:

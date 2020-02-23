@@ -22,7 +22,7 @@ module FastJsonapi
           new_data
         end
       else
-        flat_data = data[:data][:attributes]
+        flat_data = data.dig(:data, :attributes) || {}
         self.manage_relationships(flat_data, data.dig(:data, :relationships), data.dig(:included))
       end
 

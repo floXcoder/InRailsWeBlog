@@ -38,6 +38,8 @@ import styles from '../../../jss/topic/persistence';
 export default @withRouter
 @connect((state, props) => ({
     currentUserId: state.userState.currentId,
+    currentUserLocale: state.userState.user?.locale,
+    articleMultilanguage: state.uiState.articleMultilanguage,
     userSlug: state.userState.currentSlug,
     editingTopic: getEditingTopic(state, props.routeState)
 }), {
@@ -56,6 +58,8 @@ class TopicPersistence extends React.Component {
         history: PropTypes.object,
         // from connect
         currentUserId: PropTypes.number,
+        currentUserLocale: PropTypes.string,
+        articleMultilanguage: PropTypes.bool,
         userSlug: PropTypes.string,
         editingTopic: PropTypes.object,
         addTopic: PropTypes.func,
@@ -89,14 +93,15 @@ class TopicPersistence extends React.Component {
         });
     };
 
-    _handleTopicSubmit = (topicName, topicMode, topicDescription, topicVisibility) => {
+    _handleTopicSubmit = (name, mode, description, visibility, languages) => {
         if (this.props.editingTopic) {
             this.props.updateTopic(this.props.currentUserId, {
                 id: this.props.editingTopic.id,
-                name: topicName,
-                mode: topicMode,
-                description: topicDescription,
-                visibility: topicVisibility
+                name,
+                mode,
+                description,
+                visibility,
+                languages
             })
                 .then((response) => {
                     this._handleClose();
@@ -111,10 +116,11 @@ class TopicPersistence extends React.Component {
                 });
         } else {
             this.props.addTopic(this.props.currentUserId, {
-                name: topicName,
-                mode: topicMode,
-                description: topicDescription,
-                visibility: topicVisibility
+                name,
+                mode,
+                description,
+                visibility,
+                languages
             })
                 .then((response) => {
                     this._handleClose();
@@ -173,8 +179,10 @@ class TopicPersistence extends React.Component {
                     <PersistenceFormTopic classes={this.props.classes}
                                           topic={this.props.editingTopic}
                                           isEditing={!!this.props.editingTopic}
+                                          articleMultilanguage={this.props.articleMultilanguage}
                                           defaultMode={this.props.routeState.mode}
                                           defaultVisibility={this.props.routeState.visibility}
+                                          defaultLocale={this.props.currentUserLocale}
                                           onCancel={this._handleClose}
                                           onSubmit={this._handleTopicSubmit}
                                           onDelete={this._handleTopicDelete}/>

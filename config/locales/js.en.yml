@@ -27,7 +27,7 @@ en:
         user:
           articles: "Articles"
           bookmarks: "Bookmarks"
-          settings: "My parameters"
+          settings: "My preferences"
           sign_up: "Sign up"
           log_in: "Log in"
           log_out: "Log out"
@@ -319,6 +319,7 @@ en:
         mode: "Type"
         description: "Description"
         visibility: "Visibility"
+        languages: "Associated languages"
         articles_count: "Articles count"
         tags: "Associated tags"
         tags_count: "Tags count"
@@ -599,6 +600,7 @@ en:
         date: "Date"
       module:
         placeholder: "Search"
+        default: "Search on website..."
         button: "Search"
         topics:
           title: "Topics"
@@ -790,6 +792,7 @@ en:
             name: "Name"
             priority: "Priority"
             visibility: "Visibility"
+            languages: "Languages"
             articles_count: "Associated articles"
             views_count: "Views count"
             clicks_count: "Clicks count"

@@ -153,7 +153,7 @@ Rails.application.routes.draw do
       end
 
       # Topics
-      resources :topics, except: [:new, :edit] do
+      resources :topics, except: [:new] do
         collection do
           get      :switch,   to: 'topics#switch'
 
@@ -272,5 +272,9 @@ Rails.application.routes.draw do
   # SEO
   get '/robots.:format' => 'pages#robots'
 
-  match '*path' => redirect('/404'), via: :all
+  # Health check
+  health_check_routes
+
+  # All other pages
+  match '*path', to: 'pages#not_found', via: :all
 end

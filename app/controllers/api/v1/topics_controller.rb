@@ -31,7 +31,7 @@ module Api::V1
                                                        meta:    { root: 'topics' })
             else
               render json: TopicSerializer.new(topics,
-                                               include: [:user, :inventory_fields, :tags, :contributors],
+                                               include: [:inventory_fields, :contributors],
                                                meta:    { root: 'topics' })
             end
           end
@@ -47,7 +47,7 @@ module Api::V1
         format.json do
           if current_user.switch_topic(topic) && current_user.save
             render json:   TopicSerializer.new(topic,
-                                               include: [:user, :inventory_fields, :tags, :contributors]),
+                                               include: [:inventory_fields, :contributors]),
                    status: :ok
           else
             render json:   { errors: current_user.errors },
@@ -70,10 +70,15 @@ module Api::V1
                          user_slug:  topic.user.pseudo,
                          author:     topic.user.pseudo)
 
-            render json: TopicSerializer.new(topic,
-                                             include: [:user, :inventory_fields, :tags, :contributors],
-                                             params:  { complete: true },
-                                             meta:    meta_attributes)
+            if current_user && topic.user?(current_user)
+              render json: TopicCompleteSerializer.new(topic,
+                                                       include: [:user, :inventory_fields, :tags, :contributors, :tracker],
+                                                       meta:    meta_attributes)
+            else
+              render json: TopicSerializer.new(topic,
+                                               include: [:inventory_fields, :contributors],
+                                               meta:    meta_attributes)
+            end
           end
         end
       end
@@ -88,15 +93,32 @@ module Api::V1
       respond_to do |format|
         format.json do
           if stored_topic.success? && current_user.switch_topic(topic) && current_user.save
-            render json:   TopicSerializer.new(stored_topic.result,
-                                               include: [:user, :inventory_fields, :tags, :contributors],
-                                               params:  { complete: true }),
+            render json:   TopicCompleteSerializer.new(stored_topic.result,
+                                                       include: [:user, :inventory_fields, :tags, :contributors, :tracker]),
                    status: :created
           else
             flash.now[:error] = stored_topic.message
             render json:   { errors: stored_topic.errors },
                    status: :unprocessable_entity
           end
+        end
+      end
+    end
+
+    def edit
+      topic = @context_user.topics.friendly.find(params[:id])
+      authorize topic
+
+      respond_to do |format|
+        format.json do
+          set_seo_data(:edit_topic,
+                       topic_slug: topic.name,
+                       user_slug:  topic.user.pseudo,
+                       author:     topic.user.pseudo)
+
+          render json: TopicCompleteSerializer.new(topic,
+                                                   include: [:user, :inventory_fields, :tags, :contributors, :tracker],
+                                                   meta:    meta_attributes)
         end
       end
     end
@@ -111,9 +133,9 @@ module Api::V1
         format.json do
           if stored_topic.success?
             flash.now[:success] = stored_topic.message
-            render json:   TopicSerializer.new(stored_topic.result,
-                                               include: [:user, :inventory_fields, :tags, :contributors],
-                                               params:  { complete: true }),
+            render json:   TopicCompleteSerializer.new(stored_topic.result,
+                                                       include: [:user, :inventory_fields, :tags, :contributors, :tracker],
+                                                       meta:    meta_attributes),
                    status: :ok
           else
             flash.now[:error] = stored_topic.message
@@ -135,7 +157,7 @@ module Api::V1
           flash.now[:success] = shared_topic.message
           if shared_topic.success?
             render json:   TopicSerializer.new(shared_topic.result,
-                                               include: [:user, :inventory_fields, :tags, :contributors]),
+                                               include: [:inventory_fields, :contributors]),
                    status: :ok
           else
             flash.now[:error] = shared_topic.message
@@ -187,7 +209,7 @@ module Api::V1
 
             flash.now[:success] = I18n.t('views.topic.flash.successful_deletion')
             render json:   TopicSerializer.new(current_topic,
-                                               include: [:user, :inventory_fields, :tags, :contributors]),
+                                               include: [:inventory_fields, :contributors]),
                    status: :ok
           else
             flash.now[:error] = I18n.t('views.topic.flash.error_deletion', errors: topic.errors.to_s)
@@ -209,6 +231,7 @@ module Api::V1
                                     :archived,
                                     :accepted,
                                     :picture,
+                                    languages:           [],
                                     pictures_attributes: [:id,
                                                           :image,
                                                           :_destroy])
