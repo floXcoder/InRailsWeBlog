@@ -16,7 +16,7 @@ const styles = (theme) => ({
     appBar: {
         boxShadow: 'none',
         backgroundColor: theme.palette.grey[100],
-        marginBottom: '1.5rem',
+        marginBottom: 0,
         [theme.breakpoints.down('md')]: {
             marginBottom: 0
         }

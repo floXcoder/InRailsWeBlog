@@ -20,8 +20,7 @@ import styles from '../../../../../jss/article/form/shared';
 function TabContainer(props) {
     return (
         <Typography component="div"
-                    className={props.isActive ? null : 'hidden'}
-                    style={{padding: 8 * 3}}>
+                    className={props.isActive ? null : 'hidden'}>
             {props.children}
         </Typography>
     );

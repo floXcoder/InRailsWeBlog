@@ -332,6 +332,17 @@ $.extend($.summernote.plugins, {
 
             return button.render();
         });
+
+        this.events = {
+            'summernote.keydown': function (we, event) {
+                // CTRL+Y for simple code
+                if (event.keyCode === 89 && event.ctrlKey) {
+                    event.preventDefault();
+                    applyTag(context, 'code');
+                    context.triggerEvent('change', $note.summernote('code'));
+                }
+            }
+        };
     }
 });
 
