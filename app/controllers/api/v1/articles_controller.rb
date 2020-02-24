@@ -94,7 +94,7 @@ module Api::V1
       admin_or_authorize article
 
       article.user?(current_user) ? reset_cache_headers : expires_in(InRailsWeBlog.config.cache_time, public: true)
-      if stale?(article, template: false, public: true)
+      if stale?(article, template: false, public: true) || article.user?(current_user)
         respond_to do |format|
           format.json do
             set_seo_data(:user_article,
