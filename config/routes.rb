@@ -13,7 +13,7 @@ Rails.application.routes.draw do
     get '/', to: 'pages#home', as: :home, defaults: { name: 'home' }
 
     authenticate :user do
-      get '/', to: 'pages#home', as: :user_home, defaults: { name: 'user_home' }
+      get '/(users/:user_slug)', to: 'pages#home', as: :user_home, defaults: { name: 'user_home' }
     end
 
     # Search

@@ -49,6 +49,7 @@ import {
 } from '../../../middlewares/localStorage';
 
 import {
+    fetchMetaTags,
     showUserPreference,
     showTopicPopup,
     logoutUser
@@ -100,6 +101,7 @@ export default @connect((state) => ({
     currentTopic: state.topicState.currentTopic,
     currentTagSlugs: getCurrentTagSlugs(state)
 }), {
+    fetchMetaTags,
     showUserPreference,
     showTopicPopup
 })
@@ -122,6 +124,7 @@ class HeaderLayoutUser extends React.PureComponent {
         topicSlug: PropTypes.string,
         currentTopic: PropTypes.object,
         currentTagSlugs: PropTypes.array,
+        fetchMetaTags: PropTypes.func,
         showUserPreference: PropTypes.func,
         showTopicPopup: PropTypes.func,
         // from withWidth
@@ -149,6 +152,16 @@ class HeaderLayoutUser extends React.PureComponent {
         isMobileArticleOpen: false,
         isMobileUserOpen: false,
         hasTemporaryArticle: false
+    };
+
+    _handleTitleClick = () => {
+        this.props.fetchMetaTags('user_home');
+    };
+
+    _handleMobileTitleClick = () => {
+        this.props.fetchMetaTags('user_home');
+
+        this._handleTagDrawerToggle();
     };
 
     _handleTagDrawerToggle = () => {
@@ -241,7 +254,7 @@ class HeaderLayoutUser extends React.PureComponent {
                                   to={rootPath()}
                                   title={window.settings.website_name}
                                   itemProp="url"
-                                  onClick={this._handleTagDrawerToggle}>
+                                  onClick={this._handleMobileTitleClick}>
                                 {window.settings.website_name}
                             </Link>
                         </h5>
@@ -427,7 +440,8 @@ class HeaderLayoutUser extends React.PureComponent {
                                 <Link className="header-brand-logo"
                                       to={rootPath()}
                                       title={window.settings.website_name}
-                                      itemProp="url">
+                                      itemProp="url"
+                                      onClick={this._handleTitleClick}>
                                     {window.settings.website_name}
                                 </Link>
                             </h1>
