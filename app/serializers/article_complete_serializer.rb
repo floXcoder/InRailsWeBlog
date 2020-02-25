@@ -65,7 +65,9 @@ class ArticleCompleteSerializer
 
   has_one :tracker, serializer: TrackerSerializer
 
-  has_many :tags, serializer: TagSampleSerializer
+  has_many :tags, serializer: TagSampleSerializer do |object|
+    object.parent_tags + object.child_tags
+  end
 
   attribute :title_translations do |object, params|
     object.title_translations if object.languages.size > 1 || params[:with_multilang]

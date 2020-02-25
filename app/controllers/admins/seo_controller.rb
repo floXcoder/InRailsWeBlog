@@ -23,6 +23,7 @@ class Admins::SeoController < AdminsController
 
   def retrieve_parameters
     name       = nil
+    locale     = nil
     parameters = []
     error      = nil
 
@@ -31,6 +32,7 @@ class Admins::SeoController < AdminsController
         route_url = Rails.application.routes.recognize_path(params[:url], method: :get)
         if route_url[:controller] == 'pages' && route_url[:action] == 'home'
           name       = route_url[:name]
+          locale     = route_url[:locale].presence || I18n.default_locale
           parameters = route_url.except(:controller, :action, :name).keys
         else
           error = "URL non définissable pour le SEO"
@@ -42,6 +44,7 @@ class Admins::SeoController < AdminsController
       parameters = Rails.application.routes.routes.find { |r| r.name == params[:route] }
       if parameters
         name       = params[:route]
+        locale     = parameters.defaults[:locale].presence || I18n.default_locale
         parameters = parameters.parts - [:format]
       else
         error = "Named route not found"
@@ -55,7 +58,8 @@ class Admins::SeoController < AdminsController
 
       render json: {
         name:       name,
-        parameters: parameters
+        parameters: parameters,
+        locale:     locale
       }
     end
   end

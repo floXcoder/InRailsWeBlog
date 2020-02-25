@@ -813,33 +813,35 @@ de:
           users: Benutzer
         placeholder: Suche nach Etikett, Thema, Artikel, ...
       seo:
-        add: SEO-Daten hinzufügen
+        add: "SEO-Daten hinzufügen"
         form:
-          add: Hinzufügen
-          cancel: Abbrechen
-          delete: LÖSCHEN
+          add: "Hinzufügen"
+          cancel: "Abbrechen"
+          delete: "LÖSCHEN"
           delete_confirmation: 'Löschen Sie diese SEO-Daten: %{name} ?'
-          meta_desc: Meta-Beschreibung
-          no_parameters: Keine Parameter erforderlich
-          page_title: Titel der Seite
+          meta_desc: "Meta-Beschreibung"
+          meta_desc_length: "%{count} / 150 (empfohlen)"
+          no_parameters: "Keine Parameter erforderlich"
+          page_title: "Titel der Seite"
+          page_title_length: "%{count} / 60 (empfohlen)"
           parameters: 'Verfügbare Parameter: %{parameters}'
           select:
-            or: oder
-            route: Name der Straße
-            url: Website-URL
-          seo_fields: Definition der SEO-Felder
-          title: Route oder URL auswählen
-          update: Bearbeiten
+            or: "oder"
+            route: "Name der Straße"
+            url: "Website-URL"
+          seo_fields: "Definition der SEO-Felder"
+          title: "Route oder URL auswählen"
+          update: "Bearbeiten"
         table:
           columns:
-            id: Id
-            locale: Lokale
-            meta_desc: Meta Desc
-            name: Name der Straße
-            page_title: Titel der Seite
-            parameters: Einstellungen
-          title: Liste der Seiten
-        title: SEO-Management
+            id: "Id"
+            locale: "Lokale"
+            meta_desc: "Meta Desc"
+            name: "Name der Straße"
+            page_title: "Titel der Seite"
+            parameters: "Einstellungen"
+          title: "Liste der Seiten"
+        title: "SEO-Management"
       tags:
         table:
           columns:

@@ -34,8 +34,11 @@ export default class AdminSeoDataForm extends React.Component {
     state = {
         namedRoute: '',
         urlValue: this.props.seoData.url || '',
+        locale: undefined,
         parameters: undefined,
-        error: undefined
+        error: undefined,
+        pageTitle: '',
+        metaDesc: ''
     };
 
     _handleNamedRouteChange = (event) => {
@@ -43,11 +46,13 @@ export default class AdminSeoDataForm extends React.Component {
             .then((response) => {
                 this.setState({
                     name: response.name,
+                    locale: response.locale,
                     parameters: response.parameters,
                     error: undefined
                 });
             })
             .catch((response) => this.setState({
+                locale: undefined,
                 parameters: undefined,
                 error: response.error
             }));
@@ -62,17 +67,31 @@ export default class AdminSeoDataForm extends React.Component {
             .then((response) => {
                 this.setState({
                     name: response.name,
+                    locale: response.locale,
                     parameters: response.parameters,
                     error: undefined
                 });
             })
             .catch((response) => this.setState({
+                locale: undefined,
                 parameters: undefined,
                 error: response.error
             }));
 
         this.setState({
             urlValue: event.target.value
+        });
+    };
+
+    _handlePageTitleChange = (event) => {
+        this.setState({
+            pageTitle: event.target.value
+        });
+    };
+
+    _handleMetaDescChange = (event) => {
+        this.setState({
+            metaDesc: event.target.value
         });
     };
 
@@ -86,9 +105,10 @@ export default class AdminSeoDataForm extends React.Component {
         const form = event.target;
         const data = new FormData(form);
 
-        if(this.props.isNew) {
+        if (this.props.isNew) {
             data.append('seo_data[name]', this.state.name);
             data.append('seo_data[parameters]', this.state.parameters);
+            data.append('seo_data[locale]', this.state.locale);
         }
 
         this.props.onPersistSeoData(this.props.isNew, SeoData, data);
@@ -115,6 +135,7 @@ export default class AdminSeoDataForm extends React.Component {
                                 <InputLabel id="named-route">
                                     {I18n.t('js.admin.seo.form.select.route')}
                                 </InputLabel>
+
                                 <Select id="named-route"
                                         labelId="named-route-label"
                                         value={this.state.namedRoute}
@@ -191,7 +212,10 @@ export default class AdminSeoDataForm extends React.Component {
                                        name="seo_data[page_title]"
                                        label={I18n.t('js.admin.seo.form.page_title')}
                                        autoFocus={true}
-                                       defaultValue={this.props.seoData.pageTitle}/>
+                                       defaultValue={this.props.seoData.pageTitle}
+                                       value={this.state.pageTitle}
+                                       onChange={this._handlePageTitleChange}
+                                       helperText={I18n.t('js.admin.seo.form.page_title_length', {count: this.state.pageTitle?.length})}/>
                         </div>
 
                         <div className="col s6 center-align">
@@ -201,7 +225,10 @@ export default class AdminSeoDataForm extends React.Component {
                                        margin="normal"
                                        name="seo_data[meta_desc]"
                                        label={I18n.t('js.admin.seo.form.meta_desc')}
-                                       defaultValue={this.props.seoData.metaDesc}/>
+                                       defaultValue={this.props.seoData.metaDesc}
+                                       value={this.state.metaDesc}
+                                       onChange={this._handleMetaDescChange}
+                                       helperText={I18n.t('js.admin.seo.form.meta_desc_length', {count: this.state.metaDesc?.length})}/>
                         </div>
 
                         <div className="col s12 center-align form-actions margin-top-20 margin-bottom-25">
