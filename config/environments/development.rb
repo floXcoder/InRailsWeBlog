@@ -78,9 +78,6 @@ Rails.application.configure do
   # Log levels :debug, :info, :warn, :error, :fatal and :unknown
   config.log_level = :info
 
-  # Highlight code that triggered database queries in logs.
-  config.active_record.verbose_query_logs = true
-
   # N 1 Queries
   config.after_initialize do
     Bullet.enable               = true

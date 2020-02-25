@@ -840,33 +840,35 @@ it:
           update: Aggiorna
         title: Note
       seo:
-        add: Aggiungere dati SEO
+        add: "Aggiungere dati SEO"
         form:
-          add: Aggiungi
-          cancel: Annulla
-          delete: CANCELLA
+          add: "Aggiungi"
+          cancel: "Annulla"
+          delete: "CANCELLA"
           delete_confirmation: 'Cancellare questi dati SEO: %{name} ?'
-          meta_desc: Meta descrizione
-          no_parameters: Nessun parametro richiesto
-          page_title: Titolo della pagina
-          parameters: 'Parametri disponibili: %{parameters}'
+          meta_desc: "Meta descrizione"
+          meta_desc_length: "%{count} / 150 (consigliato)"
+          no_parameters: "Nessun parametro richiesto"
+          page_title: "Titolo della pagina"
+          page_title_length: "%{count} / 60 (consigliato)"
+          parameters: "Parametri disponibili: %{parameters}"
           select:
-            or: oppure
-            route: Nome della strada
-            url: URL del sito
-          seo_fields: Definizione dei campi SEO
-          title: Selezionare il percorso o l'URL
-          update: Modifica
+            or: "oppure"
+            route: "Nome della strada"
+            url: "URL del sito"
+          seo_fields: "Definizione dei campi SEO"
+          title: "Selezionare il percorso o l'URL"
+          update: "Modifica"
         table:
           columns:
-            id: Id
-            locale: Locale
-            meta_desc: Meta Desc
-            name: Nome della strada
-            page_title: Titolo della pagina
-            parameters: Impostazioni
-          title: Elenco delle pagine
-        title: Gestione SEO
+            id: "Id"
+            locale: "Locale"
+            meta_desc: "Meta Desc"
+            name: "Nome della strada"
+            page_title: "Titolo della pagina"
+            parameters: "Impostazioni"
+          title: "Elenco delle pagine"
+        title: "Gestione SEO"
       logs:
         help:
           all: Ricerca di qualsiasi termine nei registri

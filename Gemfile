@@ -14,9 +14,8 @@ gem 'rails',                    '6.0.2.1'
 # Use postgresql as the database for Active Record
 gem 'pg',                       '1.2.2'
 gem 'active_record_extended',   '1.4.0'
-gem 'activerecord-explain-analyze', '0.1.0'
 gem 'pghero',                   '2.4.1'
-gem 'pg_query',                 '1.2.0'
+gem 'pg_query',                 '1.2.0' # Required for pghero
 
 # HTTP Response
 gem 'responders',               '3.0.0'
@@ -154,7 +153,7 @@ group :test do
   gem 'rspec_junit_formatter',      '0.4.1'
   gem 'shoulda-matchers',           '4.3.0',  require: false
   gem 'shoulda-callback-matchers',  '1.1.4',  require: false
-  gem 'simplecov',                  '0.18.2', require: false
+  gem 'simplecov',                  '0.18.4', require: false
   gem 'fuubar',                     '2.5.0'
   gem 'database_cleaner',           '1.8.3'
   gem 'db-query-matchers',          '0.10.0'
@@ -175,7 +174,7 @@ end
 
 group :development, :test do
   # Speed up boot
-  gem 'bootsnap',                   '1.4.5',   require: false
+  gem 'bootsnap',                   '1.4.6',   require: false
 
   # Check errors
   gem 'rubocop',                    '0.80.0',  require: false

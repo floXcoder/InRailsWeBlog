@@ -841,33 +841,35 @@ es:
           update: Actualización
         title: Notas
       seo:
-        add: Agregar datos de SEO
+        add: "Agregar datos de SEO"
         form:
-          add: Añade
-          cancel: Cancelar
-          delete: BORRAR
+          add: "Añade"
+          cancel: "Cancelar"
+          delete: "BORRAR"
           delete_confirmation: 'Borrar estos datos de SEO: %{nombre} ?'
-          meta_desc: Meta descripción
-          no_parameters: No se requieren parámetros
-          page_title: Título de la página
+          meta_desc: "Meta descripción"
+          meta_desc_length: "%{count} / 150 (recomendado)"
+          no_parameters: "No se requieren parámetros"
+          page_title: "Título de la página"
+          page_title_length: "%{count} / 60 (recomendado)"
           parameters: 'Parámetros disponibles: %{parameters}'
           select:
-            or: o
-            route: Nombre de la carretera
-            url: URL del sitio
-          seo_fields: Definición de los campos de SEO
-          title: Seleccione la ruta o URL
-          update: Edita
+            or: "o"
+            route: "Nombre de la carretera"
+            url: "URL del sitio"
+          seo_fields: "Definición de los campos de SEO"
+          title: "Seleccione la ruta o URL"
+          update: "Edita"
         table:
           columns:
-            id: Id
-            locale: Local
-            meta_desc: Meta Desc
-            name: Nombre de la carretera
-            page_title: Título de la página
-            parameters: Ajustes
-          title: Lista de páginas
-        title: Gestión de SEO
+            id: "Id"
+            locale: "Local"
+            meta_desc: "Meta Desc"
+            name: "Nombre de la carretera"
+            page_title: "Título de la página"
+            parameters: "Ajustes"
+          title: "Lista de páginas"
+        title: "Gestión de SEO"
       logs:
         help:
           all: Busca cualquier término en los registros

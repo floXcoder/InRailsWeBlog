@@ -8,6 +8,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import List from '@material-ui/core/List';
+import Divider from '@material-ui/core/Divider';
 
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import PortraitIcon from '@material-ui/icons/Portrait';
@@ -48,6 +49,8 @@ export default class HeaderUserMenu extends React.Component {
                         {I18n.t('js.views.header.user.administration')}
                     </ListItemText>
                 </ListItem>
+
+                <Divider />
             </>
         );
 

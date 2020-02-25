@@ -266,6 +266,15 @@
   margin-right: 0 !important;
 }
 
+.note-modal {
+  z-index: 1300 !important;
+  margin-top: 80px;
+}
+
+.note-modal-backdrop {
+  display: none !important;
+}
+
 /*********/
 // Summernote CSS
 /*********/
