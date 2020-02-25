@@ -63,12 +63,10 @@ class ArticleSerializer
   belongs_to :topic, if: Proc.new { |record| record.story? }, serializer: TopicSampleSerializer
 
   has_many :tags, serializer: TagSampleSerializer do |object, params|
-    tags = object.parent_tags + object.child_tags
-
     if object.user_id == params[:current_user_id]
-      tags
+      object.tags
     else
-      tags.select { |tag| tag.visibility == 'everyone' }
+      object.tags.select { |tag| tag.visibility == 'everyone' }
     end
   end
 
