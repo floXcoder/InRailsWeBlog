@@ -8,11 +8,11 @@ Ruby enVironment Manager 1.29.8 (latest) (c) 2009-2017 Michal Papis, Piotr Kuczy
                              home_es GET      /es                                                                                           pages#home {:name=>"home", :locale=>"es"}
                              home_it GET      /it                                                                                           pages#home {:name=>"home", :locale=>"it"}
                              home_en GET      /                                                                                             pages#home {:name=>"home", :locale=>"en"}
-                        user_home_fr GET      /fr                                                                                           pages#home {:name=>"user_home", :locale=>"fr"}
-                        user_home_de GET      /de                                                                                           pages#home {:name=>"user_home", :locale=>"de"}
-                        user_home_es GET      /es                                                                                           pages#home {:name=>"user_home", :locale=>"es"}
-                        user_home_it GET      /it                                                                                           pages#home {:name=>"user_home", :locale=>"it"}
-                        user_home_en GET      /                                                                                             pages#home {:name=>"user_home", :locale=>"en"}
+                        user_home_fr GET      /fr/(users/:user_slug)(.:format)                                                              pages#home {:name=>"user_home", :locale=>"fr"}
+                        user_home_de GET      /de/(users/:user_slug)(.:format)                                                              pages#home {:name=>"user_home", :locale=>"de"}
+                        user_home_es GET      /es/(users/:user_slug)(.:format)                                                              pages#home {:name=>"user_home", :locale=>"es"}
+                        user_home_it GET      /it/(users/:user_slug)(.:format)                                                              pages#home {:name=>"user_home", :locale=>"it"}
+                        user_home_en GET      /(users/:user_slug)(.:format)                                                                 pages#home {:name=>"user_home", :locale=>"en"}
                            search_fr GET      /fr/recherche(/:query)(.:format)                                                              pages#home {:name=>"search", :locale=>"fr"}
                            search_de GET      /de/forschung(/:query)(.:format)                                                              pages#home {:name=>"search", :locale=>"de"}
                            search_es GET      /es/investigacion(/:query)(.:format)                                                          pages#home {:name=>"search", :locale=>"es"}
@@ -257,6 +257,7 @@ Ruby enVironment Manager 1.29.8 (latest) (c) 2009-2017 Michal Papis, Piotr Kuczy
               topic_inventory_fields POST     /api/v1/topics/:topic_id/inventory_fields(.:format)                                           api/v1/topics/inventory_fields#create
                               topics GET      /api/v1/topics(.:format)                                                                      api/v1/topics#index
                                      POST     /api/v1/topics(.:format)                                                                      api/v1/topics#create
+                          edit_topic GET      /api/v1/topics/:id/edit(.:format)                                                             api/v1/topics#edit
                                topic GET      /api/v1/topics/:id(.:format)                                                                  api/v1/topics#show
                                      PATCH    /api/v1/topics/:id(.:format)                                                                  api/v1/topics#update
                                      PUT      /api/v1/topics/:id(.:format)                                                                  api/v1/topics#update

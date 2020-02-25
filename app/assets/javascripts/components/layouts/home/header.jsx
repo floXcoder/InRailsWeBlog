@@ -44,6 +44,7 @@ import {
 } from '../../loaders/components';
 
 import {
+    fetchMetaTags,
     showUserSignup,
     showUserLogin
 } from '../../../actions';
@@ -60,6 +61,7 @@ export default @withRouter
     isUserSignupOpen: state.uiState.isUserSignupOpen,
     isUserLoginOpen: state.uiState.isUserLoginOpen
 }), {
+    fetchMetaTags,
     showUserSignup,
     showUserLogin
 })
@@ -76,6 +78,7 @@ class HeaderLayoutHome extends React.Component {
         metaTags: PropTypes.object,
         isUserSignupOpen: PropTypes.bool,
         isUserLoginOpen: PropTypes.bool,
+        fetchMetaTags: PropTypes.func,
         showUserSignup: PropTypes.func,
         showUserLogin: PropTypes.func,
         // from withWidth
@@ -90,6 +93,16 @@ class HeaderLayoutHome extends React.Component {
 
     state = {
         isMobileOpen: false
+    };
+
+    _handleTitleClick = () => {
+        this.props.fetchMetaTags('home');
+    };
+
+    _handleMobileTitleClick = () => {
+        this.props.fetchMetaTags('home');
+
+        this._handleDrawerToggle();
     };
 
     _handleSearchOpen = () => {
@@ -192,7 +205,8 @@ class HeaderLayoutHome extends React.Component {
                             <Link className="header-brand-logo-mobile"
                                   to={rootPath()}
                                   title={window.settings.website_name}
-                                  itemProp="url">
+                                  itemProp="url"
+                                  onClick={this._handleMobileTitleClick}>
                                 {window.settings.website_name}
                             </Link>
                         </h5>
@@ -239,7 +253,8 @@ class HeaderLayoutHome extends React.Component {
                                 <Link className="header-brand-logo"
                                       to={rootPath()}
                                       title={window.settings.website_name}
-                                      itemProp="url">
+                                      itemProp="url"
+                                      onClick={this._handleTitleClick}>
                                     {window.settings.website_name}
                                 </Link>
                             </h1>

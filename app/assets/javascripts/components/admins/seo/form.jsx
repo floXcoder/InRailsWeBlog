@@ -34,14 +34,14 @@ export default class AdminSeoDataForm extends React.Component {
     state = {
         namedRoute: '',
         urlValue: this.props.seoData.url || '',
-        locale: undefined,
-        parameters: undefined,
-        error: undefined,
-        pageTitle: '',
-        metaDesc: ''
+        locale: this.props.seoData.locale ||undefined,
+        parameters: this.props.seoData.parameters ||undefined,
+        pageTitle: this.props.seoData.pageTitle ||'',
+        metaDesc: this.props.seoData.metaDesc ||'',
+        error: undefined
     };
 
-    _handleNamedRouteChange = (event) => {
+    _handleRouteChange = (type, event) => {
         this.props.retrieveParameters({route: event.target.value})
             .then((response) => {
                 this.setState({
@@ -58,28 +58,7 @@ export default class AdminSeoDataForm extends React.Component {
             }));
 
         this.setState({
-            namedRoute: event.target.value
-        });
-    };
-
-    _handleURLChange = (event) => {
-        this.props.retrieveParameters({url: event.target.value})
-            .then((response) => {
-                this.setState({
-                    name: response.name,
-                    locale: response.locale,
-                    parameters: response.parameters,
-                    error: undefined
-                });
-            })
-            .catch((response) => this.setState({
-                locale: undefined,
-                parameters: undefined,
-                error: response.error
-            }));
-
-        this.setState({
-            urlValue: event.target.value
+            [type]: event.target.value
         });
     };
 
@@ -139,7 +118,7 @@ export default class AdminSeoDataForm extends React.Component {
                                 <Select id="named-route"
                                         labelId="named-route-label"
                                         value={this.state.namedRoute}
-                                        onChange={this._handleNamedRouteChange}>
+                                        onChange={this._handleRouteChange.bind(this, 'namedRoute')}>
                                     {
                                         this.props.seoPages.map((seoPage) => (
                                             <MenuItem key={seoPage}
@@ -170,7 +149,7 @@ export default class AdminSeoDataForm extends React.Component {
                                        margin="normal"
                                        variant="outlined"
                                        value={this.state.urlValue}
-                                       onChange={this._handleURLChange}/>
+                                       onChange={this._handleRouteChange.bind(this, 'urlValue')}/>
                         </div>
                     </div>
                 }
@@ -212,7 +191,7 @@ export default class AdminSeoDataForm extends React.Component {
                                        name="seo_data[page_title]"
                                        label={I18n.t('js.admin.seo.form.page_title')}
                                        autoFocus={true}
-                                       defaultValue={this.props.seoData.pageTitle}
+                                       required={true}
                                        value={this.state.pageTitle}
                                        onChange={this._handlePageTitleChange}
                                        helperText={I18n.t('js.admin.seo.form.page_title_length', {count: this.state.pageTitle?.length})}/>
@@ -222,10 +201,10 @@ export default class AdminSeoDataForm extends React.Component {
                             <TextField className={this.props.classes.field}
                                        variant="outlined"
                                        multiline={true}
+                                       required={true}
                                        margin="normal"
                                        name="seo_data[meta_desc]"
                                        label={I18n.t('js.admin.seo.form.meta_desc')}
-                                       defaultValue={this.props.seoData.metaDesc}
                                        value={this.state.metaDesc}
                                        onChange={this._handleMetaDescChange}
                                        helperText={I18n.t('js.admin.seo.form.meta_desc_length', {count: this.state.metaDesc?.length})}/>

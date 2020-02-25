@@ -13,7 +13,8 @@ class Admins::SeoController < AdminsController
       end
 
       format.json do
-        seo_data = Seo::Data.all
+        locales_named_routes = Seo::Data::NAMED_ROUTES.map { |route| I18n.available_locales.map { |locale| "#{route}_#{locale}" } }.flatten
+        seo_data = Seo::Data.all.sort_by { |data| locales_named_routes.index(data.name) }
 
         render json: Seo::DataSerializer.new(seo_data,
                                              meta: { root: 'seoData' })
@@ -87,7 +88,7 @@ class Admins::SeoController < AdminsController
 
     respond_to do |format|
       format.json do
-        if seo_data.update(seo_params.except(:local, :name, :parameters))
+        if seo_data.update(seo_params.except(:locale, :name, :parameters))
           flash.now[:success] = t('views.admin.seo_data.flash.successful_edition')
           render json:   Seo::DataSerializer.new(seo_data),
                  status: :ok

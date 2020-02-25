@@ -113,7 +113,7 @@ class ApplicationController < ActionController::Base
 
   # SEO
   def set_seo_data(named_route, parameters = {})
-    current_locale = params[:locale] || I18n.locale
+    current_locale = params[:force_locale] || params[:locale] || I18n.locale
     model          = parameters.delete(:model)
     canonical      = parameters.delete(:canonical)
     alternate      = parameters.delete(:alternate)
