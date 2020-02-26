@@ -60,7 +60,7 @@ audit:
   <<: *pull-cache
   script:
     - gem install bundler-audit
-    - bundle audit check --update --ignore CVE-2015-9284
+    - bundle audit check --update
   interruptible: true
   allow_failure: true
   only:

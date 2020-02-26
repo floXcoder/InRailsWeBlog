@@ -9,10 +9,11 @@ const receiveMetaTags = (meta) => ({
     type: ActionTypes.UI_CHANGE_META_TAGS,
     meta
 });
-export const fetchMetaTags = (routeName, locale) => (dispatch) => (
+export const fetchMetaTags = (routeName, options = {}, locale = undefined) => (dispatch) => (
     api.get(`/meta-tags`, {
         routeName,
-        forceLocale: locale || window.locale
+        forceLocale: locale || window.locale,
+        ...options
     })
         .promise
         .then((response) => dispatch(receiveMetaTags(response)))

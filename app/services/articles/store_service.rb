@@ -11,6 +11,8 @@ module Articles
     def perform
       current_language = new_language = @current_user.locale || I18n.locale
 
+      auto_saved = @params.delete(:auto_saved)
+
       new_article = @article.new_record?
 
       # Use topic owner in case of shared topics
@@ -183,8 +185,14 @@ module Articles
 
       @article.assign_attributes(@params)
 
+      article_changed = @article.changes.present?
+
       if @article.save
         message = new_article ? I18n.t('views.article.flash.successful_creation', title: @article.title) : I18n.t('views.article.flash.successful_edition', title: @article.title)
+
+        # Force saving new version in case of auto saving
+        @article.paper_trail.save_with_version if auto_saved && !article_changed
+
         @article.pictures.each do |picture|
           picture.imageable = @article
           picture.save(validate: false)

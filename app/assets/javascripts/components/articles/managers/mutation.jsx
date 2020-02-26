@@ -84,6 +84,8 @@ export default function articleMutationManager(mode) {
             constructor(props) {
                 super(props);
 
+                this._hasAutoSaved = false;
+
                 // Check fo unsaved article before connection
                 const unsavedArticle = getLocalData(articleUnsavedDataName, true);
 
@@ -206,8 +208,10 @@ export default function articleMutationManager(mode) {
                         childTagIds: this.props.article.childTagIds
                     });
 
-                    const updatePromise = this.props.updateArticle(formData, {autoSave: (autoSave === true)});
+                    const updatePromise = this.props.updateArticle(formData, {autoSave: (autoSave === true), autoSaved: this._hasAutoSaved});
                     if (autoSave === true) {
+                        this._hasAutoSaved = true;
+
                         return updatePromise;
                     } else {
                         return updatePromise.then((response) => {
@@ -221,8 +225,8 @@ export default function articleMutationManager(mode) {
                             });
                         });
                     }
-                    // For new articles, save it locally only
                 } else {
+                    // For new articles, save it locally only
                     let tagParams = {};
                     if (this.state.article) {
                         tagParams = {

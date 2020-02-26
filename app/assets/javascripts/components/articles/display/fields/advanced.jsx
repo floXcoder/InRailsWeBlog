@@ -82,15 +82,22 @@ class ArticleAdvancedField extends React.PureComponent {
                 }
 
                 {
-                    (this.props.inheritVisibility !== 'only_me' && this.props.currentVisibility !== 'only_me' && this.props.currentDraft !== true) &&
+                    (this.props.inheritVisibility !== 'only_me' || !this.props.isEditing) &&
                     <div className="col s12 center-align">
                         <Divider className={this.props.classes.advancedDivider}/>
+                    </div>
+                }
 
+                {
+                    (this.props.inheritVisibility !== 'only_me' && this.props.currentVisibility !== 'only_me' && this.props.currentDraft !== true) &&
+                    <div className="col s12 center-align">
                         <Field name="allowComment"
                                component={SwitchFormField}
                                id="article_allow_comment"
                                label={I18n.t('js.article.common.allow_comment.title')}
                                values={I18n.t('js.article.common.allow_comment')}/>
+
+                        <Divider className={this.props.classes.advancedDivider}/>
                     </div>
                 }
 
@@ -106,8 +113,6 @@ class ArticleAdvancedField extends React.PureComponent {
                 {
                     this.props.currentMode !== 'link' &&
                     <div className="col s12 center-align">
-                        <Divider className={this.props.classes.advancedDivider}/>
-
                         <a className={this.props.classes.externalReferenceButton}
                            href="#"
                            onClick={this._handleExpandClick}>

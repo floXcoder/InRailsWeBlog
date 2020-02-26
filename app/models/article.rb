@@ -110,6 +110,7 @@ class Article < ApplicationRecord
              counter_cache: true
 
   has_many :tagged_articles,
+           # -> { order 'parent desc' },
            autosave:  true,
            dependent: :destroy
   has_many :tags,

@@ -14,7 +14,7 @@ class Admins::SeoController < AdminsController
 
       format.json do
         locales_named_routes = Seo::Data::NAMED_ROUTES.map { |route| I18n.available_locales.map { |locale| "#{route}_#{locale}" } }.flatten
-        seo_data = Seo::Data.all.sort_by { |data| locales_named_routes.index(data.name) }
+        seo_data             = Seo::Data.all.sort_by { |data| locales_named_routes.index(data.name) }
 
         render json: Seo::DataSerializer.new(seo_data,
                                              meta: { root: 'seoData' })
@@ -28,7 +28,16 @@ class Admins::SeoController < AdminsController
     parameters = []
     error      = nil
 
-    if params[:url]
+    if params[:route]
+      route_parameters = Rails.application.routes.routes.find { |r| r.name == params[:route] }
+      if parameters
+        name       = params[:route]
+        locale     = route_parameters.defaults[:locale].presence || I18n.default_locale
+        parameters = route_parameters.parts - [:format]
+      else
+        error = "Named route not found"
+      end
+    elsif params[:url]
       begin
         route_url = Rails.application.routes.recognize_path(params[:url], method: :get)
         if route_url[:controller] == 'pages' && route_url[:action] == 'home'
@@ -40,15 +49,6 @@ class Admins::SeoController < AdminsController
         end
       rescue ActionController::RoutingError
         error = "L'url n'est pas disponible sur le site"
-      end
-    elsif params[:route]
-      parameters = Rails.application.routes.routes.find { |r| r.name == params[:route] }
-      if parameters
-        name       = params[:route]
-        locale     = parameters.defaults[:locale].presence || I18n.default_locale
-        parameters = parameters.parts - [:format]
-      else
-        error = "Named route not found"
       end
     end
 
