@@ -9,6 +9,7 @@ import {
 } from '@material-ui/core/styles';
 
 import {
+    fetchMetaTags,
     switchTagSidebar
 } from '../../actions';
 
@@ -29,6 +30,7 @@ export default @articleMutationManager('new')
     userSlug: state.userState.currentSlug,
     inheritVisibility: getCurrentUserTopicVisibility(state)
 }), {
+    fetchMetaTags,
     switchTagSidebar
 })
 @hot
@@ -48,6 +50,7 @@ class ArticleNew extends React.Component {
         // from connect
         userSlug: PropTypes.string,
         inheritVisibility: PropTypes.string,
+        fetchMetaTags: PropTypes.func,
         switchTagSidebar: PropTypes.func,
         // from styles
         classes: PropTypes.object
@@ -59,6 +62,12 @@ class ArticleNew extends React.Component {
 
     componentDidMount() {
         this.props.switchTagSidebar(false);
+    }
+
+    componentDidUpdate() {
+        if(this.props.currentUser && this.props.currentTopic) {
+            this.props.fetchMetaTags('new_article', {user_slug: this.props.currentUser.slug, topic_slug: this.props.currentTopic.slug});
+        }
     }
 
     shouldComponentUpdate(nextProps) {

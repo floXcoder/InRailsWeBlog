@@ -7,7 +7,7 @@ const styles = (theme) => ({
     },
     titleField: {
         width: '100%',
-        margin: '0 0 2.5rem'
+        margin: '.8rem 0 2.5rem'
     },
     tagLabel: {
         width: '100%',

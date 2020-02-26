@@ -89,7 +89,9 @@ const styles = (theme) => ({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        flexWrap: 'wrap'
+        flexWrap: 'wrap',
+        paddingTop: 0,
+        paddingBottom: 0
     },
     avatarContainer: {
         marginTop: 0,

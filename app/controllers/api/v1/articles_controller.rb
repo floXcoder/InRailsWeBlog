@@ -236,7 +236,7 @@ module Api::V1
       article = current_user.articles.friendly.find(params[:id])
       admin_or_authorize article
 
-      stored_article = ::Articles::StoreService.new(article, article_params.merge(current_user: current_user)).perform
+      stored_article = ::Articles::StoreService.new(article, article_params.merge(current_user: current_user, auto_saved: params[:auto_saved])).perform
 
       respond_to do |format|
         format.json do

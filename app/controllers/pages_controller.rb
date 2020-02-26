@@ -11,15 +11,19 @@ class PagesController < ApplicationController
         expires_in InRailsWeBlog.config.cache_time, public: true
 
         if current_user
-          set_seo_data(:user_home,
-                       user_slug: current_user.pseudo,
-                       og:        {
-                         type:  "#{ENV['WEBSITE_NAME']}:home",
-                         url:   root_url,
-                         image: image_url('logos/favicon-192x192.png')
-                       })
+          if request.path == '/' && current_user.locale != 'en'
+            redirect_to send("user_home_#{current_user.locale}_path")
+          else
+            set_seo_data(:user_home,
+                         user_slug: current_user.pseudo,
+                         og:        {
+                           type:  "#{ENV['WEBSITE_NAME']}:home",
+                           url:   root_url,
+                           image: image_url('logos/favicon-192x192.png')
+                         })
 
-          render :user
+            render :user
+          end
         else
           set_seo_data(:home,
                        og:        {
@@ -51,7 +55,8 @@ class PagesController < ApplicationController
   end
 
   def meta_tag
-    set_seo_data(params[:route_name])
+    parameters = params.to_unsafe_h.except(:controller, :action, :page, :locale, :format, :route_name, :force_locale).symbolize_keys
+    set_seo_data(params[:route_name], parameters)
 
     render json: meta_attributes
   end

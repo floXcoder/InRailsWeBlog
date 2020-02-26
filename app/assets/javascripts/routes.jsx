@@ -118,6 +118,7 @@ export default {
             {
                 path: Routes.rootPath(false),
                 exact: true,
+                strict: false,
                 tagCloud: true,
                 component: () => RouteComponents.UserHome
             },
