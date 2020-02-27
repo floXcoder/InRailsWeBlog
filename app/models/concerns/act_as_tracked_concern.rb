@@ -66,8 +66,8 @@ module ActAsTrackedConcern
       tracker_count += 1
     end
 
-    if defined?(self.custom_popularity)
-      popularity, tracker_count = self.custom_popularity(popularity, tracker_count)
+    if defined?(custom_popularity)
+      popularity, tracker_count = custom_popularity(popularity, tracker_count)
     end
 
     return popularity / tracker_count

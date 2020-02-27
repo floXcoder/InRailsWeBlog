@@ -182,6 +182,14 @@ class AdminSeoData extends React.Component {
                                field: 'name'
                            },
                            {
+                               title: I18n.t('js.admin.seo.table.columns.visibility'),
+                               field: 'visibility',
+                               lookup: {
+                                   [true]: I18n.t('js.admin.seo.visibility.public'),
+                                   [false]: I18n.t('js.admin.seo.visibility.private')
+                               }
+                           },
+                           {
                                title: I18n.t('js.admin.seo.table.columns.locale'),
                                field: 'locale'
                            },
@@ -192,7 +200,7 @@ class AdminSeoData extends React.Component {
                            },
                            {
                                title: I18n.t('js.admin.seo.table.columns.page_title'),
-                               field: 'pageTitle',
+                               field: 'pageTitle'
                            },
                            {
                                title: I18n.t('js.admin.seo.table.columns.meta_desc'),

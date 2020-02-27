@@ -5,7 +5,8 @@ import {
 } from 'react-hot-loader/root';
 
 import {
-    fetchArticles
+    fetchArticles,
+    updateArticle
 } from '../../actions';
 
 import Loader from '../theme/loader';
@@ -14,14 +15,16 @@ import Table from '../theme/table';
 export default @connect((state) => ({
     articles: state.articleState.articles
 }), {
-    fetchArticles
+    fetchArticles,
+    updateArticle
 })
 @hot
 class AdminArticles extends React.Component {
     static propTypes = {
         // from connect
         articles: PropTypes.array,
-        fetchArticles: PropTypes.func
+        fetchArticles: PropTypes.func,
+        updateArticle: PropTypes.func
     };
 
     constructor(props) {
@@ -31,6 +34,14 @@ class AdminArticles extends React.Component {
     componentDidMount() {
         this.props.fetchArticles({complete: true});
     }
+
+    _updateArticle =  (newData, oldData) => {
+        return this.props.updateArticle({
+            id: oldData.id,
+            rank: newData.tracker.rank,
+            home_page: newData.tracker.homePage == 'true'
+        });
+    };
 
     render() {
         if (!this.props.articles || this.props.articles.length === 0) {
@@ -60,12 +71,14 @@ class AdminArticles extends React.Component {
                            {
                                title: I18n.t('js.admin.articles.table.columns.id'),
                                field: 'id',
-                               hidden: true
+                               hidden: true,
+                               editable: 'onUpdate'
                            },
                            {
                                title: I18n.t('js.admin.articles.table.columns.topic_id'),
                                field: 'topicId',
-                               hidden: true
+                               hidden: true,
+                               editable: 'never'
                            },
                            {
                                title: I18n.t('js.admin.articles.table.columns.mode'),
@@ -75,16 +88,19 @@ class AdminArticles extends React.Component {
                                    'story': I18n.t('js.article.enums.mode.story'),
                                    'inventory': I18n.t('js.article.enums.mode.inventory'),
                                    'link': I18n.t('js.article.enums.mode.link')
-                               }
+                               },
+                               editable: 'never'
                            },
                            {
                                title: I18n.t('js.admin.articles.table.columns.title'),
                                field: 'title',
+                               editable: 'never'
                            },
                            {
                                title: I18n.t('js.admin.articles.table.columns.priority'),
                                field: 'priority',
-                               hidden: true
+                               hidden: true,
+                               editable: 'never'
                            },
                            {
                                title: I18n.t('js.admin.articles.table.columns.visibility'),
@@ -92,32 +108,63 @@ class AdminArticles extends React.Component {
                                lookup: {
                                    'everyone': I18n.t('js.article.enums.visibility.everyone'),
                                    'only_me': I18n.t('js.article.enums.visibility.only_me')
-                               }
+                               },
+                               editable: 'never'
+                           },
+                           {
+                               title: I18n.t('js.admin.articles.table.columns.languages'),
+                               field: 'languages',
+                               render: (articles) => articles.languages.join(', '),
+                               editable: 'never'
                            },
                            {
                                title: I18n.t('js.admin.articles.table.columns.views_count'),
                                field: 'tracker[viewsCount]',
-                               filtering: false
+                               filtering: false,
+                               editable: 'never'
                            },
                            {
                                title: I18n.t('js.admin.articles.table.columns.clicks_count'),
                                field: 'tracker[clicksCount]',
-                               filtering: false
+                               filtering: false,
+                               editable: 'never'
                            },
                            {
                                title: I18n.t('js.admin.articles.table.columns.searches_count'),
                                field: 'tracker[searchesCount]',
-                               filtering: false
+                               filtering: false,
+                               editable: 'never'
                            },
                            {
                                title: I18n.t('js.admin.articles.table.columns.comments_count'),
                                field: 'commentsCount',
-                               filtering: false
+                               filtering: false,
+                               editable: 'never'
                            },
                            {
                                title: I18n.t('js.admin.articles.table.columns.date'),
                                field: 'date',
+                               filtering: false,
+                               editable: 'never'
+                           },
+                           {
+                               title: I18n.t('js.admin.articles.table.columns.popularity'),
+                               field: 'tracker[popularity]',
+                               filtering: false,
+                               editable: 'never'
+                           },
+                           {
+                               title: I18n.t('js.admin.articles.table.columns.rank'),
+                               field: 'tracker[rank]',
                                filtering: false
+                           },
+                           {
+                               title: I18n.t('js.admin.articles.table.columns.home_page'),
+                               field: 'tracker[homePage]',
+                               lookup: {
+                                   [true]: I18n.t('js.admin.articles.home_page.true'),
+                                   [false]: I18n.t('js.admin.articles.home_page.false')
+                               }
                            }
                        ]}
                        options={{
@@ -128,6 +175,9 @@ class AdminArticles extends React.Component {
                            pageSize: 50,
                            pageSizeOptions: [50, 100, 200],
                            emptyRowsWhenPaging: false
+                       }}
+                       editable={{
+                           onRowUpdate: this._updateArticle
                        }}
                        actions={[
                            {

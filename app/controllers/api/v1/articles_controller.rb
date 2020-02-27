@@ -63,10 +63,14 @@ module Api::V1
                        user_slug: User.find_by(slug: filter_params[:user_slug])&.pseudo)
         end
 
-        articles = ::Articles::FindQueries.new(current_user, current_admin).all(filter_params.merge(page: params[:page], limit: params[:limit]))
+        articles = if complete
+                     ::Articles::FindQueries.new(current_user, current_admin).complete(filter_params.merge(page: params[:page], limit: params[:limit]))
+                   else
+                     ::Articles::FindQueries.new(current_user, current_admin).all(filter_params.merge(page: params[:page], limit: params[:limit]))
+                   end
       end
 
-      expires_in InRailsWeBlog.config.cache_time, public: true
+      admin_signed_in? ? reset_cache_headers : expires_in(InRailsWeBlog.config.cache_time, public: true)
       if stale?(articles, template: false, public: true)
         respond_to do |format|
           format.json do
@@ -236,7 +240,7 @@ module Api::V1
       article = current_user.articles.friendly.find(params[:id])
       admin_or_authorize article
 
-      stored_article = ::Articles::StoreService.new(article, article_params.merge(current_user: current_user, auto_saved: params[:auto_saved])).perform
+      stored_article = ::Articles::StoreService.new(article, article_params.merge(article_admin_params).merge(current_user: current_user, auto_saved: params[:auto_saved])).perform
 
       respond_to do |format|
         format.json do
@@ -362,6 +366,15 @@ module Api::V1
                                                               :visibility,
                                                               :new
                                                             ])
+    end
+
+    def article_admin_params
+      if admin_signed_in?
+        params.require(:article).permit(:rank,
+                                        :home_page)
+      else
+        {}
+      end
     end
 
     def filter_params

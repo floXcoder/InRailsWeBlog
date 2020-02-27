@@ -9,15 +9,16 @@ class Admins::SeoController < AdminsController
         set_meta_tags title:   titleize_admin(I18n.t('views.admin.seo.title')),
                       noindex: true, nofollow: true
 
-        render :index, locals: { seo_pages: seo_pages.to_json }
+        render :index, locals: { seo_pages: seo_pages.map(&:to_h).to_json }
       end
 
       format.json do
-        locales_named_routes = Seo::Data::NAMED_ROUTES.map { |route| I18n.available_locales.map { |locale| "#{route}_#{locale}" } }.flatten
+        locales_named_routes = Seo::Data.local_named_routes.map(&:name)
         seo_data             = Seo::Data.all.sort_by { |data| locales_named_routes.index(data.name) }
 
         render json: Seo::DataSerializer.new(seo_data,
-                                             meta: { root: 'seoData' })
+                                             params: { routes: Seo::Data.local_named_routes },
+                                             meta:   { root: 'seoData' })
       end
     end
   end

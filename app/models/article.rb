@@ -482,6 +482,13 @@ class Article < ApplicationRecord
 
   private
 
+  # Used by tracker to add a custom value
+  def custom_popularity(popularity, tracker_count)
+    popularity *= self.rank if self.rank.present?
+
+    return popularity, tracker_count
+  end
+
   def add_visit_activity(user_id = nil, parent_id = nil)
     return unless user_id
 
