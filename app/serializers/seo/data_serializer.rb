@@ -16,4 +16,10 @@ class Seo::DataSerializer
              :page_title,
              :meta_desc
 
+  attribute :visibility do |object, params|
+    if params[:routes]
+      params[:routes].find { |route| route.name == object.name }&.params[:public] || false
+    end
+  end
+
 end

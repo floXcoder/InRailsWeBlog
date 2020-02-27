@@ -801,35 +801,42 @@ it:
       tags:
         table:
           columns:
-            clicks_count: Nb di click
-            date: Creato su
-            description: Descrizione
-            id: Id
-            name: Nome
-            priority: Priorità
-            searches_count: Numero di ricerche
-            synonyms: Sinonimi
-            tagged_articles_count: Articoli correlati
-            views_count: N. di visualizzazioni
-            visibility: Visibilità
-          title: Elenco delle etichette
-        title: Etichette
+            clicks_count: "Nb di click"
+            date: "Creato su"
+            description: "Descrizione"
+            id: "Id"
+            name: "Nome"
+            priority: "Priorità"
+            searches_count: "Numero di ricerche"
+            synonyms: "Sinonimi"
+            tagged_articles_count: "Articoli correlati"
+            views_count: "N. di visualizzazioni"
+            visibility: "Visibilità"
+          title: "Elenco delle etichette"
+        title: "Etichette"
       articles:
+        title: "Articoli"
         table:
+          title: "Elenco degli articoli"
           columns:
-            clicks_count: Nb di click
-            comments_count: N. di commenti
-            date: Postato su
-            id: Id
-            mode: Tipo
-            priority: Priorità
-            searches_count: Numero di ricerche
-            title: Titolo
-            topic_id: Tema Id
-            views_count: N. di visualizzazioni
-            visibility: Visibilità
-          title: Elenco degli articoli
-        title: Articoli
+            clicks_count: "Nb di click"
+            comments_count: "N. di commenti"
+            date: "Postato su"
+            id: "Id"
+            mode: "Tipo"
+            priority: "Priorità"
+            languages: "Lingue"
+            searches_count: "Numero di ricerche"
+            title: "Titolo"
+            topic_id: "Tema Id"
+            views_count: "N. di visualizzazioni"
+            visibility: "Visibilità"
+            popularity: "Popolarità"
+            rank: "Punteggio"
+            home_page: "Home?"
+        home_page:
+          true: "Home"
+          false: "x"
       blogs:
         add: Aggiungi blog
         form:
@@ -841,6 +848,9 @@ it:
         title: Note
       seo:
         add: "Aggiungere dati SEO"
+        visibility:
+          public: "Pubblico"
+          private: "Privato"
         form:
           add: "Aggiungi"
           cancel: "Annulla"
@@ -867,6 +877,7 @@ it:
             name: "Nome della strada"
             page_title: "Titolo della pagina"
             parameters: "Impostazioni"
+            visibility: "Visibilità"
           title: "Elenco delle pagine"
         title: "Gestione SEO"
       logs:

@@ -183,6 +183,9 @@ module Articles
         @params.delete(:tags)
       end
 
+      @article.rank = @params.delete(:rank).to_i if @params[:rank].present?
+      @article.home_page = @params.delete(:home_page) if @params[:home_page].present?
+
       @article.assign_attributes(@params)
 
       article_changed = @article.changes.present?

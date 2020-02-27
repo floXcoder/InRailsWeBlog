@@ -79,8 +79,7 @@ RSpec.describe Seo::Data, type: :model, basic: true do
 
     describe '::local_named_routes' do
       it { is_expected.to respond_to(:local_named_routes) }
-      it { expect(Seo::Data.local_named_routes.size).to eq(Seo::Data::NAMED_ROUTES.size * I18n.available_locales.size) }
-      it { expect(Seo::Data.local_named_routes.first).to eq('home_en') }
+      it { expect(Seo::Data.local_named_routes.first.name).to eq('home_fr') }
     end
 
     describe '::associated_parameters' do

@@ -748,21 +748,28 @@ de:
         topics: Themenbereiche
         users: Benutzer
       articles:
+        title: "Artikel"
         table:
+          title: "Liste der Artikel"
           columns:
-            clicks_count: Anzahl der Klicks
-            comments_count: Anzahl der Kommentare
-            date: Geschrieben am
-            id: Id
-            mode: Geben Sie  ein
-            priority: Priorität
-            searches_count: Anzahl der Suchvorgänge
-            title: Titel
-            topic_id: Thema Id
-            views_count: Anzahl der Ansichten
-            visibility: Sichtbarkeit
-          title: Liste der Artikel
-        title: Artikel
+            clicks_count: "Anzahl der Klicks"
+            comments_count: "Anzahl der Kommentare"
+            date: "Geschrieben am"
+            id: "Id"
+            mode: "Geben Sie  ein"
+            priority: "Priorität"
+            languages: "Sprachen"
+            searches_count: "Anzahl der Suchvorgänge"
+            title: "Titel"
+            topic_id: "Thema Id"
+            views_count: "Anzahl der Ansichten"
+            visibility: "Sichtbarkeit"
+            popularity: "Popularität"
+            rank: "Partitur"
+            home_page: "Home?"
+        home_page:
+          true: "Home"
+          false: "x"
       blogs:
         add: Blog hinzufügen
         form:
@@ -814,6 +821,9 @@ de:
         placeholder: Suche nach Etikett, Thema, Artikel, ...
       seo:
         add: "SEO-Daten hinzufügen"
+        visibility:
+          public: "Öffentlich"
+          private: "Privat"
         form:
           add: "Hinzufügen"
           cancel: "Abbrechen"
@@ -840,24 +850,25 @@ de:
             name: "Name der Straße"
             page_title: "Titel der Seite"
             parameters: "Einstellungen"
+            visibility: "Sichtbarkeit"
           title: "Liste der Seiten"
         title: "SEO-Management"
       tags:
         table:
           columns:
-            clicks_count: Anzahl der Klicks
-            date: Erstellt am
-            description: Beschreibung
-            id: Id
-            name: Name
-            priority: Priorität
-            searches_count: Anzahl der Suchvorgänge
-            synonyms: Synonyme
-            tagged_articles_count: Verwandte Artikel
-            views_count: Anzahl der Ansichten
-            visibility: Sichtbarkeit
-          title: Liste der Etiketten
-        title: Beschriftungen
+            clicks_count: "Anzahl der Klicks"
+            date: "Erstellt am"
+            description: "Beschreibung"
+            id: "Id"
+            name: "Name"
+            priority: "Priorität"
+            searches_count: "Anzahl der Suchvorgänge"
+            synonyms: "Synonyme"
+            tagged_articles_count: "Verwandte Artikel"
+            views_count: "Anzahl der Ansichten"
+            visibility: "Sichtbarkeit"
+          title: "Liste der Etiketten"
+        title: "Beschriftungen"
       topics:
         table:
           columns:

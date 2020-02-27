@@ -825,11 +825,18 @@ en:
             title: "Titre"
             priority: "Priority"
             visibility: "Visibility"
+            languages: "Languages"
             comments_count: "Comments count"
             views_count: "Views count"
             clicks_count: "Clicks count"
             searches_count: "Searches count"
             date: "Created at"
+            popularity: "Popularity"
+            rank: "Score"
+            home_page: "Home?"
+        home_page:
+          true: "Home"
+          false: "x"
       blogs:
         title: "Wikis"
         add: "Add wiki"
@@ -842,6 +849,9 @@ en:
       seo:
         title: "SEO management"
         add: "Add SEO data"
+        visibility:
+          public: "Public"
+          private: "Private"
         table:
           title: "Pages list"
           columns:
@@ -851,6 +861,7 @@ en:
             parameters: "Parameters"
             page_title: "Page title"
             meta_desc: "Meta Desc"
+            visibility: "Visibility"
         form:
           title: "Select route or URL"
           select:

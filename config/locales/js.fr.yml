@@ -825,11 +825,18 @@ fr:
             title: "Titre"
             priority: "Priorité"
             visibility: "Visibilité"
+            languages: "Langues"
             comments_count: "Nb de commentaires"
             views_count: "Nb de vues"
             clicks_count: "Nb de clics"
             searches_count: "Nb de recherches"
+            popularity: "Popularité"
+            rank: "Score"
+            home_page: "Home ?"
             date: "Posté le"
+        home_page:
+          true: "Home"
+          false: "x"
       blogs:
         title: "Notes"
         add: "Ajouter blog"
@@ -842,6 +849,9 @@ fr:
       seo:
         title: "Gestion SEO"
         add: "Ajouter données SEO"
+        visibility:
+          public: "Publique"
+          private: "Privé"
         table:
           title: "Liste des pages"
           columns:
@@ -851,6 +861,7 @@ fr:
             parameters: "Paramètres"
             page_title: "Titre de la page"
             meta_desc: "Meta Desc"
+            visibility: "Visibilité"
         form:
           title: "Sélectionner la route ou l'URL"
           select:

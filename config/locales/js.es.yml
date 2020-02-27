@@ -802,46 +802,56 @@ es:
       tags:
         table:
           columns:
-            clicks_count: Nb de clics
-            date: Creado en
-            description: Descripción
-            id: Id
-            name: Nombre
-            priority: Prioridad
-            searches_count: No. de búsquedas
-            synonyms: Sinónimos
-            tagged_articles_count: Artículos relacionados
-            views_count: No. de opiniones
-            visibility: Visibilidad
-          title: Lista de etiquetas
-        title: Etiquetas
+            clicks_count: "Nb de clics"
+            date: "Creado en"
+            description: "Descripción"
+            id: "Id"
+            name: "Nombre"
+            priority: "Prioridad"
+            searches_count: "No. de búsquedas"
+            synonyms: "Sinónimos"
+            tagged_articles_count: "Artículos relacionados"
+            views_count: "No. de opiniones"
+            visibility: "Visibilidad"
+          title: "Lista de etiquetas"
+        title: "Etiquetas"
       articles:
+        title: "Artículos"
         table:
+          title: "Lista de artículos"
           columns:
-            clicks_count: Nb de clics
-            comments_count: No. de comentarios
-            date: Publicado en
-            id: Id
-            mode: Escriba
-            priority: Prioridad
-            searches_count: No. de búsquedas
-            title: Título
-            topic_id: Tema Id
-            views_count: No. de opiniones
-            visibility: Visibilidad
-          title: Lista de artículos
-        title: Artículos
+            clicks_count: "Nb de clics"
+            comments_count: "No. de comentarios"
+            date: "Publicado en"
+            id: "Id"
+            mode: "Escriba"
+            priority: "Prioridad"
+            languages: "Idiomas"
+            searches_count: "No. de búsquedas"
+            title: "Título"
+            topic_id: "Tema Id"
+            views_count: "No. de opiniones"
+            visibility: "Visibilidad"
+            popularity: "Popularidad"
+            rank: "Puntuación"
+            home_page: "Home?"
+        home_page:
+          true: "Home"
+          false: "x"
       blogs:
-        add: Añadir blog
+        add: "Añadir blog"
         form:
-          add: Añade
-          cancel: Cancelar
-          content: Su nota...
-          title: Título
-          update: Actualización
-        title: Notas
+          add: "Añade"
+          cancel: "Cancelar"
+          content: "Su nota..."
+          title: "Título"
+          update: "Actualización"
+        title: "Notas"
       seo:
         add: "Agregar datos de SEO"
+        visibility:
+          public: "Público"
+          private: "Privado"
         form:
           add: "Añade"
           cancel: "Cancelar"
@@ -868,6 +878,7 @@ es:
             name: "Nombre de la carretera"
             page_title: "Título de la página"
             parameters: "Ajustes"
+            visibility: "Visibilidad"
           title: "Lista de páginas"
         title: "Gestión de SEO"
       logs:

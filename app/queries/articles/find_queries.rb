@@ -33,7 +33,8 @@ module Articles
 
     def complete(_params = {})
       @relation = @relation
-                    .includes(:user, :tagged_articles, :tracker)
+                    .includes(:tags, :tagged_articles, :tracker, :share, :pictures, user: [:picture], topic: [:inventory_fields])
+                    .order_by('popularity_desc')
                     .with_adapted_visibility(@current_user, @current_admin)
 
       return @relation
