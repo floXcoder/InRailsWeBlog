@@ -109,15 +109,17 @@ es:
         title: Crear una cuenta
       password:
         edit:
-          button: Cambiar mi contraseña
-          password: Nueva contraseña
-          password_confirmation: Confirma tu nueva contraseña
+          button: "Cambiar mi contraseña"
+          password: "Nueva contraseña"
+          password_confirmation: "Confirma tu nueva contraseña"
           title: "¿Olvidó su contraseña?"
         new:
-          back: Volver a la página principal
-          button: Envíame una nueva contraseña
-          email: Su dirección de correo electrónico
-          title: Cambie su contraseña
+          back: "Volver a la página principal"
+          button: "Envíame una nueva contraseña"
+          email: "Su dirección de correo electrónico"
+          title: "Cambie su contraseña"
+      confirmation:
+        in_progress: "Confirmación de su cuenta..."
       home:
         add_topic: Añade un tema
         private:
@@ -231,32 +233,33 @@ es:
         title: Tus favoritos
     tag:
       common:
-        associated: Etiquetas asociadas
-        filter: Filtrar por etiquetas ...
-        link: Ver detalles de la etiqueta
-        list: Etiquetas
-        no_children: No hay etiquetas de hijo asociadas
-        no_description: No hay una descripción asociada a la etiqueta
-        no_parents: No hay etiquetas de padres asociados
-        no_privates: No hay etiquetas privadas
-        no_publics: No hay etiquetas privadas
-        no_results: 'No se encontraron etiquetas para..:'
-        no_synonyms: No hay sinónimos asociados con la etiqueta
-        no_tags: No hay etiquetas para este tema todavía
+        associated: "Etiquetas asociadas"
+        filter: "Filtrar por etiquetas ..."
+        link: "Ver detalles de la etiqueta"
+        list: "Etiquetas"
+        no_children: "No hay etiquetas de hijo asociadas"
+        no_description: "No hay una descripción asociada a la etiqueta"
+        no_parents: "No hay etiquetas de padres asociados"
+        no_privates: "No hay etiquetas privadas"
+        no_publics: "No hay etiquetas privadas"
+        no_results: "No se encontraron etiquetas para:"
+        no_synonyms: "No hay sinónimos asociados con la etiqueta"
+        no_tags: "No hay etiquetas para este tema todavía"
+        no_cloud_tags: "Añadir un artículo para crear las etiquetas"
         placeholders:
-          description: Descripción de la etiqueta
-          name: Nombre de la etiqueta
-        privates: Etiquetas privadas
-        publics: Etiquetas públicas
+          description: "Descripción de la etiqueta"
+          name: "Nombre de la etiqueta"
+        privates: "Etiquetas privadas"
+        publics: "Etiquetas públicas"
         stats:
-          clicks: clic
-          searches: 'Investigación '
-          title: Estadísticas
-          views: Vistas
-        synonyms: Sinónimos de la etiqueta ...
+          clicks: "clic"
+          searches: "Investigación "
+          title: "Estadísticas"
+          views: "Vistas"
+        synonyms: "Sinónimos de la etiqueta ..."
         usage: "%{count} usos"
-        visibility: Elija la visibilidad
-        visibility_immutable: El nombre de una etiqueta pública no puede ser cambiado
+        visibility: "Elija la visibilidad"
+        visibility_immutable: "El nombre de una etiqueta pública no puede ser cambiado"
       form:
         unsaved: "¿Renunciar sin guardar la etiqueta?"
       model:

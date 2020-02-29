@@ -118,6 +118,8 @@ en:
           password: "New password"
           password_confirmation: "Confirm your new password"
           button: "Change my password"
+      confirmation:
+        in_progress: "Confirmation of your account..."
       home:
         private:
           title: "Your private topics"
@@ -235,6 +237,7 @@ en:
         associated: "Associated tags"
         filter: "Filter by tags..."
         no_tags: "Not tag yet for this topic"
+        no_cloud_tags: "Add an article to create tags"
         no_results: "No tags for:"
         usage: "%{count} use"
         link: "See tag details"

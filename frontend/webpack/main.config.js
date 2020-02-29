@@ -104,18 +104,18 @@ webPackConfig.module = {
     ]
 };
 
-webPackConfig.plugins = {};
+let providePlugins = {};
 _.forEach(config.plugins, (value, key) => {
-    if(value.includes('.js')) {
-        return webPackConfig.plugins[key] = path.resolve(value);
+    if(value.includes('.js') || value.includes('.jsx')) {
+        return providePlugins[key] = path.resolve(value);
     } else {
-        return webPackConfig.plugins[key] = value;
+        return providePlugins[key] = value;
     }
 });
 
 webPackConfig.plugins = [
     new HappyPack(config.happyPack),
-    new webpack.ProvidePlugin(webPackConfig.plugins),
+    new webpack.ProvidePlugin(providePlugins),
     new CleanWebpackPlugin(),
     new CopyWebpackPlugin([{
         from: 'images/favicon.ico',

@@ -76,15 +76,20 @@ const validate = (values) => {
     return errors;
 };
 
+let previousLoginValue;
+
 const pseudoValidation = (loginValue) => {
     if (loginValue) {
-        return (
-            validateUser(loginValue).then((response) => {
-                if (response.success) {
-                    return I18n.t('js.user.errors.pseudo.already_taken');
-                }
-            })
-        );
+        if(previousLoginValue === loginValue) {
+            return undefined;
+        }
+
+        previousLoginValue = loginValue;
+        return validateUser(loginValue).then((response) => {
+            if (response.success) {
+                return I18n.t('js.user.errors.pseudo.already_taken');
+            }
+        });
     } else {
         return undefined;
     }

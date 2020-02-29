@@ -155,7 +155,7 @@ const cookieChoices = (function () {
             document.getElementById(dismissLinkId).onclick = _dismissLinkClick;
         }
 
-        if(force) {
+        if (force) {
             _parametersLinkClick();
         }
     }
@@ -225,13 +225,8 @@ const cookieChoices = (function () {
     };
 })();
 
-// Warn user about cookies
-// if (process.env.NODE_ENV === 'production') {
-// const cookieChoices = require('../modules/cookieChoices').default;
-
-// setTimeout(() => {
-cookieChoices.displayCookies();
-// }, 1000);
-// }
-
-export default cookieChoices;
+if (!window.seoMode) {
+    setTimeout(() => {
+        cookieChoices.displayCookies();
+    }, 1000);
+}

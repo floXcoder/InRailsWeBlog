@@ -142,15 +142,17 @@ de:
         pseudo: Spitzname
       password:
         edit:
-          button: Mein Passwort ändern
-          password: Neues Kennwort
-          password_confirmation: Bestätigen Sie Ihr neues Passwort
-          title: Haben Sie Ihr Passwort vergessen?
+          button: "Mein Passwort ändern"
+          password: "Neues Kennwort"
+          password_confirmation: "Bestätigen Sie Ihr neues Passwort"
+          title: "Haben Sie Ihr Passwort vergessen?"
         new:
-          back: Zurück zur Startseite
-          button: Schicken Sie mir ein neues Passwort
-          email: Ihre E-Mail Adresse
-          title: Ändern Sie Ihr Passwort
+          back: "Zurück zur Startseite"
+          button: "Schicken Sie mir ein neues Passwort"
+          email: "Ihre E-Mail Adresse"
+          title: "Ändern Sie Ihr Passwort"
+      confirmation:
+        in_progress: "Bestätigung Ihres Kontos..."
       settings:
         article:
           display:
@@ -231,32 +233,33 @@ de:
         text: Lesezeichen hinzugefügt
     tag:
       common:
-        associated: Zugehörige Etiketten
-        filter: Nach Etiketten filtern ...
-        link: Siehe Einzelheiten des Etiketts
-        list: Beschriftungen
-        no_children: Keine zugehörigen Sohnetiketten
-        no_description: Keine Beschreibung in Verbindung mit dem Etikett
-        no_parents: Keine zugeordneten übergeordneten Etiketten
-        no_privates: Keine Eigenmarken
-        no_publics: Keine Eigenmarken
-        no_results: 'Keine Etiketten gefunden für :'
-        no_synonyms: Keine Synonyme in Verbindung mit dem Etikett
-        no_tags: Noch keine Tags für dieses Thema
+        associated: "Zugehörige Etiketten"
+        filter: "Nach Etiketten filtern ..."
+        link: "Siehe Einzelheiten des Etiketts"
+        list: "Beschriftungen"
+        no_children: "Keine zugehörigen Sohnetiketten"
+        no_description: "Keine Beschreibung in Verbindung mit dem Etikett"
+        no_parents: "Keine zugeordneten übergeordneten Etiketten"
+        no_privates: "Keine Eigenmarken"
+        no_publics: "Keine Eigenmarken"
+        no_results: "Keine Etiketten gefunden für :"
+        no_synonyms: "Keine Synonyme in Verbindung mit dem Etikett"
+        no_tags: "Noch keine Tags für dieses Thema"
+        no_cloud_tags: "Fügen Sie einen Artikel hinzu, um die Tags zu erstellen"
         placeholders:
-          description: Beschreibung des Etiketts
-          name: Name des Etiketts
-        privates: Eigenmarken
-        publics: Öffentliche Labels
+          description: "Beschreibung des Etiketts"
+          name: "Name des Etiketts"
+        privates: "Eigenmarken"
+        publics: "Öffentliche Labels"
         stats:
-          clicks: klicken
-          searches: 'Forschung '
-          title: Statistik
-          views: Ansichten
-        synonyms: Synonyme der Bezeichnung ...
+          clicks: "klicken"
+          searches: "Forschung "
+          title: "Statistik"
+          views: "Ansichten"
+        synonyms: "Synonyme der Bezeichnung ..."
         usage: "%{count} Verwendungen"
-        visibility: Sichtbarkeit wählen
-        visibility_immutable: Der Name eines öffentlichen Labels darf nicht geändert werden
+        visibility: "Sichtbarkeit wählen"
+        visibility_immutable: "Der Name eines öffentlichen Labels darf nicht geändert werden"
       edit:
         title: 'Änderung des Etiketts: %{tag}'
         back_button: Abbrechen

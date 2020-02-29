@@ -40,6 +40,8 @@ import {
 import Loader from '../theme/loader';
 import Pagination from '../theme/pagination';
 
+import NotFound from '../layouts/notFound';
+
 import SummaryStoriesTopic from '../topics/stories/summary';
 
 import ArticleNoneDisplay from './display/items/none';
@@ -208,14 +210,22 @@ class ArticleIndex extends React.Component {
 
     render() {
         if (this.props.articlesCount === 0 && !this.props.isFetching) {
-            return (
-                <ArticleNoneDisplay userSlug={this.props.routeParams.userSlug}
-                                    topicSlug={this.props.routeParams.topicSlug}
-                                    tagSlug={this.props.routeParams.tagSlug}
-                                    childTagSlug={this.props.routeParams.childTagSlug}
-                                    isTopicPage={true}
-                                    isSearchPage={false}/>
-            );
+            if (this.props.currentUserId) {
+                return (
+                    <ArticleNoneDisplay userSlug={this.props.routeParams.userSlug}
+                                        topicSlug={this.props.routeParams.topicSlug}
+                                        tagSlug={this.props.routeParams.tagSlug}
+                                        childTagSlug={this.props.routeParams.childTagSlug}
+                                        isTopicPage={true}
+                                        isSearchPage={false}/>
+                );
+            } else {
+                return (
+                    <div className="center margin-top-45 margin-bottom-65">
+                        <NotFound/>
+                    </div>
+                );
+            }
         }
 
         const hasMoreArticles = this.props.articlePagination && this.props.articlePagination.currentPage < this.props.articlePagination.totalPages;

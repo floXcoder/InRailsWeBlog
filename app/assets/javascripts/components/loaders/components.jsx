@@ -40,10 +40,11 @@ export const TagSort = lazyWithPreload(() => import(/* webpackChunkName: "tag-so
 export const UserHome = lazyWithPreload(() => import(/* webpackChunkName: "user-home" */ '../users/home'));
 // export const UserShow = lazyWithPreload(() => import(/* webpackChunkName: "user-show" */ '../users/show'));
 // export const UserEdit = lazyWithPreload(() => import(/* webpackChunkName: "user-edit" */ '../users/edit'));
+export const UserPreference = lazyWithPreload(() => import(/* webpackChunkName: "user-preference" */ '../users/preference'));
 export const UserSignup = lazyWithPreload(() => import(/* webpackChunkName: "user-signup" */ '../users/signup'));
 export const UserLogin = lazyWithPreload(() => import(/* webpackChunkName: "user-login" */ '../users/login'));
 export const UserPassword = lazyWithPreload(() => import(/* webpackChunkName: "user-password" */ '../users/password'));
-export const UserPreference = lazyWithPreload(() => import(/* webpackChunkName: "user-preference" */ '../users/preference'));
+export const UserConfirmation = lazyWithPreload(() => import(/* webpackChunkName: "user-confirmation" */ '../users/confirmation'));
 
 export const HomeSearchHeader = lazyWithPreload(() => import(/* webpackPrefetch: true, webpackChunkName: "search-header" */ '../layouts/header/search'));
 export const SearchModule = lazyWithPreload(() => import(/* webpackChunkName: "search-module" */ '../search/module'));

@@ -33,6 +33,10 @@
 /config/application.yml
 /config/settings/local.rb
 
+# Ignore generated trasnaltion files
+/app/assets/javascripts/translations
+/spec/javascripts/translations
+
 # Ignore static analysis files
 /static_analysis/*
 /.validation/*

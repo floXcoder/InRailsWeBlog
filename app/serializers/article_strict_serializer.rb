@@ -33,6 +33,6 @@ class ArticleStrictSerializer
   end
 
   attribute :link do |object, params|
-    Rails.application.routes.url_helpers.show_article_path(user_slug: object.user.slug, article_slug: object.slug) if params[:with_link]
+    Rails.application.routes.url_helpers.user_article_path(user_slug: object.user.slug, article_slug: object.slug) if params[:with_link]
   end
 end

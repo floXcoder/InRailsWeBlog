@@ -34,10 +34,11 @@ export default class AdminSeoDataForm extends React.Component {
     state = {
         namedRoute: '',
         urlValue: this.props.seoData.url || '',
-        locale: this.props.seoData.locale ||undefined,
-        parameters: this.props.seoData.parameters ||undefined,
-        pageTitle: this.props.seoData.pageTitle ||'',
-        metaDesc: this.props.seoData.metaDesc ||'',
+        locale: this.props.seoData.locale || undefined,
+        parameters: this.props.seoData.parameters || undefined,
+        url: undefined,
+        pageTitle: this.props.seoData.pageTitle || '',
+        metaDesc: this.props.seoData.metaDesc || '',
         error: undefined
     };
 
@@ -48,6 +49,7 @@ export default class AdminSeoDataForm extends React.Component {
                     name: response.name,
                     locale: response.locale,
                     parameters: response.parameters,
+                    url: response.url,
                     error: undefined
                 });
             })
@@ -123,7 +125,7 @@ export default class AdminSeoDataForm extends React.Component {
                                         this.props.seoPages.filter((s) => !this.props.seoPagesUsed.includes(s.name)).map((seoPage) => (
                                             <MenuItem key={seoPage.name}
                                                       value={seoPage.name}>
-                                                ${seoPage.name} (${I18n.t(`js.admin.seo.visibility.${seoPage.params.public ? 'public' : 'private'}`)})
+                                                {seoPage.name} ({I18n.t(`js.admin.seo.visibility.${seoPage.params.public ? 'public' : 'private'}`)})
                                             </MenuItem>
                                         ))
                                     }
@@ -161,6 +163,13 @@ export default class AdminSeoDataForm extends React.Component {
                                 {I18n.t('js.admin.seo.form.seo_fields')}
                             </h3>
                         </div>
+
+                        {
+                            this.state.url &&
+                            <div className="col s12 center-align margin-bottom-15">
+                                URL : {this.state.url}
+                            </div>
+                        }
 
                         <div className="col s12 center-align">
                             {

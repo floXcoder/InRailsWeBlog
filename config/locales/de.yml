@@ -85,7 +85,7 @@ de:
       login:
         title: "Anmeldung (Admin)"
       dashboard:
-        title: "Verwaltung"
+        title: "Dashboard"
       users:
         title: "Benutzer"
       comments:

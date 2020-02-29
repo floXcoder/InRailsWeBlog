@@ -29,7 +29,7 @@ export default @connect((state, props) => ({
     filterText: state.tagState.filterText,
     currentUserSlug: state.userState.currentSlug,
     currentUserTopicSlug: state.topicState.currentUserTopicSlug,
-    currentUserTopics: props.isCloud ? state.topicState.userTopics : undefined,
+    // currentUserTopics: props.isCloud ? state.topicState.userTopics : undefined,
     tags: props.isCloud ? state.tagState.tags : getSortedTopicTags(state)
 }), {
     // filterTags
@@ -39,7 +39,7 @@ class TagSidebar extends React.Component {
     static propTypes = {
         currentTagSlug: PropTypes.string,
         currentChildTagSlug: PropTypes.string,
-        // isCloud: PropTypes.bool,
+        isCloud: PropTypes.bool,
         isOpen: PropTypes.bool,
         hasChildInMainList: PropTypes.bool,
         onTagClick: PropTypes.func,
@@ -48,7 +48,7 @@ class TagSidebar extends React.Component {
         filterText: PropTypes.string,
         currentUserSlug: PropTypes.string,
         currentUserTopicSlug: PropTypes.string,
-        currentUserTopics: PropTypes.array,
+        // currentUserTopics: PropTypes.array,
         tags: PropTypes.array,
         // filterTags: PropTypes.func,
         // from styles
@@ -103,6 +103,7 @@ class TagSidebar extends React.Component {
                                 currentChildTagSlug={this.props.currentChildTagSlug}
                                 hasChildInMainList={this.props.hasChildInMainList}
                                 isOpen={this.props.isOpen}
+                                isCloud={this.props.isCloud}
                                 tags={this.props.tags}
                                 onTagClick={this._handleTagClick}/>
             );

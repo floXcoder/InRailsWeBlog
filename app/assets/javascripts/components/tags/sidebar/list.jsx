@@ -24,6 +24,7 @@ export default class TagSidebarList extends React.Component {
         currentTagSlug: PropTypes.string,
         currentChildTagSlug: PropTypes.string,
         isOpen: PropTypes.bool,
+        isCloud: PropTypes.bool,
         hasChildInMainList: PropTypes.bool,
         onTagClick: PropTypes.func,
         filterText: PropTypes.string,
@@ -119,7 +120,7 @@ export default class TagSidebarList extends React.Component {
                                 ?
                                 I18n.t('js.tag.common.no_results') + ' ' + this.props.filterText
                                 :
-                                I18n.t('js.tag.common.no_tags')
+                                (this.props.isCloud ? I18n.t('js.tag.common.no_cloud_tags') : I18n.t('js.tag.common.no_tags'))
                         }
                     </p>
                 }

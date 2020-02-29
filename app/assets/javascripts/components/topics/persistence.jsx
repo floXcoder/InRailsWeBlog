@@ -118,7 +118,7 @@ class TopicPersistence extends React.Component {
             this.props.addTopic(this.props.currentUserId, {
                 name,
                 mode,
-                description,
+                description: description || undefined,
                 visibility,
                 languages
             })

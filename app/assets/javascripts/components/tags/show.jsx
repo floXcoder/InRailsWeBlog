@@ -24,6 +24,10 @@ import {
     spyTrackClick
 } from '../../actions';
 
+import {
+    getCurrentUser
+} from '../../selectors';
+
 import UserAvatarIcon from '../users/icons/avatar';
 
 import Loader from '../theme/loader';
@@ -33,6 +37,7 @@ import NotFound from '../layouts/notFound';
 import styles from '../../../jss/tag/show';
 
 export default @connect((state) => ({
+    currentUser: getCurrentUser(state),
     isFetching: state.tagState.isFetching,
     tag: state.tagState.tag
 }), {
@@ -44,6 +49,7 @@ class TagShow extends React.Component {
     static propTypes = {
         routeParams: PropTypes.object.isRequired,
         // from connect
+        currentUser: PropTypes.bool,
         isFetching: PropTypes.bool,
         tag: PropTypes.object,
         fetchTag: PropTypes.func,
@@ -222,38 +228,44 @@ class TagShow extends React.Component {
 
                         </div>
 
-                        <div>
-                            <Typography className={this.props.classes.subtitle2}
-                                        component="h3"
-                                        variant="h3">
-                                {I18n.t('js.tag.common.stats.title')}
-                            </Typography>
+                        {
+                            this.props.currentUser?.id === this.props.tag.user.id &&
+                            <div>
+                                <Typography className={this.props.classes.subtitle2}
+                                            component="h3"
+                                            variant="h3">
+                                    {I18n.t('js.tag.common.stats.title')}
+                                </Typography>
 
-                            <p>
-                                {I18n.t('js.tag.common.stats.views')}
-                                {this.props.tag.viewsCount}
-                            </p>
-                            <p>
-                                {I18n.t('js.tag.common.stats.clicks')}
-                                {this.props.tag.clicksCount}
-                            </p>
-                            <p>
-                                {I18n.t('js.tag.common.stats.searches')}
-                                {this.props.tag.searchesCount}
-                            </p>
-                        </div>
+                                <p>
+                                    {I18n.t('js.tag.common.stats.views')}
+                                    {this.props.tag.viewsCount}
+                                </p>
+                                <p>
+                                    {I18n.t('js.tag.common.stats.clicks')}
+                                    {this.props.tag.clicksCount}
+                                </p>
+                                <p>
+                                    {I18n.t('js.tag.common.stats.searches')}
+                                    {this.props.tag.searchesCount}
+                                </p>
+                            </div>
+                        }
                     </div>
                 </div>
 
-                <div className="center-align margin-top-60 margin-bottom-20">
-                    <Button color="default"
-                            variant="outlined"
-                            size="small"
-                            component={Link}
-                            to={editTagPath(this.props.tag.slug)}>
-                        {I18n.t('js.tag.show.edit_link')}
-                    </Button>
-                </div>
+                {
+                    this.props.currentUser?.id === this.props.tag.user.id &&
+                    <div className="center-align margin-top-60 margin-bottom-20">
+                        <Button color="default"
+                                variant="outlined"
+                                size="small"
+                                component={Link}
+                                to={editTagPath(this.props.tag.slug)}>
+                            {I18n.t('js.tag.show.edit_link')}
+                        </Button>
+                    </div>
+                }
             </article>
         );
     }

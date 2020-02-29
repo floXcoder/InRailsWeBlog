@@ -35,6 +35,19 @@ module Api::V1
       redirect_after_failure(error_msg)
     end
 
+    def destroy
+      signed_out = (Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name))
+      set_flash_message! :notice, :signed_out if signed_out
+      yield if block_given?
+
+      @location = after_sign_out_path_for(resource)
+      respond_to do |format|
+        format.html { redirect_to(@location) }
+        format.js
+        format.json { render json: { location: @location } }
+      end
+    end
+
     protected
 
     def auth_options
@@ -44,11 +57,11 @@ module Api::V1
     def redirect_after_failure(error_msg)
       respond_to do |format|
         format.html do
-          redirect_to login_path, flash: { error: error_msg }
+          redirect_to after_failure_path, flash: { error: error_msg }
         end
 
         format.js do
-          js_redirect_to(login_path, :error, error_msg)
+          js_redirect_to(after_failure_path, :error, error_msg)
         end
 
         format.json do

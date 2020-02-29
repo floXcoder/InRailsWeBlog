@@ -36,6 +36,7 @@ class Editor extends React.Component {
         placeholder: PropTypes.string,
         children: PropTypes.string,
         hasOuterHeight: PropTypes.bool,
+        otherStaticBar: PropTypes.string,
         isDisabled: PropTypes.bool,
         onLoaded: PropTypes.func,
         onFocus: PropTypes.func,
@@ -72,157 +73,166 @@ class Editor extends React.Component {
 
     componentDidMount() {
         // EditorLoader(() => {
-            const $editor = $(this._editorRef.current);
+        const $editor = $(this._editorRef.current);
 
-            const defaultOptions = {
-                lang: I18n.locale + '-' + I18n.locale.toUpperCase(),
-                styleTags: ['p', 'h2', 'h3', 'h4'],
-                placeholder: this.props.placeholder,
-                popatmouse: false,
-                callbacks: {
-                    onFocus: this.props.onFocus,
-                    onMousedown: this._handleMouseDown,
-                    // onBlur: this.props.onBlur,
-                    onKeyup: this.props.onKeyUp,
-                    onKeydown: this._onKeyDown,
-                    onChange: this._onChange,
-                    onPaste: this._onPaste,
-                    onImageUpload: this.onImageUpload,
-                    onMediaDelete: this.onImageDelete
+        const defaultOptions = {
+            lang: I18n.locale + '-' + I18n.locale.toUpperCase(),
+            styleTags: ['p', 'h2', 'h3', 'h4'],
+            placeholder: this.props.placeholder,
+            popatmouse: false,
+            callbacks: {
+                onFocus: this.props.onFocus,
+                onMousedown: this._handleMouseDown,
+                // onBlur: this.props.onBlur,
+                onKeyup: this.props.onKeyUp,
+                onKeydown: this._onKeyDown,
+                onChange: this._onChange,
+                onPaste: this._onPaste,
+                onImageUpload: this.onImageUpload,
+                onMediaDelete: this.onImageDelete
+            },
+            hint: {
+                mentions: [I18n.t('js.editor.hint.input')],
+                match: /\B#(\w*)$/,
+                search: (keyword, callback) => {
+                    loadAutocomplete({
+                        selectedTypes: ['article', 'topic'],
+                        topicId: this.props.currentTopicId,
+                        query: keyword,
+                        limit: 5
+                    }).then((results) => {
+                        let autocompletes = [];
+
+                        if (results.articles) {
+                            autocompletes = autocompletes.concat(results.articles.map((article) => ['article', article.title, article.id, article.slug, article.user.slug]).compact());
+                        }
+                        if (results.topics) {
+                            autocompletes = autocompletes.concat(results.topics.map((topic) => ['topic', topic.name, topic.id, topic.slug, topic.user.slug]).compact());
+                        }
+
+                        if (autocompletes.length > 0) {
+                            return callback(autocompletes);
+                        } else {
+                            return [];
+                        }
+                    })
                 },
-                hint: {
-                    mentions: [I18n.t('js.editor.hint.input')],
-                    match: /\B#(\w*)$/,
-                    search: (keyword, callback) => {
-                        loadAutocomplete({
-                            selectedTypes: ['article', 'topic'],
-                            topicId: this.props.currentTopicId,
-                            query: keyword,
-                            limit: 5
-                        }).then((results) => {
-                            let autocompletes = [];
-
-                            if (results.articles) {
-                                autocompletes = autocompletes.concat(results.articles.map((article) => ['article', article.title, article.id, article.slug, article.user.slug]).compact());
-                            }
-                            if (results.topics) {
-                                autocompletes = autocompletes.concat(results.topics.map((topic) => ['topic', topic.name, topic.id, topic.slug, topic.user.slug]).compact());
-                            }
-
-                            if(autocompletes.length > 0) {
-                                return callback(autocompletes);
-                            } else {
-                                return [];
-                            }
-                        })
-                    },
-                    template: ([type, title, id, slug, parentSlug]) => {
-                        if (type === 'topic') {
-                            return title + ' (' + I18n.t(`js.editor.hint.${type}`) + ')';
-                        } else {
-                            return title;
-                        }
-                    },
-                    content: ([type, title, id, slug, parentSlug]) => {
-                        let nodeItem = document.createElement('a');
-                        nodeItem.target = '_blank';
-                        if (type === 'topic') {
-                            nodeItem.href = topicArticlesPath(parentSlug, slug);
-                            nodeItem.innerHTML = `#${title}`;
-                        } else {
-                            nodeItem.href = userArticlePath(parentSlug, slug);
-                            nodeItem.setAttribute('data-article-relation-id', id);
-                            nodeItem.innerHTML = `#${title}`;
-                        }
-                        return nodeItem;
+                template: ([type, title, id, slug, parentSlug]) => {
+                    if (type === 'topic') {
+                        return title + ' (' + I18n.t(`js.editor.hint.${type}`) + ')';
+                    } else {
+                        return title;
                     }
+                },
+                content: ([type, title, id, slug, parentSlug]) => {
+                    let nodeItem = document.createElement('a');
+                    nodeItem.target = '_blank';
+                    if (type === 'topic') {
+                        nodeItem.href = topicArticlesPath(parentSlug, slug);
+                        nodeItem.innerHTML = `#${title}`;
+                    } else {
+                        nodeItem.href = userArticlePath(parentSlug, slug);
+                        nodeItem.setAttribute('data-article-relation-id', id);
+                        nodeItem.innerHTML = `#${title}`;
+                    }
+                    return nodeItem;
                 }
-            };
+            }
+        };
 
-            if (this.props.mode === EDITOR_MODE.INLINE_EDIT) {
-                let airToolbar = [
+        if (this.props.mode === EDITOR_MODE.INLINE_EDIT) {
+            let airToolbar = [
+                ['style', ['style', 'bold', 'italic', 'underline']],
+                ['specialStyle', ['pre', 'advice', 'secret']],
+                ['para', ['ul', 'ol']],
+                ['insert', ['link', 'picture', 'video']],
+                ['undo', ['undo', 'redo']],
+                ['clear', ['clear']]
+            ];
+
+            if (this.props.width === 'xs' || this.props.width === 'sm') {
+                airToolbar = [
                     ['style', ['style', 'bold', 'italic', 'underline']],
                     ['specialStyle', ['pre', 'advice', 'secret']],
                     ['para', ['ul', 'ol']],
-                    ['insert', ['link', 'picture', 'video']],
-                    ['undo', ['undo', 'redo']],
-                    ['clear', ['clear']]
+                    ['insert', ['link', 'picture', 'video']]
                 ];
+            }
 
-                if (this.props.width === 'xs' || this.props.width === 'sm') {
-                    airToolbar = [
-                        ['style', ['style', 'bold', 'italic', 'underline']],
-                        ['specialStyle', ['pre', 'advice', 'secret']],
-                        ['para', ['ul', 'ol']],
-                        ['insert', ['link', 'picture', 'video']]
-                    ];
+            this._editor = $editor.summernote({
+                ...defaultOptions,
+                airMode: true,
+                popover: {
+                    air: airToolbar
                 }
+            });
+        } else {
+            let toolbar = [
+                ['style', ['style', 'bold', 'italic', 'underline']],
+                ['para', ['ul', 'ol']],
+                ['specialStyle', ['code', 'pre', 'advice', 'secret']],
+                ['table', ['table']],
+                ['insert', ['link', 'picture', 'video']],
+                ['undo', ['undo', 'redo']],
+                ['clear', ['clear']],
+                // ['view', ['fullscreen']],
+                // ['help', ['codeview', 'help']]
+            ];
 
-                this._editor = $editor.summernote({
-                    ...defaultOptions,
-                    airMode: true,
-                    popover: {
-                        air: airToolbar
-                    }
-                });
-            } else {
-                let toolbar = [
+            if (this.props.width === 'xs' || this.props.width === 'sm') {
+                toolbar = [
                     ['style', ['style', 'bold', 'italic', 'underline']],
                     ['para', ['ul', 'ol']],
                     ['specialStyle', ['code', 'pre', 'advice', 'secret']],
-                    ['table', ['table']],
-                    ['insert', ['link', 'picture', 'video']],
-                    ['undo', ['undo', 'redo']],
-                    ['clear', ['clear']],
-                    // ['view', ['fullscreen']],
-                    // ['help', ['codeview', 'help']]
+                    ['insert', ['link', 'picture', 'video']]
                 ];
-
-                if (this.props.width === 'xs' || this.props.width === 'sm') {
-                    toolbar = [
-                        ['style', ['style', 'bold', 'italic', 'underline']],
-                        ['para', ['ul', 'ol']],
-                        ['specialStyle', ['code', 'pre', 'advice', 'secret']],
-                        ['insert', ['link', 'picture', 'video']]
-                    ];
-                }
-
-                this._editor = $editor.summernote({
-                    ...defaultOptions,
-                    toolbar: toolbar,
-                    followingToolbar: true,
-                    // otherStaticBar: '#article-edit-stepper',
-                    otherStaticBarHeight: this.props.hasOuterHeight ? this.props.width === 'xs' ? 111 : (this.props.width === 'md' ? 128 : 142) : undefined
-                });
-
-                // if (this.props.isCodeView) {
-                //     this._editor.summernote('codeview.activate');
-                // }
             }
 
-            const $container = this._editor.parent();
-            this._noteEditable = $container.find('.note-editable');
-            this._notePlaceholder = $container.find('.note-placeholder');
+            let toolbarOptions = {
+                toolbar: toolbar,
+                followingToolbar: true,
+                // otherStaticBar: '#article-edit-stepper',
+            };
 
-            const $statusBar = $container.find('.note-status-output');
-            $statusBar.html(
-                '<div class="note-status-element">' + '</div>' + '<div class="note-status-helper">' + '</div>'
-            );
-
-            this._noteStatusElement = $container.find('.note-status-element');
-            this._noteStatusHelper = $container.find('.note-status-helper');
-
-            if (this.props.mode !== EDITOR_MODE.INLINE_EDIT) {
-                this._noteStatusHelper.html(I18n.t('js.editor.helper.title') + ' <strong>#</strong> ' + I18n.t('js.editor.helper.article_hint'));
+            if (this.props.otherStaticBar) {
+                toolbarOptions.otherStaticBar = this.props.otherStaticBar;
+            } else if (this.props.hasOuterHeight) {
+                toolbarOptions.otherStaticBarHeight = this.props.width === 'xs' ? 111 : (this.props.width === 'md' ? 128 : 142);
             }
 
-            if (typeof this.props.isDisabled === 'boolean') {
-                this.toggleState(this.props.isDisabled);
-            }
+            this._editor = $editor.summernote({
+                ...defaultOptions,
+                ...toolbarOptions
+            });
 
-            if (this.props.onLoaded) {
-                this.props.onLoaded(this);
-            }
+            // if (this.props.isCodeView) {
+            //     this._editor.summernote('codeview.activate');
+            // }
+        }
+
+        const $container = this._editor.parent();
+        this._noteEditable = $container.find('.note-editable');
+        this._notePlaceholder = $container.find('.note-placeholder');
+
+        const $statusBar = $container.find('.note-status-output');
+        $statusBar.html(
+            '<div class="note-status-element">' + '</div>' + '<div class="note-status-helper">' + '</div>'
+        );
+
+        this._noteStatusElement = $container.find('.note-status-element');
+        this._noteStatusHelper = $container.find('.note-status-helper');
+
+        if (this.props.mode !== EDITOR_MODE.INLINE_EDIT) {
+            this._noteStatusHelper.html(I18n.t('js.editor.helper.title') + ' <strong>#</strong> ' + I18n.t('js.editor.helper.article_hint'));
+        }
+
+        if (typeof this.props.isDisabled === 'boolean') {
+            this.toggleState(this.props.isDisabled);
+        }
+
+        if (this.props.onLoaded) {
+            this.props.onLoaded(this);
+        }
         // });
     }
 
@@ -323,8 +333,8 @@ class Editor extends React.Component {
     };
 
     _formatContent = (content) => {
-        if(content) {
-            if(this.props.isPaste) {
+        if (content) {
+            if (this.props.isPaste) {
                 return SanitizePaste.parse(content);
             } else {
                 return content.replace(/ data-src=/g, ' src=');
@@ -369,23 +379,23 @@ class Editor extends React.Component {
             modelId: this.props.modelId
         })).map((upload) => {
             upload.then((response) => {
-                if (response.upload) {
-                    this.insertImage(response.upload.url, response.upload.filename, response.upload.id, [
+                if (response?.data?.attributes) {
+                    this.insertImage(response.data.attributes.url, response.data.attributes.filename, response.data.attributes.id, [
                         {
                             maxWidth: '600',
-                            url: response.upload.miniUrl
+                            url: response.data.attributes.miniUrl
                         },
                         {
                             maxWidth: '992',
-                            url: response.upload.mediumUrl
+                            url: response.data.attributes.mediumUrl
                         },
                         {
-                            url: response.upload.url
+                            url: response.data.attributes.url
                         }
                     ]);
 
                     if (this.props.onImageUpload) {
-                        this.props.onImageUpload(response.upload);
+                        this.props.onImageUpload(response.data.attributes);
                     }
                 }
             })

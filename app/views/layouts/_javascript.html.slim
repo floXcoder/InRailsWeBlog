@@ -16,6 +16,8 @@ javascript:
 
     window.revision = "#{REVISION}";
 
+    window.seoMode = #{params['_prerender_'].present?};
+
 - if Rails.env.production?
   javascript:
       window.SENTRY_JAVASCRIPT_KEY = "#{ENV['SENTRY_JAVASCRIPT_KEY']}";

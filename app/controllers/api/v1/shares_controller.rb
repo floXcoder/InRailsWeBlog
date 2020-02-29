@@ -17,7 +17,7 @@ module Api::V1
           flash.now[:success] = shared_topic.message
           if shared_topic.success?
             render json:   TopicSerializer.new(shared_topic.result,
-                                               include: [:inventory_fields, :contributors]),
+                                               include: [:contributors]),
                    status: :ok
           else
             flash.now[:error] = shared_topic.message

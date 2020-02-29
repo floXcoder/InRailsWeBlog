@@ -23,8 +23,6 @@ class TopicCompleteSerializer
 
   belongs_to :user, serializer: UserSampleSerializer
 
-  has_many :inventory_fields, serializer: Topic::InventoryFieldSerializer
-
   has_many :tags, serializer: TagSerializer do |object|
     Tag.includes(:parents, :children, :tagged_articles, :child_relationships).for_topic_id(object.id).order('tags.priority', 'tags.name')
   end
@@ -43,6 +41,10 @@ class TopicCompleteSerializer
 
   attribute :settings do |object|
     UserSettingSerializer.new(object).serializable_hash[:data][:attributes].compact
+  end
+
+  attribute :inventory_fields do |object|
+    Topic::InventoryFieldSerializer.new(object.inventory_fields).serializable_hash&.dig(:data)&.map { |d| d[:attributes] }
   end
 
   attribute :link do |object|

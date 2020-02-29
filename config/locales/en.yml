@@ -85,7 +85,7 @@ en:
       login:
         title: "Log in (Admin)"
       dashboard:
-        title: "Admin"
+        title: "Dashboard"
       users:
         title: "Users"
       comments:

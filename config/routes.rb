@@ -19,12 +19,20 @@ Rails.application.routes.draw do
     # Search
     get '/search(/:query)', to: 'pages#home', as: :search, defaults: { name: 'search', public: true }
 
+    # Users
+    get '/users', to: 'pages#home', as: :users, defaults: { name: 'users', public: true }
+    get '/users/password/new', to: 'pages#home', as: :new_password, defaults: { name: 'new_password', public: true }
+    get '/users/password/edit', to: 'pages#home', as: :edit_password, defaults: { name: 'edit_password', public: true }
+    get '/users/confirmation', to: 'pages#home', as: :user_confirm, defaults: { name: 'user_confirm', public: true }
+    get '/users/:user_slug/show', to: 'pages#home', as: :show_user, defaults: { name: 'show_user', public: true }
+    get '/users/:user_slug/edit', to: 'pages#home', as: :edit_user, defaults: { name: 'edit_user' }
+
     # Tags
     get '/tags', to: 'pages#home', as: :tags, defaults: { name: 'tags', public: true }
     get '/users/:user_slug/topics/:topic_slug/tags', to: 'pages#home', as: :topic_tags, defaults: { name: 'topic_tags', public: true }
     get '/tags/:tag_slug', to: 'pages#home', as: :show_tag, defaults: { name: 'show_tag', public: true }
     get '/tags/:tag_slug/edit', to: 'pages#home', as: :edit_tag, defaults: { name: 'edit_tag' }
-    get '/tags/:tag_slug/sort', to: 'pages#home', as: :sort_tag, defaults: { name: 'sort_tag' }
+    get '/tags/:user_slug/sort', to: 'pages#home', as: :sort_tag, defaults: { name: 'sort_tag' }
 
     # Topics
     get '/users/:user_slug/topics', to: 'pages#home', as: :user_topics, defaults: { name: 'user_topics', public: true }
@@ -44,13 +52,6 @@ Rails.application.routes.draw do
     get '/users/:user_slug/topics/:topic_slug/article-new', to: 'pages#home', as: :new_article, defaults: { name: 'new_article' }
     get '/users/:user_slug/articles/:article_slug/edit', to: 'pages#home', as: :edit_article, defaults: { name: 'edit_article' }
     get '/users/:user_slug/articles/:article_slug/history', to: 'pages#home', as: :history_article, defaults: { name: 'history_article' }
-
-    # Users
-    get '/users', to: 'pages#home', as: :users, defaults: { name: 'users', public: true }
-    get '/users/:user_slug/show', to: 'pages#home', as: :show_user, defaults: { name: 'show_user', public: true }
-    get '/users/:user_slug/edit', to: 'pages#home', as: :edit_user, defaults: { name: 'edit_user' }
-    get '/users/password/new', to: 'pages#home', as: :new_password, defaults: { name: 'new_password', public: true }
-    get '/users/password/edit', to: 'pages#home', as: :edit_password, defaults: { name: 'edit_password', public: true }
 
     # Static routes
     get '/about', to: 'pages#home', as: :about, defaults: { name: 'about', public: true }
@@ -106,8 +107,8 @@ Rails.application.routes.draw do
         registrations:      'api/v1/users/registrations',
         sessions:           'api/v1/users/sessions',
         passwords:          'api/v1/users/passwords',
-        confirmations:      'api/v1/users/confirmations',
-        unlocks:            'api/v1/users/unlocks'
+        confirmations:      'devise/confirmations',
+        unlocks:            'devise/unlocks'
       }
 
       # Users
