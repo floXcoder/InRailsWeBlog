@@ -109,15 +109,17 @@ it:
         title: Crea un conto
       password:
         edit:
-          button: Cambiare la mia password
-          password: Nuova password
-          password_confirmation: Confermare la nuova password
-          title: Hai dimenticato la tua password?
+          button: "Cambiare la mia password"
+          password: "Nuova password"
+          password_confirmation: "Confermare la nuova password"
+          title: "Hai dimenticato la tua password?"
         new:
-          back: Torna alla pagina iniziale
-          button: Inviatemi una nuova password
-          email: Il tuo indirizzo e-mail
-          title: Cambia la tua password
+          back: "Torna alla pagina iniziale"
+          button: "Inviatemi una nuova password"
+          email: "Il tuo indirizzo e-mail"
+          title: "Cambia la tua password"
+      confirmation:
+        in_progress: "Conferma del vostro conto..."
       home:
         add_topic: Aggiungi un tema
         private:
@@ -231,32 +233,33 @@ it:
         title: I tuoi preferiti
     tag:
       common:
-        associated: Etichette associate
-        filter: Filtrare per etichette ...
-        link: Vedi dettagli dell'etichetta
-        list: Etichette
-        no_children: Nessuna etichetta discografica associata
-        no_description: Nessuna descrizione associata all'etichetta
-        no_parents: Nessuna etichetta parentale associata
-        no_privates: Nessuna etichetta privata
-        no_publics: Nessuna etichetta privata
-        no_results: 'Non sono state trovate etichette per :'
-        no_synonyms: Nessun sinonimo associato all'etichetta
-        no_tags: Ancora nessun tag per questo argomento
+        associated: "Etichette associate"
+        filter: "Filtrare per etichette ..."
+        link: "Vedi dettagli dell'etichetta"
+        list: "Etichette"
+        no_children: "Nessuna etichetta discografica associata"
+        no_description: "Nessuna descrizione associata all'etichetta"
+        no_parents: "Nessuna etichetta parentale associata"
+        no_privates: "Nessuna etichetta privata"
+        no_publics: "Nessuna etichetta privata"
+        no_results: "Non sono state trovate etichette per :"
+        no_synonyms: "Nessun sinonimo associato all'etichetta"
+        no_tags: "Ancora nessun tag per questo argomento"
+        no_cloud_tags: "Aggiungere un articolo per creare i tag"
         placeholders:
-          description: Descrizione dell'etichetta
-          name: Nome dell'etichetta
-        privates: Etichette private
-        publics: Etichette pubbliche
+          description: "Descrizione dell'etichetta"
+          name: "Nome dell'etichetta"
+        privates: "Etichette private"
+        publics: "Etichette pubbliche"
         stats:
-          clicks: cliccare
-          searches: 'Ricerca '
-          title: Statistiche
-          views: Viste
-        synonyms: Sinonimi dell'etichetta ...
+          clicks: "cliccare"
+          searches: "Ricerca "
+          title: "Statistiche"
+          views: "Viste"
+        synonyms: "Sinonimi dell'etichetta..."
         usage: "%{count} utilizza"
-        visibility: Scegliere la visibilità
-        visibility_immutable: Il nome di un'etichetta pubblica non può essere cambiato
+        visibility: "Scegliere la visibilità"
+        visibility_immutable: "Il nome di un'etichetta pubblica non può essere cambiato"
       form:
         unsaved: Uscire senza salvare il tag?
       model:

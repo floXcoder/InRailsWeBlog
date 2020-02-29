@@ -93,19 +93,19 @@ es:
           successful_deletion: Blog eliminado
           successful_edition: Blog actualizado
       blogs:
-        title: Notas
+        title: "Notas"
       cache:
-        title: Cache
+        title: "Cache"
       comments:
-        title: Comentarios
+        title: "Comentarios"
       dashboard:
-        title: Admin
+        title: "Dashboard"
       login:
-        title: Login (Admin)
+        title: "Login (Admin)"
       logs:
-        title: Registros
+        title: "Registros"
       seo:
-        title: Gestión de SEO
+        title: "Gestión de SEO"
       seo_data:
         flash:
           error_creation: Datos de SEO no creados, por favor corrija los errores indicados

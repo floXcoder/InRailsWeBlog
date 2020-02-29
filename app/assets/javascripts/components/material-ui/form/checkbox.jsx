@@ -10,11 +10,11 @@ const CheckBoxFormField = ({input, label, meta: {touched, error}, componentConte
     <FormControl error={touched && !!error}
                  {...custom}>
         <FormGroup>
-            <FormControlLabel
-                control={<Checkbox checked={!!input.value}
-                                   {...input}/>}
-                label={label}
-                labelPlacement="end"/>
+            <FormControlLabel control={<Checkbox checked={!!input.value}
+                                                 required={custom.required}
+                                                 {...input}/>}
+                              label={label}
+                              labelPlacement="end"/>
         </FormGroup>
         {
             !!error &&

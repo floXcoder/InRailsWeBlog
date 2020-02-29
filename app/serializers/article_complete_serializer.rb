@@ -108,7 +108,7 @@ class ArticleCompleteSerializer
     object.visibility_to_tr
   end
 
-  attribute :public_share_link do |object, params|
+  attribute :public_share_link do |object|
     "#{Rails.application.routes.url_helpers.root_url(host: ENV['WEBSITE_ADDRESS'])}articles/shared/#{object.slug}/#{object.share&.public_link}"
   end
 
@@ -122,6 +122,10 @@ class ArticleCompleteSerializer
 
   attribute :new_tag_ids do |_object, params|
     params[:new_tags].map(&:id) if params[:new_tags].present?
+  end
+
+  attribute :link do |object|
+    Rails.application.routes.url_helpers.user_article_path(user_slug: object.user.slug, article_slug: object.slug)
   end
 
   # attribute :outdated_count do |object|

@@ -27,6 +27,9 @@ class ApplicationController < ActionController::Base
   # Set locale for current user
   before_action :set_locale
 
+  # Reset headers if admin is connected
+  before_action :check_header_role
+
   # Set who is responsible of a modification
   before_action :set_paper_trail_whodunnit
 
@@ -42,6 +45,10 @@ class ApplicationController < ActionController::Base
                                                current_user: current_user).perform
 
     I18n.locale = user_env.result[:locale]
+  end
+
+  def check_header_role
+    reset_cache_headers if admin_signed_in?
   end
 
   # Redirection when Javascript is used.
@@ -82,11 +89,11 @@ class ApplicationController < ActionController::Base
         end
         format.js do
           flash[:alert] = I18n.t('devise.failure.unauthenticated')
-          js_redirect_to(login_path)
+          js_redirect_to(root_path)
         end
         format.html do
           store_current_location
-          redirect_to login_path, notice: I18n.t('devise.failure.unauthenticated')
+          redirect_to root_path, notice: I18n.t('devise.failure.unauthenticated')
         end
       end
     end
@@ -227,9 +234,32 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def after_inactive_sign_up_path_for(_resource)
+    # login_path
+    root_path
+  end
+
+  def after_update_path_for(_resource)
+    # user_path(resource)
+    root_path
+  end
+
   def after_sign_out_path_for(_resource)
     # previous_path = request.referer && URI.parse(request.referer).path
     # previous_path || root_path
+    root_path
+  end
+
+  def after_confirmation_path_for(_resource_name, _resource)
+    root_path
+  end
+
+  def new_session_path(_resource)
+    root_path
+  end
+
+  def after_failure_path
+    # login_path
     root_path
   end
 

@@ -33,6 +33,12 @@ export default {
                 path: Routes.policy(false),
                 component: () => RouteComponents.Policy
             },
+            // User account
+            {
+                path: Routes.userConfirmationPath(false),
+                exact: true,
+                component: () => RouteComponents.UserConfirmation
+            },
             // Miscellaneous
             {
                 path: Routes.notFoundPath(false),
@@ -86,7 +92,7 @@ export default {
             },
             // user: articles topic
             {
-                path: Routes.topicArticlesPath(':userSlug', ':topicSlug', false),
+                path: Routes.topicArticlesPath(':userSlug', ':topicSlug', '(topics|shared-topics)', false),
                 exact: true,
                 component: () => RouteComponents.ArticleIndex
             },
@@ -138,7 +144,7 @@ export default {
                 component: () => RouteComponents.TagEdit
             },
             {
-                path: Routes.sortTagPath(':tagSlug', false),
+                path: Routes.sortTagPath(':userSlug', false),
                 exact: true,
                 noTagSidebar: true,
                 component: () => RouteComponents.TagSort

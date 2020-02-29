@@ -18,7 +18,7 @@ export const topicTagsPath = (userSlug, topicSlug, locale = window.locale) => ro
 
 export const showTagPath = (tagSlug, locale = window.locale) => routeBuilder(`/tags/${tagSlug}`, locale);
 export const editTagPath = (tagSlug, locale = window.locale) => routeBuilder(`/tags/${tagSlug}/edit`, locale);
-export const sortTagPath = (tagSlug, locale = window.locale) => routeBuilder(`/tags/${tagSlug}/sort`, locale);
+export const sortTagPath = (userSlug, locale = window.locale) => routeBuilder(`/tags/${userSlug}/sort`, locale);
 
 // Topic routes
 export const userTopicsPath = (userSlug, locale = window.locale) => routeBuilder(`/users/${userSlug}/topics`, locale);
@@ -48,6 +48,7 @@ export const historyArticlePath = (userSlug, articleSlug, locale = window.locale
 // export const userEditPath = (userSlug) => routeBuilder(`/users/${userSlug}/edit`, locale);
 export const newPasswordPath = (locale = window.locale) => routeBuilder('/users/password/new', locale);
 export const editPasswordPath = (locale = window.locale) => routeBuilder('/users/password/edit', locale);
+export const userConfirmationPath = (locale = window.locale) => routeBuilder('/users/confirmation', locale);
 
 // Static routes
 export const about = (locale = window.locale) => routeBuilder('/about', locale);

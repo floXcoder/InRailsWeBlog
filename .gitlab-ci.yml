@@ -118,6 +118,7 @@ test:npm:
   stage: test
   <<: *pull-cache
   script:
+    - bundle exec rails i18n:js:export
     - npm run test
   interruptible: true
   only:

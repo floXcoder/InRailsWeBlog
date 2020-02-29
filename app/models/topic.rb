@@ -195,7 +195,7 @@ class Topic < ApplicationRecord
            when 'strict'
              TopicStrictSerializer.new(topics, **options)
            when 'complete'
-             TopicCompleteSerializer.new(topics, include: [:user, :inventory_fields, :contributors, :tracker], includes: [], **options)
+             TopicCompleteSerializer.new(topics, include: [:user, :contributors, :tracker], includes: [], **options)
            else
              TopicSampleSerializer.new(topics, **options)
            end
@@ -217,10 +217,10 @@ class Topic < ApplicationRecord
                    'edit_topic'
                  when 'tags'
                    'topic_tags'
-                 when 'index'
-                   'topic_tags'
+                 when 'articles'
+                   'topic_articles'
                  else
-                   'user_article'
+                   'user_topic'
                  end
 
     params        = { user_slug: self.user.slug, topic_slug: self.slug }

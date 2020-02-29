@@ -16,9 +16,9 @@ import TopicFormInventoryFieldDisplay from './field';
 
 const DragHandle = sortableHandle(() => <DragIndicatorIcon/>);
 
-const SortableItem = SortableElement(({classes, index, field, onRemoveField}) => (
+const SortableItem = SortableElement(({classes, itemIndex, field, onRemoveField}) => (
         <TopicFormInventoryFieldDisplay classes={classes}
-                                        index={index}
+                                        index={itemIndex}
                                         field={field}
                                         onRemoveField={onRemoveField}
                                         dragHandle={DragHandle}/>
@@ -30,7 +30,7 @@ const SortableList = SortableContainer(({classes, fields, onRemoveField}) => (
             {
                 fields.map((field, i) => (
                     <SortableItem key={`${field.fieldName}-${i}`}
-                                  index={i}
+                                  itemIndex={i}
                                   classes={classes}
                                   field={field}
                                   onRemoveField={onRemoveField}/>

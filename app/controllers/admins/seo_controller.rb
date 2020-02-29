@@ -27,6 +27,7 @@ class Admins::SeoController < AdminsController
     name       = nil
     locale     = nil
     parameters = []
+    url        = nil
     error      = nil
 
     if params[:route]
@@ -35,6 +36,7 @@ class Admins::SeoController < AdminsController
         name       = params[:route]
         locale     = route_parameters.defaults[:locale].presence || I18n.default_locale
         parameters = route_parameters.parts - [:format]
+        url = Rails.application.routes.url_helpers.send("#{params[:route]}_path", Hash[*(parameters.map { |p| [p, p] }.flatten)]) rescue nil
       else
         error = "Named route not found"
       end
@@ -61,7 +63,8 @@ class Admins::SeoController < AdminsController
       render json: {
         name:       name,
         parameters: parameters,
-        locale:     locale
+        locale:     locale,
+        url:        url
       }
     end
   end

@@ -44,12 +44,14 @@ class TopicSerializer
              :slug,
              :articles_count
 
-  has_many :inventory_fields, serializer: Topic::InventoryFieldSerializer
-
   has_many :contributors, record_type: :user, serializer: UserStrictSerializer
 
   attribute :visibility_translated do |object|
     object.visibility_to_tr
+  end
+
+  attribute :inventory_fields do |object|
+    Topic::InventoryFieldSerializer.new(object.inventory_fields).serializable_hash&.dig(:data)&.map { |d| d[:attributes] }
   end
 
 end

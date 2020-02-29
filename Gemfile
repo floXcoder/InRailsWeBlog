@@ -86,7 +86,7 @@ gem 'acts_as_commentable_with_threading', '2.0.1'
 gem 'premailer-rails',          '1.10.3'
 
 # Detect browser and bots
-gem 'browser',                  '3.0.3'
+gem 'browser',                  '4.0.0'
 
 # SEO
 gem 'friendly_id',              '5.3.0'
@@ -111,7 +111,7 @@ gem 'health_check',             '3.0.0'
 gem 'webdrivers',               '4.2.0'
 
 # Server
-gem 'puma',                     '4.3.1'
+gem 'puma',                     '4.3.3'
 
 group :development do
   # Debugging tool
@@ -119,7 +119,7 @@ group :development do
   gem 'awesome_print',          '1.8.0'
 
   # Improve errors
-  gem 'better_errors',          '2.5.1'
+  gem 'better_errors',          '2.6.0'
   gem 'binding_of_caller',      '0.8.0'
 
   # N+1 database query
@@ -153,7 +153,7 @@ group :test do
   gem 'rspec_junit_formatter',      '0.4.1'
   gem 'shoulda-matchers',           '4.3.0',  require: false
   gem 'shoulda-callback-matchers',  '1.1.4',  require: false
-  gem 'simplecov',                  '0.18.4', require: false
+  gem 'simplecov',                  '0.18.5', require: false
   gem 'fuubar',                     '2.5.0'
   gem 'database_cleaner',           '1.8.3'
   gem 'db-query-matchers',          '0.10.0'
@@ -164,10 +164,10 @@ group :test do
   gem 'capybara-screenshot',        '1.0.24'
   gem 'selenium-webdriver',         '3.142.7'
   gem 'html_validation',            '1.1.5'
-  gem 'launchy',                    '2.4.3'
+  gem 'launchy',                    '2.5.0'
 
   # static analyzer
-  gem 'rails_best_practices',       '1.19.5',   require: false
+  gem 'rails_best_practices',       '1.20.0',   require: false
   gem 'brakeman',                   '4.8.0',    require: false
   gem 'i18n-tasks',                 '0.9.30',   require: false
 end
@@ -194,5 +194,5 @@ group :production do
   gem 'lograge',          '0.11.2'
 
   # Prerender html pages for SEO
-  gem 'seo_cache',        '0.15.0'
+  gem 'seo_cache',        '0.16.0'
 end

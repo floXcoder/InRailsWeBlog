@@ -155,11 +155,11 @@ class HeaderLayoutUser extends React.PureComponent {
     };
 
     _handleTitleClick = () => {
-        this.props.fetchMetaTags('user_home');
+        this.props.fetchMetaTags('user_home', {user_slug: this.props.userSlug});
     };
 
     _handleMobileTitleClick = () => {
-        this.props.fetchMetaTags('user_home');
+        this.props.fetchMetaTags('user_home', {user_slug: this.props.userSlug});
 
         this._handleTagDrawerToggle();
     };
@@ -199,9 +199,12 @@ class HeaderLayoutUser extends React.PureComponent {
     };
 
     _handleLogoutClick = () => {
-        logoutUser().then(() => {
-            window.location.assign('/');
-            window.location.reload();
+        logoutUser().then((response) => {
+            if (response?.location) {
+                window.location.assign(response.location);
+            }
+
+            document.location.reload(true);
         });
     };
 
@@ -382,7 +385,8 @@ class HeaderLayoutUser extends React.PureComponent {
 
         return (
             <>
-                <AppBar position="fixed"
+                <AppBar id="header-user"
+                        position="fixed"
                         className={classNames('animate-search', this.props.classes.appBar)}
                         itemScope={true}
                         itemType="https://schema.org/Organization">

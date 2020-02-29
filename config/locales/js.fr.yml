@@ -118,6 +118,8 @@ fr:
           password: "Nouveau mot de passe"
           password_confirmation: "Confirmer votre nouveau mot de passe"
           button: "Changer mon mot de passe"
+      confirmation:
+        in_progress: "Confirmation de votre compte ..."
       home:
         private:
           title: "Vos thèmes privés"
@@ -235,6 +237,7 @@ fr:
         associated: "Labels associés"
         filter: "Filtrer par labels ..."
         no_tags: "Pas encore de tags pour ce topic"
+        no_cloud_tags: "Ajouter un article pour créer les tags"
         no_results: "Aucun label trouvé pour :"
         usage: "%{count} utilisations"
         link: "Voir le détail du label"
@@ -420,7 +423,7 @@ fr:
             link: "Lien à référencer"
           content:
             story: "Contenu de votre article"
-            note: "Contenu à ajouter"
+            note: "Contenu à publier"
             link: "Description du lien"
         tags:
           default: "Ajouter des labels à l'article"

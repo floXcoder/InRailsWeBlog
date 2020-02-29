@@ -126,6 +126,7 @@ class ArticleShow extends React.Component {
         super(props);
 
         this._request = null;
+        this._requestStories = null;
     }
 
     componentDidMount() {
@@ -159,8 +160,8 @@ class ArticleShow extends React.Component {
     }
 
     _fetchStories = () => {
-        if (this.props.article && this.props.article.mode === 'story' && !this.props.articleSiblingStories) {
-            this.props.fetchArticleStories(this.props.routeParams.userSlug, this.props.article.id);
+        if (this.props.article?.mode === 'story' && !this._requestStories) {
+            this._requestStories = this.props.fetchArticleStories(this.props.routeParams.userSlug, this.props.article.id);
         }
     };
 

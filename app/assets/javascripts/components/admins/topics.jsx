@@ -123,8 +123,8 @@ class AdminTopics extends React.Component {
                            exportButton: true,
                            filtering: true,
                            actionsColumnIndex: -1,
-                           pageSize: 50,
-                           pageSizeOptions: [50, 100, 200],
+                           pageSize: 100,
+                           pageSizeOptions: [100, 500, 1000],
                            emptyRowsWhenPaging: false
                        }}
                        actions={[

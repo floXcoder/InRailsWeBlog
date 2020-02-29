@@ -79,7 +79,7 @@ const styles = (theme) => ({
         transform: 'rotate(180deg)'
     },
     media: {
-        height: 0,
+        // height: 0,
         paddingTop: '56.25%' // 16:9
     },
     content: {

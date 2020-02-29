@@ -236,6 +236,8 @@ Sent email can be seen in two ways:
 
 - In browser with email previewer: http://localhost:3000/rails/mailers/user_mailer
 
+The data parameters can be changed inside each email previewer method
+
 ### External tools
 
 #### Elastic Search

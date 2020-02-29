@@ -1,7 +1,6 @@
 'use strict';
 
 import {
-    Prompt,
     Link
 } from 'react-router-dom';
 
@@ -54,10 +53,6 @@ class TopicFormDisplay extends React.Component {
         super(props);
     }
 
-    _onUnsavedExit = (location) => {
-        return I18n.t('js.topic.form.unsaved', {location: location.pathname});
-    };
-
     render() {
         let localeOptions = {};
         window.locales.map((locale) => localeOptions[locale] = I18n.t(`js.languages.${locale}`));
@@ -67,12 +62,9 @@ class TopicFormDisplay extends React.Component {
                   validate={validateTopic}
                   onSubmit={this.props.onSubmit}>
                 {
-                    ({handleSubmit, dirty, submitting}) => (
+                    ({handleSubmit, submitting}) => (
                         <form id={this.props.id}
                               onSubmit={handleSubmit}>
-                            <Prompt when={dirty && !submitting}
-                                    message={this._onUnsavedExit}/>
-
                             <div className="row">
                                 {
                                     this.props.children.name &&
@@ -111,7 +103,7 @@ class TopicFormDisplay extends React.Component {
                                            modelName="topic"
                                            modelId={this.props.topic.id}
                                            placeholder={I18n.t('js.topic.common.placeholders.description')}
-                                           hasOuterHeight={false}
+                                           otherStaticBar="#header-user"
                                            onSubmit={handleSubmit}
                                            componentContent={this.props.children.description}/>
                                 </div>

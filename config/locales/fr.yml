@@ -85,7 +85,7 @@ fr:
       login:
         title: "Se connecter (Admin)"
       dashboard:
-        title: "Admin"
+        title: "Dashboard"
       users:
         title: "Utilisateurs"
       comments:
@@ -118,7 +118,7 @@ fr:
           error_creation: "Donnée SEO non créée, merci de corriger les erreurs indiquées"
           successful_edition: "Donnée SEO mise à jour"
           error_edition: "Problème lors de la mise à jour de la donnée SEO"
-          successful_deletion: "Donnée SEO supprimé"
+          successful_deletion: "Donnée SEO supprimée"
           error_deletion: "Problème lors de la suppression de la donnée SEO"
     errors:
       flash:

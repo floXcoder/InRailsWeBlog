@@ -101,7 +101,8 @@ const styles = (theme) => ({
     },
     noTags: {
         whiteSpace: 'normal',
-        padding: '.5rem',
+        fontSize: '1rem',
+        padding: '1rem',
         fontStyle: 'italic'
     }
 });
