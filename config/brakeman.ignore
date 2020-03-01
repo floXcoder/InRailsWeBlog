@@ -1,0 +1,26 @@
+{
+  "ignored_warnings": [
+    {
+      "warning_type": "Dangerous Send",
+      "warning_code": 23,
+      "fingerprint": "89f3ccfba84a0c2c88e630bd94ba4651bebea3727e50042048a1c2684b0e728a",
+      "check_name": "Send",
+      "message": "User controlled method execution",
+      "file": "app/controllers/admins/seo_controller.rb",
+      "line": 39,
+      "link": "https://brakemanscanner.org/docs/warning_types/dangerous_send/",
+      "code": "Rails.application.routes.url_helpers.send(\"#{params[:route]}_path\", Hash[*(Rails.application.routes.routes.find do\n (r.name == params[:route])\n end.parts - [:format]).map do\n [p, p]\n end.flatten])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admins::SeoController",
+        "method": "retrieve_parameters"
+      },
+      "user_input": "params[:route]",
+      "confidence": "High",
+      "note": ""
+    }
+  ],
+  "updated": "2020-03-01 11:03:11 +0100",
+  "brakeman_version": "4.8.0"
+}
