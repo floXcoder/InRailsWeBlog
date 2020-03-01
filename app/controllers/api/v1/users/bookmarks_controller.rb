@@ -14,7 +14,6 @@ module Api::V1
 
       bookmarks = bookmarks.where(topic_id: params[:topic_id]) if params[:topic_id].present?
 
-      expires_in InRailsWeBlog.config.cache_time, public: true
       respond_to do |format|
         format.json do
           render json: BookmarkSerializer.new(bookmarks,

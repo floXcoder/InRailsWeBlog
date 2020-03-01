@@ -113,18 +113,22 @@ class ArticleEdit extends React.Component {
 
         const article = {
             mode: this.props.article.mode,
-            title: this.props.article.title,
-            title_translations: this.props.article.titleTranslations,
             summary: this.props.article.summary,
             reference: this.props.article.reference,
-            content: this.props.article.content,
-            content_translations: this.props.article.contentTranslations,
             inventories: inventoryData,
             picture_ids: '',
             draft: this.props.isDraft || this.props.article.draft,
             visibility: this.props.article.visibility || this.props.inheritVisibility,
             allowComment: typeof this.props.article.allowComment === 'undefined' && this.props.inheritVisibility === 'only_me' ? false : this.props.article.allowComment
         };
+
+        if(this.props.currentTopic.languages?.length > 1) {
+            article.title_translations = this.props.article.titleTranslations;
+            article.content_translations = this.props.article.contentTranslations;
+        } else {
+            article.title = this.props.article.title;
+            article.content = this.props.article.content;
+        }
 
         return (
             <div className={this.props.classes.root}>

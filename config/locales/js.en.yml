@@ -576,6 +576,7 @@ en:
       timeline:
         title: "New article:"
         no_articles: "No articles to display"
+        scroll_for_more: "Scroll to load more articles"
       toc:
         title: "Table of content"
         no_articles: "No articles yet"

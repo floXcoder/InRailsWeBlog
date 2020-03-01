@@ -15,7 +15,7 @@ class PagesController < ApplicationController
             redirect_to send("user_home_#{current_user.locale}_path")
           else
             set_seo_data(:user_home,
-                         user_slug: current_user.pseudo,
+                         user_slug: current_user,
                          og:        {
                            type:  "#{ENV['WEBSITE_NAME']}:home",
                            url:   root_url,

@@ -24,7 +24,11 @@ module Api::V1
       user = User.find(params[:user_id])
       authorize user, :settings?
 
-      topic = params[:topic_slug].present? ? user.topics.find_by(slug: params[:topic_slug]) : nil
+      topic = if params[:topic_id].present?
+                user.topics.find_by(id: params[:topic_id])
+              elsif params[:topic_slug].present?
+                user.topics.find_by(slug: params[:topic_slug])
+              end
 
       if params[:settings].present?
         params[:settings].each do |pref_type, pref_value|

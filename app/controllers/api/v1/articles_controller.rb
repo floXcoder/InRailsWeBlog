@@ -24,7 +24,7 @@ module Api::V1
 
     before_action :honeypot_protection, only: [:create, :update]
 
-    before_action :set_context_user, except: [:index]
+    before_action :set_context_user, except: [:index, :shared]
 
     after_action :verify_authorized, except: [:index, :stories]
 
@@ -46,21 +46,21 @@ module Api::V1
         if filter_params[:tag_slug].present?
           if filter_params[:topic_slug].present?
             set_seo_data(:tagged_topic_articles,
-                         tag_slug:   Tag.find_by(slug: filter_params[:parent_tag_slug].presence || filter_params[:tag_slug].presence)&.name,
-                         topic_slug: Topic.find_by(slug: filter_params[:topic_slug])&.name,
-                         user_slug:  User.find_by(slug: filter_params[:user_slug])&.pseudo)
+                         tag_slug:   Tag.find_by(slug: filter_params[:parent_tag_slug].presence || filter_params[:tag_slug].presence),
+                         topic_slug: Topic.find_by(slug: filter_params[:topic_slug]),
+                         user_slug:  User.find_by(slug: filter_params[:user_slug]))
           else
             set_seo_data(:tagged_articles,
-                         tag_slug:  Tag.find_by(slug: filter_params[:parent_tag_slug].presence || filter_params[:tag_slug].presence)&.name,
-                         user_slug: User.find_by(slug: filter_params[:user_slug])&.pseudo)
+                         tag_slug:  Tag.find_by(slug: filter_params[:parent_tag_slug].presence || filter_params[:tag_slug].presence),
+                         user_slug: User.find_by(slug: filter_params[:user_slug]))
           end
         elsif filter_params[:topic_slug].present?
           set_seo_data(:topic_articles,
-                       topic_slug: Topic.find_by(slug: filter_params[:topic_slug])&.name,
-                       user_slug:  User.find_by(slug: filter_params[:user_slug])&.pseudo)
+                       topic_slug: Topic.find_by(slug: filter_params[:topic_slug]),
+                       user_slug:  User.find_by(slug: filter_params[:user_slug]))
         elsif filter_params[:user_slug].present?
           set_seo_data(:user_articles,
-                       user_slug: User.find_by(slug: filter_params[:user_slug])&.pseudo)
+                       user_slug: User.find_by(slug: filter_params[:user_slug]))
         end
 
         articles = if complete
@@ -102,9 +102,9 @@ module Api::V1
         respond_to do |format|
           format.json do
             set_seo_data(:user_article,
-                         article_slug: article.title,
-                         topic_slug:   article.topic.name,
-                         user_slug:    article.user.pseudo,
+                         article_slug: article,
+                         topic_slug:   article.topic,
+                         user_slug:    article.user,
                          author:       article.user.pseudo,
                          model:        article,
                          og:           {
@@ -128,8 +128,8 @@ module Api::V1
     end
 
     def shared
-      article             = @context_user.articles.include_element.friendly.find(params[:id])
-      article.shared_link = params[:public_link]
+      article             = Share.where(public_link: params[:public_link]).first&.shareable
+      article&.shared_link = params[:public_link]
       admin_or_authorize article
 
       expires_in InRailsWeBlog.config.cache_time, public: true
@@ -137,9 +137,9 @@ module Api::V1
         respond_to do |format|
           format.json do
             set_seo_data(:shared_article,
-                         article_slug: article.title,
-                         topic_slug:   article.topic.name,
-                         user_slug:    article.user.pseudo,
+                         article_slug: article,
+                         topic_slug:   article.topic,
+                         user_slug:    article.user,
                          author:       article.user.pseudo,
                          model:        article,
                          og:           {
@@ -182,9 +182,9 @@ module Api::V1
       respond_to do |format|
         format.json do
           set_seo_data(:history_article,
-                       article_slug: article.title,
-                       topic_slug:   article.topic.name,
-                       user_slug:    article.user.pseudo,
+                       article_slug: article,
+                       topic_slug:   article.topic,
+                       user_slug:    article.user,
                        author:       article.user.pseudo)
 
           render json: HistorySerializer.new(article_versions,
@@ -223,9 +223,9 @@ module Api::V1
       respond_to do |format|
         format.json do
           set_seo_data(:edit_article,
-                       article_slug: article.title,
-                       topic_slug:   article.topic.name,
-                       user_slug:    article.user.pseudo,
+                       article_slug: article,
+                       topic_slug:   article.topic,
+                       user_slug:    article.user,
                        author:       article.user.pseudo)
 
           render json: ArticleCompleteSerializer.new(article,

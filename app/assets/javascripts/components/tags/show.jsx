@@ -11,8 +11,11 @@ import {
 import {
     withStyles
 } from '@material-ui/core/styles';
+import Chip from '@material-ui/core/Chip';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+
+import LabelIcon from '@material-ui/icons/Label';
 
 import {
     showTagPath,
@@ -49,7 +52,7 @@ class TagShow extends React.Component {
     static propTypes = {
         routeParams: PropTypes.object.isRequired,
         // from connect
-        currentUser: PropTypes.bool,
+        currentUser: PropTypes.object,
         isFetching: PropTypes.bool,
         tag: PropTypes.object,
         fetchTag: PropTypes.func,
@@ -127,11 +130,18 @@ class TagShow extends React.Component {
                                     <div className="tag-parents">
                                         {
                                             this.props.tag.parents.map((tag) => (
-                                                <Link key={tag.id}
+                                                <Chip key={tag.id}
+                                                      component={Link}
+                                                      classes={{
+                                                          root: this.props.classes.tagChip,
+                                                          label: this.props.classes.tagLabel
+                                                      }}
                                                       to={showTagPath(tag.slug)}
-                                                      onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.name)}>
-                                                    {tag.name}
-                                                </Link>
+                                                      label={tag.name}
+                                                      variant="outlined"
+                                                      icon={<LabelIcon/>}
+                                                      clickable={true}
+                                                      onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.name)}/>
                                             ))
                                         }
                                     </div>
@@ -155,11 +165,18 @@ class TagShow extends React.Component {
                                     <div>
                                         {
                                             this.props.tag.children.map((tag) => (
-                                                <Link key={tag.id}
+                                                <Chip key={tag.id}
+                                                      component={Link}
+                                                      classes={{
+                                                          root: this.props.classes.tagChip,
+                                                          label: this.props.classes.tagLabel
+                                                      }}
                                                       to={showTagPath(tag.slug)}
-                                                      onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.name)}>
-                                                    {tag.name}
-                                                </Link>
+                                                      label={tag.name}
+                                                      variant="outlined"
+                                                      icon={<LabelIcon/>}
+                                                      clickable={true}
+                                                      onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.name)}/>
                                             ))
                                         }
                                     </div>
@@ -229,7 +246,7 @@ class TagShow extends React.Component {
                         </div>
 
                         {
-                            this.props.currentUser?.id === this.props.tag.user.id &&
+                            (this.props.currentUser?.id === this.props.tag.user.id && this.props.tag.tracker) &&
                             <div>
                                 <Typography className={this.props.classes.subtitle2}
                                             component="h3"
@@ -239,15 +256,15 @@ class TagShow extends React.Component {
 
                                 <p>
                                     {I18n.t('js.tag.common.stats.views')}
-                                    {this.props.tag.viewsCount}
+                                    {this.props.tag.tracker.viewsCount}
                                 </p>
                                 <p>
                                     {I18n.t('js.tag.common.stats.clicks')}
-                                    {this.props.tag.clicksCount}
+                                    {this.props.tag.tracker.clicksCount}
                                 </p>
                                 <p>
                                     {I18n.t('js.tag.common.stats.searches')}
-                                    {this.props.tag.searchesCount}
+                                    {this.props.tag.tracker.searchesCount}
                                 </p>
                             </div>
                         }

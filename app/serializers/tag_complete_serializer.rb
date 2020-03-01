@@ -21,7 +21,7 @@ class TagCompleteSerializer
 
   belongs_to :user, serializer: UserSampleSerializer
 
-  has_one :tracker
+  has_one :tracker, serializer: TrackerSerializer
 
   attribute :visibility_translated do |object|
     object.visibility_to_tr

@@ -10,7 +10,7 @@ import ArticleHistoryIcon from '../icons/history';
 import ArticleEditIcon from '../icons/edit';
 import ArticleLinkIcon from '../icons/link';
 
-import ArticleOutdatedIcon from '../icons/outdated';
+// import ArticleOutdatedIcon from '../icons/outdated';
 
 const ArticleActions = ({classes, isInline, userSlug, articleId, articleSlug, articleTitle, articleVisibility, isOutdated, onOutdatedClick, onDeleteClick, size, color}) => (
     <ul className={classes.actionButtons}>
@@ -53,16 +53,16 @@ const ArticleActions = ({classes, isInline, userSlug, articleId, articleSlug, ar
         </li>
 
         {
-            !isInline &&
-            <Hidden mdDown={true}>
-                <li className={classes.actionItem}>
-                    <ArticleOutdatedIcon articleId={articleId}
-                                         isOutdated={isOutdated}
-                                         onOutdatedClick={onOutdatedClick}
-                                         size={size}
-                                         color={color}/>
-                </li>
-            </Hidden>
+            // !isInline &&
+            // <Hidden mdDown={true}>
+            //     <li className={classes.actionItem}>
+            //         <ArticleOutdatedIcon articleId={articleId}
+            //                              isOutdated={isOutdated}
+            //                              onOutdatedClick={onOutdatedClick}
+            //                              size={size}
+            //                              color={color}/>
+            //     </li>
+            // </Hidden>
         }
 
         {

@@ -32,6 +32,19 @@ const styles = (theme) => ({
     },
     avatar: {
         color: theme.palette.text.primary
+    },
+    tagChip: {
+        margin: theme.spacing(0.5),
+        fontWeight: 400,
+        fontSize: '.9rem',
+        borderRadius: 4,
+        cursor: 'pointer',
+        color: theme.palette.text.secondary,
+        borderColor: theme.palette.text.secondary
+    },
+    tagLabel: {
+        fontSize: '.9rem',
+        margin: theme.spacing(0.3)
     }
 });
 

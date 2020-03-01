@@ -12,7 +12,7 @@ class Seo::Data < ApplicationRecord
 
   # == Validations ==========================================================
   validates :name,
-            presence: true,
+            presence:   true,
             uniqueness: { case_sensitive: false }
 
   validates :page_title,
@@ -30,16 +30,16 @@ class Seo::Data < ApplicationRecord
       next unless r.name.present? && r.defaults.has_key?(:locale)
 
       OpenStruct.new({
-        name: r.name,
-        params: r.defaults.except(:controller),
-        parts: r.parts - [:format],
-      })
+                       name:   r.name,
+                       params: r.defaults.except(:controller),
+                       parts:  r.parts - [:format],
+                     })
     end.compact
   end
 
   def self.convert_parameters(string, parameters)
     string.gsub(/:(\w+)/) do |match|
-      key = ($1 || $2 || match.tr(':', '')).to_sym
+      key   = ($1 || $2 || match.tr(':', '')).to_sym
       value = if parameters.key?(key)
                 parameters[key]
               else
@@ -51,11 +51,41 @@ class Seo::Data < ApplicationRecord
 
   def self.associated_parameters
     {
-      tag_slug: [:user_slug],
-      topic_slug: [:user_slug],
+      tag_slug:     [:user_slug],
+      topic_slug:   [:user_slug],
       article_slug: [:user_slug, :topic_slug],
       comment_slug: [:user_slug, :topic_slug, :article_slug]
     }
+  end
+
+  def self.slug_parameters(parameters)
+    new_parameters = {}
+
+    parameters.each do |slug_name, model|
+      new_parameters[slug_name] = model.respond_to?(:slug) ? model.slug : model
+    end
+
+    return new_parameters
+  end
+
+  def self.named_parameters(parameters)
+    new_parameters = {}
+
+    parameters.each do |slug_name, model|
+      if model.is_a?(User)
+        new_parameters[slug_name] = model.pseudo
+      elsif model.is_a?(Tag)
+        new_parameters[slug_name] = model.name
+      elsif model.is_a?(Topic)
+        new_parameters[slug_name] = model.name
+      elsif model.is_a?(Article)
+        new_parameters[slug_name] = model.title
+      else
+        new_parameters[slug_name] = model
+      end
+    end
+
+    return new_parameters
   end
 
   # == Instance Methods =====================================================

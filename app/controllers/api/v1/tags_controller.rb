@@ -44,8 +44,8 @@ module Api::V1
         if filter_params[:topic_slug] && params[:user_id]&.to_i == 0
           topic = Topic.friendly.find(filter_params[:topic_slug])
           set_seo_data(:topic_tags,
-                       topic_slug: topic.name,
-                       user_slug:  topic.user.pseudo)
+                       topic_slug: topic,
+                       user_slug:  topic.user)
         end
 
         tags = Rails.cache.fetch("user_tags:#{current_user&.id}_for_#{topic_id || current_user&.current_topic_id}", expires_in: InRailsWeBlog.config.cache_time) do
@@ -85,8 +85,7 @@ module Api::V1
         respond_to do |format|
           format.json do
             set_seo_data(:show_tag,
-                         tag_slug:  tag.name,
-                         user_slug: tag.user.pseudo,
+                         tag_slug:  tag,
                          author:    tag.user.pseudo)
 
             render json: TagCompleteSerializer.new(tag,
@@ -105,8 +104,8 @@ module Api::V1
       respond_to do |format|
         format.json do
           set_seo_data(:edit_tag,
-                       tag_slug:  tag.name,
-                       user_slug: tag.user.pseudo,
+                       tag_slug:  tag,
+                       user_slug: tag.user,
                        author:    tag.user.pseudo)
 
           render json: TagCompleteSerializer.new(tag,

@@ -11,6 +11,10 @@ import {
     spyTrackClick
 } from '../../../actions';
 
+import {
+    showTagPath
+} from '../../../constants/routesHelper';
+
 import styles from '../../../../jss/article/tooltip';
 
 export default @withTheme
@@ -52,7 +56,7 @@ class TooltipTag extends React.PureComponent {
                         </p>
 
                         <div className="margin-top-10">
-                            <a href={`/tags/${tag.slug}`}
+                            <a href={showTagPath(tag.slug)}
                                onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.name)}>
                                 {I18n.t('js.tag.common.link')}
                             </a>

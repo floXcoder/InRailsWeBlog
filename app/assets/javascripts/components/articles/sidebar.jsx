@@ -68,6 +68,9 @@ class ArticleSidebar extends React.Component {
     };
 
     render() {
+
+        w(this.props.articleOrderMode)
+
         return (
             <div className={this.props.classes.root}>
                 <h2 className={this.props.classes.title}>

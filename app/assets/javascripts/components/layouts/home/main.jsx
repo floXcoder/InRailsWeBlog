@@ -42,7 +42,7 @@ class MainLayoutHome extends React.Component {
             <Switch>
                 {
                     this.props.routes.map((route, i) => (
-                        <Route key={route.path || i}
+                        <Route key={Array.isArray(route.path) ? route.path.join('-') : (route.path || i)}
                                path={route.path}
                                exact={route.exact}
                                strict={route.strict}

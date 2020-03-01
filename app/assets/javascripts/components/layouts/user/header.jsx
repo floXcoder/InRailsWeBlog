@@ -49,7 +49,6 @@ import {
 } from '../../../middlewares/localStorage';
 
 import {
-    fetchMetaTags,
     showUserPreference,
     showTopicPopup,
     logoutUser
@@ -101,7 +100,6 @@ export default @connect((state) => ({
     currentTopic: state.topicState.currentTopic,
     currentTagSlugs: getCurrentTagSlugs(state)
 }), {
-    fetchMetaTags,
     showUserPreference,
     showTopicPopup
 })
@@ -124,7 +122,6 @@ class HeaderLayoutUser extends React.PureComponent {
         topicSlug: PropTypes.string,
         currentTopic: PropTypes.object,
         currentTagSlugs: PropTypes.array,
-        fetchMetaTags: PropTypes.func,
         showUserPreference: PropTypes.func,
         showTopicPopup: PropTypes.func,
         // from withWidth
@@ -140,7 +137,7 @@ class HeaderLayoutUser extends React.PureComponent {
 
         // Check if temporary article in local storage
         const temporaryArticle = getLocalData(articleTemporaryDataName);
-        if (temporaryArticle?.length > 0) {
+        if (temporaryArticle?.article) {
             this.state.hasTemporaryArticle = true;
         }
     }
@@ -154,13 +151,7 @@ class HeaderLayoutUser extends React.PureComponent {
         hasTemporaryArticle: false
     };
 
-    _handleTitleClick = () => {
-        this.props.fetchMetaTags('user_home', {user_slug: this.props.userSlug});
-    };
-
     _handleMobileTitleClick = () => {
-        this.props.fetchMetaTags('user_home', {user_slug: this.props.userSlug});
-
         this._handleTagDrawerToggle();
     };
 
@@ -444,8 +435,7 @@ class HeaderLayoutUser extends React.PureComponent {
                                 <Link className="header-brand-logo"
                                       to={rootPath()}
                                       title={window.settings.website_name}
-                                      itemProp="url"
-                                      onClick={this._handleTitleClick}>
+                                      itemProp="url">
                                     {window.settings.website_name}
                                 </Link>
                             </h1>

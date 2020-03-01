@@ -39,7 +39,8 @@ module Api::V1
           flash.now[:success] = shared_article.message
           if shared_article.success?
             render json:   ArticleCompleteSerializer.new(shared_article.result,
-                                                         include: [:user, :topic, :tags]),
+                                                         include: [:user, :topic, :tracker, :tags],
+                                                         meta:    meta_attributes),
                    status: :ok
           else
             flash.now[:error] = shared_article.message

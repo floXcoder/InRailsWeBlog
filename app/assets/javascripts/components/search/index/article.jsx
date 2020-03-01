@@ -57,7 +57,8 @@ export default class SearchArticleIndex extends React.PureComponent {
                                 {
                                     currentTopicArticles?.length > 0 &&
                                     <>
-                                        <Typography variant="subtitle2"
+                                        <Typography className={this.props.classes.categorySubtitle}
+                                                    variant="subtitle2"
                                                     gutterBottom={true}>
                                             {I18n.t('js.search.index.topic.current')}
                                         </Typography>
@@ -69,7 +70,8 @@ export default class SearchArticleIndex extends React.PureComponent {
                                 {
                                     (otherTopicsArticles?.length > 0) &&
                                     <>
-                                        <Typography variant="subtitle2"
+                                        <Typography className={this.props.classes.categorySubtitle}
+                                                    variant="subtitle2"
                                                     gutterBottom={true}>
                                             {I18n.t('js.search.index.topic.others')}
                                         </Typography>

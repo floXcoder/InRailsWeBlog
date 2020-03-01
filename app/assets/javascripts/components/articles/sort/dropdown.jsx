@@ -53,6 +53,8 @@ class ArticleSortMenu extends React.Component {
             selectedIndex: index,
             anchorEl: null
         });
+
+        this.props.onOrderChange(sortOptions[index]);
     };
 
     _handleClose = () => {
@@ -65,15 +67,14 @@ class ArticleSortMenu extends React.Component {
         let options = sortOptions.map((orderOption) => (
             <Link key={orderOption}
                   className={this.props.classes.buttonLink}
-                  to={orderTopicArticlesPath(this.props.currentUserSlug, this.props.currentUserTopicSlug, orderOption)}
-                  onClick={this.props.onOrderChange.bind(this, orderOption)}>
+                  to={orderTopicArticlesPath(this.props.currentUserSlug, this.props.currentUserTopicSlug, orderOption)}>
                 {I18n.t(`js.article.sort.order.${orderOption}`)}
             </Link>
         ));
 
         if (this.props.currentUserSlug && this.props.currentUserTopicSlug) {
             options.push(
-                <Link key={4}
+                <Link key="link"
                       to={sortTopicArticlesPath(this.props.currentUserSlug, this.props.currentUserTopicSlug)}>
                     {I18n.t('js.article.sort.link')}
                 </Link>

@@ -40,10 +40,10 @@ Bundler/OrderedGems:
 Capybara/FeatureMethods:
   Enabled: false
 
-Layout/AlignHash:
+Layout/HashAlignment:
   Enabled: false
 
-Layout/AlignParameters:
+Layout/ParameterAlignment:
   Enabled: false
 
 Layout/CaseIndentation:
@@ -65,13 +65,13 @@ Layout/ExtraSpacing:
   Enabled: false
   AllowForAlignment: true
 
-Layout/IndentFirstArgument:
+Layout/FirstArgumentIndentation:
   Enabled: false
 
-Layout/IndentFirstArrayElement:
+Layout/FirstArrayElementIndentation:
   Enabled: false
 
-Layout/IndentFirstHashElement:
+Layout/FirstHashElementIndentation:
   Enabled: false
 
 Layout/LeadingCommentSpace:

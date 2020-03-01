@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Set the host name for URL creation
-SitemapGenerator::Sitemap.default_host = "https://#{ENV['WEBSITE_ADDRESS']}"
+SitemapGenerator::Sitemap.default_host = ENV['WEBSITE_FULL_ADDRESS']
 SitemapGenerator::Interpreter.send :include, SitemapHelper
 
 # Default changefreq: 'weekly'

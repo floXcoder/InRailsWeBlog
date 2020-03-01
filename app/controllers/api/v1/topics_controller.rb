@@ -66,8 +66,8 @@ module Api::V1
         respond_to do |format|
           format.json do
             set_seo_data(:user_topic,
-                         topic_slug: topic.name,
-                         user_slug:  topic.user.pseudo,
+                         topic_slug: topic,
+                         user_slug:  topic.user,
                          author:     topic.user.pseudo)
 
             if current_user && topic.user?(current_user)
@@ -112,8 +112,8 @@ module Api::V1
       respond_to do |format|
         format.json do
           set_seo_data(:edit_topic,
-                       topic_slug: topic.name,
-                       user_slug:  topic.user.pseudo,
+                       topic_slug: topic,
+                       user_slug:  topic.user,
                        author:     topic.user.pseudo)
 
           render json: TopicCompleteSerializer.new(topic,
