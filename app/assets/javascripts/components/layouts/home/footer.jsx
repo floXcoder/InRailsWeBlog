@@ -134,7 +134,8 @@ class FooterLayoutHome extends React.PureComponent {
                     <Grid item={true}
                           xs={12}>
                         <div className="footer-copyright">
-                            <a className={this.props.classes.footerLink}
+                            <a className={this.props.classes.githubLink}
+                               target="_blank"
                                href={I18n.t('js.views.footer.links.github_src')}>
                                 {I18n.t('js.views.footer.links.github')}
                             </a>

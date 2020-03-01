@@ -374,14 +374,10 @@ describe 'Article API', type: :request, basic: true do
         login_as(@user, scope: :user, run_callbacks: false)
       end
 
-      it 'returns the article anyway' do
+      it 'returns an error message' do
         get "/api/v1/articles/#{@private_tags_article.id}/shared/nil", as: :json
 
-        expect(response).to be_json_response
-
-        article = JSON.parse(response.body)
-        expect(article['data']['attributes']).not_to be_empty
-        expect(article['data']['attributes']['title']).to eq(@private_tags_article.title)
+        expect(response).to be_unauthorized
       end
     end
   end

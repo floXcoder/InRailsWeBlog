@@ -58,21 +58,34 @@ class ArticleNew extends React.Component {
 
     constructor(props) {
         super(props);
+
+        this._metaTagsFetched = false;
     }
 
     componentDidMount() {
         this.props.switchTagSidebar(false);
-    }
 
-    componentDidUpdate() {
-        if(this.props.currentUser && this.props.currentTopic) {
-            this.props.fetchMetaTags('new_article', {user_slug: this.props.currentUser.slug, topic_slug: this.props.currentTopic.slug});
-        }
+        this._fetchMetaTags();
     }
 
     shouldComponentUpdate(nextProps) {
         return this.props.articleErrors !== nextProps.articleErrors || this.props.inheritVisibility !== nextProps.inheritVisibility || this.props.currentMode !== nextProps.currentMode;
     }
+
+    componentDidUpdate() {
+        this._fetchMetaTags();
+    }
+
+    _fetchMetaTags = () => {
+        if (!this._metaTagsFetched && this.props.currentUser && this.props.currentTopic) {
+            this._metaTagsFetched = true;
+
+            this.props.fetchMetaTags('new_article', {
+                user_slug: this.props.currentUser.slug,
+                topic_slug: this.props.currentTopic.slug
+            });
+        }
+    };
 
     render() {
         if (!this.props.currentUser || !this.props.currentTopic) {
@@ -91,6 +104,14 @@ class ArticleNew extends React.Component {
             visibility: this.props.inheritVisibility,
             allowComment: this.props.inheritVisibility !== 'only_me'
         };
+
+        if(this.props.article.temporary) {
+            article.title = this.props.article.title;
+            article.content = this.props.article.content;
+            article.visibility = this.props.article.visibility;
+            article.allowComment = this.props.article.allowComment;
+            article.picture_ids = this.props.article.picture_ids;
+        }
 
         let isPaste = false;
 

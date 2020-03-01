@@ -177,16 +177,13 @@ group :development, :test do
   gem 'bootsnap',                   '1.4.6',   require: false
 
   # Check errors
-  gem 'rubocop',                    '0.80.0',  require: false
+  gem 'rubocop',                    '0.80.1',  require: false
   gem 'rubocop-rails',              '2.4.2',   require: false
   gem 'rubocop-performance',        '1.5.2',   require: false
   gem 'rubocop-rspec',              '1.38.1',  require: false
 end
 
 group :production do
-  # Track active record query time
-  gem 'query_track',      '0.0.9'
-
   # Errors reporting
   gem 'sentry-raven',     '2.13.0'
 

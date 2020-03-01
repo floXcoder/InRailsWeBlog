@@ -21,6 +21,11 @@ const styles = (theme) => ({
         backgroundColor: theme.palette.background.default,
         color: theme.palette.text.primary,
         fontSize: '1rem'
+    },
+    githubLink: {
+        backgroundColor: theme.palette.background.default,
+        color: theme.palette.text.primary,
+        fontSize: '.9rem'
     }
 });
 

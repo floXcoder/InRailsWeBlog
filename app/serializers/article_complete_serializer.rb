@@ -109,7 +109,11 @@ class ArticleCompleteSerializer
   end
 
   attribute :public_share_link do |object|
-    "#{Rails.application.routes.url_helpers.root_url(host: ENV['WEBSITE_ADDRESS'])}articles/shared/#{object.slug}/#{object.share&.public_link}"
+    if object.public_share_link
+      "#{Rails.application.routes.url_helpers.root_url(host: ENV['WEBSITE_FULL_ADDRESS'])}articles/shared/#{object.slug}/#{object.public_share_link}"
+    else
+      nil
+    end
   end
 
   attribute :parent_tag_ids do |object|

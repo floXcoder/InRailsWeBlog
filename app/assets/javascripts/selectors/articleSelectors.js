@@ -13,7 +13,7 @@ const articlesByTag = (articles, sortedTags, parentTag) => {
 
     if (!parentTag) {
         sortedTags.forEach((tag) => {
-            orderedArticles[tag.name] = []
+            orderedArticles[tag.name] = [];
         });
     }
 

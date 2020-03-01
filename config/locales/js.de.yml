@@ -562,8 +562,9 @@ de:
           updated_desc: Jüngste
         title: Sortieren nach
       timeline:
-        no_articles: Keine anzuzeigenden Elemente
-        title: 'Neuer Artikel :'
+        title: "Neuer Artikel :"
+        no_articles: "Keine anzuzeigenden Elemente"
+        scroll_for_more: "Bildlaufleiste zum Laden weiterer Artikel"
       toc:
         no_articles: Noch keine Artikel
         title: Das Inhaltsverzeichnis

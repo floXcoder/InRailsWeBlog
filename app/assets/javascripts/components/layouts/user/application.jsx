@@ -63,7 +63,7 @@ export default class ApplicationLayoutUser extends React.Component {
                                             </ErrorBoundary>
 
                                             <ErrorBoundary errorType="card">
-                                                <MainLayoutUser routes={[...routes.static.common, ...routes.static.user]}/>
+                                                <MainLayoutUser routes={[...routes.static.common, ...routes.static.user, ...routes.static.notFound]}/>
                                             </ErrorBoundary>
 
                                             <ErrorBoundary errorType="card">

@@ -132,16 +132,19 @@ class ApplicationController < ActionController::Base
       name: "#{named_route}_#{current_locale}"
     )
 
+    named_parameters = Seo::Data.named_parameters(parameters)
+    slug_parameters = Seo::Data.slug_parameters(parameters)
+
     if seo_data
-      page_title = Seo::Data.convert_parameters(seo_data.page_title, parameters)
-      meta_desc  = Seo::Data.convert_parameters(seo_data.meta_desc, parameters)
+      page_title = Seo::Data.convert_parameters(seo_data.page_title, named_parameters)
+      meta_desc  = Seo::Data.convert_parameters(seo_data.meta_desc, named_parameters)
     else
       page_title = I18n.t('seo.default.page_title', website: ENV['WEBSITE_NAME'])
       meta_desc  = I18n.t('seo.default.meta_desc', website: ENV['WEBSITE_NAME'])
     end
 
-    canonical = canonical_url(named_route, model, current_locale, parameters) unless canonical
-    alternate = alternate_urls(named_route, model, parameters) unless alternate
+    canonical = canonical_url(named_route, model, current_locale, slug_parameters) unless canonical
+    alternate = alternate_urls(named_route, model, slug_parameters) unless alternate
 
     set_meta_tags title:       titleize(page_title),
                   description: meta_desc,
@@ -153,7 +156,7 @@ class ApplicationController < ActionController::Base
 
   def canonical_url(named_route, model, locale = I18n.locale, **params)
     locale = locale || 'en'
-    host   = Rails.env.development? ? nil : ENV['WEBSITE_ADDRESS']
+    host   = Rails.env.development? ? nil : ENV['WEBSITE_FULL_ADDRESS']
 
     if model
       model.link_path(locale: locale, route_name: named_route, host: host)

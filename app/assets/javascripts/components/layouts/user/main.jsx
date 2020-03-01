@@ -44,8 +44,8 @@ class MainLayoutUser extends React.Component {
         return (
             <Switch>
                 {
-                    this.props.routes.map((route) => (
-                        <Route key={Array.isArray(route.path) ? route.path.join('-') : route.path}
+                    this.props.routes.map((route, i) => (
+                        <Route key={Array.isArray(route.path) ? route.path.join('-') : (route.path || i)}
                                path={route.path}
                                exact={route.exact}
                                strict={route.strict}

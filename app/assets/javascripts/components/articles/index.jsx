@@ -109,7 +109,6 @@ class ArticleIndex extends React.Component {
     componentDidUpdate(prevProps) {
         // Manage articles order or sort display
         if (!Object.equals(this.props.routeParams, prevProps.routeParams) || this.props.routeHash !== prevProps.routeHash) {
-
             if (prevProps.routeParams.order !== this.props.routeParams.order) {
                 if (this.props.routeParams.order) {
                     this.props.updateArticleOrderDisplay(this.props.routeParams.order);
@@ -145,6 +144,10 @@ class ArticleIndex extends React.Component {
             queryParams.childTagSlug = this.props.routeParams.childTagSlug;
         } else if (this.props.routeParams.tagSlug) {
             queryParams.tagSlug = this.props.routeParams.tagSlug;
+        }
+
+        if (this.props.routeParams.order) {
+            queryParams.order = this.props.routeParams.order;
         }
 
         if (this.props.routeParams.sharedTopic) {

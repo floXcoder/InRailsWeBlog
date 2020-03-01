@@ -6,9 +6,8 @@ import {
 
 const styles = (theme) => ({
     modal: {
-        top: '40%',
-        left: '50%',
-        transform: 'translate(-50%, -45%)',
+        top: '5%',
+        left: '35%',
         position: 'absolute',
         width: 650,
         maxWidth: '90vw',
@@ -27,7 +26,7 @@ const styles = (theme) => ({
     },
     sortingItems: {
         position: 'relative',
-        maxHeight: '90vh',
+        maxHeight: '70vh',
         marginTop: theme.spacing(2),
         marginBottom: theme.spacing(3),
         overflow: 'auto',

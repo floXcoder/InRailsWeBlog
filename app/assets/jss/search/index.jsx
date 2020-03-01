@@ -66,6 +66,11 @@ const styles = (theme) => ({
         display: 'inline-block',
         marginBottom: 4
     },
+    categorySubtitle: {
+        marginLeft: '.6rem',
+        fontStyle: 'italic',
+        borderBottom: `1px solid ${theme.palette.grey[300]}`
+    },
     categoryCount: {
         color: theme.palette.grey[600],
         fontSize: '1rem',

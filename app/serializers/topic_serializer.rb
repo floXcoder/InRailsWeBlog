@@ -40,7 +40,6 @@ class TopicSerializer
              :priority,
              :visibility,
              :languages,
-             :settings,
              :slug,
              :articles_count
 
@@ -52,6 +51,10 @@ class TopicSerializer
 
   attribute :inventory_fields do |object|
     Topic::InventoryFieldSerializer.new(object.inventory_fields).serializable_hash&.dig(:data)&.map { |d| d[:attributes] }
+  end
+
+  attribute :settings do |object|
+    UserSettingSerializer.new(object).serializable_hash[:data][:attributes].compact
   end
 
 end

@@ -38,10 +38,16 @@ export default {
                 path: Routes.userConfirmationPath(false),
                 exact: true,
                 component: () => RouteComponents.UserConfirmation
-            },
+            }
+        ],
+        notFound: [
             // Miscellaneous
             {
                 path: Routes.notFoundPath(false),
+                status: 404,
+                component: () => NotFound
+            },
+            {
                 status: 404,
                 component: () => NotFound
             }

@@ -575,8 +575,9 @@ es:
           story: Artículos
         title: Filtrar por
       timeline:
-        no_articles: No hay elementos que mostrar
-        title: 'Nuevo artículo :'
+        title: "Nuevo artículo :"
+        no_articles: "No hay elementos que mostrar"
+        scroll_for_more: "Desplazador para cargar más artículos"
       toc:
         no_articles: No hay artículos todavía
         title: Índice

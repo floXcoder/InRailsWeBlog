@@ -17,7 +17,6 @@ class TopicCompleteSerializer
              :priority,
              :visibility,
              :languages,
-             :settings,
              :slug,
              :articles_count
 

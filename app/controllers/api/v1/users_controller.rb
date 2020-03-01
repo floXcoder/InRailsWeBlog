@@ -124,7 +124,7 @@ module Api::V1
             User.track_views(user.id)
 
             set_seo_data(:show_user,
-                         user_slug: user.pseudo,
+                         user_slug: user,
                          author:    user.pseudo,
                          model:     user,
                          og:        {

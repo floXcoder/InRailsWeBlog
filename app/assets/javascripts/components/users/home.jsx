@@ -31,7 +31,9 @@ import {
 } from '../../constants/routesHelper';
 
 import {
-    spyTrackClick
+    fetchMetaTags,
+    spyTrackClick,
+    switchTagSidebar
 } from '../../actions';
 
 import {
@@ -47,27 +49,37 @@ import styles from '../../../jss/user/home';
 
 export default @connect((state) => ({
     isFetching: state.userState.isFetching,
+    userSlug: state.userState.currentSlug,
     user: state.userState.user,
     publicTopics: getPublicTopics(state),
     privateTopics: getPrivateTopics(state),
     contributedTopics: state.topicState.contributedTopics
-}))
+}), {
+    fetchMetaTags,
+    switchTagSidebar
+})
 @hot
 @withStyles(styles)
 class UserHome extends React.Component {
     static propTypes = {
         // from connect
         isFetching: PropTypes.bool,
+        userSlug: PropTypes.string,
         user: PropTypes.object,
         publicTopics: PropTypes.array,
         privateTopics: PropTypes.array,
         contributedTopics: PropTypes.array,
+        fetchMetaTags: PropTypes.func,
         // from styles
         classes: PropTypes.object
     };
 
     constructor(props) {
         super(props);
+    }
+
+    componentDidMount() {
+        this.props.fetchMetaTags('user_home', {user_slug: this.props.userSlug});
     }
 
     _handleTopicClick = (topic) => {
@@ -97,13 +109,15 @@ class UserHome extends React.Component {
                       className={this.props.classes.card}
                       elevation={6}>
                     <CardHeader classes={{
-                        root: this.props.classes.header
+                        root: this.props.classes.header,
+                        subheader: this.props.classes.subheader
                     }}
                                 title={I18n.t('js.user.home.private.title')}
                                 subheader={I18n.t('js.user.home.private.subtitle')}
                                 action={
                                     <IconButton className={this.props.classes.sortIcon}
                                                 component={Link}
+                                                aria-label="Show more"
                                                 to={{
                                                     hash: '#' + sortTopicParam,
                                                     state: {
@@ -188,7 +202,8 @@ class UserHome extends React.Component {
                       className={this.props.classes.card}
                       elevation={5}>
                     <CardHeader classes={{
-                        root: this.props.classes.header
+                        root: this.props.classes.header,
+                        subheader: this.props.classes.subheader
                     }}
                                 title={I18n.t('js.user.home.public.title')}
                                 subheader={I18n.t('js.user.home.public.subtitle')}

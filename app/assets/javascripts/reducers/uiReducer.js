@@ -32,8 +32,8 @@ const _updateSettings = (state, settings) => {
     if(settings && typeof settings.articleDisplayMode === 'string') {
         state.articleDisplayMode = settings.articleDisplayMode;
     }
-    if(settings && typeof settings.articleOrderMode === 'string') {
-        state.articleOrderMode = settings.articleOrderMode;
+    if(settings && typeof settings.articleOrder === 'string') {
+        state.articleOrderMode = settings.articleOrder;
     }
     if(settings && typeof settings.articleMultilanguage === 'boolean') {
         state.articleMultilanguage = settings.articleMultilanguage;

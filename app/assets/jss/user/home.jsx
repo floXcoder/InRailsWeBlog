@@ -23,6 +23,9 @@ const styles = (theme) => ({
         paddingTop: 8,
         paddingBottom: 8
     },
+    subheader: {
+        fontSize: '.9rem'
+    },
     sortIcon: {
         [theme.breakpoints.down('md')]: {
             display: 'none'

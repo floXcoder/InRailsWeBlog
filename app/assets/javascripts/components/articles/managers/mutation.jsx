@@ -182,9 +182,9 @@ export default function articleMutationManager(mode) {
                     return;
                 }
 
-                const temporaryArticle = getLocalData(articletemporaryDataName);
-                if (temporaryArticle?.length > 0) {
-                    removeLocalData(articletemporaryDataName);
+                const temporaryArticle = getLocalData(articleTemporaryDataName);
+                if (temporaryArticle?.article) {
+                    removeLocalData(articleTemporaryDataName);
                 }
             };
 

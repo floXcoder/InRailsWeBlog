@@ -9,7 +9,6 @@ import * as ActionTypes from '../constants/actionTypes';
 import {
     spySearchResults
 } from './metricsActions';
-import {isEmpty} from "../modules/utils";
 
 // Autocomplete
 export const loadAutocomplete = (autocompleteParams) => (
@@ -188,7 +187,7 @@ export const fetchSearch = (searchData, saveHistory = true) => (dispatch, getSta
 };
 
 export const filterSearch = (filters) => (dispatch, getState) => {
-    const searchParams = getState().searchState.searchParams.concat({filters});
+    const searchParams = {...getState().searchState.searchParams, ...filters};
 
     _saveHistory(getState().searchState, searchParams);
 

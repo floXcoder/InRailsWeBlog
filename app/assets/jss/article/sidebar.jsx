@@ -26,7 +26,7 @@ const styles = (theme) => ({
         color: theme.palette.text.secondary
     },
     timeline: {
-        marginTop: '.5rem',
+        marginTop: 0,
         marginBottom: '4rem',
         height: '80vh'
     },

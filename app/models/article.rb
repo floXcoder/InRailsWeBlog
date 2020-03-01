@@ -324,7 +324,7 @@ class Article < ApplicationRecord
 
     params        = { user_slug: self.user.slug, article_slug: self.slug }
 
-    params[:host] = ENV['WEBSITE_ADDRESS'] if options[:host]
+    params[:host] = ENV['WEBSITE_FULL_ADDRESS'] if options[:host]
 
     Rails.application.routes.url_helpers.send("#{route_name}_#{locale}_#{options[:host] ? 'url' : 'path'}", **params)
   end
@@ -477,7 +477,7 @@ class Article < ApplicationRecord
   end
 
   def public_share_link
-    self.share&.public_link
+    self.share.public_link if self.share_id
   end
 
   private
