@@ -105,7 +105,7 @@ class ArticleNew extends React.Component {
             allowComment: this.props.inheritVisibility !== 'only_me'
         };
 
-        if(this.props.article.temporary) {
+        if(this.props.article?.temporary) {
             article.title = this.props.article.title;
             article.content = this.props.article.content;
             article.visibility = this.props.article.visibility;

@@ -504,6 +504,7 @@ en:
         update: "Update"
         share: "Share this article"
         tracking: "Views statistic"
+        compare: "Comparison between languages"
         delete: "Remove this article"
         updated_at: "Last modification"
       masonry:
@@ -550,6 +551,12 @@ en:
         searches: "Articles appears in search result"
         bookmarks: "Articles added to bookmarks"
         comments: "Number of associated comments"
+        cancel: "Cancel"
+      compare:
+        title: "Comparison between languages"
+        nothing: "Nothing to compare"
+        first_locale: "Orignal language"
+        second_locale: "Destination language"
         cancel: "Cancel"
       share:
         title: "Share this theme"

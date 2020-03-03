@@ -75,11 +75,12 @@ class Editor extends React.Component {
         // EditorLoader(() => {
         const $editor = $(this._editorRef.current);
 
-        const defaultOptions = {
+        const commonOptions = {
             lang: I18n.locale + '-' + I18n.locale.toUpperCase(),
             styleTags: ['p', 'h2', 'h3', 'h4'],
             placeholder: this.props.placeholder,
             popatmouse: false,
+            useProtocol: true,
             callbacks: {
                 onFocus: this.props.onFocus,
                 onMousedown: this._handleMouseDown,
@@ -160,7 +161,7 @@ class Editor extends React.Component {
             }
 
             this._editor = $editor.summernote({
-                ...defaultOptions,
+                ...commonOptions,
                 airMode: true,
                 popover: {
                     air: airToolbar
@@ -201,7 +202,7 @@ class Editor extends React.Component {
             }
 
             this._editor = $editor.summernote({
-                ...defaultOptions,
+                ...commonOptions,
                 ...toolbarOptions
             });
 

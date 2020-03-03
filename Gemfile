@@ -24,7 +24,7 @@ gem 'secure_headers',           '6.3.0'
 
 # JSON
 gem 'fast_jsonapi',             '1.6.0', git: 'https://github.com/fast-jsonapi/fast_jsonapi', ref: '2172e40'
-gem 'oj',                       '3.10.2'
+gem 'oj',                       '3.10.3'
 
 # Use slim instead of erb
 gem 'slim-rails',               '3.2.0'
@@ -90,7 +90,7 @@ gem 'browser',                  '4.0.0'
 
 # SEO
 gem 'friendly_id',              '5.3.0'
-gem 'route_translator',         '7.1.1'
+gem 'route_translator',         '7.1.2'
 gem 'meta-tags',                '2.13.0'
 gem 'sitemap_generator',        '6.1.0'
 
@@ -185,7 +185,7 @@ end
 
 group :production do
   # Errors reporting
-  gem 'sentry-raven',     '2.13.0'
+  gem 'sentry-raven',     '3.0.0'
 
   # Improve log outputs
   gem 'lograge',          '0.11.2'

@@ -29,8 +29,8 @@ const _updateSettings = (state, settings) => {
     if(settings && typeof settings.articlesLoader === 'string') {
         state.articlesLoaderMode = settings.articlesLoader;
     }
-    if(settings && typeof settings.articleDisplayMode === 'string') {
-        state.articleDisplayMode = settings.articleDisplayMode;
+    if(settings && typeof settings.articleDisplay === 'string') {
+        state.articleDisplayMode = settings.articleDisplay;
     }
     if(settings && typeof settings.articleOrder === 'string') {
         state.articleOrderMode = settings.articleOrder;
@@ -38,8 +38,8 @@ const _updateSettings = (state, settings) => {
     if(settings && typeof settings.articleMultilanguage === 'boolean') {
         state.articleMultilanguage = settings.articleMultilanguage;
     }
-    if(settings && typeof settings.tagOrderMode === 'string') {
-        state.tagOrderMode = settings.tagOrderMode;
+    if(settings && typeof settings.tagOrder === 'string') {
+        state.tagOrderMode = settings.tagOrder;
     }
     if(settings && typeof settings.tagSidebarPin === 'boolean') {
         state.isTagSidebarOpen = !settings.tagSidebarPin;

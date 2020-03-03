@@ -9,6 +9,12 @@ const styles = (theme) => ({
         width: '100%',
         margin: '.8rem 0 2.5rem'
     },
+    compareIcon: {
+        position: 'absolute',
+        right: 0,
+        marginTop: 12,
+        zIndex: 5
+    },
     tagLabel: {
         width: '100%',
         margin: '1rem 0 .3rem',

@@ -30,12 +30,7 @@ import {
     fetchArticle
 } from '../../actions';
 
-import styles from '../../../jss/article/share';
-//  root: {
-//     width: '100%',
-//     maxWidth: 360,
-//     backgroundColor: theme.palette.background.paper,
-//   },
+import styles from '../../../jss/article/tracking';
 
 export default @withRouter
 @connect((state) => ({
@@ -66,12 +61,6 @@ class TrackingArticleModal extends React.Component {
 
     componentDidMount() {
         if (this.props.article) {
-            this.props.fetchArticle(this.props.article.user.id, this.props.article.id, {complete: true});
-        }
-    }
-
-    componentDidUpdate() {
-        if (!this.props.article) {
             this.props.fetchArticle(this.props.article.user.id, this.props.article.id, {complete: true});
         }
     }

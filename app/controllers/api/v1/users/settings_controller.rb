@@ -50,6 +50,8 @@ module Api::V1
 
       respond_to do |format|
         format.json do
+          # Ensure current topic preferences are not changed
+          user.settings = user.settings.merge(user.current_topic.settings) unless topic
           render json: UserSettingSerializer.new(topic || user,
                                                  meta: { topic: !!topic })
         end

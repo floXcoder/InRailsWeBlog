@@ -1,6 +1,10 @@
 'use strict';
 
 import {
+    Link
+} from 'react-router-dom';
+
+import {
     Field
 } from 'react-final-form';
 
@@ -10,6 +14,12 @@ import {
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
+
+import CompareIcon from '@material-ui/icons/Compare';
+
+import {
+    compareArticleParam
+} from '../../../../constants/routesHelper';
 
 import EditorField from '../../../editor/form/editor';
 
@@ -152,6 +162,19 @@ class ArticleCommonField extends React.Component {
                     this.props.articleLanguages?.length > 1
                         ?
                         <>
+                            {
+                                this.props.article.id &&
+                                <div className={this.props.classes.compareIcon}>
+                                    <span className="tooltip-bottom"
+                                          data-tooltip={I18n.t('js.article.tooltip.compare')}>
+                                        <Link to={'#' + compareArticleParam}>
+                                            <CompareIcon color="primary"
+                                                         fontSize="default"/>
+                                        </Link>
+                                    </span>
+                                </div>
+                            }
+
                             <Tabs value={this.state.tabStep}
                                   indicatorColor="primary"
                                   textColor="primary"

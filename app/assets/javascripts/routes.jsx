@@ -297,6 +297,10 @@ export default {
             {
                 path: Routes.trackingArticleParam,
                 component: () => RouteComponents.ArticleTracking
+            },
+            {
+                path: Routes.compareArticleParam,
+                component: () => RouteComponents.ArticleCompare
             }
         ]
     }

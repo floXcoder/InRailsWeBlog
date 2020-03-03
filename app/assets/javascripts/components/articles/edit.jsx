@@ -98,6 +98,14 @@ class ArticleEdit extends React.Component {
             );
         }
 
+        if(this.props.currentTopic.languages?.length > 1 && !this.props.article.titleTranslations) {
+            return (
+                <div className="center margin-top-20">
+                    <Loader size="big"/>
+                </div>
+            );
+        }
+
         if (!this.props.isOwner) {
             return (
                 <div className="center margin-top-20">

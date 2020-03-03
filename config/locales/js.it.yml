@@ -503,6 +503,7 @@ it:
         share: Condividi questo articolo
         topic_link: Vai al tema
         tracking: Visualizza le statistiche
+        compare: "Confronto tra le lingue"
         update: Aggiorna
         updated_at: Ultima modifica
         visibility: 'Visibilità: %{visibility}'
@@ -529,50 +530,56 @@ it:
           previous: Storia precedente
           show: Leggi la storia
       new:
-        exit: Sei sicuro di andartene senza risparmiare?
+        exit: "Sei sicuro di andartene senza risparmiare?"
         meta:
-          description: Aggiunta di un articolo
-          title: Nuovo articolo - %{article}
-        submit: Crea l'articolo
+          description: "Aggiunta di un articolo"
+          title: "Nuovo articolo - %{article}"
+        submit: "Crea l'articolo"
         tags:
-          placeholder: Etichette associate
-          title: 'Aggiungere etichette (clic destro : etichetta del genitore / clic sinistro : etichetta del figlio)'
-        title: Creare un nuovo articolo
+          placeholder: "Etichette associate"
+          title: "Aggiungere etichette (clic destro : etichetta del genitore / clic sinistro : etichetta del figlio)"
+        title: "Creare un nuovo articolo"
       edit:
-        exit: Sei sicuro di andartene senza risparmiare?
-        form_title: 'Modifica di : %{title}'
-        submit: Aggiorna
-        title: Cambiare un materiale
+        exit: "Sei sicuro di andartene senza risparmiare?"
+        form_title: "Modifica di : %{title}"
+        submit: "Aggiorna"
+        title: "Cambiare un materiale"
       tracking:
-        bookmarks: Numero di volte aggiunte ai preferiti
-        cancel: Annulla
-        clicks: Numero di clic sull'articolo
-        comments: Numero di commenti associati
-        searches: Numero di volte restituite nella ricerca
-        title: Statistiche
-        views: Numero di stampe in tutte le pagine
+        bookmarks: "Numero di volte aggiunte ai preferiti"
+        cancel: "Annulla"
+        clicks: "Numero di clic sull'articolo"
+        comments: "Numero di commenti associati"
+        searches: "Numero di volte restituite nella ricerca"
+        title: "Statistiche"
+        views: "Numero di stampe in tutte le pagine"
+      compare:
+        title: "Confronto tra le lingue"
+        nothing: "Niente da confrontare"
+        first_locale: "Lingua originale"
+        second_locale: "Lingua di destinazione"
+        cancel: "Annulla"
       share:
-        button: Condividi tramite un link
-        cancel: Annulla
+        button: "Condividi tramite un link"
+        cancel: "Annulla"
         content: 'Copiare il seguente link per condividere l''articolo:'
-        title: Condividi questo articolo
+        title: "Condividi questo articolo"
       sort:
-        link: Cambiare la priorità
-        link_title: Cambia ordine
+        link: "Cambiare la priorità"
+        link_title: "Cambia ordine"
         order:
-          priority_desc: Priorità
-          tag_asc: Etichetta
-          updated_asc: Vecchi
-          updated_desc: I più recenti
-        title: Ordina per
+          priority_desc: "Priorità"
+          tag_asc: "Etichetta"
+          updated_asc: "Vecchi"
+          updated_desc: "I più recenti"
+        title: "Ordina per"
       filter:
         filters:
-          bookmark: Preferiti
-          draft: Bozze
-          link: Link
-          note: Note
-          story: Articoli
-        title: Filtrare per
+          bookmark: "Preferiti"
+          draft: "Bozze"
+          link: "Link"
+          note: "Note"
+          story: "Articoli"
+        title: "Filtrare per"
       timeline:
         title: "Nuovo articolo :"
         no_articles: "Nessun articolo da visualizzare"

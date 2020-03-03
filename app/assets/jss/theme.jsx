@@ -29,7 +29,7 @@ export const tooltipZIndex = 1600;
 export const h1Size = '3rem';
 export const h1SizeMobile = '2.4rem';
 export const h1Weight = 600;
-export const h1LineHeight = '3rem';
+export const h1LineHeight = '3.3rem';
 export const h1Spacing = 3.5;
 
 export const h1SizeGrid = '1.4rem';
@@ -39,7 +39,7 @@ export const h1SpacingGrid = 1.8;
 
 export const h1SizeExtract = '2rem';
 export const h1WeightExtract = 600;
-export const h1LineHeightExtract = '2rem';
+export const h1LineHeightExtract = '2.2rem';
 export const h1SpacingExtract = 2.6;
 
 // Admin
