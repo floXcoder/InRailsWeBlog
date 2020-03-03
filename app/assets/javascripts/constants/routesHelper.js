@@ -63,6 +63,7 @@ export const shareTopicParam = 'share-topic';
 export const sortTopicParam = 'sort-topic';
 
 export const trackingArticleParam = 'tracking-article';
+export const compareArticleParam = 'compare-article';
 export const shareArticleParam = 'share-article';
 
 // Not found routes

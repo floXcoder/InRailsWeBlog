@@ -504,6 +504,7 @@ fr:
         update: "Mettre à jour"
         share: "Partager cet article"
         tracking: "Statistiques des vues"
+        compare: "Comparaison entre langues"
         delete: "Supprimer cet article"
         updated_at: "Dernière modification"
       masonry:
@@ -550,6 +551,12 @@ fr:
         searches: "Nombre de fois retourné dans la recherche"
         bookmarks: "Nombre de fois ajouté dans les favoris"
         comments: "Nombre de commentaires associés"
+        cancel: "Annuler"
+      compare:
+        title: "Comparaison entre langues"
+        nothing: "Rien à comparer"
+        first_locale: "Langue d'origine"
+        second_locale: "Langue de destination"
         cancel: "Annuler"
       share:
         title: "Partager cet article"

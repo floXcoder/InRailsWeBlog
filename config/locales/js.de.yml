@@ -543,77 +543,84 @@ de:
         added: Als veraltet markierter Artikel
         removed: Artikel aus veralteter Fassung entfernt
       share:
-        button: Durch einen Link teilen
-        cancel: Abbrechen
-        content: 'Kopieren Sie den folgenden Link, um den Artikel freizugeben:'
-        title: Diesen Artikel weitergeben
+        button: "Durch einen Link teilen"
+        cancel: "Abbrechen"
+        content: "Kopieren Sie den folgenden Link, um den Artikel freizugeben:"
+        title: "Diesen Artikel weitergeben"
       show:
         stories:
-          next: Nächste Kategorie
-          previous: Vorherige Geschichte
-          show: Lesen Sie die Geschichte
+          next: "Nächste Kategorie"
+          previous: "Vorherige Geschichte"
+          show: "Lesen Sie die Geschichte"
       sort:
-        link: Änderung der Priorität
-        link_title: Reihenfolge ändern
+        link: "Änderung der Priorität"
+        link_title: "Reihenfolge ändern"
         order:
-          priority_desc: Priorität
-          tag_asc: Etikett
-          updated_asc: Ältere
-          updated_desc: Jüngste
-        title: Sortieren nach
+          priority_desc: "Priorität"
+          tag_asc: "Etikett"
+          updated_asc: "Ältere"
+          updated_desc: "Jüngste"
+        title: "Sortieren nach"
       timeline:
         title: "Neuer Artikel :"
         no_articles: "Keine anzuzeigenden Elemente"
         scroll_for_more: "Bildlaufleiste zum Laden weiterer Artikel"
       toc:
-        no_articles: Noch keine Artikel
-        title: Das Inhaltsverzeichnis
+        no_articles: "Noch keine Artikel"
+        title: "Das Inhaltsverzeichnis"
       tooltip:
-        add_bookmark: Zu den Favoriten hinzufügen
-        add_outdated: Als veraltet markiert
-        cancel: Abbrechen
-        delete: Diesen Artikel löschen
-        edit: Den Artikel modifizieren
-        history: Frühere Überarbeitungen des Artikels ansehen
-        link: Es ist ein Link
-        link_to: Zum Artikel gehen
-        remove_bookmark: Favoriten entfernen
-        remove_outdated: Entfernung veralteter Produkte
-        share: Diesen Artikel weitergeben
-        topic_link: Gehen Sie zum Thema
-        tracking: Statistik anzeigen
-        update: Aktualisierung
-        updated_at: Zuletzt geändert
-        visibility: 'Sichtbarkeit: %{visibility}'
+        add_bookmark: "Zu den Favoriten hinzufügen"
+        add_outdated: "Als veraltet markiert"
+        cancel: "Abbrechen"
+        delete: "Diesen Artikel löschen"
+        edit: "Den Artikel modifizieren"
+        history: "Frühere Überarbeitungen des Artikels ansehen"
+        link: "Es ist ein Link"
+        link_to: "Zum Artikel gehen"
+        remove_bookmark: "Favoriten entfernen"
+        remove_outdated: "Entfernung veralteter Produkte"
+        share: "Diesen Artikel weitergeben"
+        topic_link: "Gehen Sie zum Thema"
+        tracking: "Statistik anzeigen"
+        compare: "Vergleich zwischen Sprachen"
+        update: "Aktualisierung"
+        updated_at: "Zuletzt geändert"
+        visibility: "Sichtbarkeit: %{visibility}"
       tracking:
-        bookmarks: Anzahl von Malen, die zu den Favoriten hinzugefügt wurden
-        cancel: Abbrechen
-        clicks: Anzahl der Klicks auf den Artikel
-        comments: Anzahl der zugehörigen Kommentare
-        searches: Anzahl der in der Suche zurückgegebenen Male
-        title: Statistik
-        views: Anzahl der Ausdrucke auf allen Seiten
+        bookmarks: "Anzahl von Malen, die zu den Favoriten hinzugefügt wurden"
+        cancel: "Abbrechen"
+        clicks: "Anzahl der Klicks auf den Artikel"
+        comments: "Anzahl der zugehörigen Kommentare"
+        searches: "Anzahl der in der Suche zurückgegebenen Male"
+        title: "Statistik"
+        views: "Anzahl der Ausdrucke auf allen Seiten"
+      compare:
+        title: "Vergleich zwischen Sprachen"
+        nothing: "Nichts zu vergleichen"
+        first_locale: "Originalsprache"
+        second_locale: "Zielsprache"
+        cancel: "Abbrechen"
       vote:
-        added: Ihre Stimme wurde berücksichtigt
+        added: "Ihre Stimme wurde berücksichtigt"
     search:
       display:
-        card: Liste
-        grid: Raster
+        card: "Liste"
+        grid: "Raster"
       index:
         articles:
-          title: Artikel
-        button: Finden Sie
-        no_results: Keine Ergebnisse gefunden
-        placeholder: Suchen
+          title: "Artikel"
+        button: "Finden Sie"
+        no_results: "Keine Ergebnisse gefunden"
+        placeholder: "Suchen"
         results:
-          one: 1 Ergebnis
+          one: "1 Ergebnis"
           other: "%{count} Ergebnisse"
         suggestions:
-          articles: 'Versuchen Sie es mit der Rechtschreibung:'
-          tags: 'Versuchen Sie die folgenden Tags :'
+          articles: "Versuchen Sie es mit der Rechtschreibung:"
+          tags: "Versuchen Sie die folgenden Tags :"
         topic:
-          current: Aktuelles Thema
-          others: Andere Themen
+          current: "Aktuelles Thema"
+          others: "Andere Themen"
       module:
         placeholder: "Suchen"
         default: "Suche auf der Website..."

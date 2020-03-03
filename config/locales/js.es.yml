@@ -478,102 +478,108 @@ es:
         visibility: Visibilidad
       enums:
         mode:
-          inventory: Inventario
-          link: Enlace
-          note: Nota
-          story: Artículo
+          inventory: "Inventario"
+          link: "Enlace"
+          note: "Nota"
+          story: "Artículo"
         visibility:
-          everyone: Público
-          only_me: Privado
+          everyone: "Público"
+          only_me: "Privado"
       flash:
-        creation_unpermitted: Inicie sesión para escribir un artículo
-        deletion_successful: El artículo ha sido eliminado.
-        undelete_link: Cancele la eliminación.
+        creation_unpermitted: "Inicie sesión para escribir un artículo"
+        deletion_successful: "El artículo ha sido eliminado."
+        undelete_link: "Cancele la eliminación."
       tooltip:
-        add_bookmark: Añadir a los favoritos
-        add_outdated: Marcado como obsoleto
-        cancel: Cancelar
-        delete: Eliminar este artículo
-        edit: Modificar el artículo
-        history: Ver las revisiones anteriores del artículo
-        link: Es un enlace
-        link_to: Ir al artículo
-        remove_bookmark: Eliminar los favoritos
-        remove_outdated: Eliminación de productos obsoletos
-        share: Comparte este artículo
-        topic_link: Ir al tema
-        tracking: Ver estadísticas
-        update: Actualización
-        updated_at: Última modificación
+        add_bookmark: "Añadir a los favoritos"
+        add_outdated: "Marcado como obsoleto"
+        cancel: "Cancelar"
+        delete: "Eliminar este artículo"
+        edit: "Modificar el artículo"
+        history: "Ver las revisiones anteriores del artículo"
+        link: "Es un enlace"
+        link_to: "Ir al artículo"
+        remove_bookmark: "Eliminar los favoritos"
+        remove_outdated: "Eliminación de productos obsoletos"
+        share: "Comparte este artículo"
+        topic_link: "Ir al tema"
+        tracking: "Ver estadísticas"
+        compare: "Comparación entre idiomas"
+        update: "Actualización"
+        updated_at: "Última modificación"
         visibility: 'Visibilidad: %{visibility}'
       masonry:
-        add_column: Añadir columna
-        remove_column: Quitar la columna
+        add_column: "Añadir columna"
+        remove_column: "Quitar la columna"
       history:
-        changed_at: Versión modificada
-        initial: Versión inicial
+        changed_at: "Versión modificada"
+        initial: "Versión inicial"
         none: "¡No hay historia para este artículo!"
-        restore: Restaurar esta versión
-        restored: Versión restaurada
-
+        restore: "Restaurar esta versión"
+        restored: "Versión restaurada"
       bookmark:
-        added: Artículo añadido a los favoritos
-        removed: Artículo eliminado de los favoritos
+        added: "Artículo añadido a los favoritos"
+        removed: "Artículo eliminado de los favoritos"
       outdated:
-        added: Artículo marcado como obsoleto
-        removed: Artículo eliminado de los obsoletos
+        added: "Artículo marcado como obsoleto"
+        removed: "Artículo eliminado de los obsoletos"
       vote:
-        added: Su voto ha sido tenido en cuenta
+        added: "Su voto ha sido tenido en cuenta"
       show:
         stories:
-          next: Siguiente categoría..
-          previous: Historia anterior
-          show: Lea la historia
+          next: "Siguiente categoría"
+          previous: "Historia anterior"
+          show: "Lea la historia"
       new:
         exit: "¿Estás seguro de que te vas sin ahorrar?"
         meta:
-          description: Añadir un artículo
-          title: Nuevo artículo - %{topic}
-        submit: Crear el artículo
+          description: "Añadir un artículo"
+          title: "Nuevo artículo - %{topic}"
+        submit: "Crear el artículo"
         tags:
-          placeholder: Asociar las etiquetas
-          title: 'Añadir etiquetas (clic derecho: etiqueta para padres / clic izquierdo: etiqueta para niños)'
-        title: Crear un nuevo artículo
+          placeholder: "Asociar las etiquetas"
+          title: "Añadir etiquetas (clic derecho: etiqueta para padres / clic izquierdo: etiqueta para niños)"
+        title: "Crear un nuevo artículo"
       edit:
         exit: "¿Estás seguro de que te vas sin ahorrar?"
-        form_title: 'Modificación de : %{title}'
-        submit: Actualización
-        title: Cambiar un material
+        form_title: "Modificación de : %{title}"
+        submit: "Actualización"
+        title: "Cambiar un material"
       tracking:
-        bookmarks: Número de veces que se añaden a los favoritos
-        cancel: Cancelar
-        clicks: Número de clics en el artículo
-        comments: Número de comentarios asociados
-        searches: El número de veces que se regresó en la búsqueda
-        title: Estadísticas
-        views: Número de impresiones en todas las páginas
+        bookmarks: "Número de veces que se añaden a los favoritos"
+        cancel: "Cancelar"
+        clicks: "Número de clics en el artículo"
+        comments: "Número de comentarios asociados"
+        searches: "El número de veces que se regresó en la búsqueda"
+        title: "Estadísticas"
+        views: "Número de impresiones en todas las páginas"
+      compare:
+        title: "Comparación entre idiomas"
+        nothing: "No hay nada que comparar"
+        first_locale: "Idioma original"
+        second_locale: "Lengua de destino"
+        cancel: "Cancelar"
       share:
-        button: Compartir por un enlace
-        cancel: Cancelar
-        content: 'Copie el siguiente enlace para compartir el artículo:'
-        title: Comparte este artículo
+        button: "Compartir por un enlace"
+        cancel: "Cancelar"
+        content: "Copie el siguiente enlace para compartir el artículo:"
+        title: "Comparte este artículo"
       sort:
-        link: Cambiar la prioridad
-        link_title: Cambiar el orden
+        link: "Cambiar la prioridad"
+        link_title: "Cambiar el orden"
         order:
-          priority_desc: Prioridad
-          tag_asc: Etiqueta
-          updated_asc: Más antiguo
-          updated_desc: El más reciente
-        title: Ordenar por
+          priority_desc: "Prioridad"
+          tag_asc: "Etiqueta"
+          updated_asc: "Más antiguo"
+          updated_desc: "El más reciente"
+        title: "Ordenar por"
       filter:
         filters:
-          bookmark: Favoritos
-          draft: Borradores
-          link: Enlaces
-          note: Notas
-          story: Artículos
-        title: Filtrar por
+          bookmark: "Favoritos"
+          draft: "Borradores"
+          link: "Enlaces"
+          note: "Notas"
+          story: "Artículos"
+        title: "Filtrar por"
       timeline:
         title: "Nuevo artículo :"
         no_articles: "No hay elementos que mostrar"

@@ -23,6 +23,7 @@ export const ArticleNew = lazyWithPreload(() => import(/* webpackChunkName: "art
 export const ArticleEdit = lazyWithPreload(() => import(/* webpackChunkName: "article-edit" */ '../articles/edit'));
 export const ArticleHistory = lazyWithPreload(() => import(/* webpackChunkName: "article-history" */ '../articles/history'));
 export const ArticleTracking = lazyWithPreload(() => import(/* webpackChunkName: "article-tracker" */ '../articles/tracking'));
+export const ArticleCompare = lazyWithPreload(() => import(/* webpackChunkName: "article-compare" */ '../articles/compare'));
 export const ArticleShare = lazyWithPreload(() => import(/* webpackChunkName: "article-share" */ '../articles/share'));
 export const ArticleShared = lazyWithPreload(() => import(/* webpackChunkName: "article-share" */ '../articles/shared'));
 export const ArticleSort = lazyWithPreload(() => import(/* webpackChunkName: "article-sort" */ '../articles/sort'));

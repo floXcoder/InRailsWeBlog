@@ -161,7 +161,7 @@
   top: 0;
   user-select: text;
   width: 0;
-  z-index: 100; // Because for user-select:none, Safari won't allow input
+  z-index: 1200; // Because for user-select:none, Safari won't allow input
 }
 
 .hr-around-text {
