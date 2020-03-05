@@ -17,6 +17,7 @@ import styles from '../../../../jss/user/main';
 export default @connect((state) => ({
     routeProperties: state.routerState.currentRoute,
     routeParams: state.routerState.params,
+    currentUserSlug: state.userState.currentSlug,
     articleDisplayMode: state.uiState.articleDisplayMode
 }))
 @withWidth()
@@ -26,6 +27,7 @@ class SidebarLayoutUser extends React.Component {
         // from connect
         routeProperties: PropTypes.object,
         routeParams: PropTypes.object,
+        currentUserSlug: PropTypes.string,
         articleDisplayMode: PropTypes.string,
         // from withWidth
         width: PropTypes.string,
@@ -40,11 +42,12 @@ class SidebarLayoutUser extends React.Component {
     render() {
         const isGridDisplay = this.props.articleDisplayMode === 'grid';
         const isLargeEnough = this.props.width !== 'xs' && this.props.width !== 'sm' && this.props.width !== 'md';
+        const isUserData = this.props.routeParams?.userSlug ? this.props.routeParams.userSlug === this.props.currentUserSlug : true;
 
         return (
             <>
                 {
-                    (!this.props.routeProperties.noTagSidebar && isLargeEnough) &&
+                    (!this.props.routeProperties.noTagSidebar && isLargeEnough && isUserData) &&
                     <ErrorBoundary errorType="text"
                                    errorTitle={I18n.t('js.helpers.errors.boundary.title')}>
                         <div className={this.props.classes.sidebar}>
@@ -69,7 +72,7 @@ class SidebarLayoutUser extends React.Component {
                     <ErrorBoundary errorType="text"
                                    errorTitle={I18n.t('js.helpers.errors.boundary.title')}>
                         <div className={this.props.classes.sidebar}>
-                            <ArticleSidebarLayout parentTag={this.props.routeParams.tagSlug}/>
+                            <ArticleSidebarLayout parentTagSlug={this.props.routeParams.tagSlug}/>
                         </div>
                     </ErrorBoundary>
                 }

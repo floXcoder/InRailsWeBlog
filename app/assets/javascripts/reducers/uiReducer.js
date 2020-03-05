@@ -15,7 +15,7 @@ const initState = {
     isTopicPopupOpen: false,
 
     articlesLoaderMode: 'infinite',
-    articleDisplayMode: 'card',
+    articleDisplayMode: 'summary',
     articleOrderMode: undefined,
     articleMultilanguage: false,
 

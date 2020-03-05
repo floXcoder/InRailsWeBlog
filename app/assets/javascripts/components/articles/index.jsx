@@ -37,6 +37,10 @@ import {
     getStoryTopic
 } from '../../selectors';
 
+import {
+    articlePreloadShow
+} from '../modules/constants';
+
 import Loader from '../theme/loader';
 import Pagination from '../theme/pagination';
 
@@ -44,12 +48,14 @@ import NotFound from '../layouts/notFound';
 
 import SummaryStoriesTopic from '../topics/stories/summary';
 
+import ArticleRecommendationDisplay from './display/recommendation';
 import ArticleNoneDisplay from './display/items/none';
 
 import styles from '../../../jss/article/index';
 
 export default @connect((state) => ({
     currentUserId: state.userState.currentId,
+    currentTopic: state.topicState.currentTopic,
     userSlug: state.userState.currentSlug,
     storyTopic: getStoryTopic(state),
     isFetching: state.articleState.isFetching,
@@ -74,6 +80,7 @@ class ArticleIndex extends React.Component {
         routeHash: PropTypes.string,
         // from connect
         currentUserId: PropTypes.number,
+        currentTopic: PropTypes.object,
         userSlug: PropTypes.string,
         storyTopic: PropTypes.object,
         isFetching: PropTypes.bool,
@@ -101,9 +108,16 @@ class ArticleIndex extends React.Component {
     }
 
     componentDidMount() {
-        this._fetchArticles();
+        // Wait for topic is loaded before fetching article (avoid double fetching)
+        if (this.props.currentUserId) {
+            if (this.props.currentTopic) {
+                this._fetchArticles();
+            }
+        } else {
+            this._fetchArticles();
+        }
 
-        setTimeout(() => ArticleShow.preload(), 5000);
+        setTimeout(() => ArticleShow.preload(), articlePreloadShow);
     }
 
     componentDidUpdate(prevProps) {
@@ -115,6 +129,8 @@ class ArticleIndex extends React.Component {
                 }
             }
 
+            this._fetchArticles();
+        } else if (this.props.currentUserId && !prevProps.currentTopic && this.props.currentTopic) {
             this._fetchArticles();
         } else if (this.props.articleDisplayMode !== prevProps.articleDisplayMode || this.props.articlesLoaderMode !== prevProps.articlesLoaderMode) {
             // Reload articles to fit with new loader or display mode
@@ -213,16 +229,26 @@ class ArticleIndex extends React.Component {
 
     render() {
         if (this.props.articlesCount === 0 && !this.props.isFetching) {
-            if (this.props.currentUserId) {
+            if (this.props.currentUserId && this.props.currentTopic) {
                 return (
-                    <ArticleNoneDisplay userSlug={this.props.routeParams.userSlug}
-                                        topicSlug={this.props.routeParams.topicSlug}
-                                        tagSlug={this.props.routeParams.tagSlug}
-                                        childTagSlug={this.props.routeParams.childTagSlug}
-                                        isTopicPage={true}
-                                        isSearchPage={false}/>
+                    <div>
+                        <ArticleNoneDisplay userSlug={this.props.routeParams.userSlug}
+                                            topicSlug={this.props.routeParams.topicSlug}
+                                            tagSlug={this.props.routeParams.tagSlug}
+                                            childTagSlug={this.props.routeParams.childTagSlug}
+                                            isTopicPage={true}
+                                            isSearchPage={false}/>
+
+                        {
+                            this.props.routeParams.tagSlug &&
+                            <ArticleRecommendationDisplay userSlug={this.props.routeParams.userSlug}
+                                                          topicSlug={this.props.routeParams.topicSlug}
+                                                          tagSlug={this.props.routeParams.tagSlug}
+                                                          childTagSlug={this.props.routeParams.childTagSlug}/>
+                        }
+                    </div>
                 );
-            } else {
+            } else if (!this.props.currentUserId) {
                 return (
                     <div className="center margin-top-45 margin-bottom-65">
                         <NotFound/>
@@ -252,7 +278,7 @@ class ArticleIndex extends React.Component {
             );
         } else {
             ArticleNodes = (
-                <ArticleListMode parentTag={this.props.routeParams.tagSlug}
+                <ArticleListMode parentTagSlug={this.props.routeParams.tagSlug}
                                  isMinimized={this.props.areArticlesMinimized}
                                  articleEditionId={this.props.articleEditionId}
                                  onEnter={this._handleArticleEnter}
@@ -273,7 +299,7 @@ class ArticleIndex extends React.Component {
                     [this.props.classes.fullContainer]: isFullContainer
                 })}>
                     {
-                        this.props.isFetching &&
+                        (this.props.isFetching || (this.props.currentUserId && !this.props.currentTopic)) &&
                         <div className={this.props.classes.articleIndex}>
                             <div className="center">
                                 <Loader size="big"/>

@@ -530,23 +530,25 @@ de:
         topic: Thema
         visibility: Sichtbarkeit
       new:
-        exit: Sind Sie sicher, dass Sie ohne zu sparen gehen?
+        exit: "Sind Sie sicher, dass Sie ohne zu sparen gehen?"
         meta:
-          description: Einen Artikel hinzufügen
-          title: Neuer Artikel - %{topic}
-        submit: Erstellen Sie den Artikel
+          description: "Einen Artikel hinzufügen"
+          title: "Neuer Artikel - %{topic}"
+        submit: "Erstellen Sie den Artikel"
         tags:
-          placeholder: Zugehörige Etiketten
+          placeholder: "Zugehörige Etiketten"
           title: 'Etiketten hinzufügen (Rechtsklick : übergeordnete Etiketten / Linksklick : untergeordnete Etiketten)'
-        title: Einen neuen Artikel erstellen
+        title: "Einen neuen Artikel erstellen"
       outdated:
-        added: Als veraltet markierter Artikel
-        removed: Artikel aus veralteter Fassung entfernt
+        added: "Als veraltet markierter Artikel"
+        removed: "Artikel aus veralteter Fassung entfernt"
       share:
         button: "Durch einen Link teilen"
         cancel: "Abbrechen"
         content: "Kopieren Sie den folgenden Link, um den Artikel freizugeben:"
         title: "Diesen Artikel weitergeben"
+      recommendation:
+        title: "Etiketten in den folgenden Themen"
       show:
         stories:
           next: "Nächste Kategorie"
@@ -628,90 +630,92 @@ de:
         topics:
           title: "Themenbereiche"
         tags:
-          no_tags: "Keine Etiketten gefunden"
           recents: "(Neueste Etiketten)"
           title: "Beschriftungen"
+          none: "Keine Etiketten gefunden"
         articles:
           recents: "(Neueste Artikel)"
           title: "Artikel"
+          none: "Keine Artikel gefunden"
         helpers:
           select_tag: "Wählen Sie ein Etikett mit den Pfeilen und dann die Registerkarte"
-          tagged_articles: 'Suche nach Artikeln mit Etiketten: %{tags}'
+          tagged_articles: "Suche nach Artikeln mit Etiketten: %{tags}"
       orders:
-        date: Datum
-        priority: Priorität
+        popularity: "Popularität"
+        date: "Datum"
+        priority: "Priorität"
       sidebar:
-        filter: Ergebnisse filtern
+        filter: "Ergebnisse filtern"
     comment:
       ask_for_deletion:
-        button: Antrag auf Löschung eines Kommentars
+        button: "Antrag auf Löschung eines Kommentars"
       common:
-        actions: Aktionen
-        empty: Seien Sie der Erste, der Ihren Kommentar abgibt!
-        loading: Kommentare laden ...
-        no_data: Keine Kommentare für diese Auswahl anzeigen
-        no_opinion: Noch keine Kommentare zu Ihrem Artikel
-        route: kommentare
-        title: Kommentare
+        actions: "Aktionen"
+        empty: "Seien Sie der Erste, der Ihren Kommentar abgibt!"
+        loading: "Kommentare laden ..."
+        no_data: "Keine Kommentare für diese Auswahl anzeigen"
+        no_opinion: "Noch keine Kommentare zu Ihrem Artikel"
+        route: "kommentare"
+        title: "Kommentare"
       delete:
-        button: Löschen Sie
-        confirmation_button: Löschung
-        confirmation_message: Bitte bestätigen Sie die Löschung
+        button: "Löschen Sie"
+        confirmation_button: "Löschung"
+        confirmation_message: "Bitte bestätigen Sie die Löschung"
       edit:
-        button: Bearbeiten
+        button: "Bearbeiten"
       errors:
         body:
-          size: Der Inhalt des Kommentars muss zwischen %{min} und %{max} Zeichen liegen
-        default: Es ist unmöglich, den Kommentar zu erstellen! Danke, dass Sie es noch einmal versucht haben.
-        not_authorized: Sie haben keine Berechtigung, auf diesen Kommentar zuzugreifen!
+          size: "Der Inhalt des Kommentars muss zwischen %{min} und %{max} Zeichen liegen"
+        default: "Es ist unmöglich, den Kommentar zu erstellen! Danke, dass Sie es noch einmal versucht haben."
+        not_authorized: "Sie haben keine Berechtigung, auf diesen Kommentar zuzugreifen!"
         title:
-          size: Der Titel des Kommentars muss zwischen %{min} und %{max} Zeichen liegen
+          size: "Der Titel des Kommentars muss zwischen %{min} und %{max} Zeichen liegen"
       flash:
-        creation_unpermitted: Sie müssen sich einloggen, um einen Kommentar zu verfassen
+        creation_unpermitted: "Sie müssen sich einloggen, um einen Kommentar zu verfassen"
       form:
-        cancel: Abbrechen
+        cancel: "Abbrechen"
         comment:
-          body: Ihr Kommentar ...
-          body_for_deletion: Grund für die Streichung des Kommentars
+          body: "Ihr Kommentar ..."
+          body_for_deletion: "Grund für die Streichung des Kommentars"
           notation: 'Anmerkung:'
-          title: Beitragstitel
-          title_for_deletion: Antrag auf Löschung
-        explanation: Um Ihre Nachricht zu schreiben, können Sie die
-        submit: Poster
-        syntax: abschreibungssyntax
+          title: "Beitragstitel"
+          title_for_deletion: "Antrag auf Löschung"
+        explanation: "Um Ihre Nachricht zu schreiben, können Sie die"
+        submit: "Poster"
+        syntax: "markdown syntax"
         title:
-          default: Einen Kommentar hinzufügen
-          deletion_reply: Aufforderung zum Löschen eines Kommentars
-          modify: Ändern Sie Ihren Kommentar
-          owner_reply: Antwort auf einen Kommentar als Eigentümer
-          reply: Auf Kommentar antworten
+          default: "Einen Kommentar hinzufügen"
+          deletion_reply: "Aufforderung zum Löschen eines Kommentars"
+          modify: "Ändern Sie Ihren Kommentar"
+          owner_reply: "Antwort auf einen Kommentar als Eigentümer"
+          reply: "Auf Kommentar antworten"
       model:
-        body: Nachricht
-        commentable_type: Kommentiertes Modell
-        posted_at: Geschrieben am
-        title: Titel
-        user: Kommentator
+        body: "Nachricht"
+        commentable_type: "Kommentiertes Modell"
+        posted_at: "Geschrieben am"
+        title: "Titel"
+        user: "Kommentator"
       new:
-        button: Einen Kommentar hinzufügen
+        button: "Einen Kommentar hinzufügen"
       reply:
-        ask_for_deletion: Löschungsantrag in Bearbeitung
-        button: Antwort
-        owner: Antwort des Eigentümers
-        owner_button: Als Eigentümer antworten
+        ask_for_deletion: "Löschungsantrag in Bearbeitung"
+        button: "Antwort"
+        owner: "Antwort des Autors"
+        owner_button: "Antworten Sie als Autor"
       timeline:
-        link: 'Kommentar in Verbindung mit :'
-        no_comments: Keine anzuzeigenden Kommentare
+        link: "Kommentar in Verbindung mit :"
+        no_comments: "Keine anzuzeigenden Kommentare"
       tooltip:
         count: "%{count} Kommentare"
     picture:
       copyright:
-        default: Von
+        default: "Von"
       model:
         errors:
-          title: Bild zu groß
-          text: Die Dateigröße übersteigt 5MB, bitte wählen Sie ein kleineres Bild
+          title: "Bild zu groß"
+          text: "Die Dateigröße übersteigt 5MB, bitte wählen Sie ein kleineres Bild"
           type:
-            image: Die Datei ist keine Bilddatei, bitte wählen Sie eine jpp-, jpeg-, png- oder bmp-Datei
+            image: "Die Datei ist keine Bilddatei, bitte wählen Sie eine jpg, jpeg, png oder bmp Datei"
     activities:
       no_activities: Keine Aktivitäten anzuzeigen
       article:

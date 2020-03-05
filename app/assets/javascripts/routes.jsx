@@ -240,6 +240,7 @@ export default {
             {
                 path: Routes.newArticlePath(':userSlug', ':topicSlug', '(topics|shared-topics)', false),
                 exact: true,
+                noTagSidebar: true,
                 component: () => RouteComponents.ArticleNew
             },
             {

@@ -129,6 +129,27 @@
     }
   }
 
+  .comment-reply-owner {
+    display: inline-block;
+    font-size: 1rem;
+    font-style: italic;
+    font-weight: 600;
+    height: 32px;
+    line-height: 32px;
+    overflow: hidden;
+  }
+
+  .comment-ask-for-deletion {
+    color: rgb(210, 117, 117);
+    display: inline-block;
+    font-size: 1.2rem;
+    font-style: italic;
+    font-weight: 600;
+    height: 32px;
+    line-height: 32px;
+    overflow: hidden;
+  }
+
   .comment-form {
     margin-top: 20px;
 

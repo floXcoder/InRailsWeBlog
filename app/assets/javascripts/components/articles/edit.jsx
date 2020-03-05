@@ -51,7 +51,6 @@ class ArticleEdit extends React.Component {
         currentTopic: PropTypes.object,
         isFetching: PropTypes.bool,
         article: PropTypes.object,
-        isDraft: PropTypes.bool,
         articleErrors: PropTypes.array,
         onFormChange: PropTypes.func,
         onSubmit: PropTypes.func,
@@ -98,14 +97,6 @@ class ArticleEdit extends React.Component {
             );
         }
 
-        if(this.props.currentTopic.languages?.length > 1 && !this.props.article.titleTranslations) {
-            return (
-                <div className="center margin-top-20">
-                    <Loader size="big"/>
-                </div>
-            );
-        }
-
         if (!this.props.isOwner) {
             return (
                 <div className="center margin-top-20">
@@ -125,7 +116,7 @@ class ArticleEdit extends React.Component {
             reference: this.props.article.reference,
             inventories: inventoryData,
             picture_ids: '',
-            draft: this.props.isDraft || this.props.article.draft,
+            draft: this.props.article.draft,
             visibility: this.props.article.visibility || this.props.inheritVisibility,
             allowComment: typeof this.props.article.allowComment === 'undefined' && this.props.inheritVisibility === 'only_me' ? false : this.props.article.allowComment
         };
@@ -157,7 +148,6 @@ class ArticleEdit extends React.Component {
                                     currentTopic={this.props.currentTopic}
                                     currentMode={this.props.article.mode}
                                     isEditing={true}
-                                    isDraft={this.props.article.isDraft}
                                     articleErrors={this.props.articleErrors}
                                     onFormChange={this.props.onFormChange}
                                     onSubmit={this.props.onSubmit}>

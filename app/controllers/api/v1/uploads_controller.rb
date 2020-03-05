@@ -22,7 +22,7 @@ module Api::V1
         format.json do
           if upload.save
             # flash.now[:success] = t('views.upload.flash.successful_creation')
-            render json:   UploadSerializer.new(upload),
+            render json:   UploadSerializer.new(upload).serializable_hash,
                    status: :created
           else
             # flash.now[:error] = t('views.upload.flash.error_creation')
@@ -49,7 +49,7 @@ module Api::V1
         format.json do
           if upload.save
             # flash.now[:success] = t('views.upload.flash.successful_edition')
-            render json:   UploadSerializer.new(upload),
+            render json:   UploadSerializer.new(upload).serializable_hash,
                    status: :ok
           else
             # flash.now[:error] = t('views.upload.flash.error_edition')

@@ -38,6 +38,7 @@ export default @withRouter
 @connect((state) => ({
     currentUserId: state.userState.currentId,
     articleMultilanguage: state.uiState.articleMultilanguage,
+    isFetching: state.topicState.isFetching,
     topic: state.topicState.topic,
     topicErrors: getTopicErrors(state)
 }), {
@@ -54,6 +55,7 @@ class TopicEdit extends React.Component {
         // from connect
         currentUserId: PropTypes.number,
         articleMultilanguage: PropTypes.bool,
+        isFetching: PropTypes.bool,
         topic: PropTypes.object,
         topicErrors: PropTypes.array,
         fetchTopic: PropTypes.func,
@@ -73,28 +75,18 @@ class TopicEdit extends React.Component {
     _handleSubmit = (values) => {
         values.id = this.props.topic.id;
 
-        this.props.updateTopic(this.props.topic.user.id, values)
+        return this.props.updateTopic(this.props.topic.user.id, values)
             .then((response) => {
                 if (response.topic) {
                     this.props.history.push({
-                        pathname: userTopicPath(this.props.topic.user.slug, this.props.topic.slug)
+                        pathname: userTopicPath(this.props.topic.user.slug, response.topic.slug)
                     });
                 }
             });
-
-        return true;
     };
 
     render() {
-        if (this.props.topicErrors) {
-            return (
-                <div>
-                    <TopicErrorField errors={this.props.topicErrors}/>
-                </div>
-            );
-        }
-
-        if (!this.props.topic) {
+        if (!this.props.topic || this.props.isFetching) {
             return (
                 <div className="center margin-top-20">
                     <Loader size="big"/>
@@ -112,8 +104,14 @@ class TopicEdit extends React.Component {
 
         return (
             <div className={this.props.classes.root}>
-                <TopicFormDisplay id={`topic-edit-${this.props.topic.id}`}
-                                  topic={this.props.topic}
+                {
+                    this.props.topicErrors &&
+                    <div>
+                        <TopicErrorField errors={this.props.topicErrors}/>
+                    </div>
+                }
+
+                <TopicFormDisplay topic={this.props.topic}
                                   isEditing={true}
                                   articleMultilanguage={this.props.articleMultilanguage}
                                   onSubmit={this._handleSubmit}>

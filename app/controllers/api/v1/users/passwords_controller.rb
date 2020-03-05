@@ -32,7 +32,7 @@ module Api::V1
       else
         set_minimum_password_length
         flash[:error] = resource.errors.full_messages.join(', ')
-        @location = edit_password_path(reset_password_token: resource_params[:reset_password_token])
+        @location     = edit_password_path(reset_password_token: resource_params[:reset_password_token])
         respond_to do |format|
           format.html { redirect_to(@location) }
         end

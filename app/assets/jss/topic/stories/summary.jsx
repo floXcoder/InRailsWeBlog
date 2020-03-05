@@ -1,5 +1,12 @@
 'use strict';
 
+import {
+    h1SizeExtract,
+    h1WeightExtract,
+    h1LineHeightExtract,
+    h1SpacingExtract
+} from '../../theme';
+
 const styles = (theme) => ({
     container: {
         position: 'relative',
@@ -17,9 +24,14 @@ const styles = (theme) => ({
     },
     topicTitle: {
         textAlign: 'center',
-        fontSize: '1.8rem',
-        fontWeight: 500,
+        fontSize: h1SizeExtract,
+        fontWeight: h1WeightExtract,
+        lineHeight: h1LineHeightExtract,
+        letterSpacing: h1SpacingExtract,
         margin: '1rem 0'
+    },
+    topicDesc: {
+        fontSize: '1.1rem'
     }
 });
 

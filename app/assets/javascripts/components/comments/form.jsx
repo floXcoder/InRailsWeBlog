@@ -49,11 +49,11 @@ export default class CommentForm extends React.PureComponent {
     _handleSubmit = (event) => {
         event.preventDefault();
 
-        if (!this.state.title || this.state.title.length < window.settings.comment_body_min_length || this.state.title.length > window.settings.comment_title_max_length) {
+        if (this.state.title && (this.state.title.length < window.settings.comment_title_min_length || this.state.title.length > window.settings.comment_title_max_length)) {
             return;
         }
 
-        if (!this.state.body || this.state.body.length < window.settings.comment_comments_min_length || this.state.body.length > window.settings.comment_body_max_length) {
+        if (!this.state.body || this.state.body.length < window.settings.comment_body_min_length || this.state.body.length > window.settings.comment_body_max_length) {
             return;
         }
 
@@ -88,8 +88,7 @@ export default class CommentForm extends React.PureComponent {
                               acceptCharset="UTF-8"
                               noValidate="novalidate"
                               onSubmit={this._handleSubmit}>
-                            <TextField style={{margin: 8}}
-                                       fullWidth={true}
+                            <TextField fullWidth={true}
                                        autoFocus={true}
                                        autoComplete="off"
                                        label={this.props.isAskingForDeletion
@@ -114,12 +113,11 @@ export default class CommentForm extends React.PureComponent {
                             }
 
                             <TextField multiline={true}
-                                       style={{margin: 8}}
                                        className="margin-top-30"
                                        rowsMax="4"
                                        fullWidth={true}
-                                       autoFocus={true}
                                        required={true}
+                                       rows={3}
                                        autoComplete="off"
                                        label={this.props.isAskingForDeletion
                                            ?

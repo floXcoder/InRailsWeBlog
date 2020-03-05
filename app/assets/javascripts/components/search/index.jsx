@@ -251,7 +251,7 @@ class SearchIndex extends React.Component {
         if (order === 'priority') {
             orders.order = 'priority_desc';
         } else if (order === 'date') {
-            orders.order = 'updated_desc';
+            orders.order = 'created_desc';
         }
 
         this.props.filterSearch(orders);
@@ -346,7 +346,8 @@ class SearchIndex extends React.Component {
                             </FormControl>
                         </Grid>
 
-                        <Grid item={true}>
+                        <Grid item={true}
+                              className={this.props.classes.searchButton}>
                             <Button color="primary"
                                     variant="outlined"
                                     onClick={this._handleSubmit}>
@@ -394,6 +395,7 @@ class SearchIndex extends React.Component {
                 {
                     this.props.articles.length > 0 &&
                     <SearchArticleIndex classes={this.props.classes}
+                                        currentUserId={this.props.currentUserId}
                                         currentUserTopicId={this.props.currentUserTopicId}
                                         selectedTagIds={this.props.selectedTags.map((tag) => tag.id)}
                                         articles={this.props.articles}

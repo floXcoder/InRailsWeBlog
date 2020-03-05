@@ -9,6 +9,7 @@ import {
     removeIn,
     addOrReplaceIn
 } from './mutators';
+import {h1Spacing} from "../../jss/theme";
 
 // Autocomplete
 const autocompleteState = {
@@ -122,7 +123,7 @@ export function autocompleteReducer(state = autocompleteState, action) {
                 state.highlightedTag = undefined;
                 state.highlightedArticle = undefined;
             } else if (action.keyCode === 'Backspace') {
-                state.selectedTags = state.tags.count() > 0 ? addOrRemoveIn(state.selectedTags, state.tags.last()) : state.tags;
+                state.selectedTags = state.tags?.length > 0 ? addOrRemoveIn(state.selectedTags, state.tags.last()).compact() : state.tags;
                 state.topics = [];
                 state.tags = [];
                 state.articles = [];
@@ -132,7 +133,7 @@ export function autocompleteReducer(state = autocompleteState, action) {
             return state;
 
         case ActionTypes.SEARCH_AUTOCOMPLETE_TAG_SELECTED:
-            state.selectedTags = action.tag ? addOrRemoveIn(state.selectedTags, action.tag) : [];
+            state.selectedTags = action.tag ? addOrRemoveIn(state.selectedTags, action.tag).compact() : [];
             state.topics = [];
             state.tags = [];
             state.articles = [];

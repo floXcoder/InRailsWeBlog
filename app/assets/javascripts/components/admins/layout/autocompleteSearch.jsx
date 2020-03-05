@@ -136,7 +136,7 @@ class AutocompleteSearch extends React.Component {
                                   fetchAsyncValues={this._fetchAutocomplete}
                                   currentSuggestion={this.state.query}
                                   renderSuggestion={this._renderSuggestion}
-                                  onSuggestionChange={this._handleAutocompleteChange}/>
+                                  onChange={this._handleAutocompleteChange}/>
 
                     <a className={this.props.classes.helpIcon}
                        href="#"

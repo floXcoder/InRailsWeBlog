@@ -77,16 +77,20 @@ module Api::V1
             if complete
               render json: ArticleCompleteSerializer.new(articles,
                                                          include: [:user, :topic, :tracker, :tags],
-                                                         meta:    { root: 'articles', **meta_attributes })
+                                                         meta:    { root: 'articles', **meta_attributes }).serializable_hash
             elsif params[:summary]
               render json: ArticleSampleSerializer.new(articles,
                                                        include: [:user, :tags],
-                                                       meta:    { root: 'articles', **meta_attributes(pagination: articles) })
+                                                       meta:    {
+                                                                  root:       'articles',
+                                                                  storyTopic: articles.present? && articles.all?(&:story?) ? TopicSampleSerializer.new(articles.first.topic).serializable_hash[:data][:attributes].compact : nil,
+                                                                  **meta_attributes(pagination: articles) }.compact
+              ).serializable_hash
             else
               render json: ArticleSerializer.new(articles,
-                                                 include: [:user, :topic, :tags],
+                                                 include: [:user, :tags],
                                                  params:  { current_user_id: current_user&.id },
-                                                 meta:    { root: 'articles', **meta_attributes(pagination: articles) })
+                                                 meta:    { root: 'articles', **meta_attributes(pagination: articles) }).serializable_hash
             end
           end
         end
@@ -116,11 +120,15 @@ module Api::V1
             if current_user && article.user?(current_user)
               render json: ArticleCompleteSerializer.new(article,
                                                          include: [:user, :topic, :tracker, :tags],
-                                                         meta:    meta_attributes)
+                                                         meta:    meta_attributes).serializable_hash
             else
               render json: ArticleSerializer.new(article,
-                                                 include: [:user, :topic, :tags],
-                                                 meta:    meta_attributes)
+                                                 include: [:user, :tags],
+                                                 meta:    {
+                                                            storyTopic: article.story? ? TopicSampleSerializer.new(article.topic).serializable_hash[:data][:attributes].compact : nil,
+                                                            **meta_attributes
+                                                          }.compact
+              ).serializable_hash
             end
           end
         end
@@ -128,7 +136,7 @@ module Api::V1
     end
 
     def shared
-      article             = Share.where(public_link: params[:public_link]).first&.shareable
+      article              = Share.where(public_link: params[:public_link]).first&.shareable
       article&.shared_link = params[:public_link]
       admin_or_authorize article
 
@@ -149,8 +157,12 @@ module Api::V1
                                        }.compact)
 
             render json: ArticleSerializer.new(article,
-                                               include: [:user, :topic, :tags],
-                                               meta:    meta_attributes)
+                                               include: [:user, :tags],
+                                               meta:    {
+                                                          storyTopic: article.story? ? TopicSampleSerializer.new(article.topic).serializable_hash[:data][:attributes].compact : nil,
+                                                          **meta_attributes
+                                                        }.compact
+            ).serializable_hash
           end
         end
       end
@@ -167,7 +179,7 @@ module Api::V1
           format.json do
             render json: ArticleSampleSerializer.new(articles,
                                                      include: [:user, :tags],
-                                                     meta:    { root: 'stories' })
+                                                     meta:    { root: 'stories' }).serializable_hash
           end
         end
       end
@@ -188,7 +200,7 @@ module Api::V1
                        author:       article.user.pseudo)
 
           render json: HistorySerializer.new(article_versions,
-                                             meta: { root: 'history', **meta_attributes })
+                                             meta: { root: 'history', **meta_attributes }).serializable_hash
         end
       end
     end
@@ -205,7 +217,7 @@ module Api::V1
             flash.now[:success] = stored_article.message
             render json:   ArticleCompleteSerializer.new(stored_article.result,
                                                          include: [:user, :topic, :tracker, :tags],
-                                                         meta:    meta_attributes),
+                                                         meta:    meta_attributes).serializable_hash,
                    status: :created
           else
             flash.now[:error] = stored_article.message
@@ -231,7 +243,7 @@ module Api::V1
           render json: ArticleCompleteSerializer.new(article,
                                                      include: [:user, :topic, :tracker, :tags],
                                                      params:  { with_multilang: current_user.article_multilanguage },
-                                                     meta:    meta_attributes)
+                                                     meta:    meta_attributes).serializable_hash
         end
       end
     end
@@ -248,7 +260,7 @@ module Api::V1
             flash.now[:success] = stored_article.message unless params[:auto_save]
             render json:   ArticleCompleteSerializer.new(stored_article.result,
                                                          include: [:user, :topic, :tracker, :tags],
-                                                         meta:    meta_attributes),
+                                                         meta:    meta_attributes).serializable_hash,
                    status: :ok
           else
             flash.now[:error] = stored_article.message
@@ -273,7 +285,7 @@ module Api::V1
             flash.now[:success] = t('views.article.flash.successful_priority_update')
             render json:   ArticleCompleteSerializer.new(articles.reverse,
                                                          include: [:user, :topic, :tracker, :tags],
-                                                         meta:    { root: 'articles' }),
+                                                         meta:    { root: 'articles' }).serializable_hash,
                    status: :ok
           else
             flash.now[:error] = t('views.article.flash.error_priority_update')
@@ -299,7 +311,7 @@ module Api::V1
           flash.now[:success] = t('views.article.flash.successful_undeletion') if params[:from_deletion]
           format.json do
             render json:   ArticleCompleteSerializer.new(article,
-                                                         include: [:user, :topic, :tracker, :tags]),
+                                                         include: [:user, :topic, :tracker, :tags]).serializable_hash,
                    status: :accepted
           end
         end

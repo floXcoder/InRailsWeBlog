@@ -22,8 +22,9 @@ export default class SearchArticleIndex extends React.PureComponent {
         onOrderChange: PropTypes.func.isRequired,
         onDisplayChange: PropTypes.func.isRequired,
         searchDisplay: PropTypes.string.isRequired,
-        searchGridColumns: PropTypes.number,
-        currentUserTopicId: PropTypes.number
+        currentUserId: PropTypes.number,
+        currentUserTopicId: PropTypes.number,
+        searchGridColumns: PropTypes.number
     };
 
     constructor(props) {
@@ -43,6 +44,7 @@ export default class SearchArticleIndex extends React.PureComponent {
         return (
             <div className={this.props.classes.category}>
                 <ArticleSearchMenuDisplay classes={this.props.classes}
+                                          currentUserId={this.props.currentUserId}
                                           articlesCount={this.props.articles.length}
                                           searchDisplay={this.props.searchDisplay}
                                           onSettingsClick={this.props.onSettingsClick}

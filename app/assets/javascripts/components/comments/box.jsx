@@ -127,6 +127,7 @@ class CommentBox extends React.Component {
 
     _handleShowFormComment = (event) => {
         event.preventDefault();
+
         if (this.props.isUserConnected || this.props.isSuperUserConnected) {
             this.setState({isShowingCommentForm: true});
         } else {

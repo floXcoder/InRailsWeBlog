@@ -43,8 +43,16 @@ import {
 } from '../../../selectors';
 
 import {
+    removeLocalData
+} from '../../../middlewares/localStorage';
+
+import {
     validateArticle
 } from '../../../forms/article';
+
+import {
+    articleTemporaryDataName
+} from '../../modules/constants';
 
 // import ArticleModeField from './fields/mode';
 import ArticleFormStepper from './fields/stepper';
@@ -137,6 +145,8 @@ class ArticleFormDisplay extends React.Component {
     }
 
     _onUnsavedExit = (location) => {
+        removeLocalData(articleTemporaryDataName);
+
         return I18n.t('js.article.form.unsaved');
     };
 

@@ -42,11 +42,11 @@ module Api::V1
           if params[:complete] && admin_signed_in?
             render json: CommentFullSerializer.new(comments,
                                                    include: [:user, :commentable],
-                                                   meta:    { root: 'comments', **meta_attributes(pagination: comments) })
+                                                   meta:    { root: 'comments', **meta_attributes(pagination: comments) }).serializable_hash
           else
             render json: CommentSerializer.new(comments,
                                                include: [:user],
-                                               meta:    { root: 'comments', **meta_attributes(pagination: comments) })
+                                               meta:    { root: 'comments', **meta_attributes(pagination: comments) }).serializable_hash
           end
         end
       end

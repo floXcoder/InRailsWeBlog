@@ -60,8 +60,6 @@ class ArticleSerializer
 
   belongs_to :user, serializer: UserSampleSerializer
 
-  belongs_to :topic, if: Proc.new { |record| record.story? }, serializer: TopicSampleSerializer
-
   has_many :tags, serializer: TagSampleSerializer do |object, params|
     if object.user_id == params[:current_user_id]
       object.tags
@@ -92,15 +90,15 @@ class ArticleSerializer
   end
 
   attribute :date do |object|
-    I18n.l(object.updated_at, format: :custom_full_date).sub(/^[0]+/, '')
+    I18n.l(object.created_at, format: :custom_full_date).sub(/^[0]+/, '')
   end
 
   attribute :date_short do |object|
-    I18n.l(object.updated_at, format: :short).split(' ').map(&:capitalize)
+    I18n.l(object.created_at, format: :short).split(' ').map(&:capitalize)
   end
 
   attribute :date_iso do |object|
-    object.created_at.strftime('%Y-%m-%d')
+    object.updated_at.strftime('%Y-%m-%d')
   end
 
   attribute :visibility_translated do |object|

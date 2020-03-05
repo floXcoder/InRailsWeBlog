@@ -26,7 +26,10 @@ const styles = (theme) => ({
         fontWeight: h1Weight,
         lineHeight: h1LineHeightExtract,
         letterSpacing: h1SpacingExtract,
-        margin: 'inherit'
+        margin: 'inherit',
+        [theme.breakpoints.down('md')]: {
+            marginTop: '.2rem'
+        }
     },
     titleLink: {
         color: theme.palette.text.primary
@@ -73,7 +76,7 @@ const styles = (theme) => ({
         textAlign: 'center'
     },
     summaryLink: {
-        margin: theme.spacing(1.5, 3)
+        margin: theme.spacing(2, 3)
     }
 });
 

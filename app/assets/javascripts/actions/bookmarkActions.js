@@ -48,15 +48,11 @@ export const bookmark = (bookmarkedType, bookmarkedId, bookmarkData, currentUser
         } else {
             if (hasLocalStorage) {
                 saveLocalArray('bookmark', {bookmark});
-                Notification.alert(I18n.t('js.bookmark.notification.saved_later'), I18n.t('js.bookmark.notification.connection'), () => {
-                    window.location = '/login';
-                });
+                Notification.alert(I18n.t('js.bookmark.notification.saved_later'));
 
                 return dispatch(receiveBookmark({bookmark}));
             } else {
-                Notification.alert(I18n.t('js.bookmark.notification.not_connected'), I18n.t('js.bookmark.notification.connection'), () => {
-                    window.location = '/login';
-                });
+                Notification.alert(I18n.t('js.bookmark.notification.not_connected'));
             }
         }
 

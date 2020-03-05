@@ -39,8 +39,8 @@ class AdminsController < ApplicationController
   def index
     respond_to do |format|
       format.html do
-        set_meta_tags title:    titleize_admin(I18n.t('views.admin.dashboard.title')),
-                      noindex:  true, nofollow: true
+        set_meta_tags title:   titleize_admin(I18n.t('views.admin.dashboard.title')),
+                      noindex: true, nofollow: true
 
         render :index
       end
@@ -50,8 +50,8 @@ class AdminsController < ApplicationController
   def users
     respond_to do |format|
       format.html do
-        set_meta_tags title:    titleize_admin(I18n.t('views.admin.users.title')),
-                      noindex:  true, nofollow: true
+        set_meta_tags title:   titleize_admin(I18n.t('views.admin.users.title')),
+                      noindex: true, nofollow: true
 
         render :users
       end
@@ -61,8 +61,8 @@ class AdminsController < ApplicationController
   def comments
     respond_to do |format|
       format.html do
-        set_meta_tags title:    titleize_admin(I18n.t('views.admin.comments.title')),
-                      noindex:  true, nofollow: true
+        set_meta_tags title:   titleize_admin(I18n.t('views.admin.comments.title')),
+                      noindex: true, nofollow: true
 
         render :comments
       end
@@ -72,8 +72,8 @@ class AdminsController < ApplicationController
   def topics
     respond_to do |format|
       format.html do
-        set_meta_tags title:    titleize_admin(I18n.t('views.admin.topics.title')),
-                      noindex:  true, nofollow: true
+        set_meta_tags title:   titleize_admin(I18n.t('views.admin.topics.title')),
+                      noindex: true, nofollow: true
 
         render :topics
       end
@@ -83,8 +83,8 @@ class AdminsController < ApplicationController
   def tags
     respond_to do |format|
       format.html do
-        set_meta_tags title:    titleize_admin(I18n.t('views.admin.tags.title')),
-                      noindex:  true, nofollow: true
+        set_meta_tags title:   titleize_admin(I18n.t('views.admin.tags.title')),
+                      noindex: true, nofollow: true
 
         render :tags
       end
@@ -94,8 +94,8 @@ class AdminsController < ApplicationController
   def articles
     respond_to do |format|
       format.html do
-        set_meta_tags title:    titleize_admin(I18n.t('views.admin.articles.title')),
-                      noindex:  true, nofollow: true
+        set_meta_tags title:   titleize_admin(I18n.t('views.admin.articles.title')),
+                      noindex: true, nofollow: true
 
         render :articles
       end

@@ -21,14 +21,14 @@ const styles = (theme) => ({
         top: 0,
         transform: 'rotate(0deg)',
         transition: theme.transitions.create('transform', {
-            duration: theme.transitions.duration.shortest,
+            duration: theme.transitions.duration.shortest
         }),
         marginTop: 8,
         marginLeft: 'auto',
         marginRight: -2,
         [theme.breakpoints.down('xs')]: {
             display: 'none'
-        },
+        }
     },
     expandOpen: {
         transform: 'rotate(180deg)',
@@ -68,8 +68,8 @@ const styles = (theme) => ({
         marginBottom: 0,
         marginLeft: 'auto',
         [theme.breakpoints.up('sm')]: {
-            marginRight: -2,
-        },
+            marginRight: -2
+        }
     },
     actionItem: {
         display: 'inline-block',

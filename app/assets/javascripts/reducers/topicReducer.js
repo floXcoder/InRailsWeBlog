@@ -27,7 +27,9 @@ const initState = {
     currentUserTopicSlug: window.currentTopicSlug,
     currentTopic: undefined,
 
-    topic: undefined
+    topic: undefined,
+
+    storyTopic: undefined
 };
 
 export default function topicReducer(state = initState, action) {
@@ -77,6 +79,14 @@ export default function topicReducer(state = initState, action) {
                 state.currentTopic = action.user.currentTopic;
                 state.userTopics = action.user.topics;
                 state.contributedTopics = action.user.contributedTopics;
+            }
+            return state;
+
+        case ActionTypes.ARTICLE_FETCH_SUCCESS:
+            if (action.meta?.storyTopic) {
+                state.storyTopic = action.meta.storyTopic;
+            } else {
+                state.storyTopic = undefined;
             }
             return state;
 

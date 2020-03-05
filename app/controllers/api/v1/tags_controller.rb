@@ -36,7 +36,7 @@ module Api::V1
         tags = ::Tags::FindQueries.new.populars(limit: params[:limit])
       elsif params[:user_id] && (filter_params[:topic_slug].present? || filter_params[:topic_id].present?)
         topic_id = if filter_params[:topic_slug]
-                     User.friendly.find(params[:user_id]).topics.friendly.find(filter_params[:topic_slug]).id
+                     User.friendly.find_by(id: params[:user_id])&.topics&.find_by(slug: filter_params[:topic_slug])&.id
                    else
                      filter_params[:topic_id].to_i
                    end
@@ -65,11 +65,11 @@ module Api::V1
               render json: TagCompleteSerializer.new(tags,
                                                      include: [:user, :tracker],
                                                      params:  { current_topic_id: topic_id },
-                                                     meta:    { root: 'tags', **meta_attributes })
+                                                     meta:    { root: 'tags', **meta_attributes }).serializable_hash
             else
               render json: TagSerializer.new(tags,
                                              params: { current_topic_id: topic_id },
-                                             meta:   { root: 'tags', **meta_attributes })
+                                             meta:   { root: 'tags', **meta_attributes }).serializable_hash
             end
           end
         end
@@ -85,13 +85,13 @@ module Api::V1
         respond_to do |format|
           format.json do
             set_seo_data(:show_tag,
-                         tag_slug:  tag,
-                         author:    tag.user.pseudo)
+                         tag_slug: tag,
+                         author:   tag.user.pseudo)
 
             render json: TagCompleteSerializer.new(tag,
                                                    include: [:user, :tracker],
                                                    params:  { current_user_id: current_user&.id },
-                                                   meta:    meta_attributes)
+                                                   meta:    meta_attributes).serializable_hash
           end
         end
       end
@@ -111,7 +111,7 @@ module Api::V1
           render json: TagCompleteSerializer.new(tag,
                                                  include: [:user, :tracker],
                                                  params:  { current_user_id: current_user&.id },
-                                                 meta:    meta_attributes)
+                                                 meta:    meta_attributes).serializable_hash
         end
       end
     end
@@ -125,9 +125,10 @@ module Api::V1
       respond_to do |format|
         format.json do
           if stored_tag.success?
-            render json: TagSerializer.new(stored_tag.result,
-                                           params: { current_topic_id: current_user&.current_topic_id },
-                                           meta:   meta_attributes)
+            render json: TagCompleteSerializer.new(stored_tag.result,
+                                                   include: [:user, :tracker],
+                                                   params:  { current_topic_id: current_user&.current_topic_id },
+                                                   meta:    meta_attributes).serializable_hash
           else
             flash.now[:error] = stored_tag.message
             render json:   { errors: stored_tag.errors },
@@ -150,7 +151,7 @@ module Api::V1
           if tags.present?
             flash.now[:success] = t('views.tag.flash.successful_priority_update')
             render json:   TagSerializer.new(tags.reverse,
-                                             meta: { root: 'tags' }),
+                                             meta: { root: 'tags' }).serializable_hash,
                    status: :ok
           else
             flash.now[:error] = t('views.tag.flash.error_priority_update')

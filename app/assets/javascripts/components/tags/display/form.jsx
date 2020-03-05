@@ -16,7 +16,6 @@ import {
 import Button from '@material-ui/core/Button';
 
 import {
-    rootPath,
     showTagPath
 } from '../../../constants/routesHelper';
 
@@ -35,18 +34,10 @@ import styles from '../../../../jss/tag/form';
 export default @withStyles(styles)
 class TagFormDisplay extends React.Component {
     static propTypes = {
-        id: PropTypes.string.isRequired,
-        tag: PropTypes.number.isRequired,
         onSubmit: PropTypes.func.isRequired,
-        isEditing: PropTypes.bool,
-        children: PropTypes.object,
+        children: PropTypes.object.isRequired,
         // from styles
         classes: PropTypes.object
-    };
-
-    static defaultProps = {
-        isEditing: false,
-        children: {}
     };
 
     constructor(props) {
@@ -59,12 +50,12 @@ class TagFormDisplay extends React.Component {
 
     render() {
         return (
-            <Form initialValues={this.props.tag}
+            <Form initialValues={this.props.children}
                   validate={validateTag}
                   onSubmit={this.props.onSubmit}>
                 {
                     ({handleSubmit, dirty, submitting}) => (
-                        <form id={this.props.id}
+                        <form id={`tag-form-${this.props.children.id || 'new'}`}
                               onSubmit={handleSubmit}>
                             <Prompt when={dirty && !submitting}
                                     message={this._onUnsavedExit}/>
@@ -103,7 +94,7 @@ class TagFormDisplay extends React.Component {
 
                                         {
                                             this.props.children.visibility === 'everyone' &&
-                                            <p className="tag-advice">
+                                            <p className={this.props.classes.nameAdvice}>
                                                 {I18n.t('js.tag.common.visibility_immutable')}
                                             </p>
                                         }
@@ -117,7 +108,7 @@ class TagFormDisplay extends React.Component {
                                                component={EditorField}
                                                id="tag_description"
                                                modelName="tag"
-                                               modelId={this.props.tag.id}
+                                               modelId={this.props.children.id}
                                                placeholder={I18n.t('js.tag.common.placeholders.description')}
                                                onSubmit={handleSubmit}
                                                componentContent={this.props.children.description}/>
@@ -133,6 +124,7 @@ class TagFormDisplay extends React.Component {
                                                        id="tag_visibility"
                                                        className={this.props.classes.select}
                                                        label=""
+                                                       disabled={this.props.children.visibility === 'everyone'}
                                                        options={I18n.t('js.tag.enums.visibility')}/>
                                             </div>
 
@@ -147,8 +139,8 @@ class TagFormDisplay extends React.Component {
                                                        label={I18n.t('js.tag.common.synonyms')}
                                                        inputVariant="standard"
                                                        isMultiple={true}
+                                                       isSimpleArray={true}
                                                        isTagged={true}
-                                                       required={true}
                                                        fullWidth={true}
                                                        filterValues={true}/>
                                             </div>
@@ -165,7 +157,7 @@ class TagFormDisplay extends React.Component {
                                                 variant="outlined"
                                                 size="small"
                                                 component={Link}
-                                                to={this.props.isEditing ? showTagPath(this.props.children.slug) : rootPath()}>
+                                                to={showTagPath(this.props.children.slug)}>
                                             {I18n.t('js.tag.edit.back_button')}
                                         </Button>
                                     </div>
@@ -176,13 +168,7 @@ class TagFormDisplay extends React.Component {
                                                 size="small"
                                                 disabled={submitting}
                                                 onClick={handleSubmit}>
-                                            {
-                                                this.props.isEditing
-                                                    ?
-                                                    I18n.t('js.tag.edit.submit')
-                                                    :
-                                                    I18n.t('js.tag.new.submit')
-                                            }
+                                            {I18n.t('js.tag.edit.submit')}
                                         </Button>
                                     </div>
                                 </div>

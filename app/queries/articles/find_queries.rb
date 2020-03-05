@@ -185,6 +185,8 @@ module Articles
         else
           @current_user.article_order
         end
+      elsif @topic_articles&.stories?
+        'created_asc'
       else
         'priority_desc'
       end

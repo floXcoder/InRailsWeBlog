@@ -324,6 +324,16 @@ Advanced tests (with HTML):
 Or with coverage:
 
     npm run test:coverage
+    
+### Static tests
+
+To run all static tests:
+
+    rails InRailsWeBlog:static_analysis:all
+    
+All results are generated in:
+
+    ./static_analysis/*
 
 ## Production
 
@@ -402,5 +412,5 @@ To create a new major version, start manually a new Gitflow release named "0.Y.0
     git push --tags
 
 
-©FloXcoder - 2019
+©FloXcoder - 2020
 

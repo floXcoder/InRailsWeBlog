@@ -21,6 +21,7 @@ import {
 export default class SearchArticleModule extends React.PureComponent {
     static propTypes = {
         classes: PropTypes.object.isRequired,
+        isUserConnected: PropTypes.bool.isRequired,
         articles: PropTypes.array.isRequired,
         hasQuery: PropTypes.bool.isRequired,
         selectedTags: PropTypes.array,
@@ -52,7 +53,7 @@ export default class SearchArticleModule extends React.PureComponent {
                 article.topicId !== this.props.currentTopicId
             ));
         } else {
-            return null;
+            return [];
         }
     };
 
@@ -105,7 +106,7 @@ export default class SearchArticleModule extends React.PureComponent {
                     {I18n.t('js.search.module.articles.title')}
 
                     {
-                        !this.props.hasQuery &&
+                        (this.props.isUserConnected && !this.props.hasQuery) &&
                         <span className={this.props.classes.categoryCount}>
                             {I18n.t('js.search.module.articles.recents')}
                         </span>
@@ -118,6 +119,13 @@ export default class SearchArticleModule extends React.PureComponent {
                         <div className={this.props.classes.helpMessage}>
                             {I18n.t('js.search.module.helpers.tagged_articles', {tags: this.props.selectedTags.map((tag) => tag.name).join(', ')})}
                         </div>
+                    }
+
+                    {
+                        (this.props.hasQuery && currentTopicArticles.length === 0 && otherArticles.length === 0) &&
+                        <p className={classNames(this.props.classes.articleSecondaryResult)}>
+                            {I18n.t('js.search.module.articles.none')}
+                        </p>
                     }
 
                     {

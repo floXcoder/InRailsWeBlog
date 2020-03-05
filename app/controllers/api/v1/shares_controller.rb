@@ -17,7 +17,7 @@ module Api::V1
           flash.now[:success] = shared_topic.message
           if shared_topic.success?
             render json:   TopicSerializer.new(shared_topic.result,
-                                               include: [:contributors]),
+                                               include: [:contributors]).serializable_hash,
                    status: :ok
           else
             flash.now[:error] = shared_topic.message
@@ -40,7 +40,7 @@ module Api::V1
           if shared_article.success?
             render json:   ArticleCompleteSerializer.new(shared_article.result,
                                                          include: [:user, :topic, :tracker, :tags],
-                                                         meta:    meta_attributes),
+                                                         meta:    meta_attributes).serializable_hash,
                    status: :ok
           else
             flash.now[:error] = shared_article.message

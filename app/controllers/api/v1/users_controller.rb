@@ -66,10 +66,10 @@ module Api::V1
             if complete
               render json: UserCompleteSerializer.new(users,
                                                       include: [:tracker],
-                                                      meta:    { root: 'users' })
+                                                      meta:    { root: 'users' }).serializable_hash
             else
               render json: UserSampleSerializer.new(users,
-                                                    meta: { root: 'users', **meta_attributes(pagination: users) })
+                                                    meta: { root: 'users', **meta_attributes(pagination: users) }).serializable_hash
             end
           end
         end
@@ -105,7 +105,7 @@ module Api::V1
             User.track_views(user.id)
             render json: UserCompleteSerializer.new(user,
                                                     include: [:tracker],
-                                                    meta:    meta_attributes)
+                                                    meta:    meta_attributes).serializable_hash
           elsif params[:profile] && current_user&.id == user.id
             topic_slug = if params[:topic_slug].present?
                            params[:topic_slug]
@@ -119,7 +119,7 @@ module Api::V1
             end
 
             render json: UserProfileSerializer.new(user,
-                                                   include: [:current_topic, :topics, :contributed_topics])
+                                                   include: [:current_topic, :topics, :contributed_topics]).serializable_hash
           else
             User.track_views(user.id)
 
@@ -135,7 +135,7 @@ module Api::V1
 
             if stale?(user, template: false, public: true)
               render json: UserSerializer.new(user,
-                                              meta: meta_attributes)
+                                              meta: meta_attributes).serializable_hash
             end
           end
         end
@@ -155,7 +155,7 @@ module Api::V1
           format.json do
             render json: CommentFullSerializer.new(user_comments,
                                                    include: [:user, :commentable],
-                                                   meta:    { root: 'comments', **meta_attributes(pagination: user_comments) })
+                                                   meta:    { root: 'comments', **meta_attributes(pagination: user_comments) }).serializable_hash
           end
         end
       end
@@ -213,7 +213,7 @@ module Api::V1
       respond_to do |format|
         format.json do
           render json: PublicActivitiesSerializer.new(user_activities,
-                                                      meta: { root: 'activities', **meta_attributes(pagination: user_activities) })
+                                                      meta: { root: 'activities', **meta_attributes(pagination: user_activities) }).serializable_hash
         end
       end
     end
@@ -231,10 +231,10 @@ module Api::V1
             if params[:complete] && current_user
               authorize current_user, :admin?
               render json:   UserCompleteSerializer.new(stored_user.result,
-                                                        include: [:tracker]),
+                                                        include: [:tracker]).serializable_hash,
                      status: :ok
             else
-              render json: UserSerializer.new(stored_user.result)
+              render json: UserSerializer.new(stored_user.result).serializable_hash
             end
           end
         end

@@ -17,6 +17,7 @@ export default class ArticleSearchMenuDisplay extends React.PureComponent {
         onSettingsClick: PropTypes.func.isRequired,
         onOrderChange: PropTypes.func.isRequired,
         onDisplayChange: PropTypes.func.isRequired,
+        currentUserId: PropTypes.number,
         searchDisplay: PropTypes.string
     };
 
@@ -25,7 +26,7 @@ export default class ArticleSearchMenuDisplay extends React.PureComponent {
     }
 
     state = {
-        order: 'priority'
+        order: 'popularity'
     };
 
     _handleDisplay = (display, event) => {
@@ -124,16 +125,33 @@ export default class ArticleSearchMenuDisplay extends React.PureComponent {
                                           }>
                                     <ul className={this.props.classes.categoryFilterList}>
                                         <li className={classNames({
-                                            [this.props.classes.categoryFilterSelected]: this.state.order === 'priority'
+                                            [this.props.classes.categoryFilterSelected]: this.state.order === 'popularity'
                                         })}>
-                                            <a onClick={this._handleOrder.bind(this, 'priority')}>
-                                                {I18n.t('js.search.orders.priority')}
+                                            <a onClick={this._handleOrder.bind(this, 'popularity')}>
+                                                {I18n.t('js.search.orders.popularity')}
                                             </a>
                                         </li>
 
                                         <li className="dropdown-divider">
                                             &nbsp;
                                         </li>
+
+                                        {
+                                            this.props.currentUserId &&
+                                            <>
+                                                <li className={classNames({
+                                                    [this.props.classes.categoryFilterSelected]: this.state.order === 'priority'
+                                                })}>
+                                                    <a onClick={this._handleOrder.bind(this, 'priority')}>
+                                                        {I18n.t('js.search.orders.priority')}
+                                                    </a>
+                                                </li>
+
+                                                <li className="dropdown-divider">
+                                                    &nbsp;
+                                                </li>
+                                            </>
+                                        }
 
                                         <li className={classNames({
                                             [this.props.classes.categoryFilterSelected]: this.state.order === 'date'

@@ -41,26 +41,17 @@ class SummaryStoriesTopic extends React.Component {
         return (
             <div className={this.props.classes.container}>
                 <div className={this.props.classes.root}>
-                    {
-                        this.props.userSlug
-                            ?
-                            <Link to={topicArticlesPath(this.props.userSlug, this.props.topic.slug)}
-                                  onClick={this._handleTopicClick.bind(this, this.props.topic.id, this.props.topic.slug, this.props.topic.name)}>
-                                <Typography className={this.props.classes.topicTitle}
-                                            variant="h4"
-                                            component="h2">
-                                    {this.props.topic.name}
-                                </Typography>
-                            </Link>
-                            :
-                            <Typography className={this.props.classes.topicTitle}
-                                        variant="h4"
-                                        component="h2">
-                                {this.props.topic.name}
-                            </Typography>
-                    }
+                    <Link to={topicArticlesPath(this.props.userSlug, this.props.topic.slug)}
+                          onClick={this._handleTopicClick.bind(this, this.props.topic.id, this.props.topic.slug, this.props.topic.name)}>
+                        <Typography className={this.props.classes.topicTitle}
+                                    variant="h4"
+                                    component="h2">
+                            {this.props.topic.name}
+                        </Typography>
+                    </Link>
 
-                    <Typography component="p">
+                    <Typography className={this.props.classes.topicDesc}
+                                component="p">
                         {this.props.topic.description}
                     </Typography>
                 </div>

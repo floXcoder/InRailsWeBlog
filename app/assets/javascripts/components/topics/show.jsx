@@ -214,6 +214,18 @@ class TopicShow extends React.Component {
                             <Typography className={this.props.classes.subtitle2}
                                         component="h3"
                                         variant="h3">
+                                {I18n.t('js.topic.model.languages')}
+                            </Typography>
+
+                            <p>
+                                {this.props.topic.languages?.map((language) => I18n.t(`js.languages.${language}`)).join(', ')}
+                            </p>
+                        </div>
+
+                        <div>
+                            <Typography className={this.props.classes.subtitle2}
+                                        component="h3"
+                                        variant="h3">
                                 {I18n.t('js.topic.model.visibility')}
                             </Typography>
 

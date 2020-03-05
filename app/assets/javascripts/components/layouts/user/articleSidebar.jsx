@@ -12,7 +12,7 @@ import styles from '../../../../jss/user/sidebar';
 export default @withStyles(styles)
 class ArticleSidebarLayout extends React.PureComponent {
     static propTypes = {
-        parentTag: PropTypes.string,
+        parentTagSlug: PropTypes.string,
         // from styles
         classes: PropTypes.object
     };
@@ -29,7 +29,7 @@ class ArticleSidebarLayout extends React.PureComponent {
                         paper: classNames(this.props.classes.drawerPaper, this.props.classes.drawerPaperBorderless, this.props.classes.drawerPaperOverflow)
                     }}
                     open={true}>
-                <ArticleSidebar parentTag={this.props.parentTag}/>
+                <ArticleSidebar parentTagSlug={this.props.parentTagSlug}/>
             </Drawer>
         );
     }

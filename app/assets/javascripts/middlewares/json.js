@@ -1,12 +1,35 @@
 'use strict';
 
+import {
+    pushError
+} from '../actions/errorActions';
+
 function convertRelationships(object, relationships, included) {
-    if(relationships && included) {
+    if (relationships && included) {
         Object.entries(relationships).forEach(([relationName, relationData]) => {
             if (Array.isArray(relationData.data)) {
-                object[relationName] = relationData.data.map((datum) => included.find((include) => include.id === datum.id && include.type === datum.type).attributes)
+                object[relationName] = relationData.data.map((datum) => {
+                    const relation = included.find((include) => include.id === datum.id && include.type === datum.type);
+
+                    if (relation) {
+                        return relation.attributes
+                    } else {
+                        pushError({
+                            statusText: `${relationName} relation not found in ${included.map((include) => include.type).join(', ')}`
+                        });
+
+                        return undefined;
+                    }
+                })
             } else {
-                object[relationName] = included.find((include) => include.id === relationData.data.id && include.type === relationData.data.type).attributes;
+                const relation = included.find((include) => include.id === relationData.data.id && include.type === relationData.data.type);
+                if (relation) {
+                    object[relationName] = relation.attributes;
+                } else {
+                    pushError({
+                        statusText: `${relationName} relation not found in ${included.map((include) => include.type).join(', ')}`
+                    });
+                }
             }
         });
     }
@@ -35,7 +58,7 @@ export function convertJsonApi(response) {
         formattedResponse = response;
     }
 
-    if(response?.meta) {
+    if (response?.meta) {
         const {root, ...meta} = response.meta;
         formattedResponse.meta = meta;
     }

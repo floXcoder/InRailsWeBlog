@@ -21,6 +21,12 @@ const styles = (theme) => ({
             width: '50%'
         }
     },
+    nameAdvice: {
+        marginTop: -8,
+        marginLeft: 8,
+        fontSize: '0.9rem',
+        fontStyle: 'italic'
+    },
     select: {
         width: '90%'
     }

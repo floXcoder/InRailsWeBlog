@@ -23,6 +23,7 @@ module Searches
                        else
                          { visibility: 'everyone' }
                        end
+      order          = @params[:order] || 'popularity'
 
       if search_type('article', @params[:selected_types])
         article_search = Articles::SearchService.new(
@@ -36,7 +37,7 @@ module Searches
           highlight:     @current_user ? @current_user.search_highlight : true,
           exact:         @current_user ? @current_user.search_exact : nil,
           operator:      @current_user ? @current_user.search_operator : nil,
-          order:         @params[:order],
+          order:         order,
           where:         {
                            mode:      @params[:mode],
                            draft:     @params[:draft],
@@ -62,7 +63,7 @@ module Searches
           per_page:     @params[:tag_per_page] || @params[:per_page] || InRailsWeBlog.config.search_per_page,
           exact:        @current_user ? @current_user.search_exact : nil,
           operator:     @current_user ? @current_user.search_operator : nil,
-          order:        @params[:order],
+          order:        order,
           where:        {
                           user_id:    @params[:user_id],
                           accepted:   @params[:accepted],
@@ -84,7 +85,7 @@ module Searches
       #     per_page:     @params[:topic_per_page] || @params[:per_page] || InRailsWeBlog.config.search_per_page,
       #     exact:        @current_user ? @current_user.search_exact : nil,
       #     operator:     @current_user ? @current_user.search_operator : nil,
-      #     order:        @params[:order],
+      #     order:        order,
       #     where:        {
       #                     user_id:   @params[:user_id],
       #                     accepted:  @params[:accepted],
@@ -128,9 +129,9 @@ module Searches
 
         # Add query params to search results
         if @params[:tags_ids].present?
-          search_results[:selectedTags] = TagStrictSerializer.new(Tag.where(id: @params[:tags_ids])).serializable_hash[:data]
+          search_results[:selectedTags] = TagStrictSerializer.new(Tag.where(id: @params[:tags_ids])).serializable_hash.dig(:data)&.map { |d| d[:attributes] }
         elsif @params[:tags].present?
-          search_results[:selectedTags] = TagStrictSerializer.new(Tag.where(slug: @params[:tags])).serializable_hash[:data]
+          search_results[:selectedTags] = TagStrictSerializer.new(Tag.where(slug: @params[:tags])).serializable_hash.dig(:data)&.map { |d| d[:attributes] }
         end
 
         if searches

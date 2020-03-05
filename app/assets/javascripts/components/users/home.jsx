@@ -143,7 +143,7 @@ class UserHome extends React.Component {
                                           sm={6}
                                           lg={4}>
                                         <Link to={{
-                                            pathname: topicArticlesPath(this.props.user.slug, topic.slug),
+                                            pathname: topicArticlesPath(this.props.user.slug, topic.slug)
                                         }}
                                               onClick={this._handleTopicClick.bind(this, topic)}>
                                             <Paper className={classNames(this.props.classes.topic, {

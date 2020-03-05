@@ -39,8 +39,8 @@ class HomeArticleHeader extends React.PureComponent {
                     {
                         this.props.hasTemporaryArticle
                             ?
-                            <Badge badgeContent="!"
-                                   color="primary">
+                            <Badge badgeContent="1"
+                                   color="secondary">
                                 <AddIcon/>
                             </Badge>
                             :

@@ -15,15 +15,18 @@ import {
 
 export default class Autocomplete extends React.Component {
     static propTypes = {
-        suggestions: PropTypes.arrayOf(PropTypes.shape({
-            key: PropTypes.string.isRequired,
-            value: PropTypes.string.isRequired
-        })).isRequired,
         currentSuggestion: PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.array
         ]).isRequired,
-        onSuggestionChange: PropTypes.func.isRequired,
+        onChange: PropTypes.func.isRequired,
+        suggestions: PropTypes.oneOfType([
+            PropTypes.arrayOf(PropTypes.shape({
+                key: PropTypes.string.isRequired,
+                value: PropTypes.string.isRequired
+            })),
+            PropTypes.array
+        ]),
         initialSuggestions: PropTypes.arrayOf(PropTypes.shape({
             key: PropTypes.oneOfType([
                 PropTypes.string,
@@ -39,6 +42,7 @@ export default class Autocomplete extends React.Component {
         inputMargin: PropTypes.string,
         disableUnderline: PropTypes.bool,
         isMultiple: PropTypes.bool,
+        isSimpleArray: PropTypes.bool,
         isAsync: PropTypes.bool,
         isTagged: PropTypes.bool,
         required: PropTypes.bool,
@@ -53,6 +57,7 @@ export default class Autocomplete extends React.Component {
         inputVariant: 'outlined',
         inputMargin: 'normal',
         isMultiple: false,
+        isSimpleArray: false,
         isAsync: false,
         isTagged: false,
         required: false,
@@ -65,10 +70,10 @@ export default class Autocomplete extends React.Component {
     };
 
     _filterData = (suggestion, inputValue) => {
-        let filteredValue = String(this._getItemToKey(suggestion)).includes(inputValue);
+        let filteredValue = String(this._getItemKey(suggestion)).includes(inputValue);
 
         if (!filteredValue && this.props.filterValues) {
-            const value = deburr(suggestion.value.trim().toLowerCase());
+            const value = deburr(this._getItemValue(suggestion).trim().toLowerCase());
             filteredValue = value.includes(inputValue);
         }
 
@@ -78,17 +83,28 @@ export default class Autocomplete extends React.Component {
     _getValueFromKey = (key) => {
         const allSuggestions = this.props.initialSuggestions ? this.props.initialSuggestions.concat(this.props.suggestions) : this.props.suggestions;
 
-        const keyValue = allSuggestions.filter((suggestion) => this._getItemToKey(suggestion) === key)[0];
-
-        return keyValue ? keyValue.value : key;
+        if(allSuggestions) {
+            const keyValue = allSuggestions.filter((suggestion) => this._getItemKey(suggestion) === key)[0];
+            return this._getItemValue(keyValue);
+        } else {
+            return this._getItemValue(key);
+        }
     };
 
-    _getItemToString = (item) => {
-        return item ? item.value : '';
+    _getItemKey = (item) => {
+        if(this.props.isSimpleArray) {
+            return item;
+        } else {
+            return item ? item.key : '';
+        }
     };
 
-    _getItemToKey = (item) => {
-        return item ? item.value : '';
+    _getItemValue = (item) => {
+        if(this.props.isSimpleArray) {
+            return item;
+        } else {
+            return item ? item.value : '';
+        }
     };
 
     _getSuggestions = (value) => {
@@ -98,7 +114,7 @@ export default class Autocomplete extends React.Component {
 
         if (inputLength === 0) {
             return [];
-        } else {
+        } else if(this.props.suggestions) {
             return this.props.suggestions.filter((suggestion) => {
                 const keep = count < suggestionsLimit && this._filterData(suggestion, inputValue);
 
@@ -108,6 +124,8 @@ export default class Autocomplete extends React.Component {
 
                 return keep;
             });
+        } else {
+            return [];
         }
     };
 
@@ -128,17 +146,17 @@ export default class Autocomplete extends React.Component {
     _handleSuggestionSelected = (item) => {
         if (this.props.isMultiple) {
             let newSelectedItem = [...this.props.currentSuggestion];
-            if (newSelectedItem.indexOf(this._getItemToKey(item)) === -1) {
-                newSelectedItem = [...newSelectedItem, this._getItemToKey(item)];
+            if (newSelectedItem.indexOf(this._getItemKey(item)) === -1) {
+                newSelectedItem = [...newSelectedItem, this._getItemKey(item)];
             }
 
             this.setState({
                 value: ''
             });
 
-            this.props.onSuggestionChange(newSelectedItem);
+            this.props.onChange(newSelectedItem);
         } else {
-            this.props.onSuggestionChange(item);
+            this.props.onChange(item);
         }
     };
 
@@ -150,7 +168,7 @@ export default class Autocomplete extends React.Component {
         if (event.key === 'Backspace' && this.props.currentSuggestion.length && this.state.value.length === 0) {
             event.preventDefault();
 
-            this.props.onSuggestionChange(this.props.currentSuggestion.slice(0, this.props.currentSuggestion.length - 1));
+            this.props.onChange(this.props.currentSuggestion.slice(0, this.props.currentSuggestion.length - 1));
         } else if ((event.key === 'Enter' || event.key === 'Tab') && this.state.value.length > 0 && highlightedIndex === null) {
             event.preventDefault();
 
@@ -158,22 +176,22 @@ export default class Autocomplete extends React.Component {
                 value: ''
             });
 
-            this.props.onSuggestionChange(this.props.currentSuggestion.concat([event.target.value]));
+            this.props.onChange(this.props.currentSuggestion.concat([event.target.value]));
         }
     };
 
     _handleDelete = (item) => () => {
         const newSelectedItem = [...this.props.currentSuggestion];
-        newSelectedItem.splice(newSelectedItem.indexOf(this._getItemToKey(item)), 1);
+        newSelectedItem.splice(newSelectedItem.indexOf(this._getItemKey(item)), 1);
 
-        this.props.onSuggestionChange(newSelectedItem);
+        this.props.onChange(newSelectedItem);
     };
 
     render() {
         return (
             <Downshift inputValue={this.props.isMultiple ? this.state.value : undefined}
                        initialInputValue={this.props.isMultiple ? undefined : this.props.currentSuggestion}
-                       itemToString={this._getItemToString}
+                       itemToString={this._getItemValue}
                        onChange={this._handleSuggestionSelected}>
                 {({
                       getInputProps,
@@ -227,7 +245,7 @@ export default class Autocomplete extends React.Component {
                                         {
                                             this._getSuggestions(inputValue).map((suggestion, index) => {
                                                 const isHighlighted = highlightedIndex === index;
-                                                const isSelected = (this._getItemToKey(selectedItem) || '').indexOf(this._getItemToKey(suggestion)) > -1;
+                                                const isSelected = (this._getItemKey(selectedItem) || '').indexOf(this._getItemKey(suggestion)) > -1;
 
                                                 return (
                                                     <MenuItem {...getItemProps({item: suggestion})}
@@ -242,7 +260,7 @@ export default class Autocomplete extends React.Component {
                                                                 ?
                                                                 this.props.renderSuggestion(suggestion)
                                                                 :
-                                                                suggestion.value
+                                                                this._getItemValue(suggestion.value)
                                                         }
                                                     </MenuItem>
                                                 )

@@ -16,8 +16,8 @@ module Api::V1
             article.create_activity(action: :outdated_up, owner: current_user)
 
             render json: ArticleSerializer.new(article,
-                                               include: [:user, :topic, :tags],
-                                               params:  { current_user_id: current_user&.id })
+                                               include: [:user, :tags],
+                                               params:  { current_user_id: current_user&.id }).serializable_hash
           else
             render json:   { errors: article.errors.messages[:outdated].first },
                    status: :unprocessable_entity
@@ -36,8 +36,8 @@ module Api::V1
             article.create_activity(action: :outdated_down, owner: current_user)
 
             render json: ArticleSerializer.new(article,
-                                               include: [:user, :topic, :tags],
-                                               params:  { current_user_id: current_user&.id })
+                                               include: [:user, :tags],
+                                               params:  { current_user_id: current_user&.id }).serializable_hash
           else
             render json:   { errors: article.errors.messages[:outdated].first },
                    status: :unprocessable_entity

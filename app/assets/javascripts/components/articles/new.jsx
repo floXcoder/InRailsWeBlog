@@ -106,11 +106,17 @@ class ArticleNew extends React.Component {
         };
 
         if(this.props.article?.temporary) {
-            article.title = this.props.article.title;
-            article.content = this.props.article.content;
             article.visibility = this.props.article.visibility;
             article.allowComment = this.props.article.allowComment;
             article.picture_ids = this.props.article.picture_ids;
+
+            if(this.props.currentTopic.languages?.length > 1) {
+                article.title_translations = this.props.article.title_translations;
+                article.content_translations = this.props.article.content_translations;
+            } else {
+                article.title = this.props.article.title;
+                article.content = this.props.article.content;
+            }
         }
 
         let isPaste = false;
@@ -118,7 +124,7 @@ class ArticleNew extends React.Component {
         if (this.props.pasteContent) {
             isPaste = true;
 
-            article.isDraft = true;
+            article.draft = true;
 
             const isURL = Utils.isURL(this.props.pasteContent.trim());
 

@@ -108,6 +108,7 @@ export default function articleMutationManager(mode) {
                         const temporaryArticle = getLocalData(articleTemporaryDataName, true);
                         if (temporaryArticle?.article) {
                             this.state.article = temporaryArticle.article;
+                            this.state.article.temporary = true;
                         }
                     }
 
@@ -299,6 +300,7 @@ export default function articleMutationManager(mode) {
                 const propsProxy = {
                     currentUser: this.props.currentUser,
                     currentTopic: this.props.currentTopic,
+                    isFetching: this.props.isFetching,
                     onCancel: this._handleCancel,
                     onSubmit: this._handleSubmit,
                     article: article,

@@ -13,6 +13,7 @@ export const articleWaitTimeBeforeSaving = 15000;
 export const articleTemporaryDataName = 'article-temporary';
 export const articleUnsavedDataName = 'article-unsaved';
 export const articlePreloadIndex = 3000;
+export const articlePreloadShow = 3000;
 export const articlePreloadEdit = 5000;
 
 // Tags

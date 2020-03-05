@@ -1,6 +1,7 @@
 'use strict';
 
 import {
+    Prompt,
     Link
 } from 'react-router-dom';
 
@@ -34,8 +35,6 @@ import styles from '../../../../jss/topic/form';
 export default @withStyles(styles)
 class TopicFormDisplay extends React.Component {
     static propTypes = {
-        id: PropTypes.string.isRequired,
-        topic: PropTypes.object.isRequired,
         onSubmit: PropTypes.func.isRequired,
         isEditing: PropTypes.bool,
         articleMultilanguage: PropTypes.bool,
@@ -53,18 +52,25 @@ class TopicFormDisplay extends React.Component {
         super(props);
     }
 
+    _onUnsavedExit = (location) => {
+        return I18n.t('js.topic.form.unsaved', {location: location.pathname});
+    };
+
     render() {
         let localeOptions = {};
         window.locales.map((locale) => localeOptions[locale] = I18n.t(`js.languages.${locale}`));
 
         return (
-            <Form initialValues={this.props.topic}
+            <Form initialValues={this.props.children}
                   validate={validateTopic}
                   onSubmit={this.props.onSubmit}>
                 {
-                    ({handleSubmit, submitting}) => (
-                        <form id={this.props.id}
+                    ({handleSubmit, dirty, submitting}) => (
+                        <form id={`topic-form-${this.props.children.id || 'new'}`}
                               onSubmit={handleSubmit}>
+                            <Prompt when={dirty && !submitting}
+                                    message={this._onUnsavedExit}/>
+
                             <div className="row">
                                 {
                                     this.props.children.name &&
@@ -101,7 +107,7 @@ class TopicFormDisplay extends React.Component {
                                            component={EditorField}
                                            id="topic_description"
                                            modelName="topic"
-                                           modelId={this.props.topic.id}
+                                           modelId={this.props.children.id}
                                            placeholder={I18n.t('js.topic.common.placeholders.description')}
                                            otherStaticBar="#header-user"
                                            onSubmit={handleSubmit}
@@ -109,7 +115,7 @@ class TopicFormDisplay extends React.Component {
                                 </div>
 
                                 {
-                                    this.props.topic.mode === 'inventories' &&
+                                    this.props.children.mode === 'inventories' &&
                                     <div className="col s12 center-align margin-top-35">
                                         <Button color="primary"
                                                 variant="outlined"

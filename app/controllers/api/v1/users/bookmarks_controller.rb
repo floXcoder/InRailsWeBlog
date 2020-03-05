@@ -17,7 +17,7 @@ module Api::V1
       respond_to do |format|
         format.json do
           render json: BookmarkSerializer.new(bookmarks,
-                                              meta: { root: 'bookmarks' })
+                                              meta: { root: 'bookmarks' }).serializable_hash
         end
       end
     end
@@ -30,7 +30,7 @@ module Api::V1
       respond_to do |format|
         format.json do
           if bookmark.add(user, bookmark_params[:bookmarked_type], bookmark_params[:bookmarked_id], bookmark_params[:topic_id])
-            render json:   BookmarkSerializer.new(bookmark),
+            render json:   BookmarkSerializer.new(bookmark).serializable_hash,
                    status: :created
           else
             render json:   { errors: bookmark.errors },
