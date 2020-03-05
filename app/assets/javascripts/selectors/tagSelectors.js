@@ -110,6 +110,18 @@ export const getCategorizedTags = createSelector(
     }
 );
 
+export const getAssociatedTopics = createSelector(
+    (state) => state.topicState.userTopics,
+    (state) => state.tagState.tag,
+    (userTopics, tag) => {
+        if(userTopics && tag) {
+            return userTopics.filter((topic) => topic.tagIds?.includes(tag.id))
+        } else {
+            return undefined;
+        }
+    }
+);
+
 export const getCurrentTagSlugs = createSelector(
     (state) => state.tagState.currentTagSlugs,
     (tags) => tags?.compact()

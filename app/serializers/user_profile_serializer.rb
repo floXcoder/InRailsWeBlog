@@ -24,14 +24,12 @@ class UserProfileSerializer
 
   has_many :contributed_topics, record_type: :topic, serializer: TopicSampleSerializer
 
-  has_many :topics, serializer: TopicSampleSerializer
-
   attribute :articles_count do |object|
-    object.articles.size
+    object.article_ids.count
   end
 
   attribute :draft_count do |object|
-    object.draft_articles.size
+    object.draft_article_ids.count
   end
 
   attribute :settings do |object|

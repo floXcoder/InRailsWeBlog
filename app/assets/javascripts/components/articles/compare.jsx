@@ -15,7 +15,6 @@ import Modal from '@material-ui/core/Modal';
 import Typography from '@material-ui/core/Typography';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
@@ -57,7 +56,7 @@ class TrackingCompareModal extends React.Component {
     };
 
     componentDidMount() {
-        if (this.props.article) {
+        if (this.props.article && !this.props.article.contentTranslations) {
             this.props.fetchArticle(this.props.article.user.id, this.props.article.id, {complete: true});
         }
     }

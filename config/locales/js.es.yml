@@ -524,6 +524,8 @@ es:
         removed: "Artículo eliminado de los obsoletos"
       vote:
         added: "Su voto ha sido tenido en cuenta"
+      recommendation:
+        title: "Etiquetas presentes en los siguientes temas"
       show:
         stories:
           next: "Siguiente categoría"
@@ -585,30 +587,31 @@ es:
         no_articles: "No hay elementos que mostrar"
         scroll_for_more: "Desplazador para cargar más artículos"
       toc:
-        no_articles: No hay artículos todavía
-        title: Índice
-      clipboard: Artículo temporal creado con datos copiados
+        no_articles: "No hay artículos todavía"
+        title: "Índice"
+      clipboard: "Artículo temporal creado con datos copiados"
       errors:
         bookmark:
           bookmark: "%{message}"
-          default: No se puede añadir a los favoritos! Intenta reconectarte.
+          default: "No se puede añadir a los favoritos! Intenta reconectarte."
           not_authorized: "¡No tienes permiso para marcar este artículo!"
         content:
-          size: El contenido del artículo debe estar entre %{min} y %{max} caracteres
+          size: "El contenido del artículo debe estar entre %{min} y %{max} caracteres"
         default: "¡Imposible crear el artículo! Gracias por intentarlo de nuevo."
         not_authorized: "¡No tienes permiso para acceder a este artículo!"
         summary:
-          size: El resumen del artículo debe estar entre %{min} y %{max} caracteres
+          size: "El resumen del artículo debe estar entre %{min} y %{max} caracteres"
         title:
-          size: El título del artículo debe estar entre %{min} y %{max} caracteres
-        topic: No hay ningún tema asociado al artículo
+          size: "El título del artículo debe estar entre %{min} y %{max} caracteres"
+        topic: "No hay ningún tema asociado al artículo"
     search:
       display:
-        card: Lista
-        grid: Cuadrícula
+        card: "Lista"
+        grid: "Cuadrícula"
       orders:
-        date: Fecha
-        priority: Prioridad
+        popularity: "Popularidad"
+        date: "Fecha"
+        priority: "Prioridad"
       module:
         button: "Busca en"
         default: "Buscar en el sitio..."
@@ -616,102 +619,103 @@ es:
         topics:
           title: "Temas"
         tags:
-          no_tags: "No se encontraron etiquetas"
           recents: "(Etiquetas recientes)"
           title: "Etiquetas"
+          none: "No se encontraron etiquetas"
         articles:
           recents: "(Artículos recientes)"
           title: "Artículos"
+          none: "No se encontraron artículos"
         helpers:
           select_tag: "Selecciona una etiqueta con las flechas y luego haz clic en la pestaña"
           tagged_articles: 'Buscar artículos con etiquetas: %{tags}'
       sidebar:
-        filter: Filtrar los resultados
+        filter: "Filtrar los resultados"
       index:
         articles:
-          title: Artículos
-        button: Encuentra
-        no_results: No se han encontrado resultados
-        placeholder: Busca en
+          title: "Artículos"
+        button: "Encuentra"
+        no_results: "No se han encontrado resultados"
+        placeholder: "Busca en"
         results:
-          one: 1 resultado
+          one: "1 resultado"
           other: "%{count} resultados"
         suggestions:
-          articles: 'Intenta con la ortografía:'
-          tags: 'Pruebe con las siguientes etiquetas:'
+          articles: "Intenta con la ortografía:"
+          tags: "Pruebe con las siguientes etiquetas:"
         topic:
-          current: Tema actual
-          others: Otros temas
+          current: "Tema actual"
+          others: "Otros temas"
     comment:
       common:
-        actions: Acciones
+        actions: "Acciones"
         empty: "¡Sea el primero en publicar su comentario!"
-        loading: Cargando comentarios ...
-        no_data: No hay comentarios que mostrar para esta selección
-        no_opinion: No hay comentarios para su artículo todavía
-        route: comentarios
-        title: Comentarios
+        loading: "Cargando comentarios ..."
+        no_data: "No hay comentarios que mostrar para esta selección"
+        no_opinion: "No hay comentarios para su artículo todavía"
+        route: "comentarios"
+        title: "Comentarios"
       model:
-        body: Mensaje
-        commentable_type: Modelo comentado
-        posted_at: Publicado en
-        title: Título
-        user: Comentarista
+        body: "Mensaje"
+        commentable_type: "Modelo comentado"
+        posted_at: "Publicado en"
+        title: "Título"
+        user: "Comentarista"
       tooltip:
         count: "%{count} comentarios"
       timeline:
-        link: 'Comentario asociado con :'
-        no_comments: No hay comentarios que mostrar
+        link: "Comentario asociado con :"
+        no_comments: "No hay comentarios que mostrar"
       form:
-        cancel: Cancelar
+        cancel: "Cancelar"
         comment:
-          body: Su comentario...
-          body_for_deletion: Razón para borrar el comentario
-          notation: 'Nota:'
-          title: Título del puesto
-          title_for_deletion: Solicitud de supresión
-        explanation: Para escribir tu mensaje, puedes usar el
-        submit: Cartel
-        syntax: sintaxis de la reducción
+          body: "Su comentario..."
+          body_for_deletion: "Razón para borrar el comentario"
+          notation: "Nota:"
+          title: "Título del puesto"
+          title_for_deletion: "Solicitud de supresión"
+        explanation: "Para escribir tu mensaje, puedes usar el"
+        submit: "Cartel"
+        syntax: "sintaxis de la reducción"
         title:
-          default: Añade un comentario
-          deletion_reply: Solicitud de eliminación de un comentario
-          modify: Modifica tu comentario
-          owner_reply: Responder a los comentarios como propietario
-          reply: Responder a los comentarios
+          default: "Añade un comentario"
+          deletion_reply: "Solicitud de eliminación de un comentario"
+          modify: "Modifica tu comentario"
+          owner_reply: "Responder a los comentarios como propietario"
+          reply: "Responder a los comentarios"
       new:
-        button: Añade un comentario
+        button: "Añade un comentario"
       reply:
-        ask_for_deletion: Solicitud de supresión en curso
-        button: Respuesta
-        owner: Respuesta del propietario
-        owner_button: Responder como propietario
+        ask_for_deletion: "Solicitud de supresión en curso"
+        button: "Respuesta"
+        owner: "Respuesta del autor"
+        owner_button: "Responder del autor"
       edit:
-        button: Edita
+        button: "Edita"
       delete:
-        button: Eliminar
-        confirmation_button: Supresión
-        confirmation_message: Por favor, valide la eliminación
+        button: "Eliminar"
+        confirmation_button: "Supresión"
+        confirmation_message: "Por favor, valide la eliminación"
       ask_for_deletion:
-        button: Solicitud de eliminación del comentario
+        button: "Solicitud de eliminación del comentario"
       flash:
-        creation_unpermitted: Debes iniciar sesión para publicar un comentario
+        creation_unpermitted: "Debes iniciar sesión para publicar un comentario"
       errors:
         body:
-          size: El contenido del comentario debe estar entre %{min} y %{max} caracteres
+          size: "El contenido del comentario debe estar entre %{min} y %{max} caracteres"
         default: "¡Imposible crear el comentario! Gracias por intentarlo de nuevo."
         not_authorized: "¡No tienes permiso para acceder a este comentario!"
         title:
-          size: El título del comentario debe estar entre %{min} y %{max} caracteres
+          size: "El título del comentario debe estar entre %{min} y %{max} caracteres"
     picture:
       copyright:
-        default: De
+        default: "De"
       model:
         errors:
-          text: El tamaño del archivo excede los 5MB, por favor elija una imagen más pequeña
-          title: Imagen demasiado grande
+          text: "El tamaño del archivo excede los 5MB, por favor elija una imagen más pequeña"
+          title: "Imagen demasiado grande"
           type:
-            image: El archivo no es un archivo de imagen, por favor, elija un archivo jpp, jpeg, png o bmp
+            image: "El archivo no es un archivo de imagen, por favor, elija un archivo jpg, jpeg, png o bmp"
     activities:
       no_activities: No hay actividades que mostrar
       article:

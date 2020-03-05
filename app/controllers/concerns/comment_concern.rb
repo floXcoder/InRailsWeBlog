@@ -19,7 +19,7 @@ module CommentConcern
       format.json do
         render json: CommentSerializer.new(comments_tree,
                                            include: [:user],
-                                           meta:    { root: 'comments', **meta_attributes(pagination: comments) })
+                                           meta:    { root: 'comments', **meta_attributes(pagination: comments) }).serializable_hash
       end
     end
   end
@@ -41,7 +41,7 @@ module CommentConcern
         flash.now[:success] = t('views.comment.flash.successful_creation')
         format.json do
           render json:   CommentFullSerializer.new(comment,
-                                                   include: [:user, :commentable]),
+                                                   include: [:user, :commentable]).serializable_hash,
                  status: :accepted
         end
       else
@@ -69,7 +69,7 @@ module CommentConcern
         flash.now[:success] = t('views.comment.flash.successful_edition')
         format.json do
           render json:   CommentFullSerializer.new(comment,
-                                                   include: [:user, :commentable]),
+                                                   include: [:user, :commentable]).serializable_hash,
                  status: :accepted
         end
       else

@@ -7,12 +7,6 @@ require:
   - rubocop-rspec
   - rubocop-performance
 
-Documentation:
-  Enabled: false
-
-LineLength:
-  Enabled: false
-
 AllCops:
   TargetRubyVersion: 2.6
   Exclude:
@@ -71,6 +65,9 @@ Layout/FirstHashElementIndentation:
   Enabled: false
 
 Layout/LeadingCommentSpace:
+  Enabled: false
+
+Layout/LineLength:
   Enabled: false
 
 Layout/MultilineBlockLayout:
@@ -151,6 +148,9 @@ RSpec/BeforeAfterAll:
 RSpec/ContextWording:
   Enabled: false
 
+RSpec/DescribedClass:
+  Enabled: false
+
 RSpec/ExampleLength:
   Max: 20
 
@@ -187,11 +187,23 @@ Style/ColonMethodCall:
 Style/CommandLiteral:
   Enabled: false
 
+Style/Documentation:
+  Enabled: false
+
 Style/DoubleNegation:
   Enabled: false
 
 Style/GlobalVars:
   Enabled: false
+
+Style/HashEachMethods:
+  Enabled: true
+
+Style/HashTransformKeys:
+  Enabled: true
+
+Style/HashTransformValues:
+  Enabled: true
 
 Style/Lambda:
   Enabled: false

@@ -18,12 +18,14 @@ import ArticleOrderDisplay from './display/order';
 import ArticleTimelineDisplay from './display/timeline';
 
 import styles from '../../../jss/article/sidebar';
+import Loader from "../theme/loader";
 
 export default @connect((state, props) => ({
     currentUserId: state.userState.currentId,
     currentUserSlug: state.userState.currentSlug,
     currentUserTopicId: state.topicState.currentUserTopicId,
     currentUserTopicSlug: state.topicState.currentUserTopicSlug,
+    isFetchingArticles: state.articleState.isFetching,
     articleOrderMode: state.uiState.articleOrderMode,
     articleDisplayMode: state.uiState.articleDisplayMode,
     articlesCount: getArticlesCount(state),
@@ -42,6 +44,7 @@ class ArticleSidebar extends React.Component {
         currentUserSlug: PropTypes.string,
         currentUserTopicId: PropTypes.number,
         currentUserTopicSlug: PropTypes.string,
+        isFetchingArticles: PropTypes.bool,
         articleOrderMode: PropTypes.string,
         articleDisplayMode: PropTypes.string,
         articlesCount: PropTypes.number,
@@ -75,25 +78,35 @@ class ArticleSidebar extends React.Component {
                 </h2>
 
                 {
-                    this.props.articlesCount === 0
+                    this.props.isFetchingArticles
                         ?
-                        <span className={this.props.classes.none}>
-                            {I18n.t('js.article.toc.no_articles')}
-                        </span>
+                        <div className="center margin-top-25">
+                            <Loader size="big"/>
+                        </div>
                         :
                         <>
-                            <ArticleOrderDisplay classes={this.props.classes}
-                                                 currentUserSlug={this.props.currentUserSlug}
-                                                 currentUserTopicSlug={this.props.currentUserTopicSlug}
-                                                 articleOrderMode={this.props.articleOrderMode}
-                                                 articleDisplayMode={this.props.articleDisplayMode}
-                                                 onMinimized={this.props.switchArticleMinimized}
-                                                 onOrderChange={this._handleOrderChange}/>
+                            {
+                                this.props.articlesCount === 0
+                                    ?
+                                    <span className={this.props.classes.none}>
+                                        {I18n.t('js.article.toc.no_articles')}
+                                    </span>
+                                    :
+                                    <>
+                                        <ArticleOrderDisplay classes={this.props.classes}
+                                                             currentUserSlug={this.props.currentUserSlug}
+                                                             currentUserTopicSlug={this.props.currentUserTopicSlug}
+                                                             articleOrderMode={this.props.articleOrderMode}
+                                                             articleDisplayMode={this.props.articleDisplayMode}
+                                                             onMinimized={this.props.switchArticleMinimized}
+                                                             onOrderChange={this._handleOrderChange}/>
 
-                            <ArticleTimelineDisplay classes={this.props.classes}
-                                                    categorizedArticles={this.props.categorizedArticles}
-                                                    articlePagination={this.props.articlePagination}
-                                                    currentArticles={this.props.currentArticles}/>
+                                        <ArticleTimelineDisplay classes={this.props.classes}
+                                                                categorizedArticles={this.props.categorizedArticles}
+                                                                articlePagination={this.props.articlePagination}
+                                                                currentArticles={this.props.currentArticles}/>
+                                    </>
+                            }
                         </>
                 }
             </div>

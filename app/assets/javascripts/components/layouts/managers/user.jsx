@@ -167,7 +167,7 @@ class UserManager extends React.Component {
             this.props.fetchTags({
                 userId: this.props.currentUserId
             });
-        } else if (this.props.currentUserTopicSlug !== topicSlug) {
+        } else if (this.props.currentUserTopicSlug !== topicSlug && this.props.userTopics.map((topic) => topic.slug).includes(topicSlug)) {
             this.props.fetchTags({
                     topicSlug: topicSlug
                 },

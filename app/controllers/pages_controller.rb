@@ -26,7 +26,7 @@ class PagesController < ApplicationController
           end
         else
           set_seo_data(:home,
-                       og:        {
+                       og: {
                          type:  "#{ENV['WEBSITE_NAME']}:home",
                          url:   root_url,
                          image: image_url('logos/favicon-192x192.png')

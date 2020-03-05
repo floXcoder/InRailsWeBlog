@@ -1,6 +1,7 @@
 #notification-component.notification-container
 
-- flash.each do |message_type, message|
-  - if message
-    .blog-flash.hide data-level="#{message_type}" data-flash-token="#{Time.current.to_s(:number)}"
-      = message.html_safe
+div style="display: none"
+  - flash.each do |message_type, message|
+    - if message
+      .blog-flash data-level="#{message_type}" data-flash-token="#{Time.current.to_s(:number)}"
+        = message.html_safe

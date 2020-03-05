@@ -18,4 +18,9 @@ class TopicSampleSerializer
              :priority,
              :visibility,
              :slug
+
+  attribute :tag_ids do |object|
+    object.tag_ids.uniq
+  end
+
 end

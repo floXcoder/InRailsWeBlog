@@ -23,8 +23,8 @@ gem 'http_accept_language',     '2.1.1'
 gem 'secure_headers',           '6.3.0'
 
 # JSON
-gem 'fast_jsonapi',             '1.6.0', git: 'https://github.com/fast-jsonapi/fast_jsonapi', ref: '2172e40'
-gem 'oj',                       '3.10.3'
+gem 'fast_jsonapi',             '1.6.0', git: 'https://github.com/fast-jsonapi/fast_jsonapi'
+gem 'oj',                       '3.10.5'
 
 # Use slim instead of erb
 gem 'slim-rails',               '3.2.0'
@@ -191,5 +191,5 @@ group :production do
   gem 'lograge',          '0.11.2'
 
   # Prerender html pages for SEO
-  gem 'seo_cache',        '0.16.0'
+  gem 'seo_cache',        '0.17.0'
 end

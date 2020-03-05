@@ -24,7 +24,7 @@ module Api::V1
         format.json {
           render json: UserProfileSerializer.new(resource,
                                                  include: [:current_topic, :topics, :contributed_topics],
-                                                 meta:    { location: @location })
+                                                 meta:    { location: @location }).serializable_hash
         }
       end
     end

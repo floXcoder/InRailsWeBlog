@@ -18,7 +18,7 @@ class Admins::SeoController < AdminsController
 
         render json: Seo::DataSerializer.new(seo_data,
                                              params: { routes: Seo::Data.local_named_routes },
-                                             meta:   { root: 'seoData' })
+                                             meta:   { root: 'seoData' }).serializable_hash
       end
     end
   end
@@ -76,7 +76,7 @@ class Admins::SeoController < AdminsController
       format.json do
         if seo_data.save
           flash.now[:success] = t('views.admin.seo_data.flash.successful_creation')
-          render json:   Seo::DataSerializer.new(seo_data),
+          render json:   Seo::DataSerializer.new(seo_data).serializable_hash,
                  status: :created
         else
           flash.now[:error] = t('views.admin.seo_data.flash.error_creation')
@@ -94,7 +94,7 @@ class Admins::SeoController < AdminsController
       format.json do
         if seo_data.update(seo_params.except(:locale, :name, :parameters))
           flash.now[:success] = t('views.admin.seo_data.flash.successful_edition')
-          render json:   Seo::DataSerializer.new(seo_data),
+          render json:   Seo::DataSerializer.new(seo_data).serializable_hash,
                  status: :ok
         else
           flash.now[:error] = t('views.admin.seo_data.flash.error_edition')

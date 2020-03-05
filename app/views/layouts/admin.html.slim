@@ -1,13 +1,13 @@
 doctype html
 html lang="#{I18n.locale}"
-  
+
   = render 'layouts/head'
-  
+
   body
     = yield
-    
+
     = render 'layouts/flash_messages', flash: flash
-    
+
     = render 'layouts/javascript'
-    
+
     = render 'layouts/stylesheet'

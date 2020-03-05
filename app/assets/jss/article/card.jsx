@@ -5,6 +5,7 @@ import {
     h1SizeMobile,
     h1Weight,
     h1LineHeight,
+    h1LineHeightMobile,
     h1Spacing,
 
     h1SizeGrid,
@@ -44,7 +45,8 @@ const styles = (theme) => ({
         letterSpacing: h1Spacing,
         margin: 'inherit',
         [theme.breakpoints.down('md')]: {
-            fontSize: h1SizeMobile
+            fontSize: h1SizeMobile,
+            lineHeight: h1LineHeightMobile
         }
     },
     titleLink: {

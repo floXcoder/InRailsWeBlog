@@ -133,7 +133,7 @@ class ApplicationController < ActionController::Base
     )
 
     named_parameters = Seo::Data.named_parameters(parameters)
-    slug_parameters = Seo::Data.slug_parameters(parameters)
+    slug_parameters  = Seo::Data.slug_parameters(parameters)
 
     if seo_data
       page_title = Seo::Data.convert_parameters(seo_data.page_title, named_parameters)
@@ -344,7 +344,7 @@ class ApplicationController < ActionController::Base
   def server_error(exception)
     Raven.capture_exception(exception) if Rails.env.production?
 
-    raise if Rails.env.development?
+    raise unless Rails.env.production?
 
     respond_to do |format|
       format.json { render json: { errors: t('views.error.status.explanation.500') }, status: :internal_server_error }

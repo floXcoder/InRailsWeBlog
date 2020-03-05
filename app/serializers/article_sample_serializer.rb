@@ -53,15 +53,15 @@ class ArticleSampleSerializer
   end
 
   attribute :date do |object|
-    I18n.l(object.updated_at, format: :custom_full_date).sub(/^[0]+/, '')
+    I18n.l(object.created_at, format: :custom_full_date).sub(/^[0]+/, '')
   end
 
   attribute :date_short do |object|
-    I18n.l(object.updated_at, format: :short).split(' ').map(&:capitalize)
+    I18n.l(object.created_at, format: :short).split(' ').map(&:capitalize)
   end
 
   attribute :date_iso do |object|
-    object.created_at.strftime('%Y-%m-%d')
+    object.updated_at.strftime('%Y-%m-%d')
   end
 
   attribute :parent_tag_ids do |object|

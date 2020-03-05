@@ -133,14 +133,15 @@ class FooterLayoutUser extends React.Component {
 
                     <Grid item={true}
                           xs={12}>
-                        <div className="footer-copyright">
+                        <div className="margin-top-30">
                             <a className={this.props.classes.githubLink}
                                target="_blank"
                                href={I18n.t('js.views.footer.links.github_src')}>
                                 {I18n.t('js.views.footer.links.github')}
                             </a>
 
-                            <div className="container center-align margin-top-15">
+                            <div className="container center-align margin-top-15"
+                                 style={{marginTop: '2rem', fontSize: '1rem'}}>
                                 &copy; {I18n.t('js.views.footer.copyright', {version: window.revision})}
                             </div>
                         </div>

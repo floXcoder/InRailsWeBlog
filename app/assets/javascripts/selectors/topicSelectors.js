@@ -30,12 +30,12 @@ export const getSharingTopic = createSelector(
 
 export const getStoryTopic = createSelector(
     (state) => state.topicState.currentTopic,
-    (state) => state.articleState.articles,
-    (topic, articles) => {
+    (state) => state.topicState.storyTopic,
+    (topic, storyTopic) => {
         if (topic) {
             return topic;
-        } else if (articles && articles.length > 0) {
-            return articles.first().topic;
+        } else if (storyTopic) {
+            return storyTopic;
         }
     }
 );

@@ -27,7 +27,7 @@ module Api::V1
         end
 
         respond_with UserProfileSerializer.new(resource,
-                                               include: [:current_topic, :topics, :contributed_topics]),
+                                               include: [:current_topic, :topics, :contributed_topics]).serializable_hash,
                      location: @location
       else
         respond_to do |format|

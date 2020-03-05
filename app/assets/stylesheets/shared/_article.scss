@@ -89,13 +89,19 @@
   .timeline-panel {
     width: 45%;
     float: left;
-    padding: 20px;
+    padding: 1rem;
     margin-bottom: 20px;
     position: relative;
     box-shadow: 0 1px 4px 0 rgba(0, 0, 0, .14);
     border-radius: 6px;
     color: rgba(0, 0, 0, .87);
     background: #fff;
+
+    @media #{$medium-and-down} {
+      float: right;
+      width: 86%;
+      padding: .4rem;
+    }
 
     &.is-hidden {
       visibility: hidden;
@@ -124,6 +130,13 @@
       border-right-width: 0;
       border-bottom: 15px solid transparent;
       content: ' ';
+
+      @media #{$medium-and-down} {
+        border-left-width: 0;
+        border-right-width: 15px;
+        left: -15px;
+        right: auto;
+      }
     }
 
     &::after {
@@ -137,11 +150,13 @@
       border-right-width: 0;
       border-bottom: 14px solid transparent;
       content: ' ';
-    }
 
-    @media #{$medium-and-down} {
-      float: right;
-      width: 86%;
+      @media #{$medium-and-down} {
+        border-left-width: 0;
+        border-right-width: 14px;
+        left: -14px;
+        right: auto;
+      }
     }
   }
 

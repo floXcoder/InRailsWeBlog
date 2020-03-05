@@ -442,7 +442,7 @@ fr:
           topic:
             title:
               default: "Ajouter un article à ce thème"
-              tag: "Ajouter un article à ce thème pour ce label"
+              tag: "Pas encore d'articles pour ce label dans ce thème"
               child_tag: "Ajouter un article à ce thème pour ce sous-label"
             button: "Ajouter nouvel article"
           search:
@@ -524,6 +524,8 @@ fr:
         removed: "Article enlevé des périmés"
       vote:
         added: "Votre vote a été pris en compte"
+      recommendation:
+        title: "Labels présents dans les thèmes suivants"
       show:
         stories:
           show: "Lire la storie"
@@ -607,6 +609,7 @@ fr:
         card: "Liste"
         grid: "Grille"
       orders:
+        popularity: "Popularité"
         priority: "Priorité"
         date: "Date"
       module:
@@ -618,10 +621,11 @@ fr:
         tags:
           title: "Labels"
           recents: "(Labels récents)"
-          no_tags: "Aucun label trouvé"
+          none: "Aucun label trouvé"
         articles:
           title: "Articles"
           recents: "(Articles récents)"
+          none: "Aucun article trouvé"
         helpers:
           select_tag: "Sélectionner un label avec les flèches puis tab"
           tagged_articles: "Recherche d'articles avec labels : %{tags}"
@@ -682,9 +686,9 @@ fr:
       new:
         button: "Ajouter un commentaire"
       reply:
-        owner: "Réponse du propriétaire"
+        owner: "Réponse de l'auteur"
         button: "Répondre"
-        owner_button: "Répondre comme propriétaire"
+        owner_button: "Répondre comme auteur"
         ask_for_deletion: "Demande de suppression en cours"
       edit:
         button: "Modifier"
@@ -711,7 +715,7 @@ fr:
           title: "Image trop grande"
           text: "La taille du fichier dépasse 5Mo, veuillez choisir une image plus petite"
           type:
-            image: "Le fichier n'est pas de type image, merci de choisir un fichier jpp, jpeg, png ou bmp"
+            image: "Le fichier n'est pas de type image, merci de choisir un fichier jpg, jpeg, png ou bmp"
     activities:
       no_activities: "Pas d'activités à afficher"
       article:

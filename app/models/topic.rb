@@ -285,10 +285,10 @@ class Topic < ApplicationRecord
 
   def regenerate_article_slug
     if name_previous_change
-      self.articles.find_in_batches(batch_size: 200) do |articles|
+      self.articles.includes(:user, :tagged_articles, :tags, :tracker).find_in_batches(batch_size: 200) do |articles|
         articles.each do |article|
           article.slug = nil
-          article.save!
+          article.save
         end
       end
     end

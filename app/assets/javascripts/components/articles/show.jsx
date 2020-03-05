@@ -50,13 +50,13 @@ import {
     articlePreloadEdit
 } from '../modules/constants';
 
+import CommentBox from '../loaders/commentBox';
+
 import highlight from '../modules/highlight';
 
 import LazyLoader from '../theme/lazyLoader';
 
 import CommentCountIcon from '../comments/icons/count';
-
-import CommentBox from '../loaders/commentBox';
 
 import NotFound from '../layouts/notFound';
 
@@ -76,10 +76,12 @@ import styles from '../../../jss/article/show';
 
 export default @withRouter
 @connect((state, props) => ({
+    currentUserSlug: state.userState.currentSlug,
     currentUser: getCurrentUser(state),
     currentTopic: state.topicState.currentTopic,
     isCurrentTopicOwner: getIsCurrentTopicOwner(state, props.routeParams),
     isFetching: state.articleState.isFetching,
+    storyTopic: state.topicState.storyTopic,
     article: state.articleState.article,
     isOwner: getArticleIsOwner(state, state.articleState.article),
     isUserConnected: state.userState.isConnected,
@@ -102,10 +104,12 @@ class ArticleShow extends React.Component {
         // from router
         history: PropTypes.object,
         // from connect
+        currentUserSlug: PropTypes.string,
         currentUser: PropTypes.object,
         currentTopic: PropTypes.object,
         isCurrentTopicOwner: PropTypes.bool,
         isFetching: PropTypes.bool,
+        storyTopic: PropTypes.object,
         article: PropTypes.object,
         isOwner: PropTypes.bool,
         isUserConnected: PropTypes.bool,
@@ -135,7 +139,9 @@ class ArticleShow extends React.Component {
         this._fetchStories();
 
         setTimeout(() => ArticleIndex.preload(), articlePreloadIndex);
-        setTimeout(() => this.props.currentUser && ArticleEdit.preload(), articlePreloadEdit);
+        if(this.props.currentUserSlug && this.props.currentUserSlug === this.props.routeParams.userSlug) {
+            setTimeout(() => ArticleEdit.preload(), articlePreloadEdit);
+        }
     }
 
     componentDidUpdate(prevProps) {
@@ -197,7 +203,7 @@ class ArticleShow extends React.Component {
             )
         }
 
-        if ((this.props.isUserConnected && (!this.props.currentUser || !this.props.currentTopic)) || !this.props.article) {
+        if ((this.props.isUserConnected && (!this.props.currentUser || !this.props.currentTopic)) || !this.props.article || this.props.isFetching) {
             return (
                 <div className={this.props.classes.root}>
                     <div className="center">
@@ -207,7 +213,7 @@ class ArticleShow extends React.Component {
             );
         }
 
-        const isStories = this.props.article.mode === 'story';
+        const isStory = this.props.article.mode === 'story';
 
         return (
             <div>
@@ -228,9 +234,9 @@ class ArticleShow extends React.Component {
                     }
 
                     {
-                        isStories &&
+                        (isStory && this.props.storyTopic) &&
                         <SummaryStoriesTopic userSlug={this.props.routeParams.userSlug}
-                                             topic={this.props.article.topic}/>
+                                             topic={this.props.storyTopic}/>
                     }
 
                     {
@@ -316,7 +322,6 @@ class ArticleShow extends React.Component {
 
                                                 {
                                                     (this.props.article.allowComment && this.props.article.visibility !== 'only_me') &&
-
                                                     <CommentCountIcon className={this.props.classes.commentCount}
                                                                       commentLink={`#article-comments-${this.props.article.id}`}
                                                                       commentsCount={this.props.article.commentsCount}
@@ -420,18 +425,19 @@ class ArticleShow extends React.Component {
 
                         {
                             (this.props.article.allowComment && this.props.article.visibility !== 'only_me') &&
-                            <LazyLoader height={0}
-                                        once={true}
-                                        offset={50}>
-                                <CommentBox id={`article-comments-${this.props.article.id}`}
-                                            commentableType="articles"
-                                            commentableId={this.props.article.id}
-                                            ownerId={this.props.article.user.id}
-                                            commentsCount={this.props.article.commentsCount}
-                                            isUserOwner={this.props.isOwner}
-                                            isPaginated={false}
-                                            isRated={true}/>
-                            </LazyLoader>
+                            <div id={`article-comments-${this.props.article.id}`}>
+                                <LazyLoader height={0}
+                                            once={true}
+                                            offset={50}>
+                                    <CommentBox commentableType="articles"
+                                                commentableId={this.props.article.id}
+                                                ownerId={this.props.article.user.id}
+                                                commentsCount={this.props.article.commentsCount}
+                                                isUserOwner={this.props.isOwner}
+                                                isPaginated={false}
+                                                isRated={true}/>
+                                </LazyLoader>
+                            </div>
                         }
                     </div>
                 }

@@ -7,6 +7,7 @@ import {
     h1SizeMobile,
     h1Weight,
     h1LineHeight,
+    h1LineHeightMobile,
     h1Spacing
 } from '../theme';
 
@@ -17,7 +18,8 @@ const styles = (theme) => ({
         overflow: 'visible',
         maxWidth: articleWidth,
         [theme.breakpoints.down('md')]: {
-            padding: '.6rem'
+            padding: '.6rem',
+            marginBottom: '1.8rem'
         }
     },
     title: {
@@ -28,7 +30,8 @@ const styles = (theme) => ({
         lineHeight: h1LineHeight,
         letterSpacing: h1Spacing,
         [theme.breakpoints.down('md')]: {
-            fontSize: h1SizeMobile
+            fontSize: h1SizeMobile,
+            lineHeight: h1LineHeightMobile
         }
     },
     reference: {
@@ -119,12 +122,13 @@ const styles = (theme) => ({
         margin: '0 auto 2rem'
     },
     storiesTitle: {
-        textAlign: 'center'
+        textAlign: 'center',
+        fontSize: '1.4rem'
     },
     storiesArticle: {
         width: '420px',
         [theme.breakpoints.down('sm')]: {
-            width: '280px'
+            maxWidth: '320px'
         }
     }
 });

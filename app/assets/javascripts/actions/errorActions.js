@@ -13,12 +13,17 @@ export const pushError = (error, errorInfo = null) => {
 
     if (window.SENTRY_JAVASCRIPT_KEY) {
         SentryWithScope((scope) => {
-            scope.setExtras(errorInfo);
-            if(error instanceof Error) {
+            if (error instanceof Error) {
+                scope.setExtras(errorInfo);
                 SentryCaptureException(error);
             } else {
-                SentryCaptureMessage(`${error.statusText} (${error.status} : ${error.url})`);
+                errorInfo = {url: error.url, ...(errorInfo || {})};
+                scope.setExtras(errorInfo);
+                const errorMessage = [error.statusText, error.status].filter((err) => !!err);
+                SentryCaptureMessage(errorMessage.join(', '));
             }
         });
+    } else if (process.env.NODE_ENV !== 'test') {
+        console.error(error, errorInfo);
     }
 };

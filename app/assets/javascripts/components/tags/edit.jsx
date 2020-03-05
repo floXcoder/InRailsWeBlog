@@ -37,8 +37,9 @@ import styles from '../../../jss/tag/edit';
 
 export default @withRouter
 @connect((state) => ({
-    tag: state.tagState.tag,
     currentUser: getCurrentUser(state),
+    isFetching: state.tagState.isFetching,
+    tag: state.tagState.tag,
     tagErrors: getTagErrors(state)
 }), {
     fetchTag,
@@ -52,8 +53,9 @@ class TagEdit extends React.Component {
         // from router
         history: PropTypes.object,
         // from connect
-        tag: PropTypes.object,
         currentUser: PropTypes.object,
+        isFetching: PropTypes.bool,
+        tag: PropTypes.object,
         tagErrors: PropTypes.array,
         fetchTag: PropTypes.func,
         updateTag: PropTypes.func,
@@ -69,10 +71,10 @@ class TagEdit extends React.Component {
         this.props.fetchTag(this.props.routeParams.tagSlug, {edit: true});
     }
 
-    values = (values) => {
+    _handleSubmit = (values) => {
         values.id = this.props.tag.id;
 
-        this.props.updateTag(values)
+        return this.props.updateTag(values)
             .then((response) => {
                 if (response.tag) {
                     this.props.history.push({
@@ -81,20 +83,10 @@ class TagEdit extends React.Component {
                     });
                 }
             });
-
-        return true;
     };
 
     render() {
-        if (this.props.tagErrors) {
-            return (
-                <div>
-                    <TagErrorField errors={this.props.tagErrors}/>
-                </div>
-            );
-        }
-
-        if (!this.props.tag || !this.props.currentUser) {
+        if (!this.props.tag || !this.props.currentUser || this.props.isFetching) {
             return (
                 <div className="center margin-top-20">
                     <Loader size="big"/>
@@ -102,7 +94,7 @@ class TagEdit extends React.Component {
             );
         }
 
-        if (!this.props.currentUser || this.props.currentUser.id !== this.props.tag.user.id) {
+        if (this.props.currentUser.id !== this.props.tag.user.id) {
             return (
                 <div className="center margin-top-20">
                     <NotAuthorized/>
@@ -112,10 +104,14 @@ class TagEdit extends React.Component {
 
         return (
             <div className={this.props.classes.root}>
-                <TagFormDisplay id={`tag-edit-${this.props.tag.id}`}
-                                tagId={this.props.tag}
-                                isEditing={true}
-                                onSubmit={this._handleSubmit}>
+                {
+                    this.props.tagErrors &&
+                    <div>
+                        <TagErrorField errors={this.props.tagErrors}/>
+                    </div>
+                }
+
+                <TagFormDisplay onSubmit={this._handleSubmit}>
                     {this.props.tag}
                 </TagFormDisplay>
             </div>

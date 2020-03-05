@@ -18,6 +18,7 @@ import {
 export default class SearchTagModule extends React.Component {
     static propTypes = {
         classes: PropTypes.object.isRequired,
+        isUserConnected: PropTypes.bool.isRequired,
         tags: PropTypes.array.isRequired,
         hasQuery: PropTypes.bool.isRequired,
         onTagClick: PropTypes.func.isRequired,
@@ -82,7 +83,7 @@ export default class SearchTagModule extends React.Component {
                     {I18n.t('js.search.module.tags.title')}
 
                     {
-                        !this.props.hasQuery &&
+                        (this.props.isUserConnected && !this.props.hasQuery) &&
                         <span className={this.props.classes.categoryCount}>
                             {I18n.t('js.search.module.tags.recents')}
                         </span>
@@ -93,9 +94,10 @@ export default class SearchTagModule extends React.Component {
                     {
                         (this.props.hasQuery && currentTopicTags.length === 0 && otherTags.length === 0) &&
                         <p className={classNames(this.props.classes.articleSecondaryResult)}>
-                            {I18n.t('js.search.module.tags.no_tags')}
+                            {I18n.t('js.search.module.tags.none')}
                         </p>
                     }
+
                     {
                         currentTopicTags.map(this._renderTagItem.bind(this, true))
                     }

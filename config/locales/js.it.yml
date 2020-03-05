@@ -486,49 +486,51 @@ it:
           everyone: Pubblico
           only_me: Privato
       flash:
-        creation_unpermitted: Accedi per scrivere un articolo
-        deletion_successful: L'articolo è stato cancellato.
-        undelete_link: Annulla la cancellazione.
+        creation_unpermitted: "Accedi per scrivere un articolo"
+        deletion_successful: "L'articolo è stato cancellato."
+        undelete_link: "Annulla la cancellazione."
       tooltip:
-        add_bookmark: Aggiungi ai preferiti
-        add_outdated: Contrassegnato come obsoleto
-        cancel: Annulla
-        delete: Cancella questo articolo
-        edit: Modificare l'articolo
-        history: Visualizza le precedenti revisioni dell'articolo
-        link: È un link
-        link_to: Vai all'articolo
-        remove_bookmark: Rimuovere i preferiti
-        remove_outdated: Rimozione di prodotti obsoleti
-        share: Condividi questo articolo
-        topic_link: Vai al tema
-        tracking: Visualizza le statistiche
+        add_bookmark: "Aggiungi ai preferiti"
+        add_outdated: "Contrassegnato come obsoleto"
+        cancel: "Annulla"
+        delete: "Cancella questo articolo"
+        edit: "Modificare l'articolo"
+        history: "Visualizza le precedenti revisioni dell'articolo"
+        link: "È un link"
+        link_to: "Vai all'articolo"
+        remove_bookmark: "Rimuovere i preferiti"
+        remove_outdated: "Rimozione di prodotti obsoleti"
+        share: "Condividi questo articolo"
+        topic_link: "Vai al tema"
+        tracking: "Visualizza le statistiche"
         compare: "Confronto tra le lingue"
-        update: Aggiorna
-        updated_at: Ultima modifica
-        visibility: 'Visibilità: %{visibility}'
+        update: "Aggiorna"
+        updated_at: "Ultima modifica"
+        visibility: "Visibilità: %{visibility}"
       masonry:
-        add_column: Aggiungi colonna
-        remove_column: Rimuovere la colonna
+        add_column: "Aggiungi colonna"
+        remove_column: "Rimuovere la colonna"
       history:
-        changed_at: Versione modificata
-        initial: Versione iniziale
-        none: Nessuna storia per questo articolo!
-        restore: Ripristina questa versione
-        restored: Versione restaurata
+        changed_at: "Versione modificata"
+        initial: "Versione iniziale"
+        none: "Nessuna storia per questo articolo!"
+        restore: "Ripristina questa versione"
+        restored: "Versione restaurata"
       bookmark:
-        added: Articolo aggiunto ai preferiti
-        removed: Articolo cancellato dai preferiti
+        added: "Articolo aggiunto ai preferiti"
+        removed: "Articolo cancellato dai preferiti"
       outdated:
-        added: Articolo contrassegnato come obsoleto
-        removed: Articolo rimosso da obsoleto
+        added: "Articolo contrassegnato come obsoleto"
+        removed: "Articolo rimosso da obsoleto"
       vote:
-        added: Il vostro voto è stato preso in considerazione
+        added: "Il vostro voto è stato preso in considerazione"
+      recommendation:
+        title: "Etichette presenti nei seguenti temi"
       show:
         stories:
-          next: Prossima categoria
-          previous: Storia precedente
-          show: Leggi la storia
+          next: "Prossima categoria"
+          previous: "Storia precedente"
+          show: "Leggi la storia"
       new:
         exit: "Sei sicuro di andartene senza risparmiare?"
         meta:
@@ -583,32 +585,33 @@ it:
       timeline:
         title: "Nuovo articolo :"
         no_articles: "Nessun articolo da visualizzare"
-        scroll_for_more: "Scroller per caricare altri articoli"
+        scroll_for_more: "Scroll per caricare altri articoli"
       toc:
-        no_articles: Ancora nessun articolo
-        title: Indice
-      clipboard: Articolo temporaneo creato con dati copiati
+        no_articles: "Ancora nessun articolo"
+        title: "Indice"
+      clipboard: "Articolo temporaneo creato con dati copiati"
       errors:
         bookmark:
           bookmark: "%{message}"
-          default: Non può essere aggiunto ai preferiti! Prova a ricollegarti.
-          not_authorized: Non hai il permesso di aggiungere questo articolo ai preferiti!
+          default: "Non può essere aggiunto ai preferiti! Prova a ricollegarti."
+          not_authorized: "Non hai il permesso di aggiungere questo articolo ai preferiti!"
         content:
-          size: Il contenuto dell'articolo deve essere compreso tra i caratteri %{min}%{max}
-        default: Impossibile creare l'articolo! Grazie per averci riprovato.
-        not_authorized: Non hai il permesso di accedere a questo articolo!
+          size: "Il contenuto dell'articolo deve essere compreso tra i caratteri %{min}%{max}"
+        default: "Impossibile creare l'articolo! Grazie per averci riprovato."
+        not_authorized: "Non hai il permesso di accedere a questo articolo!"
         summary:
-          size: L'abstract dell'articolo deve essere compreso tra i caratteri %{min}%{max}
+          size: "L'abstract dell'articolo deve essere compreso tra i caratteri %{min}%{max}"
         title:
-          size: Il titolo dell'articolo deve essere compreso tra i caratteri %{min}%{max}
-        topic: Nessun tema associato all'articolo
+          size: "Il titolo dell'articolo deve essere compreso tra i caratteri %{min}%{max}"
+        topic: "Nessun tema associato all'articolo"
     search:
       display:
-        card: Elenco
-        grid: Griglia
+        card: "Elenco"
+        grid: "Griglia"
       orders:
-        date: Data
-        priority: Priorità
+        popularity: "Popolarità"
+        date: "Data"
+        priority: "Priorità"
       module:
         placeholder: "Ricerca"
         default: "Ricerca sul sito..."
@@ -616,102 +619,103 @@ it:
         topics:
           title: "Temi"
         tags:
-          no_tags: "Nessuna etichetta trovata"
           recents: "(Etichette recenti)"
           title: "Etichette"
+          none: "Nessuna etichetta trovata"
         articles:
           recents: "(Articoli recenti)"
           title: "Articoli"
+          none: "Nessuna articoli trovata"
         helpers:
           select_tag: "Selezionare un'etichetta con le frecce e poi la scheda"
           tagged_articles: 'Ricerca articoli con etichette: %{tags}'
       sidebar:
-        filter: Filtrare i risultati
+        filter: "Filtrare i risultati"
       index:
         articles:
-          title: Articoli
-        button: Trova
-        no_results: Nessun risultato trovato
-        placeholder: Ricerca
+          title: "Articoli"
+        button: "Trova"
+        no_results: "Nessun risultato trovato"
+        placeholder: "Ricerca"
         results:
-          one: 1 risultato
+          one: "1 risultato"
           other: "%{count} risultati"
         suggestions:
-          articles: 'Prova con l''ortografia:'
-          tags: 'Prova i seguenti tag :'
+          articles: "'Prova con l''ortografia:'"
+          tags: "Prova i seguenti tag :"
         topic:
-          current: Argomento attuale
-          others: Altri argomenti
+          current: "Argomento attuale"
+          others: "Altri argomenti"
     comment:
       common:
-        actions: Azioni
-        empty: Sii il primo a postare il tuo commento!
-        loading: Caricamento dei commenti ...
-        no_data: Nessun commento da visualizzare per questa selezione
-        no_opinion: Ancora nessun commento per il tuo articolo
-        route: commenti
-        title: Commenti
+        actions: "Azioni"
+        empty: "Sii il primo a postare il tuo commento!"
+        loading: "Caricamento dei commenti ..."
+        no_data: "Nessun commento da visualizzare per questa selezione"
+        no_opinion: "Ancora nessun commento per il tuo articolo"
+        route: "commenti"
+        title: "Commenti"
       model:
-        body: Messaggio
-        commentable_type: Modello commentato
-        posted_at: Postato su
-        title: Titolo
-        user: Commentatore
+        body: "Messaggio"
+        commentable_type: "Modello commentato"
+        posted_at: "Postato su"
+        title: "Titolo"
+        user: "Commentatore"
       tooltip:
         count: "%{count} commenti"
       timeline:
-        link: 'Commento associato a :'
-        no_comments: Nessun commento da visualizzare
+        link: "Commento associato a :"
+        no_comments: "Nessun commento da visualizzare"
       form:
-        cancel: Annulla
+        cancel: "Annulla"
         comment:
-          body: Il tuo commento ...
-          body_for_deletion: Motivo della cancellazione del commento
-          notation: 'Nota:'
-          title: Titolo del post
-          title_for_deletion: Richiesta di cancellazione
-        explanation: Per scrivere il vostro messaggio, potete usare il
-        submit: Poster
-        syntax: sintassi di markdown
+          body: "Il tuo commento ..."
+          body_for_deletion: "Motivo della cancellazione del commento"
+          notation: "Nota:"
+          title: "Titolo del post"
+          title_for_deletion: "Richiesta di cancellazione"
+        explanation: "Per scrivere il vostro messaggio, potete usare il"
+        submit: "Poster"
+        syntax: "sintassi di markdown"
         title:
-          default: Aggiungi un commento
-          deletion_reply: Richiesta di cancellazione di un commento
-          modify: Modifica il tuo commento
-          owner_reply: Rispondi al commento come proprietario
-          reply: Rispondi al commento
+          default: "Aggiungi un commento"
+          deletion_reply: "Richiesta di cancellazione di un commento"
+          modify: "Modifica il tuo commento"
+          owner_reply: "Rispondi al commento come proprietario"
+          reply: "Rispondi al commento"
       new:
-        button: Aggiungi un commento
+        button: "Aggiungi un commento"
       reply:
-        ask_for_deletion: Richiesta di cancellazione in corso
-        button: Rispondi a
-        owner: Risposta del proprietario
-        owner_button: Rispondere come proprietario
+        ask_for_deletion: "Richiesta di cancellazione in corso"
+        button: "Rispondi a"
+        owner: "Risposta dell'autore"
+        owner_button: "Rispondere come dell'autore"
       edit:
-        button: Modifica
+        button: "Modifica"
       delete:
-        button: Cancellare
-        confirmation_button: Cancellazione
-        confirmation_message: Si prega di convalidare la cancellazione
+        button: "Cancellare"
+        confirmation_button: "Cancellazione"
+        confirmation_message: "Si prega di convalidare la cancellazione"
       ask_for_deletion:
-        button: Richiesta di cancellazione del commento
+        button: "Richiesta di cancellazione del commento"
       flash:
-        creation_unpermitted: È necessario effettuare il login per inserire un commento
+        creation_unpermitted: "È necessario effettuare il login per inserire un commento"
       errors:
         body:
-          size: Il contenuto del commento deve essere compreso tra i caratteri %{min}%{max}
-        default: Impossibile creare il commento! Grazie per averci riprovato.
-        not_authorized: Non hai il permesso di accedere a questo commento!
+          size: "Il contenuto del commento deve essere compreso tra i caratteri %{min}%{max}"
+        default: "Impossibile creare il commento! Grazie per averci riprovato."
+        not_authorized: "Non hai il permesso di accedere a questo commento!"
         title:
-          size: Il titolo del commento deve essere compreso tra i caratteri %{min}%{max}
+          size: "Il titolo del commento deve essere compreso tra i caratteri %{min}%{max}"
     picture:
       copyright:
-        default: Da
+        default: "Da"
       model:
         errors:
-          text: La dimensione del file supera i 5MB, scegliere un'immagine più piccola
-          title: Immagine troppo grande
+          text: "La dimensione del file supera i 5MB, scegliere un'immagine più piccola"
+          title: "Immagine troppo grande"
           type:
-            image: Il file non è un file immagine, scegliete un file jpp, jpeg, png o bmp
+            image: "Il file non è un file immagine, scegliete un file jpg, jpeg, png o bmp"
     activities:
       no_activities: Nessuna attività da visualizzare
       article:

@@ -8,30 +8,26 @@ import {
     getSortedTopicTags
 } from './tagSelectors';
 
-const articlesByTag = (articles, sortedTags, parentTag) => {
+const articlesByTag = (articles, sortedTags, parentTagSlug) => {
     let orderedArticles = {};
 
-    if (!parentTag) {
+    if (!parentTagSlug) {
         sortedTags.forEach((tag) => {
             orderedArticles[tag.name] = [];
         });
     }
 
-    if (Utils.isEmpty(orderedArticles)) {
-        return orderedArticles;
-    }
-
     articles.forEach((article) => {
-        const parentTagNames = sortedTags.map((tag) => tag.name);
+        const parentTagSlugs = sortedTags.map((tag) => tag.slug);
 
-        if (parentTag) {
+        if (parentTagSlug) {
             // Tag articles view
-            let firstArticleTag = article.tags.filter((tag) => !parentTagNames.includes(tag.name)).map((tag) => tag.name).sort().first();
+            let firstArticleTag = article.tags.filter((tag) => parentTagSlugs.includes(tag.slug)).map((tag) => tag.name).sort().first();
             firstArticleTag = firstArticleTag || 'undefined';
             orderedArticles[firstArticleTag] = orderedArticles[firstArticleTag] ? orderedArticles[firstArticleTag].concat(article) : [article];
         } else {
             // Topic or user articles view
-            const firstArticleTag = article.tags.filter((tag) => parentTagNames.includes(tag.name)).map((tag) => tag.name).sort().first();
+            const firstArticleTag = article.tags.filter((tag) => parentTagSlugs.includes(tag.slug)).map((tag) => tag.name).sort().first();
             // In case of previous articles are still in memory
             if (orderedArticles[firstArticleTag]) {
                 orderedArticles[firstArticleTag].push(article);
@@ -67,12 +63,12 @@ export const getOrderedArticles = createSelector(
     (state) => state.articleState.articles,
     (state) => state.uiState.articleOrderMode,
     (state) => getSortedTopicTags(state),
-    (_, props) => props.parentTag,
-    (articles, articleOrderMode, sortedTags, parentTag) => {
+    (_, props) => props.parentTagSlug,
+    (articles, articleOrderMode, sortedTags, parentTagSlug) => {
         const isSortedByTag = articleOrderMode === 'tag_asc' || articleOrderMode === 'tag_desc';
 
         if (isSortedByTag) {
-            return articlesByTag(articles, sortedTags, parentTag);
+            return articlesByTag(articles, sortedTags, parentTagSlug);
         } else {
             return articles;
         }
@@ -83,8 +79,8 @@ export const getCategorizedArticles = createSelector(
     (state) => state.articleState.articles,
     (state) => state.uiState.articleOrderMode,
     (state) => getSortedTopicTags(state),
-    (_, props) => props.parentTag,
-    (articles, articleOrderMode, sortedTags) => {
+    (_, props) => props.parentTagSlug,
+    (articles, articleOrderMode, sortedTags, parentTagSlug) => {
         let categorizedArticles = {};
 
         if (articleOrderMode === 'updated_desc' || articleOrderMode === 'updated_asc') {
@@ -92,7 +88,7 @@ export const getCategorizedArticles = createSelector(
                 categorizedArticles[article.date] = categorizedArticles[article.date] ? categorizedArticles[article.date].concat(article) : [article];
             });
         } else if (articleOrderMode === 'tag_asc' || articleOrderMode === 'tag_desc') {
-            categorizedArticles = articlesByTag(articles, sortedTags);
+            categorizedArticles = articlesByTag(articles, sortedTags, parentTagSlug);
         } else if (articles) {
             categorizedArticles['all_articles'] = [];
             articles.forEach((article) => {

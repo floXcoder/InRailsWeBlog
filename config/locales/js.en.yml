@@ -524,6 +524,8 @@ en:
         removed: "Article removed from bookmarks"
       vote:
         added: "Vote added"
+      recommendation:
+        title: "Tags present in the following themes"
       show:
         stories:
           show: "Read the story"
@@ -607,6 +609,7 @@ en:
         card: "List"
         grid: "Grid"
       orders:
+        popularity: "Popularity"
         priority: "Priority"
         date: "Date"
       module:
@@ -618,10 +621,11 @@ en:
         tags:
           title: "Tags"
           recents: "(Recent tags)"
-          no_tags: "No tags found"
+          none: "No tags found"
         articles:
           title: "Articles"
           recents: "(Recent articles)"
+          none: "No articles found"
         helpers:
           select_tag: "Select a label with arrows then tab"
           tagged_articles: "Search for articles with tags : %{tags}"
@@ -667,7 +671,7 @@ en:
           default: "Add a comment"
           modify: "Modify your comment"
           reply: "Reply to comment"
-          owner_reply: "Reply to comment as owner"
+          owner_reply: "Reply to comment as author"
           deletion_reply: "Ask to remove this comment"
         explanation: "To write your message, you can use "
         syntax: "markdown syntax"
@@ -682,7 +686,7 @@ en:
       new:
         button: "Add a comment"
       reply:
-        owner: "Owner answer"
+        owner: "Author answer"
         button: "Reply"
         owner_button: "Reply as owner"
         ask_for_deletion: "Ask for deletion in progress"

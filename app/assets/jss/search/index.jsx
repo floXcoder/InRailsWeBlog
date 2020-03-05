@@ -18,7 +18,8 @@ const styles = (theme) => ({
         margin: theme.spacing(1),
         width: '80%',
         [theme.breakpoints.down('md')]: {
-            width: '90%'
+            padding: '8px !important',
+            width: '95%'
         }
     },
     searchIcon: {
@@ -29,6 +30,13 @@ const styles = (theme) => ({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center'
+    },
+    searchButton: {
+        [theme.breakpoints.down('md')]: {
+            padding: '8px !important',
+            fontSize: '1rem',
+            marginBottom: '1.2rem'
+        }
     },
     inputForm: {
         width: '100%'
@@ -131,7 +139,7 @@ const styles = (theme) => ({
         backgroundColor: theme.palette.secondary.light
     },
     articleTitle: {
-        fontSize: '2rem',
+        fontSize: '1.8rem',
         color: theme.palette.text.primary
     },
     articleGridTitle: {
