@@ -159,9 +159,9 @@
   position: absolute;
   resize: none;
   top: 0;
-  user-select: text;
+  user-select: text; // Because for user-select:none, Safari won't allow input
   width: 0;
-  z-index: 1200; // Because for user-select:none, Safari won't allow input
+  z-index: 100;
 }
 
 .hr-around-text {

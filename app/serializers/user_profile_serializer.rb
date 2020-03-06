@@ -20,7 +20,9 @@ class UserProfileSerializer
 
   has_one :current_topic, record_type: :topic, serializer: TopicSerializer
 
-  has_many :topics, serializer: TopicSampleSerializer
+  has_many :topics, serializer: TopicSampleSerializer do |object|
+    object.topics.order('created_at asc')
+  end
 
   has_many :contributed_topics, record_type: :topic, serializer: TopicSampleSerializer
 

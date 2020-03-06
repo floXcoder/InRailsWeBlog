@@ -113,6 +113,7 @@ class ArticleHistory extends React.Component {
 
                 <div className={this.props.classes.currentArticle}>
                     <ArticleCardDisplay article={this.props.article}
+                                        isMinimized={true}
                                         hasActions={false}/>
                 </div>
 

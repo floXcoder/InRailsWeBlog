@@ -24,7 +24,7 @@ import LogHelp from './logs/help';
 function TabContainer(props) {
     return (
         <Typography component="div"
-                    className={props.isActive ? null : 'hidden'}
+                    className={props.isActive ? null : 'hide'}
                     style={{padding: 8 * 3}}>
             {props.children}
         </Typography>

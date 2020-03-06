@@ -30,7 +30,7 @@ import styles from '../../../../../jss/article/form/shared';
 function TabContainer(props) {
     return (
         <Typography component="div"
-                    className={props.isActive ? null : 'hidden'}>
+                    className={props.isActive ? null : 'hide'}>
             {props.children}
         </Typography>
     );

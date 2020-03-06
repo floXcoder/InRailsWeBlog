@@ -18,6 +18,8 @@ import ReactDiffViewer, {DiffMethod} from 'react-diff-viewer';
 
 import styles from '../../../../jss/article/history';
 
+const stripTags = (string) => string.replace(/(<([^>]+)>)/ig,"");
+
 export default @withStyles(styles)
 class ArticleVersionsDisplay extends React.Component {
     static propTypes = {
@@ -56,6 +58,10 @@ class ArticleVersionsDisplay extends React.Component {
     };
 
     render() {
+
+        w(this.props.currentArticle.content)
+        w(stripTags(this.props.currentArticle.content))
+
         return (
             <>
                 {
@@ -121,10 +127,10 @@ class ArticleVersionsDisplay extends React.Component {
                                                 <ReactDiffViewer splitView={true}
                                                                  hideLineNumbers={true}
                                                                  useDarkTheme={false}
-                                                                 compareMethod={DiffMethod.LINES}
+                                                                 compareMethod={DiffMethod.WORDS}
                                                                  renderContent={this._formatDiffRender}
-                                                                 oldValue={this.props.articleVersions[i + 1].article.content}
-                                                                 newValue={i === 0 ? this.props.currentArticle.content : version.article.content}/>
+                                                                 oldValue={stripTags(this.props.articleVersions[i + 1].article.content)}
+                                                                 newValue={stripTags(i === 0 ? this.props.currentArticle.content : version.article.content)}/>
                                                 :
                                                 <div dangerouslySetInnerHTML={{__html: version.article.content}}/>
                                         }
