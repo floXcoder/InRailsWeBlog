@@ -135,7 +135,7 @@ module.exports = {
         production: {
             assetPath: 'https://assets.ginkonote.com/assets/',
             filename: '[name].[hash]',
-            filenameData: '[name].[hash]',
+            filenameImage: '[name]',
             chunkFilename: '[name].[hash].[id]',
             manifestFilename: 'manifest.json'
         }
