@@ -353,7 +353,12 @@ Gitlab is used for automatic deployment. Each time a new tag is pushed to master
 
 - Run rails tests
 
-- Run JS tests 
+- Run JS tests
+
+Before the first deployment, establish the server configuration:
+
+    GIT_REPO_ADDRESS="..." GIT_REPO_PORT="..." GIT_REPO_USER="..." DEPLOY_USER="..." DEPLOY_SERVER="..." DEPLOY_USER="..." DEPLOY_GEMSET="..." cap production deploy:check
+
 
 To deploy automatically using Gitflow (the tag will be incremented):
 
