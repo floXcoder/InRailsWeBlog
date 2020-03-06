@@ -43,7 +43,7 @@ build:
     - yarn install --frozen-lockfile --cache-folder .yarn-cache
   interruptible: true
   only:
-    - master
+    - tags
 
 check_code:
   stage: test
@@ -52,7 +52,7 @@ check_code:
     - bundle exec rails InRailsWeBlog:check_code
   interruptible: true
   only:
-    - master
+    - tags
   when: on_success
 
 audit:
@@ -64,7 +64,7 @@ audit:
   interruptible: true
   allow_failure: true
   only:
-    - master
+    - tags
   when: on_success
 
 brakeman:
@@ -75,7 +75,7 @@ brakeman:
   interruptible: true
   allow_failure: true
   only:
-    - master
+    - tags
   when: on_success
 
 test:rails:
@@ -89,7 +89,7 @@ test:rails:
     - bundle exec rspec --tag basic
   interruptible: true
   only:
-    - master
+    - tags
   when: on_success
 
 # Inconsistent tests
@@ -105,7 +105,7 @@ test:rails:
 #  # Unstable tests
 #  allow_failure: true
 #  only:
-#    - master
+#    - tags
 #  when: on_success
 
 test:npm:
@@ -118,7 +118,7 @@ test:npm:
     - npm run test
   interruptible: true
   only:
-    - master
+    - tags
   when: on_success
 
 deploy:
@@ -134,7 +134,7 @@ deploy:
     - bundle exec cap production deploy
   interruptible: true
   only:
-    - master
+    - tags
   when: on_success
 
 check:deploy:
@@ -145,5 +145,5 @@ check:deploy:
     - sh -c '[ $(curl --head -o /dev/null -L -s -w "%{http_code}" https://www.ginkonote.com) -eq 200 ]'
   interruptible: true
   only:
-    - master
+    - tags
   when: on_success
