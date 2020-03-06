@@ -343,34 +343,34 @@ Two productions environment are available:
 
 #### Production
 
-https://www.inrailsweblog.com
+https://www.ginkonote.com
 
-Gitlab is used for automatic deployment: 
+Gitlab is used for automatic deployment. Each time a new tag is pushed to master, Gitlab will execute the CI process :
 
-- Push new modifications on develop branch, Gitlab will build and run tests on this branch. **Do not forget to push tags when deploying a new version.**
+- Build the environment
 
-- Create a new Gitflow Release version and push modifications on master branch to deploy on website. Increment each time the version number.
+- Check code: useless traces and audit
 
+- Run rails tests
 
-- To deploy manually:
+- Run JS tests 
 
+To deploy automatically using Gitflow (the tag will be incremented):
 
-    rails InRailsWeBlog:deploy ENV=prod NO_TEST=true
+    rails InRailsWeBlog:deploy
+    
+To deploy automatically with from a specific tag version:
 
-- After the first deployment, executes the cron tasks:
+    rails InRailsWeBlog:deploy TAG=1.0.0
 
+To deploy manually without using Gitlab (from develop branch):
 
-    RAILS_ENV=production bundle exec rails InRailsWeBlog:update_geolite --silent
-    RAILS_ENV=production bundle exec rails InRailsWeBlog:generate_sitemap --silent
+    rails InRailsWeBlog:deploy SKIP_CI=true
 
 - Other commands:
 
-
-    cap production passenger:restart
-
-    cap production sidekiq:restart
-    cap production sidekiq:start
-    cap production sidekiq:stop
+    cap production deploy:restart_sidekiq
+    cap production deploy:restart_web
 
     cap production rails:console
     cap production rails:console sandbox=1

@@ -15,9 +15,9 @@
     "*common.js",
     "*summernote*"
   ],
-  "homepage": "https://www.inrailsweblog.com",
+  "homepage": "https://www.ginkonote.com",
   "bugs": {
-    "email": "contact@inrailsweblog.com",
+    "email": "contact@ginkonote.com",
     "url": "https://gitlab.l-x.fr/Flo/InRailsWeBlog/issues"
   },
   "repository": {
@@ -54,6 +54,7 @@
     "@material-ui/lab": "4.0.0-alpha.45",
     "@researchgate/react-intersection-observer": "1.0.5",
     "@sentry/browser": "5.13.2",
+    "@xstate/fsm": "1.3.0",
     "abortcontroller-polyfill": "1.4.0",
     "array-move": "2.2.1",
     "autoprefixer": "9.7.4",
@@ -134,7 +135,7 @@
     "eslint": "6.8.0",
     "eslint-plugin-react": "7.18.3",
     "faker": "4.1.0",
-    "fetch-mock": "9.1.0",
+    "fetch-mock": "9.1.1",
     "jest": "25.1.0",
     "react-test-renderer": "16.13.0",
     "redux-devtools-extension": "2.13.8",

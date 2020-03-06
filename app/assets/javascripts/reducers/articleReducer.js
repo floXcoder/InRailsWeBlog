@@ -3,11 +3,63 @@
 import * as ActionTypes from '../constants/actionTypes';
 
 import {
+    createMachine
+} from '@xstate/fsm';
+
+import {
     fetchReducer,
     mutationReducer,
     addOrReplaceIn,
     removeIn
 } from './mutators';
+
+const articleMachine = createMachine({
+    id: 'articles',
+    initial: 'idle',
+    states: {
+        idle: {
+            on: {
+                FETCH: 'fetching'
+            }
+        },
+        fetching: {
+            on: {
+                LOAD: 'loaded',
+                LOAD_USER: 'userLoaded',
+                EMPTY: 'empty',
+                EMPTY_USER: 'userEmpty'
+            }
+        },
+        fetchingMore: {
+            on: {
+                LOAD: 'loaded',
+                LOAD_USER: 'userLoaded'
+            }
+        },
+        loaded: {
+            on: {
+                FETCH: 'fetching',
+                FETCH_MORE: 'fetchingMore'
+            }
+        },
+        userLoaded: {
+            on: {
+                FETCH: 'fetching',
+                FETCH_MORE: 'fetchingMore'
+            }
+        },
+        empty: {
+            on: {
+                FETCH: 'fetching'
+            }
+        },
+        userEmpty: {
+            on: {
+                FETCH: 'fetching'
+            }
+        }
+    }
+});
 
 const initState = {
     isFetching: false,
@@ -25,7 +77,9 @@ const initState = {
 
     articleStories: undefined,
 
-    articleVersions: undefined
+    articleVersions: undefined,
+
+    currentState: articleMachine.initialState
 };
 
 export default function articleReducer(state = initState, action) {
@@ -33,6 +87,12 @@ export default function articleReducer(state = initState, action) {
         case ActionTypes.ARTICLE_FETCH_INIT:
         case ActionTypes.ARTICLE_FETCH_SUCCESS:
         case ActionTypes.ARTICLE_FETCH_ERROR:
+            if (action.isFetching) {
+                state.currentState = articleMachine.transition(state.currentState, action.infinite ? 'FETCH_MORE' : 'FETCH');
+            } else if (action.articles) {
+                state.currentState = articleMachine.transition(state.currentState, (action.articles.length > 0 ? 'LOAD' : 'EMPTY') + (action.isOwner ? '_USER' : ''));
+            }
+
             return fetchReducer(state, action, (state) => {
                 if (action.article) {
                     state.article = action.article;
@@ -61,7 +121,7 @@ export default function articleReducer(state = initState, action) {
                     state.articles = action.articles;
                 } else {
                     state.article = action.article;
-                    if(action.removedId) {
+                    if (action.removedId) {
                         removeIn(state.articles, action.removedId);
                     } else {
                         addOrReplaceIn(state.articles, action.article);

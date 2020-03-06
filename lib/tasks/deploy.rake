@@ -4,7 +4,8 @@ namespace :InRailsWeBlog do
 
   # Usage :
   ## rails InRailsWeBlog:deploy
-  ## rails InRailsWeBlog:deploy CAP=true
+  ## rails InRailsWeBlog:deploy SKIP_CI=true
+  ## rails InRailsWeBlog:deploy TAG=1.0.0
   desc 'Deploy project to server (repo must be on develop branch)'
   task :deploy do |_task, _args|
     # Check for uncommitted files
@@ -13,11 +14,13 @@ namespace :InRailsWeBlog do
     # Check current branch is develop
     fail 'Current branch is not develop' if %x(git name-rev --name-only HEAD).strip != 'develop'
 
-    # Create new tag on master (it will automatically run tests and deploy through Gitlab)
-    Rake.application.invoke_task('InRailsWeBlog:create_version')
-
-    # Deploy with capistrano
-    system('cap production deploy', out: $stdout, err: :out) if ENV['CAP']
+    if ENV['SKIP_CI']
+      # Deploy with capistrano from develop branch
+      system('cap production deploy', out: $stdout, err: :out)
+    else
+      # Create new tag on master (it will automatically run tests and deploy through Gitlab)
+      Rake.application.invoke_task('InRailsWeBlog:create_version')
+    end
   end
 
 end

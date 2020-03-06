@@ -18,7 +18,7 @@ fr:
             draft: "Temporaires"
             add:
               default: "Ajouter article"
-              stories: "Écrire storie"
+              stories: "Ajouter storie"
               inventories: "Ajouter inventaire"
         tags:
           button: "Labels"

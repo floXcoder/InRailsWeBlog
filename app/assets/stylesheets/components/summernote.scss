@@ -1,283 +1,8 @@
 @import 'base/variables';
 
-.editor-reset {
-  color: $text-color;
-  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-  font-size: 1rem;
-  font-weight: 400;
-  letter-spacing: .00938em;
-  line-height: 1.5;
-  //margin: 0 -0.75rem;
-
-  h1, h2, h3, h4, h5, h6, dl, dd, ol, ul, li, menu, figure, blockquote, p, pre, form, b, i, pre, code, th, td {
-    color: $text-color;
-    margin: 0;
-    padding: 0;
-  }
-
-  h1, h2 {
-    margin-top: 2rem;
-    margin-bottom: .5rem;
-  }
-
-  h3, h4 {
-    margin-top: 1.8rem;
-    margin-bottom: .5rem;
-  }
-
-  // h1 should not appear inside content (replaced by h2)
-  h1 {
-    clear: left;
-    font-size: 2.6rem;
-    font-style: normal;
-    font-weight: 700;
-    letter-spacing: .03px;
-    line-height: 1.2;
-    text-align: left;
-  }
-
-  h2 {
-    clear: left;
-    font-size: 2.2rem;
-    font-style: normal;
-    font-weight: 500;
-    letter-spacing: 1.2px;
-    line-height: 1.2;
-    text-align: left;
-  }
-
-  h3 {
-    clear: left;
-    font-size: 1.6rem;
-    font-style: normal;
-    font-weight: 500;
-    letter-spacing: 1.2px;
-    line-height: 1.2;
-    text-align: left;
-  }
-
-  h4,
-  h5,
-  h6 {
-    clear: left;
-    font-size: 1.3rem;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 1.1;
-    text-align: left;
-  }
-
-  p {
-    white-space: pre-wrap;
-  }
-
-  b,
-  strong {
-    font-weight: 700;
-  }
-
-  a {
-    color: $primary-color;
-  }
-
-  ul {
-    margin-top: .8rem;
-    padding: 0;
-
-    li {
-      list-style-type: disc !important;
-      margin-bottom: .4rem;
-      margin-left: 2rem;
-    }
-  }
-
-  ol {
-    margin-top: .8rem;
-    padding: 0;
-
-    li {
-      list-style-type: decimal !important;
-      margin-bottom: .4rem;
-      margin-left: 2rem;
-    }
-  }
-
-  blockquote {
-    border-left: 3px solid $border-dark-color;
-    font-style: italic;
-    font-weight: 400;
-    margin-left: -2rem;
-    padding-bottom: 3px;
-    padding-left: 2.5rem;
-  }
-
-  pre {
-    display: block;
-    background-color: #fff;
-    border: 2px solid $border-color;
-    border-radius: .25rem;
-    margin: .8rem .4rem;
-    padding: .25rem;
-    white-space: pre-wrap;
-    word-wrap: break-word;
-  }
-
-  li > code,
-  p > code {
-    background-color: #ddd;
-    border: 1px solid #ddd;
-    border-radius: .25rem;
-    margin: .2rem 0;
-    padding: 0;
-    white-space: pre-wrap;
-    word-wrap: break-word;
-  }
-
-  img {
-    max-width: 100%;
-  }
-
-  .secret {
-    @include special-style($secret-color);
-  }
-
-  .advice {
-    @include special-style($advice-color);
-  }
-
-  .deadend {
-    @include special-style($deadend-color);
-  }
-}
-
-.note-editor {
-  &.note-frame {
-    border: 0 !important;
-
-    .note-editing-area {
-      border: 0;
-    }
-  }
-
-  .note-popover .note-popover-content,
-  .note-toolbar {
-    background-color: #fff;
-    text-align: center;
-  }
-
-  .note-btn-group.note-style {
-    margin: 0 !important;
-  }
-}
-
-.note-toolbar,
-.note-air-popover {
-  z-index: 1300;
-
-  .note-btn {
-    background-color: inherit;
-    border: 0;
-
-    &:hover,
-    &:active,
-    &:focus {
-      border: 0;
-    }
-
-    .material-icons {
-      font-size: 22px;
-    }
-  }
-
-  .note-dropdown-item {
-    margin: .22rem 0;
-  }
-}
-
-.note-editable {
-  min-height: 250px;
-
-  h1:first-child,
-  h2:first-child,
-  h3:first-child,
-  h4:first-child {
-    margin-top: 0.25rem;
-    padding-top: 0;
-  }
-}
-
-.note-popover {
-  .note-popover-content {
-    a {
-      display: block;
-      padding: 2px 0;
-    }
-  }
-}
-
-.note-modal-body {
-  [type="checkbox"]:not(:checked),
-  [type="checkbox"]:checked {
-    position: inherit;
-    opacity: 1;
-    pointer-events: inherit;
-
-  }
-}
-
-.note-modal-footer {
-  height: 50px !important;
-}
-
-.note-icon-close::after {
-  content: '\2716';
-}
-
-.note-modal .btn.note-btn {
-  text-transform: none;
-  float: none;
-}
-
-.note-editor.note-frame .note-status-output {
-  display: block;
-  padding: 6px 12px 0;
-  color: #707070 !important;
-  border-top: 1px solid #e5e5e5 !important;
-  height: 30px !important;
-
-  .note-status-element {
-    float: left;
-    font-style: italic;
-    font-size: 15px;
-    line-height: 16px;
-    margin-top: 2px;
-  }
-
-  .note-status-helper {
-    float: right;
-    font-style: italic;
-    font-size: 15px;
-    line-height: 16px;
-    margin-top: 2px;
-  }
-}
-
-.note-toolbar > .note-btn-group {
-  margin-right: 0 !important;
-}
-
-.note-modal {
-  z-index: 1300 !important;
-  margin-top: 80px;
-}
-
-.note-modal-backdrop {
-  display: none !important;
-}
-
-/*********/
+/*****************/
 // Summernote CSS
-/*********/
+/*****************/
 .note-frame {
   -ms-box-sizing: border-box;
   box-sizing: border-box;
@@ -1502,4 +1227,307 @@ a.note-dropdown-item, a.note-dropdown-item:hover {
 .help-list-item label {
   margin-bottom: 5px;
   display: inline-block
+}
+
+
+/*****************/
+// Custom CSS
+/*****************/
+.editor-reset {
+  color: $text-color;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: .00938em;
+  line-height: 1.5;
+  //margin: 0 -0.75rem;
+
+  h1, h2, h3, h4, h5, h6, dl, dd, ol, ul, li, menu, figure, blockquote, p, pre, form, b, i, pre, code, th, td {
+    color: $text-color;
+    margin: 0;
+    padding: 0;
+  }
+
+  h1, h2 {
+    margin-top: 2rem;
+    margin-bottom: .5rem;
+
+    & + h3,
+    & + p {
+      margin-top: .8rem;
+    }
+  }
+
+  h3 {
+    margin-top: 1.8rem;
+    margin-bottom: .5rem;
+
+    & + h4,
+    & + p {
+      margin-top: .8rem;
+    }
+  }
+
+  h4 {
+    margin-top: 1.4rem;
+    margin-bottom: .5rem;
+
+    & + p {
+      margin-top: .8rem;
+    }
+  }
+
+  // h1 should not appear inside content (replaced by h2)
+  h1 {
+    clear: left;
+    font-size: 2.6rem;
+    font-style: normal;
+    font-weight: 700;
+    letter-spacing: .03px;
+    line-height: 1.2;
+    text-align: left;
+  }
+
+  h2 {
+    clear: left;
+    font-size: 2.2rem;
+    font-style: normal;
+    font-weight: 500;
+    letter-spacing: 1.2px;
+    line-height: 1.2;
+    text-align: left;
+  }
+
+  h3 {
+    clear: left;
+    font-size: 1.6rem;
+    font-style: normal;
+    font-weight: 500;
+    letter-spacing: 1.2px;
+    line-height: 1.2;
+    text-align: left;
+  }
+
+  h4,
+  h5,
+  h6 {
+    clear: left;
+    font-size: 1.3rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.1;
+    text-align: left;
+  }
+
+  p {
+    margin-top: 1.2rem;
+    white-space: pre-wrap;
+  }
+
+  b,
+  strong {
+    font-weight: 700;
+  }
+
+  a {
+    color: $primary-color;
+  }
+
+  ul {
+    margin-top: 1rem;
+    padding: 0;
+
+    li {
+      list-style-type: disc !important;
+      margin-bottom: .4rem;
+      margin-left: 2rem;
+    }
+  }
+
+  ol {
+    margin-top: .8rem;
+    padding: 0;
+
+    li {
+      list-style-type: decimal !important;
+      margin-bottom: .4rem;
+      margin-left: 2rem;
+    }
+  }
+
+  blockquote {
+    border-left: 3px solid $border-dark-color;
+    font-style: italic;
+    font-weight: 400;
+    margin-left: -2rem;
+    padding-bottom: 3px;
+    padding-left: 2.5rem;
+  }
+
+  pre {
+    display: block;
+    background-color: #fff;
+    border: 2px solid $border-color;
+    border-radius: .25rem;
+    margin: .8rem .4rem;
+    padding: .25rem;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  li > code,
+  p > code {
+    background-color: #ddd;
+    border: 1px solid #ddd;
+    border-radius: .25rem;
+    margin: .2rem 0;
+    padding: 0;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  .secret {
+    @include special-style($secret-color);
+  }
+
+  .advice {
+    @include special-style($advice-color);
+  }
+
+  .deadend {
+    @include special-style($deadend-color);
+  }
+}
+
+.note-editor {
+  &.note-frame {
+    border: 0 !important;
+
+    .note-editing-area {
+      border: 0;
+    }
+  }
+
+  .note-popover .note-popover-content,
+  .note-toolbar {
+    background-color: #fff;
+    text-align: center;
+  }
+
+  .note-btn-group.note-style {
+    margin: 0 !important;
+  }
+}
+
+.note-frame {
+  font-family: inherit;
+}
+
+.note-toolbar,
+.note-air-popover {
+  z-index: 1300;
+
+  .note-btn {
+    background-color: inherit;
+    border: 0;
+
+    &:hover,
+    &:active,
+    &:focus {
+      border: 0;
+    }
+
+    .material-icons {
+      font-size: 22px;
+    }
+  }
+
+  .note-dropdown-item {
+    margin: .22rem 0;
+  }
+}
+
+.note-editable {
+  min-height: 250px;
+
+  h1:first-child,
+  h2:first-child,
+  h3:first-child,
+  h4:first-child {
+    margin-top: 0.25rem;
+    padding-top: 0;
+  }
+}
+
+.note-popover {
+  .note-popover-content {
+    a {
+      display: block;
+      padding: 2px 0;
+    }
+  }
+}
+
+.note-modal-body {
+  [type="checkbox"]:not(:checked),
+  [type="checkbox"]:checked {
+    position: inherit;
+    opacity: 1;
+    pointer-events: inherit;
+
+  }
+}
+
+.note-modal-footer {
+  height: 50px !important;
+}
+
+.note-icon-close::after {
+  content: '\2716';
+}
+
+.note-modal .btn.note-btn {
+  text-transform: none;
+  float: none;
+}
+
+.note-editor.note-frame .note-status-output {
+  display: block;
+  padding: 6px 12px 0;
+  color: #707070 !important;
+  border-top: 1px solid #e5e5e5 !important;
+  height: 30px !important;
+
+  .note-status-element {
+    float: left;
+    font-style: italic;
+    font-size: 15px;
+    line-height: 16px;
+    margin-top: 2px;
+  }
+
+  .note-status-helper {
+    float: right;
+    font-style: italic;
+    font-size: 15px;
+    line-height: 16px;
+    margin-top: 2px;
+  }
+}
+
+.note-toolbar > .note-btn-group {
+  margin-right: 0 !important;
+}
+
+.note-modal {
+  z-index: 1300 !important;
+  margin-top: 80px;
+}
+
+.note-modal-backdrop {
+  display: none !important;
 }

@@ -242,13 +242,32 @@
   }
 
   h1, h2 {
-    margin-top: 1.7rem;
+    margin-top: 2rem;
     margin-bottom: .5rem;
+
+    & + h3,
+    & + p {
+      margin-top: .8rem;
+    }
   }
 
-  h3, h4 {
-    margin-top: 1.5rem;
+  h3 {
+    margin-top: 1.8rem;
     margin-bottom: .5rem;
+
+    & + h4,
+    & + p {
+      margin-top: .8rem;
+    }
+  }
+
+  h4 {
+    margin-top: 1.4rem;
+    margin-bottom: .5rem;
+
+    & + p {
+      margin-top: .8rem;
+    }
   }
 
   // h1 should not appear inside content (replaced by h2)
@@ -294,6 +313,7 @@
   }
 
   p {
+    margin-top: 1.2rem;
     white-space: pre-wrap;
     font-weight: 400;
     font-style: normal;
@@ -329,7 +349,7 @@
   }
 
   ul {
-    margin-top: .8rem;
+    margin-top: 1rem;
     padding: 0;
 
     li {

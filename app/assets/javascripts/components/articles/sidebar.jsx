@@ -14,18 +14,19 @@ import {
     getCategorizedArticles
 } from '../../selectors';
 
+import Loader from '../theme/loader';
+
 import ArticleOrderDisplay from './display/order';
 import ArticleTimelineDisplay from './display/timeline';
 
 import styles from '../../../jss/article/sidebar';
-import Loader from "../theme/loader";
 
 export default @connect((state, props) => ({
     currentUserId: state.userState.currentId,
     currentUserSlug: state.userState.currentSlug,
     currentUserTopicId: state.topicState.currentUserTopicId,
     currentUserTopicSlug: state.topicState.currentUserTopicSlug,
-    isFetchingArticles: state.articleState.isFetching,
+    currentArticleState: state.articleState.currentState.value,
     articleOrderMode: state.uiState.articleOrderMode,
     articleDisplayMode: state.uiState.articleDisplayMode,
     articlesCount: getArticlesCount(state),
@@ -44,7 +45,7 @@ class ArticleSidebar extends React.Component {
         currentUserSlug: PropTypes.string,
         currentUserTopicId: PropTypes.number,
         currentUserTopicSlug: PropTypes.string,
-        isFetchingArticles: PropTypes.bool,
+        currentArticleState: PropTypes.string,
         articleOrderMode: PropTypes.string,
         articleDisplayMode: PropTypes.string,
         articlesCount: PropTypes.number,
@@ -78,7 +79,7 @@ class ArticleSidebar extends React.Component {
                 </h2>
 
                 {
-                    this.props.isFetchingArticles
+                    this.props.currentArticleState === 'fetching'
                         ?
                         <div className="center margin-top-25">
                             <Loader size="big"/>

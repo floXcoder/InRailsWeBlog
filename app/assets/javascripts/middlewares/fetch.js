@@ -67,7 +67,7 @@ export default function fetchMiddleware({dispatch, getState}) {
         }
 
         dispatch({
-            // ...payload,
+            ...payload,
             isFetching: true,
             type: requestType
         });

@@ -9,7 +9,6 @@ import {
     removeIn,
     addOrReplaceIn
 } from './mutators';
-import {h1Spacing} from "../../jss/theme";
 
 // Autocomplete
 const autocompleteState = {

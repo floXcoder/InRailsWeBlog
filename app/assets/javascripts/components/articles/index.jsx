@@ -58,7 +58,7 @@ export default @connect((state) => ({
     currentTopic: state.topicState.currentTopic,
     userSlug: state.userState.currentSlug,
     storyTopic: getStoryTopic(state),
-    isFetching: state.articleState.isFetching,
+    currentState: state.articleState.currentState.value,
     articlesCount: getArticlesCount(state),
     articlePagination: state.articleState.pagination,
     articleCurrentMode: getArticlesCurrentMode(state),
@@ -83,7 +83,7 @@ class ArticleIndex extends React.Component {
         currentTopic: PropTypes.object,
         userSlug: PropTypes.string,
         storyTopic: PropTypes.object,
-        isFetching: PropTypes.bool,
+        currentState: PropTypes.string,
         articlesCount: PropTypes.number,
         articleCurrentMode: PropTypes.string,
         articlePagination: PropTypes.object,
@@ -103,7 +103,6 @@ class ArticleIndex extends React.Component {
         super(props);
 
         this._request = null;
-        this._isFetchingNext = false;
         this._articles = React.createRef();
     }
 
@@ -182,10 +181,16 @@ class ArticleIndex extends React.Component {
             options.limit = 1000;
         }
 
+        let payload = {};
+        if (this.props.currentUserId) {
+            payload.isConnected = true;
+            payload.isOwner = this.props.userSlug === this.props.routeParams.userSlug;
+        }
+
         this._request = this.props.fetchArticles({
             userId: this.props.currentUserId,
             ...this._formatParams(),
-        }, options);
+        }, options, payload);
 
         this._request.fetch.then(() => this.props.routeParams.tagSlug && this.props.setCurrentTags([this.props.routeParams.tagSlug, this.props.routeParams.childTagSlug]));
     };
@@ -201,17 +206,21 @@ class ArticleIndex extends React.Component {
                 options.summary = true;
             }
 
-            this._isFetchingNext = true;
+            let payload = {
+                infinite: !params.selected
+            };
+            if (this.props.currentUserId) {
+                payload.isConnected = true;
+                payload.isOwner = this.props.userSlug === this.props.routeParams.userSlug;
+            }
 
             this._request = this.props.fetchArticles({
                 userId: this.props.currentUserId,
                 ...this._formatParams(),
                 ...queryParams
-            }, options, {infinite: !params.selected});
+            }, options, payload);
 
             this._request.fetch.then(() => {
-                this._isFetchingNext = false;
-
                 if (params.selected) {
                     window.scroll({top: this._articles.current.getBoundingClientRect().top - 64, behavior: 'smooth'});
                 }
@@ -228,33 +237,33 @@ class ArticleIndex extends React.Component {
     };
 
     render() {
-        if (this.props.articlesCount === 0 && !this.props.isFetching) {
-            if (this.props.currentUserId && this.props.currentTopic) {
-                return (
-                    <div>
-                        <ArticleNoneDisplay userSlug={this.props.routeParams.userSlug}
-                                            topicSlug={this.props.routeParams.topicSlug}
-                                            tagSlug={this.props.routeParams.tagSlug}
-                                            childTagSlug={this.props.routeParams.childTagSlug}
-                                            isTopicPage={true}
-                                            isSearchPage={false}/>
+        if (this.props.currentState === 'userEmpty') {
+            return (
+                <div>
+                    <ArticleNoneDisplay userSlug={this.props.routeParams.userSlug}
+                                        topicSlug={this.props.routeParams.topicSlug}
+                                        tagSlug={this.props.routeParams.tagSlug}
+                                        childTagSlug={this.props.routeParams.childTagSlug}
+                                        isTopicPage={true}
+                                        isSearchPage={false}/>
 
-                        {
-                            this.props.routeParams.tagSlug &&
-                            <ArticleRecommendationDisplay userSlug={this.props.routeParams.userSlug}
-                                                          topicSlug={this.props.routeParams.topicSlug}
-                                                          tagSlug={this.props.routeParams.tagSlug}
-                                                          childTagSlug={this.props.routeParams.childTagSlug}/>
-                        }
-                    </div>
-                );
-            } else if (!this.props.currentUserId) {
-                return (
-                    <div className="center margin-top-45 margin-bottom-65">
-                        <NotFound/>
-                    </div>
-                );
-            }
+                    {
+                        this.props.routeParams.tagSlug &&
+                        <ArticleRecommendationDisplay userSlug={this.props.routeParams.userSlug}
+                                                      topicSlug={this.props.routeParams.topicSlug}
+                                                      tagSlug={this.props.routeParams.tagSlug}
+                                                      childTagSlug={this.props.routeParams.childTagSlug}/>
+                    }
+                </div>
+            );
+        }
+
+        if (this.props.currentState === 'empty') {
+            return (
+                <div className="center margin-top-45 margin-bottom-65">
+                    <NotFound/>
+                </div>
+            );
         }
 
         const hasMoreArticles = this.props.articlePagination && this.props.articlePagination.currentPage < this.props.articlePagination.totalPages;
@@ -289,7 +298,7 @@ class ArticleIndex extends React.Component {
         return (
             <div ref={this._articles}>
                 {
-                    this.props.articleCurrentMode === 'stories' && this.props.storyTopic &&
+                    this.props.articleCurrentMode === 'stories' && this.props.storyTopic && this.props.storyTopic.slug === this.props.routeParams.topicSlug &&
                     <SummaryStoriesTopic userSlug={this.props.routeParams.userSlug}
                                          topic={this.props.storyTopic}/>
                 }
@@ -299,7 +308,7 @@ class ArticleIndex extends React.Component {
                     [this.props.classes.fullContainer]: isFullContainer
                 })}>
                     {
-                        (this.props.isFetching || (this.props.currentUserId && !this.props.currentTopic)) &&
+                        this.props.currentState === 'fetching' &&
                         <div className={this.props.classes.articleIndex}>
                             <div className="center">
                                 <Loader size="big"/>
@@ -308,21 +317,19 @@ class ArticleIndex extends React.Component {
                     }
 
                     {
-                        this.props.articlesCount > 0 &&
+                        (this.props.currentState === 'loaded' || this.props.currentState === 'userLoaded' || this.props.currentState === 'fetchingMore') &&
                         <Suspense fallback={<div/>}>
                             {
-                                (!this.props.isFetching || this._isFetchingNext) && (
-                                    isInfiniteDisplay
-                                        ?
-                                        <ArticleInfiniteMode classes={this.props.classes}
-                                                             articlesCount={this.props.articlesCount}
-                                                             hasMoreArticles={hasMoreArticles}
-                                                             fetchArticles={this._fetchNextArticles}>
-                                            {ArticleNodes}
-                                        </ArticleInfiniteMode>
-                                        :
-                                        ArticleNodes
-                                )
+                                isInfiniteDisplay
+                                    ?
+                                    <ArticleInfiniteMode classes={this.props.classes}
+                                                         articlesCount={this.props.articlesCount}
+                                                         hasMoreArticles={hasMoreArticles}
+                                                         fetchArticles={this._fetchNextArticles}>
+                                        {ArticleNodes}
+                                    </ArticleInfiniteMode>
+                                    :
+                                    ArticleNodes
                             }
                         </Suspense>
                     }
