@@ -363,7 +363,7 @@ To deploy automatically with from a specific tag version:
 
     rails InRailsWeBlog:deploy TAG=1.0.0
 
-To deploy manually without using Gitlab (from develop branch):
+To deploy manually without using Gitlab (commit and deploy first your modification on the remote master branch):
 
     rails InRailsWeBlog:deploy SKIP_CI=true
 
