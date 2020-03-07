@@ -155,6 +155,13 @@ class UserHome extends React.Component {
                                                             component="h2">
                                                     {topic.name}
                                                 </Typography>
+
+                                                {
+                                                    topic.mode !== 'default' &&
+                                                    <div className={this.props.classes.topicMode}>
+                                                        {I18n.t(`js.topic.enums.mode.${topic.mode}`)}
+                                                    </div>
+                                                }
                                             </Paper>
                                         </Link>
 
@@ -249,7 +256,7 @@ class UserHome extends React.Component {
                                                 {
                                                     topic.mode !== 'default' &&
                                                     <div className={this.props.classes.topicMode}>
-                                                        ({I18n.t(`js.topic.enums.mode.${topic.mode}`)})
+                                                        {I18n.t(`js.topic.enums.mode.${topic.mode}`)}
                                                     </div>
                                                 }
                                             </Paper>

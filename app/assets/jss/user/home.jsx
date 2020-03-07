@@ -46,13 +46,20 @@ const styles = (theme) => ({
         }
     },
     topicTitle: {
+        marginTop: '1rem',
+        textAlign: 'center',
         color: '#fff',
         fontSize: '1.2rem'
     },
     topicMode: {
+        marginTop: '.8rem',
+        textAlign: 'right',
         color: '#fff',
         fontSize: '.9rem',
-        fontStyle: 'italic'
+        fontStyle: 'italic',
+        [theme.breakpoints.down('md')]: {
+            marginTop: 0
+        }
     },
     topicNew: {
         height: '6rem',

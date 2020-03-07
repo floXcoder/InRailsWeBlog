@@ -18,7 +18,7 @@ import ReactDiffViewer, {DiffMethod} from 'react-diff-viewer';
 
 import styles from '../../../../jss/article/history';
 
-const stripTags = (string) => string.replace(/(<([^>]+)>)/ig,"");
+const stripTags = (string) => string.replace(/(<([^>]+)>)/ig, '');
 
 export default @withStyles(styles)
 class ArticleVersionsDisplay extends React.Component {
@@ -58,10 +58,6 @@ class ArticleVersionsDisplay extends React.Component {
     };
 
     render() {
-
-        w(this.props.currentArticle.content)
-        w(stripTags(this.props.currentArticle.content))
-
         return (
             <>
                 {

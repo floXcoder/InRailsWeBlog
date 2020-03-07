@@ -48,6 +48,8 @@ class ArticleInlineEditionDisplay extends React.Component {
 
     constructor(props) {
         super(props);
+
+        this._isSaving = false;
     }
 
     state = {
@@ -73,6 +75,8 @@ class ArticleInlineEditionDisplay extends React.Component {
     };
 
     _handleSaveClick = () => {
+        this._isSaving = true;
+
         this.props.updateArticle({
             id: this.props.article.id,
             content: this.state.modifiedContent
@@ -84,7 +88,7 @@ class ArticleInlineEditionDisplay extends React.Component {
         return (
             <div id={`article-${this.props.article.id}`}
                  className={this.props.classes.root}>
-                <Prompt when={!!this.state.modifiedContent}
+                <Prompt when={!!this.state.modifiedContent && !this._isSaving}
                         message={location => I18n.t('js.article.form.unsaved', {location: location.pathname})}/>
 
                 {

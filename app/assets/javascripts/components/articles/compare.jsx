@@ -26,6 +26,8 @@ import {
 
 import styles from '../../../jss/article/compare';
 
+const stripTags = (string) => string.replace(/(<([^>]+)>)/ig, '');
+
 export default @withRouter
 @connect((state) => ({
     article: state.articleState.article
@@ -161,8 +163,8 @@ class TrackingCompareModal extends React.Component {
                                                      useDarkTheme={false}
                                                      compareMethod={DiffMethod.TRIMMED_LINES}
                                                      renderContent={this._formatDiffRender}
-                                                     oldValue={this.props.article.contentTranslations[this.state.firstLocale]}
-                                                     newValue={this.props.article.contentTranslations[this.state.secondLocale]}/>
+                                                     oldValue={stripTags(this.props.article.contentTranslations[this.state.firstLocale])}
+                                                     newValue={stripTags(this.props.article.contentTranslations[this.state.secondLocale])}/>
                                 </div>
 
                                 <div className="center-align margin-top-20">

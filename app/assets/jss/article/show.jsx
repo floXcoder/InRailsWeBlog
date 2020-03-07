@@ -23,13 +23,14 @@ const styles = (theme) => ({
         }
     },
     title: {
-        marginTop: '1.3rem',
+        marginTop: '1.5rem',
         marginBottom: '1.8rem',
         fontSize: h1Size,
         fontWeight: h1Weight,
         lineHeight: h1LineHeight,
         letterSpacing: h1Spacing,
         [theme.breakpoints.down('md')]: {
+            marginTop: '2rem',
             fontSize: h1SizeMobile,
             lineHeight: h1LineHeightMobile
         }
