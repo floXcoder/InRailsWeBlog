@@ -1,7 +1,7 @@
 'use strict';
 
 const ErrorForm = ({children, hasIcon}) => (
-    <ul className={classNames("field-errors filled", {'with-icon': hasIcon})}>
+    <ul className={classNames('field-errors filled', {'with-icon': hasIcon})}>
         <li className="field-error">
             {children}
         </li>

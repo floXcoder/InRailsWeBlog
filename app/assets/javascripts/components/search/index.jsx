@@ -379,7 +379,7 @@ class SearchIndex extends React.Component {
 
                 {
                     hasNoResults &&
-                    <div className={classNames(this.props.classes.helpMessage)}>
+                    <div className={this.props.classes.helpMessage}>
                         {I18n.t('js.search.index.no_results')}
                     </div>
                 }

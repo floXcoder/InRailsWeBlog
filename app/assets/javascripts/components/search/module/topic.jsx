@@ -27,7 +27,7 @@ export default class SearchTopicModule extends React.Component {
     _renderTopicItem = (topic) => {
         return (
             <Chip key={topic.id}
-                  className={classNames(this.props.classes.topic)}
+                  className={this.props.classes.topic}
                   label={topic.name}
                   color="primary"
                   variant="outlined"

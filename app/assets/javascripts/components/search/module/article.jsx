@@ -123,7 +123,7 @@ export default class SearchArticleModule extends React.PureComponent {
 
                     {
                         (this.props.hasQuery && currentTopicArticles.length === 0 && otherArticles.length === 0) &&
-                        <p className={classNames(this.props.classes.articleSecondaryResult)}>
+                        <p className={this.props.classes.articleSecondaryResult}>
                             {I18n.t('js.search.module.articles.none')}
                         </p>
                     }

@@ -5,7 +5,7 @@ import {
 } from '@material-ui/core/styles';
 
 // Sizes
-export const headerHeight = 64;
+export const headerHeight = 62;
 export const drawerWidth = 280;
 export const mainWidth = 1200;
 export const articleWidth = 780;

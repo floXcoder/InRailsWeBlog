@@ -93,7 +93,7 @@ export default class SearchTagModule extends React.Component {
                 <div>
                     {
                         (this.props.hasQuery && currentTopicTags.length === 0 && otherTags.length === 0) &&
-                        <p className={classNames(this.props.classes.articleSecondaryResult)}>
+                        <p className={this.props.classes.articleSecondaryResult}>
                             {I18n.t('js.search.module.tags.none')}
                         </p>
                     }

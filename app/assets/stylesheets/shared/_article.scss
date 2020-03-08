@@ -370,6 +370,16 @@
     }
   }
 
+  code {
+    background-color: #eeeef0;
+    border: 1px solid #ddd;
+    border-radius: .25rem;
+    margin: 0;
+    padding: 0;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
   blockquote {
     border-left: 3px solid $border-dark-color;
     font-style: italic;
@@ -388,6 +398,11 @@
     //padding: .25rem;
     white-space: pre-wrap;
     word-wrap: break-word;
+
+    code {
+      background-color: inherit;
+      border: none;
+    }
   }
 
   table {
@@ -407,18 +422,6 @@
     sub {
       vertical-align: sub;
     }
-  }
-
-  & > code,
-  li > code,
-  p > code {
-    background-color: #eeeef0;
-    border: 1px solid #ddd;
-    border-radius: .25rem;
-    margin: 0;
-    padding: 0;
-    white-space: pre-wrap;
-    word-wrap: break-word;
   }
 
   .secret {

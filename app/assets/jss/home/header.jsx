@@ -1,6 +1,7 @@
 'use strict';
 
 import {
+    headerHeight,
     drawerWidth
 } from '../theme';
 
@@ -19,6 +20,7 @@ const styles = (theme) => ({
     toolbar: {
         marginLeft: 'auto',
         marginRight: 'auto',
+        minHeight: headerHeight,
         paddingLeft: theme.spacing(2),
         paddingRight: theme.spacing(2),
         width: '70%',
@@ -33,7 +35,7 @@ const styles = (theme) => ({
     headerTitle: {
         display: 'none',
         margin: '10px 8px 0',
-        fontSize: '1.6rem',
+        fontSize: 32,
         [theme.breakpoints.up('sm')]: {
             display: 'block',
             fontSize: '2rem'
@@ -48,6 +50,11 @@ const styles = (theme) => ({
         [theme.breakpoints.up('lg')]: {
             display: 'flex'
         }
+    },
+    desktopItem: {
+        paddingLeft: 12,
+        paddingRight: 12,
+        fontSize: '1rem'
     },
     sectionMobile: {
         display: 'flex',
@@ -65,13 +72,13 @@ const styles = (theme) => ({
         ...theme.mixins.toolbar,
         minHeight: '48px !important',
         marginTop: 15,
-        paddingLeft: 12
+        paddingLeft: 26
     },
     mobileTitle: {
         margin: '5px 2px',
         color: theme.palette.text.primary,
         display: 'block',
-        fontSize: '2rem'
+        fontSize: 30
     },
     nestedMenu: {
         paddingLeft: theme.spacing(4)

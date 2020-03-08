@@ -1,6 +1,7 @@
 'use strict';
 
 import {
+    headerHeight,
     drawerWidth
 } from '../theme';
 
@@ -18,7 +19,7 @@ const styles = (theme) => ({
     },
     toolbar: {
         width: '100%',
-        height: 64,
+        height: headerHeight,
         borderBottom: `1px solid ${theme.palette.grey[100]}`
     },
     grow: {
@@ -27,7 +28,7 @@ const styles = (theme) => ({
     title: {
         display: 'none',
         margin: '10px 15px 0',
-        fontSize: '1.6rem',
+        fontSize: 32,
         [theme.breakpoints.up('sm')]: {
             display: 'block',
             fontSize: '2rem'
@@ -90,13 +91,13 @@ const styles = (theme) => ({
         ...theme.mixins.toolbar,
         minHeight: '48px !important',
         marginTop: 15,
-        paddingLeft: 12
+        paddingLeft: 26
     },
     mobileTitle: {
         margin: '5px 2px',
         color: theme.palette.text.primary,
         display: 'block',
-        fontSize: '2rem'
+        fontSize: 30
     },
     mobileDivider: {
         margin: '.5rem 0'
