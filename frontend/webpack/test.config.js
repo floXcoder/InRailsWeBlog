@@ -1,6 +1,7 @@
 const _ = require('lodash');
 const webpack = require('webpack');
 
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
@@ -36,6 +37,7 @@ webPackConfig.plugins.push(
             'ASSET_PATH': JSON.stringify(config.test.assetPath.replace('PORT', process.env.TEST_PORT || 3000))
         }
     }),
+    new CleanWebpackPlugin(),
     new webpack.LoaderOptionsPlugin({
         debug: true
     }),
