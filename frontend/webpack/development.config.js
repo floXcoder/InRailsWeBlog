@@ -3,6 +3,7 @@ const path = require('path');
 const webpack = require('webpack');
 const sane = require('sane');
 
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
@@ -153,6 +154,7 @@ webPackConfig.plugins.push(
             'ASSET_PATH': JSON.stringify(config.development.assetPath)
         }
     }),
+    new CleanWebpackPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.LoaderOptionsPlugin({
         debug: true

@@ -6,7 +6,6 @@ const autoprefixer = require('autoprefixer');
 
 const HappyPack = require('happypack');
 
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -116,7 +115,6 @@ _.forEach(config.plugins, (value, key) => {
 webPackConfig.plugins = [
     new HappyPack(config.happyPack),
     new webpack.ProvidePlugin(providePlugins),
-    new CleanWebpackPlugin(),
     new CopyWebpackPlugin([{
         from: 'images/favicon.ico',
         to: 'favicon.ico'
