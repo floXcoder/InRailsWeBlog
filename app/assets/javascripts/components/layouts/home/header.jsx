@@ -53,6 +53,8 @@ import HeadLayout from '../head';
 
 import styles from '../../../../jss/home/header';
 
+const loadingBarStyle = {backgroundColor: '#036603', height: '2px'};
+
 export default @withRouter
 @connect((state) => ({
     routeProperties: state.routerState.currentRoute,
@@ -166,13 +168,16 @@ class HeaderLayoutHome extends React.Component {
                  aria-label="Navigation"
                  itemScope={true}
                  itemType="https://schema.org/SiteNavigationElement">
-                <Button color="default"
+                <Button className={this.props.classes.desktopItem}
+                        size="small"
+                        color="default"
                         itemProp="url"
                         onClick={this._handleSignupClick}>
                     {I18n.t('js.views.header.user.sign_up')}
                 </Button>
 
-                <Button color="default"
+                <Button className={this.props.classes.desktopItem}
+                        color="default"
                         itemProp="url"
                         onClick={this._handleLoginClick}>
                     {I18n.t('js.views.header.user.log_in')}
@@ -244,9 +249,9 @@ class HeaderLayoutHome extends React.Component {
                         itemScope={true}
                         itemType="https://schema.org/Organization">
                     <LoadingBar showFastActions={true}
-                                style={{backgroundColor: '#036603', height: '2px'}}/>
+                                style={loadingBarStyle}/>
 
-                    <Toolbar className={classNames(this.props.classes.toolbar)}>
+                    <Toolbar className={this.props.classes.toolbar}>
                         <div className={this.props.classes.sectionDesktop}>
                             <h1 className={this.props.classes.headerTitle}
                                 itemProp="name">

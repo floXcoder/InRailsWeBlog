@@ -19,6 +19,7 @@ import ReactDiffViewer, {DiffMethod} from 'react-diff-viewer';
 import styles from '../../../../jss/article/history';
 
 const stripTags = (string) => string.replace(/(<([^>]+)>)/ig, '');
+const diffRenderStyle = {display: 'inline'};
 
 export default @withStyles(styles)
 class ArticleVersionsDisplay extends React.Component {
@@ -50,7 +51,7 @@ class ArticleVersionsDisplay extends React.Component {
 
     _formatDiffRender = (str) => {
         return (
-            <div style={{display: 'inline'}}
+            <div style={diffRenderStyle}
                  dangerouslySetInnerHTML={{
                      __html: str
                  }}/>

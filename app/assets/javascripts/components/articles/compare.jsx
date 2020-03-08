@@ -27,6 +27,7 @@ import {
 import styles from '../../../jss/article/compare';
 
 const stripTags = (string) => string.replace(/(<([^>]+)>)/ig, '');
+const diffRenderStyle = {display: 'inline'};
 
 export default @withRouter
 @connect((state) => ({
@@ -75,7 +76,7 @@ class TrackingCompareModal extends React.Component {
 
     _formatDiffRender = (str) => {
         return (
-            <div style={{display: 'inline'}}
+            <div style={diffRenderStyle}
                  dangerouslySetInnerHTML={{
                      __html: str
                  }}/>

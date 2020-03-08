@@ -58,7 +58,7 @@ class MainLayoutHome extends React.Component {
                                        <RouteManager currentRoute={routeProperties}
                                                      params={router.match.params}
                                                      location={router.location}>
-                                           <main className={classNames(this.props.classes.content)}>
+                                           <main className={this.props.classes.content}>
                                                <Suspense fallback={<div/>}>
                                                    <div className={this.props.classes.layout}>
                                                        <Component routeParams={router.match.params}

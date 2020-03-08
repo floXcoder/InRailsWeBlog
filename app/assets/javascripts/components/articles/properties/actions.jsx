@@ -12,12 +12,14 @@ import ArticleLinkIcon from '../icons/link';
 
 // import ArticleOutdatedIcon from '../icons/outdated';
 
+const deleteIconStyle = {marginRight: 30};
+
 const ArticleActions = ({classes, isInline, userSlug, articleId, articleSlug, articleTitle, articleVisibility, isOutdated, onOutdatedClick, onDeleteClick, size, color}) => (
     <ul className={classes.actionButtons}>
         {
             !isInline &&
             <li className={classes.actionItem}
-                style={{marginRight: 30}}>
+                style={deleteIconStyle}>
                 <ArticleDeleteIcon size={size}
                                    color={color}
                                    onDeleteClick={onDeleteClick}/>

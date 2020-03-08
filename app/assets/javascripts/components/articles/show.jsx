@@ -344,7 +344,7 @@ class ArticleShow extends React.Component {
                                             ?
                                             <ArticleInventoryDisplay inventories={this.props.article.inventories}/>
                                             :
-                                            <div className={classNames('normalized-content')}
+                                            <div className="normalized-content"
                                                  dangerouslySetInnerHTML={{__html: this.props.article.content}}/>
                                     }
                                 </div>

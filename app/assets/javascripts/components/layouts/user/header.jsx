@@ -85,6 +85,8 @@ import HeaderArticleMenu from '../header/menus/article';
 
 import styles from '../../../../jss/user/header';
 
+const loadingBarStyle = {backgroundColor: '#036603', height: '2px'};
+
 export default @connect((state) => ({
     routeProperties: state.routerState.currentRoute,
     routeParams: state.routerState.params,
@@ -382,9 +384,9 @@ class HeaderLayoutUser extends React.PureComponent {
                         itemScope={true}
                         itemType="https://schema.org/Organization">
                     <LoadingBar showFastActions={true}
-                                style={{backgroundColor: '#036603', height: '2px'}}/>
+                                style={loadingBarStyle}/>
 
-                    <Toolbar className={classNames(this.props.classes.toolbar)}>
+                    <Toolbar className={this.props.classes.toolbar}>
                         <div className={this.props.classes.sectionMobile}>
                             <IconButton className={this.props.classes.menuButton}
                                         color="primary"

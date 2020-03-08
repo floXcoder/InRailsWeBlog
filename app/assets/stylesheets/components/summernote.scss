@@ -1355,6 +1355,16 @@ a.note-dropdown-item, a.note-dropdown-item:hover {
     }
   }
 
+  code {
+    background-color: #ddd;
+    border: 1px solid #ddd;
+    border-radius: .25rem;
+    margin: .2rem 0;
+    padding: 0;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
   blockquote {
     border-left: 3px solid $border-dark-color;
     font-style: italic;
@@ -1373,17 +1383,11 @@ a.note-dropdown-item, a.note-dropdown-item:hover {
     padding: .25rem;
     white-space: pre-wrap;
     word-wrap: break-word;
-  }
 
-  li > code,
-  p > code {
-    background-color: #ddd;
-    border: 1px solid #ddd;
-    border-radius: .25rem;
-    margin: .2rem 0;
-    padding: 0;
-    white-space: pre-wrap;
-    word-wrap: break-word;
+    code {
+      background-color: inherit;
+      border: none;
+    }
   }
 
   img {
