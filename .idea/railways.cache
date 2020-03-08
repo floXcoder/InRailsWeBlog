@@ -8,11 +8,6 @@ Ruby enVironment Manager 1.29.8 (latest) (c) 2009-2017 Michal Papis, Piotr Kuczy
                              home_es GET      /es                                                                                           pages#home {:name=>"home", :public=>true, :locale=>"es"}
                              home_it GET      /it                                                                                           pages#home {:name=>"home", :public=>true, :locale=>"it"}
                              home_en GET      /                                                                                             pages#home {:name=>"home", :public=>true, :locale=>"en"}
-                        user_home_fr GET      /fr/(users/:user_slug)(.:format)                                                              pages#home {:name=>"user_home", :locale=>"fr"}
-                        user_home_de GET      /de/(users/:user_slug)(.:format)                                                              pages#home {:name=>"user_home", :locale=>"de"}
-                        user_home_es GET      /es/(users/:user_slug)(.:format)                                                              pages#home {:name=>"user_home", :locale=>"es"}
-                        user_home_it GET      /it/(users/:user_slug)(.:format)                                                              pages#home {:name=>"user_home", :locale=>"it"}
-                        user_home_en GET      /(users/:user_slug)(.:format)                                                                 pages#home {:name=>"user_home", :locale=>"en"}
                            search_fr GET      /fr/recherche(/:query)(.:format)                                                              pages#home {:name=>"search", :public=>true, :locale=>"fr"}
                            search_de GET      /de/forschung(/:query)(.:format)                                                              pages#home {:name=>"search", :public=>true, :locale=>"de"}
                            search_es GET      /es/investigacion(/:query)(.:format)                                                          pages#home {:name=>"search", :public=>true, :locale=>"es"}
@@ -148,6 +143,11 @@ Ruby enVironment Manager 1.29.8 (latest) (c) 2009-2017 Michal Papis, Piotr Kuczy
                   history_article_es GET      /es/usuarios/:user_slug/articulos/:article_slug/history(.:format)                             pages#home {:name=>"history_article", :locale=>"es"}
                   history_article_it GET      /it/utenti/:user_slug/articoli/:article_slug/history(.:format)                                pages#home {:name=>"history_article", :locale=>"it"}
                   history_article_en GET      /users/:user_slug/articles/:article_slug/history(.:format)                                    pages#home {:name=>"history_article", :locale=>"en"}
+                        user_home_fr GET      /fr/(users/:user_slug)(.:format)                                                              pages#home {:name=>"user_home", :locale=>"fr"}
+                        user_home_de GET      /de/(users/:user_slug)(.:format)                                                              pages#home {:name=>"user_home", :locale=>"de"}
+                        user_home_es GET      /es/(users/:user_slug)(.:format)                                                              pages#home {:name=>"user_home", :locale=>"es"}
+                        user_home_it GET      /it/(users/:user_slug)(.:format)                                                              pages#home {:name=>"user_home", :locale=>"it"}
+                        user_home_en GET      /(users/:user_slug)(.:format)                                                                 pages#home {:name=>"user_home", :locale=>"en"}
                             about_fr GET      /fr/a-propos(.:format)                                                                        pages#home {:name=>"about", :public=>true, :locale=>"fr"}
                             about_de GET      /de/rechtlicher-hinweis(.:format)                                                             pages#home {:name=>"about", :public=>true, :locale=>"de"}
                             about_es GET      /es/sobre(.:format)                                                                           pages#home {:name=>"about", :public=>true, :locale=>"es"}

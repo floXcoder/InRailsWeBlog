@@ -12,10 +12,6 @@ Rails.application.routes.draw do
     # Base routes
     get '/', to: 'pages#home', as: :home, defaults: { name: 'home', public: true }
 
-    authenticate :user do
-      get '/(users/:user_slug)', to: 'pages#home', as: :user_home, defaults: { name: 'user_home' }
-    end
-
     # Search
     get '/search(/:query)', to: 'pages#home', as: :search, defaults: { name: 'search', public: true }
 
@@ -52,6 +48,11 @@ Rails.application.routes.draw do
     get '/users/:user_slug/topics/:topic_slug/article-new', to: 'pages#home', as: :new_article, defaults: { name: 'new_article' }
     get '/users/:user_slug/articles/:article_slug/edit', to: 'pages#home', as: :edit_article, defaults: { name: 'edit_article' }
     get '/users/:user_slug/articles/:article_slug/history', to: 'pages#home', as: :history_article, defaults: { name: 'history_article' }
+
+    # Connected users
+    authenticate :user do
+      get '/(users/:user_slug)', to: 'pages#home', as: :user_home, defaults: { name: 'user_home' }
+    end
 
     # Static routes
     get '/about', to: 'pages#home', as: :about, defaults: { name: 'about', public: true }
