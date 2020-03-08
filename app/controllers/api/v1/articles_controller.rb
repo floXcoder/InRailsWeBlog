@@ -51,8 +51,7 @@ module Api::V1
                          user_slug:  User.find_by(slug: filter_params[:user_slug]))
           else
             set_seo_data(:tagged_articles,
-                         tag_slug:  Tag.find_by(slug: filter_params[:parent_tag_slug].presence || filter_params[:tag_slug].presence),
-                         user_slug: User.find_by(slug: filter_params[:user_slug]))
+                         tag_slug:  Tag.find_by(slug: filter_params[:parent_tag_slug].presence || filter_params[:tag_slug].presence))
           end
         elsif filter_params[:topic_slug].present?
           set_seo_data(:topic_articles,
