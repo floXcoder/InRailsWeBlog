@@ -51,7 +51,6 @@ module Articles
                     .with_adapted_visibility(@current_user, @current_admin)
                     .order_by(article_order(params))
                     .filter_by(params, @current_user, @user_articles, @topic_articles)
-                    .paginate_or_limit(params, @current_user)
 
       return @relation
     end

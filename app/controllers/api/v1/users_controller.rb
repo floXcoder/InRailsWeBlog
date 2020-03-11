@@ -113,7 +113,7 @@ module Api::V1
                            params[:article_slug].scan(/@(.*?)$/)&.last&.first
                          end
 
-            if topic_slug && current_user.current_topic.slug != topic_slug
+            if topic_slug && user.current_topic.slug != topic_slug
               topic = Topic.find_by(slug: topic_slug)
               user.switch_topic(topic) && user.save if topic && topic.user_id == user.id
             end

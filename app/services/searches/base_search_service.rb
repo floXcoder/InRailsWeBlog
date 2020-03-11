@@ -144,7 +144,7 @@ module Searches
 
     def track_results(results)
       # Track search results
-      @params[:model].track_searches(results.map(&:id))
+      @params[:model].track_searches(results.hits.map { |h| h['_id']})
     end
   end
 end
