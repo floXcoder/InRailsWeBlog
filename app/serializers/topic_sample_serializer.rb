@@ -20,7 +20,7 @@ class TopicSampleSerializer
              :slug
 
   attribute :tag_ids do |object|
-    object.tag_ids.uniq
+    object.tagged_articles.map(&:tag_id).uniq
   end
 
 end

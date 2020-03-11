@@ -19,15 +19,18 @@ class UpdateTrackerWorker
     class_model.transaction do
       metrics_used.each do |metric|
         $redis.keys("#{tracked_class}:#{metric}:*").map do |tracked_element|
-          _element_type, _element_metric, element_id = tracked_element.split(':')
-          element_value                              = $redis.get(tracked_element)
+          _element_type, _element_metric, element_id, user_id, parent_id = tracked_element.split(':')
+          element_value                                                  = $redis.get(tracked_element)
 
           if (element = class_model.find_by(id: element_id))
             next unless element.tracker
 
-            # Warning: Increment do not trigger callbacks
+            # Warning: Increment do not trigger model callbacks
             element.tracker.increment!("#{metric}_count", element_value.to_i)
             element.tracker.update_column(:popularity, element.compute_popularity)
+
+            # Call callbacks if any
+            try_callback(metric.to_sym, element, user_id, parent_id)
           end
 
           $redis.del(tracked_element)
@@ -35,4 +38,13 @@ class UpdateTrackerWorker
       end
     end
   end
+
+  private
+
+  def try_callback(action, record, user_id = nil, parent_id = nil)
+    return unless record.tracker_callbacks && record.tracker_callbacks[action]
+
+    record.send(record.tracker_callbacks[action], user_id, parent_id) if record.respond_to?(record.tracker_callbacks[action], true)
+  end
+
 end

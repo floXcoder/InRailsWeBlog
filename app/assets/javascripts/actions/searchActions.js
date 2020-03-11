@@ -71,6 +71,8 @@ export const getSearchContext = (params = {}) => (dispatch) => {
         previousSearchData.query = params[0];
     }
 
+    delete params[0];
+
     const searchData = {...previousSearchData, ...params};
 
     if (!Utils.isEmpty(searchData)) {

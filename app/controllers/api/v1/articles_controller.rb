@@ -46,20 +46,20 @@ module Api::V1
         if filter_params[:tag_slug].present?
           if filter_params[:topic_slug].present?
             set_seo_data(:tagged_topic_articles,
-                         tag_slug:   Tag.find_by(slug: filter_params[:parent_tag_slug].presence || filter_params[:tag_slug].presence),
-                         topic_slug: Topic.find_by(slug: filter_params[:topic_slug]),
-                         user_slug:  User.find_by(slug: filter_params[:user_slug]))
+                         tag_slug:   filter_params[:parent_tag_slug].presence || filter_params[:tag_slug].presence,
+                         topic_slug: filter_params[:topic_slug],
+                         user_slug:  filter_params[:user_slug])
           else
             set_seo_data(:tagged_articles,
-                         tag_slug:  Tag.find_by(slug: filter_params[:parent_tag_slug].presence || filter_params[:tag_slug].presence))
+                         tag_slug:  filter_params[:parent_tag_slug].presence || filter_params[:tag_slug].presence)
           end
         elsif filter_params[:topic_slug].present?
           set_seo_data(:topic_articles,
-                       topic_slug: Topic.find_by(slug: filter_params[:topic_slug]),
-                       user_slug:  User.find_by(slug: filter_params[:user_slug]))
+                       topic_slug: filter_params[:topic_slug],
+                       user_slug:  filter_params[:user_slug])
         elsif filter_params[:user_slug].present?
           set_seo_data(:user_articles,
-                       user_slug: User.find_by(slug: filter_params[:user_slug]))
+                       user_slug: filter_params[:user_slug])
         end
 
         articles = if complete
@@ -97,7 +97,7 @@ module Api::V1
     end
 
     def show
-      article = @context_user.articles.include_element.friendly.find(params[:id])
+      article = @context_user.articles.friendly.find(params[:id])
       admin_or_authorize article
 
       article.user?(current_user) ? reset_cache_headers : expires_in(InRailsWeBlog.config.cache_time, public: true)

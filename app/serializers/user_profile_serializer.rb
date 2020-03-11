@@ -21,13 +21,11 @@ class UserProfileSerializer
   has_one :current_topic, record_type: :topic, serializer: TopicSerializer
 
   has_many :topics, serializer: TopicSampleSerializer do |object|
-    object.topics.order('created_at asc')
+    object.topics.includes(:tagged_articles).order('created_at asc')
   end
 
-  has_many :contributed_topics, record_type: :topic, serializer: TopicSampleSerializer
-
-  attribute :articles_count do |object|
-    object.article_ids.count
+  has_many :contributed_topics, serializer: TopicSampleSerializer do |object|
+    object.contributed_topics.includes(:tagged_articles).order('created_at asc')
   end
 
   attribute :draft_count do |object|

@@ -95,7 +95,7 @@ module Api::V1
     end
 
     def show
-      user = User.friendly.find(params[:id])
+      user = current_user&.id == params[:id]&.to_i ? current_user : User.friendly.find(params[:id])
       authorize user
 
       expires_in InRailsWeBlog.config.cache_time, public: true
@@ -162,7 +162,7 @@ module Api::V1
     end
 
     def recents
-      user = User.friendly.find(params[:id])
+      user = current_user&.id == params[:id]&.to_i ? current_user : User.friendly.find(params[:id])
       admin_or_authorize user
 
       user_recents = user.recent_visits(params[:limit])
@@ -178,7 +178,7 @@ module Api::V1
     end
 
     def update_recents
-      user = User.friendly.find(params[:id])
+      user = current_user&.id == params[:id]&.to_i ? current_user : User.friendly.find(params[:id])
       admin_or_authorize user, :recents?
 
       params[:recents]&.each do |recent|
@@ -219,7 +219,7 @@ module Api::V1
     end
 
     def update
-      user = User.friendly.find(params[:id])
+      user = current_user&.id == params[:id]&.to_i ? current_user : User.friendly.find(params[:id])
       authorize user
 
       stored_user = ::Users::StoreService.new(user, user_params.merge(current_user: current_user)).perform

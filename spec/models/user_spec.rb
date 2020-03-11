@@ -209,7 +209,7 @@ RSpec.describe User, type: :model, basic: true do
     end
 
     describe '#current_topic_id' do
-      it { is_expected.to respond_to(:login) }
+      it { is_expected.to respond_to(:current_topic_id) }
 
       it 'creates a default topic when creating a user' do
         default_topic = Topic.where(user_id: @user.id).first
@@ -224,6 +224,9 @@ RSpec.describe User, type: :model, basic: true do
   end
 
   context 'Associations' do
+    it { is_expected.to have_one(:picture) }
+    it { is_expected.to accept_nested_attributes_for(:picture) }
+
     it { is_expected.to have_many(:topics) }
 
     it { is_expected.to have_many(:articles) }
@@ -253,9 +256,6 @@ RSpec.describe User, type: :model, basic: true do
     it { is_expected.to have_many(:comments) }
 
     it { is_expected.to have_many(:pictures) }
-
-    it { is_expected.to have_one(:picture) }
-    it { is_expected.to accept_nested_attributes_for(:picture) }
 
     it { is_expected.to have_many(:uploads) }
 
@@ -367,11 +367,6 @@ RSpec.describe User, type: :model, basic: true do
     describe '.avatar' do
       it { is_expected.to respond_to(:avatar_url) }
       it { expect(@user.avatar_url).to be_nil }
-    end
-
-    describe '.current_topic' do
-      it { is_expected.to respond_to(:current_topic) }
-      it { expect(@user.current_topic).to eq(Topic.where(user_id: @user.id).first) }
     end
 
     describe '.switch_topic' do

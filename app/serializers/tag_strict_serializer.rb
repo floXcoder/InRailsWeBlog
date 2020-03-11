@@ -13,11 +13,14 @@ class TagStrictSerializer
 
   attributes :id,
              :user_id,
-             :topic_ids,
              :name,
              :synonyms,
              :visibility,
              :slug
+
+  attribute :topic_ids do |object|
+    object.tagged_articles&.map(&:topic_id)&.uniq || object.topic_ids
+  end
 
   attribute :date do |object|
     object.created_at.to_i

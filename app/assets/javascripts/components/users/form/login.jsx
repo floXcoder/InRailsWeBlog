@@ -34,8 +34,16 @@ import CheckBoxFormField from '../../material-ui/form/checkbox';
 
 import styles from '../../../../jss/user/connection';
 
+let previousLoginValue;
+
 const loginValidation = (loginValue) => {
     if (loginValue) {
+        if(previousLoginValue === loginValue) {
+            return undefined;
+        }
+
+        previousLoginValue = loginValue;
+
         return (
             validateUser(loginValue).then((response) => {
                 if (!response.success) {

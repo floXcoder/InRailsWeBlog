@@ -111,10 +111,8 @@ module ActAsTrackedConcern
           $redis.incr(redis_key(id, 'clicks'))
         end
       else
-        $redis.incr(redis_key(record_id, 'clicks'))
+        $redis.incr(redis_key(record_id, 'clicks', user_id, parent_id))
       end
-
-      try_callback(:click, record_id, user_id, parent_id)
     end
 
     # Tracker model method to increment view count
@@ -158,20 +156,13 @@ module ActAsTrackedConcern
     end
 
     # Private method to get formatted redis key (for object model)
-    def redis_key(record_id, metric)
-      "#{self.name.downcase}:#{metric}:#{record_id}"
-    end
-
-    def try_callback(action, record_id, user_id = nil, parent_id = nil)
-      return unless self.tracker_callbacks && self.tracker_callbacks[action]
-
-      record = self.find_by(id: record_id)
-      record.send(self.tracker_callbacks[action], user_id, parent_id) if record&.respond_to?(self.tracker_callbacks[action], true)
+    def redis_key(record_id, metric, user_id = nil, parent_id = nil)
+      [self.name.downcase, metric, record_id, user_id, parent_id].compact.join(':')
     end
   end
 
   # Private method to get formatted redis key (for class model)
   def redis_key(record, metric)
-    "#{self.class.name.downcase}:#{metric}:#{record.id}"
+    [self.class.name.downcase, metric,record.id].join(':')
   end
 end

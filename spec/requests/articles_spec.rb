@@ -239,7 +239,7 @@ describe 'Article API', type: :request, basic: true do
       it 'limits the number of database queries' do
         expect {
           get '/api/v1/articles', params: { filter: { user_id: @user.id, topic_id: @topic.id }, limit: 20 }, as: :json
-        }.to make_database_queries(count: 5..10)
+        }.to make_database_queries(count: 8..12)
       end
     end
 

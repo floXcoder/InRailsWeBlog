@@ -28,7 +28,7 @@ class ApplicationController < ActionController::Base
   before_action :set_locale
 
   # Reset headers if admin is connected
-  before_action :check_header_role
+  before_action :reset_headers_for_admins
 
   # Set who is responsible of a modification
   before_action :set_paper_trail_whodunnit
@@ -47,7 +47,7 @@ class ApplicationController < ActionController::Base
     I18n.locale = user_env.result[:locale]
   end
 
-  def check_header_role
+  def reset_headers_for_admins
     reset_cache_headers if admin_signed_in?
   end
 
@@ -127,10 +127,12 @@ class ApplicationController < ActionController::Base
     author         = parameters.delete(:author)
     og             = parameters.delete(:og)
 
-    seo_data = Seo::Data.find_by(
-      #locale: current_locale,
-      name: "#{named_route}_#{current_locale}"
-    )
+    seo_data = Rails.cache.fetch("seo-#{named_route}_#{current_locale}", expires_in: 1.week) do
+      Seo::Data.find_by(
+        #locale: current_locale,
+        name: "#{named_route}_#{current_locale}"
+      )
+    end
 
     named_parameters = Seo::Data.named_parameters(parameters)
     slug_parameters  = Seo::Data.slug_parameters(parameters)
@@ -146,12 +148,12 @@ class ApplicationController < ActionController::Base
     canonical = canonical_url(named_route, model, current_locale, slug_parameters) unless canonical
     alternate = alternate_urls(named_route, model, slug_parameters) unless alternate
 
-    set_meta_tags title:       titleize(page_title),
+    set_meta_tags(title:       titleize(page_title),
                   description: meta_desc,
                   canonical:   canonical,
                   alternate:   alternate,
                   author:      author,
-                  og:          og
+                  og:          og)
   end
 
   def canonical_url(named_route, model, locale = I18n.locale, **params)

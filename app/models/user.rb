@@ -120,6 +120,22 @@ class User < ApplicationRecord
   acts_as_paranoid
 
   # == Relationships ========================================================
+  belongs_to :current_topic,
+             class_name: 'Topic',
+             optional:   true
+
+  has_one :picture,
+          as:        :imageable,
+          autosave:  true,
+          dependent: :destroy
+  accepts_nested_attributes_for :picture,
+                                allow_destroy: true,
+                                reject_if:     lambda { |picture|
+                                  picture['image'].blank? &&
+                                    picture['image_tmp'].blank? &&
+                                    picture['remote_image_url'].blank?
+                                }
+
   has_many :topics,
            dependent: :destroy
 
@@ -201,18 +217,6 @@ class User < ApplicationRecord
 
   has_many :pictures,
            dependent: :destroy
-
-  has_one :picture,
-          as:        :imageable,
-          autosave:  true,
-          dependent: :destroy
-  accepts_nested_attributes_for :picture,
-                                allow_destroy: true,
-                                reject_if:     lambda { |picture|
-                                  picture['image'].blank? &&
-                                    picture['image_tmp'].blank? &&
-                                    picture['remote_image_url'].blank?
-                                }
 
   has_many :uploads,
            class_name: 'Picture',
@@ -339,11 +343,7 @@ class User < ApplicationRecord
   end
 
   def avatar_url
-    self.picture&.image&.url(:mini)
-  end
-
-  def current_topic
-    Topic.find_by_id(self.current_topic_id) || self.topics.first
+    self.pictures_count > 0 ? self.picture&.image&.url(:mini) : nil
   end
 
   def switch_topic(new_topic)
@@ -368,8 +368,8 @@ class User < ApplicationRecord
     {
       # users:   User.joins(:user_activities).merge(last_visits).distinct,
       # topics:   Topic.joins(:user_activities).merge(last_visits).distinct,
-      tags:     Tag.joins(:user_activities).merge(last_visits).select('id', 'user_id', 'name', 'synonyms', 'visibility', 'slug', 'activities.created_at', 'updated_at').distinct,
-      articles: Article.includes(:user, :tagged_articles, :tags).joins(:user_activities).merge(last_visits).select('id', 'topic_id', 'mode', 'title_translations', 'summary_translations', 'draft', 'visibility', 'languages', 'slug', 'updated_at', 'activities.created_at').distinct
+      tags:     Tag.joins(:user_activities).includes(:tagged_articles).merge(last_visits).select('id', 'user_id', 'name', 'synonyms', 'visibility', 'slug', 'activities.created_at', 'updated_at').distinct,
+      articles: Article.includes(:user, :tags, tagged_articles: [:tag]).joins(:user_activities).merge(last_visits).select('id', 'topic_id', 'mode', 'title_translations', 'summary_translations', 'draft', 'visibility', 'languages', 'slug', 'updated_at', 'activities.created_at').distinct
     }
   end
 
