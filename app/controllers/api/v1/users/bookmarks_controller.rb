@@ -7,7 +7,7 @@ module Api::V1
     respond_to :json
 
     def index
-      user = User.find(params[:user_id])
+      user = current_user&.id == params[:user_id]&.to_i ? current_user : User.friendly.find(params[:user_id])
       admin_or_authorize user, :bookmarks?
 
       bookmarks = user.bookmarks.includes(bookmarked: [:user])
@@ -23,7 +23,7 @@ module Api::V1
     end
 
     def create
-      user     = User.find(params[:user_id])
+      user     = current_user&.id == params[:user_id]&.to_i ? current_user : User.friendly.find(params[:user_id])
       bookmark = user.bookmarks.build
       authorize bookmark
 
@@ -41,7 +41,7 @@ module Api::V1
     end
 
     def destroy
-      user     = User.find(params[:user_id])
+      user     = current_user&.id == params[:user_id]&.to_i ? current_user : User.friendly.find(params[:user_id])
       bookmark = Bookmark.find(params[:id])
       authorize bookmark
 

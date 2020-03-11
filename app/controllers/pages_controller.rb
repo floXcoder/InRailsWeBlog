@@ -6,10 +6,10 @@ class PagesController < ApplicationController
   respond_to :html, :text, :json
 
   def home
+    reset_cache_headers
+
     respond_to do |format|
       format.html do
-        expires_in InRailsWeBlog.config.cache_time, public: true
-
         if current_user
           if request.path == '/' && current_user.locale != 'en'
             redirect_to send("user_home_#{current_user.locale}_path")

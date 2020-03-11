@@ -76,7 +76,7 @@ module Articles
 
     module Scopes
       def include_collection(with_topic = false)
-        with_topic ? includes(:topic, :tags, :tagged_articles, user: [:picture]) : includes(:tags, :tagged_articles, user: [:picture])
+        with_topic ? includes(:topic, :tags, :tagged_articles, :pictures, user: [:picture]) : includes(:tags, :tagged_articles, :pictures, user: [:picture])
       end
 
       def with_adapted_visibility(current_user = nil, current_admin = nil)

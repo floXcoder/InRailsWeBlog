@@ -10,7 +10,11 @@ module Api::V1
     protected
 
     def set_context_user
-      @context_user ||= params[:user_id].present? ? User.friendly.find(params[:user_id]) : current_user
+      @context_user ||= if params[:user_id].present?
+                          current_user&.id == params[:user_id].to_i ? current_user : User.friendly.find(params[:user_id])
+                        else
+                          current_user
+                        end
 
       raise ActiveRecord::RecordNotFound unless @context_user
     end

@@ -72,17 +72,18 @@ class Seo::Data < ApplicationRecord
     new_parameters = {}
 
     parameters.each do |slug_name, model|
-      if model.is_a?(User)
-        new_parameters[slug_name] = model.pseudo
-      elsif model.is_a?(Tag)
-        new_parameters[slug_name] = model.name
-      elsif model.is_a?(Topic)
-        new_parameters[slug_name] = model.name
-      elsif model.is_a?(Article)
-        new_parameters[slug_name] = model.title
-      else
-        new_parameters[slug_name] = model
+      value = self.slug_from_model(model)
+
+      unless value
+        slug_model = self.model_from_slug(slug_name, model)
+        if slug_model
+          value = self.slug_from_model(slug_model)
+        else
+          value = model
+        end
       end
+
+      new_parameters[slug_name] = value
     end
 
     return new_parameters
@@ -91,6 +92,30 @@ class Seo::Data < ApplicationRecord
   # == Instance Methods =====================================================
 
   private
+
+  def self.slug_from_model(model)
+    if model.is_a?(User)
+      model.pseudo
+    elsif model.is_a?(Tag)
+      model.name
+    elsif model.is_a?(Topic)
+      model.name
+    elsif model.is_a?(Article)
+      model.title
+    end
+  end
+
+  def self.model_from_slug(slug, model)
+    if slug == :user_slug
+      User.friendly.find(model)
+    elsif slug == :tag_slug
+      Tag.friendly.find(model)
+    elsif slug == :topic_slug
+      Topic.friendly.find(model)
+    elsif slug == :article_slug
+      Article.friendly.find(model)
+    end
+  end
 
   def route_name
     return unless self.name.present? && self.name_changed?
