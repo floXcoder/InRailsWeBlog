@@ -168,7 +168,7 @@ module Api::V1
     end
 
     def stories
-      article = @context_user.articles.include_element.friendly.find(params[:id])
+      article = @context_user.articles.include_element.find(params[:id])
 
       articles = ::Articles::FindQueries.new(@context_user, current_admin).stories(topic_id: article.topic_id)
 

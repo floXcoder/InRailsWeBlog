@@ -50,7 +50,7 @@ class ArticleRecommendationDisplay extends React.Component {
 
     componentDidMount() {
         if (this.props.tagSlug) {
-            this.props.fetchTag(this.props.tagSlug);
+            this.props.fetchTag(this.props.tagSlug, {recommendation: true});
         }
     }
 
@@ -60,42 +60,42 @@ class ArticleRecommendationDisplay extends React.Component {
         }
 
         return (
-                <Paper className={this.props.classes.paper}>
-                    <Typography component="h3"
-                                variant="h6">
-                        {I18n.t('js.article.recommendation.title')}
-                    </Typography>
+            <Paper className={this.props.classes.paper}>
+                <Typography component="h3"
+                            variant="h6">
+                    {I18n.t('js.article.recommendation.title')}
+                </Typography>
 
-                    <Grid container={true}
-                          spacing={4}
-                          direction="row"
-                          justify="flex-start"
-                          alignItems="center">
-                        {
-                            this.props.associatedTopics.map((topic) => (
-                                <Grid key={topic.id}
-                                      className={this.props.classes.gridTheme}
-                                      item={true}
-                                      xs={12}
-                                      sm={6}
-                                      lg={4}>
-                                    <Link to={{
-                                        pathname: taggedTopicArticlesPath(this.props.userSlug, topic.slug, this.props.tagSlug)
-                                    }}>
-                                        <Paper className={this.props.classes.topic}
-                                               elevation={1}>
-                                            <Typography className={this.props.classes.topicTitle}
-                                                        variant="h5"
-                                                        component="h2">
-                                                {topic.name} / {this.props.tag.name}
-                                            </Typography>
-                                        </Paper>
-                                    </Link>
-                                </Grid>
-                            ))
-                        }
-                    </Grid>
-                </Paper>
+                <Grid container={true}
+                      spacing={4}
+                      direction="row"
+                      justify="flex-start"
+                      alignItems="center">
+                    {
+                        this.props.associatedTopics.map((topic) => (
+                            <Grid key={topic.id}
+                                  className={this.props.classes.gridTheme}
+                                  item={true}
+                                  xs={12}
+                                  sm={6}
+                                  lg={4}>
+                                <Link to={{
+                                    pathname: taggedTopicArticlesPath(this.props.userSlug, topic.slug, this.props.tagSlug)
+                                }}>
+                                    <Paper className={this.props.classes.topic}
+                                           elevation={1}>
+                                        <Typography className={this.props.classes.topicTitle}
+                                                    variant="h5"
+                                                    component="h2">
+                                            {topic.name} / {this.props.tag.name}
+                                        </Typography>
+                                    </Paper>
+                                </Link>
+                            </Grid>
+                        ))
+                    }
+                </Grid>
+            </Paper>
         );
     }
 }

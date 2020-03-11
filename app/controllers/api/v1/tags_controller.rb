@@ -84,14 +84,18 @@ module Api::V1
       if stale?(tag, template: false, public: true)
         respond_to do |format|
           format.json do
-            set_seo_data(:show_tag,
-                         tag_slug: tag,
-                         author:   tag.user.pseudo)
+            if params[:recommendation]
+              render json: TagSampleSerializer.new(tag).serializable_hash
+            else
+              set_seo_data(:show_tag,
+                           tag_slug: tag,
+                           author:   tag.user.pseudo)
 
-            render json: TagCompleteSerializer.new(tag,
-                                                   include: [:user, :tracker],
-                                                   params:  { current_user_id: current_user&.id },
-                                                   meta:    meta_attributes).serializable_hash
+              render json: TagCompleteSerializer.new(tag,
+                                                     include: [:user, :tracker],
+                                                     params:  { current_user_id: current_user&.id },
+                                                     meta:    meta_attributes).serializable_hash
+            end
           end
         end
       end
