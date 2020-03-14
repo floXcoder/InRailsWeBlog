@@ -7,6 +7,14 @@ I18n.locale = window.locale;
 
 require('../../translations/user-' + I18n.locale);
 
+import {
+    setConfig
+} from 'react-hot-loader';
+
+setConfig({
+    reloadHooks: false
+});
+
 import '../common';
 
 import ApplicationLayoutUser from '../../components/layouts/user/application';

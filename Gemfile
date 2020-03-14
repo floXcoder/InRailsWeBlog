@@ -99,7 +99,7 @@ gem 'factory_bot_rails',        '5.1.1',   require: false
 gem 'faker',                    '2.10.2',   require: false
 
 # Deployment
-gem 'capistrano',               '3.12.0'
+gem 'capistrano',               '3.12.1'
 gem 'capistrano-rails',         '1.4.0'
 gem 'capistrano-rvm',           '0.1.2',   require: false
 gem 'capistrano-bundler',       '1.6.0',   require: false
@@ -149,7 +149,7 @@ end
 
 group :test do
   # Test tools
-  gem 'rspec-rails',                '3.9.0'
+  gem 'rspec-rails',                '3.9.1'
   gem 'rspec_junit_formatter',      '0.4.1'
   gem 'shoulda-matchers',           '4.3.0',  require: false
   gem 'shoulda-callback-matchers',  '1.1.4',  require: false
@@ -169,7 +169,7 @@ group :test do
   # static analyzer
   gem 'rails_best_practices',       '1.20.0',   require: false
   gem 'brakeman',                   '4.8.0',    require: false
-  gem 'i18n-tasks',                 '0.9.30',   require: false
+  gem 'i18n-tasks',                 '0.9.31',   require: false
 end
 
 group :development, :test do

@@ -7,6 +7,14 @@ I18n.locale = window.locale;
 
 require('../../translations/home-' + I18n.locale);
 
+import {
+    setConfig
+} from 'react-hot-loader';
+
+setConfig({
+    reloadHooks: false
+});
+
 import '../common';
 
 require('../../modules/cookieChoices');
