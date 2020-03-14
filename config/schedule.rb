@@ -15,9 +15,9 @@ every :day, at: '1am', roles: [:production] do
   rake 'InRailsWeBlog:generate_sitemap'
 end
 
-#every :day, at: '2am', roles: [:production] do
-#  rake 'InRailsWeBlog:populate_seo_cache'
-#end
+every :day, at: '2am', roles: [:production] do
+ rake 'InRailsWeBlog:populate_seo_cache'
+end
 
 # Ensure all locale indexes are reindexed
 every :day, at: '1am', roles: [:production] do

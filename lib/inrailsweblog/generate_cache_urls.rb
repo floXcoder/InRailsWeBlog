@@ -9,7 +9,20 @@ class GenerateCacheUrls
           url_tags(locale),
           url_topics(locale),
           url_articles(locale),
-          url_users(locale)
+          # url_users(locale)
+        ].flatten.compact.uniq
+      end
+    end.flatten
+  end
+
+  def last_modified_urls(since = 24.hours)
+    I18n.available_locales.map do |locale|
+      I18n.with_locale(locale) do
+        [
+          Rails.application.routes.url_helpers.send("home_#{locale}_path"),
+          url_tags(locale, updated_at: since.ago..),
+          url_topics(locale, updated_at: since.ago..),
+          url_articles(locale, updated_at: since.ago..),
         ].flatten.compact.uniq
       end
     end.flatten
@@ -31,8 +44,8 @@ class GenerateCacheUrls
     ]
   end
 
-  def url_tags(locale)
-    Tag.everyone.map do |tag|
+  def url_tags(locale, where_options = nil)
+    Tag.everyone.where(where_options).map do |tag|
       [
         tag.link_path(locale: locale),
         tag.link_path(route_name: 'index', locale: locale)
@@ -40,8 +53,8 @@ class GenerateCacheUrls
     end
   end
 
-  def url_topics(locale)
-    Topic.everyone.map do |topic|
+  def url_topics(locale, where_options = nil)
+    Topic.everyone.where(where_options).map do |topic|
       [
         topic.link_path(locale: locale),
         topic.link_path(route_name: 'index', locale: locale),
@@ -51,20 +64,20 @@ class GenerateCacheUrls
     end
   end
 
-  def url_articles(locale)
-    Article.everyone.map do |article|
+  def url_articles(locale, where_options = nil)
+    Article.everyone.where(where_options).map do |article|
       [
         article.link_path(locale: locale)
       ]
     end
   end
 
-  def url_users(locale)
-    User.everyone.map do |user|
-      [
-        # user.link_path(route_name: 'topics', locale: locale)
-        # user.link_path(route_name: 'index', locale: locale)
-      ]
-    end
-  end
+  # def url_users(locale, where_options = nil)
+  #   User.everyone.map do |user|
+  #     [
+  #       # user.link_path(route_name: 'topics', locale: locale)
+  #       # user.link_path(route_name: 'index', locale: locale)
+  #     ]
+  #   end
+  # end
 end
