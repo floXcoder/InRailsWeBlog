@@ -16,29 +16,29 @@ export const getMetaResults = createSelector(
                     results.push({
                         model: 'article',
                         id: value.id,
-                        value: value.title,
-                        link: value.link
+                        value: value.attributes.title,
+                        link: value.attributes.link
                     });
                 } else if (model === 'tags') {
                     results.push({
                         model: 'tag',
                         id: value.id,
-                        value: value.name,
-                        link: value.link
+                        value: value.attributes.name,
+                        link: value.attributes.link
                     });
                 } else if (model === 'topics') {
                     results.push({
                         model: 'topic',
                         id: value.id,
-                        value: value.name,
-                        link: value.link
+                        value: value.attributes.name,
+                        link: value.attributes.link
                     });
                 } else if (model === 'users') {
                     results.push({
                         model: 'user',
                         id: value.id,
-                        value: value.email,
-                        link: value.link
+                        value: value.attributes.pseudo,
+                        link: value.attributes.link
                     });
                 }
             })

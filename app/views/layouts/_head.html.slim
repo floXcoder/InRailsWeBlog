@@ -35,7 +35,7 @@ head itemscope="" itemtype="http://schema.org/WebSite"
 
     - if %w[home user_home].include?(request.path_parameters[:name])
       link rel="preload" href="#{AssetManifest.stylesheet_path('home-index.css')}" as="style"
-    - elsif %w[user_articles topic_articles tagged_topic_articles tagged_articles user_article].include?(request.path_parameters[:name])
+    - elsif %w[user_articles topic_articles tagged_topic_articles tagged_articles].include?(request.path_parameters[:name])
       link rel="preload" href="#{AssetManifest.stylesheet_path('article-index.css')}" as="style"
       link rel="preload" href="#{AssetManifest.stylesheet_path('article-index-list.css')}" as="style"
     - elsif %w[user_article].include?(request.path_parameters[:name])

@@ -2,10 +2,10 @@
 
 import '../../../stylesheets/pages/admins/login.scss';
 
-I18n.defaultLocale = window.defaultLocale;
-I18n.locale = window.locale;
+window.I18n.defaultLocale = window.defaultLocale;
+window.I18n.locale = window.locale;
 
-require('../../translations/admin-' + I18n.locale);
+require('imports-loader?this=>window!../../modules/i18n');
 
 require('../common');
 

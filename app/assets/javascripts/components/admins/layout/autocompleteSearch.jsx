@@ -80,24 +80,30 @@ class AutocompleteSearch extends React.Component {
     _renderSuggestion = (suggestion) => {
         return (
             <>
-                <ListItemIcon>
-                    {
-                        suggestion.model === 'user' &&
+                {
+                    suggestion.model === 'user' &&
+                    <ListItemIcon>
                         <AccountBoxIcon fontSize="small"/>
-                    }
-                    {
-                        suggestion.model === 'topic' &&
+                    </ListItemIcon>
+                }
+                {
+                    suggestion.model === 'topic' &&
+                    <ListItemIcon>
                         <ClassIcon fontSize="small"/>
-                    }
-                    {
-                        suggestion.model === 'tag' &&
+                    </ListItemIcon>
+                }
+                {
+                    suggestion.model === 'tag' &&
+                    <ListItemIcon>
                         <LabelIcon fontSize="small"/>
-                    }
-                    {
-                        suggestion.model === 'article' &&
+                    </ListItemIcon>
+                }
+                {
+                    suggestion.model === 'article' &&
+                    <ListItemIcon>
                         <AssignmentIcon fontSize="small"/>
-                    }
-                </ListItemIcon>
+                    </ListItemIcon>
+                }
 
                 <Typography variant="inherit"
                             noWrap={true}>
@@ -115,11 +121,11 @@ class AutocompleteSearch extends React.Component {
                         <SearchIcon/>
                     </div>
 
-                    <Autocomplete suggestions={this.props.metaResults.map((product) => ({
-                        key: `${product.model}-${product.id}`,
-                        value: product.value,
-                        link: product.link,
-                        model: product.model
+                    <Autocomplete suggestions={this.props.metaResults.map((element) => ({
+                        key: `${element.model}-${element.id}`,
+                        value: element.value,
+                        link: element.link,
+                        model: element.model
                     }))}
                                   placeholder={I18n.t('js.admin.search.placeholder')}
                                   name="query"
