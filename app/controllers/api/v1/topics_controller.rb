@@ -27,7 +27,7 @@ module Api::V1
           format.json do
             if complete
               render json: TopicCompleteSerializer.new(topics,
-                                                       include: [:user, :contributors, :tracker],
+                                                       include: [:user, :contributors, :tracker, :tags],
                                                        meta:    { root: 'topics' }).serializable_hash
             else
               render json: TopicSerializer.new(topics,
