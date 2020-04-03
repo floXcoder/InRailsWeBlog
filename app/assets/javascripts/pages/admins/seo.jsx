@@ -10,12 +10,12 @@ import {
     configureStore
 } from '../../stores/admin';
 
-import '../common';
-
 I18n.defaultLocale = window.defaultLocale;
 I18n.locale = window.locale;
 
 require('../../translations/admin-' + I18n.locale);
+
+require('../common');
 
 import AdminLayout from '../../components/admins/adminLayout';
 import AdminSeoData from '../../components/admins/seoData';

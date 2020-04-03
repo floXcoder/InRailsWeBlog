@@ -119,7 +119,7 @@ class TagSidebarLayout extends React.PureComponent {
                     open={this.state.isExpanded}
                     onMouseOver={this._handleDrawerOver}
                     onMouseLeave={this._handleDrawerOut}>
-                <div className={this.props.classes.expandButton}>
+                <div>
                     <IconButton onClick={this._handleExpandSwitch}>
                         {
                             this.props.isTagSidebarOpen

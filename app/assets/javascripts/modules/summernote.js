@@ -20,6 +20,8 @@ $.extend($.summernote.options, {
         'alignCenter': 'format_align_center',
         'alignRight': 'format_align_right',
         'alignJustify': 'format_align_justify',
+        'floatLeft': 'format_align_left',
+        'floatRight': 'format_align_right',
         'arrowsAlt': 'fullscreen',
         'rowBelow': 'expand_more',
         'colBefore': 'chevron_left',
@@ -58,12 +60,13 @@ $.extend($.summernote.options, {
         'underline': 'format_underlined',
         'undo': 'undo',
         'unorderedlist': 'format_list_bulleted',
-        'video': 'video_library'
+        'video': 'video_library',
+        'rollback': 'undo'
     },
     popover: {
         image: [
             ['custom', ['imageAttributes']],
-            ['imagesize', ['imageSize100', 'imageSize50', 'imageSize25']],
+            ['imagesize', ['resizeFull', 'resizeHalf', 'resizeQuarter', 'resizeNone']],
             ['float', ['floatLeft', 'floatRight', 'floatNone']],
             ['remove', ['removeMedia']]
         ],

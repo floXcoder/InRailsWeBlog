@@ -118,18 +118,22 @@ class ArticleBreadcrumbDisplay extends React.Component {
 
                 {
                     this.props.tags &&
-                    this.props.tags.map((tag) => (
-                        <Chip key={tag.id}
-                              classes={{
-                                  root: this.props.classes.breadcrumbTag,
-                                  label: this.props.classes.breadcrumbTagLabel
-                              }}
-                              label={tag.name}
-                              variant="outlined"
-                              component={Link}
-                              to={taggedArticlesPath(tag.slug)}
-                              onClick={this._handleElementClick.bind(this, 'tag', tag.id, tag.slug, tag.name)}/>
-                    ))
+                    <li>
+                        {
+                            this.props.tags.map((tag) => (
+                                <Chip key={tag.id}
+                                      classes={{
+                                          root: this.props.classes.breadcrumbTag,
+                                          label: this.props.classes.breadcrumbTagLabel
+                                      }}
+                                      label={tag.name}
+                                      variant="outlined"
+                                      component={Link}
+                                      to={taggedArticlesPath(tag.slug)}
+                                      onClick={this._handleElementClick.bind(this, 'tag', tag.id, tag.slug, tag.name)}/>
+                            ))
+                        }
+                    </li>
                 }
             </ul>
         );

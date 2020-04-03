@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_10_133725) do
+ActiveRecord::Schema.define(version: 2020_04_03_185035) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -40,7 +40,6 @@ ActiveRecord::Schema.define(version: 2020_01_10_133725) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["admin_id", "visibility"], name: "index_admin_blogs_on_admin_id_and_visibility"
-    t.index ["admin_id"], name: "index_admin_blogs_on_admin_id"
   end
 
   create_table "admins", force: :cascade do |t|
@@ -79,7 +78,6 @@ ActiveRecord::Schema.define(version: 2020_01_10_133725) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id", "parent_id", "child_id"], name: "index_article_relationship_uniqueness", unique: true
-    t.index ["user_id"], name: "index_article_relationships_on_user_id"
   end
 
   create_table "articles", force: :cascade do |t|
@@ -126,7 +124,6 @@ ActiveRecord::Schema.define(version: 2020_01_10_133725) do
     t.index ["bookmarked_id", "bookmarked_type"], name: "index_bookmarks_on_bookmarked_id_and_bookmarked_type"
     t.index ["topic_id"], name: "index_bookmarks_on_topic_id"
     t.index ["user_id", "bookmarked_id", "bookmarked_type"], name: "index_user_and_bookmarks_uniqueness", unique: true
-    t.index ["user_id"], name: "index_bookmarks_on_user_id"
   end
 
   create_table "comments", force: :cascade do |t|
@@ -158,7 +155,6 @@ ActiveRecord::Schema.define(version: 2020_01_10_133725) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["article_id", "user_id"], name: "index_outdated_articles_on_article_id_and_user_id", unique: true
-    t.index ["article_id"], name: "index_outdated_articles_on_article_id"
     t.index ["user_id"], name: "index_outdated_articles_on_user_id"
   end
 
@@ -234,7 +230,6 @@ ActiveRecord::Schema.define(version: 2020_01_10_133725) do
     t.index ["contributor_id"], name: "index_shares_on_contributor_id"
     t.index ["shareable_id", "shareable_type"], name: "index_shares_on_shareable_id_and_shareable_type"
     t.index ["user_id", "shareable_id", "shareable_type"], name: "index_user_and_shares_uniqueness", unique: true
-    t.index ["user_id"], name: "index_shares_on_user_id"
   end
 
   create_table "tag_relationships", force: :cascade do |t|
@@ -429,7 +424,6 @@ ActiveRecord::Schema.define(version: 2020_01_10_133725) do
     t.index ["voteable_id", "voteable_type"], name: "index_votes_on_voteable_id_and_voteable_type"
     t.index ["voteable_type", "voteable_id"], name: "index_votes_on_voteable_type_and_voteable_id"
     t.index ["voter_id", "voter_type", "voteable_id", "voteable_type"], name: "fk_one_vote_per_user_per_entity", unique: true
-    t.index ["voter_id", "voter_type"], name: "index_votes_on_voter_id_and_voter_type"
     t.index ["voter_type", "voter_id"], name: "index_votes_on_voter_type_and_voter_id"
   end
 

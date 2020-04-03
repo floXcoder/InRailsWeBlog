@@ -23,9 +23,9 @@ import {
     newPasswordPath
 } from '../../../constants/routesHelper';
 
-import {
-    validateUser
-} from '../../../actions/userActions';
+// import {
+//     validateUser
+// } from '../../../actions/userActions';
 
 import EnsureValidity from '../../modules/ensureValidity';
 
@@ -34,27 +34,26 @@ import CheckBoxFormField from '../../material-ui/form/checkbox';
 
 import styles from '../../../../jss/user/connection';
 
-let previousLoginValue;
-
-const loginValidation = (loginValue) => {
-    if (loginValue) {
-        if(previousLoginValue === loginValue) {
-            return undefined;
-        }
-
-        previousLoginValue = loginValue;
-
-        return (
-            validateUser(loginValue).then((response) => {
-                if (!response.success) {
-                    return I18n.t('js.user.errors.login.invalid');
-                }
-            })
-        );
-    } else {
-        return undefined;
-    }
-};
+// let previousLoginValue;
+// const loginValidation = (loginValue) => {
+//     if (loginValue) {
+//         if(previousLoginValue === loginValue) {
+//             return undefined;
+//         }
+//
+//         previousLoginValue = loginValue;
+//
+//         return (
+//             validateUser(loginValue).then((response) => {
+//                 if (!response.success) {
+//                     return I18n.t('js.user.errors.login.invalid');
+//                 }
+//             })
+//         );
+//     } else {
+//         return undefined;
+//     }
+// };
 
 
 export default @withStyles(styles)
@@ -89,7 +88,6 @@ class LoginForm extends React.Component {
                                       item={true}>
                                     <Field name="login"
                                            component={TextFormField}
-                                           validate={loginValidation}
                                            id="user_login_login"
                                            className={this.props.classes.textField}
                                            label={I18n.t('js.user.login.login')}

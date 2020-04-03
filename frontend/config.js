@@ -90,7 +90,6 @@ module.exports = {
             jquery: 'jquery',
             "window.$": 'jquery',
             "window.jQuery": 'jquery',
-            I18n: 'i18n-js',
             log: 'loglevel',
             React: 'react',
             ReactDOM: 'react-dom',

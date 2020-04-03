@@ -48,13 +48,15 @@ module Api::V1
                        user_slug:  topic.user)
         end
 
-        tags = Rails.cache.fetch("user_tags:#{current_user&.id}_for_#{topic_id || current_user&.current_topic_id}", expires_in: InRailsWeBlog.config.cache_time) do
+        tags = component_cache("user_tags:#{params[:user_id]}_for_#{topic_id || current_user&.current_topic_id}") do
           ::Tags::FindQueries.new(current_user, current_admin).all(filter_params.merge(topic_id: topic_id, limit: params[:limit]))
         end
       else
         # set_seo_data(:tags)
 
-        tags = ::Tags::FindQueries.new(current_user, current_admin).all(filter_params.merge(limit: params[:limit]))
+        tags = component_cache("user_tags:#{params[:user_id]}") do
+          ::Tags::FindQueries.new(current_user, current_admin).all(filter_params.merge(limit: params[:limit]))
+        end
       end
 
       expires_in InRailsWeBlog.config.cache_time, public: true

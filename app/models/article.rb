@@ -186,7 +186,7 @@ class Article < ApplicationRecord
            class_name: 'PublicActivity::Activity'
 
   has_many :pictures,
-           -> { order 'created_at ASC' },
+           # -> { order 'created_at ASC' },
            as:        :imageable,
            autosave:  true,
            dependent: :destroy

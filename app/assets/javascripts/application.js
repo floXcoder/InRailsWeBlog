@@ -1,7 +1,7 @@
 'use strict';
 
 // Auto polyfill
-import './polyfills';
+require('./polyfills');
 
 import {
     init as SentryInit,

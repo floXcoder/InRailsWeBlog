@@ -2,6 +2,8 @@
 
 module Articles
   class StoreService < BaseService
+    include CacheService
+
     def initialize(article, *args)
       super(*args)
 
@@ -196,10 +198,23 @@ module Articles
         # Force saving new version in case of auto saving
         @article.paper_trail.save_with_version if auto_saved && !article_changed
 
+        # Remove deleted pictures
+        old_picture_ids = @article.picture_ids
+        new_picture_ids = @article.content&.scan(/\/uploads\/article\/pictures\/(\d+)/)&.flatten&.map(&:to_i) || []
+        remove_picture_ids = old_picture_ids - new_picture_ids
+        if remove_picture_ids.present?
+          @article.pictures.delete(Picture.where(id: remove_picture_ids))
+        end
+        # Ensure each picture is associated to current article
         @article.pictures.each do |picture|
           picture.imageable = @article
           picture.save(validate: false)
         end
+
+        # Remove cache
+        expire_component_cache("user_tags:#{@article.user_id}_for_#{@article.topic_id}")
+        expire_component_cache("user_tags:#{@article.user_id}")
+
         success(@article.reload, message)
       else
         message = new_article ? I18n.t('views.article.flash.error_creation') : I18n.t('views.article.flash.error_edition')

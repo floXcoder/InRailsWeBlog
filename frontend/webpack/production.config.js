@@ -74,8 +74,8 @@ webPackConfig.optimization = {
         minSize: 30000,
         maxSize: 0,
         minChunks: 2,
-        maxAsyncRequests: 7,
-        maxInitialRequests: 4,
+        maxAsyncRequests: 5,
+        maxInitialRequests: 3,
         name: true,
         cacheGroups: {
             default: false,

@@ -26,6 +26,17 @@ head itemscope="" itemtype="http://schema.org/WebSite"
   = favicon_link_tag 'logos/apple-touch-icon-180x180.png', rel: 'apple-touch-icon', type: 'image/png', sizes: '180x180'
 
   - if Rails.env.production?
-    link rel="dns-prefetch" href="https://#{ENV['WEBSITE_ASSET']}"
+    link rel="dns-prefetch" href="#{ENV['WEBSITE_FULL_ADDRESS']}"
+    link rel="dns-prefetch" href="https://#{ENV['METRICS_ADDRESS']}"
+
     link rel="preload" href="#{AssetManifest.asset_path('Roboto-Regular.woff2')}" as="font" crossorigin="anonymous"
+    link rel="preload" href="#{AssetManifest.asset_path('Roboto-Medium.woff2')}" as="font" crossorigin="anonymous"
     link rel="preload" href="#{AssetManifest.asset_path('Roboto-Bold.woff2')}" as="font" crossorigin="anonymous"
+
+    - if %w[home user_home].include?(request.path_parameters[:name])
+      link rel="preload" href="#{AssetManifest.stylesheet_path('home-index.css')}" as="style"
+    - elsif %w[user_articles topic_articles tagged_topic_articles tagged_articles user_article].include?(request.path_parameters[:name])
+      link rel="preload" href="#{AssetManifest.stylesheet_path('article-index.css')}" as="style"
+      link rel="preload" href="#{AssetManifest.stylesheet_path('article-index-list.css')}" as="style"
+    - elsif %w[user_article].include?(request.path_parameters[:name])
+      link rel="preload" href="#{AssetManifest.stylesheet_path('article-show.css')}" as="style"

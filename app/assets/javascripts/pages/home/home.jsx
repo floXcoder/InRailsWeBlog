@@ -2,20 +2,12 @@
 
 import '../../../stylesheets/pages/home/home.scss';
 
-I18n.defaultLocale = window.defaultLocale;
-I18n.locale = window.locale;
+window.I18n.defaultLocale = window.defaultLocale;
+window.I18n.locale = window.locale;
 
-require('../../translations/home-' + I18n.locale);
+require('imports-loader?this=>window!../../modules/i18n');
 
-import {
-    setConfig
-} from 'react-hot-loader';
-
-setConfig({
-    reloadHooks: false
-});
-
-import '../common';
+require('../common');
 
 require('../../modules/cookieChoices');
 

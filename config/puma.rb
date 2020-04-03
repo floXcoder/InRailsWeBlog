@@ -4,6 +4,7 @@
 # the maximum value specified for Puma. Default is set to 5 threads for minimum
 # and maximum; this matches the default thread size of Active Record.
 #
+# !!! In production, they are defined in /etc/systemd/system/inrailsweblog-puma.service
 nb_workers = Integer(ENV.fetch('PUMA_WORKERS') { 8 })
 nb_threads = Integer(ENV.fetch('PUMA_THREADS') { 4 })
 

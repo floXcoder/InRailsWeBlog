@@ -166,7 +166,7 @@ RSpec.describe Article, type: :model, basic: true do
         @article.update!(reference: nil)
         expect(@article).to validate_presence_of(:content)
 
-        @article.update!(mode: :inventory, inventories: {test: 'test'})
+        @article.update!(mode: :inventory, inventories: { test: 'test' })
         expect(@article).not_to validate_presence_of(:content)
 
         @article.update!(reference: 'https://www.link.com')
@@ -296,9 +296,8 @@ RSpec.describe Article, type: :model, basic: true do
     it { is_expected.to act_as_paranoid(Article) }
 
     it 'uses counter cache for pictures' do
-      picture = create(:picture, user: @user, imageable_type: 'Article', imageable_id: @article.id)
       expect {
-        @article.pictures << picture
+        @article.pictures << build(:picture, user: @user, imageable_type: 'Article', imageable_id: @article.id)
       }.to change(@article.reload, :pictures_count).by(1)
     end
 

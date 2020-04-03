@@ -89,7 +89,7 @@ class ArticleSummaryDisplay extends React.Component {
                      itemScope={true}
                      itemType="https://schema.org/BlogPosting">
                     <meta itemProp="dateModified"
-                          content={this.props.classes.dateIso}/>
+                          content={this.props.article.dateIso}/>
 
                     <div itemType="https://schema.org/Organization"
                          itemProp="publisher"

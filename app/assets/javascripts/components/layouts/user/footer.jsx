@@ -135,6 +135,7 @@ class FooterLayoutUser extends React.Component {
                           xs={12}>
                         <div className="margin-top-30">
                             <a className={this.props.classes.githubLink}
+                               rel="noopener noreferrer"
                                target="_blank"
                                href={I18n.t('js.views.footer.links.github_src')}>
                                 {I18n.t('js.views.footer.links.github')}

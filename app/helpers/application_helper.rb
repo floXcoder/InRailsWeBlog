@@ -45,7 +45,7 @@ module ApplicationHelper
 
   def javascript_defer(*files)
     files.each do |file|
-      content_for(:javascript) { javascript_include_tag(file, defer: Rails.env.demo? || Rails.env.production?) }
+      content_for(:javascript) { javascript_include_tag(file, defer: true) }
     end
   end
 
