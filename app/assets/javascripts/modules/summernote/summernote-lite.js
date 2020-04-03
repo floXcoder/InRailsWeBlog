@@ -5900,6 +5900,7 @@
 
                                 // ### : Add option when adding image
                                 // ### : Add picture type
+
                                 var imagePromise = srcsets ? createPicture(src, param, imageId, srcsets) : createImage(src, param, imageId);
                                 return imagePromise.then(function ($image) {
                                     _this3.beforeCommand();
@@ -7016,7 +7017,8 @@
 
                                 if (match && (match[1] || match[2])) {
                                     var link = match[1] ? keyword : defaultScheme + keyword;
-                                    var urlText = keyword.replace(/^(?:https?:\/\/)?(?:tel?:?)?(?:mailto?:?)?(?:www\.)?/i, '').split('/')[0];
+                                    var urlText = keyword;
+                                    // var urlText = keyword.replace(/^(?:https?:\/\/)?(?:tel?:?)?(?:mailto?:?)?(?:www\.)?/i, '').split('/')[0];
                                     var node = external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default()('<a />').html(urlText).attr('href', link)[0];
 
                                     if (this.context.options.linkTargetBlank) {

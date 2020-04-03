@@ -28,7 +28,7 @@ const styles = (theme) => ({
         justifyContent: 'center'
     },
     inputLabel: {
-        visibility: 'hidden',
+        textIndent: '-9999px',
         height: 0
     },
     inputRoot: {

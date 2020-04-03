@@ -181,12 +181,12 @@ a {
 @for $i from 0 through 20 {
   .margin-bottom-#{$i * 5} {
     clear: both;
-    margin-bottom: $i * 5px !important;
+    margin-bottom: $i * 5px;
   }
 
   .margin-top-#{$i * 5} {
     clear: both;
-    margin-top: $i * 5px !important;
+    margin-top: $i * 5px;
   }
 }
 

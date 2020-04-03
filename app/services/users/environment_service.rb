@@ -24,7 +24,7 @@ module Users
         locale_cookie ||
         @current_user&.locale ||
         locale_session ||
-        locale_from_browser ||
+        # locale_from_browser ||
         I18n.default_locale
 
       if @current_user

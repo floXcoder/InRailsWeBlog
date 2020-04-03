@@ -59,6 +59,12 @@ class AssetManifest
   end
 
   def self.root_url
-    (Rails.env.production? ? ENV['WEBSITE_FULL_ADDRESS'] : Rails.application.routes.url_helpers.root_url(host: ENV['WEBSITE_ADDRESS']))
+    if Rails.env.production?
+      "https://#{ENV['WEBSITE_ASSET']}"
+    elsif Rails.env.test?
+      "http://localhost:#{ENV['TEST_PORT']}"
+    else
+      Rails.application.routes.url_helpers.root_url(host: ENV['WEBSITE_ADDRESS'])
+    end
   end
 end

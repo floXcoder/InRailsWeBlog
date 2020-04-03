@@ -71,10 +71,10 @@ const manageError = (origin, error, url) => {
             // }
         } else {
             if (error.statusText === 'Internal Server Error') {
-                if (window.railsEnv === 'development') {
-                    error.text().then((text) => log.now(text.split("\n").slice(0, 6)));
+                if (process.env.NODE_ENV === 'production') {
+                    Notification.error(I18n.t('js.helpers.errors.server'), 10);
                 } else {
-                    Notification.error(I18n.t('js.helpers.errors.server'));
+                    error.text().then((text) => log.now(text.split("\n").slice(0, 6)));
                 }
             }
 

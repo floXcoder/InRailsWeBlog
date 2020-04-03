@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
-# Set the host name for URL creation
+SitemapGenerator::Interpreter.send(:include, SitemapHelper)
+
+# SitemapGenerator::Sitemap.sitemaps_path = 'sitemaps'
 SitemapGenerator::Sitemap.default_host = ENV['WEBSITE_FULL_ADDRESS']
-SitemapGenerator::Interpreter.send :include, SitemapHelper
 
 # Default changefreq: 'weekly'
 # Default lastmod: Time.now
@@ -15,10 +16,10 @@ SitemapGenerator::Sitemap.create do
 
     add about_en_path,
         changefreq: 'yearly'
-    add terms_en_path,
-        changefreq: 'yearly'
-    add policy_en_path,
-        changefreq: 'yearly'
+    # add terms_en_path,
+    #     changefreq: 'yearly'
+    # add policy_en_path,
+    #     changefreq: 'yearly'
   end
 
   group(filename: :articles) do

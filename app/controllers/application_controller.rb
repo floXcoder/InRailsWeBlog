@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
+  include CacheService
+
   # Security
   protect_from_forgery with: :exception
 
@@ -161,9 +163,9 @@ class ApplicationController < ActionController::Base
     host   = Rails.env.development? ? nil : ENV['WEBSITE_FULL_ADDRESS']
 
     if model
-      model.link_path(locale: locale, route_name: named_route, host: host)
+      model.link_path(locale: locale, route_name: named_route, host: host).gsub(/\/$/, '')
     else
-      Rails.application.routes.url_helpers.send("#{named_route}_#{locale}_#{host ? 'url' : 'path'}", **(params.transform_values { |v| v.to_s.downcase.strip.tr('&', 'and').tr('_', '-').parameterize }).merge(host: host))
+      Rails.application.routes.url_helpers.send("#{named_route}_#{locale}_#{host ? 'url' : 'path'}", **(params.transform_values { |v| v.to_s.downcase.strip.tr('&', 'and').tr('_', '-').parameterize }).merge(host: host)).gsub(/\/$/, '')
     end
   end
 

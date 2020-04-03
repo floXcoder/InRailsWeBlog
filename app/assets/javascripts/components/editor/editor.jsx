@@ -470,9 +470,9 @@ class Editor extends React.Component {
         }
     };
 
-    insertImage = (url, filenameOrCallback, srcsets) => {
+    insertImage = (url, filenameOrCallback, pictureId, srcsets) => {
         if (this._editor) {
-            this._editor.summernote('insertImage', url, filenameOrCallback, srcsets);
+            this._editor.summernote('insertImage', url, filenameOrCallback, pictureId, srcsets);
         }
     };
 

@@ -30,7 +30,7 @@ export default @connect((state) => ({
     currentTagSlugs: getCurrentTagSlugs(state)
 }))
 @withStyles(styles)
-class ParentTag extends React.Component {
+class ParentTag extends React.PureComponent {
     static propTypes = {
         tag: PropTypes.object.isRequired,
         onTagClick: PropTypes.func.isRequired,

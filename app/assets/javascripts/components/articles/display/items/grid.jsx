@@ -181,7 +181,7 @@ class ArticleGridDisplay extends React.PureComponent {
                             root: this.props.classes.content
                         }}>
                             <meta itemProp="dateModified"
-                                  content={this.props.classes.dateIso}/>
+                                  content={this.props.article.dateIso}/>
 
                             <div itemType="https://schema.org/Organization"
                                  itemProp="publisher"

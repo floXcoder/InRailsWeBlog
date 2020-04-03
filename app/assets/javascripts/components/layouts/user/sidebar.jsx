@@ -39,6 +39,14 @@ class SidebarLayoutUser extends React.Component {
         super(props);
     }
 
+    shouldComponentUpdate(nextProps, nextState, nextContext) {
+        return this.props.width !== nextProps.width ||
+            this.props.articleDisplayMode !== nextProps.articleDisplayMode ||
+            this.props.currentUserSlug !== nextProps.currentUserSlug ||
+            JSON.stringify(this.props.routeParams) !== JSON.stringify(nextProps.routeParams) ||
+            JSON.stringify(this.props.routeProperties) !== JSON.stringify(nextProps.routeProperties);
+    }
+
     render() {
         const isGridDisplay = this.props.articleDisplayMode === 'grid';
         const isLargeEnough = this.props.width !== 'xs' && this.props.width !== 'sm' && this.props.width !== 'md';

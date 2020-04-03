@@ -1,6 +1,14 @@
 'use strict';
 
-import '../application';
+require('../application');
+
+import {
+    setConfig
+} from 'react-hot-loader';
+
+setConfig({
+    reloadHooks: false
+});
 
 // Flash messages
 const flashes = document.querySelectorAll('.blog-flash');

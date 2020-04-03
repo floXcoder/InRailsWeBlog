@@ -10,7 +10,9 @@ module Api::V1
       user = current_user&.id == params[:user_id]&.to_i ? current_user : User.friendly.find(params[:user_id])
       admin_or_authorize user, :bookmarks?
 
-      bookmarks = user.bookmarks.includes(bookmarked: [:user])
+      bookmarks = component_cache("user_bookmarks:#{user.id}") do
+        user.bookmarks.includes(bookmarked: [:user])
+      end
 
       bookmarks = bookmarks.where(topic_id: params[:topic_id]) if params[:topic_id].present?
 
@@ -30,6 +32,8 @@ module Api::V1
       respond_to do |format|
         format.json do
           if bookmark.add(user, bookmark_params[:bookmarked_type], bookmark_params[:bookmarked_id], bookmark_params[:topic_id])
+            expire_component_cache("user_bookmarks:#{user.id}")
+
             render json:   BookmarkSerializer.new(bookmark).serializable_hash,
                    status: :created
           else
@@ -48,6 +52,8 @@ module Api::V1
       respond_to do |format|
         format.json do
           if bookmark.remove(user, bookmark_params[:bookmarked_type], bookmark_params[:bookmarked_id])
+            expire_component_cache("user_bookmarks:#{user.id}")
+
             head :no_content
           else
             render json:   { errors: bookmark.errors },

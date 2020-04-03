@@ -39,9 +39,9 @@ module Api::V1
       if complete
         articles = ::Articles::FindQueries.new(nil, current_admin).complete
       elsif params[:populars]
-        articles = ::Articles::FindQueries.new.populars(limit: params[:limit])
+        articles = component_cache('popular_articles') { ::Articles::FindQueries.new.populars(limit: params[:limit]) }
       elsif params[:home]
-        articles = ::Articles::FindQueries.new.home(limit: params[:limit])
+        articles = component_cache('home_articles') { ::Articles::FindQueries.new.home(limit: params[:limit]) }
       else
         if filter_params[:tag_slug].present?
           if filter_params[:topic_slug].present?
@@ -51,7 +51,7 @@ module Api::V1
                          user_slug:  filter_params[:user_slug])
           else
             set_seo_data(:tagged_articles,
-                         tag_slug:  filter_params[:parent_tag_slug].presence || filter_params[:tag_slug].presence)
+                         tag_slug: filter_params[:parent_tag_slug].presence || filter_params[:tag_slug].presence)
           end
         elsif filter_params[:topic_slug].present?
           set_seo_data(:topic_articles,
@@ -256,6 +256,8 @@ module Api::V1
       respond_to do |format|
         format.json do
           if stored_article.success?
+            expire_home_cache if admin_signed_in? && article_admin_params.present?
+
             flash.now[:success] = stored_article.message unless params[:auto_save]
             render json:   ArticleCompleteSerializer.new(stored_article.result,
                                                          include: [:user, :topic, :tracker, :tags],
