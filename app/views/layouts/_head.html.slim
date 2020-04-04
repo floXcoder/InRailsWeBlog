@@ -1,20 +1,20 @@
 head itemscope="" itemtype="http://schema.org/WebSite"
   meta charset="utf-8"
   meta name="viewport" content="width=device-width, initial-scale=1.0"
-
+  
   - if request.path.start_with?('/admins')
     = display_meta_tags(reverse: true, separator: '|')
-
+  
   = csrf_meta_tags
-
+  
   = favicon_link_tag 'favicon.ico', rel: 'shortcut icon'
-
+  
   = favicon_link_tag 'logos/favicon-16x16.png', rel: 'icon', type: 'image/png', sizes: '16x16'
   = favicon_link_tag 'logos/favicon-32x32.png', rel: 'icon', type: 'image/png', sizes: '32x32'
   = favicon_link_tag 'logos/favicon-96x96.png', rel: 'icon', type: 'image/png', sizes: '96x96'
   = favicon_link_tag 'logos/favicon-160x160.png', rel: 'icon', type: 'image/png', sizes: '160x160'
   = favicon_link_tag 'logos/favicon-192x192.png', rel: 'icon', type: 'image/png', sizes: '192x192'
-
+  
   = favicon_link_tag 'logos/apple-touch-icon-57x57.png', rel: 'apple-touch-icon', type: 'image/png', sizes: '57x57'
   = favicon_link_tag 'logos/apple-touch-icon-60x60.png', rel: 'apple-touch-icon', type: 'image/png', sizes: '60x60'
   = favicon_link_tag 'logos/apple-touch-icon-72x72.png', rel: 'apple-touch-icon', type: 'image/png', sizes: '72x72'
@@ -24,19 +24,19 @@ head itemscope="" itemtype="http://schema.org/WebSite"
   = favicon_link_tag 'logos/apple-touch-icon-144x144.png', rel: 'apple-touch-icon', type: 'image/png', sizes: '144x144'
   = favicon_link_tag 'logos/apple-touch-icon-152x152.png', rel: 'apple-touch-icon', type: 'image/png', sizes: '152x152'
   = favicon_link_tag 'logos/apple-touch-icon-180x180.png', rel: 'apple-touch-icon', type: 'image/png', sizes: '180x180'
-
+  
   - if Rails.env.production?
     link rel="dns-prefetch" href="#{ENV['WEBSITE_FULL_ADDRESS']}"
     link rel="dns-prefetch" href="https://#{ENV['METRICS_ADDRESS']}"
-
+    
     link rel="preload" href="#{AssetManifest.asset_path('Roboto-Regular.woff2')}" as="font" crossorigin="anonymous"
     link rel="preload" href="#{AssetManifest.asset_path('Roboto-Medium.woff2')}" as="font" crossorigin="anonymous"
     link rel="preload" href="#{AssetManifest.asset_path('Roboto-Bold.woff2')}" as="font" crossorigin="anonymous"
-
-    - if %w[home user_home].include?(request.path_parameters[:name])
-      link rel="preload" href="#{AssetManifest.stylesheet_path('home-index.css')}" as="style"
+    
+    - if %w[user_article].include?(request.path_parameters[:name])
+      link rel="preload" href="#{AssetManifest.stylesheet_path('article-show.css')}" as="style"
     - elsif %w[user_articles topic_articles tagged_topic_articles tagged_articles].include?(request.path_parameters[:name])
       link rel="preload" href="#{AssetManifest.stylesheet_path('article-index.css')}" as="style"
       link rel="preload" href="#{AssetManifest.stylesheet_path('article-index-list.css')}" as="style"
-    - elsif %w[user_article].include?(request.path_parameters[:name])
-      link rel="preload" href="#{AssetManifest.stylesheet_path('article-show.css')}" as="style"
+    - elsif %w[home user_home].include?(request.path_parameters[:name]) || request.path_parameters[:name].blank?
+      link rel="preload" href="#{AssetManifest.stylesheet_path('home-index.css')}" as="style"
