@@ -24,7 +24,7 @@ head itemscope="" itemtype="http://schema.org/WebSite"
   = favicon_link_tag 'logos/apple-touch-icon-144x144.png', rel: 'apple-touch-icon', type: 'image/png', sizes: '144x144'
   = favicon_link_tag 'logos/apple-touch-icon-152x152.png', rel: 'apple-touch-icon', type: 'image/png', sizes: '152x152'
   = favicon_link_tag 'logos/apple-touch-icon-180x180.png', rel: 'apple-touch-icon', type: 'image/png', sizes: '180x180'
-  
+
   - if Rails.env.production?
     link rel="dns-prefetch" href="#{ENV['WEBSITE_FULL_ADDRESS']}"
     link rel="dns-prefetch" href="https://#{ENV['METRICS_ADDRESS']}"
@@ -34,9 +34,16 @@ head itemscope="" itemtype="http://schema.org/WebSite"
     link rel="preload" href="#{AssetManifest.asset_path('Roboto-Bold.woff2')}" as="font" crossorigin="anonymous"
     
     - if %w[user_article].include?(request.path_parameters[:name])
+      link rel="preload" href="#{AssetManifest.javascript_path('article-show.js')}" as="script"
       link rel="preload" href="#{AssetManifest.stylesheet_path('article-show.css')}" as="style"
     - elsif %w[user_articles topic_articles tagged_topic_articles tagged_articles].include?(request.path_parameters[:name])
+      link rel="preload" href="#{AssetManifest.stylesheet_path('article-index.js')}" as="script"
       link rel="preload" href="#{AssetManifest.stylesheet_path('article-index.css')}" as="style"
       link rel="preload" href="#{AssetManifest.stylesheet_path('article-index-list.css')}" as="style"
     - elsif %w[home user_home].include?(request.path_parameters[:name]) || request.path_parameters[:name].blank?
-      link rel="preload" href="#{AssetManifest.stylesheet_path('home-index.css')}" as="style"
+      - if user_signed_in?
+        link rel="preload" href="#{AssetManifest.stylesheet_path('user-index.js')}" as="script"
+        link rel="preload" href="#{AssetManifest.stylesheet_path('user-index.css')}" as="style"
+      - else
+        link rel="preload" href="#{AssetManifest.stylesheet_path('home-index.js')}" as="script"
+        link rel="preload" href="#{AssetManifest.stylesheet_path('home-index.css')}" as="style"

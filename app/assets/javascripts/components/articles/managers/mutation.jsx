@@ -1,7 +1,5 @@
 'use strict';
 
-import _ from 'lodash';
-
 import {
     withRouter
 } from 'react-router-dom';
@@ -189,7 +187,7 @@ export default function articleMutationManager(mode) {
                 }
             };
 
-            _handleChange = _.debounce((values) => {
+            _handleChange = Utils.debounce((values) => {
                 this._handleSubmit(values, true);
             }, articleWaitTimeBeforeSaving);
 

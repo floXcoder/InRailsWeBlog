@@ -1,7 +1,5 @@
 'use strict';
 
-import _ from 'lodash';
-
 import {
     withRouter
 } from 'react-router-dom';
@@ -98,7 +96,7 @@ class HomeSearchHeader extends React.Component {
         this._handleFetch(query);
     };
 
-    _handleFetch = _.debounce((query) => {
+    _handleFetch = Utils.debounce((query) => {
         if (this._request?.signal) {
             this._request.signal.abort();
         }

@@ -94,8 +94,14 @@ class HeaderLayoutHome extends React.Component {
     }
 
     state = {
-        isMobileOpen: false
+        isMobileOpen: false,
+        isSearchLoaded: false,
+        isConnectLoaded: false
     };
+
+    componentDidMount() {
+        setTimeout(() => this.setState({isSearchLoaded: true}), 200);
+    }
 
     _handleTitleClick = () => {
         this.props.fetchMetaTags('home');
@@ -126,17 +132,25 @@ class HeaderLayoutHome extends React.Component {
     _handleSignupClick = (event) => {
         event.preventDefault();
 
-        this._handleDrawerToggle();
+        this.setState({
+            isConnectLoaded: true
+        }, () => {
+            this._handleDrawerToggle();
 
-        this.props.showUserSignup();
+            this.props.showUserSignup();
+        });
     };
 
     _handleLoginClick = (event) => {
         event.preventDefault();
 
-        this._handleDrawerToggle();
+        this.setState({
+            isConnectLoaded: true
+        }, () => {
+            this._handleDrawerToggle();
 
-        this.props.showUserLogin();
+            this.props.showUserLogin();
+        });
     };
 
     _handleDrawerToggle = () => {
@@ -277,7 +291,7 @@ class HeaderLayoutHome extends React.Component {
                         <div className={this.props.classes.grow}/>
 
                         {
-                            !this.props.routeProperties.noHeaderSearch &&
+                            this.state.isSearchLoaded && !this.props.routeProperties.noHeaderSearch &&
                             <Suspense fallback={<div/>}>
                                 <HomeSearchHeader isSearchActive={isSearchActive}
                                                   onFocus={this._handleSearchOpen}
@@ -314,13 +328,16 @@ class HeaderLayoutHome extends React.Component {
                               title="clipboard"/>
                 </div>
 
-                <Suspense fallback={<div/>}>
-                    <UserSignup isOpen={this.props.isUserSignupOpen}
-                                onModalChange={this.props.showUserSignup}/>
+                {
+                    this.state.isConnectLoaded &&
+                    <Suspense fallback={<div/>}>
+                        <UserSignup isOpen={this.props.isUserSignupOpen}
+                                    onModalChange={this.props.showUserSignup}/>
 
-                    <UserLogin isOpen={this.props.isUserLoginOpen}
-                               onModalChange={this.props.showUserLogin}/>
-                </Suspense>
+                        <UserLogin isOpen={this.props.isUserLoginOpen}
+                                   onModalChange={this.props.showUserLogin}/>
+                    </Suspense>
+                }
             </>
         );
     }

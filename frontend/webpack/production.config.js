@@ -65,17 +65,17 @@ webPackConfig.optimization = {
     removeAvailableModules: true,
     removeEmptyChunks: true,
     mergeDuplicateChunks: true,
-    runtimeChunk: {
-        name: 'runtime'
-    },
+    // runtimeChunk: {
+    //     name: 'runtime'
+    // },
     splitChunks: {
         hidePathInfo: true,
         chunks: 'async',
-        minSize: 30000,
+        minSize: 80000,
         maxSize: 0,
         minChunks: 2,
-        maxAsyncRequests: 5,
-        maxInitialRequests: 3,
+        maxAsyncRequests: 3,
+        maxInitialRequests: 2,
         name: true,
         cacheGroups: {
             default: false,

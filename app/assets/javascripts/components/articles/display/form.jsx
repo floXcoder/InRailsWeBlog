@@ -1,7 +1,5 @@
 'use strict';
 
-import _ from 'lodash';
-
 import {
     Link,
     Prompt
@@ -141,7 +139,7 @@ class ArticleFormDisplay extends React.Component {
 
     shouldComponentUpdate(nextProps, nextState) {
         // For each change in form, reduxForm reload the all form
-        return !_.isEqual(this.props, nextProps) || !_.isEqual(this.state, nextState);
+        return JSON.stringify(this.props) !== JSON.stringify(nextProps) || JSON.stringify(this.state) !== JSON.stringify(nextState);
     }
 
     _onUnsavedExit = (location) => {

@@ -1,7 +1,5 @@
 'use strict';
 
-import _ from 'lodash';
-
 import Fuzzy from 'fuzzy';
 
 import {
@@ -25,7 +23,7 @@ export const getSortedTopicTags = createSelector(
     (state) => state.tagState.filterText,
     (tags, displayChildWithParent, tagOrder, filterText) => {
         if (tagOrder === 'priority') {
-            tags = _.sortBy(tags, (t) => -t.priority);
+            tags = tags.sort((t) => -t.priority);
         }
 
         return tags.map((tag) => {
@@ -37,8 +35,9 @@ export const getSortedTopicTags = createSelector(
                     const parentTag = tags.find((tag) => tag.id === parentId);
                     if (!!parentTag && !Utils.isEmpty(filterText) && !Fuzzy.match(filterText, parentTag.name)) {
                         return null;
-                    } else {
-                        return parentTag && _.omit(parentTag, ['parentIds', 'childIds']);
+                    } else if (parentTag) {
+                        const {parentIds, childIds, ...parentTagProps} = parentTag;
+                        return parentTagProps;
                     }
                 }).compact();
             }
@@ -48,8 +47,9 @@ export const getSortedTopicTags = createSelector(
                     const childTag = tags.find((tag) => tag.id === childId);
                     if (!!childTag && !Utils.isEmpty(filterText) && !Fuzzy.match(filterText, childTag.name)) {
                         return null;
-                    } else {
-                        return childTag && _.omit(childTag, ['parentIds', 'childIds']);
+                    } else if (childTag) {
+                        const {parentIds, childIds, ...childTagProps} = childTag;
+                        return childTagProps;
                     }
                 }).compact();
             }
@@ -65,7 +65,8 @@ export const getSortedTopicTags = createSelector(
                 return null;
             }
 
-            return _.merge(_.omit(tag, ['parentIds', 'childIds']), {parents: parents, children: children});
+            const {parentIds, childIds, ...tagProps} = tag;
+            return {...tagProps, parents, children};
         }).compact();
     }
 );
@@ -114,7 +115,7 @@ export const getAssociatedTopics = createSelector(
     (state) => state.topicState.userTopics,
     (state) => state.tagState.tag,
     (userTopics, tag) => {
-        if(userTopics && tag) {
+        if (userTopics && tag) {
             return userTopics.filter((topic) => topic.tagIds?.includes(tag.id))
         } else {
             return undefined;
@@ -137,7 +138,7 @@ export const getTagErrors = createSelector(
         let errorContent = undefined;
         if (typeof errors === 'string') {
             errorContent = [errors];
-        } else if(!Utils.isEmpty(errors)) {
+        } else if (!Utils.isEmpty(errors)) {
             errorContent = [];
             Object.entries(errors).forEach(([errorName, errorDescriptions]) => {
                 errorContent.push(I18n.t(`js.tag.model.${errorName}`) + ' ' + (Array.isArray(errorDescriptions) ? errorDescriptions.join(I18n.t('js.helpers.and')) : errorDescriptions));

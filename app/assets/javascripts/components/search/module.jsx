@@ -1,7 +1,5 @@
 'use strict';
 
-import _ from 'lodash';
-
 import {
     hot
 } from 'react-hot-loader/root';
@@ -116,8 +114,8 @@ class SearchModule extends React.Component {
 
     render() {
         const hasQuery = (this.props.query && this.props.query !== '') || this.props.selectedTags.length > 0;
-        const tags = hasQuery ? this.props.tags : _.uniqBy(this.props.recentTags, (tag) => tag.name);
-        const articles = hasQuery ? this.props.articles : _.uniqBy(this.props.recentArticles, (article) => article.title);
+        const tags = hasQuery ? this.props.tags : this.props.recentTags;
+        const articles = hasQuery ? this.props.articles : this.props.recentArticles;
 
         return (
             <Paper className="search-module-results"

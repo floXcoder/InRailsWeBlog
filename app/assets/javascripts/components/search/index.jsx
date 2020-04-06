@@ -1,7 +1,5 @@
 'use strict';
 
-import _ from 'lodash';
-
 import {
     hot
 } from 'react-hot-loader/root';
@@ -213,7 +211,7 @@ class SearchIndex extends React.Component {
         this._handleFetch(query);
     };
 
-    _handleFetch = _.debounce((query) => {
+    _handleFetch = Utils.debounce((query) => {
         if (this._request?.signal) {
             this._request.signal.abort();
         }
