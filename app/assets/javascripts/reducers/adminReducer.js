@@ -5,7 +5,8 @@ import * as ActionTypes from '../constants/actionTypes';
 import {
     fetchReducer,
     mutationReducer,
-    addOrReplaceIn, removeIn
+    addOrReplaceIn,
+    removeIn
 } from './mutators';
 
 const initState = {

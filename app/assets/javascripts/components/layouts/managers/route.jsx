@@ -1,7 +1,5 @@
 'use strict';
 
-import _ from 'lodash';
-
 import {
     routeChange
 } from '../../../actions';
@@ -32,7 +30,7 @@ class RouteManager extends React.Component {
 
         // Update only if route, params or query string (ignore hash parameters) has changed
         const isHashQuery = typeof nextProps.location.state === 'string' ? nextProps.location.state.startsWith('#') : false;
-        const updateRouter = !_.isEqual(this.props.currentRoute, nextProps.currentRoute) || !_.isEqual(this.props.params, nextProps.params) || (!_.isEqual(this.props.location.state, nextProps.location.state) && !isHashQuery);
+        const updateRouter = JSON.stringify(this.props.currentRoute) !== JSON.stringify(nextProps.currentRoute) || JSON.stringify(this.props.params) !== JSON.stringify(nextProps.params) || (JSON.stringify(this.props.location.state) !== JSON.stringify(nextProps.location.state) && !isHashQuery);
 
         if(!updateRouter) {
             this.props.routeChange(nextProps.currentRoute, nextProps.params, nextProps.location);

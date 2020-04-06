@@ -5,8 +5,6 @@ import TextField from '@material-ui/core/TextField/TextField';
 import MenuItem from '@material-ui/core/MenuItem/MenuItem';
 import Chip from '@material-ui/core/Chip';
 
-import deburr from 'lodash/deburr';
-
 import Downshift from 'downshift';
 
 import {
@@ -73,7 +71,7 @@ export default class Autocomplete extends React.Component {
         let filteredValue = String(this._getItemKey(suggestion)).includes(inputValue);
 
         if (!filteredValue && this.props.filterValues) {
-            const value = deburr(this._getItemValue(suggestion).trim().toLowerCase());
+            const value = this._getItemValue(suggestion).trim().toLowerCase();
             filteredValue = value.includes(inputValue);
         }
 
@@ -108,7 +106,7 @@ export default class Autocomplete extends React.Component {
     };
 
     _getSuggestions = (value) => {
-        const inputValue = deburr(value.trim()).toLowerCase();
+        const inputValue = value.trim().toLowerCase();
         const inputLength = inputValue.length;
         let count = 0;
 

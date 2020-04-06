@@ -107,23 +107,23 @@ webPackConfig = _.merge(webPackConfig, {
 
 webPackConfig.optimization = {
     // Active tree shaking
-    // sideEffects: true,
+    sideEffects: true,
 
     namedModules: true,
     noEmitOnErrors: false,
     concatenateModules: false,
     removeAvailableModules: false,
     removeEmptyChunks: false,
-    runtimeChunk: {
-        name: 'runtime'
-    },
+    // runtimeChunk: {
+    //     name: 'runtime'
+    // },
     splitChunks: {
         chunks: 'async',
-        minSize: 30000,
+        minSize: 80000,
         maxSize: 0,
         minChunks: 2,
-        maxAsyncRequests: 5,
-        maxInitialRequests: 3,
+        maxAsyncRequests: 3,
+        maxInitialRequests: 2,
         name: true,
         cacheGroups: {
             default: false,

@@ -1,7 +1,5 @@
 'use strict';
 
-import _ from 'lodash';
-
 const localDataPrefix = 'INR-';
 
 export const hasLocalStorage = !!window.localStorage;
@@ -56,8 +54,8 @@ export const getAllData = () => {
     let previousData = {};
 
     if (hasLocalStorage) {
-        _.forIn(window.localStorage, (value, objKey) => {
-            if (true === _.startsWith(objKey, localDataPrefix)) {
+        Object.entries(window.localStorage).forEach(([value, objKey]) => {
+            if (objKey.startsWith(localDataPrefix)) {
                 const previousDataName = objKey.replace(localDataPrefix, '');
                 const previousDataParams = localStorage.getItem(objKey);
 

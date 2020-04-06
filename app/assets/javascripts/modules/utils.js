@@ -608,4 +608,17 @@ export const NAVIGATION_KEYMAP = {
 
 export const defer = Promise.resolve();
 
+export const debounce = (func, wait, immediate) => {
+    var timeout;
+    return function () {
+        var context = this, args = arguments;
+        clearTimeout(timeout);
+        timeout = setTimeout(function () {
+            timeout = null;
+            if (!immediate) func.apply(context, args);
+        }, wait);
+        if (immediate && !timeout) func.apply(context, args);
+    };
+};
+
 export const supportScroll = () => ('onscroll' in window) && !(/glebot/.test(navigator.userAgent));

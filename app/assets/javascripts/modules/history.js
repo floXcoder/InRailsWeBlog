@@ -1,14 +1,20 @@
 'use strict';
 
-import _ from 'lodash';
-
 import {
     parse
 } from 'qs';
 
 import urlParser from './urlParser';
 
-const omitEmptyParams = (params) => _.omitBy(params, (value, key) => (Utils.isEmpty(value) || value === '') || (Utils.isEmpty(key) || key === ''));
+const omitEmptyParams = (params) => {
+    let newObject = {};
+    Object.entries(params).forEach(([key, value]) => {
+        if(key !== '' && !Utils.isEmpty(key) && value !== '' && !Utils.isEmpty(value)) {
+            newObject[key] = value;
+        }
+    });
+    return newObject;
+};
 
 const saveCurrentState = (paramsToSerialize, paramsToUrl, replaceOnly = false, reuseExistingParams = true) => {
     if (window.history?.pushState) {
@@ -53,7 +59,7 @@ const getPreviousState = (dataName, options) => {
 
         if (options?.useUrlParams) {
             const urlParams = parse(window.location.search.substring(1));
-            dataParams = _.merge(urlParams, dataParams);
+            dataParams = {...urlParams, ...dataParams};
         }
 
         return dataParams;

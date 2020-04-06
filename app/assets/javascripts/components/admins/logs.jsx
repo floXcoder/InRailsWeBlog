@@ -1,7 +1,5 @@
 'use strict';
 
-import _ from 'lodash';
-
 import {
     hot
 } from 'react-hot-loader/root';
@@ -85,7 +83,7 @@ class AdminLogs extends React.PureComponent {
         this.setState({tabStep: value});
     };
 
-    _handleScrollChange = _.debounce((event) => {
+    _handleScrollChange = Utils.debounce((event) => {
         if (this.state.errors || this.state.isFetching || !this.state.hasMore) {
             return;
         }

@@ -1,7 +1,5 @@
 'use strict';
 
-import _ from 'lodash';
-
 import {
     createSelector
 } from 'reselect';
@@ -21,7 +19,7 @@ export const getAutocompleteResults = createSelector(
                 tagValues.push(tag.name);
             });
         });
-        _.uniq(tagValues, (tag) => tag.id).forEach((tag) => {
+        tagValues.forEach((tag) => {
             autocompletionValues.push({entry: tag, tag: tag});
         });
 
