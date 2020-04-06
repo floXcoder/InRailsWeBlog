@@ -37,13 +37,13 @@ head itemscope="" itemtype="http://schema.org/WebSite"
       link rel="preload" href="#{AssetManifest.javascript_path('article-show.js')}" as="script"
       link rel="preload" href="#{AssetManifest.stylesheet_path('article-show.css')}" as="style"
     - elsif %w[user_articles topic_articles tagged_topic_articles tagged_articles].include?(request.path_parameters[:name])
-      link rel="preload" href="#{AssetManifest.stylesheet_path('article-index.js')}" as="script"
+      link rel="preload" href="#{AssetManifest.javascript_path('article-index.js')}" as="script"
       link rel="preload" href="#{AssetManifest.stylesheet_path('article-index.css')}" as="style"
       link rel="preload" href="#{AssetManifest.stylesheet_path('article-index-list.css')}" as="style"
     - elsif %w[home user_home].include?(request.path_parameters[:name]) || request.path_parameters[:name].blank?
       - if user_signed_in?
-        link rel="preload" href="#{AssetManifest.stylesheet_path('user-index.js')}" as="script"
+        link rel="preload" href="#{AssetManifest.javascript_path('user-index.js')}" as="script"
         link rel="preload" href="#{AssetManifest.stylesheet_path('user-index.css')}" as="style"
       - else
-        link rel="preload" href="#{AssetManifest.stylesheet_path('home-index.js')}" as="script"
+        link rel="preload" href="#{AssetManifest.javascript_path('home-index.js')}" as="script"
         link rel="preload" href="#{AssetManifest.stylesheet_path('home-index.css')}" as="style"
