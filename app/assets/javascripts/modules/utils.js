@@ -609,16 +609,27 @@ export const NAVIGATION_KEYMAP = {
 export const defer = Promise.resolve();
 
 export const debounce = (func, wait, immediate) => {
-    var timeout;
-    return function () {
+    var timerId;
+
+    function cancel() {
+        if (timerId !== undefined) {
+            clearTimeout(timerId);
+        }
+    }
+
+    function debounced() {
         var context = this, args = arguments;
-        clearTimeout(timeout);
-        timeout = setTimeout(function () {
-            timeout = null;
+        clearTimeout(timerId);
+        timerId = setTimeout(function () {
+            timerId = null;
             if (!immediate) func.apply(context, args);
         }, wait);
-        if (immediate && !timeout) func.apply(context, args);
-    };
+        if (immediate && !timerId) func.apply(context, args);
+    }
+
+    debounced.cancel = cancel;
+
+    return debounced;
 };
 
 export const supportScroll = () => ('onscroll' in window) && !(/glebot/.test(navigator.userAgent));
