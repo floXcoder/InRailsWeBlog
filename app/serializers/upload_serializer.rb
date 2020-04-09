@@ -12,15 +12,15 @@ class UploadSerializer
              :copyright
 
   attribute :url do |object|
-    AssetManifest.image_path(object.image.url)
+    object.image.url
   end
 
   attribute :medium_url do |object|
-    AssetManifest.image_path(object.image&.medium&.url)
+    object.image&.medium&.url
   end
 
   attribute :mini_url do |object|
-    AssetManifest.image_path(object.image&.mini&.url)
+    object.image&.mini&.url
   end
 
   attribute :filename do |object|
