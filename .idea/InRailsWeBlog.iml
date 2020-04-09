@@ -169,9 +169,9 @@
     <orderEntry type="library" scope="PROVIDED" name="diff-lcs (v1.3, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="docile (v1.3.2, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="domain_name (v0.5.20190701, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="elasticsearch (v7.4.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="elasticsearch-api (v7.4.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="elasticsearch-transport (v7.4.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="elasticsearch (v7.6.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="elasticsearch-api (v7.6.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="elasticsearch-transport (v7.6.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="equalizer (v0.0.11, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="erubi (v1.9.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="erubis (v2.7.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
@@ -186,7 +186,7 @@
     <orderEntry type="library" scope="PROVIDED" name="ffi (v1.12.2, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="formatador (v0.2.5, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="friendly_id (v5.3.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="fugit (v1.3.3, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="fugit (v1.3.4, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="fuubar (v2.5.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="geocoder (v1.6.2, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="globalid (v0.4.2, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
@@ -216,7 +216,7 @@
     <orderEntry type="library" scope="PROVIDED" name="launchy (v2.5.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="listen (v3.2.1, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="lograge (v0.11.2, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="loofah (v2.4.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="loofah (v2.5.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="lumberjack (v1.2.4, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="mail (v2.7.1, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="marcel (v0.3.3, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
@@ -246,7 +246,7 @@
     <orderEntry type="library" scope="PROVIDED" name="paper_trail (v10.3.1, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="parallel (v1.19.1, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="paranoia (v2.4.2, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="parser (v2.7.0.5, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="parser (v2.7.1.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="pg (v1.2.3, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="pg_query (v1.2.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="pghero (v2.4.1, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
@@ -255,7 +255,7 @@
     <orderEntry type="library" scope="PROVIDED" name="pry (v0.13.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="pry-rails (v0.3.9, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="public_activity (v1.6.4, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="public_suffix (v4.0.3, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="public_suffix (v4.0.4, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="puma (v4.3.3, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="pundit (v2.1.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="raabro (v1.1.6, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />

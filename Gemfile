@@ -24,7 +24,7 @@ gem 'secure_headers',           '6.3.0'
 
 # JSON
 gem 'fast_jsonapi',             '1.6.0', git: 'https://github.com/fast-jsonapi/fast_jsonapi'
-gem 'oj',                       '3.10.5'
+gem 'oj',                       '3.10.6'
 
 # Use slim instead of erb
 gem 'slim-rails',               '3.2.0'
@@ -50,7 +50,7 @@ gem 'sanitize',                 '5.1.0'
 # Run asynschronous process
 gem 'sidekiq',                  '6.0.6'
 gem 'sidekiq-statistic',        '1.4.0'
-gem 'sidekiq-cron',             '1.1.0'
+gem 'sidekiq-cron',             '1.2.0'
 gem 'attentive_sidekiq',        '0.3.3'
 gem 'whenever',                 '1.0.0', require: false
 
@@ -83,7 +83,7 @@ gem 'thumbs_up',                '0.6.10'
 gem 'acts_as_commentable_with_threading', '2.0.1'
 
 # Email formater
-gem 'premailer-rails',          '1.11.0'
+gem 'premailer-rails',          '1.11.1'
 
 # Detect browser and bots
 gem 'browser',                  '4.0.0'
@@ -99,7 +99,7 @@ gem 'factory_bot_rails',        '5.1.1',   require: false
 gem 'faker',                    '2.11.0',   require: false
 
 # Deployment
-gem 'capistrano',               '3.12.1'
+gem 'capistrano',               '3.13.0'
 gem 'capistrano-rails',         '1.4.0'
 gem 'capistrano-rvm',           '0.1.2',   require: false
 gem 'capistrano-bundler',       '1.6.0',   require: false
@@ -141,7 +141,7 @@ group :development do
   #gem 'unique_validation_inspector', '0.3.0', require: false
 
   # Faster ruby code
-  gem 'fasterer',               '0.8.2', require: false
+  gem 'fasterer',               '0.8.3', require: false
 
   # Load tests
   gem 'ruby-jmeter',            '3.1.08', require: false
@@ -155,11 +155,11 @@ group :test do
   gem 'shoulda-callback-matchers',  '1.1.4',  require: false
   gem 'simplecov',                  '0.18.5', require: false
   gem 'fuubar',                     '2.5.0'
-  gem 'database_cleaner',           '1.8.3'
+  gem 'database_cleaner',           '1.8.4'
   gem 'db-query-matchers',          '0.10.0'
 
   # Browser tests
-  gem 'capybara',                   '3.32.0'
+  gem 'capybara',                   '3.32.1'
   gem 'capybara-email',             '3.0.1'
   gem 'capybara-screenshot',        '1.0.24'
   gem 'selenium-webdriver',         '3.142.7'
@@ -168,7 +168,7 @@ group :test do
 
   # static analyzer
   gem 'rails_best_practices',       '1.20.0',   require: false
-  gem 'brakeman',                   '4.8.0',    require: false
+  gem 'brakeman',                   '4.8.1',    require: false
   gem 'i18n-tasks',                 '0.9.31',   require: false
 end
 
