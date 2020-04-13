@@ -32,6 +32,7 @@ const logFilename = document.getElementById('admins-logs-component').getAttribut
 const environmentLog = JSON.parse(document.getElementById('admins-logs-component').getAttribute('data-environment-log'));
 const jobLog = JSON.parse(document.getElementById('admins-logs-component').getAttribute('data-job-log'));
 const cronLog = JSON.parse(document.getElementById('admins-logs-component').getAttribute('data-cron-log'));
+const seoCacheLog = JSON.parse(document.getElementById('admins-logs-component').getAttribute('data-seo-cache-log'));
 
 ReactDOM.render(
     <MuiThemeProvider theme={theme}>
@@ -40,7 +41,8 @@ ReactDOM.render(
                 <AdminLogs logFilename={logFilename}
                            environmentLog={environmentLog}
                            jobLog={jobLog}
-                           cronLog={cronLog}/>
+                           cronLog={cronLog}
+                           seoCacheLog={seoCacheLog}/>
             </AdminLayout>
         </Provider>
     </MuiThemeProvider>,

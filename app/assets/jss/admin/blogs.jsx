@@ -18,7 +18,7 @@ const styles = (theme) => ({
         marginTop: '1rem',
         marginBottom: '0',
         color: '#000',
-        fontSize: '1.8rem',
+        fontSize: '2.6rem',
         fontWeight: 600,
         lineHeight: '2.5rem',
         letterSpacing: 3.5,
