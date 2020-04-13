@@ -966,7 +966,7 @@ en:
     editor:
       helper:
         title: "Help: "
-        article_hint: "to link article"
+        article_hint: "to link articles"
       buttons:
         code: "Simple code"
         pre: "Multi-line code (CTRL+E)"

@@ -7,7 +7,8 @@ const SanitizePaste = (function ($) {
         _replaceParagraphsToBr: function (html) {
             html = html.replace(/<p\s(.*?)>/gi, '<p>');
             html = html.replace(/<p><br\s?\/?><\/p>/gi, '');
-            html = html.replace(/<p>([\w\W]*?)<\/p>/gi, '$1<br />');
+            // Keep paragraphs as is (for instance, copy from another article with p)
+            // html = html.replace(/<p>([\w\W]*?)<\/p>/gi, '$1<br />');
             html = html.replace(/(<br\s?\/?>){1,}\n?<\/blockquote>/gi, '</blockquote>');
 
             return html;
