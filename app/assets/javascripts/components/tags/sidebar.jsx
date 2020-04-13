@@ -63,7 +63,7 @@ class TagSidebar extends React.Component {
         super(props);
     }
 
-    _handleTagClick = (tagId, tagName, tagSlug) => {
+    _handleTagClick = (tagId, tagSlug, tagName) => {
         if (this.props.onTagClick) {
             this.props.onTagClick();
         }
@@ -84,15 +84,15 @@ class TagSidebar extends React.Component {
                     </div>
                 </List>
             )
-        // } else if (this.props.isCloud) {
-        //     return (
-        //         <TagSidebarCloud classes={this.props.classes}
-        //                          currentUserSlug={this.props.currentUserSlug}
-        //                          currentTagSlug={this.props.currentTagSlug}
-        //                          currentUserTopics={this.props.currentUserTopics}
-        //                          tags={this.props.tags}
-        //                          onTagClick={this._handleTagClick}/>
-        //     );
+            // } else if (this.props.isCloud) {
+            //     return (
+            //         <TagSidebarCloud classes={this.props.classes}
+            //                          currentUserSlug={this.props.currentUserSlug}
+            //                          currentTagSlug={this.props.currentTagSlug}
+            //                          currentUserTopics={this.props.currentUserTopics}
+            //                          tags={this.props.tags}
+            //                          onTagClick={this._handleTagClick}/>
+            //     );
         } else {
             return (
                 <TagSidebarList classes={this.props.classes}

@@ -26,26 +26,32 @@ export const getUserRecentTopics = createSelector(
 );
 export const getUserRecentTags = createSelector(
     (state) => state.userState.recentTags,
-    (recentTags, limit) => {
-        const recentLocalTags = getLocalData('recents')?.filter((recent) => recent.type === 'tag').map((recentTag) => ({
+    () => getLocalData('recents')?.filter((recent) => recent.type === 'tag'),
+    (_, limit) => limit,
+    (recentTags, recentLocalTags, limit) => {
+        recentLocalTags = recentLocalTags?.sort((a, b) => b.date - a.date)?.map((recentTag) => ({
             id: recentTag.elementId,
             name: recentTag.title,
-            slug: recentTag.slug
+            slug: recentTag.slug,
+            topicIds: [recentTag.parentId]
         })) || [];
 
-        return recentLocalTags.concat(recentTags).filter((recent) => !!recent.name).limit(limit);
+        return Utils.uniqValues(recentLocalTags.concat(recentTags).filter((recent) => !!recent.name), 'id').limit(limit);
     }
 );
 export const getUserRecentArticles = createSelector(
     (state) => state.userState.recentArticles,
-    (recentArticles, limit) => {
-        const recentLocalArticles = getLocalData('recents')?.filter((recent) => recent.type === 'article').map((recentArticle) => ({
+    () => getLocalData('recents')?.filter((recent) => recent.type === 'article'),
+    (_, limit) => limit,
+    (recentArticles, recentLocalArticles, limit) => {
+        recentLocalArticles = recentLocalArticles?.sort((a, b) => b.date - a.date)?.map((recentArticle) => ({
             id: recentArticle.elementId,
             title: recentArticle.title,
-            slug: recentArticle.slug
+            slug: recentArticle.slug,
+            topicId: recentArticle.parentId
         })) || [];
 
-        return recentLocalArticles.concat(recentArticles).filter((recent) => !!recent.title).limit(limit);
+        return Utils.uniqValues(recentLocalArticles.concat(recentArticles).filter((recent) => !!recent.title), 'id').limit(limit);
     }
 );
 

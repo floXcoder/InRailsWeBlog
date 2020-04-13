@@ -389,6 +389,19 @@ export const compact = (object) => {
     return newObject;
 };
 
+export const uniqValues = (arrayObjects, predicate) => {
+    const cb = typeof predicate === 'function' ? predicate : (o) => o[predicate];
+
+    return [...arrayObjects.reduce((map, item) => {
+        const key = (item === null || item === undefined) ?
+            item : cb(item);
+
+        map.has(key) || map.set(key, item);
+
+        return map;
+    }, new Map()).values()];
+};
+
 // export const omit = (obj, props, fn) => {
 //     if (typeof obj !== 'object') return {};
 //
