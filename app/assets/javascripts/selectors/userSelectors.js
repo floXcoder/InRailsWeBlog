@@ -31,7 +31,7 @@ export const getUserRecentTags = createSelector(
             id: recentTag.elementId,
             name: recentTag.title,
             slug: recentTag.slug
-        }));
+        })) || [];
 
         return recentLocalTags.concat(recentTags).filter((recent) => !!recent.name).limit(limit);
     }
@@ -43,7 +43,7 @@ export const getUserRecentArticles = createSelector(
             id: recentArticle.elementId,
             title: recentArticle.title,
             slug: recentArticle.slug
-        }));
+        })) || [];
 
         return recentLocalArticles.concat(recentArticles).filter((recent) => !!recent.title).limit(limit);
     }
