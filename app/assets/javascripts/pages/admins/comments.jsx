@@ -1,5 +1,9 @@
 'use strict';
 
+import {
+    MuiThemeProvider
+} from '@material-ui/core/styles';
+
 import '../../../stylesheets/pages/admins/comments.scss';
 
 import {
@@ -20,11 +24,15 @@ require('../common');
 import AdminLayout from '../../components/admins/adminLayout';
 import AdminComments from '../../components/admins/comments';
 
+import theme from '../../../jss/theme';
+
 ReactDOM.render(
-    <Provider store={configureStore}>
-        <AdminLayout>
-            <AdminComments/>
-        </AdminLayout>
-    </Provider>,
+    <MuiThemeProvider theme={theme}>
+        <Provider store={configureStore}>
+            <AdminLayout>
+                <AdminComments/>
+            </AdminLayout>
+        </Provider>
+    </MuiThemeProvider>,
     document.getElementById('admins-comments-component')
 );

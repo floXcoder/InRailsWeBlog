@@ -1,5 +1,9 @@
 'use strict';
 
+import {
+    MuiThemeProvider
+} from '@material-ui/core/styles';
+
 import '../../../stylesheets/pages/admins/tags.scss';
 
 import {
@@ -20,11 +24,15 @@ require('../common');
 import AdminLayout from '../../components/admins/adminLayout';
 import AdminTags from '../../components/admins/tags';
 
+import theme from '../../../jss/theme';
+
 ReactDOM.render(
-    <Provider store={configureStore}>
-        <AdminLayout>
-            <AdminTags/>
-        </AdminLayout>
-    </Provider>,
+    <MuiThemeProvider theme={theme}>
+        <Provider store={configureStore}>
+            <AdminLayout>
+                <AdminTags/>
+            </AdminLayout>
+        </Provider>
+    </MuiThemeProvider>,
     document.getElementById('admins-tags-component')
 );

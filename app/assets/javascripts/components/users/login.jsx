@@ -1,13 +1,12 @@
 'use strict';
 
-import Modal from 'react-responsive-modal';
-
 import {
     loginUser
 } from '../../actions';
 
 import LoginForm from './form/login';
 
+import Modal from '../theme/modal';
 import BounceSpinner from '../theme/spinner/bounce';
 
 export default @connect((state) => ({
@@ -57,16 +56,7 @@ class Login extends React.PureComponent {
 
     render() {
         return (
-            <Modal open={this.props.isOpen}
-                   classNames={{
-                       overlay: 'responsive-modal-overlay',
-                       modal: 'responsive-modal'
-                   }}
-                   center={true}
-                   closeOnEsc={true}
-                   closeOnOverlayClick={true}
-                   showCloseIcon={false}
-                   animationDuration={400}
+            <Modal isOpen={this.props.isOpen}
                    onClose={this._handleClose}>
                 <div className="responsive-modal-title">
                     <h1>

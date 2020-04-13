@@ -1,5 +1,9 @@
 'use strict';
 
+import {
+    MuiThemeProvider
+} from '@material-ui/core/styles';
+
 import '../../../stylesheets/pages/admins/seo.scss';
 
 import {
@@ -20,13 +24,17 @@ require('../common');
 import AdminLayout from '../../components/admins/adminLayout';
 import AdminSeoData from '../../components/admins/seoData';
 
+import theme from '../../../jss/theme';
+
 const seoPages = JSON.parse(document.getElementById('admins-seo-component').getAttribute('data-seo-pages'));
 
 ReactDOM.render(
-    <Provider store={configureStore}>
-        <AdminLayout>
-            <AdminSeoData seoPages={seoPages}/>
-        </AdminLayout>
-    </Provider>,
+    <MuiThemeProvider theme={theme}>
+        <Provider store={configureStore}>
+            <AdminLayout>
+                <AdminSeoData seoPages={seoPages}/>
+            </AdminLayout>
+        </Provider>
+    </MuiThemeProvider>,
     document.getElementById('admins-seo-component')
 );

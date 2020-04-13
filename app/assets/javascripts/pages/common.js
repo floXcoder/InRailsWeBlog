@@ -12,7 +12,7 @@ setConfig({
 
 // Flash messages
 const flashes = document.querySelectorAll('.blog-flash');
-Array.prototype.forEach.call(flashes, function(element, index) {
+Array.prototype.forEach.call(flashes, function (element, index) {
     const level = element.getAttribute('data-level');
     const token = element.getAttribute('data-flash-token');
 
