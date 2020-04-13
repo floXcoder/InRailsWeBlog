@@ -22,6 +22,8 @@ class Admins::LogsController < AdminsController
 
     cron_log = Logging.read_latest_for('cron.log', 2_000)
 
+    seo_cache_log = Logging.read_latest_for('seo_cache.log', 2_000)
+
     respond_to do |format|
       format.html do
         set_meta_tags title:   titleize_admin(I18n.t('views.admin.logs.title')),
@@ -31,7 +33,8 @@ class Admins::LogsController < AdminsController
           log_filename:    log_filename,
           environment_log: environment_log,
           job_log:         job_log,
-          cron_log:        cron_log
+          cron_log:        cron_log,
+          seo_cache_log:   seo_cache_log
         }
       end
     end

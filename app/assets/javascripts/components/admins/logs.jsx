@@ -42,6 +42,7 @@ class AdminLogs extends React.PureComponent {
         environmentLog: PropTypes.array.isRequired,
         jobLog: PropTypes.array,
         cronLog: PropTypes.array,
+        seoCacheLog: PropTypes.array,
         // from connect
         fetchLogs: PropTypes.func
     };
@@ -66,7 +67,7 @@ class AdminLogs extends React.PureComponent {
     };
 
     componentDidMount() {
-        const logInterval = setInterval(() => {
+        setInterval(() => {
             if (this.state.isAutoRefresh && this.state.searchTags.length === 0 && window.location.search.length === 0) {
                 this._fetchLog('refresh');
             }
@@ -256,6 +257,7 @@ class AdminLogs extends React.PureComponent {
                     <Tab label="Production"/>
                     <Tab label="job"/>
                     <Tab label="Cron"/>
+                    <Tab label="Seo Cache"/>
                 </Tabs>
 
                 <TabContainer isActive={this.state.tabStep === 0}>
@@ -331,6 +333,26 @@ class AdminLogs extends React.PureComponent {
                             <ol>
                                 {
                                     this.props.cronLog?.map((line, i) => (
+                                        <li key={i}>
+                                            <p dangerouslySetInnerHTML={{__html: line}}/>
+                                        </li>
+                                    ))
+                                }
+                            </ol>
+                        </div>
+                    </div>
+                </TabContainer>
+
+                <TabContainer isActive={this.state.tabStep === 3}>
+                    <div className="file-holder">
+                        <div className="file-title">
+                            Seo Cache log
+                        </div>
+
+                        <div className="file-content logs">
+                            <ol>
+                                {
+                                    this.props.seoCacheLog?.map((line, i) => (
                                         <li key={i}>
                                             <p dangerouslySetInnerHTML={{__html: line}}/>
                                         </li>
