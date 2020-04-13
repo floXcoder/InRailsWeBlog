@@ -7,6 +7,8 @@ class UnusedTagsWorker
 
   def perform
     Tag.unused.find_in_batches(batch_size: 200) do |tags|
+      Rails.logger.info("Tags removed: #{tags.map(&:name)}")
+
       tags.each(&:really_destroy!)
     end
   end

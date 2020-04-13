@@ -4,11 +4,11 @@ namespace :InRailsWeBlog do
 
   # Example:
   # rails InRailsWeBlog:search_reindex
-  desc 'Reindex all models by locale'
+  desc 'Reindex all models for each locale'
   task :search_reindex, [] => :environment do |_task, _args|
     Rails.logger = ActiveRecord::Base.logger = Logger.new(STDOUT)
     Rails.logger.level = Logger::WARN
-    Rails.logger.warn("#{Time.now} : Reindex models by local")
+    Rails.logger.warn("#{Time.now} : Reindex models for all locals task")
 
     # Search index is by locale
     I18n.available_locales.map do |locale|
