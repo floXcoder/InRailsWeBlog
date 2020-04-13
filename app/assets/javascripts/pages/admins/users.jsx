@@ -1,5 +1,9 @@
 'use strict';
 
+import {
+    MuiThemeProvider
+} from '@material-ui/core/styles';
+
 import '../../../stylesheets/pages/admins/users.scss';
 
 import {
@@ -20,11 +24,15 @@ require('../common');
 import AdminLayout from '../../components/admins/adminLayout';
 import AdminUsers from '../../components/admins/users';
 
+import theme from '../../../jss/theme';
+
 ReactDOM.render(
-    <Provider store={configureStore}>
-        <AdminLayout>
-            <AdminUsers/>
-        </AdminLayout>
-    </Provider>,
+    <MuiThemeProvider theme={theme}>
+        <Provider store={configureStore}>
+            <AdminLayout>
+                <AdminUsers/>
+            </AdminLayout>
+        </Provider>
+    </MuiThemeProvider>,
     document.getElementById('admins-users-component')
 );

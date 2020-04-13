@@ -4,6 +4,10 @@ import {
     createSelector
 } from 'reselect';
 
+import {
+    getLocalData
+} from '../middlewares/localStorage';
+
 export const getIsPrimaryUser = () => (
     window.currentUserId === '1'
 );
@@ -22,11 +26,27 @@ export const getUserRecentTopics = createSelector(
 );
 export const getUserRecentTags = createSelector(
     (state) => state.userState.recentTags,
-    (recentTags, limit) => recentTags.filter((recent) => !!recent.name).limit(limit)
+    (recentTags, limit) => {
+        const recentLocalTags = getLocalData('recents')?.filter((recent) => recent.type === 'tag').map((recentTag) => ({
+            id: recentTag.elementId,
+            name: recentTag.title,
+            slug: recentTag.slug
+        }));
+
+        return recentLocalTags.concat(recentTags).filter((recent) => !!recent.name).limit(limit);
+    }
 );
 export const getUserRecentArticles = createSelector(
     (state) => state.userState.recentArticles,
-    (recentArticles, limit) => recentArticles.filter((recent) => !!recent.title).limit(limit)
+    (recentArticles, limit) => {
+        const recentLocalArticles = getLocalData('recents')?.filter((recent) => recent.type === 'article').map((recentArticle) => ({
+            id: recentArticle.elementId,
+            title: recentArticle.title,
+            slug: recentArticle.slug
+        }));
+
+        return recentLocalArticles.concat(recentArticles).filter((recent) => !!recent.title).limit(limit);
+    }
 );
 
 export const getUserRecents = createSelector(
@@ -54,6 +74,7 @@ export const getUserRecents = createSelector(
             })
         });
 
+        // Date from server is the creation date and not the activity date!
         recents = [...recents].sort((a, b) => b.date - a.date);
 
         recents = recents.limit(limit);

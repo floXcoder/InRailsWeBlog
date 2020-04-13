@@ -334,17 +334,93 @@ a.note-dropdown-item, a.note-dropdown-item:hover {
   display: block
 }
 
-@media(min-width: 768px) {
+@media (min-width: 768px) {
   .note-modal-content {
     width: 600px;
     margin: 30px auto
   }
 }
 
-@media(min-width: 992px) {
+@media (min-width: 992px) {
   .note-modal-content-large {
     width: 900px
   }
+}
+
+.note-modal .note-help-block {
+  display: block;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  color: #737373
+}
+
+.note-modal .note-nav {
+  display: -webkit-box;
+  display: flex;
+  flex-wrap: wrap;
+  padding-left: 0;
+  margin-bottom: 0;
+  list-style: none
+}
+
+.note-modal .note-nav-link {
+  display: block;
+  padding: .5rem 1rem;
+  color: #007bff;
+  text-decoration: none;
+  background-color: transparent;
+  -webkit-text-decoration-skip: objects
+}
+
+.note-modal .note-nav-link:focus, .note-modal .note-nav-link:hover {
+  color: #0056b3;
+  text-decoration: none
+}
+
+.note-modal .note-nav-link.disabled {
+  color: #868e96
+}
+
+.note-modal .note-nav-tabs {
+  border-bottom: 1px solid #ddd
+}
+
+.note-modal .note-nav-tabs .note-nav-item {
+  margin-bottom: -1px
+}
+
+.note-modal .note-nav-tabs .note-nav-link {
+  border: 1px solid transparent;
+  border-top-left-radius: .25rem;
+  border-top-right-radius: .25rem
+}
+
+.note-modal .note-nav-tabs .note-nav-link:focus, .note-modal .note-nav-tabs .note-nav-link:hover {
+  border-color: #e9ecef #e9ecef #ddd
+}
+
+.note-modal .note-nav-tabs .note-nav-link.disabled {
+  color: #868e96;
+  background-color: transparent;
+  border-color: transparent
+}
+
+.note-modal .note-nav-tabs .note-nav-item.show .note-nav-link {
+  color: #495057;
+  background-color: #fff;
+  border-color: #ddd #ddd #fff
+}
+
+.note-modal .note-tab-content {
+  margin: 15px auto
+}
+
+.note-modal .note-tab-content > .note-tab-pane:target ~ .note-tab-pane:last-child, .note-modal .note-tab-content > .note-tab-pane {
+  display: none
+}
+
+.note-modal .note-tab-content > :last-child, .note-modal .note-tab-content > .note-tab-pane:target {
+  display: block
 }
 
 .note-form-group {
@@ -1229,7 +1305,6 @@ a.note-dropdown-item, a.note-dropdown-item:hover {
   display: inline-block
 }
 
-
 /*****************/
 // Custom CSS
 /*****************/
@@ -1322,6 +1397,11 @@ a.note-dropdown-item, a.note-dropdown-item:hover {
   p {
     margin-top: 1.2rem;
     white-space: pre-wrap;
+  }
+
+  // First p in editor
+  p:first-child {
+    margin-top: 0;
   }
 
   b,

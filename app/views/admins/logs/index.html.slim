@@ -1,6 +1,6 @@
 - stylesheet 'admins/logs'
 
 - javascript "translations/admin-#{I18n.locale}"
-- javascript_defer 'runtime', 'commons', 'admins-commons', 'admins/logs'
+- javascript_defer 'commons', 'admins-commons', 'admins/logs'
 
 = content_tag :div, '', id: 'admins-logs-component', class: 'react-root', data: { log_filename: log_filename, environment_log: environment_log, job_log: job_log, cron_log: cron_log }

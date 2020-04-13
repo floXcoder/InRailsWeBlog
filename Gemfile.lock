@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/fast-jsonapi/fast_jsonapi
-  revision: 990c0acd18137c96d0c3e4a3168cc71fd3b912c2
+  revision: 0edebd99e663832bf4d279376d54b18bc34e0c4f
   specs:
     fast_jsonapi (1.6.0)
       activesupport (>= 4.2)
@@ -342,7 +342,7 @@ GEM
     premailer-rails (1.11.1)
       actionmailer (>= 3)
       premailer (~> 1.7, >= 1.7.9)
-    pry (0.13.0)
+    pry (0.13.1)
       coderay (~> 1.1)
       method_source (~> 1.0)
     pry-rails (0.3.9)
@@ -461,7 +461,7 @@ GEM
       unicode-display_width (>= 1.4.0, < 2.0)
     rubocop-performance (1.5.2)
       rubocop (>= 0.71.0)
-    rubocop-rails (2.5.1)
+    rubocop-rails (2.5.2)
       activesupport
       rack (>= 1.1)
       rubocop (>= 0.72.0)
@@ -658,7 +658,7 @@ DEPENDENCIES
   rspec_junit_formatter (= 0.4.1)
   rubocop (= 0.81.0)
   rubocop-performance (= 1.5.2)
-  rubocop-rails (= 2.5.1)
+  rubocop-rails (= 2.5.2)
   rubocop-rspec (= 1.38.1)
   ruby-jmeter (= 3.1.08)
   sanitize (= 5.1.0)

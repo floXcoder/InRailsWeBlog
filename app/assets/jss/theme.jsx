@@ -80,9 +80,9 @@ const theme = createMuiTheme({
             dark: '#036603'
         },
         secondary: {
-            light: '#fbda41',
-            main: '#bd9d3c',
-            dark: '#937e2e'
+            light: '#fddc42',
+            main: '#e3c23e',
+            dark: '#bda731'
         },
         action: {
             active: 'rgba(0, 0, 0, 0.66)',

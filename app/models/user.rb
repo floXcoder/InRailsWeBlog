@@ -368,8 +368,8 @@ class User < ApplicationRecord
     {
       # users:   User.joins(:user_activities).merge(last_visits).distinct,
       # topics:   Topic.joins(:user_activities).merge(last_visits).distinct,
-      tags:     Tag.joins(:user_activities).includes(:tagged_articles).merge(last_visits).select('id', 'user_id', 'name', 'synonyms', 'visibility', 'slug', 'activities.created_at', 'updated_at').distinct,
-      articles: Article.includes(:user, :tags, tagged_articles: [:tag]).joins(:user_activities).merge(last_visits).select('id', 'topic_id', 'mode', 'title_translations', 'summary_translations', 'draft', 'visibility', 'languages', 'slug', 'updated_at', 'activities.created_at').distinct
+      tags:     Tag.joins(:user_activities).includes(:tagged_articles).merge(last_visits).select('id', 'user_id', 'name', 'visibility', 'slug', 'activities.created_at', 'updated_at').distinct,
+      articles: Article.includes(:user, :tags, tagged_articles: [:tag]).joins(:user_activities).merge(last_visits).select('id', 'topic_id', 'mode', 'title_translations', 'draft', 'visibility', 'slug', 'updated_at', 'activities.created_at').distinct
     }
   end
 

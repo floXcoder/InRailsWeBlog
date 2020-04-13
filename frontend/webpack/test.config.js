@@ -18,9 +18,9 @@ webPackConfig.optimization = {
     namedModules: true,
     noEmitOnErrors: false,
     concatenateModules: false,
-    runtimeChunk: {
-        name: 'runtime'
-    },
+    // runtimeChunk: {
+    //     name: 'runtime'
+    // },
     splitChunks: {
         // chunks: 'async', // 'all' : not working
         name: true,

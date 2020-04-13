@@ -9,7 +9,7 @@ namespace :InRailsWeBlog do
   task :populate_seo_cache, [] => :environment do |_task, _args|
     Rails.logger       = Logger.new(STDOUT)
     Rails.logger.level = Logger::WARN
-    Rails.logger.warn("#{Time.zone.now} : Cache pages with prerender for SEO")
+    Rails.logger.warn("#{Time.now} : Cache pages with prerender for SEO task")
 
     require 'seo_cache'
     require 'seo_cache/populate_cache'
