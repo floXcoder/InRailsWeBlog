@@ -59,7 +59,8 @@ export const spyTrackClick = (elementName, elementId, elementSlug = null, elemen
     const currentUserId = configureStore.getState().userState.currentId;
     const currentUserTopicId = configureStore.getState().topicState.currentUserTopicId;
 
-    if (!currentUserId && hasLocalStorage && elementSlug && elementTitle) {
+    // Always save to local storage for optimization
+    if (hasLocalStorage && elementSlug && elementTitle) {
         saveLocalArray('recents', {
             type: elementName,
             elementId: elementId,

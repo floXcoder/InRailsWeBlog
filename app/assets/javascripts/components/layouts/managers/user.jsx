@@ -101,10 +101,12 @@ class UserManager extends React.Component {
                     const userJustSign = sessionStorage?.getItem('user-connection');
 
                     Utils.defer.then(() => {
+                        const isNewSession = sessionStorage.getItem('userRecents');
+
                         if (userJustSign) {
                             sessionStorage.removeItem('user-connection');
                             this.props.updateUserRecents(this.props.currentUserId, getTracksClick(true));
-                        } else {
+                        } else if(!isNewSession) {
                             this.props.fetchUserRecents(this.props.currentUserId, {limit: 10});
                         }
                     });

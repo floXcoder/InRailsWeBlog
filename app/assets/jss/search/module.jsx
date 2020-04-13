@@ -81,6 +81,7 @@ const styles = (theme) => ({
     },
     articleHighlighted: {
         border: `1px solid ${theme.palette.secondary.main}`,
+        borderRadius: 6,
         padding: 5
     },
     articleTag: {
