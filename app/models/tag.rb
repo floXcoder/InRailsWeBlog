@@ -204,8 +204,6 @@ class Tag < ApplicationRecord
   # == Callbacks ============================================================
   before_create :set_default_color
 
-  after_commit :invalidate_tag_cache
-
   # == Class Methods ========================================================
   def self.as_flat_json(tags, format, **options)
     data = case format
@@ -389,10 +387,6 @@ class Tag < ApplicationRecord
 
   def set_default_color
     self.color = InRailsWeBlog.config.tag_color unless self.color
-  end
-
-  def invalidate_tag_cache
-    Rails.cache.delete_matched('user_tags:*')
   end
 
 end
