@@ -20,6 +20,8 @@ class TaggedArticle < ApplicationRecord
   # == Attributes ===========================================================
 
   # == Extensions ===========================================================
+  include CacheService
+
   # Follow public activities
   include PublicActivity::Model
   tracked owner: proc { |_controller, model| model.article&.user }, recipient: :article, parameters: :tag
@@ -86,7 +88,8 @@ class TaggedArticle < ApplicationRecord
   end
 
   def invalidate_tag_cache
-    Rails.cache.delete("user_tags:#{self.user_id}_and_#{self.topic_id}")
+    expire_component_cache("user_tags:#{self.user_id}")
+    expire_component_cache("user_tags:#{self.user_id}_for_#{self.topic_id}")
   end
 
 end
