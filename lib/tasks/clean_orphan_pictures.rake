@@ -9,7 +9,7 @@ namespace :InRailsWeBlog do
     Rails.logger.level = Logger::WARN
     Rails.logger.warn("#{Time.now} : Clean Orphan pictures task")
 
-    UploadsWorker.perform
+    UploadsWorker.new.perform
   end
 
 end

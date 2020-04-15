@@ -9,7 +9,7 @@ namespace :InRailsWeBlog do
     Rails.logger.level = Logger::WARN
     Rails.logger.warn("#{Time.now} : Remove unused tags task")
 
-    UnusedTagsWorker.perform
+    UnusedTagsWorker.new.perform
   end
 
 end
