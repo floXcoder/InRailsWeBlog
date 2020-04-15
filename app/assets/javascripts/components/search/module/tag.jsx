@@ -40,7 +40,7 @@ export default class SearchTagModule extends React.Component {
     _currentTopicTags = () => {
         if (this.props.currentTopicId) {
             return this.props.tags.filter((tag) => (
-                tag.topicIds?.includes(this.props.currentTopicId)
+                tag.topicIds.includes(this.props.currentTopicId)
             ));
         } else {
             return this.props.tags;
@@ -50,7 +50,7 @@ export default class SearchTagModule extends React.Component {
     _otherTags = () => {
         if (this.props.currentTopicId) {
             return this.props.tags.filter((tag) => (
-                !tag.topicIds?.includes(this.props.currentTopicId)
+                !tag.topicIds.includes(this.props.currentTopicId)
             ));
         } else {
             return [];

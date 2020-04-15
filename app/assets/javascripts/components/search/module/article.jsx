@@ -70,7 +70,7 @@ export default class SearchArticleModule extends React.PureComponent {
                             [this.props.classes.articleSecondaryResult]: !primary,
                             [this.props.classes.articleHighlighted]: this.props.highlightedArticleId === article.id
                         })}
-                              to={userArticlePath(article.user?.slug, article.slug)}
+                              to={userArticlePath(article.user.slug, article.slug)}
                               onClick={this._handleArticleClick.bind(this, article)}>
                             {article.title || article.slug}
                         </Link>

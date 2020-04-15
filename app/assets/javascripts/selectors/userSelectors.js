@@ -48,7 +48,10 @@ export const getUserRecentArticles = createSelector(
             id: recentArticle.elementId,
             title: recentArticle.title,
             slug: recentArticle.slug,
-            topicId: recentArticle.parentId
+            topicId: recentArticle.parentId,
+            user: {
+                slug: recentArticle.userSlug
+            }
         })) || [];
 
         return Utils.uniqValues(recentLocalArticles.concat(recentArticles).filter((recent) => !!recent.title), 'id').limit(limit);
