@@ -57,6 +57,7 @@ export const spyTrackView = (elementName, elementId) => {
 
 export const spyTrackClick = (elementName, elementId, elementSlug = null, elementTitle = null) => {
     const currentUserId = configureStore.getState().userState.currentId;
+    const currentUserSlug = configureStore.getState().userState.currentSlug;
     const currentUserTopicId = configureStore.getState().topicState.currentUserTopicId;
 
     // Always save to local storage for optimization
@@ -68,7 +69,8 @@ export const spyTrackClick = (elementName, elementId, elementSlug = null, elemen
             slug: elementSlug,
             date: Date.now(),
             userId: currentUserId,
-            parentId: currentUserTopicId
+            parentId: currentUserTopicId,
+            userSlug: currentUserSlug
         });
     }
 
