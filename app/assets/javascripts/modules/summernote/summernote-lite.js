@@ -1,14 +1,14 @@
 /*!
- *
+ * 
  * Super simple wysiwyg editor v0.8.16
  * https://summernote.org
- *
- *
+ * 
+ * 
  * Copyright 2013- Alan Hong. and other contributors
  * summernote may be freely distributed under the MIT license.
- *
- * Date: 2020-04-13T09:22Z
- *
+ * 
+ * Date: 2020-04-15T14:14Z
+ * 
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -7742,7 +7742,8 @@ function () {
         }), _this2.ui.dropdown({
           title: _this2.lang.table.table,
           className: 'note-table',
-          items: ['<div class="note-dimension-picker">', '<div class="note-dimension-picker-mousecatcher" data-event="insertTable" data-value="1x1"/>', '<div class="note-dimension-picker-highlighted"/>', '<div class="note-dimension-picker-unhighlighted"/>', '</div>', '<div class="note-dimension-display">1 x 1</div>'].join('')
+          // ### : close div
+          items: ['<div class="note-dimension-picker">', '<div class="note-dimension-picker-mousecatcher" data-event="insertTable" data-value="1x1">', '</div>', '<div class="note-dimension-picker-highlighted">', '</div>', '<div class="note-dimension-picker-unhighlighted">', '</div>', '</div>', '<div class="note-dimension-display">1 x 1</div>'].join('')
         })], {
           callback: function callback($node) {
             var $catcher = $node.find('.note-dimension-picker-mousecatcher');
@@ -10467,7 +10468,8 @@ var tableDropdownButton = function tableDropdownButton(opt) {
     }
   }), dropdown({
     className: 'note-table',
-    items: ['<div class="note-dimension-picker">', '<div class="note-dimension-picker-mousecatcher" data-event="insertTable" data-value="1x1"/>', '<div class="note-dimension-picker-highlighted"/>', '<div class="note-dimension-picker-unhighlighted"/>', '</div>', '<div class="note-dimension-display">1 x 1</div>'].join('')
+    // ### : close div
+    items: ['<div class="note-dimension-picker">', '<div class="note-dimension-picker-mousecatcher" data-event="insertTable" data-value="1x1">', '</div>', '<div class="note-dimension-picker-highlighted">', '</div>', '<div class="note-dimension-picker-unhighlighted">', '</div>', '</div>', '<div class="note-dimension-display">1 x 1</div>'].join('')
   })], {
     callback: function callback($node) {
       var $catcher = $node.find('.note-dimension-picker-mousecatcher');
@@ -10632,7 +10634,7 @@ var linkDialog = function linkDialog(opt) {
     body: body,
     footer: footer
   }).render();
-}; // ### : Use correct class for popover
+}; // ### : Use correct class for popover and close div
 
 
 var popover = renderer["a" /* default */].create(['<div class="note-popover bottom">', '<div class="note-popover-arrow">', '</div>', '<div class="note-popover-content note-children-container">', '</div>', '</div>'].join(''), function ($node, options) {
