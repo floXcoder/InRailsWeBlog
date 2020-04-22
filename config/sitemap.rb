@@ -14,8 +14,8 @@ SitemapGenerator::Sitemap.create do
         changefreq: 'daily',
         priority:   1
 
-    add about_en_path,
-        changefreq: 'yearly'
+    # add about_en_path,
+    #     changefreq: 'yearly'
     # add terms_en_path,
     #     changefreq: 'yearly'
     # add policy_en_path,
