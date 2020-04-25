@@ -6,9 +6,11 @@ import {
     getDisplayName
 } from './common';
 
-import HighlightCode from 'highlight.js/lib/highlight';
+import HighlightCode from 'highlight.js/lib/core';
 
 import apache from 'highlight.js/lib/languages/apache';
+import cLike from 'highlight.js/lib/languages/c-like';
+import c from 'highlight.js/lib/languages/c';
 import cpp from 'highlight.js/lib/languages/cpp';
 import xml from 'highlight.js/lib/languages/xml';
 import bash from 'highlight.js/lib/languages/bash';
@@ -25,7 +27,7 @@ import markdown from 'highlight.js/lib/languages/markdown';
 import ruby from 'highlight.js/lib/languages/ruby';
 // import erb from 'highlight.js/lib/languages/erb';
 // import erlang from 'highlight.js/lib/languages/erlang';
-import excel from 'highlight.js/lib/languages/excel';
+// import excel from 'highlight.js/lib/languages/excel';
 // import gradle from 'highlight.js/lib/languages/gradle';
 // import groovy from 'highlight.js/lib/languages/groovy';
 // import haml from 'highlight.js/lib/languages/haml';
@@ -55,6 +57,8 @@ import yaml from 'highlight.js/lib/languages/yaml';
 import typescript from 'highlight.js/lib/languages/typescript';
 
 HighlightCode.registerLanguage('apache', apache);
+HighlightCode.registerLanguage('c-like', cLike);
+HighlightCode.registerLanguage('c', c);
 HighlightCode.registerLanguage('cpp', cpp);
 HighlightCode.registerLanguage('xml', xml);
 HighlightCode.registerLanguage('bash', bash);
@@ -71,7 +75,7 @@ HighlightCode.registerLanguage('markdown', markdown);
 HighlightCode.registerLanguage('ruby', ruby);
 // HighlightCode.registerLanguage('erb', erb);
 // HighlightCode.registerLanguage('erlang', erlang);
-HighlightCode.registerLanguage('excel', excel);
+// HighlightCode.registerLanguage('excel', excel);
 // HighlightCode.registerLanguage('gradle', gradle);
 // HighlightCode.registerLanguage('groovy', groovy);
 // HighlightCode.registerLanguage('haml', haml);

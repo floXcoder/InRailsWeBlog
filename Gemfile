@@ -14,7 +14,7 @@ gem 'rails',                    '6.0.2.2'
 # Use postgresql as the database for Active Record
 gem 'pg',                       '1.2.3'
 gem 'active_record_extended',   '1.4.0'
-gem 'pghero',                   '2.4.1'
+gem 'pghero',                   '2.4.2'
 gem 'pg_query',                 '1.2.0' # Required for pghero
 
 # HTTP Response
@@ -48,7 +48,7 @@ gem 'auto_strip_attributes',    '2.6.0'
 gem 'sanitize',                 '5.1.0'
 
 # Run asynschronous process
-gem 'sidekiq',                  '6.0.6'
+gem 'sidekiq',                  '6.0.7'
 gem 'sidekiq-statistic',        '1.4.0'
 gem 'sidekiq-cron',             '1.2.0'
 gem 'attentive_sidekiq',        '0.3.3'
@@ -90,7 +90,7 @@ gem 'browser',                  '4.0.0'
 
 # SEO
 gem 'friendly_id',              '5.3.0'
-gem 'route_translator',         '7.1.2'
+gem 'route_translator',         '8.0.0'
 gem 'meta-tags',                '2.13.0'
 gem 'sitemap_generator',        '6.1.0'
 
@@ -108,7 +108,7 @@ gem 'capistrano-db-tasks',      '0.6',     require: false
 gem 'health_check',             '3.0.0'
 
 # SEO
-gem 'webdrivers',               '4.2.0'
+gem 'webdrivers',               '4.3.0'
 
 # Server
 gem 'puma',                     '4.3.3'
@@ -119,7 +119,7 @@ group :development do
   gem 'awesome_print',          '1.8.0'
 
   # Improve errors
-  gem 'better_errors',          '2.6.0'
+  gem 'better_errors',          '2.7.0'
   gem 'binding_of_caller',      '0.8.0'
 
   # N+1 database query
@@ -177,7 +177,7 @@ group :development, :test do
   gem 'bootsnap',                   '1.4.6',   require: false
 
   # Check errors
-  gem 'rubocop',                    '0.81.0',  require: false
+  gem 'rubocop',                    '0.82.0',  require: false
   gem 'rubocop-rails',              '2.5.2',   require: false
   gem 'rubocop-performance',        '1.5.2',   require: false
   gem 'rubocop-rspec',              '1.38.1',  require: false
