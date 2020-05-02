@@ -6,7 +6,7 @@ import {
 
 import {
     pushError
-} from '../actions/errorActions';
+} from '../actions';
 
 const getHeaders = () => {
     const csrfToken = document.getElementsByName('csrf-token')[0];
@@ -93,7 +93,18 @@ const handleResponseErrors = (response, url) => {
     return response;
 };
 
-const handleParseErrors = (error, url) => {
+const handleParseErrors = (error, url, isGet = false) => {
+    // Offline mode (do not report error)
+    if(error.name === 'TypeError' && error.message === 'Failed to fetch') {
+        if(isGet) {
+            Notification.error(I18n.t('js.helpers.errors.no_network'));
+        }
+
+        return {
+            errors: 'offline'
+        };
+    }
+
     if (error.name === 'AbortError') {
         return;
     }
@@ -166,7 +177,7 @@ const api = {
             .then((response) => handleResponse(response))
             .then(
                 (json) => json,
-                (error) => handleParseErrors(error, urlParams)
+                (error) => handleParseErrors(error, urlParams, true)
             );
 
         return {
@@ -190,7 +201,7 @@ const api = {
             .then(
                 (json) => json,
                 (error) => handleParseErrors(error, url)
-            )
+            ).catch((err) => w(err))
     },
 
     update: (url, params, isData = false) => {

@@ -1,6 +1,7 @@
 'use strict';
 
 require('../application');
+require('../pwa');
 
 import {
     setConfig

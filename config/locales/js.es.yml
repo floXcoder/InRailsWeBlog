@@ -996,13 +996,14 @@ es:
       not_found:
         title: Camino no encontrado!
       errors:
-        boundary:
-          footer: No se puede mostrar el pie de página
-          header: No puede mostrar el menú
-          message: Se produjo un error al visualizar el componente. Por favor, recargue la página.
-          title: No puede mostrar el componente
-        frontend: Se ha producido un error, intente refrescar o volver a la página principal
-        network: Problema de red, por favor, compruebe su conexión
+        frontend: "Se ha producido un error, intente refrescar o volver a la página principal"
+        network: "Problema de red, por favor, compruebe su conexión"
         not_authorized: "¡No tienes permiso para acceder a este recurso!"
-        server: Se ha producido un error en el servidor, por favor, inténtalo de nuevo más tarde
-        unprocessable: No se puede tener en cuenta este elemento, datos incorrectos
+        server: "Se ha producido un error en el servidor, por favor, inténtalo de nuevo más tarde"
+        unprocessable: "No se puede tener en cuenta este elemento, datos incorrectos"
+        no_network: "No hay red disponible, no se puede cargar la página"
+        boundary:
+          footer: "No se puede mostrar el pie de página"
+          header: "No puede mostrar el menú"
+          message: "Se produjo un error al visualizar el componente. Por favor, recargue la página."
+          title: "No puede mostrar el componente"

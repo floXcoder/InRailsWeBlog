@@ -995,13 +995,14 @@ de:
       not_authorized:
         title: Sie können nicht auf dieses Element zugreifen
       errors:
-        not_authorized: Sie haben keine Berechtigung, auf diese Ressource zuzugreifen!
-        frontend: Es ist ein Fehler aufgetreten, versuchen Sie eine Aktualisierung oder die Rückkehr zur Homepage
-        unprocessable: Dieses Element kann nicht berücksichtigt werden, falsche Daten
-        network: Netzwerkproblem, bitte überprüfen Sie Ihre Verbindung
-        server: Ein Serverfehler ist aufgetreten, bitte versuchen Sie es später noch einmal
+        not_authorized: "Sie haben keine Berechtigung, auf diese Ressource zuzugreifen!"
+        frontend: "Es ist ein Fehler aufgetreten, versuchen Sie eine Aktualisierung oder die Rückkehr zur Homepage"
+        unprocessable: "Dieses Element kann nicht berücksichtigt werden, falsche Daten"
+        network: "Netzwerkproblem, bitte überprüfen Sie Ihre Verbindung"
+        server: "Ein Serverfehler ist aufgetreten, bitte versuchen Sie es später noch einmal"
+        no_network: "Kein Netzwerk verfügbar, kann die Seite nicht laden"
         boundary:
-          title: Die Komponente kann nicht angezeigt werden
-          message: Bei der Anzeige der Komponente ist ein Fehler aufgetreten. Bitte laden Sie die Seite neu.
-          header: Das Menü kann nicht angezeigt werden
-          footer: Fußzeile kann nicht angezeigt werden
+          title: "Die Komponente kann nicht angezeigt werden"
+          message: "Bei der Anzeige der Komponente ist ein Fehler aufgetreten. Bitte laden Sie die Seite neu."
+          header: "Das Menü kann nicht angezeigt werden"
+          footer: "Fußzeile kann nicht angezeigt werden"

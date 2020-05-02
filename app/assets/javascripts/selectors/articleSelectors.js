@@ -83,6 +83,10 @@ export const getCategorizedArticles = createSelector(
     (articles, articleOrderMode, sortedTags, parentTagSlug) => {
         let categorizedArticles = {};
 
+        if(!articles) {
+            return categorizedArticles;
+        }
+
         if (articleOrderMode === 'updated_desc' || articleOrderMode === 'updated_asc') {
             articles.forEach((article) => {
                 categorizedArticles[article.date] = categorizedArticles[article.date] ? categorizedArticles[article.date].concat(article) : [article];

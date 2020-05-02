@@ -1000,6 +1000,7 @@ en:
         unprocessable: "Cannot process this element, incorrect data"
         network: "NetworkError, please check your connection"
         server: "A server error occurred, please retry later"
+        no_network: "No network available, cannot load the page"
         boundary:
           title: "Cannot display the component"
           message: "Please reload the page."

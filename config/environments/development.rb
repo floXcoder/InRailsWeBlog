@@ -79,7 +79,7 @@ Rails.application.configure do
 
   # N 1 Queries
   config.after_initialize do
-    Bullet.enable               = true
+    Bullet.enable               = false
     Bullet.alert                = false
     Bullet.bullet_logger        = false
     Bullet.console              = true
