@@ -134,7 +134,10 @@ webPackConfig.plugins = [
         maximumFileSizeToCacheInBytes: 1_200_000,
         swDest: config.serviceWorker.dest,
         exclude: config.serviceWorker.exclude,
-        runtimeCaching: config.serviceWorker.runtimeCaching
+        runtimeCaching: config.serviceWorker.runtimeCaching,
+        modifyURLPrefix: {
+            'https://assets.ginkonote.com/': 'https://www.ginkonote.com/'
+        }
     })
 ];
 
