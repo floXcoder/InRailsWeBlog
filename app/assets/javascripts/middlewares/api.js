@@ -201,7 +201,7 @@ const api = {
             .then(
                 (json) => json,
                 (error) => handleParseErrors(error, url)
-            ).catch((err) => w(err))
+            )
     },
 
     update: (url, params, isData = false) => {
