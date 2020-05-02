@@ -9,6 +9,7 @@ const HappyPack = require('happypack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const WorkboxPlugin = require('workbox-webpack-plugin');
 
 const config = require('../config').webpack;
 
@@ -105,7 +106,7 @@ webPackConfig.module = {
 
 let providePlugins = {};
 _.forEach(config.plugins, (value, key) => {
-    if(value.includes('.js') || value.includes('.jsx')) {
+    if (value.includes('.js') || value.includes('.jsx')) {
         return providePlugins[key] = path.resolve(value);
     } else {
         return providePlugins[key] = value;
@@ -125,6 +126,15 @@ webPackConfig.plugins = [
         'collections': true,
         'flattening': true,
         'placeholders': true
+    }),
+    new WorkboxPlugin.GenerateSW({
+        clientsClaim: true,
+        skipWaiting: true,
+        offlineGoogleAnalytics: false,
+        maximumFileSizeToCacheInBytes: 1_200_000,
+        swDest: config.serviceWorker.dest,
+        exclude: config.serviceWorker.exclude,
+        runtimeCaching: config.serviceWorker.runtimeCaching
     })
 ];
 

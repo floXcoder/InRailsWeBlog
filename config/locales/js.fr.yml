@@ -1000,6 +1000,7 @@ fr:
         unprocessable: "Impossible de prendre en compte cet élément, données incorrectes"
         network: "Problème réseau, merci de vérifier votre connexion"
         server: "Une erreur serveur s'est produite, merci de réessayer plus tard"
+        no_network: "Pas de connexion réseau, impossible de charger la page"
         boundary:
           title: "Impossible d'afficher le composant"
           message: "Une erreur est survenue lors de l'affichage du composant. Merci de recharger la page."

@@ -23,7 +23,7 @@ gem 'http_accept_language',     '2.1.1'
 gem 'secure_headers',           '6.3.0'
 
 # JSON
-gem 'fast_jsonapi',             '1.6.0', git: 'https://github.com/fast-jsonapi/fast_jsonapi'
+gem 'fast_jsonapi',             '1.7.0', git: 'https://github.com/fast-jsonapi/fast_jsonapi'
 gem 'oj',                       '3.10.6'
 
 # Use slim instead of erb
@@ -31,7 +31,7 @@ gem 'slim-rails',               '3.2.0'
 
 # Internationalization
 gem 'i18n-js',                  '3.6.0'
-gem 'geocoder',                 '1.6.2'
+gem 'geocoder',                 '1.6.3'
 gem 'maxminddb',                '0.1.22'
 
 # Model versioning
@@ -95,8 +95,8 @@ gem 'meta-tags',                '2.13.0'
 gem 'sitemap_generator',        '6.1.0'
 
 # Dummy data
-gem 'factory_bot_rails',        '5.1.1',   require: false
-gem 'faker',                    '2.11.0',   require: false
+gem 'factory_bot_rails',        '5.2.0',   require: false
+gem 'faker',                    '2.11.0',  require: false
 
 # Deployment
 gem 'capistrano',               '3.13.0'

@@ -996,13 +996,14 @@ it:
       not_authorized:
         title: Non è possibile accedere a questa voce
       errors:
-        not_authorized: Non avete il permesso di accedere a questa risorsa!
-        frontend: Si è verificato un errore, provare a rinfrescare o tornare alla pagina iniziale
-        unprocessable: Impossibile prendere in considerazione questo elemento, dati non corretti
-        network: Problema di rete, si prega di controllare la connessione
-        server: Si è verificato un errore del server, si prega di riprovare più tardi
+        not_authorized: "Non avete il permesso di accedere a questa risorsa!"
+        frontend: "Si è verificato un errore, provare a rinfrescare o tornare alla pagina iniziale"
+        unprocessable: "Impossibile prendere in considerazione questo elemento, dati non corretti"
+        network: "Problema di rete, si prega di controllare la connessione"
+        server: "Si è verificato un errore del server, si prega di riprovare più tardi"
+        no_network: "Nessuna rete disponibile, non è possibile caricare la pagina"
         boundary:
-          footer: Impossibile visualizzare il piè di pagina
-          header: Impossibile visualizzare il menu
-          message: Si è verificato un errore durante la visualizzazione del componente. Si prega di ricaricare la pagina.
-          title: Non è possibile visualizzare il componente
+          footer: "Impossibile visualizzare il piè di pagina"
+          header: "Impossibile visualizzare il menu"
+          message: "Si è verificato un errore durante la visualizzazione del componente. Si prega di ricaricare la pagina."
+          title: "Non è possibile visualizzare il componente"

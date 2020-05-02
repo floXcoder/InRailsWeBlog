@@ -114,6 +114,39 @@ module.exports = {
                 to: 'logos'
             }
         ],
+        serviceWorker: {
+            dest: '../serviceWorker.js',
+            exclude: [/admin/],
+            runtimeCaching: [
+                {
+                    // Match any request that ends with .png, .jpg, .jpeg or .svg
+                    // urlPattern: /\.(?:png|jpg|jpeg|svg)$/,
+                    urlPattern: /uploads/,
+                    // Apply a cache-first strategy
+                    handler: 'CacheFirst',
+                    options: {
+                        // Use a custom cache name
+                        cacheName: 'images',
+                        // Only cache 30 uploads
+                        expiration: {
+                            maxEntries: 30
+                        }
+                    }
+                },
+                {
+                    // Match any API requests
+                    urlPattern: /\.json/,
+                    // Fetch both in cache and through network
+                    handler: 'StaleWhileRevalidate',
+                    options: {
+                        cacheName: 'api',
+                        expiration: {
+                            maxEntries: 50
+                        }
+                    }
+                }
+            ]
+        },
         development: {
             assetPath: 'http://localhost:8080/assets/',
             filename: '[name]',
