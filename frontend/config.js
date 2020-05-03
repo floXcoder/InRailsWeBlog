@@ -116,7 +116,11 @@ module.exports = {
         ],
         serviceWorker: {
             dest: '../serviceWorker.js',
-            exclude: [/admin/],
+            exclude: [/admin/, /about/, /policy/, /terms/, /comment\./, /compare\./, /history\./, /tracker\./, /edit\./, /edition\./, /editor\./, /sort\./, /persistence\./, /share\./, /login\./, /signup\./, /password\./, /preference\./, /\.ttf/, /\.eot/, /\.woff/],
+            additionalFiles: [
+                {url: 'offline.html', revision: '1'},
+                {url: 'favicon.ico', revision: '1'}
+            ],
             runtimeCaching: [
                 {
                     // Match any request that ends with .png, .jpg, .jpeg or .svg
@@ -145,7 +149,12 @@ module.exports = {
                         }
                     }
                 }
-            ]
+            ],
+            offlineFile: '/offline.html',
+            offlineExclude: [/\/api\//],
+            transformURL: {
+                'assets.ginkonote.com': 'www.ginkonote.com'
+            }
         },
         development: {
             assetPath: 'http://localhost:8080/assets/',
