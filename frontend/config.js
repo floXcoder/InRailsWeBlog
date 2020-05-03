@@ -153,7 +153,7 @@ module.exports = {
             offlineFile: '/offline.html',
             offlineExclude: [/\/api\//],
             transformURL: {
-                'assets.ginkonote.com': 'www.ginkonote.com'
+                'https://assets.ginkonote.com': 'https://www.ginkonote.com'
             }
         },
         development: {
