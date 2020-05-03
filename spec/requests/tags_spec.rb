@@ -81,7 +81,7 @@ describe 'Tag API', type: :request, basic: true do
 
         expect(json_tags['meta']['root']).to eq('tags')
         expect(json_tags['data']).not_to be_empty
-        expect(json_tags['data'].size).to eq(10)
+        expect(json_tags['data'].size).to eq(Tag.from_user_id(@user.id).count)
 
         tags_visibility = json_tags['data'].map { |m| m['attributes']['visibility'] }
         expect(tags_visibility).to match_array(['everyone'] * 5 + ['only_me'] * 5)
@@ -138,13 +138,13 @@ describe 'Tag API', type: :request, basic: true do
         login_as(@admin, scope: :admin, run_callbacks: false)
       end
 
-      it 'returns all tags' do
+      it 'returns all public tags' do
         get '/api/v1/tags', as: :json
 
         json_tags = JSON.parse(response.body)
         expect(json_tags['meta']['root']).to eq('tags')
         expect(json_tags['data']).not_to be_empty
-        expect(json_tags['data'].size).to eq(10)
+        expect(json_tags['data'].size).to eq(Tag.everyone.count)
       end
     end
   end
