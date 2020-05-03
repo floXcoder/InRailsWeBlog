@@ -40,9 +40,9 @@ if (process.env.NODE_ENV === 'production') {
 //             deferredInstallPrompt = null;
 //         });
 // }
-
-window.addEventListener('appinstalled', logAppInstalled);
-
-function logAppInstalled(event) {
-    console.info('GinkoNote App was installed.', event);
-}
+//
+// window.addEventListener('appinstalled', logAppInstalled);
+//
+// function logAppInstalled(event) {
+//     console.info('GinkoNote App was installed.', event);
+// }
