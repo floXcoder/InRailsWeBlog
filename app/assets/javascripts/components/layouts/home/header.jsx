@@ -28,7 +28,6 @@ import ListItemText from '@material-ui/core/ListItemText';
 import List from '@material-ui/core/List';
 import Button from '@material-ui/core/Button';
 
-import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 
@@ -207,7 +206,7 @@ class HeaderLayoutHome extends React.Component {
 
         return (
             <SwipeableDrawer variant="temporary"
-                             anchor="left"
+                             anchor="right"
                              classes={{
                                  paper: this.props.classes.mobileDrawerPaper
                              }}
@@ -266,7 +265,7 @@ class HeaderLayoutHome extends React.Component {
                                 style={loadingBarStyle}/>
 
                     <Toolbar className={this.props.classes.toolbar}>
-                        <div className={this.props.classes.sectionDesktop}>
+                        <div>
                             <h1 className={this.props.classes.headerTitle}
                                 itemProp="name">
                                 <Link className="header-brand-logo"
@@ -277,15 +276,6 @@ class HeaderLayoutHome extends React.Component {
                                     {window.settings.website_name}
                                 </Link>
                             </h1>
-                        </div>
-
-                        <div className={this.props.classes.sectionMobile}>
-                            <IconButton className={this.props.classes.menuButton}
-                                        color="primary"
-                                        aria-label="Open drawer"
-                                        onClick={this._handleDrawerToggle}>
-                                <MenuIcon/>
-                            </IconButton>
                         </div>
 
                         <div className={this.props.classes.grow}/>
@@ -302,6 +292,15 @@ class HeaderLayoutHome extends React.Component {
                         <div className={this.props.classes.grow}/>
 
                         {this._renderDesktopMenu()}
+
+                        <div className={this.props.classes.sectionMobile}>
+                            <IconButton className={this.props.classes.menuButton}
+                                        color="primary"
+                                        aria-label="Open drawer"
+                                        onClick={this._handleDrawerToggle}>
+                                <AccountCircleIcon className={this.props.classes.mobileIcon}/>
+                            </IconButton>
+                        </div>
                     </Toolbar>
 
                     <div className={classNames('search-module', {

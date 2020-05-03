@@ -194,3 +194,12 @@ export const getArticleErrors = createSelector(
         return errorContent;
     }
 );
+
+export const getIsTagError = createSelector(
+    (state) => state.articleState.errors,
+    (errors) => {
+        const errorKeys = errors && Object.keys(errors)
+
+        return errorKeys && errorKeys.length === 1 && errorKeys[0] === 'tagged_articles';
+    }
+);

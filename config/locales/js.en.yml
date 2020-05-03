@@ -614,7 +614,7 @@ en:
         date: "Date"
       module:
         placeholder: "Search"
-        default: "Search on website..."
+        default: "Search on website"
         button: "Search"
         topics:
           title: "Topics"

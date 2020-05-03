@@ -123,7 +123,8 @@ const handleParseErrors = (error, url, isGet = false) => {
 const handleFlashMessage = (response) => {
     let flashMessage = response.headers.get('X-Flash-Messages');
 
-    if (flashMessage) {
+    // Article errors are managed in article component
+    if (flashMessage && !response.url?.match(/\/articles$/)) {
         flashMessage = JSON.parse(decodeURIComponent(escape(flashMessage)));
 
         if (flashMessage?.success) {

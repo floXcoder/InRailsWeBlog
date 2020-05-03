@@ -614,7 +614,7 @@ es:
         priority: "Prioridad"
       module:
         button: "Busca en"
-        default: "Buscar en el sitio..."
+        default: "Buscar en el sitio"
         placeholder: "Busca en"
         topics:
           title: "Temas"

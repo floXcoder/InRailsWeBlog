@@ -5,9 +5,9 @@ import * as ActionTypes from '../constants/actionTypes';
 import api from '../middlewares/api';
 
 // Tags
-export const fetchTags = (filter, options = {}, payload = {}) => ({
+export const fetchTags = (filter = {}, options = {}, payload = {}) => ({
     actionType: ActionTypes.TAG,
-    fetchAPI: () => api.get(`/api/v1/tags`, {
+    fetchAPI: () => api.get('/api/v1/tags', {
         filter,
         ...options
     }),

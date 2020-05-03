@@ -33,17 +33,16 @@ const styles = (theme) => ({
         flexGrow: 1
     },
     headerTitle: {
-        display: 'none',
+        display: 'block',
         margin: '10px 8px 0',
-        fontSize: 32,
-        [theme.breakpoints.up('sm')]: {
-            display: 'block',
-            fontSize: '2rem'
-        }
+        fontSize: 32
     },
     menuButton: {
-        marginLeft: -12,
-        marginRight: 20
+        marginLeft: 5,
+        marginRight: 5
+    },
+    mobileIcon: {
+      fontSize: '1.6rem'
     },
     sectionDesktop: {
         display: 'none',

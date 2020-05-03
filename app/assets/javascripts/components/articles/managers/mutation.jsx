@@ -23,7 +23,8 @@ import {
 
 import {
     getCurrentUser,
-    getArticleErrors
+    getArticleErrors,
+    getIsTagError
 } from '../../../selectors';
 
 import {
@@ -50,7 +51,8 @@ export default function articleMutationManager(mode) {
             tags: state.tagState.topicTags,
             isFetching: state.articleState.isFetching,
             article: mode === 'edit' ? state.articleState.article : undefined,
-            articleErrors: getArticleErrors(state)
+            articleErrors: getArticleErrors(state),
+            isTagError: getIsTagError(state)
         }), {
             showUserLogin,
             addArticle,
@@ -73,6 +75,7 @@ export default function articleMutationManager(mode) {
                 isFetching: PropTypes.bool,
                 article: PropTypes.object,
                 articleErrors: PropTypes.array,
+                isTagError: PropTypes.bool,
                 showUserLogin: PropTypes.func,
                 addArticle: PropTypes.func,
                 fetchArticle: PropTypes.func,
@@ -151,7 +154,11 @@ export default function articleMutationManager(mode) {
 
             componentDidUpdate(prevProps) {
                 if (!Utils.isEmpty(this.props.articleErrors) && prevProps.articleErrors !== this.props.articleErrors) {
-                    Notification.error(this.props.articleErrors);
+                    if(this.props.isTagError) {
+                        Notification.warn(this.props.articleErrors);
+                    } else {
+                        Notification.error(this.props.articleErrors);
+                    }
                 }
             }
 
@@ -305,6 +312,7 @@ export default function articleMutationManager(mode) {
                     currentMode: currentMode,
                     pasteContent: pasteContent,
                     articleErrors: this.props.articleErrors,
+                    isTagError: this.props.isTagError,
                     onFormChange: this._handleFormChange
                 };
 

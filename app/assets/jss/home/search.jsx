@@ -3,18 +3,19 @@
 const styles = (theme) => ({
     search: {
         position: 'relative',
-        borderRadius: theme.shape.borderRadius,
-        backgroundColor: theme.palette.background.default,
-        // '&:hover': {
-        //     backgroundColor: fade(theme.palette.common.black, 0.25)
-        // },
+        backgroundColor: theme.palette.grey[100],
         marginRight: theme.spacing(2),
         marginLeft: '0 !important',
         width: '100%',
         border: '1px solid #eee',
+        borderRadius: 24,
+        transition: 'border 1s ease-out',
         [theme.breakpoints.up('sm')]: {
             marginLeft: theme.spacing(3),
             width: 'auto'
+        },
+        '&:hover': {
+            border: '1px solid #aaa'
         }
     },
     searchIcon: {
@@ -47,7 +48,8 @@ const styles = (theme) => ({
         },
         '&:hover': {
             [theme.breakpoints.up('md')]: {
-                width: '26vw'
+                width: '38vw',
+                minWidth: 400
             }
         }
     },
@@ -56,7 +58,8 @@ const styles = (theme) => ({
         paddingRight: theme.spacing(1),
         paddingBottom: theme.spacing(1),
         [theme.breakpoints.up('md')]: {
-            width: '26vw'
+            width: '38vw',
+            minWidth: 400
         }
     },
     selectedTagsChip: {

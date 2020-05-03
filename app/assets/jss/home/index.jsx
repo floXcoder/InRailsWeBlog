@@ -9,8 +9,10 @@ const styles = (theme) => ({
     root: {
         position: 'relative',
         margin: '1rem auto 4rem',
-        overflow: 'visible',
-        maxWidth: articleAppendixWidth
+        maxWidth: articleAppendixWidth,
+        paddingLeft: 8,
+        paddingRight: 8,
+        overflow: 'visible'
     },
     grid: {
         maxWidth: gridWidth

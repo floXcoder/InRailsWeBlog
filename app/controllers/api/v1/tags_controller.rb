@@ -33,7 +33,9 @@ module Api::V1
       if complete
         tags = ::Tags::FindQueries.new(nil, current_admin).complete
       elsif params[:populars]
-        tags = ::Tags::FindQueries.new.populars(limit: params[:limit])
+        tags = component_cache('popular_tags') do
+          ::Tags::FindQueries.new.populars(limit: params[:limit])
+        end
       elsif params[:user_id] && (filter_params[:topic_slug].present? || filter_params[:topic_id].present?)
         topic_id = if filter_params[:topic_slug]
                      User.friendly.find_by(id: params[:user_id])&.topics&.find_by(slug: filter_params[:topic_slug])&.id
@@ -51,12 +53,12 @@ module Api::V1
         tags = component_cache("user_tags:#{params[:user_id]}_for_#{topic_id || current_user&.current_topic_id}") do
           ::Tags::FindQueries.new(current_user, current_admin).all(filter_params.merge(topic_id: topic_id, limit: params[:limit]))
         end
-      else
-        # set_seo_data(:tags)
-
-        tags = component_cache("user_tags:#{params[:user_id]}") do
-          ::Tags::FindQueries.new(current_user, current_admin).all(filter_params.merge(limit: params[:limit]))
+      elsif filter_params[:user_id]
+        tags = component_cache("user_tags:#{filter_params[:user_id]}") do
+         ::Tags::FindQueries.new(current_user, current_admin).all(filter_params.merge(limit: params[:limit]))
         end
+      else
+        ::Tags::FindQueries.new.all(filter_params.merge(limit: params[:limit]))
       end
 
       expires_in InRailsWeBlog.config.cache_time, public: true
