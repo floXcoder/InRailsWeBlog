@@ -230,7 +230,7 @@ class ApplicationController < ActionController::Base
     if resource.is_a?(Admin)
       admins_path
     else
-      root_path     = send("user_home_#{resource_or_scope.locale || 'en'}_path")
+      root_path     = send("user_home_#{resource_or_scope.locale || 'en'}_path", user_slug: resource_or_scope.slug)
       previous_path = request.referer && URI.parse(request.referer).path
 
       if previous_path =~ /\/login/ || previous_path =~ /\/signup/ || previous_path == '/'

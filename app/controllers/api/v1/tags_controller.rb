@@ -53,12 +53,12 @@ module Api::V1
         tags = component_cache("user_tags:#{params[:user_id]}_for_#{topic_id || current_user&.current_topic_id}") do
           ::Tags::FindQueries.new(current_user, current_admin).all(filter_params.merge(topic_id: topic_id, limit: params[:limit]))
         end
-      elsif filter_params[:user_id]
-        tags = component_cache("user_tags:#{filter_params[:user_id]}") do
+      elsif filter_params[:user_id] || current_user
+        tags = component_cache("user_tags:#{filter_params[:user_id] || current_user.id}") do
          ::Tags::FindQueries.new(current_user, current_admin).all(filter_params.merge(limit: params[:limit]))
         end
       else
-        ::Tags::FindQueries.new.all(filter_params.merge(limit: params[:limit]))
+        tags = ::Tags::FindQueries.new.all(filter_params.merge(limit: params[:limit]))
       end
 
       expires_in InRailsWeBlog.config.cache_time, public: true
