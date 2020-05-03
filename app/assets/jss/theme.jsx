@@ -28,7 +28,7 @@ export const tooltipZIndex = 1600;
 // Titles font
 export const h1Size = '3rem';
 export const h1SizeMobile = '2.4rem';
-export const h1Weight = 600;
+export const h1Weight = 700;
 export const h1LineHeight = '3.3rem';
 export const h1LineHeightMobile = '2.4rem';
 export const h1Spacing = 3.5;
