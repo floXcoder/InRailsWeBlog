@@ -9,7 +9,7 @@
 /public/javascripts
 /public/node_modules
 /public/seo_cache
-/public/serviceWorker*
+/public/service-worker*
 /public/sitemap.xml.gz
 /public/stylesheets
 /public/uploads
