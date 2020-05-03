@@ -42,7 +42,7 @@ class ApplicationController < ActionController::Base
     user_env = ::Users::EnvironmentService.new(session,
                                                cookies,
                                                http_accept_language,
-                                               locale:       params[:locale],
+                                               locale:       request.path == '/' ? 'en' : params[:locale],
                                                force_locale: params[:force_locale],
                                                current_user: current_user).perform
 
@@ -165,7 +165,7 @@ class ApplicationController < ActionController::Base
     if model
       model.link_path(locale: locale, route_name: named_route, host: host).gsub(/\/$/, '')
     else
-      Rails.application.routes.url_helpers.send("#{named_route}_#{locale}_#{host ? 'url' : 'path'}", **(params.transform_values { |v| v.to_s.downcase.strip.tr('&', 'and').tr('_', '-').parameterize }).merge(host: host)).gsub(/\/$/, '')
+      Rails.application.routes.url_helpers.send("#{named_route}_#{locale}_#{host ? 'url' : 'path'}", **(params.transform_values { |v| v.to_s.downcase.strip.tr('&', 'and').tr('_', '-').parameterize }).merge(host: host)).gsub(/(.*+)\/$/, '')
     end
   end
 

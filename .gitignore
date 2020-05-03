@@ -9,10 +9,12 @@
 /public/javascripts
 /public/node_modules
 /public/seo_cache
+/public/serviceWorker*
 /public/sitemap.xml.gz
 /public/stylesheets
 /public/uploads
 /public/vendor
+/public/workbox*
 
 # Ignore application documentation
 /doc

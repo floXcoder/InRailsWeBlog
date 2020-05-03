@@ -141,12 +141,16 @@ class NotificationComponent extends React.Component {
         this._processQueue();
     };
 
+    success = (message, actionButton, actionCallback) => {
+        this._handleAdd('success', message, actionButton, actionCallback);
+    };
+
     alert = (message, actionButton, actionCallback) => {
         this._handleAdd('alert', message, actionButton, actionCallback);
     };
 
-    success = (message, actionButton, actionCallback) => {
-        this._handleAdd('success', message, actionButton, actionCallback);
+    warn = (message, actionButton, actionCallback) => {
+        this._handleAdd('warning', message, actionButton, actionCallback);
     };
 
     error = (message, actionButton, actionCallback) => {
@@ -177,6 +181,7 @@ const Notification = ReactDOM.render(
     document.getElementById('notification-component')
 );
 
-export const alert = Notification.alert;
 export const success = Notification.success;
+export const alert = Notification.alert;
+export const warn = Notification.warn;
 export const error = Notification.error;

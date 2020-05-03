@@ -21,15 +21,17 @@
   overflow: initial !important;
 }
 
+// Logo URL in CSS file to get correct path
 .header-brand-logo {
   background: url("#{$images-path}/logos/header-logo.png") 0 0 no-repeat;
   display: block;
   text-indent: -9999em;
   transition: color .6s ease-in-out;
-  width: 335px;
+  width: 270px;
 
-  @media #{$large-and-down} {
-    display: none;
+  @media #{$medium-and-down} {
+    background: url("#{$images-path}/logos/favicon-32x32.png") 0 0 no-repeat;
+    width: 40px;
   }
 }
 

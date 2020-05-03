@@ -6,6 +6,7 @@ const ManifestPlugin = require('webpack-manifest-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
+const WorkboxPlugin = require('workbox-webpack-plugin');
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const config = require('../config').webpack;
@@ -195,6 +196,19 @@ webPackConfig.plugins.push(
         filename: config.production.filename + '.css',
         chunkFilename: config.production.chunkFilename + '.css'
     }),
+    new WorkboxPlugin.GenerateSW({
+        additionalManifestEntries: config.serviceWorker.additionalFiles,
+        clientsClaim: true,
+        skipWaiting: true,
+        offlineGoogleAnalytics: false,
+        maximumFileSizeToCacheInBytes: 1_200_000,
+        swDest: config.serviceWorker.dest,
+        exclude: config.serviceWorker.exclude,
+        runtimeCaching: config.serviceWorker.runtimeCaching,
+        navigateFallback: config.serviceWorker.offlineFile,
+        navigateFallbackDenylist: config.serviceWorker.offlineExclude,
+        modifyURLPrefix: config.serviceWorker.transformURL
+    })
     // new BundleAnalyzerPlugin({
     //     // Can be `server`, `static` or `disabled`.
     //     // In `server` mode analyzer will start HTTP server to show bundle report.

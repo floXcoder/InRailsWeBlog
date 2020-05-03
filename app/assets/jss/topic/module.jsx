@@ -34,8 +34,8 @@ const styles = (theme) => ({
     },
     close: {
         position: 'absolute',
-        top: 0,
-        right: 0,
+        top: 6,
+        right: 6,
         zIndex: 1,
         [theme.breakpoints.up('md')]: {
             display: 'none'
@@ -100,7 +100,6 @@ const styles = (theme) => ({
             textDecoration: 'underline'
         }
     }
-
 });
 
 export default styles;

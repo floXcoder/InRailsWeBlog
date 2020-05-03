@@ -21,7 +21,7 @@ module Users
     def resolve_locale
       new_locale = @params[:force_locale] ||
         @params[:locale] ||
-        locale_cookie ||
+        # locale_cookie ||
         @current_user&.locale ||
         locale_session ||
         # locale_from_browser ||
@@ -54,13 +54,13 @@ module Users
       end
     end
 
-    def locale_cookie
-      @cookies[:locale].present? && RouteTranslator.available_locales.include?(@cookies[:locale].to_sym) ? @cookies[:locale] : nil
-    end
-
     def locale_session
       @session[:locale].presence
     end
+
+    # def locale_cookie
+    #   @cookies[:locale].present? && RouteTranslator.available_locales.include?(@cookies[:locale].to_sym) ? @cookies[:locale] : nil
+    # end
 
   end
 end

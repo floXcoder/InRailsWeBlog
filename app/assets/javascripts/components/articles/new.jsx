@@ -44,6 +44,7 @@ class ArticleNew extends React.Component {
         currentMode: PropTypes.string,
         pasteContent: PropTypes.string,
         articleErrors: PropTypes.array,
+        isTagError: PropTypes.bool,
         onCancel: PropTypes.func,
         onFormChange: PropTypes.func,
         onSubmit: PropTypes.func,
@@ -139,7 +140,7 @@ class ArticleNew extends React.Component {
 
         let errorStep = null;
         if (this.props.articleErrors?.length > 0) {
-            if (this.props.articleErrors.some((error) => error.includes('Tags') || error.includes('Labels'))) {
+            if (this.props.isTagError) {
                 errorStep = 'tag';
             } else {
                 errorStep = 'article';

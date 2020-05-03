@@ -72,6 +72,7 @@ class HomeHome extends React.Component {
         });
 
         this.props.fetchTags({}, {
+            populars: true,
             limit: homePopularsLimit
         }, {
             populars: true
@@ -82,7 +83,7 @@ class HomeHome extends React.Component {
         return (
             <div className={this.props.classes.root}>
                 <Grid container={true}
-                      spacing={4}
+                      spacing={2}
                       direction="row"
                       justify="space-between"
                       alignItems="flex-start">

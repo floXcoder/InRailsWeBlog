@@ -614,7 +614,7 @@ it:
         priority: "Priorità"
       module:
         placeholder: "Ricerca"
-        default: "Ricerca sul sito..."
+        default: "Ricerca sul sito"
         button: "Ricerca"
         topics:
           title: "Temi"

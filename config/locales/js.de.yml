@@ -625,7 +625,7 @@ de:
           others: "Andere Themen"
       module:
         placeholder: "Suchen"
-        default: "Suche auf der Website..."
+        default: "Suche auf der Website"
         button: "Suchen"
         topics:
           title: "Themenbereiche"

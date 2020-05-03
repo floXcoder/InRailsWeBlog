@@ -17,7 +17,7 @@ import {
 const styles = (theme) => ({
     articleCard: {
         position: 'relative',
-        margin: '.4rem 1rem 2rem',
+        margin: '.4rem .6rem 2rem',
         overflow: 'visible',
         [theme.breakpoints.down('md')]: {
             marginTop: '.8rem',

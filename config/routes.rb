@@ -51,7 +51,8 @@ Rails.application.routes.draw do
 
     # Connected users
     authenticate :user do
-      get '/(users/:user_slug)', to: 'pages#home', as: :user_home, defaults: { name: 'user_home' }
+      # get '/(users/:user_slug)', to: 'pages#home', as: :user_home, defaults: { name: 'user_home' }
+      get '/users/:user_slug', to: 'pages#home', as: :user_home, defaults: { name: 'user_home' }
     end
 
     # Static routes
