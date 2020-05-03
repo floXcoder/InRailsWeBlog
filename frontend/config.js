@@ -115,8 +115,8 @@ module.exports = {
             }
         ],
         serviceWorker: {
-            dest: '../serviceWorker.js',
-            exclude: [/admin/, /about/, /policy/, /terms/, /comment\./, /compare\./, /history\./, /tracker\./, /edit\./, /edition\./, /editor\./, /sort\./, /persistence\./, /share\./, /login\./, /signup\./, /password\./, /preference\./, /\.ttf/, /\.eot/, /\.woff/],
+            dest: '../service-worker.js',
+            exclude: [/admin/, /about/, /policy/, /terms/, /comment\./, /comment-box\./, /compare\./, /history\./, /tracker\./, /edit\./, /edition\./, /editor\./, /sort\./, /persistence\./, /share\./, /login\./, /signup\./, /password\./, /user-confirmation\./, /preference\./, /\.ttf$/, /\.eot$/, /\.woff$/, /apple-touch/, /LICENSE/, /statics-/, /pghero/],
             additionalFiles: [
                 {url: 'offline.html', revision: '1'},
                 {url: 'favicon.ico', revision: '1'}
@@ -150,11 +150,11 @@ module.exports = {
                     }
                 }
             ],
-            offlineFile: '/offline.html',
-            offlineExclude: [/\/api\//],
             transformURL: {
                 'https://assets.ginkonote.com': 'https://www.ginkonote.com'
             }
+            // offlineFile: '/offline.html',
+            // offlineExclude: [/\/api\//],
         },
         development: {
             assetPath: 'http://localhost:8080/assets/',
