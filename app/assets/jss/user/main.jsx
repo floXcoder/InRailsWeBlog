@@ -2,14 +2,12 @@
 
 import {
     headerHeight,
-    mainWidth,
-    mainZIndex
+    mainWidth
 } from '../theme';
 
 const styles = (theme) => ({
     root: {
         flexGrow: 1,
-        zIndex: mainZIndex,
         position: 'relative',
         display: 'flex',
         height: '100%',
@@ -17,6 +15,7 @@ const styles = (theme) => ({
         minHeight: '100vh',
         flexDirection: 'column',
         alignItems: 'stretch'
+        // zIndex: mainZIndex
     },
     sidebar: {
         flex: '0 0 auto',

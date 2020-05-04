@@ -11,7 +11,7 @@ import {
 } from '../../../constants/routesHelper';
 
 const ArticleEditIcon = ({userSlug, articleSlug, history, size, color}) => (
-    <span className="tooltip-bottom"
+    <span className="flow-tooltip-bottom"
           data-tooltip={I18n.t('js.article.tooltip.edit')}>
         <Link to={editArticlePath(userSlug, articleSlug)}
               onClick={_redirectToEdit.bind(undefined, userSlug, articleSlug, history)}>

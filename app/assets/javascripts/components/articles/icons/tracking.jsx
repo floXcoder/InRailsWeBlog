@@ -11,7 +11,7 @@ import {
 } from '../../../constants/routesHelper';
 
 const ArticleTrackingIcon = ({articleId, size, color}) => (
-    <span className="tooltip-bottom"
+    <span className="flow-tooltip-bottom"
           data-tooltip={I18n.t('js.article.tooltip.tracking')}>
         <Link to={{
             hash: '#' + trackingArticleParam,

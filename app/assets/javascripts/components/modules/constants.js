@@ -29,3 +29,7 @@ export const metaSearchLimit = 20;
 
 // Autocomplete
 export const suggestionsLimit = 20;
+
+// Uploads
+export const maxWidthUpload = 2048;
+export const maxHeightUpload = 2048;

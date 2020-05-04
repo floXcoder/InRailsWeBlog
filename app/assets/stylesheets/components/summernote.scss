@@ -1557,27 +1557,8 @@ a.note-dropdown-item, a.note-dropdown-item:hover {
   }
 }
 
-.note-modal-body {
-  [type="checkbox"]:not(:checked),
-  [type="checkbox"]:checked {
-    position: inherit;
-    opacity: 1;
-    pointer-events: inherit;
-
-  }
-}
-
-.note-modal-footer {
-  height: 50px !important;
-}
-
 .note-icon-close::after {
   content: '\2716';
-}
-
-.note-modal .btn.note-btn {
-  text-transform: none;
-  float: none;
 }
 
 .note-editor.note-frame .note-status-output {
@@ -1609,17 +1590,47 @@ a.note-dropdown-item, a.note-dropdown-item:hover {
 }
 
 .note-modal {
-  z-index: 1300 !important;
+  z-index: 1301 !important;
   margin-top: 80px;
 }
 
 .note-modal-backdrop {
-  display: none !important;
+  z-index: 1300 !important;
+  //display: none !important;
 }
 
-.note-tooltip {
-  .note-tooltip-arrow,
-  .note-tooltip-content {
-    display: inherit;
+.note-modal-body {
+  [type="checkbox"]:not(:checked),
+  [type="checkbox"]:checked {
+    position: inherit;
+    opacity: 1;
+    pointer-events: inherit;
+
   }
+}
+.note-modal-body {
+  [type="checkbox"]:not(:checked),
+  [type="checkbox"]:checked {
+    position: inherit;
+    opacity: 1;
+    pointer-events: inherit;
+
+  }
+}
+
+.note-modal-footer {
+  height: 50px !important;
+}
+
+.note-modal .btn.note-btn {
+  text-transform: none;
+  float: none;
+}
+
+.note-modal-footer {
+  height: 50px !important;
+}
+
+.note-tooltip.bottom {
+  margin-top: 8px;
 }

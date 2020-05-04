@@ -11,7 +11,7 @@ import {
 } from '../../../constants/routesHelper';
 
 const ArticleTopicLinkIcon = ({userSlug, topicSlug, size, color}) => (
-    <span className="tooltip-bottom"
+    <span className="flow-tooltip-bottom"
           data-tooltip={I18n.t('js.article.tooltip.topic_link')}>
         <Link to={topicArticlesPath(userSlug, topicSlug)}>
             <ReplyIcon color={color}

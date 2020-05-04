@@ -3,7 +3,7 @@
 import DeleteIcon from '@material-ui/icons/DeleteOutline';
 
 const ArticleDeleteIcon = ({onDeleteClick, size, color}) => (
-    <span className="tooltip-bottom"
+    <span className="flow-tooltip-bottom"
           data-tooltip={I18n.t('js.article.tooltip.delete')}>
         <a href="#"
            onClick={onDeleteClick}>

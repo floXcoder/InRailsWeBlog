@@ -6,7 +6,7 @@ import DeleteIcon from '@material-ui/icons/DeleteOutline';
 
 const ArticleInlineActions = ({classes, onSaveClick, onCancelClick, onDeleteClick, color, size}) => (
     <ul className={classes.actionButtons}>
-        <li className={classNames('tooltip-bottom', classes.actionItem)}
+        <li className={classNames('flow-tooltip-bottom', classes.actionItem)}
             data-tooltip={I18n.t('js.article.tooltip.delete')}>
             <a href="#"
                onClick={onDeleteClick}>
@@ -15,7 +15,7 @@ const ArticleInlineActions = ({classes, onSaveClick, onCancelClick, onDeleteClic
             </a>
         </li>
 
-        <li className={classNames('tooltip-bottom', classes.actionItem)}
+        <li className={classNames('flow-tooltip-bottom', classes.actionItem)}
             data-tooltip={I18n.t('js.article.tooltip.cancel')}>
             <a href="#"
                onClick={onCancelClick}>
@@ -24,7 +24,7 @@ const ArticleInlineActions = ({classes, onSaveClick, onCancelClick, onDeleteClic
             </a>
         </li>
 
-        <li className={classNames('tooltip-bottom', classes.actionItem)}
+        <li className={classNames('flow-tooltip-bottom', classes.actionItem)}
             data-tooltip={I18n.t('js.article.tooltip.update')}>
             <a href="#"
                onClick={onSaveClick}>

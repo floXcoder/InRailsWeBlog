@@ -15,7 +15,7 @@ import {
 } from '../../../actions';
 
 const ArticleLinkIcon = ({userSlug, articleSlug, articleId, articleTitle, size, color}) => (
-    <span className="tooltip-bottom"
+    <span className="flow-tooltip-bottom"
           data-tooltip={I18n.t('js.article.tooltip.link_to')}>
         <Link to={userArticlePath(userSlug, articleSlug)}
               onClick={spyTrackClick.bind(null, 'article', articleId, articleSlug, articleTitle)}>
