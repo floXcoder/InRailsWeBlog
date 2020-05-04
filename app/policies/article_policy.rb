@@ -36,6 +36,10 @@ class ArticlePolicy
     owner?
   end
 
+  def check_links?
+    owner?
+  end
+
   def restore?
     owner? || contributor?
   end

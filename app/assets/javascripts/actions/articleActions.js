@@ -33,6 +33,16 @@ export const fetchSharedArticle = (articleId, publicLink, options = {}) => ({
     })
 });
 
+export const checkLinksArticle = (articleId, options = {}) => ({
+    actionType: ActionTypes.ARTICLE,
+    mutationAPI: () => api.post(`/api/v1/articles/${articleId}/check-links`, {
+        ...options
+    }),
+    payload: {
+        removedId: articleId
+    }
+});
+
 // Article mutations
 export const addArticle = (article, options = {}) => ({
     actionType: ActionTypes.ARTICLE,

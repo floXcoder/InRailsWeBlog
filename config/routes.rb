@@ -179,10 +179,12 @@ Rails.application.routes.draw do
         member do
           get      'shared/:public_link', to: 'articles#shared'
 
-          get      :stories,   to: 'articles#stories'
+          post     'check-links',         to: 'articles#check_links'
 
-          get      :history,   to: 'articles#history'
-          get      :restore,   to: 'articles#restore'
+          get      :stories,              to: 'articles#stories'
+
+          get      :history,              to: 'articles#history'
+          get      :restore,              to: 'articles#restore'
 
           concerns :tracker,   module: :articles
 

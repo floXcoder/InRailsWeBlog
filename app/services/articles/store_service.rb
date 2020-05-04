@@ -95,7 +95,7 @@ module Articles
         @params.delete(:picture_ids).split(',').each do |picture_id|
           if picture_id.present?
             picture = Picture.find_by(id: picture_id.to_i)
-            @article.pictures << picture
+            @article.pictures << picture if picture
           end
         end
       else

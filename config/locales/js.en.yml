@@ -412,6 +412,9 @@ en:
           message: "Please log in, before posting article"
         infinite:
           loading: "Loading articles"
+        dead_links:
+          checking: "Checking dead links..."
+          done: "Dead links are displayed in red in article"
         placeholders:
           title:
             note: "Article title"
@@ -508,6 +511,7 @@ en:
         compare: "Comparison between languages"
         delete: "Remove this article"
         updated_at: "Last modification"
+        check_link: "Check dead links"
       masonry:
         add_column: "Add column"
         remove_column: "Remove column"

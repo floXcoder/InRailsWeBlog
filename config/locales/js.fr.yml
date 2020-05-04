@@ -412,6 +412,9 @@ fr:
           message: "Merci de vous connecter avant de poster l'article"
         infinite:
           loading: "Chargement des articles ..."
+        dead_links:
+          checking: "Vérification des liens morts ..."
+          done: "Les liens morts ont été mis en rouge dans l'article"
         placeholders:
           title:
             note: "Titre de votre article"
@@ -508,6 +511,7 @@ fr:
         compare: "Comparaison entre langues"
         delete: "Supprimer cet article"
         updated_at: "Dernière modification"
+        check_link: "Vérifier les liens morts"
       masonry:
         add_column: "Ajouter colonne"
         remove_column: "Enlever colonne"

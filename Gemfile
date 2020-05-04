@@ -21,6 +21,7 @@ gem 'pg_query',                 '1.2.0' # Required for pghero
 gem 'responders',               '3.0.0'
 gem 'http_accept_language',     '2.1.1'
 gem 'secure_headers',           '6.3.0'
+gem 'faraday',                  '1.0.1'
 
 # JSON
 gem 'fast_jsonapi',             '1.7.0', git: 'https://github.com/fast-jsonapi/fast_jsonapi'

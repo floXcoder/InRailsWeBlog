@@ -342,6 +342,39 @@ class Article < ApplicationRecord
     picture.present? || default_picture.present? ? AssetManifest.image_path(picture || default_picture) : nil
   end
 
+  def check_dead_links!
+    urls = self.content.scan(/<a (.*?)href="(https*:\/\/.*?)"(.*?)>/)
+    urls.each do |url|
+      part_1, link, part_2 = url
+
+      new_part_1 = part_1
+      new_part_2 = part_2
+
+      status = Faraday.head(link).status rescue nil
+
+      if !status || status.to_i >= 400
+        if part_1.include?('class="')
+          new_part_1 = part_1.gsub('class="', 'class="dead-link ')
+        elsif part_2.include?('class="')
+          new_part_2 = part_2.gsub('class="', 'class="dead-link ')
+        else
+          new_part_2 = ' class="dead-link"'
+        end
+        self.content.gsub!("<a #{part_1}href=\"#{link}\"#{part_2}>", "<a #{new_part_1}href=\"#{link}\"#{new_part_2}>")
+      elsif part_1.include?('dead-link') || part_2.include?('dead-link')
+        if part_1.include?('dead-link')
+          new_part_1 = part_1.gsub('dead-link', '')
+        elsif part_2.include?('dead-link')
+          new_part_2 = part_2.gsub('dead-link', '')
+        end
+
+        self.content.gsub!("<a #{part_1}href=\"#{link}\"#{part_2}>", "<a #{new_part_1}href=\"#{link}\"#{new_part_2}>")
+      end
+    end
+
+    self.save
+  end
+
   def mark_as_outdated(user)
     if self.marked_as_outdated.exists?(user.id)
       errors.add(:outdated, I18n.t('activerecord.errors.models.outdated_article.already_outdated'))
@@ -447,32 +480,32 @@ class Article < ApplicationRecord
   def search_data
     # Only filterable can be used in where options!
     {
-      id:               self.id,
-      user_id:          self.user_id,
-      user_slug:        self.user.slug,
-      topic_id:         self.topic_id,
-      topic_name:       self.topic&.name,
-      topic_slug:       self.topic&.slug,
-      tag_ids:          self.tag_ids,
-      tag_names:        self.tags.map(&:name),
-      tag_slugs:        self.tags.map(&:slug),
-      mode:             self.mode,
-      mode_translated:  mode_translated,
-      title:            self.title, # Fetch first translation if title not found in current locale
-      content:          formatted_content(I18n.locale.to_s),
-      reference:        self.reference,
-      languages:        self.languages,
-      draft:            self.draft,
-      notation:         self.notation,
-      priority:         self.priority,
-      visibility:       self.visibility,
-      archived:         self.archived,
-      accepted:         self.accepted,
-      created_at:       self.created_at,
-      updated_at:       self.updated_at,
-      rank:             self.rank,
-      popularity:       self.popularity,
-      slug:             self.slug
+      id:              self.id,
+      user_id:         self.user_id,
+      user_slug:       self.user.slug,
+      topic_id:        self.topic_id,
+      topic_name:      self.topic&.name,
+      topic_slug:      self.topic&.slug,
+      tag_ids:         self.tag_ids,
+      tag_names:       self.tags.map(&:name),
+      tag_slugs:       self.tags.map(&:slug),
+      mode:            self.mode,
+      mode_translated: mode_translated,
+      title:           self.title, # Fetch first translation if title not found in current locale
+      content:    formatted_content(I18n.locale.to_s),
+      reference:  self.reference,
+      languages:  self.languages,
+      draft:      self.draft,
+      notation:   self.notation,
+      priority:   self.priority,
+      visibility: self.visibility,
+      archived:   self.archived,
+      accepted:   self.accepted,
+      created_at: self.created_at,
+      updated_at: self.updated_at,
+      rank:       self.rank,
+      popularity: self.popularity,
+      slug:       self.slug
     }.merge(inventories)
   end
 

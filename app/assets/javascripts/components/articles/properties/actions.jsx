@@ -4,6 +4,7 @@ import Hidden from '@material-ui/core/Hidden';
 
 import ArticleDeleteIcon from '../icons/delete';
 import ArticleTrackingIcon from '../icons/tracking';
+import CheckLinkIcon from '../icons/checkLink';
 import ArticleShareIcon from '../icons/share';
 import ArticleBookmarkIcon from '../icons/bookmark';
 import ArticleHistoryIcon from '../icons/history';
@@ -14,7 +15,7 @@ import ArticleLinkIcon from '../icons/link';
 
 const deleteIconStyle = {marginRight: 30};
 
-const ArticleActions = ({classes, isInline, userSlug, articleId, articleSlug, articleTitle, articleVisibility, isOutdated, onOutdatedClick, onDeleteClick, size, color}) => (
+const ArticleActions = ({classes, isInline, userSlug, articleId, articleSlug, articleTitle, articleVisibility, isOutdated, hasLinks, onOutdatedClick, onCheckLinkClick, onDeleteClick, size, color}) => (
     <ul className={classes.actionButtons}>
         {
             !isInline &&
@@ -33,6 +34,17 @@ const ArticleActions = ({classes, isInline, userSlug, articleId, articleSlug, ar
                     <ArticleTrackingIcon articleId={articleId}
                                          size={size}
                                          color={color}/>
+                </li>
+            </Hidden>
+        }
+
+        {
+            !isInline && hasLinks &&
+            <Hidden mdDown={true}>
+                <li className={classes.actionItem}>
+                    <CheckLinkIcon onCheckLinkClick={onCheckLinkClick}
+                                   size={size}
+                                   color={color}/>
                 </li>
             </Hidden>
         }
@@ -111,9 +123,11 @@ ArticleActions.propTypes = {
     userSlug: PropTypes.string,
     articleTitle: PropTypes.string,
     onOutdatedClick: PropTypes.func,
+    onCheckLinkClick: PropTypes.func,
     onDeleteClick: PropTypes.func,
     isInline: PropTypes.bool,
     isOutdated: PropTypes.bool,
+    hasLinks: PropTypes.bool,
     size: PropTypes.oneOf(['small', 'default', 'large']),
     color: PropTypes.oneOf(['primary', 'secondary', 'action'])
 };

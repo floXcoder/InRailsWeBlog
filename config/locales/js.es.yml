@@ -397,86 +397,89 @@ es:
           text_type: Texto
     article:
       common:
-        actions: Acciones
+        actions: "Acciones"
         allow_comment:
-          falsy: 'No'
+          falsy: "No"
           title: "¿Permitir comentarios?"
-          truthy: Sí
+          truthy: "Sí"
         draft: "¿Una nota temporal?"
         external_source: "¿Referencia externa?"
         infinite:
-          loading: Cargando artículos ...
+          loading: "Cargando artículos ..."
         link: "¿Es una conexión?"
         no_results:
           search:
-            content: Intenta algo más :)
-            title: No se han encontrado artículos
+            content: "Intenta algo más :)"
+            title: "No se han encontrado artículos"
           topic:
-            button: Añadir un nuevo artículo
+            button: "Añadir un nuevo artículo"
             title:
-              child_tag: Añadir un artículo a este tema para esta subetiqueta
-              default: Añadir un artículo a este tema
-              tag: Añade un artículo a este tema para esta etiqueta
+              child_tag: "Añadir un artículo a este tema para esta subetiqueta"
+              default: "Añadir un artículo a este tema"
+              tag: "Añade un artículo a este tema para esta etiqueta"
         not_connected:
-          message: Por favor, identifíquese antes de publicar el artículo
+          message: "Por favor, identifíquese antes de publicar el artículo"
         outdated: "¡Un artículo marcado como obsoleto!"
+        dead_links:
+          checking: "Comprobando los enlaces muertos..."
+          done: "Los enlaces muertos han sido resaltados en rojo en el artículo"
         placeholders:
           content:
-            link: Descripción del enlace
-            note: Contenido a añadir
-            story: Contenido de su artículo
+            link: "Descripción del enlace"
+            note: "Contenido a añadir"
+            story: "Contenido de su artículo"
           reference:
-            inventory: Enlace a la fuente original
-            link: Enlace a la referencia
-            note: Enlace a la fuente original
-            story: Enlace a la fuente original
+            inventory: "Enlace a la fuente original"
+            link: "Enlace a la referencia"
+            note: "Enlace a la fuente original"
+            story: "Enlace a la fuente original"
           title:
-            inventory: Título para el inventario
-            note: Título de su artículo
-            story: Título de su historia
+            inventory: "Título para el inventario"
+            note: "Título de su artículo"
+            story: "Título de su historia"
         tags:
-          add: 'Añade la etiqueta :'
-          child: Añadir etiquetas secundarias
-          default: Añadir etiquetas al artículo
-          everyone: Etiquetas compartidas
-          none: Sin etiquetas
-          only_me: Etiquetas personales
-          parent: Añade las etiquetas principales
-          placeholder: Introduzca el nombre de la etiqueta
+          add: "Añade la etiqueta :"
+          child: "Añadir etiquetas secundarias"
+          default: "Añadir etiquetas al artículo"
+          everyone: "Etiquetas compartidas"
+          none: "Sin etiquetas"
+          only_me: "Etiquetas personales"
+          parent: "Añade las etiquetas principales"
+          placeholder: "Introduzca el nombre de la etiqueta"
         tooltips:
-          content_too_short: El contenido es demasiado corto
-          summary_too_short: El resumen es demasiado corto
-          title_too_short: El título es demasiado corto
-        url: Lista de artículos
+          content_too_short: "El contenido es demasiado corto"
+          summary_too_short: "El resumen es demasiado corto"
+          title_too_short: "El título es demasiado corto"
+        url: "Lista de artículos"
         validation_error:
-          common: Por favor, rellene el artículo como se indica antes de continuar
-        visibility: Elija la visibilidad
+          common: "Por favor, rellene el artículo como se indica antes de continuar"
+        visibility: "Elija la visibilidad"
       form:
         inventories:
-          filterable: Este campo está incluido en la búsqueda
-          searchable: Este campo está incluido en la búsqueda
-        inventory_button: Agregar o modificar los campos personalizados
-        next: Siguiente
-        no_inventories: 'Aún no ha definido ningún campo personalizado. Gracias por crearlos:'
+          filterable: "Este campo está incluido en la búsqueda"
+          searchable: "Este campo está incluido en la búsqueda"
+        inventory_button: "Agregar o modificar los campos personalizados"
+        next: "Siguiente"
+        no_inventories: "Aún no ha definido ningún campo personalizado. Gracias por crearlos:"
         unsaved: "¿Renunciar sin guardar el artículo?"
       model:
-        allow_comment: Permitir comentarios
-        child_tags: Etiquetas secundarias
+        allow_comment: "Permitir comentarios"
+        child_tags: "Etiquetas secundarias"
         comment:
-          'false': Discapacitados
-          'true': Activado
-        content: Contenido
-        draft: Nota temporal
-        inventories: Campos personalizados
-        language: Idioma
-        parent_tags: Etiquetas principales
-        reference: Enlace
-        summary: Resumen
-        tagged_articles: Etiquetas del artículo
-        tags: Etiquetas
-        title: Título
-        topic: Tema
-        visibility: Visibilidad
+          'false': "Discapacitados"
+          'true': "Activado"
+        content: "Contenido"
+        draft: "Nota temporal"
+        inventories: "Campos personalizados"
+        language: "Idioma"
+        parent_tags: "Etiquetas principales"
+        reference: "Enlace"
+        summary: "Resumen"
+        tagged_articles: "Etiquetas del artículo"
+        tags: "Etiquetas"
+        title: "Título"
+        topic: "Tema"
+        visibility: "Visibilidad"
       enums:
         mode:
           inventory: "Inventario"
@@ -507,7 +510,8 @@ es:
         compare: "Comparación entre idiomas"
         update: "Actualización"
         updated_at: "Última modificación"
-        visibility: 'Visibilidad: %{visibility}'
+        visibility: "Visibilidad: %{visibility}"
+        check_link: "Compruebe si hay enlaces muertos"
       masonry:
         add_column: "Añadir columna"
         remove_column: "Quitar la columna"

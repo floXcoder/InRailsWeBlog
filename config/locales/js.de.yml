@@ -397,139 +397,142 @@ de:
         value_type: Feldtyp
     article:
       bookmark:
-        added: Artikel zu den Favoriten hinzugefügt
-        removed: Artikel aus den Favoriten gelöscht
-      clipboard: Temporärer Artikel, der mit kopierten Daten erstellt wurde
+        added: "Artikel zu den Favoriten hinzugefügt"
+        removed: "Artikel aus den Favoriten gelöscht"
+      clipboard: "Temporärer Artikel, der mit kopierten Daten erstellt wurde"
       common:
-        actions: Aktionen
+        actions: "Aktionen"
         allow_comment:
-          falsy: Nein
-          title: Erlauben Sie Kommentare?
-          truthy: Ja
-        draft: Vorläufige Notiz?
-        external_source: Externer Bezug?
+          falsy: "Nein"
+          title: "Erlauben Sie Kommentare?"
+          truthy: "Ja"
+        draft: "Vorläufige Notiz?"
+        external_source: "Externer Bezug?"
         infinite:
-          loading: Laden von Gegenständen ...
-        link: Ist eine Verbindung?
+          loading: "Laden von Gegenständen ..."
+        link: "Ist eine Verbindung?"
         no_results:
           search:
-            content: Versuchen Sie etwas anderes :)
-            title: Keine Artikel gefunden
+            content: "Versuchen Sie etwas anderes :)"
+            title: "Keine Artikel gefunden"
           topic:
-            button: Neuen Artikel hinzufügen
+            button: "Neuen Artikel hinzufügen"
             title:
-              child_tag: Fügen Sie einen Artikel zu diesem Thema für dieses Unter-Label hinzu
-              default: Einen Artikel zu diesem Thema hinzufügen
-              tag: Einen Artikel zu diesem Thema für dieses Label hinzufügen
+              child_tag: "Fügen Sie einen Artikel zu diesem Thema für dieses Unter-Label hinzu"
+              default: "Einen Artikel zu diesem Thema hinzufügen"
+              tag: "Einen Artikel zu diesem Thema für dieses Label hinzufügen"
         not_connected:
-          message: Bitte loggen Sie sich ein, bevor Sie den Artikel veröffentlichen
-        outdated: Als veraltet markierter Artikel!
+          message: "Bitte loggen Sie sich ein, bevor Sie den Artikel veröffentlichen"
+        outdated: "Als veraltet markierter Artikel!"
+        dead_links:
+          checking: "Überprüfe tote Links..."
+          done: "Tote Links wurden im Artikel rot markiert"
         placeholders:
           content:
-            link: Beschreibung des Links
-            note: Hinzuzufügender Inhalt
-            story: Inhalt Ihres Artikels
+            link: "Beschreibung des Links"
+            note: "Hinzuzufügender Inhalt"
+            story: "Inhalt Ihres Artikels"
           reference:
-            inventory: Link zur Originalquelle
-            link: Link zur Referenz
-            note: Link zur Originalquelle
-            story: Link zur Originalquelle
+            inventory: "Link zur Originalquelle"
+            link: "Link zur Referenz"
+            note: "Link zur Originalquelle"
+            story: "Link zur Originalquelle"
           title:
-            inventory: Titel für das Inventar
-            note: Titel Ihres Artikels
-            story: Titel Ihrer Geschichte
+            inventory: "Titel für das Inventar"
+            note: "Titel Ihres Artikels"
+            story: "Titel Ihrer Geschichte"
         tags:
-          add: 'Fügen Sie das Etikett hinzu:'
-          child: Hinzufügen von Sekundäretiketten
-          default: Etiketten zum Artikel hinzufügen
-          everyone: Gemeinsame Etiketten
-          none: Ohne Etiketten
-          only_me: Persönliche Etiketten
-          parent: Hauptetiketten hinzufügen
-          placeholder: Geben Sie den Namen des Etiketts ein
+          add: "Fügen Sie das Etikett hinzu:"
+          child: "Hinzufügen von Sekundäretiketten"
+          default: "Etiketten zum Artikel hinzufügen"
+          everyone: "Gemeinsame Etiketten"
+          none: "Ohne Etiketten"
+          only_me: "Persönliche Etiketten"
+          parent: "Hauptetiketten hinzufügen"
+          placeholder: "Geben Sie den Namen des Etiketts ein"
         tooltips:
-          content_too_short: Der Inhalt ist zu kurz
-          summary_too_short: Abstrakt ist zu kurz
-          title_too_short: Der Titel ist zu kurz
-        url: Liste der Artikel
+          content_too_short: "Der Inhalt ist zu kurz"
+          summary_too_short: "Abstrakt ist zu kurz"
+          title_too_short: "Der Titel ist zu kurz"
+        url: "Liste der Artikel"
         validation_error:
-          common: Bitte füllen Sie den Artikel wie angegeben aus, bevor Sie fortfahren
-        visibility: Sichtbarkeit wählen
+          common: "Bitte füllen Sie den Artikel wie angegeben aus, bevor Sie fortfahren"
+        visibility: "Sichtbarkeit wählen"
       edit:
-        exit: Sind Sie sicher, dass Sie ohne zu sparen gehen?
-        form_title: 'Modifikation von : %{title}'
-        submit: Aktualisierung
-        title: Ändern eines Materials
+        exit: "Sind Sie sicher, dass Sie ohne zu sparen gehen?"
+        form_title: "Modifikation von : %{title}"
+        submit: "Aktualisierung"
+        title: "Ändern eines Materials"
       enums:
         mode:
-          inventory: Bestandsaufnahme
-          link: Link
-          note: Hinweis
-          story: Artikel
+          inventory: "Bestandsaufnahme"
+          link: "Link"
+          note: "Hinweis"
+          story: "Artikel"
         visibility:
-          everyone: Öffentlich
-          only_me: Privat
+          everyone: "Öffentlich"
+          only_me: "Privat"
       errors:
         bookmark:
           bookmark: "%{message}"
-          default: Kann nicht zu den Favoriten hinzugefügt werden! Versuchen Sie, die Verbindung wieder herzustellen.
-          not_authorized: Sie haben nicht die Erlaubnis, diesen Artikel als Lesezeichen zu speichern!
+          default: "Kann nicht zu den Favoriten hinzugefügt werden! Versuchen Sie, die Verbindung wieder herzustellen."
+          not_authorized: "Sie haben nicht die Erlaubnis, diesen Artikel als Lesezeichen zu speichern!"
         content:
-          size: Der Inhalt des Artikels muss zwischen %{min} und %{max} Zeichen liegen
-        default: Unmöglich, den Artikel zu erstellen! Danke, dass Sie es noch einmal versucht haben.
-        not_authorized: Sie haben keine Berechtigung, auf diesen Artikel zuzugreifen!
+          size: "Der Inhalt des Artikels muss zwischen %{min} und %{max} Zeichen liegen"
+        default: "Unmöglich, den Artikel zu erstellen! Danke, dass Sie es noch einmal versucht haben."
+        not_authorized: "Sie haben keine Berechtigung, auf diesen Artikel zuzugreifen!"
         summary:
-          size: Die Zusammenfassung des Artikels muss zwischen %{min} und %{max} Zeichen liegen
+          size: "Die Zusammenfassung des Artikels muss zwischen %{min} und %{max} Zeichen liegen"
         title:
-          size: Der Titel des Artikels muss zwischen %{min} und %{max} Zeichen liegen
-        topic: Kein Thema mit dem Artikel verbunden
+          size: "Der Titel des Artikels muss zwischen %{min} und %{max} Zeichen liegen"
+        topic: "Kein Thema mit dem Artikel verbunden"
       filter:
         filters:
-          bookmark: Favoriten
-          draft: Entwürfe
-          link: Links
-          note: Anmerkungen
-          story: Artikel
-        title: Filtern nach
+          bookmark: "Favoriten"
+          draft: "Entwürfe"
+          link: "Links"
+          note: "Anmerkungen"
+          story: "Artikel"
+        title: "Filtern nach"
       flash:
-        creation_unpermitted: Anmeldung zum Schreiben eines Artikels
-        deletion_successful: Der Artikel wurde gelöscht.
-        undelete_link: Brechen Sie die Löschung ab.
+        creation_unpermitted: "Anmeldung zum Schreiben eines Artikels"
+        deletion_successful: "Der Artikel wurde gelöscht."
+        undelete_link: "Brechen Sie die Löschung ab."
       form:
         inventories:
-          filterable: Dieses Feld wird in die Suche einbezogen
-          searchable: Dieses Feld wird in die Suche einbezogen
-        inventory_button: Hinzufügen oder Ändern von benutzerdefinierten Feldern
-        next: Nächste
-        no_inventories: 'Sie haben noch keine benutzerdefinierten Felder definiert. Danke, dass Sie sie erstellt haben:'
-        unsaved: Beenden, ohne den Artikel zu speichern?
+          filterable: "Dieses Feld wird in die Suche einbezogen"
+          searchable: "Dieses Feld wird in die Suche einbezogen"
+        inventory_button: "Hinzufügen oder Ändern von benutzerdefinierten Feldern"
+        next: "Nächste"
+        no_inventories: "Sie haben noch keine benutzerdefinierten Felder definiert. Danke, dass Sie sie erstellt haben:"
+        unsaved: "Beenden, ohne den Artikel zu speichern?"
       history:
-        changed_at: Geänderte Version
-        initial: Erste Version
-        none: Keine Geschichte für diesen Artikel!
-        restore: Diese Version wiederherstellen
-        restored: Restaurierte Version
+        changed_at: "Geänderte Version"
+        initial: "Erste Version"
+        none: "Keine Geschichte für diesen Artikel!"
+        restore: "Diese Version wiederherstellen"
+        restored: "Restaurierte Version"
       masonry:
-        add_column: Spalte hinzufügen
-        remove_column: Spalte entfernen
+        add_column: "Spalte hinzufügen"
+        remove_column: "Spalte entfernen"
       model:
-        allow_comment: Kommentare erlauben
-        child_tags: Sekundäre Etiketten
+        allow_comment: "Kommentare erlauben"
+        child_tags: "Sekundäre Etiketten"
         comment:
-          'false': Behinderte
-          'true': Aktiviert
-        content: Inhalt
-        draft: Vorläufige Notiz
-        inventories: Benutzerdefinierte Felder
-        language: Sprache
-        parent_tags: Hauptetiketten
-        reference: Link
-        summary: Abstrakt
-        tagged_articles: Beschriftung des Artikels
-        tags: Beschriftungen
-        title: Titel
-        topic: Thema
-        visibility: Sichtbarkeit
+          'false': "Behinderte"
+          'true': "Aktiviert"
+        content: "Inhalt"
+        draft: "Vorläufige Notiz"
+        inventories: "Benutzerdefinierte Felder"
+        language: "Sprache"
+        parent_tags: "Hauptetiketten"
+        reference: "Link"
+        summary: "Abstrakt"
+        tagged_articles: "Beschriftung des Artikels"
+        tags: "Beschriftungen"
+        title: "Titel"
+        topic: "Thema"
+        visibility: "Sichtbarkeit"
       new:
         exit: "Sind Sie sicher, dass Sie ohne zu sparen gehen?"
         meta:
@@ -589,6 +592,7 @@ de:
         update: "Aktualisierung"
         updated_at: "Zuletzt geändert"
         visibility: "Sichtbarkeit: %{visibility}"
+        check_link: "Suche nach toten Links"
       tracking:
         bookmarks: "Anzahl von Malen, die zu den Favoriten hinzugefügt wurden"
         cancel: "Abbrechen"

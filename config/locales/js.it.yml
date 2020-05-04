@@ -397,95 +397,98 @@ it:
           text_type: Testo
     article:
       common:
-        actions: Azioni
+        actions: "Azioni"
         allow_comment:
-          falsy: 'No'
-          title: Permettere commenti?
-          truthy: Sì
-        draft: Nota temporanea?
-        external_source: Riferimento esterno?
+          falsy: "No"
+          title: "Permettere commenti?"
+          truthy: "Sì"
+        draft: "Nota temporanea?"
+        external_source: "Riferimento esterno?"
         infinite:
-          loading: Caricamento degli articoli ...
-        link: C'è una connessione?
+          loading: "Caricamento degli articoli ..."
+        link: "C'è una connessione?"
         no_results:
           search:
-            content: Prova qualcos'altro :)
-            title: Nessun articolo trovato
+            content: "Prova qualcos'altro :)"
+            title: "Nessun articolo trovato"
           topic:
-            button: Aggiungi un nuovo articolo
+            button: "Aggiungi un nuovo articolo"
             title:
-              child_tag: Aggiungi un articolo a questo tema per questa sotto-etichetta
-              default: Aggiungi un articolo a questo argomento
-              tag: Aggiungi un articolo a questo tema per questa etichetta
+              child_tag: "Aggiungi un articolo a questo tema per questa sotto-etichetta"
+              default: "Aggiungi un articolo a questo argomento"
+              tag: "Aggiungi un articolo a questo tema per questa etichetta"
         not_connected:
-          message: Effettua il login prima di pubblicare l'articolo
-        outdated: Articolo contrassegnato come obsoleto!
+          message: "Effettua il login prima di pubblicare l'articolo"
+        outdated: "Articolo contrassegnato come obsoleto!"
+        dead_links:
+          checking: "Controllo dei collegamenti morti..."
+          done: "I link morti sono stati evidenziati in rosso nell'articolo"
         placeholders:
           content:
-            link: Descrizione del link
-            note: Contenuto da aggiungere
-            story: Contenuto dell'articolo
+            link: "Descrizione del link"
+            note: "Contenuto da aggiungere"
+            story: "Contenuto dell'articolo"
           reference:
-            inventory: Collegamento alla fonte originale
-            link: Collegamento al riferimento
-            note: Collegamento alla fonte originale
-            story: Collegamento alla fonte originale
+            inventory: "Collegamento alla fonte originale"
+            link: "Collegamento al riferimento"
+            note: "Collegamento alla fonte originale"
+            story: "Collegamento alla fonte originale"
           title:
-            inventory: Titolo per l'inventario
-            note: Titolo dell'articolo
-            story: Titolo della tua storia
+            inventory: "Titolo per l'inventario"
+            note: "Titolo dell'articolo"
+            story: "Titolo della tua storia"
         tags:
-          add: 'Aggiungere l''etichetta :'
-          child: Aggiungere etichette secondarie
-          default: Aggiungere etichette all'articolo
-          everyone: Etichette condivise
-          none: Senza etichette
-          only_me: Etichette personali
-          parent: Aggiungere le etichette principali
-          placeholder: Inserire il nome dell'etichetta
+          add: "Aggiungere l'etichetta :"
+          child: "Aggiungere etichette secondarie"
+          default: "Aggiungere etichette all'articolo"
+          everyone: "Etichette condivise"
+          none: "Senza etichette"
+          only_me: "Etichette personali"
+          parent: "Aggiungere le etichette principali"
+          placeholder: "Inserire il nome dell'etichetta"
         tooltips:
-          content_too_short: Il contenuto è troppo breve
-          summary_too_short: L'astratto è troppo breve
-          title_too_short: Il titolo è troppo breve
-        url: Elenco degli articoli
+          content_too_short: "Il contenuto è troppo breve"
+          summary_too_short: "L'astratto è troppo breve"
+          title_too_short: "Il titolo è troppo breve"
+        url: "Elenco degli articoli"
         validation_error:
-          common: Si prega di compilare l'articolo come indicato prima di continuare
-        visibility: Scegliere la visibilità
+          common: "Si prega di compilare l'articolo come indicato prima di continuare"
+        visibility: "Scegliere la visibilità"
       form:
         inventories:
-          filterable: Questo campo è incluso nella ricerca
-          searchable: Questo campo è incluso nella ricerca
-        inventory_button: Aggiungere o modificare i campi personalizzati
-        next: Avanti
-        no_inventories: 'Non è stato ancora definito alcun campo personalizzato. Grazie per averli creati:'
-        unsaved: Uscire senza salvare l'articolo?
+          filterable: "Questo campo è incluso nella ricerca"
+          searchable: "Questo campo è incluso nella ricerca"
+        inventory_button: "Aggiungere o modificare i campi personalizzati"
+        next: "Avanti"
+        no_inventories: "Non è stato ancora definito alcun campo personalizzato. Grazie per averli creati:"
+        unsaved: "Uscire senza salvare l'articolo?"
       model:
-        allow_comment: Consentire commenti
-        child_tags: Etichette secondarie
+        allow_comment: "Consentire commenti"
+        child_tags: "Etichette secondarie"
         comment:
-          'false': Disabili
-          'true': Attivato
-        content: Contenuto
-        draft: Nota temporanea
-        inventories: Campi personalizzati
-        language: Lingua
-        parent_tags: Etichette principali
-        reference: Link
-        summary: Abstract
-        tagged_articles: Etichette dell'articolo
-        tags: Etichette
-        title: Titolo
-        topic: Tema
-        visibility: Visibilità
+          'false': "Disabili"
+          'true': "Attivato"
+        content: "Contenuto"
+        draft: "Nota temporanea"
+        inventories: "Campi personalizzati"
+        language: "Lingua"
+        parent_tags: "Etichette principali"
+        reference: "Link"
+        summary: "Abstract"
+        tagged_articles: "Etichette dell'articolo"
+        tags: "Etichette"
+        title: "Titolo"
+        topic: "Tema"
+        visibility: "Visibilità"
       enums:
         mode:
-          inventory: Inventario
-          link: Link
-          note: Nota
-          story: Articolo
+          inventory: "Inventario"
+          link: "Link"
+          note: "Nota"
+          story: "Articolo"
         visibility:
-          everyone: Pubblico
-          only_me: Privato
+          everyone: "Pubblico"
+          only_me: "Privato"
       flash:
         creation_unpermitted: "Accedi per scrivere un articolo"
         deletion_successful: "L'articolo è stato cancellato."
@@ -508,6 +511,7 @@ it:
         update: "Aggiorna"
         updated_at: "Ultima modifica"
         visibility: "Visibilità: %{visibility}"
+        check_link: "Controlla se ci sono collegamenti morti"
       masonry:
         add_column: "Aggiungi colonna"
         remove_column: "Rimuovere la colonna"

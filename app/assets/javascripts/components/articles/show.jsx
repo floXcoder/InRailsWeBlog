@@ -34,6 +34,7 @@ import {
     fetchArticleStories,
     markArticleOutdated,
     unmarkArticleOutdated,
+    checkLinksArticle,
     deleteArticle,
     setCurrentTags
 } from '../../actions';
@@ -91,6 +92,7 @@ export default @withRouter
     fetchArticleStories,
     markArticleOutdated,
     unmarkArticleOutdated,
+    checkLinksArticle,
     deleteArticle,
     setCurrentTags
 })
@@ -118,6 +120,7 @@ class ArticleShow extends React.Component {
         fetchArticleStories: PropTypes.func,
         markArticleOutdated: PropTypes.func,
         unmarkArticleOutdated: PropTypes.func,
+        checkLinksArticle: PropTypes.func,
         deleteArticle: PropTypes.func,
         setCurrentTags: PropTypes.func,
         // from highlight
@@ -183,6 +186,15 @@ class ArticleShow extends React.Component {
         }
     };
 
+    _handleCheckLinkClick = (event) => {
+        event.preventDefault();
+
+        Notification.warn(I18n.t('js.article.common.dead_links.checking'));
+
+        this.props.checkLinksArticle(this.props.article.id)
+            .then(() => Notification.success(I18n.t('js.article.common.dead_links.done')));
+    };
+
     _handleDeleteClick = (event) => {
         event.preventDefault();
 
@@ -214,6 +226,8 @@ class ArticleShow extends React.Component {
         }
 
         const isStory = this.props.article.mode === 'story';
+
+        const hasLinks = this.props.article.content?.includes('<a ');
 
         return (
             <div>
@@ -381,7 +395,9 @@ class ArticleShow extends React.Component {
                                                         articleTitle={this.props.article.title}
                                                         articleVisibility={this.props.article.visibility}
                                                         isOutdated={this.props.article.outdated}
+                                                        hasLinks={hasLinks}
                                                         onOutdatedClick={this._handleOutdatedClick}
+                                                        onCheckLinkClick={this._handleCheckLinkClick}
                                                         onDeleteClick={this._handleDeleteClick}/>
                                     }
                                 </div>
