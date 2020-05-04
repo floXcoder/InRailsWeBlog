@@ -161,19 +161,24 @@ class TopicPersistence extends React.Component {
             .then(() => window.location = '/');
     };
 
+    _renderTitle = () => {
+        if (this.props.routeState.signup) {
+            return I18n.t('js.topic.edit.title_signup');
+        } else if (this.props.editingTopic) {
+            return I18n.t('js.topic.edit.title');
+        } else {
+            return I18n.t('js.topic.new.title');
+        }
+    };
+
     render() {
         return (
             <Modal open={this.state.isOpen}
                    onClose={this._handleClose}>
                 <div className={this.props.classes.modal}>
-                    <Typography variant="h6">
-                        {
-                            this.props.editingTopic
-                                ?
-                                I18n.t('js.topic.edit.title', {topic: this.props.editingTopic.name})
-                                :
-                                I18n.t('js.topic.new.title')
-                        }
+                    <Typography variant="h6"
+                                gutterBottom={true}>
+                        {this._renderTitle()}
                     </Typography>
 
                     <PersistenceFormTopic classes={this.props.classes}

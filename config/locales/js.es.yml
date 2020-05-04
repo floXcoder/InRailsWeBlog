@@ -354,7 +354,8 @@ es:
         mode: Escriba
         name: Nombre del tema
         submit: Actualizar el tema
-        title: 'Modificación del tema: %{topic}'
+        title: 'Modificación del tema'
+        title_signup: "Su primer tema"
         update_inventories: Modificar los campos personalizados
       edit_inventories:
         add_field: Añade un nuevo campo

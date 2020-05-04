@@ -354,7 +354,8 @@ it:
         mode: Tipo
         name: Nome del tema
         submit: Aggiornare il tema
-        title: 'Modifica del tema: %{topic}'
+        title: 'Modifica del tema'
+        title_signup: "Il tuo primo tema"
         update_inventories: Modificare i campi personalizzati
       edit_inventories:
         add_field: Aggiungere un nuovo campo

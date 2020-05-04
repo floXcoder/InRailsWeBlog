@@ -348,7 +348,8 @@ fr:
         cancel: "Annuler"
         submit: "Ajouter"
       edit:
-        title: "Modification du thème : %{topic}"
+        title: "Modification du thème"
+        title_signup: "Votre premier thème"
         name: "Nom du thème"
         mode: "Type"
         description: "Description"

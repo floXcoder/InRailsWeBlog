@@ -68,7 +68,8 @@ class MainLayoutUser extends React.Component {
                                                      params={router.match.params}
                                                      location={router.location}>
                                            <UserManager routeParams={router.match.params}
-                                                        routeState={router.location.state}>
+                                                        routeState={router.location.state}
+                                                        pushHistory={router.history.push}>
                                                <div className={this.props.classes.root}>
                                                    <main className={this.props.classes.content}>
                                                        <Suspense fallback={<div/>}>

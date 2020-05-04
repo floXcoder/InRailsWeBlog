@@ -34,8 +34,8 @@ module Users
       end
 
       # Save locale into session for API requests
-      if @params[:locale] && !@current_user
-        @session[:locale] = @params[:locale]
+      if (@params[:locale] || @params[:default_locale]) && !@current_user
+        @session[:locale] = @params[:locale] || @params[:locale]
       end
 
       # if @current_admin

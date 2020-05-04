@@ -320,7 +320,8 @@ de:
         mode: Geben Sie  ein
         name: Name des Themas
         submit: Aktualisieren Sie das Thema
-        title: 'Änderung des Themas: %{topic}'
+        title: 'Änderung des Themas'
+        title_signup: "Ihr erstes Thema"
         update_inventories: Benutzerdefinierte Felder modifizieren
       edit_inventories:
         add_field: Neues Feld hinzufügen

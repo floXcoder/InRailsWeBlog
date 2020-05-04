@@ -348,7 +348,8 @@ en:
         cancel: "Cancel"
         submit: "Add topic"
       edit:
-        title: "Update topic: %{topic}"
+        title: "Update topic"
+        title_signup: "Your first topic"
         name: "Topic name"
         mode: "Type"
         description: "Topic description"

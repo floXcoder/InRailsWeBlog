@@ -12,6 +12,10 @@ import {
     setCurrentTags
 } from '../../../actions';
 
+import {
+    newTopicParam
+} from '../../../constants/routesHelper';
+
 export default @connect((state) => ({
     currentUserId: state.userState.currentId,
     currentUser: state.userState.user,
@@ -33,6 +37,7 @@ class UserManager extends React.Component {
         children: PropTypes.object.isRequired,
         routeParams: PropTypes.object.isRequired,
         routeState: PropTypes.object,
+        pushHistory: PropTypes.func,
         // from connect
         currentUserId: PropTypes.number,
         currentUser: PropTypes.object,
@@ -98,13 +103,23 @@ class UserManager extends React.Component {
                     }
 
                     // Send local recent clicks otherwise fetch them
-                    const userJustSign = sessionStorage?.getItem('user-connection');
+                    const userJustLog = sessionStorage?.getItem('user-logged');
+                    const userJustSign = sessionStorage?.getItem('user-signed');
 
                     Utils.defer.then(() => {
                         const isNewSession = sessionStorage.getItem('userRecents');
 
-                        if (userJustSign) {
-                            sessionStorage.removeItem('user-connection');
+                        if(userJustSign) {
+                            sessionStorage.removeItem('user-signed');
+                            this.props.pushHistory({
+                                hash: '#' + newTopicParam,
+                                state: {
+                                    topicId: response.user.currentTopic.id,
+                                    signup: true
+                                }
+                            });
+                        } else if (userJustLog) {
+                            sessionStorage.removeItem('user-logged');
                             this.props.updateUserRecents(this.props.currentUserId, getTracksClick(true));
                         } else if(!isNewSession) {
                             this.props.fetchUserRecents(this.props.currentUserId, {limit: 10});
