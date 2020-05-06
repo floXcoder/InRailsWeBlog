@@ -121,12 +121,17 @@ class TopicShow extends React.Component {
                                 {I18n.t('js.topic.model.description')}
                             </Typography>
 
-                            {
-                                this.props.topic.description ||
-                                <p className="">
-                                    {I18n.t('js.topic.common.no_description')}
-                                </p>
-                            }
+                            <div className="margin-bottom-65">
+                                {
+                                    this.props.topic.description
+                                        ?
+                                        this.props.topic.description
+                                        :
+                                        <p>
+                                            {I18n.t('js.topic.common.no_description')}
+                                        </p>
+                                }
+                            </div>
                         </div>
 
                         <div>

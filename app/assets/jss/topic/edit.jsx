@@ -1,7 +1,7 @@
 'use strict';
 
 import {
-    gridWidth
+    articleWidth
 } from '../theme';
 
 const styles = (theme) => ({
@@ -9,8 +9,8 @@ const styles = (theme) => ({
         position: 'relative',
         margin: '1rem auto 4rem',
         overflow: 'visible',
-        maxWidth: gridWidth
-    },
+        maxWidth: articleWidth
+    }
 });
 
 export default styles;

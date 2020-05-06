@@ -30,6 +30,10 @@ class TopicCompleteSerializer
 
   has_one :tracker
 
+  attribute :description_translations do |object|
+    object.description_translations
+  end
+
   attribute :visibility_translated do |object|
     object.visibility_to_tr
   end

@@ -26,11 +26,15 @@ module Topics
         @topic.name      = sanitized_name
       end
 
-      if !@params[:description].nil?
+      if !@params[:description_translations].nil? && @topic.languages.size > 1
+        @params.delete(:description_translations).each do |locale, description|
+          @topic.description_translations[locale] = Sanitize.fragment(description)
+        end
+      elsif !@params[:description].nil?
         @topic.description = Sanitize.fragment(@params.delete(:description))
-      else
-        @params.delete(:description)
       end
+      @params.delete(:description)
+      @params.delete(:description_translations)
 
       @topic.build_icon(image: @params.delete(:icon)) unless @params[:icon].nil?
 

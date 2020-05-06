@@ -250,21 +250,22 @@ class Topic < ApplicationRecord
 
   def search_data
     {
-      id:              self.id,
-      user_id:         self.user_id,
-      user_slug:       self.user.slug,
-      mode:            self.mode,
-      mode_translated: mode_translated,
-      name:            self.name,
-      description:     self.description,
-      languages:       self.languages,
-      priority:        self.priority,
-      visibility:      self.visibility,
-      archived:        self.archived,
-      accepted:        self.accepted,
-      created_at:      self.created_at,
-      updated_at:      self.updated_at,
-      slug:            self.slug
+      id:                       self.id,
+      user_id:                  self.user_id,
+      user_slug:                self.user.slug,
+      mode:                     self.mode,
+      mode_translated:          mode_translated,
+      name:                     self.name,
+      description:              self.description,
+      description_translations: self.description_translations,
+      languages:                self.languages,
+      priority:                 self.priority,
+      visibility:               self.visibility,
+      archived:                 self.archived,
+      accepted:                 self.accepted,
+      created_at:               self.created_at,
+      updated_at:               self.updated_at,
+      slug:                     self.slug
     }
   end
 
