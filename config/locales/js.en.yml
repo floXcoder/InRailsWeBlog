@@ -56,10 +56,10 @@ en:
         languages: "Languages"
         locales:
           en: "English"
-          fr: "French"
-          de: "German"
-          es: "Spanish"
-          it: "Italian"
+          fr: "Français"
+          de: "Deutsch"
+          es: "Español"
+          it: "Italiano"
       home:
         loader: "Loading"
         articles:

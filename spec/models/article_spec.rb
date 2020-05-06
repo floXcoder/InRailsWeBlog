@@ -279,7 +279,7 @@ RSpec.describe Article, type: :model, basic: true do
   context 'Properties' do
     it { is_expected.to have_strip_attributes([:reference]) }
 
-    it { is_expected.to have_friendly_id(:slug) }
+    it { is_expected.to respond_to(:slug) }
 
     it { is_expected.to act_as_tracked(Article) }
 
@@ -512,6 +512,11 @@ RSpec.describe Article, type: :model, basic: true do
     describe '.normalize_friendly_id' do
       it { is_expected.to respond_to(:normalize_friendly_id) }
       it { expect(@article.normalize_friendly_id).to be_a(String) }
+    end
+
+    describe '.should_generate_new_friendly_id?' do
+      it { is_expected.to respond_to(:should_generate_new_friendly_id?) }
+      it { expect(@article.should_generate_new_friendly_id?).to be false }
     end
 
     describe '.public_content' do

@@ -1,24 +1,6 @@
 de:
   js:
     views:
-      footer:
-        copyright: "Urheberrecht 2020 (%{version}). Alle Rechte vorbehalten."
-        description: "Ein Blog für alle"
-        languages: "Sprachen"
-        links:
-          about: "Über uns"
-          contact: "Kontaktieren Sie uns"
-          github: "Quellcode unter Github"
-          github_src: "https://github.com/floXcoder/InRailsWeBlog"
-          policy: "Datenpolitik"
-          terms: "Bedingungen und Konditionen der Nutzung"
-          title: "Nützliche Links"
-        locales:
-          en: "Englisch"
-          fr: "Französisch"
-          de: "Deutsch"
-          es: "Spanisch"
-          it: "Italienisch"
       header:
         article:
           button: "Artikel"
@@ -57,89 +39,107 @@ de:
           profile: "Mein Konto"
           settings: "Meine Einstellungen"
           sign_up: "Registrieren"
+      sidebar:
+        pin: "Kiefer"
+        unpin: "Entnadeln Sie"
       home:
         articles:
           title: "Beliebte Artikel erforschen"
         loader: "Laden von"
         tags:
           title: "Beschriftungen"
-      sidebar:
-        pin: "Kiefer"
-        unpin: "Entnadeln Sie"
+      footer:
+        copyright: "Urheberrecht 2020 (%{version}). Alle Rechte vorbehalten."
+        description: "Ein Blog für alle"
+        languages: "Sprachen"
+        links:
+          about: "Über uns"
+          contact: "Kontaktieren Sie uns"
+          github: "Quellcode unter Github"
+          github_src: "https://github.com/floXcoder/InRailsWeBlog"
+          policy: "Datenpolitik"
+          terms: "Bedingungen und Konditionen der Nutzung"
+          title: "Nützliche Links"
+        locales:
+          en: "English"
+          fr: "Français"
+          de: "Deutsch"
+          es: "Español"
+          it: "Italiano"
     user:
       edit:
-        back_button: Zurück
-        connection_parameters: Ändern Sie Ihre Verbindungseinstellungen
-        current_picture: 'Ihr aktuelles Bild :'
-        local_picture: Lokales Bild
-        login_header: Anmeldeinformationen
-        no_picture: Sie haben kein Bild, das mit Ihrem Konto verknüpft ist.
-        or: oder
-        page_title: Mein Profil bearbeiten
-        personal_information_header: Persönliche Informationen
-        placeholder_picture: Verwenden Sie ein lokales Bild oder eine Url
-        profile_picture: Bild für Ihr Profil
-        remote_picture: Bild-URL
-        remove_picture: Dieses Bild löschen
-        replace_picture: Sie können Ihr Bild durch die Angabe eines anderen Bildes entweder lokal oder über eine Url ersetzen
-        title: Mein Profil bearbeiten
-        update_profile: Mein Profil aktualisieren
+        back_button: "Zurück"
+        connection_parameters: "Ändern Sie Ihre Verbindungseinstellungen"
+        current_picture: "Ihr aktuelles Bild :"
+        local_picture: "Lokales Bild"
+        login_header: "Anmeldeinformationen"
+        no_picture: "Sie haben kein Bild, das mit Ihrem Konto verknüpft ist."
+        or: "oder"
+        page_title: "Mein Profil bearbeiten"
+        personal_information_header: "Persönliche Informationen"
+        placeholder_picture: "Verwenden Sie ein lokales Bild oder eine Url"
+        profile_picture: "Bild für Ihr Profil"
+        remote_picture: "Bild-URL"
+        remove_picture: "Dieses Bild löschen"
+        replace_picture: "Sie können Ihr Bild durch die Angabe eines anderen Bildes entweder lokal oder über eine Url ersetzen"
+        title: "Mein Profil bearbeiten"
+        update_profile: "Mein Profil aktualisieren"
       errors:
         email:
-          already_taken: bereits besetzt ist, wählen Sie bitte eine andere E-Mail-Adresse
-          invalid: Die E-Mail-Adresse ist ungültig
-          required: Bitte geben Sie eine E-Mail-Adresse ein
+          already_taken: "bereits besetzt ist, wählen Sie bitte eine andere E-Mail-Adresse"
+          invalid: "Die E-Mail-Adresse ist ungültig"
+          required: "Bitte geben Sie eine E-Mail-Adresse ein"
         login:
-          invalid: nicht vorhanden ist, geben Sie bitte eine gültige E-Mail-Adresse oder einen Spitznamen ein
-          required: Bitte geben Sie Ihre E-Mail-Adresse oder Ihren Spitznamen ein
+          invalid: "nicht vorhanden ist, geben Sie bitte eine gültige E-Mail-Adresse oder einen Spitznamen ein"
+          required: "Bitte geben Sie Ihre E-Mail-Adresse oder Ihren Spitznamen ein"
         password:
-          mismatch: Passwort und Passwortbestätigung stimmen nicht überein
-          required: Bitte geben Sie ein Passwort ein
-          size: Das Passwort muss zwischen %{min} und %{max} Zeichen liegen
-        policy: Bitte akzeptieren Sie zunächst die Nutzungsbedingungen
+          mismatch: "Passwort und Passwortbestätigung stimmen nicht überein"
+          required: "Bitte geben Sie ein Passwort ein"
+          size: "Das Passwort muss zwischen %{min} und %{max} Zeichen liegen"
+        policy: "Bitte akzeptieren Sie zunächst die Nutzungsbedingungen"
         pseudo:
-          already_taken: bereits vergeben ist, wählen Sie bitte einen anderen Spitznamen
-          required: Bitte geben Sie Ihren Spitznamen ein
-          size: Das Pseudo muss zwischen %{min} und %{max} Zeichen liegen
+          already_taken: "bereits vergeben ist, wählen Sie bitte einen anderen Spitznamen"
+          required: "Bitte geben Sie Ihren Spitznamen ein"
+          size: "Das Pseudo muss zwischen %{min} und %{max} Zeichen liegen"
       home:
         private:
-          subtitle: Zugehörige Artikel werden nur von Ihnen gesehen (mit Ihren eigenen Etiketten)
-          title: Ihre privaten Themen
+          subtitle: "Zugehörige Artikel werden nur von Ihnen gesehen (mit Ihren eigenen Etiketten)"
+          title: "Ihre privaten Themen"
         public:
-          subtitle: Die Artikel werden der ganzen Welt zugänglich gemacht (mit gemeinsamen Etiketten)
-          title: Ihre öffentlichen Themen
+          subtitle: "Die Artikel werden der ganzen Welt zugänglich gemacht (mit gemeinsamen Etiketten)"
+          title: "Ihre öffentlichen Themen"
         shared:
-          subtitle: Themen, die andere Benutzer mit Ihnen teilen
-          title: Ihre gemeinsamen Themen
-        add_topic: Ein Thema hinzufügen
+          subtitle: "Themen, die andere Benutzer mit Ihnen teilen"
+          title: "Ihre gemeinsamen Themen"
+        add_topic: "Ein Thema hinzufügen"
       index:
-        link_to_user: Benutzer-Details
-        search: Benutzer suchen
+        link_to_user: "Benutzer-Details"
+        search: "Benutzer suchen"
       login:
-        cancel: Abbrechen
-        connected: Umleitung auf Ihr Konto
-        connecting: Anmeldung in Bearbeitung
+        cancel: "Abbrechen"
+        connected: "Umleitung auf Ihr Konto"
+        connecting: "Anmeldung in Bearbeitung"
         externals:
-          facebook: Mit Facebook verbinden
-          google: Bei Google anmelden
-        login: Benutzername oder E-Mail
-        new_password: Haben Sie Ihr Passwort vergessen?
-        password: Kennwort
-        remember_me: Erinnern Sie sich an mich
-        submit: Anmeldung
-        title: Anmeldung
+          facebook: "Mit Facebook verbinden"
+          google: "Bei Google anmelden"
+        login: "Benutzername oder E-Mail"
+        new_password: "Haben Sie Ihr Passwort vergessen?"
+        password: "Kennwort"
+        remember_me: "Erinnern Sie sich an mich"
+        submit: "Anmeldung"
+        title: "Anmeldung"
       model:
-        additional_info: Persönliche Informationen
-        admin: Direktor
-        city: Stadt
-        country: Land
-        created_at: Datum der Kontoerstellung
-        email: E-Mail
-        first_name: Vorname
-        last_name: Name
-        last_sign_in_at: Letzte Anmeldung
-        locale: Sprache
-        pseudo: Spitzname
+        additional_info: "Persönliche Informationen"
+        admin: "Direktor"
+        city: "Stadt"
+        country: "Land"
+        created_at: "Datum der Kontoerstellung"
+        email: "E-Mail"
+        first_name: "Vorname"
+        last_name: "Name"
+        last_sign_in_at: "Letzte Anmeldung"
+        locale: "Sprache"
+        pseudo: "Spitzname"
       password:
         edit:
           button: "Mein Passwort ändern"

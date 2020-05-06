@@ -42,6 +42,12 @@ it:
       sidebar:
         pin: "Pino"
         unpin: "Disinserire"
+      home:
+        articles:
+          title: "Esplora gli articoli popolari"
+        loader: "Caricamento"
+        tags:
+          title: "Etichette"
       footer:
         copyright: "Copyright 2020 (%{version}). Tutti i diritti riservati."
         description: "Un blog per tutti"
@@ -55,58 +61,52 @@ it:
           terms: "Termini e condizioni di utilizzo"
           title: "Link utili"
         locales:
-          en: "Inglese"
-          fr: "Francés"
-          de: "Tedesco"
-          es: "Spagnolo"
+          en: "English"
+          fr: "Français"
+          de: "Deutsch"
+          es: "Español"
           it: "Italiano"
-      home:
-        articles:
-          title: "Esplora gli articoli popolari"
-        loader: "Caricamento"
-        tags:
-          title: "Etichette"
     user:
       model:
-        additional_info: Informazioni personali
-        admin: Direttore
-        city: Città
-        country: Paese
-        created_at: Data di creazione del conto
-        email: Il vostro email
-        first_name: Nome
-        last_name: Nome
-        last_sign_in_at: Ultimo accesso
-        locale: Lingua
-        pseudo: Soprannome
+        additional_info: "Informazioni personali"
+        admin: "Direttore"
+        city: "Città"
+        country: "Paese"
+        created_at: "Data di creazione del conto"
+        email: "Il vostro email"
+        first_name: "Nome"
+        last_name: "Nome"
+        last_sign_in_at: "Ultimo accesso"
+        locale: "Lingua"
+        pseudo: "Soprannome"
       login:
-        cancel: Annulla
-        connected: Reindirizzamento sul tuo conto
-        connecting: Login in corso
+        cancel: "Annulla"
+        connected: "Reindirizzamento sul tuo conto"
+        connecting: "Login in corso"
         externals:
-          facebook: Connettiti con Facebook
-          google: Accedi con Google
-        login: Nome utente o e-mail
-        new_password: Hai dimenticato la tua password?
-        password: Password
-        remember_me: Ricordati di me
-        submit: Login
-        title: Login
+          facebook: "Connettiti con Facebook"
+          google: "Accedi con Google"
+        login: "Nome utente o e-mail"
+        new_password: "Hai dimenticato la tua password?"
+        password: "Password"
+        remember_me: "Ricordati di me"
+        submit: "Login"
+        title: "Login"
       signup:
-        cancel: Annulla
-        confirm_password: Conferma la password
-        connected: Reindirizzamento sul tuo conto
-        connecting: Registrazione in corso
-        email: Il vostro email
+        cancel: "Annulla"
+        confirm_password: "Conferma la password"
+        connected: "Reindirizzamento sul tuo conto"
+        connecting: "Registrazione in corso"
+        email: "Il vostro email"
         externals:
-          facebook: Iscriviti con Facebook
-          google: Iscriviti a Google
-        password: Password
-        pseudo: Soprannome
-        submit: Crea il mio conto
-        terms_of_use: Registrandoti su %{website}, accetti di accettare il
-        terms_of_use_name: condizioni di utilizzo.
-        title: Crea un conto
+          facebook: "Iscriviti con Facebook"
+          google: "Iscriviti a Google"
+        password: "Password"
+        pseudo: "Soprannome"
+        submit: "Crea il mio conto"
+        terms_of_use: "Registrandoti su %{website}, accetti di accettare il"
+        terms_of_use_name: "condizioni di utilizzo."
+        title: "Crea un conto"
       password:
         edit:
           button: "Cambiare la mia password"

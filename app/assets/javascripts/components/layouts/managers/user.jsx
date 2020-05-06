@@ -159,10 +159,12 @@ class UserManager extends React.Component {
 
         // Extract topicSlug from article if any
         if (this.props.routeParams.articleSlug) {
-            topicSlug = this.props.routeParams.articleSlug.match(/@.*?$/).first().substr(1);
+            topicSlug = this.props.routeParams.articleSlug.match(/@.*?$/)?.first()?.substr(1);
         }
 
-        this._checkTopic(topicSlug);
+        if(topicSlug) {
+            this._checkTopic(topicSlug);
+        }
 
         this._fetchTags(topicSlug);
     };

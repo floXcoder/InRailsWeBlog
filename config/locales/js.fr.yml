@@ -57,9 +57,9 @@ fr:
         locales:
           en: "English"
           fr: "Français"
-          de: "Allemand"
-          es: "Espagnol"
-          it: "Italien"
+          de: "Deutsch"
+          es: "Español"
+          it: "Italiano"
       home:
         loader: "Chargement"
         articles:

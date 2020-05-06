@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_03_185035) do
+ActiveRecord::Schema.define(version: 2020_05_05_084814) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -100,15 +100,19 @@ ActiveRecord::Schema.define(version: 2020_04_03_185035) do
     t.integer "outdated_articles_count", default: 0
     t.integer "bookmarks_count", default: 0
     t.integer "comments_count", default: 0
-    t.string "slug"
     t.datetime "deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "contributor_id"
     t.jsonb "inventories", default: {}, null: false
+    t.jsonb "slug", default: {}
+    t.index "((slug -> 'de'::text))", name: "index_articles_on_slug_de"
+    t.index "((slug -> 'en'::text))", name: "index_articles_on_slug_en"
+    t.index "((slug -> 'es'::text))", name: "index_articles_on_slug_es"
+    t.index "((slug -> 'fr'::text))", name: "index_articles_on_slug_fr"
+    t.index "((slug -> 'it'::text))", name: "index_articles_on_slug_it"
     t.index ["contributor_id"], name: "index_articles_on_contributor_id"
     t.index ["deleted_at"], name: "index_articles_on_deleted_at"
-    t.index ["slug"], name: "index_articles_on_slug", unique: true, where: "(deleted_at IS NULL)"
     t.index ["topic_id", "visibility"], name: "index_articles_on_topic_id_and_visibility", where: "(deleted_at IS NULL)"
     t.index ["user_id", "visibility"], name: "index_articles_on_user_id_and_visibility", where: "(deleted_at IS NULL)"
   end

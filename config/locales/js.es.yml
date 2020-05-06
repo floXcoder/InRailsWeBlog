@@ -42,6 +42,12 @@ es:
       sidebar:
         pin: "Pino"
         unpin: "Despinchar"
+      home:
+        articles:
+          title: "Explorar los artículos populares"
+        loader: "Cargando"
+        tags:
+          title: "Etiquetas"
       footer:
         copyright: "Copyright 2020 (%{version}). Todos los derechos reservados."
         description: "Un blog para todos"
@@ -55,58 +61,52 @@ es:
           terms: "Condiciones de uso"
           title: "Enlaces útiles"
         locales:
-          en: "Inglés"
-          fr: "Francés"
-          de: "Alemán"
+          en: "English"
+          fr: "Français"
+          de: "Deutsch"
           es: "Español"
           it: "Italiano"
-      home:
-        articles:
-          title: "Explorar los artículos populares"
-        loader: "Cargando"
-        tags:
-          title: "Etiquetas"
     user:
       model:
-        additional_info: Información personal
-        admin: Director
-        city: Ciudad
-        country: País
-        created_at: Fecha de creación de la cuenta
-        email: Correo electrónico
-        first_name: Nombre de pila
-        last_name: Nombre
-        last_sign_in_at: Último acceso
-        locale: Idioma
-        pseudo: Apodo
+        additional_info: "Información personal"
+        admin: "Director"
+        city: "Ciudad"
+        country: "País"
+        created_at: "Fecha de creación de la cuenta"
+        email: "Correo electrónico"
+        first_name: "Nombre de pila"
+        last_name: "Nombre"
+        last_sign_in_at: "Último acceso"
+        locale: "Idioma"
+        pseudo: "Apodo"
       login:
-        cancel: Cancelar
-        connected: Redirección a su cuenta
-        connecting: Inicio de sesión en curso
+        cancel: "Cancelar"
+        connected: "Redirección a su cuenta"
+        connecting: "Inicio de sesión en curso"
         externals:
-          facebook: Conecta con Facebook
-          google: Ingresa con Google
-        login: Nombre de usuario o correo electrónico
+          facebook: "Conecta con Facebook"
+          google: "Ingresa con Google"
+        login: "Nombre de usuario o correo electrónico"
         new_password: "¿Olvidó su contraseña?"
-        password: Contraseña
-        remember_me: Recuérdame
-        submit: Ingresa en
-        title: Ingresa en
+        password: "Contraseña"
+        remember_me: "Recuérdame"
+        submit: "Ingresa en"
+        title: "Ingresa en"
       signup:
-        cancel: Cancelar
-        confirm_password: Confirme la contraseña
-        connected: Redirección a su cuenta
-        connecting: Registro en curso
-        email: Correo electrónico
+        cancel: "Cancelar"
+        confirm_password: "Confirme la contraseña"
+        connected: "Redirección a su cuenta"
+        connecting: "Registro en curso"
+        email: "Correo electrónico"
         externals:
-          facebook: Regístrate en Facebook
-          google: Regístrate en Google
-        password: Contraseña
-        pseudo: Apodo
-        submit: Crear mi cuenta
-        terms_of_use: Al registrarse en %{website}, usted está de acuerdo en aceptar el
-        terms_of_use_name: condiciones de uso.
-        title: Crear una cuenta
+          facebook: "Regístrate en Facebook"
+          google: "Regístrate en Google"
+        password: "Contraseña"
+        pseudo: "Apodo"
+        submit: "Crear mi cuenta"
+        terms_of_use: "Al registrarse en %{website}, usted está de acuerdo en aceptar el"
+        terms_of_use_name: "condiciones de uso."
+        title: "Crear una cuenta"
       password:
         edit:
           button: "Cambiar mi contraseña"

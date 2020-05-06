@@ -69,10 +69,10 @@ class TagSidebarLayout extends React.PureComponent {
         let currentUserTopicSlug = this.props.routeParams.topicSlug;
         // Extract topicSlug from article if any
         if (this.props.routeParams.articleSlug) {
-            currentUserTopicSlug = this.props.routeParams.articleSlug.match(/@.*?$/).first().substr(1);
+            currentUserTopicSlug = this.props.routeParams.articleSlug.match(/@.*?$/)?.first()?.substr(1);
         }
 
-        if (this.props.currentUserId) {
+        if (this.props.currentUserId && currentUserTopicSlug) {
             this.props.updateUserSettings(this.props.currentUserId, {
                 tagSidebarPin: this.props.isTagSidebarOpen
             }, {

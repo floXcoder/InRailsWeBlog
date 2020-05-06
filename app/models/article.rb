@@ -77,8 +77,8 @@ class Article < ApplicationRecord
   tracked owner: :user
 
   # SEO
-  include NiceUrlConcern
-  friendly_id :slug_candidates, use: :slugged
+  include FriendlyId
+  friendly_id :slug_candidates, use: [:slugged, :localized_slug]
 
   # Search
   # Only filterable can be used in where options!
@@ -246,6 +246,10 @@ class Article < ApplicationRecord
   validate :prevent_revert_to_draft,
            on: :update
 
+  validates :slug,
+            presence:   true,
+            uniqueness: { case_sensitive: false }
+
   # == Scopes ===============================================================
   scope :everyone_and_user, -> (user_id = nil) {
     where('articles.visibility = 0 OR (articles.visibility = 1 AND articles.user_id = :user_id)',
@@ -322,7 +326,7 @@ class Article < ApplicationRecord
                    'user_article'
                  end
 
-    params        = { user_slug: self.user.slug, article_slug: self.slug }
+    params        = { user_slug: self.user.slug, article_slug: self[friendly_id_config.slug_column][locale.to_s].presence || self.slug }
 
     params[:host] = ENV['WEBSITE_FULL_ADDRESS'] if options[:host]
 
@@ -406,14 +410,24 @@ class Article < ApplicationRecord
   end
 
   def slug_candidates
-    [
-      "#{self.title}__at__#{self.topic&.slug}"
-    ]
+    if self.title_translations[I18n.locale.to_s].present?
+      [
+        "#{self.title_translations[I18n.locale.to_s]}__at__#{self.topic&.slug}"
+      ]
+    else
+      [
+        "#{self.title}__at__#{self.topic&.slug}"
+      ]
+    end
   end
 
   # Called by friendlyId to transform 'at' to @
   def normalize_friendly_id(_string = nil)
     super.gsub('__at__', '@')
+  end
+
+  def should_generate_new_friendly_id?
+    (self[friendly_id_config.slug_column].nil? || self[friendly_id_config.slug_column][I18n.locale.to_s].nil?) && !send(friendly_id_config.base).nil?
   end
 
   def mode_translated

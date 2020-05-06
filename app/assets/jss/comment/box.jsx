@@ -16,6 +16,7 @@ const styles = (theme) => ({
         margin: 'auto'
     },
     title: {
+        marginTop: '3rem',
         fontSize: '2rem',
         textAlign: 'center'
     },

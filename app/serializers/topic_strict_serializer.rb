@@ -16,6 +16,7 @@ class TopicStrictSerializer
              :mode,
              :name,
              :visibility,
+             :languages,
              :slug
 
   attribute :date do |object|
