@@ -165,7 +165,7 @@ class ArticleCommonField extends React.Component {
                             {
                                 this.props.article.id &&
                                 <div className={this.props.classes.compareIcon}>
-                                    <span className="tooltip-bottom"
+                                    <span className="flow-tooltip-bottom"
                                           data-tooltip={I18n.t('js.article.tooltip.compare')}>
                                         <Link to={'#' + compareArticleParam}>
                                             <CompareIcon color="primary"

@@ -173,7 +173,7 @@ class ArticleInlineDisplay extends React.PureComponent {
                             {
                                 this.props.isOwner &&
                                 <div className={this.props.classes.floatingIcons}>
-                                    <a className="tooltip-bottom"
+                                    <a className="flow-tooltip-bottom"
                                        href="#"
                                        onMouseEnter={this._handleOverEdit}
                                        onMouseLeave={this._handleOverEdit}

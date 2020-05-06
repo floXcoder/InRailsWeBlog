@@ -53,7 +53,7 @@ class BookmarkIcon extends React.PureComponent {
         if (this.props.isIcon) {
             return (
                 <span
-                    className={classNames('tooltip-bottom', this.props.className, `bookmark-${this.props.bookmarkedType}`)}
+                    className={classNames('flow-tooltip-bottom', this.props.className, `bookmark-${this.props.bookmarkedType}`)}
                     data-tooltip={bookmarkText}>
                     <a href="#"
                        onClick={this._handleBookmark}>

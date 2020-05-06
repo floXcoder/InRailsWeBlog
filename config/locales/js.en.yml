@@ -56,10 +56,10 @@ en:
         languages: "Languages"
         locales:
           en: "English"
-          fr: "French"
-          de: "German"
-          es: "Spanish"
-          it: "Italian"
+          fr: "Français"
+          de: "Deutsch"
+          es: "Español"
+          it: "Italiano"
       home:
         loader: "Loading"
         articles:
@@ -348,7 +348,8 @@ en:
         cancel: "Cancel"
         submit: "Add topic"
       edit:
-        title: "Update topic: %{topic}"
+        title: "Update topic"
+        title_signup: "Your first topic"
         name: "Topic name"
         mode: "Type"
         description: "Topic description"
@@ -411,6 +412,9 @@ en:
           message: "Please log in, before posting article"
         infinite:
           loading: "Loading articles"
+        dead_links:
+          checking: "Checking dead links..."
+          done: "Dead links are displayed in red in article"
         placeholders:
           title:
             note: "Article title"
@@ -507,6 +511,7 @@ en:
         compare: "Comparison between languages"
         delete: "Remove this article"
         updated_at: "Last modification"
+        check_link: "Check dead links"
       masonry:
         add_column: "Add column"
         remove_column: "Remove column"

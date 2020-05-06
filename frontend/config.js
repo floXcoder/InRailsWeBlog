@@ -123,9 +123,20 @@ module.exports = {
             ],
             runtimeCaching: [
                 {
+                    // Match all assets
+                    urlPattern: /\.(?:js|css)$/,
+                    handler: 'NetworkFirst',
+                    options: {
+                        cacheName: 'assets',
+                        expiration: {
+                            maxEntries: 60
+                        }
+                    }
+                },
+                {
                     // Match any request that ends with .png, .jpg, .jpeg or .svg
                     // urlPattern: /\.(?:png|jpg|jpeg|svg)$/,
-                    urlPattern: /uploads/,
+                    urlPattern: /uploads\//,
                     // Apply a cache-first strategy
                     handler: 'CacheFirst',
                     options: {

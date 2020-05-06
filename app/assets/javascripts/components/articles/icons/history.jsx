@@ -11,7 +11,7 @@ import {
 } from '../../../constants/routesHelper';
 
 const ArticleHistoryIcon = ({userSlug, articleSlug, size, color}) => (
-    <span className="tooltip-bottom"
+    <span className="flow-tooltip-bottom"
           data-tooltip={I18n.t('js.article.tooltip.history')}>
         <Link to={historyArticlePath(userSlug, articleSlug)}>
             <HistoryIcon color={color}

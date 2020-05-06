@@ -42,9 +42,10 @@ class ApplicationController < ActionController::Base
     user_env = ::Users::EnvironmentService.new(session,
                                                cookies,
                                                http_accept_language,
-                                               locale:       request.path == '/' ? 'en' : params[:locale],
-                                               force_locale: params[:force_locale],
-                                               current_user: current_user).perform
+                                               locale:         params[:locale],
+                                               force_locale:   params[:force_locale],
+                                               default_locale: request.path == '/' ? 'en' : nil,
+                                               current_user:   current_user).perform
 
     I18n.locale = user_env.result[:locale]
   end

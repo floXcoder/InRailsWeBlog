@@ -17,6 +17,7 @@ class TopicSampleSerializer
              :description,
              :priority,
              :visibility,
+             :languages,
              :slug
 
   attribute :tag_ids do |object|

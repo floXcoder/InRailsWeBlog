@@ -88,7 +88,7 @@ class FooterLayoutUser extends React.Component {
                             Object.keys(alternates).map((locale) => (
                                 <p key={locale}>
                                     <a className={this.props.classes.footerLink}
-                                       href={alternates[locale]}>
+                                       href={alternates[locale] + (alternates[locale].includes('?') ? '&' : '?') + 'force_locale=' + locale}>
                                         {I18n.t(`js.views.footer.locales.${locale}`)}
                                     </a>
                                 </p>

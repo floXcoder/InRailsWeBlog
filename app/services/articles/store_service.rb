@@ -50,12 +50,12 @@ module Articles
       if !@params[:title_translations].nil?
         @params.delete(:title_translations).each do |locale, title|
           @article.title_translations[locale] = Sanitize.fragment(title)
-          @article.slug                       = nil if I18n.locale.to_s == locale.to_s && Sanitize.fragment(title) != @article.title
         end
+        @article.set_friendly_id
       elsif !@params[:title].nil?
         sanitized_title = Sanitize.fragment(@params[:title])
-        @article.slug   = nil if sanitized_title != @article.title
         @article.title  = sanitized_title
+        @article.set_friendly_id
       end
       @params.delete(:title)
 
@@ -95,7 +95,7 @@ module Articles
         @params.delete(:picture_ids).split(',').each do |picture_id|
           if picture_id.present?
             picture = Picture.find_by(id: picture_id.to_i)
-            @article.pictures << picture
+            @article.pictures << picture if picture
           end
         end
       else
@@ -185,7 +185,7 @@ module Articles
         @params.delete(:tags)
       end
 
-      @article.rank = @params.delete(:rank).to_i if @params[:rank].present?
+      @article.rank      = @params.delete(:rank).to_i if @params[:rank].present?
       @article.home_page = @params.delete(:home_page) if @params[:home_page].present?
 
       @article.assign_attributes(@params)
@@ -199,8 +199,8 @@ module Articles
         @article.paper_trail.save_with_version if auto_saved && !article_changed
 
         # Remove deleted pictures
-        old_picture_ids = @article.picture_ids
-        new_picture_ids = @article.content&.scan(/\/uploads\/article\/pictures\/(\d+)/)&.flatten&.map(&:to_i) || []
+        old_picture_ids    = @article.picture_ids
+        new_picture_ids    = @article.content&.scan(/\/uploads\/article\/pictures\/(\d+)/)&.flatten&.map(&:to_i) || []
         remove_picture_ids = old_picture_ids - new_picture_ids
         if remove_picture_ids.present?
           @article.pictures.delete(Picture.where(id: remove_picture_ids))

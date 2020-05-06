@@ -1,10 +1,10 @@
-[class*="tooltip-"] {
+[class*="flow-tooltip-"] {
   display: inline-block;
   position: relative;
 }
 
-[class*="tooltip-"]:before,
-[class*="tooltip-"]:after {
+[class*="flow-tooltip-"]:before,
+[class*="flow-tooltip-"]:after {
   opacity: 0;
   pointer-events: none;
   position: absolute;
@@ -15,14 +15,14 @@
   z-index: 1000000;
 }
 
-[class*="tooltip-"]:hover:before,
-[class*="tooltip-"]:hover:after {
+[class*="flow-tooltip-"]:hover:before,
+[class*="flow-tooltip-"]:hover:after {
   opacity: 1;
   transition-delay: 100ms;
   visibility: visible;
 }
 
-[class*="tooltip-"]:before {
+[class*="flow-tooltip-"]:before {
   background: transparent;
   border: 6px solid transparent;
   content: '';
@@ -30,7 +30,7 @@
   z-index: 1000001;
 }
 
-[class*="tooltip-"]:after {
+[class*="flow-tooltip-"]:after {
   background: #383838;
   border-radius: 4px;
   color: #fff;
@@ -42,7 +42,7 @@
   white-space: nowrap;
 }
 
-[class*="tooltip-"][data-tooltip]:after {
+[class*="flow-tooltip-"][data-tooltip]:after {
   content: attr(data-tooltip);
 }
 
@@ -57,277 +57,277 @@
  * Defines the positioning logic for the tooltips.
  *
  * Classes added:
- * 	1) tooltip-top
- * 	2) tooltip-bottom
- * 	3) tooltip-left
- * 	4) tooltip-right
+ * 	1) flow-tooltip-top
+ * 	2) flow-tooltip-bottom
+ * 	3) flow-tooltip-left
+ * 	4) flow-tooltip-right
  */
 /**
  * set default color for tooltip arrows
  */
-.tooltip-top-left:before {
+.flow-tooltip-top-left:before {
   border-top-color: #383838;
 }
 
-.tooltip-top-right:before {
+.flow-tooltip-top-right:before {
   border-top-color: #383838;
 }
 
-.tooltip-top:before {
+.flow-tooltip-top:before {
   border-top-color: #383838;
 }
 
-.tooltip-bottom-left:before {
+.flow-tooltip-bottom-left:before {
   border-bottom-color: #383838;
 }
 
-.tooltip-bottom-right:before {
+.flow-tooltip-bottom-right:before {
   border-bottom-color: #383838;
 }
 
-.tooltip-bottom:before {
+.flow-tooltip-bottom:before {
   border-bottom-color: #383838;
 }
 
-.tooltip-left:before {
+.flow-tooltip-left:before {
   border-left-color: #383838;
 }
 
-.tooltip-right:before {
+.flow-tooltip-right:before {
   border-right-color: #383838;
 }
 
 /**
  * top tooltip
  */
-.tooltip-top:before {
+.flow-tooltip-top:before {
   margin-bottom: -11px;
 }
 
-.tooltip-top:before, .tooltip-top:after {
+.flow-tooltip-top:before, .flow-tooltip-top:after {
   bottom: 100%;
   left: 50%;
 }
 
-.tooltip-top:before {
+.flow-tooltip-top:before {
   left: calc(50% - 6px);
 }
 
-.tooltip-top:after {
+.flow-tooltip-top:after {
   transform: translateX(-50%);
 }
 
-.tooltip-top:hover:before {
+.flow-tooltip-top:hover:before {
   transform: translateY(-8px);
 }
 
-.tooltip-top:hover:after {
+.flow-tooltip-top:hover:after {
   transform: translateX(-50%) translateY(-8px);
 }
 
 /**
  * bottom tooltip
  */
-.tooltip-bottom:before {
+.flow-tooltip-bottom:before {
   margin-top: -11px;
 }
 
-.tooltip-bottom:before, .tooltip-bottom:after {
+.flow-tooltip-bottom:before, .flow-tooltip-bottom:after {
   left: 50%;
   top: 100%;
 }
 
-.tooltip-bottom:before {
+.flow-tooltip-bottom:before {
   left: calc(50% - 6px);
 }
 
-.tooltip-bottom:after {
+.flow-tooltip-bottom:after {
   transform: translateX(-50%);
 }
 
-.tooltip-bottom:hover:before {
+.flow-tooltip-bottom:hover:before {
   transform: translateY(8px);
 }
 
-.tooltip-bottom:hover:after {
+.flow-tooltip-bottom:hover:after {
   transform: translateX(-50%) translateY(8px);
 }
 
 /**
  * right tooltip
  */
-.tooltip-right:before {
+.flow-tooltip-right:before {
   margin-bottom: -6px;
   margin-left: -11px;
 }
 
-.tooltip-right:after {
+.flow-tooltip-right:after {
   margin-bottom: -14px;
 }
 
-.tooltip-right:before, .tooltip-right:after {
+.flow-tooltip-right:before, .flow-tooltip-right:after {
   bottom: 50%;
   left: 100%;
 }
 
-.tooltip-right:hover:before {
+.flow-tooltip-right:hover:before {
   transform: translateX(8px);
 }
 
-.tooltip-right:hover:after {
+.flow-tooltip-right:hover:after {
   transform: translateX(8px);
 }
 
 /**
  * left tooltip
  */
-.tooltip-left:before {
+.flow-tooltip-left:before {
   margin-bottom: -6px;
   margin-right: -11px;
 }
 
-.tooltip-left:after {
+.flow-tooltip-left:after {
   margin-bottom: -14px;
 }
 
-.tooltip-left:before, .tooltip-left:after {
+.flow-tooltip-left:before, .flow-tooltip-left:after {
   bottom: 50%;
   right: 100%;
 }
 
-.tooltip-left:hover:before {
+.flow-tooltip-left:hover:before {
   transform: translateX(-8px);
 }
 
-.tooltip-left:hover:after {
+.flow-tooltip-left:hover:after {
   transform: translateX(-8px);
 }
 
 /**
  * top-left tooltip
  */
-.tooltip-top-left:before {
+.flow-tooltip-top-left:before {
   margin-bottom: -11px;
 }
 
-.tooltip-top-left:before, .tooltip-top-left:after {
+.flow-tooltip-top-left:before, .flow-tooltip-top-left:after {
   bottom: 100%;
   left: 50%;
 }
 
-.tooltip-top-left:before {
+.flow-tooltip-top-left:before {
   left: calc(50% - 6px);
 }
 
-.tooltip-top-left:after {
+.flow-tooltip-top-left:after {
   transform: translateX(-100%);
 }
 
-.tooltip-top-left:after {
+.flow-tooltip-top-left:after {
   margin-left: 12px;
 }
 
-.tooltip-top-left:hover:before {
+.flow-tooltip-top-left:hover:before {
   transform: translateY(-8px);
 }
 
-.tooltip-top-left:hover:after {
+.flow-tooltip-top-left:hover:after {
   transform: translateX(-100%) translateY(-8px);
 }
 
 /**
  * top-right tooltip
  */
-.tooltip-top-right:before {
+.flow-tooltip-top-right:before {
   margin-bottom: -11px;
 }
 
-.tooltip-top-right:before, .tooltip-top-right:after {
+.flow-tooltip-top-right:before, .flow-tooltip-top-right:after {
   bottom: 100%;
   left: 50%;
 }
 
-.tooltip-top-right:before {
+.flow-tooltip-top-right:before {
   left: calc(50% - 6px);
 }
 
-.tooltip-top-right:after {
+.flow-tooltip-top-right:after {
   transform: translateX(0);
 }
 
-.tooltip-top-right:after {
+.flow-tooltip-top-right:after {
   margin-left: -12px;
 }
 
-.tooltip-top-right:hover:before {
+.flow-tooltip-top-right:hover:before {
   transform: translateY(-8px);
 }
 
-.tooltip-top-right:hover:after {
+.flow-tooltip-top-right:hover:after {
   transform: translateY(-8px);
 }
 
 /**
  * bottom-left tooltip
  */
-.tooltip-bottom-left:before {
+.flow-tooltip-bottom-left:before {
   margin-top: -11px;
 }
 
-.tooltip-bottom-left:before, .tooltip-bottom-left:after {
+.flow-tooltip-bottom-left:before, .flow-tooltip-bottom-left:after {
   left: 50%;
   top: 100%;
 }
 
-.tooltip-bottom-left:before {
+.flow-tooltip-bottom-left:before {
   left: calc(50% - 6px);
 }
 
-.tooltip-bottom-left:after {
+.flow-tooltip-bottom-left:after {
   transform: translateX(-100%);
 }
 
-.tooltip-bottom-left:after {
+.flow-tooltip-bottom-left:after {
   margin-left: 12px;
 }
 
-.tooltip-bottom-left:hover:before {
+.flow-tooltip-bottom-left:hover:before {
   transform: translateY(8px);
 }
 
-.tooltip-bottom-left:hover:after {
+.flow-tooltip-bottom-left:hover:after {
   transform: translateX(-100%) translateY(8px);
 }
 
 /**
  * bottom-right tooltip
  */
-.tooltip-bottom-right:before {
+.flow-tooltip-bottom-right:before {
   margin-top: -11px;
 }
 
-.tooltip-bottom-right:before, .tooltip-bottom-right:after {
+.flow-tooltip-bottom-right:before, .flow-tooltip-bottom-right:after {
   left: 50%;
   top: 100%;
 }
 
-.tooltip-bottom-right:before {
+.flow-tooltip-bottom-right:before {
   left: calc(50% - 6px);
 }
 
-.tooltip-bottom-right:after {
+.flow-tooltip-bottom-right:after {
   transform: translateX(0);
 }
 
-.tooltip-bottom-right:after {
+.flow-tooltip-bottom-right:after {
   margin-left: -12px;
 }
 
-.tooltip-bottom-right:hover:before {
+.flow-tooltip-bottom-right:hover:before {
   transform: translateY(8px);
 }
 
-.tooltip-bottom-right:hover:after {
+.flow-tooltip-bottom-right:hover:after {
   transform: translateY(8px);
 }
 
@@ -338,32 +338,32 @@
  * across multiple lines.
  *
  * Classes added:
- * 	1) tooltip-small
- * 	2) tooltip-medium
- * 	3) tooltip-large
+ * 	1) flow-tooltip-small
+ * 	2) flow-tooltip-medium
+ * 	3) flow-tooltip-large
  *
  */
-.tooltip-small:after,
-.tooltip-medium:after,
-.tooltip-large:after {
+.flow-tooltip-small:after,
+.flow-tooltip-medium:after,
+.flow-tooltip-large:after {
   line-height: 1.4em;
   white-space: normal;
   word-wrap: break-word;
 }
 
-.tooltip-small:after {
+.flow-tooltip-small:after {
   width: 80px;
 }
 
-.tooltip-medium:after {
+.flow-tooltip-medium:after {
   width: 150px;
 }
 
-.tooltip-large:after {
+.flow-tooltip-large:after {
   width: 300px;
 }
 
-[class*="tooltip-"]:after {
+[class*="flow-tooltip-"]:after {
   box-shadow: 4px 4px 8px rgba(0, 0, 0, .3);
   text-shadow: 0 -1px 0 black;
 }

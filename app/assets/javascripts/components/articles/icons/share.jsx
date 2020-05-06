@@ -11,7 +11,7 @@ import {
 } from '../../../constants/routesHelper';
 
 const ArticleShareIcon = ({articleId, size, color}) => (
-    <span className="tooltip-bottom"
+    <span className="flow-tooltip-bottom"
           data-tooltip={I18n.t('js.article.tooltip.share')}>
         <Link to={{
             hash: '#' + shareArticleParam,

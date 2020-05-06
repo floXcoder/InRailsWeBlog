@@ -21,9 +21,10 @@ gem 'pg_query',                 '1.2.0' # Required for pghero
 gem 'responders',               '3.0.0'
 gem 'http_accept_language',     '2.1.1'
 gem 'secure_headers',           '6.3.0'
+gem 'faraday',                  '1.0.1'
 
 # JSON
-gem 'fast_jsonapi',             '1.7.0', git: 'https://github.com/fast-jsonapi/fast_jsonapi'
+gem 'fast_jsonapi',             git: 'https://github.com/fast-jsonapi/fast_jsonapi'
 gem 'oj',                       '3.10.6'
 
 # Use slim instead of erb
@@ -99,7 +100,7 @@ gem 'factory_bot_rails',        '5.2.0',   require: false
 gem 'faker',                    '2.11.0',  require: false
 
 # Deployment
-gem 'capistrano',               '3.13.0'
+gem 'capistrano',               '3.14.0'
 gem 'capistrano-rails',         '1.4.0'
 gem 'capistrano-rvm',           '0.1.2',   require: false
 gem 'capistrano-bundler',       '1.6.0',   require: false
@@ -155,7 +156,7 @@ group :test do
   gem 'shoulda-callback-matchers',  '1.1.4',  require: false
   gem 'simplecov',                  '0.18.5', require: false
   gem 'fuubar',                     '2.5.0'
-  gem 'database_cleaner',           '1.8.4'
+  gem 'database_cleaner',           '1.8.5'
   gem 'db-query-matchers',          '0.10.0'
 
   # Browser tests
@@ -180,7 +181,7 @@ group :development, :test do
   gem 'rubocop',                    '0.82.0',  require: false
   gem 'rubocop-rails',              '2.5.2',   require: false
   gem 'rubocop-performance',        '1.5.2',   require: false
-  gem 'rubocop-rspec',              '1.38.1',  require: false
+  gem 'rubocop-rspec',              '1.39.0',  require: false
 end
 
 group :production do

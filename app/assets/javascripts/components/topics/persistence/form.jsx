@@ -42,7 +42,7 @@ export default class PersistenceFormTopic extends React.Component {
         mode: this.props.isEditing ? this.props.topic.mode : this.props.defaultMode,
         description: this.props.isEditing ? this.props.topic.description : '',
         visibility: this.props.isEditing ? this.props.topic.visibility : this.props.defaultVisibility,
-        locales: this.props.isEditing ? this.props.topic.locales : [this.props.defaultLocale]
+        locales: this.props.isEditing ? this.props.topic.languages : [this.props.defaultLocale]
     };
 
     _handleNameChange = (event) => {

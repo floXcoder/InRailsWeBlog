@@ -286,7 +286,7 @@ export default class Dropdown extends React.Component {
                 <div className={classNames(
                     this.props.className,
                     {
-                        'tooltip-top': hasTooltip
+                        'flow-tooltip-top': hasTooltip
                     })}
                      data-tooltip={hasTooltip ? this.props.tooltip : undefined}>
                     {

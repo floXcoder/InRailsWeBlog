@@ -10,7 +10,7 @@ const ArticleVisibilityIcon = ({articleVisibility, onVisibilityClick, size, colo
     const visibilityTooltip = I18n.t('js.article.tooltip.visibility', {visibility: visibilityName});
 
     return (
-        <span className="tooltip-bottom"
+        <span className="flow-tooltip-bottom"
               data-tooltip={visibilityTooltip}>
             <a href="#"
                onClick={onVisibilityClick}>

@@ -436,6 +436,11 @@
   .deadend {
     @include special-style($deadend-color);
   }
+
+  .dead-link {
+    color: lighten($error-color, 12%) !important;
+    text-decoration: line-through;
+  }
 }
 
 .normalized-content-extract {

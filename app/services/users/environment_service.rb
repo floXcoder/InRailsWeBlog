@@ -23,18 +23,19 @@ module Users
         @params[:locale] ||
         # locale_cookie ||
         @current_user&.locale ||
+        @params[:default_locale] ||
         locale_session ||
         # locale_from_browser ||
         I18n.default_locale
 
-      if @current_user
+      if @current_user && (@params[:force_locale].presence || @params[:locale].presence)
         # new_locale = current_customer.locale if request.referrer && !request.referrer&.include?(request.host)
         @current_user.update_attribute(:locale, new_locale.to_s) if @current_user.locale != new_locale
       end
 
       # Save locale into session for API requests
-      if @params[:locale] && !@current_user
-        @session[:locale] = @params[:locale]
+      if (@params[:locale] || @params[:default_locale]) && !@current_user
+        @session[:locale] = @params[:locale] || @params[:locale]
       end
 
       # if @current_admin

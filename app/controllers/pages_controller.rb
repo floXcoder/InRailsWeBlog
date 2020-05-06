@@ -12,7 +12,7 @@ class PagesController < ApplicationController
       format.html do
         if current_user
           if request.path == '/' && current_user.locale != 'en'
-            redirect_to send("user_home_#{current_user.locale}_path")
+            redirect_to send("user_home_#{current_user.locale}_path", user_slug: current_user.slug)
           else
             set_seo_data(:user_home,
                          user_slug: current_user,

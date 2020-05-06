@@ -57,9 +57,9 @@ fr:
         locales:
           en: "English"
           fr: "Français"
-          de: "Allemand"
-          es: "Espagnol"
-          it: "Italien"
+          de: "Deutsch"
+          es: "Español"
+          it: "Italiano"
       home:
         loader: "Chargement"
         articles:
@@ -348,7 +348,8 @@ fr:
         cancel: "Annuler"
         submit: "Ajouter"
       edit:
-        title: "Modification du thème : %{topic}"
+        title: "Modification du thème"
+        title_signup: "Votre premier thème"
         name: "Nom du thème"
         mode: "Type"
         description: "Description"
@@ -411,6 +412,9 @@ fr:
           message: "Merci de vous connecter avant de poster l'article"
         infinite:
           loading: "Chargement des articles ..."
+        dead_links:
+          checking: "Vérification des liens morts ..."
+          done: "Les liens morts ont été mis en rouge dans l'article"
         placeholders:
           title:
             note: "Titre de votre article"
@@ -507,6 +511,7 @@ fr:
         compare: "Comparaison entre langues"
         delete: "Supprimer cet article"
         updated_at: "Dernière modification"
+        check_link: "Vérifier les liens morts"
       masonry:
         add_column: "Ajouter colonne"
         remove_column: "Enlever colonne"

@@ -36,7 +36,7 @@ class Signup extends React.Component {
                     Notification.error(response.errors);
                 } else {
                     if (sessionStorage) {
-                        sessionStorage.setItem('user-connection', 'true');
+                        sessionStorage.setItem('user-signed', 'true');
                     }
 
                     if(response?.meta?.location) {

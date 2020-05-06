@@ -378,29 +378,31 @@ class Editor extends React.Component {
         uploadImages(images, Utils.compact({
             model: this.props.modelName,
             modelId: this.props.modelId
-        })).map((upload) => {
-            upload.then((response) => {
-                if (response?.data?.attributes) {
-                    this.insertImage(response.data.attributes.url, response.data.attributes.filename, response.data.attributes.id, [
-                        {
-                            maxWidth: '600',
-                            url: response.data.attributes.miniUrl
-                        },
-                        {
-                            maxWidth: '992',
-                            url: response.data.attributes.mediumUrl
-                        },
-                        {
-                            url: response.data.attributes.url
-                        }
-                    ]);
+        }), (responses) => {
+            responses.map((upload) => {
+                upload.then((response) => {
+                    if (response?.data?.attributes) {
+                        this.insertImage(response.data.attributes.url, response.data.attributes.filename, response.data.attributes.id, [
+                            {
+                                maxWidth: '600',
+                                url: response.data.attributes.miniUrl
+                            },
+                            {
+                                maxWidth: '992',
+                                url: response.data.attributes.mediumUrl
+                            },
+                            {
+                                url: response.data.attributes.url
+                            }
+                        ]);
 
-                    if (this.props.onImageUpload) {
-                        this.props.onImageUpload(response.data.attributes);
+                        if (this.props.onImageUpload) {
+                            this.props.onImageUpload(response.data.attributes);
+                        }
                     }
-                }
-            })
-        });
+                })
+            });
+        })
     };
 
     onImageDelete = (target) => {

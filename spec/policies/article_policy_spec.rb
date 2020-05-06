@@ -33,6 +33,7 @@ describe ArticlePolicy, basic: true do
       it { should_not grant(:edit) }
       it { should_not grant(:update) }
       it { should_not grant(:share) }
+      it { should_not grant(:check_links) }
       it { should_not grant(:restore) }
       it { should_not grant(:destroy) }
       it { should_not grant(:vote_up) }
@@ -62,6 +63,7 @@ describe ArticlePolicy, basic: true do
       it { should_not grant(:edit) }
       it { should_not grant(:update) }
       it { should_not grant(:share) }
+      it { should_not grant(:check_links) }
       it { should_not grant(:restore) }
       it { should_not grant(:destroy) }
     end
@@ -85,6 +87,7 @@ describe ArticlePolicy, basic: true do
 
       it { should_not grant(:shared) }
       it { should_not grant(:share) }
+      it { should_not grant(:check_links) }
       it { should_not grant(:destroy) }
     end
 
@@ -98,6 +101,7 @@ describe ArticlePolicy, basic: true do
       it { should grant(:edit) }
       it { should grant(:update) }
       it { should grant(:share) }
+      it { should grant(:check_links) }
       it { should grant(:restore) }
       it { should grant(:destroy) }
       it { should grant(:add_outdated) }
@@ -124,6 +128,7 @@ describe ArticlePolicy, basic: true do
       it { should_not grant(:edit) }
       it { should_not grant(:update) }
       it { should_not grant(:share) }
+      it { should_not grant(:check_links) }
       it { should_not grant(:restore) }
       it { should_not grant(:destroy) }
       it { should_not grant(:vote_up) }
@@ -154,6 +159,7 @@ describe ArticlePolicy, basic: true do
       it { should_not grant(:edit) }
       it { should_not grant(:update) }
       it { should_not grant(:share) }
+      it { should_not grant(:check_links) }
       it { should_not grant(:restore) }
       it { should_not grant(:destroy) }
       it { should_not grant(:vote_up) }
@@ -183,6 +189,7 @@ describe ArticlePolicy, basic: true do
       it { should_not grant(:edit) }
       it { should_not grant(:update) }
       it { should_not grant(:share) }
+      it { should_not grant(:check_links) }
       it { should_not grant(:restore) }
       it { should_not grant(:destroy) }
     end
@@ -201,6 +208,7 @@ describe ArticlePolicy, basic: true do
 
       it { should_not grant(:shared) }
       it { should_not grant(:share) }
+      it { should_not grant(:check_links) }
       it { should_not grant(:destroy) }
       it { should_not grant(:vote_up) }
       it { should_not grant(:vote_down) }
@@ -219,6 +227,7 @@ describe ArticlePolicy, basic: true do
       it { should grant(:edit) }
       it { should grant(:update) }
       it { should grant(:share) }
+      it { should grant(:check_links) }
       it { should grant(:restore) }
       it { should grant(:destroy) }
       it { should grant(:add_outdated) }

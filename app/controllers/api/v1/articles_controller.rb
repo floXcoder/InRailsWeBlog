@@ -167,6 +167,20 @@ module Api::V1
       end
     end
 
+    def check_links
+      article = Article.find(params[:id])
+      admin_or_authorize article
+
+      article.check_dead_links!
+
+      respond_to do |format|
+        format.json do
+          render json: ArticleCompleteSerializer.new(article,
+                                                     include: [:user, :topic, :tracker, :tags]).serializable_hash
+        end
+      end
+    end
+
     def stories
       article = @context_user.articles.include_element.find(params[:id])
 

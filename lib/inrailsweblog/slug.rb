@@ -25,7 +25,7 @@ class Slug
 
     Article.all.find_in_batches(batch_size: 200) do |articles|
       articles.each do |article|
-        article.slug = nil
+        article.set_friendly_id
         article.save!
       end
     end
