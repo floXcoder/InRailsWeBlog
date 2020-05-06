@@ -102,8 +102,24 @@ class TopicEdit extends React.Component {
             )
         }
 
+        const topic = {
+            name: this.props.topic.name,
+            languages: this.props.topic.languages,
+            description_translations: this.props.topic.descriptionTranslations,
+            description: this.props.topic.description
+        }
+
         return (
             <div className={this.props.classes.root}>
+                {
+                    this.props.topic.name &&
+                    <div>
+                        <h1>
+                            {I18n.t('js.topic.edit.title')}
+                        </h1>
+                    </div>
+                }
+
                 {
                     this.props.topicErrors &&
                     <div>
@@ -111,7 +127,7 @@ class TopicEdit extends React.Component {
                     </div>
                 }
 
-                <TopicFormDisplay topic={this.props.topic}
+                <TopicFormDisplay topic={topic}
                                   isEditing={true}
                                   articleMultilanguage={this.props.articleMultilanguage}
                                   onSubmit={this._handleSubmit}>

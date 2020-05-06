@@ -48,6 +48,12 @@ class FooterLayoutUser extends React.Component {
         this._handleSearchClose();
     };
 
+    _handleAlternateClick = (alternateLink, locale, event) => {
+        event.preventDefault();
+
+        window.document.location.href = alternateLink + (alternateLink.includes('?') ? '&' : '?') + 'force_locale=' + locale;
+    };
+
     render() {
         const isSearchActive = this.props.location.hash === '#search';
 
@@ -88,7 +94,8 @@ class FooterLayoutUser extends React.Component {
                             Object.keys(alternates).map((locale) => (
                                 <p key={locale}>
                                     <a className={this.props.classes.footerLink}
-                                       href={alternates[locale] + (alternates[locale].includes('?') ? '&' : '?') + 'force_locale=' + locale}>
+                                       href={alternates[locale]}
+                                       onClick={this._handleAlternateClick.bind(this, alternates[locale], locale)}>
                                         {I18n.t(`js.views.footer.locales.${locale}`)}
                                     </a>
                                 </p>

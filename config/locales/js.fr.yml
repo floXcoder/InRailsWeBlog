@@ -320,7 +320,7 @@ fr:
         contributors: "Contributeurs"
         name: "Nom"
         mode: "Type"
-        description: "Détails"
+        description: "Description"
         visibility: "Visibilité"
         languages: "Langues associés"
         articles_count: "Nombre d'articles"

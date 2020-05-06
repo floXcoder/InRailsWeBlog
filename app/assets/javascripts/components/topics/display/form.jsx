@@ -13,7 +13,10 @@ import {
 import {
     withStyles
 } from '@material-ui/core/styles';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
 import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
 
 import {
     editInventoriesTopicPath,
@@ -32,9 +35,19 @@ import MultipleSelectFormField from '../../material-ui/form/multiple-select';
 
 import styles from '../../../../jss/topic/form';
 
+function TabContainer(props) {
+    return (
+        <Typography component="div"
+                    className={props.isActive ? null : 'hide'}>
+            {props.children}
+        </Typography>
+    );
+}
+
 export default @withStyles(styles)
 class TopicFormDisplay extends React.Component {
     static propTypes = {
+        topic: PropTypes.object.isRequired,
         onSubmit: PropTypes.func.isRequired,
         isEditing: PropTypes.bool,
         articleMultilanguage: PropTypes.bool,
@@ -52,8 +65,31 @@ class TopicFormDisplay extends React.Component {
         super(props);
     }
 
+    state = {
+        tabStep: 0
+    };
+
+    _handleTabChange = (event, value) => {
+        this.setState({tabStep: value});
+    };
+
     _onUnsavedExit = (location) => {
         return I18n.t('js.topic.form.unsaved', {location: location.pathname});
+    };
+
+    _renderDescription = (handleSubmit, locale = undefined) => {
+        const fieldName = locale ? `description_translations[${locale}]` : 'description';
+
+        return (
+            <Field name={fieldName}
+                   component={EditorField}
+                   id={`topic_description_${locale}`}
+                   modelName="topic"
+                   modelId={this.props.children.id}
+                   placeholder={I18n.t('js.topic.common.placeholders.description')}
+                   otherStaticBar="#header-user"
+                   onSubmit={handleSubmit}/>
+        );
     };
 
     render() {
@@ -61,26 +97,17 @@ class TopicFormDisplay extends React.Component {
         window.locales.map((locale) => localeOptions[locale] = I18n.t(`js.languages.${locale}`));
 
         return (
-            <Form initialValues={this.props.children}
+            <Form initialValues={this.props.topic}
                   validate={validateTopic}
                   onSubmit={this.props.onSubmit}>
                 {
-                    ({handleSubmit, dirty, submitting}) => (
+                    ({handleSubmit, dirty, submitting, values}) => (
                         <form id={`topic-form-${this.props.children.id || 'new'}`}
                               onSubmit={handleSubmit}>
                             <Prompt when={dirty && !submitting}
                                     message={this._onUnsavedExit}/>
 
                             <div className="row">
-                                {
-                                    this.props.children.name &&
-                                    <div className="col s12">
-                                        <h1>
-                                            {I18n.t('js.topic.edit.title', {topic: this.props.children.name})}
-                                        </h1>
-                                    </div>
-                                }
-
                                 <div className="col s12">
                                     <Field name="name"
                                            component={TextFormField}
@@ -103,15 +130,35 @@ class TopicFormDisplay extends React.Component {
                                 </div>
 
                                 <div className="col s12 margin-top-25">
-                                    <Field name="description"
-                                           component={EditorField}
-                                           id="topic_description"
-                                           modelName="topic"
-                                           modelId={this.props.children.id}
-                                           placeholder={I18n.t('js.topic.common.placeholders.description')}
-                                           otherStaticBar="#header-user"
-                                           onSubmit={handleSubmit}
-                                           componentContent={this.props.children.description}/>
+                                    {
+                                        values.languages?.length > 1
+                                        ?
+                                            <>
+                                                <Tabs value={this.state.tabStep}
+                                                      indicatorColor="primary"
+                                                      textColor="primary"
+                                                      centered={true}
+                                                      onChange={this._handleTabChange}>
+                                                    {
+                                                        values.languages.map((locale) => (
+                                                            <Tab key={locale}
+                                                                 label={I18n.t(`js.languages.${locale}`)}/>
+                                                        ))
+                                                    }
+                                                </Tabs>
+
+                                                {
+                                                    values.languages.map((locale, i) => (
+                                                        <TabContainer key={locale}
+                                                                      isActive={this.state.tabStep === i}>
+                                                            {this._renderDescription(handleSubmit, locale)}
+                                                        </TabContainer>
+                                                    ))
+                                                }
+                                            </>
+                                            :
+                                            this._renderDescription(handleSubmit)
+                                    }
                                 </div>
 
                                 {

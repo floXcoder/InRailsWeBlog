@@ -110,7 +110,7 @@ class ArticleEdit extends React.Component {
             this.props.article.inventories.map((field) => inventoryData[field.fieldName] = field.value);
         }
 
-        const article = {
+        let article = {
             mode: this.props.article.mode,
             summary: this.props.article.summary,
             reference: this.props.article.reference,

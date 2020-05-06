@@ -231,10 +231,11 @@ module Api::V1
                                     :archived,
                                     :accepted,
                                     :picture,
-                                    languages:           [],
-                                    pictures_attributes: [:id,
-                                                          :image,
-                                                          :_destroy])
+                                    description_translations: {},
+                                    languages:                [],
+                                    pictures_attributes:      [:id,
+                                                               :image,
+                                                               :_destroy])
     end
 
     def filter_params
