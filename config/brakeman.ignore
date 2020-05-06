@@ -19,8 +19,40 @@
       "user_input": "params[:route]",
       "confidence": "High",
       "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "c76a0af3dfedeb2165917bbd3097ef78ae58087a7eedbb48f0053b5e17b289f1",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "config/initializers/friendly_id_localize.rb",
+      "line": 63,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "where(\"#{friendly_id_config.slug_column}->>'#{I18n.locale}' = ?\", id)",
+      "render_path": null,
+      "location": null,
+      "user_input": "friendly_id_config.slug_column",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "c76a0af3dfedeb2165917bbd3097ef78ae58087a7eedbb48f0053b5e17b289f1",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "config/initializers/friendly_id_localize.rb",
+      "line": 69,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "where(\"#{friendly_id_config.slug_column}->>'#{I18n.locale}' = ?\", id)",
+      "render_path": null,
+      "location": null,
+      "user_input": "friendly_id_config.slug_column",
+      "confidence": "Medium",
+      "note": ""
     }
   ],
-  "updated": "2020-03-01 11:03:11 +0100",
-  "brakeman_version": "4.8.0"
+  "updated": "2020-05-06 16:11:08 +0200",
+  "brakeman_version": "4.8.1"
 }
