@@ -34,7 +34,7 @@ webPackConfig.plugins.push(
     new webpack.DefinePlugin({
         'process.env': {
             'NODE_ENV': JSON.stringify('test'),
-            'ASSET_PATH': JSON.stringify(config.test.assetPath.replace('PORT', process.env.TEST_PORT || 3000))
+            'ASSET_PATH': JSON.stringify(config.test.assetPath)
         }
     }),
     new CleanWebpackPlugin(),
