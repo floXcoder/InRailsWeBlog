@@ -126,6 +126,7 @@ deploy:
   # Variables defined in Gitlab configuration (settings/ci_cd)
   variables:
     RAILS_ENV: "production"
+    NODE_ENV: "production"
   environment:
     name: production
     url: https://www.ginkonote.com
