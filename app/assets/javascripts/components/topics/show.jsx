@@ -103,6 +103,8 @@ class TopicShow extends React.Component {
             }
         }
 
+        w(this.props.topic)
+
         return (
             <article className={this.props.classes.root}>
                 <Typography className={this.props.classes.title}
@@ -127,7 +129,7 @@ class TopicShow extends React.Component {
                                         ?
                                         this.props.topic.description
                                         :
-                                        <p>
+                                        <p className={this.props.classes.emptyDesc}>
                                             {I18n.t('js.topic.common.no_description')}
                                         </p>
                                 }

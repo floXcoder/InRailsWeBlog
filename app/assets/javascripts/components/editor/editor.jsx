@@ -37,6 +37,7 @@ class Editor extends React.Component {
         children: PropTypes.string,
         hasOuterHeight: PropTypes.bool,
         otherStaticBar: PropTypes.string,
+        noHelper: PropTypes.bool,
         isDisabled: PropTypes.bool,
         onLoaded: PropTypes.func,
         onFocus: PropTypes.func,
@@ -57,6 +58,7 @@ class Editor extends React.Component {
         id: `summernote-${Utils.uuid()}`,
         hasOuterHeight: true,
         isDisabled: false,
+        noHelper: false,
         // isCodeView: false
     };
 
@@ -223,7 +225,7 @@ class Editor extends React.Component {
         this._noteStatusElement = $container.find('.note-status-element');
         this._noteStatusHelper = $container.find('.note-status-helper');
 
-        if (this.props.mode !== EDITOR_MODE.INLINE_EDIT) {
+        if (this.props.mode !== EDITOR_MODE.INLINE_EDIT && !this.props.noHelper) {
             this._noteStatusHelper.html(I18n.t('js.editor.helper.title') + ' <strong>#</strong> ' + I18n.t('js.editor.helper.article_hint'));
         }
 

@@ -88,6 +88,7 @@ class TopicFormDisplay extends React.Component {
                    modelId={this.props.children.id}
                    placeholder={I18n.t('js.topic.common.placeholders.description')}
                    otherStaticBar="#header-user"
+                   noHelper={true}
                    onSubmit={handleSubmit}/>
         );
     };
