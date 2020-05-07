@@ -103,8 +103,6 @@ class TopicShow extends React.Component {
             }
         }
 
-        w(this.props.topic)
-
         return (
             <article className={this.props.classes.root}>
                 <Typography className={this.props.classes.title}

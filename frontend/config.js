@@ -1,5 +1,9 @@
+const yenv = require('yenv');
+
 const assetDir = './app/assets';
 const frontendDir = './node_modules';
+
+const appEnv = yenv('./config/application.yml');
 
 module.exports = {
     webpack: {
@@ -124,12 +128,15 @@ module.exports = {
             runtimeCaching: [
                 {
                     // Match all assets
-                    urlPattern: /\.(?:js|css)$/,
+                    urlPattern: new RegExp(`^${appEnv.WEBSITE_FULL_ASSET}/assets/`),
                     handler: 'NetworkFirst',
                     options: {
                         cacheName: 'assets',
+                        cacheableResponse: {
+                            statuses: [0, 200]
+                        },
                         expiration: {
-                            maxEntries: 60
+                            maxEntries: 80
                         }
                     }
                 },
@@ -161,14 +168,14 @@ module.exports = {
                     }
                 }
             ],
-            transformURL: {
-                'https://assets.ginkonote.com': 'https://www.ginkonote.com'
-            }
+            // transformURL: {
+            //     // [appEnv.WEBSITE_FULL_ASSET]: appEnv.WEBSITE_FULL_ADDRESS,
+            // }
             // offlineFile: '/offline.html',
             // offlineExclude: [/\/api\//],
         },
         development: {
-            assetPath: 'http://localhost:8080/assets/',
+            assetPath: `${appEnv.WEBSITE_FULL_ASSET}/assets/`,
             filename: '[name]',
             chunkFilename: '[name]',
             watchPath: [
@@ -180,12 +187,12 @@ module.exports = {
             ]
         },
         test: {
-            assetPath: 'http://localhost:PORT/assets/',
+            assetPath: `http://localhost:${appEnv.TEST_PORT || 3000}/assets/`,
             filename: '[name]',
             chunkFilename: '[name]'
         },
         production: {
-            assetPath: 'https://assets.ginkonote.com/assets/',
+            assetPath: `${appEnv.WEBSITE_FULL_ASSET}/assets/`,
             filename: '[name].[hash]',
             filenameImage: '[name]',
             chunkFilename: '[name].[hash].[id]',

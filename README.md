@@ -382,6 +382,8 @@ To deploy manually without using Gitlab (commit and deploy first your modificati
 
 ### Webpack assets
 
+All specific environment variables must be defined in `./config/application.yml`.
+
 Run in production:
 
     npm run production
@@ -391,6 +393,12 @@ Run in production:
 Run in production:
 
     RAILS_ENV=production bundle exec sidekiq -d
+
+## PWA
+
+In production, the website is PWA ready!
+
+You can install the website as a mobile app through Chrome browser.
 
 ## Issue tracking
 

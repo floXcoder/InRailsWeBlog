@@ -66,6 +66,8 @@ import {
     articleTemporaryDataName
 } from '../../modules/constants';
 
+import ErrorBoundary from '../../errors/boundary';
+
 import HeadLayout from '../head';
 
 import TopicModule from '../../topics/module';
@@ -448,7 +450,9 @@ class HeaderLayoutUser extends React.PureComponent {
                         {
                             !this.props.routeProperties.noHeaderSearch &&
                             <Suspense fallback={<div/>}>
-                                <HomeSearchHeader isSearchActive={isSearchActive}/>
+                                <ErrorBoundary errorType="notification">
+                                    <HomeSearchHeader isSearchActive={isSearchActive}/>
+                                </ErrorBoundary>
                             </Suspense>
                         }
 
@@ -463,7 +467,9 @@ class HeaderLayoutUser extends React.PureComponent {
                         {
                             isSearchActive &&
                             <Suspense fallback={<div/>}>
-                                {this._renderHashRoutes(this.props.hashRoutes.search)}
+                                <ErrorBoundary errorType="notification">
+                                    {this._renderHashRoutes(this.props.hashRoutes.search)}
+                                </ErrorBoundary>
                             </Suspense>
                         }
                     </div>
@@ -477,11 +483,15 @@ class HeaderLayoutUser extends React.PureComponent {
                 }
 
                 <Suspense fallback={<div/>}>
-                    {this._renderHashRoutes(this.props.hashRoutes.topic)}
+                    <ErrorBoundary errorType="notification">
+                        {this._renderHashRoutes(this.props.hashRoutes.topic)}
+                    </ErrorBoundary>
                 </Suspense>
 
                 <Suspense fallback={<div/>}>
-                    {this._renderHashRoutes(this.props.hashRoutes.article)}
+                    <ErrorBoundary errorType="notification">
+                        {this._renderHashRoutes(this.props.hashRoutes.article)}
+                    </ErrorBoundary>
                 </Suspense>
 
                 <HeadLayout>
@@ -495,8 +505,10 @@ class HeaderLayoutUser extends React.PureComponent {
                 </div>
 
                 <Suspense fallback={<div/>}>
-                    <UserPreference isOpen={this.props.isUserPreferenceOpen}
-                                    onModalChange={this.props.showUserPreference}/>
+                    <ErrorBoundary errorType="notification">
+                        <UserPreference isOpen={this.props.isUserPreferenceOpen}
+                                        onModalChange={this.props.showUserPreference}/>
+                    </ErrorBoundary>
                 </Suspense>
             </>
         );

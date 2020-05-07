@@ -48,6 +48,8 @@ import {
     showUserLogin
 } from '../../../actions';
 
+import ErrorBoundary from '../../errors/boundary';
+
 import HeadLayout from '../head';
 
 import styles from '../../../../jss/home/header';
@@ -283,9 +285,11 @@ class HeaderLayoutHome extends React.Component {
                         {
                             this.state.isSearchLoaded && !this.props.routeProperties.noHeaderSearch &&
                             <Suspense fallback={<div/>}>
-                                <HomeSearchHeader isSearchActive={isSearchActive}
-                                                  onFocus={this._handleSearchOpen}
-                                                  onClose={this._handleSearchClose}/>
+                                <ErrorBoundary errorType="notification">
+                                    <HomeSearchHeader isSearchActive={isSearchActive}
+                                                      onFocus={this._handleSearchOpen}
+                                                      onClose={this._handleSearchClose}/>
+                                </ErrorBoundary>
                             </Suspense>
                         }
 
@@ -309,7 +313,9 @@ class HeaderLayoutHome extends React.Component {
                         {
                             isSearchActive &&
                             <Suspense fallback={<div/>}>
-                                {this._renderHashRoutes(this.props.hashRoutes.search)}
+                                <ErrorBoundary errorType="notification">
+                                    {this._renderHashRoutes(this.props.hashRoutes.search)}
+                                </ErrorBoundary>
                             </Suspense>
                         }
                     </div>
@@ -330,11 +336,13 @@ class HeaderLayoutHome extends React.Component {
                 {
                     this.state.isConnectLoaded &&
                     <Suspense fallback={<div/>}>
-                        <UserSignup isOpen={this.props.isUserSignupOpen}
-                                    onModalChange={this.props.showUserSignup}/>
+                        <ErrorBoundary errorType="notification">
+                            <UserSignup isOpen={this.props.isUserSignupOpen}
+                                        onModalChange={this.props.showUserSignup}/>
 
-                        <UserLogin isOpen={this.props.isUserLoginOpen}
-                                   onModalChange={this.props.showUserLogin}/>
+                            <UserLogin isOpen={this.props.isUserLoginOpen}
+                                       onModalChange={this.props.showUserLogin}/>
+                        </ErrorBoundary>
                     </Suspense>
                 }
             </>
