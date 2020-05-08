@@ -3,6 +3,11 @@
 set :stage, :production
 set :rails_env, 'production'
 
+set :default_env, {
+  'RAILS_ENV' => 'production',
+  'NODE_ENV' => 'production'
+}
+
 role :app, [ENV['DEPLOY_USER'] + '@' + ENV['DEPLOY_SERVER']]
 role :web, [ENV['DEPLOY_USER'] + '@' + ENV['DEPLOY_SERVER']]
 role :db, [ENV['DEPLOY_USER'] + '@' + ENV['DEPLOY_SERVER']]

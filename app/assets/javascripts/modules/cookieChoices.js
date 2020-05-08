@@ -225,7 +225,7 @@ const cookieChoices = (function () {
     };
 })();
 
-if (!window.seoMode) {
+if (!window.seoMode && process.env.NODE_ENV === 'production') {
     setTimeout(() => {
         cookieChoices.displayCookies();
     }, 1000);

@@ -67,7 +67,7 @@ class LazyLoader extends React.Component {
                     this.setState({module: result.component});
                 }
             })
-            .catch(error => log.error('Failed to load dynamic component: ', keys, error.message));
+            .catch((error) => console.error('Failed to load dynamic component: ', keys, error.message));
     }
 
     render() {

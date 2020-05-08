@@ -47,14 +47,14 @@ export default function mutationMiddleware({dispatch}) {
         ];
 
         if (!actionTypes.every(action => !!action)) {
-            log.error(`All actions are not defined: ${actionNames.join(', ')}`);
+            console.error(`All actions are not defined: ${actionNames.join(', ')}`);
             throw new Error(`All actions are not defined: ${actionNames.join(', ')}`);
         }
 
         const [requestType, successType, failureType] = actionTypes;
 
         if (typeof mutationAPI !== 'function') {
-            log.error('mutationAPI must be a function');
+            console.error('mutationAPI must be a function');
             throw new Error('mutationAPI must be a function');
         }
 

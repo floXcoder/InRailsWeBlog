@@ -41,7 +41,7 @@ class Pagination extends React.PureComponent {
         }
 
         if (!props.hasHistory && Utils.isEmpty(props.currentPage)) {
-            log.error('Pagination: current page must be provided if no history');
+            console.error('Pagination: current page must be provided if no history');
         }
     }
 
