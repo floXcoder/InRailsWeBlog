@@ -205,7 +205,7 @@ webPackConfig.plugins.push(
         swDest: config.serviceWorker.dest,
         exclude: config.serviceWorker.exclude,
         runtimeCaching: config.serviceWorker.runtimeCaching,
-        modifyURLPrefix: config.serviceWorker.transformURL
+        // modifyURLPrefix: config.serviceWorker.transformURL
         // navigateFallback: config.serviceWorker.offlineFile,
         // navigateFallbackDenylist: config.serviceWorker.offlineExclude,
     }),
