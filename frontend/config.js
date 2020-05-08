@@ -129,7 +129,7 @@ module.exports = {
                 {
                     // Match all assets
                     urlPattern: new RegExp(`^${appEnv.WEBSITE_FULL_ASSET}/assets/`),
-                    handler: 'NetworkFirst',
+                    handler: 'StaleWhileRevalidate',
                     options: {
                         cacheName: 'assets',
                         cacheableResponse: {
@@ -144,7 +144,6 @@ module.exports = {
                     // Match any request that ends with .png, .jpg, .jpeg or .svg
                     // urlPattern: /\.(?:png|jpg|jpeg|svg)$/,
                     urlPattern: /uploads\//,
-                    // Apply a cache-first strategy
                     handler: 'CacheFirst',
                     options: {
                         // Use a custom cache name
@@ -158,8 +157,7 @@ module.exports = {
                 {
                     // Match any API requests
                     urlPattern: /\.json/,
-                    // Fetch both in cache and through network
-                    handler: 'StaleWhileRevalidate',
+                    handler: 'NetworkFirst',
                     options: {
                         cacheName: 'api',
                         expiration: {
