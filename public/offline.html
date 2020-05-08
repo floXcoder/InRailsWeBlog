@@ -1,12 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title>GinkoNote</title>
-    <link rel="manifest" href="/manifest.json">
-    <meta name="theme-color" content="#199332" />
+    <link href="/manifest.json" rel="manifest"/>
+    <meta content="#199332" name="theme-color"/>
+    <meta content="yes" name="apple-mobile-web-app-capable"/>
+    <meta content="black" name="apple-mobile-web-app-status-bar-style"/>
+    <meta content="GinkoNote" name="apple-mobile-web-app-title"/>
+</head>
+<body class="blog lang-en">
+
+<div class="react-root" id="home-component">
     <style>
 
         * {
@@ -139,32 +145,57 @@
             display: block;
         }
     </style>
-</head>
-<body>
 
-<header class="header">
-    <h1>
-        GinkoNote
-    </h1>
-</header>
+    <header class="header">
+        <h1>
+            GinkoNote
+        </h1>
+    </header>
 
-<main class="main">
-
-    <div class="main-card">
-        <img class="offline-logo"
-             src=" data:image/png;base64,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">
-        <div>
-            <p>
-                Oops, you appear to be offline, this app requires an internet connection.
-            </p>
-            <p>
-                Vous devez être connecté à internet pour charger cette page.
-            </p>
+    <main class="main">
+        <div class="main-card">
+            <img class="offline-logo"
+                 src=" data:image/png;base64,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">
+            <div>
+                <p>
+                    Oops, you appear to be offline, this app requires an internet connection.
+                </p>
+                <p>
+                    Vous devez être connecté à internet pour charger cette page.
+                </p>
+            </div>
         </div>
-    </div>
 
-</main>
+    </main>
+</div>
 
+<div class="notification-container" id="notification-component"></div>
+<div id="dropdown-component"></div>
+<script>
+    window.settings = {
+        "website_name": "GinkoNote",
+        "small_screen": 600,
+        "small_screen_up": 601,
+        "medium_screen": 992,
+        "medium_screen_up": 993,
+        "large_screen": 1200,
+        "large_screen_up": 1201,
+        "cache_time": 604800
+    };
+
+    window.I18n = {};
+    window.defaultLocale = "en";
+    window.locale = "en";
+    window.locales = ["en", "fr", "de", "es", "it"];
+    window.defaultMetaTags = {
+        "title": "(Development) | GinkoNote - Blog platform and note taking | GinkoNote",
+        "description": "Welcome to GinkoNote: discover articles about SEO, web programming and many more... Share your articles by creating your own blog.",
+        "canonical": "/",
+        "alternate": {"en": "/", "fr": "/fr", "de": "/de", "es": "/es", "it": "/it", "x-default": "/"}
+    };
+
+    window.websiteUrl = "https://www.ginkonote.com";
+</script>
 <script>
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
@@ -175,6 +206,5 @@
         });
     }
 </script>
-
 </body>
 </html>

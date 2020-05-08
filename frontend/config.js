@@ -168,11 +168,11 @@ module.exports = {
                     }
                 }
             ],
-            // transformURL: {
-            //     // [appEnv.WEBSITE_FULL_ASSET]: appEnv.WEBSITE_FULL_ADDRESS,
-            // }
             // offlineFile: '/offline.html',
             // offlineExclude: [/\/api\//],
+            // transformURL: {
+            //     [appEnv.WEBSITE_FULL_ASSET]: appEnv.WEBSITE_FULL_ADDRESS,
+            // }
         },
         development: {
             assetPath: `${appEnv.WEBSITE_FULL_ASSET}/assets/`,
