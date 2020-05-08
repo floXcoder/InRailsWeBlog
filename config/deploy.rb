@@ -5,6 +5,12 @@ lock '3.14.0'
 set :application, 'InRailsWeBlog'
 set :repo_url, ENV['GIT_REPO_ADDRESS']
 
+# Environment variables
+set :default_env, {
+  'RAILS_ENV' => 'production',
+  'NODE_ENV' => 'production'
+}
+
 # rvm properties
 set :rvm_type, :user
 set :rvm_map_bins, fetch(:rvm_map_bins, []).push('rvmsudo')
