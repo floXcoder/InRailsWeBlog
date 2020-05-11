@@ -198,7 +198,7 @@ class ArticleMiniCardDisplay extends React.Component {
                                 <Grid item={true}
                                       className={this.props.classes.headerItem}>
                                     <meta itemProp="author"
-                                          content={this.props.classes.userPseudo}/>
+                                          content={this.props.article.user.pseudo}/>
 
                                     <Link className={this.props.classes.userPseudo}
                                           to={userArticlesPath(this.props.article.user.slug)}

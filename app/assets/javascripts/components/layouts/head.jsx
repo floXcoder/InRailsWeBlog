@@ -18,7 +18,7 @@ const HeadLayout = ({children}) => {
             </title>
 
             <meta itemProp="mainEntityOfPage"
-                  content={window.location}/>
+                  content={window.location.origin + window.location.pathname}/>
 
             <meta name="description"
                   content={description}/>
