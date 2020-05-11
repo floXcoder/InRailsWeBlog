@@ -223,8 +223,8 @@ const cookieChoices = (function () {
     };
 })();
 
-// if (!window.seoMode && process.env.NODE_ENV === 'production') {
+if (!window.seoMode && process.env.NODE_ENV === 'production') {
     setTimeout(() => {
         cookieChoices.displayCookies();
     }, 1000);
-// }
+}
