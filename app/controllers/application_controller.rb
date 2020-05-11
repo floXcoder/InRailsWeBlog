@@ -20,6 +20,9 @@ class ApplicationController < ActionController::Base
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
   rescue_from Pundit::AuthorizationNotPerformedError, with: :user_not_authorized
 
+  # Set SEO mode
+  prepend_before_action :check_seo_mode, if: -> { request.get? && !request.xhr? }
+
   # Error reporting
   before_action :set_raven_context
 
@@ -48,6 +51,10 @@ class ApplicationController < ActionController::Base
                                                current_user:   current_user).perform
 
     I18n.locale = user_env.result[:locale]
+  end
+
+  def check_seo_mode
+    @seo_mode = ENV['SEO_CACHE'] && (params.key?(SeoCache.prerender_url_param) || params.key?(SeoCache.force_cache_url_param))
   end
 
   def reset_headers_for_admins
