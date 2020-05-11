@@ -58,19 +58,17 @@ const cookieChoices = (function () {
     }
 
     function _createParametersButton(parametersText, linkHref) {
-        var parametersLink = document.createElement('a');
+        var parametersLink = document.createElement('button');
         _setElementText(parametersLink, parametersText);
         parametersLink.id = parametersLinkId;
-        parametersLink.href = '#';
         parametersLink.className = 'cookies-more';
         return parametersLink;
     }
 
     function _createDismissButton(dismissText, color) {
-        var dismissLink = document.createElement('a');
+        var dismissLink = document.createElement('button');
         _setElementText(dismissLink, dismissText);
         dismissLink.id = dismissLinkId;
-        dismissLink.href = '#';
         dismissLink.className = 'cookies-button';
         if (color) {
             dismissLink.style.backgroundColor = color;
@@ -225,8 +223,8 @@ const cookieChoices = (function () {
     };
 })();
 
-if (!window.seoMode && process.env.NODE_ENV === 'production') {
+// if (!window.seoMode && process.env.NODE_ENV === 'production') {
     setTimeout(() => {
         cookieChoices.displayCookies();
     }, 1000);
-}
+// }
