@@ -54,7 +54,7 @@ class ApplicationController < ActionController::Base
   end
 
   def check_seo_mode
-    @seo_mode = ENV['SEO_CACHE'] && (params.key?(SeoCache.prerender_url_param) || params.key?(SeoCache.force_cache_url_param))
+    @seo_mode = ENV['SEO_CACHE'].present? && (params.key?(SeoCache.prerender_url_param) || params.key?(SeoCache.force_cache_url_param))
   end
 
   def reset_headers_for_admins
