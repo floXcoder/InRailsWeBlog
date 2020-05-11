@@ -21,7 +21,7 @@ describe('Articles actions', () => {
         it('should fetch all articles', () => {
             const articles = FactoryGenerator.create('articles', {number: 3});
 
-            mock('/api/v1/articles.json', 200, () => ({
+            mock('/api/v1/articles.json?locale=en', 200, () => ({
                     articles: articles,
                     meta: {
                         pagination: {
@@ -47,7 +47,7 @@ describe('Articles actions', () => {
         it('should fetch one article', () => {
             const article = FactoryGenerator.create('articles');
 
-            mock(`/api/v1/articles/${article.id}.json?userId=${article.user.id}`, 200, () => ({
+            mock(`/api/v1/articles/${article.id}.json?locale=en&userId=${article.user.id}`, 200, () => ({
                     article: article
                 })
             );
