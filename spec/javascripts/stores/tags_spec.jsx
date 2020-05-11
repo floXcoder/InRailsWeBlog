@@ -22,7 +22,7 @@ describe('Tags actions', () => {
             const publicTags = FactoryGenerator.create('tags', {number: 3});
             const privateTags = FactoryGenerator.create('tags', {number: 3, visibility: 'only_me'});
 
-            mock('/api/v1/tags.json', 200, () => ({
+            mock('/api/v1/tags.json?locale=en', 200, () => ({
                     tags: publicTags.concat(privateTags)
                 })
             );
@@ -45,7 +45,7 @@ describe('Tags actions', () => {
         it('should fetch one tag', () => {
             const tag = FactoryGenerator.create('tags');
 
-            mock(`/api/v1/tags/${tag.id}.json`, 200, () => ({
+            mock(`/api/v1/tags/${tag.id}.json?locale=en`, 200, () => ({
                     tag: tag
                 })
             );
@@ -63,7 +63,7 @@ describe('Tags actions', () => {
             const tags = FactoryGenerator.create('tags', {number: 5, parentIds: [], childIds: []});
             const filterText = tags.first().name;
 
-            mock('/api/v1/tags.json', 200, () => ({
+            mock('/api/v1/tags.json?locale=en', 200, () => ({
                     tags: tags
                 })
             );
