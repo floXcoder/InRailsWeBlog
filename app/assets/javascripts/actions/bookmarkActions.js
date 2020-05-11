@@ -13,7 +13,10 @@ import {
 // Bookmarks
 export const fetchBookmarks = (userId, options = {}, payload = {}) => ({
     actionType: ActionTypes.BOOKMARK,
-    fetchAPI: () => api.get(`/api/v1/users/${userId}/bookmarks`, options),
+    fetchAPI: () => api.get(`/api/v1/users/${userId}/bookmarks`, {
+        locale: window.locale,
+        ...options
+    }),
     payload
 });
 

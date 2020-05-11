@@ -109,8 +109,4 @@ Rails.application.configure do
     open_timeout:        3,
     read_timeout:        3
   }
-
-  # Add timeout for ElasticSearch
-  Searchkick.timeout        = 10
-  Searchkick.search_timeout = 10
 end

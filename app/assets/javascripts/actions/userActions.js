@@ -8,6 +8,7 @@ import api from '../middlewares/api';
 export const fetchUsers = (filter, options = {}) => ({
     actionType: ActionTypes.USER,
     fetchAPI: () => api.get('/api/v1/users', {
+        locale: window.locale,
         filter,
         ...options
     })
@@ -16,6 +17,7 @@ export const fetchUsers = (filter, options = {}) => ({
 export const fetchUser = (userId, options = {}) => ({
     actionType: ActionTypes.USER,
     fetchAPI: () => api.get(`/api/v1/users/${userId}`, {
+        locale: window.locale,
         ...options
     })
 });
@@ -23,6 +25,7 @@ export const fetchUser = (userId, options = {}) => ({
 export const initUser = (userId, options = {}) => ({
     actionType: ActionTypes.USER,
     fetchAPI: () => api.get(`/api/v1/users/${userId}`, {
+        locale: window.locale,
         ...options
     }),
     shouldCallAPI: (state) => {

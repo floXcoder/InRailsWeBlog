@@ -8,6 +8,7 @@ import api from '../middlewares/api';
 export const fetchTags = (filter = {}, options = {}, payload = {}) => ({
     actionType: ActionTypes.TAG,
     fetchAPI: () => api.get('/api/v1/tags', {
+        locale: window.locale,
         filter,
         ...options
     }),
@@ -20,6 +21,7 @@ export const fetchTags = (filter = {}, options = {}, payload = {}) => ({
 export const fetchTag = (tagId, options = {}) => ({
     actionType: ActionTypes.TAG,
     fetchAPI: () => api.get(options.edit ? `/api/v1/tags/${tagId}/edit` : `/api/v1/tags/${tagId}`, {
+        locale: window.locale,
         ...options
     })
 });

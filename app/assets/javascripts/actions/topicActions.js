@@ -8,6 +8,7 @@ import api from '../middlewares/api';
 export const fetchTopics = (userId = null, filter = {}, options = {}) => ({
     actionType: ActionTypes.TOPIC,
     fetchAPI: () => api.get('/api/v1/topics', {
+        locale: window.locale,
         userId,
         filter,
         ...options
@@ -17,6 +18,7 @@ export const fetchTopics = (userId = null, filter = {}, options = {}) => ({
 export const fetchTopic = (userId, topicId, options = {}) => ({
     actionType: ActionTypes.TOPIC,
     fetchAPI: () => api.get(options.edit ? `/api/v1/topics/${topicId}/edit` : `/api/v1/topics/${topicId}`, {
+        locale: window.locale,
         userId,
         ...options
     })

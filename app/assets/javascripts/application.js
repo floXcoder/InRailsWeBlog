@@ -8,7 +8,7 @@ import {
     configureScope as SentryConfigureScope
 } from '@sentry/browser';
 
-if (window.SENTRY_JAVASCRIPT_KEY) {
+if (window.SENTRY_JAVASCRIPT_KEY && !window.seoMode) {
     SentryInit({
         dsn: window.SENTRY_JAVASCRIPT_KEY,
         // beforeSend(event, hint) {
@@ -53,7 +53,7 @@ if (process.env.NODE_ENV !== 'production') {
     screenLog.init({freeConsole: true});
 }
 
-if (window._paq) {
+if (window._paq && !window.seoMode) {
     perfMetrics.onFirstInputDelay(function (delay, event) {
         window._paq.push(['trackEvent', 'First Input Delay', event.type, event.type, Math.round(delay)]);
     });

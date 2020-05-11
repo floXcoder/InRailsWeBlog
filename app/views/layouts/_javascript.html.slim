@@ -15,7 +15,7 @@ javascript:
 
     window.revision = "#{REVISION}";
 
-    window.seoMode = #{params['_prerender_'].present?};
+    window.seoMode = #{@seo_mode};
 
 - if Rails.env.production?
   javascript:

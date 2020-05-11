@@ -28,6 +28,7 @@ export const setAutocompleteQuery = (query) => (dispatch) => {
 export const fetchAutocomplete = (autocompleteParams) => ({
     actionType: ActionTypes.SEARCH_AUTOCOMPLETE,
     fetchAPI: () => api.get('/api/v1/search/autocomplete', {
+        locale: window.locale,
         search: autocompleteParams
     }),
     payload: {
@@ -67,7 +68,7 @@ export const setSelectedTag = (tag) => (dispatch) => {
 export const getSearchContext = (params = {}) => (dispatch) => {
     const previousSearchData = History.getPreviousState('globalSearchData', {useUrlParams: true});
 
-    if(Utils.isEmpty(previousSearchData) && params[0]) {
+    if (Utils.isEmpty(previousSearchData) && params[0]) {
         previousSearchData.query = params[0];
     }
 
@@ -152,7 +153,10 @@ const performSearch = (searchParams, options = {}) => (dispatch) => {
     dispatch(initSearch());
 
     return api
-        .get('/api/v1/search', {search: searchParams})
+        .get('/api/v1/search', {
+            locale: window.locale,
+            search: searchParams
+        })
         .promise
         .then((json) => {
             if (json.errors) {
