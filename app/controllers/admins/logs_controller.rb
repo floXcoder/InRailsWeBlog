@@ -54,7 +54,7 @@ class Admins::LogsController < AdminsController
                    Logging.grep_for(log_filename, format_search(log_params[:element], log_params[:value]), 6_000)
                  end
                elsif log_params['tags'].present?
-                 Logging.multi_grep_for(log_filename, format_tags_search(log_params['tags'].to_unsafe_h.values), 6_000)
+                 Logging.multi_grep_for(log_filename, format_tags_search(log_params['tags']&.map(&:to_unsafe_h)), 6_000)
                else
                  Logging.read_latest_for(log_filename, 2_000)
                end

@@ -58,9 +58,9 @@ const manageError = (origin, error, url) => {
             // } else {
             //     history.back();
             // }
-        } else if (error.statusText === 'Not found') {
+        } else if (error.statusText === 'Not Found') {
             // Notification.error(I18n.t('js.helpers.errors.unprocessable'));
-        // } else if (error.statusText === 'Unprocessable Entity') {
+            // } else if (error.statusText === 'Unprocessable Entity') {
             // Managed by handleResponse
             // if (!error.bodyUsed) {
             //     return error.json().then((status) => (
@@ -69,13 +69,11 @@ const manageError = (origin, error, url) => {
             // } else {
             //     Notification.error(I18n.t('js.helpers.errors.unprocessable'));
             // }
-        } else {
-            if (error.statusText === 'Internal Server Error') {
-                if (process.env.NODE_ENV === 'production') {
-                    Notification.error(I18n.t('js.helpers.errors.server'), 10);
-                } else {
-                    error.text().then((text) => log.now(text.split("\n").slice(0, 6)));
-                }
+        } else if (error.statusText === 'Internal Server Error') {
+            if (process.env.NODE_ENV === 'production') {
+                Notification.error(I18n.t('js.helpers.errors.server'), 10);
+            } else {
+                error.text().then((text) => log.now(text.split("\n").slice(0, 6)));
             }
 
             pushError(error, errorInfo);
@@ -95,8 +93,8 @@ const handleResponseErrors = (response, url) => {
 
 const handleParseErrors = (error, url, isGet = false) => {
     // Offline mode (do not report error)
-    if(error.name === 'TypeError' && error.message === 'Failed to fetch') {
-        if(isGet) {
+    if (error.name === 'TypeError' && error.message === 'Failed to fetch') {
+        if (isGet) {
             Notification.error(I18n.t('js.helpers.errors.no_network'));
         }
 
