@@ -3,95 +3,99 @@ es:
     default:
       page_title: "Bienvenido al blog de la %{website}"
       meta_desc: "Ven y descubre los diferentes artículos en %{website}."
+  open_search:
+    long_name: "%{name} Blog Search"
+    description: "Buscar artículos y enlaces en %{name}"
+    tags: "Blog, artículos, enlaces"
   views:
     user:
       flash:
-        error_edition: El perfil no ha sido actualizado, por favor corrija los errores indicados
-        successful_edition: Perfil actualizado
+        error_edition: "El perfil no ha sido actualizado, por favor corrija los errores indicados"
+        successful_edition: "Perfil actualizado"
     tag:
       flash:
-        error_creation: La etiqueta no ha sido creada, por favor corrija los errores indicados
-        error_deletion: 'Problema al borrar el artículo: %{errors}'
+        error_creation: "La etiqueta no ha sido creada, por favor corrija los errores indicados"
+        error_deletion: "Problema al borrar el artículo: %{errors}"
         error_edition: "¡Problema al actualizar la etiqueta!"
-        error_priority_update: Problema al cambiar la prioridad de las etiquetas
-        successful_creation: Etiqueta añadida
-        successful_deletion: El artículo ha sido eliminado
-        successful_edition: Etiqueta actualizada
-        successful_priority_update: El orden de las etiquetas ha sido cambiado
+        error_priority_update: "Problema al cambiar la prioridad de las etiquetas"
+        successful_creation: "Etiqueta añadida"
+        successful_deletion: "El artículo ha sido eliminado"
+        successful_edition: "Etiqueta actualizada"
+        successful_priority_update: "El orden de las etiquetas ha sido cambiado"
     topic:
       flash:
-        error_creation: El tema no ha sido creado, por favor corrija los errores indicados
-        error_deletion: 'Problema al borrar el tema : %{errors}'
+        error_creation: "El tema no ha sido creado, por favor corrija los errores indicados"
+        error_deletion: "Problema al borrar el tema : %{errors}"
         error_edition: "¡Problema al actualizar el tema!"
-        error_priority_update: Problema al cambiar la prioridad de los temas
-        successful_creation: Tema añadido
-        successful_deletion: El tema ha sido eliminado
-        successful_edition: Tema actualizado
-        successful_priority_update: El orden de los temas ha sido cambiado
+        error_priority_update: "Problema al cambiar la prioridad de los temas"
+        successful_creation: "Tema añadido"
+        successful_deletion: "El tema ha sido eliminado"
+        successful_edition: "Tema actualizado"
+        successful_priority_update: "El orden de los temas ha sido cambiado"
     inventory_field:
       flash:
         error_edition: "¡Problema al actualizar los campos personalizados!"
-        successful_edition: Campos personalizados actualizados. Puedes usar estos campos para tus artículos.
+        successful_edition: "Campos personalizados actualizados. Puedes usar estos campos para tus artículos."
     article:
       edit:
-        description: 'Modificación del artículo: %{title} - %{topic}'
-        title: 'Edición: %{title} - %{topic}'
+        description: "Modificación del artículo: %{title} - %{topic}"
+        title: "Edición: %{title} - %{topic}"
       flash:
-        error_creation: El artículo no ha sido creado, por favor corrija los errores indicados
-        error_deletion: 'Problema al borrar el artículo: %{errors}'
+        error_creation: "El artículo no ha sido creado, por favor corrija los errores indicados"
+        error_deletion: "Problema al borrar el artículo: %{errors}"
         error_edition: "¡Problema al actualizar el artículo!"
-        error_priority_update: Problema al cambiar la prioridad de los artículos
-        not_found: El artículo no se encontró
-        successful_creation: 'Artículo añadido: %{title}'
-        successful_deletion: El artículo ha sido eliminado
-        successful_edition: 'Artículo actualizado: %{title}'
-        successful_priority_update: El orden de los artículos ha sido cambiado
-        successful_undeletion: Artículo restaurado
-        undelete_link: Cancele la eliminación.
+        error_priority_update: "Problema al cambiar la prioridad de los artículos"
+        not_found: "El artículo no se encontró"
+        successful_creation: "Artículo añadido: %{title}"
+        successful_deletion: "El artículo ha sido eliminado"
+        successful_edition: "Artículo actualizado: %{title}"
+        successful_priority_update: "El orden de los artículos ha sido cambiado"
+        successful_undeletion: "Artículo restaurado"
+        undelete_link: "Cancele la eliminación."
       history:
-        description: 'Historia del artículo: %{title} - %{topic}'
-        title: La historia de %{title} - %{topic}
+        description: "Historia del artículo: %{title} - %{topic}"
+        title: "La historia de %{title} - %{topic}"
       index:
         title:
-          topic: Artículos para %{topic}
+          topic: "Artículos para %{topic}"
       show:
         title: "%{title} - %{topic}"
     picture:
       copyright:
-        default: De
+        default: "De"
       flash:
-        error_deletion: Problema al borrar la imagen
-        successful_deletion: La imagen ha sido borrada
+        error_deletion: "Problema al borrar la imagen"
+        successful_deletion: "La imagen ha sido borrada"
     comment:
       flash:
-        error_creation: El comentario no ha sido creado, por favor corrija los errores indicados
-        error_deletion: Problema al borrar el comentario
-        error_edition: Problema al actualizar el comentario
-        successful_creation: Comentario añadido
-        successful_deletion: Comentario eliminado
-        successful_edition: Comentario actualizado
+        error_creation: "El comentario no ha sido creado, por favor corrija los errores indicados"
+        error_deletion: "Problema al borrar el comentario"
+        error_edition: "Problema al actualizar el comentario"
+        successful_creation: "Comentario añadido"
+        successful_deletion: "Comentario eliminado"
+        successful_edition: "Comentario actualizado"
     share:
       errors:
-        creation: No puede compartir este artículo
-        link_already_shared: Ya compartido por un enlace
-        private_shareable: Un artículo privado no puede ser compartido
-        useless_shareable: Un artículo público es inútil de compartir
-        user_already_shared: Ya compartido con este usuario
-        user_not_found: Usuario desconocido
+        creation: "No puede compartir este artículo"
+        link_already_shared: "Ya compartido por un enlace"
+        private_shareable: "Un artículo privado no puede ser compartido"
+        useless_shareable: "Un artículo público es inútil de compartir"
+        user_already_shared: "Ya compartido con este usuario"
+        user_not_found: "Usuario desconocido"
       success:
-        link_message: Compartir el artículo creado
-        user_message: 'Tema compartido con : %{user}'
+        link_message: "Compartir el artículo creado"
+        user_message: "Tema compartido con : %{user}"
     admin:
       articles:
-        title: Artículos
+        title: "Artículos"
       blog:
         flash:
-          error_creation: El blog no ha sido creado, por favor corrija los errores indicados
-          error_deletion: Problema al borrar el blog
-          error_edition: Problema al actualizar el blog
-          successful_creation: Blog añadido
-          successful_deletion: Blog eliminado
-          successful_edition: Blog actualizado
+          error_creation: "El blog no ha sido creado, por favor corrija los errores indicados"
+          error_deletion: "Problema al borrar el blog"
+          error_edition: "Problema al actualizar el blog"
+          successful_creation: "Blog añadido"
+          successful_deletion: "Blog eliminado"
+          successful_edition: "Blog actualizado"
       blogs:
         title: "Notas"
       cache:

@@ -33,6 +33,9 @@ head itemscope="" itemtype="http://schema.org/WebSite"
   meta name="apple-mobile-web-app-capable" content="yes"
   meta name="apple-mobile-web-app-status-bar-style" content="black"
   meta name="apple-mobile-web-app-title" content="#{ENV['WEBSITE_NAME']}"
+  
+  / Open search
+  link rel="search" type="application/opensearchdescription+xml" href="#{ENV['WEBSITE_FULL_ADDRESS']}/opensearch.xml?locale=#{I18n.locale}" title="#{ENV['WEBSITE_NAME']}"
 
   - if Rails.env.production?
     link rel="dns-prefetch" href="#{ENV['WEBSITE_FULL_ADDRESS']}"

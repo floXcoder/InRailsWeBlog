@@ -3,95 +3,99 @@ it:
     default:
       page_title: "Benvenuti al %{website} blog!"
       meta_desc: "Venite a scoprire i diversi articoli su %{website}."
+  open_search:
+    long_name: "%{name} Blog Search"
+    description: "Cerca articoli e link sul %{name}"
+    tags: "Blog, articoli, link"
   views:
     user:
       flash:
-        error_edition: Il profilo non è stato aggiornato, si prega di correggere gli errori indicati
-        successful_edition: Profilo aggiornato
+        error_edition: "Il profilo non è stato aggiornato, si prega di correggere gli errori indicati"
+        successful_edition: "Profilo aggiornato"
     tag:
       flash:
-        error_creation: L'etichetta non è stata creata, si prega di correggere gli errori indicati
-        error_deletion: 'Problema durante la cancellazione dell''articolo: %{errors}'
-        error_edition: Problema nell'aggiornamento dell'etichetta!
-        error_priority_update: Problema quando si cambia la priorità delle etichette
-        successful_creation: Etichetta aggiunta
-        successful_deletion: L'articolo è stato cancellato
-        successful_edition: Etichetta aggiornata
-        successful_priority_update: L'ordine delle etichette è stato cambiato
+        error_creation: "L'etichetta non è stata creata, si prega di correggere gli errori indicati"
+        error_deletion: "Problema durante la cancellazione dell'articolo: %{errors}"
+        error_edition: "Problema nell'aggiornamento dell'etichetta!"
+        error_priority_update: "Problema quando si cambia la priorità delle etichette"
+        successful_creation: "Etichetta aggiunta"
+        successful_deletion: "L'articolo è stato cancellato"
+        successful_edition: "Etichetta aggiornata"
+        successful_priority_update: "L'ordine delle etichette è stato cambiato"
     topic:
       flash:
-        error_creation: Il tema non è stato creato, si prega di correggere gli errori indicati
-        error_deletion: 'Problema quando si elimina il tema : %{errors}'
-        error_edition: Problema nell'aggiornamento del tema!
-        error_priority_update: Problema quando si cambia la priorità dei temi
-        successful_creation: Tema aggiunto
-        successful_deletion: Il tema è stato rimosso
-        successful_edition: Tema aggiornato
-        successful_priority_update: L'ordine dei temi è stato cambiato
+        error_creation: "Il tema non è stato creato, si prega di correggere gli errori indicati"
+        error_deletion: "Problema quando si elimina il tema : %{errors}"
+        error_edition: "Problema nell'aggiornamento del tema!"
+        error_priority_update: "Problema quando si cambia la priorità dei temi"
+        successful_creation: "Tema aggiunto"
+        successful_deletion: "Il tema è stato rimosso"
+        successful_edition: "Tema aggiornato"
+        successful_priority_update: "L'ordine dei temi è stato cambiato"
     inventory_field:
       flash:
-        error_edition: Problema durante l'aggiornamento dei campi personalizzati!
-        successful_edition: Campi personalizzati aggiornati. Potete utilizzare questi campi per i vostri articoli.
+        error_edition: "Problema durante l'aggiornamento dei campi personalizzati!"
+        successful_edition: "Campi personalizzati aggiornati. Potete utilizzare questi campi per i vostri articoli."
     article:
       edit:
-        description: 'Modifica dell''articolo: %{title} - %{topic}'
-        title: 'Edizione: %{title} - %{topic}'
+        description: "'Modifica dell'articolo: %{title} - %{topic}'"
+        title: "Edizione: %{title} - %{topic}"
       flash:
-        error_creation: L'articolo non è stato creato, si prega di correggere gli errori indicati
-        error_deletion: 'Problema durante la cancellazione dell''articolo: %{errors}'
-        error_edition: Problema nell'aggiornamento dell'articolo!
-        error_priority_update: Problema quando si cambia la priorità degli articoli
-        not_found: L'articolo non è stato trovato
-        successful_creation: 'Aggiunto articolo: %{title}'
-        successful_deletion: L'articolo è stato cancellato
-        successful_edition: 'Articolo aggiornato: %{title}'
-        successful_priority_update: L'ordine degli articoli è stato modificato
-        successful_undeletion: Articolo restaurato
-        undelete_link: Annulla la cancellazione.
+        error_creation: "L'articolo non è stato creato, si prega di correggere gli errori indicati"
+        error_deletion: "'Problema durante la cancellazione dell'articolo: %{errors}'"
+        error_edition: "Problema nell'aggiornamento dell'articolo!"
+        error_priority_update: "Problema quando si cambia la priorità degli articoli"
+        not_found: "L'articolo non è stato trovato"
+        successful_creation: "Aggiunto articolo: %{title}"
+        successful_deletion: "L'articolo è stato cancellato"
+        successful_edition: "Articolo aggiornato: %{title}"
+        successful_priority_update: "L'ordine degli articoli è stato modificato"
+        successful_undeletion: "Articolo restaurato"
+        undelete_link: "Annulla la cancellazione."
       history:
-        title: Storia di %{title} - %{topic}
+        title: "Storia di %{title} - %{topic}"
         description: "Storia dell'articolo: %{title} - %{topic}"
       index:
         title:
-          topic: Articoli per %{article}
+          topic: "Articoli per %{article}"
       show:
         title: "%{title} - %{topic}"
     picture:
       copyright:
-        default: Da
+        default: "Da"
       flash:
-        error_deletion: Problema durante la cancellazione dell'immagine
-        successful_deletion: L'immagine è stata cancellata
+        error_deletion: "Problema durante la cancellazione dell'immagine"
+        successful_deletion: "L'immagine è stata cancellata"
     comment:
       flash:
-        error_creation: Il commento non è stato creato, si prega di correggere gli errori indicati
-        error_deletion: Problema nella cancellazione del commento
-        error_edition: Problema nell'aggiornamento del commento
-        successful_creation: Commento aggiunto
-        successful_deletion: Commento cancellato
-        successful_edition: Commento aggiornato
+        error_creation: "Il commento non è stato creato, si prega di correggere gli errori indicati"
+        error_deletion: "Problema nella cancellazione del commento"
+        error_edition: "Problema nell'aggiornamento del commento"
+        successful_creation: "Commento aggiunto"
+        successful_deletion: "Commento cancellato"
+        successful_edition: "Commento aggiornato"
     share:
       errors:
-        creation: Non posso condividere questa voce
-        link_already_shared: Già condiviso da un link
-        private_shareable: Un oggetto privato non può essere condiviso
-        useless_shareable: Un oggetto pubblico è inutile da condividere
-        user_already_shared: Già condiviso con questo utente
-        user_not_found: Utente sconosciuto
+        creation: "Non posso condividere questa voce"
+        link_already_shared: "Già condiviso da un link"
+        private_shareable: "Un oggetto privato non può essere condiviso"
+        useless_shareable: "Un oggetto pubblico è inutile da condividere"
+        user_already_shared: "Già condiviso con questo utente"
+        user_not_found: "Utente sconosciuto"
       success:
-        link_message: Condividere l'articolo creato
-        user_message: 'Tema condiviso con : %{user}'
+        link_message: "Condividere l'articolo creato"
+        user_message: "Tema condiviso con : %{user}"
     admin:
       articles:
-        title: Articoli
+        title: "Articoli"
       blog:
         flash:
-          error_creation: Il blog non è stato creato, si prega di correggere gli errori indicati
-          error_deletion: Problema durante la cancellazione del blog
-          error_edition: Problema nell'aggiornamento del blog
-          successful_creation: Blog aggiunto
-          successful_deletion: Blog cancellato
-          successful_edition: Blog aggiornato
+          error_creation: "Il blog non è stato creato, si prega di correggere gli errori indicati"
+          error_deletion: "Problema durante la cancellazione del blog"
+          error_edition: "Problema nell'aggiornamento del blog"
+          successful_creation: "Blog aggiunto"
+          successful_deletion: "Blog cancellato"
+          successful_edition: "Blog aggiornato"
       blogs:
         title: "Note"
       cache:
@@ -298,15 +302,15 @@ it:
       less_than_or_equal_to: deve essere minore o uguale a %{count}
       max_size_error: La dimensione del file deve essere inferiore a %{max_size}
       min_size_error: La dimensione del file deve essere maggiore di %{min_size}
-      mini_magick_processing_error: 'Manipolazione delle immagini con MiniMagick fallita. Forse non è un''immagine? Errore originale: %{e}'
-      model_invalid: 'Convalida fallita: %{errors}'
+      mini_magick_processing_error: "Manipolazione delle immagini con MiniMagick fallita. Forse non è un'immagine? Errore originale: %{e}"
+      model_invalid: "Convalida fallita: %{errors}"
       not_a_number: non è un numero
       not_an_integer: non è un numero intero
       odd: deve essere dispari
       other_than: devono essere di numero diverso da %{count}
       present: deve essere lasciato in bianco
       required: deve esistere
-      rmagick_processing_error: 'Manipolazione delle immagini con rmagick fallita. Forse non è un''immagine? Errore originale: %{e}'
+      rmagick_processing_error: "Manipolazione delle immagini con rmagick fallita. Forse non è un'immagine? Errore originale: %{e}"
       taken: è già presente
       too_long:
         one: è troppo lungo (il massimo è 1 carattere)

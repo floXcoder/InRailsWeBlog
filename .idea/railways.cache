@@ -1,4 +1,4 @@
-do /home/flo/Projects/InRailsWeBlog/bin/bundle exec /home/flo/.rvm/rubies/ruby-2.6.3/bin/ruby /home/flo/Projects/InRailsWeBlog/bin/rake routes --trace
+do /home/flo/Projects/InRailsWeBlog/bin/bundle exec /home/flo/.rvm/rubies/ruby-2.6.3/bin/ruby /home/flo/Projects/InRailsWeBlog/bin/rake routes --trace 
 Ruby enVironment Manager 1.29.8 (latest) (c) 2009-2017 Michal Papis, Piotr Kuczynski, Wayne E. Seguin
 
                               Prefix Verb     URI Pattern                                                                                   Controller#Action
@@ -143,11 +143,11 @@ Ruby enVironment Manager 1.29.8 (latest) (c) 2009-2017 Michal Papis, Piotr Kuczy
                   history_article_es GET      /es/usuarios/:user_slug/articulos/:article_slug/history(.:format)                             pages#home {:name=>"history_article", :locale=>"es"}
                   history_article_it GET      /it/utenti/:user_slug/articoli/:article_slug/history(.:format)                                pages#home {:name=>"history_article", :locale=>"it"}
                   history_article_en GET      /users/:user_slug/articles/:article_slug/history(.:format)                                    pages#home {:name=>"history_article", :locale=>"en"}
-                        user_home_fr GET      /fr/(users/:user_slug)(.:format)                                                              pages#home {:name=>"user_home", :locale=>"fr"}
-                        user_home_de GET      /de/(users/:user_slug)(.:format)                                                              pages#home {:name=>"user_home", :locale=>"de"}
-                        user_home_es GET      /es/(users/:user_slug)(.:format)                                                              pages#home {:name=>"user_home", :locale=>"es"}
-                        user_home_it GET      /it/(users/:user_slug)(.:format)                                                              pages#home {:name=>"user_home", :locale=>"it"}
-                        user_home_en GET      /(users/:user_slug)(.:format)                                                                 pages#home {:name=>"user_home", :locale=>"en"}
+                        user_home_fr GET      /fr/utilisateurs/:user_slug(.:format)                                                         pages#home {:name=>"user_home", :locale=>"fr"}
+                        user_home_de GET      /de/benutzer/:user_slug(.:format)                                                             pages#home {:name=>"user_home", :locale=>"de"}
+                        user_home_es GET      /es/usuarios/:user_slug(.:format)                                                             pages#home {:name=>"user_home", :locale=>"es"}
+                        user_home_it GET      /it/utenti/:user_slug(.:format)                                                               pages#home {:name=>"user_home", :locale=>"it"}
+                        user_home_en GET      /users/:user_slug(.:format)                                                                   pages#home {:name=>"user_home", :locale=>"en"}
                             about_fr GET      /fr/a-propos(.:format)                                                                        pages#home {:name=>"about", :public=>true, :locale=>"fr"}
                             about_de GET      /de/rechtlicher-hinweis(.:format)                                                             pages#home {:name=>"about", :public=>true, :locale=>"de"}
                             about_es GET      /es/sobre(.:format)                                                                           pages#home {:name=>"about", :public=>true, :locale=>"es"}
@@ -265,6 +265,7 @@ Ruby enVironment Manager 1.29.8 (latest) (c) 2009-2017 Michal Papis, Piotr Kuczy
                                      DELETE   /api/v1/topics/:id(.:format)                                                                  api/v1/topics#destroy
                    priority_articles PUT      /api/v1/articles/priority(.:format)                                                           api/v1/articles#update_priority
                                      GET      /api/v1/articles/:id/shared/:public_link(.:format)                                            api/v1/articles#shared
+                 check_links_article POST     /api/v1/articles/:id/check-links(.:format)                                                    api/v1/articles#check_links
                      stories_article GET      /api/v1/articles/:id/stories(.:format)                                                        api/v1/articles#stories
                      history_article GET      /api/v1/articles/:id/history(.:format)                                                        api/v1/articles#history
                      restore_article GET      /api/v1/articles/:id/restore(.:format)                                                        api/v1/articles#restore
@@ -342,6 +343,7 @@ retrieve_parameters_admins_seo_index POST     /admins/seo/retrieve_parameters(.:
                          admins_logs GET      /admins/logs(.:format)                                                                        admins/logs#index
            flush_cache_admins_caches POST     /admins/caches/flush_cache(.:format)                                                          admins/caches#flush_cache
                        admins_caches GET      /admins/caches(.:format)                                                                      admins/caches#index
+                                     GET      /opensearch.:format                                                                           pages#open_search
                                      GET      /robots.:format                                                                               pages#robots
                                      GET|POST /health_check(/:checks)(.:format)                                                             health_check/health_check#index {:format=>"txt"}
                                               /*path(.:format)                                                                              pages#not_found
