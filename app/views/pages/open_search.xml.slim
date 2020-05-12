@@ -13,5 +13,5 @@ OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/"
     = image_url('logos/favicon-32x32.png')
   Image height="96" width="96" type="image/png"
     = image_url('logos/favicon-96x96.png')
-  Url type="text/html" template="#{send("search_#{I18n.locale}_url") + '?query={searchTerms}&amp;page={startPage?}&amp;utm_source=opensearch'}"
+  Url type="text/html" template="#{send("search_#{I18n.locale}_url") + '/?query={searchTerms}&utm_source=opensearch'}"
   Query role="example" searchTerms="cat"
