@@ -274,6 +274,9 @@ Rails.application.routes.draw do
     end
   end
 
+  # Open Search
+  get '/opensearch.:format' => 'pages#open_search'
+
   # SEO
   get '/robots.:format' => 'pages#robots'
 

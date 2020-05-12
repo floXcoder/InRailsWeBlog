@@ -293,7 +293,7 @@ it:
       edit:
         back_button: Annulla
         submit: Aggiornare l'etichetta
-        title: 'Modifica dell''etichetta: %{tag}'
+        title: "Modifica dell'etichetta: %{tag}"
       errors:
         default: Impossibile creare l'etichetta! Grazie per averci riprovato.
         description:
@@ -568,7 +568,7 @@ it:
       share:
         button: "Condividi tramite un link"
         cancel: "Annulla"
-        content: 'Copiare il seguente link per condividere l''articolo:'
+        content: "Copiare il seguente link per condividere l'articolo:"
         title: "Condividi questo articolo"
       sort:
         link: "Cambiare la priorità"
@@ -646,7 +646,7 @@ it:
           one: "1 risultato"
           other: "%{count} risultati"
         suggestions:
-          articles: "'Prova con l''ortografia:'"
+          articles: "Prova con l'ortografia:"
           tags: "Prova i seguenti tag :"
         topic:
           current: "Argomento attuale"

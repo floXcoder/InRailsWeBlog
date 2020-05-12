@@ -3,7 +3,7 @@
 class PagesController < ApplicationController
   before_action :verify_requested_format!
 
-  respond_to :html, :text, :json
+  respond_to :html, :json, :text, :xml
 
   def home
     reset_cache_headers
@@ -49,16 +49,19 @@ class PagesController < ApplicationController
     end
   end
 
-  # SEO
-  def robots
-    respond_to :text
-  end
-
   def meta_tag
     parameters = params.to_unsafe_h.except(:controller, :action, :page, :locale, :format, :route_name, :force_locale).symbolize_keys
     set_seo_data(params[:route_name], parameters)
 
     render json: meta_attributes
+  end
+
+  def open_search
+    respond_to :xml
+  end
+
+  def robots
+    respond_to :text
   end
 
 end

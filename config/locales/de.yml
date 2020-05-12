@@ -3,84 +3,88 @@ de:
     default:
       page_title: "Willkommen zum %{website}-Blog!"
       meta_desc: "Kommen Sie und entdecken Sie die verschiedenen Artikel auf der %{website}."
+  open_search:
+    long_name: "%{name} Blog Search"
+    description: "Suche nach Artikeln und Links auf %{name}"
+    tags: "Blog, Artikel, Links"
   views:
     user:
       flash:
-        successful_edition: Aktualisiertes Profil
-        error_edition: Das Profil wurde nicht aktualisiert, bitte korrigieren Sie die angegebenen Fehler
+        successful_edition: "Aktualisiertes Profil"
+        error_edition: "Das Profil wurde nicht aktualisiert, bitte korrigieren Sie die angegebenen Fehler"
     tag:
       flash:
-        successful_creation: Etikett hinzugefügt
-        error_creation: Das Etikett wurde nicht erstellt, bitte korrigieren Sie die angegebenen Fehler
-        successful_edition: Aktualisiertes Etikett
-        error_edition: Problem bei der Aktualisierung des Etiketts!
-        successful_priority_update: Die Reihenfolge der Etiketten wurde geändert
-        error_priority_update: Problem beim Ändern der Priorität von Etiketten
-        successful_deletion: Der Artikel wurde gelöscht
-        error_deletion: 'Problem beim Löschen des Artikels: %{errors}'
+        successful_creation: "Etikett hinzugefügt"
+        error_creation: "Das Etikett wurde nicht erstellt, bitte korrigieren Sie die angegebenen Fehler"
+        successful_edition: "Aktualisiertes Etikett"
+        error_edition: "Problem bei der Aktualisierung des Etiketts!"
+        successful_priority_update: "Die Reihenfolge der Etiketten wurde geändert"
+        error_priority_update: "Problem beim Ändern der Priorität von Etiketten"
+        successful_deletion: "Der Artikel wurde gelöscht"
+        error_deletion: "Problem beim Löschen des Artikels: %{errors}"
     topic:
       flash:
-        successful_creation: Thema hinzugefügt
-        error_creation: Das Thema ist nicht erstellt worden, bitte korrigieren Sie die angegebenen Fehler
-        successful_edition: Aktualisiertes Thema
-        error_edition: Problem bei der Aktualisierung des Themas!
-        successful_deletion: Das Thema wurde entfernt
-        successful_priority_update: Die Reihenfolge der Themen wurde geändert
-        error_priority_update: Problem bei der Änderung der Priorität von Themen
-        error_deletion: 'Problem beim Löschen des Themas : %{errors}'
+        successful_creation: "Thema hinzugefügt"
+        error_creation: "Das Thema ist nicht erstellt worden, bitte korrigieren Sie die angegebenen Fehler"
+        successful_edition: "Aktualisiertes Thema"
+        error_edition: "Problem bei der Aktualisierung des Themas!"
+        successful_deletion: "Das Thema wurde entfernt"
+        successful_priority_update: "Die Reihenfolge der Themen wurde geändert"
+        error_priority_update: "Problem bei der Änderung der Priorität von Themen"
+        error_deletion: "Problem beim Löschen des Themas : %{errors}"
     inventory_field:
       flash:
-        successful_edition: Benutzerdefinierte Felder aktualisiert. Sie können diese Felder für Ihre Artikel verwenden.
-        error_edition: Problem bei der Aktualisierung von benutzerdefinierten Feldern!
+        successful_edition: "Benutzerdefinierte Felder aktualisiert. Sie können diese Felder für Ihre Artikel verwenden."
+        error_edition: "Problem bei der Aktualisierung von benutzerdefinierten Feldern!"
     article:
       flash:
-        not_found: Der Artikel wurde nicht gefunden
-        error_creation: Der Artikel ist nicht erstellt worden, bitte korrigieren Sie die angegebenen Fehler
-        error_deletion: 'Problem beim Löschen des Artikels: %{errors}'
-        error_edition: Problem bei der Aktualisierung des Artikels!
-        error_priority_update: Problem bei der Änderung der Priorität von Gegenständen
-        successful_creation: 'Artikel hinzugefügt: %{title}'
-        successful_deletion: Der Artikel wurde gelöscht
-        successful_edition: 'Aktualisierter Artikel: %{title}'
-        successful_priority_update: Die Reihenfolge der Artikel wurde geändert
-        successful_undeletion: Restaurierter Artikel
-        undelete_link: Brechen Sie die Löschung ab.
+        not_found: "Der Artikel wurde nicht gefunden"
+        error_creation: "Der Artikel ist nicht erstellt worden, bitte korrigieren Sie die angegebenen Fehler"
+        error_deletion: "Problem beim Löschen des Artikels: %{errors}"
+        error_edition: "Problem bei der Aktualisierung des Artikels!"
+        error_priority_update: "Problem bei der Änderung der Priorität von Gegenständen"
+        successful_creation: "Artikel hinzugefügt: %{title}"
+        successful_deletion: "Der Artikel wurde gelöscht"
+        successful_edition: "Aktualisierter Artikel: %{title}"
+        successful_priority_update: "Die Reihenfolge der Artikel wurde geändert"
+        successful_undeletion: "Restaurierter Artikel"
+        undelete_link: "Brechen Sie die Löschung ab."
       index:
         title:
-          topic: Artikel für %{topic}
+          topic: "Artikel für %{topic}"
       show:
         title: "%{title} - %{topic}"
       edit:
-        title: 'Ausgabe: %{title} - %{topic}'
-        description: 'Modifikation des Artikels: %{title} - %{topic}'
+        title: "Ausgabe: %{title} - %{topic}"
+        description: "Modifikation des Artikels: %{title} - %{topic}"
       history:
-        title: Geschichte von %{title} - %{topic}
-        description: 'Geschichte des Artikels: %{title} - %{topic}'
+        title: "Geschichte von %{title} - %{topic}"
+        description: "Geschichte des Artikels: %{title} - %{topic}"
     picture:
       flash:
-        successful_deletion: Das Bild wurde gelöscht
-        error_deletion: Problem beim Löschen des Bildes
+        successful_deletion: "Das Bild wurde gelöscht"
+        error_deletion: "Problem beim Löschen des Bildes"
       copyright:
-        default: Von
+        default: "Von"
     comment:
       flash:
-        successful_creation: Kommentar hinzugefügt
-        error_creation: Der Kommentar wurde nicht erstellt, bitte korrigieren Sie die angegebenen Fehler
-        successful_edition: Aktualisierter Kommentar
-        error_edition: Problem bei der Aktualisierung des Kommentars
-        successful_deletion: Kommentar gelöscht
-        error_deletion: Problem beim Löschen des Kommentars
+        successful_creation: "Kommentar hinzugefügt"
+        error_creation: "Der Kommentar wurde nicht erstellt, bitte korrigieren Sie die angegebenen Fehler"
+        successful_edition: "Aktualisierter Kommentar"
+        error_edition: "Problem bei der Aktualisierung des Kommentars"
+        successful_deletion: "Kommentar gelöscht"
+        error_deletion: "Problem beim Löschen des Kommentars"
     share:
       success:
-        link_message: Den erstellten Artikel freigeben
-        user_message: 'Thema geteilt mit : %{user}'
+        link_message: "Den erstellten Artikel freigeben"
+        user_message: "Thema geteilt mit : %{user}"
       errors:
-        creation: Kann diesen Artikel nicht freigeben
-        link_already_shared: Bereits durch einen Link geteilt
-        private_shareable: Ein privater Gegenstand kann nicht geteilt werden
-        useless_shareable: Ein öffentlicher Gegenstand ist nutzlos zum Teilen
-        user_already_shared: Bereits mit diesem Benutzer geteilt
-        user_not_found: Unbekannter Benutzer
+        creation: "Kann diesen Artikel nicht freigeben"
+        link_already_shared: "Bereits durch einen Link geteilt"
+        private_shareable: "Ein privater Gegenstand kann nicht geteilt werden"
+        useless_shareable: "Ein öffentlicher Gegenstand ist nutzlos zum Teilen"
+        user_already_shared: "Bereits mit diesem Benutzer geteilt"
+        user_not_found: "Unbekannter Benutzer"
     admin:
       login:
         title: "Anmeldung (Admin)"

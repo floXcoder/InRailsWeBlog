@@ -3,6 +3,10 @@ en:
     default:
       page_title: "Welcome to the %{website} blog"
       meta_desc: "Come and discover the different articles on %{website}."
+  open_search:
+    long_name: "%{name} Blog Search"
+    description: "Articles and links on %{name}"
+    tags: "Blog, articles, links"
   views:
     user:
       flash:

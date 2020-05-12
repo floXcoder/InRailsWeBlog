@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_05_084814) do
+ActiveRecord::Schema.define(version: 2020_05_11_195952) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -115,6 +115,7 @@ ActiveRecord::Schema.define(version: 2020_05_05_084814) do
     t.index ["deleted_at"], name: "index_articles_on_deleted_at"
     t.index ["topic_id", "visibility"], name: "index_articles_on_topic_id_and_visibility", where: "(deleted_at IS NULL)"
     t.index ["user_id", "visibility"], name: "index_articles_on_user_id_and_visibility", where: "(deleted_at IS NULL)"
+    t.index ["visibility"], name: "index_articles_on_visibility", where: "(deleted_at IS NULL)"
   end
 
   create_table "bookmarks", force: :cascade do |t|
@@ -414,6 +415,7 @@ ActiveRecord::Schema.define(version: 2020_05_05_084814) do
     t.text "object"
     t.text "object_changes"
     t.datetime "created_at"
+    t.index ["item_id"], name: "index_versions_on_item_id"
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end
 
