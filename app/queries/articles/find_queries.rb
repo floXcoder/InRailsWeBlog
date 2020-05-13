@@ -31,10 +31,11 @@ module Articles
       return @relation
     end
 
-    def complete(_params = {})
+    def complete(params = {})
       @relation = @relation
                     .includes(:tags, :tagged_articles, :tracker, :share, :pictures, user: [:picture], topic: [:inventory_fields])
                     .order_by('popularity_desc')
+                    .with_visibility(params[:visibility] || 'everyone')
                     .with_adapted_visibility(@current_user, @current_admin)
 
       return @relation

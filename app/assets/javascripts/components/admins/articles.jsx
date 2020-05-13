@@ -83,6 +83,7 @@ class AdminArticles extends React.Component {
                            {
                                title: I18n.t('js.admin.articles.table.columns.mode'),
                                field: 'mode',
+                               hidden: true,
                                lookup: {
                                    'note': I18n.t('js.article.enums.mode.note'),
                                    'story': I18n.t('js.article.enums.mode.story'),
@@ -112,10 +113,36 @@ class AdminArticles extends React.Component {
                                editable: 'never'
                            },
                            {
+                               title: I18n.t('js.admin.articles.table.columns.date'),
+                               field: 'dateShort',
+                               filtering: false,
+                               render: (articles) => articles.dateShort.slice().reverse().join(' '),
+                               editable: 'never'
+                           },
+                           {
                                title: I18n.t('js.admin.articles.table.columns.languages'),
                                field: 'languages',
                                render: (articles) => articles.languages.join(', '),
                                editable: 'never'
+                           },
+                           {
+                               title: I18n.t('js.admin.articles.table.columns.home_page'),
+                               field: 'tracker[homePage]',
+                               lookup: {
+                                   [true]: I18n.t('js.admin.articles.home_page.true'),
+                                   [false]: I18n.t('js.admin.articles.home_page.false')
+                               }
+                           },
+                           {
+                               title: I18n.t('js.admin.articles.table.columns.popularity'),
+                               field: 'tracker[popularity]',
+                               filtering: false,
+                               editable: 'never'
+                           },
+                           {
+                               title: I18n.t('js.admin.articles.table.columns.rank'),
+                               field: 'tracker[rank]',
+                               filtering: false
                            },
                            {
                                title: I18n.t('js.admin.articles.table.columns.views_count'),
@@ -141,31 +168,6 @@ class AdminArticles extends React.Component {
                                filtering: false,
                                editable: 'never'
                            },
-                           {
-                               title: I18n.t('js.admin.articles.table.columns.date'),
-                               field: 'date',
-                               filtering: false,
-                               editable: 'never'
-                           },
-                           {
-                               title: I18n.t('js.admin.articles.table.columns.popularity'),
-                               field: 'tracker[popularity]',
-                               filtering: false,
-                               editable: 'never'
-                           },
-                           {
-                               title: I18n.t('js.admin.articles.table.columns.rank'),
-                               field: 'tracker[rank]',
-                               filtering: false
-                           },
-                           {
-                               title: I18n.t('js.admin.articles.table.columns.home_page'),
-                               field: 'tracker[homePage]',
-                               lookup: {
-                                   [true]: I18n.t('js.admin.articles.home_page.true'),
-                                   [false]: I18n.t('js.admin.articles.home_page.false')
-                               }
-                           }
                        ]}
                        options={{
                            columnsButton: true,

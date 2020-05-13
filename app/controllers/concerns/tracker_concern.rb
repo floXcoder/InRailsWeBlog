@@ -21,17 +21,25 @@ module TrackerConcern
 
   # Tracker action method to get views from clients
   def viewed
-    class_model = controller_path.gsub(/api\/v\d+/, '').classify.constantize
-    class_model.track_views(params[:ids] || params[:id])
+    if ENV['TRACKER_EXCLUDED_IP'].present? && ENV['TRACKER_EXCLUDED_IP'].split(', ').any? { |ip| (request.remote_ip.presence || request.ip)&.include?(ip) }
+      head :no_content
+    else
+      class_model = controller_path.gsub(/api\/v\d+/, '').classify.constantize
+      class_model.track_views(params[:ids] || params[:id])
 
-    head :no_content
+      head :no_content
+    end
   end
 
   # Tracker action method to get clicks from clients
   def clicked
-    class_model = controller_path.gsub(/api\/v\d+/, '').classify.constantize
-    class_model.track_clicks(params[:id], params[:user_id], params[:parent_id])
+    if ENV['TRACKER_EXCLUDED_IP'].present? && ENV['TRACKER_EXCLUDED_IP'].split(', ').any? { |ip| (request.remote_ip.presence || request.ip)&.include?(ip) }
+      head :no_content
+    else
+      class_model = controller_path.gsub(/api\/v\d+/, '').classify.constantize
+      class_model.track_clicks(params[:id], params[:user_id], params[:parent_id])
 
-    head :no_content
+      head :no_content
+    end
   end
 end
