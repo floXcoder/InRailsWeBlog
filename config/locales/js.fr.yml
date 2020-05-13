@@ -187,6 +187,9 @@ fr:
           multilanguage:
             title: "Multi-langues"
             name: "Écrire les articles en plusieurs langues"
+          export:
+            title: "Export des données"
+            button: "Sauvegarder mes données en HTML"
         tag:
           title: "Labels"
           sidebar:

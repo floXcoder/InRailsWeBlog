@@ -186,6 +186,9 @@ it:
           multilanguage:
             name: Scrivere articoli in diverse lingue
             title: Multi-lingue
+          export:
+            title: "Esportare i miei dati"
+            button: "Salva i miei articoli in HTML"
           title: Articoli
         search:
           exact: La parola o le parole specifiche

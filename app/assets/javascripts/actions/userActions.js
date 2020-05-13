@@ -103,3 +103,10 @@ export const updateUserRecents = (userId, recents, options = {}) => ({
         ...options
     })
 });
+
+// // Export user data
+// export const exportUserData = (userId) => (
+//     api.get('/api/v1/exporter.zip', {
+//         userId
+//     }).promise
+// );

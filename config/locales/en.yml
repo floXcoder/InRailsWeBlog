@@ -205,6 +205,8 @@ en:
       tag: "Cannot search for tags"
       topic: "Cannot search for topics"
       user: "Cannot search for users"
+  exporter:
+    errors: "Cannot export articles"
   admin:
     dashboard:
       title: "Admin"

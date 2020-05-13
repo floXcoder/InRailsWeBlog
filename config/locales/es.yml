@@ -205,6 +205,8 @@ es:
       tag: 'Búsqueda: imposible buscar etiquetas'
       topic: 'Búsqueda: imposible buscar temas'
       user: 'Búsqueda: imposible buscar usuarios'
+  exporter:
+    errors: "No puede exportar artículos"
   admin:
     dashboard:
       title: Admin

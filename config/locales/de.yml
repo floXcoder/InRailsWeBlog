@@ -205,6 +205,8 @@ de:
       tag: 'Suche: Unmöglich, nach Etiketten zu suchen'
       topic: 'Suche: Unmöglich, nach Themen zu suchen'
       user: 'Suche: Unmöglich, nach Benutzern zu suchen'
+  exporter:
+    errors: "Artikel können nicht exportiert werden"
   admin:
     dashboard:
       title: "Verwaltung"

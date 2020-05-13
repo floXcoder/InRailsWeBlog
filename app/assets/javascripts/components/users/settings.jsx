@@ -12,6 +12,7 @@ import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
+import Button from '@material-ui/core/Button';
 
 const PREFERENCE_VIEWS = {
     ARTICLES: 0,
@@ -169,6 +170,19 @@ class UserSettings extends React.Component {
                                                   <Switch checked={this.state.articleMultilanguage}
                                                           onChange={this._onSettingSwitchChange.bind(this, 'articleMultilanguage')}/>
                                               }/>
+                        </div>
+
+                        <div className="col s12 margin-top-15">
+                            <FormLabel component="legend">
+                                {I18n.t('js.user.settings.article.export.title')}
+                            </FormLabel>
+
+                            <Button variant="outlined"
+                                    component="a"
+                                    size="small"
+                                    href={`/api/v1/exporter.zip?user_id=${this.props.currentUserId}`}>
+                                {I18n.t('js.user.settings.article.export.button')}
+                            </Button>
                         </div>
                     </div>
                 }
