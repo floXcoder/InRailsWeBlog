@@ -1,0 +1,43 @@
+article.container data-topic-id="#{article.topic.id}" data-article-id="#{article.id}" data-visibility="#{article.visibility}" data-languages="#{article.languages.join(';')}" data-created="#{article.created_at}" data-updated="#{article.updated_at}"
+  - if article.title_translations.keys.size > 1
+    - article.title_translations.each do |lg, title|
+      h1
+        = title
+      hr
+  - else
+    h1
+      = article.title
+
+  - if article.summary_translations.keys.size > 1
+    - article.summary_translations.each do |lg, summary|
+      h2
+        = summary
+      hr
+  - else
+    h2
+      = article.summary
+
+  / <table bgcolor="#D4DDE5" border="0">
+  / <tr><td><b>Créé le :</b></td><td><i>11/12/2014 15:50</i></td></tr>
+  / <tr><td><b>Modifié le :</b></td><td><i>17/12/2014 14:28</i></td></tr>
+  / <tr><td><b>Auteur :</b></td><td><i>flo2notes</i></td></tr>
+  / </table>
+
+  - if article.content_translations.keys.size > 1
+    - article.content_translations.each do |lg, content|
+      .normalized-content data-language="#{lg}"
+        - formatted_content = content.gsub(/srcset=".*?"/, 'srcset=""').gsub(/data-src/, 'src').gsub(/src="\/uploads\/article\/pictures\/\d+\/(.*?)"/, "src=\"#{article.slug}_files/\\1\"")
+        = formatted_content.html_safe
+        br
+        hr
+        br
+  - else
+    .normalized-content
+      - formatted_content = article.content.gsub(/srcset=".*?"/, 'srcset=""').gsub(/data-src/, 'src').gsub(/src="\/uploads\/article\/pictures\/\d+\/(.*?)"/, "src=\"#{article.slug}_files/\\1\"")
+      = formatted_content.html_safe
+
+  .tags
+    - article.tags.each do |tag|
+      .tag data-tag-id="#{tag.id}"
+        = ' ➤ '
+        = tag.name

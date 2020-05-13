@@ -37,7 +37,7 @@ module Api::V1
       complete = filter_params[:complete] && admin_signed_in?
 
       if complete
-        articles = ::Articles::FindQueries.new(nil, current_admin).complete
+        articles = ::Articles::FindQueries.new(nil, current_admin).complete(filter_params.merge(visibility: 'everyone'))
       elsif params[:populars]
         articles = component_cache('popular_articles') { ::Articles::FindQueries.new.populars(limit: params[:limit]) }
       elsif params[:home]
@@ -62,11 +62,7 @@ module Api::V1
                        user_slug: filter_params[:user_slug])
         end
 
-        articles = if complete
-                     ::Articles::FindQueries.new(current_user, current_admin).complete(filter_params.merge(page: params[:page], limit: params[:limit]))
-                   else
-                     ::Articles::FindQueries.new(current_user, current_admin).all(filter_params.merge(page: params[:page], limit: params[:limit]))
-                   end
+        articles = ::Articles::FindQueries.new(current_user, current_admin).all(filter_params.merge(page: params[:page], limit: params[:limit]))
       end
 
       admin_signed_in? ? reset_cache_headers : expires_in(InRailsWeBlog.config.cache_time, public: true)

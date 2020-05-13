@@ -205,6 +205,8 @@ it:
       tag: 'Ricerca: impossibile cercare le etichette'
       topic: 'Ricerca: impossibile cercare i temi'
       user: 'Ricerca: impossibile cercare gli utenti'
+  exporter:
+    errors: "Impossibile esportare i prodotti"
   admin:
     dashboard:
       title: Admin

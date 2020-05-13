@@ -297,6 +297,7 @@ Ruby enVironment Manager 1.29.8 (latest) (c) 2009-2017 Michal Papis, Piotr Kuczy
                               upload PATCH    /api/v1/uploads/:id(.:format)                                                                 api/v1/uploads#update
                                      PUT      /api/v1/uploads/:id(.:format)                                                                 api/v1/uploads#update
                                      DELETE   /api/v1/uploads/:id(.:format)                                                                 api/v1/uploads#destroy
+                      exporter_index GET      /api/v1/exporter(.:format)                                                                    api/v1/exporter#index
                          login_admin GET      /admins/login(.:format)                                                                       admins/sessions#new
                         admins_login POST     /admins/login(.:format)                                                                       admins/sessions#create
                         logout_admin DELETE   /admins/logout(.:format)                                                                      admins/sessions#destroy

@@ -215,8 +215,11 @@ Rails.application.routes.draw do
 
       resources :comments, only: [:index]
 
-      # Uploads data
-      resources :uploads,  only: [:create, :update, :destroy]
+      # Uploads data (files, ...)
+      resources :uploads, only: [:create, :update, :destroy]
+
+      # Export user data
+      resources :exporter, only: [:index]
     end
   end
 

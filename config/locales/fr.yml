@@ -205,6 +205,8 @@ fr:
       tag: "Recherche : impossible de rechercher les labels"
       topic: "Recherche : impossible de rechercher les thèmes"
       user: "Recherche : impossible de rechercher les utilisateurs"
+  exporter:
+    errors: "Impossible d'exporter les articles"
   admin:
     dashboard:
       title: "Admin"

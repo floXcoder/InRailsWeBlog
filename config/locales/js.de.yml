@@ -171,6 +171,9 @@ de:
           multilanguage:
             name: Artikel in mehreren Sprachen verfassen
             title: Mehrsprachig
+          export:
+            title: "Meine Daten exportieren"
+            button: "Meine Artikel in HTML speichern"
           title: Artikel
         search:
           exact: Das/die spezifische(n) Wort(e)
