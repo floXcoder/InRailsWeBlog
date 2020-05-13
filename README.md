@@ -4,6 +4,24 @@ This is a not so simple blog.
 
 Official website based on InRailsWeBlog project: https://www.ginkonote.com
 
+## Functionalities
+
+Main functionalities of InRailsWeBlog blog:
+
+* Write your articles inside topics and classified them with tags
+* Multiple article view modes: cards, summary, one-card and inline edition
+* Write articles in several languages in only one place
+* Three view modes for topics: normal articles, stories (by date) and custom fields (text, date, boolean, ...) 
+* Powerful search with ElasticSearch: autocompletion for article title, inside content for full search 
+* Translated in 5 languages
+* Administration panel integrated to manage and monitor the blog
+* SPA website to ease the navigation
+* PWA ready (you can install as an app on your smartphone)
+* Export in HTML all your articles and data
+* Specific SEO cache with included JS generation
+* OpenSearch integrated to include as a search engine
+
+
 ## Operating rules
 
 ### Users
@@ -58,6 +76,7 @@ Groups are a set of users. Every user can subscribe to a group and share specifi
 * Trello: for the view with all notes in the current topic (clear)
 * Evernote: tags and notes but too closed
 * Stack overflow: tags system but too many information and complicated
+* Medium: nice UX and SEO but too commercial
 
 ## Requirements
 

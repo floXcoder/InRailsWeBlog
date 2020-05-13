@@ -9,7 +9,7 @@ end
 ruby '2.6.3'
 
 # Rails version
-gem 'rails',                    '6.0.2.2'
+gem 'rails',                    '6.0.3'
 
 # Use postgresql as the database for Active Record
 gem 'pg',                       '1.2.3'
@@ -75,7 +75,7 @@ gem 'mini_magick',              '4.10.1'
 
 # Search in database
 gem 'searchkick',               '4.3.0'
-gem 'typhoeus',                 '1.3.1'
+gem 'typhoeus',                 '1.4.0'
 
 # Votable models
 gem 'thumbs_up',                '0.6.10'
@@ -87,7 +87,7 @@ gem 'acts_as_commentable_with_threading', '2.0.1'
 gem 'premailer-rails',          '1.11.1'
 
 # Detect browser and bots
-gem 'browser',                  '4.0.0'
+gem 'browser',                  '4.1.0'
 
 # SEO
 gem 'friendly_id',              '5.3.0'
@@ -120,7 +120,7 @@ group :development do
   gem 'awesome_print',          '1.8.0'
 
   # Improve errors
-  gem 'better_errors',          '2.7.0'
+  gem 'better_errors',          '2.7.1'
   gem 'binding_of_caller',      '0.8.0'
 
   # N+1 database query
@@ -169,7 +169,7 @@ group :test do
 
   # static analyzer
   gem 'rails_best_practices',       '1.20.0',   require: false
-  gem 'brakeman',                   '4.8.1',    require: false
+  gem 'brakeman',                   '4.8.2',    require: false
   gem 'i18n-tasks',                 '0.9.31',   require: false
 end
 
@@ -178,7 +178,7 @@ group :development, :test do
   gem 'bootsnap',                   '1.4.6',   require: false
 
   # Check errors
-  gem 'rubocop',                    '0.82.0',  require: false
+  gem 'rubocop',                    '0.83.0',  require: false
   gem 'rubocop-rails',              '2.5.2',   require: false
   gem 'rubocop-performance',        '1.5.2',   require: false
   gem 'rubocop-rspec',              '1.39.0',  require: false
@@ -192,5 +192,5 @@ group :production do
   gem 'lograge',          '0.11.2'
 
   # Prerender html pages for SEO
-  gem 'seo_cache',        '0.18.0'
+  gem 'seo_cache',        '0.19.0'
 end
