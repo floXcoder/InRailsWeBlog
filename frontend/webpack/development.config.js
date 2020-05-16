@@ -3,7 +3,7 @@ const path = require('path');
 const webpack = require('webpack');
 const sane = require('sane');
 
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 // const WorkboxPlugin = require('workbox-webpack-plugin');
@@ -160,21 +160,27 @@ webPackConfig.plugins.push(
     new webpack.LoaderOptionsPlugin({
         debug: true
     }),
-    new CopyWebpackPlugin([{
-        from: config.translations,
-        to: 'translations/' + config.development.filename + '.[ext]',
-        toType: 'template'
-    }]),
-    new CopyWebpackPlugin(_.map(config.images, (image) => ({
-        from: image.from,
-        to: image.to + '/' + config.development.filename + '.[ext]',
-        toType: 'template'
-    }))),
-    new CopyWebpackPlugin(_.map(config.datas, (data) => ({
-        from: data.from,
-        to: data.to + config.development.filename + '.[ext]',
-        toType: 'template'
-    }))),
+    new CopyWebpackPlugin({
+        patterns: [{
+            from: config.translations,
+            to: 'translations/' + config.development.filename + '.[ext]',
+            toType: 'template'
+        }]
+    }),
+    new CopyWebpackPlugin({
+        patterns: _.map(config.images, (image) => ({
+            from: image.from,
+            to: image.to + '/' + config.development.filename + '.[ext]',
+            toType: 'template'
+        }))
+    }),
+    new CopyWebpackPlugin({
+        patterns: _.map(config.datas, (data) => ({
+            from: data.from,
+            to: data.to + config.development.filename + '.[ext]',
+            toType: 'template'
+        }))
+    }),
     new MiniCssExtractPlugin({
         // Options similar to the same options in webpackOptions.output
         // both options are optional

@@ -161,21 +161,27 @@ webPackConfig.plugins.push(
         minimize: true,
         debug: false
     }),
-    new CopyWebpackPlugin(_.map(config.images, (image) => ({
-        from: image.from,
-        to: image.to + '/' + config.production.filenameImage + '.[ext]',
-        toType: 'template'
-    }))),
-    new CopyWebpackPlugin([{
-        from: config.translations,
-        to: 'translations/' + config.production.filename + '.[ext]',
-        toType: 'template'
-    }]),
-    new CopyWebpackPlugin(_.map(config.datas, (data) => ({
-        from: data.from,
-        to: data.to + config.production.filename + '.[ext]',
-        toType: 'template'
-    }))),
+    new CopyWebpackPlugin({
+        patterns: _.map(config.images, (image) => ({
+            from: image.from,
+            to: image.to + '/' + config.production.filenameImage + '.[ext]',
+            toType: 'template'
+        }))
+    }),
+    new CopyWebpackPlugin({
+        patterns: [{
+            from: config.translations,
+            to: 'translations/' + config.production.filename + '.[ext]',
+            toType: 'template'
+        }]
+    }),
+    new CopyWebpackPlugin({
+        patterns: _.map(config.datas, (data) => ({
+            from: data.from,
+            to: data.to + config.production.filename + '.[ext]',
+            toType: 'template'
+        }))
+    }),
     new webpack.HashedModuleIdsPlugin(),
     new ManifestPlugin({
         fileName: config.production.manifestFilename,

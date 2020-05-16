@@ -228,7 +228,7 @@
     <orderEntry type="library" scope="PROVIDED" name="mini_magick (v4.10.1, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="mini_mime (v1.0.2, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="mini_portile2 (v2.4.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="minitest (v5.14.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="minitest (v5.14.1, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="msgpack (v1.3.3, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="multi_json (v1.14.1, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="multipart-post (v2.1.1, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
