@@ -1,6 +1,26 @@
 {
   "ignored_warnings": [
     {
+      "warning_type": "File Access",
+      "warning_code": 16,
+      "fingerprint": "6100212265b8c6f6bd9e8127f1d8d4c385c072901d02a20956547a2727560f79",
+      "check_name": "SendFile",
+      "message": "Parameter value used in file name",
+      "file": "app/controllers/api/v1/exporter_controller.rb",
+      "line": 12,
+      "link": "https://brakemanscanner.org/docs/warning_types/file_access/",
+      "code": "send_file(Shared::ExporterService.new(params[:user_id]).perform.result)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Api::V1::ExporterController",
+        "method": "index"
+      },
+      "user_input": "params[:user_id]",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
       "warning_type": "Dangerous Send",
       "warning_code": 23,
       "fingerprint": "89f3ccfba84a0c2c88e630bd94ba4651bebea3727e50042048a1c2684b0e728a",
@@ -53,6 +73,6 @@
       "note": ""
     }
   ],
-  "updated": "2020-05-06 16:11:08 +0200",
-  "brakeman_version": "4.8.1"
+  "updated": "2020-05-16 16:32:21 +0200",
+  "brakeman_version": "4.8.2"
 }
