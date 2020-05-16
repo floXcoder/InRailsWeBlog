@@ -654,6 +654,8 @@ it:
         topic:
           current: "Argomento attuale"
           others: "Altri argomenti"
+        tags:
+          filter: "Filtrare per tag:"
     comment:
       common:
         actions: "Azioni"

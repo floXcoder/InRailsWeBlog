@@ -13,6 +13,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Chip from '@material-ui/core/Chip';
+import Grow from '@material-ui/core/Grow';
 
 import SearchIcon from '@material-ui/icons/Search';
 import CancelIcon from '@material-ui/icons/Cancel';
@@ -38,7 +39,8 @@ import {
 import {
     maxSearchRate,
     autocompleteLimit,
-    searchGridColumns
+    searchGridColumns,
+    searchGridColumnsMobile
 } from '../modules/constants';
 
 import EnsureValidity from '../modules/ensureValidity';
@@ -60,7 +62,7 @@ export default @connect((state) => ({
     query: state.searchState.query,
     selectedTags: state.searchState.selectedTags,
     isSearching: state.searchState.isSearching,
-    hasResults: state.searchState.hasResults,
+    // hasResults: state.searchState.hasResults,
     tags: state.searchState.tags,
     tagSuggestions: getTagSuggestions(state),
     autocompleteTags: state.autocompleteState.tags,
@@ -92,7 +94,7 @@ class SearchIndex extends React.Component {
         query: PropTypes.string,
         selectedTags: PropTypes.array,
         isSearching: PropTypes.bool,
-        hasResults: PropTypes.bool,
+        // hasResults: PropTypes.bool,
         tags: PropTypes.array,
         tagSuggestions: PropTypes.array,
         autocompleteTags: PropTypes.array,
@@ -287,7 +289,7 @@ class SearchIndex extends React.Component {
             );
         }
 
-        const hasNoResults = (this.props.query?.length > 0) && !this.props.hasResults;
+        // const hasNoResults = (this.props.query?.length > 0) && !this.props.hasResults;
 
         const isDesktop = window.innerWidth > 1024;
 
@@ -367,19 +369,20 @@ class SearchIndex extends React.Component {
                                        tagSuggestions={this.props.tagSuggestions}
                                        onSuggestionClick={this._handleSuggestionClick}/>
 
-                {
-                    this.props.autocompleteTags.length > 0 &&
+                <Grow in={this.props.autocompleteTags.length > 0}
+                      timeout={200}>
                     <SearchTagIndex classes={this.props.classes}
+                                    isAutocomplete={true}
                                     tags={this.props.autocompleteTags}
                                     highlightedTagId={this.state.highlightedTagId}
                                     onTagClick={this._handleTagSelection}/>
-                }
+                </Grow>
 
                 {
-                    hasNoResults &&
-                    <div className={this.props.classes.helpMessage}>
-                        {I18n.t('js.search.index.no_results')}
-                    </div>
+                    // hasNoResults &&
+                    // <div className={this.props.classes.helpMessage}>
+                    //     {I18n.t('js.search.index.no_results')}
+                    // </div>
                 }
 
                 {
@@ -391,17 +394,22 @@ class SearchIndex extends React.Component {
                 }
 
                 {
-                    this.props.articles.length > 0 &&
-                    <SearchArticleIndex classes={this.props.classes}
-                                        currentUserId={this.props.currentUserId}
-                                        currentUserTopicId={this.props.currentUserTopicId}
-                                        selectedTagIds={this.props.selectedTags.map((tag) => tag.id)}
-                                        articles={this.props.articles}
-                                        searchDisplay={searchDisplay}
-                                        searchGridColumns={searchGridColumns}
-                                        onSettingsClick={this.props.showUserPreference}
-                                        onOrderChange={this._handleOrderChange}
-                                        onDisplayChange={this._handleDisplayChange}/>
+                    this.props.articles.length > 0
+                        ?
+                        <SearchArticleIndex classes={this.props.classes}
+                                            currentUserId={this.props.currentUserId}
+                                            currentUserTopicId={this.props.currentUserTopicId}
+                                            selectedTagIds={this.props.selectedTags.map((tag) => tag.id)}
+                                            articles={this.props.articles}
+                                            searchDisplay={searchDisplay}
+                                            searchGridColumns={isDesktop ? searchGridColumns : searchGridColumnsMobile}
+                                            onSettingsClick={this.props.showUserPreference}
+                                            onOrderChange={this._handleOrderChange}
+                                            onDisplayChange={this._handleDisplayChange}/>
+                        :
+                        <div className={this.props.classes.helpMessage}>
+                            {I18n.t('js.search.index.no_results')}
+                        </div>
                 }
             </div>
         );

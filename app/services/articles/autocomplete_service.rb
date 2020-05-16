@@ -14,7 +14,10 @@ module Articles
       query_string = @query.presence
 
       # Fields with boost
-      fields = %w[title^3 summary]
+      fields = %w[title^3 summary content]
+
+      # Highlight results and select a fragment
+      highlight = @params[:highlight] ? { tag: '<span class="search-highlight">', fragment_size: InRailsWeBlog.config.autocomplete_fragment_size } : false
 
       # Where options only for ElasticSearch
       where_options = where_search(@params[:where])
@@ -30,6 +33,7 @@ module Articles
                                  fields:       fields,
                                  match:        :word_middle,
                                  misspellings: { below: 2, edit_distance: 2 },
+                                 highlight:    highlight,
                                  load:         false,
                                  where:        where_options,
                                  boost_where:  @params[:boost_where],
@@ -45,6 +49,8 @@ module Articles
           success(format_search(results))
         end
       rescue StandardError => error
+        track_error(error)
+
         error(I18n.t('search.errors.article'), error)
       end
     end

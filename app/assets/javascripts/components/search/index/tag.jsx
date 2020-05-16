@@ -21,7 +21,10 @@ export default class SearchTagIndex extends React.PureComponent {
         classes: PropTypes.object.isRequired,
         tags: PropTypes.array.isRequired,
         onTagClick: PropTypes.func.isRequired,
-        highlightedTagId: PropTypes.number
+        highlightedTagId: PropTypes.number,
+        isAutocomplete: PropTypes.bool,
+        // From animation
+        style: PropTypes.object
     };
 
     constructor(props) {
@@ -38,14 +41,25 @@ export default class SearchTagIndex extends React.PureComponent {
 
     render() {
         return (
-            <div className={this.props.classes.category}>
+            <div className={classNames(this.props.classes.category, {
+                [this.props.classes.categoryAutocomplete]: this.props.isAutocomplete
+            })}
+                 style={this.props.style}>
+                {
+                    this.props.isAutocomplete &&
+                    <span className={this.props.classes.categoryHelper}>
+                        {I18n.t('js.search.index.tags.filter')}
+                    </span>
+                }
+
                 {
                     this.props.tags.map((tag) => (
                         <Chip key={tag.id}
                               className={classNames(this.props.classes.articleTag, {
-                                  [this.props.classes.tagHighlighted]: this.props.highlightedTagId === tag.id
+                                  [this.props.classes.tagHighlighted]: this.props.highlightedTagId === tag.id,
+                                  [this.props.classes.tagAutocomplete]: this.props.isAutocomplete
                               })}
-                              icon={<LabelIcon/>}
+                              icon={<LabelIcon fontSize={this.props.isAutocomplete ? 'small' : 'medium'}/>}
                               label={tag.name}
                               color="primary"
                               variant="outlined"

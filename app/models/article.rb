@@ -438,7 +438,8 @@ class Article < ApplicationRecord
   #   sanitize(self.content.gsub(/(<\/\w+>)/i, '\1 '), tags: [], attributes: []).squish if self.content
   # end
 
-  def formatted_content(locale = nil)
+  # Format content for search (keep only return to lines tags)
+  def formatted_content(locale)
     formatted_content = public_content(true, locale)
     return formatted_content unless formatted_content
 
@@ -447,7 +448,7 @@ class Article < ApplicationRecord
     # Format returns to line
     formatted_content = formatted_content.gsub(/\<br\>/im, '@@').gsub(/\<p\>/im, '@@')
     formatted_content = ActionController::Base.helpers.strip_tags(formatted_content)
-    formatted_content = formatted_content.gsub(/@@/im, '<br>')
+    formatted_content = formatted_content.gsub(/@@/im, '<br/>')
 
     return formatted_content
   end

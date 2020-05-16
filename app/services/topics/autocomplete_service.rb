@@ -44,6 +44,8 @@ module Topics
           success(format_search(results))
         end
       rescue StandardError => error
+        track_error(error)
+
         error(I18n.t('search.errors.topic'), error)
       end
     end

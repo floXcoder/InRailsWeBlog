@@ -635,7 +635,7 @@ fr:
           recents: "(Articles récents)"
           none: "Aucun article trouvé"
         helpers:
-          select_tag: "Sélectionner un label avec les flèches puis tab"
+          select_tag: "Utiliser les flèches pour filter par label puis appuyer sur tab"
           tagged_articles: "Recherche d'articles avec labels : %{tags}"
       sidebar:
         filter: "Filtrer les résultats"
@@ -653,6 +653,8 @@ fr:
           articles: "Essayer avec l'orthographe :"
         articles:
           title: "Articles"
+        tags:
+          filter: "Filtrer par labels :"
         no_results: "Aucun résultat trouvé"
     comment:
       common:

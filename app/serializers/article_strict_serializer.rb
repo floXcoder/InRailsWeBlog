@@ -26,6 +26,10 @@ class ArticleStrictSerializer
     object.created_at.to_i
   end
 
+  attribute :highlighted_content do |object|
+    object.respond_to?(:highlight) && object.respond_to?(:highlighted_content) && object.highlight.has_key?('content.word_middle') ? object.highlighted_content&.gsub(/\<br\>/im, '') : nil
+  end
+
   attribute :user do |object|
     {
       slug: object.respond_to?(:user_slug) ? object.user_slug : object.user.slug

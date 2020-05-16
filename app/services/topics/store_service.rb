@@ -15,15 +15,15 @@ module Topics
       if @params[:languages].present?
         @topic.languages = @params.delete(:languages)
       elsif @topic.languages.empty?
-        new_language = current_user&.locale || I18n.locale.to_s
+        new_language     = current_user&.locale || I18n.locale.to_s
         @topic.languages |= [new_language]
       end
 
       # Sanitization
       unless @params[:name].nil?
         sanitized_name = Sanitize.fragment(@params.delete(:name))
-        @topic.slug      = nil if sanitized_name != @topic.name
-        @topic.name      = sanitized_name
+        @topic.slug    = nil if sanitized_name != @topic.name
+        @topic.name    = sanitized_name
       end
 
       if !@params[:description_translations].nil? && @topic.languages.size > 1

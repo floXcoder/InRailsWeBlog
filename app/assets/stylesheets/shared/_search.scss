@@ -80,6 +80,8 @@
   position: fixed;
   top: 64px;
   width: calc(90% - 220px);
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
 
   @media #{$medium-and-down} {
     margin: 0;
