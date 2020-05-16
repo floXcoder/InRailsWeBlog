@@ -64,6 +64,7 @@ export default class SearchArticleIndex extends React.PureComponent {
                                                     gutterBottom={true}>
                                             {I18n.t('js.search.index.topic.current')}
                                         </Typography>
+
                                         <ArticleGridModeSearch articles={currentTopicArticles}
                                                                searchGridColumns={this.props.searchGridColumns}/>
                                     </>

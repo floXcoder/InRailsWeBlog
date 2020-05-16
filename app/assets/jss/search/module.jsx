@@ -2,7 +2,7 @@
 
 const styles = (theme) => ({
     container: {
-        padding: '.2rem 2rem 2.4rem',
+        padding: '.2rem 2rem 1.6rem',
         position: 'relative',
         [theme.breakpoints.down('md')]: {
             marginTop: '1rem'
@@ -45,6 +45,7 @@ const styles = (theme) => ({
     },
     helpMessage: {
         color: theme.palette.grey[600],
+        fontSize: '1rem',
         fontStyle: 'italic',
         [theme.breakpoints.down('md')]: {
             display: 'none'
@@ -76,6 +77,10 @@ const styles = (theme) => ({
         color: theme.palette.text.primary,
         marginRight: 10
     },
+    articleHighlightResult: {
+        fontSize: '.9rem',
+        paddingLeft: theme.spacing(1)
+    },
     articleSecondaryResult: {
         color: theme.palette.grey[600]
     },
@@ -96,6 +101,12 @@ const styles = (theme) => ({
     articleEdit: {
         fontSize: '1rem',
         color: theme.palette.text.primary
+    },
+    searchButton: {
+        textAlign: 'center',
+        [theme.breakpoints.down('lg')]: {
+            marginTop: theme.spacing(1.5)
+        }
     }
 });
 

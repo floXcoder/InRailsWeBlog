@@ -61,6 +61,15 @@ const styles = (theme) => ({
     category: {
         margin: theme.spacing(1.5)
     },
+    categoryAutocomplete: {
+        marginTop: 0,
+        paddingLeft: '1.5rem'
+    },
+    categoryHelper: {
+        marginRight: theme.spacing(1),
+        fontSize: '.9rem',
+        fontStyle: 'italic'
+    },
     categoryHeader: {
         borderBottom: `1px solid ${theme.palette.grey[300]}`,
         marginBottom: '1rem'
@@ -137,6 +146,9 @@ const styles = (theme) => ({
     },
     articleHighlightedTag: {
         backgroundColor: theme.palette.secondary.light
+    },
+    tagAutocomplete: {
+        fontSize: '.8rem'
     },
     articleTitle: {
         fontSize: '1.8rem',

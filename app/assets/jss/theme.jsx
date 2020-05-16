@@ -177,6 +177,9 @@ const theme = createMuiTheme({
             fontSizeLarge: {
                 fontSize: '2.3rem'
             },
+            fontSizeSmall: {
+                fontSize: '1.2rem'
+            },
             // colorPrimary: {
             //     color: theme.palette.primary.main
             // },

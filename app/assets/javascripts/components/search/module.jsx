@@ -192,7 +192,7 @@ class SearchModule extends React.Component {
                         </div>
                     }
 
-                    <div className="center-align">
+                    <div className={this.props.classes.searchButton}>
                         <Button color="primary"
                                 variant="outlined"
                                 onClick={this._performSearch}>

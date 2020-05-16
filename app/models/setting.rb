@@ -47,7 +47,7 @@ class Setting < ApplicationRecord
         vars.each { |record| result[record.name] = convert_value_type(record.value_type, record.value) }
         result.with_indifferent_access
       end
-    rescue StandardError => error
+    rescue StandardError => _error
       cached_settings = {}
     end
 

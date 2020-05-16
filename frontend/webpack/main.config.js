@@ -115,10 +115,12 @@ _.forEach(config.plugins, (value, key) => {
 webPackConfig.plugins = [
     new HappyPack(config.happyPack),
     new webpack.ProvidePlugin(providePlugins),
-    new CopyWebpackPlugin([{
-        from: 'images/favicon.ico',
-        to: 'favicon.ico'
-    }]),
+    new CopyWebpackPlugin({
+        patterns: [{
+            from: 'images/favicon.ico',
+            to: 'favicon.ico'
+        }]
+    }),
     new LodashModuleReplacementPlugin({
         // 'currying': true,
         'caching': true,

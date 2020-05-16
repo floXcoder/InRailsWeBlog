@@ -73,6 +73,13 @@ export default class SearchArticleModule extends React.PureComponent {
                               to={userArticlePath(article.user.slug, article.slug)}
                               onClick={this._handleArticleClick.bind(this, article)}>
                             {article.title || article.slug}
+
+                            {
+                                article.highlightedContent &&
+                                <span className={this.props.classes.articleHighlightResult}>
+                                     (<span dangerouslySetInnerHTML={{__html: article.highlightedContent}}/>)
+                                </span>
+                            }
                         </Link>
 
                         {

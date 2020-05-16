@@ -30,13 +30,13 @@ module Searches
       results.each do |result|
         case result.model_name.human
         when 'User'
-          meta_results[:users].push(UserStrictSerializer.new(result, params: {with_link: true}).serializable_hash[:data])
+          meta_results[:users].push(UserStrictSerializer.new(result, params: { with_link: true }).serializable_hash[:data])
         when 'Tag'
-          meta_results[:tags].push(TagStrictSerializer.new(result, params: {with_link: true}).serializable_hash[:data])
+          meta_results[:tags].push(TagStrictSerializer.new(result, params: { with_link: true }).serializable_hash[:data])
         when 'Topic'
-          meta_results[:topics].push(TopicStrictSerializer.new(result, params: {with_link: true}).serializable_hash[:data])
+          meta_results[:topics].push(TopicStrictSerializer.new(result, params: { with_link: true }).serializable_hash[:data])
         when 'Article'
-          meta_results[:articles].push(ArticleStrictSerializer.new(result, params: {with_link: true}).serializable_hash[:data])
+          meta_results[:articles].push(ArticleStrictSerializer.new(result, params: { with_link: true }).serializable_hash[:data])
         end
       end
 

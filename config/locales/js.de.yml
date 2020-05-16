@@ -631,6 +631,8 @@ de:
         topic:
           current: "Aktuelles Thema"
           others: "Andere Themen"
+        tags:
+          filter: "Nach Tags filtern:"
       module:
         placeholder: "Suchen"
         default: "Suche auf der Website"

@@ -654,6 +654,8 @@ es:
         topic:
           current: "Tema actual"
           others: "Otros temas"
+        tags:
+          filter: "Filtrar por etiquetas:"
     comment:
       common:
         actions: "Acciones"

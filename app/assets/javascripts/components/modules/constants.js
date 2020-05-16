@@ -23,6 +23,7 @@ export const tagSidebarLimit = 1000;
 export const autocompleteLimit = 8;
 export const maxSearchRate = 150;
 export const searchGridColumns = 2;
+export const searchGridColumnsMobile = 1;
 
 // Meta search
 export const metaSearchLimit = 20;

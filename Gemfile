@@ -74,7 +74,7 @@ gem 'carrierwave',              '2.1.0'
 gem 'mini_magick',              '4.10.1'
 
 # Search in database
-gem 'searchkick',               '4.3.0'
+gem 'searchkick',               '4.3.1'
 gem 'typhoeus',                 '1.4.0'
 
 # Votable models
@@ -101,7 +101,7 @@ gem 'faker',                    '2.11.0',  require: false
 
 # Deployment
 gem 'capistrano',               '3.14.0'
-gem 'capistrano-rails',         '1.4.0'
+gem 'capistrano-rails',         '1.5.0'
 gem 'capistrano-rvm',           '0.1.2',   require: false
 gem 'capistrano-bundler',       '1.6.0',   require: false
 gem 'capistrano-rails-console', '2.3.0',   require: false
@@ -150,7 +150,7 @@ end
 
 group :test do
   # Test tools
-  gem 'rspec-rails',                '4.0.0'
+  gem 'rspec-rails',                '4.0.1'
   gem 'rspec_junit_formatter',      '0.4.1'
   gem 'shoulda-matchers',           '4.3.0',  require: false
   gem 'shoulda-callback-matchers',  '1.1.4',  require: false
@@ -160,7 +160,7 @@ group :test do
   gem 'db-query-matchers',          '0.10.0'
 
   # Browser tests
-  gem 'capybara',                   '3.32.1'
+  gem 'capybara',                   '3.32.2'
   gem 'capybara-email',             '3.0.1'
   gem 'capybara-screenshot',        '1.0.24'
   gem 'selenium-webdriver',         '3.142.7'

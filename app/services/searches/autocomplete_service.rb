@@ -28,6 +28,7 @@ module Searches
           @query,
           defer:       true,
           format:      'strict',
+          highlight:   @current_user ? @current_user.search_highlight : true,
           limit:       @params[:limit] || InRailsWeBlog.config.per_page,
           where:       where_options.merge(
             mode:      @params[:mode],
@@ -92,6 +93,8 @@ module Searches
           error(I18n.t('search.errors.autocomplete'))
         end
       rescue StandardError => error
+        track_error(error)
+
         error(I18n.t('search.errors.autocomplete'), error)
       end
     end

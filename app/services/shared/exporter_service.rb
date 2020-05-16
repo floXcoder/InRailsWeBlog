@@ -94,6 +94,8 @@ module Shared
 
         success(zip_name)
       rescue StandardError => error
+        track_error(error)
+
         error(I18n.t('exporter.errors'), error)
       end
     end

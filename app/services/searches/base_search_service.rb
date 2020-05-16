@@ -91,12 +91,12 @@ module Searches
 
     def format_search(results, highlight_results = nil)
       # The following serializers must exist for each model: StrictSerializer, SampleSerializer, CompleteSerializer
-      serializer_parameters = {}
+      serializer_parameters                     = {}
       serializer_parameters[:highlight_results] = highlight_results if highlight_results
       serializer_parameters[:current_user]      = @current_user if @current_user
 
-      result_data = {}
-      result_data[@params[:model].name.underscore.pluralize.to_sym] = @params[:model].as_flat_json(results, @params[:format], params: serializer_parameters, meta: {root: @params[:model].model_name.plural})
+      result_data                                                   = {}
+      result_data[@params[:model].name.underscore.pluralize.to_sym] = @params[:model].as_flat_json(results, @params[:format], params: serializer_parameters, meta: { root: @params[:model].model_name.plural })
       result_data
     end
 
@@ -137,14 +137,22 @@ module Searches
       {
         suggestions:  results.suggestions,
         aggregations: formatted_aggregations,
-        totalCount:  results.total_count,
-        totalPages:  results.total_pages
+        totalCount:   results.total_count,
+        totalPages:   results.total_pages
       }.merge(formatted_results)
     end
 
     def track_results(results)
       # Track search results
-      @params[:model].track_searches(results.hits.map { |h| h['_id']})
+      @params[:model].track_searches(results.hits.map { |h| h['_id'] })
+    end
+
+    def track_error(error)
+      if Rails.env.production?
+        Raven.capture_exception(error)
+      else
+        Rails.logger.error(error)
+      end
     end
   end
 end

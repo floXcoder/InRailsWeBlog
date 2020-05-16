@@ -635,7 +635,7 @@ en:
           recents: "(Recent articles)"
           none: "No articles found"
         helpers:
-          select_tag: "Select a label with arrows then tab"
+          select_tag: "Use arrows to filter by tags then press tab"
           tagged_articles: "Search for articles with tags : %{tags}"
       sidebar:
         filter: "Filtrer les résultats"
@@ -653,6 +653,8 @@ en:
           articles: "Try with the spelling:"
         articles:
           title: "Articles"
+        tags:
+          filter: "Filter by tags:"
         no_results: "No results found"
     comment:
       common:
