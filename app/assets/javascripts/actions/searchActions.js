@@ -55,15 +55,6 @@ export const setAutocompleteSelectedTag = (tag) => (dispatch) => {
     return dispatch(autocompleteTagSelection(tag));
 };
 
-const tagSelection = (tag) => ({
-    type: ActionTypes.SEARCH_TAG_SELECTED,
-    tag
-});
-
-export const setSelectedTag = (tag) => (dispatch) => {
-    return dispatch(tagSelection(tag));
-};
-
 // Search history
 export const getSearchContext = (params = {}) => (dispatch) => {
     const previousSearchData = History.getPreviousState('globalSearchData', {useUrlParams: true});
@@ -198,4 +189,13 @@ export const filterSearch = (filters) => (dispatch, getState) => {
     _saveHistory(getState().searchState, searchParams);
 
     return dispatch(performSearch(searchParams, {filters}));
+};
+
+const tagSelection = (tag) => ({
+    type: ActionTypes.SEARCH_TAG_SELECTED,
+    tag
+});
+
+export const setSelectedTag = (tag) => (dispatch) => {
+    return dispatch(tagSelection(tag));
 };

@@ -236,6 +236,8 @@ class SearchIndex extends React.Component {
     _handleTagSelection = (tag) => {
         this.props.setSelectedTag(tag);
 
+        this.props.setAutocompleteSelectedTag();
+
         this.props.setSearchQuery('');
     };
 
