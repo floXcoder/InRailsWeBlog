@@ -364,12 +364,15 @@ class User < ApplicationRecord
 
     return {} if last_visits.empty?
 
+    tag_ids = last_visits.where(recipient_type: 'Tag').map(&:recipient_id).uniq
+    article_ids = last_visits.where(recipient_type: 'Article').map(&:recipient_id).uniq
+
     # Override created_at to use the activity field
     {
       # users:   User.joins(:user_activities).merge(last_visits).distinct,
       # topics:   Topic.joins(:user_activities).merge(last_visits).distinct,
-      tags:     Tag.joins(:user_activities).includes(:tagged_articles).merge(last_visits).select('id', 'user_id', 'name', 'visibility', 'slug', 'activities.created_at', 'updated_at').distinct,
-      articles: Article.includes(:user, :tags, tagged_articles: [:tag]).joins(:user_activities).merge(last_visits).select('id', 'topic_id', 'mode', 'title_translations', 'draft', 'visibility', 'slug', 'updated_at', 'activities.created_at').distinct
+      tags:     Tag.select(:id, :user_id, :name, :visibility, :synonyms, :slug, :created_at, :updated_at).includes(:tagged_articles).where(id: tag_ids),
+      articles: Article.select(:id, :user_id, :topic_id, :mode, :title_translations, :languages, :draft, :visibility, :slug, :created_at, :updated_at).includes(:user, :tags, tagged_articles: [:tag]).where(id: article_ids)
     }
   end
 
