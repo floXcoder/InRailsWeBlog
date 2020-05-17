@@ -93,8 +93,6 @@ module Searches
           error(I18n.t('search.errors.autocomplete'))
         end
       rescue StandardError => error
-        track_error(error)
-
         error(I18n.t('search.errors.autocomplete'), error)
       end
     end

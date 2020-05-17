@@ -59,7 +59,7 @@ export default class SearchTagIndex extends React.PureComponent {
                                   [this.props.classes.tagHighlighted]: this.props.highlightedTagId === tag.id,
                                   [this.props.classes.tagAutocomplete]: this.props.isAutocomplete
                               })}
-                              icon={<LabelIcon fontSize={this.props.isAutocomplete ? 'small' : 'medium'}/>}
+                              icon={<LabelIcon fontSize={this.props.isAutocomplete ? 'small' : 'default'}/>}
                               label={tag.name}
                               color="primary"
                               variant="outlined"
