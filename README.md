@@ -419,6 +419,15 @@ In production, the website is PWA ready!
 
 You can install the website as a mobile app through Chrome browser.
 
+To customize the PWA settings, edit `public/manifest.json` file and change the following parameters:
+
+- `name` (name of your application)
+- `short_name` (name in short)
+- `background_color` (background color)
+- `theme_color` (main color)
+
+Change also the logo in `public/offline.html` file with your own asset in base64 format.
+
 ## Issue tracking
 
 All issues are listed in:

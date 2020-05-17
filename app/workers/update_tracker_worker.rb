@@ -42,9 +42,9 @@ class UpdateTrackerWorker
   private
 
   def try_callback(action, record, user_id = nil, parent_id = nil)
-    return unless record.tracker_callbacks && record.tracker_callbacks[action]
+    return unless record.tracker_callbacks && record.tracker_callbacks[action] && record.respond_to?(record.tracker_callbacks[action], true)
 
-    record.send(record.tracker_callbacks[action], user_id, parent_id) if record.respond_to?(record.tracker_callbacks[action], true)
+    record.send(record.tracker_callbacks[action], user_id, parent_id)
   end
 
 end

@@ -16,7 +16,7 @@ class ArticleStrictSerializer
              :mode,
              :mode_translated,
              :title,
-             :summary,
+             # :summary,
              :draft,
              :visibility,
              :slug,

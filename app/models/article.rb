@@ -70,7 +70,7 @@ class Article < ApplicationRecord
   # Track activities
   ## scopes: most_viewed, most_clicked, recently_tracked, populars, home
   include ActAsTrackedConcern
-  acts_as_tracked :queries, :searches, :clicks, :views, callbacks: { click: :add_visit_activity }
+  acts_as_tracked :queries, :searches, :clicks, :views, callbacks: { clicks: :add_visit_activity }
 
   # Follow public activities
   include PublicActivity::Model
@@ -543,7 +543,7 @@ class Article < ApplicationRecord
     user = self.user || User.find_by(id: user_id)
     return unless user
 
-    user.create_activity(:visit, recipient: self, owner: user, params: { topic_id: parent_id })
+    user.create_activity(:visit, recipient: self, owner: user, params: { topic_id: parent_id&.to_i })
   end
 
   def inventory_fields
