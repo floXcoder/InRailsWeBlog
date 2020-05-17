@@ -146,13 +146,5 @@ module Searches
       # Track search results
       @params[:model].track_searches(results.hits.map { |h| h['_id'] })
     end
-
-    def track_error(error)
-      if Rails.env.production?
-        Raven.capture_exception(error)
-      else
-        Rails.logger.error(error)
-      end
-    end
   end
 end

@@ -140,8 +140,6 @@ module Searches
           error(I18n.t('search.errors.search'))
         end
       rescue StandardError => error
-        track_error(error)
-
         error(I18n.t('search.errors.search'), error)
       end
     end

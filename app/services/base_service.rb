@@ -16,7 +16,11 @@ class BaseService
   end
 
   def error(message, errors = nil)
-    Raven.capture_exception(errors || message) if Rails.env.production? && (message.is_a?(Exception) || errors&.is_a?(Exception))
+    if Rails.env.production?
+      Raven.capture_exception(errors || message) if errors&.is_a?(Exception) || message.is_a?(Exception)
+    else
+      Rails.logger.error(errors || message)
+    end
 
     ResponseService.new(false, nil, message.to_s, errors || message.to_s)
   end
