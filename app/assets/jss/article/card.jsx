@@ -63,7 +63,7 @@ const styles = (theme) => ({
         margin: 'inherit'
     },
     gridTitleLink: {
-        color: theme.palette.primary.dark
+        color: theme.palette.text.primary
     },
     expand: {
         transform: 'rotate(0deg)',
