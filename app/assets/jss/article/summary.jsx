@@ -77,6 +77,17 @@ const styles = (theme) => ({
     },
     summaryLink: {
         margin: theme.spacing(2, 3)
+    },
+    privateMessage: {
+        right: 0,
+        bottom: 0,
+        display: 'block',
+        position: 'absolute',
+        fontSize: '.85rem',
+        fontStyle: 'italic',
+        border: '1px solid #e3c23e',
+        borderRadius: 5,
+        padding: 2
     }
 });
 

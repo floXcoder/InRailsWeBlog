@@ -411,6 +411,7 @@ en:
         url: "Articles list"
         outdated: "Article marked as outdated"
         actions: "Actions"
+        private_in_public: "This article is private"
         not_connected:
           message: "Please log in, before posting article"
         infinite:

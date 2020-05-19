@@ -112,6 +112,10 @@
       animation: cd-bounce .6s;
     }
 
+    &.private {
+      box-shadow: 0 0 8px $secondary-color;
+    }
+
     &.timeline-panel-inverted {
       &.bounce-in {
         visibility: visible;

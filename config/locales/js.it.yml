@@ -401,6 +401,7 @@ it:
     article:
       common:
         actions: "Azioni"
+        private_in_public: "Questo articolo è in privato"
         allow_comment:
           falsy: "No"
           title: "Permettere commenti?"

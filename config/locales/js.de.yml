@@ -405,6 +405,7 @@ de:
       clipboard: "Temporärer Artikel, der mit kopierten Daten erstellt wurde"
       common:
         actions: "Aktionen"
+        private_in_public: "Dieser Artikel ist privat"
         allow_comment:
           falsy: "Nein"
           title: "Erlauben Sie Kommentare?"

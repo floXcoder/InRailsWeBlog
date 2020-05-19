@@ -39,8 +39,10 @@ class ArticleInlineDisplay extends React.PureComponent {
         mode: PropTypes.string.isRequired,
         content: PropTypes.string.isRequired,
         userSlug: PropTypes.string.isRequired,
+        visibility: PropTypes.string.isRequired,
         slug: PropTypes.string.isRequired,
         onInlineEdit: PropTypes.func.isRequired,
+        topicVisibility: PropTypes.string,
         title: PropTypes.string,
         inventories: PropTypes.array,
         isMinimized: PropTypes.bool,
@@ -124,10 +126,10 @@ class ArticleInlineDisplay extends React.PureComponent {
         return (
             <Observer onChange={this._handleViewportChange}>
                 <article id={`article-${this.props.id}`}
-                         className={classNames(
-                    this.props.classes.root, {
-                        [this.props.classes.over]: this.state.isOver
-                    })}>
+                         className={classNames(this.props.classes.root, {
+                             [this.props.classes.over]: this.state.isOver,
+                             [this.props.classes.rootPrivate]: this.props.topicVisibility === 'everyone' && this.props.visibility !== 'everyone'
+                         })}>
                     <IconButton className={this.props.classes.expand}
                                 aria-expanded={this.state.isFolded}
                                 aria-label="Show more"
@@ -184,6 +186,13 @@ class ArticleInlineDisplay extends React.PureComponent {
                                     </a>
                                 </div>
                             }
+                        </div>
+                    }
+
+                    {
+                        (this.props.topicVisibility === 'everyone' && this.props.visibility !== 'everyone') &&
+                        <div className={this.props.classes.privateMessage}>
+                            {I18n.t('js.article.common.private_in_public')}
                         </div>
                     }
                 </article>

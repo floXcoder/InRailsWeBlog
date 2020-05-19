@@ -411,6 +411,7 @@ fr:
         url: "Liste des articles"
         outdated: "Article marqué comme périmé !"
         actions: "Actions"
+        private_in_public: "Cet article est en privé"
         not_connected:
           message: "Merci de vous connecter avant de poster l'article"
         infinite:

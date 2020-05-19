@@ -51,6 +51,7 @@ class ArticleCardDisplay extends React.PureComponent {
         article: PropTypes.object.isRequired,
         currentUserSlug: PropTypes.string,
         currentUserTopicSlug: PropTypes.string,
+        currentUserTopicVisibility: PropTypes.string,
         isOwner: PropTypes.bool,
         // isOutdated: PropTypes.bool,
         isMinimized: PropTypes.bool,
@@ -128,7 +129,8 @@ class ArticleCardDisplay extends React.PureComponent {
                     <Card component="article"
                           id={`article-${this.props.article.id}`}
                           className={classNames(this.props.classes.articleCard, {
-                              [this.props.classes.outdated]: this.props.article.outdated
+                              [this.props.classes.outdated]: this.props.article.outdated,
+                              [this.props.classes.cardPrivate]: this.props.currentUserTopicVisibility === 'everyone' && this.props.article.visibility !== 'everyone'
                           })}
                           itemScope={true}
                           itemType="https://schema.org/BlogPosting">
@@ -294,6 +296,14 @@ class ArticleCardDisplay extends React.PureComponent {
                                 }
                             </CardActions>
                         </Collapse>
+
+                        {
+                            (this.props.currentUserTopicVisibility === 'everyone' && this.props.article.visibility !== 'everyone') &&
+                            <div
+                                className={classNames(this.props.classes.privateMessage, this.props.classes.privateMessageTop)}>
+                                {I18n.t('js.article.common.private_in_public')}
+                            </div>
+                        }
                     </Card>
                 </Observer>
             </StickyContainer>

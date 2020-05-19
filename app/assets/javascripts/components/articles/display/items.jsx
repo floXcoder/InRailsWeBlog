@@ -25,6 +25,7 @@ export default @connect((state, props) => ({
     currentUserSlug: state.userState.currentSlug,
     currentUserTopicId: state.topicState.currentUserTopicId,
     currentUserTopicSlug: state.topicState.currentUserTopicSlug,
+    currentUserTopicVisibility: state.topicState.currentTopic?.visibility,
     isOwner: getArticleIsOwner(state, props.article)
 }), {
     inlineEditArticle
@@ -42,6 +43,7 @@ class ArticleItemsDisplay extends React.Component {
         currentUserSlug: PropTypes.string,
         currentUserTopicId: PropTypes.number,
         currentUserTopicSlug: PropTypes.string,
+        currentUserTopicVisibility: PropTypes.string,
         isOwner: PropTypes.bool,
         inlineEditArticle: PropTypes.func,
         onClick: PropTypes.func
@@ -76,6 +78,7 @@ class ArticleItemsDisplay extends React.Component {
         } else if (this.props.articleDisplayMode === 'summary') {
             return (
                 <ArticleMiniCardDisplay article={this.props.article}
+                                        topicVisibility={this.props.currentUserTopicVisibility}
                                         isPaper={true}
                                         isTagDown={true}/>
             );
@@ -84,6 +87,7 @@ class ArticleItemsDisplay extends React.Component {
                 <ArticleCardDisplay article={this.props.article}
                                     currentUserSlug={this.props.currentUserSlug}
                                     currentUserTopicSlug={this.props.currentUserTopicSlug}
+                                    currentUserTopicVisibility={this.props.currentUserTopicVisibility}
                                     isOwner={this.props.isOwner}
                                     hasActions={this.props.hasCardActions}
                                     isMinimized={this.props.isMinimized}
@@ -99,8 +103,10 @@ class ArticleItemsDisplay extends React.Component {
                                       title={this.props.article.title}
                                       content={this.props.article.content}
                                       inventories={this.props.article.inventories}
+                                      visibility={this.props.article.visibility}
                                       slug={this.props.article.slug}
                                       userSlug={this.props.article.user.slug}
+                                      topicVisibility={this.props.currentUserTopicVisibility}
                                       isMinimized={this.props.isMinimized}
                                       isOwner={this.props.isOwner}
                                       onEnter={this.props.onEnter}
@@ -112,6 +118,7 @@ class ArticleItemsDisplay extends React.Component {
                 <ArticleGridDisplay article={this.props.article}
                                     currentUserSlug={this.props.currentUserSlug}
                                     currentUserTopicSlug={this.props.currentUserTopicSlug}
+                                    currentUserTopicVisibility={this.props.currentUserTopicVisibility}
                                     isOwner={this.props.isOwner}
                                     isMinimized={this.props.isMinimized}
                                     onEnter={this.props.onEnter}
