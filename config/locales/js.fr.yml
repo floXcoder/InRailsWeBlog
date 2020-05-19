@@ -620,6 +620,13 @@ fr:
         popularity: "Popularité"
         priority: "Priorité"
         date: "Date"
+      scrap:
+        field: "Rechercher dans les liens"
+        helper: "Recherche directe avec : ?terme"
+        button: "Rechercher"
+        message:
+          fetching: "Recherche du contenu dans les liens ..."
+          result: "Les résultats trouvés ont été ajoutés aux articles"
       module:
         placeholder: "Recherche"
         default: "Rechercher sur le site"

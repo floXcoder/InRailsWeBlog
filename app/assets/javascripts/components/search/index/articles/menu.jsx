@@ -3,10 +3,12 @@
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Hidden from '@material-ui/core/Hidden';
+import TextField from '@material-ui/core/TextField';
 
 import SettingsIcon from '@material-ui/icons/Settings';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import SortIcon from '@material-ui/icons/Sort';
+import ImageSearchIcon from '@material-ui/icons/ImageSearch';
 
 import Dropdown from '../../../theme/dropdown';
 
@@ -17,6 +19,7 @@ export default class ArticleSearchMenuDisplay extends React.PureComponent {
         onSettingsClick: PropTypes.func.isRequired,
         onOrderChange: PropTypes.func.isRequired,
         onDisplayChange: PropTypes.func.isRequired,
+        onURLSearchSubmit: PropTypes.func.isRequired,
         currentUserId: PropTypes.number,
         searchDisplay: PropTypes.string
     };
@@ -71,47 +74,54 @@ export default class ArticleSearchMenuDisplay extends React.PureComponent {
                               direction="row"
                               justify="flex-end"
                               alignItems="flex-end">
-                            <Grid item={true}
-                                  className={this.props.classes.categoryItem}>
-                                <Button className={this.props.classes.categoryFilterButton}
-                                        onClick={this.props.onSettingsClick.bind(this, 'SEARCH')}>
-                                    <SettingsIcon/>
-                                </Button>
-                            </Grid>
+                            {
+                                this.props.currentUserId &&
+                                <Grid item={true}
+                                      className={this.props.classes.categoryItem}>
+                                    <Dropdown position="bottom right"
+                                              isClosingOnInsideClick={false}
+                                              hasArrow={true}
+                                              button={
+                                                  <Button className={this.props.classes.categoryFilterButton}>
+                                                      <ImageSearchIcon/>
+                                                  </Button>
+                                              }>
+                                        <form noValidate={true}
+                                              onSubmit={this.props.onURLSearchSubmit}>
+                                            <ul className={this.props.classes.categoryFilterList}>
+                                                <li>
+                                                    <TextField id="search-in-urls"
+                                                               name="search[query_url]"
+                                                               InputLabelProps={{
+                                                                   className: this.props.classes.categoryFilterInput
+                                                               }}
+                                                               InputProps={{
+                                                                   className: this.props.classes.categoryFilterInput
+                                                               }}
+                                                               FormHelperTextProps={{
+                                                                   className: this.props.classes.categoryFilterHelper
+                                                               }}
+                                                               autoFocus={true}
+                                                               variant="outlined"
+                                                               label={I18n.t('js.search.scrap.field')}
+                                                               helperText={I18n.t('js.search.scrap.helper')}/>
+                                                </li>
 
-                            <Grid item={true}
-                                  className={this.props.classes.categoryItem}>
-                                <Dropdown position="bottom right"
-                                          isClosingOnInsideClick={true}
-                                          hasArrow={true}
-                                          button={
-                                              <Button className={this.props.classes.categoryFilterButton}>
-                                                  <DashboardIcon/>
-                                              </Button>
-                                          }>
-                                    <ul className={this.props.classes.categoryFilterList}>
-                                        <li className={classNames({
-                                            [this.props.classes.categoryFilterSelected]: this.props.searchDisplay === 'card'
-                                        })}>
-                                            <a onClick={this._handleDisplay.bind(this, 'card')}>
-                                                {I18n.t('js.search.display.card')}
-                                            </a>
-                                        </li>
-
-                                        <li className="dropdown-divider">
-                                            &nbsp;
-                                        </li>
-
-                                        <li className={classNames({
-                                            [this.props.classes.categoryFilterSelected]: this.props.searchDisplay === 'grid'
-                                        })}>
-                                            <a onClick={this._handleDisplay.bind(this, 'grid')}>
-                                                {I18n.t('js.search.display.grid')}
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </Dropdown>
-                            </Grid>
+                                                <li className="margin-top-10">
+                                                    <div className="center-align">
+                                                        <Button className={this.props.classes.categoryFilterButton}
+                                                                color="primary"
+                                                                variant="text"
+                                                                type="submit">
+                                                            {I18n.t('js.search.scrap.button')}
+                                                        </Button>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </form>
+                                    </Dropdown>
+                                </Grid>
+                            }
 
                             <Grid item={true}
                                   className={this.props.classes.categoryItem}>
@@ -162,6 +172,48 @@ export default class ArticleSearchMenuDisplay extends React.PureComponent {
                                         </li>
                                     </ul>
                                 </Dropdown>
+                            </Grid>
+
+                            <Grid item={true}
+                                  className={this.props.classes.categoryItem}>
+                                <Dropdown position="bottom right"
+                                          isClosingOnInsideClick={true}
+                                          hasArrow={true}
+                                          button={
+                                              <Button className={this.props.classes.categoryFilterButton}>
+                                                  <DashboardIcon/>
+                                              </Button>
+                                          }>
+                                    <ul className={this.props.classes.categoryFilterList}>
+                                        <li className={classNames({
+                                            [this.props.classes.categoryFilterSelected]: this.props.searchDisplay === 'card'
+                                        })}>
+                                            <a onClick={this._handleDisplay.bind(this, 'card')}>
+                                                {I18n.t('js.search.display.card')}
+                                            </a>
+                                        </li>
+
+                                        <li className="dropdown-divider">
+                                            &nbsp;
+                                        </li>
+
+                                        <li className={classNames({
+                                            [this.props.classes.categoryFilterSelected]: this.props.searchDisplay === 'grid'
+                                        })}>
+                                            <a onClick={this._handleDisplay.bind(this, 'grid')}>
+                                                {I18n.t('js.search.display.grid')}
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </Dropdown>
+                            </Grid>
+
+                            <Grid item={true}
+                                  className={this.props.classes.categoryItem}>
+                                <Button className={this.props.classes.categoryFilterButton}
+                                        onClick={this.props.onSettingsClick.bind(this, 'SEARCH')}>
+                                    <SettingsIcon/>
+                                </Button>
                             </Grid>
                         </Grid>
                     </Grid>

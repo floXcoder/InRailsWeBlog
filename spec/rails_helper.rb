@@ -21,6 +21,7 @@ require 'fuubar'
 require 'awesome_print'
 require 'sidekiq/testing'
 require 'html_validation'
+require 'webmock/rspec'
 
 require 'spec_helper'
 
@@ -32,6 +33,9 @@ Warden.test_mode!
 
 # A test fake that pushes all jobs into a jobs array
 Sidekiq::Testing.fake!
+
+# Authorize localhost requests, mock all other requests
+WebMock.disable_net_connect!(allow_localhost: true)
 
 # The following line is provided for convenience purposes. It has the downside
 # of increasing the boot-up time by auto-requiring all files in the support

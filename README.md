@@ -12,7 +12,8 @@ Main functionalities of InRailsWeBlog blog:
 * Multiple article view modes: cards, summary, one-card and inline edition
 * Write articles in several languages in only one place
 * Three view modes for topics: normal articles, stories (by date) and custom fields (text, date, boolean, ...) 
-* Powerful search with ElasticSearch: autocompletion for article title, inside content for full search 
+* Powerful search with ElasticSearch: autocompletion for article title, inside content for full search
+* Search inside links reference in articles content
 * Translated in 5 languages
 * Administration panel integrated to manage and monitor the blog
 * SPA website to ease the navigation

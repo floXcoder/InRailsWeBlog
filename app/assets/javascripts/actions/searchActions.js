@@ -137,6 +137,7 @@ const receiveSearch = (searchParams, json, options = {}) => ({
     topics: json.topics || [],
     tags: json.tags || [],
     articles: json.articles || [],
+    scrapQuery: json.scrapQuery,
     meta: json.meta
 });
 
@@ -198,4 +199,16 @@ const tagSelection = (tag) => ({
 
 export const setSelectedTag = (tag) => (dispatch) => {
     return dispatch(tagSelection(tag));
+};
+
+// Search inside URLs
+const receiveUlSearch = (articleResults) => ({
+    type: ActionTypes.SEARCH_URL_SCRAP,
+    articleResults
+});
+
+export const searchInURLs = (urlData) => (dispatch) => {
+    return api
+        .post('/api/v1/search/url_search', urlData, true)
+        .then((json) => dispatch(receiveUlSearch(json)));
 };

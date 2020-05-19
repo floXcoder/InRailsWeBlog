@@ -151,6 +151,7 @@ end
 group :test do
   # Test tools
   gem 'rspec-rails',                '4.0.1'
+  gem 'webmock',                    '3.8.3'
   gem 'rspec_junit_formatter',      '0.4.1'
   gem 'shoulda-matchers',           '4.3.0',  require: false
   gem 'shoulda-callback-matchers',  '1.1.4',  require: false

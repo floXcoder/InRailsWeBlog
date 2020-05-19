@@ -108,6 +108,12 @@ const styles = (theme) => ({
         fontWeight: 400,
         padding: '6px'
     },
+    categoryFilterInput: {
+        fontSize: '1rem'
+    },
+    categoryFilterHelper: {
+        fontSize: '.9rem'
+    },
     helpMessage: {
         margin: '1rem 0',
         color: theme.palette.grey[600],
@@ -129,7 +135,8 @@ const styles = (theme) => ({
         width: '100%'
     },
     articleContent: {
-        padding: theme.spacing(2)
+        padding: theme.spacing(2),
+        paddingTop: 0
     },
     articleTags: {
         marginTop: theme.spacing(4),
@@ -164,7 +171,16 @@ const styles = (theme) => ({
     articleOther: {
         margin: '2rem 2rem 0',
         fontSize: '1rem',
-        borderBottom: `1px solid ${theme.palette.grey[300]}`,
+        borderBottom: `1px solid ${theme.palette.grey[300]}`
+    },
+    articleLinksResults: {
+        margin: '22px 6px 12px',
+        padding: 8,
+        border: `1px solid ${theme.palette.secondary.light}`,
+        borderRadius: 8,
+        boxShadow: `1px 1px 2px ${theme.palette.secondary.light}`,
+        fontSize: '1rem',
+        fontStyle: 'italic'
     }
 });
 

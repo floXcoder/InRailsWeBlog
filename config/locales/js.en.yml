@@ -620,6 +620,13 @@ en:
         popularity: "Popularity"
         priority: "Priority"
         date: "Date"
+      scrap:
+        field: "Search inside links"
+        helper: "Search directly with: ?term"
+        button: "Search"
+        message:
+          fetching: "Search for content inside links ..."
+          result: "Results found added to articles"
       module:
         placeholder: "Search"
         default: "Search on website"

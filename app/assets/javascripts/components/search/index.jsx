@@ -27,6 +27,7 @@ import {
     setAutocompleteSelectedTag,
     fetchSearch,
     filterSearch,
+    searchInURLs,
     updateUserSettings,
     showUserPreference
 } from '../../actions';
@@ -68,6 +69,7 @@ export default @connect((state) => ({
     autocompleteTags: state.autocompleteState.tags,
     articles: state.searchState.articles,
     articleSuggestions: getArticleSuggestions(state),
+    scrapQuery: state.searchState.scrapQuery
 }), {
     getSearchContext,
     searchOnHistoryChange,
@@ -77,6 +79,7 @@ export default @connect((state) => ({
     setAutocompleteSelectedTag,
     fetchSearch,
     filterSearch,
+    searchInURLs,
     updateUserSettings,
     showUserPreference
 })
@@ -100,6 +103,7 @@ class SearchIndex extends React.Component {
         autocompleteTags: PropTypes.array,
         articles: PropTypes.array,
         articleSuggestions: PropTypes.array,
+        scrapQuery: PropTypes.string,
         getSearchContext: PropTypes.func,
         searchOnHistoryChange: PropTypes.func,
         setSelectedTag: PropTypes.func,
@@ -108,6 +112,7 @@ class SearchIndex extends React.Component {
         setAutocompleteSelectedTag: PropTypes.func,
         fetchSearch: PropTypes.func,
         filterSearch: PropTypes.func,
+        searchInURLs: PropTypes.func,
         updateUserSettings: PropTypes.func,
         showUserPreference: PropTypes.func,
         // from styles
@@ -131,6 +136,12 @@ class SearchIndex extends React.Component {
 
         // Save search in browser history
         this.props.searchOnHistoryChange();
+    }
+
+    componentDidUpdate(prevProps) {
+        if(this.props.scrapQuery && prevProps.scrapQuery !== this.props.scrapQuery) {
+            this._handleURLSearchSubmit(false, this.props.scrapQuery);
+        }
     }
 
     componentWillUnmount() {
@@ -271,6 +282,30 @@ class SearchIndex extends React.Component {
         });
     };
 
+    _handleURLSearchSubmit = (event, urlQuery) => {
+        if(event) {
+            event.preventDefault();
+        }
+
+        if (this.props.currentUserId) {
+            Notification.alert(I18n.t('js.search.scrap.message.fetching'));
+
+            let data;
+            if(event) {
+                const form = event.target;
+                data = new FormData(form);
+            } else {
+                data = new FormData();
+                data.append('search[query_url]', urlQuery);
+            }
+
+            data.append('search[article_ids]', this.props.articles.map((article) => article.id));
+
+            this.props.searchInURLs(data)
+                .then(() => Notification.success(I18n.t('js.search.scrap.message.result')));
+        }
+    };
+
     _performSearch = (query) => {
         this.props.setAutocompleteSelectedTag();
 
@@ -407,7 +442,8 @@ class SearchIndex extends React.Component {
                                             searchGridColumns={isDesktop ? searchGridColumns : searchGridColumnsMobile}
                                             onSettingsClick={this.props.showUserPreference}
                                             onOrderChange={this._handleOrderChange}
-                                            onDisplayChange={this._handleDisplayChange}/>
+                                            onDisplayChange={this._handleDisplayChange}
+                                            onURLSearchSubmit={this._handleURLSearchSubmit}/>
                         :
                         <div className={this.props.classes.helpMessage}>
                             {I18n.t('js.search.index.no_results')}

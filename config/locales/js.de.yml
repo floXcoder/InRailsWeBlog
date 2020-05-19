@@ -656,6 +656,13 @@ de:
         priority: "Priorität"
       sidebar:
         filter: "Ergebnisse filtern"
+      scrap:
+        field: "Suche in den Links"
+        helper: "Direkte Suche mit: ?Begriff"
+        button: "Suche"
+        message:
+          fetching: "Inhalte in Links suchen ..."
+          result: "Die gefundenen Ergebnisse wurden den Artikeln hinzugefügt"
     comment:
       ask_for_deletion:
         button: "Antrag auf Löschung eines Kommentars"

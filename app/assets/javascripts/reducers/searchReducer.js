@@ -171,22 +171,20 @@ const searchState = {
     tagSuggestions: [],
     articleSuggestions: [],
 
-    selectedItemType: undefined,
-    selectedItemId: undefined,
-    cancelSelection: false,
-    selectedFromMap: false,
-
-    totalArticlePages: undefined,
-    totalArticles: undefined,
-    totalTagPages: undefined,
-    totalTags: undefined,
-    totalTopicPages: undefined,
-    totalTopics: undefined,
     currentPage: 1,
+
+    // totalArticlePages: undefined,
+    // totalArticles: undefined,
+    // totalTagPages: undefined,
+    // totalTags: undefined,
+    // totalTopicPages: undefined,
+    // totalTopics: undefined,
 
     relatedTopics: [],
     relatedTags: [],
-    relatedArticles: []
+    relatedArticles: [],
+
+    scrapQuery: undefined
 };
 
 const _parseSearchResults = (searchState, action) => {
@@ -204,14 +202,14 @@ const _parseSearchResults = (searchState, action) => {
 
     searchState.hasResults = !(Utils.isEmpty(searchState.topics) && Utils.isEmpty(searchState.tags) && Utils.isEmpty(searchState.articles));
 
-    searchState.totalArticlePages = action.totalPages.articles;
-    searchState.totalArticles = action.totalCount.articles;
-    searchState.totalTagPages = action.totalPages.tags;
-    searchState.totalTags = action.totalCount.tags;
-    searchState.totalTopicPages = action.totalPages.topics;
-    searchState.totalTopics = action.totalCount.topics;
-
     searchState.currentPage = parseInt(action.page || action.searchParams.page || 1, 10);
+
+    // searchState.totalArticlePages = action.totalPages.articles;
+    // searchState.totalArticles = action.totalCount.articles;
+    // searchState.totalTagPages = action.totalPages.tags;
+    // searchState.totalTags = action.totalCount.tags;
+    // searchState.totalTopicPages = action.totalPages.topics;
+    // searchState.totalTopics = action.totalCount.topics;
 
     searchState.topicSuggestions = action.suggestions?.topics || [];
     searchState.tagSuggestions = action.suggestions?.tags || [];
@@ -222,6 +220,8 @@ const _parseSearchResults = (searchState, action) => {
     searchState.searchFilters = action.searchFilters || {};
 
     searchState.selectedTags = action.selectedTags || [];
+
+    searchState.scrapQuery = action.scrapQuery;
 
     return searchState;
 };
@@ -246,9 +246,20 @@ export function searchReducer(state = searchState, action) {
             state.selectedTags = addOrRemoveIn(state.selectedTags, action.tag);
             return state;
 
+        case ActionTypes.SEARCH_URL_SCRAP:
+            state.articles = state.articles.map((article) => {
+                if (action.articleResults[article.id]) {
+                    article.scrapResults = action.articleResults[article.id];
+                    return article;
+                } else {
+                    return article;
+                }
+            });
+            return state;
+
         // TOPIC
         case ActionTypes.TOPIC_CHANGE_SUCCESS:
-            if(action.removedId) {
+            if (action.removedId) {
                 removeIn(state.topics, action.removedId);
             } else {
                 addOrReplaceIn(state.topics, action.topic);
@@ -257,7 +268,7 @@ export function searchReducer(state = searchState, action) {
 
         // TAG
         case ActionTypes.TAG_CHANGE_SUCCESS:
-            if(action.removedId) {
+            if (action.removedId) {
                 removeIn(state.tags, action.removedId);
             } else {
                 addOrReplaceIn(state.tags, action.tag);
@@ -266,7 +277,7 @@ export function searchReducer(state = searchState, action) {
 
         // ARTICLE
         case ActionTypes.ARTICLE_CHANGE_SUCCESS:
-            if(action.removedId) {
+            if (action.removedId) {
                 removeIn(state.articles, action.removedId);
             } else {
                 addOrReplaceIn(state.articles, action.article);

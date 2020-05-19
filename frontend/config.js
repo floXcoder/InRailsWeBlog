@@ -129,7 +129,8 @@ module.exports = {
                 {
                     // Match all assets
                     urlPattern: new RegExp(`^${appEnv.WEBSITE_FULL_ASSET}/assets/`),
-                    handler: 'StaleWhileRevalidate',
+                    handler: 'CacheFirst',
+                    // handler: 'StaleWhileRevalidate',
                     options: {
                         cacheName: 'assets',
                         cacheableResponse: {

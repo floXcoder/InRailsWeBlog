@@ -446,7 +446,7 @@ class Article < ApplicationRecord
     # formatted_content = formatted_content.gsub(/<img (.*?)\/?>/im, '')
 
     # Format returns to line
-    formatted_content = formatted_content.gsub(/\<br\>/im, '@@').gsub(/\<p\>/im, '@@')
+    formatted_content = formatted_content.gsub(/<br *\/?>/im, '@@').gsub(/\<p\>/im, '@@')
     formatted_content = ActionController::Base.helpers.strip_tags(formatted_content)
     formatted_content = formatted_content.gsub(/@@/im, '<br/>')
 

@@ -199,12 +199,13 @@ de:
         complete: Gesamte Autorisierung
   search:
     errors:
-      article: 'Suche: Unmöglich, nach Artikeln zu suchen'
-      autocomplete: Fehler bei der Suche, bitte versuchen Sie es mit einem anderen Begriff
-      search: Fehler bei der Suche, bitte versuchen Sie es mit einem anderen Begriff
-      tag: 'Suche: Unmöglich, nach Etiketten zu suchen'
-      topic: 'Suche: Unmöglich, nach Themen zu suchen'
-      user: 'Suche: Unmöglich, nach Benutzern zu suchen'
+      article: "Suche: Unmöglich, nach Artikeln zu suchen"
+      autocomplete: "Fehler bei der Suche, bitte versuchen Sie es mit einem anderen Begriff"
+      search: "Fehler bei der Suche, bitte versuchen Sie es mit einem anderen Begriff"
+      tag: "Suche: Unmöglich, nach Etiketten zu suchen"
+      topic: "Suche: Unmöglich, nach Themen zu suchen"
+      user: "Suche: Unmöglich, nach Benutzern zu suchen"
+      scrap: "Fehler bei der Suche in Artikel-Links"
   exporter:
     errors: "Artikel können nicht exportiert werden"
   admin:

@@ -11,6 +11,7 @@ import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import Chip from '@material-ui/core/Chip';
+import Divider from '@material-ui/core/Divider';
 
 import {
     userArticlePath,
@@ -73,6 +74,36 @@ class ArticleSearchItemDisplay extends React.Component {
                             :
                             <div className="normalized-content"
                                  dangerouslySetInnerHTML={{__html: this.props.article.content}}/>
+                    }
+
+                    {
+                        this.props.article.scrapResults &&
+                        <div className={this.props.classes.articleLinksResults}>
+                            {
+                                this.props.article.scrapResults.slice(1).map((resultsByLink, i) => (
+                                    <div key={i}>
+                                        <a href={this.props.article.scrapResults[0]}>
+                                            {this.props.article.scrapResults[0]}
+                                        </a>
+
+                                        <ul>
+                                            {
+                                                resultsByLink.map((result, j) => (
+                                                    <li key={j}>
+                                                        {result}
+                                                    </li>
+                                                ))
+                                            }
+                                        </ul>
+
+                                        {
+                                            i !== this.props.article.scrapResults.length - 2 &&
+                                            <Divider className="margin-top-5 margin-bottom-15"/>
+                                        }
+                                    </div>
+                                ))
+                            }
+                        </div>
                     }
 
                     <div className={this.props.classes.articleTags}>

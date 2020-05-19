@@ -199,12 +199,13 @@ it:
         complete: Autorizzazione totale
   search:
     errors:
-      article: 'Ricerca: impossibile cercare gli articoli'
-      autocomplete: Errore durante la ricerca, provare con un altro termine
-      search: Errore durante la ricerca, provare con un altro termine
-      tag: 'Ricerca: impossibile cercare le etichette'
-      topic: 'Ricerca: impossibile cercare i temi'
-      user: 'Ricerca: impossibile cercare gli utenti'
+      article: "Ricerca: impossibile cercare gli articoli"
+      autocomplete: "Errore durante la ricerca, provare con un altro termine"
+      search: "Errore durante la ricerca, provare con un altro termine"
+      tag: "Ricerca: impossibile cercare le etichette"
+      topic: "Ricerca: impossibile cercare i temi"
+      user: "Ricerca: impossibile cercare gli utenti"
+      scrap: "Errore durante la ricerca nei link degli articoli"
   exporter:
     errors: "Impossibile esportare i prodotti"
   admin:

@@ -21,6 +21,7 @@ export default class SearchArticleIndex extends React.PureComponent {
         onSettingsClick: PropTypes.func.isRequired,
         onOrderChange: PropTypes.func.isRequired,
         onDisplayChange: PropTypes.func.isRequired,
+        onURLSearchSubmit: PropTypes.func.isRequired,
         searchDisplay: PropTypes.string.isRequired,
         currentUserId: PropTypes.number,
         currentUserTopicId: PropTypes.number,
@@ -49,7 +50,8 @@ export default class SearchArticleIndex extends React.PureComponent {
                                           searchDisplay={this.props.searchDisplay}
                                           onSettingsClick={this.props.onSettingsClick}
                                           onOrderChange={this.props.onOrderChange}
-                                          onDisplayChange={this.props.onDisplayChange}/>
+                                          onDisplayChange={this.props.onDisplayChange}
+                                          onURLSearchSubmit={this.props.onURLSearchSubmit}/>
 
                 <div>
                     {
@@ -65,8 +67,8 @@ export default class SearchArticleIndex extends React.PureComponent {
                                             {I18n.t('js.search.index.topic.current')}
                                         </Typography>
 
-                                        <ArticleGridModeSearch articles={currentTopicArticles}
-                                                               searchGridColumns={this.props.searchGridColumns}/>
+                                        <ArticleGridModeSearch searchGridColumns={this.props.searchGridColumns}
+                                                               articles={currentTopicArticles}/>
                                     </>
                                 }
 
@@ -78,15 +80,15 @@ export default class SearchArticleIndex extends React.PureComponent {
                                                     gutterBottom={true}>
                                             {I18n.t('js.search.index.topic.others')}
                                         </Typography>
-                                        <ArticleGridModeSearch articles={otherTopicsArticles}
-                                                               searchGridColumns={this.props.searchGridColumns}/>
+                                        <ArticleGridModeSearch searchGridColumns={this.props.searchGridColumns}
+                                                               articles={otherTopicsArticles}/>
                                     </>
                                 }
 
                                 {
                                     !this.props.currentUserTopicId &&
-                                    <ArticleGridModeSearch articles={this.props.articles}
-                                                           searchGridColumns={this.props.searchGridColumns}/>
+                                    <ArticleGridModeSearch searchGridColumns={this.props.searchGridColumns}
+                                                           articles={this.props.articles}/>
                                 }
                             </Suspense>
                             :
