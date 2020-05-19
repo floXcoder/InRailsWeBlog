@@ -2,7 +2,7 @@
 
 module Api::V1
   class SearchController < ApiController
-    skip_before_action :authenticate_user!
+    skip_before_action :authenticate_user!, except: [:url_search]
 
     before_action :honeypot_protection, only: [:index, :autocomplete]
 
@@ -43,6 +43,23 @@ module Api::V1
         respond_to do |format|
           format.json do
             render json:   { errors: autocomplete_results.message },
+                   status: :unprocessable_entity
+          end
+        end
+      end
+    end
+
+    def url_search
+      scrap_results = Searches::ScrapSearchService.new(search_params[:query_url], search_params[:article_ids]).perform
+
+      if scrap_results.success?
+        respond_to do |format|
+          format.json { render json: scrap_results.result }
+        end
+      else
+        respond_to do |format|
+          format.json do
+            render json:   { errors: scrap_results.message },
                    status: :unprocessable_entity
           end
         end
@@ -91,6 +108,8 @@ module Api::V1
           :article_per_page,
           :order,
           :selected_types,
+          :query_url,
+          :article_ids,
           selected_types: [],
           tag_ids:        [],
           tags:           [],

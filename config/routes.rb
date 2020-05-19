@@ -209,6 +209,8 @@ Rails.application.routes.draw do
         collection do
           get   :autocomplete, to: 'search#autocomplete'
 
+          post  :url_search,   to: 'search#url_search'
+
           post  :meta,         to: 'search#meta'
         end
       end

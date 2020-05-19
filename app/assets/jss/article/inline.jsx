@@ -8,6 +8,9 @@ const styles = (theme) => ({
         position: 'relative',
         wordWrap: 'break-word'
     },
+    rootPrivate: {
+        boxShadow: `0px 0px 8px ${theme.palette.secondary.light}`
+    },
     over: {
         boxShadow: theme.shadows[5],
     },
@@ -77,6 +80,17 @@ const styles = (theme) => ({
         [theme.breakpoints.down('md')]: {
             margin: theme.spacing(1.5, 2.5)
         }
+    },
+    privateMessage: {
+        right: 0,
+        bottom: 0,
+        display: 'block',
+        position: 'absolute',
+        fontSize: '.85rem',
+        fontStyle: 'italic',
+        border: '1px solid #e3c23e',
+        borderRadius: 5,
+        padding: 2
     }
 });
 

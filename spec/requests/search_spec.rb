@@ -18,6 +18,8 @@ describe 'Search API', type: :request, basic: true do
     @second_private_topic   = create(:topic, user: @user, visibility: :only_me)
     @second_private_article = create(:article, user: @user, topic: @second_private_topic, title: 'article private second name', visibility: :only_me, draft: true)
 
+    @article_with_link = create(:article, user: @user, topic: @topic, title: 'article name', visibility: 'everyone', content: '<div>Article content containing a link: <a href="http://www.example.com/scrap_content">link name</a></div>')
+
     @other_user            = create(:user)
     @other_topic           = create(:topic, user: @other_user)
     @other_tag             = create(:tag, user: @other_user, visibility: :everyone)
@@ -59,8 +61,8 @@ describe 'Search API', type: :request, basic: true do
         expect(response).to be_json_response
 
         results = JSON.parse(response.body)
-        expect(results['articles'].size).to eq(6)
-        expect(results['totalCount']['articles']).to eq(6)
+        expect(results['articles'].size).to eq(7)
+        expect(results['totalCount']['articles']).to eq(7)
         expect(results['totalPages']['articles']).to eq(1)
       end
     end
@@ -96,7 +98,7 @@ describe 'Search API', type: :request, basic: true do
         expect(response).to be_json_response
 
         results = JSON.parse(response.body)
-        expect(results['articles'].size).to eq(7)
+        expect(results['articles'].size).to eq(8)
         expect(results['articles'].first['id']).to eq(@other_public_article.id)
       end
     end
@@ -109,8 +111,8 @@ describe 'Search API', type: :request, basic: true do
 
         results = JSON.parse(response.body)
 
-        expect(results['articles'].size).to eq(6)
-        expect(results['totalCount']['articles']).to eq(6)
+        expect(results['articles'].size).to eq(7)
+        expect(results['totalCount']['articles']).to eq(7)
       end
 
       it 'returns public articles for a specific topic only when not connected' do
@@ -120,8 +122,8 @@ describe 'Search API', type: :request, basic: true do
 
         results = JSON.parse(response.body)
 
-        expect(results['articles'].size).to eq(6)
-        expect(results['totalCount']['articles']).to eq(6)
+        expect(results['articles'].size).to eq(7)
+        expect(results['totalCount']['articles']).to eq(7)
       end
 
       it 'returns all articles only when connected' do
@@ -133,8 +135,8 @@ describe 'Search API', type: :request, basic: true do
 
         results = JSON.parse(response.body)
 
-        expect(results['articles'].size).to eq(7)
-        expect(results['totalCount']['articles']).to eq(7)
+        expect(results['articles'].size).to eq(8)
+        expect(results['totalCount']['articles']).to eq(8)
       end
     end
 
@@ -218,6 +220,38 @@ describe 'Search API', type: :request, basic: true do
         results = JSON.parse(response.body)
         expect(results['articles']).not_to be_empty
         expect(results['articles'].size).to eq(Article.everyone_and_user(@user.id).count)
+      end
+    end
+  end
+
+  describe '/api/v1/search/url_search', search: true do
+    context 'when user is not connected' do
+      it 'returns an error message' do
+        post '/api/v1/articles/url_search', as: :json
+
+        expect(response).to be_json_response(404)
+      end
+    end
+
+    context 'when user is connected' do
+      before do
+        login_as(@user, scope: :user, run_callbacks: false)
+      end
+
+      before do
+        stub_request(:get, 'http://www.example.com/scrap_content')
+          .to_return(body: '<div>Body for external content with needed value: ruby is present inside external content and returned by stub</div>')
+      end
+
+      it 'returns the matching content inside external links' do
+        post '/api/v1/search/url_search', params: { search: { query_url: 'ruby', article_ids: @article_with_link.id.to_s } }, as: :json
+
+        expect(response).to be_json_response
+
+        results = JSON.parse(response.body)
+
+        expect(results[@article_with_link.id.to_s][0]).to eq('http://www.example.com/scrap_content')
+        expect(results[@article_with_link.id.to_s][1][0]).to match(/value: ruby is/)
       end
     end
   end

@@ -199,12 +199,13 @@ es:
         complete: Autorización total
   search:
     errors:
-      article: 'Búsqueda: imposible buscar artículos'
-      autocomplete: Error en la búsqueda, por favor intente con otro término
-      search: Error en la búsqueda, por favor intente con otro término
-      tag: 'Búsqueda: imposible buscar etiquetas'
-      topic: 'Búsqueda: imposible buscar temas'
-      user: 'Búsqueda: imposible buscar usuarios'
+      article: "Búsqueda: imposible buscar artículos"
+      autocomplete: "Error en la búsqueda, por favor intente con otro término"
+      search: "Error en la búsqueda, por favor intente con otro término"
+      tag: "Búsqueda: imposible buscar etiquetas"
+      topic: "Búsqueda: imposible buscar temas"
+      user: "Búsqueda: imposible buscar usuarios"
+      scrap: "Error al buscar en los enlaces de los artículos"
   exporter:
     errors: "No puede exportar artículos"
   admin:

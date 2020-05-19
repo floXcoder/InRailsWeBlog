@@ -4,6 +4,8 @@ module Searches
   class SearchService < Searches::BaseSearchService
     def initialize(query, *args)
       super(query, *args)
+
+      @scrap_query = nil
     end
 
     def perform
@@ -14,6 +16,11 @@ module Searches
         totalCount:   {},
         totalPages:   {}
       }
+
+      if @query =~ / \?(\w+)/
+        @scrap_query = $1
+        @query       = @query.sub(/ \?(\w+)/, '')
+      end
 
       results_format = @params[:complete] ? 'complete' : 'sample'
       visibility     = if @current_user
@@ -132,6 +139,10 @@ module Searches
           search_results[:selectedTags] = TagStrictSerializer.new(Tag.where(id: @params[:tags_ids])).serializable_hash.dig(:data)&.map { |d| d[:attributes] }
         elsif @params[:tags].present?
           search_results[:selectedTags] = TagStrictSerializer.new(Tag.where(slug: @params[:tags])).serializable_hash.dig(:data)&.map { |d| d[:attributes] }
+        end
+
+        if @scrap_query
+          search_results[:scrapQuery] = @scrap_query
         end
 
         if searches

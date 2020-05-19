@@ -15,6 +15,7 @@ export default @connect((state) => ({
 @hot
 class ArticleTimelineMode extends React.Component {
     static propTypes = {
+        topicVisibility: PropTypes.string,
         onEnter: PropTypes.func,
         onExit: PropTypes.func,
         // from connect
@@ -37,10 +38,11 @@ class ArticleTimelineMode extends React.Component {
                                     <AssignmentIcon/>
                                 </div>
 
-                                <ArticleSummaryDisplay article={article}
-                                                       className={classNames('timeline-panel', {
+                                <ArticleSummaryDisplay className={classNames('timeline-panel', {
                                                            'timeline-panel-inverted': index % 2 === 0
                                                        })}
+                                                       article={article}
+                                                       topicVisibility={this.props.topicVisibility}
                                                        onEnter={this.props.onEnter}
                                                        onExit={this.props.onExit}/>
                             </li>

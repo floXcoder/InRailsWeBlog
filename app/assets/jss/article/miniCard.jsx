@@ -20,6 +20,9 @@ const styles = (theme) => ({
         border: 0,
         boxShadow: theme.shadows[0]
     },
+    cardPrivate: {
+        boxShadow: `0px 0px 8px ${theme.palette.secondary.light}`
+    },
     header: {
         paddingTop: 0,
         paddingBottom: 0
@@ -100,6 +103,17 @@ const styles = (theme) => ({
         cursor: 'pointer',
         color: theme.palette.text.secondary,
         borderColor: theme.palette.text.secondary
+    },
+    privateMessage: {
+        right: 0,
+        top: 0,
+        display: 'block',
+        position: 'absolute',
+        fontSize: '.85rem',
+        fontStyle: 'italic',
+        border: '1px solid #e3c23e',
+        borderRadius: 5,
+        padding: 2
     }
 });
 

@@ -411,6 +411,7 @@ en:
         url: "Articles list"
         outdated: "Article marked as outdated"
         actions: "Actions"
+        private_in_public: "This article is private"
         not_connected:
           message: "Please log in, before posting article"
         infinite:
@@ -620,6 +621,13 @@ en:
         popularity: "Popularity"
         priority: "Priority"
         date: "Date"
+      scrap:
+        field: "Search inside links"
+        helper: "Search directly with: ?term"
+        button: "Search"
+        message:
+          fetching: "Search for content inside links ..."
+          result: "Results found added to articles"
       module:
         placeholder: "Search"
         default: "Search on website"

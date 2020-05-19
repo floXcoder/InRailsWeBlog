@@ -411,6 +411,7 @@ fr:
         url: "Liste des articles"
         outdated: "Article marqué comme périmé !"
         actions: "Actions"
+        private_in_public: "Cet article est en privé"
         not_connected:
           message: "Merci de vous connecter avant de poster l'article"
         infinite:
@@ -620,6 +621,13 @@ fr:
         popularity: "Popularité"
         priority: "Priorité"
         date: "Date"
+      scrap:
+        field: "Rechercher dans les liens"
+        helper: "Recherche directe avec : ?terme"
+        button: "Rechercher"
+        message:
+          fetching: "Recherche du contenu dans les liens ..."
+          result: "Les résultats trouvés ont été ajoutés aux articles"
       module:
         placeholder: "Recherche"
         default: "Rechercher sur le site"

@@ -48,9 +48,20 @@ class ArticleAdvancedField extends React.PureComponent {
         }));
     };
 
+    _handleVisibilityChange = (event) => {
+        if (event.target.value === 'everyone') {
+            this.props.change('draft', false);
+            this.props.change('visibility', 'everyone');
+        } else {
+            return event;
+        }
+    };
+
     _handleDraftChange = (event) => {
         if (event.target.checked) {
             this.props.change('visibility', 'only_me');
+        } else {
+            return event;
         }
     };
 
@@ -63,6 +74,7 @@ class ArticleAdvancedField extends React.PureComponent {
                         <Field name="visibility"
                                component={SelectFormField}
                                id="article_visibility"
+                               onChange={this._handleVisibilityChange}
                                className={this.props.classes.select}
                                label={I18n.t('js.article.model.visibility')}
                                options={I18n.t('js.article.enums.visibility')}/>
@@ -70,7 +82,7 @@ class ArticleAdvancedField extends React.PureComponent {
                 }
 
                 {
-                    !this.props.isEditing &&
+                    this.props.currentVisibility !== 'everyone' &&
                     <div className="col s12 m6 center-align">
                         <Field name="draft"
                                type="checkbox"

@@ -45,6 +45,7 @@ class ArticleGridDisplay extends React.PureComponent {
         article: PropTypes.object.isRequired,
         currentUserSlug: PropTypes.string,
         currentUserTopicSlug: PropTypes.string,
+        currentUserTopicVisibility: PropTypes.string,
         isOwner: PropTypes.bool,
         isMinimized: PropTypes.bool,
         onEnter: PropTypes.func,
@@ -114,7 +115,9 @@ class ArticleGridDisplay extends React.PureComponent {
             <Observer onChange={this._handleViewportChange}>
                 <Card component="article"
                       id={`article-${this.props.article.id}`}
-                      className={this.props.classes.card}
+                      className={classNames(this.props.classes.card, {
+                          [this.props.classes.cardPrivate]: this.props.currentUserTopicVisibility === 'everyone' && this.props.article.visibility !== 'everyone'
+                      })}
                       itemScope={true}
                       itemType="https://schema.org/BlogPosting">
                     <CardHeader classes={{
@@ -264,6 +267,13 @@ class ArticleGridDisplay extends React.PureComponent {
                             }
                         </CardActions>
                     </Collapse>
+
+                    {
+                        (this.props.currentUserTopicVisibility === 'everyone' && this.props.article.visibility !== 'everyone') &&
+                        <div className={this.props.classes.privateMessage}>
+                            {I18n.t('js.article.common.private_in_public')}
+                        </div>
+                    }
                 </Card>
             </Observer>
         );

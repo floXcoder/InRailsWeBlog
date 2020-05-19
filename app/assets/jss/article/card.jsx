@@ -24,8 +24,12 @@ const styles = (theme) => ({
             marginBottom: '2.8rem'
         }
     },
+    cardPrivate: {
+        boxShadow: `0px 0px 8px ${theme.palette.secondary.light}`
+    },
     cardHeader: {
-        width: '100%'
+        width: '100%',
+        maxWidth: '94%'
     },
     articleInfo: {
         color: '#999',
@@ -70,7 +74,7 @@ const styles = (theme) => ({
         transition: theme.transitions.create('transform', {
             duration: theme.transitions.duration.shortest
         }),
-        marginTop: 8,
+        marginTop: 20,
         marginLeft: 'auto',
         [theme.breakpoints.up('md')]: {
             right: 15,
@@ -147,6 +151,21 @@ const styles = (theme) => ({
         [theme.breakpoints.down('md')]: {
             margin: theme.spacing(1.5, 2)
         }
+    },
+    privateMessage: {
+        right: 5,
+        top: 5,
+        display: 'block',
+        position: 'absolute',
+        fontSize: '.85rem',
+        fontStyle: 'italic',
+        border: '1px solid #e3c23e',
+        borderRadius: 5,
+        padding: 2
+    },
+    privateMessageTop: {
+        top: 0,
+        right: 0
     }
 });
 

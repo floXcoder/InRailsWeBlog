@@ -401,6 +401,7 @@ es:
     article:
       common:
         actions: "Acciones"
+        private_in_public: "Este artículo es en privado"
         allow_comment:
           falsy: "No"
           title: "¿Permitir comentarios?"
@@ -620,6 +621,13 @@ es:
         popularity: "Popularidad"
         date: "Fecha"
         priority: "Prioridad"
+      scrap:
+        field: "Busque en los enlaces"
+        helper: "Búsqueda directa con: ?termino"
+        button: "Busca en"
+        message:
+          fetching: "Busca el contenido en los enlaces ..."
+          result: "Los resultados encontrados se han añadido a los artículos"
       module:
         button: "Busca en"
         default: "Buscar en el sitio"

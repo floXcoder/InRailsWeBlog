@@ -277,7 +277,8 @@ class ArticleIndex extends React.Component {
         let ArticleNodes;
         if (this.props.articleCurrentMode === 'stories') {
             ArticleNodes = (
-                <ArticleTimelineMode onEnter={this._handleArticleEnter}
+                <ArticleTimelineMode topicVisibility={this.props.currentTopic?.visibility}
+                                     onEnter={this._handleArticleEnter}
                                      onExit={this._handleArticleExit}/>
             );
         } else if (isGridDisplay) {

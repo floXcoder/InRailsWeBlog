@@ -9,7 +9,7 @@ end
 ruby '2.6.3'
 
 # Rails version
-gem 'rails',                    '6.0.3'
+gem 'rails',                    '6.0.3.1'
 
 # Use postgresql as the database for Active Record
 gem 'pg',                       '1.2.3'
@@ -112,7 +112,7 @@ gem 'health_check',             '3.0.0'
 gem 'webdrivers',               '4.3.0'
 
 # Server
-gem 'puma',                     '4.3.3'
+gem 'puma',                     '4.3.4'
 
 group :development do
   # Debugging tool
@@ -151,6 +151,7 @@ end
 group :test do
   # Test tools
   gem 'rspec-rails',                '4.0.1'
+  gem 'webmock',                    '3.8.3'
   gem 'rspec_junit_formatter',      '0.4.1'
   gem 'shoulda-matchers',           '4.3.0',  require: false
   gem 'shoulda-callback-matchers',  '1.1.4',  require: false

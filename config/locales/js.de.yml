@@ -405,6 +405,7 @@ de:
       clipboard: "Temporärer Artikel, der mit kopierten Daten erstellt wurde"
       common:
         actions: "Aktionen"
+        private_in_public: "Dieser Artikel ist privat"
         allow_comment:
           falsy: "Nein"
           title: "Erlauben Sie Kommentare?"
@@ -656,6 +657,13 @@ de:
         priority: "Priorität"
       sidebar:
         filter: "Ergebnisse filtern"
+      scrap:
+        field: "Suche in den Links"
+        helper: "Direkte Suche mit: ?Begriff"
+        button: "Suche"
+        message:
+          fetching: "Inhalte in Links suchen ..."
+          result: "Die gefundenen Ergebnisse wurden den Artikeln hinzugefügt"
     comment:
       ask_for_deletion:
         button: "Antrag auf Löschung eines Kommentars"

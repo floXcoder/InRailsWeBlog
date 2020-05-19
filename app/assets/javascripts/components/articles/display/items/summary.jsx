@@ -33,6 +33,7 @@ export default @highlight()
 class ArticleSummaryDisplay extends React.Component {
     static propTypes = {
         article: PropTypes.object.isRequired,
+        topicVisibility: PropTypes.string,
         className: PropTypes.string,
         onEnter: PropTypes.func,
         onExit: PropTypes.func,
@@ -84,7 +85,8 @@ class ArticleSummaryDisplay extends React.Component {
                 <div id={`article-${this.props.article.id}`}
                      className={classNames(this.props.className, {
                          'is-hidden': !this.state.isVisible,
-                         'bounce-in': this.state.isVisible
+                         'bounce-in': this.state.isVisible,
+                         'private': this.props.topicVisibility === 'everyone' && this.props.article.visibility !== 'everyone'
                      })}
                      itemScope={true}
                      itemType="https://schema.org/BlogPosting">
@@ -189,6 +191,13 @@ class ArticleSummaryDisplay extends React.Component {
                             {I18n.t('js.article.show.stories.show')}
                         </Button>
                     </div>
+
+                    {
+                        (this.props.topicVisibility === 'everyone' && this.props.article.visibility !== 'everyone') &&
+                        <div className={this.props.classes.privateMessage}>
+                            {I18n.t('js.article.common.private_in_public')}
+                        </div>
+                    }
                 </div>
             </Observer>
         );

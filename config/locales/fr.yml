@@ -205,6 +205,7 @@ fr:
       tag: "Recherche : impossible de rechercher les labels"
       topic: "Recherche : impossible de rechercher les thèmes"
       user: "Recherche : impossible de rechercher les utilisateurs"
+      scrap: "Erreur lors de la recherche dans les liens des articles"
   exporter:
     errors: "Impossible d'exporter les articles"
   admin:
