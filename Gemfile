@@ -9,7 +9,7 @@ end
 ruby '2.6.3'
 
 # Rails version
-gem 'rails',                    '6.0.3'
+gem 'rails',                    '6.0.3.1'
 
 # Use postgresql as the database for Active Record
 gem 'pg',                       '1.2.3'
@@ -112,7 +112,7 @@ gem 'health_check',             '3.0.0'
 gem 'webdrivers',               '4.3.0'
 
 # Server
-gem 'puma',                     '4.3.3'
+gem 'puma',                     '4.3.4'
 
 group :development do
   # Debugging tool
