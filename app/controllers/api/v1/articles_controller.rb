@@ -39,9 +39,9 @@ module Api::V1
       if complete
         articles = ::Articles::FindQueries.new(nil, current_admin).complete(filter_params.merge(visibility: 'everyone'))
       elsif params[:populars]
-        articles = component_cache('popular_articles') { ::Articles::FindQueries.new.populars(limit: params[:limit]) }
+        articles = component_cache('popular_articles') { ::Articles::FindQueries.new.populars(limit: params[:limit], with_locale: I18n.locale) }
       elsif params[:home]
-        articles = component_cache('home_articles') { ::Articles::FindQueries.new.home(limit: params[:limit]) }
+        articles = component_cache('home_articles') { ::Articles::FindQueries.new.home(limit: params[:limit], with_locale: I18n.locale) }
       else
         if filter_params[:tag_slug].present?
           if filter_params[:topic_slug].present?
