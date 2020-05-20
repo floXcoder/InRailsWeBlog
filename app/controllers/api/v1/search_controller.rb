@@ -2,7 +2,7 @@
 
 module Api::V1
   class SearchController < ApiController
-    skip_before_action :authenticate_user!, except: [:url_search]
+    skip_before_action :authenticate_user!, only: [:index, :autocomplete]
 
     before_action :honeypot_protection, only: [:index, :autocomplete]
 

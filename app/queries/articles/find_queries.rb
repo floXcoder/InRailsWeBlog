@@ -62,6 +62,11 @@ module Articles
                     .everyone
                     .home(params[:limit])
 
+      if params[:with_locale]
+        @localized_relation = @relation.where('articles.languages @> ?', "{#{params[:with_locale]}}")
+        @relation           = @localized_relation if @localized_relation.exists?
+      end
+
       return @relation
     end
 
@@ -70,6 +75,11 @@ module Articles
                     .include_collection
                     .everyone
                     .populars(params[:limit])
+
+      if params[:with_locale]
+        @localized_relation = @relation.where('articles.languages @> ?', "{#{params[:with_locale]}}")
+        @relation           = @localized_relation if @localized_relation.exists?
+      end
 
       return @relation
     end
