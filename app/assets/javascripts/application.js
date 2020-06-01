@@ -34,6 +34,8 @@ if (window.SENTRY_JAVASCRIPT_KEY && !window.seoMode) {
 
 // Configure log level
 if (process.env.NODE_ENV !== 'production') {
+    const log = require('loglevel');
+
     log.setLevel('info');
 
     log.now = (data, colorStyle) => {
