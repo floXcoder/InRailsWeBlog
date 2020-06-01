@@ -65,7 +65,8 @@ export default class SearchArticleModule extends React.PureComponent {
                       direction="row"
                       justify="flex-start"
                       alignItems="center">
-                    <Grid item={true}>
+                    <Grid className={this.props.classes.articleMainItem}
+                          item={true}>
                         <Link className={classNames(this.props.classes.articleMainResult, {
                             [this.props.classes.articleSecondaryResult]: !primary,
                             [this.props.classes.articleHighlighted]: this.props.highlightedArticleId === article.id

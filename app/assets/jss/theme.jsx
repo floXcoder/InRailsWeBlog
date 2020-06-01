@@ -14,7 +14,7 @@ export const gridWidth = 1180;
 export const storiesWidth = 920;
 
 // zIndex
-export const mainZIndex = 1;
+// export const mainZIndex = 1;
 export const topicZIndex = 60;
 export const mobileStepperZIndex = 1000;
 export const appBarZIndex = 1100;
