@@ -4,7 +4,7 @@ fr:
       page_title: "Bienvenue sur le blog %{website} !"
       meta_desc: "Venez découvrir les différents articles sur %{website}"
   open_search:
-    long_name: "%{name} Blog Search"
+    long_name: "%{name} Blog Recherche"
     description: "Recherche d'articles et de liens sur %{name}"
     tags: "Blog, articles, liens"
   views:

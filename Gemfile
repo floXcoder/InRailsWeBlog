@@ -14,11 +14,11 @@ gem 'rails',                    '6.0.3.1'
 # Use postgresql as the database for Active Record
 gem 'pg',                       '1.2.3'
 gem 'active_record_extended',   '1.4.0'
-gem 'pghero',                   '2.4.2'
+gem 'pghero',                   '2.5.0'
 gem 'pg_query',                 '1.2.0' # Required for pghero
 
 # HTTP Response
-gem 'responders',               '3.0.0'
+gem 'responders',               '3.0.1'
 gem 'http_accept_language',     '2.1.1'
 gem 'secure_headers',           '6.3.0'
 gem 'faraday',                  '1.0.1'
@@ -31,7 +31,7 @@ gem 'oj',                       '3.10.6'
 gem 'slim-rails',               '3.2.0'
 
 # Internationalization
-gem 'i18n-js',                  '3.6.0'
+gem 'i18n-js',                  '3.7.0'
 gem 'geocoder',                 '1.6.3'
 gem 'maxminddb',                '0.1.22'
 
@@ -87,17 +87,17 @@ gem 'acts_as_commentable_with_threading', '2.0.1'
 gem 'premailer-rails',          '1.11.1'
 
 # Detect browser and bots
-gem 'browser',                  '4.1.0'
+gem 'browser',                  '4.2.0'
 
 # SEO
 gem 'friendly_id',              '5.3.0'
 gem 'route_translator',         '8.0.0'
 gem 'meta-tags',                '2.13.0'
-gem 'sitemap_generator',        '6.1.0'
+gem 'sitemap_generator',        '6.1.1'
 
 # Dummy data
 gem 'factory_bot_rails',        '5.2.0',   require: false
-gem 'faker',                    '2.11.0',  require: false
+gem 'faker',                    '2.12.0',  require: false
 
 # Deployment
 gem 'capistrano',               '3.14.0'
@@ -109,10 +109,10 @@ gem 'capistrano-db-tasks',      '0.6',     require: false
 gem 'health_check',             '3.0.0'
 
 # SEO
-gem 'webdrivers',               '4.3.0'
+gem 'webdrivers',               '4.4.0'
 
 # Server
-gem 'puma',                     '4.3.4'
+gem 'puma',                     '4.3.5'
 
 group :development do
   # Debugging tool
@@ -179,9 +179,9 @@ group :development, :test do
   gem 'bootsnap',                   '1.4.6',   require: false
 
   # Check errors
-  gem 'rubocop',                    '0.83.0',  require: false
+  gem 'rubocop',                    '0.84.0',  require: false
   gem 'rubocop-rails',              '2.5.2',   require: false
-  gem 'rubocop-performance',        '1.5.2',   require: false
+  gem 'rubocop-performance',        '1.6.0',   require: false
   gem 'rubocop-rspec',              '1.39.0',  require: false
 end
 
