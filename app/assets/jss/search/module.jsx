@@ -21,6 +21,7 @@ const styles = (theme) => ({
     },
     categoryName: {
         marginTop: 10,
+        marginBottom: 16,
         borderBottom: `1px solid ${theme.palette.grey[300]}`,
         fontSize: '1.6rem',
         fontWeight: 500,
@@ -72,12 +73,16 @@ const styles = (theme) => ({
         fontSize: '.9rem',
         cursor: 'pointer'
     },
+    articleMainItem: {
+        height: 50
+    },
     articleMainResult: {
         fontSize: '1.1rem',
         color: theme.palette.text.primary,
         marginRight: 10
     },
     articleHighlightResult: {
+        color: theme.palette.grey[600],
         fontSize: '.9rem',
         paddingLeft: theme.spacing(1)
     },
