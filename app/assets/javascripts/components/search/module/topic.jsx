@@ -28,17 +28,20 @@ export default class SearchTopicModule extends React.Component {
         return (
             <Chip key={topic.id}
                   className={this.props.classes.topic}
-                  label={topic.name}
                   color="primary"
                   variant="outlined"
-                  component={Link}
-                  to={topicArticlesPath(topic.user.slug, topic.slug)}
-                  onClick={spyTrackClick.bind(null, 'topic', topic.id, topic.slug, topic.name)}/>
+                  label={
+                      <Link className={this.props.classes.tagLink}
+                            to={topicArticlesPath(topic.user.slug, topic.slug)}
+                            onClick={spyTrackClick.bind(null, 'topic', topic.id, topic.slug, topic.name)}>
+                          {topic.name}
+                      </Link>
+                  }/>
         );
     };
 
     render() {
-        if(this.props.topics.length === 0) {
+        if (this.props.topics.length === 0) {
             return null;
         }
 

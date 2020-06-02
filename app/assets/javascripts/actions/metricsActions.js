@@ -48,6 +48,10 @@ export const spySearchResults = (searchParams, response) => {
 };
 
 export const spyTrackView = (elementName, elementId) => {
+    if (process.env.NODE_ENV !== 'production' || window.seoMode) {
+        return;
+    }
+
     return api
         .post(`/api/v1/${elementName}s/${elementId}/viewed`,
             {
@@ -56,6 +60,10 @@ export const spyTrackView = (elementName, elementId) => {
 };
 
 export const spyTrackClick = (elementName, elementId, elementSlug = null, elementTitle = null) => {
+    if (process.env.NODE_ENV !== 'production' || window.seoMode) {
+        return;
+    }
+
     const currentUserId = configureStore.getState().userState.currentId;
     const currentUserSlug = configureStore.getState().userState.currentSlug;
     const currentUserTopicId = configureStore.getState().topicState.currentUserTopicId;

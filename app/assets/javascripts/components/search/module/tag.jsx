@@ -7,6 +7,8 @@ import {
 import Chip from '@material-ui/core/Chip';
 import Divider from '@material-ui/core/Divider';
 
+import ZoomInIcon from '@material-ui/icons/ZoomIn';
+
 import {
     taggedArticlesPath
 } from '../../../constants/routesHelper';
@@ -33,8 +35,6 @@ export default class SearchTagModule extends React.Component {
 
     _handleTagClick = (tag) => {
         spyTrackClick('tag', tag.id, tag.slug, tag.name);
-
-        this.props.onTagClick(tag);
     };
 
     _currentTopicTags = () => {
@@ -64,12 +64,18 @@ export default class SearchTagModule extends React.Component {
                       [this.props.classes.tagSelected]: this.props.selectedTags.includes(tag),
                       [this.props.classes.tagHighlighted]: this.props.highlightedTagId === tag.id
                   })}
-                  label={tag.name}
                   color="primary"
                   variant="outlined"
-                  component={Link}
-                  to={taggedArticlesPath(tag.slug)}
-                  onClick={this._handleTagClick.bind(this, tag)}/>
+                  clickable={true}
+                  label={
+                      <Link className={this.props.classes.tagLink}
+                            to={taggedArticlesPath(tag.slug)}
+                            onClick={this._handleTagClick.bind(this, tag)}>
+                          {tag.name}
+                      </Link>
+                  }
+                  onDelete={this.props.onTagClick.bind(this, tag)}
+                  deleteIcon={<ZoomInIcon className={this.props.classes.tagAdd}/>}/>
         );
     };
 

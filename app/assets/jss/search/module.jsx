@@ -54,11 +54,8 @@ const styles = (theme) => ({
     },
     tag: {
         margin: theme.spacing(0.5, 1),
-        fontWeight: 400,
-        fontSize: '.9rem',
         borderRadius: 4,
         cursor: 'pointer',
-        color: theme.palette.text.secondary,
         borderColor: theme.palette.text.secondary
     },
     tagSelected: {
@@ -67,6 +64,17 @@ const styles = (theme) => ({
     tagHighlighted: {
         backgroundColor: theme.palette.secondary.main
     },
+    tagLink: {
+        color: theme.palette.text.secondary,
+        fontWeight: 400,
+        fontSize: '.9rem'
+    },
+    tagAdd: {
+        paddingLeft: 6,
+        width: 26,
+        color: theme.palette.text.secondary,
+        borderLeft: `1px solid ${theme.palette.grey[500]}`
+    },
     topic: {
         margin: theme.spacing(0.5, 1),
         fontWeight: 400,
@@ -74,7 +82,7 @@ const styles = (theme) => ({
         cursor: 'pointer'
     },
     articleMainItem: {
-        height: 50
+        minHeight: 50
     },
     articleMainResult: {
         fontSize: '1.1rem',

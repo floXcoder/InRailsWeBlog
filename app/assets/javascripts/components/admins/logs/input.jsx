@@ -95,11 +95,11 @@ class LogInput extends React.Component {
                     </div>
 
                     <InputLabel className={this.props.classes.inputLabel}
-                                htmlFor="search-module">
+                                htmlFor="search-log">
                         {I18n.t('js.admin.logs.input.title')}
                     </InputLabel>
 
-                    <Input id="search-module"
+                    <Input id="search-log"
                            name="search"
                            type="search"
                            classes={{
