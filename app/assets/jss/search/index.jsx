@@ -136,7 +136,9 @@ const styles = (theme) => ({
     },
     articleContent: {
         padding: theme.spacing(2),
-        paddingTop: 0
+        paddingTop: 0,
+        whiteSpace: 'pre-line',
+        wordBreak: 'break-word'
     },
     articleTags: {
         marginTop: theme.spacing(4),

@@ -131,8 +131,40 @@ class String
     end.join(' ')
   end
 
-  def summary(length = 60, strip_html = false)
-    string   = strip_html ? Sanitize.fragment(self).strip.squish : self.html_safe
+  def strip_html(replace_with_line = false)
+    content = if replace_with_line
+                self.gsub(/<br *\/?>/im, "\n")
+                  .gsub(/\<p\>/im, "\n")
+                  .gsub(/\<h1\>/im, "\n")
+                  .gsub(/\<h2\>/im, "\n")
+                  .gsub(/\<h3\>/im, "\n")
+                  .gsub(/\<h4\>/im, "\n")
+                  .gsub(/\<h5\>/im, "\n")
+                  .gsub(/\<h6\>/im, "\n")
+                  .gsub(/\<ol\>/im, "\n")
+                  .gsub(/\<ul\>/im, "\n")
+                  .gsub(/\<li\>/im, "\n")
+                  .gsub(/\<blockquote\>/im, "\n")
+                  .gsub(/\<pre\>/im, "\n")
+                  .gsub(/\<table\>/im, "\n")
+              else
+                self
+              end
+
+    content = content.gsub(/\n{3,}/, "\n\n")
+
+    # ActionController::Base.helpers.strip_tags(content)
+    return Sanitize.fragment(content)
+  end
+
+  def summary(length = 60, strip_html = false, replace_tags = false)
+    string   = if replace_tags
+                 self.strip_html(true)
+               elsif strip_html
+                 self.strip_html(false).strip.squish
+               else
+                 self.html_safe
+               end
     end_line = string.index(' ', length - 10)
     if end_line && string.length > length
       string = "#{string[0...end_line]}..."
