@@ -227,13 +227,13 @@ en:
           tag: "Tag removed from bookmarks"
           article: "Article removed from bookmarks"
       notification:
-        text: "Bookmark added ajouté"
+        text: "Bookmark added"
         saved_later: "You are not connected. Bookmarks will be added after connection."
         connection: "Log in"
         not_connected: "You must be connected to add or remove bookmarks"
       list:
-        title: "Vos favoris"
-        none: "Aucun favoris"
+        title: "Your bookmarks"
+        none: "No bookmarks"
     tag:
       common:
         list: "Tags"
