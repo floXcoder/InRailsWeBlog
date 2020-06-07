@@ -445,12 +445,7 @@ class Article < ApplicationRecord
 
     # formatted_content = formatted_content.gsub(/<img (.*?)\/?>/im, '')
 
-    # Format returns to line
-    formatted_content = formatted_content.gsub(/<br *\/?>/im, '@@').gsub(/\<p\>/im, '@@')
-    formatted_content = ActionController::Base.helpers.strip_tags(formatted_content)
-    formatted_content = formatted_content.gsub(/@@/im, '<br/>')
-
-    return formatted_content
+    return formatted_content.strip_html(true)
   end
 
   def public_content(with_translations = false, locale = nil)
@@ -485,7 +480,7 @@ class Article < ApplicationRecord
   end
 
   def summary_content(size = 180, strip_html = true, current_user_id = nil)
-    adapted_content(current_user_id)&.summary(size, strip_html)
+    adapted_content(current_user_id)&.summary(size, strip_html, true)
   end
 
   def tag_names

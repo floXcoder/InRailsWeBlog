@@ -46,7 +46,7 @@ gem 'public_activity',          '1.6.4'
 
 # Format user input
 gem 'auto_strip_attributes',    '2.6.0'
-gem 'sanitize',                 '5.1.0'
+gem 'sanitize',                 '5.2.0'
 
 # Run asynschronous process
 gem 'sidekiq',                  '6.0.7'
@@ -93,7 +93,7 @@ gem 'browser',                  '4.2.0'
 gem 'friendly_id',              '5.3.0'
 gem 'route_translator',         '8.0.0'
 gem 'meta-tags',                '2.13.0'
-gem 'sitemap_generator',        '6.1.1'
+gem 'sitemap_generator',        '6.1.2'
 
 # Dummy data
 gem 'factory_bot_rails',        '5.2.0',   require: false
@@ -109,7 +109,7 @@ gem 'capistrano-db-tasks',      '0.6',     require: false
 gem 'health_check',             '3.0.0'
 
 # SEO
-gem 'webdrivers',               '4.4.0'
+gem 'webdrivers',               '4.4.1'
 
 # Server
 gem 'puma',                     '4.3.5'
@@ -162,7 +162,7 @@ group :test do
 
   # Browser tests
   gem 'capybara',                   '3.32.2'
-  gem 'capybara-email',             '3.0.1'
+  gem 'capybara-email',             '3.0.2'
   gem 'capybara-screenshot',        '1.0.24'
   gem 'selenium-webdriver',         '3.142.7'
   gem 'html_validation',            '1.1.5'
@@ -181,7 +181,7 @@ group :development, :test do
   # Check errors
   gem 'rubocop',                    '0.85.0',  require: false
   gem 'rubocop-rails',              '2.5.2',   require: false
-  gem 'rubocop-performance',        '1.6.0',   require: false
+  gem 'rubocop-performance',        '1.6.1',   require: false
   gem 'rubocop-rspec',              '1.39.0',  require: false
 end
 

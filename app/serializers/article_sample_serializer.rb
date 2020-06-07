@@ -30,11 +30,11 @@ class ArticleSampleSerializer
   end
 
   attribute :title do |object, params|
-    params.dig(:highlight_results, object.id, :title).presence || object.title
+    params.dig(:highlight_results, object.id, :title).presence&.gsub(/\n{3,}/, "\n\n") || object.title
   end
 
   attribute :content do |object, params|
-    params.dig(:highlight_results, object.id, :content).presence || object.summary_content
+    params.dig(:highlight_results, object.id, :content).presence&.gsub(/\n{3,}/, "\n\n") || object.summary_content
   end
 
   attribute :inventories do |object|

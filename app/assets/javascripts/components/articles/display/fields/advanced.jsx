@@ -53,7 +53,7 @@ class ArticleAdvancedField extends React.PureComponent {
             this.props.change('draft', false);
             this.props.change('visibility', 'everyone');
         } else {
-            return event;
+            return this.props.change('visibility', event.target.value);
         }
     };
 
@@ -88,6 +88,7 @@ class ArticleAdvancedField extends React.PureComponent {
                                type="checkbox"
                                onChange={this._handleDraftChange}
                                component={CheckBoxFieldForm}
+                               className="margin-top-15"
                                id="article_draft"
                                label={I18n.t('js.article.common.draft')}/>
                     </div>
