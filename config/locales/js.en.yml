@@ -11,7 +11,7 @@ en:
         article:
           button: "Articles"
           menu:
-            temporary: "Article en cours"
+            temporary: "Under way articles"
             user: "My articles"
             new: "New article"
             bookmark: "Bookmarked articles"
@@ -138,7 +138,7 @@ en:
         page_title: "Edit my profile"
         title: "Edit my profile"
         login_header: "Connection information"
-        connection_parameters: "Modifier vos paramètres de connexion"
+        connection_parameters: "Change your connection parameters"
         profile_picture: "Profile picture"
         current_picture: "Your current picture:"
         replace_picture: "You can replacer your picture with a local one or using an url"
@@ -361,7 +361,7 @@ en:
         submit: "Update"
         delete: "Delete"
       edit_inventories:
-        title: "Custom fields for the topic : %{topic}"
+        title: "Custom fields for the topic: %{topic}"
         mandatory_field: "Mandatory field for search"
         add_field: "Add new field"
         field_props: "Field properties"
@@ -462,8 +462,8 @@ en:
         no_inventories: "You have no custom fields yet."
         inventory_button: "Add or update custom fields"
         inventories:
-          searchable: "Ce champ est inclus dans la recherche"
-          filterable: "Ce champ est inclus dans la recherche"
+          searchable: "This field is included in search"
+          filterable: "This field is included in search"
         unsaved: "Leave without saving article?"
         next: "Next"
       model:
@@ -644,12 +644,12 @@ en:
           none: "No articles found"
         helpers:
           select_tag: "Use arrows to filter by tags then press tab"
-          tagged_articles: "Search for articles with tags : %{tags}"
+          tagged_articles: "Search for articles with tags: %{tags}"
       sidebar:
-        filter: "Filtrer les résultats"
+        filter: "Filter results"
       index:
         placeholder: "Search"
-        button: "Trouver"
+        button: "Find"
         topic:
           current: "Current topic"
           others: "Other topics"
@@ -764,7 +764,7 @@ en:
     admin:
       common:
         title: "Admin"
-        open_link: "Consulter"
+        open_link: "Consult"
       menu:
         dashboard: "Dashboard"
         users: "Users"
@@ -830,7 +830,7 @@ en:
             views_count: "Views count"
             clicks_count: "Clicks count"
             searches_count: "Searches count"
-            created_at: "Créé le"
+            created_at: "Created at"
       tags:
         title: "Tags"
         table:
@@ -855,7 +855,7 @@ en:
             id: "Id"
             topic_id: "Topic id"
             mode: "Type"
-            title: "Titre"
+            title: "Title"
             priority: "Priority"
             visibility: "Visibility"
             languages: "Languages"
@@ -863,10 +863,10 @@ en:
             views_count: "Views count"
             clicks_count: "Clicks count"
             searches_count: "Searches count"
-            date: "Created at"
             popularity: "Popularity"
-            rank: "Score"
+            rank: "Rank"
             home_page: "Home?"
+            date: "Created at"
         home_page:
           true: "Home"
           false: "x"

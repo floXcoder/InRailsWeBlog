@@ -18,7 +18,7 @@ import EmailIcon from '@material-ui/icons/Email';
 
 import {
     validateUser
-} from '../../../actions/userActions';
+} from '../../../actions';
 
 import {
     terms

@@ -26,17 +26,6 @@ module ApplicationHelper
     base_title.html_safe
   end
 
-  def meta_og(locale)
-    case locale.to_s
-    when 'fr'
-      'fr_FR'
-    when 'en'
-      'en_GB'
-    else
-      'fr_FR'
-    end
-  end
-
   def javascript(*files)
     files.each do |file|
       content_for(:javascript) { javascript_include_tag(file) }
