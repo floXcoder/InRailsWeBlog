@@ -2,7 +2,7 @@
 
 import {
     pushError
-} from '../actions/errorActions';
+} from '../actions';
 
 function convertRelationships(object, relationships, included) {
     if (relationships && included) {
