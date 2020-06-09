@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Api::V1
-  class UploadsController < ApiController
+  class UploaderController < ApiController
     after_action :verify_authorized
 
     respond_to :json
