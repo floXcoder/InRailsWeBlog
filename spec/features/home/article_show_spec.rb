@@ -28,7 +28,7 @@ feature 'Article Show page for visitors', advanced: true, js: true do
           current_page: article_page,
           title:        t('views.article.show.title', title: @article.title, topic: @topic.name),
           asset_name:   'assets/home',
-          common_js:    ['assets/runtime', 'assets/home']
+          common_js:    ['assets/home']
         }
       }
     end

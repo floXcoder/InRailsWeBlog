@@ -61,7 +61,9 @@ export const spyTrackView = (elementName, elementId) => {
 
 export const spyTrackClick = (elementName, elementId, elementSlug = null, elementTitle = null) => {
     if (process.env.NODE_ENV !== 'production' || window.seoMode) {
-        return;
+        return new Promise((resolve) => {
+            resolve();
+        });
     }
 
     const currentUserId = configureStore.getState().userState.currentId;
