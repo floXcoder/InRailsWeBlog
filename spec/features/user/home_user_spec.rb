@@ -29,7 +29,7 @@ feature 'Home User page for users', advanced: true, js: true do
           current_page: homepage,
           # title:        I18n.t('views.user.show.title', pseudo: @user.pseudo),
           asset_name:   'assets/user',
-          common_js:    ['assets/runtime', 'assets/user'],
+          common_js:    ['assets/user'],
           connected:    true
         }
       }

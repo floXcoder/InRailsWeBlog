@@ -27,7 +27,7 @@ feature 'Tag edit for users', advanced: true, js: true do
           current_page: tag_page,
           # title:        I18n.t('views.tag.edit.title', name: @tags.first.name),
           asset_name:   'assets/user',
-          common_js:    ['assets/runtime', 'assets/user'],
+          common_js:    ['assets/user'],
           connected:    true
         }
       }

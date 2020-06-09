@@ -54,7 +54,7 @@ export const uploadImages = (images, params, doneCallback) => {
                 formData.append(`upload[${key}]`, value);
             });
 
-            uploads.push(api.post('/api/v1/uploads', formData, true));
+            uploads.push(api.post('/api/v1/uploader', formData, true));
 
             if (images.length === uploads.length) {
                 doneCallback(uploads);
@@ -64,5 +64,5 @@ export const uploadImages = (images, params, doneCallback) => {
 };
 
 export const deleteImage = (imageId, options = {}) => {
-    return api.delete(`/api/v1/uploads/${imageId}`, options);
+    return api.delete(`/api/v1/uploader/${imageId}`, options);
 };

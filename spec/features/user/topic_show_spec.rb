@@ -28,7 +28,7 @@ feature 'Topic show for users', advanced: true, js: true do
           current_page: topic_page,
           title:        I18n.t('views.article.index.title.topic', topic: @topic.name),
           asset_name:   'assets/user',
-          common_js:    ['assets/runtime', 'assets/user'],
+          common_js:    ['assets/user'],
           connected:    true
         }
       }

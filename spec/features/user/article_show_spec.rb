@@ -28,7 +28,7 @@ feature 'Article Show page for users', advanced: true, js: true do
           current_page: article_page,
           title:        t('views.article.show.title', title: @article.title, topic: @topic.name),
           asset_name:   'assets/user',
-          common_js:    ['assets/runtime', 'assets/user'],
+          common_js:    ['assets/user'],
           connected:    true
         }
       }
