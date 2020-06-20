@@ -141,7 +141,7 @@
     <orderEntry type="library" scope="PROVIDED" name="builder (v3.2.4, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="bullet (v6.1.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="bundler (v2.1.4, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="capistrano (v3.14.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="capistrano (v3.14.1, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="capistrano-bundler (v1.6.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="capistrano-db-tasks (v0.6, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="capistrano-rails (v1.5.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
@@ -166,7 +166,7 @@
     <orderEntry type="library" scope="PROVIDED" name="db-query-matchers (v0.10.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="debug_inspector (v0.0.3, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="descendants_tracker (v0.0.4, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="devise (v4.7.1, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="devise (v4.7.2, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="diff-lcs (v1.3, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="docile (v1.3.2, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="domain_name (v0.5.20190701, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
@@ -179,10 +179,10 @@
     <orderEntry type="library" scope="PROVIDED" name="et-orbi (v1.2.4, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ethon (v0.12.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="factory_bot (v6.0.2, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="factory_bot_rails (v5.2.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="factory_bot_rails (v6.0.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="faker (v2.12.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="faraday (v1.0.1, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="fast_jsonapi (v1.7.2@181962, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="fast_jsonapi (v2.0.0@3ff69c, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="fasterer (v0.8.3, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ffi (v1.13.1, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="formatador (v0.2.5, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
@@ -263,7 +263,7 @@
     <orderEntry type="library" scope="PROVIDED" name="rack (v2.2.3, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rack-protection (v2.0.8.1, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rack-test (v1.1.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="rails (v6.0.3.1, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rails (v6.0.3.2, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rails-dom-testing (v2.0.3, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rails-html-sanitizer (v1.3.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rails-i18n (v6.0.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
@@ -294,15 +294,15 @@
     <orderEntry type="library" scope="PROVIDED" name="rubocop-ast (v0.0.3, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rubocop-performance (v1.6.1, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rubocop-rails (v2.6.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="rubocop-rspec (v1.39.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rubocop-rspec (v1.40.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ruby-jmeter (v3.1.08, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ruby-progressbar (v1.10.1, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ruby-vips (v2.0.17, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ruby_parser (v3.14.2, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rubyzip (v2.3.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="safe_yaml (v1.0.5, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="sanitize (v5.2.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="searchkick (v4.3.1, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="sanitize (v5.2.1, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="searchkick (v4.4.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="secure_headers (v6.3.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="selenium-webdriver (v3.142.7, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sentry-raven (v3.0.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
