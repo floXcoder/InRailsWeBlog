@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-lock '3.14.0'
+# lock '3.14.1'
 
 set :application, 'InRailsWeBlog'
 set :repo_url, ENV['GIT_REPO_ADDRESS']
