@@ -9,7 +9,7 @@ end
 ruby '2.6.3'
 
 # Rails version
-gem 'rails',                    '6.0.3.1'
+gem 'rails',                    '6.0.3.2'
 
 # Use postgresql as the database for Active Record
 gem 'pg',                       '1.2.3'
@@ -46,7 +46,7 @@ gem 'public_activity',          '1.6.4'
 
 # Format user input
 gem 'auto_strip_attributes',    '2.6.0'
-gem 'sanitize',                 '5.2.0'
+gem 'sanitize',                 '5.2.1'
 
 # Run asynschronous process
 gem 'sidekiq',                  '6.0.7'
@@ -64,7 +64,7 @@ gem 'hiredis',                  '0.6.3'
 gem 'storext',                  '3.1.0'
 
 # Authentification
-gem 'devise',                   '4.7.1'
+gem 'devise',                   '4.7.2'
 
 # Authorization mechanism
 gem 'pundit',                   '2.1.0'
@@ -74,7 +74,7 @@ gem 'carrierwave',              '2.1.0'
 gem 'mini_magick',              '4.10.1'
 
 # Search in database
-gem 'searchkick',               '4.3.1'
+gem 'searchkick',               '4.4.0'
 gem 'typhoeus',                 '1.4.0'
 
 # Votable models
@@ -96,11 +96,11 @@ gem 'meta-tags',                '2.13.0'
 gem 'sitemap_generator',        '6.1.2'
 
 # Dummy data
-gem 'factory_bot_rails',        '5.2.0',   require: false
+gem 'factory_bot_rails',        '6.0.0',   require: false
 gem 'faker',                    '2.12.0',  require: false
 
 # Deployment
-gem 'capistrano',               '3.14.0'
+gem 'capistrano',               '3.14.1'
 gem 'capistrano-rails',         '1.5.0'
 gem 'capistrano-rvm',           '0.1.2',   require: false
 gem 'capistrano-bundler',       '1.6.0',   require: false
@@ -182,7 +182,7 @@ group :development, :test do
   gem 'rubocop',                    '0.85.1',  require: false
   gem 'rubocop-rails',              '2.6.0',   require: false
   gem 'rubocop-performance',        '1.6.1',   require: false
-  gem 'rubocop-rspec',              '1.39.0',  require: false
+  gem 'rubocop-rspec',              '1.40.0',  require: false
 end
 
 group :production do
