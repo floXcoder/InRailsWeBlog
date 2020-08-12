@@ -49,6 +49,7 @@ import {
 } from '../../../forms/article';
 
 import {
+    headerMargin,
     articleTemporaryDataName
 } from '../../modules/constants';
 
@@ -148,12 +149,20 @@ class ArticleFormDisplay extends React.Component {
         return I18n.t('js.article.form.unsaved');
     };
 
-    _handleTabChange = (event, value) => {
-        this.setState({tabIndex: value});
+    _handleTabChange = (event, index) => {
+        this.setState({
+            tabIndex: index
+        }, () => {
+            window.scroll({top: headerMargin, behavior: 'smooth'});
+        });
     };
 
     _handleButtonChange = (index) => {
-        this.setState({tabIndex: index});
+        this.setState({
+            tabIndex: index
+        }, () => {
+            window.scroll({top: headerMargin, behavior: 'smooth'});
+        });
     };
 
     render() {
@@ -176,7 +185,7 @@ class ArticleFormDisplay extends React.Component {
                                         message={this._onUnsavedExit}/>
 
                                 <StickyContainer>
-                                    <Sticky topOffset={-64}>
+                                    <Sticky topOffset={-headerMargin}>
                                         {({style}) => (
                                             <div style={{
                                                 position: style.position,

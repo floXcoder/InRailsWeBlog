@@ -38,6 +38,7 @@ import {
 } from '../../selectors';
 
 import {
+    headerMargin,
     articlePreloadShow
 } from '../modules/constants';
 
@@ -222,7 +223,7 @@ class ArticleIndex extends React.Component {
 
             this._request.fetch.then(() => {
                 if (params.selected) {
-                    window.scroll({top: this._articles.current.getBoundingClientRect().top - 64, behavior: 'smooth'});
+                    window.scroll({top: this._articles.current.getBoundingClientRect().top - headerMargin, behavior: 'smooth'});
                 }
             });
         }

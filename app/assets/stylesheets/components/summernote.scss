@@ -1492,9 +1492,15 @@ a.note-dropdown-item, a.note-dropdown-item:hover {
 
   .note-popover .note-popover-content,
   .note-toolbar {
-    padding-top: 8px;
+    padding-top: 5px;
     background-color: #fff;
     text-align: center;
+  }
+
+  .note-hint-item {
+    line-height: 28px;
+    border-bottom: 1px solid #ccc;
+    cursor: pointer;
   }
 
   .note-btn-group.note-style {

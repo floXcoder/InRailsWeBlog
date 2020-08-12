@@ -4,6 +4,7 @@
 export const notificationDuration = 6000;
 export const homeHomeLimit = 2;
 export const homePopularsLimit = 10;
+export const headerMargin = 64;
 
 // Commons
 export const sortItemLimit = 1000;
