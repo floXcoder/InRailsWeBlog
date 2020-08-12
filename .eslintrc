@@ -17,8 +17,9 @@
     "classNames": true,
     "Promise": true
   },
-  "parser": "babel-eslint",
+  "parser": "@babel/eslint-parser",
   "plugins": [
+    "@babel",
     "react"
   ],
   "rules": {
