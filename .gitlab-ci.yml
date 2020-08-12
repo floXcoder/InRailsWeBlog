@@ -61,6 +61,7 @@ audit:
   script:
     - gem install bundler-audit
     - bundle audit check --update
+    - yarn audit
   interruptible: true
   allow_failure: true
   only:
