@@ -10,6 +10,7 @@ import {
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import Button from '@material-ui/core/Button';
+import Divider from '@material-ui/core/Divider';
 
 import {
     orderTopicArticlesPath,
@@ -42,6 +43,18 @@ class ArticleSortMenu extends React.Component {
         selectedIndex: sortOptions.findIndex((option) => option === this.props.currentOrder)
     };
 
+    static getDerivedStateFromProps(nextProps, prevState) {
+        const newSelectedIndex = sortOptions.findIndex((option) => option === nextProps.currentOrder);
+
+        if (nextProps.currentOrder && prevState.selectedIndex !== newSelectedIndex) {
+            return {
+                selectedIndex: newSelectedIndex
+            };
+        }
+
+        return null;
+    }
+
     _handleClickListItem = event => {
         this.setState({
             anchorEl: event.currentTarget
@@ -72,25 +85,28 @@ class ArticleSortMenu extends React.Component {
             </Link>
         ));
 
-        if (this.props.currentUserSlug && this.props.currentUserTopicSlug) {
-            options.push(
-                <Link key="link"
-                      to={sortTopicArticlesPath(this.props.currentUserSlug, this.props.currentUserTopicSlug)}>
-                    {I18n.t('js.article.sort.link')}
-                </Link>
-            );
-        }
-
         return (
             <>
                 <Button className={this.props.classes.button}
                         variant="text"
                         onClick={this._handleClickListItem}>
                     {I18n.t('js.article.sort.title')}
-                    <span className={this.props.classes.buttonInfo}>({I18n.t(`js.article.sort.order.${this.props.currentOrder || 'priority_desc'}`)})</span>
+
+                    <span className={this.props.classes.buttonInfo}>
+                        ({I18n.t(`js.article.sort.order.${this.props.currentOrder || 'priority_desc'}`)})
+                    </span>
                 </Button>
 
                 <Menu anchorEl={this.state.anchorEl}
+                      getContentAnchorEl={null}
+                      anchorOrigin={{
+                          vertical: 'bottom',
+                          horizontal: 'center',
+                      }}
+                      transformOrigin={{
+                          vertical: 'top',
+                          horizontal: 'center',
+                      }}
                       open={Boolean(this.state.anchorEl)}
                       onClose={this._handleClose}>
                     {
@@ -101,6 +117,20 @@ class ArticleSortMenu extends React.Component {
                                 {option}
                             </MenuItem>
                         ))
+                    }
+
+                    {
+                        (this.props.currentUserSlug && this.props.currentUserTopicSlug) &&
+                        <Divider className="margin-bottom-10"/>
+                    }
+
+                    {
+                        (this.props.currentUserSlug && this.props.currentUserTopicSlug) &&
+                        <Link key="link"
+                              className={this.props.classes.sortLink}
+                              to={sortTopicArticlesPath(this.props.currentUserSlug, this.props.currentUserTopicSlug)}>
+                            {I18n.t('js.article.sort.link')}
+                        </Link>
                     }
                 </Menu>
             </>

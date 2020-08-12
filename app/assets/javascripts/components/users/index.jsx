@@ -5,6 +5,10 @@ import {
     CSSTransition
 } from 'react-transition-group';
 
+import {
+    headerMargin
+} from '../modules/constants';
+
 import UserCardDisplay from './display/card';
 
 import SearchBar from '../theme/searchBar';
@@ -66,7 +70,7 @@ export default class UserIndex extends React.Component {
         // UserActions.loadUsers({page: paginate.selected + 1});
 
         setTimeout(() => {
-            window.scroll({ top: this._users.current.getBoundingClientRect().top - 64, behavior: 'smooth' });
+            window.scroll({ top: this._users.current.getBoundingClientRect().top - headerMargin, behavior: 'smooth' });
         }, 300);
     };
 

@@ -13,13 +13,13 @@ const styles = (theme) => ({
     },
     button: {
         margin: theme.spacing(1),
-        padding: theme.spacing(0.25),
+        padding: theme.spacing(1),
         fontSize: '.8rem',
         color: theme.palette.text.secondary
     },
     buttonLink: {
         margin: theme.spacing(1),
-        fontSize: '1rem',
+        fontSize: '0.95rem',
         color: '#000'
     },
     buttonInfo: {
@@ -30,6 +30,13 @@ const styles = (theme) => ({
         [theme.breakpoints.down('md')]: {
             display: 'none'
         }
+    },
+    sortLink: {
+        margin: theme.spacing(2),
+        color: theme.palette.grey[600],
+        fontSize: '.9rem',
+        fontStyle: 'italic',
+        fontWeight: 600
     }
 });
 
