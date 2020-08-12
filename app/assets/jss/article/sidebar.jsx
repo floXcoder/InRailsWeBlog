@@ -10,7 +10,8 @@ const styles = (theme) => ({
         fontWeight: 500,
         lineHeight: '2rem',
         marginTop: '.3rem',
-        marginBottom: '.3rem'
+        marginBottom: '.3rem',
+        textAlign: 'center'
     },
     none: {
         fontSize: '0.9rem',

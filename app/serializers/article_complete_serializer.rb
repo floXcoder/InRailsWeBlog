@@ -93,7 +93,7 @@ class ArticleCompleteSerializer
   end
 
   attribute :date do |object|
-    I18n.l(object.created_at, format: :custom_full_date).sub(/^[0]+/, '')
+    I18n.l(object.updated_at, format: :custom_full_date).sub(/^[0]+/, '')
   end
 
   attribute :date_short do |object|
