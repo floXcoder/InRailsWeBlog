@@ -1,5 +1,5 @@
 shared: &shared
-  # Global
+  # Global
   website_name: <%= ENV['WEBSITE_NAME'] %>
   website_email: <%= ENV['WEBSITE_EMAIL'] %>
 
@@ -16,10 +16,10 @@ shared: &shared
   # Maximum upload image size
   image_size: <%= 8.megabytes %>
 
-  # Default for Topics
+  # Default for Topics
   topic_color: '#e5e5e5'
 
-  # Default for Tags
+  # Default for Tags
   tag_color: '#e5e5e5'
 
   # Screen size
@@ -79,7 +79,7 @@ shared: &shared
   notation_min: 0
   notation_max: 5
 
-  # Tracker cron (in minutes)
+  # Tracker cron (in minutes)
   tracker_cron: 15
 
 development:

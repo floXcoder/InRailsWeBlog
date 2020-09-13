@@ -55,7 +55,7 @@ class Tag < ApplicationRecord
   include ActAsTrackedConcern
   acts_as_tracked :queries, :searches, :clicks, :views, callbacks: { clicks: :add_visit_activity }
 
-  # Follow public activities
+  # Follow public activities
   include PublicActivity::Model
   tracked owner: :user
 
@@ -73,7 +73,7 @@ class Tag < ApplicationRecord
   ## scopes: most_rated, recently_rated
   include CommentableConcern
 
-  # Marked as deleted
+  # Marked as deleted
   acts_as_paranoid
 
   # == Relationships ========================================================

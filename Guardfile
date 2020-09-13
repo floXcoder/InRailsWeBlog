@@ -1,10 +1,10 @@
-# Limit directory being watched
+# Limit directory being watched
 # ignore %w[bin db log node_modules public tmp]
 directories %w[app db config frontend lib spec]
 
 # Clear console when launching guard
 clearing :on
-# Display notification in OS
+# Display notification in OS
 # notification :libnotify, timeout: 5, transient: true, append: false, urgency: :critical
 notification :off
 # Don't display a pry console
@@ -45,12 +45,12 @@ guard :process, name: 'Annotate', command: 'annotate' do
   watch(%r{^db/schema\.rb})
 end
 
-# Not watching root files
+# Not watching root files
 # guard :bundler do
 #   watch(%r{^Gemfile$})
 # end
 
-# Not watching root files
+# Not watching root files
 # guard 'process', name: 'NPM packages', command: 'yarn' do
 #   watch(%r{^package\.json$})
 # end

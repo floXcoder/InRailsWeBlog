@@ -106,7 +106,7 @@ class User < ApplicationRecord
   include ActAsTrackedConcern
   acts_as_tracked :queries, :clicks, :views
 
-  # Follow public activities
+  # Follow public activities
   include PublicActivity::Model
 
   # Nice url format
@@ -116,7 +116,7 @@ class User < ApplicationRecord
   # Voter
   acts_as_voter
 
-  # Marked as deleted
+  # Marked as deleted
   acts_as_paranoid
 
   # == Relationships ========================================================
@@ -367,7 +367,7 @@ class User < ApplicationRecord
     tag_ids = last_visits.where(recipient_type: 'Tag').map(&:recipient_id).uniq
     article_ids = last_visits.where(recipient_type: 'Article').map(&:recipient_id).uniq
 
-    # Override created_at to use the activity field
+    # Override created_at to use the activity field
     {
       # users:   User.joins(:user_activities).merge(last_visits).distinct,
       # topics:   Topic.joins(:user_activities).merge(last_visits).distinct,

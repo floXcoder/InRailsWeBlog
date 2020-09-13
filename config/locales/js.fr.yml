@@ -594,7 +594,7 @@ fr:
       timeline:
         title: "Nouvel article :"
         no_articles: "Pas d'articles à afficher"
-        scroll_for_more: "Scroller pour charger plus d'articles"
+        scroll_for_more: "Scroller pour plus d'articles"
       toc:
         title: "Table des matières"
         no_articles: "Pas encore d'articles"

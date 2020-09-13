@@ -2,11 +2,11 @@
 
 # ActAsTrackedConcern
 
-# Popularity is automatically calculated
-# To sort elements, use rank
+# Popularity is automatically calculated
+# To sort elements, use rank
 # Rank can be included into popularity using the custom_popularity method
 
-# Include this method in the model:
+# Include this method in the model:
 # acts_as_tracked :queries, :searches, :comments, :bookmarks, :clicks, :views
 module ActAsTrackedConcern
   extend ActiveSupport::Concern
@@ -21,7 +21,7 @@ module ActAsTrackedConcern
     accepts_nested_attributes_for :tracker,
                                   allow_destroy: true
 
-    # Add the tracker to the new object
+    # Add the tracker to the new object
     after_create :create_tracker
 
     # Class methods required for tracker: project name tracked and actions to track
@@ -73,15 +73,15 @@ module ActAsTrackedConcern
     return popularity / tracker_count
   end
 
-  # Method called after object creation
+  # Method called after object creation
   def create_tracker
     self.update_attribute(:tracker, Tracker.create(tracked: self))
   end
 
-  # Class methods
+  # Class methods
   class_methods do
-    # Base method to include in model:
-    # acts_as_tracked '<PROJECT NAME>', :queries, :searches, :bookmarks, :clicks, :views
+    # Base method to include in model:
+    # acts_as_tracked '<PROJECT NAME>', :queries, :searches, :bookmarks, :clicks, :views
     def acts_as_tracked(tracked_name, *trackers)
       options                = trackers.extract_options!
       self.tracked_name      = tracked_name
@@ -93,7 +93,7 @@ module ActAsTrackedConcern
       track_queries
     end
 
-    # Tracker model method to increment search count
+    # Tracker model method to increment search count
     def track_searches(record_ids)
       return unless self.tracker_metrics.include?(:searches)
 
@@ -102,7 +102,7 @@ module ActAsTrackedConcern
       end
     end
 
-    # Tracker model method to increment click count
+    # Tracker model method to increment click count
     def track_clicks(record_id, user_id = nil, parent_id = nil)
       return unless self.tracker_metrics.include?(:clicks)
 
@@ -115,7 +115,7 @@ module ActAsTrackedConcern
       end
     end
 
-    # Tracker model method to increment view count
+    # Tracker model method to increment view count
     def track_views(record_id)
       return unless self.tracker_metrics.include?(:views)
 
@@ -140,7 +140,7 @@ module ActAsTrackedConcern
     end
 
     # Private method to add a cron job to update database each InRailsWeBlog.config.tracker_cron minutes
-    # Automatically added to cron jobs when loading application
+    # Automatically added to cron jobs when loading application
     def tracker_cron_job
       # Get current class name
       formatted_name = self.name.underscore

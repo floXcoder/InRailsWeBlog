@@ -2,13 +2,13 @@
 
 namespace :InRailsWeBlog do
 
-  # rails InRailsWeBlog:static_analysis:all
+  # rails InRailsWeBlog:static_analysis:all
 
-  # rails InRailsWeBlog:static_analysis:best_pratices
-  # rails InRailsWeBlog:static_analysis:rubocop
-  # rails InRailsWeBlog:static_analysis:eslint
-  # rails InRailsWeBlog:static_analysis:rspec_basic_coverage
-  # rails InRailsWeBlog:static_analysis:rspec_advanced_coverage
+  # rails InRailsWeBlog:static_analysis:best_pratices
+  # rails InRailsWeBlog:static_analysis:rubocop
+  # rails InRailsWeBlog:static_analysis:eslint
+  # rails InRailsWeBlog:static_analysis:rspec_basic_coverage
+  # rails InRailsWeBlog:static_analysis:rspec_advanced_coverage
 
   namespace :static_analysis do
     desc 'Rails Best Practices'

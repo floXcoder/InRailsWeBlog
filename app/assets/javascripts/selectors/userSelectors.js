@@ -88,7 +88,7 @@ export const getUserRecents = createSelector(
 
         recents = recents.limit(limit);
 
-        recents = recents.filter((recent) => !!recent.title || !!recent.name);
+        recents = recents.filter((recent) => !!recent.title || !!recent.name);
 
         return recents;
     }

@@ -142,7 +142,7 @@ class TagFormDisplay extends React.Component {
                                                        isSimpleArray={true}
                                                        isTagged={true}
                                                        fullWidth={true}
-                                                       filterValues={true}/>
+                                                       hasFilterValues={true}/>
                                             </div>
                                         </div>
                                     </div>

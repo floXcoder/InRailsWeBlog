@@ -155,7 +155,7 @@ class AdminSeoData extends React.Component {
 
                 {
                     (this.state.isAddingSeoData || this.state.editingSeoData) &&
-                    <Paper className="paper-explanation margin-top-30 margin-bottom-40"
+                    <Paper className="margin-top-30 margin-bottom-40"
                            elevation={1}>
                         <AdminSeoDataForm classes={this.props.classes}
                                           seoPages={this.props.seoPages}

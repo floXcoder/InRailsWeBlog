@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 class Admins::SeoController < AdminsController
+  before_action :verify_requested_format!
+
+  respond_to :html, :json
+
   def index
     respond_to do |format|
       format.html do

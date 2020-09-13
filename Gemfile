@@ -41,7 +41,7 @@ gem 'paper_trail',              '10.3.1'
 # Marked as deleted
 gem 'paranoia',                 '2.4.2'
 
-# User activities
+# User activities
 gem 'public_activity',          '1.6.4'
 
 # Format user input
@@ -77,7 +77,7 @@ gem 'mini_magick',              '4.10.1'
 gem 'searchkick',               '4.4.1'
 gem 'typhoeus',                 '1.4.0'
 
-# Votable models
+# Votable models
 gem 'thumbs_up',                '0.6.10'
 
 # Comments
@@ -123,7 +123,7 @@ group :development do
   gem 'better_errors',          '2.7.1'
   gem 'binding_of_caller',      '0.8.0'
 
-  # N+1 database query
+  # N+1 database query
   gem 'bullet',                 '6.1.0'
 
   # Guard and its minions
@@ -134,14 +134,14 @@ group :development do
   gem 'guard-sidekiq',          '0.1.0'
   gem 'guard-process',          '1.2.1'
 
-  # Annotate models from DB
+  # Annotate models from DB
   gem 'annotate',               '3.1.1'
 
   # Find index to add
-  # gem 'lol_dba',                '2.1.8', require: false # Not compatible with Rails 6
+  # gem 'lol_dba',                '2.1.8', require: false # Not compatible with Rails 6
   #gem 'unique_validation_inspector', '0.3.0', require: false
 
-  # Faster ruby code
+  # Faster ruby code
   gem 'fasterer',               '0.8.3', require: false
 
   # Load tests

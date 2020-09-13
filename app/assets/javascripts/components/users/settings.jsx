@@ -285,7 +285,6 @@ class UserSettings extends React.Component {
                     </div>
                 }
             </div>
-        )
-            ;
+        );
     }
 }

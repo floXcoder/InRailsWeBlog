@@ -84,8 +84,7 @@ class ArticleMiniCardDisplay extends React.Component {
                   itemScope={true}
                   itemType="https://schema.org/BlogPosting">
                 <CardHeader classes={{
-                    root: this.props.classes.header,
-                    subheader: this.props.classes.articleSubtitle
+                    root: this.props.classes.header
                 }}
                             title={
                                 <h1 className={this.props.classes.extractTitle}

@@ -2,7 +2,7 @@
 
 namespace :InRailsWeBlog do
 
-  # Usage :
+  # Usage :
   ## rails InRailsWeBlog:flush_redis
   desc 'Flush all Redis keys related to the application (by default, only cache keys).'
   task :flush_redis, [:option] => :environment do |_task, args|

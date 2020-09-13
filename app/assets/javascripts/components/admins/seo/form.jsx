@@ -211,7 +211,7 @@ export default class AdminSeoDataForm extends React.Component {
                                        helperText={I18n.t('js.admin.seo.form.meta_desc_length', {count: this.state.metaDesc?.length})}/>
                         </div>
 
-                        <div className="col s12 center-align form-actions margin-top-20 margin-bottom-25">
+                        <div className="col s12 center-align margin-top-20 margin-bottom-25">
                             <Button className="margin-top-25"
                                     color="primary"
                                     variant="outlined"

@@ -33,7 +33,7 @@ class UserCompleteSerializer
   end
 
   attribute :articles_count do |object|
-    object.articles.size
+    object.article_ids.size
   end
 
   attribute :link do |object|

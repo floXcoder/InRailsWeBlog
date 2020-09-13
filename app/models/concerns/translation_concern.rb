@@ -40,8 +40,8 @@ module TranslationConcern
   end
 
   class_methods do
-    # Base method to include in model:
-    # translates :field_1, :field_2
+    # Base method to include in model:
+    # translates :field_1, :field_2
     # options:
     # auto_strip_translation_fields
     # fallbacks_for_empty_translations (take first locale in languages column)

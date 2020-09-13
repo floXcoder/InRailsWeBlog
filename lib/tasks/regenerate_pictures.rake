@@ -2,7 +2,7 @@
 
 namespace :InRailsWeBlog do
 
-  # Usage :
+  # Usage :
   ## rails InRailsWeBlog:regenerate_pictures
   desc 'Regenerate uploaded pictures for all models'
   task regenerate_pictures: :environment do |_task, _args|

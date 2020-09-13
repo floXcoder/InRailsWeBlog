@@ -59,7 +59,7 @@ module Searches
       return links
     end
 
-    # Parse only HTML content of the page
+    # Parse only HTML content of the page
     def static_search(url, query)
       response = Faraday::Connection.new.get(url) do |request|
         request.headers         = {

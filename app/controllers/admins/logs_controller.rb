@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 class Admins::LogsController < AdminsController
+  before_action :verify_requested_format!
+
+  respond_to :html, :json
+
   def index
     log_filename = Rails.env + '.log'
 

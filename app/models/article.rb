@@ -32,7 +32,7 @@
 #
 
 class Article < ApplicationRecord
-  # Article type:
+  # Article type:
   #   story => to write a full article with all fields available in a dedicated page
   #   note => to complete a current section in current page
   #   link => to save links as RSS (only title and content) in current page
@@ -61,7 +61,7 @@ class Article < ApplicationRecord
   attr_accessor :shared_link
 
   # == Extensions ===========================================================
-  # Voteable model
+  # Voteable model
   acts_as_voteable
 
   # Versioning
@@ -72,7 +72,7 @@ class Article < ApplicationRecord
   include ActAsTrackedConcern
   acts_as_tracked :queries, :searches, :clicks, :views, callbacks: { clicks: :add_visit_activity }
 
-  # Follow public activities
+  # Follow public activities
   include PublicActivity::Model
   tracked owner: :user
 
@@ -95,7 +95,7 @@ class Article < ApplicationRecord
   ## scopes: most_rated, recently_rated
   include CommentableConcern
 
-  # Marked as deleted
+  # Marked as deleted
   acts_as_paranoid
 
   # == Relationships ========================================================
@@ -525,7 +525,7 @@ class Article < ApplicationRecord
 
   private
 
-  # Used by tracker to add a custom value
+  # Used by tracker to add a custom value
   def custom_popularity(popularity, tracker_count)
     popularity *= self.rank if self.rank.present?
 

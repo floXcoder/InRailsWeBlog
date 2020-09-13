@@ -12,7 +12,7 @@ const receiveMetaTags = (meta) => ({
 export const fetchMetaTags = (routeName, options = {}, locale = undefined) => (dispatch) => (
     api.get(`/meta-tags`, {
         routeName,
-        forceLocale: locale || window.locale,
+        forceLocale: locale || window.locale,
         ...options
     })
         .promise

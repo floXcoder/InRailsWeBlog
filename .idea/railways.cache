@@ -294,10 +294,10 @@ Ruby enVironment Manager 1.29.8 (latest) (c) 2009-2017 Michal Papis, Piotr Kuczy
                    meta_search_index POST     /api/v1/search/meta(.:format)                                                                 api/v1/search#meta
                         search_index GET      /api/v1/search(.:format)                                                                      api/v1/search#index
                             comments GET      /api/v1/comments(.:format)                                                                    api/v1/comments#index
-                             uploads POST     /api/v1/uploads(.:format)                                                                     api/v1/uploads#create
-                              upload PATCH    /api/v1/uploads/:id(.:format)                                                                 api/v1/uploads#update
-                                     PUT      /api/v1/uploads/:id(.:format)                                                                 api/v1/uploads#update
-                                     DELETE   /api/v1/uploads/:id(.:format)                                                                 api/v1/uploads#destroy
+                      uploader_index POST     /api/v1/uploader(.:format)                                                                    api/v1/uploader#create
+                            uploader PATCH    /api/v1/uploader/:id(.:format)                                                                api/v1/uploader#update
+                                     PUT      /api/v1/uploader/:id(.:format)                                                                api/v1/uploader#update
+                                     DELETE   /api/v1/uploader/:id(.:format)                                                                api/v1/uploader#destroy
                       exporter_index GET      /api/v1/exporter(.:format)                                                                    api/v1/exporter#index
                          login_admin GET      /admins/login(.:format)                                                                       admins/sessions#new
                         admins_login POST     /admins/login(.:format)                                                                       admins/sessions#create

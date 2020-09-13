@@ -45,6 +45,6 @@
 /spec/.validation/*
 /coverage
 
-# Ignore user specific Rubymine files
+# Ignore user specific Rubymine files
 /.idea/workspace.xml
 /.idea/tasks.xml

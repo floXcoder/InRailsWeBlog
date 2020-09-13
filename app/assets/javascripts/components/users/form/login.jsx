@@ -141,7 +141,7 @@ class LoginForm extends React.Component {
                                 </Link>
                             </div>
 
-                            <Grid className="center-align margin-top-15 margin-bottom-25"
+                            <Grid className="center-align"
                                   container={true}
                                   spacing={2}
                                   direction="row-reverse"

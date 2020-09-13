@@ -2,7 +2,7 @@
 
 namespace :InRailsWeBlog do
 
-  # Usage :
+  # Usage :
   ## rails InRailsWeBlog:check_code
   desc "Check code doesn't contain log trace"
   task :check_code do |_task, _args|

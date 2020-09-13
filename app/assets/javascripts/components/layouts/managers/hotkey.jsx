@@ -48,7 +48,7 @@ class HotkeyManager extends React.Component {
         this._setHotkeys();
     }
 
-    _setHotkeys = () => {
+    _setHotkeys = () => {
         Mousetrap.bind('alt+a', (event) => {
             event.preventDefault();
             this.props.history.push(newArticlePath(this.props.currentUserSlug, this.props.currentUserTopicSlug));

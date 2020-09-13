@@ -11,7 +11,7 @@ module Tags
     def perform
       current_language = new_language = current_user&.locale || I18n.locale
 
-      #  Language
+      #  Language
       if @tag.languages.empty? || @params[:language].present?
         new_language   = (@params.delete(:language) || current_user&.locale || I18n.locale).to_s
         @tag.languages |= [new_language]

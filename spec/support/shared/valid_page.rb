@@ -4,7 +4,7 @@ require 'support/pages/site_page'
 
 shared_examples 'a valid page' do
   scenario 'contains the assets with no errors' do
-    # URL
+    # URL
     uri  = URI.parse(current_url)
     path = uri.path + (uri.query ? '?' + uri.query : '')
     expect(path).to eq(content[:current_page].path)

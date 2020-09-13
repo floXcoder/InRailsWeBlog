@@ -88,9 +88,6 @@ const styles = (theme) => ({
     search: {
         position: 'relative',
         backgroundColor: fade(theme.palette.common.white, 0.15),
-        '&:hover': {
-            backgroundColor: fade(theme.palette.common.white, 0.25)
-        },
         marginRight: theme.spacing(2),
         marginLeft: '0 !important',
         width: 35,
@@ -99,6 +96,9 @@ const styles = (theme) => ({
         [theme.breakpoints.up('sm')]: {
             marginLeft: theme.spacing(3),
             width: 'auto'
+        },
+        '&:hover': {
+            backgroundColor: fade(theme.palette.common.white, 0.25)
         }
     },
     searchIcon: {

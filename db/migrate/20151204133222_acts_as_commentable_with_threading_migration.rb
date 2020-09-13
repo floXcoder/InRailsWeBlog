@@ -17,7 +17,7 @@ class ActsAsCommentableWithThreadingMigration < ActiveRecord::Migration[5.1]
 
       t.datetime    :deleted_at
 
-      # Act as nested
+      # Act as nested
       t.integer     :parent_id,                                          index: true
       t.integer     :lft
       t.integer     :rgt

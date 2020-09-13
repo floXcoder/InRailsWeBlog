@@ -19,7 +19,7 @@ class TagRelationship < ApplicationRecord
   # == Attributes ===========================================================
 
   # == Extensions ===========================================================
-  # Marked as deleted
+  # Marked as deleted
   acts_as_paranoid
 
   # == Relationships ========================================================

@@ -35,7 +35,7 @@ class PictureUploader < CarrierWave::Uploader::Base
     end
   end
 
-  # Add UUID to filenames to have unique name by file and for image caching
+  # Add UUID to filenames to have unique name by file and for image caching
   def filename
     "#{File.basename(original_filename, '.*')}-#{secure_token(12)}.#{file.extension}" if original_filename.present?
   end

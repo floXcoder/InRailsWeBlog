@@ -60,7 +60,7 @@ class Topic < ApplicationRecord
   include ActAsTrackedConcern
   acts_as_tracked :queries, :searches, :clicks, :views, callbacks: { clicks: :add_visit_activity }
 
-  # Follow public activities
+  # Follow public activities
   include PublicActivity::Model
   tracked owner: :user
 
@@ -73,7 +73,7 @@ class Topic < ApplicationRecord
              suggest:     [:name],
              language:    -> { I18n.locale == :fr ? 'french' : 'english' }
 
-  # Marked as deleted
+  # Marked as deleted
   acts_as_paranoid
 
   # == Relationships ========================================================

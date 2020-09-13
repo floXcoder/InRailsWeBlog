@@ -73,9 +73,9 @@ export default function userReducer(state = initState, action) {
         case ActionTypes.USER_RECENTS_CHANGE_ERROR:
             if(action.local) {
             } else {
-                state.recentTopics = action.topics || state.recentTopics || [];
-                state.recentTags = action.tags || state.recentTags || [];
-                state.recentArticles = action.articles || state.recentArticles || [];
+                state.recentTopics = action.topics || state.recentTopics || [];
+                state.recentTags = action.tags || state.recentTags || [];
+                state.recentArticles = action.articles || state.recentArticles || [];
             }
             return state;
 

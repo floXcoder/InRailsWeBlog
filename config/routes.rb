@@ -96,7 +96,7 @@ Rails.application.routes.draw do
   # API
   namespace :api, as: nil do
     namespace :v1, as: nil do
-      # Users (devise)
+      # Users (devise)
       devise_scope :user do
         get     'signup',   to: 'users/registrations#new',    as: :signup
         post    'signup',   to: 'users/registrations#create'
@@ -139,7 +139,7 @@ Rails.application.routes.draw do
         end
       end
 
-      # Users (activities)
+      # Users (activities)
       resources :activities, only: [:index]
 
       # Tags
@@ -217,10 +217,10 @@ Rails.application.routes.draw do
 
       resources :comments, only: [:index]
 
-      # Uploads data (files, ...)
+      # Uploads data (files, ...)
       resources :uploader, only: [:create, :update, :destroy]
 
-      # Export user data
+      # Export user data
       resources :exporter, only: [:index]
     end
   end

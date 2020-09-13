@@ -51,7 +51,7 @@ Rails.application.configure do
   # Highlight code that triggered database queries in logs.
   config.active_record.verbose_query_logs = true
 
-  # Raise warning when loading large data set
+  # Raise warning when loading large data set
   config.active_record.warn_on_records_fetched_greater_than = 1500
 
   # Raises error for missing translations.

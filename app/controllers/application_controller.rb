@@ -23,7 +23,7 @@ class ApplicationController < ActionController::Base
   # Set SEO mode
   prepend_before_action :check_seo_mode, if: -> { request.get? && !request.xhr? }
 
-  # Error reporting
+  # Error reporting
   before_action :set_raven_context
 
   # Devise

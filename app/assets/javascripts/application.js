@@ -35,12 +35,10 @@ if (window.SENTRY_JAVASCRIPT_KEY && !window.seoMode) {
 // Configure log level
 if (process.env.NODE_ENV !== 'production') {
     const log = require('loglevel');
-
     log.setLevel('info');
 
-    log.now = (data, colorStyle) => {
-        screenLog.log(data, colorStyle);
-    };
+    const screenLog = require('./modules/screenLog').default;
+    screenLog.init({freeConsole: true});
 
     log.trace = data => {
         console.trace(data);
@@ -49,10 +47,12 @@ if (process.env.NODE_ENV !== 'production') {
         console.table(data);
     };
 
-    window.w = log.info;
+    log.now = (data, colorStyle) => {
+        screenLog.log(data, colorStyle);
+    };
 
-    const screenLog = require('./modules/screenLog').default;
-    screenLog.init({freeConsole: true});
+    window.w = log.info;
+    window.log_on_screen = log.now;
 }
 
 if (window._paq && !window.seoMode) {
