@@ -41,9 +41,9 @@ head itemscope="" itemtype="http://schema.org/WebSite"
     link rel="dns-prefetch" href="#{ENV['WEBSITE_FULL_ADDRESS']}"
     link rel="dns-prefetch" href="https://#{ENV['METRICS_ADDRESS']}"
     
-    link rel="preload" href="#{AssetManifest.asset_path('Roboto-Regular.woff2')}" as="font" crossorigin="anonymous"
-    link rel="preload" href="#{AssetManifest.asset_path('Roboto-Medium.woff2')}" as="font" crossorigin="anonymous"
-    link rel="preload" href="#{AssetManifest.asset_path('Roboto-Bold.woff2')}" as="font" crossorigin="anonymous"
+    link rel="preload" href="#{AssetManifest.asset_path('fonts/Roboto-Regular.woff2')}" as="font" crossorigin="anonymous"
+    link rel="preload" href="#{AssetManifest.asset_path('fonts/Roboto-Medium.woff2')}" as="font" crossorigin="anonymous"
+    link rel="preload" href="#{AssetManifest.asset_path('fonts/Roboto-Bold.woff2')}" as="font" crossorigin="anonymous"
     
     - if %w[user_article].include?(request.path_parameters[:name])
       link rel="preload" href="#{AssetManifest.javascript_path('article-show.js')}" as="script"
