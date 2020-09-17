@@ -22,7 +22,7 @@ class Share < ApplicationRecord
   enums_to_tr('share', [:mode])
 
   # == Extensions ===========================================================
-  # Follow public activities
+  # Follow public activities
   include PublicActivity::Model
   tracked owner: :user, recipient: :contributor, parameters: :shareable
 

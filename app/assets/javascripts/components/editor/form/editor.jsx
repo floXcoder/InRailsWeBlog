@@ -11,7 +11,7 @@ const EditorField = ({input, meta: {touched, error}, componentContent, ...custom
         <Editor {...input}
                 hasError={touched && !!error}
                 {...custom}>
-            {componentContent || input.value}
+            {componentContent || input.value}
         </Editor>
 
         {

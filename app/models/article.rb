@@ -32,7 +32,7 @@
 #
 
 class Article < ApplicationRecord
-  # Article type:
+  # Article type:
   #   story => to write a full article with all fields available in a dedicated page
   #   note => to complete a current section in current page
   #   link => to save links as RSS (only title and content) in current page
@@ -61,7 +61,7 @@ class Article < ApplicationRecord
   attr_accessor :shared_link
 
   # == Extensions ===========================================================
-  # Voteable model
+  # Voteable model
   acts_as_voteable
 
   # Versioning
@@ -72,13 +72,17 @@ class Article < ApplicationRecord
   include ActAsTrackedConcern
   acts_as_tracked :queries, :searches, :clicks, :views, callbacks: { clicks: :add_visit_activity }
 
-  # Follow public activities
+  # Follow public activities
   include PublicActivity::Model
   tracked owner: :user
 
   # SEO
   include FriendlyId
   friendly_id :slug_candidates, use: [:slugged, :localized_slug]
+
+  # JSON data serializer
+  include DataSerializerConcern
+  data_serializer :serialized_data
 
   # Search
   # Only filterable can be used in where options!
@@ -95,7 +99,7 @@ class Article < ApplicationRecord
   ## scopes: most_rated, recently_rated
   include CommentableConcern
 
-  # Marked as deleted
+  # Marked as deleted
   acts_as_paranoid
 
   # == Relationships ========================================================
@@ -298,22 +302,52 @@ class Article < ApplicationRecord
   end
 
   # == Class Methods ========================================================
-  def self.as_flat_json(articles, format, **options)
-    data = case format
-           when 'strict'
-             ArticleStrictSerializer.new(articles, **options)
-           when 'complete'
-             ArticleCompleteSerializer.new(articles, include: [:tracker], includes: [], **options)
-           else
-             ArticleSampleSerializer.new(articles, include: [:user, :tags], **options)
-           end
-
-    data.flat_serializable_hash
+  def self.serialized_data(data, format, **options)
+    case format
+    when 'strict'
+      ArticleSerializer.new(data,
+                            fields:  {
+                              article: %i[id userSlug tag topicId mode modeTranslated title summary draft visibility slug tagNames dateTimestamp contentHighlighted link]
+                            },
+                            include: %i[],
+                            **options)
+    when 'complete'
+      ArticleSerializer.new(data,
+                            fields:  {
+                              user:  %i[id pseudo slug avatarUrl],
+                              tag:   %i[id userId name synonyms visibility taggedArticlesCount slug description],
+                              topic: %i[id userId mode name description priority visibility languages slug tagIds]
+                            },
+                            include: %i[user tags topic tracker],
+                            **options)
+    when 'normal'
+      ArticleSerializer.new(data,
+                            fields:  {
+                              article: %i[id user tags topicId mode modeTranslated title summary content inventories reference visibility visibilityTranslated allowComment draft languages defaultPicture slug bookmarksCount commentsCount date dateShort link parentTagIds childTagIds],
+                              user:    %i[id pseudo slug avatarUrl],
+                              tag:     %i[id userId name synonyms visibility taggedArticlesCount slug description]
+                            },
+                            include: %i[user tags],
+                            **options)
+    else
+      ArticleSerializer.new(data,
+                            fields:  {
+                              article: %i[id user tags topicId mode summary draft visibility defaultPicture slug outdatedArticlesCount commentsCount modeTranslated title contentSummary inventories date dateShort dateIso parentTagIds childTagIds],
+                              user:    %i[id pseudo slug avatarUrl],
+                              tag:     %i[id userId name synonyms visibility taggedArticlesCount slug description]
+                            },
+                            include: %i[user tags],
+                            **options)
+    end
   end
 
   # == Instance Methods =====================================================
   def user?(user)
     user.id == self.user_id if user
+  end
+
+  def user_slug
+    user.slug
   end
 
   def link_path(options = {})
@@ -525,7 +559,7 @@ class Article < ApplicationRecord
 
   private
 
-  # Used by tracker to add a custom value
+  # Used by tracker to add a custom value
   def custom_popularity(popularity, tracker_count)
     popularity *= self.rank if self.rank.present?
 

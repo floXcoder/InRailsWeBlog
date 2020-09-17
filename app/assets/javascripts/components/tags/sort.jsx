@@ -5,7 +5,7 @@ import {
 } from 'react-router-dom';
 
 import {
-    showTagPath
+    tagsPath
 } from '../../constants/routesHelper';
 
 import {
@@ -61,7 +61,7 @@ class TagSort extends React.Component {
 
     _handleUpdatePriority = (tagIds) => {
         this.props.updateTagPriority(tagIds)
-            .then(() => this.props.history.push(showTagPath(this.props.currentUserSlug)));
+            .then(() => this.props.history.push(tagsPath()));
     };
 
     render() {

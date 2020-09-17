@@ -54,7 +54,7 @@ class ArticleTagField extends React.Component {
     render() {
         return (
             <div className={this.props.classes.tags}>
-                <div className={classNames('categorized-parent-tag', this.props.classes.tagBox)}>
+                <div className="categorized-parent-tag">
                     <Field name="parent_tags"
                            component={CategorizedField}
                            id="article_parent_tags"
@@ -71,7 +71,7 @@ class ArticleTagField extends React.Component {
                            componentContent={this.props.parentTags}/>
                 </div>
 
-                <div className={classNames('categorized-child-tag margin-top-40', this.props.classes.tagBox)}>
+                <div className="categorized-child-tag margin-top-40">
                     <Field name="child_tags"
                            component={CategorizedField}
                            id="article_child_tags"

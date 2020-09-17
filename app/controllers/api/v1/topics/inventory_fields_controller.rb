@@ -20,8 +20,7 @@ module Api::V1
         format.json do
           if inventory_topic.success?
             flash.now[:success] = inventory_topic.message
-            render json:   TopicCompleteSerializer.new(inventory_topic.result,
-                                                       include: [:user, :tags, :contributors, :tracker]).serializable_hash,
+            render json: inventory_topic.result.serialized_json('complete'),
                    status: :ok
           else
             flash.now[:error] = inventory_topic.message

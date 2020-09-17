@@ -132,7 +132,7 @@ class AdminBlogs extends React.Component {
 
                 {
                     (this.state.isAddingBlog || this.state.editingBlog) &&
-                    <Paper className="paper-explanation margin-top-30 margin-bottom-40"
+                    <Paper className="margin-top-30 margin-bottom-40"
                            elevation={1}>
                         <AdminBlogForm isNew={this.state.isNew}
                                        blog={this.state.editingBlog}

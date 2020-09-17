@@ -137,7 +137,7 @@ class AutocompleteSearch extends React.Component {
                                   }}
                                   isAsync={true}
                                   fullWidth={true}
-                                  filterValues={true}
+                                  hasFilterValues={true}
                                   disableUnderline={true}
                                   fetchAsyncValues={this._fetchAutocomplete}
                                   currentSuggestion={this.state.query}

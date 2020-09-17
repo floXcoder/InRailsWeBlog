@@ -212,7 +212,7 @@ class ArticleShow extends React.Component {
                 <div className="center margin-top-20">
                     <NotFound/>
                 </div>
-            )
+            );
         }
 
         if ((this.props.isUserConnected && (!this.props.currentUser || !this.props.currentTopic)) || !this.props.article || this.props.isFetching) {

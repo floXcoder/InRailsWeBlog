@@ -40,7 +40,7 @@ class Sanitizer
     # html = html.gsub(/<pre( ?)(.*?)>/i, '<pre\1\2><code>')
     # html = html.gsub(/<\/pre>/i, '</code></pre>')
 
-    # Simplify code tags
+    # Simplify code tags
     # html = html.gsub(/<code(.*?)>/i, '<code>')
     # html = html.gsub(/(<code>){2,}/i, '<code>')
     # html = html.gsub(/(<\/code>){2,}/i, '</code>')

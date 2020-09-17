@@ -1,6 +1,6 @@
 # Documentation
 # https://github.com/bbatsov/rubocop/blob/master/config/default.yml
-# http://rubocop.readthedocs.io/en/latest
+# http://rubocop.readthedocs.io/en/latest
 
 require:
   - rubocop-rails

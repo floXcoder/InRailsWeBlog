@@ -34,18 +34,17 @@
 
 class ArticleSerializer
   include FastJsonapi::ObjectSerializer
+  include NullAttributesRemover
 
   set_type :article
 
-  # cache_options enabled: true, cache_length: InRailsWeBlog.config.cache_time
+  # cache_options store: Rails.cache, namespace: "_#{ENV['WEBSITE_NAME']}_#{Rails.env}:serializer", expires_in: InRailsWeBlog.config.cache_time
 
   set_key_transform :camel_lower
 
   attributes :id,
              :topic_id,
              :mode,
-             :mode_translated,
-             :title,
              :summary,
              :reference,
              :visibility,
@@ -54,13 +53,19 @@ class ArticleSerializer
              :languages,
              :default_picture,
              :slug,
+             :user_slug,
+             :tag_names,
              :pictures_count,
              :bookmarks_count,
              :comments_count
 
-  belongs_to :user, serializer: UserSampleSerializer
+  belongs_to :user, serializer: UserSerializer
 
-  has_many :tags, serializer: TagSampleSerializer do |object, params|
+  belongs_to :topic, serializer: TopicSerializer
+
+  has_one :tracker, serializer: TrackerSerializer
+
+  has_many :tags, serializer: TagSerializer do |object, params|
     if object.user_id == params[:current_user_id]
       object.tags
     else
@@ -68,8 +73,32 @@ class ArticleSerializer
     end
   end
 
+  attribute :mode_translated do |object|
+    object.mode_to_tr
+  end
+
+  attribute :title do |object, params|
+    params.dig(:highlight_results, object.id, :title).presence&.gsub(/\n{3,}/, "\n\n") || object.title
+  end
+
+  attribute :title_translations do |object, params|
+    object.title_translations if object.languages.size > 1 || params[:with_multilang]
+  end
+
   attribute :content do |object, params|
-    object.adapted_content(params[:current_user_id])
+    params.dig(:highlight_results, object.id, :content).presence&.gsub(/\n{3,}/, "\n\n") || object.adapted_content(params[:current_user_id])
+  end
+
+  attribute :content_summary do |object|
+    object.summary_content
+  end
+
+  attribute :content_translations do |object, params|
+    object.content_translations if object.languages.size > 1 || params[:with_multilang]
+  end
+
+  attribute :content_highlighted do |object|
+    object.respond_to?(:highlight) && object.respond_to?(:highlighted_content) && object.highlight.has_key?('content.word_middle') ? object.highlighted_content&.squish&.strip : nil
   end
 
   attribute :inventories do |object|
@@ -101,6 +130,10 @@ class ArticleSerializer
     object.updated_at.strftime('%Y-%m-%d')
   end
 
+  attribute :date_timestamp do |object|
+    object.created_at.to_i
+  end
+
   attribute :visibility_translated do |object|
     object.visibility_to_tr
   end
@@ -111,6 +144,18 @@ class ArticleSerializer
 
   attribute :child_tag_ids do |object|
     object.tagged_articles.select(&:child?).map(&:tag_id)
+  end
+
+  attribute :public_share_link do |object|
+    if object.public_share_link
+      "#{Rails.application.routes.url_helpers.root_url(host: ENV['WEBSITE_FULL_ADDRESS'])}articles/shared/#{object.slug}/#{object.public_share_link}"
+    else
+      nil
+    end
+  end
+
+  attribute :link do |object|
+    Rails.application.routes.url_helpers.user_article_path(user_slug: object.respond_to?(:user_slug) ? object.user_slug : object.user.slug, article_slug: object.slug)
   end
 
   # attribute :outdated_count do |object|

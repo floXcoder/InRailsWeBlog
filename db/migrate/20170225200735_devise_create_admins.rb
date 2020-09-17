@@ -1,7 +1,7 @@
 class DeviseCreateAdmins < ActiveRecord::Migration[5.1]
   def change
     create_table :admins do |t|
-      ## Admin user
+      ## Admin user
       t.string    :pseudo,              null: false,    default: ''
       t.string    :additional_info
       t.string    :locale,                              default: 'fr'

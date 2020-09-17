@@ -2,7 +2,7 @@
 
 namespace :InRailsWeBlog do
 
-  # Usage :
+  # Usage :
   ## rails InRailsWeBlog:create_version
   ## rails InRailsWeBlog:create_version COMMENT='Comment for this version'
   desc 'Create new version using Gitflow'

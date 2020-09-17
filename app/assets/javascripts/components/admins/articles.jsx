@@ -116,13 +116,13 @@ class AdminArticles extends React.Component {
                                title: I18n.t('js.admin.articles.table.columns.date'),
                                field: 'dateShort',
                                filtering: false,
-                               render: (articles) => articles.dateShort.slice().reverse().join(' '),
+                               render: (article) => article.dateShort.slice().reverse().join(' '),
                                editable: 'never'
                            },
                            {
                                title: I18n.t('js.admin.articles.table.columns.languages'),
                                field: 'languages',
-                               render: (articles) => articles.languages.join(', '),
+                               render: (article) => article.languages.join(', '),
                                editable: 'never'
                            },
                            {

@@ -5,7 +5,7 @@ class UploadsWorker
 
   sidekiq_options queue: :default
 
-  # Clean uploads without imageable_id and older than 1 day
+  # Clean uploads without imageable_id and older than 1 day
   def perform
     Picture.transaction do
       Picture

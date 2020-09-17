@@ -4,26 +4,27 @@ import {
     hot
 } from 'react-hot-loader/root';
 
-import { withStyles } from '@material-ui/core/styles';
+import {
+    withStyles
+} from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 
-import AppBarLayout from './layout/appBar';
-import MenuLayout from './layout/menu';
-
-import styles from '../../../jss/admin/layout';
-
 import {
     logoutAdmin
-} from '../../actions/admin';
+} from '../../../actions/admin';
+
+import AppBarLayout from './appBar';
+import MenuLayout from './menu';
+
+import styles from '../../../../jss/admin/layout';
 
 export default @hot
 @withStyles(styles)
-class AdminLayout extends React.Component {
+class AdminHeaderLayout extends React.Component {
     static propTypes = {
-        children: PropTypes.object.isRequired,
         // from styles
         classes: PropTypes.object
     };
@@ -62,7 +63,7 @@ class AdminLayout extends React.Component {
 
     render() {
         return (
-            <div className={this.props.classes.root}>
+            <>
                 <AppBarLayout isDrawerOpen={this.state.isDrawerOpen}
                               onDrawerOpen={this._handleDrawerOpen}/>
 
@@ -83,12 +84,7 @@ class AdminLayout extends React.Component {
 
                     <MenuLayout onLogout={this._handleLogoutClick}/>
                 </Drawer>
-
-                <main className={this.props.classes.content}>
-                    <div className={this.props.classes.toolbar}/>
-                    {this.props.children}
-                </main>
-            </div>
+            </>
         );
     }
 }

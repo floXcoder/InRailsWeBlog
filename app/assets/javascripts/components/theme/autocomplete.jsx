@@ -46,7 +46,7 @@ export default class Autocomplete extends React.Component {
         required: PropTypes.bool,
         fullWidth: PropTypes.bool,
         helperText: PropTypes.object,
-        filterValues: PropTypes.bool,
+        hasFilterValues: PropTypes.bool,
         fetchAsyncValues: PropTypes.func,
         renderSuggestion: PropTypes.func
     };
@@ -60,7 +60,7 @@ export default class Autocomplete extends React.Component {
         isTagged: false,
         required: false,
         disableUnderline: false,
-        filterValues: false
+        hasFilterValues: false
     };
 
     state = {
@@ -68,11 +68,15 @@ export default class Autocomplete extends React.Component {
     };
 
     _filterData = (suggestion, inputValue) => {
-        let filteredValue = String(this._getItemKey(suggestion)).includes(inputValue);
+        let filteredValue = true;
 
-        if (!filteredValue && this.props.filterValues) {
-            const value = this._getItemValue(suggestion).trim().toLowerCase();
-            filteredValue = value.includes(inputValue);
+        if(this.props.hasFilterValues) {
+            filteredValue = String(this._getItemKey(suggestion)).includes(inputValue);
+
+            if (!filteredValue) {
+                const value = this._getItemValue(suggestion).trim().toLowerCase();
+                filteredValue = value.includes(inputValue);
+            }
         }
 
         return filteredValue;
@@ -127,7 +131,7 @@ export default class Autocomplete extends React.Component {
         }
     };
 
-    _handelInputChange = (event) => {
+    _handleInputChange = (event) => {
         if (this.props.isAsync) {
             this.props.fetchAsyncValues(event.target.value);
         }
@@ -225,7 +229,7 @@ export default class Autocomplete extends React.Component {
                                                      onDelete={this._handleDelete(key)}/>
                                            )) : undefined,
                                            onKeyDown: this.props.isMultiple ? this._handleKeyDown.bind(this, highlightedIndex) : undefined,
-                                           onChange: this._handelInputChange
+                                           onChange: this._handleInputChange
                                        })
                                    }}/>
                         <div {...getMenuProps()}>
@@ -258,7 +262,7 @@ export default class Autocomplete extends React.Component {
                                                                 ?
                                                                 this.props.renderSuggestion(suggestion)
                                                                 :
-                                                                this._getItemValue(suggestion.value)
+                                                                this._getItemValue(suggestion)
                                                         }
                                                     </MenuItem>
                                                 )

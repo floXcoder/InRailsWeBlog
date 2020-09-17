@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # ActAsTrackedConcern
-# Include this method in the controller:
+# Include this method in the controller:
 # include TrackerConcern
 module TrackerConcern
   extend ActiveSupport::Concern

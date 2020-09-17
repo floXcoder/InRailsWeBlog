@@ -27,7 +27,7 @@ namespace :InRailsWeBlog do
         admin     ||= Admin.first
         main_user ||= User.first
 
-        # Create users
+        # Create users
         other_users = Populate::create_dummy_users(10)
         # Populate::add_profile_picture_to(users, 5)
 
@@ -63,13 +63,13 @@ namespace :InRailsWeBlog do
         Populate::marked_as_outdated_for(main_articles, other_users, 1..3)
         Populate::marked_as_outdated_for(other_articles, main_user, 1..3)
 
-        # Create activities for article, users and tags
+        # Create activities for article, users and tags
         Populate::create_activities_for_articles
         Populate::create_activities_for_users
         Populate::create_activities_for_tags
       end
 
-      # Reindex for ElasticSearch
+      # Reindex for ElasticSearch
       Rake::Task['searchkick:reindex:all'].invoke
     end
   end

@@ -28,7 +28,7 @@ require 'spec_helper'
 include PageValidations
 include Warden::Test::Helpers
 
-# Setup warden in test mode
+# Setup warden in test mode
 Warden.test_mode!
 
 # A test fake that pushes all jobs into a jobs array

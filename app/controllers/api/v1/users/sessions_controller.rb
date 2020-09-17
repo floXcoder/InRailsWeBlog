@@ -21,11 +21,7 @@ module Api::V1
       respond_to do |format|
         format.html { redirect_to(@location) }
         format.js
-        format.json {
-          render json: UserProfileSerializer.new(resource,
-                                                 include: [:current_topic, :topics, :contributed_topics],
-                                                 meta:    { location: @location }).serializable_hash
-        }
+        format.json { render json: resource.flat_serialized_json('profile', meta: { location: @location }) }
       end
     end
 

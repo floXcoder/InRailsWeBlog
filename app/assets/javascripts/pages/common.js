@@ -1,8 +1,5 @@
 'use strict';
 
-require('../application');
-require('../pwa');
-
 import {
     setConfig
 } from 'react-hot-loader';
@@ -11,9 +8,12 @@ setConfig({
     reloadHooks: false
 });
 
+require('../application');
+require('../pwa');
+
 // Flash messages
 const flashes = document.querySelectorAll('.blog-flash');
-Array.prototype.forEach.call(flashes, function (element, index) {
+Array.prototype.forEach.call(flashes, function (element) {
     const level = element.getAttribute('data-level');
     const token = element.getAttribute('data-flash-token');
 

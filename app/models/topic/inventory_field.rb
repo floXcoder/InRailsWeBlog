@@ -31,7 +31,7 @@ class Topic::InventoryField < ApplicationRecord
   auto_strip_attributes :name
 
   # == Extensions ===========================================================
-  # Marked as deleted
+  # Marked as deleted
   acts_as_paranoid
 
   # == Relationships ========================================================

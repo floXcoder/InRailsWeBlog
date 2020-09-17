@@ -22,6 +22,16 @@ describe 'Topic API', type: :request, basic: true do
       topic: { name: 'name', description: 'description' }
     }
   }
+  let(:topic_stories_attributes) {
+    {
+      topic: { mode: 'stories', name: 'name stories', description: 'description stories' }
+    }
+  }
+  let(:topic_inventory_attributes) {
+    {
+      topic: { mode: 'inventories', name: 'name inventories', description: 'description inventories' }
+    }
+  }
   let(:updated_topic_attributes) {
     {
       topic: { name: 'name title', description: 'new description' }
@@ -238,6 +248,38 @@ describe 'Topic API', type: :request, basic: true do
           expect(topic['data']['attributes']).not_to be_empty
           expect(topic['data']['attributes']['userId']).to eq(@user.id)
           expect(topic['data']['attributes']['name']).to eq(topic_attributes[:topic][:name])
+
+          expect(@user.reload.current_topic_id).to eq(topic['data']['attributes']['id'])
+        }.to change(Topic, :count).by(1)
+      end
+
+      it 'returns a new story topic' do
+        expect {
+          post '/api/v1/topics', params: topic_stories_attributes.merge(user_id: @user.id), as: :json
+
+          expect(response).to be_json_response(201)
+
+          topic = JSON.parse(response.body)
+          expect(topic['data']['attributes']).not_to be_empty
+          expect(topic['data']['attributes']['mode']).to eq('stories')
+          expect(topic['data']['attributes']['userId']).to eq(@user.id)
+          expect(topic['data']['attributes']['name']).to eq(topic_stories_attributes[:topic][:name])
+
+          expect(@user.reload.current_topic_id).to eq(topic['data']['attributes']['id'])
+        }.to change(Topic, :count).by(1)
+      end
+
+      it 'returns a new inventory topic' do
+        expect {
+          post '/api/v1/topics', params: topic_inventory_attributes.merge(user_id: @user.id), as: :json
+
+          expect(response).to be_json_response(201)
+
+          topic = JSON.parse(response.body)
+          expect(topic['data']['attributes']).not_to be_empty
+          expect(topic['data']['attributes']['mode']).to eq('inventories')
+          expect(topic['data']['attributes']['userId']).to eq(@user.id)
+          expect(topic['data']['attributes']['name']).to eq(topic_inventory_attributes[:topic][:name])
 
           expect(@user.reload.current_topic_id).to eq(topic['data']['attributes']['id'])
         }.to change(Topic, :count).by(1)

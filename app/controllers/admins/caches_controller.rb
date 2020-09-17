@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class Admins::CachesController < AdminsController
+  before_action :verify_requested_format!
+
+  respond_to :html, :json
 
   def index
     respond_to do |format|
@@ -15,6 +18,9 @@ class Admins::CachesController < AdminsController
 
   def flush_cache
     app            = Redis::Namespace.new("_#{ENV['WEBSITE_NAME']}_#{Rails.env}:cache", redis: Redis.new)
+    _cache_flushed = app.keys.each { |key| app.del(key) }
+
+    app            = Redis::Namespace.new("_#{ENV['WEBSITE_NAME']}_#{Rails.env}:serializer", redis: Redis.new)
     _cache_flushed = app.keys.each { |key| app.del(key) }
 
     respond_to do |format|

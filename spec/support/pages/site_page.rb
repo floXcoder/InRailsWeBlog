@@ -1,13 +1,10 @@
 # frozen_string_literal: true
 
-require 'support/helpers/form_helpers'
-
 class SitePage
   include ActionView::RecordIdentifier
   include Capybara::DSL
   include Rails.application.routes.url_helpers
   include AbstractController::Translation
-  include Features::FormHelpers
 
   HTMLValidation.show_warnings = false
 
@@ -44,7 +41,7 @@ class SitePage
     find('footer')
   end
 
-  # Matchers
+  # Matchers
   def has_stylesheet?(css_name = nil)
     if css_name
       has_selector?("link[href*='#{css_name}']", visible: false)
@@ -60,7 +57,7 @@ class SitePage
   def has_javascript_errors?
     javascript_logs = page.driver.browser.manage.logs.get(:browser)
 
-    # Ignore warnings and mapbox errors
+    # Ignore warnings and mapbox errors
     javascript_logs = javascript_logs.reject { |log| log.message =~ /Warning:/ }
     javascript_logs = javascript_logs.reject { |log| log.message =~ /WebSocket/ }
     javascript_logs = javascript_logs.reject { |log| log.message =~ /React-Hot-Loader/ }

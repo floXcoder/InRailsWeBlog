@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-Webdrivers.cache_time = 604_800 # Keep chrome driver a week in cache
+Webdrivers.cache_time = 604_800 # Keep chrome driver a week in cache
 Selenium::WebDriver::Chrome.path = ENV['CI'] ? '/usr/bin/chromium' : '/usr/bin/chromium-browser'
 
 Capybara.run_server = true

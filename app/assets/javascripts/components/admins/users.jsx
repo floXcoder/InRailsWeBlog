@@ -94,7 +94,8 @@ class AdminUsers extends React.Component {
                            {
                                title: I18n.t('js.admin.users.table.columns.articles_count'),
                                field: 'articlesCount',
-                               filtering: false
+                               filtering: false,
+                               width: 80
                            }
                        ]}
                        options={{

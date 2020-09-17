@@ -52,13 +52,19 @@ const manageError = (origin, error, url) => {
 
     if (error.statusText) {
         if (error.statusText === 'Forbidden') {
+            // Do nothing
+
             // Notification.error(I18n.t('js.helpers.errors.not_authorized'));
             // if (document.referrer === '') {
             //     window.location = '/';
             // } else {
             //     history.back();
             // }
+        } else if (error.statusText === 'Cancelled') {
+            // Do nothing
         } else if (error.statusText === 'Not Found') {
+            // Do nothing
+
             // Notification.error(I18n.t('js.helpers.errors.unprocessable'));
             // } else if (error.statusText === 'Unprocessable Entity') {
             // Managed by handleResponse
@@ -73,7 +79,7 @@ const manageError = (origin, error, url) => {
             if (process.env.NODE_ENV === 'production') {
                 Notification.error(I18n.t('js.helpers.errors.server'), 10);
             } else {
-                error.text().then((text) => log.now(text.split("\n").slice(0, 6)));
+                error.text().then((text) => window.log_on_screen(text.split("\n").slice(0, 6)));
             }
 
             pushError(error, errorInfo);

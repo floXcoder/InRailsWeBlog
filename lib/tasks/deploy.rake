@@ -2,13 +2,13 @@
 
 namespace :InRailsWeBlog do
 
-  # Usage :
+  # Usage :
   ## rails InRailsWeBlog:deploy
   ## rails InRailsWeBlog:deploy SKIP_CI=true
   ## rails InRailsWeBlog:deploy TAG=1.0.0
   desc 'Deploy project to server (repo must be on develop branch)'
   task :deploy do |_task, _args|
-    # Check for uncommitted files
+    # Check for uncommitted files
     fail 'Files not committed in repo, run git status' if %x(git diff --exit-code) != ''
 
     # Check current branch is develop

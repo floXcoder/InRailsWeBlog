@@ -81,7 +81,7 @@ export default class AdminBlogForm extends React.Component {
                         </Suspense>
                     </div>
 
-                    <div className="col s12 center-align form-actions margin-top-20">
+                    <div className="col s12 center-align margin-top-20">
                         <Button color="primary"
                                 variant="outlined"
                                 type="submit">

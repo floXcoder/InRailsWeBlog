@@ -1,6 +1,6 @@
-- stylesheet 'admins/cache'
+- stylesheet 'admins'
 
 - javascript "translations/admin-#{I18n.locale}"
-- javascript_defer 'commons', 'admins-commons', 'admins/cache'
+- javascript_defer 'commons', 'admins'
 
-#admins-cache-component.react-root
+= content_tag :div, '', id: 'admins-component', class: 'react-root', data: { component: 'AdminCache' }

@@ -155,7 +155,7 @@ class AdminSeoData extends React.Component {
 
                 {
                     (this.state.isAddingSeoData || this.state.editingSeoData) &&
-                    <Paper className="paper-explanation margin-top-30 margin-bottom-40"
+                    <Paper className="margin-top-30 margin-bottom-40"
                            elevation={1}>
                         <AdminSeoDataForm classes={this.props.classes}
                                           seoPages={this.props.seoPages}
@@ -187,11 +187,13 @@ class AdminSeoData extends React.Component {
                                lookup: {
                                    [true]: I18n.t('js.admin.seo.visibility.public'),
                                    [false]: I18n.t('js.admin.seo.visibility.private')
-                               }
+                               },
+                               width: 140
                            },
                            {
                                title: I18n.t('js.admin.seo.table.columns.locale'),
-                               field: 'locale'
+                               field: 'locale',
+                               width: 80
                            },
                            {
                                title: I18n.t('js.admin.seo.table.columns.parameters'),

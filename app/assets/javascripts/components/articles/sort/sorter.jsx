@@ -45,7 +45,8 @@ export default class ArticleSorter extends React.Component {
         // Articles must already be sorted by priority
         articles: PropTypes.array.isRequired,
         currentUserSlug: PropTypes.string.isRequired,
-        updateArticlePriority: PropTypes.func.isRequired
+        updateArticlePriority: PropTypes.func.isRequired,
+        isProcessing: PropTypes.bool
     };
 
     constructor(props) {
@@ -85,6 +86,7 @@ export default class ArticleSorter extends React.Component {
                     <div className="col s12 m6 center-align">
                         <Button color="primary"
                                 variant="outlined"
+                                disabled={this.props.isProcessing}
                                 onClick={this._handleSavePriority}>
                             {I18n.t('js.helpers.buttons.apply')}
                         </Button>

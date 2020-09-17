@@ -32,7 +32,7 @@ export default class SearchTopicModule extends React.Component {
                   variant="outlined"
                   label={
                       <Link className={this.props.classes.tagLink}
-                            to={topicArticlesPath(topic.user.slug, topic.slug)}
+                            to={topicArticlesPath(topic.userSlug, topic.slug)}
                             onClick={spyTrackClick.bind(null, 'topic', topic.id, topic.slug, topic.name)}>
                           {topic.name}
                       </Link>

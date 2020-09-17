@@ -17,6 +17,7 @@ const ChildTag = ({tag, parentTagSlug, isExpanded, currentChildTagSlug, currentT
               to={taggedArticlesPath(parentTagSlug, tag.slug)}
               onClick={onTagClick}>
         <ListItemText classes={{
+            root: classes.nestedLabelRoot,
             primary: classNames(classes.nestedLabel, {
                 [classes.selectedLabel]: currentChildTagSlug ? currentChildTagSlug === tag.slug : currentTagSlugs.includes(tag.slug)
             })

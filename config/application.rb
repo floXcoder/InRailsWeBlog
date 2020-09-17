@@ -51,7 +51,7 @@ module InRailsWeBlog
     config.eager_load_paths += Dir["#{config.root}/lib/populate/**/"]
     config.eager_load_paths << "#{config.root}/spec/mailers/previews/"
 
-    # Database time zone
+    # Database time zone
     config.time_zone                      = 'Paris'
     config.active_record.default_timezone = :local
 

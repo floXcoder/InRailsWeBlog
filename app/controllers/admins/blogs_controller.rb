@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 class Admins::BlogsController < AdminsController
+  before_action :verify_requested_format!
+
+  respond_to :html, :json
+
   def index
     respond_to do |format|
       format.html do
@@ -20,17 +24,17 @@ class Admins::BlogsController < AdminsController
   end
 
   def create
-    blog = current_admin.blogs.build(blog_params)
+    article = current_admin.blogs.build(blog_params)
 
     respond_to do |format|
       format.json do
-        if blog.save
+        if article.save
           flash.now[:success] = t('views.admin.blog.flash.successful_creation')
-          render json:   Admin::BlogSerializer.new(blog).serializable_hash,
+          render json:   Admin::BlogSerializer.new(article).serializable_hash,
                  status: :created
         else
           flash.now[:error] = t('views.admin.blog.flash.error_creation')
-          render json:   { errors: blog.errors },
+          render json:   { errors: article.errors },
                  status: :unprocessable_entity
         end
       end
@@ -38,17 +42,17 @@ class Admins::BlogsController < AdminsController
   end
 
   def update
-    blog = Admin::Blog.find(params[:id])
+    article = Admin::Blog.find(params[:id])
 
     respond_to do |format|
       format.json do
-        if blog.update(blog_params)
+        if article.update(blog_params)
           flash.now[:success] = t('views.admin.blog.flash.successful_edition')
-          render json:   Admin::BlogSerializer.new(blog).serializable_hash,
+          render json:   Admin::BlogSerializer.new(article).serializable_hash,
                  status: :ok
         else
           flash.now[:error] = t('views.admin.blog.flash.error_edition')
-          render json:   { errors: blog.errors },
+          render json:   { errors: article.errors },
                  status: :unprocessable_entity
         end
       end

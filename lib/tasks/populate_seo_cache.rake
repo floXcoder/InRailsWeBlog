@@ -2,7 +2,7 @@
 
 namespace :InRailsWeBlog do
 
-  # Usage :
+  # Usage :
   ## rails InRailsWeBlog:populate_seo_cache
   ## rails InRailsWeBlog:populate_seo_cache ALL_CACHE=true
   desc "Populate cache for SEO"

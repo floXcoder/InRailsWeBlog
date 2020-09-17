@@ -90,13 +90,12 @@ module Searches
     end
 
     def format_search(results, highlight_results = nil)
-      # The following serializers must exist for each model: StrictSerializer, SampleSerializer, CompleteSerializer
       serializer_parameters                     = {}
       serializer_parameters[:highlight_results] = highlight_results if highlight_results
       serializer_parameters[:current_user]      = @current_user if @current_user
 
       result_data                                                   = {}
-      result_data[@params[:model].name.underscore.pluralize.to_sym] = @params[:model].as_flat_json(results, @params[:format], params: serializer_parameters, meta: { root: @params[:model].model_name.plural })
+      result_data[@params[:model].name.underscore.pluralize.to_sym] = @params[:model].flat_serialized_json(results, @params[:format], params: serializer_parameters, with_model: false, meta: { root: @params[:model].model_name.plural })
       result_data
     end
 

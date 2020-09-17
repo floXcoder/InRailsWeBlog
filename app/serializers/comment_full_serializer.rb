@@ -5,7 +5,7 @@ class CommentFullSerializer
 
   set_type :comment
 
-  # cache_options enabled: true, cache_length: InRailsWeBlog.config.cache_time
+  # cache_options store: Rails.cache, namespace: "_#{ENV['WEBSITE_NAME']}_#{Rails.env}:serializer", expires_in: InRailsWeBlog.config.cache_time
 
   set_key_transform :camel_lower
 
@@ -21,7 +21,7 @@ class CommentFullSerializer
 
   belongs_to :commentable, polymorphic: true
 
-  belongs_to :user, serializer: UserSampleSerializer
+  belongs_to :user, serializer: UserSerializer
 
   attribute :nested_level do |object|
     object.level
@@ -41,7 +41,7 @@ class CommentFullSerializer
 
   attribute :commentable do |object|
     if object.commentable.is_a?(Article)
-      ArticleSampleSerializer.new(object.commentable, include: [:user, :tags], params: { base_url: true })
+      object.commentable.flat_serialized_json
     else
       object.commentable
     end

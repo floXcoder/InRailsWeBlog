@@ -29,7 +29,7 @@ export const getUserRecentTags = createSelector(
     () => getLocalData('recents')?.filter((recent) => recent.type === 'tag'),
     (_, limit) => limit,
     (recentTags, recentLocalTags, limit) => {
-        recentLocalTags = recentLocalTags?.sort((a, b) => b.date - a.date)?.map((recentTag) => ({
+        recentLocalTags = recentLocalTags?.sort((a, b) => b.dateTimestamp - a.dateTimestamp)?.map((recentTag) => ({
             id: recentTag.elementId,
             name: recentTag.title,
             slug: recentTag.slug,
@@ -44,7 +44,7 @@ export const getUserRecentArticles = createSelector(
     () => getLocalData('recents')?.filter((recent) => recent.type === 'article'),
     (_, limit) => limit,
     (recentArticles, recentLocalArticles, limit) => {
-        recentLocalArticles = recentLocalArticles?.sort((a, b) => b.date - a.date)?.map((recentArticle) => ({
+        recentLocalArticles = recentLocalArticles?.sort((a, b) => b.dateTimestamp - a.dateTimestamp)?.map((recentArticle) => ({
             id: recentArticle.elementId,
             title: recentArticle.title,
             slug: recentArticle.slug,
@@ -70,7 +70,7 @@ export const getUserRecents = createSelector(
                 type: 'tag',
                 title: tag.name,
                 slug: tag.slug,
-                date: tag.date
+                date: tag.dateTimestamp
             })
         });
 
@@ -79,16 +79,16 @@ export const getUserRecents = createSelector(
                 type: 'article',
                 title: article.title,
                 slug: article.slug,
-                date: article.date
+                date: article.dateTimestamp
             })
         });
 
         // Date from server is the creation date and not the activity date!
-        recents = [...recents].sort((a, b) => b.date - a.date);
+        recents = [...recents].sort((a, b) => b.dateTimestamp - a.dateTimestamp);
 
         recents = recents.limit(limit);
 
-        recents = recents.filter((recent) => !!recent.title || !!recent.name);
+        recents = recents.filter((recent) => !!recent.title || !!recent.name);
 
         return recents;
     }

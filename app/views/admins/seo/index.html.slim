@@ -1,6 +1,6 @@
-- stylesheet 'admins/seo'
+- stylesheet 'admins'
 
 - javascript "translations/admin-#{I18n.locale}"
-- javascript_defer 'commons', 'admins-commons', 'admins/seo'
+- javascript_defer 'commons', 'admins'
 
-#admins-seo-component.react-root data-seo-pages="#{seo_pages}"
+= content_tag :div, '', id: 'admins-component', class: 'react-root', data: { component: 'AdminSeoData', seo_pages: seo_pages }

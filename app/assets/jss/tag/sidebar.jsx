@@ -90,6 +90,9 @@ const styles = (theme) => ({
         fontSize: '1rem',
         color: theme.palette.text.secondary
     },
+    nestedLabelRoot: {
+      paddingLeft: 36
+    },
     nestedLabel: {
         fontSize: '.9rem',
         fontWeight: 400,

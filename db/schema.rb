@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_11_195952) do
+ActiveRecord::Schema.define(version: 2020_09_16_130712) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -45,7 +45,7 @@ ActiveRecord::Schema.define(version: 2020_05_11_195952) do
   create_table "admins", force: :cascade do |t|
     t.string "pseudo", default: "", null: false
     t.string "additional_info"
-    t.string "locale", default: "fr"
+    t.string "locale", default: "en"
     t.jsonb "settings", default: {}, null: false
     t.string "slug"
     t.string "email", default: "", null: false
@@ -366,7 +366,7 @@ ActiveRecord::Schema.define(version: 2020_05_11_195952) do
     t.string "phone_number"
     t.string "additional_info"
     t.date "birth_date"
-    t.string "locale", default: "fr"
+    t.string "locale", default: "en"
     t.jsonb "settings", default: {}, null: false
     t.boolean "allow_comment", default: true, null: false
     t.integer "visibility", default: 0, null: false

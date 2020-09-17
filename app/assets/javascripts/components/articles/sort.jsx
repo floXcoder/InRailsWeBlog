@@ -38,6 +38,7 @@ export default @withRouter
     currentUserTopicId: state.topicState.currentUserTopicId,
     currentUserTopicSlug: state.topicState.currentUserTopicSlug,
     isFetching: state.articleState.isFetching,
+    isProcessing: state.articleState.isProcessing,
     articles: state.articleState.articles
 }), {
     fetchArticles,
@@ -56,6 +57,7 @@ class ArticleSort extends React.Component {
         currentUserTopicId: PropTypes.number,
         currentUserTopicSlug: PropTypes.string,
         isFetching: PropTypes.bool,
+        isProcessing: PropTypes.bool,
         articles: PropTypes.array,
         fetchArticles: PropTypes.func,
         updateArticlePriority: PropTypes.func,
@@ -88,7 +90,7 @@ class ArticleSort extends React.Component {
         return (
             <div className={this.props.classes.root}>
                 {
-                    (this.props.isFetching?.length === 0) &&
+                    ((this.props.isFetching && this.props.articles.length === 0) || this.props.isProcessing) &&
                     <div className="center margin-top-20">
                         <Loader size="big"/>
                     </div>
@@ -99,6 +101,7 @@ class ArticleSort extends React.Component {
                     <ArticleSorter key={Utils.uuid()}
                                    classes={this.props.classes}
                                    articles={this.props.articles}
+                                   isProcessing={this.props.isProcessing}
                                    currentUserSlug={this.props.currentUserSlug}
                                    updateArticlePriority={this._handleUpdatePriority}/>
                 }

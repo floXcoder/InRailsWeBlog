@@ -2,7 +2,7 @@
 
 const styles = (theme) => ({
     container: {
-        marginBottom: '.5rem'
+        marginBottom: '1.5rem'
     },
     fieldItem: {
         width: '90%',

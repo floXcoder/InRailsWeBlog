@@ -75,20 +75,18 @@ class TagShow extends React.Component {
     }
 
     render() {
-        if (!this.props.tag) {
-            if (this.props.isFetching) {
-                return (
-                    <div className="center margin-top-20">
-                        <Loader size="big"/>
-                    </div>
-                )
-            } else {
-                return (
-                    <div className="center margin-top-20">
-                        <NotFound/>
-                    </div>
-                )
-            }
+        if (!this.props.tag && !this.props.isFetching) {
+            return (
+                <div className="center margin-top-20">
+                    <NotFound/>
+                </div>
+            );
+        } else if(this.props.isFetching) {
+            return (
+                <div className="center margin-top-20">
+                    <Loader size="big"/>
+                </div>
+            );
         }
 
         return (

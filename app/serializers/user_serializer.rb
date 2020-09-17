@@ -53,8 +53,9 @@
 
 class UserSerializer
   include FastJsonapi::ObjectSerializer
+  include NullAttributesRemover
 
-  # cache_options enabled: true, cache_length: InRailsWeBlog.config.cache_time
+  cache_options store: Rails.cache, namespace: "_#{ENV['WEBSITE_NAME']}_#{Rails.env}:serializer", expires_in: InRailsWeBlog.config.cache_time
 
   set_key_transform :camel_lower
 
@@ -68,5 +69,42 @@ class UserSerializer
              :additional_info,
              :locale,
              :slug,
-             :avatar_url
+             :avatar_url,
+             :sign_in_count
+
+  has_one :current_topic, record_type: :topic, serializer: TopicSerializer
+
+  has_one :tracker, serializer: TrackerSerializer
+
+  has_many :topics, serializer: TopicSerializer do |object|
+    object.topics.includes(:tagged_articles).order('created_at asc')
+  end
+
+  has_many :contributed_topics, serializer: TopicSerializer do |object|
+    object.contributed_topics.includes(:tagged_articles).order('created_at asc')
+  end
+
+  attribute :date do |object|
+    object.created_at.to_i
+  end
+
+  attribute :created_at do |object|
+    I18n.l(object.created_at, format: :custom).mb_chars.downcase.to_s
+  end
+
+  attribute :last_sign_in_at do |object|
+    I18n.l(object.last_sign_in_at, format: :custom).mb_chars.downcase.to_s if object.last_sign_in_at
+  end
+
+  attribute :articles_count do |object|
+    object.article_ids.size
+  end
+
+  attribute :link do |object, params|
+    Rails.application.routes.url_helpers.show_user_path(user_slug: object.slug) if params[:with_link]
+  end
+
+  attribute :settings do |object|
+    UserSettingSerializer.new(object).serializable_hash[:data][:attributes]
+  end
 end

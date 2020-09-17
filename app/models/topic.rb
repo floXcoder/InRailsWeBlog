@@ -60,12 +60,16 @@ class Topic < ApplicationRecord
   include ActAsTrackedConcern
   acts_as_tracked :queries, :searches, :clicks, :views, callbacks: { clicks: :add_visit_activity }
 
-  # Follow public activities
+  # Follow public activities
   include PublicActivity::Model
   tracked owner: :user
 
   include FriendlyId
   friendly_id :slug_candidates, scope: :user, use: [:slugged, :scoped]
+
+  # JSON data serializer
+  include DataSerializerConcern
+  data_serializer :serialized_data
 
   # Search
   searchkick searchable:  [:name, :description],
@@ -73,7 +77,7 @@ class Topic < ApplicationRecord
              suggest:     [:name],
              language:    -> { I18n.locale == :fr ? 'french' : 'english' }
 
-  # Marked as deleted
+  # Marked as deleted
   acts_as_paranoid
 
   # == Relationships ========================================================
@@ -190,23 +194,52 @@ class Topic < ApplicationRecord
   after_update :regenerate_article_slug
 
   # == Class Methods ========================================================
-  def self.as_flat_json(topics, format, **options)
-    data = case format
-           when 'strict'
-             TopicStrictSerializer.new(topics, **options)
-           when 'complete'
-             TopicCompleteSerializer.new(topics, include: [:user, :contributors, :tracker], includes: [], **options)
-           else
-             TopicSampleSerializer.new(topics, **options)
-           end
-
-    data.flat_serializable_hash
+  def self.serialized_data(data, format, **options)
+    case format
+    when 'strict'
+      TopicSerializer.new(data,
+                          fields:  {
+                            topic: %i[id userId userSlug mode name visibility languages slug dateTimestamp link],
+                          },
+                          include: %i[],
+                          **options)
+    when 'complete'
+      TopicSerializer.new(data,
+                          fields:  {
+                            user:         %i[id pseudo slug avatarUrl],
+                            contributors: %i[id pseudo slug avatarUrl],
+                            tag:          %i[id userId name synonyms visibility taggedArticlesCount slug description]
+                          },
+                          include: %i[user contributors tags tracker],
+                          **options)
+    when 'normal'
+      TopicSerializer.new(data,
+                          fields:  {
+                            topic:        %i[id user contributors tags userId mode name description priority visibility languages slug tagIds],
+                            user:         %i[id pseudo slug avatarUrl],
+                            contributors: %i[id pseudo slug avatarUrl],
+                            tag:          %i[id userId name synonyms visibility taggedArticlesCount slug description]
+                          },
+                          include: %i[user contributors tags],
+                          **options
+      )
+    else
+      TopicSerializer.new(data,
+                          fields:  {
+                            topic: %i[id user userId mode name description priority visibility languages slug tagIds]
+                          },
+                          include: %i[user],
+                          **options)
+    end
   end
-
 
   # == Instance Methods =====================================================
   def user?(user)
     self.user_id == user.id if user
+  end
+
+  def user_slug
+    user.slug
   end
 
   def link_path(options = {})

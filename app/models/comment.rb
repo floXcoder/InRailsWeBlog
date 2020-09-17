@@ -33,11 +33,11 @@ class Comment < ApplicationRecord
   # Act as a nested tree
   acts_as_nested_set scope: [:commentable_id, :commentable_type]
 
-  # Follow public activities
+  # Follow public activities
   # include PublicActivity::Model
   # tracked owner: :user, recipient: :commentable
 
-  # Marked as deleted
+  # Marked as deleted
   acts_as_paranoid
 
   # == Relationships ========================================================
@@ -120,7 +120,7 @@ class Comment < ApplicationRecord
     self.children.any?
   end
 
-  # Delete comment with his children
+  # Delete comment with his children
   def destroy_with_children
     destroyed_comment_ids = []
     self.descendants.each do |comment|

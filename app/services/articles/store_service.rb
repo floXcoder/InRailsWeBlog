@@ -227,7 +227,7 @@ module Articles
     private
 
     def extract_relationships(content)
-      # Extract all relationship ids
+      # Extract all relationship ids
       other_ids             = []
       article_relationships = []
       content.scan(/data-article-relation-id="(\d+)"/) { |other_id| other_ids << other_id }

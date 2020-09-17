@@ -30,6 +30,8 @@ class Signup extends React.Component {
     }
 
     _handleSubmit = (values) => {
+        values.locale = window.locale;
+
         this.props.signupUser(values)
             .then((response) => {
                 if (response?.errors) {
@@ -39,7 +41,7 @@ class Signup extends React.Component {
                         sessionStorage.setItem('user-signed', 'true');
                     }
 
-                    if(response?.meta?.location) {
+                    if (response?.meta?.location) {
                         window.location.replace(response.meta.location);
                     } else {
                         location.reload(true);

@@ -28,7 +28,7 @@ class Picture < ApplicationRecord
   # == Extensions ===========================================================
   mount_uploader :image, PictureUploader
 
-  # Marked as deleted
+  # Marked as deleted
   acts_as_paranoid
   translation_class.send :acts_as_paranoid rescue nil
 
