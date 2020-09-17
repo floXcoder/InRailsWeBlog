@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'support/helpers/form_helpers'
-
 class SitePage
   include ActionView::RecordIdentifier
   include Capybara::DSL

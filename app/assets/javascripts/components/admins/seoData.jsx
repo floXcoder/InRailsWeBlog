@@ -187,11 +187,13 @@ class AdminSeoData extends React.Component {
                                lookup: {
                                    [true]: I18n.t('js.admin.seo.visibility.public'),
                                    [false]: I18n.t('js.admin.seo.visibility.private')
-                               }
+                               },
+                               width: 140
                            },
                            {
                                title: I18n.t('js.admin.seo.table.columns.locale'),
-                               field: 'locale'
+                               field: 'locale',
+                               width: 80
                            },
                            {
                                title: I18n.t('js.admin.seo.table.columns.parameters'),

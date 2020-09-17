@@ -2,8 +2,6 @@ const _ = require('lodash');
 const path = require('path');
 const webpack = require('webpack');
 
-const autoprefixer = require('autoprefixer');
-
 const HappyPack = require('happypack');
 
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -50,31 +48,34 @@ webPackConfig.module = {
     noParse: config.modules.noParse,
     rules: [
         {
-            test: /\.(js|jsx)$/,
+            test: /\.(js|jsx)$/i,
             include: path.resolve(config.rules.javascript.include),
             loader: 'happypack/loader',
             options: config.rules.javascript.options
         },
         {
-            test: /\.s?[ac]ss$/,
+            test: /\.s?[ac]ss$/i,
             exclude: config.rules.stylesheet.exclude,
             use: [
                 {
                     loader: MiniCssExtractPlugin.loader
                 },
                 {
-                    loader: 'css-loader' // translates CSS into CommonJS
+                    loader: 'css-loader', // translates CSS into CommonJS
+                    options: config.rules.stylesheet.options
                 },
+                // {
+                //     loader: 'postcss-loader',
+                //     options: {
+                //         postcssOptions: {
+                //             plugins: () => [autoprefixer('last 2 version')]
+                //         }
+                //     }
+                // },
                 {
-                    loader: 'postcss-loader',
+                    loader: 'sass-loader', // compiles Sass to CSS, using Dart Sass
                     options: {
-                        plugins: () => [autoprefixer('last 2 version')]
-                    }
-                },
-                {
-                    loader: 'sass-loader', // compiles Sass to CSS
-                    options: {
-                        sassOptions: config.rules.stylesheet.options
+                        sassOptions: config.rules.sass.options
                     }
                 }
             ]

@@ -1,7 +1,7 @@
 const yenv = require('yenv');
 
 const assetDir = './app/assets';
-const frontendDir = './node_modules';
+// const frontendDir = './node_modules';
 
 const appEnv = yenv('./config/application.yml');
 
@@ -11,17 +11,8 @@ module.exports = {
         entries: {
             home: ['./javascripts/pages/home/home.jsx'],
             user: ['./javascripts/pages/home/user.jsx'],
-            'admins/login': ['./javascripts/pages/admins/login.jsx'],
-            'admins/dashboard': ['./javascripts/pages/admins/dashboard.jsx'],
-            'admins/users': ['./javascripts/pages/admins/users.jsx'],
-            'admins/comments': ['./javascripts/pages/admins/comments.jsx'],
-            'admins/topics': ['./javascripts/pages/admins/topics.jsx'],
-            'admins/tags': ['./javascripts/pages/admins/tags.jsx'],
-            'admins/articles': ['./javascripts/pages/admins/articles.jsx'],
-            'admins/blogs': ['./javascripts/pages/admins/blogs.jsx'],
-            'admins/seo': ['./javascripts/pages/admins/seo.jsx'],
-            'admins/logs': ['./javascripts/pages/admins/logs.jsx'],
-            'admins/cache': ['./javascripts/pages/admins/cache.jsx']
+            admins: ['./javascripts/pages/admins.jsx'],
+            'admins/login': ['./javascripts/pages/admins/login.jsx']
         },
         output: {
             path: './public/assets',
@@ -44,9 +35,15 @@ module.exports = {
             stylesheet: {
                 exclude: /node_modules/,
                 options: {
+                    importLoaders: 2,
+                    url: false
+                }
+            },
+            sass: {
+                options: {
                     includePaths: [
                         assetDir + '/stylesheets',
-                        frontendDir
+                        // frontendDir
                     ],
                     indentedSyntax: false // Use cscc syntax and not sass
                 }
@@ -76,12 +73,6 @@ module.exports = {
                 }
             }
         },
-        datas: [
-            {
-                from: './data/pghero/**/*',
-                to: 'pghero/'
-            }
-        ],
         alias: {
             react: 'node_modules/react',
             'react-dom': 'node_modules/react-dom',
@@ -99,6 +90,7 @@ module.exports = {
             PropTypes: 'prop-types',
             connect: ['react-redux', 'connect'],
             classNames: 'classnames',
+            I18n: 'app/assets/javascripts/modules/i18n.js',
             Utils: 'app/assets/javascripts/modules/utils.js',
             Notification: 'app/assets/javascripts/components/layouts/notification.jsx'
         },
@@ -109,12 +101,23 @@ module.exports = {
             loaders: ['babel-loader'],
             threads: 4
         },
-        fonts: 'fonts',
+        fonts: [
+            {
+                from: './fonts/**/*',
+                to: 'fonts/'
+            }
+        ],
         translations: 'javascripts/translations',
         images: [
             {
                 from: 'images/logos',
                 to: 'logos'
+            }
+        ],
+        datas: [
+            {
+                from: './data/pghero/**/*',
+                to: 'pghero/'
             }
         ],
         serviceWorker: {

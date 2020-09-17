@@ -22,7 +22,7 @@ module Searches
         @query       = @query.sub(/ \?(\w+)/, '')
       end
 
-      results_format = @params[:complete] ? 'complete' : 'sample'
+      results_format = @params[:complete] ? 'complete' : 'normal'
       visibility     = if @current_user
                          { _or: [{ visibility: 'only_me', user_id: @current_user.id }, { visibility: 'everyone' }] }
                        elsif @current_admin
@@ -136,9 +136,9 @@ module Searches
 
         # Add query params to search results
         if @params[:tags_ids].present?
-          search_results[:selectedTags] = TagStrictSerializer.new(Tag.where(id: @params[:tags_ids])).serializable_hash.dig(:data)&.map { |d| d[:attributes] }
+          search_results[:selectedTags] = Tag.serialized_json(Tag.where(id: @params[:tags_ids]), 'strict', flat: true, with_model: false)
         elsif @params[:tags].present?
-          search_results[:selectedTags] = TagStrictSerializer.new(Tag.where(slug: @params[:tags])).serializable_hash.dig(:data)&.map { |d| d[:attributes] }
+          search_results[:selectedTags] = Tag.serialized_json(Tag.where(slug: @params[:tags]), 'strict', flat: true, with_model: false)
         end
 
         if @scrap_query

@@ -19,7 +19,14 @@ class BaseService
     if Rails.env.production?
       Raven.capture_exception(errors || message) if errors&.is_a?(Exception) || message.is_a?(Exception)
     else
-      Rails.logger.error(errors || message)
+      if errors.is_a?(StandardError)
+        Rails.logger.error(errors.to_s)
+        errors.backtrace.each do |backtrace|
+          Rails.logger.error(backtrace)
+        end
+      else
+        Rails.logger.error(message)
+      end
     end
 
     ResponseService.new(false, nil, message.to_s, errors || message.to_s)

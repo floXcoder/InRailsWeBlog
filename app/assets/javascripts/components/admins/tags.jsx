@@ -87,7 +87,8 @@ class AdminTags extends React.Component {
                                lookup: {
                                    'everyone': I18n.t('js.tag.enums.visibility.everyone'),
                                    'only_me': I18n.t('js.tag.enums.visibility.only_me')
-                               }
+                               },
+                               width: 120
                            },
                            {
                                title: I18n.t('js.admin.tags.table.columns.tagged_articles_count'),

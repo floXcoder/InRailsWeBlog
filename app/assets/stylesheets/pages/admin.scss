@@ -1,5 +1,21 @@
-@import './admin';
+@import './common';
 
+// GLOBAL
+html {
+  font-size: 14px;
+}
+
+body {
+  margin: 0;
+}
+
+
+// BLOGS
+.normalized-content {
+  font-size: 1.2rem;
+}
+
+// LOGS
 .file-holder {
   border: 1px solid #e5e5e5;
 

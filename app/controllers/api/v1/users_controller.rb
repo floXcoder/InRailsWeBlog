@@ -64,12 +64,9 @@ module Api::V1
         respond_to do |format|
           format.json do
             if complete
-              render json: UserCompleteSerializer.new(users,
-                                                      include: [:tracker],
-                                                      meta:    { root: 'users' }).serializable_hash
+              render json: User.serialized_json(users, 'complete')
             else
-              render json: UserSampleSerializer.new(users,
-                                                    meta: { root: 'users', **meta_attributes(pagination: users) }).serializable_hash
+              render json: User.serialized_json(users, 'complete', meta: meta_attributes(pagination: users))
             end
           end
         end
@@ -103,9 +100,7 @@ module Api::V1
         format.json do
           if params[:complete] && (current_user&.id == user.id || current_user.admin?)
             User.track_views(user.id)
-            render json: UserCompleteSerializer.new(user,
-                                                    include: [:tracker],
-                                                    meta:    meta_attributes).serializable_hash
+            render json: user.flat_serialized_json('complete')
           elsif params[:profile] && current_user&.id == user.id
             topic_slug = if params[:topic_slug].present?
                            params[:topic_slug]
@@ -113,13 +108,18 @@ module Api::V1
                            params[:article_slug].scan(/@(.*?)$/)&.last&.first
                          end
 
-            if topic_slug && user.current_topic.slug != topic_slug
+            if topic_slug
               topic = Topic.find_by(slug: topic_slug)
-              user.switch_topic(topic) && user.save if topic && topic.user_id == user.id
+              if topic
+                if user.current_topic.slug != topic_slug && topic.user_id == user.id
+                  user.switch_topic(topic) && user.save
+                end
+
+                user.settings.merge!(topic.settings)
+              end
             end
 
-            render json: UserProfileSerializer.new(user,
-                                                   include: [:current_topic, :topics, :contributed_topics]).serializable_hash
+            render json: user.flat_serialized_json('profile')
           else
             User.track_views(user.id)
 
@@ -170,8 +170,8 @@ module Api::V1
       respond_to do |format|
         format.json do
           render json: {
-            tags:     Tag.as_flat_json(user_recents[:tags], 'strict'),
-            articles: Article.as_flat_json(user_recents[:articles], 'strict')
+            tags:     Tag.flat_serialized_json(user_recents[:tags], 'strict', with_model: false),
+            articles: Article.flat_serialized_json(user_recents[:articles], 'strict', with_model: false)
           }
         end
       end
@@ -196,8 +196,8 @@ module Api::V1
       respond_to do |format|
         format.json do
           render json: {
-            tags:     Tag.as_flat_json(user_recents[:tags], 'strict'),
-            articles: Article.as_flat_json(user_recents[:articles], 'strict')
+            tags:     Tag.flat_serialized_json(user_recents[:tags], 'strict'),
+            articles: Article.flat_serialized_json(user_recents[:articles], 'strict')
           }
         end
       end
@@ -230,11 +230,10 @@ module Api::V1
           format.json do
             if params[:complete] && current_user
               authorize current_user, :admin?
-              render json:   UserCompleteSerializer.new(stored_user.result,
-                                                        include: [:tracker]).serializable_hash,
+              render json:   stored_user.result.serialized_json('complete'),
                      status: :ok
             else
-              render json: UserSerializer.new(stored_user.result).serializable_hash
+              render json: stored_user.result.serialized_json(stored_user.result, 'profile')
             end
           end
         end

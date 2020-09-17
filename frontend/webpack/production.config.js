@@ -80,37 +80,16 @@ webPackConfig.optimization = {
         name: true,
         cacheGroups: {
             default: false,
-            commonsAdmins: {
-                name: 'admins-commons',
-                minChunks: 2,
-                reuseExistingChunk: true,
-                // chunks: 'initial',
-                chunks: function (chunk) {
-                    return chunk.name.includes('admin');
-                }
-                // test: function (module, chunks) {
-                //     if(chunks[0] && chunks[0].name) {
-                //         return chunks[0].name.includes('admin');
-                //     } else {
-                //         return false;
-                //     }
-                // }
-            },
             commons: {
                 name: 'commons',
+                chunks: 'initial',
                 minChunks: 2,
                 reuseExistingChunk: true,
-                // chunks: 'initial',
-                chunks: function (chunk) {
-                    return chunk.name === 'home' || chunk.name === 'user';
+                test: function (module) {
+                    if (module.resource) {
+                        return !module.resource.includes('/admin/') && !module.resource.includes('admin-');
+                    }
                 }
-                // test: function (module, chunks) {
-                //     if(chunks[0] && chunks[0].name) {
-                //         return !chunks[0].name.includes('admin');
-                //     } else {
-                //         return false;
-                //     }
-                // }
             }
         }
     },
@@ -162,18 +141,32 @@ webPackConfig.plugins.push(
         debug: false
     }),
     new CopyWebpackPlugin({
-        patterns: _.map(config.images, (image) => ({
-            from: image.from,
-            to: image.to + '/' + config.production.filenameImage + '.[ext]',
-            toType: 'template'
-        }))
-    }),
-    new CopyWebpackPlugin({
         patterns: [{
             from: config.translations,
             to: 'translations/' + config.production.filename + '.[ext]',
             toType: 'template'
         }]
+    }),
+    new CopyWebpackPlugin({
+        patterns: _.map(config.fonts, (font) => ({
+            from: font.from,
+            to: font.to + config.production.filenameImage + '.[ext]',
+            toType: 'template'
+        }))
+    }),
+    new CopyWebpackPlugin({
+        patterns: _.map(config.fonts, (font) => ({
+            from: font.from,
+            to: font.to + config.production.filenameImage + '.[ext]',
+            toType: 'template'
+        }))
+    }),
+    new CopyWebpackPlugin({
+        patterns: _.map(config.images, (image) => ({
+            from: image.from,
+            to: image.to + '/' + config.production.filenameImage + '.[ext]',
+            toType: 'template'
+        }))
     }),
     new CopyWebpackPlugin({
         patterns: _.map(config.datas, (data) => ({

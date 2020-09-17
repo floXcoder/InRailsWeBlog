@@ -71,14 +71,14 @@ export default class SearchArticleModule extends React.PureComponent {
                             [this.props.classes.articleSecondaryResult]: !primary,
                             [this.props.classes.articleHighlighted]: this.props.highlightedArticleId === article.id
                         })}
-                              to={userArticlePath(article.user.slug, article.slug)}
+                              to={userArticlePath(article.userSlug, article.slug)}
                               onClick={this._handleArticleClick.bind(this, article)}>
                             {article.title || article.slug}
 
                             {
-                                article.highlightedContent &&
+                                article.contentHighlighted &&
                                 <span className={this.props.classes.articleHighlightResult}>
-                                     (<span dangerouslySetInnerHTML={{__html: article.highlightedContent}}/>)
+                                     (<span dangerouslySetInnerHTML={{__html: article.contentHighlighted}}/>)
                                 </span>
                             }
                         </Link>
@@ -95,7 +95,7 @@ export default class SearchArticleModule extends React.PureComponent {
                     </Grid>
 
                     {/*<Grid item={true}>*/}
-                    {/*    <Link to={editArticlePath(article.user.slug, article.slug)}>*/}
+                    {/*    <Link to={editArticlePath(article.userSlug, article.slug)}>*/}
                     {/*        <EditIcon className={this.props.classes.articleEdit}/>*/}
                     {/*    </Link>*/}
                     {/*</Grid>*/}

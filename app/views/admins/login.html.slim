@@ -1,8 +1,8 @@
-- stylesheet 'admins/login'
+- stylesheet 'admins'
 
 - javascript "translations/admin-#{I18n.locale}"
-- javascript_defer 'commons', 'admins-commons', 'admins/login'
+- javascript_defer 'commons', 'admins/login'
 
 - title titleize_admin(I18n.t('views.admin.login.title'))
 
-#admins-login-component.react-root
+= content_tag :div, '', id: 'admins-login-component', class: 'react-root'

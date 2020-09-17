@@ -52,13 +52,19 @@ const manageError = (origin, error, url) => {
 
     if (error.statusText) {
         if (error.statusText === 'Forbidden') {
+            // Do nothing
+
             // Notification.error(I18n.t('js.helpers.errors.not_authorized'));
             // if (document.referrer === '') {
             //     window.location = '/';
             // } else {
             //     history.back();
             // }
+        } else if (error.statusText === 'Cancelled') {
+            // Do nothing
         } else if (error.statusText === 'Not Found') {
+            // Do nothing
+
             // Notification.error(I18n.t('js.helpers.errors.unprocessable'));
             // } else if (error.statusText === 'Unprocessable Entity') {
             // Managed by handleResponse

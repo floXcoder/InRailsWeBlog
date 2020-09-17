@@ -1,6 +1,6 @@
-- stylesheet 'admins/dashboard'
+- stylesheet 'admins'
 
 - javascript "translations/admin-#{I18n.locale}"
-- javascript_defer 'commons', 'admins-commons', 'admins/dashboard'
+- javascript_defer 'commons', 'admins'
 
-#admins-dashboard-component.react-root
+= content_tag :div, '', id: 'admins-component', class: 'react-root', data: { component: 'AdminDashboard' }

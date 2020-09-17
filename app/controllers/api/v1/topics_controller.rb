@@ -26,13 +26,9 @@ module Api::V1
         respond_to do |format|
           format.json do
             if complete
-              render json: TopicCompleteSerializer.new(topics,
-                                                       include: [:user, :contributors, :tracker, :tags],
-                                                       meta:    { root: 'topics' }).serializable_hash
+              render json: Topic.serialized_json(topics, 'complete')
             else
-              render json: TopicSerializer.new(topics,
-                                               include: [:contributors],
-                                               meta:    { root: 'topics' }).serializable_hash
+              render json: Topic.serialized_json(topics, 'normal')
             end
           end
         end
@@ -46,8 +42,7 @@ module Api::V1
       respond_to do |format|
         format.json do
           if current_user.switch_topic(topic) && current_user.save
-            render json:   TopicSerializer.new(topic,
-                                               include: [:contributors]).serializable_hash,
+            render json:   topic.serialized_json('normal'),
                    status: :ok
           else
             render json:   { errors: current_user.errors },
@@ -71,13 +66,9 @@ module Api::V1
                          author:     topic.user.pseudo)
 
             if current_user && topic.user?(current_user)
-              render json: TopicCompleteSerializer.new(topic,
-                                                       include: [:user, :tags, :contributors, :tracker],
-                                                       meta:    meta_attributes).serializable_hash
+              render json: topic.serialized_json('complete')
             else
-              render json: TopicSerializer.new(topic,
-                                               include: [:contributors],
-                                               meta:    meta_attributes).serializable_hash
+              render json: topic.serialized_json('normal', meta: meta_attributes)
             end
           end
         end
@@ -93,8 +84,7 @@ module Api::V1
       respond_to do |format|
         format.json do
           if stored_topic.success? && current_user.switch_topic(topic) && current_user.save
-            render json:   TopicCompleteSerializer.new(stored_topic.result,
-                                                       include: [:user, :tags, :contributors, :tracker]).serializable_hash,
+            render json:   stored_topic.result.serialized_json('complete'),
                    status: :created
           else
             flash.now[:error] = stored_topic.message
@@ -116,9 +106,7 @@ module Api::V1
                        user_slug:  topic.user,
                        author:     topic.user.pseudo)
 
-          render json: TopicCompleteSerializer.new(topic,
-                                                   include: [:user, :tags, :contributors, :tracker],
-                                                   meta:    meta_attributes).serializable_hash
+          render json: topic.serialized_json('complete')
         end
       end
     end
@@ -133,9 +121,7 @@ module Api::V1
         format.json do
           if stored_topic.success?
             flash.now[:success] = stored_topic.message
-            render json:   TopicCompleteSerializer.new(stored_topic.result,
-                                                       include: [:user, :tags, :contributors, :tracker],
-                                                       meta:    meta_attributes).serializable_hash,
+            render json:   stored_topic.result.serialized_json('complete'),
                    status: :ok
           else
             flash.now[:error] = stored_topic.message
@@ -156,8 +142,7 @@ module Api::V1
         format.json do
           flash.now[:success] = shared_topic.message
           if shared_topic.success?
-            render json:   TopicSerializer.new(shared_topic.result,
-                                               include: [:contributors]).serializable_hash,
+            render json:   shared_topic.result.serialized_json('normal'),
                    status: :ok
           else
             flash.now[:error] = shared_topic.message
@@ -180,8 +165,7 @@ module Api::V1
         format.json do
           if topics.present?
             flash.now[:success] = t('views.topic.flash.successful_priority_update')
-            render json:   TopicSampleSerializer.new(current_user.topics,
-                                                     meta: { root: 'topics' }).serializable_hash,
+            render json:   Topic.serialized_json(current_user.topics),
                    status: :ok
           else
             flash.now[:error] = t('views.topic.flash.error_priority_update')
@@ -208,8 +192,7 @@ module Api::V1
             end
 
             flash.now[:success] = I18n.t('views.topic.flash.successful_deletion')
-            render json:   TopicSerializer.new(current_topic,
-                                               include: [:contributors]).serializable_hash,
+            render json: current_topic.serialized_json('normal'),
                    status: :ok
           else
             flash.now[:error] = I18n.t('views.topic.flash.error_deletion', errors: topic.errors.to_s)

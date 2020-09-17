@@ -162,7 +162,7 @@ class ArticleMiniCardDisplay extends React.Component {
                               className={this.props.classes.headerItem}
                               itemProp="articleBody">
                             <div className="normalized-content normalized-content-extract"
-                                 dangerouslySetInnerHTML={{__html: this.props.article.content}}/>
+                                 dangerouslySetInnerHTML={{__html: this.props.article.contentSummary}}/>
 
                         </Grid>
 

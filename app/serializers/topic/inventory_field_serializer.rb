@@ -20,7 +20,6 @@
 #  updated_at      :datetime         not null
 #
 
-
 class Topic::InventoryFieldSerializer
   include FastJsonapi::ObjectSerializer
 

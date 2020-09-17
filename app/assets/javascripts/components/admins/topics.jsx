@@ -74,7 +74,8 @@ class AdminTopics extends React.Component {
                                    'default': I18n.t('js.topic.enums.mode.default'),
                                    'stories': I18n.t('js.topic.enums.mode.stories'),
                                    'inventories': I18n.t('js.topic.enums.mode.inventories')
-                               }
+                               },
+                               width: 120
                            },
                            {
                                title: I18n.t('js.admin.topics.table.columns.name'),
@@ -95,7 +96,9 @@ class AdminTopics extends React.Component {
                            },
                            {
                                title: I18n.t('js.admin.topics.table.columns.languages'),
-                               field: 'languages'
+                               field: 'languages',
+                               render: (topic) => topic.languages.join(', '),
+                               width: 100
                            },
                            {
                                title: I18n.t('js.admin.topics.table.columns.articles_count'),

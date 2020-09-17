@@ -24,7 +24,7 @@
 class PictureSerializer
   include FastJsonapi::ObjectSerializer
 
-  # cache_options enabled: true, cache_length: InRailsWeBlog.config.cache_time
+  cache_options store: Rails.cache, namespace: "_#{ENV['WEBSITE_NAME']}_#{Rails.env}:serializer", expires_in: InRailsWeBlog.config.cache_time
 
   set_key_transform :camel_lower
 

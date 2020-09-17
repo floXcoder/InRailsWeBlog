@@ -63,6 +63,10 @@ class Tag < ApplicationRecord
   include NiceUrlConcern
   friendly_id :slug_candidates, use: :slugged
 
+  # JSON data serializer
+  include DataSerializerConcern
+  data_serializer :serialized_data
+
   # Search
   searchkick searchable:  [:name, :description, :synonyms],
              word_middle: [:name, :description],
@@ -205,19 +209,6 @@ class Tag < ApplicationRecord
   before_create :set_default_color
 
   # == Class Methods ========================================================
-  def self.as_flat_json(tags, format, **options)
-    data = case format
-           when 'strict'
-             TagStrictSerializer.new(tags, **options)
-           when 'complete'
-             TagCompleteSerializer.new(tags, include: [:user, :tracker], includes: [], **options)
-           else
-             TagSampleSerializer.new(tags, **options)
-           end
-
-    data.flat_serializable_hash
-  end
-
   def self.parse_tags(tags, current_user_id)
     return [] unless tags.is_a?(Array) || !tags.empty?
 
@@ -244,6 +235,39 @@ class Tag < ApplicationRecord
 
     tags.map do |tag|
       tag.destroy if tag.tagged_articles_count.zero?
+    end
+  end
+
+  def self.serialized_data(data, format, **options)
+    case format
+    when 'strict'
+      TagSerializer.new(data,
+                        fields:  {
+                          tag: %i[id userId name synonyms visibility slug topicIds dateTimestamp link],
+                        },
+                        include: [],
+                        **options)
+    when 'complete'
+      TagSerializer.new(data,
+                        fields:  {
+                          user: %i[id pseudo slug avatarUrl]
+                        },
+                        include: %i[user tracker],
+                        **options)
+    when 'normal'
+      TagSerializer.new(data,
+                        fields:  {
+                          tag: %i[id userId name description synonyms priority visibility visibilityTranslated taggedArticlesCount childOnly slug parentIds childIds topicIds],
+                        },
+                        include: [],
+                        **options)
+    else
+      TagSerializer.new(data,
+                        fields:  {
+                          tag: %i[id userId name synonyms visibility taggedArticlesCount slug description],
+                        },
+                        include: [],
+                        **options)
     end
   end
 

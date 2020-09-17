@@ -9,12 +9,12 @@ end
 ruby '2.6.3'
 
 # Rails version
-gem 'rails',                    '6.0.3.2'
+gem 'rails',                    '6.0.3.3'
 
 # Use postgresql as the database for Active Record
 gem 'pg',                       '1.2.3'
 gem 'active_record_extended',   '1.4.0'
-gem 'pghero',                   '2.7.0'
+gem 'pghero',                   '2.7.2'
 gem 'pg_query',                 '1.2.0' # Required for pghero
 
 # HTTP Response
@@ -24,8 +24,8 @@ gem 'secure_headers',           '6.3.1'
 gem 'faraday',                  '1.0.1'
 
 # JSON
-gem 'jsonapi-serializer',       '2.0.0'
-gem 'oj',                       '3.10.8'
+gem 'jsonapi-serializer',       '2.1.0'
+gem 'oj',                       '3.10.14'
 
 # Use slim instead of erb
 gem 'slim-rails',               '3.2.0'
@@ -36,7 +36,7 @@ gem 'geocoder',                 '1.6.3'
 gem 'maxminddb',                '0.1.22'
 
 # Model versioning
-gem 'paper_trail',              '10.3.1'
+gem 'paper_trail',              '11.0.0'
 
 # Marked as deleted
 gem 'paranoia',                 '2.4.2'
@@ -49,14 +49,14 @@ gem 'auto_strip_attributes',    '2.6.0'
 gem 'sanitize',                 '5.2.1'
 
 # Run asynschronous process
-gem 'sidekiq',                  '6.1.1'
+gem 'sidekiq',                  '6.1.2'
 gem 'sidekiq-statistic',        '1.4.0'
 gem 'sidekiq-cron',             '1.2.0'
 gem 'attentive_sidekiq',        '0.3.3'
 gem 'whenever',                 '1.0.0', require: false
 
 # Redis session store and cache
-gem 'redis-namespace',          '1.7.0'
+gem 'redis-namespace',          '1.8.0'
 gem 'redis-session-store',      '0.11.3'
 gem 'hiredis',                  '0.6.3'
 
@@ -90,14 +90,14 @@ gem 'premailer-rails',          '1.11.1'
 gem 'browser',                  '4.2.0'
 
 # SEO
-gem 'friendly_id',              '5.3.0'
+gem 'friendly_id',              '5.4.0'
 gem 'route_translator',         '8.0.0'
 gem 'meta-tags',                '2.13.0'
 gem 'sitemap_generator',        '6.1.2'
 
 # Dummy data
 gem 'factory_bot_rails',        '6.1.0',   require: false
-gem 'faker',                    '2.13.0',  require: false
+gem 'faker',                    '2.14.0',  require: false
 
 # Deployment
 gem 'capistrano',               '3.14.1'
@@ -112,7 +112,7 @@ gem 'health_check',             '3.0.0'
 gem 'webdrivers',               '4.4.1'
 
 # Server
-gem 'puma',                     '4.3.5'
+gem 'puma',                     '4.3.6'
 
 group :development do
   # Debugging tool
@@ -120,7 +120,7 @@ group :development do
   gem 'awesome_print',          '1.8.0'
 
   # Improve errors
-  gem 'better_errors',          '2.7.1'
+  gem 'better_errors',          '2.8.0'
   gem 'binding_of_caller',      '0.8.0'
 
   # N+1 database query
@@ -151,11 +151,11 @@ end
 group :test do
   # Test tools
   gem 'rspec-rails',                '4.0.1'
-  gem 'webmock',                    '3.8.3'
+  gem 'webmock',                    '3.9.1'
   gem 'rspec_junit_formatter',      '0.4.1'
-  gem 'shoulda-matchers',           '4.3.0',  require: false
+  gem 'shoulda-matchers',           '4.4.1',  require: false
   gem 'shoulda-callback-matchers',  '1.1.4',  require: false
-  gem 'simplecov',                  '0.18.5', require: false
+  gem 'simplecov',                  '0.19.0', require: false
   gem 'fuubar',                     '2.5.0'
   gem 'database_cleaner',           '1.8.5'
   gem 'db-query-matchers',          '0.10.0'
@@ -170,7 +170,7 @@ group :test do
 
   # static analyzer
   gem 'rails_best_practices',       '1.20.0',   require: false
-  gem 'brakeman',                   '4.9.0',    require: false
+  gem 'brakeman',                   '4.9.1',    require: false
   gem 'i18n-tasks',                 '0.9.31',   require: false
 end
 
@@ -179,15 +179,15 @@ group :development, :test do
   gem 'bootsnap',                   '1.4.8',   require: false
 
   # Check errors
-  gem 'rubocop',                    '0.89.1',  require: false
-  gem 'rubocop-rails',              '2.7.1',   require: false
-  gem 'rubocop-performance',        '1.7.1',   require: false
-  gem 'rubocop-rspec',              '1.42.0',  require: false
+  gem 'rubocop',                    '0.91.0',  require: false
+  gem 'rubocop-rails',              '2.8.1',   require: false
+  gem 'rubocop-performance',        '1.8.0',   require: false
+  gem 'rubocop-rspec',              '1.43.2',  require: false
 end
 
 group :production do
   # Errors reporting
-  gem 'sentry-raven',     '3.0.0'
+  gem 'sentry-raven',     '3.0.4'
 
   # Improve log outputs
   gem 'lograge',          '0.11.2'

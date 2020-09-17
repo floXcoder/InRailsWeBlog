@@ -29,12 +29,14 @@
 
 class TagSerializer
   include FastJsonapi::ObjectSerializer
+  include NullAttributesRemover
 
-  # cache_options enabled: true, cache_length: InRailsWeBlog.config.cache_time
+  # cache_options store: Rails.cache, namespace: "_#{ENV['WEBSITE_NAME']}_#{Rails.env}:serializer", expires_in: InRailsWeBlog.config.cache_time
 
   set_key_transform :camel_lower
 
   attributes :id,
+             :user_id,
              :name,
              :description,
              :synonyms,
@@ -43,23 +45,55 @@ class TagSerializer
              :tagged_articles_count,
              :slug
 
+  belongs_to :user, serializer: UserSerializer
+
+  has_one :tracker, serializer: TrackerSerializer
+
   attribute :visibility_translated do |object|
     object.visibility_to_tr
+  end
+
+  attribute :date do |object|
+    I18n.l(object.created_at, format: :custom).sub(/^[0]+/, '')
+  end
+
+  attribute :date_timestamp do |object|
+    object.created_at.to_i
+  end
+
+  attribute :parents do |object, params|
+    object.parents_for_user(params[:current_user_id])
+  end
+
+  attribute :parent_ids do |object, params|
+    if params[:current_topic_id]
+      object.child_relationships.select { |relation| relation.topic_id == params[:current_topic_id] }.map(&:parent_id).uniq
+    else
+      []
+    end
+  end
+
+  attribute :children do |object, params|
+    object.children_for_user(params[:current_user_id])
+  end
+
+  attribute :child_ids do |object, params|
+    if params[:current_topic_id]
+      object.parent_relationships.select { |relation| relation.topic_id == params[:current_topic_id] }.map(&:child_id).uniq
+    else
+      []
+    end
   end
 
   attribute :child_only do |object, params|
     object.child_only_for_topic(params[:current_topic_id])
   end
 
-  attribute :parent_ids do |object, params|
-    object.child_relationships.select { |relation| relation.topic_id == params[:current_topic_id] }.map(&:parent_id).uniq if params[:current_topic_id]
-  end
-
-  attribute :child_ids do |object, params|
-    object.parent_relationships.select { |relation| relation.topic_id == params[:current_topic_id] }.map(&:child_id).uniq if params[:current_topic_id]
-  end
-
   attribute :topic_ids do |object|
-    object.tagged_articles.map(&:topic_id).uniq
+    object.tagged_articles&.map(&:topic_id)&.uniq || object.topic_ids
+  end
+
+  attribute :link do |object|
+    Rails.application.routes.url_helpers.show_tag_path(tag_slug: object.slug)
   end
 end

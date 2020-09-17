@@ -39,7 +39,7 @@ class Login extends React.PureComponent {
                         sessionStorage.setItem('user-logged', 'true');
                     }
 
-                    if(response?.meta?.location) {
+                    if (response?.meta?.location) {
                         window.location.replace(response.meta.location);
                     }
 
@@ -67,12 +67,12 @@ class Login extends React.PureComponent {
                 <div className="responsive-modal-content">
                     {
                         this.props.isProcessing &&
-                            <div className="center-align">
-                                <h2>
-                                    {I18n.t('js.user.login.connecting')}
-                                    <BounceSpinner className="margin-bottom-10"/>
-                                </h2>
-                            </div>
+                        <div className="center-align">
+                            <h2>
+                                {I18n.t('js.user.login.connecting')}
+                                <BounceSpinner className="margin-bottom-10"/>
+                            </h2>
+                        </div>
                     }
 
                     {

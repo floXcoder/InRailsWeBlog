@@ -80,6 +80,10 @@ class Article < ApplicationRecord
   include FriendlyId
   friendly_id :slug_candidates, use: [:slugged, :localized_slug]
 
+  # JSON data serializer
+  include DataSerializerConcern
+  data_serializer :serialized_data
+
   # Search
   # Only filterable can be used in where options!
   searchkick word_middle: [:title, :content], # To improve speed for autocomplete
@@ -298,22 +302,52 @@ class Article < ApplicationRecord
   end
 
   # == Class Methods ========================================================
-  def self.as_flat_json(articles, format, **options)
-    data = case format
-           when 'strict'
-             ArticleStrictSerializer.new(articles, **options)
-           when 'complete'
-             ArticleCompleteSerializer.new(articles, include: [:tracker], includes: [], **options)
-           else
-             ArticleSampleSerializer.new(articles, include: [:user, :tags], **options)
-           end
-
-    data.flat_serializable_hash
+  def self.serialized_data(data, format, **options)
+    case format
+    when 'strict'
+      ArticleSerializer.new(data,
+                            fields:  {
+                              article: %i[id userSlug tag topicId mode modeTranslated title summary draft visibility slug tagNames dateTimestamp contentHighlighted link]
+                            },
+                            include: %i[],
+                            **options)
+    when 'complete'
+      ArticleSerializer.new(data,
+                            fields:  {
+                              user:  %i[id pseudo slug avatarUrl],
+                              tag:   %i[id userId name synonyms visibility taggedArticlesCount slug description],
+                              topic: %i[id userId mode name description priority visibility languages slug tagIds]
+                            },
+                            include: %i[user tags topic tracker],
+                            **options)
+    when 'normal'
+      ArticleSerializer.new(data,
+                            fields:  {
+                              article: %i[id user tags topicId mode modeTranslated title summary content inventories reference visibility visibilityTranslated allowComment draft languages defaultPicture slug bookmarksCount commentsCount date dateShort link parentTagIds childTagIds],
+                              user:    %i[id pseudo slug avatarUrl],
+                              tag:     %i[id userId name synonyms visibility taggedArticlesCount slug description]
+                            },
+                            include: %i[user tags],
+                            **options)
+    else
+      ArticleSerializer.new(data,
+                            fields:  {
+                              article: %i[id user tags topicId mode summary draft visibility defaultPicture slug outdatedArticlesCount commentsCount modeTranslated title contentSummary inventories date dateShort dateIso parentTagIds childTagIds],
+                              user:    %i[id pseudo slug avatarUrl],
+                              tag:     %i[id userId name synonyms visibility taggedArticlesCount slug description]
+                            },
+                            include: %i[user tags],
+                            **options)
+    end
   end
 
   # == Instance Methods =====================================================
   def user?(user)
     user.id == self.user_id if user
+  end
+
+  def user_slug
+    user.slug
   end
 
   def link_path(options = {})

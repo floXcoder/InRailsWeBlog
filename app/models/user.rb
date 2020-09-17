@@ -113,6 +113,10 @@ class User < ApplicationRecord
   include NiceUrlConcern
   friendly_id :pseudo, use: :slugged
 
+  # JSON data serializer
+  include DataSerializerConcern
+  data_serializer :serialized_data
+
   # Voter
   acts_as_voter
 
@@ -250,19 +254,6 @@ class User < ApplicationRecord
   after_create :create_default_topic
 
   # == Class Methods ========================================================
-  def self.as_flat_json(users, format, **options)
-    data = case format
-           when 'strict'
-             UserStrictSerializer.new(users, **options)
-           when 'complete'
-             UserCompleteSerializer.new(users, include: [:tracker], includes: [], **options)
-           else
-             UserSampleSerializer.new(users, **options)
-           end
-
-    data.flat_serializable_hash
-  end
-
   def self.order_by(order)
     case order
     when 'id_asc'
@@ -316,6 +307,41 @@ class User < ApplicationRecord
     end
   end
 
+  def self.serialized_data(data, format, **options)
+    case format
+    when 'strict'
+      UserSerializer.new(data,
+                         fields:  {
+                           user: %i[id pseudo avatarUrl slug date link],
+                         },
+                         include: [],
+                         **options)
+    when 'profile'
+      UserSerializer.new(data,
+                         fields:  {
+                           user: %i[id current_topic topics contributed_topics pseudo email firstName lastName locale slug avatarUrl settings],
+                           topic: %i[id userId mode name description priority visibility languages slug tagIds inventoryFields]
+                         },
+                         include: %i[current_topic topics contributed_topics],
+                         **options)
+    when 'complete'
+      UserSerializer.new(data,
+                         fields:  {
+                           topic: %i[id tracker userId mode name description priority visibility languages slug tagIds]
+                         },
+                         include: %i[tracker],
+                         **options)
+    else
+      UserSerializer.new(data, {
+        fields:  {
+          user: %i[id pseudo avatarUrl slug]
+        },
+        include: %i[],
+        **options
+      })
+    end
+  end
+
   # == Instance Methods =====================================================
   def user?(user)
     user.id == self.id
@@ -364,7 +390,7 @@ class User < ApplicationRecord
 
     return {} if last_visits.empty?
 
-    tag_ids = last_visits.where(recipient_type: 'Tag').map(&:recipient_id).uniq
+    tag_ids     = last_visits.where(recipient_type: 'Tag').map(&:recipient_id).uniq
     article_ids = last_visits.where(recipient_type: 'Article').map(&:recipient_id).uniq
 
     # Override created_at to use the activity field
@@ -372,7 +398,7 @@ class User < ApplicationRecord
       # users:   User.joins(:user_activities).merge(last_visits).distinct,
       # topics:   Topic.joins(:user_activities).merge(last_visits).distinct,
       tags:     Tag.select(:id, :user_id, :name, :visibility, :synonyms, :slug, :created_at, :updated_at).includes(:tagged_articles).where(id: tag_ids),
-      articles: Article.select(:id, :user_id, :topic_id, :mode, :title_translations, :languages, :draft, :visibility, :slug, :created_at, :updated_at).includes(:user, :tags, tagged_articles: [:tag]).where(id: article_ids)
+      articles: Article.select(:id, :user_id, :topic_id, :mode, :title_translations, :summary_translations, :languages, :draft, :visibility, :slug, :created_at, :updated_at).includes(:user, :tags, tagged_articles: [:tag]).where(id: article_ids)
     }
   end
 

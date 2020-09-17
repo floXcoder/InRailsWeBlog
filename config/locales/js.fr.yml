@@ -437,7 +437,7 @@ fr:
           default: "Ajouter des labels à l'article"
           parent: "Ajouter des labels principaux"
           child: "Ajouter des labels secondaires"
-          placeholder: "Entrer le nom du label"
+          placeholder: "Ajouter un label"
           everyone: "Labels partagés"
           only_me: "Labels perso"
           add: "Ajouter le label :"

@@ -128,20 +128,15 @@ webPackConfig.optimization = {
         name: true,
         cacheGroups: {
             default: false,
-            commonsAdmins: {
-                name: 'admins-commons',
-                minChunks: 2,
-                reuseExistingChunk: true,
-                chunks: function (chunk) {
-                    return chunk.name.includes('admin');
-                }
-            },
             commons: {
                 name: 'commons',
+                chunks: 'initial',
                 minChunks: 2,
                 reuseExistingChunk: true,
-                chunks: function (chunk) {
-                    return chunk.name === 'home' || chunk.name === 'user';
+                test: function (module) {
+                    if (module.resource) {
+                        return !module.resource.includes('/admin/') && !module.resource.includes('admin-');
+                    }
                 }
             }
         }
@@ -163,9 +158,16 @@ webPackConfig.plugins.push(
     new CopyWebpackPlugin({
         patterns: [{
             from: config.translations,
-            to: 'translations/' + config.development.filename + '.[ext]',
+            to: 'translations/[path]/' + config.development.filename + '.[ext]', // keep directory tree
             toType: 'template'
         }]
+    }),
+    new CopyWebpackPlugin({
+        patterns: _.map(config.fonts, (font) => ({
+            from: font.from,
+            to: font.to + config.development.filename + '.[ext]',
+            toType: 'template'
+        }))
     }),
     new CopyWebpackPlugin({
         patterns: _.map(config.images, (image) => ({

@@ -26,8 +26,7 @@ module Api::V1
           @location = after_inactive_sign_up_path_for(resource)
         end
 
-        respond_with UserProfileSerializer.new(resource,
-                                               include: [:current_topic, :topics, :contributed_topics]).serializable_hash,
+        respond_with resource.flat_serialized_json('profile'),
                      location: @location
       else
         respond_to do |format|

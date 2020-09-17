@@ -41,7 +41,7 @@ module Topics
       @topic.assign_attributes(@params)
 
       # Adapt topic settings according to mode
-      @topic.article_display = 'grid' if @topic.inventories?
+      # @topic.article_display = 'grid' if @topic.inventories?
 
       new_record = @topic.new_record?
       if @topic.save

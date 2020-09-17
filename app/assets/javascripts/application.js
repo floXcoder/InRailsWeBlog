@@ -1,5 +1,10 @@
 'use strict';
 
+I18n.defaultLocale = window.defaultLocale;
+I18n.locale = window.locale;
+I18n.translations = window.I18n.translations;
+window.I18n = I18n;
+
 // Auto polyfill
 require('./polyfills');
 

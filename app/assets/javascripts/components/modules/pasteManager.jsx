@@ -28,7 +28,7 @@ class PasteManager extends React.Component {
     }
 
     _onPaste = (content) => {
-        if (content && this.props.location.pathname !== newArticleRedirectPath()) {
+        if (content && !this.props.location.pathname.includes('/article-new') && !this.props.location.pathname.includes('/edit')) {
             this.props.history.push({
                 pathname: newArticleRedirectPath(),
                 state: {

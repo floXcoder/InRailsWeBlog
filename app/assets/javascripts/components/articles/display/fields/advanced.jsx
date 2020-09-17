@@ -95,7 +95,7 @@ class ArticleAdvancedField extends React.PureComponent {
                 }
 
                 {
-                    (this.props.inheritVisibility !== 'only_me' || !this.props.isEditing) &&
+                    (this.props.inheritVisibility !== 'only_me' || this.props.currentVisibility !== 'everyone' || this.props.isEditing) &&
                     <div className="col s12 center-align">
                         <Divider className={this.props.classes.advancedDivider}/>
                     </div>
