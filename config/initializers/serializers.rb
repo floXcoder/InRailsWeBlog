@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Add method to return a flat object without data or attributes
 module FastJsonapi
   module ObjectSerializer
     def manage_relationships(flat_data, relationships, included)

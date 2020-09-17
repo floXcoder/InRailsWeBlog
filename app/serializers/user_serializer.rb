@@ -100,8 +100,8 @@ class UserSerializer
     object.article_ids.size
   end
 
-  attribute :link do |object, params|
-    Rails.application.routes.url_helpers.show_user_path(user_slug: object.slug) if params[:with_link]
+  attribute :link do |object|
+    Rails.application.routes.url_helpers.show_user_path(user_slug: object.slug)
   end
 
   attribute :settings do |object|

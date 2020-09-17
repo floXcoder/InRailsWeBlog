@@ -234,8 +234,7 @@ module Api::V1
 
           render json: article.serialized_json('complete',
                                                params: {
-                                                 current_user_id: current_user.id,
-                                                 with_multilang:  current_user.article_multilanguage
+                                                 current_user_id: current_user.id
                                                },
                                                meta:   meta_attributes)
         end
