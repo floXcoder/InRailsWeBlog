@@ -36,9 +36,11 @@ class ArticleSerializer
   include FastJsonapi::ObjectSerializer
   include NullAttributesRemover
 
+  extend SerializerHelper
+
   set_type :article
 
-  # cache_options store: Rails.cache, namespace: "_#{ENV['WEBSITE_NAME']}_#{Rails.env}:serializer", expires_in: InRailsWeBlog.config.cache_time
+  cache_options store: Rails.cache, namespace: "_#{ENV['WEBSITE_NAME']}_#{Rails.env}:serializer", expires_in: InRailsWeBlog.config.cache_time
 
   set_key_transform :camel_lower
 
@@ -81,8 +83,8 @@ class ArticleSerializer
     params.dig(:highlight_results, object.id, :title).presence&.gsub(/\n{3,}/, "\n\n") || object.title
   end
 
-  attribute :title_translations do |object, params|
-    object.title_translations if object.languages.size > 1 || params[:with_multilang]
+  attribute :title_translations do |object|
+    object.title_translations if object.languages.size > 1
   end
 
   attribute :content do |object, params|
@@ -93,8 +95,8 @@ class ArticleSerializer
     object.summary_content
   end
 
-  attribute :content_translations do |object, params|
-    object.content_translations if object.languages.size > 1 || params[:with_multilang]
+  attribute :content_translations do |object|
+    object.content_translations if object.languages.size > 1
   end
 
   attribute :content_highlighted do |object|
