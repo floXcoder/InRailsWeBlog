@@ -31,6 +31,7 @@ export const initUser = (userId, options = {}) => ({
     shouldCallAPI: (state) => {
         return !state.userState.user;
     },
+    localData: options.localUser,
     payload: {
         connection: true
     }

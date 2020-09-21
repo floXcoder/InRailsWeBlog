@@ -30,16 +30,20 @@ import ScrollBackManager from '../../modules/scrollBackManager';
 
 import ErrorBoundary from '../../errors/boundary';
 
-import HotkeyManager from '../../layouts/managers/hotkey';
+import HotkeyManager from '../managers/hotkey';
 
-import HeaderLayoutUser from '../../layouts/user/header';
-import SidebarLayoutUser from '../../layouts/user/sidebar';
-import MainLayoutUser from '../../layouts/user/main';
-import FooterLayoutUser from '../../layouts/user/footer';
+import HeaderLayoutUser from './header';
+import SidebarLayoutUser from './sidebar';
+import MainLayoutUser from './main';
+import FooterLayoutUser from './footer';
 
 import theme from '../../../../jss/theme';
 
 export default class ApplicationLayoutUser extends React.Component {
+    static propTypes = {
+        staticContent: PropTypes.string
+    }
+
     constructor(props) {
         super(props);
     }
@@ -63,7 +67,9 @@ export default class ApplicationLayoutUser extends React.Component {
                                             </ErrorBoundary>
 
                                             <ErrorBoundary errorType="card">
-                                                <MainLayoutUser routes={[...routes.static.common, ...routes.static.user, ...routes.static.notFound]}/>
+                                                <MainLayoutUser routes={[...routes.static.common, ...routes.static.user, ...routes.static.notFound]}
+                                                                staticContent={this.props.staticContent}
+                                                                {...this.props}/>
                                             </ErrorBoundary>
 
                                             <ErrorBoundary errorType="card">

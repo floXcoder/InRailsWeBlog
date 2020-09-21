@@ -20,6 +20,7 @@ class Pagination extends React.PureComponent {
         hasHistory: PropTypes.bool,
         onPaginationClick: PropTypes.func,
         // from history
+        getPreviousHistory: PropTypes.func,
         addToHistory: PropTypes.func,
         onHistoryChanged: PropTypes.func
     };
@@ -36,6 +37,11 @@ class Pagination extends React.PureComponent {
 
         this._pagination = null;
 
+        if (props.initialPage === 1) {
+            const previousData = props.getPreviousHistory('pagination') || {};
+            this.state.selected = previousData.page || 1;
+        }
+
         if (props.hasHistory) {
             props.onHistoryChanged('pagination', this._handleHistory);
         }
@@ -46,7 +52,7 @@ class Pagination extends React.PureComponent {
     }
 
     state = {
-        selected: 0
+        selected: this.props.initialPage - 1
     };
 
     _handleHistory = (pagination) => {
@@ -66,7 +72,7 @@ class Pagination extends React.PureComponent {
             this.props.onPaginationClick(pagination);
 
             if (this.props.hasHistory && addToHistory) {
-                this.props.addToHistory({pagination: {page: pagination.selected}});
+                this.props.addToHistory({pagination: {page: pagination.selected}}, {page: pagination.selected > 0 ? pagination.selected + 1 : undefined});
             }
         }
     };
@@ -85,7 +91,7 @@ class Pagination extends React.PureComponent {
             <div className={className}>
                 <ReactPaginate ref={(pagination) => this._pagination = pagination}
                                pageCount={totalPages}
-                               initialPage={initialPage - 1}
+                               initialPage={this.state.selected}
                                forcePage={currentPage ? (currentPage - 1) : this.state.selected}
                                disableInitialCallback={true}
                                pageRangeDisplayed={pageRangeDisplayed}

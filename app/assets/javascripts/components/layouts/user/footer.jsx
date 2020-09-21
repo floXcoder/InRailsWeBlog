@@ -13,7 +13,7 @@ import Grid from '@material-ui/core/Grid';
 import {
     about,
     terms,
-    policy
+    privacy
 } from '../../../constants/routesHelper';
 
 import styles from '../../../../jss/user/footer';
@@ -117,24 +117,24 @@ class FooterLayoutUser extends React.Component {
                         </p>
 
                         <p>
-                            <Link className={this.props.classes.footerLink}
-                                  to={about()}>
+                            <a className={this.props.classes.footerLink}
+                               href={about()}>
                                 {I18n.t('js.views.footer.links.about')}
-                            </Link>
+                            </a>
                         </p>
 
                         <p>
-                            <Link className={this.props.classes.footerLink}
-                                  to={terms()}>
+                            <a className={this.props.classes.footerLink}
+                               href={terms()}>
                                 {I18n.t('js.views.footer.links.terms')}
-                            </Link>
+                            </a>
                         </p>
 
                         <p>
-                            <Link className={this.props.classes.footerLink}
-                                  to={policy()}>
-                                {I18n.t('js.views.footer.links.policy')}
-                            </Link>
+                            <a className={this.props.classes.footerLink}
+                               href={privacy()}>
+                                {I18n.t('js.views.footer.links.privacy')}
+                            </a>
                         </p>
                     </Grid>
 

@@ -15,18 +15,25 @@ import {
 
 import RouteManager from '../../layouts/managers/route';
 
-import styles from '../../../../jss/home/main';
+import styles from '../../../../jss/default/main';
 
 export default @withStyles(styles)
-class MainLayoutHome extends React.Component {
+class MainLayoutDefault extends React.Component {
     static propTypes = {
         routes: PropTypes.array.isRequired,
+        staticContent: PropTypes.string,
         // from styles
         classes: PropTypes.object
     };
 
     constructor(props) {
         super(props);
+
+        this._initialRender = true;
+    }
+
+    componentDidMount() {
+        this._initialRender = false;
     }
 
     shouldComponentUpdate() {
@@ -34,10 +41,6 @@ class MainLayoutHome extends React.Component {
     }
 
     render() {
-        // In development environment with hot reload:
-        // React Suspense or Memo use context that cause a re-render without calling shouldComponentUpdate
-        // So some route (like ArticleIndex) are called 4 times!
-
         return (
             <Switch>
                 {
@@ -54,16 +57,20 @@ class MainLayoutHome extends React.Component {
                                    const {component, ...routeProperties} = route;
                                    const Component = component();
 
+                                   const {routes, classes, ...initProps} = this.props;
+
                                    return (
                                        <RouteManager currentRoute={routeProperties}
                                                      params={router.match.params}
                                                      location={router.location}>
-                                           <main className={this.props.classes.content}>
+                                           <main className={classes.content}>
                                                <Suspense fallback={<div/>}>
-                                                   <div className={this.props.classes.layout}>
+                                                   <div className={classes.layout}>
                                                        <Component routeParams={router.match.params}
                                                                   routeHash={router.location.search}
-                                                                  routeState={router.location.state}/>
+                                                                  routeState={router.location.state}
+                                                                  staticContent={this.props.staticContent}
+                                                                  initProps={this._initialRender ? initProps : undefined}/>
                                                    </div>
                                                </Suspense>
                                            </main>

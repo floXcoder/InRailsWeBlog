@@ -109,13 +109,10 @@ module Api::V1
                          end
 
             if topic_slug
-              topic = Topic.find_by(slug: topic_slug)
-              if topic
-                if user.current_topic.slug != topic_slug && topic.user_id == user.id
-                  user.switch_topic(topic) && user.save
-                end
+              topic = Topic.find_by(slug: topic_slug, user_id: user.id)
 
-                user.settings.merge!(topic.settings)
+              if topic && user.current_topic.slug != topic_slug
+                user.switch_topic(topic) && user.save
               end
             end
 
@@ -134,8 +131,7 @@ module Api::V1
                                     }.compact)
 
             if stale?(user, template: false, public: true)
-              render json: UserSerializer.new(user,
-                                              meta: meta_attributes).serializable_hash
+              render json: user.flat_serialized_json(meta: meta_attributes)
             end
           end
         end

@@ -67,8 +67,8 @@ describe 'Users API', type: :request, basic: true do
       expect(response).to be_json_response
 
       user = JSON.parse(response.body)
-      expect(user['data']['attributes']).not_to be_empty
-      expect(user['data']['attributes']['pseudo']).to eq('Main User')
+      expect(user['user']).not_to be_empty
+      expect(user['user']['pseudo']).to eq('Main User')
     end
   end
 

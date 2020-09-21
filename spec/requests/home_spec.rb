@@ -5,6 +5,7 @@ require 'rails_helper'
 describe 'Home API', type: :request, basic: true do
 
   before(:all) do
+    @user = create(:user)
   end
 
   describe '/ (HTML)' do
@@ -12,8 +13,10 @@ describe 'Home API', type: :request, basic: true do
       get '/'
 
       expect(response).to be_html_response
-      expect(response.body).to match('id="home-component"')
+      expect(response.body).to match('id="react-component"')
       expect(response.body).to match('lang="en"')
+      expect(response.body).to match('<title>')
+      expect(response.body).to match('<meta name="description"')
     end
 
     context 'when seo data are changed' do
@@ -72,6 +75,37 @@ describe 'Home API', type: :request, basic: true do
       expect(response.body).to match('lang="it"')
     ensure
       I18n.locale = I18n.default_locale
+    end
+  end
+
+  describe '/users/:user_slug (HTML)' do
+    context 'when not connected' do
+      it 'returns user home page' do
+        get "/users/#{@user.slug}"
+
+        expect(response).to be_html_response
+        expect(response.body).to match('id="react-component"')
+        expect(response.body).to match('lang="en"')
+        expect(response.body).to match('<title>')
+        expect(response.body).to match('<meta name="description"')
+      end
+    end
+
+    context 'when user is connected' do
+      before do
+        login_as(@user, scope: :user, run_callbacks: false)
+      end
+
+      it 'returns user home page' do
+        get "/users/#{@user.slug}"
+
+        expect(response).to be_html_response
+        expect(response.body).to match('id="react-component"')
+        expect(response.body).to match('lang="en"')
+        expect(response.body).to match('<title>')
+        expect(response.body).to match('<meta name="description"')
+        expect(response.body).to match('data-current-user="{')
+      end
     end
   end
 

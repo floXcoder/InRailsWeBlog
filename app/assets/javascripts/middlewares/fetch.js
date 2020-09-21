@@ -27,6 +27,7 @@ export default function fetchMiddleware({dispatch, getState}) {
         const {
             actionType,
             fetchAPI,
+            localData,
             shouldCallAPI = () => true,
             payload = {}
         } = action;
@@ -72,31 +73,43 @@ export default function fetchMiddleware({dispatch, getState}) {
             type: requestType
         });
 
-        const fetcher = fetchAPI();
+        if(localData) {
+            return {
+                fetch: Promise.resolve(dispatch({
+                    ...payload,
+                    ...convertJsonApi(localData),
+                    isFetching: false,
+                    type: successType
+                })),
+                signal: null
+            };
+        } else {
+            const fetcher = fetchAPI();
 
-        const fetch = fetcher.promise.then(
-            (response) => {
-                if (response?.errors) {
-                    return dispatch({
-                        ...payload,
-                        errors: response.errors || [],
-                        isFetching: false,
-                        type: failureType
-                    });
-                } else {
-                    return dispatch({
-                        ...payload,
-                        ...convertJsonApi(response),
-                        isFetching: false,
-                        type: successType
-                    });
+            const fetch = fetcher.promise.then(
+                (response) => {
+                    if (response?.errors) {
+                        return dispatch({
+                            ...payload,
+                            errors: response.errors || [],
+                            isFetching: false,
+                            type: failureType
+                        });
+                    } else {
+                        return dispatch({
+                            ...payload,
+                            ...convertJsonApi(response),
+                            isFetching: false,
+                            type: successType
+                        });
+                    }
                 }
-            }
-        );
+            );
 
-        return {
-            fetch,
-            signal: fetcher.controller
+            return {
+                fetch,
+                signal: fetcher.controller
+            }
         }
     };
 };

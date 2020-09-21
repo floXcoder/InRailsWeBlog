@@ -19,7 +19,7 @@ import LabelIcon from '@material-ui/icons/Label';
 
 import {
     userArticlePath,
-    userArticlesPath,
+    userHomePath,
     taggedArticlesPath
 } from '../../../../constants/routesHelper';
 
@@ -203,7 +203,7 @@ class ArticleMiniCardDisplay extends React.Component {
                                           content={this.props.article.user.pseudo}/>
 
                                     <Link className={this.props.classes.userPseudo}
-                                          to={userArticlesPath(this.props.article.user.slug)}
+                                          to={userHomePath(this.props.article.user.slug)}
                                           onClick={spyTrackClick.bind(null, 'user', this.props.article.user.id, this.props.article.user.slug, this.props.article.user.pseudo)}>
                                         {this.props.article.user.pseudo}
                                     </Link>

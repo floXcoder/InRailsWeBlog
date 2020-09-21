@@ -18,7 +18,7 @@
     padding: .25rem 1rem 1rem;
 
     @media #{$medium-and-up} {
-      padding: 1.25rem 1.5rem;
+      padding: 1rem 1.25rem;
     }
 
     h1 {
@@ -44,7 +44,7 @@
     padding: 0;
 
     @media #{$large-and-up} {
-      padding: 2rem;
+      padding: .75rem;
     }
   }
 }

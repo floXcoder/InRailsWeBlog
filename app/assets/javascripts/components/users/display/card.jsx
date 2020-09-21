@@ -1,7 +1,7 @@
 'use strict';
 
 import {
-    userArticlesPath
+    userHomePath
 } from '../../../constants/routesHelper';
 
 const UserCardDisplay = ({user, onUserClick}) => (
@@ -25,7 +25,7 @@ const UserCardDisplay = ({user, onUserClick}) => (
 
         <div className="card-action center-align">
             {
-                <a href={userArticlesPath(user.id)}
+                <a href={userHomePath(user.id)}
                    onClick={_handleClick.bind(null, user.id, onUserClick)}>
                     {I18n.t('js.user.index.link_to_user')}
                 </a>

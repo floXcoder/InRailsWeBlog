@@ -10,7 +10,7 @@ import Grid from '@material-ui/core/Grid';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 import {
-    userArticlesPath
+    userHomePath
 } from '../../../constants/routesHelper';
 
 import {
@@ -19,7 +19,7 @@ import {
 
 const UserAvatarIcon = ({className, user, secondary}) => (
     <Link className={className}
-          to={userArticlesPath(user.slug)}
+          to={userHomePath(user.slug)}
           onClick={spyTrackClick.bind(null, 'user', user.id, user.slug, user.pseudo)}>
         <Grid container={true}
               spacing={1}

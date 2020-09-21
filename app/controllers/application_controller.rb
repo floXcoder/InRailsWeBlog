@@ -115,7 +115,7 @@ class ApplicationController < ActionController::Base
     else
       respond_to do |format|
         format.json { render json: { errors: t('views.error.status.explanation.404') }, status: :not_found }
-        format.html { render 'pages/home', locals: { status: 404 }, status: :not_found }
+        format.html { render 'pages/default', locals: { status: 404 }, status: :not_found }
         format.all { render body: nil, status: :not_found }
       end
     end
@@ -127,6 +127,28 @@ class ApplicationController < ActionController::Base
   end
 
   protected
+
+  def render_associated_page(page: nil, **params)
+    params = current_user ? params.merge(current_user: current_user.serialized_json('profile')) : params
+
+    if current_user
+      render page || 'pages/user', locals: { **params }, layout: 'user'
+    else
+      render page || 'pages/default', locals: { **params }
+    end
+  end
+
+  def set_context_user
+    user_ref = params[:user_id].presence || params[:user_slug].presence
+
+    @context_user ||= if user_ref
+                        (current_user&.id == user_ref.to_i || current_user&.slug == user_ref.to_s) ? current_user : User.friendly.find(user_ref)
+                      else
+                        current_user
+                      end
+
+    raise ActiveRecord::RecordNotFound unless @context_user
+  end
 
   # SEO
   def set_seo_data(named_route, parameters = {})
@@ -348,7 +370,7 @@ class ApplicationController < ActionController::Base
 
     respond_to do |format|
       format.json { render json: { errors: t('views.error.status.explanation.404') }, status: :not_found }
-      format.html { render 'pages/home', locals: { status: 404 }, status: :not_found }
+      format.html { render 'pages/default', locals: { status: 404 }, status: :not_found }
       format.all { render body: nil, status: :not_found }
     end
   end
@@ -360,7 +382,7 @@ class ApplicationController < ActionController::Base
 
     respond_to do |format|
       format.json { render json: { errors: t('views.error.status.explanation.500') }, status: :internal_server_error }
-      format.html { render 'pages/home', locals: { status: 500 }, status: :internal_server_error }
+      format.html { render 'pages/default', locals: { status: 500 }, status: :internal_server_error }
       format.all { render body: nil, status: :internal_server_error }
     end
   end

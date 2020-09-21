@@ -103,6 +103,7 @@ class ArticleShow extends React.Component {
     static propTypes = {
         routeParams: PropTypes.object.isRequired,
         routeState: PropTypes.object,
+        initProps: PropTypes.object,
         // from router
         history: PropTypes.object,
         // from connect
@@ -137,12 +138,14 @@ class ArticleShow extends React.Component {
     }
 
     componentDidMount() {
-        this._request = this.props.fetchArticle(this.props.routeParams.userSlug, this.props.routeParams.articleSlug);
+        this._request = this.props.fetchArticle(this.props.routeParams.userSlug, this.props.routeParams.articleSlug, {
+            localArticle: this.props.initProps?.article
+        })
 
         this._fetchStories();
 
         setTimeout(() => ArticleIndex.preload(), articlePreloadIndex);
-        if(this.props.currentUserSlug && this.props.currentUserSlug === this.props.routeParams.userSlug) {
+        if (this.props.currentUserSlug && this.props.currentUserSlug === this.props.routeParams.userSlug) {
             setTimeout(() => ArticleEdit.preload(), articlePreloadEdit);
         }
     }
@@ -250,7 +253,8 @@ class ArticleShow extends React.Component {
                     {
                         (isStory && this.props.storyTopic) &&
                         <SummaryStoriesTopic userSlug={this.props.routeParams.userSlug}
-                                             topic={this.props.storyTopic}/>
+                                             topic={this.props.storyTopic}
+                                             hasLink={true}/>
                     }
 
                     {
@@ -335,7 +339,7 @@ class ArticleShow extends React.Component {
                                                 }
 
                                                 {
-                                                    (this.props.article.allowComment && this.props.article.visibility !== 'only_me') &&
+                                                    (this.props.article.allowComment && this.props.article.visibility !== 'only_me' && this.props.article.commentsCount > 0) &&
                                                     <CommentCountIcon className={this.props.classes.commentCount}
                                                                       commentLink={`#article-comments-${this.props.article.id}`}
                                                                       commentsCount={this.props.article.commentsCount}

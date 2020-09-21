@@ -16,6 +16,7 @@ export const fetchArticles = (filter = {}, options = {}, payload = {}) => ({
         filter,
         ...options
     }),
+    localData: options.localArticles,
     payload
 });
 
@@ -25,7 +26,8 @@ export const fetchArticle = (userId, articleId, options = {}) => ({
         locale: window.locale,
         userId: userId,
         ...options
-    })
+    }),
+    localData: options.localArticle
 });
 
 export const fetchSharedArticle = (articleId, publicLink, options = {}) => ({

@@ -37,8 +37,8 @@ feature 'Search for visitors', advanced: true, js: true, search: true do
           current_page:     search_page,
           # title:            I18n.t('views.search.index.title', query: @query),
           no_search_header: true,
-          asset_name:       'assets/home',
-          common_js:        ['assets/home']
+          asset_name:       'assets/default',
+          common_js:        ['assets/default']
         }
       }
     end

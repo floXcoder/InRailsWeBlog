@@ -59,7 +59,7 @@ import {
 } from '../../../selectors';
 
 import {
-    rootPath
+    userHomePath
 } from '../../../constants/routesHelper';
 
 import {
@@ -249,7 +249,7 @@ class HeaderLayoutUser extends React.PureComponent {
                         <h5 className={this.props.classes.mobileTitle}
                             itemProp="name">
                             <Link className="header-brand-logo-mobile"
-                                  to={rootPath()}
+                                  to={userHomePath(this.props.userSlug)}
                                   title={window.settings.website_name}
                                   itemProp="url"
                                   onClick={this._handleMobileTitleClick}>
@@ -398,6 +398,18 @@ class HeaderLayoutUser extends React.PureComponent {
                             </IconButton>
                         </div>
 
+                        <div className={this.props.classes.sectionDesktop}>
+                            <h1 className={this.props.classes.title}
+                                itemProp="name">
+                                <Link className="header-brand-logo"
+                                      to={userHomePath(this.props.userSlug)}
+                                      title={window.settings.website_name}
+                                      itemProp="url">
+                                    {window.settings.website_name}
+                                </Link>
+                            </h1>
+                        </div>
+
                         {
                             (this.props.isUserLoaded && this.props.currentTopic) &&
                             <>
@@ -432,18 +444,6 @@ class HeaderLayoutUser extends React.PureComponent {
                                 </Popover>
                             </>
                         }
-
-                        <div className={this.props.classes.sectionDesktop}>
-                            <h1 className={this.props.classes.title}
-                                itemProp="name">
-                                <Link className="header-brand-logo"
-                                      to={rootPath()}
-                                      title={window.settings.website_name}
-                                      itemProp="url">
-                                    {window.settings.website_name}
-                                </Link>
-                            </h1>
-                        </div>
 
                         <div className={this.props.classes.grow}/>
 

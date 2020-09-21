@@ -52,7 +52,7 @@ import ErrorBoundary from '../../errors/boundary';
 
 import HeadLayout from '../head';
 
-import styles from '../../../../jss/home/header';
+import styles from '../../../../jss/default/header';
 
 const loadingBarStyle = {backgroundColor: '#036603', height: '2px'};
 
@@ -70,7 +70,7 @@ export default @withRouter
 })
 @withWidth()
 @withStyles(styles)
-class HeaderLayoutHome extends React.Component {
+class HeaderLayoutDefault extends React.Component {
     static propTypes = {
         hashRoutes: PropTypes.object.isRequired,
         // from router

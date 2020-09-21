@@ -73,7 +73,7 @@ module Api::V1
               render json: Article.serialized_json(articles, 'complete', params: { current_user_id: current_user&.id }, meta: meta_attributes)
             elsif params[:summary]
               render json: Article.serialized_json(articles, meta: {
-                storyTopic: articles.present? && articles.all?(&:story?) ? articles.first.topic.flat_serialized_json : nil,
+                storyTopic: filter_params[:topic_slug].present? && articles.present? && articles.all?(&:story?) ? articles.first.topic.flat_serialized_json(with_model: false) : nil,
                 **meta_attributes(pagination: articles)
               })
             else
@@ -109,12 +109,15 @@ module Api::V1
                                        }.compact)
 
             if current_user && article.user?(current_user)
-              render json: article.serialized_json('complete', params: { current_user_id: current_user&.id }, meta: meta_attributes)
+              render json: article.serialized_json('complete',
+                                                   params: { current_user_id: current_user&.id },
+                                                   meta:   meta_attributes)
             else
-              render json: article.serialized_json('normal', meta: {
-                                                                     storyTopic: article.story? ? article.topic.flat_serialized_json : nil,
-                                                                     **meta_attributes
-                                                                   }.compact)
+              render json: article.serialized_json('normal',
+                                                   meta: {
+                                                           storyTopic: article.story? ? article.topic.flat_serialized_json(with_model: false) : nil,
+                                                           **meta_attributes
+                                                         }.compact)
             end
           end
         end
@@ -143,7 +146,7 @@ module Api::V1
                                        }.compact)
 
             render json: article.serialized_json('normal', meta: {
-                                                                   storyTopic: article.story? ? article.topic.flat_serialized_json : nil,
+                                                                   storyTopic: article.story? ? article.topic.flat_serialized_json(with_model: false) : nil,
                                                                    **meta_attributes
                                                                  }.compact)
           end

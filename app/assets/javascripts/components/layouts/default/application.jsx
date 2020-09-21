@@ -29,13 +29,17 @@ import ScrollBackManager from '../../modules/scrollBackManager';
 
 import ErrorBoundary from '../../errors/boundary';
 
-import HeaderLayoutHome from '../../layouts/home/header';
-import MainLayoutHome from '../../layouts/home/main';
-import FooterLayoutHome from '../../layouts/home/footer';
+import HeaderLayoutDefault from './header';
+import MainLayoutDefault from './main';
+import FooterLayoutDefault from './footer';
 
 import theme from '../../../../jss/theme';
 
-export default class ApplicationLayoutHome extends React.Component {
+export default class ApplicationLayoutDefault extends React.Component {
+    static propTypes = {
+        staticContent: PropTypes.string
+    }
+
     constructor(props) {
         super(props);
     }
@@ -53,16 +57,18 @@ export default class ApplicationLayoutHome extends React.Component {
                                 <>
                                     <ErrorBoundary errorType="text"
                                                    errorTitle={I18n.t('js.helpers.errors.boundary.header')}>
-                                        <HeaderLayoutHome hashRoutes={routes.hashes}/>
+                                        <HeaderLayoutDefault hashRoutes={routes.hashes}/>
                                     </ErrorBoundary>
 
                                     <ErrorBoundary errorType="card">
-                                        <MainLayoutHome routes={[...routes.static.common, ...routes.static.home, ...routes.static.notFound]}/>
+                                        <MainLayoutDefault routes={[...routes.static.common, ...routes.static.home, ...routes.static.notFound]}
+                                                           staticContent={this.props.staticContent}
+                                                           {...this.props}/>
                                     </ErrorBoundary>
 
                                     <ErrorBoundary errorType="text"
                                                    errorTitle={I18n.t('js.helpers.errors.boundary.footer')}>
-                                        <FooterLayoutHome/>
+                                        <FooterLayoutDefault/>
                                     </ErrorBoundary>
                                 </>
                             </ScrollBackManager>

@@ -1,0 +1,28 @@
+- stylesheet 'statics'
+
+- javascript "translations/statics-#{I18n.locale}"
+
+= content_tag :div, '', id: 'react-component', class: 'react-root', data: { **local_assigns }
+
+#static-content style="display: none;"
+  .static-content
+    h1.static-title
+      = I18n.t('statics.about.title')
+
+    div
+      h2.static-subtitle
+        = I18n.t('statics.about.info.title')
+      p
+        = I18n.t('statics.about.info.content_1', website: ENV['WEBSITE_NAME'])
+      p
+        = I18n.t('statics.about.info.content_2', email: ENV['WEBSITE_EMAIL'])
+
+    div
+      h2.static-subtitle
+        = I18n.t('statics.about.host.title')
+      p
+        = I18n.t('statics.about.host.content_1')
+      p
+        = I18n.t('statics.about.host.content_2')
+      p
+        = I18n.t('statics.about.host.content_3')

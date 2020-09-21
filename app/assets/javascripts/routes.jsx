@@ -30,8 +30,8 @@ export default {
                 component: () => RouteComponents.Terms
             },
             {
-                path: Routes.policy(false),
-                component: () => RouteComponents.Policy
+                path: Routes.privacy(false),
+                component: () => RouteComponents.Privacy
             },
             // User account
             {
@@ -56,7 +56,7 @@ export default {
             {
                 path: Routes.rootPath(false),
                 exact: true,
-                component: () => RouteComponents.HomeHome
+                component: () => RouteComponents.Home
             },
             {
                 path: Routes.searchPath(false),
@@ -110,7 +110,7 @@ export default {
             },
             // user: articles
             {
-                path: Routes.userArticlesPath(':userSlug', false),
+                path: Routes.userHomePath(':userSlug', false),
                 exact: true,
                 component: () => RouteComponents.ArticleIndex
             },
@@ -131,8 +131,8 @@ export default {
                 path: Routes.rootPath(false),
                 exact: true,
                 strict: false,
-                tagCloud: true,
-                component: () => RouteComponents.UserHome
+                noTagSidebar: true,
+                component: () => RouteComponents.Home
             },
             // search
             {
@@ -186,10 +186,10 @@ export default {
             },
             // user: topics
             {
-                path: Routes.userArticlesPath(':userSlug', false),
+                path: Routes.userHomePath(':userSlug', false),
                 exact: true,
-                redirect: true,
-                redirectPath: () => Routes.rootPath()
+                tagCloud: true,
+                component: () => RouteComponents.UserHome
             },
             {
                 path: Routes.userTopicsPath(':userSlug', false),
@@ -257,13 +257,6 @@ export default {
                 path: Routes.userArticlePath(':userSlug', ':articleSlug', false),
                 exact: true,
                 component: () => RouteComponents.ArticleShow
-            },
-            // Redirection
-            {
-                path: Routes.newArticleRedirectPath(false),
-                redirect: true,
-                redirectPath: (params) => Routes.newArticlePath(params.userSlug, params.topicSlug),
-                component: () => RouteComponents.ArticleNew
             }
         ]
     },
@@ -307,5 +300,4 @@ export default {
     }
 
     // Other routes are resolved by Rails router
-    // Otherwise use Redirect from Router to always return an existing route
 };

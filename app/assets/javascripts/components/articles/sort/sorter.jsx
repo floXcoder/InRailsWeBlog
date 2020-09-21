@@ -14,7 +14,7 @@ import {
 } from 'react-sortable-hoc';
 
 import {
-    userArticlesPath
+    userHomePath
 } from '../../../constants/routesHelper';
 
 import ArticleCardSort from './card';
@@ -78,7 +78,7 @@ export default class ArticleSorter extends React.Component {
                                 variant="outlined"
                                 size="small"
                                 component={Link}
-                                to={userArticlesPath(this.props.currentUserSlug)}>
+                                to={userHomePath(this.props.currentUserSlug)}>
                             {I18n.t('js.helpers.buttons.cancel')}
                         </Button>
                     </div>

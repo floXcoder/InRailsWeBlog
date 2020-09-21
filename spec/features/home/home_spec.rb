@@ -27,8 +27,8 @@ feature 'Home page for visitors', advanced: true, js: true do
         {
           current_page: homepage,
           # title:        I18n.t('views.home.title'),
-          asset_name:   'assets/home',
-          common_js:    ['assets/home']
+          asset_name:   'assets/default',
+          common_js:    ['assets/default']
         }
       }
     end
