@@ -30,7 +30,6 @@ export const editInventoriesTopicPath = (userSlug, topicSlug, locale = window.lo
 export const topicArticlesPath = (userSlug, topicSlug, topicType = 'topics', locale = window.locale) => routeBuilder(`/users/${userSlug}/${topicType}/${topicSlug}`, locale);
 export const taggedTopicArticlesPath = (userSlug, topicSlug, tagSlug, childTagSlug, topicType = 'topics', locale = window.locale) => childTagSlug ? routeBuilder(`/users/${userSlug}/${topicType}/${topicSlug}/tagged/${tagSlug}/${childTagSlug}`, locale) : routeBuilder(`/users/${userSlug}/${topicType}/${topicSlug}/tagged/${tagSlug}`, locale);
 export const taggedArticlesPath = (tagSlug, childTagSlug, locale = window.locale) => childTagSlug ? routeBuilder(`/tagged/${tagSlug}/${childTagSlug}`, locale) : routeBuilder(`/tagged/${tagSlug}`, locale);
-export const userArticlesPath = (userSlug, locale = window.locale) => routeBuilder(`/users/${userSlug}`, locale);
 
 export const orderTopicArticlesPath = (userSlug, topicSlug, order, topicType = 'topics', locale = window.locale) => routeBuilder(`/users/${userSlug}/${topicType}/${topicSlug}/order/${order}`, locale);
 export const sortTopicArticlesPath = (userSlug, topicSlug, locale = window.locale) => routeBuilder(`/users/${userSlug}/topics/${topicSlug}/sort`, locale);
@@ -44,6 +43,7 @@ export const editArticlePath = (userSlug, articleSlug, locale = window.locale) =
 export const historyArticlePath = (userSlug, articleSlug, locale = window.locale) => routeBuilder(`/users/${userSlug}/articles/${articleSlug}/history`, locale);
 
 // Users routes
+export const userHomePath = (userSlug, locale = window.locale) => routeBuilder(`/users/${userSlug}`, locale);
 // export const userPath = (userSlug) => routeBuilder(`/users/${userSlug}/show`, locale);
 // export const userEditPath = (userSlug) => routeBuilder(`/users/${userSlug}/edit`, locale);
 export const newPasswordPath = (locale = window.locale) => routeBuilder('/users/password/new', locale);
@@ -53,7 +53,7 @@ export const userConfirmationPath = (locale = window.locale) => routeBuilder('/u
 // Static routes
 export const about = (locale = window.locale) => routeBuilder('/about', locale);
 export const terms = (locale = window.locale) => routeBuilder('/terms', locale);
-export const policy = (locale = window.locale) => routeBuilder('/policy', locale);
+export const privacy = (locale = window.locale) => routeBuilder('/privacy', locale);
 
 // URL hash params
 export const searchParam = 'search';

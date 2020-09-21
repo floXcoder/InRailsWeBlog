@@ -23,7 +23,8 @@ const sortOptions = [
     'priority_desc',
     'tag_asc',
     'updated_desc',
-    'updated_asc'
+    'updated_asc',
+    'default'
 ];
 
 // Managed by article index to update current user preference

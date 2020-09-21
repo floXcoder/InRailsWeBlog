@@ -50,7 +50,7 @@ en:
           contact: "Contact us"
           about: "About us"
           terms: "Terms of service"
-          policy: "Privacy policy"
+          privacy: "Privacy policy"
           github: "Github"
           github_src: "https://github.com/floXcoder/InRailsWeBlog"
         languages: "Languages"
@@ -171,12 +171,6 @@ en:
       settings:
         article:
           title: "Articles"
-          loader:
-            title: "Articles loading"
-            mode:
-              infinite: "Display articles on scroll"
-              pagination: "Use pagination"
-              all: "Display all"
           display:
             title: "Articles display"
             mode:
@@ -184,6 +178,19 @@ en:
               card: "Full articles"
               inline: "Unified articles"
               grid: "Article in grid"
+          order:
+            title: "Articles order"
+            mode:
+              priority_desc: "Priorité"
+              tag_asc: "Label"
+              updated_desc: "Plus récent"
+              updated_asc: "Plus ancien"
+          loader:
+            title: "Articles loading"
+            mode:
+              infinite: "Display articles on scroll"
+              pagination: "Use pagination"
+              all: "Display all"
           multilanguage:
             title: "Multilanguage"
             name: "Write articles in several languages"
@@ -412,6 +419,7 @@ en:
         outdated: "Article marked as outdated"
         actions: "Actions"
         private_in_public: "This article is private"
+        all_stories: "See all articles of this story"
         not_connected:
           message: "Please log in, before posting article"
         infinite:
@@ -581,6 +589,7 @@ en:
           tag_asc: "Tag"
           updated_desc: "Most recent"
           updated_asc: "Oldest"
+          default: "Default"
         link_title: "Change order"
         link: "Change priority"
       filter:

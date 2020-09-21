@@ -1,39 +1,80 @@
 # frozen_string_literal: true
 
 class PagesController < ApplicationController
-  before_action :verify_requested_format!
-
-  respond_to :html, :json, :text, :xml
 
   def home
     reset_cache_headers
-
     respond_to do |format|
       format.html do
-        if current_user
-          if request.path == '/' && current_user.locale != 'en'
-            redirect_to send("user_home_#{current_user.locale}_path", user_slug: current_user.slug)
-          else
-            set_seo_data(:user_home,
-                         user_slug: current_user,
-                         og:        {
-                           type:  "#{ENV['WEBSITE_NAME']}:home",
-                           url:   root_url,
-                           image: image_url('logos/favicon-192x192.png')
-                         })
+        set_seo_data(:home,
+                     og: {
+                       type:  "#{ENV['WEBSITE_NAME']}:home",
+                       url:   root_url,
+                       image: image_url('logos/favicon-192x192.png')
+                     })
 
-            render :user
-          end
-        else
-          set_seo_data(:home,
-                       og: {
-                         type:  "#{ENV['WEBSITE_NAME']}:home",
-                         url:   root_url,
-                         image: image_url('logos/favicon-192x192.png')
-                       })
+        render_associated_page
+      end
+    end
+  end
 
-          render :home
+  def user_home
+    user_ref = params[:user_slug].presence || params[:user_id].presence || params[:id]
+    user     = (current_user&.id == user_ref&.to_i || current_user&.slug == user_ref&.to_s) ? current_user : User.friendly.find(user_ref)
+    authorize user, :show?
+
+    reset_cache_headers
+    respond_to do |format|
+      format.html do
+        if request.path == '/' && user.locale != 'en'
+          redirect_to send("user_home_#{user.locale}_path", user_slug: user.slug)
         end
+
+        set_seo_data(:user_home,
+                     user_slug: user,
+                     og:        {
+                       type:  "#{ENV['WEBSITE_NAME']}:home",
+                       url:   root_url,
+                       image: image_url('logos/favicon-192x192.png')
+                     })
+
+        render_associated_page
+      end
+    end
+  end
+
+  def about
+    respond_to do |format|
+      format.html do
+        expires_in InRailsWeBlog.config.cache_time, public: true
+
+        set_seo_data(:about)
+
+        render_associated_page(page: 'about')
+      end
+    end
+  end
+
+  def terms
+    respond_to do |format|
+      format.html do
+        expires_in InRailsWeBlog.config.cache_time, public: true
+
+        set_seo_data(:terms)
+
+        render_associated_page(page: 'terms')
+      end
+    end
+  end
+
+  def privacy
+    respond_to do |format|
+      format.html do
+        expires_in InRailsWeBlog.config.cache_time, public: true
+
+        set_seo_data(:privacy)
+
+        render_associated_page(page: 'privacy')
       end
     end
   end
@@ -44,8 +85,9 @@ class PagesController < ApplicationController
         expires_in InRailsWeBlog.config.cache_time, public: true
 
         set_seo_data(:not_found)
-        render :home, status: :not_found
+        render_associated_page(status: :not_found)
       end
+      format.all { render body: nil, status: :not_found }
     end
   end
 

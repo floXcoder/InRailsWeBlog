@@ -57,7 +57,7 @@ es:
           contact: "Contáctanos"
           github: "Fuente en Github"
           github_src: "https://github.com/floXcoder/InRailsWeBlog"
-          policy: "Política de datos"
+          privacy: "Política de datos"
           terms: "Condiciones de uso"
           title: "Enlaces útiles"
         locales:
@@ -172,46 +172,53 @@ es:
         article:
           display:
             mode:
-              card: Artículos completos
-              grid: Los artículos de la tabla
-              inline: Artículos unificados
-              summary: Sólo resúmenes de artículos
-            title: Mostrando artículos
+              card: "Artículos completos"
+              grid: "Los artículos de la tabla"
+              inline: "Artículos unificados"
+              summary: "Sólo resúmenes de artículos"
+            title: "Mostrando artículos"
+          order:
+            title: "Orden de los artículos"
+            mode:
+              priority_desc: "Prioridad"
+              tag_asc: "Etiqueta"
+              updated_asc: "Más antiguo"
+              updated_desc: "El más reciente"
           loader:
             mode:
-              all: Cargar todo
-              infinite: Mostrar los elementos de desplazamiento
-              pagination: Use una paginación
-            title: Cargando artículos
+              all: "Cargar todo"
+              infinite: "Mostrar los elementos de desplazamiento"
+              pagination: "Use una paginación"
+            title: "Cargando artículos"
           multilanguage:
-            name: Escribir artículos en varios idiomas
-            title: Multi-idiomas
+            name: "Escribir artículos en varios idiomas"
+            title: "Multi-idiomas"
           export:
             title: "Exportar mis datos"
             button: "Guardar mis artículos en HTML"
-          title: Artículos
+          title: "Artículos"
         search:
-          exact: La(s) palabra(s) específica(s)
-          highlight: Destacar
+          exact: "La(s) palabra(s) específica(s)"
+          highlight: "Destacar"
           operator:
             mode:
-              and: Todas las palabras
-              or: Al menos una palabra
-            title: Operador
-          options: Resultados
-          title: Busca en
+              and: "Todas las palabras"
+              or: "Al menos una palabra"
+            title: "Operador"
+          options: "Resultados"
+          title: "Busca en"
         tag:
           order:
             mode:
-              name: Nombre
-              priority: Prioridad
-            title: Orden de etiqueta por defecto
-          parent_and_child: Ver los artículos de los niños con los padres
+              name: "Nombre"
+              priority: "Prioridad"
+            title: "Orden de etiqueta por defecto"
+          parent_and_child: "Ver los artículos de los niños con los padres"
           sidebar:
-            pin: Lista de etiquetas visibles por defecto
-            title: Recuadro
-            with_child: Mostrar las etiquetas de los niños en la lista principal
-          title: Etiquetas
+            pin: "Lista de etiquetas visibles por defecto"
+            title: "Recuadro"
+            with_child: "Mostrar las etiquetas de los niños en la lista principal"
+          title: "Etiquetas"
     bookmark:
       common:
         add: Añadir a los favoritos
@@ -402,6 +409,7 @@ es:
       common:
         actions: "Acciones"
         private_in_public: "Este artículo es en privado"
+        all_stories: "Ver todos los artículos de la serie"
         allow_comment:
           falsy: "No"
           title: "¿Permitir comentarios?"
@@ -582,6 +590,7 @@ es:
           tag_asc: "Etiqueta"
           updated_asc: "Más antiguo"
           updated_desc: "El más reciente"
+          default: "Por defecto"
         title: "Ordenar por"
       filter:
         filters:

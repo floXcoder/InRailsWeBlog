@@ -4,11 +4,11 @@ import '../test_helper';
 
 import reducers from '../../../app/assets/javascripts/reducers';
 
-import ApplicationLayoutHome from '../../../app/assets/javascripts/components/layouts/home/application';
+import ApplicationLayoutDefault from '../../../app/assets/javascripts/components/layouts/default/application';
 // import ScrollBackManager from '../../../app/assets/javascripts/components/modules/scrollBackManager';
-// import HeaderLayoutHome from '../../../app/assets/javascripts/components/layouts/home/header';
-// import MainLayoutHome from '../../../app/assets/javascripts/components/layouts/home/main';
-// import FooterLayoutHome from '../../../app/assets/javascripts/components/layouts/home/footer';
+// import HeaderLayoutDefault from '../../../app/assets/javascripts/components/layouts/default/header';
+// import MainLayoutDefault from '../../../app/assets/javascripts/components/layouts/default/main';
+// import FooterLayoutDefault from '../../../app/assets/javascripts/components/layouts/default/footer';
 
 // import theme from '../../../app/assets/jss/theme';
 
@@ -26,7 +26,7 @@ describe('<HomePage />', () => {
     });
 
     it('renders home page', () => {
-        shallowWrapper = shallow(<ApplicationLayoutHome/>);
+        shallowWrapper = shallow(<ApplicationLayoutDefault/>);
 
         // shallowWrapper.html()
         // shallowWrapper.render()
@@ -35,9 +35,9 @@ describe('<HomePage />', () => {
         expect(shallowWrapper.find('ThemeProvider')).toHaveLength(1);
         expect(shallowWrapper.find('Router')).toHaveLength(1);
         expect(shallowWrapper.find('Provider')).toHaveLength(1);
-        // expect(shallowWrapper.find('HeaderLayoutHome')).toHaveLength(1);
-        // expect(shallowWrapper.find('MainLayoutHome')).toHaveLength(1);
-        // expect(shallowWrapper.find('FooterLayoutHome')).toHaveLength(1);
+        // expect(shallowWrapper.find('HeaderLayoutDefault')).toHaveLength(1);
+        // expect(shallowWrapper.find('MainLayoutDefault')).toHaveLength(1);
+        // expect(shallowWrapper.find('FooterLayoutDefault')).toHaveLength(1);
 
         // expect(shallowWrapper.dive()).toMatchSnapshot();
     });

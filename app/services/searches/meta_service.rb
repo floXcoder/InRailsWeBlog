@@ -30,13 +30,13 @@ module Searches
       results.each do |result|
         case result.model_name.human
         when 'User'
-          meta_results[:users].push(User.serialized_json(result, 'strict', flat: true, with_model: false, params: { with_link: true }))
+          meta_results[:users].push(User.serialized_json(result, 'strict', flat: true, with_model: false))
         when 'Tag'
-          meta_results[:tags].push(Tag.serialized_json(result, 'strict', flat: true, with_model: false, params: { with_link: true }))
+          meta_results[:tags].push(Tag.serialized_json(result, 'strict', flat: true, with_model: false))
         when 'Topic'
-          meta_results[:topics].push(Topic.serialized_json(result, 'strict', flat: true, with_model: false, params: { with_link: true }))
+          meta_results[:topics].push(Topic.serialized_json(result, 'strict', flat: true, with_model: false))
         when 'Article'
-          meta_results[:articles].push(Article.serialized_json(result, 'strict', flat: true, with_model: false, params: { with_link: true }).serializable_hash[:data])
+          meta_results[:articles].push(Article.serialized_json(result, 'strict', flat: true, with_model: false))
         end
       end
 

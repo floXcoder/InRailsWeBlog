@@ -26,8 +26,8 @@ feature 'Tagged articles', advanced: true, js: true do
         {
           current_page: tagged_page,
           # title:        I18n.t('views.article.index.title.tagged', tag: @tags.first.name),
-          asset_name:   'assets/home',
-          common_js:    ['assets/home']
+          asset_name:   'assets/default',
+          common_js:    ['assets/default']
         }
       }
     end

@@ -38,6 +38,7 @@ class UserManager extends React.Component {
         routeParams: PropTypes.object.isRequired,
         routeState: PropTypes.object,
         pushHistory: PropTypes.func,
+        initialCurrentUser: PropTypes.object,
         // from connect
         currentUserId: PropTypes.number,
         currentUser: PropTypes.object,
@@ -65,79 +66,17 @@ class UserManager extends React.Component {
         // Load user environment:
         // Get current user details with all topics (called each time route has changed)
         // currentUser is defined only when route changed
+        // Called each time a route change
+
         if (!this.props.currentUser) {
             this.props.initUser(this.props.currentUserId, {
                 profile: true,
                 topicSlug: this.props.routeParams.topicSlug,
-                articleSlug: this.props.routeParams.articleSlug
+                articleSlug: this.props.routeParams.articleSlug,
+                localUser: this.props.initialCurrentUser
             })
                 .fetch.then((response) => {
-                if (response?.user) {
-                    const currentTopicSlug = (this.props.routeParams.topicSlug || this.props.routeParams.articleSlug) && response.user.currentTopic ? response.user.currentTopic.slug : null;
-                    if (currentTopicSlug) {
-                        this.props.fetchTags({
-                                topicSlug: currentTopicSlug
-                            },
-                            {
-                                userId: this.props.currentUserId
-                            },
-                            {
-                                topicTags: true
-                            });
-                    } else if (response.user.id) {
-                        // Fetch all tags
-                        this.props.fetchTags({
-                            userId: response.user.id
-                        });
-
-                        if(response.user.currentTopic) {
-                            // Fetch also current topic tags
-                            this.props.fetchTags({
-                                    topicSlug: response.user.currentTopic.slug
-                                },
-                                {
-                                    userId: this.props.currentUserId
-                                },
-                                {
-                                    topicTags: true
-                                });
-                        }
-                    }
-
-                    // Send local recent clicks otherwise fetch them
-                    const userJustLog = sessionStorage?.getItem('user-logged');
-                    const userJustSign = sessionStorage?.getItem('user-signed');
-
-                    Utils.defer.then(() => {
-                        const isNewSession = sessionStorage.getItem('userRecents');
-
-                        if(userJustSign) {
-                            sessionStorage.removeItem('user-signed');
-                            this.props.pushHistory({
-                                hash: '#' + newTopicParam,
-                                state: {
-                                    topicId: response.user.currentTopic.id,
-                                    signup: true
-                                }
-                            });
-                        } else if (userJustLog) {
-                            sessionStorage.removeItem('user-logged');
-                            this.props.updateUserRecents(this.props.currentUserId, getTracksClick(true));
-                        } else if(!isNewSession) {
-                            this.props.fetchUserRecents(this.props.currentUserId, {limit: 10});
-                        }
-                    });
-
-                    Utils.defer.then(() => {
-                        // if (userJustSign) {
-                        //     this.props.synchronizeBookmarks();
-                        // }
-
-                        // this.props.fetchBookmarks(this.props.userId, {topicId: this.props.currentUserTopicId});
-
-                        this.props.fetchBookmarks(this.props.currentUserId);
-                    });
-                }
+                this._fetchUserData(response?.user);
             });
         } else {
             // Called when route changed
@@ -151,9 +90,76 @@ class UserManager extends React.Component {
     componentDidUpdate(prevProps) {
         // Called when hash route change (topic module, articles order, ...)
         // Check state only if previous current user defined (otherwise it means initialization)
-        if(prevProps.currentUser) {
+        if (prevProps.currentUser) {
             this._checkState();
         }
+    }
+
+    _fetchUserData = (currentUser) => {
+        const currentTopicSlug = (this.props.routeParams.topicSlug || this.props.routeParams.articleSlug) && currentUser.currentTopic ? currentUser.currentTopic.slug : null;
+        if (currentTopicSlug) {
+            this.props.fetchTags({
+                    topicSlug: currentTopicSlug
+                },
+                {
+                    userId: this.props.currentUserId
+                },
+                {
+                    topicTags: true
+                });
+        } else if (currentUser.id) {
+            // Fetch all tags
+            this.props.fetchTags({
+                userId: currentUser.id
+            });
+
+            if (currentUser.currentTopic) {
+                // Fetch also current topic tags
+                this.props.fetchTags({
+                        topicSlug: currentUser.currentTopic.slug
+                    },
+                    {
+                        userId: this.props.currentUserId
+                    },
+                    {
+                        topicTags: true
+                    });
+            }
+        }
+
+        // Send local recent clicks otherwise fetch them
+        const userJustLog = sessionStorage?.getItem('user-logged');
+        const userJustSign = sessionStorage?.getItem('user-signed');
+
+        Utils.defer.then(() => {
+            const isNewSession = sessionStorage.getItem('userRecents');
+
+            if (userJustSign) {
+                sessionStorage.removeItem('user-signed');
+                this.props.pushHistory({
+                    hash: '#' + newTopicParam,
+                    state: {
+                        topicId: currentUser.currentTopic.id,
+                        signup: true
+                    }
+                });
+            } else if (userJustLog) {
+                sessionStorage.removeItem('user-logged');
+                this.props.updateUserRecents(this.props.currentUserId, getTracksClick(true));
+            } else if (!isNewSession) {
+                this.props.fetchUserRecents(this.props.currentUserId, {limit: 10});
+            }
+        });
+
+        Utils.defer.then(() => {
+            // if (userJustSign) {
+            //     this.props.synchronizeBookmarks();
+            // }
+
+            // this.props.fetchBookmarks(this.props.userId, {topicId: this.props.currentUserTopicId});
+
+            this.props.fetchBookmarks(this.props.currentUserId);
+        });
     }
 
     _checkState = () => {
@@ -164,7 +170,7 @@ class UserManager extends React.Component {
             topicSlug = this.props.routeParams.articleSlug.match(/@.*?$/)?.first()?.substr(1);
         }
 
-        if(topicSlug) {
+        if (topicSlug) {
             this._checkTopic(topicSlug);
         }
 

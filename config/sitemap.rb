@@ -18,7 +18,7 @@ SitemapGenerator::Sitemap.create do
     #     changefreq: 'yearly'
     # add terms_en_path,
     #     changefreq: 'yearly'
-    # add policy_en_path,
+    # add privacy_en_path,
     #     changefreq: 'yearly'
   end
 

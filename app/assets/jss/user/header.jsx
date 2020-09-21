@@ -27,7 +27,7 @@ const styles = (theme) => ({
     },
     title: {
         display: 'none',
-        margin: '10px 15px 0',
+        margin: '15px 15px 0 0',
         fontSize: 32,
         [theme.breakpoints.up('sm')]: {
             display: 'block',

@@ -9,8 +9,8 @@ module.exports = {
     webpack: {
         context: './app/assets',
         entries: {
-            home: ['./javascripts/pages/home/home.jsx'],
-            user: ['./javascripts/pages/home/user.jsx'],
+            default: ['./javascripts/pages/default.jsx'],
+            user: ['./javascripts/pages/user.jsx'],
             admins: ['./javascripts/pages/admins.jsx'],
             'admins/login': ['./javascripts/pages/admins/login.jsx']
         },
@@ -122,7 +122,7 @@ module.exports = {
         ],
         serviceWorker: {
             dest: '../service-worker.js',
-            exclude: [/admin/, /about/, /policy/, /terms/, /comment\./, /comment-box\./, /compare\./, /history\./, /tracker\./, /edit\./, /edition\./, /editor\./, /sort\./, /persistence\./, /share\./, /login\./, /signup\./, /password\./, /user-confirmation\./, /preference\./, /\.ttf$/, /\.eot$/, /\.woff$/, /\.map$/, /apple-touch/, /LICENSE/, /statics-/, /pghero/],
+            exclude: [/admin/, /about/, /privacy/, /terms/, /comment\./, /comment-box\./, /compare\./, /history\./, /tracker\./, /edit\./, /edition\./, /editor\./, /sort\./, /persistence\./, /share\./, /login\./, /signup\./, /password\./, /user-confirmation\./, /preference\./, /\.ttf$/, /\.eot$/, /\.woff$/, /\.map$/, /apple-touch/, /LICENSE/, /statics-/, /pghero/],
             additionalFiles: [
                 {url: 'offline.html', revision: '1'},
                 {url: 'favicon.ico', revision: '1'}

@@ -36,7 +36,7 @@ import {
 
 import EnsureValidity from '../../modules/ensureValidity';
 
-import styles from '../../../../jss/home/search';
+import styles from '../../../../jss/default/search';
 
 export default @withRouter
 @connect((state) => ({

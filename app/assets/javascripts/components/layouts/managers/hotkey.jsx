@@ -21,7 +21,6 @@ import {
 export default @withRouter
 @connect((state) => ({
     isUserConnected: state.userState.isConnected,
-    currentUserId: state.userState.currentId,
     currentUserSlug: state.userState.currentSlug,
     currentUserTopicSlug: state.topicState.currentUserTopicSlug
 }), {

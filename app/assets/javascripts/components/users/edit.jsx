@@ -14,7 +14,7 @@ import {
 
 import {
     rootPath,
-    userArticlesPath
+    userHomePath
 } from '../../constants/routesHelper';
 
 export default @connect(null, {
@@ -64,7 +64,7 @@ class UserEdit extends React.Component {
         return (
             <div className="card">
                 <Form id={`edit_user_${this.state.user.id}`}
-                      action={userArticlesPath(this.state.user.slug)}
+                      action={userHomePath(this.state.user.slug)}
                       isMultipart={true}>
 
                     <div className="card-content">

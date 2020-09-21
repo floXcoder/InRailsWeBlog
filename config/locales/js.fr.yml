@@ -50,7 +50,7 @@ fr:
           contact: "Nous contacter"
           about: "À propos"
           terms: "Conditions d'utilisation"
-          policy: "Politique des données"
+          privacy: "Politique des données"
           github: "Source sous Github"
           github_src: "https://github.com/floXcoder/InRailsWeBlog"
         languages: "Langues"
@@ -171,12 +171,6 @@ fr:
       settings:
         article:
           title: "Articles"
-          loader:
-            title: "Chargement des articles"
-            mode:
-              infinite: "Afficher les articles au défilement"
-              pagination: "Utiliser une pagination"
-              all: "Tous charger"
           display:
             title: "Affichage des articles"
             mode:
@@ -184,6 +178,19 @@ fr:
               card: "Articles complets"
               inline: "Articles unifiés"
               grid: "Articles en grille"
+          order:
+            title: "Ordre des articles"
+            mode:
+              priority_desc: "Priorité"
+              tag_asc: "Label"
+              updated_desc: "Plus récent"
+              updated_asc: "Plus ancien"
+          loader:
+            title: "Chargement des articles"
+            mode:
+              infinite: "Afficher les articles au défilement"
+              pagination: "Utiliser une pagination"
+              all: "Tous charger"
           multilanguage:
             title: "Multi-langues"
             name: "Écrire les articles en plusieurs langues"
@@ -403,15 +410,16 @@ fr:
         draft: "Note temporaire ?"
         external_source: "Référence externe ?"
         link: "Est un lien ?"
-        allow_comment:
-          title: "Autoriser les commentaires ?"
-          truthy: "Oui"
-          falsy: "Non"
         visibility: "Choisissez la visibilité"
         url: "Liste des articles"
         outdated: "Article marqué comme périmé !"
         actions: "Actions"
         private_in_public: "Cet article est en privé"
+        all_stories: "Voir tous les articles de la série"
+        allow_comment:
+          title: "Autoriser les commentaires ?"
+          truthy: "Oui"
+          falsy: "Non"
         not_connected:
           message: "Merci de vous connecter avant de poster l'article"
         infinite:
@@ -581,6 +589,7 @@ fr:
           tag_asc: "Label"
           updated_desc: "Plus récent"
           updated_asc: "Plus ancien"
+          default: "Défaut"
         link_title: "Changer ordre"
         link: "Changer la priorité"
       filter:

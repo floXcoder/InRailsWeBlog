@@ -40,7 +40,7 @@ class GenerateCacheUrls
 
       Rails.application.routes.url_helpers.send("about_#{locale}_path"),
       Rails.application.routes.url_helpers.send("terms_#{locale}_path"),
-      Rails.application.routes.url_helpers.send("policy_#{locale}_path")
+      Rails.application.routes.url_helpers.send("privacy_#{locale}_path")
     ]
   end
 

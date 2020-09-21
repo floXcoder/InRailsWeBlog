@@ -8,7 +8,7 @@ export const lazyWithPreload = (factory) => {
 
 // webpackChunkName cannot contain "tracking"!!!
 
-export const HomeHome = lazyWithPreload(() => import(/* webpackChunkName: "home-index" */ '../home/home'));
+export const Home = lazyWithPreload(() => import(/* webpackChunkName: "home-index" */ '../home/home'));
 
 export const TopicShow = lazyWithPreload(() => import(/* webpackChunkName: "topic-show" */ '../topics/show'));
 export const TopicEdit = lazyWithPreload(() => import(/* webpackChunkName: "topic-edit" */ '../topics/edit'));
@@ -58,4 +58,4 @@ export const Editor = lazyWithPreload(() => import(/* webpackChunkName: "editor"
 
 export const About = lazyWithPreload(() => import(/* webpackChunkName: "static-about" */ '../statics/about'));
 export const Terms = lazyWithPreload(() => import(/* webpackChunkName: "static-terms" */ '../statics/terms'));
-export const Policy = lazyWithPreload(() => import(/* webpackChunkName: "static-policy" */ '../statics/policy'));
+export const Privacy = lazyWithPreload(() => import(/* webpackChunkName: "static-privacy" */ '../statics/privacy'));

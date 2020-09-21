@@ -16,6 +16,8 @@ Rails.application.routes.draw do
     get '/search(/:query)', to: 'pages#home', as: :search, defaults: { name: 'search', public: true }
 
     # Users
+    get '/users/:user_slug', to: 'pages#user_home', as: :user_home, defaults: { name: 'user_home' }
+
     get '/users', to: 'pages#home', as: :users, defaults: { name: 'users', public: true }
     get '/users/password/new', to: 'pages#home', as: :new_password, defaults: { name: 'new_password', public: true }
     get '/users/password/edit', to: 'pages#home', as: :edit_password, defaults: { name: 'edit_password', public: true }
@@ -37,28 +39,23 @@ Rails.application.routes.draw do
     get '/users/:user_slug/topics/:topic_slug/edit-inventories', to: 'pages#home', as: :edit_inventories_topic, defaults: { name: 'edit_inventories_topic' }
 
     # Articles
-    get '/users/:user_slug', to: 'pages#home', as: :user_articles, defaults: { name: 'user_articles', public: true }
-    get '/users/:user_slug/topics/:topic_slug', to: 'pages#home', as: :topic_articles, defaults: { name: 'topic_articles', public: true }
+    get '/users/:user_slug', to: 'articles#index', as: :user_articles, defaults: { name: 'user_articles', public: true }
+    get '/users/:user_slug/topics/:topic_slug', to: 'articles#index', as: :topic_articles, defaults: { name: 'topic_articles', public: true }
+    get '/tagged/:tag_slug(/:child_tag_slug)', to: 'articles#index', as: :tagged_articles, defaults: { name: 'tagged_articles', public: true }
+    get '/users/:user_slug/articles/:article_slug', to: 'articles#show', as: :user_article, defaults: { name: 'user_article', public: true }
+
     get '/users/:user_slug/topics/:topic_slug/tagged/:tag_slug(/:child_tag_slug)', to: 'pages#home', as: :tagged_topic_articles, defaults: { name: 'tagged_topic_articles', public: true }
-    get '/tagged/:tag_slug(/:child_tag_slug)', to: 'pages#home', as: :tagged_articles, defaults: { name: 'tagged_articles', public: true }
     get '/users/:user_slug/topics/:topic_slug/order/:order', to: 'pages#home', as: :order_topic_articles, defaults: { name: 'order_topic_articles' }
     get '/users/:user_slug/topics/:topic_slug/sort', to: 'pages#home', as: :sort_topic_articles, defaults: { name: 'sort_topic_articles' }
-    get '/users/:user_slug/articles/:article_slug', to: 'pages#home', as: :user_article, defaults: { name: 'user_article', public: true }
     get '/articles/shared/:article_slug/:public_link', to: 'pages#home', as: :shared_article, defaults: { name: 'shared_article' }
     get '/users/:user_slug/topics/:topic_slug/article-new', to: 'pages#home', as: :new_article, defaults: { name: 'new_article' }
     get '/users/:user_slug/articles/:article_slug/edit', to: 'pages#home', as: :edit_article, defaults: { name: 'edit_article' }
     get '/users/:user_slug/articles/:article_slug/history', to: 'pages#home', as: :history_article, defaults: { name: 'history_article' }
 
-    # Connected users
-    authenticate :user do
-      # get '/(users/:user_slug)', to: 'pages#home', as: :user_home, defaults: { name: 'user_home' }
-      get '/users/:user_slug', to: 'pages#home', as: :user_home, defaults: { name: 'user_home' }
-    end
-
     # Static routes
-    get '/about', to: 'pages#home', as: :about, defaults: { name: 'about', public: true }
-    get '/terms', to: 'pages#home', as: :terms, defaults: { name: 'terms', public: true }
-    get '/policy', to: 'pages#home', as: :policy, defaults: { name: 'policy', public: true }
+    get '/about', to: 'pages#about', as: :about, defaults: { name: 'about', public: true }
+    get '/terms', to: 'pages#terms', as: :terms, defaults: { name: 'terms', public: true }
+    get '/privacy', to: 'pages#privacy', as: :privacy, defaults: { name: 'privacy', public: true }
 
     # Other unnamed routes
     get '/search/*path', to: 'pages#home', defaults: { public: true }

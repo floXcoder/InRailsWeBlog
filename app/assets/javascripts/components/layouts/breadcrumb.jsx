@@ -18,7 +18,7 @@ import {
     userArticlePath,
     taggedArticlesPath,
     topicArticlesPath,
-    userArticlesPath
+    userHomePath
 } from '../../constants/routesHelper';
 
 import {
@@ -96,7 +96,7 @@ class BreadcrumbLayout extends React.Component {
         } else if (recent.type === 'topic') {
             return topicArticlesPath(recent.userSlug, recent.slug);
         } else if (recent.type === 'user') {
-            return userArticlesPath(recent.slug);
+            return userHomePath(recent.slug);
         } else {
             return '';
         }

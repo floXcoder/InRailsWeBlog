@@ -39,7 +39,11 @@ module Api::V1
           end
 
           if topic && topic.storext_definitions.key?(pref_type.to_sym)
-            topic.settings[pref_type.to_s.downcase] = pref_value
+            if pref_value == 'default'
+              topic.settings.delete(pref_type.to_s.downcase)
+            else
+              topic.settings[pref_type.to_s.downcase] = pref_value
+            end
           else
             user.settings[pref_type.to_s.downcase] = pref_value
           end
@@ -51,8 +55,8 @@ module Api::V1
       respond_to do |format|
         format.json do
           # Ensure current topic preferences are not changed
-          user.settings = user.settings.merge(user.current_topic.settings) unless topic
-          render json: UserSettingSerializer.new(topic || user,
+          user.settings = user.settings.merge(topic&.settings || user.current_topic.settings)
+          render json: UserSettingSerializer.new(user,
                                                  meta: { topic: !!topic }).serializable_hash
         end
       end

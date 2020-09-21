@@ -320,7 +320,7 @@ class User < ApplicationRecord
       UserSerializer.new(data,
                          fields:  {
                            user: %i[id current_topic topics contributed_topics pseudo email firstName lastName locale slug avatarUrl settings],
-                           topic: %i[id userId mode name description priority visibility languages slug tagIds inventoryFields]
+                           topic: %i[id userId mode name description priority visibility languages slug tagIds inventoryFields settings]
                          },
                          include: %i[current_topic topics contributed_topics],
                          **options)
@@ -386,7 +386,7 @@ class User < ApplicationRecord
 
   # Activities
   def recent_visits(limit = 12)
-    last_visits = self.recent_activities.order('activities.created_at DESC').where(key: 'user.visit').where(parameters: { topic_id: self.current_topic_id }).limit(limit)
+    last_visits = self.recent_activities.order('activities.created_at DESC').where(key: 'user.visit', parameters: { topic_id: self.current_topic_id }).limit(limit)
 
     return {} if last_visits.empty?
 

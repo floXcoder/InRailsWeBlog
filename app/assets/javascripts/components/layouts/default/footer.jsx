@@ -13,17 +13,17 @@ import Grid from '@material-ui/core/Grid';
 import {
     about,
     terms,
-    policy
+    privacy
 } from '../../../constants/routesHelper';
 
-import styles from '../../../../jss/home/footer';
+import styles from '../../../../jss/default/footer';
 
 export default @withRouter
 @connect((state) => ({
     metaTags: state.uiState.metaTags
 }))
 @withStyles(styles)
-class FooterLayoutHome extends React.PureComponent {
+class FooterLayoutDefault extends React.PureComponent {
     static propTypes = {
         // from router
         location: PropTypes.object,
@@ -117,24 +117,24 @@ class FooterLayoutHome extends React.PureComponent {
                         </p>
 
                         <p>
-                            <Link className={this.props.classes.footerLink}
-                                  to={about()}>
+                            <a className={this.props.classes.footerLink}
+                               href={about()}>
                                 {I18n.t('js.views.footer.links.about')}
-                            </Link>
+                            </a>
                         </p>
 
                         <p>
-                            <Link className={this.props.classes.footerLink}
-                                  to={terms()}>
+                            <a className={this.props.classes.footerLink}
+                               href={terms()}>
                                 {I18n.t('js.views.footer.links.terms')}
-                            </Link>
+                            </a>
                         </p>
 
                         <p>
-                            <Link className={this.props.classes.footerLink}
-                                  to={policy()}>
-                                {I18n.t('js.views.footer.links.policy')}
-                            </Link>
+                            <a className={this.props.classes.footerLink}
+                               href={privacy()}>
+                                {I18n.t('js.views.footer.links.privacy')}
+                            </a>
                         </p>
                     </Grid>
 

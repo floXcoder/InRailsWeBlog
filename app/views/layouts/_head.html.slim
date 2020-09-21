@@ -2,8 +2,7 @@ head itemscope="" itemtype="http://schema.org/WebSite"
   meta charset="utf-8"
   meta name="viewport" content="width=device-width, initial-scale=1.0"
   
-  - if request.path.start_with?('/admins')
-    = display_meta_tags(reverse: true, separator: '|')
+  = display_meta_tags(reverse: true, separator: '|')
   
   = csrf_meta_tags
   

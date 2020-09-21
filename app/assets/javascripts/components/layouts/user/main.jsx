@@ -24,12 +24,20 @@ export default @withStyles(styles)
 class MainLayoutUser extends React.Component {
     static propTypes = {
         routes: PropTypes.array.isRequired,
+        staticContent: PropTypes.string,
+        currentUser: PropTypes.object,
         // from styles
         classes: PropTypes.object
     };
 
     constructor(props) {
         super(props);
+
+        this._initialRender = true;
+    }
+
+    componentDidMount() {
+        this._initialRender = false;
     }
 
     shouldComponentUpdate() {
@@ -37,10 +45,6 @@ class MainLayoutUser extends React.Component {
     }
 
     render() {
-        // In development environment with hot reload:
-        // React Suspense or Memo use context that cause a re-render without calling shouldComponentUpdate
-        // So some route (like ArticleIndex) are called 4 times!
-
         return (
             <Switch>
                 {
@@ -63,20 +67,25 @@ class MainLayoutUser extends React.Component {
                                    const {component, ...routeProperties} = route;
                                    const Component = component();
 
+                                   const {routes, currentUser, classes, ...initProps} = this.props;
+
                                    return (
                                        <RouteManager currentRoute={routeProperties}
                                                      params={router.match.params}
                                                      location={router.location}>
                                            <UserManager routeParams={router.match.params}
                                                         routeState={router.location.state}
-                                                        pushHistory={router.history.push}>
-                                               <div className={this.props.classes.root}>
-                                                   <main className={this.props.classes.content}>
+                                                        pushHistory={router.history.push}
+                                                        initialCurrentUser={currentUser}>
+                                               <div className={classes.root}>
+                                                   <main className={classes.content}>
                                                        <Suspense fallback={<div/>}>
-                                                           <div className={this.props.classes.component}>
+                                                           <div className={classes.component}>
                                                                <Component routeParams={router.match.params}
                                                                           routeHash={router.location.search}
-                                                                          routeState={router.location.state}/>
+                                                                          routeState={router.location.state}
+                                                                          staticContent={this.props.staticContent}
+                                                                          initProps={this._initialRender ? initProps : undefined}/>
                                                            </div>
                                                        </Suspense>
                                                    </main>

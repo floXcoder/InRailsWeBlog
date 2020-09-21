@@ -16,7 +16,7 @@ const omitEmptyParams = (params) => {
     return newObject;
 };
 
-const saveCurrentState = (paramsToSerialize, paramsToUrl, replaceOnly = false, reuseExistingParams = true) => {
+const saveCurrentState = (paramsToSerialize, paramsToUrl, replaceOnly = false) => {
     if (window.history?.pushState) {
         paramsToSerialize = omitEmptyParams(paramsToSerialize);
 

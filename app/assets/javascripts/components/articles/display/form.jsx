@@ -26,7 +26,7 @@ import {
 
 import {
     userArticlePath,
-    userArticlesPath,
+    userHomePath,
     editInventoriesTopicPath
 } from '../../../constants/routesHelper';
 
@@ -273,7 +273,7 @@ class ArticleFormDisplay extends React.Component {
                                                     <div className="col s12 margin-top-25">
                                                         <Button size="small"
                                                                 component={Link}
-                                                                to={this.props.isEditing ? userArticlePath(this.props.userSlug, this.props.children.slug) : userArticlesPath(this.props.userSlug)}
+                                                                to={this.props.isEditing ? userArticlePath(this.props.userSlug, this.props.children.slug) : userHomePath(this.props.userSlug)}
                                                                 onClick={this.props.onCancel}>
                                                             {I18n.t('js.helpers.buttons.cancel')}
                                                         </Button>
@@ -313,7 +313,7 @@ class ArticleFormDisplay extends React.Component {
                                                     <Button color="default"
                                                             size="small"
                                                             component={Link}
-                                                            to={this.props.isEditing ? userArticlePath(this.props.userSlug,this.props.children.slug) : userArticlesPath(this.props.userSlug)}
+                                                            to={this.props.isEditing ? userArticlePath(this.props.userSlug,this.props.children.slug) : userHomePath(this.props.userSlug)}
                                                             onClick={this.props.onCancel}>
                                                         {I18n.t('js.helpers.buttons.cancel')}
                                                     </Button>

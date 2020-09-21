@@ -32,6 +32,9 @@ const styles = (theme) => ({
     },
     topicDesc: {
         fontSize: '1.1rem'
+    },
+    topicLink: {
+        fontSize: '.9rem'
     }
 });
 

@@ -26,7 +26,7 @@ import ArticleMiniCardDisplay from '../articles/display/items/miniCard';
 import TagChipDisplay from '../tags/display/chip';
 import MiniArticleSkeleton from '../loaders/skeletons/miniArticle';
 
-import styles from '../../../jss/home/index';
+import styles from '../../../jss/default/index';
 
 export default @connect((state) => ({
     homeArticles: state.articleState.homeArticles,
@@ -38,7 +38,7 @@ export default @connect((state) => ({
 })
 @hot
 @withStyles(styles)
-class HomeHome extends React.Component {
+class Home extends React.Component {
     static propTypes = {
         // from connect
         homeArticles: PropTypes.array,

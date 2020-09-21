@@ -3,13 +3,15 @@
 .pagination {
   list-style-type: none;
   padding-left: 0;
+  margin-top: 2.8rem;
 
   .pagination-page,
   .previous,
   .next {
     list-style-type: none;
     display: inline-block;
-    border-radius: 2px;
+    margin: 2px;
+    border-radius: 5px;
     text-align: center;
     vertical-align: top;
     height: 30px;
@@ -19,6 +21,12 @@
 
       a {
         color: #fff;
+      }
+    }
+
+    &.disabled {
+      a {
+        color: #bbb;
       }
     }
 

@@ -68,6 +68,45 @@ describe 'Article API', type: :request, basic: true do
     }
   }
 
+  describe '/users/:user_slug/topics/:topic_slug (HTML)' do
+    it 'returns user articles for the given topic' do
+      get "/users/#{@user.slug}/topics/#{@topic.slug}"
+
+      expect(response).to be_html_response
+      expect(response.body).to match('id="react-component"')
+      expect(response.body).to match('lang="en"')
+      expect(response.body).to match('<title>')
+      expect(response.body).to match('<meta name="description"')
+      expect(response.body).to match('data-articles="{')
+    end
+  end
+
+  describe '/tagged/:tag_slug (HTML)' do
+    it 'returns all articles for the given tag' do
+      get "/tagged/#{@public_tags.first.slug}"
+
+      expect(response).to be_html_response
+      expect(response.body).to match('id="react-component"')
+      expect(response.body).to match('lang="en"')
+      expect(response.body).to match('<title>')
+      expect(response.body).to match('<meta name="description"')
+      expect(response.body).to match('data-articles="{')
+    end
+  end
+
+  describe '/users/:user_slug/articles/:article_slug (HTML)' do
+    it 'returns the user article' do
+      get "/users/#{@user.slug}/articles/#{@article.slug}"
+
+      expect(response).to be_html_response
+      expect(response.body).to match('id="react-component"')
+      expect(response.body).to match('lang="en"')
+      expect(response.body).to match('<title>')
+      expect(response.body).to match('<meta name="description"')
+      expect(response.body).to match('data-article="{')
+    end
+  end
+
   describe '/api/v1/articles' do
     context 'when no parameters and not connected' do
       it 'returns all public articles' do

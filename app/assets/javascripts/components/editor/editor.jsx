@@ -149,8 +149,8 @@ class Editor extends React.Component {
                 ['specialStyle', ['pre', 'advice', 'secret']],
                 ['para', ['ul', 'ol']],
                 ['insert', ['link', 'picture', 'video']],
-                ['undo', ['undo', 'redo']],
-                ['clear', ['clear']]
+                ['clear', ['clear']],
+                ['undo', ['undo', 'redo']]
             ];
 
             if (this.props.width === 'xs' || this.props.width === 'sm') {
@@ -176,8 +176,8 @@ class Editor extends React.Component {
                 ['specialStyle', ['code', 'pre', 'advice', 'secret']],
                 ['table', ['table']],
                 ['insert', ['link', 'picture', 'video']],
-                ['undo', ['undo', 'redo']],
                 ['clear', ['clear']],
+                ['undo', ['undo', 'redo']],
                 // ['view', ['fullscreen']],
                 // ['help', ['codeview', 'help']]
             ];

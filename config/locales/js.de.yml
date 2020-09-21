@@ -57,7 +57,7 @@ de:
           contact: "Kontaktieren Sie uns"
           github: "Quellcode unter Github"
           github_src: "https://github.com/floXcoder/InRailsWeBlog"
-          policy: "Datenpolitik"
+          privacy: "Datenpolitik"
           terms: "Bedingungen und Konditionen der Nutzung"
           title: "Nützliche Links"
         locales:
@@ -157,46 +157,53 @@ de:
         article:
           display:
             mode:
-              card: Vollständige Artikel
-              grid: Gitter-Elemente
-              inline: Einheitliche Artikel
-              summary: Nur Abstracts von Artikeln
-            title: Anzeige von Artikeln
+              card: "Vollständige Artikel"
+              grid: "Gitter-Elemente"
+              inline: "Einheitliche Artikel"
+              summary: "Nur Abstracts von Artikeln"
+            title: "Anzeige von Artikeln"
+          order:
+            title: "Reihenfolge der Artikel"
+            mode:
+              priority_desc: "Priorität"
+              tag_asc: "Etikett"
+              updated_asc: "Ältere"
+              updated_desc: "Jüngste"
           loader:
             mode:
-              all: Alle laden
-              infinite: Bildlaufelemente anzeigen
-              pagination: Verwenden Sie eine Paginierung
-            title: Laden von Artikeln
+              all: "Alle laden"
+              infinite: "Bildlaufelemente anzeigen"
+              pagination: "Verwenden Sie eine Paginierung"
+            title: "Laden von Artikeln"
           multilanguage:
-            name: Artikel in mehreren Sprachen verfassen
-            title: Mehrsprachig
+            name: "Artikel in mehreren Sprachen verfassen"
+            title: "Mehrsprachig"
           export:
             title: "Meine Daten exportieren"
             button: "Meine Artikel in HTML speichern"
-          title: Artikel
+          title: "Artikel"
         search:
-          exact: Das/die spezifische(n) Wort(e)
-          highlight: Hervorheben
+          exact: "Das/die spezifische(n) Wort(e)"
+          highlight: "Hervorheben"
           operator:
             mode:
-              and: Alle Wörter
-              or: Mindestens ein Wort
-            title: Betreiber
-          options: Ergebnisse
-          title: Suchen
+              and: "Alle Wörter"
+              or: "Mindestens ein Wort"
+            title: "Betreiber"
+          options: "Ergebnisse"
+          title: "Suchen"
         tag:
           order:
             mode:
-              name: Name
-              priority: Priorität
-            title: Standard-Etikettenreihenfolge
-          parent_and_child: Untergeordnete Elemente mit übergeordnetem Element anzeigen
+              name: "Name"
+              priority: "Priorität"
+            title: "Standard-Etikettenreihenfolge"
+          parent_and_child: "Untergeordnete Elemente mit übergeordnetem Element anzeigen"
           sidebar:
-            pin: Liste der sichtbaren Etiketten standardmäßig
-            title: Seitenleiste
-            with_child: Untergeordnete Etiketten in der Hauptliste anzeigen
-          title: Beschriftungen
+            pin: "Liste der sichtbaren Etiketten standardmäßig"
+            title: "Seitenleiste"
+            with_child: "Untergeordnete Etiketten in der Hauptliste anzeigen"
+          title: "Beschriftungen"
       signup:
         cancel: Abbrechen
         confirm_password: Passwort bestätigen
@@ -406,6 +413,7 @@ de:
       common:
         actions: "Aktionen"
         private_in_public: "Dieser Artikel ist privat"
+        all_stories: "Alle Artikel der Serie anzeigen"
         allow_comment:
           falsy: "Nein"
           title: "Erlauben Sie Kommentare?"
@@ -570,6 +578,7 @@ de:
           tag_asc: "Etikett"
           updated_asc: "Ältere"
           updated_desc: "Jüngste"
+          default: "Standardmäßig"
         title: "Sortieren nach"
       timeline:
         title: "Neuer Artikel :"

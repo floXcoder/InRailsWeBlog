@@ -1,0 +1,42 @@
+- stylesheet 'statics'
+
+- javascript "translations/statics-#{I18n.locale}"
+
+= content_tag :div, '', id: 'react-component', class: 'react-root', data: { **local_assigns }
+
+#static-content style="display: none;"
+  .static-content
+    h1.static-title
+      = I18n.t('statics.policy.title')
+    
+    div
+      h2.static-subtitle
+        = I18n.t('statics.policy.privacy.title')
+      p
+        = I18n.t('statics.policy.privacy.content_1', website: ENV['WEBSITE_NAME'])
+      p
+        = I18n.t('statics.policy.privacy.content_2')
+      p
+        = I18n.t('statics.policy.privacy.content_3')
+      p
+        = I18n.t('statics.policy.privacy.content_4')
+      p
+        = I18n.t('statics.policy.privacy.content_5')
+      p
+        = I18n.t('statics.policy.privacy.content_6')
+      p
+        = I18n.t('statics.policy.privacy.content_7')
+      p
+        = I18n.t('statics.policy.privacy.content_8')
+      
+      div
+        h2.static-subtitle
+          = I18n.t('statics.policy.cookies.title')
+        p
+          = I18n.t('statics.policy.cookies.content_1')
+        p
+          = I18n.t('statics.policy.cookies.content_2')
+        p
+          = I18n.t('statics.policy.cookies.content_3')
+        p
+          = I18n.t('statics.policy.cookies.content_4')

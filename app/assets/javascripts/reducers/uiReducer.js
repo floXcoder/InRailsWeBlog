@@ -14,9 +14,9 @@ const initState = {
 
     isTopicPopupOpen: false,
 
-    articlesLoaderMode: 'infinite',
+    articlesLoaderMode: 'paginate',
     articleDisplayMode: 'summary',
-    articleOrderMode: undefined,
+    articleOrderMode: 'priority_desc',
     articleMultilanguage: false,
 
     areArticlesMinimized: false,
