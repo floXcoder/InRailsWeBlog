@@ -2,6 +2,7 @@
 
 module Api::V1
   class ApiController < ApplicationController
+
     # Verify by default that user is connected
     before_action :authenticate_user!
 

@@ -33,8 +33,7 @@ import {
 
 import {
     getArticlesCurrentMode,
-    getArticlesCount,
-    getStoryTopic
+    getArticlesCount
 } from '../../selectors';
 
 import {
@@ -58,7 +57,7 @@ export default @connect((state) => ({
     currentUserId: state.userState.currentId,
     currentTopic: state.topicState.currentTopic,
     userSlug: state.userState.currentSlug,
-    storyTopic: getStoryTopic(state),
+    storyTopic: state.topicState.storyTopic,
     currentState: state.articleState.currentState.value,
     articlesCount: getArticlesCount(state),
     articlePagination: state.articleState.pagination,

@@ -649,6 +649,7 @@ es:
           none: "No se encontraron etiquetas"
         articles:
           recents: "(Artículos recientes)"
+          other_topics: "Los resultados en los otros temas"
           title: "Artículos"
           none: "No se encontraron artículos"
         helpers:

@@ -147,9 +147,24 @@ class SearchModule extends React.Component {
 
                     <Grid container={true}
                           spacing={4}
-                          direction="row-reverse"
+                          direction="row"
                           justify="space-between"
                           alignItems="flex-start">
+                        <Grid className={this.props.classes.gridItem}
+                              item={true}
+                              xs={12}
+                              sm={8}
+                              md={9}
+                              lg={9}>
+                            <SearchArticleModule classes={this.props.classes}
+                                                 isUserConnected={this.props.isUserConnected}
+                                                 currentTopicId={this.props.currentTopicId}
+                                                 hasQuery={hasQuery}
+                                                 selectedTags={this.props.selectedTags}
+                                                 highlightedArticleId={this.props.highlightedArticle?.id}
+                                                 articles={articles}/>
+                        </Grid>
+
                         <Grid className={this.props.classes.gridItem}
                               item={true}
                               xs={12}
@@ -167,21 +182,6 @@ class SearchModule extends React.Component {
 
                             <SearchTopicModule classes={this.props.classes}
                                                topics={this.props.topics}/>
-                        </Grid>
-
-                        <Grid className={this.props.classes.gridItem}
-                              item={true}
-                              xs={12}
-                              sm={8}
-                              md={9}
-                              lg={9}>
-                            <SearchArticleModule classes={this.props.classes}
-                                                 isUserConnected={this.props.isUserConnected}
-                                                 currentTopicId={this.props.currentTopicId}
-                                                 hasQuery={hasQuery}
-                                                 selectedTags={this.props.selectedTags}
-                                                 highlightedArticleId={this.props.highlightedArticle?.id}
-                                                 articles={articles}/>
                         </Grid>
                     </Grid>
 

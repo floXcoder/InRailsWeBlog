@@ -78,7 +78,8 @@ class ArticleItemsDisplay extends React.Component {
         } else if (this.props.articleDisplayMode === 'summary') {
             return (
                 <ArticleMiniCardDisplay article={this.props.article}
-                                        topicVisibility={this.props.currentUserTopicVisibility}
+                                        currentUserTopicId={this.props.currentUserTopicId}
+                                        currentUserTopicVisibility={this.props.currentUserTopicVisibility}
                                         isPaper={true}
                                         isTagDown={true}/>
             );
@@ -86,6 +87,7 @@ class ArticleItemsDisplay extends React.Component {
             return (
                 <ArticleCardDisplay article={this.props.article}
                                     currentUserSlug={this.props.currentUserSlug}
+                                    currentUserTopicId={this.props.currentUserTopicId}
                                     currentUserTopicSlug={this.props.currentUserTopicSlug}
                                     currentUserTopicVisibility={this.props.currentUserTopicVisibility}
                                     isOwner={this.props.isOwner}
@@ -106,7 +108,8 @@ class ArticleItemsDisplay extends React.Component {
                                       visibility={this.props.article.visibility}
                                       slug={this.props.article.slug}
                                       userSlug={this.props.article.user.slug}
-                                      topicVisibility={this.props.currentUserTopicVisibility}
+                                      currentUserTopicId={this.props.currentUserTopicId}
+                                      currentUserTopicVisibility={this.props.currentUserTopicVisibility}
                                       isMinimized={this.props.isMinimized}
                                       isOwner={this.props.isOwner}
                                       onEnter={this.props.onEnter}
@@ -117,6 +120,7 @@ class ArticleItemsDisplay extends React.Component {
             return (
                 <ArticleGridDisplay article={this.props.article}
                                     currentUserSlug={this.props.currentUserSlug}
+                                    currentUserTopicId={this.props.currentUserTopicId}
                                     currentUserTopicSlug={this.props.currentUserTopicSlug}
                                     currentUserTopicVisibility={this.props.currentUserTopicVisibility}
                                     isOwner={this.props.isOwner}

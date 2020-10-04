@@ -655,6 +655,7 @@ de:
           none: "Keine Etiketten gefunden"
         articles:
           recents: "(Neueste Artikel)"
+          other_topics: "Ergebnisse in den anderen Themen"
           title: "Artikel"
           none: "Keine Artikel gefunden"
         helpers:

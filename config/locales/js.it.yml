@@ -649,6 +649,7 @@ it:
           none: "Nessuna etichetta trovata"
         articles:
           recents: "(Articoli recenti)"
+          other_topics: "Risultati negli altri temi"
           title: "Articoli"
           none: "Nessuna articoli trovata"
         helpers:
