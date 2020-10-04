@@ -176,7 +176,7 @@ class HomeSearchHeader extends React.Component {
 
     _goToArticle = (article) => {
         this.props.history.push({
-            pathname: userArticlePath(article.user.slug, article.slug),
+            pathname: userArticlePath(article.userSlug, article.slug),
             hash: undefined
         });
     };

@@ -365,7 +365,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def not_found_error(_exception)
+  def not_found_error(_exception = nil)
     raise if Rails.env.development?
 
     respond_to do |format|

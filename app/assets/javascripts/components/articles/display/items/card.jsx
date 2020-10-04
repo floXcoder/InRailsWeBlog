@@ -50,6 +50,7 @@ class ArticleCardDisplay extends React.PureComponent {
     static propTypes = {
         article: PropTypes.object.isRequired,
         currentUserSlug: PropTypes.string,
+        currentUserTopicId: PropTypes.number,
         currentUserTopicSlug: PropTypes.string,
         currentUserTopicVisibility: PropTypes.string,
         isOwner: PropTypes.bool,
@@ -123,6 +124,8 @@ class ArticleCardDisplay extends React.PureComponent {
     };
 
     render() {
+        const isPrivateInPublic = this.props.currentUserTopicId === this.props.article.topicId && this.props.currentUserTopicVisibility === 'everyone' && this.props.article.visibility !== 'everyone';
+
         return (
             <StickyContainer>
                 <Observer onChange={this._handleViewportChange}>
@@ -130,7 +133,7 @@ class ArticleCardDisplay extends React.PureComponent {
                           id={`article-${this.props.article.id}`}
                           className={classNames(this.props.classes.articleCard, {
                               [this.props.classes.outdated]: this.props.article.outdated,
-                              [this.props.classes.cardPrivate]: this.props.currentUserTopicVisibility === 'everyone' && this.props.article.visibility !== 'everyone'
+                              [this.props.classes.cardPrivate]: isPrivateInPublic
                           })}
                           itemScope={true}
                           itemType="https://schema.org/BlogPosting">
@@ -298,7 +301,7 @@ class ArticleCardDisplay extends React.PureComponent {
                         </Collapse>
 
                         {
-                            (this.props.currentUserTopicVisibility === 'everyone' && this.props.article.visibility !== 'everyone') &&
+                            isPrivateInPublic &&
                             <div
                                 className={classNames(this.props.classes.privateMessage, this.props.classes.privateMessageTop)}>
                                 {I18n.t('js.article.common.private_in_public')}

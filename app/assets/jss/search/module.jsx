@@ -97,6 +97,12 @@ const styles = (theme) => ({
     articleSecondaryResult: {
         color: theme.palette.grey[600]
     },
+    otherArticlesTitle: {
+        color: theme.palette.grey[600],
+        paddingLeft: 15,
+        fontWeight: 500,
+        fontSize: '1rem'
+    },
     articleHighlighted: {
         border: `1px solid ${theme.palette.secondary.main}`,
         borderRadius: 6,

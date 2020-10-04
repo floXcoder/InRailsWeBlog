@@ -36,7 +36,8 @@ export default @highlight()
 class ArticleMiniCardDisplay extends React.Component {
     static propTypes = {
         article: PropTypes.object.isRequired,
-        topicVisibility: PropTypes.string,
+        currentUserTopicId: PropTypes.number,
+        currentUserTopicVisibility: PropTypes.string,
         isPaper: PropTypes.bool,
         hasTags: PropTypes.bool,
         isTagDown: PropTypes.bool,
@@ -75,10 +76,12 @@ class ArticleMiniCardDisplay extends React.Component {
     };
 
     _renderCard = () => {
+        const isPrivateInPublic = this.props.currentUserTopicId === this.props.article.topicId && this.props.currentUserTopicVisibility === 'everyone' && this.props.article.visibility !== 'everyone';
+
         return (
             <Card id={`article-${this.props.article.id}`}
                   className={classNames(this.props.classes.card, {
-                      [this.props.classes.cardPrivate]: this.props.topicVisibility === 'everyone' && this.props.article.visibility !== 'everyone'
+                      [this.props.classes.cardPrivate]: isPrivateInPublic
                   })}
                   component="article"
                   itemScope={true}
@@ -235,7 +238,7 @@ class ArticleMiniCardDisplay extends React.Component {
                     </Grid>
 
                     {
-                        (this.props.topicVisibility === 'everyone' && this.props.article.visibility !== 'everyone') &&
+                        isPrivateInPublic &&
                         <div className={this.props.classes.privateMessage}>
                             {I18n.t('js.article.common.private_in_public')}
                         </div>

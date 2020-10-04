@@ -3,7 +3,7 @@
 class ArticlesController < ApplicationController
   before_action :set_context_user, only: [:show]
 
-  after_action :verify_authorized, only: [:show]
+  after_action :verify_authorized, only: [:show, :edit]
 
   respond_to :html
 
@@ -68,6 +68,31 @@ class ArticlesController < ApplicationController
 
           render_associated_page(article: article)
         end
+      end
+    end
+  end
+
+  def edit
+    not_found_error and return unless current_user
+
+    article = current_user.articles.include_element.friendly.find(params[:article_slug])
+    admin_or_authorize article
+
+    respond_to do |format|
+      format.html do
+        set_seo_data(:edit_article,
+                     article_slug: article,
+                     topic_slug:   article.topic,
+                     user_slug:    article.user,
+                     author:       article.user.pseudo)
+
+        article = article.serialized_json('complete',
+                                          params: {
+                                            current_user_id: current_user.id
+                                          },
+                                          meta:   meta_attributes)
+
+        render_associated_page(article: article)
       end
     end
   end

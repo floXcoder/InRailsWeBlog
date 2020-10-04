@@ -650,6 +650,7 @@ en:
         articles:
           title: "Articles"
           recents: "(Recent articles)"
+          other_topics: "Results in other topics"
           none: "No articles found"
         helpers:
           select_tag: "Use arrows to filter by tags then press tab"

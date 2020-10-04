@@ -10,7 +10,7 @@ shared: &shared
   search_per_page: 20
   # Length of the highlighted search result
   search_fragment_size: 500
-  autocomplete_fragment_size: 25
+  autocomplete_fragment_size: 30
   scrap_fragment_size: 45
 
   # Maximum upload image size

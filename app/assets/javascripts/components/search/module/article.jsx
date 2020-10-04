@@ -149,6 +149,10 @@ export default class SearchArticleModule extends React.PureComponent {
                                          variant="fullWidth"/>
                             }
 
+                            <h3 className={this.props.classes.otherArticlesTitle}>
+                                {I18n.t('js.search.module.articles.other_topics')}
+                            </h3>
+
                             {
                                 otherArticles.map(this._renderArticleItem.bind(this, false))
                             }

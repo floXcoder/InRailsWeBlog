@@ -44,6 +44,7 @@ class ArticleGridDisplay extends React.PureComponent {
     static propTypes = {
         article: PropTypes.object.isRequired,
         currentUserSlug: PropTypes.string,
+        currentUserTopicId: PropTypes.number,
         currentUserTopicSlug: PropTypes.string,
         currentUserTopicVisibility: PropTypes.string,
         isOwner: PropTypes.bool,
@@ -109,6 +110,7 @@ class ArticleGridDisplay extends React.PureComponent {
     };
 
     render() {
+        const isPrivateInPublic = this.props.currentUserTopicId === this.props.article.topicId && this.props.currentUserTopicVisibility === 'everyone' && this.props.article.visibility !== 'everyone';
         const isInventoryMode = this.props.article.mode === 'inventory';
 
         return (
@@ -116,7 +118,7 @@ class ArticleGridDisplay extends React.PureComponent {
                 <Card component="article"
                       id={`article-${this.props.article.id}`}
                       className={classNames(this.props.classes.card, {
-                          [this.props.classes.cardPrivate]: this.props.currentUserTopicVisibility === 'everyone' && this.props.article.visibility !== 'everyone'
+                          [this.props.classes.cardPrivate]: isPrivateInPublic
                       })}
                       itemScope={true}
                       itemType="https://schema.org/BlogPosting">
@@ -269,7 +271,7 @@ class ArticleGridDisplay extends React.PureComponent {
                     </Collapse>
 
                     {
-                        (this.props.currentUserTopicVisibility === 'everyone' && this.props.article.visibility !== 'everyone') &&
+                        isPrivateInPublic &&
                         <div className={this.props.classes.privateMessage}>
                             {I18n.t('js.article.common.private_in_public')}
                         </div>
