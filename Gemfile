@@ -64,7 +64,7 @@ gem 'hiredis',                  '0.6.3'
 gem 'storext',                  '3.1.0'
 
 # Authentification
-gem 'devise',                   '4.7.2'
+gem 'devise',                   '4.7.3'
 
 # Authorization mechanism
 gem 'pundit',                   '2.1.0'
@@ -87,7 +87,7 @@ gem 'acts_as_commentable_with_threading', '2.0.1'
 gem 'premailer-rails',          '1.11.1'
 
 # Detect browser and bots
-gem 'browser',                  '4.2.0'
+gem 'browser',                  '5.1.0'
 
 # SEO
 gem 'friendly_id',              '5.4.0'
@@ -112,7 +112,7 @@ gem 'health_check',             '3.0.0'
 gem 'webdrivers',               '4.4.1'
 
 # Server
-gem 'puma',                     '4.3.6'
+gem 'puma',                     '5.0.2'
 
 group :development do
   # Debugging tool
@@ -120,7 +120,7 @@ group :development do
   gem 'awesome_print',          '1.8.0'
 
   # Improve errors
-  gem 'better_errors',          '2.8.0'
+  gem 'better_errors',          '2.8.3'
   gem 'binding_of_caller',      '0.8.0'
 
   # N+1 database query
@@ -170,7 +170,7 @@ group :test do
 
   # static analyzer
   gem 'rails_best_practices',       '1.20.0',   require: false
-  gem 'brakeman',                   '4.9.1',    require: false
+  gem 'brakeman',                   '4.10.0',    require: false
   gem 'i18n-tasks',                 '0.9.31',   require: false
 end
 
@@ -179,15 +179,15 @@ group :development, :test do
   gem 'bootsnap',                   '1.4.8',   require: false
 
   # Check errors
-  gem 'rubocop',                    '0.91.0',  require: false
+  gem 'rubocop',                    '0.92.0',  require: false
   gem 'rubocop-rails',              '2.8.1',   require: false
-  gem 'rubocop-performance',        '1.8.0',   require: false
+  gem 'rubocop-performance',        '1.8.1',   require: false
   gem 'rubocop-rspec',              '1.43.2',  require: false
 end
 
 group :production do
   # Errors reporting
-  gem 'sentry-raven',     '3.0.4'
+  gem 'sentry-raven',     '3.1.1'
 
   # Improve log outputs
   gem 'lograge',          '0.11.2'
