@@ -8,11 +8,12 @@ class ApplicationController < ActionController::Base
 
   # Handle exceptions
   rescue_from StandardError, with: :server_error
+  rescue_from NameError, with: :server_error
+  rescue_from ActiveRecord::RecordNotFound, with: :not_found_error
   rescue_from ActionController::RoutingError, with: :not_found_error
   rescue_from AbstractController::ActionNotFound, with: :not_found_error
   rescue_from ActionController::InvalidCrossOriginRequest, with: :not_found_error
   rescue_from ActionController::UnknownFormat, with: :not_found_error
-  rescue_from ActiveRecord::RecordNotFound, with: :not_found_error
 
   # Pundit
   include Pundit
