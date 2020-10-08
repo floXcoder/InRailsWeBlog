@@ -52,8 +52,8 @@ class Seo::Data < ApplicationRecord
   def self.associated_parameters
     {
       tag_slug:     [:user_slug],
-      topic_slug:   [:user_slug],
-      article_slug: [:user_slug, :topic_slug],
+      topic_slug:   [:user_slug, :topic_content_slug],
+      article_slug: [:user_slug, :topic_slug, :article_content_slug],
       comment_slug: [:user_slug, :topic_slug, :article_slug]
     }
   end

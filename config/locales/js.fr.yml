@@ -61,11 +61,58 @@ fr:
           es: "Español"
           it: "Italiano"
       home:
-        loader: "Chargement"
-        articles:
-          title: "Explorez les articles populaires"
-        tags:
-          title: "Labels"
+        banner:
+          motto: "Noter et partager vos expériences"
+          submotto: "Créer votre blog pour publier toutes vos idées"
+          sign_up: "Créer un compte"
+          log_in: "Se connecter"
+        search:
+          title: "Rechercher parmi les expériences"
+          placeholder: "Articles, labels, ..."
+          button: "Rechercher"
+        populars:
+          title: "Articles et labels populaires"
+          articles:
+            title: "Explorez les derniers articles"
+          tags:
+            title: "Labels les plus consultés"
+            button: "Voir tous les labels"
+        functionalities:
+          title: "Fonctionnalités du blog"
+          button: "Créer votre compte"
+          topics:
+            title: "Tout commence avec les thèmes"
+            details: "Un thème par défaut est créé avec votre compte pour écrire les articles. Tous les articles sont associés à des thèmes. Retrouver facilement la liste de vos thèmes dans votre page d'accueil, ils sont classés en public et privé pour plus de visibilité."
+          tags:
+            title: "Utiliser les labels/tags pour classer vos articles"
+            details: "Pour retrouver plus facilement et efficacement vos articles, ajouter un ou des labels. De plus, pour hiérarchiser il est possible de mettre des tags parents et enfants. Les labels sont alors triés par ordre en fonction du thème."
+          articles:
+            title: "Il est temps de rédiger vos articles"
+            details: "Grâce à un puissant éditeur, écrivez rapidement le contenu de vos articles tout en ajoutant des images, liens, vidéos, ... De plus, la sauvegarde est automatique et l'historique des articles est sauvegardé pour revenir facilement en arrière !"
+          stories:
+            title: "Envie d'écrire une histoire ?"
+            details: "Pour faciliter la lecture de vos articles à vos followers, utilisez les thèmes de type Stories. Ils seront alors affichés sous forme de chronologie pour mieux suivre l'évolution de votre histoire. En plus, vous pouvez afficher un résumé comme en-tête pour rappeler le sujet du thème."
+          inventories:
+            title: "Besoin de champs personnalisés pour vos articles ?"
+            details: "Le thème de type inventaire vous permettra alors de spécifier vous-même les champs que vous avez besoin : texte simple, texte évolué avec formatage, nombre, date et case à cocher. Chaque champ sera automatiquement inclus dans la recherche pour retrouver toutes vos données."
+          multilang:
+            title: "Partager vos expériences en plusieurs langues"
+            details: "Sélectionnez un thème avec l'option multi-langue puis rédiger vos articles dans les langues choisies. Chaque article sera affiché dans la même langue que celle du client. Les langues actuellement disponibles sont : anglais, français, espagnol, italien et allemand."
+          search:
+            title: "Recherche simple et puissante"
+            details: "La recherche rapide vous propose directement depuis le contenu de vos articles. Souvent les articles servent à noter une liste de liens et que vous n'avez pas le temps de recopier, pour vous simplifier la vie, la recherche avancée permet de lancer une recherche dans les liens de vos articles."
+          share:
+            title: "Partager vos articles à tous ou à vos amis"
+            details: "Par défaut, tous les articles des thèmes publiques sont visibles par tout le monde. Vous pouvez aussi choisir de rendre disponible un article d'un thème privé grace à un lien unique que vous seul connaissez."
+          outdated:
+            title: "Articles toujours à jour"
+            details: "Afin de garantir que vous articles sont toujours pertinents et ne contiennent pas de liens morts, un outil de vérification des liens vous est proposé. Il va vérifier que tous les liens contenu dans l'article sont toujours valides."
+          device:
+            title: "Consulter vos articles depuis tous vos appareils"
+            details: "Le site est installable comme une application sur votre smartphone ou tablette. Il suffit de l'installer comme apps depuis le navigateur Chrome."
+          open:
+            title: "Ce blog est 100% libre et ouvert"
+            details: "Afin de garantir la durée de vie et le partage de vos données, vous pouvez installer vous-même ce blog sur votre serveur en utilisant le code source présent sous Github."
     user:
       model:
         pseudo: "Pseudo"
@@ -646,7 +693,7 @@ fr:
         tags:
           title: "Labels"
           recents: "(Labels récents)"
-          none: "Aucun label trouvé"
+          none: "Aucun label correspondant"
         articles:
           title: "Articles"
           recents: "(Articles récents)"
@@ -913,9 +960,9 @@ fr:
             url: "URL du site"
           seo_fields: "Définition des champs SEO"
           page_title: "Titre de la page"
-          page_title_length: "%{count} / 60 (conseillé)"
+          page_title_length: "%{count} / %{max} (conseillé)"
           meta_desc: "Meta description"
-          meta_desc_length: "%{count} / 150 (conseillé)"
+          meta_desc_length: "%{count} / %{max} (conseillé)"
           parameters: "Paramètres disponibles : %{parameters}"
           no_parameters: "Aucun paramètres requis"
           add: "Ajouter"

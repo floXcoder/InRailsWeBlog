@@ -12,7 +12,8 @@ import Loader from '../theme/loader';
 import Table from '../theme/table';
 
 export default @connect((state) => ({
-    tags: state.tagState.tags
+    tags: state.tagState.tags,
+    isFetching: state.tagState.isFetching
 }), {
     fetchTags
 })
@@ -21,6 +22,7 @@ class AdminTags extends React.Component {
     static propTypes = {
         // from connect
         tags: PropTypes.array,
+        isFetching: PropTypes.bool,
         fetchTags: PropTypes.func
     };
 
@@ -33,7 +35,7 @@ class AdminTags extends React.Component {
     }
 
     render() {
-        if (!this.props.tags || this.props.tags.length === 0) {
+        if (!this.props.tags || this.props.isFetching) {
             return (
                 <div>
                     <h1 className="center-align">

@@ -110,6 +110,7 @@ module Api::V1
           :selected_types,
           :query_url,
           :article_ids,
+          :no_fragment,
           selected_types: [],
           tag_ids:        [],
           tags:           [],

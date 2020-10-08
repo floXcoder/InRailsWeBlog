@@ -55,6 +55,7 @@ export default {
         home: [
             {
                 path: Routes.rootPath(false),
+                name: 'Home',
                 exact: true,
                 component: () => RouteComponents.Home
             },
@@ -129,6 +130,7 @@ export default {
         user: [
             {
                 path: Routes.rootPath(false),
+                name: 'UserHome',
                 exact: true,
                 strict: false,
                 noTagSidebar: true,

@@ -16,7 +16,7 @@ class Seo::DataSerializer
 
   attribute :visibility do |object, params|
     if params[:routes]
-      params[:routes].find { |route| route.name == object.name }&.params[:public] || false
+      params[:routes].find { |route| route.name == object.name }&.params&.dig(:public) || false
     end
   end
 

@@ -26,7 +26,8 @@ import AdminSeoDataForm from './seo/form';
 import styles from '../../../jss/admin/form';
 
 export default @connect((state) => ({
-    seoData: state.adminState.seoData
+    seoData: state.adminState.seoData,
+    isFetching: state.adminState.isFetching
 }), {
     fetchSeoData,
     retrieveParametersSeoData,
@@ -41,6 +42,7 @@ class AdminSeoData extends React.Component {
         seoPages: PropTypes.array.isRequired,
         // from connect
         seoData: PropTypes.array,
+        isFetching: PropTypes.bool,
         fetchSeoData: PropTypes.func,
         retrieveParametersSeoData: PropTypes.func,
         addSeoData: PropTypes.func,
@@ -125,7 +127,7 @@ class AdminSeoData extends React.Component {
     };
 
     render() {
-        if (!this.props.seoData) {
+        if (!this.props.seoData || this.props.isFetching) {
             return (
                 <div>
                     <h1 className="center-align">

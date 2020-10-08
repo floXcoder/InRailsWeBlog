@@ -376,9 +376,11 @@ class ApplicationController < ActionController::Base
   end
 
   def server_error(exception)
-    Raven.capture_exception(exception) if Rails.env.production?
-
-    raise unless Rails.env.production?
+    if Rails.env.production?
+      Raven.capture_exception(exception)
+    else
+      raise
+    end
 
     respond_to do |format|
       format.json { render json: { errors: t('views.error.status.explanation.500') }, status: :internal_server_error }

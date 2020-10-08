@@ -6,6 +6,15 @@ import {
 } from '../theme';
 
 const styles = (theme) => ({
+    content: {
+        marginTop: headerHeight,
+        flexGrow: 1,
+        backgroundColor: theme.palette.background.default,
+        padding: theme.spacing(1)
+    },
+    homeContent: {
+        padding: 0
+    },
     layout: {
         width: 'auto',
         marginLeft: theme.spacing(0.5),
@@ -16,11 +25,9 @@ const styles = (theme) => ({
             marginRight: 'auto'
         }
     },
-    content: {
-        marginTop: headerHeight,
-        flexGrow: 1,
-        backgroundColor: theme.palette.background.default,
-        padding: theme.spacing(1)
+    homeLayout: {
+        width: '100%',
+        padding: 0
     },
     footer: {
         backgroundColor: theme.palette.background.paper,

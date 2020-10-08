@@ -48,7 +48,7 @@ class ArticleMiniCardDisplay extends React.Component {
     static defaultProps = {
         isPaper: false,
         hasTags: true,
-        isTagDown: false
+        isTagDown: true
     };
 
     constructor(props) {

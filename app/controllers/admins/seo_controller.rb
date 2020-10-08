@@ -18,7 +18,7 @@ class Admins::SeoController < AdminsController
 
       format.json do
         locales_named_routes = Seo::Data.local_named_routes.map(&:name)
-        seo_data             = Seo::Data.all.sort_by { |data| locales_named_routes.index(data.name) }
+        seo_data             = Seo::Data.all.sort_by { |data| locales_named_routes.index(data.name) || 1000 }
 
         render json: Seo::DataSerializer.new(seo_data,
                                              params: { routes: Seo::Data.local_named_routes },

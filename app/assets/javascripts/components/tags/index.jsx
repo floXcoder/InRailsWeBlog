@@ -145,25 +145,25 @@ class TagIndex extends React.Component {
                         </CardContent>
                     }
 
-                    <CardActions className={this.props.classes.actions}
-                                 disableSpacing={true}>
-                        <div className={this.props.classes.buttonsRight}>
-                            <IconButton aria-label="Edit"
-                                        component={Link}
-                                        className={this.props.classes.tagButton}
-                                        to={editTagPath(tag.slug)}>
-                                <EditIcon/>
-                            </IconButton>
+                    {/*<CardActions className={this.props.classes.actions}*/}
+                    {/*             disableSpacing={true}>*/}
+                    {/*    <div className={this.props.classes.buttonsRight}>*/}
+                    {/*        <IconButton aria-label="Edit"*/}
+                    {/*                    component={Link}*/}
+                    {/*                    className={this.props.classes.tagButton}*/}
+                    {/*                    to={editTagPath(tag.slug)}>*/}
+                    {/*            <EditIcon/>*/}
+                    {/*        </IconButton>*/}
 
-                            <IconButton aria-label="Show"
-                                        component={Link}
-                                        className={this.props.classes.tagButton}
-                                        to={showTagPath(tag.slug)}
-                                        onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.name)}>
-                                <LabelIcon/>
-                            </IconButton>
-                        </div>
-                    </CardActions>
+                    {/*        <IconButton aria-label="Show"*/}
+                    {/*                    component={Link}*/}
+                    {/*                    className={this.props.classes.tagButton}*/}
+                    {/*                    to={showTagPath(tag.slug)}*/}
+                    {/*                    onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.name)}>*/}
+                    {/*            <LabelIcon/>*/}
+                    {/*        </IconButton>*/}
+                    {/*    </div>*/}
+                    {/*</CardActions>*/}
                 </Card>
             </div>
         );

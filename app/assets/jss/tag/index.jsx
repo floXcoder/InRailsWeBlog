@@ -25,21 +25,22 @@ const styles = (theme) => ({
         color: theme.palette.text.primary
     },
     tagCard: {
-        margin: '.6rem 0'
+        margin: '1.3rem 0'
     },
     tagHeader: {
         paddingTop: 8,
         paddingBottom: 8
     },
     tagCount: {
-        width: 22,
-        height: 22,
+        width: 32,
+        height: 32,
         fontSize: '1rem',
         borderRadius: '50%',
         backgroundColor: theme.palette.grey[300],
         margin: theme.spacing(2),
-        paddingLeft: 6,
-        paddingRight: 6
+        paddingTop: 3,
+        display: 'inline-block',
+        textAlign: 'center'
     },
     tagButton: {
         color: theme.palette.text.primary,

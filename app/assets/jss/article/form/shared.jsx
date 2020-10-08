@@ -29,7 +29,7 @@ const styles = (theme) => ({
         width: '90%'
     },
     advancedDivider: {
-        margin: '2rem 2rem'
+        margin: '2rem'
     },
     externalReferenceButton: {
         color: theme.palette.text.primary,

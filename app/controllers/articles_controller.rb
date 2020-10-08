@@ -39,16 +39,17 @@ class ArticlesController < ApplicationController
     admin_or_authorize article
 
     set_seo_data(:user_article,
-                 article_slug: article,
-                 topic_slug:   article.topic,
-                 user_slug:    article.user,
-                 author:       article.user.pseudo,
-                 model:        article,
-                 og:           {
-                                 type:  "#{ENV['WEBSITE_NAME']}:article",
-                                 url:   article.link_path(host: ENV['WEBSITE_FULL_ADDRESS']),
-                                 image: article.default_picture ? (root_url + article.default_picture) : nil
-                               }.compact)
+                 article_slug:         article,
+                 article_content_slug: article.content.summary(InRailsWeBlog.config.seo_meta_desc_length),
+                 topic_slug:           article.topic,
+                 user_slug:            article.user,
+                 author:               article.user.pseudo,
+                 model:                article,
+                 og:                   {
+                                         type:  "#{ENV['WEBSITE_NAME']}:article",
+                                         url:   article.link_path(host: ENV['WEBSITE_FULL_ADDRESS']),
+                                         image: article.default_picture ? (root_url + article.default_picture) : nil
+                                       }.compact)
 
     expires_in(InRailsWeBlog.config.cache_time, public: true)
     if stale?(article, template: false, public: true) || article.user?(current_user)

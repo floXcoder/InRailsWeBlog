@@ -42,12 +42,6 @@ de:
       sidebar:
         pin: "Kiefer"
         unpin: "Entnadeln Sie"
-      home:
-        articles:
-          title: "Beliebte Artikel erforschen"
-        loader: "Laden von"
-        tags:
-          title: "Beschriftungen"
       footer:
         copyright: "Urheberrecht 2020 (%{version}). Alle Rechte vorbehalten."
         description: "Ein Blog für alle"
@@ -66,6 +60,59 @@ de:
           de: "Deutsch"
           es: "Español"
           it: "Italiano"
+      home:
+        banner:
+          motto: "Schreiben Sie Ihre Erfahrungen auf und teilen Sie sie mit anderen"
+          submotto: "Erstellen Sie Ihren eigenen Blog, um alle Ihre Ideen zu veröffentlichen"
+          sign_up: "Ein Konto erstellen"
+          log_in: "Anmelden"
+        search:
+          title: "Suche unter Erfahrungen"
+          placeholder: "Artikel, Etiketten, ..."
+          button: "Suche"
+        populars:
+          title: "Beliebte Artikel und Labels"
+          articles:
+            title: "Entdecken Sie die neuesten Artikel"
+          tags:
+            title: "Meist gesehene Etiketten"
+            button: "Alle Etiketten anzeigen"
+        functionalities:
+          title: "Blog-Funktionen"
+          button: "Erstellen Sie Ihr Konto"
+          topics:
+            title: "Alles beginnt mit den Themen"
+            details: "Ein Standardthema wird mit Ihrem Konto erstellt, um Artikel zu schreiben. Alle Artikel sind mit Themen verknüpft. Finden Sie leicht die Liste Ihrer Themen auf Ihrer Homepage, sie sind zur besseren Sichtbarkeit in öffentlich und privat klassifiziert."
+          tags:
+            title: "Benutzen Sie Etiketten/Tags, um Ihre Artikel zu klassifizieren"
+            details: "Um Ihre Artikel leichter und effizienter zu finden, fügen Sie ein oder mehrere Etiketten hinzu. Darüber hinaus ist es möglich, Eltern- und Kind-Tags zu setzen, um Prioritäten zu setzen. Die Etiketten werden dann in der Reihenfolge des Themas sortiert."
+          articles:
+            title: "Es ist Zeit, Ihre Artikel zu schreiben"
+            details: "Dank eines leistungsstarken Redakteurs können Sie schnell den Inhalt Ihrer Artikel schreiben und Bilder, Links, Videos, ... hinzufügen. Darüber hinaus erfolgt die Sicherung automatisch, und die Historie der Artikel wird gespeichert, um leicht zurückgehen zu können!"
+          stories:
+            title: "Wollen Sie eine Geschichte schreiben?"
+            details: "Um es Ihren Anhängern zu erleichtern, Ihre Artikel zu lesen, verwenden Sie die Themen der Geschichten. Sie werden dann als Chronologie angezeigt, um die Entwicklung Ihrer Geschichte besser verfolgen zu können. Darüber hinaus können Sie eine Zusammenfassung als Kopfzeile anzeigen, um das Thema an das Thema zu erinnern."
+          inventories:
+            title: "Benötigen Sie benutzerdefinierte Felder für Ihre Artikel?"
+            details: "Das Inventarthema erlaubt es Ihnen dann, selbst die Felder festzulegen, die Sie benötigen: einfacher Text, erweiterter Text mit Formatierung, Nummer, Datum und Kontrollkästchen. Jedes Feld wird automatisch in die Suche einbezogen, um alle Ihre Daten zu finden."
+          multilang:
+            title: "Teilen Sie Ihre Erfahrungen in mehreren Sprachen mit"
+            details: "Wählen Sie ein Thema mit der Option Mehrsprachigkeit und schreiben Sie dann Ihre Artikel in den gewählten Sprachen. Jeder Artikel wird in derselben Sprache wie die Sprache des Kunden angezeigt. Die derzeit verfügbaren Sprachen sind: Englisch, Französisch, Spanisch, Italienisch und Deutsch."
+          search:
+            title: "Einfache und leistungsfähige Suche"
+            details: "Die Schnellsuche bietet Ihnen direkt aus dem Inhalt Ihrer Artikel. Häufig werden die Artikel dazu benutzt, eine Liste von Links zu notieren, für die Sie keine Zeit zum Kopieren haben. Um Ihnen das Leben zu erleichtern, ermöglicht Ihnen die erweiterte Suche, eine Suche in den Links Ihrer Artikel zu starten."
+          share:
+            title: "Teilen Sie Ihre Artikel mit allen oder Ihren Freunden"
+            details: "Standardmäßig sind alle Artikel der öffentlichen Themen für jedermann sichtbar. Sie können sich auch dafür entscheiden, einen Artikel aus einem privaten Thema über einen eindeutigen Link verfügbar zu machen, den nur Sie kennen."
+          outdated:
+            title: "Artikel immer auf dem neuesten Stand"
+            details: "Um sicherzustellen, dass Ihre Artikel noch relevant sind und keine toten Links enthalten, wird ein Tool zur Überprüfung der Links bereitgestellt. Sie wird prüfen, ob alle im Artikel enthaltenen Links noch gültig sind."
+          device:
+            title: "Betrachten Sie Ihre Artikel von allen Ihren Geräten aus"
+            details: "Die Website ist als Anwendung auf Ihrem Smartphone oder Tablet installierbar. Installieren Sie es einfach als Anwendung über den Chrome-Browser."
+          open:
+            title: "Dieses Blog ist 100% kostenlos und offen"
+            details: "Um die Lebensdauer und die gemeinsame Nutzung Ihrer Daten zu garantieren, können Sie dieses Blog mit Hilfe des unter Github zu findenden Quellcodes selbst auf Ihrem Server installieren."
     user:
       edit:
         back_button: "Zurück"
@@ -873,10 +920,10 @@ de:
           delete: "LÖSCHEN"
           delete_confirmation: 'Löschen Sie diese SEO-Daten: %{name} ?'
           meta_desc: "Meta-Beschreibung"
-          meta_desc_length: "%{count} / 150 (empfohlen)"
+          meta_desc_length: "%{count} / %{max} (empfohlen)"
           no_parameters: "Keine Parameter erforderlich"
           page_title: "Titel der Seite"
-          page_title_length: "%{count} / 60 (empfohlen)"
+          page_title_length: "%{count} / %{max} (empfohlen)"
           parameters: 'Verfügbare Parameter: %{parameters}'
           select:
             or: "oder"

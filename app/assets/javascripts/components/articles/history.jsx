@@ -89,7 +89,7 @@ class ArticleHistory extends React.Component {
         this.props.restoreArticle(articleId, versionId)
             .then((response) => {
                 if (response.article) {
-                    return this.props.history.push(userArticlePath(response.article.user.slug, response.article.slug));
+                    return this.props.history.push(userArticlePath(response.article.userSlug, response.article.slug));
                 }
             });
     };

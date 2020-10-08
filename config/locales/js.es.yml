@@ -42,12 +42,6 @@ es:
       sidebar:
         pin: "Pino"
         unpin: "Despinchar"
-      home:
-        articles:
-          title: "Explorar los artículos populares"
-        loader: "Cargando"
-        tags:
-          title: "Etiquetas"
       footer:
         copyright: "Copyright 2020 (%{version}). Todos los derechos reservados."
         description: "Un blog para todos"
@@ -66,6 +60,59 @@ es:
           de: "Deutsch"
           es: "Español"
           it: "Italiano"
+      home:
+        banner:
+          motto: "Escriba y comparta sus experiencias"
+          submotto: "Crea tu propio blog para publicar todas tus ideas"
+          sign_up: "Crear una cuenta"
+          log_in: "Login"
+        search:
+          title: "Búsqueda entre las experiencias"
+          placeholder: "Artículos, etiquetas, ..."
+          button: "Buscar"
+        populars:
+          title: "Artículos y etiquetas populares"
+          articles:
+            title: "Explore los últimos artículos"
+          tags:
+            title: "Etiquetas más vistas"
+            button: "Ver todas las etiquetas"
+        functionalities:
+          title: "Blog features"
+          button: "Cree su cuenta"
+          topics:
+            title: "Todo comienza con los temas"
+            details: "Se crea un tema por defecto con su cuenta para escribir artículos. Todos los artículos están asociados a temas. Encuentra fácilmente la lista de tus temas en tu página de inicio, están clasificados en público y privado para mayor visibilidad."
+          tags:
+            title: "Use etiquetas/etiquetas para clasificar sus artículos"
+            details: "Para encontrar sus artículos de manera más fácil y eficiente, agregue una o más etiquetas. Además, para priorizar es posible poner etiquetas de padres e hijos. Las etiquetas se clasifican en orden según el tema."
+          articles:
+            title: "Es hora de escribir tus artículos"
+            details: "Gracias a un poderoso editor, escribe rápidamente el contenido de tus artículos mientras añades imágenes, enlaces, vídeos, ... Además, la copia de seguridad es automática y el historial de los artículos se guarda para poder volver atrás fácilmente."
+          stories:
+            title: "¿Quieres escribir una historia?"
+            details: "Para facilitar a sus seguidores la lectura de sus artículos, utilice los temas de las Historias. Luego se mostrarán como una cronología para seguir mejor la evolución de su historia. Además, puede mostrar un resumen como encabezado para recordar al sujeto el tema."
+          inventories:
+            title: "¿Necesita campos personalizados para sus artículos?"
+            details: "El tema del inventario le permitirá entonces especificar usted mismo los campos que necesita: texto simple, texto avanzado con formato, número, fecha y casilla de verificación. Cada campo se incluirá automáticamente en la búsqueda para encontrar todos sus datos."
+          multilang:
+            title: "Comparte tus experiencias en varios idiomas"
+            details: "Selecciona un tema con la opción multi-lenguaje y luego escribe tus artículos en los idiomas elegidos. Cada artículo se mostrará en el mismo idioma que el del cliente. Los idiomas actualmente disponibles son: inglés, francés, español, italiano y alemán."
+          search:
+            title: "Simple y poderosa búsqueda"
+            details: "La búsqueda rápida le ofrece directamente desde el contenido de sus artículos. A menudo los artículos se utilizan para anotar una lista de enlaces y que usted no tiene tiempo de copiar, para simplificar su vida, la búsqueda avanzada le permite lanzar una búsqueda en los enlaces de sus artículos."
+          share:
+            title: "Comparte tus artículos con todos o tus amigos"
+            details: "Por defecto, todos los artículos de los temas públicos son visibles para todos. También puedes elegir hacer disponible un artículo de un tema privado a través de un enlace único que sólo tú conoces."
+          outdated:
+            title: "Artículos siempre al día"
+            details: "Para asegurar que sus artículos siguen siendo relevantes y no contienen enlaces muertos, se proporciona una herramienta de comprobación de enlaces. Comprobará que todos los enlaces contenidos en el artículo siguen siendo válidos."
+          device:
+            title: "Vea sus artículos desde todos sus dispositivos"
+            details: "El sitio es instalable como una aplicación en su smartphone o tableta. Sólo tienes que instalarlo como una aplicación del navegador Chrome."
+          open:
+            title: "Este blog es 100% libre y abierto"
+            details: "Para garantizar la vida y el intercambio de sus datos, puede instalar este blog usted mismo en su servidor utilizando el código fuente que se encuentra en Github."
     user:
       model:
         additional_info: "Información personal"
@@ -900,10 +947,10 @@ es:
           delete: "BORRAR"
           delete_confirmation: 'Borrar estos datos de SEO: %{nombre} ?'
           meta_desc: "Meta descripción"
-          meta_desc_length: "%{count} / 150 (recomendado)"
+          meta_desc_length: "%{count} / %{max} (recomendado)"
           no_parameters: "No se requieren parámetros"
           page_title: "Título de la página"
-          page_title_length: "%{count} / 60 (recomendado)"
+          page_title_length: "%{count} / %{max} (recomendado)"
           parameters: 'Parámetros disponibles: %{parameters}'
           select:
             or: "o"

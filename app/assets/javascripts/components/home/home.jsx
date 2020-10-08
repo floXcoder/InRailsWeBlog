@@ -7,45 +7,34 @@ import {
 import {
     withStyles
 } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
+import Divider from '@material-ui/core/Divider';
 
 import {
-    fetchArticles,
-    fetchTags
+    showUserLogin,
+    showUserSignup
 } from '../../actions';
 
-import {
-    homeHomeLimit,
-    homePopularsLimit,
-} from '../modules/constants';
+import HomeBanner from './banner';
+import HomeSearch from './search';
+import HomePopulars from './populars';
+import HomeFunctionalities from './functionalities';
 
-import Loader from '../theme/loader';
-
-import ArticleMiniCardDisplay from '../articles/display/items/miniCard';
-import TagChipDisplay from '../tags/display/chip';
-import MiniArticleSkeleton from '../loaders/skeletons/miniArticle';
-
-import styles from '../../../jss/default/index';
+import styles from '../../../jss/default/home';
 
 export default @connect((state) => ({
-    homeArticles: state.articleState.homeArticles,
-    popularArticles: state.articleState.popularArticles,
-    popularTags: state.tagState.popularTags
+    isUserConnected: state.userState.isConnected,
 }), {
-    fetchArticles,
-    fetchTags
+    showUserSignup,
+    showUserLogin
 })
 @hot
 @withStyles(styles)
 class Home extends React.Component {
     static propTypes = {
         // from connect
-        homeArticles: PropTypes.array,
-        popularArticles: PropTypes.array,
-        popularTags: PropTypes.array,
-        fetchArticles: PropTypes.func,
-        fetchTags: PropTypes.func,
+        isUserConnected: PropTypes.bool,
+        showUserSignup: PropTypes.func,
+        showUserLogin: PropTypes.func,
         // from styles
         classes: PropTypes.object
     };
@@ -54,129 +43,40 @@ class Home extends React.Component {
         super(props);
     }
 
-    componentDidMount() {
-        this.props.fetchArticles({}, {
-            home: true,
-            summary: true,
-            limit: homeHomeLimit
-        }, {
-            home: true
-        });
+    _handleSignupClick = (event) => {
+        event.preventDefault();
 
-        this.props.fetchArticles({}, {
-            populars: true,
-            summary: true,
-            limit: homePopularsLimit
-        }, {
-            populars: true
-        });
+        this.props.showUserSignup();
+    };
 
-        this.props.fetchTags({}, {
-            populars: true,
-            limit: homePopularsLimit
-        }, {
-            populars: true
-        });
-    }
+    _handleLoginClick = (event) => {
+        event.preventDefault();
+
+        this.props.showUserLogin();
+    };
 
     render() {
         return (
-            <div className={this.props.classes.root}>
-                <Grid container={true}
-                      spacing={2}
-                      direction="row"
-                      justify="space-between"
-                      alignItems="flex-start">
-                    {
-                        this.props.homeArticles?.length > 0
-                            ?
-                            this.props.homeArticles.map((article) => (
-                                <Grid key={article.id}
-                                      item={true}
-                                      xs={12}
-                                      sm={6}>
-                                    <Paper>
-                                        <ArticleMiniCardDisplay article={article}/>
-                                    </Paper>
-                                </Grid>
-                            ))
-                            :
-                            <>
-                                <Grid item={true}
-                                      xs={12}
-                                      sm={6}>
-                                    <MiniArticleSkeleton/>
-                                </Grid>
-                                <Grid item={true}
-                                      xs={12}
-                                      sm={6}>
-                                    <MiniArticleSkeleton/>
-                                </Grid>
-                            </>
-                    }
-                </Grid>
+            <div className={this.props.classes.home}>
+                {
+                    !this.props.isUserConnected &&
+                    <HomeBanner classes={this.props.classes}
+                                onLoginClick={this._handleLoginClick}
+                                onSignupClick={this._handleSignupClick}/>
+                }
 
-                <Grid container={true}
-                      spacing={4}
-                      direction="row-reverse"
-                      justify="space-between"
-                      alignItems="flex-start">
-                    <Grid item={true}
-                          xs={12}
-                          sm={4}
-                          md={4}
-                          lg={3}>
-                        <div className={this.props.classes.category}>
-                            <h2 className={this.props.classes.categoryName}>
-                                {I18n.t('js.views.home.tags.title')}
-                            </h2>
+                <Divider className={this.props.classes.homeDivider}/>
 
-                            <div>
-                                {
-                                    this.props.popularTags?.length > 0
-                                        ?
-                                        this.props.popularTags.map((tag) => (
-                                            <TagChipDisplay key={tag.id}
-                                                            tag={tag}/>
-                                        ))
-                                        :
-                                        <div className="center">
-                                            <Loader size="big"/>
-                                        </div>
-                                }
-                            </div>
-                        </div>
-                    </Grid>
+                <HomeSearch classes={this.props.classes}/>
 
-                    <Grid item={true}
-                          xs={12}
-                          sm={8}
-                          md={8}
-                          lg={9}>
-                        <div className={this.props.classes.category}>
-                            <h2 className={this.props.classes.categoryName}>
-                                {I18n.t('js.views.home.articles.title')}
-                            </h2>
+                <Divider className={this.props.classes.homeDivider}/>
 
-                            <div>
-                                {
-                                    this.props.popularArticles?.length > 0
-                                        ?
-                                        this.props.popularArticles.map((article) => (
-                                            <ArticleMiniCardDisplay key={article.id}
-                                                                    article={article}/>
-                                        ))
-                                        :
-                                        <div>
-                                            <MiniArticleSkeleton/>
-                                            <MiniArticleSkeleton/>
-                                            <MiniArticleSkeleton/>
-                                        </div>
-                                }
-                            </div>
-                        </div>
-                    </Grid>
-                </Grid>
+                <HomePopulars classes={this.props.classes}/>
+
+                <Divider className={this.props.classes.homeDivider}/>
+
+                <HomeFunctionalities classes={this.props.classes}
+                                     onSignupClick={!this.props.isUserConnected && this._handleSignupClick}/>
             </div>
         );
     }

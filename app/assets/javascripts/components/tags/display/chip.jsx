@@ -25,9 +25,14 @@ export default @withStyles(styles)
 class TagChipDisplay extends React.Component {
     static propTypes = {
         tag: PropTypes.object.isRequired,
+        isLarge: PropTypes.bool,
         // from styles
         classes: PropTypes.object
     };
+
+    static defaultProps = {
+        isLarge: false
+    }
 
     constructor(props) {
         super(props);
@@ -35,7 +40,9 @@ class TagChipDisplay extends React.Component {
 
     render() {
         return (
-            <Chip className={this.props.classes.tagChip}
+            <Chip className={classNames(this.props.classes.tagChip, {
+                [this.props.classes.tagChipLarge]: this.props.isLarge
+            })}
                   icon={<LabelIcon/>}
                   label={this.props.tag.name}
                   color="primary"

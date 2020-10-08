@@ -5,14 +5,20 @@ const styles = (theme) => ({
         margin: theme.spacing(0.5),
         fontWeight: 400,
         fontSize: '.9rem',
-        borderRadius: 4,
+        borderRadius: 12,
         cursor: 'pointer',
         color: theme.palette.text.secondary,
         borderColor: theme.palette.text.secondary
     },
+    tagChipLarge: {
+        margin: theme.spacing(1),
+        padding: theme.spacing(1),
+        height: 42,
+    },
     tagLabel: {
-        fontSize: '.9rem',
-        margin: theme.spacing(0.3)
+        margin: theme.spacing(0.3),
+        padding: theme.spacing(1.5),
+        fontSize: '.9rem'
     },
     parent: {
         margin: theme.spacing(1)

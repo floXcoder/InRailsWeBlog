@@ -15,7 +15,8 @@ const styles = (theme) => ({
             duration: theme.transitions.duration.leavingScreen
         }),
         boxShadow: 'none',
-        backgroundColor: theme.palette.background.default
+        backgroundColor: theme.palette.background.default,
+        borderBottom: `1px solid ${theme.palette.grey[300]}`
     },
     toolbar: {
         marginLeft: 'auto',
@@ -24,7 +25,6 @@ const styles = (theme) => ({
         paddingLeft: theme.spacing(2),
         paddingRight: theme.spacing(2),
         width: '70%',
-        borderBottom: `1px solid ${theme.palette.grey[300]}`,
         [theme.breakpoints.down('lg')]: {
             width: '100%'
         }
@@ -53,7 +53,8 @@ const styles = (theme) => ({
     desktopItem: {
         paddingLeft: 12,
         paddingRight: 12,
-        fontSize: '1rem'
+        fontSize: '1rem',
+        whiteSpace: 'nowrap'
     },
     sectionMobile: {
         display: 'flex',
