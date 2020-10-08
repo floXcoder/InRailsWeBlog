@@ -13,7 +13,8 @@ import Loader from '../theme/loader';
 import Table from '../theme/table';
 
 export default @connect((state) => ({
-    articles: state.articleState.articles
+    articles: state.articleState.articles,
+    isFetching: state.articleState.isFetching
 }), {
     fetchArticles,
     updateArticle
@@ -23,6 +24,7 @@ class AdminArticles extends React.Component {
     static propTypes = {
         // from connect
         articles: PropTypes.array,
+        isFetching: PropTypes.bool,
         fetchArticles: PropTypes.func,
         updateArticle: PropTypes.func
     };
@@ -44,7 +46,7 @@ class AdminArticles extends React.Component {
     };
 
     render() {
-        if (!this.props.articles || this.props.articles.length === 0) {
+        if (!this.props.articles || this.props.isFetching) {
             return (
                 <div>
                     <h1 className="center-align">

@@ -69,6 +69,8 @@ class MainLayoutUser extends React.Component {
 
                                    const {routes, currentUser, classes, ...initProps} = this.props;
 
+                                   const isHome = route.name === 'UserHome';
+
                                    return (
                                        <RouteManager currentRoute={routeProperties}
                                                      params={router.match.params}
@@ -78,9 +80,11 @@ class MainLayoutUser extends React.Component {
                                                         pushHistory={router.history.push}
                                                         initialCurrentUser={currentUser}>
                                                <div className={classes.root}>
-                                                   <main className={classes.content}>
+                                                   <main className={classNames(classes.content, {
+                                                       [classes.homeContent]: isHome
+                                                   })}>
                                                        <Suspense fallback={<div/>}>
-                                                           <div className={classes.component}>
+                                                           <div className={isHome ? classes.homeLayout : classes.layout}>
                                                                <Component routeParams={router.match.params}
                                                                           routeHash={router.location.search}
                                                                           routeState={router.location.state}

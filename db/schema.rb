@@ -105,7 +105,7 @@ ActiveRecord::Schema.define(version: 2020_09_16_130712) do
     t.datetime "updated_at", null: false
     t.bigint "contributor_id"
     t.jsonb "inventories", default: {}, null: false
-    t.jsonb "slug", default: {}
+    t.jsonb "slug"
     t.index "((slug -> 'de'::text))", name: "index_articles_on_slug_de"
     t.index "((slug -> 'en'::text))", name: "index_articles_on_slug_en"
     t.index "((slug -> 'es'::text))", name: "index_articles_on_slug_es"

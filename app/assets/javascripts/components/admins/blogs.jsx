@@ -19,7 +19,8 @@ import AdminBlogCard from './blogs/card';
 import AdminBlogForm from './blogs/form';
 
 export default @connect((state) => ({
-    blogs: state.adminState.blogs
+    blogs: state.adminState.blogs,
+    isFetching: state.adminState.isFetching
 }), {
     fetchBlogs,
     addBlog,
@@ -30,6 +31,7 @@ class AdminBlogs extends React.Component {
     static propTypes = {
         // from connect
         blogs: PropTypes.array,
+        isFetching: PropTypes.bool,
         fetchBlogs: PropTypes.func,
         addBlog: PropTypes.func,
         updateBlog: PropTypes.func
@@ -104,7 +106,7 @@ class AdminBlogs extends React.Component {
     };
 
     render() {
-        const hasBlogs = this.props.blogs?.length > 0;
+        const hasBlogs = this.props.blogs?.length > 0 && !this.props.isFetching;
 
         return (
             <div>

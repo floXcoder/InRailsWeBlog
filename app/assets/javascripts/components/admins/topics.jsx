@@ -12,7 +12,8 @@ import Loader from '../theme/loader';
 import Table from '../theme/table';
 
 export default @connect((state) => ({
-    topics: state.topicState.topics
+    topics: state.topicState.topics,
+    isFetching: state.topicState.isFetching
 }), {
     fetchTopics
 })
@@ -21,6 +22,7 @@ class AdminTopics extends React.Component {
     static propTypes = {
         // from connect
         topics: PropTypes.array,
+        isFetching: PropTypes.bool,
         fetchTopics: PropTypes.func
     };
 
@@ -33,7 +35,7 @@ class AdminTopics extends React.Component {
     }
 
     render() {
-        if (!this.props.topics || this.props.topics.length === 0) {
+        if (!this.props.topics || this.props.isFetching) {
             return (
                 <div>
                     <h1 className="center-align">

@@ -59,7 +59,7 @@ class HomeSearchHeader extends React.Component {
         // from router
         location: PropTypes.object,
         history: PropTypes.object,
-        // Fom connect
+        // from connect
         query: PropTypes.string,
         currentUserId: PropTypes.number,
         currentUserTopicId: PropTypes.number,

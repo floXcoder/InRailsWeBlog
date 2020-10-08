@@ -8,6 +8,7 @@ import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
 import Chip from '@material-ui/core/Chip';
 
+import LabelIcon from '@material-ui/icons/Label';
 // import EditIcon from '@material-ui/icons/Edit';
 
 import {
@@ -24,9 +25,16 @@ export default class SearchArticleModule extends React.PureComponent {
         isUserConnected: PropTypes.bool.isRequired,
         articles: PropTypes.array.isRequired,
         hasQuery: PropTypes.bool.isRequired,
+        hasParenthesis: PropTypes.bool,
+        hasTagIcon: PropTypes.bool,
         selectedTags: PropTypes.array,
         highlightedArticleId: PropTypes.number,
         currentTopicId: PropTypes.number
+    };
+
+    static defaultProps = {
+        hasParenthesis: true,
+        hasTagIcon: false
     };
 
     constructor(props) {
@@ -73,12 +81,20 @@ export default class SearchArticleModule extends React.PureComponent {
                         })}
                               to={userArticlePath(article.userSlug, article.slug)}
                               onClick={this._handleArticleClick.bind(this, article)}>
-                            {article.title || article.slug}
+                            <span className={this.props.classes.articleTitleResult}>
+                                {article.title || article.slug}
+                            </span>
 
                             {
                                 article.contentHighlighted &&
                                 <span className={this.props.classes.articleHighlightResult}>
-                                     (<span dangerouslySetInnerHTML={{__html: article.contentHighlighted}}/>)
+                                    {
+                                        this.props.hasParenthesis
+                                            ?
+                                            (<span dangerouslySetInnerHTML={{__html: article.contentHighlighted}}/>)
+                                            :
+                                            <span dangerouslySetInnerHTML={{__html: article.contentHighlighted}}/>
+                                    }
                                 </span>
                             }
                         </Link>
@@ -87,6 +103,7 @@ export default class SearchArticleModule extends React.PureComponent {
                             article.tagNames?.map((tagName) => (
                                 <Chip key={tagName}
                                       className={this.props.classes.articleTag}
+                                      icon={this.props.hasTagIcon ? <LabelIcon/> : undefined}
                                       label={tagName}
                                       color="primary"
                                       variant="outlined"/>

@@ -59,13 +59,17 @@ class MainLayoutDefault extends React.Component {
 
                                    const {routes, classes, ...initProps} = this.props;
 
+                                   const isHome = route.name === 'Home';
+
                                    return (
                                        <RouteManager currentRoute={routeProperties}
                                                      params={router.match.params}
                                                      location={router.location}>
-                                           <main className={classes.content}>
+                                           <main className={classNames(classes.content, {
+                                               [classes.homeContent]: isHome
+                                           })}>
                                                <Suspense fallback={<div/>}>
-                                                   <div className={classes.layout}>
+                                                   <div className={isHome ? classes.homeLayout : classes.layout}>
                                                        <Component routeParams={router.match.params}
                                                                   routeHash={router.location.search}
                                                                   routeState={router.location.state}

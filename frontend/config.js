@@ -110,8 +110,12 @@ module.exports = {
         translations: 'javascripts/translations',
         images: [
             {
-                from: 'images/logos',
-                to: 'logos'
+                from: './images/logos/*',
+                to: 'logos/'
+            },
+            {
+                from: './images/home/*',
+                to: 'home/'
             }
         ],
         datas: [

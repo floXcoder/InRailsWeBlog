@@ -25,7 +25,10 @@ const styles = (theme) => ({
         height: '100%', // allows both columns to span the full height of the browser window
         marginTop: headerHeight
     },
-    component: {
+    homeContent: {
+        padding: 0
+    },
+    layout: {
         width: 'auto',
         marginLeft: theme.spacing(0.5),
         marginRight: theme.spacing(0.5),
@@ -34,6 +37,10 @@ const styles = (theme) => ({
             marginLeft: 'auto',
             marginRight: 'auto'
         }
+    },
+    homeLayout: {
+        width: '100%',
+        padding: 0
     },
     breadcrumb: {
         width: mainWidth + 80,

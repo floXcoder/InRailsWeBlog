@@ -40,13 +40,13 @@ feature 'Home page for visitors', advanced: true, js: true do
 
   feature 'Home page content' do
     scenario 'visitor can see populars articles' do
-      is_expected.to have_content(I18n.t('js.views.home.articles.title'))
+      is_expected.to have_content(I18n.t('js.views.home.populars.articles.title'))
       is_expected.to have_css('article', count: 3)
       is_expected.to have_content(@articles.first.title)
     end
 
     scenario 'visitor can see populars tags' do
-      is_expected.to have_content(I18n.t('js.views.home.tags.title'))
+      is_expected.to have_content(I18n.t('js.views.home.populars.tags.title'))
       is_expected.to have_css("a[class*='TagChipDisplay-tagChip-']", count: 2)
       is_expected.to have_content(@tags.first.name)
     end

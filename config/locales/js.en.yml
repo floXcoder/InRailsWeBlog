@@ -51,7 +51,7 @@ en:
           about: "About us"
           terms: "Terms of service"
           privacy: "Privacy policy"
-          github: "Github"
+          github: "Github code"
           github_src: "https://github.com/floXcoder/InRailsWeBlog"
         languages: "Languages"
         locales:
@@ -61,11 +61,58 @@ en:
           es: "Español"
           it: "Italiano"
       home:
-        loader: "Loading"
-        articles:
-          title: "Explore popular articles"
-        tags:
-          title: "Tags"
+        banner:
+          motto: "Write and share your experience"
+          submotto: "Create your blog to publish all your ideas"
+          sign_up: "Create an account"
+          log_in: "Log in"
+        search:
+          title: "Search for users experience"
+          placeholder: "Articles, tags, ..."
+          button: "Search"
+        populars:
+          title: "Populars articles and labels"
+          articles:
+            title: "Explore last articles"
+          tags:
+            title: "Most seen tags"
+            button: "See all tags"
+        functionalities:
+          title: "Blog functionalities"
+          button: "Create your account"
+          topics:
+            title: "It all starts with topics"
+            details: "A default topics is created with your account to write articles. All articles are associated with themes. Find easily the list of your topics in your home page, they are classified in public and private for more visibility."
+          tags:
+            title: "Use tags to classify your articles"
+            details: "To find your articles more easily and efficiently, add one or more tags. Moreover, to prioritize it is possible to put parent and child tags. The tags are then sorted in order according to the current topic."
+          articles:
+            title: "It's time to write your articles"
+            details: "Thanks to a powerful editor, quickly write the content of your articles while adding images, links, videos, ... Moreover, the backup is automatic and the history of your articles is saved to easily go back!"
+          stories:
+            title: "Want to write a story?"
+            details: "To facilitate the reading of your articles to your followers, use the Stories topic. They will then be displayed as a chronology to better follow the evolution of your story. In addition, you can display a summary as a header to remind the subject of the topic."
+          inventories:
+            title: "Need custom fields for your articles?"
+            details: "The inventory topic will then allow you to specify yourself the fields you need: simple text, advanced text with formatting, number, date and checkbox. Each field will automatically be included in the search to find all your data."
+          multilang:
+            title: "Share your experiences in several languages"
+            details: "Select a topic with the multi-language option and then write your articles in the chosen languages. Each article will be displayed in the same language as the client's language. The languages currently available are: English, French, Spanish, Italian and German."
+          search:
+            title: "Simple and powerful search"
+            details: "The quick search offers you directly from the content of your articles. Often the articles are used to note a list of links and that you do not have time to copy, to simplify your life, the advanced search allows you to launch a search inside the links of your articles."
+          share:
+            title: "Share your items with all or only your friends"
+            details: "By default, all the articles of the public topics are visible to everyone. You can also choose to make an article from a private theme available through a unique link that only you know."
+          outdated:
+            title: "Articles always up to date"
+            details: "In order to ensure that your articles are always relevant and do not contain dead links, a link checking tool is provided. It will check that all the links contained in the article are still valid."
+          device:
+            title: "View your items from all your devices"
+            details: "The site can be installed as an application on your smartphone or tablet. Just install it as apps from the Chrome browser. PWA ready!"
+          open:
+            title: "This blog is 100% free and open"
+            details: "In order to guarantee the lifespan and sharing of your data, you can install this blog yourself on your server using the source code available under Github."
     user:
       model:
         pseudo: "Pseudo"
@@ -913,9 +960,9 @@ en:
             url: "Website URL"
           seo_fields: "SEO fields"
           page_title: "Page title"
-          page_title_length: "%{count} / 60 (recommended)"
+          page_title_length: "%{count} / %{max} (recommended)"
           meta_desc: "Meta description"
-          meta_desc_length: "%{count} / 150 (recommended)"
+          meta_desc_length: "%{count} / %{max} (recommended)"
           parameters: "Parameters available: %{parameters}"
           no_parameters: "No parameters required"
           add: "Add"

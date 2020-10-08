@@ -42,12 +42,6 @@ it:
       sidebar:
         pin: "Pino"
         unpin: "Disinserire"
-      home:
-        articles:
-          title: "Esplora gli articoli popolari"
-        loader: "Caricamento"
-        tags:
-          title: "Etichette"
       footer:
         copyright: "Copyright 2020 (%{version}). Tutti i diritti riservati."
         description: "Un blog per tutti"
@@ -66,6 +60,59 @@ it:
           de: "Deutsch"
           es: "Español"
           it: "Italiano"
+      home:
+        banner:
+          motto: "Scrivi e condividi le tue esperienze"
+          submotto: "Crea il tuo blog per pubblicare tutte le tue idee"
+          sign_up: "Crea un account"
+          log_in: "Login"
+        search:
+          title: "Ricerca tra le esperienze"
+          placeholder: "Articoli, etichette, ..."
+          button: "Cerca"
+        populars:
+          title: "Articoli ed etichette popolari"
+          articles:
+            title: "Esplora gli ultimi articoli"
+          tags:
+            title: "Etichette più viste"
+            button: "Vedi tutte le etichette"
+        functionalities:
+          title: "Caratteristiche del blog"
+          button: "Crea il tuo conto"
+          topics:
+            title: "Tutto inizia dai temi"
+            details: "Un tema predefinito viene creato con il tuo account per scrivere articoli. Tutti gli articoli sono associati a temi. Trova facilmente l'elenco dei tuoi temi nella tua home page, sono classificati in pubblico e privato per una maggiore visibilità."
+          tags:
+            title: "Utilizzate etichette/etichette per classificare i vostri articoli"
+            details: "Per trovare i vostri articoli in modo più semplice ed efficiente, aggiungete una o più etichette. Inoltre, per dare priorità è possibile mettere tag genitori e figli. Le etichette vengono poi ordinate in base al tema."
+          articles:
+            title: "È ora di scrivere i tuoi articoli"
+            details: "Grazie ad un potente editor, scrivi velocemente il contenuto dei tuoi articoli aggiungendo immagini, link, video, ... Inoltre, il backup è automatico e la cronologia degli articoli viene salvata per poter tornare indietro facilmente!"
+          stories:
+            title: "Vuoi scrivere una storia?"
+            details: "Per facilitare la lettura dei vostri articoli da parte dei vostri seguaci, utilizzate i temi delle Storie. Saranno poi visualizzati come cronologia per seguire meglio l'evoluzione della vostra storia. Inoltre, è possibile visualizzare un riassunto come intestazione per ricordare il tema."
+          inventories:
+            title: "Hai bisogno di campi personalizzati per i tuoi articoli?"
+            details: "Il tema dell'inventario vi permetterà poi di specificare voi stessi i campi di cui avete bisogno: testo semplice, testo avanzato con formattazione, numero, data e casella di controllo. Ogni campo sarà automaticamente incluso nella ricerca per trovare tutti i vostri dati."
+          multilang:
+            title: "Condividete le vostre esperienze in più lingue"
+            details: "Selezionate un argomento con l'opzione multilingue e poi scrivete i vostri articoli nelle lingue scelte. Ogni articolo sarà visualizzato nella stessa lingua del cliente. Le lingue attualmente disponibili sono: inglese, francese, spagnolo, italiano e tedesco."
+          search:
+            title: "Ricerca semplice e potente"
+            details: "La ricerca rapida vi offre direttamente dal contenuto dei vostri articoli. Spesso gli articoli vengono utilizzati per annotare un elenco di link e che non si ha il tempo di copiare, per semplificare la vita, la ricerca avanzata permette di lanciare una ricerca nei link dei propri articoli."
+          share:
+            title: "Condividi i tuoi articoli con tutti o con i tuoi amici"
+            details: "Per impostazione predefinita, tutti gli articoli dei temi pubblici sono visibili a tutti. Potete anche scegliere di rendere disponibile un articolo a tema privato attraverso un link unico che solo voi conoscete."
+          outdated:
+            title: "Articoli sempre aggiornati"
+            details: "Al fine di garantire che i vostri articoli siano ancora rilevanti e non contengano link morti, viene fornito uno strumento di controllo dei link. Verificherà che tutti i link contenuti nell'articolo siano ancora validi."
+          device:
+            title: "Visualizza i tuoi articoli da tutti i tuoi dispositivi"
+            details: "Il sito è installabile come applicazione sul vostro smartphone o tablet. Basta installarla come applicazione dal browser Chrome."
+          open:
+            title: "Questo blog è 100% gratuito e aperto"
+            details: "Per garantire la durata e la condivisione dei vostri dati, potete installare questo blog sul vostro server utilizzando il codice sorgente trovato sotto Github."
     user:
       model:
         additional_info: "Informazioni personali"
@@ -900,10 +947,10 @@ it:
           delete: "CANCELLA"
           delete_confirmation: 'Cancellare questi dati SEO: %{name} ?'
           meta_desc: "Meta descrizione"
-          meta_desc_length: "%{count} / 150 (consigliato)"
+          meta_desc_length: "%{count} / %{max} (consigliato)"
           no_parameters: "Nessun parametro richiesto"
           page_title: "Titolo della pagina"
-          page_title_length: "%{count} / 60 (consigliato)"
+          page_title_length: "%{count} / %{max} (consigliato)"
           parameters: "Parametri disponibili: %{parameters}"
           select:
             or: "oppure"

@@ -17,7 +17,7 @@ module Articles
       fields = %w[title^3 summary content]
 
       # Highlight results and select a fragment
-      highlight = @params[:highlight] ? { tag: '<span class="search-highlight">', fragment_size: InRailsWeBlog.config.autocomplete_fragment_size } : false
+      highlight = @params[:highlight] ? { tag: '<span class="search-highlight">', fragment_size: (@params[:no_fragment] ? nil : InRailsWeBlog.config.autocomplete_fragment_size ) } : false
 
       # Where options only for ElasticSearch
       where_options = where_search(@params[:where])

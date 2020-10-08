@@ -5,6 +5,7 @@ const styles = (theme) => ({
         boxShadow: 'none',
         backgroundColor: theme.palette.background.default,
         margin: '12px auto 32px',
+        paddingTop: theme.spacing(4),
         width: '70%',
         borderTop: `1px solid ${theme.palette.grey[300]}`,
         textAlign: 'center'

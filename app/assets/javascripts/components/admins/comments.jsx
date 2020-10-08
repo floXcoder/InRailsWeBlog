@@ -12,7 +12,8 @@ import Loader from '../theme/loader';
 import Table from '../theme/table';
 
 export default @connect((state) => ({
-    comments: state.commentState.comments
+    comments: state.commentState.comments,
+    isFetching: state.commentState.isFetching
 }), {
     fetchComments
 })
@@ -21,6 +22,7 @@ class AdminComments extends React.Component {
     static propTypes = {
         // from connect
         comments: PropTypes.array,
+        isFetching: PropTypes.bool,
         fetchComments: PropTypes.func
     };
 
@@ -33,7 +35,7 @@ class AdminComments extends React.Component {
     }
 
     render() {
-        if (!this.props.comments) {
+        if (!this.props.comments || this.props.isFetching) {
             return (
                 <div className="center">
                     <Loader size="big"/>

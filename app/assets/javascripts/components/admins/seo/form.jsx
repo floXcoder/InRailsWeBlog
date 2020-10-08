@@ -195,7 +195,7 @@ export default class AdminSeoDataForm extends React.Component {
                                        required={true}
                                        value={this.state.pageTitle}
                                        onChange={this._handlePageTitleChange}
-                                       helperText={I18n.t('js.admin.seo.form.page_title_length', {count: this.state.pageTitle?.length})}/>
+                                       helperText={I18n.t('js.admin.seo.form.page_title_length', {count: this.state.pageTitle?.length, max: window.settings.seo_title_length})}/>
                         </div>
 
                         <div className="col s6 center-align">
@@ -208,7 +208,7 @@ export default class AdminSeoDataForm extends React.Component {
                                        label={I18n.t('js.admin.seo.form.meta_desc')}
                                        value={this.state.metaDesc}
                                        onChange={this._handleMetaDescChange}
-                                       helperText={I18n.t('js.admin.seo.form.meta_desc_length', {count: this.state.metaDesc?.length})}/>
+                                       helperText={I18n.t('js.admin.seo.form.meta_desc_length', {count: this.state.metaDesc?.length, max: window.settings.seo_meta_desc_length})}/>
                         </div>
 
                         <div className="col s12 center-align margin-top-20 margin-bottom-25">
