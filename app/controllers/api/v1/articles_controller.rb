@@ -97,16 +97,17 @@ module Api::V1
         respond_to do |format|
           format.json do
             set_seo_data(:user_article,
-                         article_slug: article,
-                         topic_slug:   article.topic,
-                         user_slug:    article.user,
-                         author:       article.user.pseudo,
-                         model:        article,
-                         og:           {
-                                         type:  "#{ENV['WEBSITE_NAME']}:article",
-                                         url:   article.link_path(host: ENV['WEBSITE_FULL_ADDRESS']),
-                                         image: article.default_picture ? (root_url + article.default_picture) : nil
-                                       }.compact)
+                         article_slug:         article,
+                         article_content_slug: article.content.summary(InRailsWeBlog.config.seo_meta_desc_length),
+                         topic_slug:           article.topic,
+                         user_slug:            article.user,
+                         author:               article.user.pseudo,
+                         model:                article,
+                         og:                   {
+                                                 type:  "#{ENV['WEBSITE_NAME']}:article",
+                                                 url:   article.link_path(host: ENV['WEBSITE_FULL_ADDRESS']),
+                                                 image: article.default_picture ? (root_url + article.default_picture) : nil
+                                               }.compact)
 
             if current_user && article.user?(current_user)
               render json: article.serialized_json('complete',

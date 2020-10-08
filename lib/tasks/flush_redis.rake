@@ -22,6 +22,8 @@ namespace :InRailsWeBlog do
     # _InRailsWeBlog_#{Rails.env}:(sidekiq)
 
     if args.option == 'all'
+      Rails.logger.warn("#{Time.zone.now} : Flush ALL redis keys")
+
       app = Redis::Namespace.new("_#{ENV['WEBSITE_NAME']}_#{Rails.env}", redis: Redis.new)
       app.keys.each { |key| app.del(key) }
     else
