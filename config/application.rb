@@ -112,7 +112,8 @@ module InRailsWeBlog
     }
 
     # Errors handling
-    config.exceptions_app = self.routes
+    # Errors are handled by ApplicationController
+    # config.exceptions_app = self.routes
 
     # App-specific configuration
     config.x = config_for(:settings)

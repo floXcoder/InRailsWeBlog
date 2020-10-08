@@ -77,7 +77,7 @@ const manageError = (origin, error, url) => {
             // }
         } else if (error.statusText === 'Internal Server Error') {
             if (process.env.NODE_ENV === 'production') {
-                Notification.error(I18n.t('js.helpers.errors.server'), 10);
+                Notification.error(I18n.t('js.helpers.errors.server'));
             } else {
                 error.text().then((text) => window.log_on_screen(text.split("\n").slice(0, 6)));
             }
