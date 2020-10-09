@@ -105,6 +105,7 @@ class HomeSearch extends React.Component {
             topicId: this.props.currentUserTopicId,
             tagIds: this.props.selectedTags.map((tag) => tag.id),
             limit: autocompleteLimit,
+            global: true,
             noFragment: true
         });
     }, maxSearchRate);
@@ -194,6 +195,7 @@ class HomeSearch extends React.Component {
                           lg={9}>
                         <SearchArticleModule classes={this.props.classes}
                                              isUserConnected={this.props.isUserConnected}
+                                             currentUserId={this.props.currentUserId}
                                              currentTopicId={this.props.currentUserTopicId}
                                              hasQuery={true}
                                              hasParenthesis={false}
@@ -209,6 +211,7 @@ class HomeSearch extends React.Component {
                           lg={3}>
                         <SearchTagModule classes={this.props.classes}
                                          isUserConnected={this.props.isUserConnected}
+                                         currentUserId={this.props.currentUserId}
                                          currentTopicId={this.props.currentUserTopicId}
                                          hasQuery={true}
                                          hasSearchIcon={false}

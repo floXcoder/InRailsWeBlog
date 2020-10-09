@@ -76,7 +76,7 @@ class Home extends React.Component {
                 <Divider className={this.props.classes.homeDivider}/>
 
                 <HomeFunctionalities classes={this.props.classes}
-                                     onSignupClick={!this.props.isUserConnected && this._handleSignupClick}/>
+                                     onSignupClick={!this.props.isUserConnected ? this._handleSignupClick : undefined}/>
             </div>
         );
     }

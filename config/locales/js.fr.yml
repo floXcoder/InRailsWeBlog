@@ -72,6 +72,7 @@ fr:
           button: "Rechercher"
         populars:
           title: "Articles et labels populaires"
+          user_home: "Voir tous mes thèmes"
           articles:
             title: "Explorez les derniers articles"
           tags:
@@ -698,6 +699,7 @@ fr:
           title: "Articles"
           recents: "(Articles récents)"
           other_topics: "Résultats dans les autres thèmes"
+          other_users: "Résultats des autres utilisateurs"
           none: "Aucun article trouvé"
         helpers:
           select_tag: "Utiliser les flèches pour filter par label puis appuyer sur tab"

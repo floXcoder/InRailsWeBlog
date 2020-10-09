@@ -72,6 +72,7 @@ de:
           button: "Suche"
         populars:
           title: "Beliebte Artikel und Labels"
+          user_home: "Alle meine Themen sehen"
           articles:
             title: "Entdecken Sie die neuesten Artikel"
           tags:
@@ -703,6 +704,7 @@ de:
         articles:
           recents: "(Neueste Artikel)"
           other_topics: "Ergebnisse in den anderen Themen"
+          other_users: "Ergebnisse von anderen Benutzern"
           title: "Artikel"
           none: "Keine Artikel gefunden"
         helpers:

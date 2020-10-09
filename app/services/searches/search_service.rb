@@ -52,7 +52,7 @@ module Searches
                            notation:  @params[:notation],
                            accepted:  @params[:accepted],
                            home_page: @params[:home_page],
-                           user_id:   @params[:user_id].presence || @current_user&.id,
+                           user_id:   @params[:global] ? nil : (@params[:user_id].presence || @current_user&.id),
                            tag_ids:   @params[:tag_ids].presence,
                            tag_slugs: @params[:tags].presence
                          }.merge(@params[:filters] || {}).merge(visibility).compact,
@@ -72,7 +72,7 @@ module Searches
           operator:     @current_user ? @current_user.search_operator : nil,
           order:        order,
           where:        {
-                          user_id:    @params[:user_id],
+                          user_id:    @params[:global] ? nil : (@params[:user_id].presence || @current_user&.id),
                           accepted:   @params[:accepted],
                           home_page:  @params[:home_page],
                           parent_ids: @params[:tag_ids].presence

@@ -29,6 +29,7 @@ export default class SearchTagModule extends React.Component {
         hasSearchIcon: PropTypes.bool,
         selectedTags: PropTypes.array,
         highlightedTagId: PropTypes.number,
+        currentUserId: PropTypes.number,
         currentTopicId: PropTypes.number
     };
 
@@ -48,17 +49,27 @@ export default class SearchTagModule extends React.Component {
     _currentTopicTags = () => {
         if (this.props.currentTopicId) {
             return this.props.tags.filter((tag) => (
-                tag.topicIds.includes(this.props.currentTopicId)
+                tag.userId === this.props.currentUserId && tag.topicIds.includes(this.props.currentTopicId)
             ));
         } else {
             return this.props.tags;
         }
     };
 
-    _otherTags = () => {
+    _otherTopicTags = () => {
         if (this.props.currentTopicId) {
             return this.props.tags.filter((tag) => (
-                !tag.topicIds.includes(this.props.currentTopicId)
+                tag.userId === this.props.currentUserId && !tag.topicIds.includes(this.props.currentTopicId)
+            ));
+        } else {
+            return [];
+        }
+    };
+
+    _otherUserTags = () => {
+        if (this.props.currentUserId) {
+            return this.props.tags.filter((tag) => (
+                tag.userId !== this.props.currentUserId
             ));
         } else {
             return [];
@@ -90,7 +101,8 @@ export default class SearchTagModule extends React.Component {
 
     render() {
         const currentTopicTags = this._currentTopicTags();
-        const otherTags = this._otherTags();
+        const otherTopicTags = this._otherTopicTags();
+        const otherUserTags = this._otherUserTags();
 
         return (
             <div className={this.props.classes.category}>
@@ -107,7 +119,7 @@ export default class SearchTagModule extends React.Component {
 
                 <div>
                     {
-                        (this.props.hasQuery && currentTopicTags.length === 0 && otherTags.length === 0) &&
+                        (this.props.hasQuery && currentTopicTags.length === 0 && otherTopicTags.length === 0) &&
                         <p className={this.props.classes.tagNone}>
                             {I18n.t('js.search.module.tags.none')}
                         </p>
@@ -118,7 +130,7 @@ export default class SearchTagModule extends React.Component {
                     }
 
                     {
-                        !Utils.isEmpty(otherTags) &&
+                        !Utils.isEmpty(otherTopicTags) &&
                         <>
                             {
                                 !Utils.isEmpty(currentTopicTags) &&
@@ -127,7 +139,22 @@ export default class SearchTagModule extends React.Component {
                             }
 
                             {
-                                otherTags.map(this._renderTagItem.bind(this, false))
+                                otherTopicTags.map(this._renderTagItem.bind(this, false))
+                            }
+                        </>
+                    }
+
+                    {
+                        !Utils.isEmpty(otherUserTags) &&
+                        <>
+                            {
+                                (!Utils.isEmpty(currentTopicTags) || !Utils.isEmpty(otherTopicTags)) &&
+                                <Divider className={this.props.classes.categoryDivider}
+                                         variant="fullWidth"/>
+                            }
+
+                            {
+                                otherUserTags.map(this._renderTagItem.bind(this, false))
                             }
                         </>
                     }

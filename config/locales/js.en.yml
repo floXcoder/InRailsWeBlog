@@ -72,6 +72,7 @@ en:
           button: "Search"
         populars:
           title: "Populars articles and labels"
+          user_home: "See all my topics"
           articles:
             title: "Explore last articles"
           tags:
@@ -698,6 +699,7 @@ en:
           title: "Articles"
           recents: "(Recent articles)"
           other_topics: "Results in other topics"
+          other_users: "Results from other users"
           none: "No articles found"
         helpers:
           select_tag: "Use arrows to filter by tags then press tab"

@@ -160,6 +160,10 @@ const styles = (theme) => ({
             textAlign: 'center'
         }
     },
+    categoryDivider: {
+        margin: theme.spacing(5),
+        background: `linear-gradient(90deg, ${theme.palette.primary.light} 0%, ${theme.palette.secondary.light} 80%)`
+    },
     articleMainItem: {
         minHeight: 50,
         width: '100%',
@@ -174,6 +178,7 @@ const styles = (theme) => ({
         }
     },
     articleTitleResult: {
+        display: 'block',
         color: theme.palette.text.primary,
         fontSize: '1.6rem',
         fontWeight: 500,
@@ -242,6 +247,11 @@ const styles = (theme) => ({
     },
     popularsButton: {
         marginTop: '2.8rem',
+        textAlign: 'center'
+    },
+    popularsHomeButton: {
+        marginTop: '.4rem',
+        marginBottom: '3.2rem',
         textAlign: 'center'
     },
 

@@ -29,6 +29,7 @@ export default class SearchArticleModule extends React.PureComponent {
         hasTagIcon: PropTypes.bool,
         selectedTags: PropTypes.array,
         highlightedArticleId: PropTypes.number,
+        currentUserId: PropTypes.number,
         currentTopicId: PropTypes.number
     };
 
@@ -48,17 +49,27 @@ export default class SearchArticleModule extends React.PureComponent {
     _currentTopicArticles = () => {
         if (this.props.currentTopicId) {
             return this.props.articles.filter((article) => (
-                article.topicId === this.props.currentTopicId
+                article.userId === this.props.currentUserId && article.topicId === this.props.currentTopicId
             ));
         } else {
             return this.props.articles;
         }
     };
 
-    _otherArticles = () => {
+    _otherTopicArticles = () => {
         if (this.props.currentTopicId) {
             return this.props.articles.filter((article) => (
-                article.topicId !== this.props.currentTopicId
+                article.userId === this.props.currentUserId && article.topicId !== this.props.currentTopicId
+            ));
+        } else {
+            return [];
+        }
+    };
+
+    _otherUserArticles = () => {
+        if (this.props.currentUserId) {
+            return this.props.articles.filter((article) => (
+                article.userId !== this.props.currentUserId
             ));
         } else {
             return [];
@@ -123,7 +134,8 @@ export default class SearchArticleModule extends React.PureComponent {
 
     render() {
         const currentTopicArticles = this._currentTopicArticles();
-        const otherArticles = this._otherArticles();
+        const otherTopicArticles = this._otherTopicArticles();
+        const otherUserArticles = this._otherUserArticles();
 
         return (
             <div className={this.props.classes.category}>
@@ -147,7 +159,7 @@ export default class SearchArticleModule extends React.PureComponent {
                     }
 
                     {
-                        (this.props.hasQuery && currentTopicArticles.length === 0 && otherArticles.length === 0) &&
+                        (this.props.hasQuery && currentTopicArticles.length === 0 && otherTopicArticles.length === 0) &&
                         <p className={this.props.classes.articleSecondaryResult}>
                             {I18n.t('js.search.module.articles.none')}
                         </p>
@@ -158,7 +170,7 @@ export default class SearchArticleModule extends React.PureComponent {
                     }
 
                     {
-                        !Utils.isEmpty(otherArticles) &&
+                        !Utils.isEmpty(otherTopicArticles) &&
                         <>
                             {
                                 !Utils.isEmpty(currentTopicArticles) &&
@@ -171,7 +183,26 @@ export default class SearchArticleModule extends React.PureComponent {
                             </h3>
 
                             {
-                                otherArticles.map(this._renderArticleItem.bind(this, false))
+                                otherTopicArticles.map(this._renderArticleItem.bind(this, false))
+                            }
+                        </>
+                    }
+
+                    {
+                        !Utils.isEmpty(otherUserArticles) &&
+                        <>
+                            {
+                                (!Utils.isEmpty(currentTopicArticles) || !Utils.isEmpty(otherTopicArticles)) &&
+                                <Divider className={this.props.classes.categoryDivider}
+                                         variant="fullWidth"/>
+                            }
+
+                            <h3 className={this.props.classes.otherArticlesTitle}>
+                                {I18n.t('js.search.module.articles.other_users')}
+                            </h3>
+
+                            {
+                                otherUserArticles.map(this._renderArticleItem.bind(this, false))
                             }
                         </>
                     }
