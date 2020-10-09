@@ -12,7 +12,7 @@ module Searches
 
       where_options = {
         languages: @params[:language],
-        user_id:   @params[:user_id]
+        user_id:   @params[:global] ? nil : @params[:user_id]
       }.compact
       visibility    = if @current_user
                         { _or: [{ visibility: 'only_me', user_id: @current_user.id }, { visibility: 'everyone' }] }

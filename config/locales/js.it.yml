@@ -72,6 +72,7 @@ it:
           button: "Cerca"
         populars:
           title: "Articoli ed etichette popolari"
+          user_home: "Vedi tutti i miei temi"
           articles:
             title: "Esplora gli ultimi articoli"
           tags:
@@ -697,6 +698,7 @@ it:
         articles:
           recents: "(Articoli recenti)"
           other_topics: "Risultati negli altri temi"
+          other_users: "Risultati da altri utenti"
           title: "Articoli"
           none: "Nessuna articoli trovata"
         helpers:

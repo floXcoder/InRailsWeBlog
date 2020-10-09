@@ -11,7 +11,8 @@ import {
 } from '../../actions';
 
 import {
-    tagsPath
+    tagsPath,
+    userHomePath
 } from '../../constants/routesHelper';
 
 import {
@@ -28,10 +29,11 @@ import MiniArticleSkeleton from '../loaders/skeletons/miniArticle';
 export default @connect((state) => ({
     homeArticles: state.articleState.homeArticles,
     popularArticles: state.articleState.popularArticles,
-    popularTags: state.tagState.popularTags
+    popularTags: state.tagState.popularTags,
+    currentUserSlug: state.userState.currentSlug
 }), {
     fetchArticles,
-    fetchTags,
+    fetchTags
 })
 class HomePopulars extends React.Component {
     static propTypes = {
@@ -42,6 +44,7 @@ class HomePopulars extends React.Component {
         popularTags: PropTypes.array,
         fetchArticles: PropTypes.func,
         fetchTags: PropTypes.func,
+        currentUserSlug: PropTypes.string
     };
 
     constructor(props) {
@@ -79,6 +82,17 @@ class HomePopulars extends React.Component {
         return (
             <section className={this.props.classes.populars}>
                 <div className={this.props.classes.homeContent}>
+                    {
+                        this.props.currentUserSlug &&
+                        <div className={this.props.classes.popularsHomeButton}>
+                            <Button color="primary"
+                                    variant="contained"
+                                    href={userHomePath(this.props.currentUserSlug)}>
+                                {I18n.t('js.views.home.populars.user_home')}
+                            </Button>
+                        </div>
+                    }
+
                     <h2 className={this.props.classes.popularsTitle}>
                         {I18n.t('js.views.home.populars.title')}
                     </h2>

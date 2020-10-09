@@ -45,6 +45,7 @@ class ArticleSerializer
   set_key_transform :camel_lower
 
   attributes :id,
+             :user_id,
              :topic_id,
              :mode,
              :summary,

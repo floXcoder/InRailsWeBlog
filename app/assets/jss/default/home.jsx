@@ -160,6 +160,10 @@ const styles = (theme) => ({
             textAlign: 'center'
         }
     },
+    categoryDivider: {
+        margin: theme.spacing(5),
+        background: `linear-gradient(90deg, ${theme.palette.primary.light} 0%, ${theme.palette.secondary.light} 80%)`
+    },
     articleMainItem: {
         minHeight: 50,
         width: '100%',
@@ -174,6 +178,7 @@ const styles = (theme) => ({
         }
     },
     articleTitleResult: {
+        display: 'block',
         color: theme.palette.text.primary,
         fontSize: '1.6rem',
         fontWeight: 500,
@@ -186,14 +191,17 @@ const styles = (theme) => ({
         lineHeight: '2.8rem'
     },
     articleTag: {
-        marginTop: theme.spacing(1),
+        margin: theme.spacing(1.5, 2, 0, 0),
+        padding: theme.spacing(1, 1),
         color: theme.palette.text.secondary,
         fontSize: '.9rem',
-        borderColor: theme.palette.grey[600]
+        borderColor: theme.palette.grey[600],
+        borderRadius: 16
     },
     tag: {
         margin: theme.spacing(1),
-        borderRadius: 4,
+        padding: theme.spacing(1, 1),
+        borderRadius: 16,
         backgroundColor: '#f7f7f7',
         borderColor: theme.palette.grey[600],
         display: 'flex'
@@ -242,6 +250,11 @@ const styles = (theme) => ({
     },
     popularsButton: {
         marginTop: '2.8rem',
+        textAlign: 'center'
+    },
+    popularsHomeButton: {
+        marginTop: '.4rem',
+        marginBottom: '3.2rem',
         textAlign: 'center'
     },
 

@@ -7,13 +7,14 @@ const styles = (theme) => ({
     },
     topic: {
         position: 'relative',
-        height: '3rem',
+        maxHeight: '5rem',
         backgroundColor: theme.palette.primary.main,
         margin: '1rem',
         paddingTop: theme.spacing(2),
         paddingBottom: theme.spacing(2)
     },
     topicTitle: {
+        padding: theme.spacing(0, 1),
         color: '#fff',
         fontSize: '1.2rem'
     },

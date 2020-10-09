@@ -15,7 +15,8 @@ import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 
 import {
-    taggedArticlesPath
+    taggedArticlesPath,
+    taggedTopicArticlesPath
 } from '../../../constants/routesHelper';
 
 import {
@@ -27,7 +28,9 @@ import ChildTag from './child';
 import styles from '../../../../jss/tag/sidebar';
 
 export default @connect((state) => ({
-    currentTagSlugs: getCurrentTagSlugs(state)
+    currentTagSlugs: getCurrentTagSlugs(state),
+    currentUserSlug: state.userState.currentSlug,
+    currentUserTopicSlug: state.topicState.currentUserTopicSlug
 }))
 @withStyles(styles)
 class ParentTag extends React.PureComponent {
@@ -39,6 +42,8 @@ class ParentTag extends React.PureComponent {
         isFiltering: PropTypes.bool,
         // from connect
         currentTagSlugs: PropTypes.array,
+        currentUserSlug: PropTypes.string,
+        currentUserTopicSlug: PropTypes.string,
         // from styles
         classes: PropTypes.object
     };
@@ -90,7 +95,7 @@ class ParentTag extends React.PureComponent {
             <>
                 <ListItem button={true}
                           component={Link}
-                          to={taggedArticlesPath(this.props.tag.slug)}
+                          to={this.props.currentUserSlug && this.props.currentUserTopicSlug ? taggedTopicArticlesPath(this.props.currentUserSlug, this.props.currentUserTopicSlug, this.props.tag.slug) : taggedArticlesPath(this.props.tag.slug)}
                           onClick={this._handleTagClick.bind(this, this.props.tag.id, this.props.tag.name, this.props.tag.slug, true)}>
                     <ListItemText classes={{
                         primary: classNames(this.props.classes.label, {

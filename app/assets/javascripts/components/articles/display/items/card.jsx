@@ -280,6 +280,7 @@ class ArticleCardDisplay extends React.PureComponent {
                                     this.props.article.tags.length > 0 &&
                                     <ArticleTags articleId={this.props.article.id}
                                                  tags={this.props.article.tags}
+                                                 isOwner={this.props.isOwner}
                                                  currentUserSlug={this.props.currentUserSlug}
                                                  currentUserTopicSlug={this.props.currentUserTopicSlug}
                                                  parentTagIds={this.props.article.parentTagIds}

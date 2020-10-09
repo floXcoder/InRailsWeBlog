@@ -146,12 +146,13 @@ const styles = (theme) => ({
     },
     articleTag: {
         margin: theme.spacing(0.5),
+        padding: theme.spacing(1, 1),
         fontWeight: 400,
         fontSize: '.9rem',
-        borderRadius: 4,
         cursor: 'pointer',
         color: theme.palette.text.secondary,
-        borderColor: theme.palette.text.secondary
+        borderColor: theme.palette.text.secondary,
+        borderRadius: 16
     },
     articleHighlightedTag: {
         backgroundColor: theme.palette.secondary.light

@@ -50,9 +50,9 @@ export function convertJsonApi(response) {
         convertRelationships(formattedResponse[rootKey], response.data.relationships, response.included);
     } else if (response?.data && Array.isArray(response.data)) {
         if (response.meta?.root) {
-            formattedResponse[response.meta.root] = response.data.map((datum) => convertRelationships(datum.attributes, datum.relationships, response.included));
+            formattedResponse[response.meta.root] = response.data.map((datum) => convertRelationships({...datum.attributes}, datum.relationships, response.included));
         } else {
-            formattedResponse = response.data.map((datum) => convertRelationships(datum.attributes, datum.relationships, response.included));
+            formattedResponse = response.data.map((datum) => convertRelationships({...datum.attributes}, datum.relationships, response.included));
         }
     } else {
         formattedResponse = response;

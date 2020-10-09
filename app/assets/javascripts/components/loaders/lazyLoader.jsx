@@ -92,7 +92,7 @@ const LazyLoaderFactories = (Component, modules) => (props = {}) => (
         {
             (mods) => (
                 <Component {...mods}
-                           {...props} />
+                           {...props}/>
             )
         }
     </LazyLoader>
@@ -102,7 +102,7 @@ const LazyLoaderFactory = ({module, props = {}}) => (
     <LazyLoader module={module}>
         {
             (Component) => (
-                <Component {...props} />
+                <Component {...props}/>
             )
         }
     </LazyLoader>

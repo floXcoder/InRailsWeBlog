@@ -9,7 +9,7 @@ end
 ruby '2.6.3'
 
 # Rails version
-gem 'rails',                    '6.0.3.3'
+gem 'rails',                    '6.0.3.4'
 
 # Use postgresql as the database for Active Record
 gem 'pg',                       '1.2.3'
@@ -32,7 +32,7 @@ gem 'slim-rails',               '3.2.0'
 
 # Internationalization
 gem 'i18n-js',                  '3.7.1'
-gem 'geocoder',                 '1.6.3'
+gem 'geocoder',                 '1.6.4'
 gem 'maxminddb',                '0.1.22'
 
 # Model versioning
@@ -179,7 +179,7 @@ group :development, :test do
   gem 'bootsnap',                   '1.4.8',   require: false
 
   # Check errors
-  gem 'rubocop',                    '0.92.0',  require: false
+  gem 'rubocop',                    '0.93.0',  require: false
   gem 'rubocop-rails',              '2.8.1',   require: false
   gem 'rubocop-performance',        '1.8.1',   require: false
   gem 'rubocop-rspec',              '1.43.2',  require: false

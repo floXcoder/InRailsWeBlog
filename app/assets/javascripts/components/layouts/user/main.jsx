@@ -16,8 +16,6 @@ import {
 import RouteManager from '../../layouts/managers/route';
 import UserManager from '../../layouts/managers/user';
 
-import RedirectLayout from './redirect';
-
 import styles from '../../../../jss/user/main';
 
 export default @withStyles(styles)
@@ -54,13 +52,7 @@ class MainLayoutUser extends React.Component {
                                exact={route.exact}
                                strict={route.strict}
                                render={(router) => {
-                                   if (route.redirect) {
-                                       return (
-                                           <RedirectLayout redirectPath={route.redirectPath}
-                                                           routeState={router.location.state}
-                                                           {...router.match.params}/>
-                                       );
-                                   } else if (route.status && router.staticContext) {
+                                   if (route.status && router.staticContext) {
                                        router.staticContext.status = route.status;
                                    }
 

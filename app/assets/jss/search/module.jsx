@@ -109,13 +109,13 @@ const styles = (theme) => ({
         padding: 5
     },
     articleTag: {
-        margin: 4,
-        padding: 0,
+        margin: theme.spacing(1),
+        padding: theme.spacing(1, 1),
         fontWeight: 400,
         fontSize: '.8rem',
-        borderRadius: 4,
         color: theme.palette.text.secondary,
-        borderColor: theme.palette.grey[300]
+        borderColor: theme.palette.grey[300],
+        borderRadius: 16
     },
     articleEdit: {
         fontSize: '1rem',

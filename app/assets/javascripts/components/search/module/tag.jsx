@@ -11,7 +11,8 @@ import LabelIcon from '@material-ui/icons/Label';
 import ZoomInIcon from '@material-ui/icons/ZoomIn';
 
 import {
-    taggedArticlesPath
+    taggedArticlesPath,
+    taggedTopicArticlesPath
 } from '../../../constants/routesHelper';
 
 import {
@@ -24,12 +25,15 @@ export default class SearchTagModule extends React.Component {
         isUserConnected: PropTypes.bool.isRequired,
         tags: PropTypes.array.isRequired,
         hasQuery: PropTypes.bool.isRequired,
-        onTagClick: PropTypes.func.isRequired,
         hasTagIcon: PropTypes.bool,
         hasSearchIcon: PropTypes.bool,
         selectedTags: PropTypes.array,
         highlightedTagId: PropTypes.number,
-        currentTopicId: PropTypes.number
+        currentUserId: PropTypes.number,
+        currentUserSlug: PropTypes.string,
+        currentTopicId: PropTypes.number,
+        currentUserTopicSlug: PropTypes.string,
+        onTagClick: PropTypes.func
     };
 
     static defaultProps = {
@@ -41,24 +45,36 @@ export default class SearchTagModule extends React.Component {
         super(props);
     }
 
-    _handleTagClick = (tag) => {
+    _handleTagClick = (tag, event) => {
         spyTrackClick('tag', tag.id, tag.slug, tag.name);
+
+        return event;
     };
 
     _currentTopicTags = () => {
         if (this.props.currentTopicId) {
             return this.props.tags.filter((tag) => (
-                tag.topicIds.includes(this.props.currentTopicId)
+                tag.userId === this.props.currentUserId && tag.topicIds.includes(this.props.currentTopicId)
             ));
         } else {
             return this.props.tags;
         }
     };
 
-    _otherTags = () => {
+    _otherTopicTags = () => {
         if (this.props.currentTopicId) {
             return this.props.tags.filter((tag) => (
-                !tag.topicIds.includes(this.props.currentTopicId)
+                tag.userId === this.props.currentUserId && !tag.topicIds.includes(this.props.currentTopicId)
+            ));
+        } else {
+            return [];
+        }
+    };
+
+    _otherUserTags = () => {
+        if (this.props.currentUserId) {
+            return this.props.tags.filter((tag) => (
+                tag.userId !== this.props.currentUserId
             ));
         } else {
             return [];
@@ -78,19 +94,20 @@ export default class SearchTagModule extends React.Component {
                   icon={this.props.hasTagIcon ? <LabelIcon/> : undefined}
                   label={
                       <Link className={this.props.classes.tagLink}
-                            to={taggedArticlesPath(tag.slug)}
+                            to={this.props.currentUserSlug && this.props.currentUserTopicSlug ? taggedTopicArticlesPath(this.props.currentUserSlug, this.props.currentUserTopicSlug, tag.slug) : taggedArticlesPath(tag.slug)}
                             onClick={this._handleTagClick.bind(this, tag)}>
                           {tag.name}
                       </Link>
                   }
-                  onDelete={this.props.hasSearchIcon ? this.props.onTagClick.bind(this, tag) : undefined}
+                  onDelete={this.props.hasSearchIcon && this.props.onTagClick ? this.props.onTagClick.bind(this, tag) : undefined}
                   deleteIcon={this.props.hasSearchIcon ? <ZoomInIcon className={this.props.classes.tagAdd}/> : undefined}/>
         );
     };
 
     render() {
         const currentTopicTags = this._currentTopicTags();
-        const otherTags = this._otherTags();
+        const otherTopicTags = this._otherTopicTags();
+        const otherUserTags = this._otherUserTags();
 
         return (
             <div className={this.props.classes.category}>
@@ -107,7 +124,7 @@ export default class SearchTagModule extends React.Component {
 
                 <div>
                     {
-                        (this.props.hasQuery && currentTopicTags.length === 0 && otherTags.length === 0) &&
+                        (this.props.hasQuery && this.props.tags.length === 0) &&
                         <p className={this.props.classes.tagNone}>
                             {I18n.t('js.search.module.tags.none')}
                         </p>
@@ -118,7 +135,7 @@ export default class SearchTagModule extends React.Component {
                     }
 
                     {
-                        !Utils.isEmpty(otherTags) &&
+                        !Utils.isEmpty(otherTopicTags) &&
                         <>
                             {
                                 !Utils.isEmpty(currentTopicTags) &&
@@ -127,7 +144,22 @@ export default class SearchTagModule extends React.Component {
                             }
 
                             {
-                                otherTags.map(this._renderTagItem.bind(this, false))
+                                otherTopicTags.map(this._renderTagItem.bind(this, false))
+                            }
+                        </>
+                    }
+
+                    {
+                        !Utils.isEmpty(otherUserTags) &&
+                        <>
+                            {
+                                (!Utils.isEmpty(currentTopicTags) || !Utils.isEmpty(otherTopicTags)) &&
+                                <Divider className={this.props.classes.categoryDivider}
+                                         variant="fullWidth"/>
+                            }
+
+                            {
+                                otherUserTags.map(this._renderTagItem.bind(this, false))
                             }
                         </>
                     }

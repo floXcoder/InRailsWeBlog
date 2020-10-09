@@ -33,9 +33,9 @@ export const h1LineHeight = '3.3rem';
 export const h1LineHeightMobile = '2.4rem';
 export const h1Spacing = 3.5;
 
-export const h1SizeGrid = '1.8rem';
+export const h1SizeGrid = '2.2rem';
 export const h1WeightGrid = 500;
-export const h1LineHeightGrid = '2rem';
+export const h1LineHeightGrid = '2.4rem';
 export const h1SpacingGrid = 1.8;
 
 export const h1SizeExtract = '2rem';

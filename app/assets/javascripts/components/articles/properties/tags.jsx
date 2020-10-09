@@ -12,8 +12,8 @@ import Chip from '@material-ui/core/Chip';
 import LabelIcon from '@material-ui/icons/Label';
 
 import {
-    taggedTopicArticlesPath,
-    taggedArticlesPath
+    taggedArticlesPath,
+    taggedTopicArticlesPath
 } from '../../../constants/routesHelper';
 
 import {
@@ -29,6 +29,7 @@ class ArticleTags extends React.PureComponent {
     static propTypes = {
         articleId: PropTypes.number.isRequired,
         tags: PropTypes.array.isRequired,
+        isOwner: PropTypes.bool,
         currentUserSlug: PropTypes.string,
         currentUserTopicSlug: PropTypes.string,
         parentTagIds: PropTypes.array,
@@ -88,7 +89,7 @@ class ArticleTags extends React.PureComponent {
                                           root: this.props.classes.tagChip,
                                           label: this.props.classes.tagLabel
                                       }}
-                                      to={taggedArticlesPath(tag.slug)}
+                                      to={this.props.isOwner && this.props.currentUserSlug && this.props.currentUserTopicSlug ? taggedTopicArticlesPath(this.props.currentUserSlug, this.props.currentUserTopicSlug, tag.slug) : taggedArticlesPath(tag.slug)}
                                       label={tag.name}
                                       variant="outlined"
                                       icon={<LabelIcon/>}
@@ -117,7 +118,7 @@ class ArticleTags extends React.PureComponent {
                                       root: this.props.classes.tagChip,
                                       label: this.props.classes.tagLabel
                                   }}
-                                  to={this.props.currentUserSlug && this.props.currentUserTopicSlug && parentTags ? taggedTopicArticlesPath(this.props.currentUserSlug, this.props.currentUserTopicSlug, parentTags.first().slug, tag.slug) : taggedArticlesPath(tag.slug)}
+                                  to={this.props.isOwner && this.props.currentUserSlug && this.props.currentUserTopicSlug && parentTags ? taggedTopicArticlesPath(this.props.currentUserSlug, this.props.currentUserTopicSlug, parentTags.first().slug, tag.slug) : taggedArticlesPath(tag.slug)}
                                   label={tag.name}
                                   variant="outlined"
                                   color="default"

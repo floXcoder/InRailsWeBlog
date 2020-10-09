@@ -13,19 +13,19 @@ import {
 } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
+// import IconButton from '@material-ui/core/IconButton';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
+// import CardActions from '@material-ui/core/CardActions';
 
-import EditIcon from '@material-ui/icons/Edit';
-import LabelIcon from '@material-ui/icons/Label';
+// import EditIcon from '@material-ui/icons/Edit';
+// import LabelIcon from '@material-ui/icons/Label';
 
 import {
     tagsPath,
     showTagPath,
-    editTagPath,
+    // editTagPath,
     sortTagPath
 } from '../../constants/routesHelper';
 
@@ -102,10 +102,10 @@ class TagIndex extends React.Component {
     }
 
     _renderTitle = () => {
-        if (this.props.routeParams.userSlug) {
-            return I18n.t('js.tag.index.titles.user');
-        } else if (this.props.routeParams.topicSlug && this.props.currentTopic) {
+        if (this.props.routeParams.topicSlug && this.props.currentTopic) {
             return I18n.t('js.tag.index.titles.topic', {topic: this.props.currentTopic.name});
+        } else if (this.props.routeParams.userSlug) {
+            return I18n.t('js.tag.index.titles.user');
         } else {
             return I18n.t('js.tag.index.titles.all');
         }
