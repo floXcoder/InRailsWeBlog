@@ -383,6 +383,9 @@ class ArticleShow extends React.Component {
                                     {
                                         this.props.article.tags.length > 0 &&
                                         <ArticleTags articleId={this.props.article.id}
+                                                     isOwner={this.props.currentUser?.id === this.props.article.userId}
+                                                     currentUserSlug={this.props.currentUserSlug}
+                                                     currentUserTopicSlug={this.props.currentTopic?.slug}
                                                      tags={this.props.article.tags}
                                                      parentTagIds={this.props.article.parentTagIds}
                                                      childTagIds={this.props.article.childTagIds}/>

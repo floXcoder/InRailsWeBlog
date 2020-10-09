@@ -38,7 +38,6 @@ export const userArticlePath = (userSlug, articleSlug, locale = window.locale) =
 export const sharedArticlePath = (articleSlug, publicLink, locale = window.locale) => routeBuilder(`/articles/shared/${articleSlug}/${publicLink}`, locale);
 
 export const newArticlePath = (userSlug, topicSlug, topicType = 'topics', locale = window.locale) => routeBuilder(`/users/${userSlug}/${topicType}/${topicSlug}/article-new`, locale);
-export const newArticleRedirectPath = (locale = window.locale) => routeBuilder('/articles/article-new', locale);
 export const editArticlePath = (userSlug, articleSlug, locale = window.locale) => routeBuilder(`/users/${userSlug}/articles/${articleSlug}/edit`, locale);
 export const historyArticlePath = (userSlug, articleSlug, locale = window.locale) => routeBuilder(`/users/${userSlug}/articles/${articleSlug}/history`, locale);
 

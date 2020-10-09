@@ -46,7 +46,10 @@ import styles from '../../../jss/search/module';
 export default @withRouter
 @connect((state) => ({
     isUserConnected: state.userState.isConnected,
+    currentUserId: state.userState.currentId,
+    currentUserSlug: state.userState.currentSlug,
     currentTopicId: state.topicState.currentUserTopicId,
+    currentUserTopicSlug: state.topicState.currentUserTopicSlug,
     recentTags: getUserRecentTags(state),
     recentArticles: getUserRecentArticles(state),
     isSearching: state.autocompleteState.isFetching,
@@ -68,7 +71,10 @@ class SearchModule extends React.Component {
         history: PropTypes.object,
         // from connect
         isUserConnected: PropTypes.bool,
+        currentUserId: PropTypes.number,
+        currentUserSlug: PropTypes.string,
         currentTopicId: PropTypes.number,
+        currentUserTopicSlug: PropTypes.string,
         recentTags: PropTypes.array,
         recentArticles: PropTypes.array,
         topics: PropTypes.array,
@@ -158,6 +164,7 @@ class SearchModule extends React.Component {
                               lg={9}>
                             <SearchArticleModule classes={this.props.classes}
                                                  isUserConnected={this.props.isUserConnected}
+                                                 currentUserId={this.props.currentUserId}
                                                  currentTopicId={this.props.currentTopicId}
                                                  hasQuery={hasQuery}
                                                  selectedTags={this.props.selectedTags}
@@ -173,7 +180,10 @@ class SearchModule extends React.Component {
                               lg={3}>
                             <SearchTagModule classes={this.props.classes}
                                              isUserConnected={this.props.isUserConnected}
+                                             currentUserId={this.props.currentUserId}
+                                             currentUserSlug={this.props.currentUserSlug}
                                              currentTopicId={this.props.currentTopicId}
+                                             currentUserTopicSlug={this.props.currentUserTopicSlug}
                                              hasQuery={hasQuery}
                                              tags={tags}
                                              selectedTags={this.props.selectedTags}

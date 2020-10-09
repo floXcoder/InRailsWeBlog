@@ -1,8 +1,7 @@
 'use strict';
 
 import {
-    withRouter,
-    Link
+    withRouter
 } from 'react-router-dom';
 
 import {

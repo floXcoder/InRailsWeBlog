@@ -3,12 +3,13 @@
 const styles = (theme) => ({
     tagChip: {
         margin: theme.spacing(0.5),
+        padding: theme.spacing(1, 1),
         fontWeight: 400,
         fontSize: '.9rem',
-        borderRadius: 12,
         cursor: 'pointer',
         color: theme.palette.text.secondary,
-        borderColor: theme.palette.text.secondary
+        borderColor: theme.palette.text.secondary,
+        borderRadius: 16
     },
     tagChipLarge: {
         margin: theme.spacing(1),

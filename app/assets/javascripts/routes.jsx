@@ -175,8 +175,6 @@ export default {
                 exact: false,
                 tagCloud: true,
                 articleSidebar: true,
-                redirect: true,
-                redirectPath: (params) => Routes.taggedTopicArticlesPath(params.userSlug, params.topicSlug, params.tagSlug, params.childTagSlug),
                 component: () => RouteComponents.ArticleIndex
             },
             {

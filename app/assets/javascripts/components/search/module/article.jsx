@@ -102,7 +102,7 @@ export default class SearchArticleModule extends React.PureComponent {
                                     {
                                         this.props.hasParenthesis
                                             ?
-                                            (<span dangerouslySetInnerHTML={{__html: article.contentHighlighted}}/>)
+                                            <span>(<span dangerouslySetInnerHTML={{__html: article.contentHighlighted}}/>)</span>
                                             :
                                             <span dangerouslySetInnerHTML={{__html: article.contentHighlighted}}/>
                                     }
@@ -159,7 +159,7 @@ export default class SearchArticleModule extends React.PureComponent {
                     }
 
                     {
-                        (this.props.hasQuery && currentTopicArticles.length === 0 && otherTopicArticles.length === 0) &&
+                        (this.props.hasQuery && this.props.articles.length === 0) &&
                         <p className={this.props.classes.articleSecondaryResult}>
                             {I18n.t('js.search.module.articles.none')}
                         </p>

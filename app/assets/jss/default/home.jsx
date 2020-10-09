@@ -191,14 +191,17 @@ const styles = (theme) => ({
         lineHeight: '2.8rem'
     },
     articleTag: {
-        marginTop: theme.spacing(1),
+        margin: theme.spacing(1.5, 2, 0, 0),
+        padding: theme.spacing(1, 1),
         color: theme.palette.text.secondary,
         fontSize: '.9rem',
-        borderColor: theme.palette.grey[600]
+        borderColor: theme.palette.grey[600],
+        borderRadius: 16
     },
     tag: {
         margin: theme.spacing(1),
-        borderRadius: 4,
+        padding: theme.spacing(1, 1),
+        borderRadius: 16,
         backgroundColor: '#f7f7f7',
         borderColor: theme.palette.grey[600],
         display: 'flex'

@@ -217,8 +217,7 @@ class HomeSearch extends React.Component {
                                          hasSearchIcon={false}
                                          hasTagIcon={true}
                                          tags={this.props.tags}
-                                         selectedTags={this.props.selectedTags}
-                                         onTagClick={this._handleTagSelection}/>
+                                         selectedTags={this.props.selectedTags}/>
                     </Grid>
                 </Grid>
             </div>

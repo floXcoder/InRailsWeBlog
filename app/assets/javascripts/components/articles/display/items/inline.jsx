@@ -35,17 +35,10 @@ export default @highlight()
 @withStyles(styles)
 class ArticleInlineDisplay extends React.PureComponent {
     static propTypes = {
-        id: PropTypes.number.isRequired,
-        mode: PropTypes.string.isRequired,
-        content: PropTypes.string.isRequired,
-        userSlug: PropTypes.string.isRequired,
-        visibility: PropTypes.string.isRequired,
-        slug: PropTypes.string.isRequired,
+        article: PropTypes.object.isRequired,
         onInlineEdit: PropTypes.func.isRequired,
         currentUserTopicId: PropTypes.number,
         currentUserTopicVisibility: PropTypes.string,
-        title: PropTypes.string,
-        inventories: PropTypes.array,
         isMinimized: PropTypes.bool,
         isOwner: PropTypes.bool,
         onEnter: PropTypes.func,
@@ -85,28 +78,28 @@ class ArticleInlineDisplay extends React.PureComponent {
 
     _handleViewportChange = event => {
         if (event.isIntersecting) {
-            spyTrackView('article', this.props.id);
+            spyTrackView('article', this.props.article.id);
 
             if (this.props.onShow) {
-                this.props.onShow(this.props.id);
+                this.props.onShow(this.props.article.id);
             }
 
             if (this.props.onEnter) {
                 this.props.onEnter({
-                    id: this.props.id
+                    id: this.props.article.id
                 });
             }
         } else {
             if (this.props.onExit) {
                 this.props.onExit({
-                    id: this.props.id
+                    id: this.props.article.id
                 });
             }
         }
     };
 
     _handleTitleClick = () => {
-        spyTrackClick('article', this.props.id, this.props.slug, this.props.title);
+        spyTrackClick('article', this.props.article.id, this.props.article.slug, this.props.article.title);
     };
 
     _handleFoldClick = (event) => {
@@ -128,7 +121,7 @@ class ArticleInlineDisplay extends React.PureComponent {
 
         return (
             <Observer onChange={this._handleViewportChange}>
-                <article id={`article-${this.props.id}`}
+                <article id={`article-${this.props.article.id}`}
                          className={classNames(this.props.classes.root, {
                              [this.props.classes.over]: this.state.isOver,
                              [this.props.classes.rootPrivate]: isPrivateInPublic
@@ -141,11 +134,11 @@ class ArticleInlineDisplay extends React.PureComponent {
                     </IconButton>
 
                     {
-                        this.props.title &&
-                        <Link to={userArticlePath(this.props.userSlug, this.props.slug)}
+                        this.props.article.title &&
+                        <Link to={userArticlePath(this.props.article.user.slug, this.props.article.slug)}
                               onClick={this._handleTitleClick}>
                             <h1 className={this.props.classes.title}>
-                                {this.props.title}
+                                {this.props.article.title}
                             </h1>
                         </Link>
                     }
@@ -154,12 +147,12 @@ class ArticleInlineDisplay extends React.PureComponent {
                               timeout="auto"
                               unmountOnExit={true}>
                         {
-                            this.props.mode === 'inventory'
+                            this.props.article.mode === 'inventory'
                                 ?
-                                <ArticleInventoryDisplay inventories={this.props.inventories}/>
+                                <ArticleInventoryDisplay inventories={this.props.article.inventories}/>
                                 :
                                 <div className="normalized-content"
-                                     dangerouslySetInnerHTML={{__html: this.props.content}}/>
+                                     dangerouslySetInnerHTML={{__html: this.props.article.content}}/>
                         }
                     </Collapse>
 
@@ -167,10 +160,10 @@ class ArticleInlineDisplay extends React.PureComponent {
                         !this.state.isFolded &&
                         <div className={this.props.classes.floatingButtons}>
                             <div className={this.props.classes.floatingIcons}>
-                                <ArticleLinkIcon articleId={this.props.id}
-                                                 articleSlug={this.props.slug}
-                                                 articleTitle={this.props.title}
-                                                 userSlug={this.props.userSlug}
+                                <ArticleLinkIcon articleId={this.props.article.id}
+                                                 articleSlug={this.props.article.slug}
+                                                 articleTitle={this.props.article.title}
+                                                 userSlug={this.props.article.user.slug}
                                                  size="default"
                                                  color="action"/>
                             </div>

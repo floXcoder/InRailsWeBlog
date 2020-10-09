@@ -100,14 +100,7 @@ class ArticleItemsDisplay extends React.Component {
             );
         } else if (this.props.articleDisplayMode === 'inline') {
             return (
-                <ArticleInlineDisplay id={this.props.article.id}
-                                      mode={this.props.article.content}
-                                      title={this.props.article.title}
-                                      content={this.props.article.content}
-                                      inventories={this.props.article.inventories}
-                                      visibility={this.props.article.visibility}
-                                      slug={this.props.article.slug}
-                                      userSlug={this.props.article.user.slug}
+                <ArticleInlineDisplay article={this.props.article}
                                       currentUserTopicId={this.props.currentUserTopicId}
                                       currentUserTopicVisibility={this.props.currentUserTopicVisibility}
                                       isMinimized={this.props.isMinimized}
