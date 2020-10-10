@@ -78,16 +78,12 @@ describe 'Home API', type: :request, basic: true do
     end
   end
 
-  describe '/users/:user_slug (HTML)' do
+  describe '/users/:user_slug/topics (HTML)' do
     context 'when not connected' do
       it 'returns user home page' do
-        get "/users/#{@user.slug}"
+        get "/users/#{@user.slug}/topics"
 
-        expect(response).to be_html_response
-        expect(response.body).to match('id="react-component"')
-        expect(response.body).to match('lang="en"')
-        expect(response.body).to match('<title>')
-        expect(response.body).to match('<meta name="description"')
+        expect(response).to be_html_response(302)
       end
     end
 
@@ -97,7 +93,7 @@ describe 'Home API', type: :request, basic: true do
       end
 
       it 'returns user home page' do
-        get "/users/#{@user.slug}"
+        get "/users/#{@user.slug}/topics"
 
         expect(response).to be_html_response
         expect(response.body).to match('id="react-component"')
