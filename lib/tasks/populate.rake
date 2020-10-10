@@ -24,7 +24,7 @@ namespace :InRailsWeBlog do
       end
 
       if args.data
-        admin     ||= Admin.first
+        _admin     ||= Admin.first
         main_user ||= User.first
 
         # Create users
@@ -32,7 +32,7 @@ namespace :InRailsWeBlog do
         # Populate::add_profile_picture_to(users, 5)
 
         # Create topics
-        topics = Populate::create_dummy_topics_for([main_user, *other_users], 5)
+        _topics = Populate::create_dummy_topics_for([main_user, *other_users], 5)
 
         # Create common public tags
         common_tags = Populate::create_dummy_tags_for([main_user, *other_users], 5, visibility: 'everyone')
@@ -42,7 +42,7 @@ namespace :InRailsWeBlog do
         # Create articles with tags
         main_articles  = Populate::create_dummy_stories_and_notes_for(main_user, common_tags + personal_tags, 40)
         other_articles = Populate::create_dummy_stories_and_notes_for(other_users, common_tags + personal_tags, 5..15)
-        main_links     = Populate::create_dummy_links_for(main_user, common_tags + personal_tags, 5..15)
+        _main_links     = Populate::create_dummy_links_for(main_user, common_tags + personal_tags, 5..15)
 
         # Creation relationships between articles
         Populate::create_article_relationships_for(main_articles, main_user, 10)

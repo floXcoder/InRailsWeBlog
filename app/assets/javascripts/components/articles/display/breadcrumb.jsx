@@ -12,7 +12,7 @@ import Chip from '@material-ui/core/Chip';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 
 import {
-    userHomePath,
+    userArticlesPath,
     topicArticlesPath,
     userArticlePath,
     taggedArticlesPath
@@ -50,7 +50,7 @@ class ArticleBreadcrumbDisplay extends React.Component {
                     itemProp="itemListElement"
                     itemScope={true}>
                     <Link className={this.props.classes.breadcrumbLink}
-                          to={userHomePath(this.props.user.slug)}
+                          to={userArticlesPath(this.props.user.slug)}
                           itemType="http://schema.org/Thing"
                           itemProp="item"
                           onClick={this._handleElementClick.bind(this, 'user', this.props.user.id, this.props.user.slug, this.props.user.pseudo)}>

@@ -24,8 +24,14 @@ const styles = (theme) => ({
             marginBottom: '2.8rem'
         }
     },
+    cardFolded: {
+        paddingBottom: '1.2rem'
+    },
     cardPrivate: {
         boxShadow: `0px 0px 8px ${theme.palette.secondary.light}`
+    },
+    cardOutdated: {
+        backgroundColor: theme.palette.grey[100],
     },
     cardHeader: {
         width: '100%',
@@ -121,9 +127,6 @@ const styles = (theme) => ({
     commentCount: {
         fontSize: '1rem',
         color: 'inherit'
-    },
-    outdated: {
-        backgroundColor: theme.palette.grey[100],
     },
     floatingButtons: {
         position: 'absolute',

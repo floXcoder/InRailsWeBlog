@@ -59,7 +59,7 @@ const styles = (theme) => ({
     topicButton: {
         fontSize: '1rem',
         [theme.breakpoints.down('lg')]: {
-            margin: 6
+            margin: 8
         }
     },
     link: {

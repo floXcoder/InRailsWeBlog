@@ -16,7 +16,7 @@ Rails.application.routes.draw do
     get '/search(/:query)', to: 'pages#home', as: :search, defaults: { name: 'search', public: true }
 
     # Users
-    get '/users/:user_slug', to: 'pages#user_home', as: :user_home, defaults: { name: 'user_home' }
+    get '/users/:user_slug/topics', to: 'pages#user_home', as: :user_home, defaults: { name: 'user_home' }
 
     get '/users', to: 'pages#home', as: :users, defaults: { name: 'users', public: true }
     get '/users/password/new', to: 'pages#home', as: :new_password, defaults: { name: 'new_password', public: true }
@@ -34,7 +34,6 @@ Rails.application.routes.draw do
     get '/tags/:user_slug/sort', to: 'pages#home', as: :sort_tag, defaults: { name: 'sort_tag' }
 
     # Topics
-    get '/users/:user_slug/topics', to: 'pages#home', as: :user_topics, defaults: { name: 'user_topics', public: true }
     get '/users/:user_slug/topics/:topic_slug/show', to: 'pages#home', as: :user_topic, defaults: { name: 'user_topic', public: true }
     get '/users/:user_slug/topics/:topic_slug/edit', to: 'pages#home', as: :edit_topic, defaults: { name: 'edit_topic' }
     get '/users/:user_slug/topics/:topic_slug/edit-inventories', to: 'pages#home', as: :edit_inventories_topic, defaults: { name: 'edit_inventories_topic' }
@@ -90,6 +89,9 @@ Rails.application.routes.draw do
   concern :votes do |options|
     resource :votes, controller: 'votes', only: [:create, :destroy], **options
   end
+
+  # Redirect user connection to home
+  get '/api/v1/users/sign_in', to: redirect('/', status: 301)
 
   # API
   namespace :api, as: nil do

@@ -20,6 +20,9 @@ const styles = (theme) => ({
         border: 0,
         boxShadow: theme.shadows[0]
     },
+    cardPaper: {
+      marginBottom: '.2rem'
+    },
     cardPrivate: {
         boxShadow: `0px 0px 8px ${theme.palette.secondary.light}`
     },

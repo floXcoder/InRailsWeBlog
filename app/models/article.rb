@@ -323,7 +323,7 @@ class Article < ApplicationRecord
     when 'normal'
       ArticleSerializer.new(data,
                             fields:  {
-                              article: %i[id user tags topicId mode modeTranslated title summary content inventories reference visibility visibilityTranslated allowComment draft languages defaultPicture slug bookmarksCount commentsCount date dateShort link parentTagIds childTagIds],
+                              article: %i[id user tags topicId mode modeTranslated title summary contentSummary content inventories reference visibility visibilityTranslated allowComment draft languages defaultPicture slug bookmarksCount commentsCount date dateShort link parentTagIds childTagIds],
                               user:    %i[id pseudo slug avatarUrl],
                               tag:     %i[id userId name synonyms visibility taggedArticlesCount slug description]
                             },

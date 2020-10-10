@@ -93,7 +93,7 @@ export default function articleReducer(state = initState, action) {
                 state.currentState = articleMachine.transition(state.currentState, (action.articles.length > 0 ? 'LOAD' : 'EMPTY') + (action.isOwner ? '_USER' : ''));
             }
 
-            if(action.errors === 'offline') {
+            if(action.errors) {
                 state.article = undefined;
                 state.articles = [];
             }

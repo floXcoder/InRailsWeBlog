@@ -53,6 +53,7 @@ const styles = (theme) => ({
     },
     topicMode: {
         marginTop: '.8rem',
+        marginRight: theme.spacing(-1),
         textAlign: 'right',
         color: '#fff',
         fontSize: '.9rem',
@@ -63,7 +64,7 @@ const styles = (theme) => ({
     },
     topicNew: {
         height: '6rem',
-        backgroundColor: theme.palette.grey[300],
+        backgroundColor: theme.palette.grey[200],
         [theme.breakpoints.down('md')]: {
             height: '5rem'
         }
@@ -72,6 +73,7 @@ const styles = (theme) => ({
         fontSize: '1.2rem',
         paddingTop: '15%',
         textAlign: 'center',
+        fontStyle: 'italic',
         [theme.breakpoints.down('md')]: {
             paddingTop: '9%'
         }

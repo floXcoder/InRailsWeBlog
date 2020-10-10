@@ -70,7 +70,7 @@ class SummaryStoriesTopic extends React.Component {
                                     component={Link}
                                     to={topicArticlesPath(this.props.userSlug, this.props.topic.slug)}
                                     onClick={this._handleTopicClick.bind(this, this.props.topic.id, this.props.topic.slug, this.props.topic.name)}>
-                                Voir tous les articles de la série
+                                {I18n.t('js.article.common.all_stories')}
                             </Button>
                         </div>
                     }

@@ -221,6 +221,7 @@ const styles = (theme) => ({
     popularsTitle: {
         textAlign: 'center',
         color: theme.palette.primary.dark,
+        fontWeight: 700,
         [theme.breakpoints.down('md')]: {
             fontSize: '2.5rem'
         }
@@ -252,10 +253,13 @@ const styles = (theme) => ({
         marginTop: '2.8rem',
         textAlign: 'center'
     },
-    popularsHomeButton: {
+    popularsHomeButtonContainer: {
         marginTop: '.4rem',
         marginBottom: '3.2rem',
         textAlign: 'center'
+    },
+    popularsHomeButton: {
+        color: '#fff'
     },
 
     functionalities: {

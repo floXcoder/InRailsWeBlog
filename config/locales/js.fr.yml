@@ -222,7 +222,7 @@ fr:
           display:
             title: "Affichage des articles"
             mode:
-              summary: "Résumé des articles seulement"
+              summary: "Début des articles"
               card: "Articles complets"
               inline: "Articles unifiés"
               grid: "Articles en grille"

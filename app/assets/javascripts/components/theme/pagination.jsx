@@ -39,7 +39,7 @@ class Pagination extends React.PureComponent {
 
         if (props.initialPage === 1) {
             const previousData = props.getPreviousHistory('pagination') || {};
-            this.state.selected = previousData.page || 1;
+            this.state.selected = previousData.page || 0;
         }
 
         if (props.hasHistory) {
@@ -69,7 +69,7 @@ class Pagination extends React.PureComponent {
 
     _handlePaginationClick = (pagination, addToHistory = true) => {
         if (this.props.onPaginationClick) {
-            this.props.onPaginationClick(pagination);
+            this.props.onPaginationClick({...pagination, pagination: true});
 
             if (this.props.hasHistory && addToHistory) {
                 this.props.addToHistory({pagination: {page: pagination.selected}}, {page: pagination.selected > 0 ? pagination.selected + 1 : undefined});

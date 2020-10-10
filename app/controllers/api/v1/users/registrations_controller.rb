@@ -52,7 +52,7 @@ module Api::V1
 
     protected
 
-    def after_sign_up_path_for(_resource)
+    def after_sign_up_path_for(resource)
       after_sign_in_path_for(resource)
       # If user must confirm email use:
       # login_path
