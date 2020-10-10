@@ -17,17 +17,18 @@ const styles = (theme) => ({
         padding: '.4rem',
         width: 340,
         zIndex: topicZIndex,
-        [theme.breakpoints.down('md')]: {
+        [theme.breakpoints.down('sm')]: {
             fontSize: '1.3rem',
             width: '90vw'
         }
     },
     title: {
+        position: 'relative',
+        margin: '1pc 20px 10px 8px',
         fontSize: '1.1rem',
         fontWeight: 600,
         fontStyle: 'italic',
-        margin: '1pc 30px 10px 8px',
-        position: 'relative',
+        borderBottom: `1px solid ${theme.palette.grey[300]}`,
         [theme.breakpoints.down('md')]: {
             fontSize: '1.5rem'
         }
@@ -35,14 +36,17 @@ const styles = (theme) => ({
     close: {
         position: 'absolute',
         top: 6,
-        right: 6,
+        right: 14,
         zIndex: 1,
+        backgroundColor: '#fff',
+        borderRadius: '50%',
         [theme.breakpoints.up('md')]: {
             display: 'none'
         }
     },
     list: {
-        position: 'relative'
+        position: 'relative',
+        margin: theme.spacing(1),
     },
     item: {
         backgroundColor: theme.palette.primary.main,

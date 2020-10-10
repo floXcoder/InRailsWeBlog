@@ -26,10 +26,10 @@ Rails.application.routes.draw do
     get '/users/:user_slug/edit', to: 'pages#home', as: :edit_user, defaults: { name: 'edit_user' }
 
     # Tags
+    get '/tags', to: 'tags#index', as: :tags, defaults: { name: 'tags', public: true }
     get '/tags/:tag_slug', to: 'tags#show', as: :show_tag, defaults: { name: 'show_tag', public: true }
     get '/tags/:tag_slug/edit', to: 'tags#edit', as: :edit_tag, defaults: { name: 'edit_tag' }
 
-    get '/tags', to: 'pages#home', as: :tags, defaults: { name: 'tags', public: true }
     get '/users/:user_slug/topics/:topic_slug/tags', to: 'pages#home', as: :topic_tags, defaults: { name: 'topic_tags', public: true }
     get '/tags/:user_slug/sort', to: 'pages#home', as: :sort_tag, defaults: { name: 'sort_tag' }
 

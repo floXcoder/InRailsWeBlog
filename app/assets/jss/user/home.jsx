@@ -70,7 +70,7 @@ const styles = (theme) => ({
         }
     },
     topicNewTitle: {
-        fontSize: '1.2rem',
+        fontSize: '1.05rem',
         paddingTop: '15%',
         textAlign: 'center',
         fontStyle: 'italic',

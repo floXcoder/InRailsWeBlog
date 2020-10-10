@@ -8,6 +8,7 @@ import {
     withStyles
 } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
+import Divider from '@material-ui/core/Divider';
 
 import EditIcon from '@material-ui/icons/Edit';
 import CloseIcon from '@material-ui/icons/Close';
@@ -122,7 +123,7 @@ class TopicModule extends React.Component {
                     privateTopics.map(this._renderTopicList)
                 }
 
-                <hr/>
+                <Divider/>
 
                 {
                     publicTopics.map(this._renderTopicList)
