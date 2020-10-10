@@ -169,7 +169,7 @@ class ArticleSummaryDisplay extends React.Component {
                     <div className={this.props.classes.summaryContent}
                          itemProp="articleBody">
                         <div className="normalized-content normalized-content-extract"
-                             dangerouslySetInnerHTML={{__html: this.props.article.content}}/>
+                             dangerouslySetInnerHTML={{__html: this.props.article.contentSummary || this.props.article.content}}/>
                     </div>
 
                     {

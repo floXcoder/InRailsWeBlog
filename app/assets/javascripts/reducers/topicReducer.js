@@ -37,6 +37,11 @@ export default function topicReducer(state = initState, action) {
         case ActionTypes.TOPIC_FETCH_INIT:
         case ActionTypes.TOPIC_FETCH_SUCCESS:
         case ActionTypes.TOPIC_FETCH_ERROR:
+            if(action.errors) {
+                state.topic = undefined;
+                state.topics = [];
+            }
+
             return fetchReducer(state, action, (state) => {
                 if (action.isSwitching) {
                     window.currentUserTopicId = action.topic.id;

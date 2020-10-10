@@ -19,7 +19,7 @@ import LabelIcon from '@material-ui/icons/Label';
 
 import {
     userArticlePath,
-    userHomePath,
+    userArticlesPath,
     taggedArticlesPath
 } from '../../../../constants/routesHelper';
 
@@ -46,7 +46,7 @@ class ArticleMiniCardDisplay extends React.Component {
     };
 
     static defaultProps = {
-        isPaper: false,
+        isPaper: true,
         hasTags: true,
         isTagDown: true
     };
@@ -81,6 +81,7 @@ class ArticleMiniCardDisplay extends React.Component {
         return (
             <Card id={`article-${this.props.article.id}`}
                   className={classNames(this.props.classes.card, {
+                      [this.props.classes.cardPaper]: this.props.isPaper,
                       [this.props.classes.cardPrivate]: isPrivateInPublic
                   })}
                   component="article"
@@ -165,7 +166,7 @@ class ArticleMiniCardDisplay extends React.Component {
                               className={this.props.classes.headerItem}
                               itemProp="articleBody">
                             <div className="normalized-content normalized-content-extract"
-                                 dangerouslySetInnerHTML={{__html: this.props.article.contentSummary}}/>
+                                 dangerouslySetInnerHTML={{__html: this.props.article.contentSummary || this.props.article.content}}/>
 
                         </Grid>
 
@@ -206,7 +207,7 @@ class ArticleMiniCardDisplay extends React.Component {
                                           content={this.props.article.user.pseudo}/>
 
                                     <Link className={this.props.classes.userPseudo}
-                                          to={userHomePath(this.props.article.user.slug)}
+                                          to={userArticlesPath(this.props.article.user.slug)}
                                           onClick={spyTrackClick.bind(null, 'user', this.props.article.user.id, this.props.article.user.slug, this.props.article.user.pseudo)}>
                                         {this.props.article.user.pseudo}
                                     </Link>
@@ -252,7 +253,7 @@ class ArticleMiniCardDisplay extends React.Component {
         if (this.props.isPaper) {
             return (
                 <Paper className={this.props.classes.paper}
-                       elevation={0}>
+                       elevation={2}>
                     {this._renderCard()}
                 </Paper>
             )

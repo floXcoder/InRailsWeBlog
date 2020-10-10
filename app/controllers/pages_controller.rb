@@ -2,8 +2,10 @@
 
 class PagesController < ApplicationController
 
+  before_action :authenticate_user!, only: [:user_home]
+
   def home
-    reset_cache_headers
+    user_signed_in? ? reset_cache_headers : expires_in(InRailsWeBlog.config.cache_time, public: true)
     respond_to do |format|
       format.html do
         set_seo_data(:home,

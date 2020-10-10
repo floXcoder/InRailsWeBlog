@@ -111,7 +111,7 @@ export default {
             },
             // user: articles
             {
-                path: Routes.userHomePath(':userSlug', false),
+                path: Routes.userArticlesPath(':userSlug', false),
                 exact: true,
                 component: () => RouteComponents.ArticleIndex
             },
@@ -231,6 +231,11 @@ export default {
                 component: () => RouteComponents.TagIndex
             },
             // user: articles
+            {
+                path: Routes.userArticlesPath(':userSlug', false),
+                exact: true,
+                component: () => RouteComponents.ArticleIndex
+            },
             {
                 path: Routes.sortTopicArticlesPath(':userSlug', ':topicSlug', false),
                 exact: true,

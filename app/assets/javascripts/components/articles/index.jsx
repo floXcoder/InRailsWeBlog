@@ -211,7 +211,7 @@ class ArticleIndex extends React.Component {
         if (this.props.articlePagination && this.props.articlePagination.currentPage <= this.props.articlePagination.totalPages) {
             const queryParams = parse(this.props.routeHash.replace(/^\?/, ''));
             const options = {
-                page: (params.selected || this.props.articlePagination.currentPage) + 1
+                page: (params.selected ?? this.props.articlePagination.currentPage) + 1
             };
 
             if (this.props.articleDisplayMode === 'summary') {
@@ -219,7 +219,7 @@ class ArticleIndex extends React.Component {
             }
 
             let payload = {
-                infinite: !params.selected
+                infinite: !params.pagination
             };
             if (this.props.currentUserId) {
                 payload.isConnected = true;

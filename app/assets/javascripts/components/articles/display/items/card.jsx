@@ -132,8 +132,9 @@ class ArticleCardDisplay extends React.PureComponent {
                     <Card component="article"
                           id={`article-${this.props.article.id}`}
                           className={classNames(this.props.classes.articleCard, {
-                              [this.props.classes.outdated]: this.props.article.outdated,
-                              [this.props.classes.cardPrivate]: isPrivateInPublic
+                              [this.props.classes.cardFolded]: this.state.isFolded,
+                              [this.props.classes.cardPrivate]: isPrivateInPublic,
+                              [this.props.classes.cardOutdated]: this.props.article.outdated
                           })}
                           itemScope={true}
                           itemType="https://schema.org/BlogPosting">

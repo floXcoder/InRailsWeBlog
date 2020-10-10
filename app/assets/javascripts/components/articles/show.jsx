@@ -18,7 +18,6 @@ import {
 } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-import Card from '@material-ui/core/Card';
 
 import {
     ArticleIndex,
@@ -436,10 +435,11 @@ class ArticleShow extends React.Component {
                                                 }
                                             </h3>
 
-                                            <Card className={this.props.classes.storiesArticle}>
+                                            <div className={this.props.classes.storiesArticle}>
                                                 <ArticleMiniCardDisplay article={article}
+                                                                        isPaper={true}
                                                                         hasTags={false}/>
-                                            </Card>
+                                            </div>
                                         </Grid>
                                     ))
                                 }

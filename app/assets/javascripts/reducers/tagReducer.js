@@ -32,6 +32,11 @@ export default function tagReducer(state = initState, action) {
         case ActionTypes.TAG_FETCH_INIT:
         case ActionTypes.TAG_FETCH_SUCCESS:
         case ActionTypes.TAG_FETCH_ERROR:
+            if(action.errors) {
+                state.tag = undefined;
+                state.tags = [];
+            }
+
             return fetchReducer(state, action, (state) => {
                 if (action.tag) {
                     state.tag = action.tag;

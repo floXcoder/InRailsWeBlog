@@ -1,9 +1,10 @@
 'use strict';
 
-import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
+
+import ClassIcon from '@material-ui/icons/Class';
 
 import {
     fetchArticles,
@@ -84,9 +85,11 @@ class HomePopulars extends React.Component {
                 <div className={this.props.classes.homeContent}>
                     {
                         this.props.currentUserSlug &&
-                        <div className={this.props.classes.popularsHomeButton}>
-                            <Button color="primary"
+                        <div className={this.props.classes.popularsHomeButtonContainer}>
+                            <Button className={this.props.classes.popularsHomeButton}
+                                    color="secondary"
                                     variant="contained"
+                                    startIcon={<ClassIcon/>}
                                     href={userHomePath(this.props.currentUserSlug)}>
                                 {I18n.t('js.views.home.populars.user_home')}
                             </Button>
@@ -110,9 +113,8 @@ class HomePopulars extends React.Component {
                                           item={true}
                                           xs={12}
                                           sm={6}>
-                                        <Paper>
-                                            <ArticleMiniCardDisplay article={article}/>
-                                        </Paper>
+                                        <ArticleMiniCardDisplay article={article}
+                                                                isPaper={true}/>
                                     </Grid>
                                 ))
                                 :
@@ -177,10 +179,11 @@ class HomePopulars extends React.Component {
                                 this.props.popularArticles?.length > 0
                                     ?
                                     this.props.popularArticles.filter((article) => !this.props.homeArticles.map((homeArticle) => homeArticle.id).includes(article.id)).map((article) => (
-                                        <Paper key={article.id}
-                                               className={this.props.classes.popularsItem}>
-                                            <ArticleMiniCardDisplay article={article}/>
-                                        </Paper>
+                                        <div key={article.id}
+                                             className={this.props.classes.popularsItem}>
+                                            <ArticleMiniCardDisplay article={article}
+                                                                    isPaper={true}/>
+                                        </div>
                                     ))
                                     :
                                     <div>

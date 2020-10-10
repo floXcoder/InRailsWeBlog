@@ -34,6 +34,11 @@ export default function userReducer(state = initState, action) {
         case ActionTypes.USER_FETCH_INIT:
         case ActionTypes.USER_FETCH_SUCCESS:
         case ActionTypes.USER_FETCH_ERROR:
+            if(action.errors) {
+                state.user = undefined;
+                state.users = [];
+            }
+
             return fetchReducer(state, action, (state) => {
                 if (action.connection) {
                     window.currentUserId = action.user.id;

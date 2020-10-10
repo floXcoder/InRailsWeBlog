@@ -23,8 +23,8 @@ class ArticlesController < ApplicationController
     if stale?(articles, template: false, public: true)
       respond_to do |format|
         format.html do
-          articles = Article.serialized_json(articles, 'normal', meta: {
-            storyTopic: articles.present? && articles.all?(&:story?) ? articles.first.topic.flat_serialized_json(with_model: false) : nil,
+          articles = Article.serialized_json(articles, meta: {
+            storyTopic: params[:topic_slug].present? && articles.present? && articles.all?(&:story?) ? articles.first.topic.flat_serialized_json(with_model: false) : nil,
             **meta_attributes(pagination: articles)
           })
 

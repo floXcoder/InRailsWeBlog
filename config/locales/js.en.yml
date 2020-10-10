@@ -222,7 +222,7 @@ en:
           display:
             title: "Articles display"
             mode:
-              summary: "Articles summary only"
+              summary: "Top of articles"
               card: "Full articles"
               inline: "Unified articles"
               grid: "Article in grid"

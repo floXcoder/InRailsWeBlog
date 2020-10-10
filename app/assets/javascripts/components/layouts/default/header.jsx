@@ -102,7 +102,7 @@ class HeaderLayoutDefault extends React.Component {
 
     componentDidMount() {
         setTimeout(() => this.setState({isSearchLoaded: true}), 200);
-        setTimeout(() => this.setState({isConnectLoaded: true}), 500);
+        setTimeout(() => this.setState({isConnectLoaded: true}), 1000);
     }
 
     _handleTitleClick = () => {
