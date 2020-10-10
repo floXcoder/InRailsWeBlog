@@ -5,6 +5,25 @@ class TagsController < ApplicationController
 
   respond_to :html
 
+  def index
+    tags = ::Tags::FindQueries.new.all(filter_params.merge(limit: params[:limit]))
+
+    expires_in InRailsWeBlog.config.cache_time, public: true
+    if stale?(tags, template: false, public: true)
+      respond_to do |format|
+        format.html do
+          set_seo_data(:tags)
+
+          tags = Tag.serialized_json(tags,
+                                     'normal',
+                                     meta: meta_attributes)
+
+          render_associated_page(tags: tags)
+        end
+      end
+    end
+  end
+
   def show
     tag = Tag.include_element.friendly.find(params[:tag_slug])
     authorize tag
@@ -46,6 +65,21 @@ class TagsController < ApplicationController
 
         render_associated_page(tag: tag)
       end
+    end
+  end
+
+  private
+
+  def filter_params
+    if params[:filter]
+      params.require(:filter).permit(:visibility,
+                                     :order,
+                                     :user_id,
+                                     :user_slug,
+                                     :topic_id,
+                                     :topic_slug).reject { |_, v| v.blank? }
+    else
+      {}
     end
   end
 

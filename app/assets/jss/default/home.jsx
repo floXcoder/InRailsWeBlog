@@ -56,10 +56,13 @@ const styles = (theme) => ({
         marginTop: '2rem',
         marginRight: '3rem',
         textAlign: 'right',
-        [theme.breakpoints.down('md')]: {
+        [theme.breakpoints.down('sm')]: {
             marginTop: '1rem',
             marginRight: 'auto',
             textAlign: 'center'
+        },
+        [theme.breakpoints.down('md')]: {
+            marginTop: '4rem'
         }
     },
     bannerButton: {
