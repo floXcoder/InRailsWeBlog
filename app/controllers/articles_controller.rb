@@ -43,7 +43,7 @@ class ArticlesController < ApplicationController
 
     set_seo_data(:user_article,
                  article_slug:         article,
-                 article_content_slug: article.content.summary(InRailsWeBlog.config.seo_meta_desc_length),
+                 article_content_slug: article.summary_content(InRailsWeBlog.config.seo_meta_desc_length, remove_links: true),
                  topic_slug:           article.topic,
                  user_slug:            article.user,
                  author:               article.user.pseudo,
