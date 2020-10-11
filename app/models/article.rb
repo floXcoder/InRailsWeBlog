@@ -513,8 +513,8 @@ class Article < ApplicationRecord
     end
   end
 
-  def summary_content(size = 220, strip_html = true, current_user_id = nil)
-    adapted_content(current_user_id)&.summary(size, strip_html, false)
+  def summary_content(size = 220, strip_html: true, replace_tags: false, remove_links: false, current_user_id: nil)
+    adapted_content(current_user_id)&.summary(size, strip_html, replace_tags, remove_links)
   end
 
   def tag_names

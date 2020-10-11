@@ -128,8 +128,8 @@ module Searches
       highlight_results = {}
       results.with_highlights.each do |item, highlights|
         highlight_results[item.id]           = {}
-        highlight_results[item.id][:title]   = highlights[:'title.analyzed']
-        highlight_results[item.id][:content] = highlights[:'content.analyzed']
+        highlight_results[item.id][:title]   = highlights[:'title.analyzed'].presence || highlights[:'title']
+        highlight_results[item.id][:content] = highlights[:'content.analyzed'].presence || highlights[:'content']
       end
       formatted_results = format_search(results, highlight_results)
 

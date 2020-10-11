@@ -157,7 +157,7 @@ class String
     return Sanitize.fragment(content)
   end
 
-  def summary(length = 60, strip_html = false, replace_tags = false)
+  def summary(length = 60, strip_html = false, replace_tags = false, remove_links = false)
     string   = if replace_tags
                  self.strip_html(true)
                elsif strip_html
@@ -165,6 +165,7 @@ class String
                else
                  self.html_safe
                end
+    string   = string.gsub(/https?:\/\/(\S+.*?)/, '') if remove_links
     end_line = string.index(' ', length - 10)
     if end_line && string.length > length
       string = "#{string[0...end_line]}..."
