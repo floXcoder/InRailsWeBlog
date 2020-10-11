@@ -156,7 +156,7 @@ describe 'Search API', type: :request, basic: true do
         expect(response).to be_json_response
         results = JSON.parse(response.body)
         expect(results['totalCount']['articles']).to eq(1)
-        expect(results['articles'].first['title']).to include('multi-langues')
+        expect(results['articles'].first['title']).to include('langues')
       end
     end
   end
