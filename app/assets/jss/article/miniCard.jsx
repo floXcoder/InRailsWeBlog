@@ -93,6 +93,24 @@ const styles = (theme) => ({
         paddingTop: 4,
         paddingBottom: '4px !important'
     },
+    articleContentFaded: {
+        position: 'relative',
+        maxHeight: 200,
+        content: "''",
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        padding: '.5em',
+        '&:before': {
+            content: "''",
+            fontWeight: 'lighter',
+            width: '100%',
+            height: 60,
+            position: 'absolute',
+            left: 0,
+            bottom: 0,
+            background: 'transparent linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, .9), #fff)'
+        }
+    },
     articleTags: {
         marginTop: theme.spacing(1),
         marginBottom: theme.spacing(1),

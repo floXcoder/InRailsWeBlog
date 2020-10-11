@@ -22,11 +22,11 @@ class ArticlesController < ApplicationController
 
     articles = ::Articles::FindQueries.new(current_user, current_admin).all(params.to_unsafe_h.merge(page: params[:page], limit: params[:limit]))
 
-    expires_in(InRailsWeBlog.config.cache_time, public: true)
+    user_signed_in? ? reset_cache_headers : expires_in(InRailsWeBlog.config.cache_time, public: true)
     if stale?(articles, template: false, public: true)
       respond_to do |format|
         format.html do
-          articles = Article.serialized_json(articles, meta: {
+          articles = Article.serialized_json(articles, user_signed_in? ? 'normal' : 'sample', meta: {
             storyTopic: params[:topic_slug].present? && articles.present? && articles.all?(&:story?) ? articles.first.topic.flat_serialized_json(with_model: false) : nil,
             **meta_attributes(pagination: articles)
           })
