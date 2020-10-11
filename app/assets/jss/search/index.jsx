@@ -63,6 +63,7 @@ const styles = (theme) => ({
     },
     categoryAutocomplete: {
         marginTop: 0,
+        marginBottom: theme.spacing(2),
         paddingLeft: '1.5rem'
     },
     categoryHelper: {
@@ -115,7 +116,7 @@ const styles = (theme) => ({
         fontSize: '.9rem'
     },
     helpMessage: {
-        margin: '1rem 0',
+        margin: '1.4rem 0',
         color: theme.palette.grey[600],
         textAlign: 'center',
         fontSize: '1.4rem',

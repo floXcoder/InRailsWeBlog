@@ -208,13 +208,16 @@ export default class ArticleSearchMenuDisplay extends React.PureComponent {
                                 </Dropdown>
                             </Grid>
 
-                            <Grid item={true}
-                                  className={this.props.classes.categoryItem}>
-                                <Button className={this.props.classes.categoryFilterButton}
-                                        onClick={this.props.onSettingsClick.bind(this, 'SEARCH')}>
-                                    <SettingsIcon/>
-                                </Button>
-                            </Grid>
+                            {
+                                this.props.currentUserId &&
+                                <Grid item={true}
+                                      className={this.props.classes.categoryItem}>
+                                    <Button className={this.props.classes.categoryFilterButton}
+                                            onClick={this.props.onSettingsClick.bind(this, 'SEARCH')}>
+                                        <SettingsIcon/>
+                                    </Button>
+                                </Grid>
+                            }
                         </Grid>
                     </Grid>
                 </Hidden>
