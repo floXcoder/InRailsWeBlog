@@ -39,6 +39,7 @@ class ArticleMiniCardDisplay extends React.Component {
         currentUserTopicId: PropTypes.number,
         currentUserTopicVisibility: PropTypes.string,
         isPaper: PropTypes.bool,
+        isFaded: PropTypes.bool,
         hasTags: PropTypes.bool,
         isTagDown: PropTypes.bool,
         // from styles
@@ -47,6 +48,7 @@ class ArticleMiniCardDisplay extends React.Component {
 
     static defaultProps = {
         isPaper: true,
+        isFaded: false,
         hasTags: true,
         isTagDown: true
     };
@@ -163,7 +165,9 @@ class ArticleMiniCardDisplay extends React.Component {
                           alignItems="center">
                         <Grid item={true}
                               xs={this.props.article.defaultPicture ? 8 : 12}
-                              className={this.props.classes.headerItem}
+                              className={classNames(this.props.classes.headerItem, {
+                                  [this.props.classes.articleContentFaded]: this.props.isFaded
+                              })}
                               itemProp="articleBody">
                             <div className="normalized-content normalized-content-extract"
                                  dangerouslySetInnerHTML={{__html: this.props.article.contentSummary || this.props.article.content}}/>

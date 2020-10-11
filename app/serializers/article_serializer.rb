@@ -93,7 +93,7 @@ class ArticleSerializer
   end
 
   attribute :content_summary do |object|
-    object.summary_content
+    object.summary_content(260, false)
   end
 
   attribute :content_translations do |object|

@@ -81,6 +81,7 @@ class ArticleItemsDisplay extends React.Component {
                                         currentUserTopicId={this.props.currentUserTopicId}
                                         currentUserTopicVisibility={this.props.currentUserTopicVisibility}
                                         isPaper={true}
+                                        isFaded={true}
                                         isTagDown={true}/>
             );
         } else if (this.props.articleDisplayMode === 'card') {
