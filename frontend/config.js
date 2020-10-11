@@ -200,6 +200,7 @@ module.exports = {
             assetPath: `${appEnv.WEBSITE_FULL_ASSET}/assets/`,
             filename: '[name].[hash]',
             filenameImage: '[name]',
+            filenameFont: '[name]',
             chunkFilename: '[name].[hash].[id]',
             manifestFilename: 'manifest.json'
         }
