@@ -15,6 +15,9 @@ class ArticlesController < ApplicationController
     elsif params[:tag_slug].present? || params[:parent_tag_slug].present?
       set_seo_data(:tagged_articles,
                    tag_slug: params[:parent_tag_slug].presence || params[:tag_slug].presence)
+    elsif params[:user_slug].present?
+      set_seo_data(:user_articles,
+                   user_slug: params[:user_slug])
     end
 
     articles = ::Articles::FindQueries.new(current_user, current_admin).all(params.to_unsafe_h.merge(page: params[:page], limit: params[:limit]))

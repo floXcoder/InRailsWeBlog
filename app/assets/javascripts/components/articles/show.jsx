@@ -133,7 +133,6 @@ class ArticleShow extends React.Component {
         super(props);
 
         this._request = null;
-        this._requestStories = null;
     }
 
     componentDidMount() {
@@ -141,7 +140,7 @@ class ArticleShow extends React.Component {
             localArticle: this.props.initProps?.article
         })
 
-        this._fetchStories();
+        // this._fetchStories();
 
         setTimeout(() => ArticleIndex.preload(), articlePreloadIndex);
         if (this.props.currentUserSlug && this.props.currentUserSlug === this.props.routeParams.userSlug) {
@@ -161,7 +160,7 @@ class ArticleShow extends React.Component {
             this._request = this.props.fetchArticle(this.props.routeParams.userSlug, this.props.routeParams.articleSlug);
         }
 
-        this._fetchStories();
+        // this._fetchStories();
     }
 
     componentWillUnmount() {
@@ -170,11 +169,11 @@ class ArticleShow extends React.Component {
         }
     }
 
-    _fetchStories = () => {
-        if (this.props.article?.mode === 'story' && !this._requestStories) {
-            this._requestStories = this.props.fetchArticleStories(this.props.routeParams.userSlug, this.props.article.id);
-        }
-    };
+    // _fetchStories = () => {
+    //     if (this.props.article?.mode === 'story' && !this.props.storyTopic) {
+    //         this.props.fetchArticleStories(this.props.routeParams.userSlug, this.props.article.id);
+    //     }
+    // };
 
     _handleOutdatedClick = (event) => {
         event.preventDefault();

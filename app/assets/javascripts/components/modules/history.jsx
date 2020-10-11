@@ -12,6 +12,12 @@ export default function history(WrappedComponent) {
 
         constructor(props) {
             super(props);
+
+            this._isActive = true;
+        }
+
+        componentWillUnmount() {
+            this._isActive = false;
         }
 
         getPreviousHistory = (paramName) => {
@@ -37,8 +43,10 @@ export default function history(WrappedComponent) {
         watchHistory = (paramName, callback) => {
             if (window.history) {
                 window.addEventListener('popstate', (event) => {
-                    const data = (!!event.state && !!event.state[paramName]) ? event.state[paramName] : null;
-                    callback(data);
+                    if(this._isActive) {
+                        const data = (!!event.state && !!event.state[paramName]) ? event.state[paramName] : null;
+                        callback(data);
+                    }
                 });
             }
         };

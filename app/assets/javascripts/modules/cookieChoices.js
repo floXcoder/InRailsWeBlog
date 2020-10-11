@@ -61,6 +61,7 @@ const cookieChoices = (function () {
         var parametersLink = document.createElement('button');
         _setElementText(parametersLink, parametersText);
         parametersLink.id = parametersLinkId;
+        parametersLink.button = 'button';
         parametersLink.className = 'cookies-more';
         return parametersLink;
     }
@@ -69,6 +70,7 @@ const cookieChoices = (function () {
         var dismissLink = document.createElement('button');
         _setElementText(dismissLink, dismissText);
         dismissLink.id = dismissLinkId;
+        dismissLink.button = 'button';
         dismissLink.className = 'cookies-button';
         if (color) {
             dismissLink.style.backgroundColor = color;

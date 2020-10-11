@@ -1,8 +1,8 @@
 'use strict';
 
 // Build routes from translated routes in locales/routes.*.yml
-const buildRoute = (locale, path) => [window.localizedRoutes[locale].locale].concat(path.substr(1).split('/').map((p) => window.localizedRoutes[locale][p] || p)).filter((r) => !!r).join('/');
-const buildRoutes = (path) => window.locales.map((l) => [window.localizedRoutes[l].locale].concat(path.substr(1).split('/').map((p) => p.includes('|') ? '(' + p.substr(1).slice(0, -1).split('|').map((s) => window.localizedRoutes[l][s] || s).join('|') + ')' : window.localizedRoutes[l][p] || p)).filter((r) => !!r).join('/'));
+const buildRoute = (locale, path) => [window.localizedRoutes[locale].locale].concat(path.substr(1).split('/').map((p) => window.localizedRoutes[locale][p] || p)).join('/').replace(/^(.+?)\/*?$/, '$1');
+const buildRoutes = (path) => window.locales.map((l) => [window.localizedRoutes[l].locale].concat(path.substr(1).split('/').map((p) => p.includes('|') ? '(' + p.substr(1).slice(0, -1).split('|').map((s) => window.localizedRoutes[l][s] || s).join('|') + ')' : window.localizedRoutes[l][p] || p)).join('/').replace(/^(.+?)\/*?$/, '$1'));
 const routeBuilder = (path, locale) => locale ? buildRoute(locale, path) : buildRoutes(path);
 
 // Common routes

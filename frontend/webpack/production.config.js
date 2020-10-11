@@ -150,14 +150,7 @@ webPackConfig.plugins.push(
     new CopyWebpackPlugin({
         patterns: _.map(config.fonts, (font) => ({
             from: font.from,
-            to: font.to + config.production.filenameImage + '.[ext]',
-            toType: 'template'
-        }))
-    }),
-    new CopyWebpackPlugin({
-        patterns: _.map(config.fonts, (font) => ({
-            from: font.from,
-            to: font.to + config.production.filenameImage + '.[ext]',
+            to: font.to + config.production.filenameFont + '.[ext]',
             toType: 'template'
         }))
     }),
