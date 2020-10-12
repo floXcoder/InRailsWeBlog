@@ -24,7 +24,7 @@ describe('Bookmarks actions', () => {
             const currentUser = FactoryGenerator.create('users');
             const bookmarkedArticle = FactoryGenerator.create('articles');
 
-            mock(`/api/v1/users/${currentUser.id}/bookmarks`, 200, () => ({
+            mock(`/api/v1/users/${currentUser.id}/bookmarks.json`, 200, () => ({
                     data: {
                         attributes: {
                             id: 1,
@@ -80,7 +80,7 @@ describe('Bookmarks actions', () => {
                 follow: false
             };
 
-            mock(`/api/v1/users/${currentUser.id}/bookmarks/${bookmark.id}`, 204);
+            mock(`/api/v1/users/${currentUser.id}/bookmarks/${bookmark.id}.json`, 204);
 
             return dispatch(store, BookmarkActions.bookmark('article', bookmarkedArticle.id, {id: bookmark.id}, currentUser.id))
                 .then((state) => {

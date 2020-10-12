@@ -47,7 +47,7 @@ describe('Comments actions', () => {
         it('should create a comment', () => {
             const newComment = FactoryGenerator.create('comments');
 
-            mock('/api/v1/article/1/comments', 200, (request) => ({
+            mock('/api/v1/article/1/comments.json', 200, (request) => ({
                     comment: request.comment
                 })
             );
@@ -63,7 +63,7 @@ describe('Comments actions', () => {
             const newComment = FactoryGenerator.create('comments');
             const titleError = 'too short';
 
-            mock('/api/v1/article/1/comments', 422, () => ({
+            mock('/api/v1/article/1/comments.json', 422, () => ({
                     errors: {title: [titleError]}
                 })
             );
@@ -81,7 +81,7 @@ describe('Comments actions', () => {
             const comment = FactoryGenerator.create('comments');
             const updateParameters = {title: 'Updated comment title'};
 
-            mock(`/api/v1/article/1/comments`, 200, (request) => ({
+            mock(`/api/v1/article/1/comments.json`, 200, (request) => ({
                     comment: {...comment, ...request.comment}
                 })
             );
@@ -98,7 +98,7 @@ describe('Comments actions', () => {
         it('should delete a comment', () => {
             const comment = FactoryGenerator.create('comments');
 
-            mock(`/api/v1/article/1/comments`, 202, () => ({
+            mock(`/api/v1/article/1/comments.json`, 202, () => ({
                     deletedCommentIds: [comment.id]
                 })
             );

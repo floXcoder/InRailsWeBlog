@@ -81,7 +81,7 @@ describe('Tags actions', () => {
         it('should create a tag', () => {
             const newTag = FactoryGenerator.create('tags');
 
-            mock('/api/v1/tags', 200, (request) => ({
+            mock('/api/v1/tags.json', 200, (request) => ({
                     tag: request.tag
                 })
             );
@@ -98,7 +98,7 @@ describe('Tags actions', () => {
             const newTag = FactoryGenerator.create('tags');
             const contentError = 'too short';
 
-            mock('/api/v1/tags', 422, (request) => ({
+            mock('/api/v1/tags.json', 422, (request) => ({
                     errors: {content: [contentError]}
                 })
             );
@@ -115,7 +115,7 @@ describe('Tags actions', () => {
             const tag = FactoryGenerator.create('tags');
             const updateParameters = {name: 'Updated tag name'};
 
-            mock(`/api/v1/tags/${tag.id}`, 200, (request) => ({
+            mock(`/api/v1/tags/${tag.id}.json`, 200, (request) => ({
                     tag: {...tag, ...request.tag}
                 })
             );
@@ -132,7 +132,7 @@ describe('Tags actions', () => {
         it('should delete a tag', () => {
             const tag = FactoryGenerator.create('tags');
 
-            mock(`/api/v1/tags/${tag.id}`, 204);
+            mock(`/api/v1/tags/${tag.id}.json`, 204);
 
             return dispatch(store, TagActions.deleteTag(tag.id))
                 .then((state) => {
