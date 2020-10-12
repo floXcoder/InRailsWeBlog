@@ -2,10 +2,10 @@
 
 module SerializerHelper
   def record_cache_options(options, fieldset, _includes_list, params)
-    return options unless fieldset || params
+    # return options unless fieldset
 
     options             = options ? options.dup : {}
-    options[:namespace] ||= 'serializer'
+    options[:namespace] = "_#{ENV['WEBSITE_NAME']}_#{Rails.env}:serializer"
 
     fieldset_key = fieldset.present? ? fieldset.join('_') : nil
     params_key = params.present? ? params.map { |k, v| "#{k}-#{v}" }.join('_') : nil
