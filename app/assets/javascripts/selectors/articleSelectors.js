@@ -87,7 +87,7 @@ export const getCategorizedArticles = createSelector(
             return categorizedArticles;
         }
 
-        if (articleOrderMode === 'updated_desc' || articleOrderMode === 'updated_asc') {
+        if (articleOrderMode === 'created_asc' || articleOrderMode === 'created_desc' || articleOrderMode === 'updated_asc' || articleOrderMode === 'updated_desc') {
             articles.forEach((article) => {
                 categorizedArticles[article.date] = categorizedArticles[article.date] ? categorizedArticles[article.date].concat(article) : [article];
             });

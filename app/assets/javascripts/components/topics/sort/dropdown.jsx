@@ -18,10 +18,10 @@ import {
 import styles from '../../../../jss/article/filter';
 
 const sortOptions = [
-    'priority_desc',
-    'tag_asc',
     'updated_desc',
-    'updated_asc'
+    'updated_asc',
+    'priority_desc',
+    'tag_asc'
 ];
 
 // Managed by article index to update current user preference

@@ -14,7 +14,7 @@ module Topics
       @relation = @relation
                     .with_adapted_visibility(@current_user, @current_admin)
                     .filter_by(params, @current_user)
-                    .order_by(params[:order] || 'name')
+                    .order_by(params[:order] || 'name').order_by('created_desc')
                     .distinct
 
       return @relation
@@ -24,7 +24,7 @@ module Topics
       @relation = @relation
                     .includes(:inventory_fields, :user, :tracker, :shares, :contributors)
                     .with_adapted_visibility(@current_user, @current_admin)
-                    .order_by('name')
+                    .order_by('name').order_by('created_desc')
                     .distinct
 
       return @relation

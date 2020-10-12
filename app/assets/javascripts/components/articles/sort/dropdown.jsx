@@ -20,10 +20,10 @@ import {
 import styles from '../../../../jss/article/filter';
 
 const sortOptions = [
-    'priority_desc',
+    'created_desc',
+    'created_asc',
     'tag_asc',
-    'updated_desc',
-    'updated_asc',
+    'priority_desc',
     'default'
 ];
 

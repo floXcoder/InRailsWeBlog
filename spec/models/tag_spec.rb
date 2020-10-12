@@ -254,7 +254,7 @@ RSpec.describe Tag, type: :model, basic: true do
 
     describe '::from_user' do
       it { is_expected.to respond_to(:from_user) }
-      it { expect(Tag.from_user(@user.slug)).to include(@tag, private_tag) }
+      it { expect(Tag.from_user(@user.slug)).not_to include(@tag, private_tag) }
       it { expect(Tag.from_user(@user.slug, @user.id)).to include(@tag, private_tag) }
       it { expect(Tag.from_user(@user.slug, @user.id)).not_to include(other_tag) }
     end

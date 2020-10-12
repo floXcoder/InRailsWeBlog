@@ -234,6 +234,8 @@ export default {
             {
                 path: Routes.userArticlesPath(':userSlug', false),
                 exact: true,
+                noTagSidebar: true,
+                articleSidebar: true,
                 component: () => RouteComponents.ArticleIndex
             },
             {

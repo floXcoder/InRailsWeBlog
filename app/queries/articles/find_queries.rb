@@ -24,7 +24,7 @@ module Articles
       @relation = @relation
                     .include_collection(@topic_articles&.inventories? || @topic_articles&.stories?)
                     .with_adapted_visibility(@current_user, @current_admin)
-                    .order_by(article_order(params))
+                    .order_by(article_order(params)).order_by('created_desc')
                     .filter_by(params, @current_user, @user_articles, @topic_articles)
                     .paginate_or_limit(params, @current_user)
 
@@ -34,7 +34,7 @@ module Articles
     def complete(params = {})
       @relation = @relation
                     .includes(:tags, :tagged_articles, :tracker, :share, :pictures, user: [:picture], topic: [:inventory_fields])
-                    .order_by('popularity_desc')
+                    .order_by('popularity_desc').order_by('created_desc')
                     .with_visibility(params[:visibility] || 'everyone')
                     .with_adapted_visibility(@current_user, @current_admin)
 
@@ -50,7 +50,7 @@ module Articles
       @relation = @relation
                     .include_collection
                     .with_adapted_visibility(@current_user, @current_admin)
-                    .order_by(article_order(params))
+                    .order_by(article_order(params)).order_by('created_desc')
                     .filter_by(params, @current_user, @user_articles, @topic_articles)
 
       return @relation
@@ -198,7 +198,7 @@ module Articles
       elsif @topic_articles&.stories?
         'created_asc'
       else
-        'priority_desc'
+        'created_desc'
       end
     end
 

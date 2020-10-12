@@ -256,8 +256,7 @@ class Article < ApplicationRecord
 
   # == Scopes ===============================================================
   scope :everyone_and_user, -> (user_id = nil) {
-    where('articles.visibility = 0 OR (articles.visibility = 1 AND articles.user_id = :user_id)',
-          user_id: user_id)
+    user_id ? where('articles.visibility = 0 OR (articles.visibility = 1 AND articles.user_id = :user_id)', user_id: user_id) : everyone
   }
 
   scope :with_visibility, -> (visibility) {
@@ -268,8 +267,7 @@ class Article < ApplicationRecord
     from_user_id(User.find_by(slug: user_slug)&.id, current_user_id)
   }
   scope :from_user_id, -> (user_id = nil, current_user_id = nil) {
-    where(user_id: user_id).where('articles.visibility = 0 OR (articles.visibility = 1 AND articles.user_id = :current_user_id)',
-                                  current_user_id: current_user_id)
+    where(user_id: user_id).everyone_and_user(current_user_id)
   }
 
   scope :from_topic, -> (topic_slug, user_id) {

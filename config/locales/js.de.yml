@@ -215,8 +215,8 @@ de:
             mode:
               priority_desc: "Priorität"
               tag_asc: "Etikett"
-              updated_asc: "Ältere"
-              updated_desc: "Jüngste"
+              created_asc: "Ältere"
+              created_desc: "Jüngste"
           loader:
             mode:
               all: "Alle laden"
@@ -624,8 +624,8 @@ de:
         order:
           priority_desc: "Priorität"
           tag_asc: "Etikett"
-          updated_asc: "Ältere"
-          updated_desc: "Jüngste"
+          created_asc: "Ältere"
+          created_desc: "Jüngste"
           default: "Standardmäßig"
         title: "Sortieren nach"
       timeline:

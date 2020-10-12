@@ -27,6 +27,7 @@ export default @connect((state, props) => ({
 class ArticleListMode extends React.Component {
     static propTypes = {
         isMinimized: PropTypes.bool,
+        isUserArticlesList: PropTypes.bool,
         articleEditionId: PropTypes.number,
         onEnter: PropTypes.func,
         onExit: PropTypes.func,
@@ -55,6 +56,7 @@ class ArticleListMode extends React.Component {
                                      articleDisplayMode={this.props.articleDisplayMode}
                                      articleEditionId={this.props.articleEditionId}
                                      isMinimized={this.props.isMinimized}
+                                     isUserArticlesList={this.props.isUserArticlesList}
                                      onEnter={this.props.onEnter}
                                      onExit={this.props.onExit}/>
             </CSSTransition>

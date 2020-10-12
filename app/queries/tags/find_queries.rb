@@ -16,7 +16,7 @@ module Tags
       @relation = @relation
                     .include_collection(filter_by_topic)
                     .with_adapted_visibility(@current_user, @current_admin)
-                    .order_by(params[:order] || 'name')
+                    .order_by(params[:order] || 'name').order_by('created_desc')
                     .filter_by(params, @current_user)
                     .distinct
                     .paginate_or_limit(params)
@@ -28,7 +28,7 @@ module Tags
       @relation = @relation
                     .includes(:user, :parents, :children, :tracker)
                     .with_adapted_visibility(@current_user, @current_admin)
-                    .order_by('name')
+                    .order_by('name').order_by('created_desc')
                     .distinct
 
       return @relation

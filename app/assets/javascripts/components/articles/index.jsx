@@ -281,6 +281,8 @@ class ArticleIndex extends React.Component {
             );
         }
 
+        const isUserArticlesList = this.props.currentUserId &&  this.props.routeParams.userSlug && Object.keys(this.props.routeParams).length === 1;
+
         const hasMoreArticles = this.props.articlePagination && this.props.articlePagination.currentPage < this.props.articlePagination.totalPages;
 
         const isStoryMode = this.props.articleCurrentMode === 'stories' && this.props.storyTopic;
@@ -295,12 +297,14 @@ class ArticleIndex extends React.Component {
         if (isStoryMode) {
             ArticleNodes = (
                 <ArticleTimelineMode topicVisibility={this.props.currentTopic?.visibility}
+                                     isUserArticlesList={isUserArticlesList}
                                      onEnter={this._handleArticleEnter}
                                      onExit={this._handleArticleExit}/>
             );
         } else if (isGridDisplay) {
             ArticleNodes = (
-                <ArticleMasonryMode onEnter={this._handleArticleEnter}
+                <ArticleMasonryMode isUserArticlesList={isUserArticlesList}
+                                    onEnter={this._handleArticleEnter}
                                     onExit={this._handleArticleExit}/>
             );
         } else {
@@ -308,6 +312,7 @@ class ArticleIndex extends React.Component {
                 <ArticleListMode parentTagSlug={this.props.routeParams.tagSlug}
                                  isMinimized={this.props.areArticlesMinimized}
                                  articleEditionId={this.props.articleEditionId}
+                                 isUserArticlesList={isUserArticlesList}
                                  onEnter={this._handleArticleEnter}
                                  onExit={this._handleArticleExit}/>
             );

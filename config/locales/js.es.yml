@@ -230,8 +230,8 @@ es:
             mode:
               priority_desc: "Prioridad"
               tag_asc: "Etiqueta"
-              updated_asc: "Más antiguo"
-              updated_desc: "El más reciente"
+              created_asc: "Más antiguo"
+              created_desc: "El más reciente"
           loader:
             mode:
               all: "Cargar todo"
@@ -636,8 +636,8 @@ es:
         order:
           priority_desc: "Prioridad"
           tag_asc: "Etiqueta"
-          updated_asc: "Más antiguo"
-          updated_desc: "El más reciente"
+          created_asc: "Más antiguo"
+          created_desc: "El más reciente"
           default: "Por defecto"
         title: "Ordenar por"
       filter:
