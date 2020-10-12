@@ -172,8 +172,7 @@ class Topic < ApplicationRecord
 
   # == Scopes ===============================================================
   scope :everyone_and_user, -> (user_id = nil) {
-    where('topics.visibility = 0 OR (topics.visibility = 1 AND topics.user_id = :user_id)',
-          user_id: user_id)
+    user_id ? where('topics.visibility = 0 OR (topics.visibility = 1 AND topics.user_id = :user_id)', user_id: user_id) : everyone
   }
 
   scope :with_visibility, -> (visibility) {
@@ -181,8 +180,7 @@ class Topic < ApplicationRecord
   }
 
   scope :from_user, -> (user_id = nil, current_user_id = nil) {
-    where(user_id: user_id).where('topics.visibility = 0 OR (topics.visibility = 1 AND topics.user_id = :current_user_id)',
-                                  current_user_id: current_user_id)
+    where(user_id: user_id).everyone_and_user(current_user_id)
   }
 
   scope :bookmarked_by_user,

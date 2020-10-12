@@ -56,6 +56,7 @@ class ArticleCardDisplay extends React.PureComponent {
         isOwner: PropTypes.bool,
         // isOutdated: PropTypes.bool,
         isMinimized: PropTypes.bool,
+        isUserArticlesList: PropTypes.bool,
         hasActions: PropTypes.bool,
         onEnter: PropTypes.func,
         onExit: PropTypes.func,
@@ -124,7 +125,7 @@ class ArticleCardDisplay extends React.PureComponent {
     };
 
     render() {
-        const isPrivateInPublic = this.props.currentUserTopicId === this.props.article.topicId && this.props.currentUserTopicVisibility === 'everyone' && this.props.article.visibility !== 'everyone';
+        const isPrivateInPublic = (this.props.isUserArticlesList || this.props.currentUserTopicId === this.props.article.topicId && this.props.currentUserTopicVisibility === 'everyone') && this.props.article.visibility !== 'everyone';
 
         return (
             <StickyContainer>

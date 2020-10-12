@@ -15,15 +15,16 @@ const styles = (theme) => ({
     },
     card: {
         position: 'relative',
-        margin: '.4rem .3rem 1.2rem',
+        padding: '.4rem .3rem 1.2rem',
         overflow: 'visible',
         border: 0,
         boxShadow: theme.shadows[0]
     },
     cardPaper: {
-      marginBottom: '.2rem'
+        paddingBottom: '.2rem'
     },
     cardPrivate: {
+        margin: 0,
         boxShadow: `0px 0px 8px ${theme.palette.secondary.light}`
     },
     header: {

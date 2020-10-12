@@ -170,7 +170,7 @@ class Tag < ApplicationRecord
 
   # == Scopes ===============================================================
   scope :everyone_and_user, -> (user_id = nil) {
-    where('tags.visibility = 0 OR (tags.visibility = 1 AND tags.user_id = :user_id)', user_id: user_id)
+    user_id ? where('tags.visibility = 0 OR (tags.visibility = 1 AND tags.user_id = :user_id)', user_id: user_id) : everyone
   }
 
   scope :with_visibility, -> (visibility) {
@@ -181,8 +181,7 @@ class Tag < ApplicationRecord
     from_user_id(User.find_by(slug: user_slug)&.id, current_user_id)
   }
   scope :from_user_id, -> (user_id = nil, current_user_id = nil) {
-    where(user_id: user_id).where('tags.visibility = 0 OR (tags.visibility = 1 AND tags.user_id = :current_user_id)',
-                                  current_user_id: current_user_id || user_id)
+    where(user_id: user_id).everyone_and_user(current_user_id)
   }
 
   scope :for_topic, -> (topic_slug) {

@@ -38,6 +38,7 @@ class ArticleMiniCardDisplay extends React.Component {
         article: PropTypes.object.isRequired,
         currentUserTopicId: PropTypes.number,
         currentUserTopicVisibility: PropTypes.string,
+        isUserArticlesList: PropTypes.bool,
         isPaper: PropTypes.bool,
         isFaded: PropTypes.bool,
         hasTags: PropTypes.bool,
@@ -78,7 +79,7 @@ class ArticleMiniCardDisplay extends React.Component {
     };
 
     _renderCard = () => {
-        const isPrivateInPublic = this.props.currentUserTopicId === this.props.article.topicId && this.props.currentUserTopicVisibility === 'everyone' && this.props.article.visibility !== 'everyone';
+        const isPrivateInPublic = (this.props.isUserArticlesList || this.props.currentUserTopicId === this.props.article.topicId && this.props.currentUserTopicVisibility === 'everyone') && this.props.article.visibility !== 'everyone';
 
         return (
             <Card id={`article-${this.props.article.id}`}

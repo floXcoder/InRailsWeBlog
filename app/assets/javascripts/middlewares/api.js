@@ -195,7 +195,7 @@ const api = {
         const headers = isData ? getDataHeaders() : getHeaders();
         const parameters = isData ? params : JSON.stringify(params);
 
-        return fetch(url, {
+        return fetch(url + '.json', {
             ...headers,
             method: 'POST',
             body: parameters
@@ -213,7 +213,7 @@ const api = {
         const headers = isData ? getDataHeaders() : getHeaders();
         const parameters = isData ? params : JSON.stringify(params);
 
-        return fetch(url, {
+        return fetch(url + '.json', {
             ...headers,
             method: 'PUT',
             body: parameters
@@ -231,7 +231,7 @@ const api = {
         const headers = getHeaders();
         const parameters = JSON.stringify(params);
 
-        return fetch(url, {
+        return fetch(url + '.json', {
             ...headers,
             method: 'DELETE',
             body: parameters

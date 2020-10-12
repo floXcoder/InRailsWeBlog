@@ -37,6 +37,7 @@ class ArticleItemsDisplay extends React.Component {
         articleEditionId: PropTypes.number,
         hasCardActions: PropTypes.bool,
         isMinimized: PropTypes.bool,
+        isUserArticlesList: PropTypes.bool,
         onEnter: PropTypes.func,
         onExit: PropTypes.func,
         // from connect
@@ -80,6 +81,7 @@ class ArticleItemsDisplay extends React.Component {
                 <ArticleMiniCardDisplay article={this.props.article}
                                         currentUserTopicId={this.props.currentUserTopicId}
                                         currentUserTopicVisibility={this.props.currentUserTopicVisibility}
+                                        isUserArticlesList={this.props.isUserArticlesList}
                                         isPaper={true}
                                         isFaded={true}
                                         isTagDown={true}/>
@@ -94,6 +96,7 @@ class ArticleItemsDisplay extends React.Component {
                                     isOwner={this.props.isOwner}
                                     hasActions={this.props.hasCardActions}
                                     isMinimized={this.props.isMinimized}
+                                    isUserArticlesList={this.props.isUserArticlesList}
                                     onInlineEdit={this._handleInlineEditClick}
                                     onEnter={this.props.onEnter}
                                     onExit={this.props.onExit}
@@ -119,6 +122,7 @@ class ArticleItemsDisplay extends React.Component {
                                     currentUserTopicVisibility={this.props.currentUserTopicVisibility}
                                     isOwner={this.props.isOwner}
                                     isMinimized={this.props.isMinimized}
+                                    isUserArticlesList={this.props.isUserArticlesList}
                                     onEnter={this.props.onEnter}
                                     onExit={this.props.onExit}
                                     onClick={this.props.onClick}/>

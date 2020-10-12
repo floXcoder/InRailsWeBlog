@@ -114,16 +114,20 @@ class UserManager extends React.Component {
             });
 
             if (currentUser.currentTopic) {
-                // Fetch also current topic tags
-                this.props.fetchTags({
-                        topicSlug: currentUser.currentTopic.slug
-                    },
-                    {
-                        userId: this.props.currentUserId
-                    },
-                    {
-                        topicTags: true
-                    });
+                if(currentUser.currentTopic.slug !== this.props.routeParams.topicSlug) {
+                    this._checkState();
+                } else {
+                    // Fetch also current topic tags
+                    this.props.fetchTags({
+                            topicSlug: currentUser.currentTopic.slug
+                        },
+                        {
+                            userId: this.props.currentUserId
+                        },
+                        {
+                            topicTags: true
+                        });
+                }
             }
         }
 
