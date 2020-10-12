@@ -64,7 +64,7 @@ describe('Articles actions', () => {
         it('should create a article', () => {
             const newArticle = FactoryGenerator.create('articles');
 
-            mock('/api/v1/articles', 200, (request) => ({
+            mock('/api/v1/articles.json', 200, (request) => ({
                     article: request.article
                 })
             );
@@ -81,7 +81,7 @@ describe('Articles actions', () => {
             const newArticle = FactoryGenerator.create('articles');
             const contentError = 'too short';
 
-            mock('/api/v1/articles', 422, () => ({
+            mock('/api/v1/articles.json', 422, () => ({
                     errors: {content: [contentError]}
                 })
             );
@@ -109,7 +109,7 @@ describe('Articles actions', () => {
             const article = FactoryGenerator.create('articles');
             const updateParameters = {content: 'Updated article content'};
 
-            mock(`/api/v1/articles/${article.id}`, 200, (request) => ({
+            mock(`/api/v1/articles/${article.id}.json`, 200, (request) => ({
                     article: {...article, ...request.article}
                 })
             );
@@ -126,7 +126,7 @@ describe('Articles actions', () => {
         it('should update priority for all articles', () => {
             const articles = FactoryGenerator.create('articles', {number: 5});
 
-            mock('/api/v1/articles/priority', 200, (request) => ({
+            mock('/api/v1/articles/priority.json', 200, (request) => ({
                     articles: request.articleIds.map((id) => articles.find((article) => article.id === id))
                 })
             );
@@ -144,7 +144,7 @@ describe('Articles actions', () => {
         it('should delete a article', () => {
             const article = FactoryGenerator.create('articles');
 
-            mock(`/api/v1/articles/${article.id}`, 204);
+            mock(`/api/v1/articles/${article.id}.json`, 204);
 
             return dispatch(store, ArticleActions.deleteArticle(article.id))
                 .then((state) => {

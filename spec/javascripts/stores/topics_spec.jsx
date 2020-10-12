@@ -79,7 +79,7 @@ describe('Topics actions', () => {
         it('should create a topic', () => {
             const newTopic = FactoryGenerator.create('topics');
 
-            mock('/api/v1/topics', 200, (request) => ({
+            mock('/api/v1/topics.json', 200, (request) => ({
                     topic: request.topic
                 })
             );
@@ -96,7 +96,7 @@ describe('Topics actions', () => {
             const newTopic = FactoryGenerator.create('topics');
             const nameError = 'too short';
 
-            mock('/api/v1/topics', 422, () => ({
+            mock('/api/v1/topics.json', 422, () => ({
                     errors: {name: [nameError]}
                 })
             );
@@ -114,7 +114,7 @@ describe('Topics actions', () => {
             const topic = FactoryGenerator.create('topics');
             const updateParameters = {name: 'Updated topic name'};
 
-            mock(`/api/v1/topics/${topic.id}`, 200, (request) => ({
+            mock(`/api/v1/topics/${topic.id}.json`, 200, (request) => ({
                     topic: {...topic, ...request.topic}
                 })
             );
@@ -131,7 +131,7 @@ describe('Topics actions', () => {
         it('should delete a topic', () => {
             const topic = FactoryGenerator.create('topics');
 
-            mock(`/api/v1/topics/${topic.id}`, 204);
+            mock(`/api/v1/topics/${topic.id}.json`, 204);
 
             return dispatch(store, TopicActions.deleteTopic(1, topic.id))
                 .then((state) => {

@@ -98,7 +98,7 @@ describe('Users actions', () => {
         it('should sing up a user', () => {
             const user = FactoryGenerator.create('users');
 
-            mock('/api/v1/signup', 200, () => ({
+            mock('/api/v1/signup.json', 200, () => ({
                     user
                 })
             );
@@ -116,7 +116,7 @@ describe('Users actions', () => {
         it('should login a user', () => {
             const user = FactoryGenerator.create('users');
 
-            mock('/api/v1/login', 200, () => ({
+            mock('/api/v1/login.json', 200, () => ({
                     user
                 })
             );
@@ -139,7 +139,7 @@ describe('Users actions', () => {
                 })
             );
 
-            mock(`/api/v1/users/${user.id}/settings`, 200, () => ({
+            mock(`/api/v1/users/${user.id}/settings.json`, 200, () => ({
                     settings: {
                         articleDisplay: 'grid'
                     }
