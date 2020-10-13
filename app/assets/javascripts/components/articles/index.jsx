@@ -38,7 +38,7 @@ import {
 
 import {
     headerMargin,
-    articlePreloadShow
+    articleShowPreloadTime
 } from '../modules/constants';
 
 import Loader from '../theme/loader';
@@ -120,7 +120,7 @@ class ArticleIndex extends React.Component {
             this._fetchArticles(urlParams);
         }
 
-        setTimeout(() => ArticleShow.preload(), articlePreloadShow);
+        setTimeout(() => ArticleShow.preload(), articleShowPreloadTime);
     }
 
     componentDidUpdate(prevProps) {

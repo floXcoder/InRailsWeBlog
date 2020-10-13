@@ -10,10 +10,11 @@ import {
 const styles = (theme) => ({
     container: {
         position: 'relative',
-        margin: '1rem auto 1.5rem',
+        margin: '0 auto 1.5rem',
         overflow: 'visible',
         maxWidth: '100%',
-        backgroundColor: theme.palette.grey[100],
+        borderRadius: 12,
+        backgroundColor: theme.palette.grey[50],
         [theme.breakpoints.down('md')]: {
             margin: '.5rem auto 1rem'
         }
@@ -31,9 +32,11 @@ const styles = (theme) => ({
         margin: '1rem 0'
     },
     topicDesc: {
-        fontSize: '1.1rem'
+        fontSize: '1.1rem',
+        fontStyle: 'italic'
     },
     topicLink: {
+        marginTop: '.6rem',
         fontSize: '.9rem'
     }
 });

@@ -592,10 +592,12 @@ fr:
       recommendation:
         title: "Labels présents dans les thèmes suivants"
       show:
-        stories:
+        recommendations:
+          title: "Articles dans le même thème"
           show: "Lire la storie"
           previous: "Storie précédente"
           next: "Storie suivante"
+          link: "Voir tous les articles de ce thème"
       new:
         meta:
           title: "Nouvel article - %{topic}"

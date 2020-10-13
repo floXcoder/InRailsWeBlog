@@ -278,7 +278,7 @@ describe 'Article API', type: :request, basic: true do
       it 'limits the number of database queries' do
         expect {
           get '/api/v1/articles', params: { filter: { user_id: @user.id, topic_id: @topic.id }, limit: 20 }, as: :json
-        }.to make_database_queries(count: 8..12)
+        }.to make_database_queries(count: 12..18)
       end
     end
 
@@ -417,6 +417,29 @@ describe 'Article API', type: :request, basic: true do
         get "/api/v1/articles/#{@private_tags_article.id}/shared/nil", as: :json
 
         expect(response).to be_unauthorized
+      end
+    end
+  end
+
+  describe '/api/v1/articles/:id/recommendations' do
+    context 'when user is not connected but article is private' do
+      it 'returns an error' do
+        get "/api/v1/articles/#{@private_article.id}/recommendations", params: { user_id: @private_article.user_id }, as: :json
+
+        expect(response).to be_unauthorized
+      end
+    end
+
+    context 'when article is public' do
+      it 'returns associated articles' do
+        get "/api/v1/articles/#{@article.id}/recommendations", params: { user_id: @article.user_id }, as: :json
+
+        expect(response).to be_json_response
+
+        articles = JSON.parse(response.body)
+        expect(articles['data']).not_to be_empty
+        expect(articles['data'][0]['attributes']['topicId']).to eq(@article.topic_id)
+        expect(articles['data'][1]['attributes']['topicId']).to eq(@article.topic_id)
       end
     end
   end

@@ -592,10 +592,12 @@ en:
       recommendation:
         title: "Tags present in the following themes"
       show:
-        stories:
+        recommendations:
+          title: "Articles in the same topic"
           show: "Read the story"
           previous: "Previous story"
           next: "Next story"
+          link: "See all articles for this topic"
       new:
         meta:
           title: "New article - %{topic}"

@@ -188,7 +188,7 @@ class ArticleSummaryDisplay extends React.Component {
                                 component={Link}
                                 to={userArticlePath(this.props.article.user.slug, this.props.article.slug)}
                                 onClick={this._handleTitleClick}>
-                            {I18n.t('js.article.show.stories.show')}
+                            {I18n.t('js.article.show.recommendations.show')}
                         </Button>
                     </div>
 

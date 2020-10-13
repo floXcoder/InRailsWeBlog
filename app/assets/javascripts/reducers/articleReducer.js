@@ -75,7 +75,7 @@ const initState = {
     article: undefined,
     articleEditionId: undefined,
 
-    articleStories: undefined,
+    articleRecommendations: undefined,
 
     articleVersions: undefined,
 
@@ -101,6 +101,7 @@ export default function articleReducer(state = initState, action) {
             return fetchReducer(state, action, (state) => {
                 if (action.article) {
                     state.article = action.article;
+                    state.articleRecommendations = undefined;
                 } else {
                     if (action.infinite) {
                         state.articles.push(...action.articles);
@@ -135,8 +136,8 @@ export default function articleReducer(state = initState, action) {
             });
 
         // Topic stories
-        case ActionTypes.ARTICLE_STORIES:
-            state.articleStories = action.stories;
+        case ActionTypes.ARTICLE_RECOMMENDATIONS:
+            state.articleRecommendations = action.recommendations;
             return state;
 
         // History and restoration

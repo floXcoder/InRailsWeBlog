@@ -104,34 +104,6 @@ export const getCategorizedArticles = createSelector(
     }
 );
 
-export const getArticleSiblingStories = createSelector(
-    (state) => state.articleState.articleStories,
-    (state) => state.articleState.article,
-    (articles, article) => {
-        if (articles && articles.length > 1 && article) {
-            const currentIndex = articles.findIndex((item) => item.id === article.id);
-            if (currentIndex === -1) {
-                return null;
-            } else if (currentIndex === 0) {
-                return [
-                    articles[1]
-                ];
-            } else if (currentIndex === articles.length - 1) {
-                return [
-                    articles[currentIndex - 1]
-                ];
-            } else {
-                return [
-                    articles[currentIndex - 1],
-                    articles[currentIndex + 1]
-                ];
-            }
-        } else {
-            return null;
-        }
-    }
-);
-
 export const getArticleIsOwner = (state, article) => {
     if (article) {
         if (state.topicState.contributedTopics.find((topic) => topic.id === article.topicId)) {

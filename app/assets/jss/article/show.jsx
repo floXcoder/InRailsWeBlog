@@ -24,7 +24,7 @@ const styles = (theme) => ({
     },
     title: {
         marginTop: '1.5rem',
-        marginBottom: '1.8rem',
+        marginBottom: '.5rem',
         fontSize: h1Size,
         fontWeight: h1Weight,
         lineHeight: h1LineHeight,
@@ -58,14 +58,14 @@ const styles = (theme) => ({
         marginTop: '1.5rem'
     },
     avatar: {
-        width: 42,
-        height: 42,
+        width: 38,
+        height: 38,
     },
     avatarIcon: {
-        fontSize: 36
+        fontSize: 32
     },
     avatarUser: {
-        fontSize: '1rem',
+        fontSize: '.95rem',
         color: 'inherit'
     },
     avatarDate: {
@@ -85,11 +85,14 @@ const styles = (theme) => ({
     articleInfo: {
         color: theme.palette.grey[600],
         fontSize: '.9rem',
-        marginTop: 10,
+        marginTop: 0,
         marginBottom: 0,
         [theme.breakpoints.down('md')]: {
             display: 'none'
         }
+    },
+    articleContent: {
+      marginTop: '2rem'
     },
     floatingButtons: {
         position: 'absolute',
@@ -118,19 +121,26 @@ const styles = (theme) => ({
             margin: theme.spacing(1.5, 2.5)
         }
     },
-    storiesContainer: {
+
+    recommendationsContainer: {
         maxWidth: storiesWidth,
         margin: '0 auto 2rem'
     },
-    storiesTitle: {
+    recommendationsTitle: {
+        marginTop: '2.4rem',
+        marginBottom: '.2rem',
         textAlign: 'center',
         fontSize: '1.4rem'
     },
-    storiesArticle: {
+    recommendationsArticle: {
         width: '420px',
         [theme.breakpoints.down('sm')]: {
             maxWidth: '320px'
         }
+    },
+    recommendationsLink: {
+        marginTop: '1.6rem',
+        textAlign: 'center',
     }
 });
 

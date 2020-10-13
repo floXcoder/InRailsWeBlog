@@ -48,6 +48,11 @@ Ruby enVironment Manager 1.29.8 (latest) (c) 2009-2017 Michal Papis, Piotr Kuczy
                         edit_user_es GET      /es/usuarios/:user_slug/edicion(.:format)                                                     pages#home {:name=>"edit_user", :locale=>"es"}
                         edit_user_it GET      /it/utenti/:user_slug/edizione(.:format)                                                      pages#home {:name=>"edit_user", :locale=>"it"}
                         edit_user_en GET      /users/:user_slug/edit(.:format)                                                              pages#home {:name=>"edit_user", :locale=>"en"}
+                             tags_fr GET      /fr/labels(.:format)                                                                          tags#index {:name=>"tags", :public=>true, :locale=>"fr"}
+                             tags_de GET      /de/etiketten(.:format)                                                                       tags#index {:name=>"tags", :public=>true, :locale=>"de"}
+                             tags_es GET      /es/etiquetas(.:format)                                                                       tags#index {:name=>"tags", :public=>true, :locale=>"es"}
+                             tags_it GET      /it/etichette(.:format)                                                                       tags#index {:name=>"tags", :public=>true, :locale=>"it"}
+                             tags_en GET      /tags(.:format)                                                                               tags#index {:name=>"tags", :public=>true, :locale=>"en"}
                          show_tag_fr GET      /fr/labels/:tag_slug(.:format)                                                                tags#show {:name=>"show_tag", :public=>true, :locale=>"fr"}
                          show_tag_de GET      /de/etiketten/:tag_slug(.:format)                                                             tags#show {:name=>"show_tag", :public=>true, :locale=>"de"}
                          show_tag_es GET      /es/etiquetas/:tag_slug(.:format)                                                             tags#show {:name=>"show_tag", :public=>true, :locale=>"es"}
@@ -58,11 +63,6 @@ Ruby enVironment Manager 1.29.8 (latest) (c) 2009-2017 Michal Papis, Piotr Kuczy
                          edit_tag_es GET      /es/etiquetas/:tag_slug/edicion(.:format)                                                     tags#edit {:name=>"edit_tag", :locale=>"es"}
                          edit_tag_it GET      /it/etichette/:tag_slug/edizione(.:format)                                                    tags#edit {:name=>"edit_tag", :locale=>"it"}
                          edit_tag_en GET      /tags/:tag_slug/edit(.:format)                                                                tags#edit {:name=>"edit_tag", :locale=>"en"}
-                             tags_fr GET      /fr/labels(.:format)                                                                          pages#home {:name=>"tags", :public=>true, :locale=>"fr"}
-                             tags_de GET      /de/etiketten(.:format)                                                                       pages#home {:name=>"tags", :public=>true, :locale=>"de"}
-                             tags_es GET      /es/etiquetas(.:format)                                                                       pages#home {:name=>"tags", :public=>true, :locale=>"es"}
-                             tags_it GET      /it/etichette(.:format)                                                                       pages#home {:name=>"tags", :public=>true, :locale=>"it"}
-                             tags_en GET      /tags(.:format)                                                                               pages#home {:name=>"tags", :public=>true, :locale=>"en"}
                        topic_tags_fr GET      /fr/utilisateurs/:user_slug/themes/:topic_slug/labels(.:format)                               pages#home {:name=>"topic_tags", :public=>true, :locale=>"fr"}
                        topic_tags_de GET      /de/benutzer/:user_slug/themen/:topic_slug/etiketten(.:format)                                pages#home {:name=>"topic_tags", :public=>true, :locale=>"de"}
                        topic_tags_es GET      /es/usuarios/:user_slug/temas/:topic_slug/etiquetas(.:format)                                 pages#home {:name=>"topic_tags", :public=>true, :locale=>"es"}
@@ -189,6 +189,7 @@ Ruby enVironment Manager 1.29.8 (latest) (c) 2009-2017 Michal Papis, Piotr Kuczy
                         not_found_it GET      /it/404(.:format)                                                                             pages#not_found {:public=>true, :locale=>"it"}
                         not_found_en GET      /404(.:format)                                                                                pages#not_found {:public=>true, :locale=>"en"}
                             meta_tag GET      /meta-tags(.:format)                                                                          pages#meta_tag
+                api_v1_users_sign_in GET      /api/v1/users/sign_in(.:format)                                                               redirect(301, /)
                               signup GET      /api/v1/signup(.:format)                                                                      api/v1/users/registrations#new
                                      POST     /api/v1/signup(.:format)                                                                      api/v1/users/registrations#create
                                login GET      /api/v1/login(.:format)                                                                       api/v1/users/sessions#new
@@ -261,7 +262,7 @@ Ruby enVironment Manager 1.29.8 (latest) (c) 2009-2017 Michal Papis, Piotr Kuczy
                    priority_articles PUT      /api/v1/articles/priority(.:format)                                                           api/v1/articles#update_priority
                                      GET      /api/v1/articles/:id/shared/:public_link(.:format)                                            api/v1/articles#shared
                  check_links_article POST     /api/v1/articles/:id/check-links(.:format)                                                    api/v1/articles#check_links
-                     stories_article GET      /api/v1/articles/:id/stories(.:format)                                                        api/v1/articles#stories
+             recommendations_article GET      /api/v1/articles/:id/recommendations(.:format)                                                api/v1/articles#recommendations
                      history_article GET      /api/v1/articles/:id/history(.:format)                                                        api/v1/articles#history
                      restore_article GET      /api/v1/articles/:id/restore(.:format)                                                        api/v1/articles#restore
                      clicked_article POST     /api/v1/articles/:id/clicked(.:format)                                                        api/v1/articles#clicked

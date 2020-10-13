@@ -40,7 +40,7 @@ class ArticleSerializer
 
   set_type :article
 
-  cache_options store: Rails.cache, namespace: "_#{ENV['WEBSITE_NAME']}_#{Rails.env}:serializer", expires_in: InRailsWeBlog.config.cache_time
+  cache_options store: SerializerHelper::CacheSerializer, namespace: "_#{ENV['WEBSITE_NAME']}_#{Rails.env}:serializer", expires_in: InRailsWeBlog.config.cache_time
 
   set_key_transform :camel_lower
 
@@ -57,6 +57,8 @@ class ArticleSerializer
              :default_picture,
              :slug,
              :user_slug,
+             :topic_slug,
+             :topic_name,
              :tag_names,
              :pictures_count,
              :bookmarks_count,

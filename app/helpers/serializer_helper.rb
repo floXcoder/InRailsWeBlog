@@ -2,10 +2,10 @@
 
 module SerializerHelper
   def record_cache_options(options, fieldset, _includes_list, params)
-    # return options unless fieldset
+    return options unless fieldset || params
 
     options             = options ? options.dup : {}
-    options[:namespace] = "_#{ENV['WEBSITE_NAME']}_#{Rails.env}:serializer"
+    options[:namespace] ||= "_#{ENV['WEBSITE_NAME']}_#{Rails.env}:serializer"
 
     fieldset_key = fieldset.present? ? fieldset.join('_') : nil
     params_key = params.present? ? params.map { |k, v| "#{k}-#{v}" }.join('_') : nil
@@ -18,5 +18,16 @@ module SerializerHelper
 
     options[:namespace] = "#{options[:namespace]}-options:#{cache_key}"
     options
+  end
+
+  class CacheSerializer
+    def self.fetch(record, **options, &block)
+      if record.is_a?(Hash) && record['_index'].present?
+        # Change record key if record is from Searchkick
+        record = "#{record['_index']}/#{record['id']}"
+      end
+
+      Rails.cache.fetch(record, **options, &block)
+    end
   end
 end

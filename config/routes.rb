@@ -181,7 +181,7 @@ Rails.application.routes.draw do
 
           post     'check-links',         to: 'articles#check_links'
 
-          get      :stories,              to: 'articles#stories'
+          get      :recommendations,      to: 'articles#recommendations'
 
           get      :history,              to: 'articles#history'
           get      :restore,              to: 'articles#restore'

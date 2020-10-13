@@ -22,7 +22,7 @@ module Articles
       return @relation.none if (user_filter.present? && !@user_articles) || (topic_filter.present? && !@topic_articles)
 
       @relation = @relation
-                    .include_collection(@topic_articles&.inventories? || @topic_articles&.stories?)
+                    .include_collection
                     .with_adapted_visibility(@current_user, @current_admin)
                     .order_by(article_order(params)).order_by('created_desc')
                     .filter_by(params, @current_user, @user_articles, @topic_articles)
@@ -41,17 +41,41 @@ module Articles
       return @relation
     end
 
-    def stories(params = {})
-      topic_filter    = { id: params[:topic_id], slug: params[:topic_slug] }.compact
-      @topic_articles = Topic.find_by(topic_filter) if topic_filter.present?
-
-      return @relation.none unless @topic_articles
-
+    def recommendations(params = {})
       @relation = @relation
                     .include_collection
                     .with_adapted_visibility(@current_user, @current_admin)
-                    .order_by(article_order(params)).order_by('created_desc')
-                    .filter_by(params, @current_user, @user_articles, @topic_articles)
+
+      if params[:article]
+        article = params[:article]
+        if article.topic&.stories?
+          @relation             = @relation
+                                    .filter_by(params, @current_user, @user_articles, article.topic)
+                                    .order_by('created_desc')
+                                    .to_a
+
+          current_article_index = @relation.index { |a| a.id == article.id }
+          if current_article_index == -1
+            @relation = []
+          elsif current_article_index == 0
+            @relation = [@relation[1]]
+          elsif current_article_index == @relation.length - 1
+            @relation = [@relation[current_article_index - 1]]
+          else
+            @relation = [
+              @relation[current_article_index - 1],
+              @relation[current_article_index + 1]
+            ]
+          end
+        else
+          @relation = @relation
+                        .filter_by(params, @current_user, @user_articles, article.topic)
+                        .order_by('priority_desc')
+                        .paginate_or_limit({ limit: 2 }, @current_user)
+        end
+      else
+        @relation = @relation.none
+      end
 
       return @relation
     end
@@ -85,8 +109,8 @@ module Articles
     end
 
     module Scopes
-      def include_collection(with_topic = false)
-        with_topic ? includes(:topic, :tags, :tagged_articles, :pictures, user: [:picture]) : includes(:tags, :tagged_articles, :pictures, user: [:picture])
+      def include_collection
+        includes(:topic, :tags, :tagged_articles, :pictures, user: [:picture])
       end
 
       def with_adapted_visibility(current_user = nil, current_admin = nil)
