@@ -330,11 +330,11 @@ class Article < ApplicationRecord
     else
       ArticleSerializer.new(data,
                             fields:  {
-                              article: %i[id user userSlug tags topicId topicSlug topicName mode summary draft visibility defaultPicture slug outdatedArticlesCount commentsCount modeTranslated title contentSummary inventories date dateShort dateIso parentTagIds childTagIds],
+                              article: %i[id user userSlug tags topicId mode summary draft visibility defaultPicture slug outdatedArticlesCount commentsCount modeTranslated title contentSummary inventories date dateShort dateIso parentTagIds childTagIds],
                               user:    %i[id pseudo slug avatarUrl],
                               tag:     %i[id userId name synonyms visibility taggedArticlesCount slug description]
                             },
-                            include: %i[user topic tags],
+                            include: %i[user tags],
                             **options)
     end
   end
