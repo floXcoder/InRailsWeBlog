@@ -26,7 +26,7 @@ export const tooltipZIndex = 1600;
 // const dropdownIndex = 1700;
 
 // Titles font
-export const h1Size = '3rem';
+export const h1Size = '3.2rem';
 export const h1SizeMobile = '2.4rem';
 export const h1Weight = 700;
 export const h1LineHeight = '3.3rem';

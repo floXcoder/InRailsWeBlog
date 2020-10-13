@@ -88,17 +88,17 @@ export const deleteArticle = (articleId, options = {}) => ({
 });
 
 // Article stories
-const receiveArticleStories = ({stories}) => ({
-    type: ActionTypes.ARTICLE_STORIES,
-    stories
+const receiveRecommendations = ({recommendations}) => ({
+    type: ActionTypes.ARTICLE_RECOMMENDATIONS,
+    recommendations
 });
-export const fetchArticleStories = (userId, articleId) => (dispatch) => (
-    api.get(`/api/v1/articles/${articleId}/stories`, {
+export const fetchRecommendations = (userId, articleId) => (dispatch) => (
+    api.get(`/api/v1/articles/${articleId}/recommendations`, {
         locale: window.locale,
         userId
     })
         .promise
-        .then((response) => dispatch(receiveArticleStories(convertJsonApi(response))))
+        .then((response) => dispatch(receiveRecommendations(convertJsonApi(response))))
 );
 
 // Article history

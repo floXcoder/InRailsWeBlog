@@ -13,9 +13,9 @@ export const sortItemLimit = 1000;
 export const articleWaitTimeBeforeSaving = 15000;
 export const articleTemporaryDataName = 'article-temporary';
 export const articleUnsavedDataName = 'article-unsaved';
-export const articlePreloadIndex = 3000;
-export const articlePreloadShow = 3000;
-export const articlePreloadEdit = 5000;
+export const articleIndexPreloadTime = 3000;
+export const articleShowPreloadTime = 3000;
+export const articleEditPreloadTime = 5000;
 
 // Tags
 export const tagSidebarLimit = 1000;

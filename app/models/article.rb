@@ -321,20 +321,20 @@ class Article < ApplicationRecord
     when 'normal'
       ArticleSerializer.new(data,
                             fields:  {
-                              article: %i[id user tags topicId mode modeTranslated title summary contentSummary content inventories reference visibility visibilityTranslated allowComment draft languages defaultPicture slug bookmarksCount commentsCount date dateShort link parentTagIds childTagIds],
+                              article: %i[id user userSlug tags topicId topicSlug topicName mode modeTranslated title summary contentSummary content inventories reference visibility visibilityTranslated allowComment draft languages defaultPicture slug bookmarksCount commentsCount date dateShort link parentTagIds childTagIds],
                               user:    %i[id pseudo slug avatarUrl],
                               tag:     %i[id userId name synonyms visibility taggedArticlesCount slug description]
                             },
-                            include: %i[user tags],
+                            include: %i[user topic tags],
                             **options)
     else
       ArticleSerializer.new(data,
                             fields:  {
-                              article: %i[id user tags topicId mode summary draft visibility defaultPicture slug outdatedArticlesCount commentsCount modeTranslated title contentSummary inventories date dateShort dateIso parentTagIds childTagIds],
+                              article: %i[id user userSlug tags topicId topicSlug topicName mode summary draft visibility defaultPicture slug outdatedArticlesCount commentsCount modeTranslated title contentSummary inventories date dateShort dateIso parentTagIds childTagIds],
                               user:    %i[id pseudo slug avatarUrl],
                               tag:     %i[id userId name synonyms visibility taggedArticlesCount slug description]
                             },
-                            include: %i[user tags],
+                            include: %i[user topic tags],
                             **options)
     end
   end
@@ -345,7 +345,15 @@ class Article < ApplicationRecord
   end
 
   def user_slug
-    user.slug
+    self.user.slug
+  end
+
+  def topic_slug
+    self.topic.slug
+  end
+
+  def topic_name
+    self.topic.name
   end
 
   def link_path(options = {})

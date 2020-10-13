@@ -26,6 +26,7 @@ describe ArticlePolicy, basic: true do
       let(:user) { nil }
 
       it { should grant(:show) }
+      it { should grant(:recommendations) }
 
       it { should_not grant(:shared) }
       it { should_not grant(:history) }
@@ -49,6 +50,7 @@ describe ArticlePolicy, basic: true do
       let(:user) { @other_user }
 
       it { should grant(:show) }
+      it { should grant(:recommendations) }
       it { should grant(:create) }
       it { should grant(:vote_up) }
       it { should grant(:vote_down) }
@@ -72,6 +74,7 @@ describe ArticlePolicy, basic: true do
       let(:user) { @contributed_user }
 
       it { should grant(:show) }
+      it { should grant(:recommendations) }
       it { should grant(:history) }
       it { should grant(:create) }
       it { should grant(:edit) }
@@ -95,6 +98,7 @@ describe ArticlePolicy, basic: true do
       let(:user) { @user }
 
       it { should grant(:show) }
+      it { should grant(:recommendations) }
       it { should grant(:shared) }
       it { should grant(:history) }
       it { should grant(:create) }
@@ -122,6 +126,7 @@ describe ArticlePolicy, basic: true do
       let(:user) { nil }
 
       it { should_not grant(:show) }
+      it { should_not grant(:recommendations) }
       it { should_not grant(:shared) }
       it { should_not grant(:history) }
       it { should_not grant(:create) }
@@ -154,6 +159,7 @@ describe ArticlePolicy, basic: true do
       it { should grant(:shared) }
 
       it { should_not grant(:show) }
+      it { should_not grant(:recommendations) }
       it { should_not grant(:history) }
       it { should_not grant(:create) }
       it { should_not grant(:edit) }
@@ -177,6 +183,7 @@ describe ArticlePolicy, basic: true do
       it { should grant(:create) }
 
       it { should_not grant(:show) }
+      it { should_not grant(:recommendations) }
       it { should_not grant(:shared) }
       it { should_not grant(:vote_up) }
       it { should_not grant(:vote_down) }
@@ -198,6 +205,7 @@ describe ArticlePolicy, basic: true do
       let(:user) { @contributed_user }
 
       it { should grant(:show) }
+      it { should grant(:recommendations) }
       it { should grant(:history) }
       it { should grant(:create) }
       it { should grant(:edit) }
@@ -221,6 +229,7 @@ describe ArticlePolicy, basic: true do
       let(:user) { @user }
 
       it { should grant(:show) }
+      it { should grant(:recommendations) }
       it { should grant(:shared) }
       it { should grant(:history) }
       it { should grant(:create) }

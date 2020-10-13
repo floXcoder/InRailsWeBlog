@@ -592,10 +592,12 @@ es:
       recommendation:
         title: "Etiquetas presentes en los siguientes temas"
       show:
-        stories:
+        recommendations:
+          title: "Artículos relacionados"
           next: "Siguiente categoría"
           previous: "Historia anterior"
           show: "Lea la historia"
+          link: "Ver todos los artículos de este tema"
       new:
         exit: "¿Estás seguro de que te vas sin ahorrar?"
         meta:

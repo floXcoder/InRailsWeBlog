@@ -614,10 +614,12 @@ de:
       recommendation:
         title: "Etiketten in den folgenden Themen"
       show:
-        stories:
+        recommendations:
+          title: "Verwandte Artikel"
           next: "Nächste Kategorie"
           previous: "Vorherige Geschichte"
           show: "Lesen Sie die Geschichte"
+          link: "Alle Artikel in diesem Thema anzeigen"
       sort:
         link: "Änderung der Priorität"
         link_title: "Reihenfolge ändern"

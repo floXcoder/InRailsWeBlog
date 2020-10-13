@@ -20,13 +20,13 @@
 
 module Api::V1
   class ArticlesController < ApiController
-    skip_before_action :authenticate_user!, only: [:index, :show, :shared, :stories]
+    skip_before_action :authenticate_user!, only: [:index, :show, :shared, :recommendations]
 
     before_action :honeypot_protection, only: [:create, :update]
 
     before_action :set_context_user, except: [:index, :shared]
 
-    after_action :verify_authorized, except: [:index, :stories]
+    after_action :verify_authorized, except: [:index]
 
     include TrackerConcern
     include CommentConcern
@@ -168,16 +168,19 @@ module Api::V1
       end
     end
 
-    def stories
+    def recommendations
       article = @context_user.articles.include_element.find(params[:id])
+      admin_or_authorize article
 
-      articles = ::Articles::FindQueries.new(@context_user, current_admin).stories(topic_id: article.topic_id)
+      articles = ::Articles::FindQueries.new(@context_user, current_admin).recommendations(article: article)
 
       expires_in InRailsWeBlog.config.cache_time, public: true
       if stale?(articles, template: false, public: true)
         respond_to do |format|
           format.json do
-            render json: Article.serialized_json(articles, 'complete', params: { current_user_id: current_user&.id }, meta: { root: 'stories' })
+            render json: Article.serialized_json(articles, 'normal',
+                                                 params: { current_user_id: current_user&.id },
+                                                 meta: { root: 'recommendations' })
           end
         end
       end

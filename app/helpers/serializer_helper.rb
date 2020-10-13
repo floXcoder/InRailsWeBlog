@@ -2,10 +2,10 @@
 
 module SerializerHelper
   def record_cache_options(options, fieldset, _includes_list, params)
-    # return options unless fieldset
+    return options unless fieldset || params
 
     options             = options ? options.dup : {}
-    options[:namespace] = "_#{ENV['WEBSITE_NAME']}_#{Rails.env}:serializer"
+    options[:namespace] ||= "_#{ENV['WEBSITE_NAME']}_#{Rails.env}:serializer"
 
     fieldset_key = fieldset.present? ? fieldset.join('_') : nil
     params_key = params.present? ? params.map { |k, v| "#{k}-#{v}" }.join('_') : nil
@@ -17,7 +17,6 @@ module SerializerHelper
     cache_key = Digest::SHA1.hexdigest(cache_key)
 
     options[:namespace] = "#{options[:namespace]}-options:#{cache_key}"
-
     options
   end
 

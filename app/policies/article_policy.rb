@@ -40,6 +40,10 @@ class ArticlePolicy
     owner?
   end
 
+  def recommendations?
+    correct_user?
+  end
+
   def restore?
     owner? || contributor?
   end

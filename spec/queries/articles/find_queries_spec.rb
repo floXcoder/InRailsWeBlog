@@ -21,7 +21,7 @@ describe Articles::FindQueries, type: :query, basic: true do
     @share                        = create(:share, user: @user, shareable: @public_topic, contributor: @contributor_user)
 
     @other_user             = create(:user)
-    @other_topic            = create(:topic, user: @other_user, visibility: :everyone)
+    @other_topic            = create(:topic, user: @other_user, visibility: :everyone, mode: :stories)
     @other_public_articles  = create_list(:article, 3, user: @other_user, topic: @other_topic, visibility: :everyone)
     @other_private_articles = create_list(:article, 3, user: @other_user, topic: @other_topic, visibility: :only_me)
   end
@@ -321,26 +321,28 @@ describe Articles::FindQueries, type: :query, basic: true do
     end
   end
 
-  describe '#stories' do
+  describe '#recommendations' do
     context 'without params' do
       it 'returns no articles' do
-        articles = ::Articles::FindQueries.new.stories
+        articles = ::Articles::FindQueries.new.recommendations
 
         expect(articles).to match_array([])
       end
     end
 
-    context 'when filtering by topic only' do
-      it 'returns all articles for public topic (with id)' do
-        articles = ::Articles::FindQueries.new.stories(topic_id: @public_topic.id)
+    context 'when article topic is a story' do
+      it 'returns the previous and the new articles of the story' do
+        articles = ::Articles::FindQueries.new.recommendations(article: @other_public_articles.second)
 
-        expect(articles).to match_array(@public_articles)
+        expect(articles).to match_array([@other_public_articles.first, @other_public_articles.last])
       end
+    end
 
-      it 'returns no articles for public topic (with slug)' do
-        articles = ::Articles::FindQueries.new.stories(topic_slug: @public_topic.slug)
+    context 'when article topic is not a story' do
+      it 'returns 2 articles ordered by priority' do
+        articles = ::Articles::FindQueries.new.recommendations(article: @public_articles.first)
 
-        expect(articles).to match_array(@public_articles)
+        expect(articles).to match_array(@public_articles.sort_by { |a| -a.priority }[0..1])
       end
     end
   end

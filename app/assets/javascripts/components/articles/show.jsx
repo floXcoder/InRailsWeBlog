@@ -5,6 +5,7 @@ import {
 } from 'react-hot-loader/root';
 
 import {
+    Link,
     withRouter
 } from 'react-router-dom';
 
@@ -18,6 +19,8 @@ import {
 } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
+import Divider from '@material-ui/core/Divider';
 
 import {
     ArticleIndex,
@@ -30,7 +33,7 @@ import {
 
 import {
     fetchArticle,
-    fetchArticleStories,
+    fetchRecommendations,
     markArticleOutdated,
     unmarkArticleOutdated,
     checkLinksArticle,
@@ -39,15 +42,14 @@ import {
 } from '../../actions';
 
 import {
-    getArticleSiblingStories,
     getCurrentUser,
     getIsCurrentTopicOwner,
     getArticleIsOwner
 } from '../../selectors';
 
 import {
-    articlePreloadIndex,
-    articlePreloadEdit
+    articleIndexPreloadTime,
+    articleEditPreloadTime
 } from '../modules/constants';
 
 import CommentBox from '../loaders/commentBox';
@@ -85,10 +87,10 @@ export default @withRouter
     article: state.articleState.article,
     isOwner: getArticleIsOwner(state, state.articleState.article),
     isUserConnected: state.userState.isConnected,
-    articleSiblingStories: getArticleSiblingStories(state)
+    articleRecommendations: state.articleState.articleRecommendations
 }), {
     fetchArticle,
-    fetchArticleStories,
+    fetchRecommendations,
     markArticleOutdated,
     unmarkArticleOutdated,
     checkLinksArticle,
@@ -115,9 +117,9 @@ class ArticleShow extends React.Component {
         article: PropTypes.object,
         isOwner: PropTypes.bool,
         isUserConnected: PropTypes.bool,
-        articleSiblingStories: PropTypes.array,
+        articleRecommendations: PropTypes.array,
         fetchArticle: PropTypes.func,
-        fetchArticleStories: PropTypes.func,
+        fetchRecommendations: PropTypes.func,
         markArticleOutdated: PropTypes.func,
         unmarkArticleOutdated: PropTypes.func,
         checkLinksArticle: PropTypes.func,
@@ -140,11 +142,11 @@ class ArticleShow extends React.Component {
             localArticle: this.props.initProps?.article
         })
 
-        // this._fetchStories();
+        setTimeout(() => this._fetchRecommendations(), 500);
 
-        setTimeout(() => ArticleIndex.preload(), articlePreloadIndex);
+        setTimeout(() => ArticleIndex.preload(), articleIndexPreloadTime);
         if (this.props.currentUserSlug && this.props.currentUserSlug === this.props.routeParams.userSlug) {
-            setTimeout(() => ArticleEdit.preload(), articlePreloadEdit);
+            setTimeout(() => ArticleEdit.preload(), articleEditPreloadTime);
         }
     }
 
@@ -160,7 +162,7 @@ class ArticleShow extends React.Component {
             this._request = this.props.fetchArticle(this.props.routeParams.userSlug, this.props.routeParams.articleSlug);
         }
 
-        // this._fetchStories();
+        setTimeout(() => this._fetchRecommendations(), 500);
     }
 
     componentWillUnmount() {
@@ -169,11 +171,11 @@ class ArticleShow extends React.Component {
         }
     }
 
-    // _fetchStories = () => {
-    //     if (this.props.article?.mode === 'story' && !this.props.storyTopic) {
-    //         this.props.fetchArticleStories(this.props.routeParams.userSlug, this.props.article.id);
-    //     }
-    // };
+    _fetchRecommendations = () => {
+        if (!this.props.articleRecommendations) {
+            this.props.fetchRecommendations(this.props.routeParams.userSlug, this.props.article.id);
+        }
+    };
 
     _handleOutdatedClick = (event) => {
         event.preventDefault();
@@ -308,6 +310,12 @@ class ArticleShow extends React.Component {
                                         </Grid>
                                     }
 
+                                    <Typography className={this.props.classes.title}
+                                                variant="h1"
+                                                itemProp="name headline">
+                                        {this.props.article.title}
+                                    </Typography>
+
                                     <Grid item={true}
                                           xs={12}>
                                         <Grid container={true}
@@ -327,13 +335,24 @@ class ArticleShow extends React.Component {
                                             <Grid className="hide-on-small"
                                                   item={true}>
                                                 {
-                                                    this.props.isOwner &&
-                                                    <div className={this.props.classes.editIcon}>
-                                                        <ArticleEditIcon userSlug={this.props.article.user.slug}
-                                                                         articleSlug={this.props.article.slug}
-                                                                         size="large"
-                                                                         color="action"/>
-                                                    </div>
+                                                    this.props.isOwner
+                                                        ?
+                                                        <div className={this.props.classes.editIcon}>
+                                                            <ArticleEditIcon userSlug={this.props.article.user.slug}
+                                                                             articleSlug={this.props.article.slug}
+                                                                             size="large"
+                                                                             color="action"/>
+                                                        </div>
+                                                        :
+                                                        <div className={this.props.classes.editIcon}>
+                                                            <Button color="default"
+                                                                    variant="outlined"
+                                                                    size="small"
+                                                                    component={Link}
+                                                                    to={topicArticlesPath(this.props.article.userSlug, this.props.article.topicSlug)}>
+                                                                {this.props.article.topicName}
+                                                            </Button>
+                                                        </div>
                                                 }
 
                                                 {
@@ -348,13 +367,8 @@ class ArticleShow extends React.Component {
                                     </Grid>
                                 </Grid>
 
-                                <Typography className={this.props.classes.title}
-                                            variant="h1"
-                                            itemProp="name headline">
-                                    {this.props.article.title}
-                                </Typography>
-
-                                <div itemProp="articleBody">
+                                <div className={this.props.classes.articleContent}
+                                     itemProp="articleBody">
                                     {
                                         this.props.article.mode === 'inventory'
                                             ?
@@ -412,29 +426,41 @@ class ArticleShow extends React.Component {
                 </StickyContainer>
 
                 {
-                    !this.props.isFetching &&
-                    <div className={this.props.classes.storiesContainer}>
+                    !!this.props.article && !this.props.isFetching &&
+                    <div className={this.props.classes.recommendationsContainer}>
+                        <Divider/>
+
                         {
-                            (this.props.articleSiblingStories?.length > 0) &&
+                            !isStory &&
+                            <h3 className={this.props.classes.recommendationsTitle}>
+                                {I18n.t('js.article.show.recommendations.title')}
+                            </h3>
+                        }
+
+                        {
+                            this.props.articleRecommendations?.length > 0 &&
                             <Grid container={true}
                                   direction="row"
                                   justify="space-evenly"
                                   alignItems="flex-start">
                                 {
-                                    this.props.articleSiblingStories.map((article, i) => (
+                                    this.props.articleRecommendations.map((article, i) => (
                                         <Grid key={article.id}
                                               item={true}>
-                                            <h3 className={this.props.classes.storiesTitle}>
-                                                {
-                                                    i % 2 === 0
-                                                        ?
-                                                        I18n.t('js.article.show.stories.previous')
-                                                        :
-                                                        I18n.t('js.article.show.stories.next')
-                                                }
-                                            </h3>
+                                            {
+                                                isStory &&
+                                                <h3 className={this.props.classes.recommendationsTitle}>
+                                                    {
+                                                        i % 2 === 0
+                                                            ?
+                                                            I18n.t('js.article.show.recommendations.previous')
+                                                            :
+                                                            I18n.t('js.article.show.recommendations.next')
+                                                    }
+                                                </h3>
+                                            }
 
-                                            <div className={this.props.classes.storiesArticle}>
+                                            <div className={this.props.classes.recommendationsArticle}>
                                                 <ArticleMiniCardDisplay article={article}
                                                                         isPaper={true}
                                                                         hasTags={false}/>
@@ -443,6 +469,19 @@ class ArticleShow extends React.Component {
                                     ))
                                 }
                             </Grid>
+                        }
+
+                        {
+                            !isStory &&
+                            <div className={this.props.classes.recommendationsLink}>
+                                <Button color="primary"
+                                        variant="outlined"
+                                        size="small"
+                                        component={Link}
+                                        to={topicArticlesPath(this.props.article.userSlug, this.props.article.topicSlug)}>
+                                    {I18n.t('js.article.show.recommendations.link')}
+                                </Button>
+                            </div>
                         }
 
                         {
