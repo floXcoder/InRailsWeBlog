@@ -27,6 +27,8 @@ export default class UserIndex extends React.Component {
 
         this._users = React.createRef();
 
+        this._scrollTimeout = null;
+
         // UserActions.loadUsers({page: 1});
 
         // if (typeof(userData.users) !== 'undefined') {
@@ -44,6 +46,12 @@ export default class UserIndex extends React.Component {
         usersPagination: undefined,
         filteredUsers: undefined
     };
+
+    componentWillUnmount() {
+        if (this._scrollTimeout) {
+            clearTimeout(this._scrollTimeout);
+        }
+    }
 
     _handleUserInput = (filterText) => {
         // let filteredUsers = Filtering.filterArrayOfObject(this.state.users, 'pseudo', filterText);
@@ -69,8 +77,8 @@ export default class UserIndex extends React.Component {
     _handlePaginationClick = (paginate) => {
         // UserActions.loadUsers({page: paginate.selected + 1});
 
-        setTimeout(() => {
-            window.scroll({ top: this._users.current.getBoundingClientRect().top - headerMargin, behavior: 'smooth' });
+        this._scrollTimeout = setTimeout(() => {
+            window.scroll({top: this._users.current.getBoundingClientRect().top - headerMargin, behavior: 'smooth'});
         }, 300);
     };
 

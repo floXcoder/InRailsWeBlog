@@ -87,6 +87,8 @@ export default function articleMutationManager(mode) {
 
                 this._hasAutoSaved = false;
 
+                this._scrollTimeout = null;
+
                 // Check fo unsaved article before connection
                 const unsavedArticle = getLocalData(articleUnsavedDataName, true);
 
@@ -146,7 +148,7 @@ export default function articleMutationManager(mode) {
 
             componentDidMount() {
                 if (this.props.routeState?.position) {
-                    setTimeout(() => {
+                    this._scrollTimeout = setTimeout(() => {
                         window.scrollTo(this.props.routeState.position.left || 0, (this.props.routeState.position.top || 0) + 100);
                     }, 600);
                 }
@@ -164,6 +166,10 @@ export default function articleMutationManager(mode) {
 
             componentWillUnmount() {
                 window.onbeforeunload = null;
+
+                if (this._scrollTimeout) {
+                    clearTimeout(this._scrollTimeout);
+                }
 
                 this._handleChange.cancel();
             }
