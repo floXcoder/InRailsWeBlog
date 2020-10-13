@@ -135,6 +135,8 @@ class ArticleShow extends React.Component {
         super(props);
 
         this._request = null;
+
+        this._recommendationTimeout = null;
     }
 
     componentDidMount() {
@@ -142,7 +144,7 @@ class ArticleShow extends React.Component {
             localArticle: this.props.initProps?.article
         })
 
-        setTimeout(() => this._fetchRecommendations(), 500);
+        this._recommendationTimeout = setTimeout(() => this._fetchRecommendations(), 500);
 
         setTimeout(() => ArticleIndex.preload(), articleIndexPreloadTime);
         if (this.props.currentUserSlug && this.props.currentUserSlug === this.props.routeParams.userSlug) {
@@ -162,17 +164,21 @@ class ArticleShow extends React.Component {
             this._request = this.props.fetchArticle(this.props.routeParams.userSlug, this.props.routeParams.articleSlug);
         }
 
-        setTimeout(() => this._fetchRecommendations(), 500);
+        this._recommendationTimeout = setTimeout(() => this._fetchRecommendations(), 500);
     }
 
     componentWillUnmount() {
+        if (this._recommendationTimeout) {
+            clearTimeout(this._recommendationTimeout);
+        }
+
         if (this._request?.signal) {
             this._request.signal.abort();
         }
     }
 
     _fetchRecommendations = () => {
-        if (!this.props.articleRecommendations) {
+        if (!this.props.articleRecommendations && this.props.article) {
             this.props.fetchRecommendations(this.props.routeParams.userSlug, this.props.article.id);
         }
     };
