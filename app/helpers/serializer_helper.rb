@@ -17,6 +17,18 @@ module SerializerHelper
     cache_key = Digest::SHA1.hexdigest(cache_key)
 
     options[:namespace] = "#{options[:namespace]}-options:#{cache_key}"
+
     options
+  end
+
+  class CacheSerializer
+    def self.fetch(record, **options, &block)
+      if record.is_a?(Hash) && record['_index'].present?
+        # Change record key if record is from Searchkick
+        record = "#{record['_index']}/#{record['id']}"
+      end
+
+      Rails.cache.fetch(record, **options, &block)
+    end
   end
 end
