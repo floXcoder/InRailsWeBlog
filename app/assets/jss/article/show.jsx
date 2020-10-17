@@ -25,6 +25,8 @@ const styles = (theme) => ({
     title: {
         marginTop: '1.5rem',
         marginBottom: '.5rem',
+        width: '100%',
+        textAlign: 'center',
         fontSize: h1Size,
         fontWeight: h1Weight,
         lineHeight: h1LineHeight,

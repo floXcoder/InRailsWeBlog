@@ -26,10 +26,15 @@ class ArticlesController < ApplicationController
     if stale?(articles, template: false, public: true)
       respond_to do |format|
         format.html do
-          articles = Article.serialized_json(articles, user_signed_in? ? 'normal' : 'sample', meta: {
-            storyTopic: params[:topic_slug].present? && articles.present? && articles.all?(&:story?) ? articles.first.topic.flat_serialized_json(with_model: false) : nil,
-            **meta_attributes(pagination: articles)
-          })
+          articles = Article.serialized_json(articles,
+                                             user_signed_in? ? 'normal' : 'sample',
+                                             params: {
+                                               current_user_id: current_user&.id
+                                             },
+                                             meta:   {
+                                               storyTopic: params[:topic_slug].present? && articles.present? && articles.all?(&:story?) ? articles.first.topic.flat_serialized_json(with_model: false) : nil,
+                                               **meta_attributes(pagination: articles)
+                                             })
 
           render_associated_page(articles: articles)
         end

@@ -25,17 +25,21 @@ const styles = (theme) => ({
         padding: 8
     },
     card: {
-        marginTop: 12,
-        marginBottom: 12
+        marginTop: 4,
+        marginBottom: 4
     },
-    title: {
+    cardHeader: {
+        padding: 4
+    },
+    cardTitle: {
         marginTop: 12,
         marginBottom: 8,
-        fontSize: '2rem',
+        fontSize: '1.6rem',
         textAlign: 'center'
     },
-    content: {
-        paddingTop: 4
+    cardContent: {
+        paddingTop: 4,
+        paddingBottom: '8px !important'
     },
     commentCount: {
         fontSize: '1rem',

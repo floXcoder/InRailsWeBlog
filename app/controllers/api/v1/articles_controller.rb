@@ -70,14 +70,24 @@ module Api::V1
         respond_to do |format|
           format.json do
             if complete
-              render json: Article.serialized_json(articles, 'complete', params: { current_user_id: current_user&.id }, meta: meta_attributes)
-            elsif params[:summary]
-              render json: Article.serialized_json(articles, meta: {
-                storyTopic: filter_params[:topic_slug].present? && articles.present? && articles.all?(&:story?) ? articles.first.topic.flat_serialized_json(with_model: false) : nil,
-                **meta_attributes(pagination: articles)
-              })
+              render json: Article.serialized_json(articles,
+                                                   'complete',
+                                                   params: {
+                                                     current_user_id: current_user&.id
+                                                   },
+                                                   meta:   meta_attributes)
+            elsif params[:summary].present?
+              render json: Article.serialized_json(articles,
+                                                   params: {
+                                                     current_user_id: current_user&.id
+                                                   },
+                                                   meta:   {
+                                                     storyTopic: filter_params[:topic_slug].present? && articles.present? && articles.all?(&:story?) ? articles.first.topic.flat_serialized_json(with_model: false) : nil,
+                                                     **meta_attributes(pagination: articles)
+                                                   })
             else
-              render json: Article.serialized_json(articles, 'normal',
+              render json: Article.serialized_json(articles,
+                                                   'normal',
                                                    params: {
                                                      current_user_id: current_user&.id
                                                    },
@@ -180,7 +190,7 @@ module Api::V1
           format.json do
             render json: Article.serialized_json(articles, 'normal',
                                                  params: { current_user_id: current_user&.id },
-                                                 meta: { root: 'recommendations' })
+                                                 meta:   { root: 'recommendations' })
           end
         end
       end

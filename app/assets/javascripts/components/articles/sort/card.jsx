@@ -18,13 +18,13 @@ const ArticleCardSort = ({classes, article}) => (
         <Card component="article"
               className={classes.card}>
             <CardHeader classes={{
-                title: classes.title
+                root: classes.cardHeader,
+                title: classes.cardTitle
             }}
-                        title={article.title}
-            />
+                        title={article.title}/>
 
             <CardContent classes={{
-                root: classes.content
+                root: classes.cardContent
             }}>
                 {
                     article.tags.length > 0 &&
@@ -32,7 +32,8 @@ const ArticleCardSort = ({classes, article}) => (
                                  tags={article.tags}
                                  parentTagIds={article.parentTagIds}
                                  childTagIds={article.childTagIds}
-                                 hasTooltip={false}/>
+                                 hasTooltip={false}
+                                 isSmall={true}/>
                 }
 
                 {
