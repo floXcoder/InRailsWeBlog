@@ -14,12 +14,20 @@ const styles = (theme) => ({
     tagChipLarge: {
         margin: theme.spacing(1),
         padding: theme.spacing(1),
-        height: 42,
+        height: 42
+    },
+    tagChipSmall: {
+        margin: theme.spacing(0.5),
+        padding: theme.spacing(0.5),
+        height: 30
     },
     tagLabel: {
         margin: theme.spacing(0.3),
         padding: theme.spacing(1.5),
         fontSize: '.9rem'
+    },
+    tagLabelSmall: {
+        fontSize: '.8rem'
     },
     parent: {
         margin: theme.spacing(1)

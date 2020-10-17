@@ -35,6 +35,8 @@ class ArticleTags extends React.PureComponent {
         parentTagIds: PropTypes.array,
         childTagIds: PropTypes.array,
         hasTooltip: PropTypes.bool,
+        isLarge: PropTypes.bool,
+        isSmall: PropTypes.bool,
         // from styles
         classes: PropTypes.object
     };
@@ -42,7 +44,9 @@ class ArticleTags extends React.PureComponent {
     static defaultProps = {
         parentTagIds: [],
         childTagIds: [],
-        hasTooltip: true
+        hasTooltip: true,
+        isLarge: false,
+        isSmall: false
     };
 
     constructor(props) {
@@ -86,8 +90,13 @@ class ArticleTags extends React.PureComponent {
                                 <Chip component={Link}
                                       id={`article-${this.props.articleId}-tags-${tag.id}`}
                                       classes={{
-                                          root: this.props.classes.tagChip,
-                                          label: this.props.classes.tagLabel
+                                          root: classNames(this.props.classes.tagChip, {
+                                              [this.props.classes.tagChipLarge]: this.props.isLarge,
+                                              [this.props.classes.tagChipSmall]: this.props.isSmall
+                                          }),
+                                          label: classNames(this.props.classes.tagLabel, {
+                                              [this.props.classes.tagLabelSmall]: this.props.isSmall
+                                          })
                                       }}
                                       to={this.props.isOwner && this.props.currentUserSlug && this.props.currentUserTopicSlug ? taggedTopicArticlesPath(this.props.currentUserSlug, this.props.currentUserTopicSlug, tag.slug) : taggedArticlesPath(tag.slug)}
                                       label={tag.name}

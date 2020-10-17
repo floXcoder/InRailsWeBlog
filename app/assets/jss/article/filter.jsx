@@ -34,9 +34,9 @@ const styles = (theme) => ({
     sortLink: {
         margin: theme.spacing(2),
         color: theme.palette.grey[600],
-        fontSize: '.9rem',
+        fontSize: '.85rem',
         fontStyle: 'italic',
-        fontWeight: 600
+        fontWeight: 400
     }
 });
 
