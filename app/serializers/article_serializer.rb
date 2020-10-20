@@ -82,6 +82,10 @@ class ArticleSerializer
     object.mode_to_tr
   end
 
+  attribute :slug_translations do |object|
+    object[Article.friendly_id_config.slug_column] if object.languages.size > 1
+  end
+
   attribute :title do |object, params|
     params.dig(:highlight_results, object.id, :title).presence&.gsub(/\n{3,}/, "\n\n") || object.title
   end

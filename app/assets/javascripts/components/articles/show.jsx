@@ -28,6 +28,7 @@ import {
 } from '../loaders/components';
 
 import {
+    userArticlePath,
     topicArticlesPath
 } from '../../constants/routesHelper';
 
@@ -136,6 +137,7 @@ class ArticleShow extends React.Component {
 
         this._request = null;
 
+        this._articleLanguagesTimeout = null;
         this._recommendationTimeout = null;
     }
 
@@ -165,11 +167,16 @@ class ArticleShow extends React.Component {
         }
 
         this._recommendationTimeout = setTimeout(() => this._fetchRecommendations(), 500);
+        this._articleLanguagesTimeout = setTimeout(() => this._checkArticleLanguages(), 300);
     }
 
     componentWillUnmount() {
         if (this._recommendationTimeout) {
             clearTimeout(this._recommendationTimeout);
+        }
+
+        if (this._articleLanguagesTimeout) {
+            clearTimeout(this._articleLanguagesTimeout);
         }
 
         if (this._request?.signal) {
@@ -180,6 +187,31 @@ class ArticleShow extends React.Component {
     _fetchRecommendations = () => {
         if (!this.props.articleRecommendations && this.props.article) {
             this.props.fetchRecommendations(this.props.routeParams.userSlug, this.props.article.id);
+        }
+    };
+
+    _checkArticleLanguages = () => {
+        if (this.props.article) {
+            const visitorLanguage = (navigator.language || navigator.userLanguage)?.split('-')?.first();
+
+            if (visitorLanguage && visitorLanguage !== window.locale && this.props.article.slugTranslations[visitorLanguage] && this.props.article.languages?.length > 1 && this.props.article.languages.includes(visitorLanguage)) {
+                const message = {
+                    fr: 'L\'article est disponible en français',
+                    en: 'This article is available in english',
+                    de: 'Der Artikel ist auf Deutsch verfügbar',
+                    it: 'L\'articolo è disponibile in italiano',
+                    es: 'El artículo está disponible en español'
+                };
+                const button = {
+                    fr: 'Consulter',
+                    en: 'See',
+                    de: 'Siehe',
+                    it: 'Vedi',
+                    es: 'Ver'
+                };
+
+                Notification.success(message[visitorLanguage], button[visitorLanguage], () => window.location.replace(userArticlePath(this.props.routeParams.userSlug, this.props.article.slugTranslations[visitorLanguage], visitorLanguage)));
+            }
         }
     };
 
