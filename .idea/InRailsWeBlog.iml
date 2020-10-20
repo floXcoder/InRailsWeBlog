@@ -272,7 +272,7 @@
     <orderEntry type="library" scope="PROVIDED" name="redis (v4.2.2, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="redis-namespace (v1.8.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="redis-session-store (v0.11.3, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="regexp_parser (v1.8.1, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="regexp_parser (v1.8.2, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="request_store (v1.5.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="require_all (v3.0.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="responders (v3.0.1, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
@@ -294,6 +294,7 @@
     <orderEntry type="library" scope="PROVIDED" name="ruby-jmeter (v3.1.08, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ruby-progressbar (v1.10.1, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ruby-vips (v2.0.17, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="ruby2_keywords (v0.0.2, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ruby_parser (v3.15.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rubyzip (v2.3.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sanitize (v5.2.1, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />

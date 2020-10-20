@@ -1,6 +1,10 @@
 'use strict';
 
 import {
+    lighten
+} from '@material-ui/core/styles/colorManipulator';
+
+import {
     h1SizeExtract,
     h1WeightExtract,
     h1LineHeightExtract,
@@ -14,7 +18,8 @@ const styles = (theme) => ({
         overflow: 'visible',
         maxWidth: '100%',
         borderRadius: 12,
-        backgroundColor: theme.palette.grey[50],
+        backgroundColor: lighten(theme.palette.secondary.light, .96),
+        boxShadow: `0px 0px 5px ${theme.palette.secondary.light}`,
         [theme.breakpoints.down('md')]: {
             margin: '.5rem auto 1rem'
         }
@@ -32,6 +37,7 @@ const styles = (theme) => ({
         margin: '1rem 0'
     },
     topicDesc: {
+        padding: theme.spacing(0, 2),
         fontSize: '1.1rem',
         fontStyle: 'italic'
     },

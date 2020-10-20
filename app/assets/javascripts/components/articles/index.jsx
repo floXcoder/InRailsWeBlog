@@ -55,8 +55,9 @@ import styles from '../../../jss/article/index';
 
 export default @connect((state) => ({
     currentUserId: state.userState.currentId,
+    currentUserSlug: state.userState.currentSlug,
     currentTopic: state.topicState.currentTopic,
-    userSlug: state.userState.currentSlug,
+    isUserConnected: state.userState.isConnected,
     storyTopic: state.topicState.storyTopic,
     currentState: state.articleState.currentState.value,
     articlesCount: getArticlesCount(state),
@@ -82,7 +83,8 @@ class ArticleIndex extends React.Component {
         // from connect
         currentUserId: PropTypes.number,
         currentTopic: PropTypes.object,
-        userSlug: PropTypes.string,
+        currentUserSlug: PropTypes.string,
+        isUserConnected: PropTypes.bool,
         storyTopic: PropTypes.object,
         currentState: PropTypes.string,
         articlesCount: PropTypes.number,
@@ -194,7 +196,7 @@ class ArticleIndex extends React.Component {
         let payload = {};
         if (this.props.currentUserId) {
             payload.isConnected = true;
-            payload.isOwner = this.props.userSlug === this.props.routeParams.userSlug;
+            payload.isOwner = this.props.currentUserSlug === this.props.routeParams.userSlug;
         }
 
         this._request = this.props.fetchArticles({
@@ -223,7 +225,7 @@ class ArticleIndex extends React.Component {
             };
             if (this.props.currentUserId) {
                 payload.isConnected = true;
-                payload.isOwner = this.props.userSlug === this.props.routeParams.userSlug;
+                payload.isOwner = this.props.currentUserSlug === this.props.routeParams.userSlug;
             }
 
             this._request = this.props.fetchArticles({
@@ -285,7 +287,7 @@ class ArticleIndex extends React.Component {
 
         const hasMoreArticles = this.props.articlePagination && this.props.articlePagination.currentPage < this.props.articlePagination.totalPages;
 
-        const isStoryMode = this.props.articleCurrentMode === 'stories' && this.props.storyTopic;
+        const isStoryMode = this.props.articleCurrentMode === 'stories' && !!this.props.storyTopic && this.props.storyTopic.slug === this.props.routeParams.topicSlug && (this.props.isUserConnected ? this.props.articleDisplayMode === 'summary' : true);
 
         const isGridDisplay = this.props.articleDisplayMode === 'grid';
         const isInfiniteDisplay = this.props.articlesLoaderMode === 'infinite';
@@ -321,7 +323,7 @@ class ArticleIndex extends React.Component {
         return (
             <div ref={this._articles}>
                 {
-                    (isStoryMode && this.props.storyTopic.slug === this.props.routeParams.topicSlug) &&
+                    (isStoryMode && !this.props.isUserConnected) &&
                     <SummaryStoriesTopic userSlug={this.props.routeParams.userSlug}
                                          topic={this.props.storyTopic}/>
                 }

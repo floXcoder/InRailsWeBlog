@@ -119,7 +119,6 @@ export default function highlight(highlightOnShow = true) {
             componentDidMount() {
                 HighlightCode.configure({
                     tabReplace: '  ', // 4 spaces,
-                    // useBR: true, // use <br/> instead of \n
                     languages: [
                         'apache', 'cpp', 'xml', 'bash', 'css', 'markdown', 'ruby', 'excel', 'http', 'java', 'javascript', 'json', 'nginx', 'php', 'python', 'scss', 'shell', 'sql', 'yaml', 'typescript'
                     ]
