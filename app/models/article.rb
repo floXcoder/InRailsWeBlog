@@ -255,6 +255,10 @@ class Article < ApplicationRecord
             uniqueness: { case_sensitive: false }
 
   # == Scopes ===============================================================
+  scope :find_slug_by_locale, -> (article_slug, locale = I18n.locale) {
+    where("#{self.friendly_id_config.slug_column}->>'#{locale}' = ?", article_slug)
+  }
+
   scope :everyone_and_user, -> (user_id = nil) {
     user_id ? where('articles.visibility = 0 OR (articles.visibility = 1 AND articles.user_id = :user_id)', user_id: user_id) : everyone
   }

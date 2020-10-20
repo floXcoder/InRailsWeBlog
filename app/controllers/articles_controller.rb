@@ -43,8 +43,10 @@ class ArticlesController < ApplicationController
   end
 
   def show
-    article = @context_user.articles.friendly.find(params[:article_slug])
+    article, article_redirection = find_article_in_locales(params[:article_slug])
     admin_or_authorize article
+
+    redirect_to(article_redirection, status: :moved_permanently) and return if article_redirection
 
     set_seo_data(:user_article,
                  article_slug:         article,
@@ -103,6 +105,32 @@ class ArticlesController < ApplicationController
 
         render_associated_page(article: article)
       end
+    end
+  end
+
+  private
+
+  def find_article_in_locales(article_slug)
+    article = @context_user.articles.find_slug_by_locale(article_slug, I18n.locale).first
+
+    if article
+      return article, nil
+    else
+      I18n.available_locales.map do |locale|
+        next if locale == I18n.locale
+
+        article = @context_user.articles.find_slug_by_locale(article_slug, locale).first
+
+        if article
+          article_redirection = article.link_path(locale: locale) rescue nil
+          if article_redirection
+            skip_authorization
+            return article, article_redirection
+          end
+        end
+      end
+
+      @context_user.articles.friendly.find(params[:article_slug])
     end
   end
 
