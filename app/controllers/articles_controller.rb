@@ -22,7 +22,7 @@ class ArticlesController < ApplicationController
 
     articles = ::Articles::FindQueries.new(current_user, current_admin).all(params.to_unsafe_h.merge(page: params[:page], limit: params[:limit]))
 
-    user_signed_in? ? reset_cache_headers : expires_in(InRailsWeBlog.config.cache_time, public: true)
+    (user_signed_in? || admin_signed_in?) ? reset_cache_headers : expires_in(InRailsWeBlog.config.cache_time, public: true)
     if stale?(articles, template: false, public: true)
       respond_to do |format|
         format.html do
@@ -59,7 +59,7 @@ class ArticlesController < ApplicationController
                                          image: article.default_picture ? (root_url + article.default_picture) : nil
                                        }.compact)
 
-    expires_in(InRailsWeBlog.config.cache_time, public: true)
+    (user_signed_in? || admin_signed_in?) ? reset_cache_headers : expires_in(InRailsWeBlog.config.cache_time, public: true)
     if stale?(article, template: false, public: true) || article.user?(current_user)
       respond_to do |format|
         format.html do

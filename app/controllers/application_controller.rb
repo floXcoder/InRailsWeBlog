@@ -86,7 +86,6 @@ class ApplicationController < ActionController::Base
 
   def authenticate_user!(options = {})
     if admin_signed_in? && !user_signed_in?
-      sign_in(:user, User.first)
       super(options)
     elsif user_signed_in?
       super(options)

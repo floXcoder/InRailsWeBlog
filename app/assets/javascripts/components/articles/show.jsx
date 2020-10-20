@@ -81,12 +81,12 @@ export default @withRouter
     currentUserSlug: state.userState.currentSlug,
     currentUser: getCurrentUser(state),
     currentTopic: state.topicState.currentTopic,
+    isUserConnected: state.userState.isConnected,
     isCurrentTopicOwner: getIsCurrentTopicOwner(state, props.routeParams),
     isFetching: state.articleState.isFetching,
     storyTopic: state.topicState.storyTopic,
     article: state.articleState.article,
     isOwner: getArticleIsOwner(state, state.articleState.article),
-    isUserConnected: state.userState.isConnected,
     articleRecommendations: state.articleState.articleRecommendations
 }), {
     fetchArticle,
@@ -111,12 +111,12 @@ class ArticleShow extends React.Component {
         currentUserSlug: PropTypes.string,
         currentUser: PropTypes.object,
         currentTopic: PropTypes.object,
+        isUserConnected: PropTypes.bool,
         isCurrentTopicOwner: PropTypes.bool,
         isFetching: PropTypes.bool,
         storyTopic: PropTypes.object,
         article: PropTypes.object,
         isOwner: PropTypes.bool,
-        isUserConnected: PropTypes.bool,
         articleRecommendations: PropTypes.array,
         fetchArticle: PropTypes.func,
         fetchRecommendations: PropTypes.func,
@@ -234,7 +234,9 @@ class ArticleShow extends React.Component {
             );
         }
 
-        const isStory = this.props.article.mode === 'story';
+        const currentTopicSlug = this.props.article.slug.split('@').last();
+
+        const isStoryMode = this.props.article.mode === 'story' && !!this.props.storyTopic && this.props.storyTopic.slug === currentTopicSlug;
 
         const hasLinks = this.props.article.content?.includes('<a ');
 
@@ -257,7 +259,7 @@ class ArticleShow extends React.Component {
                     }
 
                     {
-                        (isStory && this.props.storyTopic) &&
+                        (isStoryMode && !this.props.isUserConnected) &&
                         <SummaryStoriesTopic userSlug={this.props.routeParams.userSlug}
                                              topic={this.props.storyTopic}
                                              hasLink={true}/>
@@ -296,7 +298,7 @@ class ArticleShow extends React.Component {
                                                                   articleId={this.props.article.id}
                                                                   articleSlug={this.props.article.slug}
                                                                   articleTitle={this.props.article.title}
-                                                                  topicSlug={this.props.article.slug.split('@').last()}/>
+                                                                  topicSlug={currentTopicSlug}/>
                                         )}
                                     </Sticky>
                                 </div>
@@ -437,7 +439,7 @@ class ArticleShow extends React.Component {
                         <Divider/>
 
                         {
-                            !isStory &&
+                            !isStoryMode &&
                             <h3 className={this.props.classes.recommendationsTitle}>
                                 {I18n.t('js.article.show.recommendations.title')}
                             </h3>
@@ -454,7 +456,7 @@ class ArticleShow extends React.Component {
                                         <Grid key={article.id}
                                               item={true}>
                                             {
-                                                isStory &&
+                                                isStoryMode &&
                                                 <h3 className={this.props.classes.recommendationsTitle}>
                                                     {
                                                         i % 2 === 0
@@ -478,7 +480,7 @@ class ArticleShow extends React.Component {
                         }
 
                         {
-                            !isStory &&
+                            !isStoryMode &&
                             <div className={this.props.classes.recommendationsLink}>
                                 <Button color="primary"
                                         variant="outlined"

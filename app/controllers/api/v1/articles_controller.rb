@@ -65,7 +65,7 @@ module Api::V1
         articles = ::Articles::FindQueries.new(current_user, current_admin).all(filter_params.merge(page: params[:page], limit: params[:limit]))
       end
 
-      admin_signed_in? ? reset_cache_headers : expires_in(InRailsWeBlog.config.cache_time, public: true)
+      (user_signed_in? || admin_signed_in?) ? reset_cache_headers : expires_in(InRailsWeBlog.config.cache_time, public: true)
       if stale?(articles, template: false, public: true)
         respond_to do |format|
           format.json do
@@ -102,7 +102,7 @@ module Api::V1
       article = @context_user.articles.friendly.find(params[:id])
       admin_or_authorize article
 
-      article.user?(current_user) ? reset_cache_headers : expires_in(InRailsWeBlog.config.cache_time, public: true)
+      (article.user?(current_user) || admin_signed_in?) ? reset_cache_headers : expires_in(InRailsWeBlog.config.cache_time, public: true)
       if stale?(article, template: false, public: true) || article.user?(current_user)
         respond_to do |format|
           format.json do
@@ -267,7 +267,7 @@ module Api::V1
       respond_to do |format|
         format.json do
           if stored_article.success?
-            expire_home_cache if admin_signed_in? && article_admin_params.present?
+            expire_home_cache if (user_signed_in? || admin_signed_in?) && article_admin_params.present?
 
             flash.now[:success] = stored_article.message unless params[:auto_save]
             render json:   stored_article.result.serialized_json('complete', params: { current_user_id: current_user.id }, meta: meta_attributes),
