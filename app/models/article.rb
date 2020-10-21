@@ -65,7 +65,8 @@ class Article < ApplicationRecord
   acts_as_voteable
 
   # Versioning
-  has_paper_trail only: [:contributor, :title_translations, :summary_translations, :content_translations, :reference, :inventories]
+  has_paper_trail on: [:create, :update, :destroy],
+                  only: [:contributor, :title_translations, :summary_translations, :content_translations, :reference, :inventories]
 
   # Track activities
   ## scopes: most_viewed, most_clicked, recently_tracked, populars, home

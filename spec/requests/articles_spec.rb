@@ -830,6 +830,50 @@ describe 'Article API', type: :request, basic: true do
           }.to change(Article, :count).by(0).and change(Tag, :count).by(0).and change(TagRelationship, :count).by(0)
         end
       end
+
+      it 'saves a new version for each update' do
+        expect {
+          put "/api/v1/articles/#{@article.id}", params: article_attributes.deep_merge(article: { content: 'content 2' }), as: :json
+
+          expect(response).to be_json_response
+
+          article = JSON.parse(response.body)
+          expect(article['data']['attributes']).not_to be_empty
+        }.to change(@article.reload.versions, :count).by(1)
+      end
+
+      it 'do not save a new version when auto-saving' do
+        expect {
+          put "/api/v1/articles/#{@article.id}", params: { auto_save: true, **article_attributes.deep_merge(article: { content: 'content 3' }) }, as: :json
+
+          expect(response).to be_json_response
+
+          article = JSON.parse(response.body)
+          expect(article['data']['attributes']).not_to be_empty
+        }.to change(@article.reload.versions, :count).by(0)
+      end
+
+      it 'saves a new version after auto-saving' do
+        expect {
+          put "/api/v1/articles/#{@article.id}", params: { was_auto_saved: true, **article_attributes.deep_merge(article: { content: 'content 4' }) }, as: :json
+
+          expect(response).to be_json_response
+
+          article = JSON.parse(response.body)
+          expect(article['data']['attributes']).not_to be_empty
+        }.to change(@article.reload.versions, :count).by(1)
+      end
+
+      it 'do not save a new version for draft articles' do
+        expect {
+          put "/api/v1/articles/#{@article.id}", params: article_attributes.deep_merge(article: { content: 'content 2', draft: true }), as: :json
+
+          expect(response).to be_json_response
+
+          article = JSON.parse(response.body)
+          expect(article['data']['attributes']).not_to be_empty
+        }.to change(@article.reload.versions, :count).by(0)
+      end
     end
 
     context 'when user is connected with another current topic' do
@@ -878,6 +922,14 @@ describe 'Article API', type: :request, basic: true do
 
           expect(response).to be_json_response(204)
         }.to change(Article, :count).by(-1).and change(Article.with_deleted, :count).by(0).and change(Tag, :count).by(0).and change(TaggedArticle, :count).by(-@article.tagged_articles.count).and change(TaggedArticle.with_deleted, :count).by(0).and change(TagRelationship, :count).by(-2).and change(TagRelationship.with_deleted, :count).by(0)
+      end
+
+      it 'removes permanently the draft article' do
+        expect {
+          delete "/api/v1/articles/#{@private_article.id}", as: :json
+
+          expect(response).to be_json_response(204)
+        }.to change(Article, :count).by(-1).and change(Article.with_deleted, :count).by(-1)
       end
     end
 

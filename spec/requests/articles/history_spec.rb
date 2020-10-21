@@ -5,13 +5,15 @@ require 'rails_helper'
 describe 'History API', type: :request, basic: true do
 
   before(:all) do
-    @user         = create(:user)
-    @other_user   = create(:user)
+    @user       = create(:user)
+    @other_user = create(:user)
 
     @topic = create(:topic, user: @user)
 
     @article = create(:article, user: @user, topic: @topic)
-    @original_title = @article.title
+
+    @article.update(title: 'title 2')
+    @article.update(title: 'title 3')
   end
 
   describe '/api/v1/articles/:id/history' do
@@ -26,9 +28,6 @@ describe 'History API', type: :request, basic: true do
     context 'when user is connected' do
       before do
         login_as(@user, scope: :user, run_callbacks: false)
-
-        @article.update(title: 'title 2')
-        @article.update(title: 'title 3')
       end
 
       it 'returns the article history' do
@@ -39,9 +38,9 @@ describe 'History API', type: :request, basic: true do
 
         expect(json_history['meta']['root']).to eq('history')
         expect(json_history['data']).not_to be_empty
-        expect(json_history['data'].size).to eq(3)
+        expect(json_history['data'].size).to eq(2)
         article_titles_history = json_history['data'].map { |m| m['attributes']['article']['title'] }
-        expect(article_titles_history).to eq(['title 3', 'title 2', @original_title])
+        expect(article_titles_history).to eq(['title 3', 'title 2'])
 
         last_changeset = json_history['data'].first['attributes']
         expect(last_changeset['changeset']['title_translations'].size).to eq(2)
@@ -77,7 +76,7 @@ describe 'History API', type: :request, basic: true do
         expect(response).to be_json_response(202)
         json_history = JSON.parse(response.body)
         expect(json_history['data']['attributes']).not_to be_empty
-        expect(json_history['data']['attributes']['title']).to eq(@original_title)
+        expect(json_history['data']['attributes']['title']).to eq('title 3')
       end
     end
   end
