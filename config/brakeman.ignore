@@ -1,6 +1,26 @@
 {
   "ignored_warnings": [
     {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "35d7eae6144a2f1941139e732e09901225dfe5567025d92de8ab631ec65e189a",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/article.rb",
+      "line": 259,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "where(\"#{self.friendly_id_config.slug_column}->>'#{locale}' = ?\", article_slug)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Article",
+        "method": "find_slug_by_locale"
+      },
+      "user_input": "self.friendly_id_config.slug_column",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
       "warning_type": "File Access",
       "warning_code": 16,
       "fingerprint": "6100212265b8c6f6bd9e8127f1d8d4c385c072901d02a20956547a2727560f79",
@@ -27,7 +47,7 @@
       "check_name": "Send",
       "message": "User controlled method execution",
       "file": "app/controllers/admins/seo_controller.rb",
-      "line": 39,
+      "line": 43,
       "link": "https://brakemanscanner.org/docs/warning_types/dangerous_send/",
       "code": "Rails.application.routes.url_helpers.send(\"#{params[:route]}_path\", Hash[*(Rails.application.routes.routes.find do\n (r.name == params[:route])\n end.parts - [:format]).map do\n [p, p]\n end.flatten])",
       "render_path": null,
@@ -73,6 +93,6 @@
       "note": ""
     }
   ],
-  "updated": "2020-05-16 16:32:21 +0200",
-  "brakeman_version": "4.8.2"
+  "updated": "2020-10-20 17:46:54 +0200",
+  "brakeman_version": "4.10.0"
 }
