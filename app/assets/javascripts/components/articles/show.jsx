@@ -185,7 +185,7 @@ class ArticleShow extends React.Component {
     }
 
     _fetchRecommendations = () => {
-        if (!this.props.articleRecommendations && this.props.article) {
+        if (!this.props.articleRecommendations && this.props.article && this.props.routeParams.userSlug !== this.props.currentUserSlug) {
             this.props.fetchRecommendations(this.props.routeParams.userSlug, this.props.article.id);
         }
     };
@@ -466,7 +466,7 @@ class ArticleShow extends React.Component {
                 </StickyContainer>
 
                 {
-                    !!this.props.article && !this.props.isFetching &&
+                    (!!this.props.article && !this.props.isFetching && this.props.routeParams.userSlug !== this.props.currentUserSlug) &&
                     <div className={this.props.classes.recommendationsContainer}>
                         <Divider/>
 
@@ -523,23 +523,24 @@ class ArticleShow extends React.Component {
                                 </Button>
                             </div>
                         }
+                    </div>
+                }
 
-                        {
-                            (this.props.article.allowComment && this.props.article.visibility !== 'only_me') &&
-                            <div id={`article-comments-${this.props.article.id}`}>
-                                <LazyLoader height={0}
-                                            once={true}
-                                            offset={50}>
-                                    <CommentBox commentableType="articles"
-                                                commentableId={this.props.article.id}
-                                                ownerId={this.props.article.user.id}
-                                                commentsCount={this.props.article.commentsCount}
-                                                isUserOwner={this.props.isOwner}
-                                                isPaginated={false}
-                                                isRated={true}/>
-                                </LazyLoader>
-                            </div>
-                        }
+                {
+                    (this.props.article.allowComment && this.props.article.visibility !== 'only_me') &&
+                    <div id={`article-comments-${this.props.article.id}`}
+                         className={this.props.classes.commentsContainer}>
+                        <LazyLoader height={0}
+                                    once={true}
+                                    offset={50}>
+                            <CommentBox commentableType="articles"
+                                        commentableId={this.props.article.id}
+                                        ownerId={this.props.article.user.id}
+                                        commentsCount={this.props.article.commentsCount}
+                                        isUserOwner={this.props.isOwner}
+                                        isPaginated={false}
+                                        isRated={true}/>
+                        </LazyLoader>
                     </div>
                 }
             </div>

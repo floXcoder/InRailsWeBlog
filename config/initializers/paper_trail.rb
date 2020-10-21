@@ -1,4 +1,4 @@
 # frozen_string_literal: true
 
 PaperTrail.config.enabled       = true
-PaperTrail.config.version_limit = 15
+PaperTrail.config.version_limit = 20

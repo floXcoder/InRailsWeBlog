@@ -13,7 +13,10 @@ module Articles
     def perform
       current_language = new_language = @current_user.locale || I18n.locale
 
-      auto_saved = @params.delete(:auto_saved)
+      auto_save      = @params.delete(:auto_save)
+      was_auto_saved = @params.delete(:was_auto_saved)
+
+      PaperTrail.request.enabled = false if auto_save || @article.draft? || @params[:draft]
 
       new_article = @article.new_record?
 
@@ -195,8 +198,8 @@ module Articles
       if @article.save
         message = new_article ? I18n.t('views.article.flash.successful_creation', title: @article.title) : I18n.t('views.article.flash.successful_edition', title: @article.title)
 
-        # Force saving new version in case of auto saving
-        @article.paper_trail.save_with_version if auto_saved && !article_changed
+        # Force saving new version in case of auto-saving
+        @article.paper_trail.save_with_version if was_auto_saved && !article_changed
 
         # Remove deleted pictures
         old_picture_ids    = @article.picture_ids
@@ -221,7 +224,10 @@ module Articles
         error(message, @article.errors)
       end
     ensure
-      I18n.locale = current_language.to_sym if new_language != current_language.to_s
+      # Ensure paper trail is active again in case of autosave
+      PaperTrail.request.enabled = true
+
+      I18n.locale                = current_language.to_sym if new_language != current_language.to_s
     end
 
     private

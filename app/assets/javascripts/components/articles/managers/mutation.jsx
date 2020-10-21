@@ -220,7 +220,7 @@ export default function articleMutationManager(mode) {
                         childTagIds: this.props.article.childTagIds
                     });
 
-                    const updatePromise = this.props.updateArticle(formData, {autoSave: (autoSave === true), autoSaved: this._hasAutoSaved});
+                    const updatePromise = this.props.updateArticle(formData, {autoSave: (autoSave === true), wasAutoSaved: this._hasAutoSaved});
                     if (autoSave === true) {
                         this._hasAutoSaved = true;
 

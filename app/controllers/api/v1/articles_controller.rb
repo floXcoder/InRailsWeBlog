@@ -262,7 +262,7 @@ module Api::V1
       article = current_user.articles.friendly.find(params[:id])
       admin_or_authorize article
 
-      stored_article = ::Articles::StoreService.new(article, article_params.merge(article_admin_params).merge(current_user: current_user, auto_saved: params[:auto_saved])).perform
+      stored_article = ::Articles::StoreService.new(article, article_params.merge(article_admin_params).merge(current_user: current_user, auto_save: params[:auto_save], was_auto_saved: params[:was_auto_saved])).perform
 
       respond_to do |format|
         format.json do
@@ -339,7 +339,7 @@ module Api::V1
 
       respond_to do |format|
         format.json do
-          if params[:permanently] && current_admin ? article.really_destroy! : article.destroy
+          if (params[:permanently] && current_admin) || article.draft? ? article.really_destroy! : article.destroy
             flash.now[:success] = I18n.t('views.article.flash.successful_deletion')
             head :no_content
           else

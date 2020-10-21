@@ -2,6 +2,7 @@
 
 import {
     articleWidth,
+    articleAppendixWidth,
     storiesWidth,
     h1Size,
     h1SizeMobile,
@@ -23,7 +24,7 @@ const styles = (theme) => ({
         }
     },
     title: {
-        marginTop: '1.5rem',
+        marginTop: '2rem',
         marginBottom: '.5rem',
         width: '100%',
         textAlign: 'center',
@@ -143,6 +144,11 @@ const styles = (theme) => ({
     recommendationsLink: {
         marginTop: '1.6rem',
         textAlign: 'center',
+    },
+
+    commentsContainer: {
+        maxWidth: articleAppendixWidth,
+        margin: '0 auto 2rem'
     }
 });
 
