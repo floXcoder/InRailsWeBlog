@@ -15,16 +15,19 @@ module FastJsonapi
 
     def flat_serializable_hash
       data = self.serializable_hash
+      other_keys = data.except(:data, :included)
 
       if data[:data].is_a?(Array)
         flat_data = data[:data].map do |d|
           new_data = d[:attributes]
           self.manage_relationships(new_data, d[:relationships], data[:included])
+          new_data.merge!(other_keys)
           new_data
         end
       else
         flat_data = data.dig(:data, :attributes) || {}
         self.manage_relationships(flat_data, data.dig(:data, :relationships), data.dig(:included))
+        flat_data.merge!(other_keys)
       end
 
       return flat_data

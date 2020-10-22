@@ -22,7 +22,7 @@ const ArticleActions = ({classes, isInline, userSlug, articleId, articleSlug, ar
             <li className={classes.actionItem}
                 style={deleteIconStyle}>
                 <ArticleDeleteIcon size={size}
-                                   color={color}
+                                   color="action"
                                    onDeleteClick={onDeleteClick}/>
             </li>
         }

@@ -29,7 +29,7 @@ const ArticleTrackingIcon = ({articleId, size, color}) => (
 ArticleTrackingIcon.propTypes = {
     articleId: PropTypes.number.isRequired,
     size: PropTypes.oneOf(['small', 'default', 'large']),
-    color: PropTypes.oneOf(['primary', 'secondary', 'action']),
+    color: PropTypes.oneOf(['primary', 'secondary', 'action', 'disabled']),
 };
 
 ArticleTrackingIcon.defaultProps = {

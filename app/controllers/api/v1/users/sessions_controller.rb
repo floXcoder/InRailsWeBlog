@@ -21,7 +21,7 @@ module Api::V1
       respond_to do |format|
         format.html { redirect_to(@location) }
         format.js
-        format.json { render json: resource.flat_serialized_json('profile', meta: { location: @location }) }
+        format.json { render json: resource.serialized_json('profile', meta: { location: @location }) }
       end
     end
 

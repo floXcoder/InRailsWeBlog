@@ -31,7 +31,7 @@ ArticleLinkIcon.propTypes = {
     articleId: PropTypes.number.isRequired,
     articleTitle: PropTypes.string,
     size: PropTypes.oneOf(['small', 'default', 'large']),
-    color: PropTypes.oneOf(['primary', 'secondary', 'action']),
+    color: PropTypes.oneOf(['primary', 'secondary', 'action', 'disabled']),
 };
 
 ArticleLinkIcon.defaultProps = {

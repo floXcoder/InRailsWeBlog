@@ -180,14 +180,14 @@ const theme = createMuiTheme({
             fontSizeSmall: {
                 fontSize: '1.2rem'
             },
-            // colorPrimary: {
-            //     color: theme.palette.primary.main
-            // },
-            // colorSecondary: {
-            //     color: theme.palette.secondary.main
-            // },
+            colorPrimary: {
+                color: '#036603',
+            },
+            colorSecondary: {
+                color: '#bda731'
+            },
             colorAction: {
-                color: '#036603'
+                color: 'rgba(0, 0, 0, 0.54)'
             }
         }
     }
