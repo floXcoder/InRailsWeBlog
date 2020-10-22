@@ -141,7 +141,6 @@ class FooterLayoutDefault extends React.PureComponent {
                           xs={12}>
                         <div className="margin-top-30">
                             <a className={this.props.classes.githubLink}
-                               rel="noopener noreferrer"
                                target="_blank"
                                href={I18n.t('js.views.footer.links.github_src')}>
                                 {I18n.t('js.views.footer.links.github')}
@@ -149,7 +148,8 @@ class FooterLayoutDefault extends React.PureComponent {
 
                             <div className="container center-align margin-top-15"
                                  style={{marginTop: '2rem', fontSize: '1rem'}}>
-                                &copy; {I18n.t('js.views.footer.copyright', {version: window.revision})}
+                                &copy; {I18n.t('js.views.footer.copyright', {version: window.revision})} <a style={{color: 'inherit'}}
+                                target="_blank" href="https://github.com/floXcoder/seo_cache">Powered by SeoCache.</a>
                             </div>
                         </div>
                     </Grid>
