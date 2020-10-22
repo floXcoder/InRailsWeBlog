@@ -17,7 +17,7 @@ const ArticleDeleteIcon = ({onDeleteClick, size, color}) => (
 ArticleDeleteIcon.propTypes = {
     onDeleteClick: PropTypes.func.isRequired,
     size: PropTypes.oneOf(['small', 'default', 'large']),
-    color: PropTypes.oneOf(['primary', 'secondary', 'action']),
+    color: PropTypes.oneOf(['primary', 'secondary', 'action', 'disabled']),
 };
 
 ArticleDeleteIcon.defaultProps = {

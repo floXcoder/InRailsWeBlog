@@ -17,7 +17,7 @@ const CheckLinkIcon = ({onCheckLinkClick, size, color}) => (
 CheckLinkIcon.propTypes = {
     onCheckLinkClick: PropTypes.func.isRequired,
     size: PropTypes.oneOf(['small', 'default', 'large']),
-    color: PropTypes.oneOf(['primary', 'secondary', 'action']),
+    color: PropTypes.oneOf(['primary', 'secondary', 'action', 'disabled']),
 };
 
 CheckLinkIcon.defaultProps = {

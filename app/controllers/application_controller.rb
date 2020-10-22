@@ -248,7 +248,7 @@ class ApplicationController < ActionController::Base
   end
 
   def store_current_location
-    store_location_for(:user, request.url) if request.get?
+    store_location_for(:user, request.url) if request.get? && request.format.html?
   end
 
   # Called after sign in and sign up
@@ -256,13 +256,13 @@ class ApplicationController < ActionController::Base
     if resource.is_a?(Admin)
       admins_path
     else
-      root_path     = send("user_home_#{resource_or_scope.locale || 'en'}_path", user_slug: resource_or_scope.slug)
-      previous_path = request.referer && URI.parse(request.referer).path
+      user_root_path = send("user_home_#{resource_or_scope.locale || 'en'}_path", user_slug: resource_or_scope.slug)
+      previous_path  = request.env['omniauth.origin'] || stored_location_for(resource_or_scope) || request.referer && URI.parse(request.referer).path
 
       if previous_path =~ /\/login/ || previous_path =~ /\/signup/ || previous_path == '/'
-        root_path
+        user_root_path
       else
-        request.env['omniauth.origin'] || stored_location_for(resource_or_scope) || previous_path || root_path
+        previous_path || user_root_path
       end
     end
   end
@@ -355,6 +355,7 @@ class ApplicationController < ActionController::Base
       format.json { render json: { errors: error_message }.to_json, status: :forbidden }
       format.js { js_redirect_to(ERB::Util.html_escape(request.referer) || root_path) }
       format.html do
+        store_current_location
         flash[:error] = error_message
         redirect_to(ERB::Util.html_escape(request.referer) || root_path)
       end

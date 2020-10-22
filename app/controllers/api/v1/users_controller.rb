@@ -100,7 +100,7 @@ module Api::V1
         format.json do
           if params[:complete] && (current_user&.id == user.id || current_user.admin?)
             User.track_views(user.id)
-            render json: user.flat_serialized_json('complete')
+            render json: user.serialized_json('complete')
           elsif params[:profile] && current_user&.id == user.id
             topic_slug = if params[:topic_slug].present?
                            params[:topic_slug]
@@ -116,7 +116,7 @@ module Api::V1
               end
             end
 
-            render json: user.flat_serialized_json('profile')
+            render json: user.serialized_json('profile')
           else
             User.track_views(user.id)
 
@@ -131,7 +131,7 @@ module Api::V1
                                     }.compact)
 
             if stale?(user, template: false, public: true)
-              render json: user.flat_serialized_json(meta: meta_attributes)
+              render json: user.serialized_json(meta: meta_attributes)
             end
           end
         end

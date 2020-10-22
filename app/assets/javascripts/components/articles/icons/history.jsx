@@ -24,7 +24,7 @@ ArticleHistoryIcon.propTypes = {
     userSlug: PropTypes.string.isRequired,
     articleSlug: PropTypes.string.isRequired,
     size: PropTypes.oneOf(['small', 'default', 'large']),
-    color: PropTypes.oneOf(['primary', 'secondary', 'action']),
+    color: PropTypes.oneOf(['primary', 'secondary', 'action', 'disabled']),
 };
 
 ArticleHistoryIcon.defaultProps = {

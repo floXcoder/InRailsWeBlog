@@ -194,7 +194,7 @@ class ArticleShow extends React.Component {
         if (this.props.article) {
             const visitorLanguage = (navigator.language || navigator.userLanguage)?.split('-')?.first();
 
-            if (visitorLanguage && visitorLanguage !== window.locale && this.props.article.slugTranslations[visitorLanguage] && this.props.article.languages?.length > 1 && this.props.article.languages.includes(visitorLanguage)) {
+            if (visitorLanguage && visitorLanguage !== window.locale && this.props.article.slugTranslations && this.props.article.slugTranslations[visitorLanguage] && this.props.article.languages?.length > 1 && this.props.article.languages.includes(visitorLanguage)) {
                 const message = {
                     fr: 'L\'article est disponible en français',
                     en: 'This article is available in english',
@@ -323,7 +323,7 @@ class ArticleShow extends React.Component {
                                                                   isSticky={isSticky}
                                                                   display="item"
                                                                   size="default"
-                                                                  color="action"
+                                                                  color="primary"
                                                                   history={this.props.history}
                                                                   isOwner={this.props.isOwner}
                                                                   userSlug={this.props.article.user.slug}
@@ -380,8 +380,8 @@ class ArticleShow extends React.Component {
                                                         <div className={this.props.classes.editIcon}>
                                                             <ArticleEditIcon userSlug={this.props.article.user.slug}
                                                                              articleSlug={this.props.article.slug}
-                                                                             size="large"
-                                                                             color="action"/>
+                                                                             size="default"
+                                                                             color="primary"/>
                                                         </div>
                                                         :
                                                         <div className={this.props.classes.editIcon}>
@@ -447,7 +447,7 @@ class ArticleShow extends React.Component {
                                         this.props.isOwner &&
                                         <ArticleActions classes={this.props.classes}
                                                         size="default"
-                                                        color="action"
+                                                        color="primary"
                                                         userSlug={this.props.article.user.slug}
                                                         articleId={this.props.article.id}
                                                         articleSlug={this.props.article.slug}

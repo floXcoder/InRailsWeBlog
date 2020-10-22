@@ -81,6 +81,8 @@ class ArticleMiniCardDisplay extends React.Component {
     _renderCard = () => {
         const isPrivateInPublic = (this.props.isUserArticlesList || this.props.currentUserTopicId === this.props.article.topicId && this.props.currentUserTopicVisibility === 'everyone') && this.props.article.visibility !== 'everyone';
 
+        const contentLength = (this.props.article.contentSummary || this.props.article.content).length
+
         return (
             <Card id={`article-${this.props.article.id}`}
                   className={classNames(this.props.classes.card, {
@@ -167,7 +169,7 @@ class ArticleMiniCardDisplay extends React.Component {
                         <Grid item={true}
                               xs={this.props.article.defaultPicture ? 8 : 12}
                               className={classNames(this.props.classes.headerItem, {
-                                  [this.props.classes.articleContentFaded]: this.props.isFaded
+                                  [this.props.classes.articleContentFaded]: this.props.isFaded && contentLength > 120
                               })}
                               itemProp="articleBody">
                             <div className="normalized-content normalized-content-extract"

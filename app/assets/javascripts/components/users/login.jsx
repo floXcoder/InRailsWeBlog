@@ -41,9 +41,9 @@ class Login extends React.PureComponent {
 
                     if (response?.meta?.location) {
                         window.location.replace(response.meta.location);
+                    } else {
+                        document.location.reload(true);
                     }
-
-                    document.location.reload(true);
                 }
             });
     };

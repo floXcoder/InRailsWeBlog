@@ -29,7 +29,7 @@ const ArticleShareIcon = ({articleId, size, color}) => (
 ArticleShareIcon.propTypes = {
     articleId: PropTypes.number.isRequired,
     size: PropTypes.oneOf(['small', 'default', 'large']),
-    color: PropTypes.oneOf(['primary', 'secondary', 'action']),
+    color: PropTypes.oneOf(['primary', 'secondary', 'action', 'disabled']),
 };
 
 ArticleShareIcon.defaultProps = {

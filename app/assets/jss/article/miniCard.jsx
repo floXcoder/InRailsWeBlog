@@ -105,7 +105,7 @@ const styles = (theme) => ({
             content: "''",
             fontWeight: 'lighter',
             width: '100%',
-            height: 60,
+            height: 55,
             position: 'absolute',
             left: 0,
             bottom: 0,
