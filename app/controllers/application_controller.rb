@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   include CacheService
 
   # Security
-  protect_from_forgery with: :exception
+  protect_from_forgery with: :exception, except: [:not_found, :not_found_error, :server_error]
 
   # Handle exceptions
   rescue_from StandardError, with: :server_error

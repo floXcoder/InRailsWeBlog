@@ -14,6 +14,8 @@ namespace :InRailsWeBlog do
     require 'seo_cache'
     require 'seo_cache/populate_cache'
 
+    # Change parameters in seo_cache initializer to run in development mode
+
     paths = if ENV['ALL_CACHE']
               GenerateCacheUrls.new.all_urls
             else
