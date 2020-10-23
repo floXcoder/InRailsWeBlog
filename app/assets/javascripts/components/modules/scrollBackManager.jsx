@@ -35,6 +35,10 @@ class ScrollBackManager extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
+        if (window.seoMode) {
+            return;
+        }
+
         // if the route changes
         if (this.props.location !== prevProps.location) {
             // Wait for loading dynamic elements
