@@ -14,12 +14,13 @@ module DataSerializerConcern
   end
 
   def flat_serialized_json(format = nil, with_model: true, **options)
-    serialized_data = self.class.serialized_json(self, format, flat: true, **options)
+    serialized_data, serialized_options = self.class.serialized_json(self, format, flat: true, with_model: with_model, **options)
 
     if with_model
       class_name                   = self.class.name.downcase
       serialized_model             = {}
       serialized_model[class_name] = serialized_data
+      serialized_model.merge!(serialized_options) if serialized_options
 
       return serialized_model
     else
@@ -33,7 +34,7 @@ module DataSerializerConcern
       self.serialize_method = base
     end
 
-    def serialized_json(data, format = nil, flat: false, **options)
+    def serialized_json(data, format = nil, flat: false, with_model: false, **options)
       raise "#{self.serialize_method} must be declared to serialize data" unless self.respond_to?(self.serialize_method)
 
       if data.is_a?(ActiveRecord::Relation)
@@ -44,19 +45,20 @@ module DataSerializerConcern
       serialized_data = self.send(self.serialize_method, data, format, **options)
 
       if flat
-        serialized_data.flat_serializable_hash
+        serialized_data.flat_serializable_hash(with_model)
       else
         serialized_data.serializable_hash
       end
     end
 
     def flat_serialized_json(data, format = nil, with_model: true, **options)
-      serialized_data = self.serialized_json(data, format, flat: true, **options)
+      serialized_data, serialized_options = self.serialized_json(data, format, flat: true, with_model: with_model, **options)
 
       if with_model
         class_name                   = self.name.downcase.pluralize
         serialized_model             = {}
         serialized_model[class_name] = serialized_data
+        serialized_model.merge!(serialized_options) if serialized_options
 
         return serialized_model
       else
