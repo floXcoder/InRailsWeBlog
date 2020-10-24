@@ -54,6 +54,8 @@ export default class Dropdown extends React.Component {
         this._buttonRef = null;
         this._popupRef = null;
         this._popupCoords = null;
+
+        this._dropdownTimeout = null;
     }
 
     state = {
@@ -82,7 +84,7 @@ export default class Dropdown extends React.Component {
         }
 
         // Ensure child is mounted
-        setTimeout(() => this._setPopupStyle(), 300);
+        this._dropdownTimeout = setTimeout(() => this._setPopupStyle(), 300);
     }
 
     componentWillUnmount() {
@@ -93,6 +95,10 @@ export default class Dropdown extends React.Component {
         document.removeEventListener('keydown', this._handleEscapeClick, false);
         if (this.props.isHidingOnScroll) {
             window.removeEventListener('scroll', this._handleScroll, false)
+        }
+
+        if (this._dropdownTimeout) {
+            clearTimeout(this._dropdownTimeout);
         }
     }
 

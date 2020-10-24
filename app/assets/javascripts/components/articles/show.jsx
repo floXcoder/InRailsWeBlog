@@ -146,11 +146,13 @@ class ArticleShow extends React.Component {
             localArticle: this.props.initProps?.article
         })
 
-        this._recommendationTimeout = setTimeout(() => this._fetchRecommendations(), 500);
+        this._recommendationTimeout = setTimeout(() => this._fetchRecommendations(), window.seoMode ? 50 : 500);
 
-        setTimeout(() => ArticleIndex.preload(), articleIndexPreloadTime);
-        if (this.props.currentUserSlug && this.props.currentUserSlug === this.props.routeParams.userSlug) {
-            setTimeout(() => ArticleEdit.preload(), articleEditPreloadTime);
+        if(!window.seoMode) {
+            setTimeout(() => ArticleIndex.preload(), articleIndexPreloadTime);
+            if (this.props.currentUserSlug && this.props.currentUserSlug === this.props.routeParams.userSlug) {
+                setTimeout(() => ArticleEdit.preload(), articleEditPreloadTime);
+            }
         }
     }
 
@@ -166,8 +168,10 @@ class ArticleShow extends React.Component {
             this._request = this.props.fetchArticle(this.props.routeParams.userSlug, this.props.routeParams.articleSlug);
         }
 
-        this._recommendationTimeout = setTimeout(() => this._fetchRecommendations(), 500);
-        this._articleLanguagesTimeout = setTimeout(() => this._checkArticleLanguages(), 300);
+        this._recommendationTimeout = setTimeout(() => this._fetchRecommendations(), window.seoMode ? 50 : 500);
+        if(!window.seoMode) {
+            this._articleLanguagesTimeout = setTimeout(() => this._checkArticleLanguages(), 300);
+        }
     }
 
     componentWillUnmount() {

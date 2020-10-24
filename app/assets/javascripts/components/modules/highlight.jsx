@@ -113,10 +113,17 @@ export default function highlight(highlightOnShow = true) {
                 super(props);
 
                 this._highlightedElements = [];
+
                 this._unmounted = false;
+
+                this._highlightTimeout = null;
             }
 
             componentDidMount() {
+                if (window.seoMode) {
+                    return;
+                }
+
                 HighlightCode.configure({
                     tabReplace: '  ', // 4 spaces,
                     languages: [
@@ -125,24 +132,32 @@ export default function highlight(highlightOnShow = true) {
                 });
 
                 if (highlightOnShow) {
-                    setTimeout(() => this._highlightCode(), 5);
+                    this._highlightTimeout = setTimeout(() => this._highlightCode(), 5);
                 }
             }
 
             componentDidUpdate() {
+                if (window.seoMode) {
+                    return;
+                }
+
                 if (highlightOnShow) {
-                    setTimeout(() => this._highlightCode(), 5);
+                    this._highlightTimeout = setTimeout(() => this._highlightCode(), 5);
                 }
             }
 
             componentWillUnmount() {
                 this._unmounted = true;
+
+                if (this._highlightTimeout) {
+                    clearTimeout(this._highlightTimeout);
+                }
             }
 
             _handleShow = (elementId, force = false) => {
                 if (!this._highlightedElements.includes(elementId) || force) {
                     this._highlightedElements.push(elementId);
-                    setTimeout(() => this._highlightCode(), 5);
+                    this._highlightTimeout = setTimeout(() => this._highlightCode(), 5);
                 }
             };
 

@@ -95,7 +95,9 @@ class SearchModule extends React.Component {
     }
 
     componentDidMount() {
-        setTimeout(() => SearchIndex.preload(), 5000);
+        if (!window.seoMode) {
+            setTimeout(() => SearchIndex.preload(), 5000);
+        }
     }
 
     _handleTagSelection = (tag) => {

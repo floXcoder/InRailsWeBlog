@@ -122,7 +122,9 @@ class ArticleIndex extends React.Component {
             this._fetchArticles(urlParams);
         }
 
-        setTimeout(() => ArticleShow.preload(), articleShowPreloadTime);
+        if(!window.seoMode) {
+            setTimeout(() => ArticleShow.preload(), articleShowPreloadTime);
+        }
     }
 
     componentDidUpdate(prevProps) {

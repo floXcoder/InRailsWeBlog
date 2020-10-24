@@ -25,14 +25,16 @@ export default class ShowMore extends React.PureComponent {
     };
 
     componentDidMount() {
-        const boundingElement = this._showMoreText.current.getBoundingClientRect();
-        const currentHeight = boundingElement.height;
+        if(!window.seoMode && this._showMoreText.current) {
+            const boundingElement = this._showMoreText.current.getBoundingClientRect();
+            const currentHeight = boundingElement.height;
 
-        if (currentHeight > this.props.maxHeight) {
-            this.setState({
-                className: 'read-more-target',
-                isShowingLabel: true
-            });
+            if (currentHeight > this.props.maxHeight) {
+                this.setState({
+                    className: 'read-more-target',
+                    isShowingLabel: true
+                });
+            }
         }
     }
 
@@ -42,27 +44,37 @@ export default class ShowMore extends React.PureComponent {
             content = '<p>' + content + '</p>';
         }
 
-        return (
-            <div id={`read-more-${this.props.id}`}
-                 className={this.props.className}>
-                <input id={this.props.id}
-                       type="checkbox"
-                       className="read-more-state"/>
-
-                <div className="read-more-wrap">
+        if(window.seoMode) {
+            return (
+                <div className={this.props.className}>
                     <div ref={this._showMoreText}
-                         className={classNames('read-more-content', this.state.className)}
                          itemProp="description"
                          dangerouslySetInnerHTML={{__html: content}}/>
                 </div>
+            );
+        } else {
+            return (
+                <div id={`read-more-${this.props.id}`}
+                     className={this.props.className}>
+                    <input id={this.props.id}
+                           type="checkbox"
+                           className="read-more-state"/>
 
-                {
-                    this.state.isShowingLabel &&
-                    <label className="read-more-trigger"
-                           htmlFor={this.props.id}/>
-                }
-            </div>
-        );
+                    <div className="read-more-wrap">
+                        <div ref={this._showMoreText}
+                             className={classNames(this.state.className)}
+                             itemProp="description"
+                             dangerouslySetInnerHTML={{__html: content}}/>
+                    </div>
+
+                    {
+                        this.state.isShowingLabel &&
+                        <label className="read-more-trigger"
+                               htmlFor={this.props.id}/>
+                    }
+                </div>
+            );
+        }
     }
 }
 
