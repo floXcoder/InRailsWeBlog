@@ -16,7 +16,7 @@ namespace :InRailsWeBlog do
 
     # Change parameters in seo_cache initializer to run in development mode
 
-    paths = if ENV['ALL_CACHE']
+    paths = if ENV['ALL_CACHE'].to_s == 'true'
               GenerateCacheUrls.new.all_urls
             else
               GenerateCacheUrls.new.last_modified_urls

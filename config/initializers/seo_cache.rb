@@ -6,7 +6,7 @@ if Rails.env.development?
   SeoCache.chrome_debugging_port = 9222
 end
 
-if ENV['SEO_CACHE']
+if ENV['SEO_CACHE'].to_s == 'true'
   require 'seo_cache'
 
   SeoCache.cache_mode = 'disk'

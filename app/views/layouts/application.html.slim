@@ -14,7 +14,7 @@ html lang="#{I18n.locale}"
 
     = render 'layouts/javascript'
 
-    - if ENV['METRICS_ADDRESS'] && Rails.env.production? && !@seo_mode
+    - if ENV['METRICS_ADDRESS'].present? && Rails.env.production? && !@seo_mode
       = render 'layouts/metrics'
 
     = render 'layouts/stylesheet'

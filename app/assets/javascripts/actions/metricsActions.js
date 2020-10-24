@@ -34,7 +34,7 @@ import {
 // };
 
 export const spySearchResults = (searchParams, response) => {
-    if (window._paq) {
+    if (window._paq && !window.seoMode) {
         const keywords = [searchParams.query, searchParams.location?.place_name].compact().join(', ');
         let totalResults = 0;
         for (const resultType in response.totalCount) {

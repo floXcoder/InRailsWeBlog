@@ -13,7 +13,7 @@ namespace :InRailsWeBlog do
     # Fetch tags
     %x(git fetch --tags)
 
-    if ENV['TAG']
+    if ENV['TAG'].present?
       # Get from environment the tag
       new_master_tag = ENV['TAG']
     else
