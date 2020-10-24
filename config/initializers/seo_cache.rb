@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-# if Rails.env.development?
-#   require 'seo_cache'
-#
-#   SeoCache.chrome_debugging_port = 9222
-# end
+if Rails.env.development?
+  require 'seo_cache'
 
-if Rails.env.production?
+  SeoCache.chrome_debugging_port = 9222
+end
+
+if ENV['SEO_CACHE']
   require 'seo_cache'
 
   SeoCache.cache_mode = 'disk'

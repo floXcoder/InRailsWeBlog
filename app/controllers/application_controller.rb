@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
   rescue_from Pundit::AuthorizationNotPerformedError, with: :user_not_authorized
 
   # Set SEO mode
-  prepend_before_action :check_seo_mode, if: -> { request.get? && !request.xhr? }
+  prepend_before_action :check_seo_mode, if: -> { request.get? && request.format.html? }
 
   # Error reporting
   before_action :set_raven_context
