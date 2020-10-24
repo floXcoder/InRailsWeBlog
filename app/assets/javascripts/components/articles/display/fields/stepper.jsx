@@ -29,8 +29,8 @@ class ArticleFormStepper extends React.Component {
     render() {
         return (
             <div id="article-edit-stepper"
-                 className={this.props.classes.root}>
-                <AppBar className={this.props.classes.appBar}
+                 className={this.props.classes.stepper}>
+                <AppBar className={this.props.classes.stepperAppBar}
                         position="static"
                         color="inherit">
                     <Tabs classes={{indicator: this.props.classes.tabsIndicator}}
@@ -46,6 +46,7 @@ class ArticleFormStepper extends React.Component {
                              icon={<EditIcon/>}
                              label="Article"/>
                         <Tab classes={{
+                            root: this.props.classes.middleTab,
                             labelIcon: this.props.classes.tab
                         }}
                              disableRipple={true}
