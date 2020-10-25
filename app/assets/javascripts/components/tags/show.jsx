@@ -139,7 +139,7 @@ class TagShow extends React.Component {
                                                       variant="outlined"
                                                       icon={<LabelIcon/>}
                                                       clickable={true}
-                                                      onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.userId, tag.name)}/>
+                                                      onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.userId, tag.name, null)}/>
                                             ))
                                         }
                                     </div>
@@ -174,7 +174,7 @@ class TagShow extends React.Component {
                                                       variant="outlined"
                                                       icon={<LabelIcon/>}
                                                       clickable={true}
-                                                      onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.userId, tag.name)}/>
+                                                      onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.userId, tag.name, null)}/>
                                             ))
                                         }
                                     </div>

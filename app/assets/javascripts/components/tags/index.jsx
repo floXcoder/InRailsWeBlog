@@ -118,7 +118,7 @@ class TagIndex extends React.Component {
                      'm4': !this.props.isUserConnected
                  })}>
                 <Link to={showTagPath(tag.slug)}
-                      onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.userId, tag.name)}>
+                      onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.userId, tag.name, null)}>
                     <Card className={this.props.classes.tagCard}>
                         <CardHeader classes={{
                             root: this.props.classes.tagHeader

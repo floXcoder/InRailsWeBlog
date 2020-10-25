@@ -48,7 +48,7 @@ export default class SearchTagModule extends React.Component {
     }
 
     _handleTagClick = (tag, event) => {
-        spyTrackClick('tag', tag.id, tag.slug, tag.userId, tag.name);
+        spyTrackClick('tag', tag.id, tag.slug, tag.userId, tag.name, null);
 
         return event;
     };

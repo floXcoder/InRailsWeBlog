@@ -33,7 +33,7 @@ export default class SearchTopicModule extends React.Component {
                   label={
                       <Link className={this.props.classes.tagLink}
                             to={topicArticlesPath(topic.userSlug, topic.slug)}
-                            onClick={spyTrackClick.bind(null, 'topic', topic.id, topic.slug, topic.userId, topic.name)}>
+                            onClick={spyTrackClick.bind(null, 'topic', topic.id, topic.slug, topic.userId, topic.name, null)}>
                           {topic.name}
                       </Link>
                   }/>

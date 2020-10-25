@@ -34,7 +34,7 @@ export default class SearchTagIndex extends React.PureComponent {
     _handleTagClick = (tag, event) => {
         event.preventDefault();
 
-        spyTrackClick('tag', tag.id, tag.slug, tag.userId, tag.name);
+        spyTrackClick('tag', tag.id, tag.slug, tag.userId, tag.name, null);
 
         this.props.onTagClick(tag);
     };

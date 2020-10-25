@@ -118,7 +118,7 @@ class ArticleSearchItemDisplay extends React.Component {
                                       )}
                                       component={Link}
                                       to={taggedArticlesPath(tag.slug)}
-                                      onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.userId, tag.name)}
+                                      onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.userId, tag.name, null)}
                                       label={tag.name}
                                       clickable={true}
                                       variant="outlined"/>
