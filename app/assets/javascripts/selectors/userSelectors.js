@@ -30,7 +30,7 @@ export const getUserRecentTopics = createSelector(
 );
 export const getUserRecentTags = createSelector(
     (state) => state.userState.recentTags,
-    () => getLocalData('recents')?.filter((recent) => recent.type === 'tag'),
+    () => getLocalData(recentLocalStorage)?.filter((recent) => recent.type === 'tag'),
     (_, limit) => limit,
     (recentTags, recentLocalTags, limit) => {
         recentLocalTags = recentLocalTags?.sort((a, b) => b.dateTimestamp - a.dateTimestamp)?.map((recentTag) => ({

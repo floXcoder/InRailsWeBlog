@@ -59,7 +59,7 @@ export const spyTrackView = (elementName, elementId) => {
             });
 };
 
-export const spyTrackClick = (elementType, elementId, elementSlug, elementUserId, elementTitle = null, elementParentId = null) => {
+export const spyTrackClick = (elementType, elementId, elementSlug, elementUserId, elementTitle, elementParentId) => {
     if (process.env.NODE_ENV !== 'production' || window.seoMode) {
         return new Promise((resolve) => {
             resolve();
@@ -96,5 +96,5 @@ export const spyTrackClick = (elementType, elementId, elementSlug, elementUserId
 };
 
 export const getTracksClick = (remove = false) => {
-    return getLocalData('recents', remove);
+    return getLocalData(recentLocalStorage, remove);
 };

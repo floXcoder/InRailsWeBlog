@@ -67,7 +67,7 @@ class ArticleMiniCardDisplay extends React.Component {
                               className={this.props.classes.articleTag}
                               component={Link}
                               to={taggedArticlesPath(tag.slug)}
-                              onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.userId, tag.name)}
+                              onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.userId, tag.name, null)}
                               icon={<LabelIcon/>}
                               label={tag.name}
                               clickable={true}
@@ -215,7 +215,7 @@ class ArticleMiniCardDisplay extends React.Component {
 
                                     <Link className={this.props.classes.userPseudo}
                                           to={userArticlesPath(this.props.article.user.slug)}
-                                          onClick={spyTrackClick.bind(null, 'user', this.props.article.user.id, this.props.article.user.slug, null, this.props.article.user.pseudo)}>
+                                          onClick={spyTrackClick.bind(null, 'user', this.props.article.user.id, this.props.article.user.slug, null, this.props.article.user.pseudo, null)}>
                                         {this.props.article.user.pseudo}
                                     </Link>
                                 </Grid>

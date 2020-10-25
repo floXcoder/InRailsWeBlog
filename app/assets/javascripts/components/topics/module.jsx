@@ -55,7 +55,7 @@ class TopicModule extends React.Component {
     };
 
     _handleSwitchTopicClick = (topicId, topicSlug, topicUserId, topicName) => {
-        spyTrackClick('topic', topicId, topicSlug, topicUserId, topicName);
+        spyTrackClick('topic', topicId, topicSlug, topicUserId, topicName, null);
 
         this.props.showTopicPopup();
     };

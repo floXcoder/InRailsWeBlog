@@ -40,7 +40,7 @@ class SummaryStoriesTopic extends React.Component {
     }
 
     _handleTopicClick = (topicId, topicSlug, topicUserId, topicName) => {
-        spyTrackClick('topic', topicId, topicSlug, topicUserId, topicName);
+        spyTrackClick('topic', topicId, topicSlug, topicUserId, topicName, null);
     };
 
     render() {

@@ -103,7 +103,7 @@ class ArticleTags extends React.PureComponent {
                                       variant="outlined"
                                       icon={<LabelIcon/>}
                                       clickable={true}
-                                      onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.userId, tag.name)}
+                                      onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.userId, tag.name, null)}
                                       onMouseEnter={this._showTagTooltip.bind(this, tag.id)}
                                       onMouseLeave={this._hideTagTooltip.bind(this, tag.id)}/>
 
@@ -133,7 +133,7 @@ class ArticleTags extends React.PureComponent {
                                   color="default"
                                   icon={<LabelIcon/>}
                                   clickable={true}
-                                  onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.userId, tag.name)}
+                                  onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.userId, tag.name, null)}
                                   onMouseEnter={this._showTagTooltip.bind(this, tag.id)}
                                   onMouseLeave={this._hideTagTooltip.bind(this, tag.id)}/>
 
