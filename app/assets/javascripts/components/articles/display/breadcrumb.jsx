@@ -35,8 +35,8 @@ class ArticleBreadcrumbDisplay extends React.Component {
         classes: PropTypes.object
     };
 
-    _handleElementClick = (elementName, elementId, elementSlug, elementTitle) => {
-        spyTrackClick(elementName, elementId, elementSlug, elementTitle);
+    _handleElementClick = (elementType, elementId, elementSlug, elementUserId, elementTitle, elementParentId = null) => {
+        spyTrackClick(elementType, elementId, elementSlug, elementUserId, elementTitle, elementParentId);
     };
 
     render() {
@@ -53,7 +53,7 @@ class ArticleBreadcrumbDisplay extends React.Component {
                           to={userArticlesPath(this.props.user.slug)}
                           itemType="http://schema.org/Thing"
                           itemProp="item"
-                          onClick={this._handleElementClick.bind(this, 'user', this.props.user.id, this.props.user.slug, this.props.user.pseudo)}>
+                          onClick={this._handleElementClick.bind(this, 'user', this.props.user.id, this.props.user.slug, null, this.props.user.pseudo)}>
                         <span itemProp="name">
                             {this.props.user.pseudo}
                         </span>
@@ -76,7 +76,7 @@ class ArticleBreadcrumbDisplay extends React.Component {
                           to={topicArticlesPath(this.props.user.slug, this.props.topic.slug)}
                           itemType="http://schema.org/Thing"
                           itemProp="item"
-                          onClick={this._handleElementClick.bind(this, 'topic', this.props.topic.id, this.props.topic.slug, this.props.topic.name)}>
+                          onClick={this._handleElementClick.bind(this, 'topic', this.props.topic.id, this.props.topic.slug, this.props.topic.userId, this.props.topic.name)}>
                         <span itemProp="name">
                             {this.props.topic.name}
                             {
@@ -105,7 +105,7 @@ class ArticleBreadcrumbDisplay extends React.Component {
                                 to={userArticlePath(this.props.article.user.slug, this.props.article.slug)}
                                 itemType="http://schema.org/Thing"
                                 itemProp="item"
-                                onClick={this._handleElementClick.bind(this, 'article', this.props.article.id, this.props.article.slug, this.props.article.title)}>
+                                onClick={this._handleElementClick.bind(this, 'article', this.props.article.id, this.props.article.slug, this.props.article.userId, this.props.article.title, this.props.topic.id)}>
                                 <span itemProp="name">
                                     {this.props.article.title}
                                 </span>
@@ -130,7 +130,7 @@ class ArticleBreadcrumbDisplay extends React.Component {
                                       variant="outlined"
                                       component={Link}
                                       to={taggedArticlesPath(tag.slug)}
-                                      onClick={this._handleElementClick.bind(this, 'tag', tag.id, tag.slug, tag.name)}/>
+                                      onClick={this._handleElementClick.bind(this, 'tag', tag.id, tag.slug, tag.userId, tag.name)}/>
                             ))
                         }
                     </li>

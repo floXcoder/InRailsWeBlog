@@ -76,7 +76,7 @@ class TopicShow extends React.Component {
     }
 
     _handleTagClick = (tag) => {
-        spyTrackClick('tag', tag.id, tag.slug, tag.name);
+        spyTrackClick('tag', tag.id, tag.slug, tag.userId, tag.name);
     };
 
     _handleTopicDelete = (event) => {

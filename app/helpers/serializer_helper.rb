@@ -21,13 +21,16 @@ module SerializerHelper
   end
 
   class CacheSerializer
-    def self.fetch(record, **options, &block)
-      if record.is_a?(Hash) && record['_index'].present?
+    def self.fetch(record_key, **options, &block)
+      if record_key.is_a?(Hash) && record_key['_index'].present?
         # Change record key if record is from Searchkick
-        record = "#{record['_index']}/#{record['id']}"
-      end
+        # record = "#{record['_index']}/#{record['id']}"
 
-      Rails.cache.fetch(record, **options, &block)
+        # Do not cache hash (lead to inconsistent results)
+        yield block
+      else
+        Rails.cache.fetch(record_key, **options, &block)
+      end
     end
   end
 end

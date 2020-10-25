@@ -326,7 +326,7 @@ class Article < ApplicationRecord
     when 'normal'
       ArticleSerializer.new(data,
                             fields:  {
-                              article: %i[id user userSlug tags topicId topicSlug topicName mode modeTranslated slugTranslations title summary contentSummary content inventories reference visibility visibilityTranslated allowComment draft languages defaultPicture slug bookmarksCount commentsCount date dateShort link parentTagIds childTagIds],
+                              article: %i[id user userId userSlug tags topicId topicSlug topicName mode modeTranslated slugTranslations title summary contentSummary content inventories reference visibility visibilityTranslated allowComment draft languages defaultPicture slug bookmarksCount commentsCount date dateShort link parentTagIds childTagIds],
                               user:    %i[id pseudo slug avatarUrl],
                               tag:     %i[id userId name synonyms visibility taggedArticlesCount slug description]
                             },
@@ -335,7 +335,7 @@ class Article < ApplicationRecord
     else
       ArticleSerializer.new(data,
                             fields:  {
-                              article: %i[id user userSlug tags topicId mode summary draft visibility defaultPicture slug outdatedArticlesCount commentsCount modeTranslated title contentSummary inventories date dateShort dateIso parentTagIds childTagIds],
+                              article: %i[id user userId userSlug tags topicId mode summary draft visibility defaultPicture slug outdatedArticlesCount commentsCount modeTranslated title contentSummary inventories date dateShort dateIso parentTagIds childTagIds],
                               user:    %i[id pseudo slug avatarUrl],
                               tag:     %i[id userId name synonyms visibility taggedArticlesCount slug description]
                             },

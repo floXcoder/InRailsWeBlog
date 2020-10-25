@@ -99,8 +99,9 @@ const styles = (theme) => ({
         color: theme.palette.text.secondary
     },
     selectedLabel: {
+        color: theme.palette.secondary.dark,
         fontSize: '1.1rem !important',
-        fontWeight: 600
+        fontWeight: 700
     },
     noTags: {
         whiteSpace: 'normal',

@@ -112,11 +112,14 @@
 
 .search-module-searching {
   //background-color: rgba(0, 0, 0, .65);
+  display: block;
   height: 100%;
-  padding-top: 2rem;
-  position: absolute;
+  padding-top: 1.4rem;
+  //position: absolute;
   text-align: center;
-  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  //width: 100%;
   z-index: 2;
 }
 

@@ -81,7 +81,7 @@ class TagShow extends React.Component {
                     <NotFound/>
                 </div>
             );
-        } else if(this.props.isFetching) {
+        } else if (this.props.isFetching) {
             return (
                 <div className="center margin-top-20">
                     <Loader size="big"/>
@@ -109,8 +109,8 @@ class TagShow extends React.Component {
 
                             {
                                 this.props.tag.description ||
-                                <p className="">
-                                    {I18n.t('js.tag.common.no_description')}
+                                <p>
+                                    <em>{I18n.t('js.tag.common.no_description')}</em>
                                 </p>
                             }
                         </div>
@@ -139,13 +139,13 @@ class TagShow extends React.Component {
                                                       variant="outlined"
                                                       icon={<LabelIcon/>}
                                                       clickable={true}
-                                                      onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.name)}/>
+                                                      onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.userId, tag.name)}/>
                                             ))
                                         }
                                     </div>
                                     :
-                                    <p className="">
-                                        {I18n.t('js.tag.common.no_parents')}
+                                    <p>
+                                        <em>{I18n.t('js.tag.common.no_parents')}</em>
                                     </p>
                             }
                         </div>
@@ -174,13 +174,13 @@ class TagShow extends React.Component {
                                                       variant="outlined"
                                                       icon={<LabelIcon/>}
                                                       clickable={true}
-                                                      onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.name)}/>
+                                                      onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.userId, tag.name)}/>
                                             ))
                                         }
                                     </div>
                                     :
                                     <span>
-                                        {I18n.t('js.tag.common.no_children')}
+                                        <em>{I18n.t('js.tag.common.no_children')}</em>
                                     </span>
                             }
                         </div>
@@ -237,14 +237,14 @@ class TagShow extends React.Component {
                                     </p>
                                     :
                                     <p>
-                                        {I18n.t('js.tag.common.no_synonyms')}
+                                        <em>{I18n.t('js.tag.common.no_synonyms')}</em>
                                     </p>
                             }
 
                         </div>
 
                         {
-                            (this.props.currentUser?.id === this.props.tag.user.id && this.props.tag.tracker) &&
+                            (this.props.currentUser?.id === this.props.tag.user.id && this.props.tag.visibility === 'everyone' && this.props.tag.tracker) &&
                             <div>
                                 <Typography className={this.props.classes.subtitle2}
                                             component="h3"

@@ -20,9 +20,9 @@ import {
 const UserAvatarIcon = ({className, user, secondary}) => (
     <Link className={className}
           to={userArticlesPath(user.slug)}
-          onClick={spyTrackClick.bind(null, 'user', user.id, user.slug, user.pseudo)}>
+          onClick={spyTrackClick.bind(null, 'user', user.id, user.slug, null, user.pseudo)}>
         <Grid container={true}
-              spacing={1}
+              spacing={2}
               direction="row"
               justify="flex-start"
               alignItems="center">

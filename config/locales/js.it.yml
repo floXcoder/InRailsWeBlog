@@ -310,10 +310,10 @@ it:
         privates: "Etichette private"
         publics: "Etichette pubbliche"
         stats:
-          clicks: "cliccare"
-          searches: "Ricerca "
           title: "Statistiche"
-          views: "Viste"
+          clicks: "Cliccare: "
+          searches: "Ricerca: "
+          views: "Viste: "
         synonyms: "Sinonimi dell'etichetta..."
         usage: "%{count} utilizza"
         visibility: "Scegliere la visibilità"
@@ -694,11 +694,11 @@ it:
         topics:
           title: "Temi"
         tags:
-          recents: "(Etichette recenti)"
+          recents: "(recenti)"
           title: "Etichette"
           none: "Nessuna etichetta trovata"
         articles:
-          recents: "(Articoli recenti)"
+          recents: "(recenti)"
           other_topics: "Risultati negli altri temi"
           other_users: "Risultati da altri utenti"
           title: "Articoli"

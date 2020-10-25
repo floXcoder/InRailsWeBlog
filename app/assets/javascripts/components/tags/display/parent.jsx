@@ -68,8 +68,8 @@ class ParentTag extends React.PureComponent {
         return null;
     }
 
-    _handleTagClick = (tagId, tagName, tagSlug, parent) => {
-        this.props.onTagClick(tagId, tagSlug, tagName);
+    _handleTagClick = (tagId, tagName, tagSlug, tagUserId, parent) => {
+        this.props.onTagClick(tagId, tagSlug, tagUserId, tagName);
 
         if (parent) {
             if (!this.state.isExpanded) {
@@ -96,7 +96,7 @@ class ParentTag extends React.PureComponent {
                 <ListItem button={true}
                           component={Link}
                           to={this.props.currentUserSlug && this.props.currentUserTopicSlug ? taggedTopicArticlesPath(this.props.currentUserSlug, this.props.currentUserTopicSlug, this.props.tag.slug) : taggedArticlesPath(this.props.tag.slug)}
-                          onClick={this._handleTagClick.bind(this, this.props.tag.id, this.props.tag.name, this.props.tag.slug, true)}>
+                          onClick={this._handleTagClick.bind(this, this.props.tag.id, this.props.tag.slug, this.props.tag.userId, this.props.tag.name, true)}>
                     <ListItemText classes={{
                         primary: classNames(this.props.classes.label, {
                             [this.props.classes.selectedLabel]: this.props.currentTagSlug ? this.props.currentTagSlug === this.props.tag.slug : this.props.currentTagSlugs.includes(this.props.tag.slug)
@@ -135,7 +135,7 @@ class ParentTag extends React.PureComponent {
                                               currentChildTagSlug={this.props.currentChildTagSlug}
                                               currentTagSlugs={this.props.currentTagSlugs}
                                               classes={this.props.classes}
-                                              onTagClick={this._handleTagClick.bind(this, tag.id, tag.name, tag.slug, false)}/>
+                                              onTagClick={this._handleTagClick.bind(this, tag.id, tag.name, tag.userId, tag.slug, false)}/>
                                 ))
                             }
                         </List>

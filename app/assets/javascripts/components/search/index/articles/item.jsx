@@ -44,7 +44,7 @@ class ArticleSearchItemDisplay extends React.Component {
     }
 
     _handleArticleClick = () => {
-        spyTrackClick('article', this.props.article.id, this.props.article.slug, this.props.article.title);
+        spyTrackClick('article', this.props.article.id, this.props.article.slug, this.props.article.userId, this.props.article.title, this.props.article.topicId);
     };
 
     render() {
@@ -118,7 +118,7 @@ class ArticleSearchItemDisplay extends React.Component {
                                       )}
                                       component={Link}
                                       to={taggedArticlesPath(tag.slug)}
-                                      onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.name)}
+                                      onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.userId, tag.name)}
                                       label={tag.name}
                                       clickable={true}
                                       variant="outlined"/>

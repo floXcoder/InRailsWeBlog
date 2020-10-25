@@ -57,7 +57,7 @@ class TooltipTag extends React.PureComponent {
 
                         <div className="margin-top-10">
                             <a href={showTagPath(tag.slug)}
-                               onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.name)}>
+                               onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.userId, tag.name)}>
                                 {I18n.t('js.tag.common.link')}
                             </a>
                         </div>

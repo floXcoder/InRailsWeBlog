@@ -310,10 +310,10 @@ de:
         privates: "Eigenmarken"
         publics: "Öffentliche Labels"
         stats:
-          clicks: "klicken"
-          searches: "Forschung "
           title: "Statistik"
-          views: "Ansichten"
+          clicks: "Klicken: "
+          searches: "Forschung: "
+          views: "Ansichten: "
         synonyms: "Synonyme der Bezeichnung ..."
         usage: "%{count} Verwendungen"
         visibility: "Sichtbarkeit wählen"
@@ -700,11 +700,11 @@ de:
         topics:
           title: "Themenbereiche"
         tags:
-          recents: "(Neueste Etiketten)"
+          recents: "(Neueste)"
           title: "Beschriftungen"
           none: "Keine Etiketten gefunden"
         articles:
-          recents: "(Neueste Artikel)"
+          recents: "(Neueste)"
           other_topics: "Ergebnisse in den anderen Themen"
           other_users: "Ergebnisse von anderen Benutzern"
           title: "Artikel"

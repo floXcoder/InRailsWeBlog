@@ -1,9 +1,5 @@
 'use strict';
 
-import {
-    configureStore
-} from '../stores';
-
 import api from '../middlewares/api';
 
 import {
@@ -11,6 +7,10 @@ import {
     saveLocalArray,
     getLocalData
 } from '../middlewares/localStorage';
+
+import {
+    recentLocalStorage
+} from '../components/modules/constants';
 
 // Unused for now
 // export const spyHeartbeat = (value) => {
@@ -59,28 +59,23 @@ export const spyTrackView = (elementName, elementId) => {
             });
 };
 
-export const spyTrackClick = (elementName, elementId, elementSlug = null, elementTitle = null) => {
+export const spyTrackClick = (elementType, elementId, elementSlug, elementUserId, elementTitle = null, elementParentId = null) => {
     if (process.env.NODE_ENV !== 'production' || window.seoMode) {
         return new Promise((resolve) => {
             resolve();
         });
     }
 
-    const currentUserId = configureStore.getState().userState.currentId;
-    const currentUserSlug = configureStore.getState().userState.currentSlug;
-    const currentUserTopicId = configureStore.getState().topicState.currentUserTopicId;
-
     // Always save to local storage for optimization
     if (hasLocalStorage && elementSlug && elementTitle) {
-        saveLocalArray('recents', {
-            type: elementName,
+        saveLocalArray(recentLocalStorage, {
+            type: elementType,
             elementId: elementId,
             title: elementTitle.replace(/<.*?>(.*)<\/.*?>/g, '$1'),
             slug: elementSlug,
             date: Date.now(),
-            userId: currentUserId,
-            parentId: currentUserTopicId,
-            userSlug: currentUserSlug
+            userId: elementUserId,
+            parentId: elementParentId
         });
     }
 
@@ -92,11 +87,11 @@ export const spyTrackClick = (elementName, elementId, elementSlug = null, elemen
     // });
 
     return api
-        .post(`/api/v1/${elementName}s/${elementId}/clicked`,
+        .post(`/api/v1/${elementType}s/${elementId}/clicked`,
             {
                 id: elementId,
-                userId: currentUserId,
-                parentId: currentUserTopicId
+                userId: elementUserId,
+                parentId: elementParentId
             });
 };
 

@@ -22,14 +22,19 @@
   .timeline-separator {
     list-style: none;
     position: relative;
-    left: -54px;
+    left: -42px;
     padding: 3px 0;
-    width: 120%;
-    background: #aaa;
+    width: 110%;
+    background: #fff;
     text-align: center;
-    border: 4px solid #fff;
-    color: #fff;
-    border-radius: 12px;
+    border: 1px solid $secondary-color-light;
+    color: $text-color;
+    border-radius: 8px;
+    margin-bottom: 3px;
+    margin-top: 4px;
+    font-style: italic;
+    font-size: .95rem;
+    box-shadow: 1px 1px 3px $secondary-color-dark;
   }
 
   .timeline-item {
@@ -92,6 +97,8 @@
       white-space: nowrap;
       width: 90%;
       overflow: hidden;
+      margin-left: -12px;
+      padding: 3px;
 
       .material-icons {
         font-size: inherit;

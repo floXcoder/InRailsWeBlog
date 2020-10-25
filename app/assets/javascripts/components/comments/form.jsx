@@ -160,7 +160,7 @@ export default class CommentForm extends React.PureComponent {
                                 </div>
                             }
 
-                            <div className="row margin-top-10">
+                            <div className="row margin-top-25">
                                 <div className="col s6">
                                     <Button color="default"
                                             variant="outlined"

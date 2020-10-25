@@ -59,7 +59,7 @@ export default function userReducer(state = initState, action) {
         case ActionTypes.USER_CHANGE_SUCCESS:
         case ActionTypes.USER_CHANGE_ERROR:
             return mutationReducer(state, action, (state) => {
-                if (action.connection) {
+                if (action.connection && action.user) {
                     window.currentUserId = action.user.id;
 
                     state.currentId = action.user.id;
@@ -69,6 +69,8 @@ export default function userReducer(state = initState, action) {
                     state.user = state.user && {...state.user, settings: action.settings};
                 } else if (action.user) {
                     state.user = action.user;
+                } else {
+                    state.isConnected = false;
                 }
             });
 

@@ -83,7 +83,7 @@ class UserHome extends React.Component {
     }
 
     _handleTopicClick = (topic) => {
-        spyTrackClick('topic', topic.id, topic.slug, topic.name);
+        spyTrackClick('topic', topic.id, topic.slug, topic.userId, topic.name);
     };
 
     render() {

@@ -8,6 +8,10 @@ import {
     getLocalData
 } from '../middlewares/localStorage';
 
+import {
+    recentLocalStorage
+} from '../components/modules/constants';
+
 export const getIsPrimaryUser = () => (
     window.currentUserId === '1'
 );
@@ -41,7 +45,7 @@ export const getUserRecentTags = createSelector(
 );
 export const getUserRecentArticles = createSelector(
     (state) => state.userState.recentArticles,
-    () => getLocalData('recents')?.filter((recent) => recent.type === 'article'),
+    () => getLocalData(recentLocalStorage)?.filter((recent) => recent.type === 'article'),
     (_, limit) => limit,
     (recentArticles, recentLocalArticles, limit) => {
         recentLocalArticles = recentLocalArticles?.sort((a, b) => b.dateTimestamp - a.dateTimestamp)?.map((recentArticle) => ({
@@ -49,9 +53,7 @@ export const getUserRecentArticles = createSelector(
             title: recentArticle.title,
             slug: recentArticle.slug,
             topicId: recentArticle.parentId,
-            user: {
-                slug: recentArticle.userSlug
-            }
+            userId: recentArticle.userId
         })) || [];
 
         return Utils.uniqValues(recentLocalArticles.concat(recentArticles).filter((recent) => !!recent.title), 'id').limit(limit);

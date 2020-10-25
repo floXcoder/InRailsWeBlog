@@ -19,8 +19,8 @@ const styles = (theme) => ({
     subtitle: {
         fontSize: '2.4rem',
         fontWeight: 500,
-        marginTop: 40,
-        marginBottom: 15
+        marginTop: theme.spacing(6),
+        marginBottom: theme.spacing(1)
     },
     subtitle2: {
         fontSize: '1.6rem',

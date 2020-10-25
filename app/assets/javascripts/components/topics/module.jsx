@@ -54,8 +54,8 @@ class TopicModule extends React.Component {
         overTopicId: undefined
     };
 
-    _handleSwitchTopicClick = (topicId) => {
-        spyTrackClick('topic', topicId);
+    _handleSwitchTopicClick = (topicId, topicSlug, topicUserId, topicName) => {
+        spyTrackClick('topic', topicId, topicSlug, topicUserId, topicName);
 
         this.props.showTopicPopup();
     };
@@ -73,7 +73,7 @@ class TopicModule extends React.Component {
                  onMouseEnter={this._handleOverEdit.bind(this, topic.id)}
                  onMouseLeave={this._handleOverEdit.bind(this, null)}>
                 <Link to={topicArticlesPath(this.props.userSlug, topic.slug)}
-                      onClick={this._handleSwitchTopicClick.bind(this, topic.id)}>
+                      onClick={this._handleSwitchTopicClick.bind(this, topic.id, topic.slug, topic.userId, topic.name)}>
                                     <span className={this.props.classes.item}>
                                         <span className={classNames(
                                             this.props.classes.itemContent, {

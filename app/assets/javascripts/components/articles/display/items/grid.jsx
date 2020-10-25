@@ -37,6 +37,7 @@ import ArticleActions from '../../properties/actions';
 import ArticleAvatarIcon from '../../icons/avatar';
 
 import styles from '../../../../../jss/article/card';
+import ArticleFloatingIcons from "../../properties/floatingIcons";
 
 export default @highlight()
 @withStyles(styles)
@@ -174,7 +175,7 @@ class ArticleGridDisplay extends React.PureComponent {
                                         <Link className={this.props.classes.gridTitleLink}
                                               to={userArticlePath(this.props.article.user.slug, this.props.article.slug)}
                                               itemProp="mainEntityOfPage url"
-                                              onClick={spyTrackClick.bind(null, 'article', this.props.article.id, this.props.article.slug, this.props.article.title)}>
+                                              onClick={spyTrackClick.bind(null, 'article', this.props.article.id, this.props.article.slug, this.props.article.userId, this.props.article.title, this.props.article.topicId)}>
                                             {this.props.article.title}
                                         </Link>
                                     </Typography>
@@ -266,6 +267,8 @@ class ArticleGridDisplay extends React.PureComponent {
                                                 articleId={this.props.article.id}
                                                 articleSlug={this.props.article.slug}
                                                 articleTitle={this.props.article.title}
+                                                articleUserId={this.props.article.userId}
+                                                articleTopicId={this.props.article.topicId}
                                                 articleVisibility={this.props.article.visibility}
                                                 isOutdated={this.props.article.outdated}/>
                             }

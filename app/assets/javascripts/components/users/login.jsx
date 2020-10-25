@@ -34,7 +34,7 @@ class Login extends React.PureComponent {
             .then((response) => {
                 if (response?.errors) {
                     Notification.error(response.errors);
-                } else {
+                } else if (response.user) {
                     if (sessionStorage) {
                         sessionStorage.setItem('user-logged', 'true');
                     }
@@ -68,7 +68,7 @@ class Login extends React.PureComponent {
                     {
                         this.props.isProcessing &&
                         <div className="center-align">
-                            <h2>
+                            <h2 className="responsive-modal-subtitle">
                                 {I18n.t('js.user.login.connecting')}
                                 <BounceSpinner className="margin-bottom-10"/>
                             </h2>

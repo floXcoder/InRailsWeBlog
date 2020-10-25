@@ -76,6 +76,7 @@ import ArticleMiniCardDisplay from './display/items/miniCard';
 import ArticleSkeleton from '../loaders/skeletons/article';
 
 import styles from '../../../jss/article/show';
+import ArticleLinkIcon from "./icons/link";
 
 export default @withRouter
 @connect((state, props) => ({
@@ -327,7 +328,7 @@ class ArticleShow extends React.Component {
                                                                   isSticky={isSticky}
                                                                   display="item"
                                                                   size="default"
-                                                                  color="primary"
+                                                                  color="action"
                                                                   history={this.props.history}
                                                                   isOwner={this.props.isOwner}
                                                                   userSlug={this.props.article.user.slug}
@@ -543,7 +544,7 @@ class ArticleShow extends React.Component {
                                         commentsCount={this.props.article.commentsCount}
                                         isUserOwner={this.props.isOwner}
                                         isPaginated={false}
-                                        isRated={true}/>
+                                        isRated={false}/>
                         </LazyLoader>
                     </div>
                 }

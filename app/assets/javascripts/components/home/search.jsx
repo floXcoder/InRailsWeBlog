@@ -126,8 +126,7 @@ class HomeSearch extends React.Component {
 
     _renderSearchForm = () => {
         return (
-            <form className=""
-                  autoComplete="off"
+            <form autoComplete="off"
                   acceptCharset="UTF-8">
                 <EnsureValidity/>
 

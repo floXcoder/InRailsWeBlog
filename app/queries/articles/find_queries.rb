@@ -213,7 +213,7 @@ module Articles
     def article_order(params)
       if params[:order].present?
         params[:order]
-      elsif @current_user
+      elsif @current_user && (params[:topic_slug].present? || params[:tag_slug].present? || params[:topic_id].present? || params[:tag_id].present?)
         if @user_articles == @current_user && @topic_articles
           @topic_articles&.article_order || @current_user.article_order
         else

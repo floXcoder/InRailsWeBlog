@@ -49,7 +49,7 @@ class TagChipDisplay extends React.Component {
                   variant="outlined"
                   component={Link}
                   to={taggedArticlesPath(this.props.tag.slug)}
-                  onClick={spyTrackClick.bind(null, 'tag', this.props.tag.id, this.props.tag.slug, this.props.tag.name)}/>
+                  onClick={spyTrackClick.bind(null, 'tag', this.props.tag.id, this.props.tag.slug, this.props.tag.userId, this.props.tag.name)}/>
         );
     }
 }

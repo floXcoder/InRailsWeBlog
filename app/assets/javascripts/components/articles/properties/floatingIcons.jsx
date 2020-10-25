@@ -1,7 +1,7 @@
 'use strict';
 
 import ArticleEditIcon from '../icons/edit';
-import ArticleHistoryIcon from '../icons/history';
+// import ArticleHistoryIcon from '../icons/history';
 import ArticleLinkIcon from '../icons/link';
 import ArticleTopicLinkIcon from '../icons/topicLink';
 import ArticleBookmarkIcon from '../icons/bookmark';
@@ -14,6 +14,8 @@ export default class ArticleFloatingIcons extends React.PureComponent {
         userSlug: PropTypes.string.isRequired,
         articleId: PropTypes.number.isRequired,
         articleSlug: PropTypes.string.isRequired,
+        articleUserId: PropTypes.number,
+        articleTopicId: PropTypes.number,
         articleTitle: PropTypes.string,
         topicSlug: PropTypes.string,
         display: PropTypes.oneOf(['list', 'item']),
@@ -51,17 +53,23 @@ export default class ArticleFloatingIcons extends React.PureComponent {
                     <ArticleLinkIcon userSlug={this.props.userSlug}
                                      articleId={this.props.articleId}
                                      articleSlug={this.props.articleSlug}
+                                     articleUserId={this.props.articleUserId}
+                                     articleTopicId={this.props.articleTopicId}
                                      articleTitle={this.props.articleTitle}
                                      size="large"
                                      color={this.props.color}/>
                 }
+
+                <ArticleBookmarkIcon articleId={this.props.articleId}
+                                     size={this.props.size}
+                                     color={this.props.color}/>
 
                 {
                     this.props.isOwner &&
                     <ArticleEditIcon userSlug={this.props.userSlug}
                                      articleSlug={this.props.articleSlug}
                                      history={this.props.history}
-                                     size="large"
+                                     size={this.props.size}
                                      color={this.props.color}/>
                 }
 
@@ -73,16 +81,12 @@ export default class ArticleFloatingIcons extends React.PureComponent {
                 }
 
                 {
-                    (this.props.display === 'item' && this.props.isOwner) &&
-                    <ArticleHistoryIcon userSlug={this.props.userSlug}
-                                        articleSlug={this.props.articleSlug}
-                                        size={this.props.size}
-                                        color={this.props.color}/>
+                    // (this.props.display === 'item' && this.props.isOwner) &&
+                    // <ArticleHistoryIcon userSlug={this.props.userSlug}
+                    //                     articleSlug={this.props.articleSlug}
+                    //                     size={this.props.size}
+                    //                     color={this.props.color}/>
                 }
-
-                <ArticleBookmarkIcon articleId={this.props.articleId}
-                                     size={this.props.size}
-                                     color={this.props.color}/>
             </div>
         );
     }

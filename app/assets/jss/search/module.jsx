@@ -101,7 +101,8 @@ const styles = (theme) => ({
         color: theme.palette.grey[600],
         paddingLeft: 15,
         fontWeight: 500,
-        fontSize: '1rem'
+        fontSize: '1rem',
+        fontStyle: 'italic'
     },
     articleHighlighted: {
         border: `1px solid ${theme.palette.secondary.main}`,

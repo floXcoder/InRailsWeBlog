@@ -30,6 +30,7 @@ import ArticleInventoryDisplay from './inventory';
 import ArticleLinkIcon from '../../icons/link';
 
 import styles from '../../../../../jss/article/inline';
+import ArticleFloatingIcons from "../../properties/floatingIcons";
 
 export default @highlight()
 @withStyles(styles)
@@ -99,7 +100,7 @@ class ArticleInlineDisplay extends React.PureComponent {
     };
 
     _handleTitleClick = () => {
-        spyTrackClick('article', this.props.article.id, this.props.article.slug, this.props.article.title);
+        spyTrackClick('article', this.props.article.id, this.props.article.slug, this.props.article.userId, this.props.article.title, this.props.article.topicId);
     };
 
     _handleFoldClick = (event) => {
@@ -163,6 +164,8 @@ class ArticleInlineDisplay extends React.PureComponent {
                                 <ArticleLinkIcon articleId={this.props.article.id}
                                                  articleSlug={this.props.article.slug}
                                                  articleTitle={this.props.article.title}
+                                                 articleUserId={this.props.article.userId}
+                                                 articleTopicId={this.props.article.topicId}
                                                  userSlug={this.props.article.user.slug}
                                                  size="default"
                                                  color="action"/>
