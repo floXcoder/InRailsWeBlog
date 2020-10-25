@@ -35,8 +35,10 @@ class ArticleBreadcrumbDisplay extends React.Component {
         classes: PropTypes.object
     };
 
-    _handleElementClick = (elementType, elementId, elementSlug, elementUserId, elementTitle, elementParentId = null) => {
+    _handleElementClick = (elementType, elementId, elementSlug, elementUserId, elementTitle, elementParentId, event) => {
         spyTrackClick(elementType, elementId, elementSlug, elementUserId, elementTitle, elementParentId);
+
+        return event;
     };
 
     render() {
@@ -53,7 +55,7 @@ class ArticleBreadcrumbDisplay extends React.Component {
                           to={userArticlesPath(this.props.user.slug)}
                           itemType="http://schema.org/Thing"
                           itemProp="item"
-                          onClick={this._handleElementClick.bind(this, 'user', this.props.user.id, this.props.user.slug, null, this.props.user.pseudo)}>
+                          onClick={this._handleElementClick.bind(this, 'user', this.props.user.id, this.props.user.slug, null, this.props.user.pseudo, null)}>
                         <span itemProp="name">
                             {this.props.user.pseudo}
                         </span>
@@ -76,7 +78,7 @@ class ArticleBreadcrumbDisplay extends React.Component {
                           to={topicArticlesPath(this.props.user.slug, this.props.topic.slug)}
                           itemType="http://schema.org/Thing"
                           itemProp="item"
-                          onClick={this._handleElementClick.bind(this, 'topic', this.props.topic.id, this.props.topic.slug, this.props.topic.userId, this.props.topic.name)}>
+                          onClick={this._handleElementClick.bind(this, 'topic', this.props.topic.id, this.props.topic.slug, this.props.topic.userId, this.props.topic.name, null)}>
                         <span itemProp="name">
                             {this.props.topic.name}
                             {
@@ -130,7 +132,7 @@ class ArticleBreadcrumbDisplay extends React.Component {
                                       variant="outlined"
                                       component={Link}
                                       to={taggedArticlesPath(tag.slug)}
-                                      onClick={this._handleElementClick.bind(this, 'tag', tag.id, tag.slug, tag.userId, tag.name)}/>
+                                      onClick={this._handleElementClick.bind(this, 'tag', tag.id, tag.slug, tag.userId, tag.name, null)}/>
                             ))
                         }
                     </li>
