@@ -43,6 +43,7 @@ import ArticleActions from '../../properties/actions';
 import ArticleAvatarIcon from '../../icons/avatar';
 
 import styles from '../../../../../jss/article/card';
+import ArticleLinkIcon from "../../icons/link";
 
 export default @highlight()
 @withStyles(styles)
@@ -121,7 +122,7 @@ class ArticleCardDisplay extends React.PureComponent {
     };
 
     _handleTitleClick = () => {
-        spyTrackClick('article', this.props.article.id, this.props.article.slug, this.props.article.title);
+        spyTrackClick('article', this.props.article.id, this.props.article.slug, this.props.article.userId, this.props.article.title, this.props.article.topicId);
     };
 
     render() {
@@ -155,6 +156,8 @@ class ArticleCardDisplay extends React.PureComponent {
                                                               userSlug={this.props.article.user.slug}
                                                               articleId={this.props.article.id}
                                                               articleSlug={this.props.article.slug}
+                                                              articleUserId={this.props.article.userId}
+                                                              articleTopicId={this.props.article.topicId}
                                                               articleTitle={this.props.article.title}/>
                                     )}
                                 </Sticky>
@@ -296,6 +299,8 @@ class ArticleCardDisplay extends React.PureComponent {
                                                     userSlug={this.props.article.user.slug}
                                                     articleId={this.props.article.id}
                                                     articleSlug={this.props.article.slug}
+                                                    articleUserId={this.props.article.userId}
+                                                    articleTopicId={this.props.article.topicId}
                                                     articleTitle={this.props.article.title}
                                                     articleVisibility={this.props.article.visibility}
                                                     isOutdated={this.props.article.outdated}/>

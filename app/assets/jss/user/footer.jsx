@@ -5,9 +5,14 @@ const styles = (theme) => ({
         boxShadow: 'none',
         backgroundColor: theme.palette.background.default,
         margin: '12px auto 32px',
-        paddingTop: theme.spacing(4),
+        marginTop: theme.spacing(8),
+        borderTop: `1px solid ${theme.palette.grey[300]}`
+    },
+    footerContainer: {
+        paddingTop: '1.6rem',
+        marginLeft: 'auto',
+        marginRight: 'auto',
         width: '70%',
-        borderTop: `1px solid ${theme.palette.grey[300]}`,
         textAlign: 'center'
     },
     footerTitle: {

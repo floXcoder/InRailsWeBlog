@@ -3,15 +3,13 @@
 const ArticleVotes = ({articleId, articleVotesUp, articleVotesDown, onVoteClick}) => {
     return (
         <div>
-            <a className=""
-               onClick={onVoteClick.bind(null, articleId, true)}>
+            <a onClick={onVoteClick.bind(null, articleId, true)}>
                 <span className="material-icons"
                       data-icon="thumb_up"
                       aria-hidden="true"/>
             </a>
 
-            <a className=""
-               onClick={onVoteClick.bind(null, articleId, false)}>
+            <a onClick={onVoteClick.bind(null, articleId, false)}>
                 <span className="material-icons"
                       data-icon="thumb_down"
                       aria-hidden="true"/>

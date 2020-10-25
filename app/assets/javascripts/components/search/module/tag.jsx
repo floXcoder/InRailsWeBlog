@@ -18,10 +18,12 @@ import {
 import {
     spyTrackClick
 } from '../../../actions';
+import Loader from "../../theme/loader";
 
 export default class SearchTagModule extends React.Component {
     static propTypes = {
         classes: PropTypes.object.isRequired,
+        isSearching: PropTypes.bool.isRequired,
         isUserConnected: PropTypes.bool.isRequired,
         tags: PropTypes.array.isRequired,
         hasQuery: PropTypes.bool.isRequired,
@@ -46,7 +48,7 @@ export default class SearchTagModule extends React.Component {
     }
 
     _handleTagClick = (tag, event) => {
-        spyTrackClick('tag', tag.id, tag.slug, tag.name);
+        spyTrackClick('tag', tag.id, tag.slug, tag.userId, tag.name);
 
         return event;
     };
@@ -100,7 +102,8 @@ export default class SearchTagModule extends React.Component {
                       </Link>
                   }
                   onDelete={this.props.hasSearchIcon && this.props.onTagClick ? this.props.onTagClick.bind(this, tag) : undefined}
-                  deleteIcon={this.props.hasSearchIcon ? <ZoomInIcon className={this.props.classes.tagAdd}/> : undefined}/>
+                  deleteIcon={this.props.hasSearchIcon ?
+                      <ZoomInIcon className={this.props.classes.tagAdd}/> : undefined}/>
         );
     };
 
@@ -122,48 +125,56 @@ export default class SearchTagModule extends React.Component {
                     }
                 </h2>
 
-                <div>
-                    {
-                        (this.props.hasQuery && this.props.tags.length === 0) &&
-                        <p className={this.props.classes.tagNone}>
-                            {I18n.t('js.search.module.tags.none')}
-                        </p>
-                    }
-
-                    {
-                        currentTopicTags.map(this._renderTagItem.bind(this, true))
-                    }
-
-                    {
-                        !Utils.isEmpty(otherTopicTags) &&
-                        <>
+                {
+                    this.props.isSearching
+                        ?
+                        <div className="search-module-searching">
+                            <Loader size="big"/>
+                        </div>
+                        :
+                        <div>
                             {
-                                !Utils.isEmpty(currentTopicTags) &&
-                                <Divider className={this.props.classes.categoryDivider}
-                                         variant="fullWidth"/>
+                                (this.props.hasQuery && this.props.tags.length === 0) &&
+                                <p className={this.props.classes.tagNone}>
+                                    <em>{I18n.t('js.search.module.tags.none')}</em>
+                                </p>
                             }
 
                             {
-                                otherTopicTags.map(this._renderTagItem.bind(this, false))
-                            }
-                        </>
-                    }
-
-                    {
-                        !Utils.isEmpty(otherUserTags) &&
-                        <>
-                            {
-                                (!Utils.isEmpty(currentTopicTags) || !Utils.isEmpty(otherTopicTags)) &&
-                                <Divider className={this.props.classes.categoryDivider}
-                                         variant="fullWidth"/>
+                                currentTopicTags.map(this._renderTagItem.bind(this, true))
                             }
 
                             {
-                                otherUserTags.map(this._renderTagItem.bind(this, false))
+                                !Utils.isEmpty(otherTopicTags) &&
+                                <>
+                                    {
+                                        !Utils.isEmpty(currentTopicTags) &&
+                                        <Divider className={this.props.classes.categoryDivider}
+                                                 variant="fullWidth"/>
+                                    }
+
+                                    {
+                                        otherTopicTags.map(this._renderTagItem.bind(this, false))
+                                    }
+                                </>
                             }
-                        </>
-                    }
-                </div>
+
+                            {
+                                !Utils.isEmpty(otherUserTags) &&
+                                <>
+                                    {
+                                        (!Utils.isEmpty(currentTopicTags) || !Utils.isEmpty(otherTopicTags)) &&
+                                        <Divider className={this.props.classes.categoryDivider}
+                                                 variant="fullWidth"/>
+                                    }
+
+                                    {
+                                        otherUserTags.map(this._renderTagItem.bind(this, false))
+                                    }
+                                </>
+                            }
+                        </div>
+                }
             </div>
         );
     }

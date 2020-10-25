@@ -310,10 +310,10 @@ es:
         privates: "Etiquetas privadas"
         publics: "Etiquetas públicas"
         stats:
-          clicks: "clic"
-          searches: "Investigación "
           title: "Estadísticas"
-          views: "Vistas"
+          clicks: "Clic: "
+          searches: "Investigación: "
+          views: "Vistas: "
         synonyms: "Sinónimos de la etiqueta ..."
         usage: "%{count} usos"
         visibility: "Elija la visibilidad"
@@ -694,11 +694,11 @@ es:
         topics:
           title: "Temas"
         tags:
-          recents: "(Etiquetas recientes)"
+          recents: "(recientes)"
           title: "Etiquetas"
           none: "No se encontraron etiquetas"
         articles:
-          recents: "(Artículos recientes)"
+          recents: "(recientes)"
           other_topics: "Los resultados en los otros temas"
           other_users: "Resultados de otros usuarios"
           title: "Artículos"

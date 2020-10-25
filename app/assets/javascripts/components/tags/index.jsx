@@ -117,54 +117,56 @@ class TagIndex extends React.Component {
                  className={classNames('col s12', {
                      'm4': !this.props.isUserConnected
                  })}>
-                <Card className={this.props.classes.tagCard}>
-                    <CardHeader classes={{
-                        root: this.props.classes.tagHeader
-                    }}
-                                title={
-                                    <Link className={this.props.classes.tagTitle}
-                                          to={showTagPath(tag.slug)}
-                                          onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.name)}>
-                                        {tag.name}
-                                    </Link>
-                                }
-                                subheader={tag.synonyms.join(', ')}
-                                action={
-                                    <span className={this.props.classes.tagCount}>{tag.taggedArticlesCount}</span>
-                                }
-                    />
-
-                    {
-                        tag.description &&
-                        <CardContent classes={{
+                <Link to={showTagPath(tag.slug)}
+                      onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.userId, tag.name)}>
+                    <Card className={this.props.classes.tagCard}>
+                        <CardHeader classes={{
                             root: this.props.classes.tagHeader
-                        }}>
-                            <Typography component="p">
-                                {tag.description}
-                            </Typography>
-                        </CardContent>
-                    }
+                        }}
+                                    title={
+                                        <span className={this.props.classes.tagTitle}>
+                                            {tag.name}
+                                        </span>
+                                    }
+                                    subheader={tag.synonyms.join(', ')}
+                                    action={
+                                        <span className={this.props.classes.tagCount}>
+                                            {tag.taggedArticlesCount}
+                                        </span>
+                                    }/>
 
-                    {/*<CardActions className={this.props.classes.actions}*/}
-                    {/*             disableSpacing={true}>*/}
-                    {/*    <div className={this.props.classes.buttonsRight}>*/}
-                    {/*        <IconButton aria-label="Edit"*/}
-                    {/*                    component={Link}*/}
-                    {/*                    className={this.props.classes.tagButton}*/}
-                    {/*                    to={editTagPath(tag.slug)}>*/}
-                    {/*            <EditIcon/>*/}
-                    {/*        </IconButton>*/}
+                        {
+                            tag.description &&
+                            <CardContent classes={{
+                                root: this.props.classes.tagHeader
+                            }}>
+                                <Typography component="p">
+                                    {tag.description}
+                                </Typography>
+                            </CardContent>
+                        }
 
-                    {/*        <IconButton aria-label="Show"*/}
-                    {/*                    component={Link}*/}
-                    {/*                    className={this.props.classes.tagButton}*/}
-                    {/*                    to={showTagPath(tag.slug)}*/}
-                    {/*                    onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.name)}>*/}
-                    {/*            <LabelIcon/>*/}
-                    {/*        </IconButton>*/}
-                    {/*    </div>*/}
-                    {/*</CardActions>*/}
-                </Card>
+                        {/*<CardActions className={this.props.classes.actions}*/}
+                        {/*             disableSpacing={true}>*/}
+                        {/*    <div className={this.props.classes.buttonsRight}>*/}
+                        {/*        <IconButton aria-label="Edit"*/}
+                        {/*                    component={Link}*/}
+                        {/*                    className={this.props.classes.tagButton}*/}
+                        {/*                    to={editTagPath(tag.slug)}>*/}
+                        {/*            <EditIcon/>*/}
+                        {/*        </IconButton>*/}
+
+                        {/*        <IconButton aria-label="Show"*/}
+                        {/*                    component={Link}*/}
+                        {/*                    className={this.props.classes.tagButton}*/}
+                        {/*                    to={showTagPath(tag.slug)}*/}
+                        {/*                    onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.userId, tag.name)}>*/}
+                        {/*            <LabelIcon/>*/}
+                        {/*        </IconButton>*/}
+                        {/*    </div>*/}
+                        {/*</CardActions>*/}
+                    </Card>
+                </Link>
             </div>
         );
     };

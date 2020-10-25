@@ -39,8 +39,8 @@ class SummaryStoriesTopic extends React.Component {
         super(props);
     }
 
-    _handleTopicClick = (elementId, elementSlug, elementTitle) => {
-        spyTrackClick('topic', elementId, elementSlug, elementTitle);
+    _handleTopicClick = (topicId, topicSlug, topicUserId, topicName) => {
+        spyTrackClick('topic', topicId, topicSlug, topicUserId, topicName);
     };
 
     render() {
@@ -48,7 +48,7 @@ class SummaryStoriesTopic extends React.Component {
             <div className={this.props.classes.container}>
                 <div className={this.props.classes.root}>
                     <Link to={topicArticlesPath(this.props.userSlug, this.props.topic.slug)}
-                          onClick={this._handleTopicClick.bind(this, this.props.topic.id, this.props.topic.slug, this.props.topic.name)}>
+                          onClick={this._handleTopicClick.bind(this, this.props.topic.id, this.props.topic.slug, this.props.topic.userId, this.props.topic.name)}>
                         <Typography className={this.props.classes.topicTitle}
                                     variant="h4"
                                     component="h2">
@@ -69,7 +69,7 @@ class SummaryStoriesTopic extends React.Component {
                                     variant="outlined"
                                     component={Link}
                                     to={topicArticlesPath(this.props.userSlug, this.props.topic.slug)}
-                                    onClick={this._handleTopicClick.bind(this, this.props.topic.id, this.props.topic.slug, this.props.topic.name)}>
+                                    onClick={this._handleTopicClick.bind(this, this.props.topic.id, this.props.topic.slug, this.props.topic.userId, this.props.topic.name)}>
                                 {I18n.t('js.article.common.all_stories')}
                             </Button>
                         </div>

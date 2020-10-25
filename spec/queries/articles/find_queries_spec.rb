@@ -230,13 +230,13 @@ describe Articles::FindQueries, type: :query, basic: true do
           expect(articles.first).to eq(@public_articles.sort_by(&:created_at).first)
         end
 
-        it 'returns articles by user priority setting' do
-          @user.update(article_order: 'created_asc')
+        it 'returns articles by priority according to user setting' do
+          @user.update(article_order: 'priority_asc')
 
           articles = ::Articles::FindQueries.new(@user).all(user_id: @user.id, topic_id: @public_topic.id)
 
           expect(articles).to match_array(@public_articles)
-          expect(articles.first).to eq(@public_articles.sort_by(&:created_at).first)
+          expect(articles.first).to eq(@public_articles.sort_by(&:priority).first)
         end
 
         it 'returns articles by topic priority setting' do

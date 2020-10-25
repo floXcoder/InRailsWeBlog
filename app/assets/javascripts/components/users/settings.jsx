@@ -122,9 +122,11 @@ class UserSettings extends React.Component {
                         <div className="col s12 margin-top-15">
                             <FormControl className="margin-top-20"
                                          component="fieldset">
-                                <FormLabel component="legend">
+                                <FormLabel className="margin-bottom-10"
+                                           component="legend">
                                     {I18n.t('js.user.settings.article.display.title')}
                                 </FormLabel>
+
                                 <RadioGroup aria-label="Display article"
                                             name="display"
                                             value={this.state.articleDisplay}
@@ -143,9 +145,11 @@ class UserSettings extends React.Component {
 
                         <div className="col s12 margin-top-25">
                             <FormControl component="fieldset">
-                                <FormLabel component="legend">
+                                <FormLabel className="margin-bottom-10"
+                                           component="legend">
                                     {I18n.t('js.user.settings.article.order.title')}
                                 </FormLabel>
+
                                 <RadioGroup aria-label="order"
                                             name="order"
                                             value={this.state.articleOrder}
@@ -164,9 +168,11 @@ class UserSettings extends React.Component {
 
                         <div className="col s12 margin-top-25">
                             <FormControl component="fieldset">
-                                <FormLabel component="legend">
+                                <FormLabel className="margin-bottom-10"
+                                           component="legend">
                                     {I18n.t('js.user.settings.article.loader.title')}
                                 </FormLabel>
+
                                 <RadioGroup aria-label="Loader"
                                             name="loader"
                                             value={this.state.articlesLoader}
@@ -184,7 +190,8 @@ class UserSettings extends React.Component {
                         </div>
 
                         <div className="col s12 margin-top-25">
-                            <FormLabel component="legend">
+                            <FormLabel className="margin-bottom-10"
+                                       component="legend">
                                 {I18n.t('js.user.settings.article.multilanguage.title')}
                             </FormLabel>
 
@@ -196,7 +203,8 @@ class UserSettings extends React.Component {
                         </div>
 
                         <div className="col s12 margin-top-25">
-                            <FormLabel component="legend">
+                            <FormLabel className="margin-bottom-10"
+                                       component="legend">
                                 {I18n.t('js.user.settings.article.export.title')}
                             </FormLabel>
 
@@ -215,7 +223,8 @@ class UserSettings extends React.Component {
                     this.state.tabIndex === PREFERENCE_VIEWS.TAGS &&
                     <div className="row margin-top-5">
                         <div className="col s12">
-                            <FormLabel component="legend">
+                            <FormLabel className="margin-bottom-10"
+                                       component="legend">
                                 {I18n.t('js.user.settings.tag.sidebar.title')}
                             </FormLabel>
 
@@ -242,9 +251,11 @@ class UserSettings extends React.Component {
                         <div className="col s12 margin-top-25">
                             <FormControl className="margin-top-20"
                                          component="fieldset">
-                                <FormLabel component="legend">
+                                <FormLabel className="margin-bottom-10"
+                                           component="legend">
                                     {I18n.t('js.user.settings.tag.order.title')}
                                 </FormLabel>
+
                                 <RadioGroup aria-label="Tag order"
                                             name="tag_order"
                                             value={this.state.tagOrder}
@@ -269,9 +280,11 @@ class UserSettings extends React.Component {
                         <div className="col s12">
                             <FormControl className="margin-top-20"
                                          component="fieldset">
-                                <FormLabel component="legend">
+                                <FormLabel className="margin-bottom-10"
+                                           component="legend">
                                     {I18n.t('js.user.settings.search.operator.title')}
                                 </FormLabel>
+
                                 <RadioGroup aria-label="Search operand"
                                             name="search_operator"
                                             value={this.state.searchOperator}
@@ -289,9 +302,11 @@ class UserSettings extends React.Component {
                         </div>
 
                         <div className="col s12 margin-top-25">
-                            <FormLabel component="legend">
+                            <FormLabel className="margin-bottom-10"
+                                       component="legend">
                                 {I18n.t('js.user.settings.search.options')}
                             </FormLabel>
+
                             <FormControlLabel label={I18n.t('js.user.settings.search.highlight')}
                                               control={
                                                   <Switch checked={this.state.searchHighlight}

@@ -19,9 +19,12 @@ import {
     spyTrackClick
 } from '../../../actions';
 
+import Loader from '../../theme/loader';
+
 export default class SearchArticleModule extends React.PureComponent {
     static propTypes = {
         classes: PropTypes.object.isRequired,
+        isSearching: PropTypes.bool.isRequired,
         isUserConnected: PropTypes.bool.isRequired,
         articles: PropTypes.array.isRequired,
         hasQuery: PropTypes.bool.isRequired,
@@ -43,7 +46,7 @@ export default class SearchArticleModule extends React.PureComponent {
     }
 
     _handleArticleClick = (article) => {
-        spyTrackClick('article', article.id, article.slug, article.title);
+        spyTrackClick('article', article.id, article.slug, article.userId, article.title, article.topicId);
     };
 
     _currentTopicArticles = () => {
@@ -102,7 +105,8 @@ export default class SearchArticleModule extends React.PureComponent {
                                     {
                                         this.props.hasParenthesis
                                             ?
-                                            <span>(<span dangerouslySetInnerHTML={{__html: article.contentHighlighted}}/>)</span>
+                                            <span>(<span
+                                                dangerouslySetInnerHTML={{__html: article.contentHighlighted}}/>)</span>
                                             :
                                             <span dangerouslySetInnerHTML={{__html: article.contentHighlighted}}/>
                                     }
@@ -150,63 +154,71 @@ export default class SearchArticleModule extends React.PureComponent {
                     }
                 </h2>
 
-                <div>
-                    {
-                        this.props.selectedTags.length > 0 &&
-                        <div className={this.props.classes.helpMessage}>
-                            {I18n.t('js.search.module.helpers.tagged_articles', {tags: this.props.selectedTags.map((tag) => tag.name).join(', ')})}
+                {
+                    this.props.isSearching
+                        ?
+                        <div className="search-module-searching">
+                            <Loader size="big"/>
                         </div>
-                    }
-
-                    {
-                        (this.props.hasQuery && this.props.articles.length === 0) &&
-                        <p className={this.props.classes.articleSecondaryResult}>
-                            {I18n.t('js.search.module.articles.none')}
-                        </p>
-                    }
-
-                    {
-                        currentTopicArticles.map(this._renderArticleItem.bind(this, true))
-                    }
-
-                    {
-                        !Utils.isEmpty(otherTopicArticles) &&
-                        <>
+                        :
+                        <div>
                             {
-                                !Utils.isEmpty(currentTopicArticles) &&
-                                <Divider className={this.props.classes.categoryDivider}
-                                         variant="fullWidth"/>
+                                this.props.selectedTags.length > 0 &&
+                                <div className={this.props.classes.helpMessage}>
+                                    {I18n.t('js.search.module.helpers.tagged_articles', {tags: this.props.selectedTags.map((tag) => tag.name).join(', ')})}
+                                </div>
                             }
 
-                            <h3 className={this.props.classes.otherArticlesTitle}>
-                                {I18n.t('js.search.module.articles.other_topics')}
-                            </h3>
-
                             {
-                                otherTopicArticles.map(this._renderArticleItem.bind(this, false))
-                            }
-                        </>
-                    }
-
-                    {
-                        !Utils.isEmpty(otherUserArticles) &&
-                        <>
-                            {
-                                (!Utils.isEmpty(currentTopicArticles) || !Utils.isEmpty(otherTopicArticles)) &&
-                                <Divider className={this.props.classes.categoryDivider}
-                                         variant="fullWidth"/>
+                                (this.props.hasQuery && this.props.articles.length === 0) &&
+                                <p className={this.props.classes.articleSecondaryResult}>
+                                    <em>{I18n.t('js.search.module.articles.none')}</em>
+                                </p>
                             }
 
-                            <h3 className={this.props.classes.otherArticlesTitle}>
-                                {I18n.t('js.search.module.articles.other_users')}
-                            </h3>
+                            {
+                                currentTopicArticles.map(this._renderArticleItem.bind(this, true))
+                            }
 
                             {
-                                otherUserArticles.map(this._renderArticleItem.bind(this, false))
+                                !Utils.isEmpty(otherTopicArticles) &&
+                                <>
+                                    {
+                                        !Utils.isEmpty(currentTopicArticles) &&
+                                        <Divider className={this.props.classes.categoryDivider}
+                                                 variant="fullWidth"/>
+                                    }
+
+                                    <h3 className={this.props.classes.otherArticlesTitle}>
+                                        {I18n.t('js.search.module.articles.other_topics')}
+                                    </h3>
+
+                                    {
+                                        otherTopicArticles.map(this._renderArticleItem.bind(this, false))
+                                    }
+                                </>
                             }
-                        </>
-                    }
-                </div>
+
+                            {
+                                !Utils.isEmpty(otherUserArticles) &&
+                                <>
+                                    {
+                                        (!Utils.isEmpty(currentTopicArticles) || !Utils.isEmpty(otherTopicArticles)) &&
+                                        <Divider className={this.props.classes.categoryDivider}
+                                                 variant="fullWidth"/>
+                                    }
+
+                                    <h3 className={this.props.classes.otherArticlesTitle}>
+                                        {I18n.t('js.search.module.articles.other_users')}
+                                    </h3>
+
+                                    {
+                                        otherUserArticles.map(this._renderArticleItem.bind(this, false))
+                                    }
+                                </>
+                            }
+                        </div>
+                }
             </div>
         );
     }

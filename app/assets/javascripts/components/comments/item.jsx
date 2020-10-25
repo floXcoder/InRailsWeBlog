@@ -123,7 +123,8 @@ export default class CommentItem extends React.Component {
                                             {I18n.t('js.comment.reply.owner')}
                                         </span>
                                         :
-                                        <UserAvatarIcon user={this.props.comment.user}
+                                        <UserAvatarIcon className="header-avatar-user"
+                                                        user={this.props.comment.user}
                                                         secondary={
                                                             <span className="comment-date">
                                                                 {this.props.comment.postedAt}

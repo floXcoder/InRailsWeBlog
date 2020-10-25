@@ -221,7 +221,7 @@ class SignupForm extends React.Component {
                                 </Grid>
                             </Grid>
 
-                            <Grid className="center-align"
+                            <Grid className="center-align margin-top-20"
                                   container={true}
                                   spacing={2}
                                   direction="row-reverse"

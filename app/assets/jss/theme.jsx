@@ -27,10 +27,10 @@ export const tooltipZIndex = 1600;
 
 // Titles font
 export const h1Size = '3.2rem';
-export const h1SizeMobile = '2.4rem';
+export const h1SizeMobile = '2.8rem';
 export const h1Weight = 700;
 export const h1LineHeight = '3.3rem';
-export const h1LineHeightMobile = '2.4rem';
+export const h1LineHeightMobile = '2.8rem';
 export const h1Spacing = 3.5;
 
 export const h1SizeGrid = '2.2rem';
@@ -80,9 +80,9 @@ const theme = createMuiTheme({
             dark: '#036603'
         },
         secondary: {
-            light: '#fddc42',
+            light: '#fde15b',
             main: '#e3c23e',
-            dark: '#bda731'
+            dark: '#958327'
         },
         action: {
             active: 'rgba(0, 0, 0, 0.66)',
@@ -167,7 +167,7 @@ const theme = createMuiTheme({
         },
         MuiSvgIcon: {
             root: {
-                fontSize: '1.4rem',
+                fontSize: '1.5rem',
                 ['@media (max-width:960px)']: {
                     width: 28,
                     height: 28,

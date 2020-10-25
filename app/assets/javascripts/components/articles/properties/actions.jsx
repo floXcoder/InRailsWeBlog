@@ -15,7 +15,7 @@ import ArticleLinkIcon from '../icons/link';
 
 const deleteIconStyle = {marginRight: 30};
 
-const ArticleActions = ({classes, isInline, userSlug, articleId, articleSlug, articleTitle, articleVisibility, isOutdated, hasLinks, onOutdatedClick, onCheckLinkClick, onDeleteClick, size, color}) => (
+const ArticleActions = ({classes, isInline, userSlug, articleId, articleSlug, articleUserId, articleTopicId, articleTitle, articleVisibility, isOutdated, hasLinks, onOutdatedClick, onCheckLinkClick, onDeleteClick, size, color}) => (
     <ul className={classes.actionButtons}>
         {
             !isInline &&
@@ -107,6 +107,8 @@ const ArticleActions = ({classes, isInline, userSlug, articleId, articleSlug, ar
                 <ArticleLinkIcon articleId={articleId}
                                  articleSlug={articleSlug}
                                  articleTitle={articleTitle}
+                                 articleUserId={articleUserId}
+                                 articleTopicId={articleTopicId}
                                  userSlug={userSlug}
                                  size={size}
                                  color={color}/>
@@ -121,6 +123,8 @@ ArticleActions.propTypes = {
     articleSlug: PropTypes.string.isRequired,
     articleVisibility: PropTypes.string.isRequired,
     userSlug: PropTypes.string,
+    articleUserId: PropTypes.number,
+    articleTopicId: PropTypes.number,
     articleTitle: PropTypes.string,
     onOutdatedClick: PropTypes.func,
     onCheckLinkClick: PropTypes.func,

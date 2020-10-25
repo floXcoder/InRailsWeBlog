@@ -308,15 +308,15 @@ fr:
         no_children: "Pas de labels fils associés"
         publics: "Labels public"
         privates: "Labels privé"
-        no_publics: "Pas de labels privés"
-        no_privates: "Pas de labels privés"
+        no_publics: "Pas de labels privés pour ce thème"
+        no_privates: "Pas de labels privés pour ce thème"
         placeholders:
           name: "Nom du label"
           description: "Description du label"
         stats:
           title: "Statistiques"
           views: "Vues : "
-          clicks: "clic : "
+          clicks: "Clics : "
           searches: "Recherches : "
       form:
         unsaved: "Quitter sans sauvegarder le tag ?"
@@ -695,11 +695,11 @@ fr:
           title: "Thèmes"
         tags:
           title: "Labels"
-          recents: "(Labels récents)"
+          recents: "(récents)"
           none: "Aucun label correspondant"
         articles:
           title: "Articles"
-          recents: "(Articles récents)"
+          recents: "(récents)"
           other_topics: "Résultats dans les autres thèmes"
           other_users: "Résultats des autres utilisateurs"
           none: "Aucun article trouvé"
@@ -751,13 +751,13 @@ fr:
           modify: "Modifier votre commentaire"
           reply: "Répondre au commentaire"
           owner_reply: "Répondre au commentaire comme propriétaire"
-          deletion_reply: "Demande de suppression d'un commentaire"
+          deletion_reply: "Demander la suppression d'un commentaire"
         explanation: "Pour écrire votre message, vous pouvez utiliser la "
         syntax: "syntaxe markdown"
         comment:
           title: "Titre du message"
           body: "Votre commentaire ..."
-          title_for_deletion: "Demande de suppression"
+          title_for_deletion: "Demander la suppression"
           body_for_deletion: "Raison de la suppression du commentaire"
           notation: "Note :"
         cancel: "Annuler"
@@ -776,7 +776,7 @@ fr:
         confirmation_message: "Merci de valider la suppression"
         confirmation_button: "Suppression"
       ask_for_deletion:
-        button: "Demande de suppression du commentaire"
+        button: "Demander la suppression du commentaire"
       flash:
         creation_unpermitted: "Vous devez vous connecter pour poster un commentaire"
       errors:

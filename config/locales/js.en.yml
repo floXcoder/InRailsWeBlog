@@ -308,8 +308,8 @@ en:
         no_children: "No children tag"
         publics: "Public tags"
         privates: "Private tags"
-        no_publics: "No public tags"
-        no_privates: "No private tags"
+        no_publics: "No public tags for this topic"
+        no_privates: "No private tags for this topic"
         placeholders:
           name: "Tag name"
           description: "Tag description"
@@ -695,11 +695,11 @@ en:
           title: "Topics"
         tags:
           title: "Tags"
-          recents: "(Recent tags)"
+          recents: "(recent)"
           none: "No tags found"
         articles:
           title: "Articles"
-          recents: "(Recent articles)"
+          recents: "(recent)"
           other_topics: "Results in other topics"
           other_users: "Results from other users"
           none: "No articles found"

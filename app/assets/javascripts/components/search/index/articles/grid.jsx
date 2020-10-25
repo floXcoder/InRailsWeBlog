@@ -41,7 +41,7 @@ class ArticleItemDisplay extends React.Component {
     }
 
     _handleArticleClick = () => {
-        spyTrackClick('article', this.props.article.id, this.props.article.slug, this.props.article.title);
+        spyTrackClick('article', this.props.article.id, this.props.article.slug, this.props.article.userId, this.props.article.title, this.props.article.topicId);
     };
 
     render() {

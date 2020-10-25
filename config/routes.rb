@@ -91,7 +91,7 @@ Rails.application.routes.draw do
   end
 
   # Redirect user connection to home
-  get '/api/v1/users/sign_in', to: redirect('/', status: 301)
+  get '/api/v1/users/sign_in', to: redirect('/', status: 301), constraints: { format: 'html' }
 
   # API
   namespace :api, as: nil do

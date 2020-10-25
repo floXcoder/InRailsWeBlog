@@ -36,7 +36,7 @@ class Signup extends React.Component {
             .then((response) => {
                 if (response?.errors) {
                     Notification.error(response.errors);
-                } else {
+                } else if (response.user) {
                     if (sessionStorage) {
                         sessionStorage.setItem('user-signed', 'true');
                     }
@@ -70,7 +70,7 @@ class Signup extends React.Component {
                     {
                         this.props.isProcessing &&
                         <div className="center-align">
-                            <h2>
+                            <h2 className="responsive-modal-subtitle">
                                 {I18n.t('js.user.signup.connecting')}
                                 <BounceSpinner className="margin-bottom-10"/>
                             </h2>

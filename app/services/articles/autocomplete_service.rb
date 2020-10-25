@@ -14,7 +14,7 @@ module Articles
       query_string = @query.presence
 
       # Fields with boost
-      fields = %w[title^3 summary content]
+      fields = %w[title^10 summary content]
 
       # Highlight results and select a fragment
       highlight = @params[:highlight] ? { tag: '<span class="search-highlight">', fragment_size: (@params[:no_fragment] ? nil : InRailsWeBlog.config.autocomplete_fragment_size ) } : false
@@ -36,7 +36,8 @@ module Articles
                                  highlight:    highlight,
                                  load:         false,
                                  where:        where_options,
-                                 boost_where:  @params[:boost_where],
+                                 # Boots too greedy, ignore other articles title in other topics
+                                 # boost_where:  @params[:boost_where],
                                  order:        order,
                                  limit:        limit,
                                  execute:      !@params[:defer])

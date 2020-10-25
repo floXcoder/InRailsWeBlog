@@ -35,8 +35,6 @@ import {
     getUserRecentArticles
 } from '../../selectors';
 
-import Loader from '../theme/loader';
-
 import SearchTopicModule from './module/topic';
 import SearchTagModule from './module/tag';
 import SearchArticleModule from './module/article';
@@ -129,13 +127,6 @@ class SearchModule extends React.Component {
             <Paper className="search-module-results"
                    square={true}
                    elevation={4}>
-                {
-                    this.props.isSearching &&
-                    <div className="search-module-searching">
-                        <Loader size="big"/>
-                    </div>
-                }
-
                 <div className="search-module-close show-on-small">
                     <IconButton aria-expanded={true}
                                 aria-label="Close"
@@ -165,6 +156,7 @@ class SearchModule extends React.Component {
                               md={9}
                               lg={9}>
                             <SearchArticleModule classes={this.props.classes}
+                                                 isSearching={this.props.isSearching}
                                                  isUserConnected={this.props.isUserConnected}
                                                  currentUserId={this.props.currentUserId}
                                                  currentTopicId={this.props.currentTopicId}
@@ -181,6 +173,7 @@ class SearchModule extends React.Component {
                               md={3}
                               lg={3}>
                             <SearchTagModule classes={this.props.classes}
+                                             isSearching={this.props.isSearching}
                                              isUserConnected={this.props.isUserConnected}
                                              currentUserId={this.props.currentUserId}
                                              currentUserSlug={this.props.currentUserSlug}

@@ -8,19 +8,19 @@ class ArticlesController < ApplicationController
   respond_to :html
 
   def index
-    if params[:topic_slug].present?
+    if article_params[:topic_slug].present?
       set_seo_data(:topic_articles,
-                   topic_slug: params[:topic_slug],
-                   user_slug:  params[:user_slug])
-    elsif params[:tag_slug].present? || params[:parent_tag_slug].present?
+                   topic_slug: article_params[:topic_slug],
+                   user_slug:  article_params[:user_slug])
+    elsif article_params[:tag_slug].present? || article_params[:parent_tag_slug].present?
       set_seo_data(:tagged_articles,
-                   tag_slug: params[:parent_tag_slug].presence || params[:tag_slug].presence)
-    elsif params[:user_slug].present?
+                   tag_slug: article_params[:parent_tag_slug].presence || article_params[:tag_slug].presence)
+    elsif article_params[:user_slug].present?
       set_seo_data(:user_articles,
-                   user_slug: params[:user_slug])
+                   user_slug: article_params[:user_slug])
     end
 
-    articles = ::Articles::FindQueries.new(current_user, current_admin).all(params.to_unsafe_h.merge(page: params[:page], limit: params[:limit]))
+    articles = ::Articles::FindQueries.new(current_user, current_admin).all(article_params)
 
     (user_signed_in? || admin_signed_in?) ? reset_cache_headers : expires_in(InRailsWeBlog.config.cache_time, public: true)
     if stale?(articles, template: false, public: true)
@@ -32,7 +32,7 @@ class ArticlesController < ApplicationController
                                                current_user_id: current_user&.id
                                              },
                                              meta:   {
-                                               storyTopic: params[:topic_slug].present? && articles.present? && articles.all?(&:story?) ? articles.first.topic.flat_serialized_json(with_model: false) : nil,
+                                               storyTopic: article_params[:topic_slug].present? && articles.present? && articles.all?(&:story?) ? articles.first.topic.flat_serialized_json(with_model: false) : nil,
                                                **meta_attributes(pagination: articles)
                                              })
 
@@ -43,7 +43,7 @@ class ArticlesController < ApplicationController
   end
 
   def show
-    article, article_redirection = find_article_in_locales(params[:article_slug])
+    article, article_redirection = find_article_in_locales(article_params[:article_slug])
     admin_or_authorize article
 
     redirect_to(article_redirection, status: :moved_permanently) and return if article_redirection
@@ -86,7 +86,7 @@ class ArticlesController < ApplicationController
   def edit
     not_found_error and return unless current_user
 
-    article = current_user.articles.include_element.friendly.find(params[:article_slug])
+    article = current_user.articles.include_element.friendly.find(article_params[:article_slug])
     admin_or_authorize article
 
     respond_to do |format|
@@ -109,6 +109,28 @@ class ArticlesController < ApplicationController
   end
 
   private
+
+  def article_params
+    params.permit(:article_slug,
+                  :user_slug,
+                  :visibility,
+                  :mode,
+                  :draft,
+                  :accepted,
+                  :user_id,
+                  :topic_id,
+                  :topic_slug,
+                  :shared_topic,
+                  :tag_id,
+                  :tag_slug,
+                  :parent_tag_slug,
+                  :child_tag_slug,
+                  :bookmarked,
+                  :order,
+                  :complete,
+                  :page,
+                  :limit)
+  end
 
   def find_article_in_locales(article_slug)
     article = @context_user.articles.find_slug_by_locale(article_slug, I18n.locale).first

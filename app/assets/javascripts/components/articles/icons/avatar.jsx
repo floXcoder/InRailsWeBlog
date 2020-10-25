@@ -30,7 +30,7 @@ const ArticleAvatarIcon = ({classes, user, articleDate}) => (
                         className={classes.avatar}>
                     <AccountCircleIcon className={classes.avatarIcon}/>
                     {/*<Link to={userArticlesPath(user.slug)}*/}
-                    {/*      onClick={spyTrackClick.bind(null, 'user', user.id, user.slug, user.pseudo)}/>*/}
+                    {/*      onClick={spyTrackClick.bind(null, 'user', user.id, user.slug, null, user.pseudo)}/>*/}
                 </Avatar>
             </ListItemAvatar>
 
@@ -43,7 +43,7 @@ const ArticleAvatarIcon = ({classes, user, articleDate}) => (
                 <Link className={classes.avatarUser}
                       to={userArticlesPath(user.slug)}
                       itemProp="url"
-                      onClick={spyTrackClick.bind(null, 'user', user.id, user.slug, user.pseudo)}>
+                      onClick={spyTrackClick.bind(null, 'user', user.id, user.slug, null, user.pseudo)}>
                     <span itemProp="name">
                         {user.pseudo}
                     </span>

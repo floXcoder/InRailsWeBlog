@@ -67,7 +67,7 @@ class ArticleMiniCardDisplay extends React.Component {
                               className={this.props.classes.articleTag}
                               component={Link}
                               to={taggedArticlesPath(tag.slug)}
-                              onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.name)}
+                              onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.userId, tag.name)}
                               icon={<LabelIcon/>}
                               label={tag.name}
                               clickable={true}
@@ -101,7 +101,7 @@ class ArticleMiniCardDisplay extends React.Component {
                                     <Link className={this.props.classes.extractTitleLink}
                                           to={userArticlePath(this.props.article.user.slug, this.props.article.slug)}
                                           itemProp="mainEntityOfPage url"
-                                          onClick={spyTrackClick.bind(null, 'article', this.props.article.id, this.props.article.slug, this.props.article.title)}>
+                                          onClick={spyTrackClick.bind(null, 'article', this.props.article.id, this.props.article.slug, this.props.article.userId, this.props.article.title, this.props.article.topicId)}>
                                         {this.props.article.title}
                                     </Link>
                                 </h1>
@@ -215,7 +215,7 @@ class ArticleMiniCardDisplay extends React.Component {
 
                                     <Link className={this.props.classes.userPseudo}
                                           to={userArticlesPath(this.props.article.user.slug)}
-                                          onClick={spyTrackClick.bind(null, 'user', this.props.article.user.id, this.props.article.user.slug, this.props.article.user.pseudo)}>
+                                          onClick={spyTrackClick.bind(null, 'user', this.props.article.user.id, this.props.article.user.slug, null, this.props.article.user.pseudo)}>
                                         {this.props.article.user.pseudo}
                                     </Link>
                                 </Grid>

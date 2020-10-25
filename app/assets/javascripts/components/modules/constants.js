@@ -35,3 +35,6 @@ export const suggestionsLimit = 20;
 // Uploads
 export const maxWidthUpload = 2048;
 export const maxHeightUpload = 2048;
+
+// Local storage
+export const recentLocalStorage = 'recents';

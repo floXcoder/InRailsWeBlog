@@ -2,7 +2,7 @@
 
 const styles = (theme) => ({
     container: {
-        marginBottom: '1.5rem'
+        marginBottom: '.6rem'
     },
     fieldItem: {
         width: '90%',
@@ -20,9 +20,11 @@ const styles = (theme) => ({
         fontSize: '.9rem'
     },
     password: {
+        display: 'block',
         color: theme.palette.grey[600],
         fontSize: '.9rem',
         fontWeight: 300,
+        paddingBottom: '1rem'
     }
 });
 
