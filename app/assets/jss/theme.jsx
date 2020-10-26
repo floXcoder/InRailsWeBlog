@@ -30,7 +30,7 @@ export const h1Size = '3.2rem';
 export const h1SizeMobile = '2.8rem';
 export const h1Weight = 700;
 export const h1LineHeight = '3.3rem';
-export const h1LineHeightMobile = '2.8rem';
+export const h1LineHeightMobile = '2.9rem';
 export const h1Spacing = 3.5;
 
 export const h1SizeGrid = '2.2rem';

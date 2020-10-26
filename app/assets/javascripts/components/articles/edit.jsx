@@ -106,7 +106,7 @@ class ArticleEdit extends React.Component {
         }
 
         let inventoryData = {};
-        if(this.props.article.mode === 'inventory') {
+        if (this.props.article.mode === 'inventory') {
             this.props.article.inventories.map((field) => inventoryData[field.fieldName] = field.value);
         }
 
@@ -121,7 +121,7 @@ class ArticleEdit extends React.Component {
             allowComment: typeof this.props.article.allowComment === 'undefined' && this.props.inheritVisibility === 'only_me' ? false : this.props.article.allowComment
         };
 
-        if(this.props.currentTopic.languages?.length > 1) {
+        if (this.props.currentTopic.languages?.length > 1 || this.props.article.languages?.length > 1) {
             article.title_translations = this.props.article.titleTranslations;
             article.content_translations = this.props.article.contentTranslations;
         } else {

@@ -4,6 +4,7 @@ namespace :InRailsWeBlog do
 
   # Usage :
   ## rails InRailsWeBlog:flush_redis
+  ## rails InRailsWeBlog:flush_redis[all]
   desc 'Flush all Redis keys related to the application (by default, only cache keys).'
   task :flush_redis, [:option] => :environment do |_task, args|
     Rails.logger       = ActiveRecord::Base.logger = Logger.new(STDOUT)
