@@ -83,7 +83,7 @@ export const getCategorizedArticles = createSelector(
     (articles, articleOrderMode, sortedTags, parentTagSlug) => {
         let categorizedArticles = {};
 
-        if(!articles) {
+        if (!articles) {
             return categorizedArticles;
         }
 
@@ -123,7 +123,7 @@ export const getArticleIsOwner = (state, article) => {
 export const getArticleParentTags = createSelector(
     (article) => article,
     (article) => {
-        if(!article || !article.tags) {
+        if (!article || !article.tags) {
             return;
         }
 
@@ -147,7 +147,7 @@ export const getArticleParentTags = createSelector(
 export const getArticleChildTags = createSelector(
     (article) => article,
     (article) => {
-        if(!article || !article.tags) {
+        if (!article || !article.tags) {
             return;
         }
 
@@ -165,10 +165,12 @@ export const getArticleErrors = createSelector(
         let errorContent = undefined;
         if (typeof errors === 'string') {
             errorContent = [errors];
-        } else if(!Utils.isEmpty(errors)) {
+        } else if (!Utils.isEmpty(errors)) {
             errorContent = [];
             Object.entries(errors).forEach(([errorName, errorDescriptions]) => {
-                errorContent.push(I18n.t(`js.article.model.${errorName}`) + ' ' + (Array.isArray(errorDescriptions) ? errorDescriptions.join(I18n.t('js.helpers.and')) : errorDescriptions));
+                if (!Utils.isEmpty(errorDescriptions)) {
+                    errorContent.push(I18n.t(`js.article.model.${errorName}`) + ' ' + (Array.isArray(errorDescriptions) ? errorDescriptions.join(I18n.t('js.helpers.and')) : errorDescriptions));
+                }
             });
         }
         return errorContent;
