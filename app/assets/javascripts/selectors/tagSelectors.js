@@ -141,7 +141,9 @@ export const getTagErrors = createSelector(
         } else if (!Utils.isEmpty(errors)) {
             errorContent = [];
             Object.entries(errors).forEach(([errorName, errorDescriptions]) => {
-                errorContent.push(I18n.t(`js.tag.model.${errorName}`) + ' ' + (Array.isArray(errorDescriptions) ? errorDescriptions.join(I18n.t('js.helpers.and')) : errorDescriptions));
+                if (!Utils.isEmpty(errorDescriptions)) {
+                    errorContent.push(I18n.t(`js.tag.model.${errorName}`) + ' ' + (Array.isArray(errorDescriptions) ? errorDescriptions.join(I18n.t('js.helpers.and')) : errorDescriptions));
+                }
             });
         }
         return errorContent;

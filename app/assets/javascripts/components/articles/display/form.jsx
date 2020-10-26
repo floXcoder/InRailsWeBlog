@@ -219,7 +219,7 @@ class ArticleFormDisplay extends React.Component {
                                                     :
                                                     <ArticleCommonField currentMode={currentMode}
                                                                         currentTopicId={this.props.currentTopic.id}
-                                                                        articleLanguages={this.props.currentTopic.languages}
+                                                                        topicLanguages={this.props.currentTopic.languages}
                                                                         isPaste={this.props.isPaste}
                                                                         article={this.props.children}
                                                                         change={change}
@@ -313,7 +313,7 @@ class ArticleFormDisplay extends React.Component {
                                                     <Button color="default"
                                                             size="small"
                                                             component={Link}
-                                                            to={this.props.isEditing ? userArticlePath(this.props.userSlug,this.props.children.slug) : userHomePath(this.props.userSlug)}
+                                                            to={this.props.isEditing ? userArticlePath(this.props.userSlug, this.props.children.slug) : userHomePath(this.props.userSlug)}
                                                             onClick={this.props.onCancel}>
                                                         {I18n.t('js.helpers.buttons.cancel')}
                                                     </Button>

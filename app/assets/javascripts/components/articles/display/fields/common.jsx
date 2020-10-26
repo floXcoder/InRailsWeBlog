@@ -43,7 +43,7 @@ class ArticleCommonField extends React.Component {
         currentTopicId: PropTypes.number.isRequired,
         change: PropTypes.func.isRequired,
         onSubmit: PropTypes.func.isRequired,
-        articleLanguages: PropTypes.array,
+        topicLanguages: PropTypes.array,
         isPaste: PropTypes.bool,
         article: PropTypes.object,
         // from styles
@@ -159,7 +159,7 @@ class ArticleCommonField extends React.Component {
         return (
             <div className={classNames('row', this.props.classes.root)}>
                 {
-                    this.props.articleLanguages?.length > 1
+                    (this.props.topicLanguages?.length > 1 || this.props.article.languages?.length > 1)
                         ?
                         <>
                             {
@@ -181,7 +181,7 @@ class ArticleCommonField extends React.Component {
                                   centered={true}
                                   onChange={this._handleTabChange}>
                                 {
-                                    this.props.articleLanguages.map((locale) => (
+                                    this.props.topicLanguages.map((locale) => (
                                         <Tab key={locale}
                                              label={I18n.t(`js.languages.${locale}`)}/>
                                     ))
@@ -189,7 +189,7 @@ class ArticleCommonField extends React.Component {
                             </Tabs>
 
                             {
-                                this.props.articleLanguages.map((locale, i) => (
+                                this.props.topicLanguages.map((locale, i) => (
                                     <TabContainer key={locale}
                                                   isActive={this.state.tabStep === i}>
                                         {this._renderTitle(locale)}

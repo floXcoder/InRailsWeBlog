@@ -121,7 +121,9 @@ module Api::V1
 
             if current_user && article.user?(current_user)
               render json: article.serialized_json('complete',
-                                                   params: { current_user_id: current_user&.id },
+                                                   params: {
+                                                     current_user_id: current_user&.id
+                                                   },
                                                    meta:   meta_attributes)
             else
               render json: article.serialized_json('normal',
@@ -189,7 +191,9 @@ module Api::V1
         respond_to do |format|
           format.json do
             render json: Article.serialized_json(articles, 'normal',
-                                                 params: { current_user_id: current_user&.id },
+                                                 params: {
+                                                   current_user_id: current_user&.id
+                                                 },
                                                  meta:   { root: 'recommendations' })
           end
         end
@@ -211,7 +215,9 @@ module Api::V1
                        author:       article.user.pseudo)
 
           render json: HistorySerializer.new(article_versions,
-                                             meta: { root: 'history', **meta_attributes }).serializable_hash
+                                             meta: {
+                                               root: 'history', **meta_attributes
+                                             }).serializable_hash
         end
       end
     end
@@ -226,7 +232,11 @@ module Api::V1
         format.json do
           if stored_article.success?
             flash.now[:success] = stored_article.message
-            render json:   stored_article.result.serialized_json('complete', params: { current_user_id: current_user&.id }, meta: meta_attributes),
+            render json:   stored_article.result.serialized_json('complete',
+                                                                 params: {
+                                                                   current_user_id: current_user&.id
+                                                                 },
+                                                                 meta:   meta_attributes),
                    status: :created
           else
             flash.now[:error] = stored_article.message
@@ -270,7 +280,11 @@ module Api::V1
             expire_home_cache if (user_signed_in? || admin_signed_in?) && article_admin_params.present?
 
             flash.now[:success] = stored_article.message unless params[:auto_save]
-            render json:   stored_article.result.serialized_json('complete', params: { current_user_id: current_user.id }, meta: meta_attributes),
+            render json:   stored_article.result.serialized_json('complete',
+                                                                 params: {
+                                                                   current_user_id: current_user.id
+                                                                 },
+                                                                 meta:   meta_attributes),
                    status: :ok
           else
             flash.now[:error] = stored_article.message

@@ -83,7 +83,7 @@ class ArticleSerializer
   end
 
   attribute :slug_translations do |object|
-    object[Article.friendly_id_config.slug_column] if object.languages.size > 1
+    object[Article.friendly_id_config.slug_column] if object.languages.size > 1 || object.topic.languages.size > 1
   end
 
   attribute :title do |object, params|
@@ -91,7 +91,7 @@ class ArticleSerializer
   end
 
   attribute :title_translations do |object|
-    object.title_translations if object.languages.size > 1
+    object.title_translations if object.languages.size > 1 || object.topic.languages.size > 1
   end
 
   attribute :content do |object, params|
@@ -103,7 +103,7 @@ class ArticleSerializer
   end
 
   attribute :content_translations do |object|
-    object.content_translations if object.languages.size > 1
+    object.content_translations if object.languages.size > 1 || object.topic.languages.size > 1
   end
 
   attribute :content_highlighted do |object|
