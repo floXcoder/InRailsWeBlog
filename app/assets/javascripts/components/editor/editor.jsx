@@ -15,6 +15,11 @@ import {
     loadAutocomplete
 } from '../../actions';
 
+import {
+    highlightedLanguagePrefix,
+    highlightedLanguages
+} from '../modules/constants';
+
 import '../../modules/summernote';
 import SanitizePaste from '../../modules/sanitizePaste';
 
@@ -28,6 +33,7 @@ class Editor extends React.Component {
     static propTypes = {
         modelName: PropTypes.string.isRequired,
         modelId: PropTypes.number,
+        currentUserId: PropTypes.number,
         currentTopicId: PropTypes.number,
         mode: PropTypes.number,
         id: PropTypes.string,
@@ -83,6 +89,8 @@ class Editor extends React.Component {
             placeholder: this.props.placeholder,
             popatmouse: false,
             useProtocol: true,
+            codeLanguages: [{value: '', text: 'Auto'}].concat(highlightedLanguages.map((language) => ({value: language, text: language}))),
+            codeLanguagePrefix: highlightedLanguagePrefix,
             callbacks: {
                 onFocus: this.props.onFocus,
                 onMousedown: this._handleMouseDown,
@@ -100,17 +108,19 @@ class Editor extends React.Component {
                 search: (keyword, callback) => {
                     loadAutocomplete({
                         selectedTypes: ['article', 'topic'],
+                        userId: this.props.currentUserId,
                         topicId: this.props.currentTopicId,
+                        titleOnly: true,
                         query: keyword,
                         limit: 5
                     }).then((results) => {
                         let autocompletes = [];
 
                         if (results.articles) {
-                            autocompletes = autocompletes.concat(results.articles.map((article) => ['article', article.title, article.id, article.slug, article.user.slug]).compact());
+                            autocompletes = autocompletes.concat(results.articles.map((article) => ['article', article.title, article.id, article.slug, article.userSlug]).compact());
                         }
                         if (results.topics) {
-                            autocompletes = autocompletes.concat(results.topics.map((topic) => ['topic', topic.name, topic.id, topic.slug, topic.user.slug]).compact());
+                            autocompletes = autocompletes.concat(results.topics.map((topic) => ['topic', topic.name, topic.id, topic.slug, topic.userSlug]).compact());
                         }
 
                         if (autocompletes.length > 0) {
@@ -348,7 +358,7 @@ class Editor extends React.Component {
     _displayCurrentElement = () => {
         let displayNodeName;
 
-        // Accessing to nodeName raises a "Permission denied to access property "nodeName"" when content is blank
+        // Accessing to nodeName raises a 'Permission denied to access property "nodeName"' when content is blank
         try {
             // let currentNode = document.getSelection().anchorNode;
             const range = this._editor.summernote('createRange');

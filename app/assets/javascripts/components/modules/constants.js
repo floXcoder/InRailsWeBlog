@@ -38,3 +38,9 @@ export const maxHeightUpload = 2048;
 
 // Local storage
 export const recentLocalStorage = 'recents';
+
+// Languages highlighted
+export const highlightedLanguagePrefix = 'language-';
+export const highlightedLanguages = [
+    'apache', 'bash', 'cmake', 'dart', 'cpp', 'css', 'dockerfile', 'http', 'java', 'javascript', 'json', 'makefile', 'markdown', 'nginx', 'php', 'python', 'ruby', 'rust', 'scss', 'shell', 'sql', 'typescript', 'xml', 'yaml'
+]

@@ -30,6 +30,7 @@ module Searches
           format:      'strict',
           highlight:   @current_user ? @current_user.search_highlight : true,
           limit:       @params[:limit] || InRailsWeBlog.config.per_page,
+          title_only:  @params[:title_only],
           no_fragment: @params[:no_fragment],
           where:       where_options.merge(
             mode:      @params[:mode],
