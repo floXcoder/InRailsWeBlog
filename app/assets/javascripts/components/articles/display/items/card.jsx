@@ -43,7 +43,6 @@ import ArticleActions from '../../properties/actions';
 import ArticleAvatarIcon from '../../icons/avatar';
 
 import styles from '../../../../../jss/article/card';
-import ArticleLinkIcon from "../../icons/link";
 
 export default @highlight()
 @withStyles(styles)

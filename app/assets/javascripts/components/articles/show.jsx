@@ -76,7 +76,6 @@ import ArticleMiniCardDisplay from './display/items/miniCard';
 import ArticleSkeleton from '../loaders/skeletons/article';
 
 import styles from '../../../jss/article/show';
-import ArticleLinkIcon from "./icons/link";
 
 export default @withRouter
 @connect((state, props) => ({

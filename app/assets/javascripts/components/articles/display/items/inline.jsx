@@ -30,7 +30,6 @@ import ArticleInventoryDisplay from './inventory';
 import ArticleLinkIcon from '../../icons/link';
 
 import styles from '../../../../../jss/article/inline';
-import ArticleFloatingIcons from "../../properties/floatingIcons";
 
 export default @highlight()
 @withStyles(styles)
