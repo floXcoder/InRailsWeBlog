@@ -36,6 +36,7 @@ class Editor extends React.Component {
         currentUserId: PropTypes.number,
         currentTopicId: PropTypes.number,
         mode: PropTypes.number,
+        currentLocale: PropTypes.string,
         id: PropTypes.string,
         className: PropTypes.string,
         isPaste: PropTypes.bool,
@@ -113,7 +114,7 @@ class Editor extends React.Component {
                         titleOnly: true,
                         query: keyword,
                         limit: 5
-                    }).then((results) => {
+                    }, this.props.currentLocale).then((results) => {
                         let autocompletes = [];
 
                         if (results.articles) {
