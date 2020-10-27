@@ -146,6 +146,8 @@ class ArticleCommonField extends React.Component {
                        id={`article_content_${locale}`}
                        modelName="article"
                        modelId={this.props.article.id}
+                       currentLocale={locale}
+                       currentUserId={this.props.currentUserId}
                        currentTopicId={this.props.currentTopicId}
                        isPaste={this.props.isPaste}
                        placeholder={I18n.t(`js.article.common.placeholders.content.${this.props.currentMode}`)}
