@@ -40,6 +40,7 @@ export default @withStyles(styles)
 class ArticleCommonField extends React.Component {
     static propTypes = {
         currentMode: PropTypes.string.isRequired,
+        currentUserId: PropTypes.number.isRequired,
         currentTopicId: PropTypes.number.isRequired,
         change: PropTypes.func.isRequired,
         onSubmit: PropTypes.func.isRequired,

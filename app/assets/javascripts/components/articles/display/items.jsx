@@ -22,6 +22,7 @@ import ArticleInlineDisplay from './items/inline';
 import ArticleGridDisplay from './items/grid';
 
 export default @connect((state, props) => ({
+    currentUserId: state.userState.currentId,
     currentUserSlug: state.userState.currentSlug,
     currentUserTopicId: state.topicState.currentUserTopicId,
     currentUserTopicSlug: state.topicState.currentUserTopicSlug,
@@ -41,6 +42,7 @@ class ArticleItemsDisplay extends React.Component {
         onEnter: PropTypes.func,
         onExit: PropTypes.func,
         // from connect
+        currentUserId: PropTypes.number,
         currentUserSlug: PropTypes.string,
         currentUserTopicId: PropTypes.number,
         currentUserTopicSlug: PropTypes.string,
@@ -72,6 +74,7 @@ class ArticleItemsDisplay extends React.Component {
             return (
                 <Suspense fallback={<div/>}>
                     <ArticleInlineEditionDisplay article={this.props.article}
+                                                 currentUserId={this.props.currentUserId}
                                                  currentTopicId={this.props.currentUserTopicId}
                                                  isOwner={this.props.isOwner}/>
                 </Suspense>

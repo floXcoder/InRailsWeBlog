@@ -1,14 +1,14 @@
 /*!
- * 
- * Super simple wysiwyg editor v0.8.16
+ *
+ * Super simple wysiwyg editor v0.8.18
  * https://summernote.org
- * 
- * 
+ *
+ *
  * Copyright 2013- Alan Hong. and other contributors
  * summernote may be freely distributed under the MIT license.
- * 
- * Date: 2020-05-06T13:31Z
- * 
+ *
+ * Date: 2020-10-27T10:12Z
+ *
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -2333,7 +2333,7 @@ var Context_Context = /*#__PURE__*/function () {
         return isActivated ? this.layoutInfo.codable.val() : this.layoutInfo.editable.html();
       } else {
         if (isActivated) {
-          this.layoutInfo.codable.val(html);
+          this.invoke('codeview.sync', html);
         } else {
           this.layoutInfo.editable.html(html);
         }
@@ -3836,7 +3836,6 @@ function Style_createClass(Constructor, protoProps, staticProps) { if (protoProp
 
 
 
-
 var Style_Style = /*#__PURE__*/function () {
   function Style() {
     Style_classCallCheck(this, Style);
@@ -3859,15 +3858,11 @@ var Style_Style = /*#__PURE__*/function () {
      * @return {Object}
      */
     value: function jQueryCSS($obj, propertyNames) {
-      if (env.jqueryVersion < 1.9) {
-        var result = {};
-        external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default.a.each(propertyNames, function (idx, propertyName) {
-          result[propertyName] = $obj.css(propertyName);
-        });
-        return result;
-      }
-
-      return $obj.css(propertyNames);
+      var result = {};
+      external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default.a.each(propertyNames, function (idx, propertyName) {
+        result[propertyName] = $obj.css(propertyName);
+      });
+      return result;
     }
     /**
      * returns style object from node
@@ -3979,8 +3974,8 @@ var Style_Style = /*#__PURE__*/function () {
           'font-strikethrough': document.queryCommandState('strikethrough') ? 'strikethrough' : 'normal',
           'font-family': document.queryCommandValue('fontname') || styleInfo['font-family']
         });
-      } catch (e) {} // eslint-disable-next-line
-      // list-style-type to list-style(unordered, ordered)
+      } catch (e) {// eslint-disable-next-line
+      } // list-style-type to list-style(unordered, ordered)
 
 
       if (!rng.isOnList()) {
@@ -5420,12 +5415,8 @@ var Editor_Editor = /*#__PURE__*/function () {
           external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default()(anchor).removeAttr('target');
         }
       });
-      var startRange = range.createFromNodeBefore(lists.head(anchors));
-      var startPoint = startRange.getStartPoint();
-      var endRange = range.createFromNodeAfter(lists.last(anchors));
-      var endPoint = endRange.getEndPoint();
 
-      _this.setLastRange(range.create(startPoint.node, startPoint.offset, endPoint.node, endPoint.offset).select());
+      _this.setLastRange(_this.createRangeFromList(anchors).select());
     });
     /**
      * setting color
@@ -5721,6 +5712,31 @@ var Editor_Editor = /*#__PURE__*/function () {
       this.setLastRange();
       return this.getLastRange();
     }
+    /**
+     * create a new range from the list of elements
+     *
+     * @param {list} dom element list
+     * @return {WrappedRange}
+     */
+
+  }, {
+    key: "createRangeFromList",
+    value: function createRangeFromList(lst) {
+      var startRange = range.createFromNodeBefore(lists.head(lst));
+      var startPoint = startRange.getStartPoint();
+      var endRange = range.createFromNodeAfter(lists.last(lst));
+      var endPoint = endRange.getEndPoint();
+      return range.create(startPoint.node, startPoint.offset, endPoint.node, endPoint.offset);
+    }
+    /**
+     * set the last range
+     *
+     * if given rng is exist, set rng as the last range
+     * or create a new range at the end of the document
+     *
+     * @param {WrappedRange} rng
+     */
+
   }, {
     key: "setLastRange",
     value: function setLastRange(rng) {
@@ -5734,6 +5750,15 @@ var Editor_Editor = /*#__PURE__*/function () {
         }
       }
     }
+    /**
+     * get the last range
+     *
+     * if there is a saved last range, return it
+     * or create a new range and return it
+     *
+     * @return {WrappedRange}
+     */
+
   }, {
     key: "getLastRange",
     value: function getLastRange() {
@@ -5946,6 +5971,7 @@ var Editor_Editor = /*#__PURE__*/function () {
 
       // ### : Add option when adding image
       // ### : Add picture type
+      // ### : Add para after picture
       var imagePromise = srcsets ? createPicture(src, param, imageId, srcsets) : createImage(src, param, imageId);
       return imagePromise.then(function ($image) {
         _this3.beforeCommand();
@@ -5962,9 +5988,13 @@ var Editor_Editor = /*#__PURE__*/function () {
 
         $image.show();
 
-        _this3.getLastRange().insertNode($image[0]);
+        _this3.getLastRange().insertNode($image[0]); // this.setLastRange(range.createFromNodeAfter($image[0]).select());
 
-        _this3.setLastRange(range.createFromNodeAfter($image[0]).select());
+
+        var $nodePara = external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default()('<p><br/></p>');
+        $nodePara.insertAfter($image[0]);
+
+        _this3.setLastRange(range.createFromNodeAfter($nodePara[0]).select());
 
         _this3.afterCommand();
       }).fail(function (e) {
@@ -6071,10 +6101,12 @@ var Editor_Editor = /*#__PURE__*/function () {
 
           if (firstSpan && !dom.nodeLength(firstSpan)) {
             firstSpan.innerHTML = dom.ZERO_WIDTH_NBSP_CHAR;
-            range.createFromNodeAfter(firstSpan.firstChild).select();
+            range.createFromNode(firstSpan.firstChild).select();
             this.setLastRange();
             this.$editable.data(KEY_BOGUS, firstSpan);
           }
+        } else {
+          this.setLastRange(this.createRangeFromList(spans).select());
         }
       } else {
         var noteStatusOutput = external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default.a.now();
@@ -6489,7 +6521,7 @@ var Dropzone_Dropzone = /*#__PURE__*/function () {
 
 
 // CONCATENATED MODULE: ./src/js/base/module/Codeview.js
-function _createForOfIteratorHelper(o) { if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (o = _unsupportedIterableToArray(o))) { var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var it, normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
 
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 
@@ -6525,12 +6557,22 @@ var Codeview_CodeView = /*#__PURE__*/function () {
 
   Codeview_createClass(CodeView, [{
     key: "sync",
-    value: function sync() {
+    value: function sync(html) {
       var isCodeview = this.isActivated();
       var CodeMirror = this.CodeMirrorConstructor;
 
-      if (isCodeview && CodeMirror) {
-        this.$codable.data('cmEditor').save();
+      if (isCodeview) {
+        if (html) {
+          if (CodeMirror) {
+            this.$codable.data('cmEditor').getDoc().setValue(html);
+          } else {
+            this.$codable.val(html);
+          }
+        } else {
+          if (CodeMirror) {
+            this.$codable.data('cmEditor').save();
+          }
+        }
       }
     }
   }, {
@@ -7613,7 +7655,7 @@ var Buttons_Buttons = /*#__PURE__*/function () {
 
         return _this2.ui.buttonGroup([_this2.button({
           className: 'dropdown-toggle',
-          contents: _this2.ui.dropdownButtonContents('<span class="note-current-fontname"/>', _this2.options),
+          contents: _this2.ui.dropdownButtonContents('<span class="note-current-fontname"></span>', _this2.options),
           tooltip: _this2.lang.font.name,
           data: {
             toggle: 'dropdown'
@@ -7632,7 +7674,7 @@ var Buttons_Buttons = /*#__PURE__*/function () {
       this.context.memo('button.fontsize', function () {
         return _this2.ui.buttonGroup([_this2.button({
           className: 'dropdown-toggle',
-          contents: _this2.ui.dropdownButtonContents('<span class="note-current-fontsize"/>', _this2.options),
+          contents: _this2.ui.dropdownButtonContents('<span class="note-current-fontsize"></span>', _this2.options),
           tooltip: _this2.lang.font.size,
           data: {
             toggle: 'dropdown'
@@ -7648,7 +7690,7 @@ var Buttons_Buttons = /*#__PURE__*/function () {
       this.context.memo('button.fontsizeunit', function () {
         return _this2.ui.buttonGroup([_this2.button({
           className: 'dropdown-toggle',
-          contents: _this2.ui.dropdownButtonContents('<span class="note-current-fontsizeunit"/>', _this2.options),
+          contents: _this2.ui.dropdownButtonContents('<span class="note-current-fontsizeunit"></span>', _this2.options),
           tooltip: _this2.lang.font.sizeunit,
           data: {
             toggle: 'dropdown'
@@ -8556,8 +8598,17 @@ var LinkPopover_LinkPopover = /*#__PURE__*/function () {
       'summernote.keyup summernote.mouseup summernote.change summernote.scroll': function summernoteKeyupSummernoteMouseupSummernoteChangeSummernoteScroll() {
         _this.update();
       },
-      'summernote.disable summernote.dialog.shown summernote.blur': function summernoteDisableSummernoteDialogShownSummernoteBlur() {
+      'summernote.disable summernote.dialog.shown': function summernoteDisableSummernoteDialogShown() {
         _this.hide();
+      },
+      'summernote.blur': function summernoteBlur(we, e) {
+        if (e.originalEvent && e.originalEvent.relatedTarget) {
+          if (!_this.$popover[0].contains(e.originalEvent.relatedTarget)) {
+            _this.hide();
+          }
+        } else {
+          _this.hide();
+        }
       }
     };
   }
@@ -8804,8 +8855,17 @@ var ImagePopover_ImagePopover = /*#__PURE__*/function () {
     this.editable = context.layoutInfo.editable[0];
     this.options = context.options;
     this.events = {
-      'summernote.disable summernote.blur': function summernoteDisableSummernoteBlur() {
+      'summernote.disable summernote.dialog.shown': function summernoteDisableSummernoteDialogShown() {
         _this.hide();
+      },
+      'summernote.blur': function summernoteBlur(we, e) {
+        if (e.originalEvent && e.originalEvent.relatedTarget) {
+          if (!_this.$popover[0].contains(e.originalEvent.relatedTarget)) {
+            _this.hide();
+          }
+        } else {
+          _this.hide();
+        }
       }
     };
   }
@@ -8897,8 +8957,17 @@ var TablePopover_TablePopover = /*#__PURE__*/function () {
       'summernote.keyup summernote.scroll summernote.change': function summernoteKeyupSummernoteScrollSummernoteChange() {
         _this.update();
       },
-      'summernote.disable summernote.blur': function summernoteDisableSummernoteBlur() {
+      'summernote.disable summernote.dialog.shown': function summernoteDisableSummernoteDialogShown() {
         _this.hide();
+      },
+      'summernote.blur': function summernoteBlur(we, e) {
+        if (e.originalEvent && e.originalEvent.relatedTarget) {
+          if (!_this.$popover[0].contains(e.originalEvent.relatedTarget)) {
+            _this.hide();
+          }
+        } else {
+          _this.hide();
+        }
       }
     };
   }
@@ -9077,7 +9146,7 @@ var VideoDialog_VideoDialog = /*#__PURE__*/function () {
         $video = external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default()('<iframe webkitallowfullscreen mozallowfullscreen allowfullscreen>').attr('frameborder', 0).attr('height', '498').attr('width', '510').attr('src', '//player.youku.com/embed/' + youkuMatch[1]);
       } else if (qqMatch && qqMatch[1].length || qqMatch2 && qqMatch2[2].length) {
         var vid = qqMatch && qqMatch[1].length ? qqMatch[1] : qqMatch2[2];
-        $video = external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default()('<iframe webkitallowfullscreen mozallowfullscreen allowfullscreen>').attr('frameborder', 0).attr('height', '310').attr('width', '500').attr('src', 'https://v.qq.com/iframe/player.html?vid=' + vid + '&amp;auto=0');
+        $video = external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default()('<iframe webkitallowfullscreen mozallowfullscreen allowfullscreen>').attr('frameborder', 0).attr('height', '310').attr('width', '500').attr('src', 'https://v.qq.com/txp/iframe/player.html?vid=' + vid + '&amp;auto=0');
       } else if (mp4Match || oggMatch || webmMatch) {
         $video = external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default()('<video controls>').attr('src', url).attr('width', '640').attr('height', '360');
       } else if (fbMatch && fbMatch[0].length) {
@@ -9196,7 +9265,7 @@ var HelpDialog_HelpDialog = /*#__PURE__*/function () {
     key: "initialize",
     value: function initialize() {
       var $container = this.options.dialogsInBody ? this.$body : this.options.container;
-      var body = ['<p class="text-center">', '<a href="http://summernote.org/" target="_blank">Summernote 0.8.16</a> · ', '<a href="https://github.com/summernote/summernote" target="_blank">Project</a> · ', '<a href="https://github.com/summernote/summernote/issues" target="_blank">Issues</a>', '</p>'].join('');
+      var body = ['<p class="text-center">', '<a href="http://summernote.org/" target="_blank">Summernote 0.8.18</a> · ', '<a href="https://github.com/summernote/summernote" target="_blank">Project</a> · ', '<a href="https://github.com/summernote/summernote/issues" target="_blank">Issues</a>', '</p>'].join('');
       this.$dialog = this.ui.dialog({
         title: this.lang.options.help,
         fade: this.options.dialogsFade,
@@ -9623,7 +9692,7 @@ var HintPopover_HintPopover = /*#__PURE__*/function () {
     value: function createGroup(idx, keyword) {
       var _this3 = this;
 
-      var $group = external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default()('<div class="note-hint-group note-hint-group-' + idx + '"/>');
+      var $group = external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default()('<div class="note-hint-group note-hint-group-' + idx + '"></div>');
       this.searchKeyword(idx, keyword, function (items) {
         items = items || [];
 
@@ -9717,6 +9786,166 @@ var HintPopover_HintPopover = /*#__PURE__*/function () {
 }();
 
 
+// CONCATENATED MODULE: ./src/js/base/module/CodePopover.js
+function CodePopover_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function CodePopover_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function CodePopover_createClass(Constructor, protoProps, staticProps) { if (protoProps) CodePopover_defineProperties(Constructor.prototype, protoProps); if (staticProps) CodePopover_defineProperties(Constructor, staticProps); return Constructor; }
+
+
+
+
+var CodePopover_CodePopover = /*#__PURE__*/function () {
+  function CodePopover(context) {
+    var _this = this;
+
+    CodePopover_classCallCheck(this, CodePopover);
+
+    this.context = context;
+    this.ui = external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default.a.summernote.ui;
+    this.$editable = context.layoutInfo.editable;
+    this.options = context.options;
+    this.codeLanguages = this.options.codeLanguages || [];
+    this.codeLanguagePrefix = this.options.codeLanguagePrefix || '';
+    this.events = {
+      'summernote.keyup summernote.mouseup summernote.change summernote.scroll': function summernoteKeyupSummernoteMouseupSummernoteChangeSummernoteScroll() {
+        _this.update();
+      },
+      'summernote.disable summernote.dialog.shown': function summernoteDisableSummernoteDialogShown() {
+        _this.hide();
+      },
+      'summernote.blur': function summernoteBlur(we, e) {
+        if (e.originalEvent && e.originalEvent.relatedTarget) {
+          if (!_this.$popover[0].contains(e.originalEvent.relatedTarget)) {
+            _this.hide();
+          }
+        } else {
+          _this.hide();
+        }
+      }
+    };
+  }
+
+  CodePopover_createClass(CodePopover, [{
+    key: "shouldInitialize",
+    value: function shouldInitialize() {
+      return this.codeLanguages.length > 0;
+    }
+  }, {
+    key: "initialize",
+    value: function initialize() {
+      this.$popover = this.ui.popover({
+        className: 'note-code-popover'
+      }).render().appendTo(this.options.container);
+      this.$popover.hide();
+      this.$content = this.$popover.find('.popover-content,.note-popover-content');
+      this.$codeBlock = null;
+      this.currentLanguage = null;
+      this.$popover.on('mousedown', function (e) {
+        e.preventDefault();
+      });
+    }
+  }, {
+    key: "destroy",
+    value: function destroy() {
+      this.$popover.remove();
+    }
+  }, {
+    key: "toggleLanguageDropdown",
+    value: function toggleLanguageDropdown($button) {
+      var isOpened = $button.parent().hasClass('open');
+
+      if (isOpened) {
+        $button.removeClass('active');
+        $button.parent().removeClass('open');
+      } else {
+        $button.addClass('active');
+        $button.parent().addClass('open');
+      }
+    }
+  }, {
+    key: "onCodeLanguageSelected",
+    value: function onCodeLanguageSelected($codeStyle) {
+        var newLanguage = $codeStyle.data('value');
+        if(newLanguage) {
+            this.$codeBlock.attr('class', this.codeLanguagePrefix ? this.codeLanguagePrefix + newLanguage : newLanguage);
+        } else {
+            this.$codeBlock.attr('class', null);
+        }
+    }
+  }, {
+    key: "update",
+    value: function update() {
+      var _this2 = this;
+
+      // Prevent focusing on editable when invoke('code') is executed
+      if (!this.context.invoke('editor.hasFocus')) {
+        this.hide();
+        return;
+      }
+
+      var rng = this.context.invoke('editor.getLastRange');
+      var codeBlock = dom.ancestor(rng.sc, dom.isPre);
+
+      if (codeBlock) {
+        this.$content.empty();
+        this.$popover.hide();
+        this.$codeBlock = external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default()(codeBlock);
+        this.currentLanguage = this.$codeBlock.attr('class') || '';
+
+        if (this.codeLanguagePrefix) {
+          this.currentLanguage = this.currentLanguage.replace(this.codeLanguagePrefix, '');
+        }
+
+        var $group = external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default()('<div class="note-code-select"></div>');
+        var $button = external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default()('<button type="button" class="note-btn dropdown-toggle" tabindex="-1" data-toggle="dropdown" aria-label="Code Style">' + '<div class="note-btn-group">' + '<span class="material-icons">code</span>&nbsp;&nbsp;<span class="material-icons">arrow_drop_down</span>' + '</div>' + '</button>');
+        $button.on('click', function (e) {
+          _this2.toggleLanguageDropdown(external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default()(e.currentTarget));
+
+          e.stopImmediatePropagation();
+        });
+        var $selectGroup = external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default()('<div class="note-code-dropdown dropdown-style" role="list" aria-label="Code Style"></div>');
+        external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default.a.each(this.codeLanguages, function (i, item) {
+          var $codeItem = external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default()('<a class="note-dropdown-item' + (item.value === _this2.currentLanguage ? ' note-dropdown-item-selected' : '') + '" href="#" data-value="' + item.value + '" role="listitem" aria-label="' + item.value + '">' + item.text + '</a>');
+          $codeItem.on('click', function (event) {
+            _this2.onCodeLanguageSelected(external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default()(event.currentTarget));
+
+            _this2.context.triggerEvent('change', _this2.$editable.html(), _this2.$editable);
+
+            event.stopImmediatePropagation();
+            event.preventDefault();
+          });
+          $selectGroup.append($codeItem);
+        });
+        $group.append($button);
+        $group.append($selectGroup);
+        $group.appendTo(this.$content);
+        var pos = dom.posFromPlaceholder(codeBlock);
+        var containerOffset = external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default()(this.options.container).offset();
+        pos.top -= containerOffset.top + 24; // 24 for margin
+
+        pos.left -= containerOffset.left;
+        this.$popover.css({
+          display: 'block',
+          left: pos.left,
+          top: pos.top
+        });
+      } else {
+        this.hide();
+      }
+    }
+  }, {
+    key: "hide",
+    value: function hide() {
+      this.$popover.hide();
+    }
+  }]);
+
+  return CodePopover;
+}();
+
+
 // CONCATENATED MODULE: ./src/js/base/settings.js
 
 
@@ -9746,8 +9975,9 @@ var HintPopover_HintPopover = /*#__PURE__*/function () {
 
 
 
+
 external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default.a.summernote = external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default.a.extend(external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default.a.summernote, {
-  version: '0.8.16',
+  version: '0.8.18',
   plugins: {},
   dom: dom,
   range: range,
@@ -9766,6 +9996,7 @@ external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default.a.summe
       // FIXME: HintPopover must be front of autolink
       //  - Script error about range when Enter key is pressed on hint popover
       'hintPopover': HintPopover_HintPopover,
+      'codePopover': CodePopover_CodePopover,
       'autoLink': AutoLink_AutoLink,
       'autoSync': AutoSync_AutoSync,
       'autoReplace': AutoReplace_AutoReplace,
@@ -9797,7 +10028,8 @@ external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default.a.summe
       image: [['resize', ['resizeFull', 'resizeHalf', 'resizeQuarter', 'resizeNone']], ['float', ['floatLeft', 'floatRight', 'floatNone']], ['remove', ['removeMedia']]],
       link: [['link', ['linkDialogShow', 'unlink']]],
       table: [['add', ['addRowDown', 'addRowUp', 'addColLeft', 'addColRight']], ['delete', ['deleteRow', 'deleteCol', 'deleteTable']]],
-      air: [['color', ['color']], ['font', ['bold', 'underline', 'clear']], ['para', ['ul', 'paragraph']], ['table', ['table']], ['insert', ['link', 'picture']], ['view', ['fullscreen', 'codeview']]]
+      air: [['color', ['color']], ['font', ['bold', 'underline', 'clear']], ['para', ['ul', 'paragraph']], ['table', ['table']], ['insert', ['link', 'picture']], ['view', ['fullscreen', 'codeview']]],
+      code: [['code']]
     },
     // air mode: inline editor
     airMode: false,
@@ -9831,6 +10063,8 @@ external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default.a.summe
     hintMode: 'word',
     hintSelect: 'after',
     hintDirection: 'bottom',
+    codeLanguages: [],
+    codeLanguagePrefix: null,
     styleTags: ['p', 'blockquote', 'pre', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
     fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New', 'Helvetica Neue', 'Helvetica', 'Impact', 'Lucida Grande', 'Tahoma', 'Times New Roman', 'Verdana'],
     fontNamesIgnoreCheck: [],
@@ -10273,9 +10507,9 @@ var toolbar = renderer["a" /* default */].create('<div class="note-toolbar" role
 var editingArea = renderer["a" /* default */].create('<div class="note-editing-area"/>');
 var codable = renderer["a" /* default */].create('<textarea class="note-codable" aria-multiline="true"/>');
 var editable = renderer["a" /* default */].create('<div class="note-editable" contentEditable="true" role="textbox" aria-multiline="true"/>');
-var statusbar = renderer["a" /* default */].create(['<output class="note-status-output" role="status" aria-live="polite"/>', '<div class="note-statusbar" role="status">', '<div class="note-resizebar" aria-label="resize">', '<div class="note-icon-bar"></div>', '<div class="note-icon-bar"></div>', '<div class="note-icon-bar"></div>', '</div>', '</div>'].join(''));
+var statusbar = renderer["a" /* default */].create(['<output class="note-status-output" role="status" aria-live="polite"></output>', '<div class="note-statusbar" role="status">', '<div class="note-resizebar" aria-label="resize">', '<div class="note-icon-bar"></div>', '<div class="note-icon-bar"></div>', '<div class="note-icon-bar"></div>', '</div>', '</div>'].join(''));
 var airEditor = renderer["a" /* default */].create('<div class="note-editor note-airframe"/>');
-var airEditable = renderer["a" /* default */].create(['<div class="note-editable" contentEditable="true" role="textbox" aria-multiline="true"></div>', '<output class="note-status-output" role="status" aria-live="polite"/>'].join(''));
+var airEditable = renderer["a" /* default */].create(['<div class="note-editable" contentEditable="true" role="textbox" aria-multiline="true"></div>', '<output class="note-status-output" role="status" aria-live="polite"></output>'].join(''));
 var buttonGroup = renderer["a" /* default */].create('<div class="note-btn-group">');
 var ui_button = renderer["a" /* default */].create('<button type="button" class="note-btn" tabindex="-1">', function ($node, options) {
   // set button type
@@ -10756,7 +10990,7 @@ var ui = function ui(editorOptions) {
 };
 
 /* harmony default export */ var lite_ui = (ui);
-// EXTERNAL MODULE: ./src/js/base/settings.js + 37 modules
+// EXTERNAL MODULE: ./src/js/base/settings.js + 38 modules
 var settings = __webpack_require__(3);
 
 // EXTERNAL MODULE: ./src/styles/summernote-lite.scss

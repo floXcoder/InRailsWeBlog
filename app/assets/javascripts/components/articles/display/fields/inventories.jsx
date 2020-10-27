@@ -21,6 +21,7 @@ import styles from '../../../../../jss/article/form/shared';
 export default @withStyles(styles)
 class ArticleInventoriesField extends React.Component {
     static propTypes = {
+        currentUserId: PropTypes.number.isRequired,
         currentTopicId: PropTypes.number.isRequired,
         inventoryFields: PropTypes.array.isRequired,
         change: PropTypes.func.isRequired,
@@ -108,6 +109,7 @@ class ArticleInventoriesField extends React.Component {
                        className={this.props.classes.inventoryField}
                        modelName="article"
                        modelId={this.props.article.id}
+                       currentUserId={this.props.currentUserId}
                        currentTopicId={this.props.currentTopicId}
                        placeholder={field.name}
                        onImageUpload={this._handleImageUploaded}/>

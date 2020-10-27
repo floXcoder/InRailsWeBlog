@@ -211,13 +211,14 @@ class ArticleFormDisplay extends React.Component {
                                             {
                                                 this.props.currentTopic.mode === 'inventories'
                                                     ?
-                                                    <ArticleInventoriesField
-                                                        currentTopicId={this.props.currentTopic.id}
-                                                        inventoryFields={this.props.currentTopic.inventoryFields}
-                                                        article={this.props.children}
-                                                        change={change}/>
+                                                    <ArticleInventoriesField currentUserId={this.props.currentUser.id}
+                                                                             currentTopicId={this.props.currentTopic.id}
+                                                                             inventoryFields={this.props.currentTopic.inventoryFields}
+                                                                             article={this.props.children}
+                                                                             change={change}/>
                                                     :
                                                     <ArticleCommonField currentMode={currentMode}
+                                                                        currentUserId={this.props.currentUser.id}
                                                                         currentTopicId={this.props.currentTopic.id}
                                                                         topicLanguages={this.props.currentTopic.languages}
                                                                         isPaste={this.props.isPaste}

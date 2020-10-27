@@ -334,14 +334,14 @@ a.note-dropdown-item, a.note-dropdown-item:hover {
   display: block
 }
 
-@media(min-width: 768px) {
+@media (min-width: 768px) {
   .note-modal-content {
     width: 600px;
     margin: 30px auto
   }
 }
 
-@media(min-width: 992px) {
+@media (min-width: 992px) {
   .note-modal-content-large {
     width: 900px
   }
@@ -1248,6 +1248,48 @@ a.note-dropdown-item, a.note-dropdown-item:hover {
   background-color: #428bca;
   outline: 0;
   cursor: pointer
+}
+
+.note-code-dropdown {
+  display: none;
+  min-width: 140px;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  float: left;
+  text-align: left;
+  background: #fff;
+  border: 1px solid #e2e2e2;
+  padding: 5px;
+  background-clip: padding-box;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, .06);
+  max-height: 250px;
+  overflow-y: auto
+}
+
+.note-code-dropdown > *:last-child {
+  margin-right: 0
+}
+
+.note-code-select.open .note-code-dropdown {
+  display: block
+}
+
+.note-code-dropdown > a.note-dropdown-item {
+  color: #333;
+  font-size: .9rem;
+  border-bottom: 1px solid #eee;
+  padding: 6px 2px !important;
+  margin: 0 !important
+}
+
+.note-code-dropdown > a.note-dropdown-item:last-child {
+  border-bottom: none
+}
+
+.note-code-dropdown > a.note-dropdown-item-selected {
+  font-weight: 700
 }
 
 .note-editor .note-editing-area .note-editable table {

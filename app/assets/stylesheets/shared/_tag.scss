@@ -54,22 +54,22 @@
 
 .categorized-parent-tag {
   .cti-tag {
-    border-color: $primary-color;
-    color: $primary-color;
+    border-color: $primary-color-dark;
+    color: $primary-color-dark;
   }
 
   .cti-tag-delete {
-    color: $primary-color;
+    color: $primary-color-dark;
   }
 }
 
 .categorized-child-tag {
   .cti-tag {
-    border-color: $secondary-color;
-    color: $secondary-color;
+    border-color: $secondary-color-dark;
+    color: $secondary-color-dark;
   }
 
   .cti-tag-delete {
-    color: $secondary-color;
+    color: $secondary-color-dark;
   }
 }

@@ -111,6 +111,7 @@ module Api::V1
           :query_url,
           :article_ids,
           :global,
+          :title_only,
           :no_fragment,
           selected_types: [],
           tag_ids:        [],

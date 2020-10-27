@@ -2,10 +2,6 @@
 
 import '../../../stylesheets/components/highlight.scss';
 
-import {
-    getDisplayName
-} from './common';
-
 import HighlightCode from 'highlight.js/lib/core';
 
 import apache from 'highlight.js/lib/languages/apache';
@@ -14,14 +10,14 @@ import c from 'highlight.js/lib/languages/c';
 import cpp from 'highlight.js/lib/languages/cpp';
 import xml from 'highlight.js/lib/languages/xml';
 import bash from 'highlight.js/lib/languages/bash';
-// import cmake from 'highlight.js/lib/languages/cmake';
+import cmake from 'highlight.js/lib/languages/cmake';
 // import coffeescript from 'highlight.js/lib/languages/coffeescript';
 import css from 'highlight.js/lib/languages/css';
 import markdown from 'highlight.js/lib/languages/markdown';
-// import dart from 'highlight.js/lib/languages/dart';
+import dart from 'highlight.js/lib/languages/dart';
 // import diff from 'highlight.js/lib/languages/diff';
 // import django from 'highlight.js/lib/languages/django';
-// import dockerfile from 'highlight.js/lib/languages/dockerfile';
+import dockerfile from 'highlight.js/lib/languages/dockerfile';
 // import dust from 'highlight.js/lib/languages/dust';
 // import elixir from 'highlight.js/lib/languages/elixir';
 import ruby from 'highlight.js/lib/languages/ruby';
@@ -40,21 +36,31 @@ import json from 'highlight.js/lib/languages/json';
 // import less from 'highlight.js/lib/languages/less';
 // import llvm from 'highlight.js/lib/languages/llvm';
 // import lua from 'highlight.js/lib/languages/lua';
-// import makefile from 'highlight.js/lib/languages/makefile';
+import makefile from 'highlight.js/lib/languages/makefile';
 // import perl from 'highlight.js/lib/languages/perl';
 import nginx from 'highlight.js/lib/languages/nginx';
 // import objectivec from 'highlight.js/lib/languages/objectivec';
 import php from 'highlight.js/lib/languages/php';
 import python from 'highlight.js/lib/languages/python';
-// import rust from 'highlight.js/lib/languages/rust';
+import rust from 'highlight.js/lib/languages/rust';
 // import scala from 'highlight.js/lib/languages/scala';
 import scss from 'highlight.js/lib/languages/scss';
 import shell from 'highlight.js/lib/languages/shell';
 import sql from 'highlight.js/lib/languages/sql';
 // import swift from 'highlight.js/lib/languages/swift';
-import yaml from 'highlight.js/lib/languages/yaml';
 // import tex from 'highlight.js/lib/languages/tex';
 import typescript from 'highlight.js/lib/languages/typescript';
+import yaml from 'highlight.js/lib/languages/yaml';
+
+import {
+    getDisplayName
+} from './common';
+
+import {
+    // highlightedLanguagePrefix,
+    highlightedLanguages
+} from './constants';
+
 
 HighlightCode.registerLanguage('apache', apache);
 HighlightCode.registerLanguage('c-like', cLike);
@@ -62,14 +68,14 @@ HighlightCode.registerLanguage('c', c);
 HighlightCode.registerLanguage('cpp', cpp);
 HighlightCode.registerLanguage('xml', xml);
 HighlightCode.registerLanguage('bash', bash);
-// HighlightCode.registerLanguage('cmake', cmake);
+HighlightCode.registerLanguage('cmake', cmake);
 // HighlightCode.registerLanguage('coffeescript', coffeescript);
 HighlightCode.registerLanguage('css', css);
 HighlightCode.registerLanguage('markdown', markdown);
-// HighlightCode.registerLanguage('dart', dart);
+HighlightCode.registerLanguage('dart', dart);
 // HighlightCode.registerLanguage('diff', diff);
 // HighlightCode.registerLanguage('django', django);
-// HighlightCode.registerLanguage('dockerfile', dockerfile);
+HighlightCode.registerLanguage('dockerfile', dockerfile);
 // HighlightCode.registerLanguage('dust', dust);
 // HighlightCode.registerLanguage('elixir', elixir);
 HighlightCode.registerLanguage('ruby', ruby);
@@ -88,21 +94,21 @@ HighlightCode.registerLanguage('json', json);
 // HighlightCode.registerLanguage('less', less);
 // HighlightCode.registerLanguage('llvm', llvm);
 // HighlightCode.registerLanguage('lua', lua);
-// HighlightCode.registerLanguage('makefile', makefile);
+HighlightCode.registerLanguage('makefile', makefile);
 // HighlightCode.registerLanguage('perl', perl);
 HighlightCode.registerLanguage('nginx', nginx);
 // HighlightCode.registerLanguage('objectivec', objectivec);
 HighlightCode.registerLanguage('php', php);
 HighlightCode.registerLanguage('python', python);
-// HighlightCode.registerLanguage('rust', rust);
+HighlightCode.registerLanguage('rust', rust);
 // HighlightCode.registerLanguage('scala', scala);
 HighlightCode.registerLanguage('scss', scss);
 HighlightCode.registerLanguage('shell', shell);
 HighlightCode.registerLanguage('sql', sql);
 // HighlightCode.registerLanguage('swift', swift);
-HighlightCode.registerLanguage('yaml', yaml);
 // HighlightCode.registerLanguage('tex', tex);
 HighlightCode.registerLanguage('typescript', typescript);
+HighlightCode.registerLanguage('yaml', yaml);
 
 export default function highlight(highlightOnShow = true) {
     return function highlighter(WrappedComponent) {
@@ -126,9 +132,8 @@ export default function highlight(highlightOnShow = true) {
 
                 HighlightCode.configure({
                     tabReplace: '  ', // 4 spaces,
-                    languages: [
-                        'apache', 'cpp', 'xml', 'bash', 'css', 'markdown', 'ruby', 'excel', 'http', 'java', 'javascript', 'json', 'nginx', 'php', 'python', 'scss', 'shell', 'sql', 'yaml', 'typescript'
-                    ]
+                    // classPrefix: highlightedLanguagePrefix,
+                    languages: highlightedLanguages
                 });
 
                 if (highlightOnShow) {
