@@ -90,7 +90,7 @@ $primary: #4c66be;
     word-break: break-all;
 
     &:hover {
-      border-color: $primary-color;
+      border-color: $primary-color-light;
     }
   }
 
@@ -202,8 +202,8 @@ $primary: #4c66be;
 
   .cti-selected {
     background-color: rgb(229, 241, 255);
-    border: 1px solid rgb(207, 219, 234);
-    border-radius: 3px;
+    //border: 1px solid rgb(207, 219, 234);
+    //border-radius: 3px;
   }
 
   .cti-category {
