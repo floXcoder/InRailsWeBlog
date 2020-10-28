@@ -229,7 +229,7 @@ const SanitizePaste = (function ($) {
         parse: function (html, type = 'html', $context = null) {
             html = $.trim(html);
 
-            html = html.replace(/\$/g, '&#36;');
+            // html = html.replace(/\$/g, '&#36;');
 
             // convert dirty spaces
             html = html.replace(/<span class="s1">/gi, '<span>');
