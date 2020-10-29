@@ -173,7 +173,7 @@ Array.prototype.last = function () {
 
 Array.prototype.replace = function (key, newValue) {
     let newArray = [];
-    this.forEach(function (oldValue, index, array) {
+    this.forEach(function (oldValue) {
         if (oldValue[key] === newValue[key]) {
             newArray.push(newValue);
         } else {

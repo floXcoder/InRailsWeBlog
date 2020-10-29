@@ -143,7 +143,7 @@ class ArticleCommonField extends React.Component {
             <div className="col s12">
                 <Field name={fieldName}
                        component={EditorField}
-                       id={`article_content_${locale}`}
+                       id={`article_content_${locale || 'field'}`}
                        modelName="article"
                        modelId={this.props.article.id}
                        currentLocale={locale}

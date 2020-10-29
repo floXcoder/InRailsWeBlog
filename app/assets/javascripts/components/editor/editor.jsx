@@ -187,7 +187,7 @@ class Editor extends React.Component {
                 ['specialStyle', ['code', 'pre', 'advice', 'secret']],
                 ['table', ['table']],
                 ['insert', ['link', 'picture', 'video']],
-                ['clear', ['clear']],
+                ['clear', ['cleaner']],
                 ['undo', ['undo', 'redo']],
                 // ['view', ['fullscreen']],
                 // ['help', ['codeview', 'help']]

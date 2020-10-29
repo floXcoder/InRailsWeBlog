@@ -39,7 +39,7 @@ class SidebarLayoutUser extends React.Component {
         super(props);
     }
 
-    shouldComponentUpdate(nextProps, nextState, nextContext) {
+    shouldComponentUpdate(nextProps) {
         return this.props.width !== nextProps.width ||
             this.props.articleDisplayMode !== nextProps.articleDisplayMode ||
             this.props.currentUserSlug !== nextProps.currentUserSlug ||

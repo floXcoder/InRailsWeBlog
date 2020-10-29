@@ -4,7 +4,7 @@ import {
     gridWidth
 } from '../theme';
 
-const styles = (theme) => ({
+const styles = () => ({
     root: {
         position: 'relative',
         margin: '1rem auto 4rem',

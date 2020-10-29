@@ -5,7 +5,7 @@ import {
     articleAppendixWidth
 } from '../theme';
 
-const styles = (theme) => ({
+const styles = () => ({
     articleIndex: {
         position: 'relative',
         margin: '1rem auto 4rem',
