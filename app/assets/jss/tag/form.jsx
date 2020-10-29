@@ -1,6 +1,6 @@
 'use strict';
 
-const styles = (theme) => ({
+const styles = () => ({
     categoryTitle: {
         fontSize: '1.4rem',
         fontWeight: 500,

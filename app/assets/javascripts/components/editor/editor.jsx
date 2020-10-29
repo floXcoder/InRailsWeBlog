@@ -90,7 +90,7 @@ class Editor extends React.Component {
             placeholder: this.props.placeholder,
             popatmouse: false,
             useProtocol: true,
-            codeLanguages: [{value: '', text: 'Auto'}].concat(highlightedLanguages.map((language) => ({value: language, text: language}))),
+            codeLanguages: [{value: '', text: 'Auto'}].concat(highlightedLanguages.map((language) => Array.isArray(language) ? language.map((l) => ({value: l, text: l})) : ({value: language, text: language}))),
             codeLanguagePrefix: highlightedLanguagePrefix,
             callbacks: {
                 onFocus: this.props.onFocus,
@@ -187,7 +187,7 @@ class Editor extends React.Component {
                 ['specialStyle', ['code', 'pre', 'advice', 'secret']],
                 ['table', ['table']],
                 ['insert', ['link', 'picture', 'video']],
-                ['clear', ['clear']],
+                ['clear', ['cleaner']],
                 ['undo', ['undo', 'redo']],
                 // ['view', ['fullscreen']],
                 // ['help', ['codeview', 'help']]

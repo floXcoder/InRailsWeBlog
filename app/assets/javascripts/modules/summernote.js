@@ -327,37 +327,46 @@ const applyTag = (context, tag, className) => {
     }
 };
 
-// $.extend($.summernote.plugins, {
-//     'cleaner': function (context) {
-//         const ui = $.summernote.ui;
-//         const options = context.options;
-//         const $note = context.layoutInfo.note;
-//
-//         if (options.cleanParseContent) {
-//             context.memo('button.cleaner', function () {
-//                 const button = ui.button({
-//                     contents: '<i class="material-icons">clear</i>',
-//                     container: options.container,
-//                     tooltip: I18n.t('js.editor.buttons.cleaner'),
-//                     click: function () {
-//                         if ($note.summernote('createRange').toString()) {
-//                             $note.summernote('pasteHTML', $note.summernote('createRange').toString());
-//                         } else {
-//                             let formattedCode = SanitizePaste.parse($note.summernote('code'));
-//                             formattedCode = formattedCode.replace(/<\/li><br\s?\/?><li/g, '</li><li');
-//                             formattedCode = formattedCode.replace(/<ul><br\s?\/?><li/g, '<ul><li');
-//                             formattedCode = formattedCode.replace(/<\/li><br\s?\/?><\/ul>/g, '</li></ul>');
-//                             $note.summernote('code', formattedCode);
-//                         }
-//                         context.triggerEvent('change', $note.summernote('code'));
-//                     }
-//                 });
-//
-//                 return button.render();
-//             });
-//         }
-//     }
-// });
+$.extend($.summernote.plugins, {
+    'cleaner': function (context) {
+        const ui = $.summernote.ui;
+        const options = context.options;
+        const $note = context.layoutInfo.note;
+
+        if (options.cleanParseContent) {
+            context.memo('button.cleaner', function () {
+                const button = ui.button({
+                    contents: '<i class="material-icons">format_clear</i>',
+                    container: options.container,
+                    tooltip: I18n.t('js.editor.buttons.cleaner'),
+                    click: function () {
+                        const range = $note.summernote('createRange');
+
+                        $.each(range.nodes(null, {
+                            includeAncestor: true,
+                        }), (idx, element) => {
+                            $(element).removeAttr('style');
+                            $(element).removeAttr('class');
+                            $(element.parentElement).removeAttr('style');
+                            $(element.parentElement).removeAttr('class');
+
+                            if(element.children) {
+                                $.each(element.children, (id, child) => {
+                                    $(child).removeAttr('style');
+                                    $(child).removeAttr('class');
+                                })
+                            }
+                        });
+
+                        context.triggerEvent('change', $note.summernote('code'));
+                    }
+                });
+
+                return button.render();
+            });
+        }
+    }
+});
 
 $.extend($.summernote.plugins, {
     'advice': function (context) {

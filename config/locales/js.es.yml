@@ -559,6 +559,7 @@ es:
         cancel: "Cancelar"
         delete: "Eliminar este artículo"
         edit: "Modificar el artículo"
+        languages: "Ver el contenido del artículo en..."
         history: "Ver las revisiones anteriores del artículo"
         link: "Es un enlace"
         link_to: "Ir al artículo"

@@ -74,6 +74,7 @@ const initState = {
 
     article: undefined,
     articleEditionId: undefined,
+    articleCurrentLanguage: undefined,
 
     articleRecommendations: undefined,
 
@@ -95,12 +96,14 @@ export default function articleReducer(state = initState, action) {
 
             if(action.errors) {
                 state.article = undefined;
+                state.articleCurrentLanguage = undefined;
                 state.articles = [];
             }
 
             return fetchReducer(state, action, (state) => {
                 if (action.article) {
                     state.article = action.article;
+                    state.articleCurrentLanguage = undefined;
                     state.articleRecommendations = undefined;
                 } else {
                     if (action.infinite) {
@@ -114,6 +117,10 @@ export default function articleReducer(state = initState, action) {
                     }
                 }
             });
+
+        case ActionTypes.ARTICLE_LANGUAGE:
+            state.articleCurrentLanguage = action.language;
+            return state;
 
         case ActionTypes.ARTICLE_EDITION:
             state.articleEditionId = action.articleId;

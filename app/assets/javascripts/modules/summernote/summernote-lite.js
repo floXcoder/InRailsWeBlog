@@ -1,14 +1,14 @@
 /*!
- *
+ * 
  * Super simple wysiwyg editor v0.8.18
  * https://summernote.org
- *
- *
+ * 
+ * 
  * Copyright 2013- Alan Hong. and other contributors
  * summernote may be freely distributed under the MIT license.
- *
- * Date: 2020-10-27T10:12Z
- *
+ * 
+ * Date: 2020-10-29T19:33Z
+ * 
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -9867,17 +9867,34 @@ var CodePopover_CodePopover = /*#__PURE__*/function () {
   }, {
     key: "onCodeLanguageSelected",
     value: function onCodeLanguageSelected($codeStyle) {
-        var newLanguage = $codeStyle.data('value');
-        if(newLanguage) {
-            this.$codeBlock.attr('class', this.codeLanguagePrefix ? this.codeLanguagePrefix + newLanguage : newLanguage);
-        } else {
-            this.$codeBlock.attr('class', null);
-        }
+      var newLanguage = $codeStyle.data('value');
+
+      if (newLanguage) {
+        this.$codeBlock.attr('class', this.codeLanguagePrefix ? this.codeLanguagePrefix + newLanguage : newLanguage);
+      } else {
+        this.$codeBlock.attr('class', null);
+      }
+    }
+  }, {
+    key: "buildItemTemplate",
+    value: function buildItemTemplate(item, isRow) {
+      var _this2 = this;
+
+      var $codeItem = external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default()('<a class="note-dropdown-item ' + (isRow ? 'note-dropdown-item-row' : '') + (item.value === this.currentLanguage ? ' note-dropdown-item-selected' : '') + '" href="#" data-value="' + item.value + '" role="listitem" aria-label="' + item.value + '">' + item.text + '</a>');
+      $codeItem.on('click', function (event) {
+        _this2.onCodeLanguageSelected(external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default()(event.currentTarget));
+
+        _this2.context.triggerEvent('change', _this2.$editable.html(), _this2.$editable);
+
+        event.stopImmediatePropagation();
+        event.preventDefault();
+      });
+      return $codeItem;
     }
   }, {
     key: "update",
     value: function update() {
-      var _this2 = this;
+      var _this3 = this;
 
       // Prevent focusing on editable when invoke('code') is executed
       if (!this.context.invoke('editor.hasFocus')) {
@@ -9901,21 +9918,24 @@ var CodePopover_CodePopover = /*#__PURE__*/function () {
         var $group = external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default()('<div class="note-code-select"></div>');
         var $button = external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default()('<button type="button" class="note-btn dropdown-toggle" tabindex="-1" data-toggle="dropdown" aria-label="Code Style">' + '<div class="note-btn-group">' + '<span class="material-icons">code</span>&nbsp;&nbsp;<span class="material-icons">arrow_drop_down</span>' + '</div>' + '</button>');
         $button.on('click', function (e) {
-          _this2.toggleLanguageDropdown(external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default()(e.currentTarget));
+          _this3.toggleLanguageDropdown(external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default()(e.currentTarget));
 
           e.stopImmediatePropagation();
         });
         var $selectGroup = external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default()('<div class="note-code-dropdown dropdown-style" role="list" aria-label="Code Style"></div>');
         external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default.a.each(this.codeLanguages, function (i, item) {
-          var $codeItem = external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default()('<a class="note-dropdown-item' + (item.value === _this2.currentLanguage ? ' note-dropdown-item-selected' : '') + '" href="#" data-value="' + item.value + '" role="listitem" aria-label="' + item.value + '">' + item.text + '</a>');
-          $codeItem.on('click', function (event) {
-            _this2.onCodeLanguageSelected(external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default()(event.currentTarget));
+          var $codeItem;
 
-            _this2.context.triggerEvent('change', _this2.$editable.html(), _this2.$editable);
+          if (Array.isArray(item)) {
+            $codeItem = external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default()('<div class="note-code-list"></div>');
+            var $itemList = item.map(function (i) {
+              return _this3.buildItemTemplate(i, true);
+            });
+            $codeItem.append($itemList);
+          } else {
+            $codeItem = _this3.buildItemTemplate(item);
+          }
 
-            event.stopImmediatePropagation();
-            event.preventDefault();
-          });
           $selectGroup.append($codeItem);
         });
         $group.append($button);

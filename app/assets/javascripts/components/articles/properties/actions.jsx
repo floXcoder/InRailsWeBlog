@@ -70,8 +70,7 @@ const ArticleActions = ({classes, isInline, userSlug, articleId, articleSlug, ar
             // !isInline &&
             // <Hidden mdDown={true}>
             //     <li className={classes.actionItem}>
-            //         <ArticleOutdatedIcon articleId={articleId}
-            //                              isOutdated={isOutdated}
+            //         <ArticleOutdatedIcon isOutdated={isOutdated}
             //                              onOutdatedClick={onOutdatedClick}
             //                              size={size}
             //                              color={color}/>

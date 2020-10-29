@@ -1252,7 +1252,7 @@ a.note-dropdown-item, a.note-dropdown-item:hover {
 
 .note-code-dropdown {
   display: none;
-  min-width: 140px;
+  min-width: 360px;
   position: absolute;
   top: 100%;
   left: 0;
@@ -1276,19 +1276,29 @@ a.note-dropdown-item, a.note-dropdown-item:hover {
   display: block
 }
 
-.note-code-dropdown > a.note-dropdown-item {
+.note-code-dropdown .note-code-list {
+  display: block;
+}
+
+.note-code-dropdown a.note-dropdown-item {
   color: #333;
-  font-size: .9rem;
+  font-size: .85rem;
   border-bottom: 1px solid #eee;
   padding: 6px 2px !important;
   margin: 0 !important
 }
 
-.note-code-dropdown > a.note-dropdown-item:last-child {
+.note-code-dropdown a.note-dropdown-item-row {
+  display: inline-block !important;
+  padding: 7px 5px !important;
+  border-right: 1px solid #eee;
+}
+
+.note-code-dropdown a.note-dropdown-item:last-child {
   border-bottom: none
 }
 
-.note-code-dropdown > a.note-dropdown-item-selected {
+.note-code-dropdown a.note-dropdown-item-selected {
   font-weight: 700
 }
 
@@ -1539,7 +1549,7 @@ a.note-dropdown-item, a.note-dropdown-item:hover {
 
   .note-popover .note-popover-content,
   .note-toolbar {
-    padding-top: 5px;
+    padding-top: 10px;
     background-color: #fff;
     text-align: center;
   }

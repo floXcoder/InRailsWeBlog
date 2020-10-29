@@ -62,7 +62,7 @@ class ArticleSortMenu extends React.Component {
         });
     };
 
-    _handleMenuItemClick = (index, event) => {
+    _handleMenuItemClick = (index) => {
         this.setState({
             selectedIndex: index,
             anchorEl: null

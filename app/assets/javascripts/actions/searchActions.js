@@ -11,10 +11,10 @@ import {
 } from './metricsActions';
 
 // Autocomplete
-export const loadAutocomplete = (autocompleteParams, locale = window.locale) => (
+export const loadAutocomplete = (autocompleteParams, withLocale = window.locale) => (
     api.get('/api/v1/search/autocomplete', {
         search: autocompleteParams,
-        locale: locale
+        withLocale
     }).promise
 );
 

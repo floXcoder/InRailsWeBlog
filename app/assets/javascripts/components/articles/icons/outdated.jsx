@@ -3,7 +3,7 @@
 import HighlightIcon from '@material-ui/icons/HighlightOutlined';
 import HighlightOffIcon from '@material-ui/icons/HighlightOffOutlined';
 
-const ArticleOutdatedIcon = ({articleId, isOutdated, onOutdatedClick, size, color}) => (
+const ArticleOutdatedIcon = ({isOutdated, onOutdatedClick, size, color}) => (
     <span className="flow-tooltip-bottom"
           data-tooltip={isOutdated ? I18n.t('js.article.tooltip.remove_outdated') : I18n.t('js.article.tooltip.add_outdated')}>
         <a href="#"
@@ -22,7 +22,6 @@ const ArticleOutdatedIcon = ({articleId, isOutdated, onOutdatedClick, size, colo
 );
 
 ArticleOutdatedIcon.propTypes = {
-    articleId: PropTypes.number.isRequired,
     isOutdated: PropTypes.bool.isRequired,
     onOutdatedClick: PropTypes.func.isRequired,
     size: PropTypes.oneOf(['small', 'default', 'large']),

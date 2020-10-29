@@ -48,6 +48,11 @@ export const checkLinksArticle = (articleId, options = {}) => ({
     }
 });
 
+export const changeArticleLanguage = (language) => ({
+    type: ActionTypes.ARTICLE_LANGUAGE,
+    language
+});
+
 // Article mutations
 export const addArticle = (article, options = {}) => ({
     actionType: ActionTypes.ARTICLE,

@@ -33,7 +33,9 @@ module Api::V1
     end
 
     def autocomplete
-      autocomplete_results = Searches::AutocompleteService.new(search_params[:query], search_params.merge(current_user: current_user, current_admin: current_admin)).perform
+      autocomplete_results = I18n.with_locale(params[:with_locale] || I18n.locale) do
+        Searches::AutocompleteService.new(search_params[:query], search_params.merge(current_user: current_user, current_admin: current_admin)).perform
+      end
 
       if autocomplete_results.success?
         respond_to do |format|
