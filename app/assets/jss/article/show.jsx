@@ -75,9 +75,12 @@ const styles = (theme) => ({
         fontSize: '.9rem'
     },
     editIcon: {
+        margin: '0 .4rem',
+        display: 'inline-block',
         textAlign: 'right'
     },
     commentCount: {
+        display: 'block',
         fontSize: '1rem',
         color: 'inherit'
     },
@@ -95,7 +98,7 @@ const styles = (theme) => ({
         }
     },
     articleContent: {
-      marginTop: '2rem'
+        marginTop: '2rem'
     },
     floatingButtons: {
         position: 'absolute',

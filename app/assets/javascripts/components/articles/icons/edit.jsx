@@ -4,20 +4,38 @@ import {
     Link
 } from 'react-router-dom';
 
+import IconButton from '@material-ui/core/IconButton';
+
 import EditIcon from '@material-ui/icons/EditOutlined';
 
 import {
     editArticlePath
 } from '../../../constants/routesHelper';
 
-const ArticleEditIcon = ({userSlug, articleSlug, history, size, color}) => (
+const ArticleEditIcon = ({userSlug, articleSlug, isIconButton, history, size, color}) => (
     <span className="flow-tooltip-bottom"
           data-tooltip={I18n.t('js.article.tooltip.edit')}>
-        <Link to={editArticlePath(userSlug, articleSlug)}
-              onClick={_redirectToEdit.bind(undefined, userSlug, articleSlug, history)}>
-            <EditIcon color={color}
-                      fontSize={size}/>
-        </Link>
+        {
+            isIconButton
+                ?
+                <IconButton
+                    aria-label="more"
+                    aria-controls="article-language-select"
+                    aria-haspopup="true"
+                    component={Link}
+                    to={editArticlePath(userSlug, articleSlug)}
+                    onClick={_redirectToEdit.bind(undefined, userSlug, articleSlug, history)}>
+                    <EditIcon color={color}
+                              fontSize={size}/>
+                </IconButton>
+                :
+                <Link to={editArticlePath(userSlug, articleSlug)}
+                      onClick={_redirectToEdit.bind(undefined, userSlug, articleSlug, history)}>
+                    <EditIcon color={color}
+                              fontSize={size}/>
+                </Link>
+        }
+
     </span>
 );
 
@@ -49,11 +67,13 @@ ArticleEditIcon.propTypes = {
     userSlug: PropTypes.string.isRequired,
     articleSlug: PropTypes.string.isRequired,
     history: PropTypes.object,
+    isIconButton: PropTypes.bool,
     size: PropTypes.oneOf(['small', 'default', 'large']),
     color: PropTypes.oneOf(['primary', 'secondary', 'action', 'disabled'])
 };
 
 ArticleEditIcon.defaultProps = {
+    isIconButton: false,
     size: 'default',
     color: 'primary'
 };

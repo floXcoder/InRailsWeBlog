@@ -555,6 +555,7 @@ fr:
         undelete_link: "Annuler la suppression."
       tooltip:
         edit: "Modifier l'article"
+        languages: "Voir contenu article en ..."
         visibility: "Visibilité : %{visibility}"
         add_bookmark: "Ajouter aux favoris"
         remove_bookmark: "Enlever des favoris"

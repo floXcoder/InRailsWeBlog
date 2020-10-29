@@ -35,6 +35,7 @@ import {
 import {
     fetchArticle,
     fetchRecommendations,
+    changeArticleLanguage,
     markArticleOutdated,
     unmarkArticleOutdated,
     checkLinksArticle,
@@ -66,6 +67,7 @@ import NotFound from '../layouts/notFound';
 import SummaryStoriesTopic from '../topics/stories/summary';
 
 import ArticleAvatarIcon from './icons/avatar';
+import ArticleLanguageIcon from './icons/language';
 import ArticleEditIcon from './icons/edit';
 import ArticleTags from './properties/tags';
 import ArticleFloatingIcons from './properties/floatingIcons';
@@ -88,10 +90,12 @@ export default @withRouter
     storyTopic: state.topicState.storyTopic,
     article: state.articleState.article,
     isOwner: getArticleIsOwner(state, state.articleState.article),
+    articleCurrentLanguage: state.articleState.articleCurrentLanguage,
     articleRecommendations: state.articleState.articleRecommendations
 }), {
     fetchArticle,
     fetchRecommendations,
+    changeArticleLanguage,
     markArticleOutdated,
     unmarkArticleOutdated,
     checkLinksArticle,
@@ -118,9 +122,11 @@ class ArticleShow extends React.Component {
         storyTopic: PropTypes.object,
         article: PropTypes.object,
         isOwner: PropTypes.bool,
+        articleCurrentLanguage: PropTypes.string,
         articleRecommendations: PropTypes.array,
         fetchArticle: PropTypes.func,
         fetchRecommendations: PropTypes.func,
+        changeArticleLanguage: PropTypes.func,
         markArticleOutdated: PropTypes.func,
         unmarkArticleOutdated: PropTypes.func,
         checkLinksArticle: PropTypes.func,
@@ -148,7 +154,7 @@ class ArticleShow extends React.Component {
 
         this._recommendationTimeout = setTimeout(() => this._fetchRecommendations(), window.seoMode ? 50 : 500);
 
-        if(!window.seoMode) {
+        if (!window.seoMode) {
             setTimeout(() => ArticleIndex.preload(), articleIndexPreloadTime);
             if (this.props.currentUserSlug && this.props.currentUserSlug === this.props.routeParams.userSlug) {
                 setTimeout(() => ArticleEdit.preload(), articleEditPreloadTime);
@@ -169,7 +175,7 @@ class ArticleShow extends React.Component {
         }
 
         this._recommendationTimeout = setTimeout(() => this._fetchRecommendations(), window.seoMode ? 50 : 500);
-        if(!window.seoMode) {
+        if (!window.seoMode) {
             this._articleLanguagesTimeout = setTimeout(() => this._checkArticleLanguages(), 300);
         }
     }
@@ -276,6 +282,16 @@ class ArticleShow extends React.Component {
 
         const hasLinks = this.props.article.content?.includes('<a ');
 
+        let title = this.props.article.title
+        if(this.props.isOwner && this.props.article.languages?.length > 1 && this.props.articleCurrentLanguage && this.props.article.titleTranslations) {
+            title = this.props.article.titleTranslations[this.props.articleCurrentLanguage] || title;
+        }
+
+        let content = this.props.article.content
+        if(this.props.isOwner && this.props.article.languages?.length > 1 && this.props.articleCurrentLanguage && this.props.article.contentTranslations) {
+            content = this.props.article.contentTranslations[this.props.articleCurrentLanguage] || content;
+        }
+
         return (
             <div>
                 <StickyContainer>
@@ -357,7 +373,7 @@ class ArticleShow extends React.Component {
                                     <Typography className={this.props.classes.title}
                                                 variant="h1"
                                                 itemProp="name headline">
-                                        {this.props.article.title}
+                                        {title}
                                     </Typography>
 
                                     <Grid item={true}
@@ -381,12 +397,28 @@ class ArticleShow extends React.Component {
                                                 {
                                                     this.props.isOwner
                                                         ?
-                                                        <div className={this.props.classes.editIcon}>
-                                                            <ArticleEditIcon userSlug={this.props.article.user.slug}
-                                                                             articleSlug={this.props.article.slug}
-                                                                             size="default"
-                                                                             color="primary"/>
-                                                        </div>
+                                                        <>
+                                                            {
+                                                                this.props.article.languages?.length > 1 &&
+                                                                <div className={this.props.classes.editIcon}>
+                                                                    <ArticleLanguageIcon
+                                                                        currentLocale={this.props.articleCurrentLanguage || window.locale}
+                                                                        languages={this.props.article.languages}
+                                                                        onLanguageChange={this.props.changeArticleLanguage}
+                                                                        size="default"
+                                                                        color="primary"/>
+
+                                                                </div>
+                                                            }
+
+                                                            <div className={this.props.classes.editIcon}>
+                                                                <ArticleEditIcon userSlug={this.props.article.user.slug}
+                                                                                 articleSlug={this.props.article.slug}
+                                                                                 isIconButton={true}
+                                                                                 size="default"
+                                                                                 color="primary"/>
+                                                            </div>
+                                                        </>
                                                         :
                                                         <div className={this.props.classes.editIcon}>
                                                             <Button color="default"
@@ -419,7 +451,7 @@ class ArticleShow extends React.Component {
                                             <ArticleInventoryDisplay inventories={this.props.article.inventories}/>
                                             :
                                             <div className="normalized-content"
-                                                 dangerouslySetInnerHTML={{__html: this.props.article.content}}/>
+                                                 dangerouslySetInnerHTML={{__html: content}}/>
                                     }
                                 </div>
 

@@ -555,6 +555,7 @@ en:
         undelete_link: "Cancel deletion."
       tooltip:
         edit: "Modify article"
+        languages: "See article content in..."
         visibility: "Visibility: %{visibility}"
         add_bookmark: "Add to bookmarks"
         remove_bookmark: "Remove from bookmarks"
