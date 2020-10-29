@@ -42,5 +42,8 @@ export const recentLocalStorage = 'recents';
 // Languages highlighted
 export const highlightedLanguagePrefix = 'language-';
 export const highlightedLanguages = [
-    'apache', 'bash', 'cmake', 'dart', 'cpp', 'css', 'dockerfile', 'http', 'java', 'javascript', 'json', 'makefile', 'markdown', 'nginx', 'php', 'python', 'ruby', 'rust', 'scss', 'shell', 'sql', 'typescript', 'xml', 'yaml'
+    ['javascript', 'typescript', 'php', 'python', 'ruby'],
+    ['cpp', 'dart', 'java', 'apache', 'cmake', 'rust', 'sql'],
+    ['makefile', 'dockerfile', 'http', 'nginx'],
+    ['shell', 'markdown', 'json', 'css', 'scss', 'xml', 'yaml']
 ]
