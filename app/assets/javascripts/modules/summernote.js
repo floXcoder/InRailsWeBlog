@@ -236,6 +236,19 @@ $.extend($.summernote.options.keyMap.mac, {
     'CMD+ENTER': 'Save',
 });
 
+jQuery.fn.removeAttributes = function() {
+    return this.each(function() {
+        const attributes = $.map(this.attributes, function(item) {
+            return item.name;
+        });
+
+        const element = $(this);
+        $.each(attributes, function(i, item) {
+            element.removeAttr(item);
+        });
+    });
+}
+
 const isPara = (node) => {
     return node && /^P|^LI|^H[1-7]/.test(node.nodeName.toUpperCase());
 };
@@ -345,15 +358,12 @@ $.extend($.summernote.plugins, {
                         $.each(range.nodes(null, {
                             includeAncestor: true,
                         }), (idx, element) => {
-                            $(element).removeAttr('style');
-                            $(element).removeAttr('class');
-                            $(element.parentElement).removeAttr('style');
-                            $(element.parentElement).removeAttr('class');
+                            $(element).removeAttributes();
+                            $(element.parentElement).removeAttributes();
 
                             if(element.children) {
                                 $.each(element.children, (id, child) => {
-                                    $(child).removeAttr('style');
-                                    $(child).removeAttr('class');
+                                    $(child).removeAttributes();
                                 })
                             }
                         });
