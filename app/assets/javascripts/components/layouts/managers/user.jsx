@@ -21,7 +21,8 @@ export default @connect((state) => ({
     currentUser: state.userState.user,
     currentUserTopicId: state.topicState.currentUserTopicId,
     currentUserTopicSlug: state.topicState.currentUserTopicSlug,
-    userTopics: state.topicState.userTopics
+    userTopics: state.topicState.userTopics,
+    topicTags: state.tagState.topicTags
 }), {
     initUser,
     fetchTags,
@@ -45,6 +46,7 @@ class UserManager extends React.Component {
         currentUserTopicId: PropTypes.number,
         currentUserTopicSlug: PropTypes.string,
         userTopics: PropTypes.array,
+        topicTags: PropTypes.array,
         initUser: PropTypes.func,
         fetchTags: PropTypes.func,
         switchTopic: PropTypes.func,
@@ -201,6 +203,16 @@ class UserManager extends React.Component {
         } else if (this.props.currentUserTopicSlug !== topicSlug && this.props.userTopics.map((topic) => topic.slug).includes(topicSlug)) {
             this.props.fetchTags({
                     topicSlug: topicSlug
+                },
+                {
+                    userId: this.props.currentUserId
+                },
+                {
+                    topicTags: true
+                });
+        } else if(this.props.topicTags.length === 0) {
+            this.props.fetchTags({
+                    topicId: this.props.currentUserTopicId
                 },
                 {
                     userId: this.props.currentUserId

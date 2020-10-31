@@ -93,8 +93,14 @@ export default class SearchArticleModule extends React.PureComponent {
                             [this.props.classes.articleSecondaryResult]: !primary,
                             [this.props.classes.articleHighlighted]: this.props.highlightedArticleId === article.id
                         })}
-                              to={userArticlePath(article.userSlug, article.slug)}
+                              to={{
+                                  pathname: userArticlePath(article.userSlug, article.slug),
+                                  state: {
+                                      highlightContent: article.contentHighlighted?.match(/>(.*?)<\//)?.splice(1, 1)?.toString()
+                                  }
+                              }}
                               onClick={this._handleArticleClick.bind(this, article)}>
+
                             <span className={this.props.classes.articleTitleResult}>
                                 {article.title || article.slug}
                             </span>
@@ -105,8 +111,9 @@ export default class SearchArticleModule extends React.PureComponent {
                                     {
                                         this.props.hasParenthesis
                                             ?
-                                            <span>(<span
-                                                dangerouslySetInnerHTML={{__html: article.contentHighlighted}}/>)</span>
+                                            <span>
+                                                (<span dangerouslySetInnerHTML={{__html: article.contentHighlighted}}/>)
+                                            </span>
                                             :
                                             <span dangerouslySetInnerHTML={{__html: article.contentHighlighted}}/>
                                     }

@@ -152,6 +152,8 @@ class ArticleShow extends React.Component {
             localArticle: this.props.initProps?.article
         })
 
+        this._highlightMatchedContent();
+
         this._recommendationTimeout = setTimeout(() => this._fetchRecommendations(), window.seoMode ? 50 : 500);
 
         if (!window.seoMode) {
@@ -168,6 +170,8 @@ class ArticleShow extends React.Component {
 
             // Highlight code
             this.props.onShow(this.props.article.id, true);
+
+            this._highlightMatchedContent();
         }
 
         if (!Object.equals(this.props.routeParams, prevProps.routeParams)) {
@@ -224,6 +228,12 @@ class ArticleShow extends React.Component {
             }
         }
     };
+
+    _highlightMatchedContent = () => {
+        if (this.props.article && this.props.routeState?.highlightContent && window.find) {
+            window.find(this.props.routeState.highlightContent);
+        }
+    }
 
     _handleOutdatedClick = (event) => {
         event.preventDefault();
@@ -283,12 +293,12 @@ class ArticleShow extends React.Component {
         const hasLinks = this.props.article.content?.includes('<a ');
 
         let title = this.props.article.title
-        if(this.props.isOwner && this.props.article.languages?.length > 1 && this.props.articleCurrentLanguage && this.props.article.titleTranslations) {
+        if (this.props.isOwner && this.props.article.languages?.length > 1 && this.props.articleCurrentLanguage && this.props.article.titleTranslations) {
             title = this.props.article.titleTranslations[this.props.articleCurrentLanguage] || title;
         }
 
         let content = this.props.article.content
-        if(this.props.isOwner && this.props.article.languages?.length > 1 && this.props.articleCurrentLanguage && this.props.article.contentTranslations) {
+        if (this.props.isOwner && this.props.article.languages?.length > 1 && this.props.articleCurrentLanguage && this.props.article.contentTranslations) {
             content = this.props.article.contentTranslations[this.props.articleCurrentLanguage] || content;
         }
 
