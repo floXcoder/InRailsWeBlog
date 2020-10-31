@@ -18,7 +18,7 @@ import ReactDiffViewer, {DiffMethod} from 'react-diff-viewer';
 
 import styles from '../../../../jss/article/history';
 
-const stripTags = (string) => string.replace(/(<([^>]+)>)/ig, '');
+const stripTags = (string) => string?.replace(/(<([^>]+)>)/ig, '');
 const diffRenderStyle = {display: 'inline'};
 
 export default @withStyles(styles)
@@ -56,6 +56,94 @@ class ArticleVersionsDisplay extends React.Component {
                      __html: str
                  }}/>
         );
+    };
+
+    _renderDiffTitle = (index, version) => {
+        if (version.article.languages?.length > 1) {
+            return (
+                <div>
+                    {
+                        version.article.languages.map((locale) => {
+                            const previousVersion = index === 0 ? this.props.currentArticle.titleTranslations[locale] : version.article.title_translations[locale];
+                            const newVersion = this.props.articleVersions[index + 1].article.title_translations[locale];
+
+                            if(previousVersion !== newVersion) {
+                                return (
+                                    <div key={locale}
+                                         className="margin-top-20">
+                                        <h4>
+                                            {I18n.t(`js.languages.${locale}`)}
+                                        </h4>
+
+                                        <ReactDiffViewer hideLineNumbers={true}
+                                                         useDarkTheme={false}
+                                                         compareMethod={DiffMethod.WORDS}
+                                                         oldValue={previousVersion}
+                                                         newValue={newVersion}/>
+                                    </div>
+                                );
+                            } else {
+                                return null;
+                            }
+                        })
+                    }
+                </div>
+            );
+        } else {
+            return (
+                <ReactDiffViewer hideLineNumbers={true}
+                                 useDarkTheme={false}
+                                 compareMethod={DiffMethod.WORDS}
+                                 oldValue={index === 0 ? this.props.currentArticle.title : version.article.title}
+                                 newValue={this.props.articleVersions[index + 1].article.title}/>
+            );
+        }
+    };
+
+    _renderDiffContent = (index, version) => {
+        if (version.article.languages?.length > 1) {
+            return (
+                <div>
+                    {
+                        version.article.languages.map((locale) => {
+                            const previousVersion = stripTags(this.props.articleVersions[index + 1].article.content_translations[locale]);
+                            const newVersion = stripTags(index === 0 ? this.props.currentArticle.contentTranslations[locale] : version.article.content_translations[locale])
+
+                            if(previousVersion !== newVersion) {
+                                return (
+                                    <div key={locale}
+                                         className="margin-top-20">
+                                        <h4>
+                                            {I18n.t(`js.languages.${locale}`)}
+                                        </h4>
+
+                                        <ReactDiffViewer splitView={true}
+                                                         hideLineNumbers={true}
+                                                         useDarkTheme={false}
+                                                         compareMethod={DiffMethod.WORDS}
+                                                         renderContent={this._formatDiffRender}
+                                                         oldValue={previousVersion}
+                                                         newValue={newVersion}/>
+                                    </div>
+                                );
+                            } else {
+                                return null;
+                            }
+                        })
+                    }
+                </div>
+            );
+        } else {
+            return (
+                <ReactDiffViewer splitView={true}
+                                 hideLineNumbers={true}
+                                 useDarkTheme={false}
+                                 compareMethod={DiffMethod.WORDS}
+                                 renderContent={this._formatDiffRender}
+                                 oldValue={stripTags(this.props.articleVersions[index + 1].article.content)}
+                                 newValue={stripTags(index === 0 ? this.props.currentArticle.content : version.article.content)}/>
+            );
+        }
     };
 
     render() {
@@ -106,12 +194,7 @@ class ArticleVersionsDisplay extends React.Component {
                                                 ?
                                                 version.article.title
                                                 :
-                                                <ReactDiffViewer
-                                                    hideLineNumbers={true}
-                                                    useDarkTheme={false}
-                                                    compareMethod={DiffMethod.WORDS}
-                                                    oldValue={i === 0 ? this.props.currentArticle.title : version.article.title}
-                                                    newValue={this.props.articleVersions[i + 1].article.title}/>
+                                                this._renderDiffTitle(i, version)
                                         }
                                     </h2>
 
@@ -121,13 +204,7 @@ class ArticleVersionsDisplay extends React.Component {
                                         {
                                             i < this.props.articleVersions.length - 1
                                                 ?
-                                                <ReactDiffViewer splitView={true}
-                                                                 hideLineNumbers={true}
-                                                                 useDarkTheme={false}
-                                                                 compareMethod={DiffMethod.WORDS}
-                                                                 renderContent={this._formatDiffRender}
-                                                                 oldValue={stripTags(this.props.articleVersions[i + 1].article.content)}
-                                                                 newValue={stripTags(i === 0 ? this.props.currentArticle.content : version.article.content)}/>
+                                                this._renderDiffContent(i, version)
                                                 :
                                                 <div dangerouslySetInnerHTML={{__html: version.article.content}}/>
                                         }
