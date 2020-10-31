@@ -193,6 +193,7 @@ class HomeSearch extends React.Component {
                           md={9}
                           lg={9}>
                         <SearchArticleModule classes={this.props.classes}
+                                             isSearching={this.props.isSearching}
                                              isUserConnected={this.props.isUserConnected}
                                              currentUserId={this.props.currentUserId}
                                              currentTopicId={this.props.currentUserTopicId}
@@ -209,6 +210,7 @@ class HomeSearch extends React.Component {
                           md={3}
                           lg={3}>
                         <SearchTagModule classes={this.props.classes}
+                                         isSearching={this.props.isSearching}
                                          isUserConnected={this.props.isUserConnected}
                                          currentUserId={this.props.currentUserId}
                                          currentTopicId={this.props.currentUserTopicId}
