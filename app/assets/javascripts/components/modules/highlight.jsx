@@ -133,7 +133,7 @@ export default function highlight(highlightOnShow = true) {
                 HighlightCode.configure({
                     tabReplace: '  ', // 4 spaces,
                     // classPrefix: highlightedLanguagePrefix,
-                    languages: highlightedLanguages
+                    languages: highlightedLanguages.flat()
                 });
 
                 if (highlightOnShow) {
