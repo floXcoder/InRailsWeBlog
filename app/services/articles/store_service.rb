@@ -239,7 +239,7 @@ module Articles
       content.scan(/data-article-relation-id="(\d+)"/) { |other_id| other_ids << other_id }
 
       other_ids.flatten.map do |other_id|
-        article_relationships << @article.child_relationships.find_or_initialize_by(user: @article.user, child: @article, parent_id: other_id)
+        article_relationships << @article.child_relationships.find_or_initialize_by(user: @article.user, child: @article, parent_id: other_id) if Article.find_by(id: other_id)
       end
 
       return article_relationships
