@@ -51,6 +51,7 @@ export default @connect((state) => ({
 class TagShow extends React.Component {
     static propTypes = {
         routeParams: PropTypes.object.isRequired,
+        initProps: PropTypes.object,
         // from connect
         currentUser: PropTypes.object,
         isFetching: PropTypes.bool,
@@ -65,7 +66,9 @@ class TagShow extends React.Component {
     }
 
     componentDidMount() {
-        this.props.fetchTag(this.props.routeParams.tagSlug);
+        this.props.fetchTag(this.props.routeParams.tagSlug, {
+            localTag: this.props.initProps?.tag
+        });
     }
 
     componentDidUpdate(prevProps) {

@@ -21,7 +21,8 @@ export const fetchTopic = (userId, topicId, options = {}) => ({
         locale: window.locale,
         userId,
         ...options
-    })
+    }),
+    localData: options.localTopic
 });
 
 export const switchTopic = (userId, newTopic, options = {}) => ({

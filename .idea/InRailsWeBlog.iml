@@ -132,7 +132,7 @@
     <orderEntry type="library" scope="PROVIDED" name="bcrypt (v3.1.16, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="better_errors (v2.8.3, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="binding_of_caller (v0.8.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="bootsnap (v1.4.8, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="bootsnap (v1.5.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="brakeman (v4.10.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="browser (v5.1.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="builder (v3.2.4, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
@@ -254,7 +254,7 @@
     <orderEntry type="library" scope="PROVIDED" name="pry-rails (v0.3.9, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="public_activity (v1.6.4, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="public_suffix (v4.0.6, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="puma (v5.0.2, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="puma (v5.0.4, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="pundit (v2.1.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="raabro (v1.4.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rack (v2.2.3, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
@@ -278,7 +278,7 @@
     <orderEntry type="library" scope="PROVIDED" name="responders (v3.0.1, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rest-client (v2.1.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rexml (v3.2.4, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="route_translator (v8.1.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="route_translator (v8.2.1, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rspec (v3.10.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rspec-core (v3.10.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rspec-expectations (v3.10.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
@@ -290,7 +290,7 @@
     <orderEntry type="library" scope="PROVIDED" name="rubocop-ast (v1.1.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rubocop-performance (v1.8.1, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rubocop-rails (v2.8.1, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="rubocop-rspec (v1.44.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rubocop-rspec (v1.44.1, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ruby-jmeter (v3.1.08, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ruby-progressbar (v1.10.1, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ruby-vips (v2.0.17, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
@@ -302,7 +302,7 @@
     <orderEntry type="library" scope="PROVIDED" name="secure_headers (v6.3.1, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="selenium-webdriver (v3.142.7, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sentry-raven (v3.1.1, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="seo_cache (v0.19.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="seo_cache (v1.0.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sexp_processor (v4.15.1, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="shellany (v0.0.1, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="shoulda-callback-matchers (v1.1.4, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
@@ -310,7 +310,7 @@
     <orderEntry type="library" scope="PROVIDED" name="sidekiq (v6.1.2, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sidekiq-cron (v1.2.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sidekiq-statistic (v1.4.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="simplecov (v0.19.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="simplecov (v0.19.1, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="simplecov-html (v0.12.3, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sitemap_generator (v6.1.2, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="slim (v4.1.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />

@@ -34,7 +34,7 @@ Rails.application.routes.draw do
     get '/tags/:user_slug/sort', to: 'pages#home', as: :sort_tag, defaults: { name: 'sort_tag' }
 
     # Topics
-    get '/users/:user_slug/topics/:topic_slug/show', to: 'pages#home', as: :user_topic, defaults: { name: 'user_topic', public: true }
+    get '/users/:user_slug/topics/:topic_slug/show', to: 'topics#show', as: :user_topic, defaults: { name: 'user_topic', public: true }
     get '/users/:user_slug/topics/:topic_slug/edit', to: 'pages#home', as: :edit_topic, defaults: { name: 'edit_topic' }
     get '/users/:user_slug/topics/:topic_slug/edit-inventories', to: 'pages#home', as: :edit_inventories_topic, defaults: { name: 'edit_inventories_topic' }
 

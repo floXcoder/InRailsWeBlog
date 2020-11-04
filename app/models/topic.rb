@@ -213,7 +213,7 @@ class Topic < ApplicationRecord
     when 'normal'
       TopicSerializer.new(data,
                           fields:  {
-                            topic:        %i[id user contributors tags userId mode name description priority visibility languages slug tagIds settings],
+                            topic:        %i[id user contributors tags userId mode name description priority visibility languages slug tagIds settings articlesCount],
                             user:         %i[id pseudo slug avatarUrl],
                             contributors: %i[id pseudo slug avatarUrl],
                             tag:          %i[id userId name synonyms visibility taggedArticlesCount slug description]
