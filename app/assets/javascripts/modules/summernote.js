@@ -359,7 +359,9 @@ $.extend($.summernote.plugins, {
                             includeAncestor: true,
                         }), (idx, element) => {
                             $(element).removeAttributes();
-                            $(element.parentElement).removeAttributes();
+                            if(element.parentElement.className !== 'note-editable') {
+                                $(element.parentElement).removeAttributes();
+                            }
 
                             if(element.children) {
                                 $.each(element.children, (id, child) => {

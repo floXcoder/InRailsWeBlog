@@ -91,7 +91,7 @@ gem 'browser',                  '5.1.0'
 
 # SEO
 gem 'friendly_id',              '5.4.0'
-gem 'route_translator',         '8.1.0'
+gem 'route_translator',         '8.2.1'
 gem 'meta-tags',                '2.13.0'
 gem 'sitemap_generator',        '6.1.2'
 
@@ -112,7 +112,7 @@ gem 'health_check',             '3.0.0'
 gem 'webdrivers',               '4.4.1'
 
 # Server
-gem 'puma',                     '5.0.2'
+gem 'puma',                     '5.0.4'
 
 group :development do
   # Debugging tool
@@ -155,7 +155,7 @@ group :test do
   gem 'rspec_junit_formatter',      '0.4.1'
   gem 'shoulda-matchers',           '4.4.1',  require: false
   gem 'shoulda-callback-matchers',  '1.1.4',  require: false
-  gem 'simplecov',                  '0.19.0', require: false
+  gem 'simplecov',                  '0.19.1', require: false
   gem 'fuubar',                     '2.5.0'
   gem 'database_cleaner',           '1.8.5'
   gem 'db-query-matchers',          '0.10.0'
@@ -176,13 +176,13 @@ end
 
 group :development, :test do
   # Speed up boot
-  gem 'bootsnap',                   '1.4.8',   require: false
+  gem 'bootsnap',                   '1.5.0',   require: false
 
   # Check errors
   gem 'rubocop',                    '0.93.1',  require: false
   gem 'rubocop-rails',              '2.8.1',   require: false
   gem 'rubocop-performance',        '1.8.1',   require: false
-  gem 'rubocop-rspec',              '1.44.0',  require: false
+  gem 'rubocop-rspec',              '1.44.1',  require: false
 end
 
 group :production do
@@ -193,5 +193,5 @@ group :production do
   gem 'lograge',          '0.11.2'
 
   # Prerender html pages for SEO
-  gem 'seo_cache',        '0.19.0'
+  gem 'seo_cache',        '1.0.0'
 end
