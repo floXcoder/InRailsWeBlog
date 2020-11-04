@@ -8,7 +8,7 @@ import ReactPiwik from 'react-piwik';
 
 let browserHistory = createBrowserHistory();
 
-if (window._paq) {
+if (window._paq && !window.seoMode) {
     const piwik = new ReactPiwik({
         url: window.METRICS_ADDRESS,
         siteId: window.METRICS_SITE_NUMBER,
