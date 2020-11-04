@@ -109,6 +109,12 @@ export default {
                 exact: true,
                 component: () => RouteComponents.TagIndex
             },
+            // user : topics
+            {
+                path: Routes.userTopicPath(':userSlug', ':topicSlug', false),
+                exact: true,
+                component: () => RouteComponents.TopicShow
+            },
             // user: articles
             {
                 path: Routes.userArticlesPath(':userSlug', false),

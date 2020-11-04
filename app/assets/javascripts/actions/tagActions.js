@@ -23,7 +23,8 @@ export const fetchTag = (tagId, options = {}) => ({
     fetchAPI: () => api.get(options.edit ? `/api/v1/tags/${tagId}/edit` : `/api/v1/tags/${tagId}`, {
         locale: window.locale,
         ...options
-    })
+    }),
+    localData: options.localTag
 });
 
 export const filterTags = (filterText) => ({

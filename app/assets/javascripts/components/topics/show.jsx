@@ -41,7 +41,8 @@ import styles from '../../../jss/topic/show';
 export default @connect((state) => ({
     currentUserId: state.userState.currentId,
     isFetching: state.topicState.isFetching,
-    topic: state.topicState.topic
+    topic: state.topicState.topic,
+    isOwner: state.userState.currentId === state.topicState.topic?.user?.id
 }), {
     fetchTopic,
     deleteTopic
@@ -51,10 +52,12 @@ export default @connect((state) => ({
 class TopicShow extends React.Component {
     static propTypes = {
         routeParams: PropTypes.object.isRequired,
+        initProps: PropTypes.object,
         // from connect
         currentUserId: PropTypes.number,
         isFetching: PropTypes.bool,
         topic: PropTypes.object,
+        isOwner: PropTypes.bool,
         fetchTopic: PropTypes.func,
         deleteTopic: PropTypes.func,
         // from styles
@@ -66,7 +69,9 @@ class TopicShow extends React.Component {
     }
 
     componentDidMount() {
-        this.props.fetchTopic(this.props.routeParams.userSlug, this.props.routeParams.topicSlug);
+        this.props.fetchTopic(this.props.routeParams.userSlug, this.props.routeParams.topicSlug, {
+            localTopic: this.props.initProps?.topic
+        });
     }
 
     componentDidUpdate(prevProps) {
@@ -93,7 +98,7 @@ class TopicShow extends React.Component {
                     <NotFound/>
                 </div>
             );
-        } else if(this.props.isFetching) {
+        } else if (this.props.isFetching) {
             return (
                 <div className="center margin-top-20">
                     <Loader size="big"/>
@@ -168,7 +173,7 @@ class TopicShow extends React.Component {
                         </div>
 
                         {
-                            this.props.topic.visibility !== 'only_me' &&
+                            (this.props.isOwner && this.props.topic.visibility !== 'only_me') &&
                             <div>
                                 <Typography className={this.props.classes.subtitle2}
                                             component="h3"
@@ -225,39 +230,47 @@ class TopicShow extends React.Component {
                             </p>
                         </div>
 
-                        <div>
-                            <Typography className={this.props.classes.subtitle2}
-                                        component="h3"
-                                        variant="h3">
-                                {I18n.t('js.topic.model.visibility')}
-                            </Typography>
+                        {
+                            this.props.isOwner &&
+                            <div>
+                                <Typography className={this.props.classes.subtitle2}
+                                            component="h3"
+                                            variant="h3">
+                                    {I18n.t('js.topic.model.visibility')}
+                                </Typography>
 
-                            <p>
-                                {this.props.topic.visibilityTranslated}
-                            </p>
-                        </div>
+                                <p>
+                                    {this.props.topic.visibilityTranslated}
+                                </p>
+                            </div>
+                        }
                     </div>
                 </div>
 
-                <div className="center-align margin-top-60 margin-bottom-20">
-                    <Button color="default"
-                            variant="outlined"
-                            size="small"
-                            component={Link}
-                            to={editTopicPath(this.props.topic.user.slug, this.props.topic.slug)}>
-                        {I18n.t('js.topic.show.edit_link')}
-                    </Button>
-                </div>
+                {
+                    this.props.isOwner &&
+                    <>
+                        <div className="center-align margin-top-60 margin-bottom-20">
+                            <Button color="default"
+                                    variant="outlined"
+                                    size="small"
+                                    component={Link}
+                                    to={editTopicPath(this.props.topic.user.slug, this.props.topic.slug)}>
+                                {I18n.t('js.topic.show.edit_link')}
+                            </Button>
+                        </div>
 
-                <div className="center-align margin-top-20">
-                    <Button className={this.props.classes.shareButton}
-                            color="default"
-                            variant="text"
-                            size="small"
-                            onClick={this._handleTopicDelete}>
-                        {I18n.t('js.topic.edit.delete')}
-                    </Button>
-                </div>
+                        <div className="center-align margin-top-20">
+                            <Button className={this.props.classes.shareButton}
+                                    color="default"
+                                    variant="text"
+                                    size="small"
+                                    onClick={this._handleTopicDelete}>
+                                {I18n.t('js.topic.edit.delete')}
+                            </Button>
+                        </div>
+                    </>
+                }
             </article>
         );
     }
