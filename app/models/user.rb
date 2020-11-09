@@ -327,9 +327,8 @@ class User < ApplicationRecord
     when 'complete'
       UserSerializer.new(data,
                          fields:  {
-                           topic: %i[id tracker userId mode name description priority visibility languages slug tagIds]
+                           topic: %i[id userId mode name description priority visibility languages slug tagIds]
                          },
-                         include: %i[tracker],
                          **options)
     else
       UserSerializer.new(data, {
