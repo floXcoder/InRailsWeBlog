@@ -109,6 +109,11 @@ const handleParseErrors = (error, url, isGet = false) => {
         };
     }
 
+    // Ignore get fetch errors (likewise just open a new page)
+    if (isGet && error.name === 'TypeError' && error.message === 'NetworkError when attempting to fetch resource.') {
+        return;
+    }
+
     if (error.name === 'AbortError') {
         return;
     }
