@@ -87,13 +87,18 @@ export default function articleMutationManager(mode) {
 
                 this._hasAutoSaved = false;
 
+                this._request = null;
+
                 this._scrollTimeout = null;
 
                 // Check fo unsaved article before connection
                 const unsavedArticle = getLocalData(articleUnsavedDataName, true);
 
                 if (props.routeParams.articleSlug) {
-                    props.fetchArticle(props.routeParams.userSlug, props.routeParams.articleSlug, {edit: true});
+                    this._request = props.fetchArticle(props.routeParams.userSlug, props.routeParams.articleSlug, {
+                        edit: true,
+                        localArticle: props.initProps?.article
+                    });
                 } else if (props.routeState) {
                     this.state.article = props.routeState;
 
@@ -156,7 +161,7 @@ export default function articleMutationManager(mode) {
 
             componentDidUpdate(prevProps) {
                 if (!Utils.isEmpty(this.props.articleErrors) && prevProps.articleErrors !== this.props.articleErrors) {
-                    if(this.props.isTagError) {
+                    if (this.props.isTagError) {
                         Notification.warn(this.props.articleErrors);
                     } else {
                         Notification.error(this.props.articleErrors);
@@ -169,6 +174,10 @@ export default function articleMutationManager(mode) {
 
                 if (this._scrollTimeout) {
                     clearTimeout(this._scrollTimeout);
+                }
+
+                if (this._request?.signal) {
+                    this._request.signal.abort();
                 }
 
                 this._handleChange.cancel();
@@ -220,7 +229,10 @@ export default function articleMutationManager(mode) {
                         childTagIds: this.props.article.childTagIds
                     });
 
-                    const updatePromise = this.props.updateArticle(formData, {autoSave: (autoSave === true), wasAutoSaved: this._hasAutoSaved});
+                    const updatePromise = this.props.updateArticle(formData, {
+                        autoSave: (autoSave === true),
+                        wasAutoSaved: this._hasAutoSaved
+                    });
                     if (autoSave === true) {
                         this._hasAutoSaved = true;
 

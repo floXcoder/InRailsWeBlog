@@ -66,7 +66,7 @@ module Api::V1
             if complete
               render json: User.serialized_json(users, 'complete')
             else
-              render json: User.serialized_json(users, 'complete', meta: meta_attributes(pagination: users))
+              render json: User.serialized_json(users, 'sample', meta: meta_attributes(pagination: users))
             end
           end
         end

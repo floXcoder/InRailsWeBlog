@@ -122,7 +122,7 @@ class ArticleIndex extends React.Component {
             this._fetchArticles(urlParams);
         }
 
-        if(!window.seoMode) {
+        if (!window.seoMode) {
             setTimeout(() => ArticleShow.preload(), articleShowPreloadTime);
         }
     }
@@ -173,7 +173,7 @@ class ArticleIndex extends React.Component {
             queryParams.order = this.props.routeParams.order;
         }
 
-        if (this.props.routeParams.sharedTopic) {
+        if (this.props.routeParams['0'] && this.props.routeParams['0'] === window.localizedRoutes[window.locale]['shared-topics'] || this.props.routeParams['0'] === 'shared-topics') {
             queryParams.sharedTopic = true;
         }
 
@@ -285,7 +285,7 @@ class ArticleIndex extends React.Component {
             );
         }
 
-        const isUserArticlesList = this.props.currentUserId &&  this.props.routeParams.userSlug && Object.keys(this.props.routeParams).length === 1;
+        const isUserArticlesList = this.props.currentUserId && this.props.routeParams.userSlug && Object.keys(this.props.routeParams).length === 1;
 
         const hasMoreArticles = this.props.articlePagination && this.props.articlePagination.currentPage < this.props.articlePagination.totalPages;
 

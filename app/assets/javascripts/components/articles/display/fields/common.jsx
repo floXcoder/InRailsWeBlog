@@ -159,10 +159,12 @@ class ArticleCommonField extends React.Component {
     };
 
     render() {
+        const currentLanguages = this.props.topicLanguages && this.props.article.languages && this.props.article.languages?.length > this.props.topicLanguages?.length ? this.props.article.languages : this.props.topicLanguages;
+
         return (
             <div className={classNames('row', this.props.classes.root)}>
                 {
-                    (this.props.topicLanguages?.length > 1 || this.props.article.languages?.length > 1)
+                    currentLanguages?.length > 1
                         ?
                         <>
                             {
@@ -184,7 +186,7 @@ class ArticleCommonField extends React.Component {
                                   centered={true}
                                   onChange={this._handleTabChange}>
                                 {
-                                    this.props.topicLanguages.map((locale) => (
+                                    currentLanguages.map((locale) => (
                                         <Tab key={locale}
                                              label={I18n.t(`js.languages.${locale}`)}/>
                                     ))
@@ -192,7 +194,7 @@ class ArticleCommonField extends React.Component {
                             </Tabs>
 
                             {
-                                this.props.topicLanguages.map((locale, i) => (
+                                currentLanguages.map((locale, i) => (
                                     <TabContainer key={locale}
                                                   isActive={this.state.tabStep === i}>
                                         {this._renderTitle(locale)}

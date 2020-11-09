@@ -631,7 +631,7 @@ en:
       share:
         title: "Share this theme"
         content: "Copy the following link to share the article:"
-        button: "Shared by a link"
+        button: "Create link to share this article"
         cancel: "Cancel"
       sort:
         title: "Sort by"

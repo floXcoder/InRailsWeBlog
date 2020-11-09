@@ -248,7 +248,7 @@ module Api::V1
     end
 
     def edit
-      article = current_user.articles.include_element.friendly.find(params[:id])
+      article = Article.include_element.friendly.find(params[:id])
       admin_or_authorize article
 
       respond_to do |format|
@@ -269,7 +269,7 @@ module Api::V1
     end
 
     def update
-      article = current_user.articles.friendly.find(params[:id])
+      article = Article.include_element.friendly.find(params[:id])
       admin_or_authorize article
 
       stored_article = ::Articles::StoreService.new(article, article_params.merge(article_admin_params).merge(current_user: current_user, auto_save: params[:auto_save], was_auto_saved: params[:was_auto_saved])).perform

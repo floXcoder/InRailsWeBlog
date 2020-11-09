@@ -76,7 +76,7 @@ class ShareArticleModal extends React.Component {
                         {I18n.t('js.article.share.title')}
                     </Typography>
 
-                    <div className="center-align margin-top-20">
+                    <div className="center-align margin-top-30">
                         {
                             this.props.article.publicShareLink
                                 ?
@@ -93,17 +93,19 @@ class ShareArticleModal extends React.Component {
                                 </div>
                                 :
                                 <Button color="primary"
-                                        variant="outlined"
+                                        variant="contained"
                                         onClick={this._handleShareSubmit}>
                                     {I18n.t('js.article.share.button')}
                                 </Button>
                         }
 
-                        <div className="center-align margin-top-25">
-                            <a href="#"
-                               onClick={this._handleClose}>
+                        <div className="center-align margin-top-35">
+                            <Button color="default"
+                                    variant="text"
+                                    href="#"
+                                    onClick={this._handleClose}>
                                 {I18n.t('js.article.share.cancel')}
-                            </a>
+                            </Button>
                         </div>
                     </div>
                 </div>

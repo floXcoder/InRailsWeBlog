@@ -22,8 +22,11 @@ class UpdateTrackerWorker
           _element_type, _element_metric, element_id, user_id, parent_id = tracked_element.split(':')
           element_value                                                  = $redis.get(tracked_element)
 
+          # Save only if element has à tracker, doesn't belong to current user and if not private
           if (element = class_model.find_by(id: element_id))
             next unless element.tracker
+            next if user_id && element.try(:user_id) == user_id
+            next if element.try(:only_me?)
 
             # Warning: Increment do not trigger model callbacks
             element.tracker.increment!("#{metric}_count", element_value.to_i)

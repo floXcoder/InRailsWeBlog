@@ -60,8 +60,8 @@ if (process.env.NODE_ENV !== 'production') {
     window.log_on_screen = log.now;
 }
 
-if (window._paq && !window.seoMode) {
-    perfMetrics.onFirstInputDelay(function (delay, event) {
-        window._paq.push(['trackEvent', 'First Input Delay', event.type, event.type, Math.round(delay)]);
-    });
-}
+// if (window._paq && !window.seoMode) {
+//     perfMetrics.onFirstInputDelay(function (delay, event) {
+//         window._paq.push(['trackEvent', 'First Input Delay', event.type, event.type, Math.round(delay)]);
+//     });
+// }
