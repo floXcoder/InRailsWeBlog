@@ -20,10 +20,6 @@ webPackConfig.output = _.merge(webPackConfig.output, {
     filename: config.development.filename + '.js'
 });
 
-webPackConfig.module.rules[1].use[0].options = {
-    hmr: true
-};
-
 webPackConfig = _.merge(webPackConfig, {
     output: {
         publicPath: config.development.assetPath,
