@@ -631,7 +631,7 @@ fr:
       share:
         title: "Partager cet article"
         content: "Copier le lien suivant pour partager l'article :"
-        button: "Partager par un lien"
+        button: "Créer lien pour partager cet article"
         cancel: "Annuler"
       sort:
         title: "Trier par"
