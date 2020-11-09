@@ -71,7 +71,7 @@ gem 'pundit',                   '2.1.0'
 
 # Upload pictures
 gem 'carrierwave',              '2.1.0'
-gem 'mini_magick',              '4.10.1'
+gem 'mini_magick',              '4.11.0'
 
 # Search in database
 gem 'searchkick',               '4.4.1'
@@ -90,8 +90,8 @@ gem 'premailer-rails',          '1.11.1'
 gem 'browser',                  '5.1.0'
 
 # SEO
-gem 'friendly_id',              '5.4.0'
-gem 'route_translator',         '8.2.1'
+gem 'friendly_id',              '5.4.1'
+gem 'route_translator',         '9.0.0'
 gem 'meta-tags',                '2.13.0'
 gem 'sitemap_generator',        '6.1.2'
 
@@ -120,7 +120,7 @@ group :development do
   gem 'awesome_print',          '1.8.0'
 
   # Improve errors
-  gem 'better_errors',          '2.8.3'
+  gem 'better_errors',          '2.9.1'
   gem 'binding_of_caller',      '0.8.0'
 
   # N+1 database query
@@ -151,7 +151,7 @@ end
 group :test do
   # Test tools
   gem 'rspec-rails',                '4.0.1'
-  gem 'webmock',                    '3.9.3'
+  gem 'webmock',                    '3.9.5'
   gem 'rspec_junit_formatter',      '0.4.1'
   gem 'shoulda-matchers',           '4.4.1',  require: false
   gem 'shoulda-callback-matchers',  '1.1.4',  require: false
@@ -179,10 +179,10 @@ group :development, :test do
   gem 'bootsnap',                   '1.5.0',   require: false
 
   # Check errors
-  gem 'rubocop',                    '0.93.1',  require: false
+  gem 'rubocop',                    '1.2.0',  require: false
   gem 'rubocop-rails',              '2.8.1',   require: false
   gem 'rubocop-performance',        '1.8.1',   require: false
-  gem 'rubocop-rspec',              '1.44.1',  require: false
+  gem 'rubocop-rspec',              '2.0.0',  require: false
 end
 
 group :production do
