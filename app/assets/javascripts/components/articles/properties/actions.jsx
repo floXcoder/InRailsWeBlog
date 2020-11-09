@@ -28,7 +28,7 @@ const ArticleActions = ({classes, isInline, userSlug, articleId, articleSlug, ar
         }
 
         {
-            !isInline &&
+            (!isInline && articleVisibility !== 'only_me') &&
             <Hidden mdDown={true}>
                 <li className={classes.actionItem}>
                     <ArticleTrackingIcon articleId={articleId}
