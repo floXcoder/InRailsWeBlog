@@ -177,7 +177,7 @@ fr:
           subtitle: "Les articles sont partagés pour tout le mondes (avec les labels communs)"
         shared:
           title: "Vos thèmes partagés"
-          subtitle: "Les thèmes partagés avec vous par d'autres utilisateurs"
+          subtitle: "Thèmes partagés par d'autres utilisateurs avec vous"
         add_topic: "Ajouter un thème"
       index:
         link_to_user: "Détails de l'utilisateur"

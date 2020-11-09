@@ -19,6 +19,7 @@ import Paper from '@material-ui/core/Paper';
 import Fab from '@material-ui/core/Fab';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
+import Divider from '@material-ui/core/Divider';
 
 import CompareArrowsIcon from '@material-ui/icons/CompareArrows';
 import OpenInNewIcon from '@material-ui/icons/OpenInNew';
@@ -303,13 +304,14 @@ class UserHome extends React.Component {
                 {
                     this.props.contributedTopics.length > 0 &&
                     <>
-                        <hr/>
+                        <Divider/>
 
                         <Card component="section"
                               className={this.props.classes.card}
                               elevation={5}>
                             <CardHeader classes={{
-                                root: this.props.classes.header
+                                root: this.props.classes.header,
+                                subheader: this.props.classes.subheader
                             }}
                                         title={I18n.t('js.user.home.shared.title')}
                                         subheader={I18n.t('js.user.home.shared.subtitle')}/>
