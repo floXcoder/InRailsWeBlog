@@ -39,6 +39,8 @@ module Api::V1
       topic = current_user.topics.find_by(slug: params[:new_topic]) || current_user.contributed_topics.find_by(slug: params[:new_topic])
       authorize topic
 
+      track_visit(Topic, topic.id, current_user&.id)
+
       respond_to do |format|
         format.json do
           if current_user.switch_topic(topic) && current_user.save

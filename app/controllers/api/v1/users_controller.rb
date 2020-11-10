@@ -95,6 +95,8 @@ module Api::V1
       user = current_user&.id == params[:id]&.to_i ? current_user : User.friendly.find(params[:id])
       authorize user
 
+      track_visit(User, user.id, current_user&.id)
+
       expires_in InRailsWeBlog.config.cache_time, public: true
       respond_to do |format|
         format.json do

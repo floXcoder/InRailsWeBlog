@@ -8,6 +8,7 @@ class TrackerSerializer
   attributes :views_count,
              :queries_count,
              :searches_count,
+             :visits_count,
              :clicks_count,
              :popularity,
              :rank,

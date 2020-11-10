@@ -107,6 +107,23 @@ describe 'Article API', type: :request, basic: true do
     end
   end
 
+  describe '/users/:user_slug/articles/:article_slug/edit (HTML)' do
+    before do
+      login_as(@user, scope: :user, run_callbacks: false)
+    end
+
+    it 'returns the user article for editing' do
+      get "/users/#{@user.slug}/articles/#{@article.slug}/edit"
+
+      expect(response).to be_html_response
+      expect(response.body).to match('id="react-component"')
+      expect(response.body).to match('lang="en"')
+      expect(response.body).to match('<title>')
+      expect(response.body).to match('<meta name="description"')
+      expect(response.body).to match('data-article="{')
+    end
+  end
+
   describe '/api/v1/articles' do
     context 'when no parameters and not connected' do
       it 'returns all public articles' do

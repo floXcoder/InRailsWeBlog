@@ -73,11 +73,11 @@ Ruby enVironment Manager 1.29.8 (latest) (c) 2009-2017 Michal Papis, Piotr Kuczy
                          sort_tag_es GET      /es/etiquetas/:user_slug/sort(.:format)                                                       pages#home {:name=>"sort_tag", :locale=>"es"}
                          sort_tag_it GET      /it/etichette/:user_slug/sort(.:format)                                                       pages#home {:name=>"sort_tag", :locale=>"it"}
                          sort_tag_en GET      /tags/:user_slug/sort(.:format)                                                               pages#home {:name=>"sort_tag", :locale=>"en"}
-                       user_topic_fr GET      /fr/utilisateurs/:user_slug/themes/:topic_slug/show(.:format)                                 pages#home {:name=>"user_topic", :public=>true, :locale=>"fr"}
-                       user_topic_de GET      /de/benutzer/:user_slug/themen/:topic_slug/show(.:format)                                     pages#home {:name=>"user_topic", :public=>true, :locale=>"de"}
-                       user_topic_es GET      /es/usuarios/:user_slug/temas/:topic_slug/show(.:format)                                      pages#home {:name=>"user_topic", :public=>true, :locale=>"es"}
-                       user_topic_it GET      /it/utenti/:user_slug/temi/:topic_slug/show(.:format)                                         pages#home {:name=>"user_topic", :public=>true, :locale=>"it"}
-                       user_topic_en GET      /users/:user_slug/topics/:topic_slug/show(.:format)                                           pages#home {:name=>"user_topic", :public=>true, :locale=>"en"}
+                       user_topic_fr GET      /fr/utilisateurs/:user_slug/themes/:topic_slug/show(.:format)                                 topics#show {:name=>"user_topic", :public=>true, :locale=>"fr"}
+                       user_topic_de GET      /de/benutzer/:user_slug/themen/:topic_slug/show(.:format)                                     topics#show {:name=>"user_topic", :public=>true, :locale=>"de"}
+                       user_topic_es GET      /es/usuarios/:user_slug/temas/:topic_slug/show(.:format)                                      topics#show {:name=>"user_topic", :public=>true, :locale=>"es"}
+                       user_topic_it GET      /it/utenti/:user_slug/temi/:topic_slug/show(.:format)                                         topics#show {:name=>"user_topic", :public=>true, :locale=>"it"}
+                       user_topic_en GET      /users/:user_slug/topics/:topic_slug/show(.:format)                                           topics#show {:name=>"user_topic", :public=>true, :locale=>"en"}
                        edit_topic_fr GET      /fr/utilisateurs/:user_slug/themes/:topic_slug/edition(.:format)                              pages#home {:name=>"edit_topic", :locale=>"fr"}
                        edit_topic_de GET      /de/benutzer/:user_slug/themen/:topic_slug/ausgabe(.:format)                                  pages#home {:name=>"edit_topic", :locale=>"de"}
                        edit_topic_es GET      /es/usuarios/:user_slug/temas/:topic_slug/edicion(.:format)                                   pages#home {:name=>"edit_topic", :locale=>"es"}
@@ -189,7 +189,7 @@ Ruby enVironment Manager 1.29.8 (latest) (c) 2009-2017 Michal Papis, Piotr Kuczy
                         not_found_it GET      /it/404(.:format)                                                                             pages#not_found {:public=>true, :locale=>"it"}
                         not_found_en GET      /404(.:format)                                                                                pages#not_found {:public=>true, :locale=>"en"}
                             meta_tag GET      /meta-tags(.:format)                                                                          pages#meta_tag
-                api_v1_users_sign_in GET      /api/v1/users/sign_in(.:format)                                                               redirect(301, /)
+                api_v1_users_sign_in GET      /api/v1/users/sign_in(.:format)                                                               redirect(301, /) {:format=>"html"}
                               signup GET      /api/v1/signup(.:format)                                                                      api/v1/users/registrations#new
                                      POST     /api/v1/signup(.:format)                                                                      api/v1/users/registrations#create
                                login GET      /api/v1/login(.:format)                                                                       api/v1/users/sessions#new

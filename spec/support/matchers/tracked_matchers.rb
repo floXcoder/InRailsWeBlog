@@ -17,6 +17,7 @@ RSpec::Matchers.define :act_as_tracked do |model|
     expect(model).to respond_to(:track_searches)
     expect(model).to respond_to(:track_clicks)
     expect(model).to respond_to(:track_views)
+    expect(model).to respond_to(:track_visits)
 
     expect(model).to respond_to(:most_viewed)
     expect(model).to respond_to(:most_clicked)

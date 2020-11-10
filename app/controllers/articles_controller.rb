@@ -1,9 +1,13 @@
 # frozen_string_literal: true
 
 class ArticlesController < ApplicationController
+  before_action :authenticate_user!, only: [:edit]
+
   before_action :set_context_user, only: [:show]
 
   after_action :verify_authorized, only: [:show, :edit]
+
+  include TrackerConcern
 
   respond_to :html
 
@@ -47,6 +51,8 @@ class ArticlesController < ApplicationController
     admin_or_authorize article
 
     redirect_to(article_redirection, status: :moved_permanently) and return if article_redirection
+
+    track_visit(Article, article.id, current_user&.id, article.topic_id)
 
     set_seo_data(:user_article,
                  article_slug:         article,

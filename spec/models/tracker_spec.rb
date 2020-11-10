@@ -34,6 +34,7 @@ RSpec.describe Tracker, type: :model, basic: true do
       queries_count:  20,
       searches_count: 30,
       clicks_count:   50,
+      visits_count:   40,
       rank:           5,
       home_page:      true,
       popularity:     10
@@ -51,6 +52,7 @@ RSpec.describe Tracker, type: :model, basic: true do
     it { is_expected.to respond_to(:queries_count) }
     it { is_expected.to respond_to(:searches_count) }
     it { is_expected.to respond_to(:clicks_count) }
+    it { is_expected.to respond_to(:visits_count) }
     it { is_expected.to respond_to(:rank) }
     it { is_expected.to respond_to(:home_page) }
     it { is_expected.to respond_to(:popularity) }
@@ -59,6 +61,7 @@ RSpec.describe Tracker, type: :model, basic: true do
     it { expect(@tracker.queries_count).to eq(20) }
     it { expect(@tracker.searches_count).to eq(30) }
     it { expect(@tracker.clicks_count).to eq(50) }
+    it { expect(@tracker.visits_count).to eq(40) }
     it { expect(@tracker.rank).to eq(5) }
     it { expect(@tracker.home_page).to be true }
     it { expect(@tracker.popularity).to eq(10) }
@@ -72,6 +75,7 @@ RSpec.describe Tracker, type: :model, basic: true do
       it { expect(@tracker.queries_count).to eq(0) }
       it { expect(@tracker.searches_count).to eq(0) }
       it { expect(@tracker.clicks_count).to eq(0) }
+      it { expect(@tracker.visits_count).to eq(0) }
       it { expect(@tracker.rank).to eq(0) }
       it { expect(@tracker.home_page).to be false }
       it { expect(@tracker.popularity).to eq(0) }

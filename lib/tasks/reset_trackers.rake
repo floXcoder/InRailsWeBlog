@@ -14,6 +14,7 @@ namespace :InRailsWeBlog do
       tracker.queries_count  = 0
       tracker.searches_count = 0
       tracker.clicks_count   = 0
+      tracker.visits_count   = 0
 
       tracker.popularity = tracker.rank
 

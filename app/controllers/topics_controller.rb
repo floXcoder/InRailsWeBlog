@@ -1,15 +1,21 @@
 # frozen_string_literal: true
 
 class TopicsController < ApplicationController
+  before_action :authenticate_user!, except: [:show]
+
   before_action :set_context_user, only: [:show]
 
   after_action :verify_authorized, only: [:show]
+
+  include TrackerConcern
 
   respond_to :html
 
   def show
     topic = @context_user.topics.friendly.find(params[:topic_slug])
     authorize topic
+
+    track_visit(Topic, topic.id, current_user&.id)
 
     expires_in InRailsWeBlog.config.cache_time, public: true
     if stale?(topic, template: false, public: true)

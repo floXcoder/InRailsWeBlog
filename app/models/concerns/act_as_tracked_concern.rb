@@ -7,7 +7,7 @@
 # Rank can be included into popularity using the custom_popularity method
 
 # Include this method in the model:
-# acts_as_tracked :queries, :searches, :comments, :bookmarks, :clicks, :views
+# acts_as_tracked :queries, :searches, :comments, :bookmarks, :clicks, :views, :visits
 module ActAsTrackedConcern
   extend ActiveSupport::Concern
 
@@ -28,6 +28,7 @@ module ActAsTrackedConcern
     class_attribute :tracked_name, :tracker_metrics, :tracker_callbacks
 
     # Helpers scope to get useful information
+    scope :most_visited, -> { joins(:tracker).order('trackers.visits_count DESC') }
     scope :most_viewed, -> { joins(:tracker).order('trackers.views_count DESC') }
     scope :most_clicked, -> { joins(:tracker).order('trackers.clicks_count DESC') }
     scope :recently_tracked, -> { joins(:tracker).where(trackers: { updated_at: 15.days.ago..Time.zone.now }) }
@@ -49,8 +50,8 @@ module ActAsTrackedConcern
     popularity    = 0
     tracker_count = 0
 
-    if self.tracker_metrics.include? :searches
-      popularity    += self.tracker.searches_count * 2
+    if self.tracker_metrics.include? :visits
+      popularity    += self.tracker.visits_count * 10
       tracker_count += 1
     end
     if self.tracker_metrics.include? :clicks
@@ -63,6 +64,10 @@ module ActAsTrackedConcern
     end
     if self.tracker_metrics.include? :queries
       popularity    += self.tracker.queries_count
+      tracker_count += 1
+    end
+    if self.tracker_metrics.include? :searches
+      popularity    += self.tracker.searches_count * 2
       tracker_count += 1
     end
 
@@ -81,7 +86,7 @@ module ActAsTrackedConcern
   # Class methods
   class_methods do
     # Base method to include in model:
-    # acts_as_tracked '<PROJECT NAME>', :queries, :searches, :bookmarks, :clicks, :views
+    # acts_as_tracked '<PROJECT NAME>', :queries, :searches, :bookmarks, :clicks, :views, :visits
     def acts_as_tracked(tracked_name, *trackers)
       options                = trackers.extract_options!
       self.tracked_name      = tracked_name
@@ -99,6 +104,19 @@ module ActAsTrackedConcern
 
       record_ids.each do |record_id|
         $redis.incr(redis_key(record_id, 'searches'))
+      end
+    end
+
+    # Tracker model method to increment visit count
+    def track_visits(record_id, user_id = nil, parent_id = nil)
+      return unless self.tracker_metrics.include?(:visits)
+
+      if record_id.is_a? Array
+        record_id.each do |id|
+          $redis.incr(redis_key(id, 'visits'))
+        end
+      else
+        $redis.incr(redis_key(record_id, 'visits', user_id, parent_id))
       end
     end
 

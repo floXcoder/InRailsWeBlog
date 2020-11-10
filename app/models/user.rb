@@ -104,7 +104,7 @@ class User < ApplicationRecord
   # Track activities
   ## scopes: most_viewed, most_clicked, recently_tracked, populars, home
   include ActAsTrackedConcern
-  acts_as_tracked :queries, :clicks, :views
+  acts_as_tracked :queries, :visits, :views, :clicks
 
   # Follow public activities
   include PublicActivity::Model

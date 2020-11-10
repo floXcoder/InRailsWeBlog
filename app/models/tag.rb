@@ -53,7 +53,7 @@ class Tag < ApplicationRecord
   # Track activities
   ## scopes: most_viewed, most_clicked, recently_tracked, populars, home
   include ActAsTrackedConcern
-  acts_as_tracked :queries, :searches, :clicks, :views, callbacks: { clicks: :add_visit_activity }
+  acts_as_tracked :queries, :visits, :views, :clicks, :searches, callbacks: { visits: :add_visit_activity }
 
   # Follow public activities
   include PublicActivity::Model

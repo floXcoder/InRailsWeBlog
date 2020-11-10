@@ -1,7 +1,13 @@
 # frozen_string_literal: true
 
 class TagsController < ApplicationController
+  before_action :authenticate_user!, only: [:edit]
+
+  before_action :set_context_user, only: [:edit]
+
   after_action :verify_authorized, only: [:show, :edit]
+
+  include TrackerConcern
 
   respond_to :html
 
@@ -27,6 +33,8 @@ class TagsController < ApplicationController
   def show
     tag = Tag.include_element.friendly.find(params[:tag_slug])
     authorize tag
+
+    track_visit(Tag, tag.id, current_user&.id)
 
     expires_in InRailsWeBlog.config.cache_time, public: true
     if stale?(tag, template: false, public: true)

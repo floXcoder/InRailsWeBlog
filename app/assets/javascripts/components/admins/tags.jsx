@@ -98,6 +98,11 @@ class AdminTags extends React.Component {
                                filtering: false
                            },
                            {
+                               title: I18n.t('js.admin.tags.table.columns.visits_count'),
+                               field: 'tracker[visitsCount]',
+                               filtering: false
+                           },
+                           {
                                title: I18n.t('js.admin.tags.table.columns.clicks_count'),
                                field: 'tracker[clicksCount]',
                                filtering: false
