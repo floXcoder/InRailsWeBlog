@@ -147,6 +147,12 @@ class AdminArticles extends React.Component {
                                filtering: false
                            },
                            {
+                               title: I18n.t('js.admin.articles.table.columns.visits_count'),
+                               field: 'tracker[visitsCount]',
+                               filtering: false,
+                               editable: 'never'
+                           },
+                           {
                                title: I18n.t('js.admin.articles.table.columns.views_count'),
                                field: 'tracker[viewsCount]',
                                filtering: false,

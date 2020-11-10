@@ -311,6 +311,7 @@ it:
         publics: "Etichette pubbliche"
         stats:
           title: "Statistiche"
+          visits: "Visite: "
           clicks: "Cliccare: "
           searches: "Ricerca: "
           views: "Viste: "
@@ -617,6 +618,7 @@ it:
       tracking:
         bookmarks: "Numero di volte aggiunte ai preferiti"
         cancel: "Annulla"
+        visits: "Numero di visite sull'articolo"
         clicks: "Numero di clic sull'articolo"
         comments: "Numero di commenti associati"
         searches: "Numero di volte restituite nella ricerca"
@@ -820,6 +822,7 @@ it:
     tracker:
       sign_in_count: Collegamenti
       views_count: Visualizzazioni
+      visits_count: Visite
       clicks_count: Clicchi su
       queries_count: Richieste
       searches_count: Ricerche
@@ -880,7 +883,8 @@ it:
         table:
           columns:
             articles_count: "Articoli correlati"
-            clicks_count: "Nb di click"
+            visits_count: "Numero di visite"
+            clicks_count: "Numero di click"
             created_at: "Creato su"
             id: "Id"
             mode: "Tipo"
@@ -896,7 +900,8 @@ it:
       tags:
         table:
           columns:
-            clicks_count: "Nb di click"
+            visits_count: "Numero di visite"
+            clicks_count: "Numero di click"
             date: "Creato su"
             description: "Descrizione"
             id: "Id"
@@ -914,7 +919,8 @@ it:
         table:
           title: "Elenco degli articoli"
           columns:
-            clicks_count: "Nb di click"
+            visits_count: "Numero di visite"
+            clicks_count: "Numero di click"
             comments_count: "N. di commenti"
             date: "Postato su"
             id: "Id"

@@ -311,6 +311,7 @@ de:
         publics: "Öffentliche Labels"
         stats:
           title: "Statistik"
+          visits: "Besuche: "
           clicks: "Klicken: "
           searches: "Forschung: "
           views: "Ansichten: "
@@ -660,6 +661,7 @@ de:
       tracking:
         bookmarks: "Anzahl von Malen, die zu den Favoriten hinzugefügt wurden"
         cancel: "Abbrechen"
+        visits: "Anzahl der Live-Besuche"
         clicks: "Anzahl der Klicks auf den Artikel"
         comments: "Anzahl der zugehörigen Kommentare"
         searches: "Anzahl der in der Suche zurückgegebenen Male"
@@ -818,6 +820,7 @@ de:
         destroy: Etikett des gelöschten Artikels
         update: Etikett des aktualisierten Artikels
     tracker:
+      visits_count: Besucht
       clicks_count: Klicks
       queries_count: Anfragen
       searches_count: Durchsucht
@@ -847,6 +850,7 @@ de:
         table:
           title: "Liste der Artikel"
           columns:
+            visits_count: "Anzahl der Besuche"
             clicks_count: "Anzahl der Klicks"
             comments_count: "Anzahl der Kommentare"
             date: "Geschrieben am"
@@ -951,6 +955,7 @@ de:
       tags:
         table:
           columns:
+            visits_count: "Anzahl der Besuche"
             clicks_count: "Anzahl der Klicks"
             date: "Erstellt am"
             description: "Beschreibung"
@@ -968,6 +973,7 @@ de:
         table:
           columns:
             articles_count: "Verwandte Artikel"
+            visits_count: "Anzahl der Besuche"
             clicks_count: "Anzahl der Klicks"
             created_at: "Erstellt am"
             id: "Id"

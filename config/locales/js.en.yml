@@ -315,6 +315,7 @@ en:
           description: "Tag description"
         stats:
           title: "Statistics"
+          visits: "Visits: "
           views: "Views: "
           clicks: "Clicks: "
           searches: "Searches: "
@@ -616,6 +617,7 @@ en:
         exit: "Are you sure to exit without saving?"
       tracking:
         title: "Statistics"
+        visits: "Direct visits"
         views: "Impression in all pages"
         clicks: "Number of clicks"
         searches: "Articles appears in search result"
@@ -820,6 +822,7 @@ en:
     tracker:
       sign_in_count: "Connections"
       views_count: "Views"
+      visits_count: "Visits"
       clicks_count: "Clicks"
       queries_count: "Queries"
       searches_count: "Searches"
@@ -889,6 +892,7 @@ en:
             visibility: "Visibility"
             languages: "Languages"
             articles_count: "Associated articles"
+            visits_count: "Visits count"
             views_count: "Views count"
             clicks_count: "Clicks count"
             searches_count: "Searches count"
@@ -905,6 +909,7 @@ en:
             priority: "Priority"
             visibility: "Visibility"
             tagged_articles_count: "Associated articles"
+            visits_count: "Visits count"
             views_count: "Views count"
             clicks_count: "Clicks count"
             searches_count: "Searches count"
@@ -922,6 +927,7 @@ en:
             visibility: "Visibility"
             languages: "Languages"
             comments_count: "Comments count"
+            visits_count: "Visits count"
             views_count: "Views count"
             clicks_count: "Clicks count"
             searches_count: "Searches count"

@@ -102,6 +102,8 @@ module Api::V1
       article = @context_user.articles.friendly.find(params[:id])
       admin_or_authorize article
 
+      track_visit(Article, article.id, current_user&.id, article.topic_id)
+
       (article.user?(current_user) || admin_signed_in?) ? reset_cache_headers : expires_in(InRailsWeBlog.config.cache_time, public: true)
       if stale?(article, template: false, public: true) || article.user?(current_user)
         respond_to do |format|

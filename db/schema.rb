@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_16_130712) do
+ActiveRecord::Schema.define(version: 2020_11_10_085221) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -350,6 +350,7 @@ ActiveRecord::Schema.define(version: 2020_09_16_130712) do
     t.boolean "home_page", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "visits_count", default: 0, null: false
     t.index ["tracked_id", "tracked_type"], name: "index_trackers_on_tracked_id_and_tracked_type"
   end
 

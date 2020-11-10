@@ -37,6 +37,49 @@ describe 'Tag API', type: :request, basic: true do
     }
   }
 
+  describe '/tags (HTML)' do
+    it 'returns all public tags' do
+      get '/tags'
+
+      expect(response).to be_html_response
+      expect(response.body).to match('id="react-component"')
+      expect(response.body).to match('lang="en"')
+      expect(response.body).to match('<title>')
+      expect(response.body).to match('<meta name="description"')
+      expect(response.body).to match('data-tags="{')
+    end
+  end
+
+  describe '/tags/:id (HTML)' do
+    it 'returns the public tags' do
+      get "/tags/#{@tags[0].slug}"
+
+      expect(response).to be_html_response
+      expect(response.body).to match('id="react-component"')
+      expect(response.body).to match('lang="en"')
+      expect(response.body).to match('<title>')
+      expect(response.body).to match('<meta name="description"')
+      expect(response.body).to match('data-tag="{')
+    end
+  end
+
+  describe '/tags/:id/edit (HTML)' do
+    before do
+      login_as(@user, scope: :user, run_callbacks: false)
+    end
+
+    it 'returns the tag for editing' do
+      get "/tags/#{@tags[0].slug}"
+
+      expect(response).to be_html_response
+      expect(response.body).to match('id="react-component"')
+      expect(response.body).to match('lang="en"')
+      expect(response.body).to match('<title>')
+      expect(response.body).to match('<meta name="description"')
+      expect(response.body).to match('data-tag="{')
+    end
+  end
+
   describe '/api/v1/tags' do
     context 'when no parameters and not connected' do
       it 'returns all public tags' do

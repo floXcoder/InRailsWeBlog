@@ -45,6 +45,19 @@ describe 'Topic API', type: :request, basic: true do
     }
   }
 
+  describe '/topics/:id (HTML)' do
+    it 'returns the public topic' do
+      get "/users/#{@user.slug}/topics/#{@public_topic.slug}/show"
+
+      expect(response).to be_html_response
+      expect(response.body).to match('id="react-component"')
+      expect(response.body).to match('lang="en"')
+      expect(response.body).to match('<title>')
+      expect(response.body).to match('<meta name="description"')
+      expect(response.body).to match('data-topic="{')
+    end
+  end
+
   describe '/api/v1/topics' do
     context 'when not connected with no parameters' do
       it 'returns all public topics for current user' do

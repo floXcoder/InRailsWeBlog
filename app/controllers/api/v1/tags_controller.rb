@@ -85,6 +85,8 @@ module Api::V1
       tag = Tag.include_element.friendly.find(params[:id])
       authorize tag
 
+      track_visit(Tag, tag.id, current_user&.id)
+
       expires_in InRailsWeBlog.config.cache_time, public: true
       if stale?(tag, template: false, public: true)
         respond_to do |format|

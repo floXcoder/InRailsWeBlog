@@ -97,6 +97,18 @@ class TrackingArticleModal extends React.Component {
                                     <VisibilityIcon/>
                                 </ListItemIcon>
 
+                                <ListItemText primary={I18n.t('js.article.tracking.visits')}/>
+
+                                <ListItemSecondaryAction>
+                                    {this.props.article.tracker.visitsCount}
+                                </ListItemSecondaryAction>
+                            </ListItem>
+
+                            <ListItem>
+                                <ListItemIcon>
+                                    <VisibilityIcon/>
+                                </ListItemIcon>
+
                                 <ListItemText primary={I18n.t('js.article.tracking.views')}/>
 
                                 <ListItemSecondaryAction>

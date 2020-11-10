@@ -315,6 +315,7 @@ fr:
           description: "Description du label"
         stats:
           title: "Statistiques"
+          visits: "Visites : "
           views: "Vues : "
           clicks: "Clics : "
           searches: "Recherches : "
@@ -616,6 +617,7 @@ fr:
         exit: "Êtes-vous sûr de quitter sans sauvegarder ?"
       tracking:
         title: "Statistiques"
+        visits: "Nombre de visites en direct"
         views: "Nombre d'impressions dans toutes les pages"
         clicks: "Nombre de clics sur l'article"
         searches: "Nombre de fois retourné dans la recherche"
@@ -819,6 +821,7 @@ fr:
         destroy: "Commentaire supprimé"
     tracker:
       sign_in_count: "Connexions"
+      visits_count: "Visites"
       views_count: "Vues"
       clicks_count: "Clics"
       queries_count: "Requêtes"
@@ -889,6 +892,7 @@ fr:
             visibility: "Visibilité"
             languages: "Langues"
             articles_count: "Articles associés"
+            visits_count: "Nb de visites"
             views_count: "Nb de vues"
             clicks_count: "Nb de clics"
             searches_count: "Nb de recherches"
@@ -905,6 +909,7 @@ fr:
             priority: "Priorité"
             visibility: "Visibilité"
             tagged_articles_count: "Articles associés"
+            visits_count: "Nb de visites"
             views_count: "Nb de vues"
             clicks_count: "Nb de clics"
             searches_count: "Nb de recherches"
@@ -922,6 +927,7 @@ fr:
             visibility: "Visibilité"
             languages: "Langues"
             comments_count: "Nb de commentaires"
+            visits_count: "Nb de visites"
             views_count: "Nb de vues"
             clicks_count: "Nb de clics"
             searches_count: "Nb de recherches"

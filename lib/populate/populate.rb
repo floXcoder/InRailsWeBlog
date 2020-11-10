@@ -267,6 +267,7 @@ class Populate
       Article.all.each do |article|
         article.tracker.queries_count  = rand(1..100)
         article.tracker.searches_count = rand(1..20)
+        article.tracker.visits_count   = rand(1..30)
         article.tracker.clicks_count   = rand(1..60)
         article.tracker.views_count    = rand(1..200)
         article.tracker.save
@@ -278,6 +279,7 @@ class Populate
     Tracker.transaction do
       User.all.each do |user|
         user.tracker.queries_count = rand(1..100)
+        user.tracker.visits_count  = rand(1..30)
         user.tracker.clicks_count  = rand(1..60)
         user.tracker.views_count   = rand(1..200)
         user.tracker.save
@@ -289,6 +291,7 @@ class Populate
     Tracker.transaction do
       Tag.all.each do |tag|
         tag.tracker.queries_count = rand(1..100)
+        tag.tracker.visits_count  = rand(1..30)
         tag.tracker.clicks_count  = rand(1..60)
         tag.tracker.views_count   = rand(1..200)
         tag.tracker.save

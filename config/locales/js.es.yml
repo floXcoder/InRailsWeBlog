@@ -311,6 +311,7 @@ es:
         publics: "Etiquetas públicas"
         stats:
           title: "Estadísticas"
+          visits: "Visitas: "
           clicks: "Clic: "
           searches: "Investigación: "
           views: "Vistas: "
@@ -617,6 +618,7 @@ es:
       tracking:
         bookmarks: "Número de veces que se añaden a los favoritos"
         cancel: "Cancelar"
+        visits: "Número de visitas en vivo"
         clicks: "Número de clics en el artículo"
         comments: "Número de comentarios asociados"
         searches: "El número de veces que se regresó en la búsqueda"
@@ -819,6 +821,7 @@ es:
         update: Comentario actualizado
     tracker:
       sign_in_count: Conexiones
+      visits_count: Visitas
       views_count: Vistas
       clicks_count: Clicks
       queries_count: Solicita
@@ -880,7 +883,8 @@ es:
         table:
           columns:
             articles_count: "Artículos relacionados"
-            clicks_count: "Nb de clics"
+            visits_count: "Número de visitas"
+            clicks_count: "Número de clics"
             created_at: "Creado en"
             id: "Id"
             mode: "Escriba"
@@ -896,7 +900,8 @@ es:
       tags:
         table:
           columns:
-            clicks_count: "Nb de clics"
+            visits_count: "Número de visitas"
+            clicks_count: "Número de clics"
             date: "Creado en"
             description: "Descripción"
             id: "Id"
@@ -914,7 +919,8 @@ es:
         table:
           title: "Lista de artículos"
           columns:
-            clicks_count: "Nb de clics"
+            visits_count: "Número de visitas"
+            clicks_count: "Número de clics"
             comments_count: "No. de comentarios"
             date: "Publicado en"
             id: "Id"

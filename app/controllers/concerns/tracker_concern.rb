@@ -25,7 +25,7 @@ module TrackerConcern
       head :no_content
     else
       class_model = controller_path.gsub(/api\/v\d+/, '').classify.constantize
-      class_model.track_views(params[:ids] || params[:id])
+      class_model.respond_to?(:track_views) && class_model.track_views(params[:ids] || params[:id])
 
       head :no_content
     end
@@ -37,9 +37,16 @@ module TrackerConcern
       head :no_content
     else
       class_model = controller_path.gsub(/api\/v\d+/, '').classify.constantize
-      class_model.track_clicks(params[:id], params[:user_id], params[:parent_id])
+      class_model.respond_to?(:track_clicks) && class_model.track_clicks(params[:id], params[:user_id], params[:parent_id])
 
       head :no_content
     end
   end
+
+  private
+
+  def track_visit(class_model, id, user_id = nil, parent_id = nil)
+    class_model.respond_to?(:track_visits) && class_model.track_visits(id, user_id, parent_id)
+  end
+
 end
