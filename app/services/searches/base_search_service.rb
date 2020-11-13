@@ -102,7 +102,7 @@ module Searches
     def parsed_search(results)
       formatted_aggregations = []
 
-      results.aggs&.each do |key, value|
+      results.try(:aggs)&.each do |key, value|
         next if value['buckets'].blank?
 
         if @params[:current_topic]
@@ -136,8 +136,8 @@ module Searches
       {
         suggestions:  results.suggestions,
         aggregations: formatted_aggregations,
-        totalCount:   results.total_count,
-        totalPages:   results.total_pages
+        totalCount:   results.try(:total_count),
+        totalPages:   results.try(:total_pages)
       }.merge(formatted_results)
     end
 

@@ -22,6 +22,10 @@ import {
     configureStore
 } from '../../../stores';
 
+import {
+    extractDataFromElement
+} from '../../../middlewares/json';
+
 import routes from '../../../routes';
 
 import browserHistory from '../../modules/browserHistory';
@@ -37,12 +41,20 @@ import theme from '../../../../jss/theme';
 
 export default class ApplicationLayoutDefault extends React.Component {
     static propTypes = {
+        componentId: PropTypes.string,
         staticContent: PropTypes.string
     }
 
     constructor(props) {
         super(props);
     }
+
+    _componentProps = () => {
+        return {
+            staticContent: this.props.staticContent,
+            ...extractDataFromElement(this.props.componentId)
+        };
+    };
 
     render() {
         return (
@@ -62,8 +74,7 @@ export default class ApplicationLayoutDefault extends React.Component {
 
                                     <ErrorBoundary errorType="card">
                                         <MainLayoutDefault routes={[...routes.static.common, ...routes.static.home, ...routes.static.notFound]}
-                                                           staticContent={this.props.staticContent}
-                                                           {...this.props}/>
+                                                           {...this._componentProps()}/>
                                     </ErrorBoundary>
 
                                     <ErrorBoundary errorType="text"

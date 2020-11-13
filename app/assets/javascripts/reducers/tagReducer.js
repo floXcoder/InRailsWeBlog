@@ -42,9 +42,9 @@ export default function tagReducer(state = initState, action) {
                     state.tag = action.tag;
                 } else {
                     if (action.topicTags) {
-                        state.topicTags = action.tags;
+                        state.topicTags = action.tags || [];
                     } else if (action.populars) {
-                        state.popularTags = action.tags;
+                        state.popularTags = action.tags || [];
                     } else {
                         state.tags = action.tags || [];
                     }

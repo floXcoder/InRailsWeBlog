@@ -1,10 +1,8 @@
-- stylesheet 'statics'
-
 - javascript "translations/statics-#{I18n.locale}"
 
-= content_tag :div, '', id: 'react-component', class: 'react-root', data: { **local_assigns }
+= content_tag :div, '', id: 'react-component', class: 'react-root'
 
-#static-content style="display: none;"
+#static-component style="display: none;"
   .static-content
     h1.static-title
       = I18n.t('statics.terms.title')

@@ -23,14 +23,17 @@ export default {
             // Static pages
             {
                 path: Routes.about(false),
+                noTagSidebar: true,
                 component: () => RouteComponents.About
             },
             {
                 path: Routes.terms(false),
+                noTagSidebar: true,
                 component: () => RouteComponents.Terms
             },
             {
                 path: Routes.privacy(false),
+                noTagSidebar: true,
                 component: () => RouteComponents.Privacy
             },
             // User account
