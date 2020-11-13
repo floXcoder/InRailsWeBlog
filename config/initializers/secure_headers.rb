@@ -27,10 +27,10 @@ else
       worker_src:       ["'self'"],
       script_src:       ["'self'", "'unsafe-inline'", "'unsafe-eval'", 'data:', ENV['WEBSITE_ASSET'], ENV['METRICS_ADDRESS'], ENV['SENTRY_ADDRESS']].compact,
       img_src:          ['*', 'data:'],
-      font_src:         ["'self'", 'data:', ENV['WEBSITE_ASSET']].compact,
-      media_src:        ["'self'", ENV['WEBSITE_ASSET']].compact,
+      font_src:         ["'self'", 'data:', ENV['WEBSITE_ASSET'], 'fonts.gstatic.com'].compact,
+      media_src:        ["'self'", ENV['WEBSITE_ASSET'], 'data:'].compact,
       object_src:       ["'self'", ENV['WEBSITE_ASSET']].compact,
-      style_src:        ["'self'", "'unsafe-inline'", ENV['WEBSITE_ASSET']].compact,
+      style_src:        ["'self'", "'unsafe-inline'", ENV['WEBSITE_ASSET'], 'translate.googleapis.com'].compact,
       form_action:      ["'self'"],
       report_uri:       [ENV['SENTRY_REPORT_URI']].compact
     }
