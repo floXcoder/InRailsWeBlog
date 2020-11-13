@@ -30,7 +30,11 @@ module FastJsonapi
         # flat_data.merge!(other_keys) unless extract_options
       end
 
-      return flat_data, extract_options ? other_keys : nil
+      if extract_options
+        return flat_data, other_keys
+      else
+        return flat_data
+      end
     end
   end
 end

@@ -9,7 +9,7 @@ require('../modules/cookieChoices');
 import ApplicationLayoutDefault from '../components/layouts/default/application';
 
 ReactDOM.render(
-    <ApplicationLayoutDefault staticContent={document.getElementById('static-content')?.innerHTML}
-                              {...Utils.extractDataFromElement('react-component')}/>,
+    <ApplicationLayoutDefault staticContent={document.getElementById('static-component')?.innerHTML}
+                              componentId="data-component"/>,
     document.getElementById('react-component')
 );

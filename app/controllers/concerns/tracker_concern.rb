@@ -25,7 +25,7 @@ module TrackerConcern
       head :no_content
     else
       class_model = controller_path.gsub(/api\/v\d+/, '').classify.constantize
-      class_model.respond_to?(:track_views) && class_model.track_views(params[:ids] || params[:id])
+      class_model.respond_to?(:track_views) && class_model.track_views(params[:ids] || params[:id], params[:user_id], params[:parent_id])
 
       head :no_content
     end

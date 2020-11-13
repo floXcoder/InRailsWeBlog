@@ -126,7 +126,7 @@ module ActAsTrackedConcern
 
       if record_id.is_a? Array
         record_id.each do |id|
-          $redis.incr(redis_key(id, 'clicks'))
+          $redis.incr(redis_key(id, 'clicks', user_id, parent_id))
         end
       else
         $redis.incr(redis_key(record_id, 'clicks', user_id, parent_id))
@@ -134,15 +134,15 @@ module ActAsTrackedConcern
     end
 
     # Tracker model method to increment view count
-    def track_views(record_id)
+    def track_views(record_id, user_id = nil, parent_id = nil)
       return unless self.tracker_metrics.include?(:views)
 
       if record_id.is_a? Array
         record_id.each do |id|
-          $redis.incr(redis_key(id, 'views'))
+          $redis.incr(redis_key(id, 'views', user_id, parent_id))
         end
       else
-        $redis.incr(redis_key(record_id, 'views'))
+        $redis.incr(redis_key(record_id, 'views', user_id, parent_id))
       end
     end
 

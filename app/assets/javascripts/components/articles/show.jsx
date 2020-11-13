@@ -178,7 +178,9 @@ class ArticleShow extends React.Component {
             this._request = this.props.fetchArticle(this.props.routeParams.userSlug, this.props.routeParams.articleSlug);
         }
 
-        this._recommendationTimeout = setTimeout(() => this._fetchRecommendations(), window.seoMode ? 50 : 500);
+        if (!this._recommendationTimeout) {
+            this._recommendationTimeout = setTimeout(() => this._fetchRecommendations(), window.seoMode ? 50 : 500);
+        }
         if (!window.seoMode) {
             this._articleLanguagesTimeout = setTimeout(() => this._checkArticleLanguages(), 300);
         }

@@ -65,3 +65,26 @@ export function convertJsonApi(response) {
 
     return formattedResponse;
 }
+
+export function extractDataFromElement(elementId) {
+    const element = document.getElementById(elementId);
+    let data = {};
+
+    if (!element || !element.attributes) {
+        return data;
+    }
+
+    [].forEach.call(element.attributes, function (attr) {
+        if (/^data-/.test(attr.name)) {
+            const camelCaseName = attr.name.substr(5).replace(/-(.)/g, function ($0, $1) {
+                return $1.toUpperCase();
+            });
+            data[camelCaseName] = attr.value.startsWith('{') || attr.value.startsWith('[') ? JSON.parse(attr.value) : attr.value;
+            if (Array.isArray(data[camelCaseName]) || typeof data[camelCaseName] === 'object') {
+                data[camelCaseName] = convertJsonApi(data[camelCaseName]);
+            }
+        }
+    });
+
+    return data;
+}

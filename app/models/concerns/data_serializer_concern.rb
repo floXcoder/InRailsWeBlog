@@ -52,9 +52,9 @@ module DataSerializerConcern
     end
 
     def flat_serialized_json(data, format = nil, with_model: true, **options)
-      serialized_data, serialized_options = self.serialized_json(data, format, flat: true, with_model: with_model, **options)
-
       if with_model
+        serialized_data, serialized_options = self.serialized_json(data, format, flat: true, with_model: true, **options)
+
         class_name                   = self.name.downcase.pluralize
         serialized_model             = {}
         serialized_model[class_name] = serialized_data
@@ -62,6 +62,8 @@ module DataSerializerConcern
 
         return serialized_model
       else
+        serialized_data = self.serialized_json(data, format, flat: true, **options)
+
         return serialized_data
       end
     end
