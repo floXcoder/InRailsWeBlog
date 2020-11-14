@@ -80,6 +80,7 @@ class ApplicationController < ActionController::Base
     super
 
     payload[:request_id] = request.uuid
+    payload[:referer]    = request.referer
     payload[:user_id]    = current_user.id if current_user
     payload[:admin_id]   = current_admin.id if current_admin
   end

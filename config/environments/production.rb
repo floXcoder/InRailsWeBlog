@@ -81,6 +81,7 @@ Rails.application.configure do
   config.lograge.enabled        = true
   config.lograge.custom_options = lambda do |event|
     options           = event.payload.slice(:host, :subdomain, :request_id, :user_id, :admin_id, :referer)
+    options[:path]    = event.payload[:path].sub('/https:/', 'https://') if event.payload[:path].start_with?('/https:/')
     options[:params]  = event.payload[:params].except('controller', 'action') if event.payload[:params]
     options[:referer] = event.payload[:referer] if event.payload[:referer].present?
     options[:view]    = event.payload[:view_runtime] if event.payload[:view_runtime].to_f > 0

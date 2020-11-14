@@ -75,7 +75,7 @@ class Admins::LogsController < AdminsController
   private
 
   def tag_search
-    %w[bot level host ip sessionId status search]
+    %w[bot level host ip sessionId status method format search]
   end
 
   def format_search(element, value)
@@ -88,6 +88,10 @@ class Admins::LogsController < AdminsController
       "[#{value}]"
     when 'status'
       "status=#{value}"
+    when 'method'
+      "method=#{value}"
+    when 'format'
+      "format=#{value}"
     when 'search'
       value
     else
