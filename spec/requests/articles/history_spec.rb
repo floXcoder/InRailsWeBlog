@@ -17,13 +17,13 @@ describe 'History API', type: :request, basic: true do
   end
 
   describe '/api/v1/articles/:id/history' do
-    context 'when user is not connected' do
-      it 'returns an error message' do
-        get "/api/v1/articles/#{@article.id}/history", as: :json
-
-        expect(response).to be_unauthenticated
-      end
-    end
+    # context 'when user is not connected' do
+    #   it 'returns an error message' do
+    #     get "/api/v1/articles/#{@article.id}/history", as: :json
+    #
+    #     expect(response).to be_unauthenticated
+    #   end
+    # end
 
     context 'when user is connected' do
       before do

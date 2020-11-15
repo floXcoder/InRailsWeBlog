@@ -104,8 +104,9 @@ const styles = (theme) => ({
         fontWeight: 700
     },
     noTags: {
+        color: theme.palette.grey[700],
+        fontSize: '.95rem',
         whiteSpace: 'normal',
-        fontSize: '1rem',
         padding: '1rem',
         fontStyle: 'italic'
     }

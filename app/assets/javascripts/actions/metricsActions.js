@@ -2,16 +2,6 @@
 
 import api from '../middlewares/api';
 
-import {
-    hasLocalStorage,
-    saveLocalArray,
-    getLocalData
-} from '../middlewares/localStorage';
-
-import {
-    recentLocalStorage
-} from '../components/modules/constants';
-
 // Unused for now
 // export const spyHeartbeat = (value) => {
 //     if (window._paq) {
@@ -66,26 +56,6 @@ export const spyTrackClick = (elementType, elementId, elementSlug, elementUserId
         });
     }
 
-    // Always save to local storage for optimization
-    if (hasLocalStorage && elementSlug && elementTitle) {
-        saveLocalArray(recentLocalStorage, {
-            type: elementType,
-            elementId: elementId,
-            title: elementTitle.replace(/<.*?>(.*)<\/.*?>/g, '$1'),
-            slug: elementSlug,
-            date: Date.now(),
-            userId: elementUserId,
-            parentId: elementParentId
-        });
-    }
-
-    // configureStore.dispatch({
-    //     type: ActionTypes.USER_RECENTS,
-    //     local: true,
-    //     element: elementName,
-    //     recents: []
-    // });
-
     return api
         .post(`/api/v1/${elementType}s/${elementId}/clicked`,
             {
@@ -93,8 +63,4 @@ export const spyTrackClick = (elementType, elementId, elementSlug, elementUserId
                 userId: elementUserId,
                 parentId: elementParentId
             });
-};
-
-export const getTracksClick = (remove = false) => {
-    return getLocalData(recentLocalStorage, remove);
 };

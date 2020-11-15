@@ -145,8 +145,6 @@ RSpec.describe Topic, type: :model, basic: true do
     it { is_expected.to have_many(:user_bookmarks) }
     it { is_expected.to have_many(:follower) }
 
-    it { is_expected.to have_many(:user_activities) }
-
     it { is_expected.to have_many(:shares) }
     it { is_expected.to have_many(:contributors) }
   end
@@ -156,8 +154,6 @@ RSpec.describe Topic, type: :model, basic: true do
 
     it { is_expected.to respond_to(:slug) }
     it { is_expected.to respond_to(:slug_candidates) }
-
-    it { is_expected.to have_activity }
 
     it { is_expected.to have_strip_attributes([:name, :color]) }
 

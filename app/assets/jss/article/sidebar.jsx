@@ -14,8 +14,10 @@ const styles = (theme) => ({
         textAlign: 'center'
     },
     none: {
-        fontSize: '0.9rem',
-        lineHeight: '1.5rem',
+        color: theme.palette.grey[700],
+        fontSize: '.95rem',
+        whiteSpace: 'normal',
+        padding: '1rem',
         fontStyle: 'italic'
     },
     order: {

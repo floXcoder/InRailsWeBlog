@@ -173,10 +173,8 @@ describe('Users actions', () => {
 
             return dispatch(store, UserActions.fetchUserRecents(user.id))
                 .then((state) => {
-                    expect(UserSelectors.getUserRecentTopics(state)).toHaveLength(topics.length);
                     expect(UserSelectors.getUserRecentTags(state)).toHaveLength(tags.length);
                     expect(UserSelectors.getUserRecentArticles(state)).toHaveLength(articles.length);
-                    expect(UserSelectors.getUserRecents(state)).toHaveLength(tags.length + articles.length);
                 });
         });
     });

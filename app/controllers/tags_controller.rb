@@ -14,6 +14,8 @@ class TagsController < ApplicationController
   def index
     tags = ::Tags::FindQueries.new.all(filter_params.merge(limit: params[:limit]))
 
+    track_action(tag_ids: tags.map(&:id))
+
     expires_in InRailsWeBlog.config.cache_time, public: true
     if stale?(tags, template: false, public: true)
       respond_to do |format|
@@ -34,7 +36,7 @@ class TagsController < ApplicationController
     tag = Tag.include_element.friendly.find(params[:tag_slug])
     authorize tag
 
-    track_visit(Tag, tag.id, current_user&.id)
+    track_action(tag_id: tag.id) { track_visit(Tag, tag.id, current_user&.id) }
 
     expires_in InRailsWeBlog.config.cache_time, public: true
     if stale?(tag, template: false, public: true)
@@ -59,6 +61,8 @@ class TagsController < ApplicationController
 
     tag = current_user.tags.include_element.friendly.find(params[:tag_slug])
     authorize tag
+
+    track_action(action: 'edit', tag_id: tag.id)
 
     respond_to do |format|
       format.html do

@@ -7,6 +7,10 @@ import {
 function convertRelationships(object, relationships, included) {
     if (relationships && included) {
         Object.entries(relationships).forEach(([relationName, relationData]) => {
+            if(!relationData.data) {
+                return;
+            }
+
             if (Array.isArray(relationData.data)) {
                 object[relationName] = relationData.data.map((datum) => {
                     const relation = included.find((include) => include.id === datum.id && include.type === datum.type);

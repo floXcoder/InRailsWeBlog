@@ -19,7 +19,7 @@ const initState = {
 
     popularTags: [],
 
-    topicTags: [],
+    topicTags: undefined,
     currentTagSlugs: [],
 
     tag: undefined,

@@ -12,6 +12,7 @@ import TocIcon from '@material-ui/icons/Toc';
 import SpeakerNotesIcon from '@material-ui/icons/SpeakerNotes';
 import SearchIcon from '@material-ui/icons/Search';
 import ShareIcon from '@material-ui/icons/Share';
+import AnalyticsIcon from '@material-ui/icons/Assessment';
 import LinkOffIcon from '@material-ui/icons/LinkOff';
 import MobileFriendlyIcon from '@material-ui/icons/MobileFriendly';
 import VisibilityIcon from '@material-ui/icons/Visibility';
@@ -74,6 +75,8 @@ const HomeFunctionalities = ({classes, onSignupClick}) => (
                 {_renderListItem(classes, I18n.t('js.views.home.functionalities.search.title'), I18n.t('js.views.home.functionalities.search.details'), SearchIcon, true)}
 
                 {_renderListItem(classes, I18n.t('js.views.home.functionalities.share.title'), I18n.t('js.views.home.functionalities.share.details'), ShareIcon)}
+
+                {_renderListItem(classes, I18n.t('js.views.home.functionalities.tracking.title'), I18n.t('js.views.home.functionalities.tracking.details'), AnalyticsIcon)}
 
                 {_renderListItem(classes, I18n.t('js.views.home.functionalities.outdated.title'), I18n.t('js.views.home.functionalities.outdated.details'), LinkOffIcon, true)}
 

@@ -106,9 +106,6 @@ class User < ApplicationRecord
   include ActAsTrackedConcern
   acts_as_tracked :queries, :visits, :views, :clicks
 
-  # Follow public activities
-  include PublicActivity::Model
-
   # Nice url format
   include NiceUrlConcern
   friendly_id :pseudo, use: :slugged
@@ -226,14 +223,11 @@ class User < ApplicationRecord
            class_name: 'Picture',
            dependent:  :destroy
 
-  has_many :performed_activities,
-           as:         :owner,
-           class_name: 'PublicActivity::Activity'
+  has_many :visits,
+           class_name: 'Ahoy::Visit'
 
-  has_many :recent_activities,
-           -> { distinct },
-           as:         :owner,
-           class_name: 'PublicActivity::Activity'
+  has_many :events,
+           class_name: 'Ahoy::Event'
 
   # == Validations ==========================================================
   validates :pseudo,
@@ -319,14 +313,14 @@ class User < ApplicationRecord
     when 'profile'
       UserSerializer.new(data,
                          fields:  {
-                           user: %i[id current_topic topics contributed_topics pseudo email firstName lastName locale slug avatarUrl settings],
+                           user:  %i[id current_topic topics contributed_topics pseudo email firstName lastName locale slug avatarUrl settings],
                            topic: %i[id userId mode name description priority visibility languages slug tagIds inventoryFields settings]
                          },
                          include: %i[current_topic topics contributed_topics],
                          **options)
     when 'complete'
       UserSerializer.new(data,
-                         fields:  {
+                         fields: {
                            topic: %i[id userId mode name description priority visibility languages slug tagIds]
                          },
                          **options)
@@ -385,19 +379,12 @@ class User < ApplicationRecord
 
   # Activities
   def recent_visits(limit = 12)
-    last_visits = self.recent_activities.order('activities.created_at DESC').where(key: 'user.visit', parameters: { topic_id: self.current_topic_id }).limit(limit)
+    article_ids = self.events.order('time DESC').where(name: 'page_visit').where("(properties->'article_id') is not null").limit(limit).map { |event| event.properties['article_id'] }
+    tag_ids = self.events.order('time DESC').where(name: 'page_visit').where("(properties->'tag_id') is not null").limit(limit).map { |event| event.properties['tag_id'] }
 
-    return {} if last_visits.empty?
-
-    tag_ids     = last_visits.where(recipient_type: 'Tag').map(&:recipient_id).uniq
-    article_ids = last_visits.where(recipient_type: 'Article').map(&:recipient_id).uniq
-
-    # Override created_at to use the activity field
     {
-      # users:   User.joins(:user_activities).merge(last_visits).distinct,
-      # topics:   Topic.joins(:user_activities).merge(last_visits).distinct,
-      tags:     Tag.select(:id, :user_id, :name, :visibility, :synonyms, :slug, :created_at, :updated_at).includes(:tagged_articles).where(id: tag_ids),
-      articles: Article.select(:id, :user_id, :topic_id, :mode, :title_translations, :summary_translations, :languages, :draft, :visibility, :slug, :created_at, :updated_at).includes(:user, :tags, tagged_articles: [:tag]).where(id: article_ids)
+      tags:     Tag.flat_serialized_json(Tag.where(id: tag_ids), 'strict', with_model: false),
+      articles: Article.flat_serialized_json(Article.where(id: article_ids), 'strict', with_model: false)
     }
   end
 

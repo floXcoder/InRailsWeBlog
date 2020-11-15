@@ -22,6 +22,10 @@ export const getSortedTopicTags = createSelector(
     (state) => state.userState.user?.settings?.tagOrder,
     (state) => state.tagState.filterText,
     (tags, displayChildWithParent, tagOrder, filterText) => {
+        if(!tags) {
+            return [];
+        }
+
         if (tagOrder === 'priority') {
             tags = tags.sort((t) => -t.priority);
         }

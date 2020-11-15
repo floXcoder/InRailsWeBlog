@@ -105,6 +105,9 @@ es:
           share:
             title: "Comparte tus artículos con todos o tus amigos"
             details: "Por defecto, todos los artículos de los temas públicos son visibles para todos. También puedes elegir hacer disponible un artículo de un tema privado a través de un enlace único que sólo tú conoces."
+          tracking:
+            title: "Sigue todas tus visitas"
+            details: "Todas las visitas se guardarán, así podrás rastrear el origen de las visitas por país, fuente de tráfico, navegador y muchos más."
           outdated:
             title: "Artículos siempre al día"
             details: "Para asegurar que sus artículos siguen siendo relevantes y no contienen enlaces muertos, se proporciona una herramienta de comprobación de enlaces. Comprobará que todos los enlaces contenidos en el artículo siguen siendo válidos."
@@ -616,14 +619,27 @@ es:
         submit: "Actualización"
         title: "Cambiar un material"
       tracking:
-        bookmarks: "Número de veces que se añaden a los favoritos"
+        title: "Visitas y estadísticas"
+        stats:
+          title: "Estadísticas"
+          visits: "Visitas directas"
+          views: "Vistas en las listas"
+          clicks: "Clics del artículo"
+          searches: "Vistas en los resultados de la búsqueda"
+          bookmarks: "Añadido a favoritos"
+          comments: "Comentarios del artículo"
+        views:
+          title: "Las vistas cuentan"
+        origins:
+          title: "Orígenes"
+          countries: "Visitas por país"
+          browser: "Visitas de los navegadores"
+          os: "Visitas por sistemas"
+          utm: "Visitas de la UTM"
+        referers:
+          title: "Fuentes"
+        undefined: "[No definido]"
         cancel: "Cancelar"
-        visits: "Número de visitas en vivo"
-        clicks: "Número de clics en el artículo"
-        comments: "Número de comentarios asociados"
-        searches: "El número de veces que se regresó en la búsqueda"
-        title: "Estadísticas"
-        views: "Número de impresiones en todas las páginas"
       compare:
         title: "Comparación entre idiomas"
         nothing: "No hay nada que comparar"
@@ -828,8 +844,9 @@ es:
       searches_count: Búsquedas
     admin:
       common:
-        open_link: Ver
-        title: Admin
+        open_link: "Ver"
+        title: "Admin"
+        stats: "Visitas y estadísticas"
       menu:
         articles: Artículos
         back_home: Volver al sitio

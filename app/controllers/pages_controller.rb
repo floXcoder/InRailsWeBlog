@@ -4,6 +4,8 @@ class PagesController < ApplicationController
 
   before_action :authenticate_user!, only: [:user_home]
 
+  after_action :track_action, except: [:meta_tag, :open_search, :robots]
+
   respond_to :html
 
   def home

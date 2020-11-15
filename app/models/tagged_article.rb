@@ -22,10 +22,6 @@ class TaggedArticle < ApplicationRecord
   # == Extensions ===========================================================
   include CacheService
 
-  # Follow public activities
-  include PublicActivity::Model
-  tracked owner: proc { |_controller, model| model.article&.user }, recipient: :article, parameters: :tag
-
   # Marked as deleted
   acts_as_paranoid
 

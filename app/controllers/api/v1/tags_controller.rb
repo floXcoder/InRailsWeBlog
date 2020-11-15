@@ -85,7 +85,7 @@ module Api::V1
       tag = Tag.include_element.friendly.find(params[:id])
       authorize tag
 
-      track_visit(Tag, tag.id, current_user&.id)
+      track_action(tag_id: tag.id) { track_visit(Tag, tag.id, current_user&.id) }
 
       expires_in InRailsWeBlog.config.cache_time, public: true
       if stale?(tag, template: false, public: true)
@@ -111,6 +111,8 @@ module Api::V1
       tag = current_user.tags.include_element.friendly.find(params[:id])
       authorize tag
 
+      track_action(action: 'edit', tag_id: tag.id)
+
       respond_to do |format|
         format.json do
           set_seo_data(:edit_tag,
@@ -134,6 +136,7 @@ module Api::V1
       respond_to do |format|
         format.json do
           if stored_tag.success?
+            track_action(action: 'update', tag_id: stored_tag.result.id)
             render json: stored_tag.result.serialized_json('complete',
                                                            params: { current_topic_id: current_user&.current_topic_id },
                                                            meta:   meta_attributes)
@@ -172,6 +175,8 @@ module Api::V1
     def destroy
       tag = current_user.tags.find(params[:id])
       admin_or_authorize tag
+
+      track_action(action: 'destroy', tag_id: tag.id)
 
       respond_to do |format|
         format.json do

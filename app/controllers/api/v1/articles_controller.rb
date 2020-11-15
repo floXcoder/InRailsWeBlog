@@ -65,6 +65,8 @@ module Api::V1
         articles = ::Articles::FindQueries.new(current_user, current_admin).all(filter_params.merge(page: params[:page], limit: params[:limit]))
       end
 
+      track_action(article_ids: articles.map(&:id), tag_slug: filter_params[:tag_slug], topic_slug: filter_params[:topic_slug], user_slug: filter_params[:user_slug])
+
       (user_signed_in? || admin_signed_in?) ? reset_cache_headers : expires_in(InRailsWeBlog.config.cache_time, public: true)
       if stale?(articles, template: false, public: true)
         respond_to do |format|
@@ -102,7 +104,7 @@ module Api::V1
       article = @context_user.articles.friendly.find(params[:id])
       admin_or_authorize article
 
-      track_visit(Article, article.id, current_user&.id, article.topic_id)
+      track_action(article_id: article.id, parent_id: article.topic_id) { track_visit(Article, article.id, current_user&.id, article.topic_id) }
 
       (article.user?(current_user) || admin_signed_in?) ? reset_cache_headers : expires_in(InRailsWeBlog.config.cache_time, public: true)
       if stale?(article, template: false, public: true) || article.user?(current_user)
@@ -118,7 +120,7 @@ module Api::V1
                          og:                   {
                                                  type:  "#{ENV['WEBSITE_NAME']}:article",
                                                  url:   article.link_path(host: ENV['WEBSITE_FULL_ADDRESS']),
-                                                 image: article.default_picture ? (root_url + article.default_picture) : nil
+                                                 image: article.default_picture
                                                }.compact)
 
             if current_user && article.user?(current_user)
@@ -144,6 +146,8 @@ module Api::V1
       article&.shared_link = params[:public_link]
       admin_or_authorize article
 
+      track_action(action: 'shared', article_id: article.id, parent_id: article.topic_id)
+
       expires_in InRailsWeBlog.config.cache_time, public: true
       if stale?(article, template: false, public: true)
         respond_to do |format|
@@ -157,7 +161,7 @@ module Api::V1
                          og:           {
                                          type:  "#{ENV['WEBSITE_NAME']}:article",
                                          url:   article.link_path(host: ENV['WEBSITE_FULL_ADDRESS']),
-                                         image: article.default_picture ? (root_url + article.default_picture) : nil
+                                         image: article.default_picture
                                        }.compact)
 
             render json: article.serialized_json('normal', meta: {
@@ -202,9 +206,37 @@ module Api::V1
       end
     end
 
+    def tracking
+      article = @context_user.articles.include_element.find(params[:id])
+      admin_or_authorize article
+
+      article_page_visits = Ahoy::Event.where(name: 'page_visit').where("properties->>'article_id' = ?", article.id.to_s)
+      article_uniq_visits = Ahoy::Visit.where(id: article_page_visits.pluck(:visit_id).uniq)
+
+      tracking_data = {
+        tracker:        TrackerSerializer.new(article.tracker).flat_serializable_hash,
+        bookmarksCount: article.bookmarks_count,
+        commentsCount:  article.comments_count,
+        datesCount:     article_page_visits.order("DATE(time) DESC").group("DATE(time)").count,
+        countries:      article_uniq_visits.group_by(&:country).map { |key, val| { key => val.count } }.reduce({}, :merge).sort_by { |_k, v| -v }.to_h,
+        browsers:       article_uniq_visits.group_by(&:browser).map { |key, val| { key => val.count } }.reduce({}, :merge).sort_by { |_k, v| -v }.to_h,
+        os:             article_uniq_visits.group_by(&:os).map { |key, val| { key => val.count } }.reduce({}, :merge).sort_by { |_k, v| -v }.to_h,
+        utmSources:     article_uniq_visits.group_by(&:utm_source).map { |key, val| { key => val.count } }.reduce({}, :merge).sort_by { |_k, v| -v }.to_h,
+        referers:       article_uniq_visits.group_by(&:referring_domain).map { |key, val| { key => val.count } }.reduce({}, :merge).sort_by { |_k, v| -v }.to_h
+      }
+
+      respond_to do |format|
+        format.json do
+          render json: tracking_data
+        end
+      end
+    end
+
     def history
       article = current_user.articles.friendly.find(params[:id])
       admin_or_authorize article
+
+      track_action(action: 'history', article_id: article.id)
 
       article_versions = article.versions.where(event: 'update').map.with_index { |h, i| h.object_changes.present? || i == 0 ? h : nil }.compact.reverse
 
@@ -233,6 +265,7 @@ module Api::V1
       respond_to do |format|
         format.json do
           if stored_article.success?
+            track_action(action: 'create', article_id: stored_article.result.id)
             flash.now[:success] = stored_article.message
             render json:   stored_article.result.serialized_json('complete',
                                                                  params: {
@@ -252,6 +285,8 @@ module Api::V1
     def edit
       article = Article.include_element.friendly.find(params[:id])
       admin_or_authorize article
+
+      track_action(action: 'edit', article_id: article.id)
 
       respond_to do |format|
         format.json do
@@ -279,6 +314,8 @@ module Api::V1
       respond_to do |format|
         format.json do
           if stored_article.success?
+            track_action(action: 'update', article_id: stored_article.result.id)
+
             expire_home_cache if (user_signed_in? || admin_signed_in?) && article_admin_params.present?
 
             flash.now[:success] = stored_article.message unless params[:auto_save]
@@ -326,6 +363,8 @@ module Api::V1
 
       version = PaperTrail::Version.find_by(id: params[:version_id])
 
+      track_action(action: 'restore', article_id: article.id)
+
       if version && (restored_version = version.reify)
         params[:article_version_id] ? article.save : restored_version.save
 
@@ -352,6 +391,8 @@ module Api::V1
     def destroy
       article = current_user.articles.find(params[:id])
       admin_or_authorize article
+
+      track_action(action: 'destroy', article_id: article.id)
 
       respond_to do |format|
         format.json do

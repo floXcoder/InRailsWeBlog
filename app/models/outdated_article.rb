@@ -15,8 +15,6 @@ class OutdatedArticle < ApplicationRecord
   # == Attributes ===========================================================
 
   # == Extensions ===========================================================
-  # include PublicActivity::Model
-  # tracked owner: :user, recipient: :article
 
   # == Relationships ========================================================
   belongs_to :article,

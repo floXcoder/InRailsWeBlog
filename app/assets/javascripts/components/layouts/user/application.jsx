@@ -46,7 +46,11 @@ import theme from '../../../../jss/theme';
 export default class ApplicationLayoutUser extends React.Component {
     static propTypes = {
         componentId: PropTypes.string,
-        staticContent: PropTypes.string
+        staticContent: PropTypes.oneOfType([
+            PropTypes.element,
+            PropTypes.object,
+            PropTypes.string
+        ])
     }
 
     constructor(props) {

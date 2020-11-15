@@ -105,7 +105,7 @@ export default function articleMutationManager(mode) {
                     if (props.routeState.parentTagSlug) {
                         this.state.article = this.state.article ? {...this.state.article} : {};
 
-                        this.state.article.tags = props.tags.filter((tag) => tag.slug === props.routeState.parentTagSlug || tag.slug === props.routeState.childTagSlug);
+                        this.state.article.tags = props.tags ? props.tags.filter((tag) => tag.slug === props.routeState.parentTagSlug || tag.slug === props.routeState.childTagSlug) : [];
                         this.state.article.parentTagSlugs = [props.routeState.parentTagSlug];
                         if (props.routeState.childTagSlug) {
                             this.state.article.childTagSlugs = [props.routeState.childTagSlug];

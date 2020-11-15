@@ -53,11 +53,7 @@ class Tag < ApplicationRecord
   # Track activities
   ## scopes: most_viewed, most_clicked, recently_tracked, populars, home
   include ActAsTrackedConcern
-  acts_as_tracked :queries, :visits, :views, :clicks, :searches, callbacks: { visits: :add_visit_activity }
-
-  # Follow public activities
-  include PublicActivity::Model
-  tracked owner: :user
+  acts_as_tracked :queries, :visits, :views, :clicks, :searches
 
   # SEO
   include NiceUrlConcern
@@ -136,13 +132,6 @@ class Tag < ApplicationRecord
            -> { where(bookmarks: { follow: true }) },
            through: :bookmarks,
            source:  :user
-
-  # has_many :activities,
-  #          as:         :trackable,
-  #          class_name: 'PublicActivity::Activity'
-  has_many :user_activities,
-           as:         :recipient,
-           class_name: 'PublicActivity::Activity'
 
   # == Validations ==========================================================
   validates :user,
@@ -376,15 +365,6 @@ class Tag < ApplicationRecord
   end
 
   private
-
-  def add_visit_activity(user_id = nil, parent_id = nil)
-    return unless user_id
-
-    user = self.user || User.find_by(id: user_id)
-    return unless user
-
-    user.create_activity(:visit, recipient: self, owner: user, params: { topic_id: parent_id&.to_i })
-  end
 
   def name_visibility
     return unless self.name.present? && name_changed?

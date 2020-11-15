@@ -194,6 +194,11 @@ class AdminArticles extends React.Component {
                                icon: 'open_in_new',
                                tooltip: I18n.t('js.admin.common.open_link'),
                                onClick: (event, article) => window.open(article.link, '_blank')
+                           },
+                           {
+                               icon: 'visibility',
+                               tooltip: I18n.t('js.admin.common.stats'),
+                               onClick: (event, article) => window.open(article.link + '#tracking-article', '_blank')
                            }
                        ]}/>
             </div>

@@ -122,8 +122,6 @@ RSpec.describe Comment, type: :model, basic: true do
   context 'Properties' do
     it { is_expected.to have_strip_attributes([:title, :subject]) }
 
-    # it { is_expected.to have_activity }
-
     it { is_expected.to act_as_paranoid(Comment) }
   end
 

@@ -30,6 +30,7 @@ describe ArticlePolicy, basic: true do
 
       it { should_not grant(:shared) }
       it { should_not grant(:history) }
+      it { should_not grant(:tracking) }
       it { should_not grant(:create) }
       it { should_not grant(:edit) }
       it { should_not grant(:update) }
@@ -61,6 +62,7 @@ describe ArticlePolicy, basic: true do
       it { should grant(:remove_comment) }
 
       it { should_not grant(:shared) }
+      it { should_not grant(:tracking) }
       it { should_not grant(:history) }
       it { should_not grant(:edit) }
       it { should_not grant(:update) }
@@ -89,6 +91,7 @@ describe ArticlePolicy, basic: true do
       it { should grant(:remove_comment) }
 
       it { should_not grant(:shared) }
+      it { should_not grant(:tracking) }
       it { should_not grant(:share) }
       it { should_not grant(:check_links) }
       it { should_not grant(:destroy) }
@@ -100,6 +103,7 @@ describe ArticlePolicy, basic: true do
       it { should grant(:show) }
       it { should grant(:recommendations) }
       it { should grant(:shared) }
+      it { should grant(:tracking) }
       it { should grant(:history) }
       it { should grant(:create) }
       it { should grant(:edit) }
@@ -128,6 +132,7 @@ describe ArticlePolicy, basic: true do
       it { should_not grant(:show) }
       it { should_not grant(:recommendations) }
       it { should_not grant(:shared) }
+      it { should_not grant(:tracking) }
       it { should_not grant(:history) }
       it { should_not grant(:create) }
       it { should_not grant(:edit) }
@@ -161,6 +166,7 @@ describe ArticlePolicy, basic: true do
       it { should_not grant(:show) }
       it { should_not grant(:recommendations) }
       it { should_not grant(:history) }
+      it { should_not grant(:tracking) }
       it { should_not grant(:create) }
       it { should_not grant(:edit) }
       it { should_not grant(:update) }
@@ -185,6 +191,7 @@ describe ArticlePolicy, basic: true do
       it { should_not grant(:show) }
       it { should_not grant(:recommendations) }
       it { should_not grant(:shared) }
+      it { should_not grant(:tracking) }
       it { should_not grant(:vote_up) }
       it { should_not grant(:vote_down) }
       it { should_not grant(:add_outdated) }
@@ -215,6 +222,7 @@ describe ArticlePolicy, basic: true do
       it { should grant(:remove_outdated) }
 
       it { should_not grant(:shared) }
+      it { should_not grant(:tracking) }
       it { should_not grant(:share) }
       it { should_not grant(:check_links) }
       it { should_not grant(:destroy) }
@@ -231,6 +239,7 @@ describe ArticlePolicy, basic: true do
       it { should grant(:show) }
       it { should grant(:recommendations) }
       it { should grant(:shared) }
+      it { should grant(:tracking) }
       it { should grant(:history) }
       it { should grant(:create) }
       it { should grant(:edit) }

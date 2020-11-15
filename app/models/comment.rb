@@ -33,10 +33,6 @@ class Comment < ApplicationRecord
   # Act as a nested tree
   acts_as_nested_set scope: [:commentable_id, :commentable_type]
 
-  # Follow public activities
-  # include PublicActivity::Model
-  # tracked owner: :user, recipient: :commentable
-
   # Marked as deleted
   acts_as_paranoid
 

@@ -41,9 +41,6 @@ gem 'paper_trail',              '11.0.0'
 # Marked as deleted
 gem 'paranoia',                 '2.4.2'
 
-# User activities
-gem 'public_activity',          '1.6.4'
-
 # Format user input
 gem 'auto_strip_attributes',    '2.6.0'
 gem 'sanitize',                 '5.2.1'
@@ -88,6 +85,9 @@ gem 'premailer-rails',          '1.11.1'
 
 # Detect browser and bots
 gem 'browser',                  '5.1.0'
+
+# Tracking
+gem 'ahoy_matey',               '3.0.5'
 
 # SEO
 gem 'friendly_id',              '5.4.1'

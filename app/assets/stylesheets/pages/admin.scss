@@ -67,6 +67,10 @@ body {
         padding: 10px 0;
 
         li {
+          &::marker {
+            font-size: 1.1rem;
+          }
+
           p {
             line-height: 22px;
             margin: 0;

@@ -15,7 +15,7 @@ class TopicsController < ApplicationController
     topic = @context_user.topics.friendly.find(params[:topic_slug])
     authorize topic
 
-    track_visit(Topic, topic.id, current_user&.id)
+    track_action(topic_id: topic.id) { track_visit(Topic, topic.id, current_user&.id) }
 
     expires_in InRailsWeBlog.config.cache_time, public: true
     if stale?(topic, template: false, public: true)

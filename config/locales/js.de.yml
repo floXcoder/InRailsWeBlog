@@ -105,6 +105,9 @@ de:
           share:
             title: "Teilen Sie Ihre Artikel mit allen oder Ihren Freunden"
             details: "Standardmäßig sind alle Artikel der öffentlichen Themen für jedermann sichtbar. Sie können sich auch dafür entscheiden, einen Artikel aus einem privaten Thema über einen eindeutigen Link verfügbar zu machen, den nur Sie kennen."
+          tracking:
+            title: "Verfolgen Sie alle Ihre Besuche"
+            details: "Alle Besuche werden gespeichert, so dass Sie die Herkunft der Besuche nach Land, Verkehrsquelle, Browser und vielen anderen Kriterien verfolgen können."
           outdated:
             title: "Artikel immer auf dem neuesten Stand"
             details: "Um sicherzustellen, dass Ihre Artikel noch relevant sind und keine toten Links enthalten, wird ein Tool zur Überprüfung der Links bereitgestellt. Sie wird prüfen, ob alle im Artikel enthaltenen Links noch gültig sind."
@@ -659,14 +662,27 @@ de:
         visibility: "Sichtbarkeit: %{visibility}"
         check_link: "Suche nach toten Links"
       tracking:
-        bookmarks: "Anzahl von Malen, die zu den Favoriten hinzugefügt wurden"
+        title: "Besuche und Statistiken"
+        stats:
+          title: "Statistik"
+          visits: "Direkte Besuche"
+          views: "Ansichten in Listen"
+          clicks: "Artikel klickt"
+          searches: "Ansichten in den Suchergebnissen"
+          bookmarks: "Zu Lesezeichen hinzugefügt"
+          comments: "Artikel-Kommentare"
+        views:
+          title: "Ansichten zählen"
+        origins:
+          title: "Ursprünge"
+          countries: "Besuche nach Land"
+          browser: "Besuche von Browsern"
+          os: "Besuche nach Systemen"
+          utm: "Besuche durch UTM"
+        referers:
+          title: "Quellen"
+        undefined: "[Nicht definiert]"
         cancel: "Abbrechen"
-        visits: "Anzahl der Live-Besuche"
-        clicks: "Anzahl der Klicks auf den Artikel"
-        comments: "Anzahl der zugehörigen Kommentare"
-        searches: "Anzahl der in der Suche zurückgegebenen Male"
-        title: "Statistik"
-        views: "Anzahl der Ausdrucke auf allen Seiten"
       compare:
         title: "Vergleich zwischen Sprachen"
         nothing: "Nichts zu vergleichen"
@@ -828,23 +844,24 @@ de:
       views_count: Ansichten
     admin:
       common:
-        open_link: Siehe
-        title: Verwaltung
+        open_link: "Siehe"
+        title: "Verwaltung"
+        stats: "Besuche und Statistiken"
       menu:
-        articles: Artikel
-        back_home: Zurück zur Website
-        blogs: Interne Notizen
-        cache: Cache
-        comments: Kommentare
-        dashboard: Dashboard
-        jobs: Jobs
-        log_out: Abmelden
-        logs: Protokolle
-        postgres: Datenbank
-        seo: SEO
-        tags: Beschriftungen
-        topics: Themenbereiche
-        users: Benutzer
+        articles: "Artikel"
+        back_home: "Zurück zur Website"
+        blogs: "Interne Notizen"
+        cache: "Cache"
+        comments: "Kommentare"
+        dashboard: "Dashboard"
+        jobs: "Jobs"
+        log_out: "Abmelden"
+        logs: "Protokolle"
+        postgres: "Datenbank"
+        seo: "SEO"
+        tags: "Beschriftungen"
+        topics: "Themenbereiche"
+        users: "Benutzer"
       articles:
         title: "Artikel"
         table:

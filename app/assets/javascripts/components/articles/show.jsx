@@ -34,7 +34,7 @@ import {
 
 import {
     fetchArticle,
-    fetchRecommendations,
+    fetchArticleRecommendations,
     changeArticleLanguage,
     markArticleOutdated,
     unmarkArticleOutdated,
@@ -94,7 +94,7 @@ export default @withRouter
     articleRecommendations: state.articleState.articleRecommendations
 }), {
     fetchArticle,
-    fetchRecommendations,
+    fetchArticleRecommendations,
     changeArticleLanguage,
     markArticleOutdated,
     unmarkArticleOutdated,
@@ -125,7 +125,7 @@ class ArticleShow extends React.Component {
         articleCurrentLanguage: PropTypes.string,
         articleRecommendations: PropTypes.array,
         fetchArticle: PropTypes.func,
-        fetchRecommendations: PropTypes.func,
+        fetchArticleRecommendations: PropTypes.func,
         changeArticleLanguage: PropTypes.func,
         markArticleOutdated: PropTypes.func,
         unmarkArticleOutdated: PropTypes.func,
@@ -202,7 +202,7 @@ class ArticleShow extends React.Component {
 
     _fetchRecommendations = () => {
         if (!this.props.articleRecommendations && this.props.article && this.props.routeParams.userSlug !== this.props.currentUserSlug) {
-            this.props.fetchRecommendations(this.props.routeParams.userSlug, this.props.article.id);
+            this.props.fetchArticleRecommendations(this.props.routeParams.userSlug, this.props.article.id);
         }
     };
 

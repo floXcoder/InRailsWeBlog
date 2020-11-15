@@ -21,7 +21,11 @@ export default @withStyles(styles)
 class MainLayoutDefault extends React.Component {
     static propTypes = {
         routes: PropTypes.array.isRequired,
-        staticContent: PropTypes.string,
+        staticContent: PropTypes.oneOfType([
+            PropTypes.element,
+            PropTypes.object,
+            PropTypes.string
+        ]),
         // from styles
         classes: PropTypes.object
     };

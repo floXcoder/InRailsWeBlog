@@ -23,10 +23,7 @@ import {
 } from '../../constants/routesHelper';
 
 import {
-    SearchIndex
-} from '../loaders/components';
-
-import {
+    fetchUserRecents,
     setAutocompleteSelectedTag
 } from '../../actions';
 
@@ -59,6 +56,7 @@ export default @withRouter
     selectedTags: state.autocompleteState.selectedTags,
     articles: state.autocompleteState.articles
 }), {
+    fetchUserRecents,
     setAutocompleteSelectedTag
 })
 @hot
@@ -83,6 +81,7 @@ class SearchModule extends React.Component {
         query: PropTypes.string,
         highlightedTag: PropTypes.object,
         highlightedArticle: PropTypes.object,
+        fetchUserRecents: PropTypes.func,
         setAutocompleteSelectedTag: PropTypes.func,
         // from styles
         classes: PropTypes.object
@@ -93,8 +92,8 @@ class SearchModule extends React.Component {
     }
 
     componentDidMount() {
-        if (!window.seoMode) {
-            setTimeout(() => SearchIndex.preload(), 5000);
+        if (!window.seoMode && this.props.currentUserId) {
+            this.props.fetchUserRecents(this.props.currentUserId, {limit: 10});
         }
     }
 

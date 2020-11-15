@@ -105,6 +105,9 @@ it:
           share:
             title: "Condividi i tuoi articoli con tutti o con i tuoi amici"
             details: "Per impostazione predefinita, tutti gli articoli dei temi pubblici sono visibili a tutti. Potete anche scegliere di rendere disponibile un articolo a tema privato attraverso un link unico che solo voi conoscete."
+          tracking:
+            title: "Segui tutte le tue visite"
+            details: "Tutte le visite vengono salvate, in questo modo è possibile tracciare l'origine delle visite per paese, fonte di traffico, browser e molto altro ancora."
           outdated:
             title: "Articoli sempre aggiornati"
             details: "Al fine di garantire che i vostri articoli siano ancora rilevanti e non contengano link morti, viene fornito uno strumento di controllo dei link. Verificherà che tutti i link contenuti nell'articolo siano ancora validi."
@@ -616,14 +619,27 @@ it:
         submit: "Aggiorna"
         title: "Cambiare un materiale"
       tracking:
-        bookmarks: "Numero di volte aggiunte ai preferiti"
+        title: "Visite e statistiche"
+        stats:
+          title: "Statistiche"
+          visits: "Visite dirette"
+          views: "Visualizzazioni in liste"
+          clicks: "Clic dell'articolo"
+          searches: "Viste nei risultati della ricerca"
+          bookmarks: "Aggiunto ai segnalibri"
+          comments: "Commenti sull'articolo"
+        views:
+          title: "Le viste contano"
+        origins:
+          title: "Origini"
+          countries: "Visite per paese"
+          browser: "Visite tramite browser"
+          os: "Visite per sistemi"
+          utm: "Visite da UTM"
+        referers:
+          title: "Fonti"
+        undefined: "[Non definito]"
         cancel: "Annulla"
-        visits: "Numero di visite sull'articolo"
-        clicks: "Numero di clic sull'articolo"
-        comments: "Numero di commenti associati"
-        searches: "Numero di volte restituite nella ricerca"
-        title: "Statistiche"
-        views: "Numero di stampe in tutte le pagine"
       compare:
         title: "Confronto tra le lingue"
         nothing: "Niente da confrontare"
@@ -828,8 +844,9 @@ it:
       searches_count: Ricerche
     admin:
       common:
-        open_link: Vedi
-        title: Admin
+        open_link: "Vedi"
+        title: "Admin"
+        stats: "Visite e statistiche"
       menu:
         articles: Articoli
         back_home: Torna al sito

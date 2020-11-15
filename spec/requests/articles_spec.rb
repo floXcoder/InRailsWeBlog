@@ -439,7 +439,7 @@ describe 'Article API', type: :request, basic: true do
   end
 
   describe '/api/v1/articles/:id/recommendations' do
-    context 'when user is not connected but article is private' do
+    context 'when user is not connected and article is private' do
       it 'returns an error' do
         get "/api/v1/articles/#{@private_article.id}/recommendations", params: { user_id: @private_article.user_id }, as: :json
 
@@ -457,6 +457,34 @@ describe 'Article API', type: :request, basic: true do
         expect(articles['data']).not_to be_empty
         expect(articles['data'][0]['attributes']['topicId']).to eq(@article.topic_id)
         expect(articles['data'][1]['attributes']['topicId']).to eq(@article.topic_id)
+      end
+    end
+  end
+
+  describe '/api/v1/articles/:id/tracking' do
+    context 'when user is not connected' do
+      it 'returns an error' do
+        get "/api/v1/articles/#{@article.id}/tracking", as: :json
+
+        expect(response).to be_unauthenticated
+      end
+    end
+
+    context 'when user is connected' do
+      before do
+        login_as(@user, scope: :user, run_callbacks: false)
+      end
+
+      it 'returns tracking data' do
+        get "/api/v1/articles/#{@article.id}/tracking", params: { user_id: @article.user_id }, as: :json
+
+        expect(response).to be_json_response
+
+        tracking = JSON.parse(response.body)
+        expect(tracking['tracker']).not_to be_empty
+        expect(tracking['commentsCount']).to eq(0)
+        expect(tracking['countries']).to be_empty
+        expect(tracking['referers']).to be_empty
       end
     end
   end

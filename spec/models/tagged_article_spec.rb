@@ -92,8 +92,6 @@ RSpec.describe TaggedArticle, type: :model, basic: true do
   end
 
   context 'Properties' do
-    it { is_expected.to have_activity }
-
     it { is_expected.to act_as_paranoid(TaggedArticle) }
   end
 

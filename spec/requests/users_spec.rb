@@ -114,11 +114,6 @@ describe 'Users API', type: :request, basic: true do
 
       before do
         login_as(@user, scope: :user, run_callbacks: false)
-
-        @user.create_activity(:visit,
-                              recipient: tag,
-                              owner:     @user,
-                              params:    { topic_id: @user.current_topic_id })
       end
 
       it 'returns user recents' do
@@ -128,34 +123,7 @@ describe 'Users API', type: :request, basic: true do
 
         recents = JSON.parse(response.body)
         expect(recents['articles']).to be_empty
-        expect(recents['tags']).not_to be_empty
-        expect(recents['tags'].first['id'].to_s).to eq(tag.id.to_s)
-      end
-    end
-  end
-
-  describe '/api/v1/users/:id/activities' do
-    context 'when user is not connected' do
-      it 'returns an error message' do
-        get "/api/v1/users/#{@user.id}/activities", as: :json
-
-        expect(response).to be_unauthenticated
-      end
-    end
-
-    context 'when user is connected' do
-      before do
-        login_as(@user, scope: :user, run_callbacks: false)
-      end
-
-      it 'returns user activities' do
-        get "/api/v1/users/#{@user.id}/activities", as: :json
-
-        expect(response).to be_json_response
-
-        activities = JSON.parse(response.body)
-        expect(activities['meta']['root']).to eq('activities')
-        expect(activities['data']).not_to be_empty
+        expect(recents['tags']).to be_empty
       end
     end
   end

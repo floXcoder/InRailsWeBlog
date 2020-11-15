@@ -22,7 +22,11 @@ export default @withStyles(styles)
 class MainLayoutUser extends React.Component {
     static propTypes = {
         routes: PropTypes.array.isRequired,
-        staticContent: PropTypes.string,
+        staticContent: PropTypes.oneOfType([
+            PropTypes.element,
+            PropTypes.object,
+            PropTypes.string
+        ]),
         currentUser: PropTypes.object,
         // from styles
         classes: PropTypes.object

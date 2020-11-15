@@ -193,8 +193,6 @@ RSpec.describe Tag, type: :model, basic: true do
 
     it { is_expected.to act_as_tracked(Tag) }
 
-    it { is_expected.to have_activity }
-
     it { is_expected.to acts_as_commentable(Tag) }
 
     it { is_expected.to have_paper_trail(Tag) }

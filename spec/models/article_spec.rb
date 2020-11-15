@@ -270,8 +270,6 @@ RSpec.describe Article, type: :model, basic: true do
     it { is_expected.to have_many(:shares) }
     # it { is_expected.to have_many(:contributors) }
 
-    it { is_expected.to have_many(:user_activities) }
-
     it { is_expected.to have_many(:pictures) }
     it { is_expected.to accept_nested_attributes_for(:pictures) }
   end
@@ -282,8 +280,6 @@ RSpec.describe Article, type: :model, basic: true do
     it { is_expected.to respond_to(:slug) }
 
     it { is_expected.to act_as_tracked(Article) }
-
-    it { is_expected.to have_activity }
 
     it { is_expected.to acts_as_commentable(Article) }
 

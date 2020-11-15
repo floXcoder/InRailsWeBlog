@@ -105,6 +105,9 @@ en:
           share:
             title: "Share your items with all or only your friends"
             details: "By default, all the articles of the public topics are visible to everyone. You can also choose to make an article from a private theme available through a unique link that only you know."
+          tracking:
+            title: "Follow all your visits"
+            details: "All visits will are saved, thus you can track the origin of visits by country, traffic source, browser and many more."
           outdated:
             title: "Articles always up to date"
             details: "In order to ensure that your articles are always relevant and do not contain dead links, a link checking tool is provided. It will check that all the links contained in the article are still valid."
@@ -616,13 +619,26 @@ en:
         submit: "Update"
         exit: "Are you sure to exit without saving?"
       tracking:
-        title: "Statistics"
-        visits: "Direct visits"
-        views: "Impression in all pages"
-        clicks: "Number of clicks"
-        searches: "Articles appears in search result"
-        bookmarks: "Articles added to bookmarks"
-        comments: "Number of associated comments"
+        title: "Visits and statistics"
+        stats:
+          title: "Statistics"
+          visits: "Direct visits"
+          views: "Views in lists"
+          clicks: "Article clicks"
+          searches: "Views in search results"
+          bookmarks: "Added to bookmarks"
+          comments: "Article comments"
+        views:
+          title: "Views count"
+        origins:
+          title: "Origins"
+          countries: "Visits by country"
+          browser: "Visits by browsers"
+          os: "Visits by systems"
+          utm: "Visits by UTM"
+        referers:
+          title: "Sources"
+        undefined: "[Not defined]"
         cancel: "Cancel"
       compare:
         title: "Comparison between languages"
@@ -830,6 +846,7 @@ en:
       common:
         title: "Admin"
         open_link: "Consult"
+        stats: "Visita and stats"
       menu:
         dashboard: "Dashboard"
         users: "Users"
