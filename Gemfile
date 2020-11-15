@@ -25,7 +25,7 @@ gem 'faraday',                  '1.1.0'
 
 # JSON
 gem 'jsonapi-serializer',       '2.1.0'
-gem 'oj',                       '3.10.15'
+gem 'oj',                       '3.10.16'
 
 # Use slim instead of erb
 gem 'slim-rails',               '3.2.0'
@@ -151,7 +151,7 @@ end
 group :test do
   # Test tools
   gem 'rspec-rails',                '4.0.1'
-  gem 'webmock',                    '3.9.5'
+  gem 'webmock',                    '3.10.0'
   gem 'rspec_junit_formatter',      '0.4.1'
   gem 'shoulda-matchers',           '4.4.1',  require: false
   gem 'shoulda-callback-matchers',  '1.1.4',  require: false
@@ -176,10 +176,10 @@ end
 
 group :development, :test do
   # Speed up boot
-  gem 'bootsnap',                   '1.5.0',   require: false
+  gem 'bootsnap',                   '1.5.1',   require: false
 
   # Check errors
-  gem 'rubocop',                    '1.2.0',  require: false
+  gem 'rubocop',                    '1.3.0',  require: false
   gem 'rubocop-rails',              '2.8.1',   require: false
   gem 'rubocop-performance',        '1.8.1',   require: false
   gem 'rubocop-rspec',              '2.0.0',  require: false
