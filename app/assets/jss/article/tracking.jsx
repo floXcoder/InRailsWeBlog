@@ -6,7 +6,7 @@ const styles = (theme) => ({
         left: '50%',
         transform: 'translate(-50%, -45%)',
         position: 'absolute',
-        width: 650,
+        width: 860,
         maxWidth: '90vw',
         backgroundColor: theme.palette.background.paper,
         boxShadow: theme.shadows[5],
@@ -17,6 +17,13 @@ const styles = (theme) => ({
         marginBottom: theme.spacing(3),
         fontSize: '2rem',
         textAlign: 'center'
+    },
+    tabItem: {
+        fontSize: '1rem'
+    },
+    listItem: {
+        color: theme.palette.grey[700],
+        fontSize: '1rem'
     }
 });
 

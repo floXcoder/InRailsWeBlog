@@ -44,8 +44,4 @@ RSpec.describe OutdatedArticle, type: :model, basic: true do
     it { is_expected.to validate_uniqueness_of(:article_id).scoped_to(:user_id).with_message(I18n.t('activerecord.errors.models.outdated_article.already_outdated')) }
   end
 
-  # context 'Properties' do
-  #   it { is_expected.to have_activity }
-  # end
-
 end

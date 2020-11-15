@@ -12,10 +12,12 @@ module Api::V1
     respond_to :html, :js, :json
 
     def create
+      track_attempt_connection
       self.resource = warden.authenticate!(auth_options)
       flash_message(resource) if is_flashing_format? || request.format.js?
       sign_in(resource_name, resource)
       yield resource if block_given?
+      track_successful_connection
 
       @location = after_sign_in_path_for(resource)
       respond_to do |format|
@@ -72,15 +74,24 @@ module Api::V1
     end
 
     def check_unconfirmed_user
-      return if params[:user].blank?
+      return unless params.dig(:user, :login).present?
 
-      if params[:user][:login].present?
-        user = User.find_by_login(params[:user][:login])
-        if user && !user.confirmed?
-          error_msg = I18n.t('devise.failure.unconfirmed')
-          redirect_after_failure(error_msg)
-        end
+      user = User.find_by_login(params[:user][:login])
+      if user && !user.confirmed?
+        error_msg = I18n.t('devise.failure.unconfirmed')
+        redirect_after_failure(error_msg)
       end
     end
+
+    private
+
+    def track_attempt_connection
+      track_action(action: 'customer_attempt_connection', email: params.dig(:user, :email))
+    end
+
+    def track_successful_connection
+      track_action(action: 'customer_connection_success', email: params.dig(:user, :email))
+    end
+
   end
 end

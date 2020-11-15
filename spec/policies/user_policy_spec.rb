@@ -20,7 +20,6 @@ describe UserPolicy, basic: true do
     it { should_not grant(:bookmarks) }
     it { should_not grant(:draft) }
     it { should_not grant(:comments) }
-    it { should_not grant(:activities) }
     it { should_not grant(:edit) }
     it { should_not grant(:update) }
     it { should_not grant(:destroy) }
@@ -37,7 +36,6 @@ describe UserPolicy, basic: true do
     it { should_not grant(:bookmarks) }
     it { should_not grant(:draft) }
     it { should_not grant(:comments) }
-    it { should_not grant(:activities) }
     it { should_not grant(:edit) }
     it { should_not grant(:update) }
     it { should_not grant(:destroy) }
@@ -52,7 +50,6 @@ describe UserPolicy, basic: true do
     it { should grant(:bookmarks) }
     it { should grant(:draft) }
     it { should grant(:comments) }
-    it { should grant(:activities) }
     it { should grant(:show) }
     it { should grant(:edit) }
     it { should grant(:update) }

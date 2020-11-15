@@ -79,10 +79,6 @@ RSpec.describe Share, type: :model, basic: true do
     # it { is_expected.to validate_uniqueness_of(:user_id).scoped_to([:shareable_id, :shareable_type, :contributor_id]).with_message(I18n.t('activerecord.errors.models.share.already_shared')) }
   end
 
-  context 'Properties' do
-    it { is_expected.to have_activity }
-  end
-
   context 'Public Methods' do
     subject { Share }
 

@@ -78,6 +78,8 @@ const initState = {
 
     articleRecommendations: undefined,
 
+    articleTracking: undefined,
+
     articleVersions: undefined,
 
     currentState: articleMachine.initialState
@@ -142,9 +144,14 @@ export default function articleReducer(state = initState, action) {
                 }
             });
 
-        // Topic stories
+        // Article recommendations
         case ActionTypes.ARTICLE_RECOMMENDATIONS:
             state.articleRecommendations = action.recommendations;
+            return state;
+
+        // Article tracking
+        case ActionTypes.ARTICLE_TRACKING:
+            state.articleTracking = action.tracking || {};
             return state;
 
         // History and restoration

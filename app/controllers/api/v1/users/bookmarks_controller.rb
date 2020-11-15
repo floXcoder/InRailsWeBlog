@@ -32,6 +32,8 @@ module Api::V1
       respond_to do |format|
         format.json do
           if bookmark.add(user, bookmark_params[:bookmarked_type], bookmark_params[:bookmarked_id], bookmark_params[:topic_id])
+            track_action(action: 'bookmark', bookmark_id: bookmark_params[:bookmarked_id], bookmark_type: bookmark_params[:bookmarked_type])
+
             expire_component_cache("user_bookmarks:#{user.id}")
 
             render json:   BookmarkSerializer.new(bookmark).serializable_hash,
@@ -52,6 +54,8 @@ module Api::V1
       respond_to do |format|
         format.json do
           if bookmark.remove(user, bookmark_params[:bookmarked_type], bookmark_params[:bookmarked_id])
+            track_action(action: 'unbookmark', bookmark_id: bookmark_params[:bookmarked_id], bookmark_type: bookmark_params[:bookmarked_type])
+
             expire_component_cache("user_bookmarks:#{user.id}")
 
             head :no_content

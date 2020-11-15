@@ -36,9 +36,6 @@ export const suggestionsLimit = 20;
 export const maxWidthUpload = 2048;
 export const maxHeightUpload = 2048;
 
-// Local storage
-export const recentLocalStorage = 'recents';
-
 // Languages highlighted
 export const highlightedLanguagePrefix = 'language-';
 export const highlightedLanguages = [

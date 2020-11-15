@@ -332,6 +332,27 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def track_action(action: 'page_visit', **params, &block)
+    # return if admin_signed_in?
+
+    ahoy.track action, tracking_params(params)
+
+    if current_visit && request.get? && (request.format.html? || request.format.json?)
+      current_visit.update(takeoff_page: request.url, ended_at: Time.zone.now, pages_count: current_visit.pages_count + 1)
+
+      yield block if block_given?
+    end
+  end
+
+  def tracking_params(params = {})
+    {
+      path:       (request.url.end_with?('/404') ? request.env['REQUEST_URI'] : request.url),
+      error:      request.url.end_with?('/404') ? '404' : nil
+    }
+      .merge(params)
+      .compact
+  end
+
   def without_tracking(model)
     model.public_activity_off
     yield if block_given?
@@ -416,4 +437,5 @@ class ApplicationController < ActionController::Base
     response.headers['X-Flash-Messages'] = flash_json
     # flash.discard
   end
+
 end

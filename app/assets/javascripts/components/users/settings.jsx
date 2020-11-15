@@ -56,12 +56,16 @@ class UserSettings extends React.Component {
         updateUserSettings: PropTypes.func
     };
 
+    static defaultProps = {
+        userPreferenceView: PREFERENCE_VIEWS.ARTICLES
+    }
+
     constructor(props) {
         super(props);
     }
 
     state = {
-        tabIndex: PREFERENCE_VIEWS[this.props.userPreferenceView || 'ARTICLES'],
+        tabIndex: this.props.userPreferenceView,
         articlesLoader: this.props.articlesLoader,
         articleOrder: this.props.articleOrder,
         articleDisplay: this.props.articleDisplay,

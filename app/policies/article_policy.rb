@@ -44,6 +44,10 @@ class ArticlePolicy
     correct_user?
   end
 
+  def tracking?
+    owner?
+  end
+
   def restore?
     owner? || contributor?
   end

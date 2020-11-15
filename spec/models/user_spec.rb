@@ -258,9 +258,6 @@ RSpec.describe User, type: :model, basic: true do
     it { is_expected.to have_many(:pictures) }
 
     it { is_expected.to have_many(:uploads) }
-
-    it { is_expected.to have_many(:performed_activities) }
-    it { is_expected.to have_many(:recent_activities) }
   end
 
   context 'Properties' do

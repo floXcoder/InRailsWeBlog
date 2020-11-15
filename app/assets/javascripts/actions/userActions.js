@@ -97,14 +97,6 @@ export const fetchUserRecents = (userId, options = {}) => (dispatch) => {
         .then((json) => dispatch(receiveUserRecents(json)));
 };
 
-export const updateUserRecents = (userId, recents, options = {}) => ({
-    actionType: ActionTypes.USER_RECENTS,
-    mutationAPI: () => api.post(`/api/v1/users/${userId}/recents`, {
-        recents,
-        ...options
-    })
-});
-
 // // Export user data
 // export const exportUserData = (userId) => (
 //     api.get('/api/v1/exporter.zip', {

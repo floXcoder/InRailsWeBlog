@@ -39,7 +39,7 @@ module CommentConcern
 
     respond_to do |format|
       if record.new_comment(comment)
-        record.create_activity(action: :commented_on, owner: current_user) if record.respond_to?(:create_activity)
+        track_action(action: 'comment_added', comment_id: comment.id, record_id: record.id)
 
         flash.now[:success] = t('views.comment.flash.successful_creation')
         format.json do
@@ -67,7 +67,7 @@ module CommentConcern
 
     respond_to do |format|
       if record.update_comment(comment, comment_update_params)
-        record.create_activity(action: :comment_updated, owner: current_user) if record.respond_to?(:create_activity)
+        track_action(action: 'comment_updated', comment_id: comment.id, record_id: record.id)
 
         flash.now[:success] = t('views.comment.flash.successful_edition')
         format.json do
@@ -95,7 +95,7 @@ module CommentConcern
 
     respond_to do |format|
       if (destroyed_comment_ids = record.remove_comment(comment))
-        record.create_activity(action: :comment_removed, owner: current_user) if record.respond_to?(:create_activity)
+        track_action(action: 'comment_removed', comment_id: comment.id, record_id: record.id)
 
         flash.now[:success] = t('views.comment.flash.successful_deletion')
         format.json do

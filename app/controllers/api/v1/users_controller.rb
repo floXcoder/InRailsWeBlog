@@ -95,7 +95,7 @@ module Api::V1
       user = current_user&.id == params[:id]&.to_i ? current_user : User.friendly.find(params[:id])
       authorize user
 
-      track_visit(User, user.id, current_user&.id)
+      track_action(user_id: user.id) { track_visit(User, user.id, current_user&.id) }
 
       expires_in InRailsWeBlog.config.cache_time, public: true
       respond_to do |format|
@@ -167,51 +167,7 @@ module Api::V1
 
       respond_to do |format|
         format.json do
-          render json: {
-            tags:     Tag.flat_serialized_json(user_recents[:tags], 'strict', with_model: false),
-            articles: Article.flat_serialized_json(user_recents[:articles], 'strict', with_model: false)
-          }
-        end
-      end
-    end
-
-    def update_recents
-      user = current_user&.id == params[:id]&.to_i ? current_user : User.friendly.find(params[:id])
-      admin_or_authorize user, :recents?
-
-      params[:recents]&.each do |recent|
-        next unless recent['user_id'].to_s == user.id.to_s
-
-        user.create_activity(:visit,
-                             recipient_type: recent['type'].classify,
-                             recipient_id:   recent['element_id'].to_i,
-                             params:         { topic_id: recent['parent_id'] })
-        PublicActivity::Activity.last.update_attribute(:created_at, Time.zone.at((recent['date'] / 1000).round))
-      end
-
-      user_recents = user.recent_visits(params[:limit])
-
-      respond_to do |format|
-        format.json do
-          render json: {
-            tags:     Tag.flat_serialized_json(user_recents[:tags], 'strict'),
-            articles: Article.flat_serialized_json(user_recents[:articles], 'strict')
-          }
-        end
-      end
-    end
-
-    def activities
-      user = User.includes(:performed_activities).friendly.find(params[:id])
-      authorize user
-
-      user_activities = user.performed_activities.order('activities.created_at DESC')
-      user_activities = user_activities.paginate(page: params[:page], per_page: InRailsWeBlog.config.per_page) if params[:page]
-
-      respond_to do |format|
-        format.json do
-          render json: PublicActivitiesSerializer.new(user_activities,
-                                                      meta: { root: 'activities', **meta_attributes(pagination: user_activities) }).serializable_hash
+          render json: user_recents
         end
       end
     end
@@ -224,6 +180,7 @@ module Api::V1
 
       if stored_user.success?
         respond_to do |format|
+          track_action(action: 'update', user_id: stored_user.result.id)
           flash[:success] = stored_user.message
           format.json do
             if params[:complete] && current_user

@@ -93,17 +93,31 @@ export const deleteArticle = (articleId, options = {}) => ({
 });
 
 // Article stories
-const receiveRecommendations = ({recommendations}) => ({
+const receiveArticleRecommendations = ({recommendations}) => ({
     type: ActionTypes.ARTICLE_RECOMMENDATIONS,
     recommendations
 });
-export const fetchRecommendations = (userId, articleId) => (dispatch) => (
+export const fetchArticleRecommendations = (userId, articleId) => (dispatch) => (
     api.get(`/api/v1/articles/${articleId}/recommendations`, {
         locale: window.locale,
         userId
     })
         .promise
-        .then((response) => dispatch(receiveRecommendations(convertJsonApi(response))))
+        .then((response) => dispatch(receiveArticleRecommendations(convertJsonApi(response))))
+);
+
+// Article tracking
+const receiveArticleTracking = (tracking) => ({
+    type: ActionTypes.ARTICLE_TRACKING,
+    tracking
+});
+export const fetchArticleTracking = (userId, articleId) => (dispatch) => (
+    api.get(`/api/v1/articles/${articleId}/tracking`, {
+        locale: window.locale,
+        userId
+    })
+        .promise
+        .then((response) => dispatch(receiveArticleTracking(response)))
 );
 
 // Article history

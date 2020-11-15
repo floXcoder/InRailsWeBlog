@@ -26,6 +26,8 @@ class ArticlesController < ApplicationController
 
     articles = ::Articles::FindQueries.new(current_user, current_admin).all(article_params)
 
+    track_action(article_ids: articles.map(&:id))
+
     (user_signed_in? || admin_signed_in?) ? reset_cache_headers : expires_in(InRailsWeBlog.config.cache_time, public: true)
     if stale?(articles, template: false, public: true)
       respond_to do |format|
@@ -52,7 +54,7 @@ class ArticlesController < ApplicationController
 
     redirect_to(article_redirection, status: :moved_permanently) and return if article_redirection
 
-    track_visit(Article, article.id, current_user&.id, article.topic_id)
+    track_action(article_id: article.id, parent_id: article.topic_id) { track_visit(Article, article.id, current_user&.id, article.topic_id) }
 
     set_seo_data(:user_article,
                  article_slug:         article,
@@ -94,6 +96,8 @@ class ArticlesController < ApplicationController
 
     article = Article.include_element.friendly.find(article_params[:article_slug])
     admin_or_authorize article
+
+    track_action(action: 'edit', article_id: article.id, parent_id: article.topic_id)
 
     respond_to do |format|
       format.html do

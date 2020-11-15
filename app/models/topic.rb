@@ -58,11 +58,7 @@ class Topic < ApplicationRecord
   # Track activities
   ## scopes: most_viewed, most_clicked, recently_tracked, populars, home
   include ActAsTrackedConcern
-  acts_as_tracked :queries, :visits, :views, :clicks, :searches, callbacks: { visits: :add_visit_activity }
-
-  # Follow public activities
-  include PublicActivity::Model
-  tracked owner: :user
+  acts_as_tracked :queries, :visits, :views, :clicks, :searches
 
   include FriendlyId
   friendly_id :slug_candidates, scope: :user, use: [:slugged, :scoped]
@@ -126,10 +122,6 @@ class Topic < ApplicationRecord
            -> { where(bookmarks: { follow: true }) },
            through: :bookmarks,
            source:  :user
-
-  has_many :user_activities,
-           as:         :recipient,
-           class_name: 'PublicActivity::Activity'
 
   has_many :shares,
            as:          :shareable,
@@ -301,15 +293,6 @@ class Topic < ApplicationRecord
   end
 
   private
-
-  def add_visit_activity(user_id = nil, _parent_id = nil)
-    return unless user_id
-
-    user = self.user || User.find_by(id: user_id)
-    return unless user
-
-    user.create_activity(:visit, recipient: self, owner: user)
-  end
 
   def set_default_color
     self.color = InRailsWeBlog.config.topic_color unless self.color

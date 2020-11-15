@@ -71,11 +71,7 @@ class Article < ApplicationRecord
   # Track activities
   ## scopes: most_viewed, most_clicked, recently_tracked, populars, home
   include ActAsTrackedConcern
-  acts_as_tracked :queries, :visits, :views, :clicks, :searches, callbacks: { visits: :add_visit_activity }
-
-  # Follow public activities
-  include PublicActivity::Model
-  tracked owner: :user
+  acts_as_tracked :queries, :visits, :views, :clicks, :searches
 
   # SEO
   include FriendlyId
@@ -185,10 +181,6 @@ class Article < ApplicationRecord
   #   has_many :contributors,
   #            through: :shares,
   #            source:  :contributor
-
-  has_many :user_activities,
-           as:         :recipient,
-           class_name: 'PublicActivity::Activity'
 
   has_many :pictures,
            # -> { order 'created_at ASC' },
@@ -575,15 +567,6 @@ class Article < ApplicationRecord
     popularity *= self.rank if self.rank.present?
 
     return popularity, tracker_count
-  end
-
-  def add_visit_activity(user_id = nil, parent_id = nil)
-    return unless user_id
-
-    user = self.user || User.find_by(id: user_id)
-    return unless user
-
-    user.create_activity(:visit, recipient: self, owner: user, params: { topic_id: parent_id&.to_i })
   end
 
   def inventory_fields

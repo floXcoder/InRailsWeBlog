@@ -105,6 +105,9 @@ fr:
           share:
             title: "Partager vos articles à tous ou à vos amis"
             details: "Par défaut, tous les articles des thèmes publiques sont visibles par tout le monde. Vous pouvez aussi choisir de rendre disponible un article d'un thème privé grace à un lien unique que vous seul connaissez."
+          tracking:
+            title: "Suivre toutes vos visites"
+            details: "Toutes les visites sont sauvegardées, vous pouvez ainsi connaître l'origine des visites par pays, source, navigateur et bin plus !"
           outdated:
             title: "Articles toujours à jour"
             details: "Afin de garantir que vous articles sont toujours pertinents et ne contiennent pas de liens morts, un outil de vérification des liens vous est proposé. Il va vérifier que tous les liens contenu dans l'article sont toujours valides."
@@ -616,13 +619,26 @@ fr:
         submit: "Mettre à jour"
         exit: "Êtes-vous sûr de quitter sans sauvegarder ?"
       tracking:
-        title: "Statistiques"
-        visits: "Nombre de visites en direct"
-        views: "Nombre d'impressions dans toutes les pages"
-        clicks: "Nombre de clics sur l'article"
-        searches: "Nombre de fois retourné dans la recherche"
-        bookmarks: "Nombre de fois ajouté dans les favoris"
-        comments: "Nombre de commentaires associés"
+        title: "Statistiques et visites"
+        stats:
+          title: "Statistiques"
+          visits: "Visites en direct"
+          views: "Impressions dans les listes"
+          clicks: "Clics sur l'article"
+          searches: "Impressions dans les résultats de recherche"
+          bookmarks: "Ajoutés aux favoris"
+          comments: "Commentaires de votre article"
+        views:
+          title: "Nombre de vues"
+        origins:
+          title: "Origines"
+          countries: "Visites par pays"
+          browser: "Visites par navigateurs"
+          os: "Visites par systèmes"
+          utm: "Visites par UTM"
+        referers:
+          title: "Sources"
+        undefined: "[Non défini]"
         cancel: "Annuler"
       compare:
         title: "Comparaison entre langues"
@@ -830,6 +846,7 @@ fr:
       common:
         title: "Admin"
         open_link: "Consulter"
+        stats: "Visites et stats"
       menu:
         dashboard: "Dashboard"
         users: "Utilisateurs"

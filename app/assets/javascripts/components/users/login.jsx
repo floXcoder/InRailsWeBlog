@@ -35,10 +35,6 @@ class Login extends React.PureComponent {
                 if (response?.errors) {
                     Notification.error(response.errors);
                 } else if (response.user) {
-                    if (sessionStorage) {
-                        sessionStorage.setItem('user-logged', 'true');
-                    }
-
                     if (response?.meta?.location) {
                         window.location.replace(response.meta.location);
                     } else {

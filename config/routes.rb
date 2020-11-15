@@ -124,8 +124,6 @@ Rails.application.routes.draw do
 
           get      :comments,      to: 'users#comments'
           get      :recents,       to: 'users#recents'
-          post     :recents,       to: 'users#update_recents'
-          get      :activities,    to: 'users#activities'
 
           concerns :tracker,       module: :users
         end
@@ -138,9 +136,6 @@ Rails.application.routes.draw do
           end
         end
       end
-
-      # Users (activities)
-      resources :activities, only: [:index]
 
       # Tags
       resources :tags, except: [:new, :create] do
@@ -182,6 +177,8 @@ Rails.application.routes.draw do
           post     'check-links',         to: 'articles#check_links'
 
           get      :recommendations,      to: 'articles#recommendations'
+
+          get      :tracking,             to: 'articles#tracking'
 
           get      :history,              to: 'articles#history'
           get      :restore,              to: 'articles#restore'

@@ -4,9 +4,7 @@ import {
     initUser,
     fetchTags,
     switchTopic,
-    getTracksClick,
     fetchUserRecents,
-    updateUserRecents,
     fetchBookmarks,
     synchronizeBookmarks,
     setCurrentTags
@@ -28,7 +26,6 @@ export default @connect((state) => ({
     fetchTags,
     switchTopic,
     fetchUserRecents,
-    updateUserRecents,
     fetchBookmarks,
     synchronizeBookmarks,
     setCurrentTags
@@ -51,7 +48,6 @@ class UserManager extends React.Component {
         fetchTags: PropTypes.func,
         switchTopic: PropTypes.func,
         fetchUserRecents: PropTypes.func,
-        updateUserRecents: PropTypes.func,
         fetchBookmarks: PropTypes.func,
         setCurrentTags: PropTypes.func
     };
@@ -134,7 +130,6 @@ class UserManager extends React.Component {
         }
 
         // Send local recent clicks otherwise fetch them
-        const userJustLog = sessionStorage?.getItem('user-logged');
         const userJustSign = sessionStorage?.getItem('user-signed');
 
         Utils.defer.then(() => {
@@ -149,9 +144,6 @@ class UserManager extends React.Component {
                         signup: true
                     }
                 });
-            } else if (userJustLog) {
-                sessionStorage.removeItem('user-logged');
-                this.props.updateUserRecents(this.props.currentUserId, getTracksClick(true));
             } else if (!isNewSession) {
                 this.props.fetchUserRecents(this.props.currentUserId, {limit: 10});
             }
@@ -210,7 +202,7 @@ class UserManager extends React.Component {
                 {
                     topicTags: true
                 });
-        } else if(this.props.topicTags.length === 0) {
+        } else if(!this.props.topicTags) {
             this.props.fetchTags({
                     topicId: this.props.currentUserTopicId
                 },

@@ -39,7 +39,7 @@ module Api::V1
       topic = current_user.topics.find_by(slug: params[:new_topic]) || current_user.contributed_topics.find_by(slug: params[:new_topic])
       authorize topic
 
-      track_visit(Topic, topic.id, current_user&.id)
+      track_action(action: 'switch_topic', topic_id: topic.id)
 
       respond_to do |format|
         format.json do
@@ -57,6 +57,8 @@ module Api::V1
     def show
       topic = @context_user.topics.friendly.find(params[:id])
       authorize topic
+
+      track_action(topic_id: topic.id) { track_visit(Topic, topic.id, current_user&.id) }
 
       expires_in InRailsWeBlog.config.cache_time, public: true
       if stale?(topic, template: false, public: true)
@@ -86,6 +88,7 @@ module Api::V1
       respond_to do |format|
         format.json do
           if stored_topic.success? && current_user.switch_topic(topic) && current_user.save
+            track_action(action: 'create', topic_id: stored_topic.result.id)
             render json:   stored_topic.result.serialized_json('complete'),
                    status: :created
           else
@@ -100,6 +103,8 @@ module Api::V1
     def edit
       topic = @context_user.topics.friendly.find(params[:id])
       authorize topic
+
+      track_action(action: 'edit', topic_id: topic.id)
 
       respond_to do |format|
         format.json do
@@ -122,6 +127,7 @@ module Api::V1
       respond_to do |format|
         format.json do
           if stored_topic.success?
+            track_action(action: 'update', topic_id: stored_topic.result.id)
             flash.now[:success] = stored_topic.message
             render json:   stored_topic.result.serialized_json('complete'),
                    status: :ok
@@ -139,6 +145,8 @@ module Api::V1
       authorize topic
 
       shared_topic = ::Shares::StoreService.new(topic, params[:login], current_user: current_user).perform
+
+      track_action(action: 'share', topic_id: shared_topic.id)
 
       respond_to do |format|
         format.json do
@@ -182,6 +190,8 @@ module Api::V1
       topic = current_user.topics.find(params[:id])
       authorize topic
 
+      track_action(action: 'destroy', topic_id: topic.id)
+
       respond_to do |format|
         format.json do
           if topic.destroy
@@ -194,7 +204,7 @@ module Api::V1
             end
 
             flash.now[:success] = I18n.t('views.topic.flash.successful_deletion')
-            render json: current_topic.serialized_json('normal'),
+            render json:   current_topic.serialized_json('normal'),
                    status: :ok
           else
             flash.now[:error] = I18n.t('views.topic.flash.error_deletion', errors: topic.errors.to_s)
