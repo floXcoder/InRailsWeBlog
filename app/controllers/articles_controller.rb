@@ -66,7 +66,7 @@ class ArticlesController < ApplicationController
                  og:                   {
                                          type:  "#{ENV['WEBSITE_NAME']}:article",
                                          url:   article.link_path(host: ENV['WEBSITE_FULL_ADDRESS']),
-                                         image: article.default_picture ? (root_url + article.default_picture) : nil
+                                         image: article.default_picture
                                        }.compact)
 
     (user_signed_in? || admin_signed_in?) ? reset_cache_headers : expires_in(InRailsWeBlog.config.cache_time, public: true)
