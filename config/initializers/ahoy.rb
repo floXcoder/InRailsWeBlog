@@ -46,8 +46,8 @@ Ahoy.job_queue = :ahoy
 Ahoy.quiet = true
 
 # Do not log ahoy basic events
-AhoyLogger  = Struct.new(:debug, :info, :warn, :error, :fatal, :unknown)
-Ahoy.logger = AhoyLogger.new
+Ahoy.logger = Logger.new('log/sidekiq.log')
+Ahoy.logger.level = Logger::WARN
 
 # Improve bot detection
 Ahoy.bot_detection_version = 2
