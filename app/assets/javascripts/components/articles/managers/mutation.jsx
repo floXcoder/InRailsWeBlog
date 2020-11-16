@@ -85,6 +85,8 @@ export default function articleMutationManager(mode) {
             constructor(props) {
                 super(props);
 
+                this._onLeaveMessage = false;
+
                 this._hasAutoSaved = false;
 
                 this._request = null;
@@ -186,17 +188,28 @@ export default function articleMutationManager(mode) {
             _handleFormChange = (formState, values) => {
                 if (formState.dirty && !formState.submitting && !formState.invalid && !formState.submitSucceeded) {
                     this._handleChange(formState.values);
-                }
 
-                // this._promptUnsavedChange(this.props.isDirty);
+                    if (!this._onLeaveMessage) {
+                        this._promptUnsavedChange(true);
+                    }
+                } else if (formState.submitting || formState.submitSucceeded) {
+                    this._promptUnsavedChange(false);
+                }
             };
 
-            // _promptUnsavedChange = (isUnsaved = false) => {
-            //     const leaveMessage = I18n.t('js.article.form.unsaved');
-            //
-            //     // Detecting browser close
-            //     window.onbeforeunload = isUnsaved ? (() => leaveMessage) : null;
-            // };
+            _promptUnsavedChange = (defineMessage) => {
+                if (defineMessage) {
+                    this._onLeaveMessage = true;
+
+                    const leaveMessage = I18n.t('js.article.form.unsaved');
+
+                    // Detect browser closing
+                    window.onbeforeunload = (() => leaveMessage);
+                } else {
+                    window.onbeforeunload = undefined;
+                }
+
+            };
 
             _handleCancel = () => {
                 if (this.state.article?.id) {
