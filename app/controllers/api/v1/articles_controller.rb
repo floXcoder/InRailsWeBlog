@@ -218,11 +218,11 @@ module Api::V1
         bookmarksCount: article.bookmarks_count,
         commentsCount:  article.comments_count,
         datesCount:     article_page_visits.order("DATE(time) DESC").group("DATE(time)").count,
-        countries:      article_uniq_visits.group_by(&:country).map { |key, val| { key => val.count } }.reduce({}, :merge).sort_by { |_k, v| -v }.to_h,
-        browsers:       article_uniq_visits.group_by(&:browser).map { |key, val| { key => val.count } }.reduce({}, :merge).sort_by { |_k, v| -v }.to_h,
-        os:             article_uniq_visits.group_by(&:os).map { |key, val| { key => val.count } }.reduce({}, :merge).sort_by { |_k, v| -v }.to_h,
-        utmSources:     article_uniq_visits.group_by(&:utm_source).map { |key, val| { key => val.count } }.reduce({}, :merge).sort_by { |_k, v| -v }.to_h,
-        referers:       article_uniq_visits.group_by(&:referring_domain).map { |key, val| { key => val.count } }.reduce({}, :merge).sort_by { |_k, v| -v }.to_h
+        countries:      format_tracking(article_uniq_visits.group_by(&:country)),
+        browsers:       format_tracking(article_uniq_visits.group_by(&:browser)),
+        os:             format_tracking(article_uniq_visits.group_by(&:os)),
+        utmSources:     format_tracking(article_uniq_visits.group_by(&:utm_source)),
+        referers:       format_tracking(article_uniq_visits.group_by(&:referring_domain))
       }
 
       respond_to do |format|
@@ -483,6 +483,25 @@ module Api::V1
         params.permit(article_ids: [])
       else
         {}
+      end
+    end
+
+    def format_tracking(data)
+      formatted_data = data.map { |key, val| { key => val.count } }.reduce({}, :merge).sort_by { |_k, v| -v }
+
+      if formatted_data.size == 1 && formatted_data[0][0].nil?
+        nil
+      else
+        if (website_index = formatted_data.index { |x| x[0] == ENV['WEBSITE_ADDRESS'] })
+          formatted_data[website_index][0] = 'internal'
+          formatted_data = formatted_data.insert(formatted_data.length - 1, formatted_data.delete_at(website_index))
+        end
+
+        if (nil_index = formatted_data.index { |x| x[0].nil? })
+          formatted_data = formatted_data.insert(formatted_data.length - 1, formatted_data.delete_at(nil_index))
+        end
+
+        formatted_data.to_h
       end
     end
 

@@ -681,6 +681,7 @@ de:
           utm: "Besuche durch UTM"
         referers:
           title: "Quellen"
+          internal: "Interne Beziehung"
         undefined: "[Nicht definiert]"
         cancel: "Abbrechen"
       compare:

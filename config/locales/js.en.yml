@@ -638,6 +638,7 @@ en:
           utm: "Visits by UTM"
         referers:
           title: "Sources"
+          internal: "Internal link"
         undefined: "[Not defined]"
         cancel: "Cancel"
       compare:

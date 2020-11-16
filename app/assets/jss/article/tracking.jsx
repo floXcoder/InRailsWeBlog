@@ -18,6 +18,11 @@ const styles = (theme) => ({
         fontSize: '2rem',
         textAlign: 'center'
     },
+    container: {
+        maxHeight: '60vh',
+        overflowY: 'auto',
+        overflowX: 'hidden'
+    },
     tabItem: {
         fontSize: '1rem'
     },

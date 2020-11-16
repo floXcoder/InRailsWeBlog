@@ -638,6 +638,7 @@ es:
           utm: "Visitas de la UTM"
         referers:
           title: "Fuentes"
+          internal: "Relación interna"
         undefined: "[No definido]"
         cancel: "Cancelar"
       compare:
