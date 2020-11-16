@@ -179,9 +179,9 @@ group :development, :test do
   gem 'bootsnap',                   '1.5.1',   require: false
 
   # Check errors
-  gem 'rubocop',                    '1.3.0',  require: false
+  gem 'rubocop',                    '1.3.1',  require: false
   gem 'rubocop-rails',              '2.8.1',   require: false
-  gem 'rubocop-performance',        '1.8.1',   require: false
+  gem 'rubocop-performance',        '1.9.0',   require: false
   gem 'rubocop-rspec',              '2.0.0',  require: false
 end
 
@@ -193,5 +193,5 @@ group :production do
   gem 'lograge',          '0.11.2'
 
   # Prerender html pages for SEO
-  gem 'seo_cache',        '1.0.0'
+  gem 'seo_cache',        '1.0.1'
 end
