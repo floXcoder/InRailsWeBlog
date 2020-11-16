@@ -46,8 +46,8 @@ Ahoy.job_queue = :ahoy
 Ahoy.quiet = true
 
 # Do not log ahoy basic events
-AhoyLogger  = Struct.new(:debug, :info, :warn, :error, :fatal, :unknown)
-Ahoy.logger = AhoyLogger.new
+Ahoy.logger = Logger.new('log/sidekiq.log')
+Ahoy.logger.level = Logger::WARN
 
 # Improve bot detection
 Ahoy.bot_detection_version = 2
@@ -59,10 +59,16 @@ Ahoy.cookie_options   = { expires: 1.year }
 # Print exceptions
 Safely.report_exception_method = ->(error) { Rails.logger.error(error) }
 
-EXCLUDE_IPS         = []
-EXCLUDE_PATTERN_IPS = []
-EXCLUDE_IPS         = File.open(Rails.root.join('lib/tracking/excluded_pattern_ips.txt')) { |file| file.readlines.map(&:chomp) } if File.exists?(Rails.root.join('lib/tracking/excluded_pattern_ips.txt'))
-EXCLUDE_PATTERN_IPS = File.open(Rails.root.join('lib/tracking/excluded_ips.txt')) { |file| file.readlines.map(&:chomp) } if File.exists?(Rails.root.join('lib/tracking/excluded_ips.txt'))
+EXCLUDE_IPS         = if File.exists?(Rails.root.join('lib/tracking/excluded_pattern_ips.txt'))
+                        File.open(Rails.root.join('lib/tracking/excluded_pattern_ips.txt')) { |file| file.readlines.map(&:chomp) }
+                      else
+                        []
+                      end
+EXCLUDE_PATTERN_IPS = if File.exists?(Rails.root.join('lib/tracking/excluded_ips.txt'))
+                        File.open(Rails.root.join('lib/tracking/excluded_ips.txt')) { |file| file.readlines.map(&:chomp) }
+                      else
+                        []
+                      end
 
 # Exclude asset requests and admin from visits
 Ahoy.exclude_method = lambda do |_controller, request|

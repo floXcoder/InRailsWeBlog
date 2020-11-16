@@ -128,7 +128,7 @@ class HomeSearchHeader extends React.Component {
                     //     return;
                     // }
 
-                    this.props.setAutocompleteAction(event.key);
+                    this.props.setAutocompleteAction(event.key, this.props.currentUserId, this.props.currentUserTopicId);
 
                     if (Utils.NAVIGATION_KEYMAP[event.which] === 'enter') {
                         if (this.props.highlightedTag) {

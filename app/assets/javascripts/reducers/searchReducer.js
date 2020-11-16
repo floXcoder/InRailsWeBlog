@@ -52,43 +52,50 @@ export function autocompleteReducer(state = autocompleteState, action) {
             let newArticle;
 
             if (action.keyCode === 'ArrowUp') {
+                const sortedArticles = [...state.articles].sort((article) => article.topicId === action.currentTopicId).sort((article) => article.userId === action.currentUserId);
                 if (!state.highlightedTag && !state.highlightedArticle) {
-                    if (state.articles.last()) {
-                        newArticle = state.articles.last();
+                    if (sortedArticles.last()) {
+                        newArticle = sortedArticles.last();
                     } else if (state.tags.first()) {
                         newTag = state.tags.last();
                     }
                 } else if (state.tags.first() && state.highlightedTag && state.highlightedTag.id === state.tags.first().id) {
-                    newArticle = state.articles.last();
+                    newArticle = sortedArticles.last();
                     newTag = undefined;
                 } else if (state.highlightedTag) {
                     newTag = state.tags[findItemIndex(state.tags, state.highlightedTag.id) - 1];
-                } else if (state.highlightedArticle && state.highlightedArticle.id === state.articles.first().id) {
-                    newArticle = state.articles.first();
+                } else if (state.highlightedArticle && state.highlightedArticle.id === sortedArticles.first().id) {
+                    newArticle = sortedArticles.first();
                     newTag = undefined;
                 } else if (state.highlightedArticle) {
-                    newArticle = state.articles[findItemIndex(state.articles, state.highlightedArticle.id) - 1];
+                    newArticle = sortedArticles[findItemIndex(sortedArticles, state.highlightedArticle.id) - 1];
                 }
 
                 state.highlightedTag = newTag;
                 state.highlightedArticle = newArticle;
             } else if (action.keyCode === 'ArrowDown') {
+                const sortedArticles = [...state.articles].sort((article) => article.topicId === action.currentTopicId).sort((article) => article.userId === action.currentUserId);
                 if (!state.highlightedTag && !state.highlightedArticle) {
                     if (state.tags.first()) {
                         newTag = state.tags.first();
-                    } else if (state.articles.first()) {
-                        newArticle = state.articles.first();
+                    } else if (sortedArticles.first()) {
+                        newArticle = sortedArticles.first();
                     }
                 } else if (state.tags.last() && state.highlightedTag && state.highlightedTag.id === state.tags.last().id) {
-                    newArticle = state.articles.first();
+                    newArticle = sortedArticles.first();
                     newTag = undefined;
                 } else if (state.highlightedTag) {
                     newTag = state.tags[findItemIndex(state.tags, state.highlightedTag.id) + 1];
-                } else if (state.articles.last() && state.highlightedArticle && state.highlightedArticle.id === state.articles.last().id) {
-                    newTag = state.tags.first();
-                    newArticle = undefined;
+                } else if (sortedArticles.last() && state.highlightedArticle && state.highlightedArticle.id === sortedArticles.last().id) {
+                    if (state.tags.first()) {
+                        newTag = state.tags.first();
+                        newArticle = undefined;
+                    } else {
+                        newTag = undefined;
+                        newArticle = sortedArticles.first();
+                    }
                 } else if (state.highlightedArticle) {
-                    newArticle = state.articles[findItemIndex(state.articles, state.highlightedArticle.id) + 1];
+                    newArticle = sortedArticles[findItemIndex(sortedArticles, state.highlightedArticle.id) + 1];
                 }
 
                 state.highlightedTag = newTag;

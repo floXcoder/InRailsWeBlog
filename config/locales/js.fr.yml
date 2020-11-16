@@ -638,6 +638,7 @@ fr:
           utm: "Visites par UTM"
         referers:
           title: "Sources"
+          internal: "Lien interne"
         undefined: "[Non défini]"
         cancel: "Annuler"
       compare:

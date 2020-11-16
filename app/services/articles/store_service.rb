@@ -223,6 +223,8 @@ module Articles
         message = new_article ? I18n.t('views.article.flash.error_creation') : I18n.t('views.article.flash.error_edition')
         error(message, @article.errors)
       end
+    rescue StandardError => error
+      error(error.message, error)
     ensure
       # Ensure paper trail is active again in case of autosave
       PaperTrail.request.enabled = true

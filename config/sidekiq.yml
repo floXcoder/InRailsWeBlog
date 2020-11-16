@@ -8,6 +8,7 @@ production:
   - [high, 2]
   - default
   - mailers
+  - ahoy
 
 attentive:
   # Time in seconds between checks for disappeared jobs

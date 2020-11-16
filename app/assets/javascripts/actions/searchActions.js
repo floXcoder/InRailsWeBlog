@@ -37,15 +37,17 @@ export const fetchAutocomplete = (autocompleteParams) => ({
     }
 });
 
-const receiveAutocompleteAction = (keyCode) => ({
+const receiveAutocompleteAction = (keyCode, currentUserId, currentTopicId) => ({
     type: ActionTypes.SEARCH_AUTOCOMPLETE_ACTION,
-    keyCode
+    keyCode,
+    currentUserId,
+    currentTopicId
 });
-export const setAutocompleteAction = (keyCode) => (dispatch) => {
+export const setAutocompleteAction = (keyCode, currentUserId, currentTopicId) => (dispatch) => {
     // To ensure, action change before each key press
     dispatch(receiveAutocompleteAction());
 
-    return dispatch(receiveAutocompleteAction(keyCode));
+    return dispatch(receiveAutocompleteAction(keyCode, currentUserId, currentTopicId));
 };
 
 const autocompleteTagSelection = (tag) => ({

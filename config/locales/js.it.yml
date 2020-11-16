@@ -638,6 +638,7 @@ it:
           utm: "Visite da UTM"
         referers:
           title: "Fonti"
+          internal: "Relazione interna"
         undefined: "[Non definito]"
         cancel: "Annulla"
       compare:

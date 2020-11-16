@@ -1,7 +1,7 @@
 'use strict';
 
-const LOG_REGEX = /(\w+),\s*\[(.*?) (#\w+)\]\s*(\w+)\s*--\s*:\s*\[(\S+?)\]\s*\[(\S+?)\]\s*\[(\S+)\]\s*method=(\w+) \s*path=(.*?) \s*format=(\w+) \s*(.*?)status=(\d+) \s*(.*?)referer=(.*?) \s*(.*)/;
-const BOT_LOG_REGEX = /(\w+),\s*\[(.*?) (#\w+)\]\s*(\w+)\s*--\s*:\s*\[(\S+?)\]\s*\[(\S+?)\]\s*\[(\S+)\]\s*\[bot:(\w+)\]\s*method=(\w+)\s*path=(.*?)\s*format=(\w+) \s*(.*?)status=(\d+) \s*(.*)/;
+const LOG_REGEX = /(\w+),\s*\[(.*?) (#\w+)\]\s*(\w+)\s*--\s*:\s*\[(\S+?)\]\s*\[(\S+?)\]\s*\[(\S+)\]\s*method=(\w+) \s*path=(.*?) \s*format=(.*?) \s*(.*?)status=(\d+) \s*(.*?)referer=(.*?) \s*(.*)/;
+const BOT_LOG_REGEX = /(\w+),\s*\[(.*?) (#\w+)\]\s*(\w+)\s*--\s*:\s*\[(\S+?)\]\s*\[(\S+?)\]\s*\[(\S+)\]\s*\[bot:(\w+)\]\s*method=(\w+)\s*path=(.*?)\s*format=(.*?) \s*(.*?)status=(\d+) \s*(.*)/;
 
 const monthNames = ['Jan', 'Feb', 'March', 'April', 'May', 'June', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 

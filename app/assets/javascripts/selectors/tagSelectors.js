@@ -16,6 +16,11 @@ export const getPrivateTags = createSelector(
     (tags) => tags.filter((tag) => tag.visibility === 'only_me')
 );
 
+export const getHasTopicTags = createSelector(
+    (state) => state.tagState.topicTags,
+    (topicTags) => !!topicTags
+);
+
 export const getSortedTopicTags = createSelector(
     (state) => state.tagState.topicTags,
     (state) => state.userState.user?.settings?.tagSidebarWithChild,

@@ -7,8 +7,8 @@ import ResponsiveModal from 'react-responsive-modal';
 const Modal = ({isOpen, onClose, children}) => (
     <ResponsiveModal open={isOpen}
                      classNames={{
-                         overlay: 'responsive-modal-overlay',
-                         modal: 'responsive-modal'
+                         overlay: 'react-responsive-modal-overlay',
+                         modal: 'react-responsive-modal'
                      }}
                      center={true}
                      closeOnEsc={true}
