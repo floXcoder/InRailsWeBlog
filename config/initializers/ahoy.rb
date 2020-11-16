@@ -46,8 +46,10 @@ Ahoy.job_queue = :ahoy
 Ahoy.quiet = true
 
 # Do not log ahoy basic events
-Ahoy.logger = Logger.new('log/sidekiq.log')
-Ahoy.logger.level = Logger::WARN
+if Rails.env.production?
+  Ahoy.logger = Logger.new('log/sidekiq.log')
+  Ahoy.logger.level = Logger::WARN
+end
 
 # Improve bot detection
 Ahoy.bot_detection_version = 2
