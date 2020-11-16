@@ -63,7 +63,7 @@ export default class SearchArticleModule extends React.PureComponent {
         if (this.props.currentTopicId) {
             return this.props.articles.filter((article) => (
                 article.userId === this.props.currentUserId && article.topicId !== this.props.currentTopicId
-            ));
+            )).reverse();
         } else {
             return [];
         }
