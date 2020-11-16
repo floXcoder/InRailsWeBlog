@@ -1,13 +1,11 @@
 # frozen_string_literal: true
 
-if Rails.env.development?
-  require 'seo_cache'
-
-  SeoCache.chrome_debugging_port = 9222
-end
-
 if ENV['SEO_CACHE'].to_s == 'true'
   require 'seo_cache'
+
+  if Rails.env.development?
+    SeoCache.chrome_debugging_port = 9222
+  end
 
   SeoCache.cache_mode = 'disk'
   SeoCache.cache_path = Rails.root.join('public', 'seo_cache')
