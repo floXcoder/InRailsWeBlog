@@ -11,6 +11,10 @@ import {
 } from '../../../actions';
 
 import {
+    getHasTopicTags
+} from '../../../selectors';
+
+import {
     newTopicParam
 } from '../../../constants/routesHelper';
 
@@ -20,7 +24,7 @@ export default @connect((state) => ({
     currentUserTopicId: state.topicState.currentUserTopicId,
     currentUserTopicSlug: state.topicState.currentUserTopicSlug,
     userTopics: state.topicState.userTopics,
-    topicTags: state.tagState.topicTags
+    hasTopicTags: getHasTopicTags(state)
 }), {
     initUser,
     fetchTags,
@@ -43,7 +47,7 @@ class UserManager extends React.Component {
         currentUserTopicId: PropTypes.number,
         currentUserTopicSlug: PropTypes.string,
         userTopics: PropTypes.array,
-        topicTags: PropTypes.array,
+        hasTopicTags: PropTypes.bool,
         initUser: PropTypes.func,
         fetchTags: PropTypes.func,
         switchTopic: PropTypes.func,
@@ -58,6 +62,11 @@ class UserManager extends React.Component {
 
     constructor(props) {
         super(props);
+
+        this._userRequest = null;
+        this._tagRequest = null;
+        this._recentRequest = null;
+        this._bookmarkRequest = null;
     }
 
     componentDidMount() {
@@ -67,13 +76,14 @@ class UserManager extends React.Component {
         // Called each time a route change
 
         if (!this.props.currentUser) {
-            this.props.initUser(this.props.currentUserId, {
+            this._userRequest = this.props.initUser(this.props.currentUserId, {
                 profile: true,
                 topicSlug: this.props.routeParams.topicSlug,
                 articleSlug: this.props.routeParams.articleSlug,
                 localUser: this.props.initialCurrentUser
-            })
-                .fetch.then((response) => {
+            });
+
+            this._userRequest.fetch.then((response) => {
                 this._fetchUserData(response?.user);
             });
         } else {
@@ -93,10 +103,25 @@ class UserManager extends React.Component {
         }
     }
 
+    componentWillUnmount() {
+        if (this._userRequest?.signal) {
+            this._userRequest.signal.abort();
+        }
+        if (this._tagRequest?.signal) {
+            this._tagRequest.signal.abort();
+        }
+        if (this._recentRequest?.signal) {
+            this._recentRequest.signal.abort();
+        }
+        if (this._bookmarkRequest?.signal) {
+            this._bookmarkRequest.signal.abort();
+        }
+    }
+
     _fetchUserData = (currentUser) => {
         const currentTopicSlug = (this.props.routeParams.topicSlug || this.props.routeParams.articleSlug) && currentUser.currentTopic ? currentUser.currentTopic.slug : null;
         if (currentTopicSlug) {
-            this.props.fetchTags({
+            this._tagRequest = this.props.fetchTags({
                     topicSlug: currentTopicSlug
                 },
                 {
@@ -107,7 +132,7 @@ class UserManager extends React.Component {
                 });
         } else if (currentUser.id) {
             // Fetch all tags
-            this.props.fetchTags({
+            this._tagRequest = this.props.fetchTags({
                 userId: currentUser.id
             });
 
@@ -116,7 +141,7 @@ class UserManager extends React.Component {
                     this._checkState();
                 } else {
                     // Fetch also current topic tags
-                    this.props.fetchTags({
+                    this._tagRequest = this.props.fetchTags({
                             topicSlug: currentUser.currentTopic.slug
                         },
                         {
@@ -145,7 +170,7 @@ class UserManager extends React.Component {
                     }
                 });
             } else if (!isNewSession) {
-                this.props.fetchUserRecents(this.props.currentUserId, {limit: 10});
+                this._recentRequest = this.props.fetchUserRecents(this.props.currentUserId, {limit: 10});
             }
         });
 
@@ -156,7 +181,7 @@ class UserManager extends React.Component {
 
             // this.props.fetchBookmarks(this.props.userId, {topicId: this.props.currentUserTopicId});
 
-            this.props.fetchBookmarks(this.props.currentUserId);
+            this._bookmarkRequest = this.props.fetchBookmarks(this.props.currentUserId);
         });
     }
 
@@ -179,7 +204,7 @@ class UserManager extends React.Component {
         // Load tags according to the current route
         // Fetch tags only if different topic
         if (this.props.routeState.reloadTags) {
-            this.props.fetchTags({
+            this._tagRequest = this.props.fetchTags({
                     topicId: this.props.currentUserTopicId
                 },
                 {
@@ -189,11 +214,11 @@ class UserManager extends React.Component {
                     topicTags: true
                 });
         } else if (!topicSlug) {
-            this.props.fetchTags({
+            this._tagRequest = this.props.fetchTags({
                 userId: this.props.currentUserId
             });
         } else if (this.props.currentUserTopicSlug !== topicSlug && this.props.userTopics.map((topic) => topic.slug).includes(topicSlug)) {
-            this.props.fetchTags({
+            this._tagRequest = this.props.fetchTags({
                     topicSlug: topicSlug
                 },
                 {
@@ -202,8 +227,8 @@ class UserManager extends React.Component {
                 {
                     topicTags: true
                 });
-        } else if(!this.props.topicTags) {
-            this.props.fetchTags({
+        } else if(!this.props.hasTopicTags) {
+            this._tagRequest = this.props.fetchTags({
                     topicId: this.props.currentUserTopicId
                 },
                 {
