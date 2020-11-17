@@ -489,7 +489,7 @@ module Api::V1
     def format_tracking(data)
       formatted_data = data.map { |key, val| { key => val.count } }.reduce({}, :merge).sort_by { |_k, v| -v }
 
-      if formatted_data.size == 1 && formatted_data[0][0].nil?
+      if formatted_data.empty? || (formatted_data.size == 1 && formatted_data[0][0].nil?)
         nil
       else
         if (website_index = formatted_data.index { |x| x[0] == ENV['WEBSITE_ADDRESS'] })

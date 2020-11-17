@@ -192,8 +192,14 @@ class TrackingArticleModal extends React.Component {
     };
 
     _renderViews = () => {
-        if (!this.props.articleTracking?.datesCount) {
-            return null;
+        if (!this.props.articleTracking?.datesCount || Object.keys(this.props.articleTracking.datesCount).length === 0) {
+            return (
+                <div className="margin-top-30">
+                    <p className={this.props.classes.listItem}>
+                        <em>{I18n.t('js.article.tracking.undefined')}</em>
+                    </p>
+                </div>
+            );
         }
 
         return (
@@ -217,6 +223,16 @@ class TrackingArticleModal extends React.Component {
     };
 
     _renderOrigins = () => {
+        if (!this.props.articleTracking.countries && !this.props.articleTracking.browsers && !this.props.articleTracking.os && !this.props.articleTracking.utmSources) {
+            return (
+                <div className="margin-top-30">
+                    <p className={this.props.classes.listItem}>
+                        <em>{I18n.t('js.article.tracking.undefined')}</em>
+                    </p>
+                </div>
+            );
+        }
+
         return (
             <div className="row margin-top-20">
                 {
@@ -375,43 +391,51 @@ class TrackingArticleModal extends React.Component {
     };
 
     _renderReferers = () => {
+        if (!this.props.articleTracking.referers) {
+            return (
+                <div className="margin-top-30">
+                    <p className={this.props.classes.listItem}>
+                        <em>{I18n.t('js.article.tracking.undefined')}</em>
+                    </p>
+                </div>
+            );
+        }
+
         return (
-            <div className="margin-top-20">
-                <div className="row margin-top-20">
-                    <div className="col s12">
-                        <List dense={true}>
-                            {
-                                Object.entries(this.props.articleTracking.referers).map(([referer, count], i) => (
-                                    <ListItem key={i}>
-                                        <ListItemText className={this.props.classes.listItem}
-                                                      primary={
-                                                          <div>
-                                                              {
-                                                                  (!referer || referer === 'internal') &&
-                                                                  <Divider className="margin-top-5 margin-bottom-20"/>
-                                                              }
+            <div className="row margin-top-30">
+                <div className="col s12">
+                    <List dense={true}>
+                        {
+                            Object.entries(this.props.articleTracking.referers).map(([referer, count], i) => (
+                                <ListItem key={i}>
+                                    <ListItemText className={this.props.classes.listItem}
+                                                  primary={
+                                                      <div>
+                                                          {
+                                                              (!referer || referer === 'internal') &&
+                                                              <Divider className="margin-top-5 margin-bottom-20"/>
+                                                          }
 
-                                                              {
-                                                                  referer === 'internal'
-                                                                      ?
-                                                                      <em>{I18n.t('js.article.tracking.referers.internal')}</em>
-                                                                      :
-                                                                      referer ||
-                                                                      <em>{I18n.t('js.article.tracking.undefined')}</em>
-                                                              }
-                                                          </div>
-                                                      }/>
+                                                          {
+                                                              referer === 'internal'
+                                                                  ?
+                                                                  <em>{I18n.t('js.article.tracking.referers.internal')}</em>
+                                                                  :
+                                                                  referer ||
+                                                                  <em>{I18n.t('js.article.tracking.undefined')}</em>
+                                                          }
+                                                      </div>
+                                                  }/>
 
-                                        <ListItemSecondaryAction className={classNames(this.props.classes.listItem, {
-                                            'margin-top-10': (!referer || referer === 'internal')
-                                        })}>
-                                            {count}
-                                        </ListItemSecondaryAction>
-                                    </ListItem>
-                                ))
-                            }
-                        </List>
-                    </div>
+                                    <ListItemSecondaryAction className={classNames(this.props.classes.listItem, {
+                                        'margin-top-10': (!referer || referer === 'internal')
+                                    })}>
+                                        {count}
+                                    </ListItemSecondaryAction>
+                                </ListItem>
+                            ))
+                        }
+                    </List>
                 </div>
             </div>
         );
