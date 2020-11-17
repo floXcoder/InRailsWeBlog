@@ -333,7 +333,7 @@ class ApplicationController < ActionController::Base
   end
 
   def track_action(action: 'page_visit', **params, &block)
-    # return if admin_signed_in?
+    return if @seo_mode
 
     ahoy.track action, tracking_params(params)
 
@@ -346,8 +346,8 @@ class ApplicationController < ActionController::Base
 
   def tracking_params(params = {})
     {
-      path:       (request.url.end_with?('/404') ? request.env['REQUEST_URI'] : request.url),
-      error:      request.url.end_with?('/404') ? '404' : nil
+      path:  (request.url.end_with?('/404') ? request.env['REQUEST_URI'] : request.url),
+      error: request.url.end_with?('/404') ? '404' : nil
     }
       .merge(params)
       .compact

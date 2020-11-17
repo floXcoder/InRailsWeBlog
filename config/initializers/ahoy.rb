@@ -47,7 +47,7 @@ Ahoy.quiet = true
 
 # Do not log ahoy basic events
 if Rails.env.production?
-  Ahoy.logger = Logger.new('log/sidekiq.log')
+  Ahoy.logger = Logger.new(Rails.root.join('log/ahoy.log'))
   Ahoy.logger.level = Logger::WARN
 end
 
@@ -74,7 +74,7 @@ EXCLUDE_PATTERN_IPS = if File.exists?(Rails.root.join('lib/tracking/excluded_ips
 
 # Exclude asset requests and admin from visits
 Ahoy.exclude_method = lambda do |_controller, request|
-  # return true if ENV['TRACKER_EXCLUDED_IP'].split(', ').include?(request&.ip)
+  return true if ENV['TRACKER_EXCLUDED_IP'].split(', ').include?(request&.ip)
 
   return true if EXCLUDE_PATTERN_IPS.any? { |ip| request&.ip&.include?(ip) } || EXCLUDE_IPS.any? { |ip| request&.ip&.include?(ip) }
 
