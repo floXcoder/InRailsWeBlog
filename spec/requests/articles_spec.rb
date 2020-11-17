@@ -483,8 +483,8 @@ describe 'Article API', type: :request, basic: true do
         tracking = JSON.parse(response.body)
         expect(tracking['tracker']).not_to be_empty
         expect(tracking['commentsCount']).to eq(0)
-        expect(tracking['countries']).to be_empty
-        expect(tracking['referers']).to be_empty
+        expect(tracking['countries']).to be_nil
+        expect(tracking['referers']).to be_nil
       end
     end
   end

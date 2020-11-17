@@ -85,7 +85,7 @@ module Api::V1
       tag = Tag.include_element.friendly.find(params[:id])
       authorize tag
 
-      track_action(tag_id: tag.id) { track_visit(Tag, tag.id, current_user&.id) }
+      track_action(tag_id: tag.id) { |visitor_token| track_visit(Tag, tag.id, current_user&.id, nil, visitor_token) }
 
       expires_in InRailsWeBlog.config.cache_time, public: true
       if stale?(tag, template: false, public: true)
@@ -137,6 +137,7 @@ module Api::V1
         format.json do
           if stored_tag.success?
             track_action(action: 'update', tag_id: stored_tag.result.id)
+
             render json: stored_tag.result.serialized_json('complete',
                                                            params: { current_topic_id: current_user&.current_topic_id },
                                                            meta:   meta_attributes)
@@ -176,11 +177,11 @@ module Api::V1
       tag = current_user.tags.find(params[:id])
       admin_or_authorize tag
 
-      track_action(action: 'destroy', tag_id: tag.id)
-
       respond_to do |format|
         format.json do
           if params[:permanently] && current_admin ? tag.really_destroy! : tag.destroy
+            track_action(action: 'destroy', tag_id: tag.id)
+
             flash.now[:success] = I18n.t('views.tag.flash.successful_deletion')
             head :no_content
           else

@@ -108,15 +108,15 @@ module ActAsTrackedConcern
     end
 
     # Tracker model method to increment visit count
-    def track_visits(record_id, user_id = nil, parent_id = nil)
+    def track_visits(record_id, user_id = nil, parent_id = nil, visitor_token = nil)
       return unless self.tracker_metrics.include?(:visits)
 
       if record_id.is_a? Array
         record_id.each do |id|
-          $redis.incr(redis_key(id, 'visits'))
+          $redis.incr(redis_key(id, 'visits', user_id, parent_id, visitor_token))
         end
       else
-        $redis.incr(redis_key(record_id, 'visits', user_id, parent_id))
+        $redis.incr(redis_key(record_id, 'visits', user_id, parent_id, visitor_token))
       end
     end
 
@@ -174,8 +174,8 @@ module ActAsTrackedConcern
     end
 
     # Private method to get formatted redis key (for object model)
-    def redis_key(record_id, metric, user_id = nil, parent_id = nil)
-      [self.name.downcase, metric, record_id, user_id, parent_id].compact.join(':')
+    def redis_key(record_id, metric, user_id = nil, parent_id = nil, visitor_token = nil)
+      [self.name.downcase, metric, record_id, user_id, parent_id, visitor_token].compact.join(':')
     end
   end
 

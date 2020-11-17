@@ -7,9 +7,9 @@ module Api::V1
     def index
       export_results = Shared::ExporterService.new(params[:user_id]).perform
 
-      track_action(action: 'export')
-
       if export_results.success?
+        track_action(action: 'export')
+
         respond_to do |format|
           format.zip { send_file export_results.result }
         end

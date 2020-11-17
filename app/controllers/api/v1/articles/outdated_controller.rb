@@ -10,11 +10,11 @@ module Api::V1
       article = Article.find(params[:article_id])
       authorize article, :add_outdated?
 
-      track_action(action: 'outdated_up', article_id: article.id)
-
       respond_to do |format|
         format.json do
           if article.mark_as_outdated(current_user)
+            track_action(action: 'outdated_up', article_id: article.id)
+
             render json: article.serialized_json('normal')
           else
             render json:   { errors: article.errors.messages[:outdated].first },
@@ -28,11 +28,11 @@ module Api::V1
       article = Article.find(params[:article_id])
       authorize article, :remove_outdated?
 
-      track_action(action: 'outdated_down', article_id: article.id)
-
       respond_to do |format|
         format.json do
           if article.remove_outdated(current_user)
+            track_action(action: 'outdated_down', article_id: article.id)
+
             render json: article.serialized_json('normal')
           else
             render json:   { errors: article.errors.messages[:outdated].first },

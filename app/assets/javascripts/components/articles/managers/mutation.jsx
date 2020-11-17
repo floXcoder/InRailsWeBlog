@@ -40,6 +40,7 @@ import {
     articleTemporaryDataName,
     articleUnsavedDataName
 } from '../../modules/constants';
+import _ from "lodash";
 
 export default function articleMutationManager(mode) {
     return function articleMutation(WrappedComponent) {
@@ -201,10 +202,18 @@ export default function articleMutationManager(mode) {
                 if (defineMessage) {
                     this._onLeaveMessage = true;
 
-                    const leaveMessage = I18n.t('js.article.form.unsaved');
-
                     // Detect browser closing
-                    window.onbeforeunload = (() => leaveMessage);
+                    window.onbeforeunload = (event) => {
+                        removeLocalData(articleTemporaryDataName);
+                        removeLocalData(articleUnsavedDataName);
+
+                        event = event || window.event;
+                        let message = I18n.t('js.article.form.unsaved');
+                        if (event) {
+                            event.returnValue = message;
+                        }
+                        return message;
+                    };
                 } else {
                     window.onbeforeunload = undefined;
                 }
