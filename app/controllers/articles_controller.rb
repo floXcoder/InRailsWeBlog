@@ -54,7 +54,7 @@ class ArticlesController < ApplicationController
 
     redirect_to(article_redirection, status: :moved_permanently) and return if article_redirection
 
-    track_action(article_id: article.id, parent_id: article.topic_id) { track_visit(Article, article.id, current_user&.id, article.topic_id) }
+    track_action(article_id: article.id, parent_id: article.topic_id) { |visitor_token| track_visit(Article, article.id, current_user&.id, article.topic_id, visitor_token) }
 
     set_seo_data(:user_article,
                  article_slug:         article,

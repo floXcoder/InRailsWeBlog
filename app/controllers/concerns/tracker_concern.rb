@@ -45,8 +45,8 @@ module TrackerConcern
 
   private
 
-  def track_visit(class_model, id, user_id = nil, parent_id = nil)
-    class_model.respond_to?(:track_visits) && class_model.track_visits(id, user_id, parent_id)
+  def track_visit(class_model, id, user_id = nil, parent_id = nil, visitor_token = nil)
+    class_model.respond_to?(:track_visits) && class_model.track_visits(id, user_id, parent_id, visitor_token)
   end
 
 end

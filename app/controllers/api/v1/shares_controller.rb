@@ -17,6 +17,7 @@ module Api::V1
           flash.now[:success] = shared_topic.message
           if shared_topic.success?
             track_action(action: 'share', topic_id: shared_topic.result.id)
+
             render json:   shared_topic.result.serialized_json('normal'),
                    status: :ok
           else
@@ -39,6 +40,7 @@ module Api::V1
           flash.now[:success] = shared_article.message
           if shared_article.success?
             track_action(action: 'share', article_id: shared_article.result.id)
+
             render json:   shared_article.result.serialized_json('complete'),
                    status: :ok
           else

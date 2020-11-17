@@ -95,7 +95,7 @@ module Api::V1
       user = current_user&.id == params[:id]&.to_i ? current_user : User.friendly.find(params[:id])
       authorize user
 
-      track_action(user_id: user.id) { track_visit(User, user.id, current_user&.id) }
+      track_action(user_id: user.id) { |visitor_token| track_visit(User, user.id, current_user&.id, nil, visitor_token) }
 
       expires_in InRailsWeBlog.config.cache_time, public: true
       respond_to do |format|
@@ -181,6 +181,7 @@ module Api::V1
       if stored_user.success?
         respond_to do |format|
           track_action(action: 'update', user_id: stored_user.result.id)
+
           flash[:success] = stored_user.message
           format.json do
             if params[:complete] && current_user

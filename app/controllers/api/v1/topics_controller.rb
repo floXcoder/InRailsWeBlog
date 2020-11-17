@@ -39,11 +39,11 @@ module Api::V1
       topic = current_user.topics.find_by(slug: params[:new_topic]) || current_user.contributed_topics.find_by(slug: params[:new_topic])
       authorize topic
 
-      track_action(action: 'switch_topic', topic_id: topic.id)
-
       respond_to do |format|
         format.json do
           if current_user.switch_topic(topic) && current_user.save
+            track_action(action: 'switch_topic', topic_id: topic.id)
+
             render json:   topic.serialized_json('normal'),
                    status: :ok
           else
@@ -58,7 +58,7 @@ module Api::V1
       topic = @context_user.topics.friendly.find(params[:id])
       authorize topic
 
-      track_action(topic_id: topic.id) { track_visit(Topic, topic.id, current_user&.id) }
+      track_action(topic_id: topic.id) { |visitor_token| track_visit(Topic, topic.id, current_user&.id, nil, visitor_token) }
 
       expires_in InRailsWeBlog.config.cache_time, public: true
       if stale?(topic, template: false, public: true)
@@ -89,6 +89,7 @@ module Api::V1
         format.json do
           if stored_topic.success? && current_user.switch_topic(topic) && current_user.save
             track_action(action: 'create', topic_id: stored_topic.result.id)
+
             render json:   stored_topic.result.serialized_json('complete'),
                    status: :created
           else
@@ -128,6 +129,7 @@ module Api::V1
         format.json do
           if stored_topic.success?
             track_action(action: 'update', topic_id: stored_topic.result.id)
+
             flash.now[:success] = stored_topic.message
             render json:   stored_topic.result.serialized_json('complete'),
                    status: :ok
@@ -146,12 +148,12 @@ module Api::V1
 
       shared_topic = ::Shares::StoreService.new(topic, params[:login], current_user: current_user).perform
 
-      track_action(action: 'share', topic_id: shared_topic.id)
-
       respond_to do |format|
         format.json do
           flash.now[:success] = shared_topic.message
           if shared_topic.success?
+            track_action(action: 'share', topic_id: shared_topic.id)
+
             render json:   shared_topic.result.serialized_json('normal'),
                    status: :ok
           else
@@ -190,11 +192,11 @@ module Api::V1
       topic = current_user.topics.find(params[:id])
       authorize topic
 
-      track_action(action: 'destroy', topic_id: topic.id)
-
       respond_to do |format|
         format.json do
           if topic.destroy
+            track_action(action: 'destroy', topic_id: topic.id)
+
             # Switch topic if needed and return current topic
             current_topic = current_user.current_topic
             if current_user.current_topic_id == topic.id

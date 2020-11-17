@@ -36,7 +36,7 @@ class TagsController < ApplicationController
     tag = Tag.include_element.friendly.find(params[:tag_slug])
     authorize tag
 
-    track_action(tag_id: tag.id) { track_visit(Tag, tag.id, current_user&.id) }
+    track_action(tag_id: tag.id) { |visitor_token| track_visit(Tag, tag.id, current_user&.id, nil, visitor_token) }
 
     expires_in InRailsWeBlog.config.cache_time, public: true
     if stale?(tag, template: false, public: true)

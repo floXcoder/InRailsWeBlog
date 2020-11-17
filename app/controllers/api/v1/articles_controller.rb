@@ -104,7 +104,7 @@ module Api::V1
       article = @context_user.articles.friendly.find(params[:id])
       admin_or_authorize article
 
-      track_action(article_id: article.id, parent_id: article.topic_id) { track_visit(Article, article.id, current_user&.id, article.topic_id) }
+      track_action(article_id: article.id, parent_id: article.topic_id) { |visitor_token| track_visit(Article, article.id, current_user&.id, article.topic_id, visitor_token) }
 
       (article.user?(current_user) || admin_signed_in?) ? reset_cache_headers : expires_in(InRailsWeBlog.config.cache_time, public: true)
       if stale?(article, template: false, public: true) || article.user?(current_user)
@@ -266,6 +266,7 @@ module Api::V1
         format.json do
           if stored_article.success?
             track_action(action: 'create', article_id: stored_article.result.id)
+
             flash.now[:success] = stored_article.message
             render json:   stored_article.result.serialized_json('complete',
                                                                  params: {
@@ -363,12 +364,12 @@ module Api::V1
 
       version = PaperTrail::Version.find_by(id: params[:version_id])
 
-      track_action(action: 'restore', article_id: article.id)
-
       if version && (restored_version = version.reify)
         params[:article_version_id] ? article.save : restored_version.save
 
         article.reload
+
+        track_action(action: 'restore', article_id: article.id)
 
         respond_to do |format|
           flash.now[:success] = t('views.article.flash.successful_undeletion') if params[:from_deletion]
@@ -392,11 +393,11 @@ module Api::V1
       article = current_user.articles.find(params[:id])
       admin_or_authorize article
 
-      track_action(action: 'destroy', article_id: article.id)
-
       respond_to do |format|
         format.json do
           if (params[:permanently] && current_admin) || article.draft? ? article.really_destroy! : article.destroy
+            track_action(action: 'destroy', article_id: article.id)
+
             flash.now[:success] = I18n.t('views.article.flash.successful_deletion')
             head :no_content
           else
