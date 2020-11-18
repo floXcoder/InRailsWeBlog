@@ -46,9 +46,9 @@ Ahoy.job_queue = :ahoy
 Ahoy.quiet = true
 
 # Do not log ahoy basic events
-if Rails.env.production?
+unless Rails.env.test?
   Ahoy.logger = Logger.new(Rails.root.join('log/ahoy.log'))
-  Ahoy.logger.level = Logger::WARN
+  # Ahoy.logger.level = Logger::WARN
 end
 
 # Improve bot detection

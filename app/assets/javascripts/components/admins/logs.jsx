@@ -42,6 +42,8 @@ class AdminLogs extends React.PureComponent {
         environmentLog: PropTypes.array.isRequired,
         jobLog: PropTypes.array,
         cronLog: PropTypes.array,
+        ahoyLog: PropTypes.array,
+        sentryLog: PropTypes.array,
         seoCacheLog: PropTypes.array,
         // from connect
         fetchLogs: PropTypes.func
@@ -255,8 +257,10 @@ class AdminLogs extends React.PureComponent {
                       centered={true}
                       onChange={this._handleTabChange}>
                     <Tab label="Production"/>
-                    <Tab label="job"/>
+                    <Tab label="Jobs"/>
                     <Tab label="Cron"/>
+                    <Tab label="Tracker"/>
+                    <Tab label="Sentry"/>
                     <Tab label="Seo Cache"/>
                 </Tabs>
 
@@ -306,7 +310,7 @@ class AdminLogs extends React.PureComponent {
                 <TabContainer isActive={this.state.tabStep === 1}>
                     <div className="file-holder">
                         <div className="file-title">
-                            job log
+                            Jobs log
                         </div>
 
                         <div className="file-content logs">
@@ -344,6 +348,46 @@ class AdminLogs extends React.PureComponent {
                 </TabContainer>
 
                 <TabContainer isActive={this.state.tabStep === 3}>
+                    <div className="file-holder">
+                        <div className="file-title">
+                            Tracker log
+                        </div>
+
+                        <div className="file-content logs">
+                            <ol>
+                                {
+                                    this.props.ahoyLog?.map((line, i) => (
+                                        <li key={i}>
+                                            <p dangerouslySetInnerHTML={{__html: line}}/>
+                                        </li>
+                                    ))
+                                }
+                            </ol>
+                        </div>
+                    </div>
+                </TabContainer>
+
+                <TabContainer isActive={this.state.tabStep === 4}>
+                    <div className="file-holder">
+                        <div className="file-title">
+                            Sentry log
+                        </div>
+
+                        <div className="file-content logs">
+                            <ol>
+                                {
+                                    this.props.sentryLog?.map((line, i) => (
+                                        <li key={i}>
+                                            <p dangerouslySetInnerHTML={{__html: line}}/>
+                                        </li>
+                                    ))
+                                }
+                            </ol>
+                        </div>
+                    </div>
+                </TabContainer>
+
+                <TabContainer isActive={this.state.tabStep === 5}>
                     <div className="file-holder">
                         <div className="file-title">
                             Seo Cache log
