@@ -22,7 +22,7 @@ class Admins::LogsController < AdminsController
                         Logging.read_latest_for(log_filename, 2_000)
                       end
 
-    job_log = Logging.read_latest_for('sidekiq.log', 2_000)
+    job_log = Logging.read_latest_for('jobs.log', 2_000)
 
     cron_log = Logging.read_latest_for('cron.log', 2_000)
 
