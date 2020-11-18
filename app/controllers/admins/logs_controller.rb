@@ -26,6 +26,10 @@ class Admins::LogsController < AdminsController
 
     cron_log = Logging.read_latest_for('cron.log', 2_000)
 
+    ahoy_log = Logging.read_latest_for('ahoy.log', 2_000)
+
+    sentry_log = Logging.read_latest_for('sentry.log', 2_000)
+
     seo_cache_log = Logging.read_latest_for('seo_cache.log', 2_000)
 
     respond_to do |format|
@@ -38,6 +42,8 @@ class Admins::LogsController < AdminsController
           environment_log: environment_log,
           job_log:         job_log,
           cron_log:        cron_log,
+          ahoy_log:        ahoy_log,
+          sentry_log:      sentry_log,
           seo_cache_log:   seo_cache_log
         }
       end

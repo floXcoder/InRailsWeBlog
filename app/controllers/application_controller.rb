@@ -340,7 +340,7 @@ class ApplicationController < ActionController::Base
     if current_visit && request.get? && (request.format.html? || request.format.json?)
       current_visit.update(takeoff_page: request.url, ended_at: Time.zone.now, pages_count: current_visit.pages_count + 1)
 
-      yield block(current_visit.visitor_token) if block_given?
+      block.call(current_visit.visitor_token) if block_given? && block
     end
   end
 
@@ -402,7 +402,7 @@ class ApplicationController < ActionController::Base
     end
 
     respond_to do |format|
-      format.json { render json: { errors: t('views.error.status.explanation.500') }, status: :internal_server_error }
+      format.json { render json: { errors: t('views.error.status.explanation.500'), details: exception&.try(:message) }, status: :internal_server_error }
       format.html { render 'pages/default', locals: { status: 500 }, status: :internal_server_error }
       format.all { render body: nil, status: :internal_server_error }
     end

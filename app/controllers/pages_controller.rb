@@ -9,6 +9,8 @@ class PagesController < ApplicationController
   respond_to :html
 
   def home
+    track_action(action: 'home')
+
     user_signed_in? ? reset_cache_headers : expires_in(InRailsWeBlog.config.cache_time, public: true)
     respond_to do |format|
       format.html do
@@ -28,6 +30,8 @@ class PagesController < ApplicationController
     user_ref = params[:user_slug].presence || params[:user_id].presence || params[:id]
     user     = (current_user&.id == user_ref&.to_i || current_user&.slug == user_ref&.to_s) ? current_user : User.friendly.find(user_ref)
     authorize user, :show?
+
+    track_action(action: 'user_home', user_id: user.id)
 
     reset_cache_headers
     respond_to do |format|

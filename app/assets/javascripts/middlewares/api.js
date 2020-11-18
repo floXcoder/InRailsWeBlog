@@ -82,7 +82,11 @@ const manageError = (origin, error, url) => {
                 error.text().then((text) => window.log_on_screen(text.split("\n").slice(0, 6)));
             }
 
-            pushError(error, errorInfo);
+            if (!error.bodyUsed) {
+                error.json().then((parsedError) => pushError(error, {...errorInfo, ...parsedError}))
+            } else {
+                pushError(error, errorInfo);
+            }
         }
     } else {
         pushError(error, errorInfo);
