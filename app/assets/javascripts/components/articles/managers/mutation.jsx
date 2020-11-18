@@ -338,7 +338,7 @@ export default function articleMutationManager(mode) {
 
                 // Ensure current article is correct (do not use previous edited article)
                 let article = this.state.article;
-                if (mode === 'edit' && this.state.article && this.state.article.id !== this.props.article.id) {
+                if (mode === 'edit' && this.state.article && this.props.article && this.state.article.id !== this.props.article.id) {
                     article = undefined;
                 }
 
