@@ -180,7 +180,7 @@ module ActAsTrackedConcern
   end
 
   # Private method to get formatted redis key (for class model)
-  def redis_key(record, metric)
-    [self.class.name.downcase, metric,record.id].join(':')
+  def redis_key(record, metric, user_id = nil, parent_id = nil, visitor_token = nil)
+    [self.class.name.downcase, metric, record.id, user_id, parent_id, visitor_token].compact.join(':')
   end
 end

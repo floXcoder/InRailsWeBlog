@@ -384,11 +384,11 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def not_found_error(_exception = nil)
+  def not_found_error(exception = nil)
     raise if Rails.env.development?
 
     respond_to do |format|
-      format.json { render json: { errors: t('views.error.status.explanation.404') }, status: :not_found }
+      format.json { render json: { errors: t('views.error.status.explanation.404'), details: exception&.try(:message) }, status: :not_found }
       format.html { render 'pages/default', locals: { status: 404 }, status: :not_found }
       format.all { render body: nil, status: :not_found }
     end
