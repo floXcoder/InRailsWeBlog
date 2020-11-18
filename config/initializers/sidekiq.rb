@@ -4,7 +4,7 @@ Sidekiq.configure_server do |config|
   config.redis = { url:       "redis://#{ENV['REDIS_HOST']}:#{ENV['REDIS_PORT']}",
                    namespace: "_#{ENV['WEBSITE_NAME']}_#{Rails.env}" }
 
-  config.logger       = Logger.new(Rails.root.join('log/sidekiq.log'))
+  config.logger       = Logger.new(Rails.root.join('log/jobs.log'))
   config.logger.level = Logger::INFO
 
   config.server_middleware do |chain|

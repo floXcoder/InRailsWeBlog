@@ -48,7 +48,7 @@ Ahoy.quiet = true
 # Do not log ahoy basic events
 unless Rails.env.test?
   Ahoy.logger = Logger.new(Rails.root.join('log/ahoy.log'))
-  # Ahoy.logger.level = Logger::WARN
+  Ahoy.logger.level = Logger::WARN
 end
 
 # Improve bot detection
