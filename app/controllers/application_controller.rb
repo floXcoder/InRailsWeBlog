@@ -340,7 +340,7 @@ class ApplicationController < ActionController::Base
     if current_visit && request.get? && (request.format.html? || request.format.json?)
       current_visit.update(takeoff_page: request.url, ended_at: Time.zone.now, pages_count: current_visit.pages_count + 1)
 
-      yield block(current_visit.visitor_token) if block_given?
+      block.call(current_visit.visitor_token) if block_given? && block
     end
   end
 
