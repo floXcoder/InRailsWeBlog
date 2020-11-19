@@ -61,6 +61,8 @@ Ahoy.cookie_options   = { expires: 1.year }
 # Print exceptions
 Safely.report_exception_method = ->(error) { Rails.logger.error(error) }
 
+EXCLUDE_USER_AGENT = %w[OkHttp]
+
 EXCLUDE_IPS         = if File.exists?(Rails.root.join('lib/tracking/excluded_pattern_ips.txt'))
                         File.open(Rails.root.join('lib/tracking/excluded_pattern_ips.txt')) { |file| file.readlines.map(&:chomp) }
                       else
@@ -74,6 +76,8 @@ EXCLUDE_PATTERN_IPS = if File.exists?(Rails.root.join('lib/tracking/excluded_ips
 
 # Exclude asset requests and admin from visits
 Ahoy.exclude_method = lambda do |_controller, request|
+  return true if EXCLUDE_USER_AGENT.any? { |user_agent| request.user_agent&.downcase&.include?(user_agent.downcase) }
+
   return true if ENV['TRACKER_EXCLUDED_IP'].split(', ').include?(request&.ip)
 
   return true if EXCLUDE_PATTERN_IPS.any? { |ip| request&.ip&.include?(ip) } || EXCLUDE_IPS.any? { |ip| request&.ip&.include?(ip) }
