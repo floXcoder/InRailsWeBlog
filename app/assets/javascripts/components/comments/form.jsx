@@ -1,9 +1,5 @@
 'use strict';
 
-// import Input from '../materialize/input';
-// import Textarea from '../materialize/textarea';
-// import Submit from '../materialize/submit';
-
 import TextField from '@material-ui/core/TextField';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Button from '@material-ui/core/Button';

@@ -105,6 +105,72 @@ class TrackingArticleModal extends React.Component {
         });
     };
 
+    _renderListDetails = (listDetails, title) => {
+        if (!listDetails) {
+            return (
+                <div className="margin-top-30">
+                    <p className={this.props.classes.listItem}>
+                        <em>{I18n.t('js.article.tracking.undefined')}</em>
+                    </p>
+                </div>
+            );
+        }
+
+        return (
+            <div className="col s12 margin-top-40">
+                <h3 className="margin-top-0 margin-bottom-5">
+                    {title}
+                </h3>
+
+                <List className={this.props.classes.listContainer}
+                      dense={true}>
+                    {
+                        Object.entries(listDetails).map(([element, count], i) => (
+                            <ListItem key={i}>
+                                <ListItemText className={this.props.classes.listItem}
+                                              primary={
+                                                  <div>
+                                                      {
+                                                          (!element || element === 'internal' || element === 'others') &&
+                                                          <Divider className="margin-top-5 margin-bottom-20"/>
+                                                      }
+
+                                                      {
+                                                          !element &&
+                                                          <em>{I18n.t('js.article.tracking.undefined')}</em>
+                                                      }
+
+                                                      {
+                                                          element === 'others' &&
+                                                          <em>{I18n.t('js.article.tracking.others')}</em>
+                                                      }
+
+                                                      {
+                                                          element === 'internal' &&
+                                                          <em>{I18n.t('js.article.tracking.internal')}</em>
+                                                      }
+
+                                                      {
+                                                          (element !== 'others' && element !== 'internal') &&
+                                                          element
+                                                      }
+                                                  </div>
+                                              }/>
+
+                                <ListItemSecondaryAction
+                                    className={classNames(this.props.classes.listItem, {
+                                        'margin-top-10': (!element || element === 'internal' || element === 'others')
+                                    })}>
+                                    {count}
+                                </ListItemSecondaryAction>
+                            </ListItem>
+                        ))
+                    }
+                </List>
+            </div>
+        );
+    }
+
     _renderStats = (tracker) => {
         return (
             <div className="center-align margin-top-20">
@@ -235,157 +301,10 @@ class TrackingArticleModal extends React.Component {
 
         return (
             <div className="row margin-top-20">
-                {
-                    this.props.articleTracking.countries &&
-                    <div className="col s12">
-                        <h3 className="margin-top-0 margin-bottom-5">
-                            {I18n.t('js.article.tracking.origins.countries')}
-                        </h3>
-
-                        <List dense={true}>
-                            {
-                                Object.entries(this.props.articleTracking.countries).map(([country, count], i) => (
-                                    <ListItem key={i}>
-                                        <ListItemText className={this.props.classes.listItem}
-                                                      primary={
-                                                          <div>
-                                                              {
-                                                                  !country &&
-                                                                  <Divider className="margin-top-5 margin-bottom-20"/>
-                                                              }
-
-                                                              {
-                                                                  country ||
-                                                                  <em>{I18n.t('js.article.tracking.undefined')}</em>
-                                                              }
-                                                          </div>
-                                                      }/>
-
-                                        <ListItemSecondaryAction className={classNames(this.props.classes.listItem, {
-                                            'margin-top-10': !country
-                                        })}>
-                                            {count}
-                                        </ListItemSecondaryAction>
-                                    </ListItem>
-                                ))
-                            }
-                        </List>
-                    </div>
-                }
-
-                {
-                    this.props.articleTracking.browsers &&
-                    <div className="col s12">
-                        <h3 className="margin-top-15 margin-bottom-5">
-                            {I18n.t('js.article.tracking.origins.browser')}
-                        </h3>
-
-                        <List dense={true}>
-                            {
-                                Object.entries(this.props.articleTracking.browsers).map(([browser, count], i) => (
-                                    <ListItem key={i}>
-                                        <ListItemText className={this.props.classes.listItem}
-                                                      primary={
-                                                          <div>
-                                                              {
-                                                                  !browser &&
-                                                                  <Divider className="margin-top-5 margin-bottom-20"/>
-                                                              }
-
-                                                              {
-                                                                  browser ||
-                                                                  <em>{I18n.t('js.article.tracking.undefined')}</em>
-                                                              }
-                                                          </div>
-                                                      }/>
-
-                                        <ListItemSecondaryAction className={classNames(this.props.classes.listItem, {
-                                            'margin-top-10': !browser
-                                        })}>
-                                            {count}
-                                        </ListItemSecondaryAction>
-                                    </ListItem>
-                                ))
-                            }
-                        </List>
-                    </div>
-                }
-
-                {
-                    this.props.articleTracking.os &&
-                    <div className="col s12">
-                        <h3 className="margin-top-15 margin-bottom-5">
-                            {I18n.t('js.article.tracking.origins.os')}
-                        </h3>
-
-                        <List dense={true}>
-                            {
-                                Object.entries(this.props.articleTracking.os).map(([os, count], i) => (
-                                    <ListItem key={i}>
-                                        <ListItemText className={this.props.classes.listItem}
-                                                      primary={
-                                                          <div>
-                                                              {
-                                                                  !os &&
-                                                                  <Divider className="margin-top-5 margin-bottom-20"/>
-                                                              }
-
-                                                              {
-                                                                  os ||
-                                                                  <em>{I18n.t('js.article.tracking.undefined')}</em>
-                                                              }
-                                                          </div>
-                                                      }/>
-
-                                        <ListItemSecondaryAction className={classNames(this.props.classes.listItem, {
-                                            'margin-top-10': !os
-                                        })}>
-                                            {count}
-                                        </ListItemSecondaryAction>
-                                    </ListItem>
-                                ))
-                            }
-                        </List>
-                    </div>
-                }
-
-                {
-                    this.props.articleTracking.utmSources &&
-                    <div className="col s12">
-                        <h3 className="margin-top-15 margin-bottom-5">
-                            {I18n.t('js.article.tracking.origins.utm')}
-                        </h3>
-
-                        <List dense={true}>
-                            {
-                                Object.entries(this.props.articleTracking.utmSources).map(([utm, count], i) => (
-                                    <ListItem key={i}>
-                                        <ListItemText className={this.props.classes.listItem}
-                                                      primary={
-                                                          <div>
-                                                              {
-                                                                  !utm &&
-                                                                  <Divider className="margin-top-5 margin-bottom-20"/>
-                                                              }
-
-                                                              {
-                                                                  utm ||
-                                                                  <em>{I18n.t('js.article.tracking.undefined')}</em>
-                                                              }
-                                                          </div>
-                                                      }/>
-
-                                        <ListItemSecondaryAction className={classNames(this.props.classes.listItem, {
-                                            'margin-top-10': !utm
-                                        })}>
-                                            {count}
-                                        </ListItemSecondaryAction>
-                                    </ListItem>
-                                ))
-                            }
-                        </List>
-                    </div>
-                }
+                {this._renderListDetails(this.props.articleTracking.countries, I18n.t('js.article.tracking.origins.country'))}
+                {this._renderListDetails(this.props.articleTracking.browsers, I18n.t('js.article.tracking.origins.browser'))}
+                {this._renderListDetails(this.props.articleTracking.os, I18n.t('js.article.tracking.origins.os'))}
+                {this._renderListDetails(this.props.articleTracking.utmSources, I18n.t('js.article.tracking.origins.utm'))}
             </div>
         );
     };
@@ -419,7 +338,7 @@ class TrackingArticleModal extends React.Component {
                                                           {
                                                               referer === 'internal'
                                                                   ?
-                                                                  <em>{I18n.t('js.article.tracking.referers.internal')}</em>
+                                                                  <em>{I18n.t('js.article.tracking.internal')}</em>
                                                                   :
                                                                   referer ||
                                                                   <em>{I18n.t('js.article.tracking.undefined')}</em>

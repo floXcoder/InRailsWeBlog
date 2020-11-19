@@ -632,13 +632,16 @@ en:
           title: "Views count"
         origins:
           title: "Origins"
-          countries: "Visits by country"
+          country: "Visits by country"
           browser: "Visits by browsers"
+          device: "Visits dy devices"
           os: "Visits by systems"
           utm: "Visits by UTM"
+          referer: "Visits by traffic origins"
         referers:
           title: "Sources"
-          internal: "Internal link"
+        internal: "Internal link"
+        others: "[Others]"
         undefined: "[Not defined]"
         cancel: "Cancel"
       compare:
@@ -850,6 +853,7 @@ en:
         stats: "Visita and stats"
       menu:
         dashboard: "Dashboard"
+        visits: "Visits"
         users: "Users"
         comments: "Comments"
         topics: "Topics"
@@ -875,6 +879,26 @@ en:
       dashboard:
         title: "Admin list"
         button: "Access"
+      visits:
+        title: "Visits overview"
+        uniq:
+          title: "Unique visits per day"
+          data: "Data"
+          day: "Visits count"
+          total: "Cumulated visits"
+        stats:
+          title: "Statistics"
+          uniq: "Unique visits count"
+          clicks: "Clicks count"
+          views: "Article views count"
+          searches: "Searches count"
+          pages: "Average pages view"
+          bounce: "Bounce rate"
+          duration: "Visit duration"
+        tops:
+          title: "Tops viewed elements"
+        sources:
+          title: "Traffic origins"
       users:
         title: "Users"
         table:

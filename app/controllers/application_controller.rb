@@ -353,10 +353,32 @@ class ApplicationController < ActionController::Base
       .compact
   end
 
-  def without_tracking(model)
-    model.public_activity_off
-    yield if block_given?
-    model.public_activity_on
+  def format_tracking(data, limit_for_others = 12)
+    formatted_data = data.map { |key, val| { key => val.count } }.reduce({}, :merge).sort_by { |_k, v| -v }
+
+    if formatted_data.empty? || (formatted_data.size == 1 && formatted_data[0][0].nil?)
+      nil
+    else
+      if (website_index = formatted_data.index { |x| x[0] == ENV['WEBSITE_ADDRESS'] })
+        formatted_data[website_index][0] = 'internal'
+        formatted_data                   = formatted_data.insert(formatted_data.length - 1, formatted_data.delete_at(website_index))
+      end
+
+      if formatted_data.size > limit_for_others
+        others_count   = formatted_data[limit_for_others + 1..].reduce(0) { |sr, count| sr + count[1] }
+        formatted_data = formatted_data[0..limit_for_others]
+        formatted_data << [
+          'others',
+          others_count
+        ]
+      end
+
+      if (nil_index = formatted_data.index { |x| x[0].nil? })
+        formatted_data = formatted_data.insert(formatted_data.length - 1, formatted_data.delete_at(nil_index))
+      end
+
+      formatted_data.to_h
+    end
   end
 
   def user_not_authorized(exception)

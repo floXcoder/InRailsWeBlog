@@ -255,6 +255,8 @@ Rails.application.routes.draw do
   end
 
   namespace :admins do
+    resources :visits, only: [:index]
+
     resources :blogs, except: [:new, :edit]
 
     resources :seo, except: [:new, :edit] do

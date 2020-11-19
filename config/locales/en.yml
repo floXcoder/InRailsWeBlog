@@ -90,6 +90,8 @@ en:
         title: "Log in (Admin)"
       dashboard:
         title: "Dashboard"
+      visits:
+        title: "Visits"
       users:
         title: "Users"
       comments:

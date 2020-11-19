@@ -632,13 +632,16 @@ fr:
           title: "Nombre de vues"
         origins:
           title: "Origines"
-          countries: "Visites par pays"
+          country: "Visites par pays"
           browser: "Visites par navigateurs"
+          device: "Visites par appareils"
           os: "Visites par systèmes"
           utm: "Visites par UTM"
+          referer: "Visites par sites d'origine"
         referers:
           title: "Sources"
-          internal: "Lien interne"
+        internal: "Lien interne"
+        others: "[Autres]"
         undefined: "[Non défini]"
         cancel: "Annuler"
       compare:
@@ -850,6 +853,7 @@ fr:
         stats: "Visites et stats"
       menu:
         dashboard: "Dashboard"
+        visits: "Visites"
         users: "Utilisateurs"
         comments: "Commentaires"
         topics: "Thèmes"
@@ -875,6 +879,26 @@ fr:
       dashboard:
         title: "Liste des menus d'administration"
         button: "Accéder"
+      visits:
+        title: "Vue d'ensemble des visites"
+        uniq:
+          title: "Visites uniques par jour"
+          data: "Donnée"
+          day: "Nb de visites"
+          total: "Nb cumulé de visites"
+        stats:
+          title: "Statistiques"
+          uniq: "Nombre de visites uniques"
+          clicks: "Nombre de clics"
+          views: "Nombre d'article vues"
+          searches: "Nombre de recherches"
+          pages: "Nombre moyen de pages vues"
+          bounce: "Taux de rebond"
+          duration: "Temps moyen de visite"
+        tops:
+          title: "Éléments les plus vues"
+        sources:
+          title: "Sources des visites"
       users:
         title: "Utilisateurs"
         table:

@@ -4,6 +4,7 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
+import CloudCircleIcon from '@material-ui/icons/CloudCircle';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import CommentIcon from '@material-ui/icons/Comment';
 import LabelIcon from '@material-ui/icons/Label';
@@ -46,15 +47,25 @@ const AdminDashboard = () => (
         </h1>
 
         <div className="row center-align">
-            <Item col="s6"
+            <Item col="s4"
+                  href="/admins/visits"
+                  text={I18n.t('js.admin.menu.visits')}
+                  icon={<CloudCircleIcon/>}/>
+
+            <Item col="s4"
                   href="/admins/users"
                   text={I18n.t('js.admin.menu.users')}
                   icon={<AccountBoxIcon/>}/>
 
-            <Item col="s6"
+            <Item col="s4"
                   href="/admins/comments"
                   text={I18n.t('js.admin.menu.comments')}
                   icon={<CommentIcon/>}/>
+
+            <Item col="s4"
+                  href="/admins/articles"
+                  text={I18n.t('js.admin.menu.articles')}
+                  icon={<AssignmentIcon/>}/>
 
             <Item col="s4"
                   href="/admins/tags"
@@ -65,11 +76,6 @@ const AdminDashboard = () => (
                   href="/admins/topics"
                   text={I18n.t('js.admin.menu.topics')}
                   icon={<ClassIcon/>}/>
-
-            <Item col="s4"
-                  href="/admins/articles"
-                  text={I18n.t('js.admin.menu.articles')}
-                  icon={<AssignmentIcon/>}/>
 
             <Item col="s6"
                   href="/admins/blogs"

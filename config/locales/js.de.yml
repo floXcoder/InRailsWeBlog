@@ -675,13 +675,16 @@ de:
           title: "Ansichten zählen"
         origins:
           title: "Ursprünge"
-          countries: "Besuche nach Land"
+          country: "Besuche nach Land"
           browser: "Besuche von Browsern"
+          device: "Besuche durch Geräte"
           os: "Besuche nach Systemen"
           utm: "Besuche durch UTM"
+          referer: "Besuche nach Herkunftsort"
         referers:
           title: "Quellen"
-          internal: "Interne Beziehung"
+        internal: "Interne Beziehung"
+        others: "[Andere]"
         undefined: "[Nicht definiert]"
         cancel: "Abbrechen"
       compare:
@@ -855,6 +858,7 @@ de:
         cache: "Cache"
         comments: "Kommentare"
         dashboard: "Dashboard"
+        visits: "Besucht"
         jobs: "Jobs"
         log_out: "Abmelden"
         logs: "Protokolle"
@@ -913,6 +917,26 @@ de:
       dashboard:
         button: Zugang
         title: Liste der Verwaltungsmenüs
+      visits:
+        title: "Übersicht der Besuche"
+        uniq:
+          title: "Einmalige Besuche pro Tag"
+          data: "Daten"
+          day: "Anzahl der Besuche"
+          total: "Kumulative Anzahl der Besuche"
+        stats:
+          title: "Statistik"
+          uniq: "Anzahl der einmaligen Besuche"
+          clicks: "Anzahl der Klicks"
+          views: "Anzahl der angesehenen Elemente"
+          searches: "Anzahl der Recherchen"
+          pages: "Durchschnittliche Anzahl der Seitenaufrufe"
+          bounce: "Absprungrate"
+          duration: "Durchschnittliche Besuchszeit"
+        tops:
+          title: "Meist gesehene Objekte"
+        sources:
+          title: "Quellen der Besuche"
       logs:
         help:
           all: Suche nach einem beliebigen Begriff in den Protokollen

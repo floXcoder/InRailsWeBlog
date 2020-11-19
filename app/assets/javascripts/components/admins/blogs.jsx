@@ -45,7 +45,7 @@ class AdminBlogs extends React.Component {
         isAddingBlog: false,
         editingBlog: undefined,
         isNew: true,
-        isMinimized: true
+        isMinimized: false
     };
 
     componentDidMount() {
