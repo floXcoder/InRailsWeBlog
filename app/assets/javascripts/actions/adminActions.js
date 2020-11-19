@@ -34,6 +34,15 @@ export const fetchMetaSearch = (query, options= {}) => (dispatch) => {
         .then((json) => dispatch(receiveMetaSearch(query, json)));
 };
 
+// Visits
+export const fetchVisits = (filter, options = {}) => ({
+    actionType: ActionTypes.ADMIN_VISIT,
+    fetchAPI: () => api.get('/admins/visits', {
+        filter,
+        ...options
+    })
+});
+
 // Blogs
 export const fetchBlogs = (filter, options = {}) => ({
     actionType: ActionTypes.ADMIN_BLOG,

@@ -20,6 +20,8 @@ const initState = {
     metaQuery: undefined,
     metaResults: {},
 
+    visits: {},
+
     blogs: [],
 
     seoData: [],
@@ -37,6 +39,13 @@ export default function adminReducer(state = initState, action) {
             state.metaQuery = action.query;
             state.metaResults = action.metaResults;
             return state;
+
+        case ActionTypes.ADMIN_VISIT_FETCH_INIT:
+        case ActionTypes.ADMIN_VISIT_FETCH_SUCCESS:
+        case ActionTypes.ADMIN_VISIT_FETCH_ERROR:
+            return fetchReducer(state, action, (state) => {
+                state.visits = action.visits;
+            });
 
         case ActionTypes.ADMIN_BLOG_FETCH_INIT:
         case ActionTypes.ADMIN_BLOG_FETCH_SUCCESS:

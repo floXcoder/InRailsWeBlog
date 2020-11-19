@@ -632,13 +632,16 @@ es:
           title: "Las vistas cuentan"
         origins:
           title: "Orígenes"
-          countries: "Visitas por país"
+          country: "Visitas por país"
+          device: "Las visitas de los dispositivos"
           browser: "Visitas de los navegadores"
           os: "Visitas por sistemas"
           utm: "Visitas de la UTM"
+          referer: "Visitas por lugar de origen"
         referers:
           title: "Fuentes"
-          internal: "Relación interna"
+        internal: "Relación interna"
+        others: "[Otros]"
         undefined: "[No definido]"
         cancel: "Cancelar"
       compare:
@@ -849,20 +852,21 @@ es:
         title: "Admin"
         stats: "Visitas y estadísticas"
       menu:
-        articles: Artículos
-        back_home: Volver al sitio
-        blogs: Notas internas
-        cache: Cache
-        comments: Comentarios
-        dashboard: Tablero de mandos
-        jobs: Trabajos
-        log_out: Cierre de sesión
-        logs: Registros
-        postgres: Base de datos
-        seo: SEO
-        tags: Etiquetas
-        topics: Temas
-        users: Usuarios
+        articles: "Artículos"
+        back_home: "Volver al sitio"
+        blogs: "Notas internas"
+        cache: "Cache"
+        comments: "Comentarios"
+        dashboard: "Tablero de mandos"
+        visits: "Visita"
+        jobs: "Trabajos"
+        log_out: "Cierre de sesión"
+        logs: "Registros"
+        postgres: "Base de datos"
+        seo: "SEO"
+        tags: "Etiquetas"
+        topics: "Temas"
+        users: "Usuarios"
       search:
         help:
           articles: Artículos
@@ -875,6 +879,26 @@ es:
       dashboard:
         button: Acceso a
         title: Lista de menús de administración
+      visits:
+        title: "Resumen de las visitas"
+        uniq:
+          title: "Visitas únicas por día"
+          data: "Datos"
+          day: "Número de visitas"
+          total: "Número acumulado de visitas"
+        stats:
+          title: "Statistics"
+          uniq: "Número de visitas únicas"
+          clicks: "Número de clics"
+          views: "Número de artículos vistos"
+          searches: "Número de búsquedas"
+          pages: "Promedio de páginas vistas"
+          bounce: "Tasa de rebote"
+          duration: "Tiempo medio de visita"
+        tops:
+          title: "Artículos más vistos"
+        sources:
+          title: "Fuentes de las visitas"
       users:
         table:
           columns:

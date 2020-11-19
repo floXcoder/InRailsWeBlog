@@ -6,6 +6,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 
 import DashboardIcon from '@material-ui/icons/Dashboard';
+import CloudCircleIcon from '@material-ui/icons/CloudCircle';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import CommentIcon from '@material-ui/icons/Comment';
 import ClassIcon from '@material-ui/icons/Class';
@@ -59,6 +60,10 @@ export default class MenuLayout extends React.PureComponent {
 
                 <Divider/>
 
+                <Item href="/admins/visits"
+                      text={I18n.t('js.admin.menu.visits')}
+                      icon={<CloudCircleIcon/>}/>
+
                 <Item href="/admins/users"
                       text={I18n.t('js.admin.menu.users')}
                       icon={<AccountBoxIcon/>}/>
@@ -69,6 +74,10 @@ export default class MenuLayout extends React.PureComponent {
 
                 <Divider/>
 
+                <Item href="/admins/articles"
+                      text={I18n.t('js.admin.menu.articles')}
+                      icon={<AssignmentIcon/>}/>
+
                 <Item href="/admins/topics"
                       text={I18n.t('js.admin.menu.topics')}
                       icon={<ClassIcon/>}/>
@@ -76,10 +85,6 @@ export default class MenuLayout extends React.PureComponent {
                 <Item href="/admins/tags"
                       text={I18n.t('js.admin.menu.tags')}
                       icon={<LabelIcon/>}/>
-
-                <Item href="/admins/articles"
-                      text={I18n.t('js.admin.menu.articles')}
-                      icon={<AssignmentIcon/>}/>
 
                 <Divider/>
 

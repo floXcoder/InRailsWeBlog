@@ -87,6 +87,19 @@ class Array
 
     return paginated, current_page, total_pages, total_count
   end
+
+  def mean
+    self.inject(0) { |sum, x| sum += x } / self.size.to_f
+  end
+
+  def median(already_sorted = false)
+    return nil if self.empty?
+
+    array = already_sorted ? self : self.sort
+    m_pos = array.size / 2
+
+    return array.size.odd? ? array[m_pos] : array[m_pos - 1..m_pos].mean
+  end
 end
 
 ###

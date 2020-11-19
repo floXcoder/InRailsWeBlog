@@ -632,13 +632,16 @@ it:
           title: "Le viste contano"
         origins:
           title: "Origini"
-          countries: "Visite per paese"
+          country: "Visite per paese"
+          device: "Visite tramite dispositivi"
           browser: "Visite tramite browser"
           os: "Visite per sistemi"
           utm: "Visite da UTM"
+          referer: "Visite per sito di provenienza"
         referers:
           title: "Fonti"
-          internal: "Relazione interna"
+        internal: "Relazione interna"
+        others: "[Altri]"
         undefined: "[Non definito]"
         cancel: "Annulla"
       compare:
@@ -849,20 +852,21 @@ it:
         title: "Admin"
         stats: "Visite e statistiche"
       menu:
-        articles: Articoli
-        back_home: Torna al sito
-        blogs: Note interne
-        cache: Cache
-        comments: Commenti
-        dashboard: Cruscotto
-        jobs: Offerte di lavoro
-        log_out: Logout
-        logs: Diari
-        postgres: Banca dati
-        seo: SEO
-        tags: Etichette
-        topics: Temi
-        users: Utenti
+        articles: "Articoli"
+        back_home: "Torna al sito"
+        blogs: "Nota interna"
+        cache: "Cache"
+        comments: "Commenti"
+        dashboard: "Cruscotto"
+        visits: "Visite"
+        jobs: "Offerte di lavoro"
+        log_out: "Logout"
+        logs: "Diari"
+        postgres: "Banca dati"
+        seo: "SEO"
+        tags: "Etichette"
+        topics: "Temi"
+        users: "Utenti"
       search:
         help:
           articles: Articoli
@@ -875,6 +879,26 @@ it:
       dashboard:
         button: Accesso
         title: Elenco dei menu di amministrazione
+      visits:
+        title: "Panoramica delle visite"
+        uniq:
+          title: "Visite uniche al giorno"
+          data: "Dati"
+          day: "Numero di visite"
+          total: "Numero cumulativo di visite"
+        stats:
+          title: "Statistiche"
+          uniq: "Numero di visite uniche"
+          clicks: "Numero di clic"
+          views: "Numero di articoli visti"
+          searches: "Numero di ricerche"
+          pages: "Numero medio di pagine viste"
+          bounce: "Tasso di rimbalzo"
+          duration: "Tempo medio di visita"
+        tops:
+          title: "Articoli più visti"
+        sources:
+          title: "Fonti delle visite"
       users:
         table:
           columns:

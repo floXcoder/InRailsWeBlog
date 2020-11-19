@@ -90,6 +90,8 @@ fr:
         title: "Se connecter (Admin)"
       dashboard:
         title: "Dashboard"
+      visits:
+        title: "Visites"
       users:
         title: "Utilisateurs"
       comments:

@@ -104,6 +104,8 @@ it:
         title: "Commenti"
       dashboard:
         title: "Dashboard"
+      visits:
+        title: "Visite"
       login:
         title: "Accesso (Admin)"
       logs:

@@ -1,0 +1,6 @@
+- stylesheet 'admins'
+
+- javascript "translations/admin-#{I18n.locale}"
+- javascript_defer 'commons', 'admins'
+
+= content_tag :div, '', id: 'admins-component', class: 'react-root', data: { component: 'AdminVisits' }

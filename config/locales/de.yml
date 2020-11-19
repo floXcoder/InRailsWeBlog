@@ -90,6 +90,8 @@ de:
         title: "Anmeldung (Admin)"
       dashboard:
         title: "Dashboard"
+      visits:
+        title: "Besucht"
       users:
         title: "Benutzer"
       comments:

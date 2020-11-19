@@ -9,6 +9,8 @@ export const lazyWithPreload = (factory) => {
 // webpackChunkName cannot contain "tracking"!!!
 export const AdminDashboard = lazyWithPreload(() => import(/* webpackChunkName: "admins-dashboard" */ '../admins/dashboard'));
 
+export const AdminVisits = lazyWithPreload(() => import(/* webpackChunkName: "admins-users" */ '../admins/visits'));
+
 export const AdminUsers = lazyWithPreload(() => import(/* webpackChunkName: "admins-users" */ '../admins/users'));
 
 export const AdminTags = lazyWithPreload(() => import(/* webpackChunkName: "admins-rides" */ '../admins/tags'));
