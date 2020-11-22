@@ -897,6 +897,9 @@ es:
           duration: "Tiempo medio de visita"
         tops:
           title: "Artículos más vistos"
+          total_articles: "Total de artículos"
+          total_tags: "Total de etiquetas"
+          total_topics: "Total de temas"
         sources:
           title: "Fuentes de las visitas"
       users:

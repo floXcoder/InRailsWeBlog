@@ -107,13 +107,7 @@ class TrackingArticleModal extends React.Component {
 
     _renderListDetails = (listDetails, title) => {
         if (!listDetails) {
-            return (
-                <div className="margin-top-30">
-                    <p className={this.props.classes.listItem}>
-                        <em>{I18n.t('js.article.tracking.undefined')}</em>
-                    </p>
-                </div>
-            );
+            return null;
         }
 
         return (

@@ -34,7 +34,7 @@ module Articles
     def complete(params = {})
       @relation = @relation
                     .includes(:tags, :tagged_articles, :tracker, :share, :pictures, user: [:picture], topic: [:inventory_fields])
-                    .order_by('popularity_desc').order_by('created_desc')
+                    .order_by(params[:order].presence || 'popularity_desc').order_by('created_desc')
                     .with_visibility(params[:visibility] || 'everyone')
                     .with_adapted_visibility(@current_user, @current_admin)
 
@@ -145,6 +145,10 @@ module Articles
           order('tags.name ASC')
         when 'tags_desc'
           order('tags.name DESC')
+        when 'visits_asc'
+          joins(:tracker).order('trackers.visits_count ASC')
+        when 'visits_desc'
+          joins(:tracker).order('trackers.visits_count DESC')
         when 'rank_asc'
           joins(:tracker).order('trackers.rank ASC')
         when 'rank_desc'

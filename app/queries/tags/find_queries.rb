@@ -78,6 +78,10 @@ module Tags
           order('tags.updated_at ASC')
         when 'updated_desc'
           order('tags.updated_at DESC')
+        when 'visits_asc'
+          joins(:tracker).order('trackers.visits_count ASC')
+        when 'visits_desc'
+          joins(:tracker).order('trackers.visits_count DESC')
         when 'rank_asc'
           joins(:tracker).order('trackers.rank ASC')
         when 'rank_desc'
