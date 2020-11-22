@@ -42,9 +42,13 @@ class Admins::VisitsController < AdminsController
     visits_details[:topTags]     = Tracker.where(tracked_type: 'Tag').order('visits_count DESC').limit(top_limit).map { |tracker| { name: tracker.tracked.name, count: tracker.visits_count } }
     visits_details[:topTopics]   = Tracker.where(tracked_type: 'Topic').order('visits_count DESC').limit(top_limit).map { |tracker| { name: tracker.tracked.name, count: tracker.visits_count } }
 
-    visits_details[:bounceRate] = uniq_visits.count > 0 ? (uniq_visits.count { |v| v.pages_count < 2 }.to_f / uniq_visits.count).round(2) * 100 : 0
-    median_duration           = uniq_visits.select { |visit| visit.ended_at && visit.started_at && visit.pages_count > 1 }.map { |visit| visit.ended_at - visit.started_at }.median
-    visits_details[:duration] = median_duration ? Time.zone.at(median_duration).strftime('%Mmin %Ssec').sub!(/^0/, '') : nil
+    visits_details[:totalArticles] = Article.everyone.count
+    visits_details[:totalTags]     = Tag.everyone.count
+    visits_details[:totalTopics]   = Topic.everyone.count
+
+    visits_details[:bounceRate]   = uniq_visits.count > 0 ? (uniq_visits.count { |v| v.pages_count < 2 }.to_f / uniq_visits.count).round(2) * 100 : 0
+    median_duration               = uniq_visits.select { |visit| visit.ended_at && visit.started_at && visit.pages_count > 1 }.map { |visit| visit.ended_at - visit.started_at }.median
+    visits_details[:duration]     = median_duration ? Time.zone.at(median_duration).strftime('%Mmin %Ssec').sub!(/^0/, '') : nil
     visits_details[:averagePages] = (uniq_visits.reduce(0) { |sr, visit| sr + visit.pages_count }.to_f / uniq_visits.count).round
 
     # direct_source_count = uniq_visits.count { |visit| visit.referrer.nil? }

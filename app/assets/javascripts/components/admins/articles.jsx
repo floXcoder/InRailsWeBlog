@@ -34,7 +34,7 @@ class AdminArticles extends React.Component {
     }
 
     componentDidMount() {
-        this.props.fetchArticles({complete: true});
+        this.props.fetchArticles({complete: true, order: 'visits_desc'});
     }
 
     _updateArticle =  (newData, oldData) => {

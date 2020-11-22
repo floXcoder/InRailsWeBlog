@@ -935,6 +935,9 @@ de:
           duration: "Durchschnittliche Besuchszeit"
         tops:
           title: "Meist gesehene Objekte"
+          total_articles: "Artikel insgesamt"
+          total_tags: "Beschriftungen insgesamt"
+          total_topics: "Themen insgesamt"
         sources:
           title: "Quellen der Besuche"
       logs:

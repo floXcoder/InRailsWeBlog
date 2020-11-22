@@ -253,6 +253,28 @@ class AdminVisits extends React.Component {
                           className={this.props.classes.gridContainer}
                           spacing={2}
                           direction="row"
+                          justify="space-around"
+                          alignItems="center">
+                        <Grid item={true}>
+                            <MiniCard title={I18n.t('js.admin.visits.tops.total_articles')}
+                                      number={this.props.visits.totalArticles}/>
+                        </Grid>
+
+                        <Grid item={true}>
+                            <MiniCard title={I18n.t('js.admin.visits.tops.total_tags')}
+                                      number={this.props.visits.totalTags}/>
+                        </Grid>
+
+                        <Grid item={true}>
+                            <MiniCard title={I18n.t('js.admin.visits.tops.total_topics')}
+                                      number={this.props.visits.totalTopics}/>
+                        </Grid>
+                    </Grid>
+
+                    <Grid container={true}
+                          className={this.props.classes.gridContainer}
+                          spacing={2}
+                          direction="row"
                           justify="space-between"
                           alignItems="flex-start">
                         <Grid item={true}>

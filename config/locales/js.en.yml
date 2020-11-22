@@ -897,6 +897,9 @@ en:
           duration: "Visit duration"
         tops:
           title: "Tops viewed elements"
+          total_articles: "Total articles"
+          total_tags: "Total tags"
+          total_topics: "Total topics"
         sources:
           title: "Traffic origins"
       users:

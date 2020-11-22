@@ -359,7 +359,7 @@ class ApplicationController < ActionController::Base
     if formatted_data.empty? || (formatted_data.size == 1 && formatted_data[0][0].nil?)
       nil
     else
-      if (website_index = formatted_data.index { |x| x[0] == ENV['WEBSITE_ADDRESS'] })
+      if (website_index = formatted_data.index { |x| x[0]&.include?(ENV['WEBSITE_ADDRESS'].tr('www.', '')) })
         formatted_data[website_index][0] = 'internal'
         formatted_data                   = formatted_data.insert(formatted_data.length - 1, formatted_data.delete_at(website_index))
       end
@@ -373,7 +373,7 @@ class ApplicationController < ActionController::Base
         ]
       end
 
-      if (nil_index = formatted_data.index { |x| x[0].nil? })
+      if (nil_index = formatted_data.index { |x| x[0].blank? })
         formatted_data = formatted_data.insert(formatted_data.length - 1, formatted_data.delete_at(nil_index))
       end
 
