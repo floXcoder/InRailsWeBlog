@@ -379,18 +379,18 @@ class AdminVisits extends React.Component {
                     <div className="row margin-top-50">
                         <div className="col s12 m4">
                             <h3 className={this.props.classes.subtitle}>
-                                {I18n.t('js.article.tracking.origins.os')}
-                            </h3>
-
-                            {this._renderListDetails(this.props.visits.os)}
-                        </div>
-
-                        <div className="col s12 m4">
-                            <h3 className={this.props.classes.subtitle}>
                                 {I18n.t('js.article.tracking.origins.device')}
                             </h3>
 
                             {this._renderListDetails(this.props.visits.devices)}
+                        </div>
+
+                        <div className="col s12 m4">
+                            <h3 className={this.props.classes.subtitle}>
+                                {I18n.t('js.article.tracking.origins.os')}
+                            </h3>
+
+                            {this._renderListDetails(this.props.visits.os)}
                         </div>
 
                         <div className="col s12 m4">
