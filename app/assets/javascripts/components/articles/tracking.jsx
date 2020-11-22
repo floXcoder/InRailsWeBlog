@@ -112,9 +112,12 @@ class TrackingArticleModal extends React.Component {
 
         return (
             <div className="col s12 margin-top-40">
-                <h3 className="margin-top-0 margin-bottom-5">
-                    {title}
-                </h3>
+                {
+                    title &&
+                    <h3 className="margin-top-0 margin-bottom-5">
+                        {title}
+                    </h3>
+                }
 
                 <List className={this.props.classes.listContainer}
                       dense={true}>
@@ -314,44 +317,7 @@ class TrackingArticleModal extends React.Component {
             );
         }
 
-        return (
-            <div className="row margin-top-30">
-                <div className="col s12">
-                    <List dense={true}>
-                        {
-                            Object.entries(this.props.articleTracking.referers).map(([referer, count], i) => (
-                                <ListItem key={i}>
-                                    <ListItemText className={this.props.classes.listItem}
-                                                  primary={
-                                                      <div>
-                                                          {
-                                                              (!referer || referer === 'internal') &&
-                                                              <Divider className="margin-top-5 margin-bottom-20"/>
-                                                          }
-
-                                                          {
-                                                              referer === 'internal'
-                                                                  ?
-                                                                  <em>{I18n.t('js.article.tracking.internal')}</em>
-                                                                  :
-                                                                  referer ||
-                                                                  <em>{I18n.t('js.article.tracking.undefined')}</em>
-                                                          }
-                                                      </div>
-                                                  }/>
-
-                                    <ListItemSecondaryAction className={classNames(this.props.classes.listItem, {
-                                        'margin-top-10': (!referer || referer === 'internal')
-                                    })}>
-                                        {count}
-                                    </ListItemSecondaryAction>
-                                </ListItem>
-                            ))
-                        }
-                    </List>
-                </div>
-            </div>
-        );
+        return this._renderListDetails(this.props.articleTracking.referers);
     };
 
 

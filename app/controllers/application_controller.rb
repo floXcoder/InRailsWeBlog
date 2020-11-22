@@ -359,22 +359,24 @@ class ApplicationController < ActionController::Base
     if formatted_data.empty? || (formatted_data.size == 1 && formatted_data[0][0].nil?)
       nil
     else
-      if (website_index = formatted_data.index { |x| x[0]&.include?(ENV['WEBSITE_ADDRESS'].tr('www.', '')) })
-        formatted_data[website_index][0] = 'internal'
-        formatted_data                   = formatted_data.insert(formatted_data.length - 1, formatted_data.delete_at(website_index))
+      internal_indexes = formatted_data.each_index.select { |i| formatted_data[i][0]&.downcase&.include?(ENV['WEBSITE_ADDRESS'].sub('www.', '')) }
+      if internal_indexes.present?
+        internal_data    = ['internal', 0]
+        internal_data[1] = internal_indexes.reduce(0) { |sr, i| sr + formatted_data.delete_at(i)[1] }
+        formatted_data << internal_data
       end
 
       if formatted_data.size > limit_for_others
         others_count   = formatted_data[limit_for_others + 1..].reduce(0) { |sr, count| sr + count[1] }
         formatted_data = formatted_data[0..limit_for_others]
-        formatted_data << [
-          'others',
-          others_count
-        ]
+        formatted_data << ['others', others_count]
       end
 
-      if (nil_index = formatted_data.index { |x| x[0].blank? })
-        formatted_data = formatted_data.insert(formatted_data.length - 1, formatted_data.delete_at(nil_index))
+      nil_indexes = formatted_data.each_index.select { |i| formatted_data[i][0].blank? }
+      if nil_indexes.present?
+        nil_data    = [nil, 0]
+        nil_data[1] = nil_indexes.reduce(0) { |sr, i| sr + formatted_data.delete_at(i)[1] }
+        formatted_data << nil_data
       end
 
       formatted_data.to_h

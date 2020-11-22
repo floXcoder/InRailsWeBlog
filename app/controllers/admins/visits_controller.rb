@@ -69,7 +69,7 @@ class Admins::VisitsController < AdminsController
     visits_details[:os]         = format_tracking(uniq_visits.group_by(&:os))
     visits_details[:utmSources] = format_tracking(uniq_visits.group_by(&:utm_source))
     visits_details[:devices]    = format_tracking(uniq_visits.group_by(&:device_type))
-    visits_details[:referers]   = format_tracking(uniq_visits.group_by(&:referring_domain), 18)
+    visits_details[:referers]   = format_tracking(uniq_visits.group_by(&:referring_domain))
 
     # visits_details[:utms] = format_tracking(uniq_visits.group_by { |visit| [visit.utm_source, visit.utm_medium, visit.utm_campaign].map(&:presence).compact.join('-') }.delete_if { |k, _v| k.blank? })
 
