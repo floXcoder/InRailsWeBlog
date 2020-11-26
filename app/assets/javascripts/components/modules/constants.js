@@ -41,6 +41,6 @@ export const highlightedLanguagePrefix = 'language-';
 export const highlightedLanguages = [
     ['javascript', 'typescript', 'php', 'python', 'ruby'],
     ['cpp', 'dart', 'java', 'apache', 'cmake', 'rust', 'sql'],
-    ['makefile', 'dockerfile', 'http', 'nginx'],
-    ['shell', 'markdown', 'json', 'css', 'scss', 'xml', 'yaml']
+    ['shell', 'makefile', 'dockerfile', 'http', 'nginx'],
+    ['markdown', 'json', 'css', 'scss', 'xml', 'yaml']
 ]
