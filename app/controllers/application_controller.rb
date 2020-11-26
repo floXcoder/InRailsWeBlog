@@ -362,7 +362,8 @@ class ApplicationController < ActionController::Base
       internal_indexes = formatted_data.each_index.select { |i| formatted_data[i][0]&.downcase&.include?(ENV['WEBSITE_ADDRESS'].sub('www.', '')) }
       if internal_indexes.present?
         internal_data    = ['internal', 0]
-        internal_data[1] = internal_indexes.reduce(0) { |sr, i| sr + formatted_data.delete_at(i)[1] }
+        internal_data[1] = internal_indexes.reduce(0) { |sr, i| sr + formatted_data[i][1] }
+        internal_indexes.each_with_index { |index, i| formatted_data.delete_at(index - i) }
         formatted_data << internal_data
       end
 
@@ -375,7 +376,8 @@ class ApplicationController < ActionController::Base
       nil_indexes = formatted_data.each_index.select { |i| formatted_data[i][0].blank? }
       if nil_indexes.present?
         nil_data    = [nil, 0]
-        nil_data[1] = nil_indexes.reduce(0) { |sr, i| sr + formatted_data.delete_at(i)[1] }
+        nil_data[1] = nil_indexes.reduce(0) { |sr, i| sr + formatted_data[i][1] }
+        nil_indexes.each_with_index { |index, i| nil_indexes.delete_at(index - i) }
         formatted_data << nil_data
       end
 
