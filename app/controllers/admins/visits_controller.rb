@@ -38,9 +38,9 @@ class Admins::VisitsController < AdminsController
     visits_details[:totalQueries]    = Tracker.sum(:queries_count)
     visits_details[:totalSearches]   = Tracker.sum(:searches_count)
 
-    visits_details[:topArticles] = Tracker.where(tracked_type: 'Article').order('visits_count DESC').limit(top_limit).map { |tracker| { name: tracker.tracked.title, date: I18n.l(tracker.tracked.created_at, format: :custom_full_date).sub(/^[0]+/, ''), count: tracker.visits_count } }
-    visits_details[:topTags]     = Tracker.where(tracked_type: 'Tag').order('visits_count DESC').limit(top_limit).map { |tracker| { name: tracker.tracked.name, count: tracker.visits_count } }
-    visits_details[:topTopics]   = Tracker.where(tracked_type: 'Topic').order('visits_count DESC').limit(top_limit).map { |tracker| { name: tracker.tracked.name, count: tracker.visits_count } }
+    visits_details[:topArticles] = Tracker.where(tracked_type: 'Article').order('visits_count DESC').limit(top_limit).map { |tracker| { name: tracker.tracked.title, date: I18n.l(tracker.tracked.created_at, format: :custom_full_date).sub(/^[0]+/, ''), link: tracker.tracked.link_path(locale: I18n.locale), count: tracker.visits_count } }
+    visits_details[:topTags]     = Tracker.where(tracked_type: 'Tag').order('visits_count DESC').limit(top_limit).map { |tracker| { name: tracker.tracked.name, link: tracker.tracked.link_path(locale: I18n.locale), count: tracker.visits_count } }
+    visits_details[:topTopics]   = Tracker.where(tracked_type: 'Topic').order('visits_count DESC').limit(top_limit).map { |tracker| { name: tracker.tracked.name, link: tracker.tracked.link_path(locale: I18n.locale), count: tracker.visits_count } }
 
     visits_details[:totalArticles] = Article.everyone.count
     visits_details[:totalTags]     = Tag.everyone.count

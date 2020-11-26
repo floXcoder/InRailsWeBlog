@@ -287,11 +287,18 @@ class AdminVisits extends React.Component {
                                                     <AssignmentIcon/>
                                                 </Avatar>
                                             </ListItemAvatar>
+
                                             <ListItemText classes={{
                                                 primary: this.props.classes.listItem,
                                                 secondary: this.props.classes.listItemSecondary
                                             }}
-                                                          primary={article.name}
+                                                          primary={
+                                                              <a className={this.props.classes.listItem}
+                                                                 target="_blank"
+                                                                 href={article.link}>
+                                                                  {article.name}
+                                                              </a>
+                                                          }
                                                           secondary={`${article.count} (${article.date})`}/>
                                         </ListItem>
                                     ))
@@ -309,11 +316,18 @@ class AdminVisits extends React.Component {
                                                     <LabelIcon/>
                                                 </Avatar>
                                             </ListItemAvatar>
+
                                             <ListItemText classes={{
                                                 primary: this.props.classes.listItem,
                                                 secondary: this.props.classes.listItemSecondary
                                             }}
-                                                          primary={tag.name}
+                                                          primary={
+                                                              <a className={this.props.classes.listItem}
+                                                                 target="_blank"
+                                                                 href={tag.link}>
+                                                                  {tag.name}
+                                                              </a>
+                                                          }
                                                           secondary={tag.count}/>
                                         </ListItem>
                                     ))
@@ -331,11 +345,18 @@ class AdminVisits extends React.Component {
                                                     <ClassIcon/>
                                                 </Avatar>
                                             </ListItemAvatar>
+
                                             <ListItemText classes={{
                                                 primary: this.props.classes.listItem,
                                                 secondary: this.props.classes.listItemSecondary
                                             }}
-                                                          primary={topic.name}
+                                                          primary={
+                                                              <a className={this.props.classes.listItem}
+                                                                 target="_blank"
+                                                                 href={topic.link}>
+                                                                  {topic.name}
+                                                              </a>
+                                                          }
                                                           secondary={topic.count}/>
                                         </ListItem>
                                     ))
