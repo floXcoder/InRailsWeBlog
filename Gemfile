@@ -14,7 +14,7 @@ gem 'rails',                    '6.0.3.4'
 # Use postgresql as the database for Active Record
 gem 'pg',                       '1.2.3'
 gem 'active_record_extended',   '1.4.0'
-gem 'pghero',                   '2.7.2'
+gem 'pghero',                   '2.7.3'
 gem 'pg_query',                 '1.2.0' # Required for pghero
 
 # HTTP Response
@@ -71,7 +71,7 @@ gem 'carrierwave',              '2.1.0'
 gem 'mini_magick',              '4.11.0'
 
 # Search in database
-gem 'searchkick',               '4.4.1'
+gem 'searchkick',               '4.4.2'
 gem 'typhoeus',                 '1.4.0'
 
 # Votable models
@@ -97,7 +97,7 @@ gem 'sitemap_generator',        '6.1.2'
 
 # Dummy data
 gem 'factory_bot_rails',        '6.1.0',   require: false
-gem 'faker',                    '2.14.0',  require: false
+gem 'faker',                    '2.15.1',  require: false
 
 # Deployment
 gem 'capistrano',               '3.14.1'
@@ -179,7 +179,7 @@ group :development, :test do
   gem 'bootsnap',                   '1.5.1',   require: false
 
   # Check errors
-  gem 'rubocop',                    '1.3.1',  require: false
+  gem 'rubocop',                    '1.4.2',  require: false
   gem 'rubocop-rails',              '2.8.1',   require: false
   gem 'rubocop-performance',        '1.9.0',   require: false
   gem 'rubocop-rspec',              '2.0.0',  require: false
