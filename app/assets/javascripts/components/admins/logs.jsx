@@ -244,8 +244,6 @@ class AdminLogs extends React.PureComponent {
         if (this._envParentNode && this._envLogNode) {
             this._envParentNode.scrollTop = this._envLogNode.scrollHeight;
         }
-        w(this._jobParentNode)
-        w(this._jobLogNode.scrollHeight)
         if (this._jobParentNode && this._jobLogNode) {
             this._jobParentNode.scrollTop = this._jobLogNode.scrollHeight;
         }
