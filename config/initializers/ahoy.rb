@@ -78,9 +78,9 @@ EXCLUDE_PATTERN_IPS = if File.exists?(Rails.root.join('lib/tracking/excluded_ips
 
 # Exclude asset requests and admin from visits
 Ahoy.exclude_method = lambda do |_controller, request|
-  return true if EXCLUDE_USER_AGENT.any? { |user_agent| request.user_agent&.downcase&.include?(user_agent.downcase) }
+  return true if EXCLUDE_USER_AGENT.any? { |user_agent| request&.user_agent&.downcase&.include?(user_agent.downcase) }
 
-  return true if EXCLUDE_REFERRERS.any? { |referrer| request.referrer&.downcase&.include?(referrer.downcase) }
+  return true if EXCLUDE_REFERRERS.any? { |referrer| request&.referrer&.downcase&.include?(referrer.downcase) }
 
   return true if ENV['TRACKER_EXCLUDED_IP'].split(', ').include?(request&.ip)
 
