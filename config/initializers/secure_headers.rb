@@ -27,7 +27,7 @@ else
       worker_src:       ["'self'"],
       script_src:       ["'self'", "'unsafe-inline'", "'unsafe-eval'", 'data:', ENV['WEBSITE_ASSET'], ENV['METRICS_ADDRESS'], ENV['SENTRY_ADDRESS']].compact,
       img_src:          ['*', 'data:'],
-      font_src:         ["'self'", 'data:', ENV['WEBSITE_ASSET'], 'fonts.gstatic.com', 'github.com', 'chrome-extension://'].compact,
+      font_src:         ["'self'", 'data:', ENV['WEBSITE_ASSET'], 'fonts.gstatic.com', 'github.com', 'chrome-extension'].compact,
       media_src:        ["'self'", ENV['WEBSITE_ASSET'], 'data:'].compact,
       object_src:       ["'self'", ENV['WEBSITE_ASSET']].compact,
       style_src:        ["'self'", "'unsafe-inline'", ENV['WEBSITE_ASSET'], 'translate.googleapis.com'].compact,
