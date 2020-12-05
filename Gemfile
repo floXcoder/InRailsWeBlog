@@ -13,7 +13,7 @@ gem 'rails',                    '6.0.3.4'
 
 # Use postgresql as the database for Active Record
 gem 'pg',                       '1.2.3'
-gem 'active_record_extended',   '1.4.0'
+# gem 'active_record_extended',   '1.4.0'
 gem 'pghero',                   '2.7.3'
 gem 'pg_query',                 '1.2.0' # Required for pghero
 
@@ -109,7 +109,7 @@ gem 'capistrano-db-tasks',      '0.6',     require: false
 gem 'health_check',             '3.0.0'
 
 # SEO
-gem 'webdrivers',               '4.4.1'
+gem 'webdrivers',               '4.4.1',   require: false
 
 # Server
 gem 'puma',                     '5.1.0'
@@ -193,5 +193,5 @@ group :production do
   gem 'lograge',          '0.11.2'
 
   # Prerender html pages for SEO
-  gem 'seo_cache',        '1.0.1'
+  gem 'seo_cache',        '1.0.1',   require: false
 end
