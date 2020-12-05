@@ -20,6 +20,8 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
+import Divider from '@material-ui/core/Divider';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 
 import LabelIcon from '@material-ui/icons/Label';
 import ClassIcon from '@material-ui/icons/Class';
@@ -33,8 +35,6 @@ import Loader from '../theme/loader';
 import MiniCard from '../material-ui/miniCard';
 
 import styles from '../../../jss/admin/visits';
-import Divider from "@material-ui/core/Divider";
-import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 
 export default @connect((state) => ({
     visits: state.adminState.visits,
@@ -133,10 +133,12 @@ class AdminVisits extends React.Component {
                     </h2>
 
                     <TableContainer component={Paper}>
-                        <Table aria-label="visits by days">
+                        <Table className={this.props.classes.table}
+                               aria-label="visits by days">
                             <TableHead>
                                 <TableRow>
-                                    <TableCell align="left">
+                                    <TableCell className={this.props.classes.tableData}
+                                               align="left">
                                         {I18n.t('js.admin.visits.uniq.data')}
                                     </TableCell>
 
@@ -152,7 +154,8 @@ class AdminVisits extends React.Component {
                             </TableHead>
                             <TableBody>
                                 <TableRow>
-                                    <TableCell align="left">
+                                    <TableCell className={this.props.classes.tableData}
+                                               align="left">
                                         {I18n.t('js.admin.visits.uniq.day')}
                                     </TableCell>
 
@@ -167,7 +170,8 @@ class AdminVisits extends React.Component {
                                 </TableRow>
 
                                 <TableRow>
-                                    <TableCell align="left">
+                                    <TableCell className={this.props.classes.tableData}
+                                               align="left">
                                         {I18n.t('js.admin.visits.uniq.total')}
                                     </TableCell>
 

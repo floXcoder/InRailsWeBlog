@@ -12,6 +12,13 @@ const styles = (theme) => ({
         marginRight: theme.spacing(4),
         borderBottom: `1px solid ${theme.palette.grey[300]}`
     },
+    table: {
+        tableLayout: 'fixed',
+        wordWrap: 'break-word'
+    },
+    tableData: {
+        wordWrap: 'normal'
+    },
     gridContainer: {
         width: '90%',
         margin: theme.spacing(3)

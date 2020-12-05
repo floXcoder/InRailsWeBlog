@@ -35,7 +35,7 @@ class AdminBlogCard extends React.Component {
 
     state = {
         isMinimized: this.props.isMinimized,
-        isFolded: true
+        isFolded: this.props.isMinimized
     };
 
     static getDerivedStateFromProps(nextProps, prevState) {

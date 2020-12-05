@@ -87,7 +87,7 @@ gem 'premailer-rails',          '1.11.1'
 gem 'browser',                  '5.1.0'
 
 # Tracking
-gem 'ahoy_matey',               '3.0.5'
+gem 'ahoy_matey',               '3.1.0'
 
 # SEO
 gem 'friendly_id',              '5.4.1'
@@ -112,7 +112,7 @@ gem 'health_check',             '3.0.0'
 gem 'webdrivers',               '4.4.1'
 
 # Server
-gem 'puma',                     '5.0.4'
+gem 'puma',                     '5.1.0'
 
 group :development do
   # Debugging tool
@@ -155,13 +155,13 @@ group :test do
   gem 'rspec_junit_formatter',      '0.4.1'
   gem 'shoulda-matchers',           '4.4.1',  require: false
   gem 'shoulda-callback-matchers',  '1.1.4',  require: false
-  gem 'simplecov',                  '0.19.1', require: false
+  gem 'simplecov',                  '0.20.0', require: false
   gem 'fuubar',                     '2.5.0'
   gem 'database_cleaner',           '1.8.5'
   gem 'db-query-matchers',          '0.10.0'
 
   # Browser tests
-  gem 'capybara',                   '3.33.0'
+  gem 'capybara',                   '3.34.0'
   gem 'capybara-email',             '3.0.2'
   gem 'capybara-screenshot',        '1.0.25'
   gem 'selenium-webdriver',         '3.142.7'
@@ -179,10 +179,10 @@ group :development, :test do
   gem 'bootsnap',                   '1.5.1',   require: false
 
   # Check errors
-  gem 'rubocop',                    '1.4.2',  require: false
+  gem 'rubocop',                    '1.5.2',  require: false
   gem 'rubocop-rails',              '2.8.1',   require: false
-  gem 'rubocop-performance',        '1.9.0',   require: false
-  gem 'rubocop-rspec',              '2.0.0',  require: false
+  gem 'rubocop-performance',        '1.9.1',   require: false
+  gem 'rubocop-rspec',              '2.0.1',  require: false
 end
 
 group :production do

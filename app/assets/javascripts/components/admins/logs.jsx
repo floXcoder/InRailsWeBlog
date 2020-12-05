@@ -52,8 +52,23 @@ class AdminLogs extends React.PureComponent {
     constructor(props) {
         super(props);
 
-        this._logParentNode = null;
-        this._logNode = null;
+        this._envParentNode = null;
+        this._envLogNode = null;
+
+        this._jobParentNode = null;
+        this._jobLogNode = null;
+
+        this._cronParentNode = null;
+        this._cronLogNode = null;
+
+        this._trackerParentNode = null;
+        this._trackerLogNode = null;
+
+        this._sentryParentNode = null;
+        this._sentryLogNode = null;
+
+        this._seoParentNode = null;
+        this._seoLogNode = null;
     }
 
     state = {
@@ -77,13 +92,13 @@ class AdminLogs extends React.PureComponent {
 
         this._scrollToBottomLog();
 
-        if (this._logParentNode) {
-            this._logParentNode.addEventListener('scroll', this._handleScrollChange);
+        if (this._envParentNode) {
+            this._envParentNode.addEventListener('scroll', this._handleScrollChange);
         }
     }
 
     _handleTabChange = (event, value) => {
-        this.setState({tabStep: value});
+        this.setState({tabStep: value}, () => this._scrollToBottomLog());
     };
 
     _handleScrollChange = Utils.debounce((event) => {
@@ -122,7 +137,7 @@ class AdminLogs extends React.PureComponent {
 
         this.props.fetchLogs(data)
             .then((data) => {
-                const previousScrollHeight = this._logNode.scrollHeight;
+                const previousScrollHeight = this._envLogNode.scrollHeight;
 
                 this.setState({
                     isFetching: false,
@@ -132,7 +147,7 @@ class AdminLogs extends React.PureComponent {
                     errors: null
                 }, () => {
                     if (element === 'top') {
-                        this._logParentNode.scrollTop = this._logNode.scrollHeight - previousScrollHeight - 44;
+                        this._envParentNode.scrollTop = this._envLogNode.scrollHeight - previousScrollHeight - 44;
                     } else if (element === 'refresh') {
                         // do nothing
                     } else if (element === 'date' || (value?.startsWith('date='))) {
@@ -220,14 +235,31 @@ class AdminLogs extends React.PureComponent {
     };
 
     _scrollToTopLog = () => {
-        if (this._logParentNode && this._logNode) {
-            this._logParentNode.scrollTop = 0;
+        if (this._envParentNode && this._envLogNode) {
+            this._envParentNode.scrollTop = 0;
         }
     };
 
     _scrollToBottomLog = () => {
-        if (this._logParentNode && this._logNode) {
-            this._logParentNode.scrollTop = this._logNode.scrollHeight;
+        if (this._envParentNode && this._envLogNode) {
+            this._envParentNode.scrollTop = this._envLogNode.scrollHeight;
+        }
+        w(this._jobParentNode)
+        w(this._jobLogNode.scrollHeight)
+        if (this._jobParentNode && this._jobLogNode) {
+            this._jobParentNode.scrollTop = this._jobLogNode.scrollHeight;
+        }
+        if (this._cronParentNode && this._cronLogNode) {
+            this._cronParentNode.scrollTop = this._cronLogNode.scrollHeight;
+        }
+        if (this._trackerParentNode && this._trackerLogNode) {
+            this._trackerParentNode.scrollTop = this._trackerLogNode.scrollHeight;
+        }
+        if (this._sentryParentNode && this._sentryLogNode) {
+            this._sentryParentNode.scrollTop = this._sentryLogNode.scrollHeight;
+        }
+        if (this._seoParentNode && this._seoLogNode) {
+            this._seoParentNode.scrollTop = this._seoLogNode.scrollHeight;
         }
     };
 
@@ -279,9 +311,9 @@ class AdminLogs extends React.PureComponent {
                             </div>
                         }
 
-                        <div ref={(el) => this._logParentNode = el}
+                        <div ref={(el) => this._envParentNode = el}
                              className="file-content logs">
-                            <ol ref={(el) => this._logNode = el}>
+                            <ol ref={(el) => this._envLogNode = el}>
                                 {
                                     this.state.environmentLog && this.state.environmentLog.map((line, i) => (
                                         <LogLine key={i}
@@ -313,8 +345,9 @@ class AdminLogs extends React.PureComponent {
                             Jobs log
                         </div>
 
-                        <div className="file-content logs">
-                            <ol>
+                        <div ref={(el) => this._jobParentNode = el}
+                             className="file-content logs">
+                            <ol ref={(el) => this._jobLogNode = el}>
                                 {
                                     this.props.jobLog?.map((line, i) => (
                                         <li key={i}>
@@ -333,8 +366,9 @@ class AdminLogs extends React.PureComponent {
                             Cron log
                         </div>
 
-                        <div className="file-content logs">
-                            <ol>
+                        <div ref={(el) => this._cronParentNode = el}
+                             className="file-content logs">
+                            <ol ref={(el) => this._cronLogNode = el}>
                                 {
                                     this.props.cronLog?.map((line, i) => (
                                         <li key={i}>
@@ -353,8 +387,9 @@ class AdminLogs extends React.PureComponent {
                             Tracker log
                         </div>
 
-                        <div className="file-content logs">
-                            <ol>
+                        <div ref={(el) => this._trackerParentNode = el}
+                             className="file-content logs">
+                            <ol ref={(el) => this._trackerLogNode = el}>
                                 {
                                     this.props.ahoyLog?.map((line, i) => (
                                         <li key={i}>
@@ -373,8 +408,9 @@ class AdminLogs extends React.PureComponent {
                             Sentry log
                         </div>
 
-                        <div className="file-content logs">
-                            <ol>
+                        <div ref={(el) => this._sentryParentNode = el}
+                             className="file-content logs">
+                            <ol ref={(el) => this._sentryLogNode = el}>
                                 {
                                     this.props.sentryLog?.map((line, i) => (
                                         <li key={i}>
@@ -393,8 +429,9 @@ class AdminLogs extends React.PureComponent {
                             Seo Cache log
                         </div>
 
-                        <div className="file-content logs">
-                            <ol>
+                        <div ref={(el) => this._seoParentNode = el}
+                             className="file-content logs">
+                            <ol ref={(el) => this._seoLogNode = el}>
                                 {
                                     this.props.seoCacheLog?.map((line, i) => (
                                         <li key={i}>

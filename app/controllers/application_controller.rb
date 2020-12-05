@@ -377,12 +377,14 @@ class ApplicationController < ActionController::Base
       if nil_indexes.present?
         nil_data    = [nil, 0]
         nil_data[1] = nil_indexes.reduce(0) { |sr, i| sr + formatted_data[i][1] }
-        nil_indexes.each_with_index { |index, i| nil_indexes.delete_at(index - i) }
+        nil_indexes.each_with_index { |index, i| formatted_data.delete_at(index - i) }
         formatted_data << nil_data
       end
 
-      formatted_data.to_h
+      formatted_data = formatted_data.to_h
     end
+
+    return formatted_data
   end
 
   def user_not_authorized(exception)
