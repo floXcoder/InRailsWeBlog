@@ -66,7 +66,7 @@ Rails.application.configure do
 
   # Prepend all log lines with the following tags.
   config.log_tags = [:host, :remote_ip, :uuid, lambda do |request|
-    bot = CRAWLER_USER_AGENTS.find { |crawler_user_agent| request.user_agent&.downcase&.include?(crawler_user_agent.downcase) }
+    bot = CRAWLER_USER_AGENTS.find { |crawler_user_agent| request&.user_agent&.downcase&.include?(crawler_user_agent.downcase) }
     bot.present? ? "bot:#{bot}" : nil
   end]
 

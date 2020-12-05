@@ -10,10 +10,6 @@
     </codeStyleSettings>
     <codeStyleSettings language="ruby">
       <option name="ALIGN_GROUP_FIELD_DECLARATIONS" value="true" />
-      <option name="SPACE_WITHIN_BRACES" value="true" />
-      <indentOptions>
-        <option name="CONTINUATION_INDENT_SIZE" value="2" />
-      </indentOptions>
     </codeStyleSettings>
   </code_scheme>
 </component>
