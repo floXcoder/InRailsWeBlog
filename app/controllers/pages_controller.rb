@@ -105,7 +105,21 @@ class PagesController < ApplicationController
     parameters = params.to_unsafe_h.except(:controller, :action, :page, :locale, :format, :route_name, :force_locale).symbolize_keys
     set_seo_data(params[:route_name], parameters)
 
-    render json: meta_attributes
+    respond_to do |format|
+      format.json { render json: meta_attributes }
+    end
+  end
+
+  def feed
+    locale = params[:locale].presence || I18n.locale
+
+    articles = ::Articles::FindQueries.new(nil, nil).all(limit: 100)
+
+    home_data = Seo::Data.find_by(name: "home_#{locale}")
+
+    respond_to do |format|
+      format.rss { render layout: false, locals: { locale: locale, home_data: home_data, articles: articles } }
+    end
   end
 
   def open_search
