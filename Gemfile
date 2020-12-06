@@ -193,5 +193,5 @@ group :production do
   gem 'lograge',          '0.11.2'
 
   # Prerender html pages for SEO
-  gem 'seo_cache',        '1.0.1',   require: false
+  gem 'seo_cache',        '1.0.2',   require: false
 end
