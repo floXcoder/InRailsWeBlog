@@ -68,6 +68,7 @@ Rails.application.routes.draw do
   end
 
   get '/meta-tags', to: 'pages#meta_tag', as: :meta_tag
+  get '/feed', to: 'pages#feed', as: :feed
 
   # Concerns
   concern :tracker do |options|

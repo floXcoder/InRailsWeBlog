@@ -29,6 +29,9 @@ head itemscope="" itemtype="http://schema.org/WebSite"
   meta name="apple-mobile-web-app-status-bar-style" content="black"
   meta name="apple-mobile-web-app-title" content="#{ENV['WEBSITE_NAME']}"
   
+  / RSS
+  = auto_discovery_link_tag :rss, feed_url(format: :rss, locale: I18n.locale)
+  
   / Open search
   link rel="search" type="application/opensearchdescription+xml" href="#{ENV['WEBSITE_FULL_ADDRESS']}/opensearch.xml?locale=#{I18n.locale}" title="#{ENV['WEBSITE_NAME']}"
 
