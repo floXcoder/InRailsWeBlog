@@ -102,6 +102,12 @@ const handleResponseErrors = (response, url) => {
 };
 
 const handleParseErrors = (error, url, isGet = false) => {
+    if (error.name === 'AbortError') {
+        return {
+            abort: true
+        };
+    }
+
     // Offline mode (do not report error)
     if (error.name === 'TypeError' && error.message === 'Failed to fetch') {
         if (isGet) {
@@ -115,10 +121,6 @@ const handleParseErrors = (error, url, isGet = false) => {
 
     // Ignore get fetch errors (likewise just open a new page)
     if (isGet && error.name === 'TypeError' && error.message === 'NetworkError when attempting to fetch resource.') {
-        return;
-    }
-
-    if (error.name === 'AbortError') {
         return;
     }
 

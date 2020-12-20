@@ -8,11 +8,11 @@
 #  user_id        :bigint           not null
 #  shareable_type :string           not null
 #  shareable_id   :bigint           not null
-#  contributor_id :bigint           not null
+#  contributor_id :bigint
 #  mode           :integer          default("link"), not null
+#  public_link    :string
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
-#  shared_link    :string
 #
 
 require 'rails_helper'

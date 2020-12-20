@@ -15,6 +15,7 @@
 #  home_page      :boolean          default(FALSE), not null
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
+#  visits_count   :integer          default(0), not null
 #
 
 class Tracker < ApplicationRecord

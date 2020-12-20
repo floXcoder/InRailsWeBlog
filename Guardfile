@@ -41,7 +41,7 @@ guard :sidekiq, environment: 'development' do
   watch(%r{^config/sidekiq\.yml})
 end
 
-guard :process, name: 'Annotate', command: 'annotate' do
+guard :process, name: 'Annotate', command: 'annotate --models' do
   watch(%r{^db/schema\.rb})
 end
 

@@ -16,7 +16,7 @@
 #  phone_number           :string
 #  additional_info        :string
 #  birth_date             :date
-#  locale                 :string           default("fr")
+#  locale                 :string           default("en")
 #  settings               :jsonb            not null
 #  allow_comment          :boolean          default(TRUE), not null
 #  visibility             :integer          default("everyone"), not null

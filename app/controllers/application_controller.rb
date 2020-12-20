@@ -34,7 +34,7 @@ class ApplicationController < ActionController::Base
   before_action :set_locale
 
   # Reset headers if admin is connected
-  before_action :reset_headers_for_admins
+  before_action :reset_headers_for_admins, if: -> { request.get? }
 
   # Set who is responsible of a modification
   before_action :set_paper_trail_whodunnit

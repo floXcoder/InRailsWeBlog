@@ -73,7 +73,7 @@ export default function fetchMiddleware({dispatch, getState}) {
             type: requestType
         });
 
-        if(localData) {
+        if (localData) {
             return {
                 fetch: Promise.resolve(dispatch({
                     ...payload,
@@ -94,6 +94,12 @@ export default function fetchMiddleware({dispatch, getState}) {
                             errors: response.errors || [],
                             isFetching: false,
                             type: failureType
+                        });
+                    } else if (response?.abort) {
+                        return dispatch({
+                            ...payload,
+                            isFetching: true,
+                            type: requestType
                         });
                     } else {
                         return dispatch({

@@ -182,7 +182,7 @@ class HomeSearchHeader extends React.Component {
     };
 
     _performSearch = () => {
-        if(!this.props.query || this.props.query === '') {
+        if (!this.props.query || this.props.query === '') {
             return;
         }
 

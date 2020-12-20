@@ -16,7 +16,7 @@
 #  phone_number           :string
 #  additional_info        :string
 #  birth_date             :date
-#  locale                 :string           default("fr")
+#  locale                 :string           default("en")
 #  settings               :jsonb            not null
 #  allow_comment          :boolean          default(TRUE), not null
 #  visibility             :integer          default("everyone"), not null
@@ -380,6 +380,7 @@ class User < ApplicationRecord
   # Activities
   def recent_visits(limit = 12)
     article_ids = self.events.order('time DESC').where(name: 'page_visit').where("(properties->'article_id') is not null").limit(limit).map { |event| event.properties['article_id'] }
+
     tag_ids = self.events.order('time DESC').where(name: 'page_visit').where("(properties->'tag_id') is not null").limit(limit).map { |event| event.properties['tag_id'] }
 
     {

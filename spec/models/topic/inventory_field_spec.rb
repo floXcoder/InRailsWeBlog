@@ -1,3 +1,22 @@
+# == Schema Information
+#
+# Table name: topic_inventory_fields
+#
+#  id              :bigint           not null, primary key
+#  topic_id        :bigint
+#  name            :string           not null
+#  field_name      :string           not null
+#  value_type      :integer          default("string_type"), not null
+#  parent_category :string
+#  required        :boolean          default(FALSE), not null
+#  searchable      :boolean          default(FALSE), not null
+#  filterable      :boolean          default(FALSE), not null
+#  priority        :integer          default(0), not null
+#  visibility      :integer          default("everyone"), not null
+#  deleted_at      :datetime
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#
 require 'rails_helper'
 
 RSpec.describe Topic::InventoryField, type: :model, basic: true do
