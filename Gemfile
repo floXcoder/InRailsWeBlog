@@ -9,7 +9,7 @@ end
 ruby '2.6.3'
 
 # Rails version
-gem 'rails',                    '6.0.3.4'
+gem 'rails',                    '6.1.0'
 
 # Use postgresql as the database for Active Record
 gem 'pg',                       '1.2.3'
@@ -58,7 +58,7 @@ gem 'redis-session-store',      '0.11.3'
 gem 'hiredis',                  '0.6.3'
 
 # Global and model settings
-gem 'storext',                  '3.1.0'
+gem 'storext',                  '3.1.0', github: 'sonianand11/storext'
 
 # Authentification
 gem 'devise',                   '4.7.3'
@@ -79,6 +79,7 @@ gem 'thumbs_up',                '0.6.10'
 
 # Comments
 gem 'acts_as_commentable_with_threading', '2.0.1'
+gem 'awesome_nested_set',       '3.2.0', github: 'filippoliverani/awesome_nested_set'
 
 # Email formater
 gem 'premailer-rails',          '1.11.1'

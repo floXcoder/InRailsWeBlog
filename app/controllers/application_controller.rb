@@ -127,11 +127,16 @@ class ApplicationController < ActionController::Base
 
   def render_associated_page(page: nil, **params)
     params = current_user ? params.merge(current_user: current_user.serialized_json('profile')) : params
+    status = if params[:status].present?
+               params.delete(:status)
+             else
+               :ok
+             end
 
     if current_user
-      render page || 'pages/user', locals: { **params }, layout: 'user'
+      render page || 'pages/user', locals: { **params }, layout: 'user', status: status
     else
-      render page || 'pages/default', locals: { **params }
+      render page || 'pages/default', locals: { **params }, status: status
     end
   end
 

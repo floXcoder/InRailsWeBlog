@@ -91,6 +91,7 @@ class PagesController < ApplicationController
 
   def not_found
     respond_to do |format|
+      format.json { render json: { errors: t('views.error.status.explanation.404') }, status: :not_found }
       format.html do
         expires_in InRailsWeBlog.config.cache_time, public: true
 

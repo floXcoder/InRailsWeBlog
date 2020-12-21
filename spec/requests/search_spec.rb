@@ -227,9 +227,9 @@ describe 'Search API', type: :request, basic: true do
   describe '/api/v1/search/url_search', search: true do
     context 'when user is not connected' do
       it 'returns an error message' do
-        post '/api/v1/articles/url_search', as: :json
+        post '/api/v1/search/url_search', as: :json
 
-        expect(response).to be_json_response(404)
+        expect(response).to be_json_response(403)
       end
     end
 

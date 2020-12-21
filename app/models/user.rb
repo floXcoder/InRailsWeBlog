@@ -189,7 +189,6 @@ class User < ApplicationRecord
            source_type: 'Tag'
 
   has_many :shares,
-           source:    :user,
            dependent: :destroy
   has_many :shared_topics,
            through:     :shares,
