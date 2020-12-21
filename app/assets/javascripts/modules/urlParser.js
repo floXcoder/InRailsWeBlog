@@ -1,33 +1,31 @@
 'use strict';
 
 const tag2attr = {
-        a: 'href',
-        img: 'src',
-        form: 'action',
-        base: 'href',
-        script: 'src',
-        iframe: 'src',
-        link: 'href'
-    },
+    a: 'href',
+    img: 'src',
+    form: 'action',
+    base: 'href',
+    script: 'src',
+    iframe: 'src',
+    link: 'href'
+};
 
-    key = ['source', 'protocol', 'authority', 'userInfo', 'user', 'password', 'host', 'port', 'relative', 'path', 'directory', 'file', 'query', 'fragment'], // keys available to query
+const key = ['source', 'protocol', 'authority', 'userInfo', 'user', 'password', 'host', 'port', 'relative', 'path', 'directory', 'file', 'query', 'fragment']; // keys available to query
 
-    aliases = {'anchor': 'fragment'}, // aliases for backwards compatability
+const aliases = {'anchor': 'fragment'}; // aliases for backwards compatibility
 
-    parser = {
-        strict: /^(?:([^:\/?#]+):)?(?:\/\/((?:(([^:@]*):?([^:@]*))?@)?([^:\/?#]*)(?::(\d*))?))?((((?:[^?#\/]*\/)*)([^?#]*))(?:\?([^#]*))?(?:#(.*))?)/,  //less intuitive, more accurate to the specs
-        loose: /^(?:(?![^:@]+:[^:@\/]*@)([^:\/?#.]+):)?(?:\/\/)?((?:(([^:@]*):?([^:@]*))?@)?([^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/ // more intuitive, fails on relative paths and deviates from specs
-    },
+const parser = {
+    strict: /^(?:([^:\/?#]+):)?(?:\/\/((?:(([^:@]*):?([^:@]*))?@)?([^:\/?#]*)(?::(\d*))?))?((((?:[^?#\/]*\/)*)([^?#]*))(?:\?([^#]*))?(?:#(.*))?)/,  //less intuitive, more accurate to the specs
+    loose: /^(?:(?![^:@]+:[^:@\/]*@)([^:\/?#.]+):)?(?:\/\/)?((?:(([^:@]*):?([^:@]*))?@)?([^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/ // more intuitive, fails on relative paths and deviates from specs
+};
 
-    toString = Object.prototype.toString,
-
-    isint = /^[0-9]+$/;
+const isInt = /^[0-9]+$/;
 
 function parseUri(url, strictMode) {
-    let str = decodeURI(url),
-        res = parser[strictMode || false ? 'strict' : 'loose'].exec(str),
-        uri = {attr: {}, param: {}, seg: {}},
-        i = 14;
+    let str = decodeURI(url);
+    let res = parser[strictMode || false ? 'strict' : 'loose'].exec(str);
+    let uri = {attr: {}, param: {}, seg: {}};
+    let i = 14;
 
     while (i--) {
         uri.attr[key[i]] = res[i] || '';
@@ -56,7 +54,7 @@ function getAttrName(elm) {
 function promote(parent, key) {
     if (parent[key].length === 0) return parent[key] = {};
     let t = {};
-    for (var i in parent[key]) t[i] = parent[key][i];
+    for (let i in parent[key]) t[i] = parent[key][i];
     parent[key] = t;
     return t;
 }
@@ -85,11 +83,11 @@ function parse(parts, parent, key, val) {
             }
         } else if (~part.indexOf(']')) {
             part = part.substr(0, part.length - 1);
-            if (!isint.test(part) && isArray(obj)) obj = promote(parent, key);
+            if (!isInt.test(part) && isArray(obj)) obj = promote(parent, key);
             parse(parts, obj, part, val);
             // key
         } else {
-            if (!isint.test(part) && isArray(obj)) obj = promote(parent, key);
+            if (!isInt.test(part) && isArray(obj)) obj = promote(parent, key);
             parse(parts, obj, part, val);
         }
     }
@@ -97,12 +95,12 @@ function parse(parts, parent, key, val) {
 
 function merge(parent, key, val) {
     if (~key.indexOf(']')) {
-        let parts = key.split('['),
-            len = parts.length,
-            last = len - 1;
+        let parts = key.split('[');
+        let len = parts.length;
+        let last = len - 1;
         parse(parts, parent, 'base', val);
     } else {
-        if (!isint.test(key) && isArray(parent.base)) {
+        if (!isInt.test(key) && isArray(parent.base)) {
             let t = {};
             for (let k in parent.base) t[k] = parent.base[k];
             parent.base = t;
@@ -143,8 +141,9 @@ function set(obj, key, val) {
 }
 
 function lastBraceInKey(str) {
-    let len = str.length,
-        brace, c;
+    let len = str.length;
+    let brace;
+    let c;
     for (let i = 0; i < len; ++i) {
         c = str[i];
         if (']' === c) brace = false;
@@ -153,10 +152,9 @@ function lastBraceInKey(str) {
     }
 }
 
-function reduce(obj, accumulator) {
-    let i = 0,
-        l = obj.length >> 0,
-        curr = arguments[2];
+function reduce(obj, accumulator, curr) {
+    let i = 0;
+    let l = obj.length >> 0;
     while (i < l) {
         if (i in obj) curr = accumulator.call(undefined, curr, obj[i], i, obj);
         ++i;
@@ -177,10 +175,6 @@ function keys(obj) {
 }
 
 const urlParser = (url, strictMode) => {
-    if (arguments.length === 1 && url === true) {
-        strictMode = true;
-        url = undefined;
-    }
     strictMode = strictMode || false;
     url = url || window.location.toString();
 

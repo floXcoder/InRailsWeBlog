@@ -24,6 +24,7 @@ module.exports = {
             ],
             // noParse: // Must not contain any import mechanism
         },
+        target: ['web', 'es5'],
         rules: {
             javascript: {
                 include: './app/assets/javascripts',
@@ -53,7 +54,7 @@ module.exports = {
                 options: {
                     bypassOnDebug: false,
                     outputPath: 'images/',
-                    name: '[name].[hash].[ext]',
+                    name: '[name].[contenthash].[ext]',
                     publicPath: 'assets/',
                     mozjpeg: {
                         progressive: true,
@@ -69,7 +70,7 @@ module.exports = {
                 exclude: /node_modules/,
                 options: {
                     outputPath: 'fonts/',
-                    name: '[name].[hash].[ext]'
+                    name: '[name].[contenthash].[ext]'
                 }
             }
         },
@@ -95,12 +96,8 @@ module.exports = {
             Notification: 'app/assets/javascripts/components/layouts/notification.jsx'
         },
         ignorePlugins: [
-            /^codemirror$/
+            {resourceRegExp: /^codemirror$/}
         ],
-        happyPack: {
-            loaders: ['babel-loader'],
-            threads: 4
-        },
         fonts: [
             {
                 from: './fonts/**/*',
@@ -198,10 +195,10 @@ module.exports = {
         },
         production: {
             assetPath: `${appEnv.WEBSITE_FULL_ASSET}/assets/`,
-            filename: '[name].[hash]',
+            filename: '[name].[contenthash]',
             filenameImage: '[name]',
             filenameFont: '[name]',
-            chunkFilename: '[name].[hash].[id]',
+            chunkFilename: '[name].[contenthash].[id]',
             manifestFilename: 'manifest.json'
         }
     }

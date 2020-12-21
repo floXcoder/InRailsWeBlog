@@ -3,11 +3,11 @@ html lang="#{I18n.locale}"
 
   = render 'layouts/head'
 
-  body class="lang-#{I18n.locale}"
-    - stylesheet 'user'
-    - javascript "translations/user-#{I18n.locale}"
-    - javascript_defer 'commons', 'user'
+  - stylesheet 'user'
+  - javascript "translations/user-#{I18n.locale}"
+  - javascript_defer 'commons', 'user'
 
+  body class="lang-#{I18n.locale}"
     = yield
 
     = render 'layouts/flash_messages', flash: flash

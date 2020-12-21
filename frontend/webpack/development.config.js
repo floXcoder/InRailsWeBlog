@@ -104,32 +104,27 @@ webPackConfig = _.merge(webPackConfig, {
 
 webPackConfig.optimization = {
     // Active tree shaking
-    // sideEffects: true,
+    sideEffects: true,
 
-    namedModules: true,
-    noEmitOnErrors: false,
+    emitOnErrors: true,
     concatenateModules: false,
     removeAvailableModules: false,
     removeEmptyChunks: false,
-    // runtimeChunk: {
-    //     name: 'runtime'
-    // },
+
     splitChunks: {
         chunks: 'async',
-        minSize: 80000,
-        maxSize: 0,
+        minRemainingSize: 0,
+        minSize: 100_000,
         minChunks: 2,
-        maxAsyncRequests: 3,
-        maxInitialRequests: 2,
-        name: true,
+        maxInitialRequests: 12,
+        maxAsyncRequests: 12,
         cacheGroups: {
-            default: false,
             commons: {
                 name: 'commons',
                 chunks: 'initial',
                 minChunks: 2,
                 reuseExistingChunk: true,
-                test: function (module) {
+                test(module) {
                     if (module.resource) {
                         return !module.resource.includes('/admin/') && !module.resource.includes('admin-');
                     }
@@ -141,7 +136,7 @@ webPackConfig.optimization = {
 
 webPackConfig.plugins.push(
     new webpack.DefinePlugin({
-        'process.env': {
+        'js_environment': {
             'NODE_ENV': JSON.stringify('development'),
             'ASSET_PATH': JSON.stringify(config.development.assetPath)
         }

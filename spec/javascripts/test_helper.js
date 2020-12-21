@@ -14,6 +14,9 @@ global.PropTypes = require('prop-types');
 global.connect = require('react-redux').connect;
 global.classNames = require('classnames');
 
+global.js_environment = {};
+global.js_environment.NODE_ENV === 'test';
+
 // jQuery
 require('jquery');
 

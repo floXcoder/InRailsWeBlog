@@ -2,6 +2,12 @@ doctype html
 html lang="#{I18n.locale}"
 
   = render 'layouts/head'
+  
+  - stylesheet 'admins'
+  - javascript "translations/admin-#{I18n.locale}"
+  - javascript_defer 'commons'
+  - unless current_page?(admins_login_path)
+    - javascript_defer 'admins'
 
   body
     = yield
