@@ -1,5 +1,5 @@
 do /home/flo/Projects/InRailsWeBlog/bin/bundle exec /home/flo/.rvm/rubies/ruby-2.6.3/bin/ruby /home/flo/Projects/InRailsWeBlog/bin/rake routes --trace 
-Ruby enVironment Manager 1.29.8 (latest) (c) 2009-2017 Michal Papis, Piotr Kuczynski, Wayne E. Seguin
+Ruby enVironment Manager 1.29.10 (latest) (c) 2009-2017 Michal Papis, Piotr Kuczynski, Wayne E. Seguin
 
                               Prefix Verb     URI Pattern                                                                                   Controller#Action
                                 root GET      /                                                                                             pages#home
@@ -189,6 +189,7 @@ Ruby enVironment Manager 1.29.8 (latest) (c) 2009-2017 Michal Papis, Piotr Kuczy
                         not_found_it GET      /it/404(.:format)                                                                             pages#not_found {:public=>true, :locale=>"it"}
                         not_found_en GET      /404(.:format)                                                                                pages#not_found {:public=>true, :locale=>"en"}
                             meta_tag GET      /meta-tags(.:format)                                                                          pages#meta_tag
+                                feed GET      /feed(.:format)                                                                               pages#feed
                 api_v1_users_sign_in GET      /api/v1/users/sign_in(.:format)                                                               redirect(301, /) {:format=>"html"}
                               signup GET      /api/v1/signup(.:format)                                                                      api/v1/users/registrations#new
                                      POST     /api/v1/signup(.:format)                                                                      api/v1/users/registrations#create
@@ -220,8 +221,6 @@ Ruby enVironment Manager 1.29.8 (latest) (c) 2009-2017 Michal Papis, Piotr Kuczy
                                 user GET      /api/v1/users/:id(.:format)                                                                   api/v1/users#show
                        comments_user GET      /api/v1/users/:id/comments(.:format)                                                          api/v1/users#comments
                         recents_user GET      /api/v1/users/:id/recents(.:format)                                                           api/v1/users#recents
-                                     POST     /api/v1/users/:id/recents(.:format)                                                           api/v1/users#update_recents
-                     activities_user GET      /api/v1/users/:id/activities(.:format)                                                        api/v1/users#activities
                         clicked_user POST     /api/v1/users/:id/clicked(.:format)                                                           api/v1/users#clicked
                          viewed_user POST     /api/v1/users/:id/viewed(.:format)                                                            api/v1/users#viewed
                       user_bookmarks GET      /api/v1/users/:user_id/bookmarks(.:format)                                                    api/v1/users/bookmarks#index
@@ -233,7 +232,6 @@ Ruby enVironment Manager 1.29.8 (latest) (c) 2009-2017 Michal Papis, Piotr Kuczy
                                      GET      /api/v1/users/:id(.:format)                                                                   api/v1/users#show
                                      PATCH    /api/v1/users/:id(.:format)                                                                   api/v1/users#update
                                      PUT      /api/v1/users/:id(.:format)                                                                   api/v1/users#update
-                          activities GET      /api/v1/activities(.:format)                                                                  api/v1/activities#index
                        priority_tags PUT      /api/v1/tags/priority(.:format)                                                               api/v1/tags#update_priority
                          clicked_tag POST     /api/v1/tags/:id/clicked(.:format)                                                            api/v1/tags#clicked
                           viewed_tag POST     /api/v1/tags/:id/viewed(.:format)                                                             api/v1/tags#viewed
@@ -263,6 +261,7 @@ Ruby enVironment Manager 1.29.8 (latest) (c) 2009-2017 Michal Papis, Piotr Kuczy
                                      GET      /api/v1/articles/:id/shared/:public_link(.:format)                                            api/v1/articles#shared
                  check_links_article POST     /api/v1/articles/:id/check-links(.:format)                                                    api/v1/articles#check_links
              recommendations_article GET      /api/v1/articles/:id/recommendations(.:format)                                                api/v1/articles#recommendations
+                    tracking_article GET      /api/v1/articles/:id/tracking(.:format)                                                       api/v1/articles#tracking
                      history_article GET      /api/v1/articles/:id/history(.:format)                                                        api/v1/articles#history
                      restore_article GET      /api/v1/articles/:id/restore(.:format)                                                        api/v1/articles#restore
                      clicked_article POST     /api/v1/articles/:id/clicked(.:format)                                                        api/v1/articles#clicked
@@ -324,6 +323,7 @@ Ruby enVironment Manager 1.29.8 (latest) (c) 2009-2017 Michal Papis, Piotr Kuczy
                          tags_admins GET      /admins/tags(.:format)                                                                        admins#tags
                      articles_admins GET      /admins/articles(.:format)                                                                    admins#articles
                               admins GET      /admins(.:format)                                                                             admins#index
+                       admins_visits GET      /admins/visits(.:format)                                                                      admins/visits#index
                         admins_blogs GET      /admins/blogs(.:format)                                                                       admins/blogs#index
                                      POST     /admins/blogs(.:format)                                                                       admins/blogs#create
                          admins_blog GET      /admins/blogs/:id(.:format)                                                                   admins/blogs#show

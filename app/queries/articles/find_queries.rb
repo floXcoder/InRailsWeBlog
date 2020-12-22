@@ -77,7 +77,7 @@ module Articles
         @relation = @relation.none
       end
 
-      return @relation
+      return @relation.presence || @relation.none
     end
 
     def home(params = {})

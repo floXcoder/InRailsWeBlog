@@ -132,9 +132,9 @@ class AdminVisits extends React.Component {
                         {I18n.t('js.admin.visits.uniq.title')}
                     </h2>
 
-                    <TableContainer component={Paper}>
-                        <Table className={this.props.classes.table}
-                               aria-label="visits by days">
+                    <TableContainer component={Paper}
+                                    className={this.props.classes.tableContainer}>
+                        <Table aria-label="visits by days">
                             <TableHead>
                                 <TableRow>
                                     <TableCell className={this.props.classes.tableData}
@@ -169,25 +169,25 @@ class AdminVisits extends React.Component {
                                     }
                                 </TableRow>
 
-                                <TableRow>
-                                    <TableCell className={this.props.classes.tableData}
-                                               align="left">
-                                        {I18n.t('js.admin.visits.uniq.total')}
-                                    </TableCell>
+                                {/*<TableRow>*/}
+                                {/*    <TableCell className={this.props.classes.tableData}*/}
+                                {/*               align="left">*/}
+                                {/*        {I18n.t('js.admin.visits.uniq.total')}*/}
+                                {/*    </TableCell>*/}
 
-                                    {
-                                        Object.values(this.props.visits.dates).map((count, i) => {
-                                            totalByDate += count;
+                                {/*    {*/}
+                                {/*        Object.values(this.props.visits.dates).map((count, i) => {*/}
+                                {/*            totalByDate += count;*/}
 
-                                            return (
-                                                <TableCell key={i}
-                                                           align="center">
-                                                    {totalByDate}
-                                                </TableCell>
-                                            );
-                                        })
-                                    }
-                                </TableRow>
+                                {/*            return (*/}
+                                {/*                <TableCell key={i}*/}
+                                {/*                           align="center">*/}
+                                {/*                    {totalByDate}*/}
+                                {/*                </TableCell>*/}
+                                {/*            );*/}
+                                {/*        })*/}
+                                {/*    }*/}
+                                {/*</TableRow>*/}
                             </TableBody>
                         </Table>
                     </TableContainer>

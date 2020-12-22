@@ -10,7 +10,7 @@ module SerializerHelper
     fieldset_key = fieldset.present? ? fieldset.join('_') : nil
     params_key = params.present? ? params.map { |k, v| "#{k}-#{v}" }.join('_') : nil
     locale_key = I18n.locale.to_s
-    cache_key = [fieldset_key, params_key, locale_key].compact.join('-')
+    cache_key = [record_type, fieldset_key, params_key, locale_key].compact.join('-')
 
     # Use a fixed-length fieldset key if the current length is more than the length of a SHA1 digest
     # Actually always digest to avoid invalid characters

@@ -23,7 +23,7 @@ export const pushError = (error, errorInfo = null) => {
                 SentryCaptureMessage(errorMessage.join(', '));
             }
         });
-    } else if (process.env.NODE_ENV !== 'test') {
+    } else if (js_environment.NODE_ENV !== 'test') {
         console.error(error, errorInfo);
     }
 };

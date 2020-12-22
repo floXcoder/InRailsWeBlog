@@ -29,7 +29,6 @@
 # Ignore node modules files
 /node_modules
 /npm-debug.log
-/.happypack
 
 # Ignore environment variables file
 /config/application.yml

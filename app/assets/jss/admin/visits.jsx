@@ -12,9 +12,9 @@ const styles = (theme) => ({
         marginRight: theme.spacing(4),
         borderBottom: `1px solid ${theme.palette.grey[300]}`
     },
-    table: {
-        tableLayout: 'fixed',
-        wordWrap: 'break-word'
+    tableContainer: {
+      width: '92vw',
+      overflowX: 'auto'
     },
     tableData: {
         wordWrap: 'normal'

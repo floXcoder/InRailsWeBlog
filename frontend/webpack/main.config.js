@@ -2,8 +2,6 @@ const _ = require('lodash');
 const path = require('path');
 const webpack = require('webpack');
 
-const HappyPack = require('happypack');
-
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -14,6 +12,9 @@ let webPackConfig = module.exports = {
     // the base path which will be used to resolve entry points
     context: path.resolve(config.context)
 };
+
+// Keep support for all browsers
+webPackConfig.target = config.target;
 
 // the main entry point for our application's frontend JS
 // The important thing to note is that this entry file is the “core” of your frontend JS, i.e. anything not required by this file (or a dependency of something which is required) will never end up in the compiled bundle.
@@ -50,7 +51,7 @@ webPackConfig.module = {
         {
             test: /\.(js|jsx)$/i,
             include: path.resolve(config.rules.javascript.include),
-            loader: 'happypack/loader',
+            loader: 'babel-loader',
             options: config.rules.javascript.options
         },
         {
@@ -114,7 +115,6 @@ _.forEach(config.plugins, (value, key) => {
 });
 
 webPackConfig.plugins = [
-    new HappyPack(config.happyPack),
     new webpack.ProvidePlugin(providePlugins),
     new CopyWebpackPlugin({
         patterns: [{

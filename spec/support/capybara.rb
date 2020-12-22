@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'webdrivers'
+
 Webdrivers.cache_time = 604_800 # Keep chrome driver a week in cache
 Selenium::WebDriver::Chrome.path = ENV['CI'] ? '/usr/bin/chromium' : '/usr/bin/chromium-browser'
 

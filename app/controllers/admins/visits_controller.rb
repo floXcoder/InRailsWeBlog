@@ -27,7 +27,7 @@ class Admins::VisitsController < AdminsController
   def format_visits(top_limit: 12)
     visits_details = {}
 
-    visits_details[:dates] = Ahoy::Visit.order("DATE(started_at) ASC").group("DATE(started_at)").limit(30).count
+    visits_details[:dates] = Ahoy::Visit.order("DATE(started_at) DESC").group("DATE(started_at)").limit(60).count
 
     uniq_visits = Ahoy::Visit.select(%w[DISTINCT(visitor_token) user_agent referrer pages_count referring_domain browser os device_type country city landing_page takeoff_page utm_source utm_medium utm_content utm_campaign started_at ended_at]).to_a
     # .where(:started_at.gte => start_date, :started_at.lte => end_date)

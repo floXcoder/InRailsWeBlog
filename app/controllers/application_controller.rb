@@ -34,7 +34,7 @@ class ApplicationController < ActionController::Base
   before_action :set_locale
 
   # Reset headers if admin is connected
-  before_action :reset_headers_for_admins
+  before_action :reset_headers_for_admins, if: -> { request.get? }
 
   # Set who is responsible of a modification
   before_action :set_paper_trail_whodunnit
@@ -127,11 +127,16 @@ class ApplicationController < ActionController::Base
 
   def render_associated_page(page: nil, **params)
     params = current_user ? params.merge(current_user: current_user.serialized_json('profile')) : params
+    status = if params[:status].present?
+               params.delete(:status)
+             else
+               :ok
+             end
 
     if current_user
-      render page || 'pages/user', locals: { **params }, layout: 'user'
+      render page || 'pages/user', locals: { **params }, layout: 'user', status: status
     else
-      render page || 'pages/default', locals: { **params }
+      render page || 'pages/default', locals: { **params }, status: status
     end
   end
 

@@ -23,12 +23,12 @@
 #  outdated_articles_count :integer          default(0)
 #  bookmarks_count         :integer          default(0)
 #  comments_count          :integer          default(0)
-#  slug                    :string
 #  deleted_at              :datetime
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
 #  contributor_id          :bigint
 #  inventories             :jsonb            not null
+#  slug                    :jsonb
 #
 
 FactoryBot.define do

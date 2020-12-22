@@ -2,7 +2,7 @@ const _ = require('lodash');
 const webpack = require('webpack');
 
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const ManifestPlugin = require('webpack-manifest-plugin');
+const {WebpackManifestPlugin} = require('webpack-manifest-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
@@ -52,40 +52,32 @@ webPackConfig = _.merge(webPackConfig, {
 webPackConfig.optimization = {
     nodeEnv: 'production',
     flagIncludedChunks: true,
-    occurrenceOrder: true,
     providedExports: true,
     sideEffects: true,
     usedExports: true,
     concatenateModules: true,
     minimize: true,
-    noEmitOnErrors: true,
-    namedModules: false,
-    namedChunks: false,
+    emitOnErrors: false,
     checkWasmTypes: true,
     mangleWasmImports: true,
     removeAvailableModules: true,
     removeEmptyChunks: true,
     mergeDuplicateChunks: true,
-    // runtimeChunk: {
-    //     name: 'runtime'
-    // },
     splitChunks: {
         hidePathInfo: true,
         chunks: 'async',
-        minSize: 80000,
-        maxSize: 0,
+        minRemainingSize: 0,
+        minSize: 100_000,
         minChunks: 2,
-        maxAsyncRequests: 3,
-        maxInitialRequests: 2,
-        name: true,
+        maxInitialRequests: 12,
+        maxAsyncRequests: 12,
         cacheGroups: {
-            default: false,
             commons: {
                 name: 'commons',
                 chunks: 'initial',
                 minChunks: 2,
                 reuseExistingChunk: true,
-                test: function (module) {
+                test(module) {
                     if (module.resource) {
                         return !module.resource.includes('/admin/') && !module.resource.includes('admin-');
                     }
@@ -96,24 +88,12 @@ webPackConfig.optimization = {
     minimizer: [
         new TerserPlugin({
             parallel: true,
-            sourceMap: true,
-            cache: true,
             terserOptions: {
                 ecma: 5,
-                warnings: false,
                 parse: {},
                 compress: {},
-                mangle: true,
-                module: false,
-                toplevel: false,
-                nameCache: null,
-                ie8: false,
-                keep_classnames: undefined,
-                keep_fnames: false,
-                safari10: true,
-                output: {
-                    comments: false
-                }
+                mangle: true, // Note `mangle.properties` is `false` by default.
+                module: false
             }
         }),
         new OptimizeCSSAssetsPlugin({
@@ -130,7 +110,7 @@ webPackConfig.optimization = {
 webPackConfig.plugins.push(
     new webpack.DefinePlugin({
         'global.WEBPACK': JSON.stringify(true),
-        'process.env': {
+        'js_environment': {
             'NODE_ENV': JSON.stringify('production'),
             'ASSET_PATH': JSON.stringify(config.production.assetPath)
         },
@@ -168,8 +148,8 @@ webPackConfig.plugins.push(
             toType: 'template'
         }))
     }),
-    new webpack.HashedModuleIdsPlugin(),
-    new ManifestPlugin({
+    new webpack.ids.HashedModuleIdsPlugin(),
+    new WebpackManifestPlugin({
         fileName: config.production.manifestFilename,
         map: (file) => {
             // Remove hash in manifest key

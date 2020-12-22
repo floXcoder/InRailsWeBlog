@@ -15,21 +15,24 @@ webPackConfig.output = _.merge(webPackConfig.output, {
 });
 
 webPackConfig.optimization = {
-    namedModules: true,
-    noEmitOnErrors: false,
+    emitOnErrors: true,
     concatenateModules: false,
+    removeAvailableModules: false,
+    removeEmptyChunks: false,
+
     splitChunks: {
-        // chunks: 'async', // 'all' : not working
-        name: true,
+        chunks: 'initial',
+        minRemainingSize: 0,
+        minSize: 100_000,
         minChunks: 2,
-        maxAsyncRequests: 8,
-        maxInitialRequests: 5
+        maxInitialRequests: 12,
+        maxAsyncRequests: 12
     }
 };
 
 webPackConfig.plugins.push(
     new webpack.DefinePlugin({
-        'process.env': {
+        'js_environment': {
             'NODE_ENV': JSON.stringify('test'),
             'ASSET_PATH': JSON.stringify(config.test.assetPath)
         }

@@ -33,6 +33,9 @@ namespace :InRailsWeBlog do
 
       app_serializer = Redis::Namespace.new("_#{ENV['WEBSITE_NAME']}_#{Rails.env}:serializer", redis: Redis.new)
       app_serializer.keys.each { |key| app_serializer.del(key) }
+
+      app_serializer = Redis::Namespace.new("_#{ENV['WEBSITE_NAME']}_#{Rails.env}:serializer-options", redis: Redis.new)
+      app_serializer.keys.each { |key| app_serializer.del(key) }
     end
 
   end

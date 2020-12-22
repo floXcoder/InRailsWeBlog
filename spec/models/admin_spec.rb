@@ -7,7 +7,7 @@
 #  id                     :bigint           not null, primary key
 #  pseudo                 :string           default(""), not null
 #  additional_info        :string
-#  locale                 :string           default("fr")
+#  locale                 :string           default("en")
 #  settings               :jsonb            not null
 #  slug                   :string
 #  email                  :string           default(""), not null

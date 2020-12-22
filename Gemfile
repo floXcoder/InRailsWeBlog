@@ -9,7 +9,7 @@ end
 ruby '2.6.3'
 
 # Rails version
-gem 'rails',                    '6.0.3.4'
+gem 'rails',                    '6.1.0'
 
 # Use postgresql as the database for Active Record
 gem 'pg',                       '1.2.3'
@@ -25,7 +25,7 @@ gem 'faraday',                  '1.1.0'
 
 # JSON
 gem 'jsonapi-serializer',       '2.1.0'
-gem 'oj',                       '3.10.16'
+gem 'oj',                       '3.10.17'
 
 # Use slim instead of erb
 gem 'slim-rails',               '3.2.0'
@@ -36,10 +36,10 @@ gem 'geocoder',                 '1.6.4'
 gem 'maxminddb',                '0.1.22'
 
 # Model versioning
-gem 'paper_trail',              '11.0.0'
+gem 'paper_trail',              '11.1.0'
 
 # Marked as deleted
-gem 'paranoia',                 '2.4.2'
+gem 'paranoia',                 '2.4.3'
 
 # Format user input
 gem 'auto_strip_attributes',    '2.6.0'
@@ -58,7 +58,7 @@ gem 'redis-session-store',      '0.11.3'
 gem 'hiredis',                  '0.6.3'
 
 # Global and model settings
-gem 'storext',                  '3.1.0'
+gem 'storext',                  '3.1.0', github: 'sonianand11/storext'
 
 # Authentification
 gem 'devise',                   '4.7.3'
@@ -79,12 +79,13 @@ gem 'thumbs_up',                '0.6.10'
 
 # Comments
 gem 'acts_as_commentable_with_threading', '2.0.1'
+gem 'awesome_nested_set',       '3.2.0', github: 'filippoliverani/awesome_nested_set'
 
 # Email formater
 gem 'premailer-rails',          '1.11.1'
 
 # Detect browser and bots
-gem 'browser',                  '5.1.0'
+gem 'browser',                  '5.2.0'
 
 # Tracking
 gem 'ahoy_matey',               '3.1.0'
@@ -92,7 +93,7 @@ gem 'ahoy_matey',               '3.1.0'
 # SEO
 gem 'friendly_id',              '5.4.1'
 gem 'route_translator',         '9.0.0'
-gem 'meta-tags',                '2.13.0'
+gem 'meta-tags',                '2.14.0'
 gem 'sitemap_generator',        '6.1.2'
 
 # Dummy data
@@ -112,7 +113,7 @@ gem 'health_check',             '3.0.0'
 gem 'webdrivers',               '4.4.1',   require: false
 
 # Server
-gem 'puma',                     '5.1.0'
+gem 'puma',                     '5.1.1'
 
 group :development do
   # Debugging tool
@@ -124,7 +125,7 @@ group :development do
   gem 'binding_of_caller',      '0.8.0'
 
   # N+1 database query
-  gem 'bullet',                 '6.1.0'
+  gem 'bullet',                 '6.1.2'
 
   # Guard and its minions
   gem 'guard',                  '2.16.2'
@@ -151,7 +152,7 @@ end
 group :test do
   # Test tools
   gem 'rspec-rails',                '4.0.1'
-  gem 'webmock',                    '3.10.0'
+  gem 'webmock',                    '3.11.0'
   gem 'rspec_junit_formatter',      '0.4.1'
   gem 'shoulda-matchers',           '4.4.1',  require: false
   gem 'shoulda-callback-matchers',  '1.1.4',  require: false
@@ -171,7 +172,7 @@ group :test do
   # static analyzer
   gem 'rails_best_practices',       '1.20.0',   require: false
   gem 'brakeman',                   '4.10.0',    require: false
-  gem 'i18n-tasks',                 '0.9.31',   require: false
+  gem 'i18n-tasks',                 '0.9.32',   require: false
 end
 
 group :development, :test do
@@ -179,10 +180,10 @@ group :development, :test do
   gem 'bootsnap',                   '1.5.1',   require: false
 
   # Check errors
-  gem 'rubocop',                    '1.5.2',  require: false
-  gem 'rubocop-rails',              '2.8.1',   require: false
+  gem 'rubocop',                    '1.6.1',  require: false
+  gem 'rubocop-rails',              '2.9.1',   require: false
   gem 'rubocop-performance',        '1.9.1',   require: false
-  gem 'rubocop-rspec',              '2.0.1',  require: false
+  gem 'rubocop-rspec',              '2.1.0',  require: false
 end
 
 group :production do

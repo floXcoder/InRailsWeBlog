@@ -57,6 +57,26 @@ describe 'Static pages API', type: :request, basic: true do
     end
   end
 
+  describe '/not_found' do
+    it 'returns the not found page as HTML' do
+      get '/not_found'
+
+      expect(response.status).to eq(404)
+      expect(response.media_type).to eq('text/html')
+      expect(response.body).to match('id="react-component"')
+      expect(response.body).to match('lang="en"')
+    end
+
+    it 'returns the not found page as JSON' do
+      get '/not_found', as: :json
+
+      expect(response.status).to eq(404)
+      expect(response.media_type).to eq('application/json')
+      not_found = JSON.parse(response.body)
+      expect(not_found['errors']).to eq(t('views.error.status.explanation.404'))
+    end
+  end
+
   describe '/robots.txt (TEXT)' do
     it 'returns the page' do
       get '/robots.txt', as: :text

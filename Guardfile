@@ -24,7 +24,7 @@ guard :process, name: 'Webpack', command: 'npm run development' do
   watch(%r{^frontend/.+\.js$})
 end
 
-guard :rails, server: :puma, port: 3000, timeout: 60 do
+guard :rails, port: 3000, timeout: 60 do
   # watch(%r{^Gemfile\.lock$})
   watch(%r{^app/mailers/.+\.rb})
   watch(%r{^app/uploaders/.+\.rb})
@@ -41,7 +41,7 @@ guard :sidekiq, environment: 'development' do
   watch(%r{^config/sidekiq\.yml})
 end
 
-guard :process, name: 'Annotate', command: 'annotate' do
+guard :process, name: 'Annotate', command: 'annotate --models' do
   watch(%r{^db/schema\.rb})
 end
 
