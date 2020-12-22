@@ -152,13 +152,12 @@ webPackConfig.plugins.push(
     new WebpackManifestPlugin({
         fileName: config.production.manifestFilename,
         map: (file) => {
-            // Remove hash in manifest key
-            file.name = file.name.replace(/(\.[a-f0-9]{32})(\..*)$/, '$2');
-            // Correct incorrect font path
-            const fontFile = file.path.match(/\/assets\/fonts\/(.*?)\.\w+\.(.*?)$/);
-            if (fontFile) {
-                file.name = fontFile[1] + '.' + fontFile[2];
-            }
+            console.log(file)
+            // Rename name key
+            file.name = file.name.replace(/^javascripts\//, '');
+            file.name = file.name.replace(/^images\//, '');
+            file.name = file.name.replace(/^data\//, '');
+            file.name = file.name.replace(/^fonts\/\w+\//, 'fonts/');
             return file;
         }
     }),
