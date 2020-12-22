@@ -168,6 +168,15 @@ module.exports = {
                             maxEntries: 50
                         }
                     }
+                },
+                {
+                    urlPattern: ({request}) => request.mode === 'navigate',
+                    handler: 'NetworkOnly',
+                    options: {
+                        precacheFallback: {
+                            fallbackURL: '/offline.html',
+                        }
+                    }
                 }
             ],
             // offlineFile: '/offline.html',
