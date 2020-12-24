@@ -40,6 +40,9 @@ class Sanitizer
     # html = html.gsub(/<pre( ?)(.*?)>/i, '<pre\1\2><code>')
     # html = html.gsub(/<\/pre>/i, '</code></pre>')
 
+    # Replace all br tags by simple return to line
+    html = html.gsub(/<pre(.*?)>(.*?)<\/pre>/) { |b| b.gsub(/<br(\/?)>/, "\n") }
+
     # Simplify code tags
     # html = html.gsub(/<code(.*?)>/i, '<code>')
     # html = html.gsub(/(<code>){2,}/i, '<code>')

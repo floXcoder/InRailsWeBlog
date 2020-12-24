@@ -34,7 +34,7 @@ class Login extends React.PureComponent {
             .then((response) => {
                 if (response?.errors) {
                     Notification.error(response.errors);
-                    window.location.replace('/');
+                    // window.location.replace('/');
                 } else if (response.user) {
                     if (response?.meta?.location) {
                         window.location.replace(response.meta.location);

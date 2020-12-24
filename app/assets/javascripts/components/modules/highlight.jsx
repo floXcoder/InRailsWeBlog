@@ -20,7 +20,6 @@ import dart from 'highlight.js/lib/languages/dart';
 import dockerfile from 'highlight.js/lib/languages/dockerfile';
 // import dust from 'highlight.js/lib/languages/dust';
 // import elixir from 'highlight.js/lib/languages/elixir';
-import ruby from 'highlight.js/lib/languages/ruby';
 // import erb from 'highlight.js/lib/languages/erb';
 // import erlang from 'highlight.js/lib/languages/erlang';
 // import excel from 'highlight.js/lib/languages/excel';
@@ -42,6 +41,7 @@ import nginx from 'highlight.js/lib/languages/nginx';
 // import objectivec from 'highlight.js/lib/languages/objectivec';
 import php from 'highlight.js/lib/languages/php';
 import python from 'highlight.js/lib/languages/python';
+import ruby from 'highlight.js/lib/languages/ruby';
 import rust from 'highlight.js/lib/languages/rust';
 // import scala from 'highlight.js/lib/languages/scala';
 import scss from 'highlight.js/lib/languages/scss';
@@ -78,7 +78,6 @@ HighlightCode.registerLanguage('dart', dart);
 HighlightCode.registerLanguage('dockerfile', dockerfile);
 // HighlightCode.registerLanguage('dust', dust);
 // HighlightCode.registerLanguage('elixir', elixir);
-HighlightCode.registerLanguage('ruby', ruby);
 // HighlightCode.registerLanguage('erb', erb);
 // HighlightCode.registerLanguage('erlang', erlang);
 // HighlightCode.registerLanguage('excel', excel);
@@ -100,6 +99,7 @@ HighlightCode.registerLanguage('nginx', nginx);
 // HighlightCode.registerLanguage('objectivec', objectivec);
 HighlightCode.registerLanguage('php', php);
 HighlightCode.registerLanguage('python', python);
+HighlightCode.registerLanguage('ruby', ruby);
 HighlightCode.registerLanguage('rust', rust);
 // HighlightCode.registerLanguage('scala', scala);
 HighlightCode.registerLanguage('scss', scss);
@@ -131,8 +131,7 @@ export default function highlight(highlightOnShow = true) {
                 }
 
                 HighlightCode.configure({
-                    tabReplace: '  ', // 4 spaces,
-                    // classPrefix: highlightedLanguagePrefix,
+                    // classPrefix: 'language-',
                     languages: highlightedLanguages.flat()
                 });
 

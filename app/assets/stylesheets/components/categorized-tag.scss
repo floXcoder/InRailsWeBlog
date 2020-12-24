@@ -50,12 +50,19 @@ $primary: #4c66be;
 
   .cti-input-input {
     width: 100%;
-    border: 0 !important;
+    border: none !important;
     font-size: 1rem !important;
     height: auto;
     margin: .1em 0 .1em .4em !important;
     max-width: 100%;
     padding: .4em 0 !important;
+
+    &:focus,
+    &:focus-visible,
+    &:focus-within {
+      border: none !important;
+      outline: none !important;
+    }
   }
 
   .cti-input-arrow {
