@@ -64,7 +64,7 @@ class AssetManifest
     elsif Rails.env.test?
       "http://localhost:#{ENV['TEST_PORT']}"
     else
-      Rails.application.routes.url_helpers.root_url(host: ENV['WEBSITE_ADDRESS'])
+      Rails.application.routes.url_helpers.root_url(host: ENV['WEBSITE_ASSET'])
     end
   end
 end

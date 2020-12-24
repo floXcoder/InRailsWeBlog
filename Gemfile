@@ -21,7 +21,7 @@ gem 'pg_query',                 '1.2.0' # Required for pghero
 gem 'responders',               '3.0.1'
 gem 'http_accept_language',     '2.1.1'
 gem 'secure_headers',           '6.3.1'
-gem 'faraday',                  '1.1.0'
+gem 'faraday',                  '1.2.0'
 
 # JSON
 gem 'jsonapi-serializer',       '2.1.0'
@@ -172,7 +172,7 @@ group :test do
   # static analyzer
   gem 'rails_best_practices',       '1.20.0',   require: false
   gem 'brakeman',                   '4.10.0',    require: false
-  gem 'i18n-tasks',                 '0.9.32',   require: false
+  gem 'i18n-tasks',                 '0.9.33',   require: false
 end
 
 group :development, :test do
