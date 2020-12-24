@@ -6,7 +6,7 @@ const SanitizePaste = (function ($) {
     return {
         _replaceParagraphsToBr: function (html) {
             html = html.replace(/<p\s(.*?)>/gi, '<p>');
-            html = html.replace(/<p><br\s?\/?><\/p>/gi, '');
+            // html = html.replace(/<p><br\s?\/?><\/p>/gi, '');
             // Keep paragraphs as is (for instance, copy from another article with p)
             // html = html.replace(/<p>([\w\W]*?)<\/p>/gi, '$1<br />');
             html = html.replace(/(<br\s?\/?>){1,}\n?<\/blockquote>/gi, '</blockquote>');
@@ -216,7 +216,8 @@ const SanitizePaste = (function ($) {
         },
 
         _onPasteRemoveEmpty: function (html) {
-            html = html.replace(/<(p|h[1-6])>(|\s|\n|\t|<br\s?\/?>)<\/(p|h[1-6])>/gi, '');
+            // html = html.replace(/<(p|h[1-6])>(|\s|\n|\t|<br\s?\/?>)<\/(p|h[1-6])>/gi, '');
+            html = html.replace(/<(h[1-6])>(|\s|\n|\t|<br\s?\/?>)<\/(h[1-6])>/gi, '');
 
             html = html.replace(/<form(.*?)>([\w\W]*?)<\/form>/gi, '<p>$2</p>');
 
