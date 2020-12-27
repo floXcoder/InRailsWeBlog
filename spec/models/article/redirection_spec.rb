@@ -2,19 +2,20 @@
 
 # == Schema Information
 #
-# Table name: article_relationships
+# Table name: article_redirections
 #
-#  id         :bigint           not null, primary key
-#  user_id    :bigint           not null
-#  parent_id  :bigint           not null
-#  child_id   :bigint           not null
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id            :bigint           not null, primary key
+#  article_id    :bigint           not null
+#  previous_slug :string           not null
+#  current_slug  :string           not null
+#  locale        :string
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
 #
 
 require 'rails_helper'
 
-RSpec.describe ArticleRelationship, type: :model, basic: true do
+RSpec.describe Article::Relationship, type: :model, basic: true do
 
   before(:all) do
     @user  = create(:user)
@@ -25,7 +26,7 @@ RSpec.describe ArticleRelationship, type: :model, basic: true do
   end
 
   before do
-    @article_relation = ArticleRelationship.create(
+    @article_relation = Article::Relationship.create(
       user:   @user,
       parent: @parent_article,
       child:  @child_article

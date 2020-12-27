@@ -44,6 +44,10 @@ module FriendlyId
         end
       end
 
+      def slug_translations
+        self[friendly_id_config.slug_column]
+      end
+
       def slug=(value)
         # super
         write_attribute friendly_id_config.slug_column, (self[friendly_id_config.slug_column] || {}).merge(I18n.locale.to_s => value)

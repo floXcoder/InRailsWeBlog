@@ -182,7 +182,7 @@ class Populate
 
   def self.create_article_relationships_for(articles, user, relationship_number)
     article_relationships = []
-    ArticleRelationship.transaction do
+    Article::Relationship.transaction do
       articles.sample(relationship_number).each do |article|
         article_relationships << FactoryBot.create(:article_relationship,
                                                    user:   user,
