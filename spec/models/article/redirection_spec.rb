@@ -2,14 +2,15 @@
 
 # == Schema Information
 #
-# Table name: article_relationships
+# Table name: article_redirections
 #
-#  id         :bigint           not null, primary key
-#  user_id    :bigint           not null
-#  parent_id  :bigint           not null
-#  child_id   :bigint           not null
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id            :bigint           not null, primary key
+#  article_id    :bigint           not null
+#  previous_slug :string           not null
+#  current_slug  :string           not null
+#  locale        :string
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
 #
 
 require 'rails_helper'

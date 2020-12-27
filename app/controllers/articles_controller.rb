@@ -105,7 +105,8 @@ class ArticlesController < ApplicationController
                      article_slug: article,
                      topic_slug:   article.topic,
                      user_slug:    article.user,
-                     author:       article.user.pseudo)
+                     author:       article.user.pseudo,
+                     model:        article)
 
         article = article.serialized_json('complete',
                                           params: {

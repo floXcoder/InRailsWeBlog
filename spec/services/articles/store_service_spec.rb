@@ -92,6 +92,14 @@ describe Articles::StoreService, type: :service, basic: true do
         expect(article_result.result.content).to eq('updated content')
         expect(article_result.result.contributor_id).to be_nil
       end
+
+      it 'adds a redirection if title change' do
+        expect {
+          article_result = Articles::StoreService.new(@article, content: 'new updated content', visibility: 'everyone', current_user: @user).perform
+
+          expect(article_result.success?).to be true
+        }.to change(Article::Redirection, :count).by(1)
+      end
     end
 
     context 'when updating an article by a contributor' do

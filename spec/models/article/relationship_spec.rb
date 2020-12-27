@@ -1,5 +1,16 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: article_relationships
+#
+#  id         :bigint           not null, primary key
+#  user_id    :bigint           not null
+#  parent_id  :bigint           not null
+#  child_id   :bigint           not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
 require 'rails_helper'
 
 RSpec.describe Article::Redirection, type: :model, basic: true do

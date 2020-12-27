@@ -21,6 +21,9 @@ describe 'Article API', type: :request, basic: true do
 
     @second_article = create(:article, user: @user, topic: @topic, tags: [@public_tags[4]])
 
+    @multi_lg_article = create(:article, user: @user, topic: @topic, title: 'Article multi language', languages: ['fr', 'en'], tags: [@public_tags[0]])
+    I18n.with_locale(:fr) { @multi_lg_article.update(title: 'Article multi language FR') }
+
     @article_with_mixed_tags = create(:article, user: @user, topic: @topic, title: 'mixed_tags', parent_tags: [@public_tags[0], @private_tags[0]], child_tags: [@public_tags[1], @private_tags[1]])
 
     @second_topic    = create(:topic, user: @user)
@@ -105,6 +108,23 @@ describe 'Article API', type: :request, basic: true do
       expect(response.body).to match('<meta name="description"')
       expect(response.body).to match('data-article="{')
     end
+
+    it 'redirects to the correct locale' do
+      get "/users/#{@user.slug}/articles/#{@multi_lg_article.slug_translations['fr']}"
+
+      expect(response.status).to eq(301)
+      expect(response.body).to include("/fr/utilisateurs/#{@user.slug}/articles/#{@multi_lg_article.slug_translations['fr']}")
+    end
+
+    it 'redirects to the new slug' do
+      previous_slug = @multi_lg_article.slug
+      new_slug = Articles::StoreService.new(@multi_lg_article, title: 'New article multi language', current_user: @user).perform.result.slug
+
+      get "/users/#{@user.slug}/articles/#{previous_slug}"
+
+      expect(response.status).to eq(301)
+      expect(response.body).to include("/users/#{@user.slug}/articles/#{new_slug}")
+    end
   end
 
   describe '/users/:user_slug/articles/:article_slug/edit (HTML)' do
@@ -177,7 +197,7 @@ describe 'Article API', type: :request, basic: true do
 
         expect(json_articles['meta']['root']).to eq('articles')
         expect(json_articles['data']).not_to be_empty
-        expect(json_articles['data'].size).to eq(7)
+        expect(json_articles['data'].size).to eq(8)
       end
     end
 
@@ -190,7 +210,7 @@ describe 'Article API', type: :request, basic: true do
         get '/api/v1/articles', params: { filter: { user_id: @user.id, topic_id: @topic.id } }, as: :json
         json_articles = JSON.parse(response.body)
         expect(json_articles['meta']['root']).to eq('articles')
-        expect(json_articles['data'].size).to eq(6)
+        expect(json_articles['data'].size).to eq(7)
 
         get '/api/v1/articles', params: { filter: { user_id: @user.id, topic_id: @second_topic.id } }, as: :json
         json_articles = JSON.parse(response.body)
@@ -205,7 +225,7 @@ describe 'Article API', type: :request, basic: true do
         get '/api/v1/articles', params: { filter: { tag_slug: @public_tags[0].slug } }, as: :json
         json_articles = JSON.parse(response.body)
         expect(json_articles['meta']['root']).to eq('articles')
-        expect(json_articles['data'].size).to eq(1)
+        expect(json_articles['data'].size).to eq(2)
 
         # get '/api/v1/articles', params: { filter: { tag_slugs: [@public_tags[0].slug, @public_tags[1].slug] } }, as: :json
         # json_articles = JSON.parse(response.body)
@@ -219,7 +239,7 @@ describe 'Article API', type: :request, basic: true do
         get '/api/v1/articles', params: { filter: { tag_slug: @public_tags[0].slug } }, as: :json
         json_articles = JSON.parse(response.body)
         expect(json_articles['meta']['root']).to eq('articles')
-        expect(json_articles['data'].size).to eq(2)
+        expect(json_articles['data'].size).to eq(3)
 
         # get '/api/v1/articles', params: { filter: { tag_slugs: [@public_tags[0].slug, @public_tags[1].slug] } }, as: :json
         # json_articles = JSON.parse(response.body)
@@ -335,7 +355,7 @@ describe 'Article API', type: :request, basic: true do
         json_articles = JSON.parse(response.body)
         expect(json_articles['meta']['root']).to eq('articles')
         expect(json_articles['data']).not_to be_empty
-        expect(json_articles['data'].size).to eq(7)
+        expect(json_articles['data'].size).to eq(8)
       end
     end
   end
