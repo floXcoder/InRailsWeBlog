@@ -11,7 +11,7 @@
 #  updated_at :datetime         not null
 #
 
-class ArticleRelationship < ApplicationRecord
+class Article::Relationship < ApplicationRecord
 
   # == Attributes ===========================================================
 

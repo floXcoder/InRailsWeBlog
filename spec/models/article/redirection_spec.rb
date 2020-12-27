@@ -14,7 +14,7 @@
 
 require 'rails_helper'
 
-RSpec.describe ArticleRelationship, type: :model, basic: true do
+RSpec.describe Article::Relationship, type: :model, basic: true do
 
   before(:all) do
     @user  = create(:user)
@@ -25,7 +25,7 @@ RSpec.describe ArticleRelationship, type: :model, basic: true do
   end
 
   before do
-    @article_relation = ArticleRelationship.create(
+    @article_relation = Article::Relationship.create(
       user:   @user,
       parent: @parent_article,
       child:  @child_article

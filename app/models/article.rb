@@ -65,7 +65,7 @@ class Article < ApplicationRecord
   acts_as_voteable
 
   # Versioning
-  has_paper_trail on: [:create, :update, :destroy],
+  has_paper_trail on:   [:create, :update, :destroy],
                   only: [:contributor, :title_translations, :summary_translations, :content_translations, :reference, :inventories]
 
   # Track activities
@@ -137,7 +137,7 @@ class Article < ApplicationRecord
 
   has_many :parent_relationships,
            autosave:    true,
-           class_name:  'ArticleRelationship',
+           class_name:  'Article::Relationship',
            foreign_key: 'parent_id',
            dependent:   :destroy
   has_many :children,
@@ -146,7 +146,7 @@ class Article < ApplicationRecord
 
   has_many :child_relationships,
            autosave:    true,
-           class_name:  'ArticleRelationship',
+           class_name:  'Article::Relationship',
            foreign_key: 'child_id',
            dependent:   :destroy
   has_many :parents,
@@ -181,6 +181,11 @@ class Article < ApplicationRecord
   #   has_many :contributors,
   #            through: :shares,
   #            source:  :contributor
+
+  has_many :redirections,
+           class_name: 'Article::Redirection',
+           inverse_of: 'article',
+           dependent:  :destroy
 
   has_many :pictures,
            # -> { order 'created_at ASC' },
@@ -469,6 +474,10 @@ class Article < ApplicationRecord
 
   def mode_translated
     mode_to_tr
+  end
+
+  def multi_languages?
+    self.languages.present? ? self.languages.length > 1 : false
   end
 
   # def strip_content

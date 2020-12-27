@@ -20,6 +20,8 @@ module Articles
 
       new_article = @article.new_record?
 
+      previous_slugs = new_article ? nil : @article.slug_translations
+
       # Use topic owner in case of shared topics
       shared_topic            = @article.user_id != @current_user.id || @current_user.current_topic.user_id != @current_user.id
       owner_id                = shared_topic ? @current_user.current_topic.user_id : @current_user.id
@@ -214,6 +216,9 @@ module Articles
           picture.save(validate: false)
         end
 
+        # Add automatic redirection for renamed public articles
+        check_redirection(previous_slugs)
+
         # Remove cache
         expire_component_cache("user_tags:#{@article.user_id}_for_#{@article.topic_id}")
         expire_component_cache("user_tags:#{@article.user_id}")
@@ -245,6 +250,19 @@ module Articles
       end
 
       return article_relationships
+    end
+
+    def check_redirection(previous_slugs)
+      return unless previous_slugs
+      return unless @article.everyone?
+
+      if @article.multi_languages?
+        @article.languages.each do |language|
+          @article.redirections.create(previous_slug: previous_slugs[language.to_s], current_slug: @article.slug_translations[language.to_s], locale: language.to_s)
+        end
+      else
+        @article.redirections.create(previous_slug: previous_slugs[I18n.locale.to_s], current_slug: @article.slug)
+      end
     end
 
   end

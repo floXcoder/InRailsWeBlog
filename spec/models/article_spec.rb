@@ -271,6 +271,8 @@ RSpec.describe Article, type: :model, basic: true do
     it { is_expected.to have_many(:shares) }
     # it { is_expected.to have_many(:contributors) }
 
+    it { is_expected.to have_many(:redirections) }
+
     it { is_expected.to have_many(:pictures) }
     it { is_expected.to accept_nested_attributes_for(:pictures) }
   end
@@ -514,6 +516,11 @@ RSpec.describe Article, type: :model, basic: true do
     describe '.should_generate_new_friendly_id?' do
       it { is_expected.to respond_to(:should_generate_new_friendly_id?) }
       it { expect(@article.should_generate_new_friendly_id?).to be false }
+    end
+
+    describe '.multi_languages?' do
+      it { is_expected.to respond_to(:multi_languages?) }
+      it { expect(@article.multi_languages?).to be false }
     end
 
     describe '.public_content' do

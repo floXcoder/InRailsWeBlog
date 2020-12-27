@@ -148,6 +148,7 @@ class User < ApplicationRecord
            class_name: 'Article'
 
   has_many :article_relationships,
+           class_name: 'Article::Relationship',
            dependent: :destroy
 
   has_many :outdated_articles,

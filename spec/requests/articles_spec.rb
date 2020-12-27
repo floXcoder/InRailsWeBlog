@@ -514,7 +514,7 @@ describe 'Article API', type: :request, basic: true do
           expect(article['data']['attributes']['title']).to eq(article_attributes[:article][:title])
           expect(article['data']['attributes']['topicId']).to eq(@user.current_topic_id)
           expect(article['data']['relationships']['tags'].size).to eq(1)
-        }.to change(Article, :count).by(1).and change(Tag, :count).by(0).and change(TagRelationship, :count).by(0)
+        }.to change(Article, :count).by(1).and change(Tag, :count).by(0).and change(TagRelationship, :count).by(0).and change(Article::Redirection, :count).by(0)
       end
 
       it 'returns a new article with reference url formatted' do
@@ -918,6 +918,20 @@ describe 'Article API', type: :request, basic: true do
           article = JSON.parse(response.body)
           expect(article['data']['attributes']).not_to be_empty
         }.to change(@article.reload.versions, :count).by(0)
+      end
+
+      it 'adds a redirection from the previous title' do
+        expect {
+          put "/api/v1/articles/#{@second_article.id}", params: { article: { title: @second_article.title + '-2' } }, as: :json
+
+          expect(response).to be_json_response
+
+          article = JSON.parse(response.body)
+          expect(article['data']['attributes']['slug']).to eq(@second_article.slug.sub('@', '2@'))
+        }.to change(Article::Redirection, :count).by(1)
+
+        expect(Article::Redirection.last.previous_slug).to eq(@second_article.slug)
+        expect(Article::Redirection.last.current_slug).to eq(@second_article.slug.sub('@', '2@'))
       end
     end
 

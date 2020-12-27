@@ -49,10 +49,10 @@ class ArticlesController < ApplicationController
   end
 
   def show
-    article, article_redirection = find_article_in_locales(article_params[:article_slug])
+    article, article_redirection_path = find_article_in_locales(article_params[:article_slug])
     admin_or_authorize article
 
-    redirect_to(article_redirection, status: :moved_permanently) and return if article_redirection
+    redirect_to(article_redirection_path, status: :moved_permanently) and return if article_redirection_path
 
     track_action(article_id: article.id, parent_id: article.topic_id) { |visitor_token| track_visit(Article, article.id, current_user&.id, article.topic_id, visitor_token) }
 
@@ -143,27 +143,34 @@ class ArticlesController < ApplicationController
   end
 
   def find_article_in_locales(article_slug)
-    article = @context_user.articles.find_slug_by_locale(article_slug, I18n.locale).first
-
-    if article
+    if (article = @context_user.articles.find_slug_by_locale(article_slug, I18n.locale).first)
       return article, nil
+    elsif (article_redirection = Article::Redirection.where(previous_slug: article_slug).first)
+      # Try to find in listed redirections
+      article = article_redirection.article
+      article_redirection_path = article.link_path(locale: I18n.locale) rescue nil
+
+      return article, article_redirection_path
     else
+      # Try to find article in other locales
       I18n.available_locales.map do |locale|
         next if locale == I18n.locale
 
         article = @context_user.articles.find_slug_by_locale(article_slug, locale).first
 
         if article
-          article_redirection = article.link_path(locale: locale) rescue nil
-          if article_redirection
+          article_redirection_path = article.link_path(locale: locale) rescue nil
+          if article_redirection_path
             skip_authorization
-            return article, article_redirection
+
+            return article, article_redirection_path
           end
         end
       end
-
-      @context_user.articles.friendly.find(params[:article_slug])
     end
+
+    # Article not found: raise a 404 error
+    @context_user.articles.friendly.find(params[:article_slug])
   end
 
 end
