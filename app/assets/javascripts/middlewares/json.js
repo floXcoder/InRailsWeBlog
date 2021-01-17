@@ -16,7 +16,7 @@ function convertRelationships(object, relationships, included) {
                     const relation = included.find((include) => include.id === datum.id && include.type === datum.type);
 
                     if (relation) {
-                        return relation.attributes
+                        return relation.attributes;
                     } else {
                         pushError({
                             statusText: `${relationName} relation not found in ${included.map((include) => include.type).join(', ')}`
