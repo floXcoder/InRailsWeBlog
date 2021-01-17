@@ -152,7 +152,6 @@ webPackConfig.plugins.push(
     new WebpackManifestPlugin({
         fileName: config.production.manifestFilename,
         map: (file) => {
-            console.log(file)
             // Rename name key
             file.name = file.name.replace(/^javascripts\//, '');
             file.name = file.name.replace(/^images\//, '');
