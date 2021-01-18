@@ -96,7 +96,7 @@ webPackConfig = _.merge(webPackConfig, {
             });
             watcher.on('change', function (filePath, root, stat) {
                 console.log('  File modified:', filePath);
-                server.sockWrite(server.sockets, "content-changed");
+                server.sockWrite(server.sockets, 'content-changed');
             });
         }
     }

@@ -14,6 +14,8 @@ let webPackConfig = module.exports = require('./main.config.js');
 
 webPackConfig.mode = 'production';
 
+webPackConfig.target = ['web', 'es5'];
+
 webPackConfig.output = _.merge(webPackConfig.output, {
     filename: config.production.filename + '.js'
 });

@@ -24,7 +24,6 @@ module.exports = {
             ],
             // noParse: // Must not contain any import mechanism
         },
-        target: ['web', 'es5'],
         rules: {
             javascript: {
                 include: './app/assets/javascripts',
@@ -96,7 +95,7 @@ module.exports = {
             Notification: 'app/assets/javascripts/components/layouts/notification.jsx'
         },
         ignorePlugins: [
-            {resourceRegExp: /^codemirror$/}
+            // {resourceRegExp: //}
         ],
         fonts: [
             {

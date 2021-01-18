@@ -33,7 +33,7 @@ gem 'slim-rails',               '3.2.0'
 # Internationalization
 gem 'i18n-js',                  '3.8.0'
 gem 'geocoder',                 '1.6.4'
-gem 'maxminddb',                '0.1.22'
+gem 'maxminddb',                '0.1.22',  require: false
 
 # Model versioning
 gem 'paper_trail',              '11.1.0'
@@ -93,23 +93,22 @@ gem 'ahoy_matey',               '3.1.0'
 gem 'friendly_id',              '5.4.2'
 gem 'route_translator',         '10.0.0'
 gem 'meta-tags',                '2.14.0'
-gem 'sitemap_generator',        '6.1.2'
+gem 'sitemap_generator',        '6.1.2',  require: false
 
 # Dummy data
-gem 'factory_bot_rails',        '6.1.0',   require: false
-gem 'faker',                    '2.15.1',  require: false
+gem 'factory_bot_rails',        '6.1.0',  require: false
+gem 'faker',                    '2.15.1', require: false
 
 # Deployment
-gem 'capistrano',               '3.15.0'
-gem 'capistrano-rails',         '1.6.1'
-gem 'capistrano-rvm',           '0.1.2',   require: false
-gem 'capistrano-bundler',       '2.0.1',   require: false
-gem 'capistrano-rails-console', '2.3.0',   require: false
-gem 'capistrano-db-tasks',      '0.6',     require: false
-gem 'health_check',             '3.0.0'
+gem 'capistrano',               '3.15.0', require: false
+gem 'capistrano-rails',         '1.6.1',  require: false
+gem 'capistrano-rvm',           '0.1.2',  require: false
+gem 'capistrano-bundler',       '2.0.1',  require: false
+gem 'capistrano-rails-console', '2.3.0',  require: false
+gem 'capistrano-db-tasks',      '0.6',    require: false
 
 # SEO
-gem 'webdrivers',               '4.4.2',   require: false
+gem 'webdrivers',               '4.4.2',  require: false
 
 # Server
 gem 'puma',                     '5.1.1'
@@ -127,15 +126,15 @@ group :development do
   gem 'bullet',                 '6.1.2'
 
   # Guard and its minions
-  gem 'guard',                  '2.16.2'
-  gem 'guard-rails',            '0.8.1'
-  gem 'guard-bundler',          '3.0.0'
-  gem 'guard-migrate',          '2.0.0'
-  gem 'guard-sidekiq',          '0.1.0'
-  gem 'guard-process',          '1.2.1'
+  gem 'guard',                  '2.16.2', require: false
+  gem 'guard-rails',            '0.8.1',  require: false
+  gem 'guard-bundler',          '3.0.0',  require: false
+  gem 'guard-migrate',          '2.0.0',  require: false
+  gem 'guard-sidekiq',          '0.1.0',  require: false
+  gem 'guard-process',          '1.2.1',  require: false
 
   # Annotate models from DB
-  gem 'annotate',               '3.1.1'
+  gem 'annotate',               '3.1.1',  require: false
 
   # Find index to add
   # gem 'lol_dba',                '2.1.8', require: false # Not compatible with Rails 6
@@ -169,25 +168,28 @@ group :test do
   gem 'launchy',                    '2.5.0'
 
   # static analyzer
-  gem 'rails_best_practices',       '1.20.0',   require: false
-  gem 'brakeman',                   '4.10.1',    require: false
-  gem 'i18n-tasks',                 '0.9.33',   require: false
+  gem 'rails_best_practices',       '1.20.0', require: false
+  gem 'brakeman',                   '4.10.1', require: false
+  gem 'i18n-tasks',                 '0.9.33', require: false
 end
 
 group :development, :test do
   # Speed up boot
-  gem 'bootsnap',                   '1.5.1',   require: false
+  gem 'bootsnap',                   '1.5.1',  require: false
 
   # Check errors
   gem 'rubocop',                    '1.8.1',  require: false
-  gem 'rubocop-rails',              '2.9.1',   require: false
-  gem 'rubocop-performance',        '1.9.2',   require: false
+  gem 'rubocop-rails',              '2.9.1',  require: false
+  gem 'rubocop-performance',        '1.9.2',  require: false
   gem 'rubocop-rspec',              '2.1.0',  require: false
 end
 
 group :production do
   # Errors reporting
   gem 'sentry-raven',     '3.1.1'
+
+  # Check website response after deployment
+  gem 'health_check',             '3.0.0',  require: false
 
   # Improve log outputs
   gem 'lograge',          '0.11.2'
