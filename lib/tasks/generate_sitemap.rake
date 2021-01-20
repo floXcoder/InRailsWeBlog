@@ -9,6 +9,8 @@ namespace :InRailsWeBlog do
     Rails.logger.level = Logger::WARN
     Rails.logger.warn("#{Time.now} : Generate sitemap task")
 
+    require 'sitemap_generator'
+
     ::SeoModule.generate_sitemap
   end
 
