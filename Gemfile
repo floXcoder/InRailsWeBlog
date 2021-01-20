@@ -93,7 +93,7 @@ gem 'ahoy_matey',               '3.1.0'
 gem 'friendly_id',              '5.4.2'
 gem 'route_translator',         '10.0.0'
 gem 'meta-tags',                '2.14.0'
-gem 'sitemap_generator',        '6.1.2',  require: false
+gem 'sitemap_generator',        '6.1.2'
 
 # Dummy data
 gem 'factory_bot_rails',        '6.1.0',  require: false
