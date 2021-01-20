@@ -44,7 +44,7 @@ module Articles
     def recommendations(params = {})
       @relation = @relation
                     .include_collection
-                    .with_adapted_visibility(@current_user, @current_admin)
+                    .everyone
 
       if params[:article]
         article = params[:article]

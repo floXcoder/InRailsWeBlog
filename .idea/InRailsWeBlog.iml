@@ -298,7 +298,7 @@
     <orderEntry type="library" scope="PROVIDED" name="ruby-jmeter (v3.1.08, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ruby-progressbar (v1.11.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ruby-vips (v2.0.17, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="ruby2_keywords (v0.0.2, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="ruby2_keywords (v0.0.4, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ruby_parser (v3.15.1, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rubyzip (v2.3.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="safely_block (v0.3.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
@@ -324,12 +324,12 @@
     <orderEntry type="library" scope="PROVIDED" name="spoon (v0.0.6, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sprockets (v4.0.2, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sprockets-rails (v3.2.2, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="sshkit (v1.21.1, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="sshkit (v1.21.2, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sshkit-interactive (v0.3.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="statistics2 (v0.54, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="storext (v3.1.0@a89ce6, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="temple (v0.8.2, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="terminal-table (v1.6.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="terminal-table (v2.0.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="thor (v1.0.1, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="thread_safe (v0.3.6, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="thumbs_up (v0.6.10, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
@@ -338,7 +338,7 @@
     <orderEntry type="library" scope="PROVIDED" name="tzinfo (v2.0.4, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="unf (v0.1.4, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="unf_ext (v0.0.7.7, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="unicode-display_width (v2.0.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="unicode-display_width (v1.7.0, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="uniform_notifier (v1.13.2, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="virtus (v1.0.5, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="warden (v1.2.9, RVM: ruby-2.6.3 [InRailsWeBlog]) [gem]" level="application" />
@@ -740,21 +740,6 @@
           <RakeTaskImpl id="secure_headers">
             <subtasks>
               <RakeTaskImpl description="Generate config/secure_headers_generated_hashes.yml" fullCommand="secure_headers:generate_hashes" id="generate_hashes" />
-            </subtasks>
-          </RakeTaskImpl>
-          <RakeTaskImpl id="sitemap">
-            <subtasks>
-              <RakeTaskImpl description="Delete all Sitemap files in public/ directory" fullCommand="sitemap:clean" id="clean" />
-              <RakeTaskImpl description="Generate sitemaps but don't ping search engines" fullCommand="sitemap:create" id="create" />
-              <RakeTaskImpl description="Install a default config/sitemap.rb file" fullCommand="sitemap:install" id="install" />
-              <RakeTaskImpl description="Generate sitemaps and ping search engines" fullCommand="sitemap:refresh" id="refresh" />
-              <RakeTaskImpl id="refresh">
-                <subtasks>
-                  <RakeTaskImpl description="Generate sitemaps but don't ping search engines" fullCommand="sitemap:refresh:no_ping" id="no_ping" />
-                </subtasks>
-              </RakeTaskImpl>
-              <RakeTaskImpl description="" fullCommand="sitemap:require" id="require" />
-              <RakeTaskImpl description="" fullCommand="sitemap:require_environment" id="require_environment" />
             </subtasks>
           </RakeTaskImpl>
           <RakeTaskImpl description="Report code statistics (KLOCs, etc) from the application or engine" fullCommand="stats" id="stats" />
