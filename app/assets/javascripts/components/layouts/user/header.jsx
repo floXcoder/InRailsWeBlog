@@ -399,15 +399,15 @@ class HeaderLayoutUser extends React.PureComponent {
                         </div>
 
                         <div className={this.props.classes.sectionDesktop}>
-                            <h1 className={this.props.classes.title}
-                                itemProp="name">
+                            <div className={this.props.classes.title}
+                                 itemProp="name">
                                 <Link className="header-brand-logo"
                                       to={userHomePath(this.props.userSlug)}
                                       title={window.settings.website_name}
                                       itemProp="url">
                                     {window.settings.website_name}
                                 </Link>
-                            </h1>
+                            </div>
                         </div>
 
                         {

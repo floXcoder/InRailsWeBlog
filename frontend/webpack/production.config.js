@@ -14,6 +14,8 @@ let webPackConfig = module.exports = require('./main.config.js');
 
 webPackConfig.mode = 'production';
 
+webPackConfig.target = ['web', 'es5'];
+
 webPackConfig.output = _.merge(webPackConfig.output, {
     filename: config.production.filename + '.js'
 });
@@ -152,7 +154,6 @@ webPackConfig.plugins.push(
     new WebpackManifestPlugin({
         fileName: config.production.manifestFilename,
         map: (file) => {
-            console.log(file)
             // Rename name key
             file.name = file.name.replace(/^javascripts\//, '');
             file.name = file.name.replace(/^images\//, '');

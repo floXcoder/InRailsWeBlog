@@ -269,8 +269,8 @@ class HeaderLayoutDefault extends React.Component {
 
                     <Toolbar className={this.props.classes.toolbar}>
                         <div>
-                            <h1 className={this.props.classes.headerTitle}
-                                itemProp="name">
+                            <div className={this.props.classes.headerTitle}
+                                 itemProp="name">
                                 <Link className="header-brand-logo"
                                       to={rootPath()}
                                       title={window.settings.website_name}
@@ -278,7 +278,7 @@ class HeaderLayoutDefault extends React.Component {
                                       onClick={this._handleTitleClick}>
                                     {window.settings.website_name}
                                 </Link>
-                            </h1>
+                            </div>
                         </div>
 
                         <div className={this.props.classes.grow}/>

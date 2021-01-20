@@ -24,7 +24,7 @@ class Admins::VisitsController < AdminsController
 
   private
 
-  def format_visits(top_limit: 12)
+  def format_visits(top_limit: 25)
     visits_details = {}
 
     visits_details[:dates] = Ahoy::Visit.order("DATE(started_at) DESC").group("DATE(started_at)").limit(60).count
@@ -64,12 +64,12 @@ class Admins::VisitsController < AdminsController
     #   other:  other_source_count
     # }.sort_by { |_k, v| -v }.to_h
 
-    visits_details[:countries]  = format_tracking(uniq_visits.group_by(&:country))
-    visits_details[:browsers]   = format_tracking(uniq_visits.group_by(&:browser))
-    visits_details[:os]         = format_tracking(uniq_visits.group_by(&:os))
-    visits_details[:utmSources] = format_tracking(uniq_visits.group_by(&:utm_source))
-    visits_details[:devices]    = format_tracking(uniq_visits.group_by(&:device_type))
-    visits_details[:referers]   = format_tracking(uniq_visits.group_by(&:referring_domain))
+    visits_details[:countries]  = format_tracking(uniq_visits.group_by(&:country), top_limit)
+    visits_details[:browsers]   = format_tracking(uniq_visits.group_by(&:browser), top_limit)
+    visits_details[:os]         = format_tracking(uniq_visits.group_by(&:os), top_limit)
+    visits_details[:utmSources] = format_tracking(uniq_visits.group_by(&:utm_source), top_limit)
+    visits_details[:devices]    = format_tracking(uniq_visits.group_by(&:device_type), top_limit)
+    visits_details[:referers]   = format_tracking(uniq_visits.group_by(&:referring_domain), top_limit)
 
     # visits_details[:utms] = format_tracking(uniq_visits.group_by { |visit| [visit.utm_source, visit.utm_medium, visit.utm_campaign].map(&:presence).compact.join('-') }.delete_if { |k, _v| k.blank? })
 

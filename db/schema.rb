@@ -16,22 +16,6 @@ ActiveRecord::Schema.define(version: 2020_12_27_101220) do
   enable_extension "pg_stat_statements"
   enable_extension "plpgsql"
 
-  create_table "activities", force: :cascade do |t|
-    t.string "trackable_type"
-    t.bigint "trackable_id"
-    t.string "owner_type"
-    t.bigint "owner_id"
-    t.string "key"
-    t.text "parameters"
-    t.string "recipient_type"
-    t.bigint "recipient_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["owner_id", "owner_type"], name: "index_activities_on_owner_id_and_owner_type"
-    t.index ["recipient_id", "recipient_type"], name: "index_activities_on_recipient_id_and_recipient_type"
-    t.index ["trackable_id", "trackable_type"], name: "index_activities_on_trackable_id_and_trackable_type"
-  end
-
   create_table "admin_blogs", force: :cascade do |t|
     t.bigint "admin_id", null: false
     t.integer "visibility", default: 0, null: false

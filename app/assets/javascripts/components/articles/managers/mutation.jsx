@@ -40,7 +40,6 @@ import {
     articleTemporaryDataName,
     articleUnsavedDataName
 } from '../../modules/constants';
-import _ from "lodash";
 
 export default function articleMutationManager(mode) {
     return function articleMutation(WrappedComponent) {

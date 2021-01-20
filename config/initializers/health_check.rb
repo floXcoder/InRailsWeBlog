@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 HealthCheck.setup do |config|
-
   # uri prefix (no leading slash)
   config.uri = 'health_check'
 
@@ -48,3 +47,4 @@ HealthCheck.setup do |config|
   # http status code used when the ip is not allowed for the request
   config.http_status_for_ip_whitelist_error = 403
 end
+

@@ -244,14 +244,14 @@ const SanitizePaste = (function ($) {
             html = html.replace(/’/g, '\'');
 
             if (type === 'html') {
-                // Replace return to line by br inside code block. Use temporary %BREAKLINE% replacement
+                // Replace returns to line by br except for code blocks (keep basic return to line for highlighting)
                 html = html.replace(/(?:\r\n|\r|\n)/g, '%BREAKLINE%');
 
-                html = html.replace(/<code>.*?(?:%BREAKLINE%)?.*?<\/code>/g, function(match) {
-                    return match.replace(/(?:%BREAKLINE%)/g, '<br/>');
+                html = html.replace(/<code(.*?)>.*?(?:%BREAKLINE%)?.*?<\/code>/g, function(match) {
+                    return match.replace(/(?:%BREAKLINE%)/g, "\n");
                 });
-                html = html.replace(/<pre>.*?(?:%BREAKLINE%)?.*?<\/pre>/g, function(match) {
-                    return match.replace(/(?:%BREAKLINE%)/g, '<br/>');
+                html = html.replace(/<pre(.*?)>.*?(?:%BREAKLINE%)?.*?<\/pre>/g, function(match) {
+                    return match.replace(/(?:%BREAKLINE%)/g, "\n");
                 });
 
                 html = html.replace(/(?:%BREAKLINE%)/g, '');

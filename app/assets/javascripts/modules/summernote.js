@@ -236,14 +236,14 @@ $.extend($.summernote.options.keyMap.mac, {
     'CMD+ENTER': 'Save',
 });
 
-jQuery.fn.removeAttributes = function() {
-    return this.each(function() {
-        const attributes = $.map(this.attributes, function(item) {
+jQuery.fn.removeAttributes = function () {
+    return this.each(function () {
+        const attributes = $.map(this.attributes, function (item) {
             return item.name;
         });
 
         const element = $(this);
-        $.each(attributes, function(i, item) {
+        $.each(attributes, function (i, item) {
             element.removeAttr(item);
         });
     });
@@ -340,6 +340,43 @@ const applyTag = (context, tag, className) => {
     }
 };
 
+const formatCodeBlock = () => {
+    if (window.getSelection) {
+        const selection = window.getSelection();
+        const selected = (selection.rangeCount > 0) && selection.getRangeAt(0);
+
+        // Only wrap tag around selected text
+        if (selected.startOffset !== selected.endOffset) {
+            const range = selected.cloneRange();
+
+            const startParentElement = range.startContainer.parentElement;
+            const endParentElement = range.endContainer.parentElement;
+
+            const content = range.extractContents();
+            for (let idx = 0, len = content.childNodes.length; idx < len; idx++) {
+                if (content.childNodes[idx].nodeName === 'BR') {
+                    content.childNodes[idx].replaceWith("\n");
+                } else if (content.childNodes[idx].nodeName === 'P' || content.childNodes[idx].nodeName === 'DIV') {
+                    content.childNodes[idx].replaceWith(content.childNodes[idx].textContent + "\n");
+                }
+            }
+            range.insertNode(document.createTextNode(content.textContent));
+
+            if (!startParentElement.isSameNode(endParentElement)) {
+                // Remove empty surrounding para
+                if (isPara(startParentElement) && isPara(endParentElement)) {
+                    startParentElement.remove();
+                    endParentElement.remove();
+                }
+            }
+
+            // Restore the selections
+            selection.removeAllRanges();
+            selection.addRange(range);
+        }
+    }
+};
+
 $.extend($.summernote.plugins, {
     'cleaner': function (context) {
         const ui = $.summernote.ui;
@@ -359,11 +396,11 @@ $.extend($.summernote.plugins, {
                             includeAncestor: true,
                         }), (idx, element) => {
                             $(element).removeAttributes();
-                            if(element.parentElement.className !== 'note-editable') {
+                            if (element.parentElement.className !== 'note-editable') {
                                 $(element.parentElement).removeAttributes();
                             }
 
-                            if(element.children) {
+                            if (element.children) {
                                 $.each(element.children, (id, child) => {
                                     $(child).removeAttributes();
                                 })
@@ -452,6 +489,7 @@ $.extend($.summernote.plugins, {
                 tooltip: I18n.t('js.editor.buttons.pre'),
                 click: function (event) {
                     event.preventDefault();
+                    formatCodeBlock();
                     document.execCommand('FormatBlock', false, 'pre');
                     context.triggerEvent('change', $note.summernote('code'));
                 }
@@ -465,6 +503,7 @@ $.extend($.summernote.plugins, {
                 // CTRL+E for pre
                 if (event.keyCode === 69 && event.ctrlKey) {
                     event.preventDefault();
+                    formatCodeBlock();
                     document.execCommand('FormatBlock', false, 'pre');
                     context.triggerEvent('change', $note.summernote('code'));
                 }
