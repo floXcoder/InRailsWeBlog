@@ -106,9 +106,10 @@ gem 'capistrano-rvm',           '0.1.2',  require: false
 gem 'capistrano-bundler',       '2.0.1',  require: false
 gem 'capistrano-rails-console', '2.3.0',  require: false
 gem 'capistrano-db-tasks',      '0.6',    require: false
+gem 'health_check',             '3.0.0'
 
 # SEO
-gem 'webdrivers',               '4.4.2',  require: false
+gem 'webdrivers',               '4.5.0',  require: false
 
 # Server
 gem 'puma',                     '5.1.1'
@@ -187,9 +188,6 @@ end
 group :production do
   # Errors reporting
   gem 'sentry-raven',     '3.1.1'
-
-  # Check website response after deployment
-  gem 'health_check',             '3.0.0',  require: false
 
   # Improve log outputs
   gem 'lograge',          '0.11.2'
