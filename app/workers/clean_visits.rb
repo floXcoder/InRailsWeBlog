@@ -19,6 +19,11 @@ class CleanVisits
     excluded_ips = File.open(Rails.root.join('lib/tracking/excluded_ips.txt')) { |file| file.readlines.map(&:chomp) }
     excluded_ips = excluded_ips.concat(new_excluded_ips)
 
+    # Do not exclude my IPs
+    if ENV['WHITE_LIST_IP'].present?
+      excluded_ips = excluded_ips - ENV['WHITE_LIST_IP'].split(', ')
+    end
+
     # Detect patterns
     excluded_pattern_ips     = File.open(Rails.root.join('lib/tracking/excluded_pattern_ips.txt')) { |file| file.readlines.map(&:chomp) }
     pattern_ips              = excluded_ips.map { |ip| ip.split('.')[0..2].join('.') }

@@ -32,6 +32,10 @@ every :day, at: '3am', roles: [:production] do
   rake 'pghero:capture_space_stats'
 end
 
+every :week, at: '5am', roles: [:production] do
+  rake 'InRailsWeBlog:clean_visits'
+end
+
 every :month, at: '6am', roles: [:production] do
   rake 'InRailsWeBlog:update_geolite'
 end
