@@ -36,6 +36,6 @@ every :week, at: '5am', roles: [:production] do
   rake 'InRailsWeBlog:clean_visits'
 end
 
-every :month, at: '6am', roles: [:production] do
-  rake 'InRailsWeBlog:update_geolite'
-end
+# every :month, at: '6am', roles: [:production] do
+#   rake 'InRailsWeBlog:update_geolite'
+# end

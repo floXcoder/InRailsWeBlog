@@ -563,7 +563,7 @@ GEM
     temple (0.8.2)
     terminal-table (2.0.0)
       unicode-display_width (~> 1.1, >= 1.1.1)
-    thor (1.0.1)
+    thor (1.1.0)
     thread_safe (0.3.6)
     thumbs_up (0.6.10)
       activerecord (> 4.2, < 7)
