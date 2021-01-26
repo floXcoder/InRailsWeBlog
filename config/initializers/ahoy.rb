@@ -66,12 +66,12 @@ EXCLUDE_USER_AGENT = %w[OkHttp]
 EXCLUDE_REFERRERS = %w[google.co.uk/url]
 
 EXCLUDE_IPS         = if File.exists?(Rails.root.join('lib/tracking/excluded_pattern_ips.txt'))
-                        File.open(Rails.root.join('lib/tracking/excluded_pattern_ips.txt')) { |file| file.readlines.map(&:chomp) }
+                        File.open(Rails.root.join('lib/tracking/excluded_pattern_ips.txt')) { |file| file.readlines.map(&:chomp) }.select(&:present?)
                       else
                         []
                       end
 EXCLUDE_PATTERN_IPS = if File.exists?(Rails.root.join('lib/tracking/excluded_ips.txt'))
-                        File.open(Rails.root.join('lib/tracking/excluded_ips.txt')) { |file| file.readlines.map(&:chomp) }
+                        File.open(Rails.root.join('lib/tracking/excluded_ips.txt')) { |file| file.readlines.map(&:chomp) }.select(&:present?)
                       else
                         []
                       end

@@ -117,7 +117,13 @@ class ApplicationController < ActionController::Base
     else
       respond_to do |format|
         format.json { render json: { errors: t('views.error.status.explanation.404') }, status: :not_found }
-        format.html { render 'pages/default', locals: { status: 404 }, status: :not_found, layout: 'application' }
+        format.html do
+          if current_user
+            render 'pages/user', locals: { status: 404 }, status: :not_found, layout: 'user'
+          else
+            render 'pages/default', locals: { status: 404 }, status: :not_found, layout: 'application'
+          end
+        end
         format.all { render body: nil, status: :not_found }
       end
     end
