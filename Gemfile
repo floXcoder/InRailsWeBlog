@@ -25,7 +25,7 @@ gem 'faraday',                  '1.3.0'
 
 # JSON
 gem 'jsonapi-serializer',       '2.1.0'
-gem 'oj',                       '3.11.0'
+gem 'oj',                       '3.11.1'
 
 # Use slim instead of erb
 gem 'slim-rails',               '3.2.0'
@@ -46,7 +46,7 @@ gem 'auto_strip_attributes',    '2.6.0'
 gem 'sanitize',                 '5.2.3'
 
 # Run asynschronous process
-gem 'sidekiq',                  '6.1.2'
+gem 'sidekiq',                  '6.1.3'
 gem 'sidekiq-statistic',        '1.4.0'
 gem 'sidekiq-cron',             '1.2.0'
 gem 'attentive_sidekiq',        '0.3.3'
@@ -84,7 +84,7 @@ gem 'acts_as_commentable_with_threading', '2.0.1'
 gem 'premailer-rails',          '1.11.1'
 
 # Detect browser and bots
-gem 'browser',                  '5.2.0'
+gem 'browser',                  '5.3.0'
 
 # Tracking
 gem 'ahoy_matey',               '3.1.0'
@@ -124,7 +124,7 @@ group :development do
   gem 'binding_of_caller',      '1.0.0'
 
   # N+1 database query
-  gem 'bullet',                 '6.1.2'
+  gem 'bullet',                 '6.1.3'
 
   # Guard and its minions
   gem 'guard',                  '2.16.2', require: false
@@ -153,7 +153,7 @@ group :test do
   gem 'rspec-rails',                '4.0.2'
   gem 'webmock',                    '3.11.1'
   gem 'rspec_junit_formatter',      '0.4.1'
-  gem 'shoulda-matchers',           '4.5.0',  require: false
+  gem 'shoulda-matchers',           '4.5.1',  require: false
   gem 'shoulda-callback-matchers',  '1.1.4',  require: false
   gem 'simplecov',                  '0.21.2', require: false
   gem 'fuubar',                     '2.5.1'
@@ -161,7 +161,7 @@ group :test do
   gem 'db-query-matchers',          '0.10.0'
 
   # Browser tests
-  gem 'capybara',                   '3.34.0'
+  gem 'capybara',                   '3.35.0'
   gem 'capybara-email',             '3.0.2'
   gem 'capybara-screenshot',        '1.0.25'
   gem 'selenium-webdriver',         '3.142.7'
