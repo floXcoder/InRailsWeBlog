@@ -428,7 +428,13 @@ class ApplicationController < ActionController::Base
 
     respond_to do |format|
       format.json { render json: { errors: t('views.error.status.explanation.404'), details: exception&.try(:message) }, status: :not_found }
-      format.html { render 'pages/default', locals: { status: 404 }, status: :not_found }
+      format.html do
+        if current_user
+          render 'pages/user', locals: { status: 404 }, status: :not_found, layout: 'user'
+        else
+          render 'pages/default', locals: { status: 404 }, status: :not_found, layout: 'application'
+        end
+      end
       format.all { render body: nil, status: :not_found }
     end
   end
@@ -442,7 +448,13 @@ class ApplicationController < ActionController::Base
 
     respond_to do |format|
       format.json { render json: { errors: t('views.error.status.explanation.500'), details: exception&.try(:message) }, status: :internal_server_error }
-      format.html { render 'pages/default', locals: { status: 500 }, status: :internal_server_error }
+      format.html do
+        if current_user
+          render 'pages/user', locals: { status: 500 }, status: :internal_server_error, layout: 'user'
+        else
+          render 'pages/default', locals: { status: 500 }, status: :internal_server_error, layout: 'application'
+        end
+      end
       format.all { render body: nil, status: :internal_server_error }
     end
   end
