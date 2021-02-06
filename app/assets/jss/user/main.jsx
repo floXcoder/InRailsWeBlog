@@ -23,6 +23,7 @@ const styles = (theme) => ({
     content: {
         flex: '1 1 auto',
         height: '100%', // allows both columns to span the full height of the browser window
+        minHeight: '95vh',
         marginTop: headerHeight
     },
     homeContent: {

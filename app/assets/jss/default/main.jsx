@@ -10,7 +10,8 @@ const styles = (theme) => ({
         marginTop: headerHeight,
         flexGrow: 1,
         backgroundColor: theme.palette.background.default,
-        padding: theme.spacing(1)
+        padding: theme.spacing(1),
+        minHeight: '95vh'
     },
     homeContent: {
         padding: 0

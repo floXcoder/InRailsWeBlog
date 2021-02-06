@@ -79,7 +79,8 @@ const styles = (theme) => ({
         }
     },
     bannerBackgroundImg: {
-        maxHeight: 440
+        maxHeight: 440,
+        height: 300
     },
 
     search: {
