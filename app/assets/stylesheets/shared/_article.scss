@@ -1,7 +1,8 @@
 @import 'shared/animation/article';
 
-.article-errors {
-  color: $error-color;
+// Leave a margin when scrolling to the article id
+[id^="article-"] {
+  scroll-margin-top: 75px;
 }
 
 .article-list-tag-title {
@@ -17,6 +18,10 @@
   font-weight: 500;
   margin-top: 1rem;
   text-align: center;
+}
+
+.article-errors {
+  color: $error-color;
 }
 
 // Article form
