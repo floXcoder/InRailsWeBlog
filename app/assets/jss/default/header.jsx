@@ -54,7 +54,8 @@ const styles = (theme) => ({
         paddingLeft: 12,
         paddingRight: 12,
         fontSize: '1rem',
-        whiteSpace: 'nowrap'
+        whiteSpace: 'nowrap',
+        fontWeight: 'initial'
     },
     sectionMobile: {
         display: 'flex',
