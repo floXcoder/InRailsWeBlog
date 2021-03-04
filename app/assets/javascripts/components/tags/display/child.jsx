@@ -8,13 +8,19 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 
 import {
-    taggedArticlesPath
+    taggedArticlesPath, taggedTopicArticlesPath
 } from '../../../constants/routesHelper';
 
-const ChildTag = ({tag, parentTagSlug, isExpanded, currentChildTagSlug, currentTagSlugs, onTagClick, classes}) => (
+const ChildTag = ({tag, parentTagSlug, currentChildTagSlug, currentTagSlugs, currentUserSlug, currentUserTopicSlug, onTagClick, classes}) => (
     <ListItem button={true}
               component={Link}
-              to={taggedArticlesPath(parentTagSlug, tag.slug)}
+              to={
+                  currentUserSlug && currentUserTopicSlug
+                      ?
+                      taggedTopicArticlesPath(currentUserSlug, currentUserTopicSlug, parentTagSlug, tag.slug)
+                      :
+                      taggedArticlesPath(parentTagSlug, tag.slug)
+              }
               onClick={onTagClick}>
         <ListItemText classes={{
             root: classes.nestedLabelRoot,
@@ -31,11 +37,12 @@ const ChildTag = ({tag, parentTagSlug, isExpanded, currentChildTagSlug, currentT
 ChildTag.propTypes = {
     tag: PropTypes.object.isRequired,
     parentTagSlug: PropTypes.string.isRequired,
-    isExpanded: PropTypes.bool.isRequired,
     currentTagSlugs: PropTypes.array.isRequired,
     onTagClick: PropTypes.func.isRequired,
     classes: PropTypes.object.isRequired,
-    currentChildTagSlug: PropTypes.string
+    currentChildTagSlug: PropTypes.string,
+    currentUserSlug: PropTypes.string,
+    currentUserTopicSlug: PropTypes.string
 };
 
 export default React.memo(ChildTag);

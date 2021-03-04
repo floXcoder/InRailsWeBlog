@@ -43,7 +43,7 @@ de:
         pin: "Kiefer"
         unpin: "Entnadeln Sie"
       footer:
-        copyright: "Urheberrecht 2020 (%{version}). Alle Rechte vorbehalten."
+        copyright: "Urheberrecht 2021 (%{version}). Alle Rechte vorbehalten."
         description: "Ein Blog für alle"
         languages: "Sprachen"
         links:

@@ -43,7 +43,7 @@ it:
         pin: "Pino"
         unpin: "Disinserire"
       footer:
-        copyright: "Copyright 2020 (%{version}). Tutti i diritti riservati."
+        copyright: "Copyright 2021 (%{version}). Tutti i diritti riservati."
         description: "Un blog per tutti"
         languages: "Lingue"
         links:

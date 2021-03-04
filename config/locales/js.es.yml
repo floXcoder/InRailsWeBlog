@@ -43,7 +43,7 @@ es:
         pin: "Pino"
         unpin: "Despinchar"
       footer:
-        copyright: "Copyright 2020 (%{version}). Todos los derechos reservados."
+        copyright: "Copyright 2021 (%{version}). Todos los derechos reservados."
         description: "Un blog para todos"
         languages: "Idiomas"
         links:
