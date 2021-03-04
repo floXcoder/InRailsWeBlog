@@ -44,14 +44,14 @@ export default function adminReducer(state = initState, action) {
         case ActionTypes.ADMIN_VISIT_FETCH_SUCCESS:
         case ActionTypes.ADMIN_VISIT_FETCH_ERROR:
             return fetchReducer(state, action, (state) => {
-                state.visits = action.visits;
+                state.visits = action.visits || {};
             });
 
         case ActionTypes.ADMIN_BLOG_FETCH_INIT:
         case ActionTypes.ADMIN_BLOG_FETCH_SUCCESS:
         case ActionTypes.ADMIN_BLOG_FETCH_ERROR:
             return fetchReducer(state, action, (state) => {
-                state.blogs = action.blogs;
+                state.blogs = action.blogs || [];
             });
 
         case ActionTypes.ADMIN_BLOG_CHANGE_INIT:
@@ -65,7 +65,7 @@ export default function adminReducer(state = initState, action) {
         case ActionTypes.ADMIN_SEO_DATA_FETCH_SUCCESS:
         case ActionTypes.ADMIN_SEO_DATA_FETCH_ERROR:
             return fetchReducer(state, action, (state) => {
-                state.seoData = action.seoData;
+                state.seoData = action.seoData || [];
             });
 
         case ActionTypes.ADMIN_SEO_DATA_CHANGE_INIT:

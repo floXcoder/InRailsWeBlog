@@ -9,7 +9,7 @@ end
 ruby '2.6.3'
 
 # Rails version
-gem 'rails',                    '6.1.1'
+gem 'rails',                    '6.1.3'
 
 # Use postgresql as the database for Active Record
 gem 'pg',                       '1.2.3'
@@ -20,7 +20,7 @@ gem 'pg_query',                 '1.3.0' # Required for pghero
 # HTTP Response
 gem 'responders',               '3.0.1'
 gem 'http_accept_language',     '2.1.1'
-gem 'secure_headers',           '6.3.1'
+gem 'secure_headers',           '6.3.2'
 gem 'faraday',                  '1.3.0'
 
 # JSON
@@ -31,8 +31,8 @@ gem 'oj',                       '3.11.2'
 gem 'slim-rails',               '3.2.0'
 
 # Internationalization
-gem 'i18n-js',                  '3.8.0'
-gem 'geocoder',                 '1.6.4'
+gem 'i18n-js',                  '3.8.1'
+gem 'geocoder',                 '1.6.5'
 gem 'maxminddb',                '0.1.22'
 
 # Model versioning
@@ -67,11 +67,11 @@ gem 'devise',                   '4.7.3'
 gem 'pundit',                   '2.1.0'
 
 # Upload pictures
-gem 'carrierwave',              '2.1.0'
+gem 'carrierwave',              '2.2.0'
 gem 'mini_magick',              '4.11.0'
 
 # Search in database
-gem 'searchkick',               '4.4.2'
+gem 'searchkick',               '4.4.3'
 gem 'typhoeus',                 '1.4.0'
 
 # Votable models
@@ -84,10 +84,10 @@ gem 'acts_as_commentable_with_threading', '2.0.1'
 gem 'premailer-rails',          '1.11.1'
 
 # Detect browser and bots
-gem 'browser',                  '5.3.0'
+gem 'browser',                  '5.3.1'
 
 # Tracking
-gem 'ahoy_matey',               '3.1.0'
+gem 'ahoy_matey',               '3.2.0'
 
 # SEO
 gem 'friendly_id',              '5.4.2'
@@ -97,10 +97,10 @@ gem 'sitemap_generator',        '6.1.2'
 
 # Dummy data
 gem 'factory_bot_rails',        '6.1.0',  require: false
-gem 'faker',                    '2.15.1', require: false
+gem 'faker',                    '2.16.0', require: false
 
 # Deployment
-gem 'capistrano',               '3.15.0', require: false
+gem 'capistrano',               '3.16.0', require: false
 gem 'capistrano-rails',         '1.6.1',  require: false
 gem 'capistrano-rvm',           '0.1.2',  require: false
 gem 'capistrano-bundler',       '2.0.1',  require: false
@@ -109,10 +109,10 @@ gem 'capistrano-db-tasks',      '0.6',    require: false
 gem 'health_check',             '3.0.0'
 
 # SEO
-gem 'webdrivers',               '4.5.0',  require: false
+gem 'webdrivers',               '4.6.0',  require: false
 
 # Server
-gem 'puma',                     '5.2.1'
+gem 'puma',                     '5.2.2'
 
 group :development do
   # Debugging tool
@@ -124,7 +124,7 @@ group :development do
   gem 'binding_of_caller',      '1.0.0'
 
   # N+1 database query
-  gem 'bullet',                 '6.1.3'
+  gem 'bullet',                 '6.1.4'
 
   # Guard and its minions
   gem 'guard',                  '2.16.2', require: false
@@ -142,7 +142,7 @@ group :development do
   #gem 'unique_validation_inspector', '0.3.0', require: false
 
   # Faster ruby code
-  gem 'fasterer',               '0.8.3', require: false
+  gem 'fasterer',               '0.9.0', require: false
 
   # Load tests
   gem 'ruby-jmeter',            '3.1.08', require: false
@@ -151,7 +151,7 @@ end
 group :test do
   # Test tools
   gem 'rspec-rails',                '4.0.2'
-  gem 'webmock',                    '3.11.2'
+  gem 'webmock',                    '3.12.0'
   gem 'rspec_junit_formatter',      '0.4.1'
   gem 'shoulda-matchers',           '4.5.1',  require: false
   gem 'shoulda-callback-matchers',  '1.1.4',  require: false
@@ -176,12 +176,12 @@ end
 
 group :development, :test do
   # Speed up boot
-  gem 'bootsnap',                   '1.7.1',  require: false
+  gem 'bootsnap',                   '1.7.2',  require: false
 
   # Check errors
-  gem 'rubocop',                    '1.9.1',  require: false
+  gem 'rubocop',                    '1.11.0',  require: false
   gem 'rubocop-rails',              '2.9.1',  require: false
-  gem 'rubocop-performance',        '1.9.2',  require: false
+  gem 'rubocop-performance',        '1.10.1',  require: false
   gem 'rubocop-rspec',              '2.2.0',  require: false
 end
 

@@ -454,5 +454,5 @@ To create a new major version, start manually a new Gitflow release named "0.Y.0
     git push --tags
 
 
-©FloXcoder - 2020
+©FloXcoder - 2021
 

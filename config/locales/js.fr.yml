@@ -44,7 +44,7 @@ fr:
         unpin: "Unpin"
       footer:
         description: "Un blog pour tous"
-        copyright: "Copyright 2020 (%{version}). Tous droits réservés."
+        copyright: "Copyright 2021 (%{version}). Tous droits réservés."
         links:
           title: "Liens utiles"
           contact: "Nous contacter"
@@ -384,7 +384,7 @@ fr:
         mode: "Type"
         description: "Description"
         visibility: "Visibilité"
-        languages: "Langues associés"
+        languages: "Langues associées"
         articles_count: "Nombre d'articles"
         tags: "Labels associés"
         tags_count: "Nombre de labels"

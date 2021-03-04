@@ -127,7 +127,7 @@ class ArticleTags extends React.PureComponent {
                                       root: this.props.classes.tagChip,
                                       label: this.props.classes.tagLabel
                                   }}
-                                  to={this.props.isOwner && this.props.currentUserSlug && this.props.currentUserTopicSlug && parentTags ? taggedTopicArticlesPath(this.props.currentUserSlug, this.props.currentUserTopicSlug, parentTags.first().slug, tag.slug) : taggedArticlesPath(tag.slug)}
+                                  to={this.props.isOwner && this.props.currentUserSlug && this.props.currentUserTopicSlug && parentTags.length ? taggedTopicArticlesPath(this.props.currentUserSlug, this.props.currentUserTopicSlug, parentTags.first().slug, tag.slug) : taggedArticlesPath(tag.slug)}
                                   label={tag.name}
                                   variant="outlined"
                                   color="default"

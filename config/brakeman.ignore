@@ -7,7 +7,7 @@
       "check_name": "SQL",
       "message": "Possible SQL injection",
       "file": "app/models/article.rb",
-      "line": 259,
+      "line": 257,
       "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
       "code": "where(\"#{self.friendly_id_config.slug_column}->>'#{locale}' = ?\", article_slug)",
       "render_path": null,
@@ -21,13 +21,33 @@
       "note": ""
     },
     {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "4ce896bbde4b45f08263ef37b0d428672329ed1122fbf89e3a265dcb8a9ad016",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/workers/update_tracker_worker.rb",
+      "line": 52,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "Ahoy::Event.where(:id => Ahoy::Visit.where(:visitor_token => visitor_token).ids, :name => \"page_visit\").where(\"properties->>'#{tracked_class.downcase}_id' = ?\", element_value.to_s)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "UpdateTrackerWorker",
+        "method": "validate_visit"
+      },
+      "user_input": "tracked_class.downcase",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
       "warning_type": "File Access",
       "warning_code": 16,
       "fingerprint": "6100212265b8c6f6bd9e8127f1d8d4c385c072901d02a20956547a2727560f79",
       "check_name": "SendFile",
       "message": "Parameter value used in file name",
       "file": "app/controllers/api/v1/exporter_controller.rb",
-      "line": 12,
+      "line": 14,
       "link": "https://brakemanscanner.org/docs/warning_types/file_access/",
       "code": "send_file(Shared::ExporterService.new(params[:user_id]).perform.result)",
       "render_path": null,
@@ -37,6 +57,26 @@
         "method": "index"
       },
       "user_input": "params[:user_id]",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "File Access",
+      "warning_code": 16,
+      "fingerprint": "744a87b19a7d4c3c63ddb8257f50eecf8f538599ef6dcc14e07dd13172f288cd",
+      "check_name": "FileAccess",
+      "message": "Model attribute used in file name",
+      "file": "app/services/shared/exporter_service.rb",
+      "line": 61,
+      "link": "https://brakemanscanner.org/docs/warning_types/file_access/",
+      "code": "FileUtils.mkdir_p(Rails.root.join(\"tmp/exporter\", User.find(@params[:user_id]).slug))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Shared::ExporterService",
+        "method": "perform"
+      },
+      "user_input": "User.find(@params[:user_id]).slug",
       "confidence": "Weak",
       "note": ""
     },
@@ -61,13 +101,113 @@
       "note": ""
     },
     {
+      "warning_type": "File Access",
+      "warning_code": 16,
+      "fingerprint": "9e4b3528f002d93dcda569c7d629dbdac75fccc0230bdcbf9ef05b1f0a1e5fbc",
+      "check_name": "FileAccess",
+      "message": "Model attribute used in file name",
+      "file": "app/services/shared/exporter_service.rb",
+      "line": 65,
+      "link": "https://brakemanscanner.org/docs/warning_types/file_access/",
+      "code": "FileUtils.mkdir_p(Rails.root.join(\"tmp/exporter\", User.find(@params[:user_id]).slug, article.topic.slug))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Shared::ExporterService",
+        "method": "perform"
+      },
+      "user_input": "User.find(@params[:user_id]).slug",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "File Access",
+      "warning_code": 16,
+      "fingerprint": "9f255fd0c016b6dc53c94c92b37ed16957a22f9345ec9631b45532b555451e48",
+      "check_name": "FileAccess",
+      "message": "Model attribute used in file name",
+      "file": "app/services/shared/exporter_service.rb",
+      "line": 93,
+      "link": "https://brakemanscanner.org/docs/warning_types/file_access/",
+      "code": "FileUtils.remove_dir(Rails.root.join(\"tmp/exporter\", User.find(@params[:user_id]).slug))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Shared::ExporterService",
+        "method": "perform"
+      },
+      "user_input": "User.find(@params[:user_id]).slug",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "File Access",
+      "warning_code": 16,
+      "fingerprint": "a00e892287b26a1ebf1d73d3aa160767e65d13eeefc7a468a88894dfb60d2ace",
+      "check_name": "FileAccess",
+      "message": "Model attribute used in file name",
+      "file": "app/services/shared/exporter_service.rb",
+      "line": 81,
+      "link": "https://brakemanscanner.org/docs/warning_types/file_access/",
+      "code": "File.open(Rails.root.join(\"tmp/exporter\", User.find(@params[:user_id]).slug, article.topic.slug, \"#{article.slug}_files\", picture.image.identifier), \"wb\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Shared::ExporterService",
+        "method": "perform"
+      },
+      "user_input": "User.find(@params[:user_id]).slug",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "File Access",
+      "warning_code": 16,
+      "fingerprint": "af44942b575a49e2a93683fdbaa3abec5c2c5025531d5adce979c9acc74e5695",
+      "check_name": "FileAccess",
+      "message": "Model attribute used in file name",
+      "file": "app/services/shared/exporter_service.rb",
+      "line": 77,
+      "link": "https://brakemanscanner.org/docs/warning_types/file_access/",
+      "code": "FileUtils.mkdir_p(Rails.root.join(\"tmp/exporter\", User.find(@params[:user_id]).slug, article.topic.slug, \"#{article.slug}_files\"))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Shared::ExporterService",
+        "method": "perform"
+      },
+      "user_input": "User.find(@params[:user_id]).slug",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "File Access",
+      "warning_code": 16,
+      "fingerprint": "bdecbd9b330dca768242da6e111d1614b70151e714c9eaf55ca142a15e1e4d15",
+      "check_name": "FileAccess",
+      "message": "Model attribute used in file name",
+      "file": "app/services/shared/exporter_service.rb",
+      "line": 59,
+      "link": "https://brakemanscanner.org/docs/warning_types/file_access/",
+      "code": "FileUtils.rm_rf(Rails.root.join(\"tmp/exporter\", User.find(@params[:user_id]).slug))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Shared::ExporterService",
+        "method": "perform"
+      },
+      "user_input": "User.find(@params[:user_id]).slug",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
       "warning_type": "SQL Injection",
       "warning_code": 0,
       "fingerprint": "c76a0af3dfedeb2165917bbd3097ef78ae58087a7eedbb48f0053b5e17b289f1",
       "check_name": "SQL",
       "message": "Possible SQL injection",
       "file": "config/initializers/friendly_id_localize.rb",
-      "line": 63,
+      "line": 67,
       "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
       "code": "where(\"#{friendly_id_config.slug_column}->>'#{I18n.locale}' = ?\", id)",
       "render_path": null,
@@ -83,7 +223,7 @@
       "check_name": "SQL",
       "message": "Possible SQL injection",
       "file": "config/initializers/friendly_id_localize.rb",
-      "line": 69,
+      "line": 73,
       "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
       "code": "where(\"#{friendly_id_config.slug_column}->>'#{I18n.locale}' = ?\", id)",
       "render_path": null,
@@ -93,6 +233,6 @@
       "note": ""
     }
   ],
-  "updated": "2020-10-20 17:46:54 +0200",
-  "brakeman_version": "4.10.0"
+  "updated": "2021-02-13 15:26:31 +0100",
+  "brakeman_version": "5.0.0"
 }

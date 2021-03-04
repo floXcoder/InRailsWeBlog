@@ -95,7 +95,13 @@ class ParentTag extends React.PureComponent {
             <>
                 <ListItem button={true}
                           component={Link}
-                          to={this.props.currentUserSlug && this.props.currentUserTopicSlug ? taggedTopicArticlesPath(this.props.currentUserSlug, this.props.currentUserTopicSlug, this.props.tag.slug) : taggedArticlesPath(this.props.tag.slug)}
+                          to={
+                              this.props.currentUserSlug && this.props.currentUserTopicSlug
+                                  ?
+                                  taggedTopicArticlesPath(this.props.currentUserSlug, this.props.currentUserTopicSlug, this.props.tag.slug)
+                                  :
+                                  taggedArticlesPath(this.props.tag.slug)
+                          }
                           onClick={this._handleTagClick.bind(this, this.props.tag.id, this.props.tag.slug, this.props.tag.userId, this.props.tag.name, true)}>
                     <ListItemText classes={{
                         primary: classNames(this.props.classes.label, {
@@ -131,9 +137,10 @@ class ParentTag extends React.PureComponent {
                                     <ChildTag key={i}
                                               tag={tag}
                                               parentTagSlug={this.props.tag.slug}
-                                              isExpanded={this.state.isExpanded}
                                               currentChildTagSlug={this.props.currentChildTagSlug}
                                               currentTagSlugs={this.props.currentTagSlugs}
+                                              currentUserSlug={this.props.currentUserSlug}
+                                              currentUserTopicSlug={this.props.currentUserTopicSlug}
                                               classes={this.props.classes}
                                               onTagClick={this._handleTagClick.bind(this, tag.id, tag.name, tag.userId, tag.slug, false)}/>
                                 ))
