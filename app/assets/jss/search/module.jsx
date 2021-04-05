@@ -111,7 +111,7 @@ const styles = (theme) => ({
     },
     articleTag: {
         margin: theme.spacing(1),
-        padding: theme.spacing(1, 1),
+        padding: theme.spacing(1),
         fontWeight: 400,
         fontSize: '.8rem',
         color: theme.palette.text.secondary,

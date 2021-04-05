@@ -9,13 +9,13 @@ end
 ruby '2.6.3'
 
 # Rails version
-gem 'rails',                    '6.1.3'
+gem 'rails',                    '6.1.3.1'
 
 # Use postgresql as the database for Active Record
 gem 'pg',                       '1.2.3'
 # gem 'active_record_extended',   '1.4.0'
-gem 'pghero',                   '2.7.4'
-gem 'pg_query',                 '1.3.0' # Required for pghero
+gem 'pghero',                   '2.8.1'
+gem 'pg_query',                 '2.0.2' # Required for pghero
 
 # HTTP Response
 gem 'responders',               '3.0.1'
@@ -24,19 +24,19 @@ gem 'secure_headers',           '6.3.2'
 gem 'faraday',                  '1.3.0'
 
 # JSON
-gem 'jsonapi-serializer',       '2.1.0'
-gem 'oj',                       '3.11.2'
+gem 'jsonapi-serializer',       '2.2.0'
+gem 'oj',                       '3.11.3'
 
 # Use slim instead of erb
 gem 'slim-rails',               '3.2.0'
 
 # Internationalization
-gem 'i18n-js',                  '3.8.1'
-gem 'geocoder',                 '1.6.5'
+gem 'i18n-js',                  '3.8.2'
+gem 'geocoder',                 '1.6.6'
 gem 'maxminddb',                '0.1.22'
 
 # Model versioning
-gem 'paper_trail',              '11.1.0'
+gem 'paper_trail',              '12.0.0'
 
 # Marked as deleted
 gem 'paranoia',                 '2.4.3'
@@ -46,7 +46,7 @@ gem 'auto_strip_attributes',    '2.6.0'
 gem 'sanitize',                 '5.2.3'
 
 # Run asynschronous process
-gem 'sidekiq',                  '6.1.3'
+gem 'sidekiq',                  '6.2.0'
 gem 'sidekiq-statistic',        '1.4.0'
 gem 'sidekiq-cron',             '1.2.0'
 gem 'attentive_sidekiq',        '0.3.3'
@@ -67,11 +67,11 @@ gem 'devise',                   '4.7.3'
 gem 'pundit',                   '2.1.0'
 
 # Upload pictures
-gem 'carrierwave',              '2.2.0'
+gem 'carrierwave',              '2.2.1'
 gem 'mini_magick',              '4.11.0'
 
 # Search in database
-gem 'searchkick',               '4.4.3'
+gem 'searchkick',               '4.4.4'
 gem 'typhoeus',                 '1.4.0'
 
 # Votable models
@@ -97,7 +97,7 @@ gem 'sitemap_generator',        '6.1.2'
 
 # Dummy data
 gem 'factory_bot_rails',        '6.1.0',  require: false
-gem 'faker',                    '2.16.0', require: false
+gem 'faker',                    '2.17.0', require: false
 
 # Deployment
 gem 'capistrano',               '3.16.0', require: false
@@ -117,7 +117,7 @@ gem 'puma',                     '5.2.2'
 group :development do
   # Debugging tool
   gem 'pry-rails',              '0.3.9'
-  gem 'awesome_print',          '1.8.0'
+  gem 'awesome_print',          '1.9.2'
 
   # Improve errors
   gem 'better_errors',          '2.9.1'
@@ -150,8 +150,8 @@ end
 
 group :test do
   # Test tools
-  gem 'rspec-rails',                '4.0.2'
-  gem 'webmock',                    '3.12.0'
+  gem 'rspec-rails',                '5.0.1'
+  gem 'webmock',                    '3.12.2'
   gem 'rspec_junit_formatter',      '0.4.1'
   gem 'shoulda-matchers',           '4.5.1',  require: false
   gem 'shoulda-callback-matchers',  '1.1.4',  require: false
@@ -171,23 +171,23 @@ group :test do
   # static analyzer
   gem 'rails_best_practices',       '1.20.0', require: false
   gem 'brakeman',                   '5.0.0',  require: false
-  gem 'i18n-tasks',                 '0.9.33', require: false
+  gem 'i18n-tasks',                 '0.9.34', require: false
 end
 
 group :development, :test do
   # Speed up boot
-  gem 'bootsnap',                   '1.7.2',  require: false
+  gem 'bootsnap',                   '1.7.3',  require: false
 
   # Check errors
-  gem 'rubocop',                    '1.11.0',  require: false
+  gem 'rubocop',                    '1.12.1',  require: false
   gem 'rubocop-rails',              '2.9.1',  require: false
-  gem 'rubocop-performance',        '1.10.1',  require: false
+  gem 'rubocop-performance',        '1.10.2',  require: false
   gem 'rubocop-rspec',              '2.2.0',  require: false
 end
 
 group :production do
   # Errors reporting
-  gem 'sentry-raven',     '3.1.1'
+  gem 'sentry-raven',     '3.1.2'
 
   # Improve log outputs
   gem 'lograge',          '0.11.2'

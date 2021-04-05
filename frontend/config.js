@@ -53,7 +53,7 @@ module.exports = {
                 options: {
                     bypassOnDebug: false,
                     outputPath: 'images/',
-                    name: '[name].[contenthash].[ext]',
+                    name: '[name].[contenthash][ext]',
                     publicPath: 'assets/',
                     mozjpeg: {
                         progressive: true,
@@ -69,7 +69,7 @@ module.exports = {
                 exclude: /node_modules/,
                 options: {
                     outputPath: 'fonts/',
-                    name: '[name].[contenthash].[ext]'
+                    name: '[name].[contenthash][ext]'
                 }
             }
         },

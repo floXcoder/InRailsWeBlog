@@ -26,7 +26,7 @@ module Api::V1
           @location = after_inactive_sign_up_path_for(resource)
         end
 
-        respond_with resource.serialized_json('profile'),
+        respond_with resource.serialized_json('profile', meta: { location: @location }),
                      location: @location
       else
         respond_to do |format|

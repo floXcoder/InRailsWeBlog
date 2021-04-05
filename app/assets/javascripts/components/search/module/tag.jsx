@@ -18,7 +18,8 @@ import {
 import {
     spyTrackClick
 } from '../../../actions';
-import Loader from "../../theme/loader";
+
+import Loader from '../../theme/loader';
 
 export default class SearchTagModule extends React.Component {
     static propTypes = {

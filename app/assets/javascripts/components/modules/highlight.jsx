@@ -174,7 +174,7 @@ export default function highlight(highlightOnShow = true) {
                 const nodes = domNode.querySelectorAll('pre');
                 if (nodes.length > 0) {
                     for (let i = 0; i < nodes.length; i = i + 1) {
-                        HighlightCode.highlightBlock(nodes[i]);
+                        HighlightCode.highlightElement(nodes[i]);
                     }
                 }
             };

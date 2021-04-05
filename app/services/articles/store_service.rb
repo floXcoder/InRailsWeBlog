@@ -13,8 +13,8 @@ module Articles
     def perform
       current_language = new_language = @current_user.locale || I18n.locale
 
-      auto_save      = @params.delete(:auto_save)
-      was_auto_saved = @params.delete(:was_auto_saved)
+      auto_save                  = @params.delete(:auto_save)
+      was_auto_saved             = @params.delete(:was_auto_saved)
 
       PaperTrail.request.enabled = false if auto_save || @article.draft? || @params[:draft]
 
@@ -159,30 +159,16 @@ module Articles
           end
         end
 
-        @article.tagged_articles = [] if tagged_article_attributes.present?
-        tagged_article_attributes&.each do |tagged_article_attribute|
+        @article.tagged_articles = tagged_article_attributes.map do |tagged_article_attribute|
           if @article.id
-            if tagged_article_attribute[:tag].id && (tagged_article = @article.tagged_articles.find { |ta| ta.tag_id == tagged_article_attribute[:tag].id })
-              tagged_article.assign_attributes(tagged_article_attribute)
-            else
-              @article.tagged_articles.build(tagged_article_attribute)
-            end
+            @article.tagged_articles.find_by(tagged_article_attribute) || @article.tagged_articles.build(tagged_article_attribute)
           else
             @article.tagged_articles.build(tagged_article_attribute)
           end
         end
 
-        @article.tag_relationships = [] if tag_relationships_attributes.present?
-        tag_relationships_attributes&.each do |tag_relationships_attribute|
-          if (tag_relationship = @article.tag_relationships.find { |tr|
-            tr.parent == tag_relationships_attributes[:parent] &&
-              tr.child == tag_relationships_attributes[:child] &&
-              tr.user_id == tag_relationships_attributes[:user_id] &&
-              tr.topic_id == tag_relationships_attributes[:topic_id] })
-            tag_relationship.assign_attributes(tag_relationships_attribute)
-          else
-            @article.tag_relationships.build(tag_relationships_attribute)
-          end
+        @article.tag_relationships = tag_relationships_attributes.map do |tag_relationships_attribute|
+          @article.tag_relationships.find_by(tag_relationships_attribute) || @article.tag_relationships.build(tag_relationships_attribute)
         end
 
         @params.delete(:parent_tags)

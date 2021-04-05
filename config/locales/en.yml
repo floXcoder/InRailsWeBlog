@@ -258,7 +258,7 @@ en:
         tag_relationship:
           already_linked: "Both tags are already linked in this topic"
         tagged_article:
-          already_tagged: "This tag already exists for the article"
+          already_tagged: "This tag already exists for this article"
           incorrect_tag_affiliation: "Cannot used a tag from another topic"
           incorrect_topic_affiliation: "Cannot used a tag from another topic"
         share:

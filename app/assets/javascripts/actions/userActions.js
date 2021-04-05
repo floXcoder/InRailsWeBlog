@@ -86,9 +86,9 @@ export const updateUserSettings = (userId, settings, options = {}) => ({
 // User recent events
 const receiveUserRecents = (json) => ({
     type: ActionTypes.USER_RECENTS,
-    topics: json.topics || [],
-    tags: json.tags || [],
-    articles: json.articles || []
+    topics: json?.topics || [],
+    tags: json?.tags || [],
+    articles: json?.articles || []
 });
 export const fetchUserRecents = (userId, options = {}) => (dispatch) => {
     return api

@@ -35,7 +35,7 @@ const styles = (theme) => ({
     },
     tagChip: {
         margin: theme.spacing(0.5),
-        padding: theme.spacing(1, 1),
+        padding: theme.spacing(1),
         fontWeight: 400,
         fontSize: '.9rem',
         cursor: 'pointer',

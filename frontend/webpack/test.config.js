@@ -44,35 +44,35 @@ webPackConfig.plugins.push(
     new CopyWebpackPlugin({
         patterns: [{
             from: config.translations,
-            to: 'translations/[path]/' + config.development.filename + '.[ext]', // keep directory tree
+            to: 'translations/[path]/' + config.development.filename + '[ext]', // keep directory tree
             toType: 'template'
         }]
     }),
     new CopyWebpackPlugin({
         patterns: _.map(config.fonts, (font) => ({
             from: font.from,
-            to: font.to + config.test.filename + '.[ext]',
+            to: font.to + config.test.filename + '[ext]',
             toType: 'template'
         }))
     }),
     new CopyWebpackPlugin({
         patterns: _.map(config.fonts, (font) => ({
             from: font.from,
-            to: font.to + config.test.filename + '.[ext]',
+            to: font.to + config.test.filename + '[ext]',
             toType: 'template'
         }))
     }),
     new CopyWebpackPlugin({
         patterns: _.map(config.images, (image) => ({
             from: image.from,
-            to: image.to + '/' + config.test.filename + '.[ext]',
+            to: image.to + '/' + config.test.filename + '[ext]',
             toType: 'template'
         }))
     }),
     new CopyWebpackPlugin({
         patterns: _.map(config.datas, (data) => ({
             from: data.from,
-            to: data.to + config.test.filename + '.[ext]',
+            to: data.to + config.test.filename + '[ext]',
             toType: 'template'
         }))
     }),

@@ -6,20 +6,6 @@ import {
     convertJsonApi
 } from './json';
 
-// Example of CRUD mutation:
-// export function loadPosts(userId) {
-//     return {
-//         // Types of actions to emit before and after
-//         types: ['LOAD_POSTS_REQUEST', 'LOAD_POSTS_SUCCESS', 'LOAD_POSTS_FAILURE'],
-//         // Check the cache (optional):
-//         shouldCallAPI: (state) => !state.posts[userId],
-//         // Perform the fetching:
-//         callAPI: () => fetch(`http://myapi.com/users/${userId}/posts`),
-//         // Arguments to inject in begin/end actions
-//         payload: { userId }
-//     }
-// }
-
 export default function mutationMiddleware({dispatch}) {
     // const initialState = getState();
 

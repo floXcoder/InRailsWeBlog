@@ -196,7 +196,7 @@ const styles = (theme) => ({
     },
     articleTag: {
         margin: theme.spacing(1.5, 2, 0, 0),
-        padding: theme.spacing(1, 1),
+        padding: theme.spacing(1),
         color: theme.palette.text.secondary,
         fontSize: '.9rem',
         borderColor: theme.palette.grey[600],
@@ -204,7 +204,7 @@ const styles = (theme) => ({
     },
     tag: {
         margin: theme.spacing(1),
-        padding: theme.spacing(1, 1),
+        padding: theme.spacing(1),
         borderRadius: 16,
         backgroundColor: '#f7f7f7',
         borderColor: theme.palette.grey[600],
