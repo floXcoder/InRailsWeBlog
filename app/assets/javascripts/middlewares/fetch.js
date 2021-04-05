@@ -6,20 +6,6 @@ import {
     convertJsonApi
 } from './json';
 
-// Example:
-// export function loadPosts(userId) {
-//     return {
-//         // Types of actions to emit before and after
-//         actionType: ActionTypes.RIDE,
-//         // Check the cache (optional):
-//         shouldCallAPI: (state) => !state.posts[userId],
-//         // Perform the fetching:
-//         fetchAPI: () => fetch(`http://myapi.com/users/${userId}/posts`),
-//         // Arguments to inject in begin/end actions
-//         payload: { userId }
-//     }
-// }
-
 export default function fetchMiddleware({dispatch, getState}) {
     // const initialState = getState();
 

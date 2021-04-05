@@ -125,28 +125,28 @@ webPackConfig.plugins.push(
     new CopyWebpackPlugin({
         patterns: [{
             from: config.translations,
-            to: 'translations/' + config.production.filename + '.[ext]',
+            to: 'translations/' + config.production.filename + '[ext]',
             toType: 'template'
         }]
     }),
     new CopyWebpackPlugin({
         patterns: _.map(config.fonts, (font) => ({
             from: font.from,
-            to: font.to + config.production.filenameFont + '.[ext]',
+            to: font.to + config.production.filenameFont + '[ext]',
             toType: 'template'
         }))
     }),
     new CopyWebpackPlugin({
         patterns: _.map(config.images, (image) => ({
             from: image.from,
-            to: image.to + '/' + config.production.filenameImage + '.[ext]',
+            to: image.to + '/' + config.production.filenameImage + '[ext]',
             toType: 'template'
         }))
     }),
     new CopyWebpackPlugin({
         patterns: _.map(config.datas, (data) => ({
             from: data.from,
-            to: data.to + config.production.filename + '.[ext]',
+            to: data.to + config.production.filename + '[ext]',
             toType: 'template'
         }))
     }),

@@ -73,7 +73,6 @@ describe('Users actions', () => {
                 .then((state) => {
                     expect(state.userState.user.id).toEqual(user.id);
                     expect(state.userState.user.email).toEqual(user.email);
-                    expect(state.userState.isLoaded).toBe(true);
                 });
         });
     });

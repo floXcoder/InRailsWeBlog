@@ -16,7 +16,6 @@ const initState = {
     currentId: window.currentUserId ? parseInt(window.currentUserId, 10) : undefined,
     currentSlug: window.currentUserSlug,
     isConnected: !!window.currentUserId,
-    isLoaded: false,
     isAdminConnected: !!window.currentAdminId,
 
     users: [],
@@ -42,14 +41,14 @@ export default function userReducer(state = initState, action) {
             return fetchReducer(state, action, (state) => {
                 if (action.connection) {
                     window.currentUserId = action.user.id;
+                    window.currentSlug = action.user.slug;
 
-                    state.currentId = action.user.id;
-                    state.user = action.user;
-                    state.isLoaded = action.connection && !!action.user;
                     state.isConnected = true;
+                    state.currentId = action.user.id;
+                    state.currentSlug = action.user.slug;
+                    state.user = action.user;
                 } else if (action.user) {
                     state.user = action.user;
-                    state.isLoaded = action.connection && !!action.user;
                 } else {
                     state.users = action.users
                 }
@@ -61,10 +60,12 @@ export default function userReducer(state = initState, action) {
             return mutationReducer(state, action, (state) => {
                 if (action.connection && action.user) {
                     window.currentUserId = action.user.id;
+                    window.currentSlug = action.user.slug;
 
-                    state.currentId = action.user.id;
-                    state.user = action.user;
                     state.isConnected = true;
+                    state.currentId = action.user.id;
+                    state.currentSlug = action.user.slug;
+                    state.user = action.user;
                 } else if (action.settings && (!action.meta || !action.meta.topic)) {
                     state.user = state.user && {...state.user, settings: action.settings};
                 } else if (action.user) {

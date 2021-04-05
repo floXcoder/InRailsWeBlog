@@ -185,8 +185,8 @@ class ApplicationController < ActionController::Base
       meta_desc  = I18n.t('seo.default.meta_desc', website: ENV['WEBSITE_NAME'])
     end
 
-    canonical = canonical_url(named_route, model, current_locale, slug_parameters) unless canonical
-    alternate = alternate_urls(named_route, model, slug_parameters) unless alternate
+    canonical = canonical_url(named_route, model, current_locale, **slug_parameters) unless canonical
+    alternate = alternate_urls(named_route, model, **slug_parameters) unless alternate
 
     set_meta_tags(title:       titleize(page_title),
                   description: meta_desc,
@@ -208,8 +208,8 @@ class ApplicationController < ActionController::Base
   end
 
   def alternate_urls(named_route, model, **params)
-    Hash[I18n.available_locales.map { |locale| [locale.to_s, canonical_url(named_route, model, locale, params)] }]
-      .merge('x-default': canonical_url(named_route, model, 'en', params))
+    Hash[I18n.available_locales.map { |locale| [locale.to_s, canonical_url(named_route, model, locale, **params)] }]
+      .merge('x-default': canonical_url(named_route, model, 'en', **params))
   end
 
   def image_url(url)

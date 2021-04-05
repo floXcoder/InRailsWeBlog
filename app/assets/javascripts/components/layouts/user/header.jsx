@@ -97,7 +97,6 @@ export default @connect((state) => ({
     isUserPreferenceOpen: state.uiState.isUserPreferenceOpen,
     isTopicPopupOpen: state.uiState.isTopicPopupOpen,
     isUserConnected: state.userState.isConnected,
-    isUserLoaded: state.userState.isLoaded,
     isAdminConnected: state.userState.isAdminConnected,
     userSlug: state.userState.currentSlug,
     topicSlug: state.topicState.currentUserTopicSlug,
@@ -120,7 +119,6 @@ class HeaderLayoutUser extends React.PureComponent {
         isUserPreferenceOpen: PropTypes.bool,
         isTopicPopupOpen: PropTypes.bool,
         isUserConnected: PropTypes.bool,
-        isUserLoaded: PropTypes.bool,
         isAdminConnected: PropTypes.bool,
         userSlug: PropTypes.string,
         topicSlug: PropTypes.string,
@@ -411,7 +409,7 @@ class HeaderLayoutUser extends React.PureComponent {
                         </div>
 
                         {
-                            (this.props.isUserLoaded && this.props.currentTopic) &&
+                            (this.props.isUserConnected && this.props.currentTopic) &&
                             <>
                                 <Button buttonRef={(ref) => this._anchorEl = ref}
                                         className={this.props.classes.topicButton}

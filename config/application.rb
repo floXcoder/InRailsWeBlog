@@ -94,7 +94,7 @@ module InRailsWeBlog
     config.action_controller.default_protect_from_forgery = true
 
     # Use SHA-1 instead of MD5 to generate non-sensitive digests, such as the ETag header.
-    config.active_support.use_sha1_digests = true
+    config.active_support.hash_digest_class = ::Digest::SHA1
 
     # Use sidekiq for ActiveJob (not working with letter_opener)
     config.active_job.queue_adapter = :sidekiq
