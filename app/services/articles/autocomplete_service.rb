@@ -32,12 +32,11 @@ module Articles
         results = Article.search(query_string,
                                  fields:       fields,
                                  match:        :word_middle,
-                                 misspellings: { below: 2, edit_distance: 2 },
+                                 misspellings: { below: 2, edit_distance: 1 },
                                  highlight:    highlight,
                                  load:         false,
                                  where:        where_options,
-                                 # Boots too greedy, ignore other articles title in other topics
-                                 # boost_where:  @params[:boost_where],
+                                 boost_where:  @params[:boost_where],
                                  order:        order,
                                  limit:        limit,
                                  execute:      !@params[:defer])
