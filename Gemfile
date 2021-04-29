@@ -125,6 +125,7 @@ group :development do
 
   # N+1 database query
   gem 'bullet',                 '6.1.4'
+  gem 'prosopite',              '1.0.1'
 
   # Guard and its minions
   gem 'guard',                  '2.16.2', require: false

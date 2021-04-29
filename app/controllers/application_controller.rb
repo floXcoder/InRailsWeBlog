@@ -31,7 +31,7 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
 
   # Set locale for current user
-  before_action :set_locale
+  before_action :set_env
 
   # Reset headers if admin is connected
   before_action :reset_headers_for_admins, if: -> { request.get? }
@@ -42,7 +42,12 @@ class ApplicationController < ActionController::Base
   # Set flash to headers if ajax request
   after_action :flash_to_headers
 
-  def set_locale
+  if Rails.env.development?
+    before_action { Prosopite.scan }
+    after_action { Prosopite.finish }
+  end
+
+  def set_env
     user_env = ::Users::EnvironmentService.new(session,
                                                cookies,
                                                http_accept_language,
