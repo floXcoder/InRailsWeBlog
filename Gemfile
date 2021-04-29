@@ -15,24 +15,24 @@ gem 'rails',                    '6.1.3.1'
 gem 'pg',                       '1.2.3'
 # gem 'active_record_extended',   '1.4.0'
 gem 'pghero',                   '2.8.1'
-gem 'pg_query',                 '2.0.2' # Required for pghero
+gem 'pg_query',                 '2.0.3' # Required for pghero
 
 # HTTP Response
 gem 'responders',               '3.0.1'
 gem 'http_accept_language',     '2.1.1'
 gem 'secure_headers',           '6.3.2'
-gem 'faraday',                  '1.3.0'
+gem 'faraday',                  '1.4.1'
 
 # JSON
 gem 'jsonapi-serializer',       '2.2.0'
-gem 'oj',                       '3.11.3'
+gem 'oj',                       '3.11.5'
 
 # Use slim instead of erb
 gem 'slim-rails',               '3.2.0'
 
 # Internationalization
 gem 'i18n-js',                  '3.8.2'
-gem 'geocoder',                 '1.6.6'
+gem 'geocoder',                 '1.6.7'
 gem 'maxminddb',                '0.1.22'
 
 # Model versioning
@@ -46,7 +46,7 @@ gem 'auto_strip_attributes',    '2.6.0'
 gem 'sanitize',                 '5.2.3'
 
 # Run asynschronous process
-gem 'sidekiq',                  '6.2.0'
+gem 'sidekiq',                  '6.2.1'
 gem 'sidekiq-statistic',        '1.4.0'
 gem 'sidekiq-cron',             '1.2.0'
 gem 'attentive_sidekiq',        '0.3.3'
@@ -61,7 +61,7 @@ gem 'hiredis',                  '0.6.3'
 gem 'storext',                  '3.1.0', github: 'sonianand11/storext'
 
 # Authentification
-gem 'devise',                   '4.7.3'
+gem 'devise',                   '4.8.0'
 
 # Authorization mechanism
 gem 'pundit',                   '2.1.0'
@@ -170,19 +170,19 @@ group :test do
 
   # static analyzer
   gem 'rails_best_practices',       '1.20.0', require: false
-  gem 'brakeman',                   '5.0.0',  require: false
+  gem 'brakeman',                   '5.0.1',  require: false
   gem 'i18n-tasks',                 '0.9.34', require: false
 end
 
 group :development, :test do
   # Speed up boot
-  gem 'bootsnap',                   '1.7.3',  require: false
+  gem 'bootsnap',                   '1.7.4',  require: false
 
   # Check errors
-  gem 'rubocop',                    '1.12.1',  require: false
+  gem 'rubocop',                    '1.13.0', require: false
   gem 'rubocop-rails',              '2.9.1',  require: false
-  gem 'rubocop-performance',        '1.10.2',  require: false
-  gem 'rubocop-rspec',              '2.2.0',  require: false
+  gem 'rubocop-performance',        '1.11.0', require: false
+  gem 'rubocop-rspec',              '2.3.0',  require: false
 end
 
 group :production do
