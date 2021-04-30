@@ -7,15 +7,10 @@ stages:
 .default-cache: &default-cache
   key: "ruby-3.0.0-inrailsweblog"
   paths:
-    - .bundle
-    - vendor/bundle
-    - .yarn-cache
-    - node_modules
-
-.push-cache: &push-cache
-  cache:
-    <<: *default-cache
-    policy: push
+    - .bundle/
+    - vendor/bundle/
+    - node_modules/
+  policy: pull-push
 
 .pull-cache: &pull-cache
   cache:
@@ -39,15 +34,16 @@ build:
     - yarn --version
     - which ruby
     - gem install bundler
-    - bundle install --quiet --path=vendor/bundle --binstubs vendor/bundle/bin --jobs $(nproc) "${FLAGS[@]}"
-    - yarn install --frozen-lockfile --cache-folder .yarn-cache
+    - bundle config set --local path 'vendor/bundle'
+    - bundle install --quiet --binstubs vendor/bundle/bin --jobs $(nproc) "${FLAGS[@]}"
+    - yarn install --frozen-lockfile
   interruptible: true
   only:
     - tags
 
 check_code:
   stage: test
-  <<: *pull-cache
+  cache: {}
   script:
     - bundle exec rails InRailsWeBlog:check_code
   interruptible: true
@@ -57,7 +53,7 @@ check_code:
 
 audit:
   stage: test
-  <<: *pull-cache
+  cache: {}
   script:
     - gem install bundler-audit
     - bundle audit check --update

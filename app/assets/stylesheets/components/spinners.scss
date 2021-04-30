@@ -14,13 +14,14 @@ $spinner-size: 30px !default;
 $spinner-color: #333 !default;
 $spinner-margin: auto !default;
 
+$animation-duration: 1.4s;
+$delay-range: 0.32s;
+
 .spinner-animation {
   display: inline-block;
 }
 
 .spinner-three-bounce {
-  $animationDuration: 1.4s;
-  $delayRange: 0.32s;
   margin: $spinner-margin;
   width: $spinner-size * 2;
   text-align: center;
@@ -33,21 +34,25 @@ $spinner-margin: auto !default;
 
     border-radius: 100%;
     display: inline-block;
-    animation: spinner-three-bounce $animationDuration ease-in-out 0s infinite both;
+    animation: spinner-three-bounce $animation-duration ease-in-out 0s infinite both;
   }
 
   .spinner-bounce1 {
-    animation-delay: -$delayRange;
+    animation-delay: -$delay-range;
   }
+
   .spinner-bounce2 {
-    animation-delay: -$delayRange / 2;
+    animation-delay: -$delay-range / 2;
   }
 }
 
 @keyframes spinner-three-bounce {
-  0%, 80%, 100% {
+  0%,
+  80%,
+  100% {
     transform: scale(0);
   }
+
   40% {
     transform: scale(1);
   }
@@ -63,7 +68,7 @@ $spinner-margin: auto !default;
 *
 */
 
-@-webkit-keyframes loader-ring-animation {
+@keyframes loader-ring-animation {
   0% {
     transform: rotate(0deg);
   }
@@ -73,7 +78,7 @@ $spinner-margin: auto !default;
   }
 }
 
-@-webkit-keyframes loader-ring-animation {
+@keyframes loader-ring-animation {
   0% {
     transform: rotate(0deg);
   }
@@ -83,7 +88,7 @@ $spinner-margin: auto !default;
   }
 }
 
-@-moz-keyframes loader-ring-animation {
+@keyframes loader-ring-animation {
   0% {
     transform: rotate(0deg);
   }
@@ -93,7 +98,7 @@ $spinner-margin: auto !default;
   }
 }
 
-@-ms-keyframes loader-ring-animation {
+@keyframes loader-ring-animation {
   0% {
     transform: rotate(0deg);
   }
@@ -103,16 +108,7 @@ $spinner-margin: auto !default;
   }
 }
 
-@-moz-keyframes loader-ring-animation {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-@-webkit-keyframes loader-ring-animation {
+@keyframes loader-ring-animation {
   0% {
     transform: rotate(0deg);
   }
@@ -122,7 +118,17 @@ $spinner-margin: auto !default;
   }
 }
 
-@-o-keyframes loader-ring-animation {
+@keyframes loader-ring-animation {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes loader-ring-animation {
   0% {
     transform: rotate(0deg);
   }
@@ -155,7 +161,7 @@ $spinner-margin: auto !default;
     width: 100px;
   }
 
-  & > .loader-ring-inner {
+  > .loader-ring-inner {
     animation: loader-ring-animation 2s linear infinite;
     border-radius: 80px;
     box-shadow: 0 6px 0 0 $primary-color;
@@ -249,13 +255,14 @@ $spinner-hexagon-bg-color-2: #000 !default;
 }
 
 @keyframes double-bounce {
-  0%, 100% {
-    -webkit-transform: scale(.2);
+  0%,
+  100% {
+    transform: scale(.2);
     transform: scale(.2);
   }
 
   50% {
-    -webkit-transform: scale(1);
+    transform: scale(1);
     transform: scale(1);
   }
 }

@@ -1,60 +1,60 @@
 .separator {
+  clear: both;
   color: #e0e0e0;
   font-size: 0;
-  text-align: center;
-  overflow: hidden;
-  clear: both;
-  line-height: 18px;
   height: 20px;
-  padding: 2px 0;
+  line-height: 18px;
   margin: 20px;
+  overflow: hidden;
+  padding: 2px 0;
+  text-align: center;
 
   &-h {
-    display: inline-block;
-    vertical-align: top;
-    line-height: inherit;
-    position: relative;
     border-color: inherit;
     color: inherit;
+    display: inline-block;
+    line-height: inherit;
+    position: relative;
+    vertical-align: top;
 
-    &:before {
+    &::before {
+      border-color: inherit;
+      border-top-style: solid;
+      border-top-width: 1px;
       content: '';
       display: inline-block;
-      vertical-align: top;
-      position: absolute;
       height: 0;
-      width: 2000px;
-      border-top-width: 1px;
-      border-top-style: solid;
-      border-color: inherit;
-      right: 100%;
       margin-right: 15px;
+      position: absolute;
+      right: 100%;
       top: 8px;
+      vertical-align: top;
+      width: 2000px;
     }
 
-    &:after {
+    &::after {
+      border-color: inherit;
+      border-top-style: solid;
+      border-top-width: 1px;
       content: '';
       display: inline-block;
-      vertical-align: top;
-      position: absolute;
       height: 0;
-      width: 2000px;
-      border-top-width: 1px;
-      border-top-style: solid;
-      border-color: inherit;
       left: 100%;
       margin-left: 15px;
+      position: absolute;
       top: 8px;
+      vertical-align: top;
+      width: 2000px;
     }
 
     .separator-text,
     .material-icons {
       color: #aaa;
       font-size: 16px;
-      line-height: 16px;
       height: 16px;
-      width: 20px;
+      line-height: 16px;
       vertical-align: top;
+      width: 20px;
     }
   }
 }

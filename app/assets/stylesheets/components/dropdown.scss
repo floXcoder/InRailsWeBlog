@@ -64,8 +64,8 @@
       overflow: hidden;
     }
 
-    & > a,
-    & > span {
+    > a,
+    > span {
       color: $text-color;
       display: block;
       font-size: 16px;
@@ -88,7 +88,7 @@
     animation: delay-overflow 600ms forwards;
   }
 
-  &:before {
+  &::before {
     background: #fff;
     box-shadow: 1px 1px 0 0 $border-dark-color;
     content: '';

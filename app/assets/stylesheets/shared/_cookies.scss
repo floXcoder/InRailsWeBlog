@@ -106,7 +106,7 @@
 .cookies-element-input {
   position: absolute;
   left: -9999px;
-  border: none;
+  border: 0;
   margin-right: .5rem;
 }
 
@@ -125,8 +125,8 @@
   line-height: 2rem;
 }
 
-.cookies-element-label:before {
-  content: "";
+.cookies-element-label::before {
+  content: '';
   display: block;
   width: 40px;
   height: 24px;
@@ -139,8 +139,8 @@
   border-radius: 100px;
 }
 
-.cookies-element-label:after {
-  content: "";
+.cookies-element-label::after {
+  content: '';
   display: block;
   width: 20px;
   height: 20px;
@@ -154,10 +154,10 @@
   transition: right .3s ease;
 }
 
-.cookies-list [type=checkbox]:not(:checked) + label:before {
+.cookies-list [type=checkbox]:not(:checked) + label::before {
   background: #878787;
 }
 
-.cookies-list [type=checkbox]:not(:checked) + label:after {
+.cookies-list [type=checkbox]:not(:checked) + label::after {
   right: 18px;
 }

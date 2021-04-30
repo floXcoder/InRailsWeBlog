@@ -1,13 +1,13 @@
 html {
+  box-sizing: border-box;
+  color: $text-color;
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
   font-size: 17px;
-  line-height: 1.5;
-  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
-  font-smoothing: antialiased;
+  font-smooth: antialiased;
   font-weight: 400;
-  color: $text-color;
-  box-sizing: border-box;
+  line-height: 1.5;
 
   //@media only screen and (min-width: $medium-screen) {
   //  font-size: 16px;
@@ -19,23 +19,23 @@ html {
 }
 
 *,
-*:before,
-*:after {
+*::before,
+*::after {
   box-sizing: inherit;
 }
 
 a {
+  color: $link-color;
   // Gets rid of tap active state
   -webkit-tap-highlight-color: transparent;
-  color: $link-color;
   text-decoration: none;
   word-wrap: break-word;
 }
 
 .container {
-  position: relative;
   margin: 0 auto;
   max-width: 1280px;
+  position: relative;
   width: 90%;
 
   @media #{$large-and-up} {
@@ -60,11 +60,10 @@ a {
   margin-right: (-1 * $gutter-width / 2);
 }
 
-
 // Mixins to eliminate code repitition
 @mixin reset-offset {
-  margin-left: auto;
   left: auto;
+  margin-left: auto;
   right: auto;
 }
 
@@ -80,17 +79,16 @@ a {
   }
 }
 
-
 .row {
+  margin-bottom: 20px;
   margin-left: -.75rem;
   margin-right: -.75rem;
-  margin-bottom: 20px;
 
   // Clear floating children
-  &:after {
-    content: "";
-    display: table;
+  &::after {
     clear: both;
+    content: '';
+    display: table;
   }
 
   &.input-form {
@@ -98,13 +96,13 @@ a {
   }
 
   .col {
-    float: left;
     box-sizing: border-box;
-    padding: 0 $gutter-width / 2;
+    float: left;
     min-height: 1px;
+    padding: 0 $gutter-width / 2;
 
-    &[class*="push-"],
-    &[class*="pull-"] {
+    &[class*='push-'],
+    &[class*='pull-'] {
       position: relative;
     }
 
@@ -116,7 +114,7 @@ a {
         margin-left: 0;
         width: $perc;
       }
-      @include grid-classes("s", $i, $perc);
+      @include grid-classes('s', $i, $perc);
       $i: $i + 1;
     }
 
@@ -129,7 +127,7 @@ a {
           margin-left: 0;
           width: $perc;
         }
-        @include grid-classes("m", $i, $perc);
+        @include grid-classes('m', $i, $perc);
         $i: $i + 1;
       }
     }
@@ -149,7 +147,7 @@ a {
           margin-left: 0;
           width: $perc;
         }
-        @include grid-classes("l", $i, $perc);
+        @include grid-classes('l', $i, $perc);
         $i: $i + 1;
       }
     }
@@ -169,7 +167,7 @@ a {
           margin-left: 0;
           width: $perc;
         }
-        @include grid-classes("xl", $i, $perc);
+        @include grid-classes('xl', $i, $perc);
         $i: $i + 1;
       }
     }

@@ -2,7 +2,7 @@
 
 .masonry {
   .masonry-buttons {
-   text-align: left;
+    text-align: left;
 
     @media #{$medium-and-down} {
       display: none;
@@ -11,9 +11,9 @@
 
   .masonry-button {
     color: $text-color;
-    outline: none;
-    margin-right: 1rem;
     margin-left: .5rem;
+    margin-right: 1rem;
+    outline: none;
 
     .material-icons {
       font-size: .9rem;

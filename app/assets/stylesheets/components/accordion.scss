@@ -22,9 +22,10 @@
     width: 100%;
 
     button {
+      width: 3rem;
+      height: 4rem;
       background: none;
       border: 0;
-      height: 4rem;
       margin: 0;
       outline: 0;
       padding: 0;
@@ -32,50 +33,50 @@
       position: absolute;
       right: 0;
       text-indent: -9999%;
-      width: 3rem;
 
       &::before {
+        width: 4px;
+        height: 12px;
         background: #000;
         border-radius: .3em;
         content: '';
         display: block;
-        height: 12px;
         left: 50%;
         position: absolute;
         top: 50%;
         transform: translate(75%, -50%) rotate(45deg);
         transform-origin: 50%;
         transition: all .25s ease-in-out;
-        width: 4px;
       }
 
       &::after {
+        width: 4px;
+        height: 12px;
         background: #000;
         border-radius: .3em;
         content: '';
         display: block;
-        height: 12px;
         left: 50%;
         position: absolute;
         top: 50%;
         transform: translate(-75%, -50%) rotate(-45deg);
         transform-origin: 50%;
         transition: all .25s ease-in-out;
-        width: 4px;
       }
     }
 
     &.open {
       button {
-        &:before, &:after {
+        &::before,
+        &::after {
           height: 14px;
         }
 
-        &:before {
+        &::before {
           transform: translate(0%, -50%) rotate(-45deg);
         }
 
-        &:after {
+        &::after {
           transform: translate(0%, -50%) rotate(45deg);
         }
       }
@@ -111,4 +112,3 @@
     }
   }
 }
-
