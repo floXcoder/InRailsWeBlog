@@ -75,7 +75,7 @@ export default class CommentForm extends React.PureComponent {
         return (
             <div className="row comment-form">
                 <div className="col s12">
-                    <div className={classNames('card-panel', {'comment-form-owner': this.props.isOwner})}>
+                    <div className={classNames({'comment-form-owner': this.props.isOwner})}>
                         <div className="card-title comment-form-title">
                             {this.props.formTitle || I18n.t('js.comment.form.title.default')}
                         </div>

@@ -6,7 +6,7 @@ describe Topics::AutocompleteService, type: :service, basic: true do
   subject { described_class.new }
 
   before(:all) do
-    @user  = create(:user)
+    @user = create(:user)
 
     @topics = create_list(:topic, 5, user: @user, description: 'Topic title')
     create_list(:topic, 3, user: @user, description: 'Topic name')

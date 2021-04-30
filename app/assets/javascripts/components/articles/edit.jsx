@@ -141,7 +141,8 @@ class ArticleEdit extends React.Component {
                     }
                 </div>
 
-                <ArticleFormDisplay article={article}
+                <ArticleFormDisplay classes={this.props.classes}
+                                    article={article}
                                     inheritVisibility={this.props.inheritVisibility}
                                     userSlug={this.props.userSlug}
                                     currentUser={this.props.currentUser}

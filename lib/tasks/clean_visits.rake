@@ -7,7 +7,7 @@ namespace :InRailsWeBlog do
   task :clean_visits, [] => :environment do |_task, _args|
     Rails.logger = ActiveRecord::Base.logger = Logger.new(STDOUT)
     Rails.logger.level = Logger::WARN
-    Rails.logger.warn("#{Time.now} : Clean user visits")
+    Rails.logger.warn("#{Time.zone.now} : Clean user visits")
 
     CleanVisits.new.perform
 

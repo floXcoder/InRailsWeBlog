@@ -158,14 +158,13 @@ class ArticlesController < ApplicationController
         next if locale == I18n.locale
 
         article = @context_user.articles.find_slug_by_locale(article_slug, locale).first
+        next unless article
 
-        if article
-          article_redirection_path = article.link_path(locale: locale) rescue nil
-          if article_redirection_path
-            skip_authorization
+        article_redirection_path = article.link_path(locale: locale) rescue nil
+        if article_redirection_path
+          skip_authorization
 
-            return article, article_redirection_path
-          end
+          return article, article_redirection_path
         end
       end
     end

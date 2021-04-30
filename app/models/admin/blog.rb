@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: admin_blogs
@@ -63,7 +65,6 @@ class Admin::Blog < ApplicationRecord
   private
 
   def sanitize_html(html)
-    return unless html
     return '' if html.blank?
 
     return Sanitize.fragment(html, elements: %w[p blockquote h1 h2 h3 h4 strong em a img strike br ul ol li], attributes: { 'img' => ['src', 'alt'], 'p' => ['style'], 'a' => ['href', 'title'], protocols: { 'a' => { 'href' => ['http', 'https', 'mailto'] } } }, css: { properties: ['text-align'] })

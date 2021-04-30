@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module FriendlyId
   module LocalizedSlug
     # FriendlyId::Config.use will invoke this method when present, to allow
@@ -64,7 +66,7 @@ module FriendlyId
       include ::FriendlyId::FinderMethods
 
       def exists_by_friendly_id?(id)
-        where("#{friendly_id_config.slug_column}->>'#{I18n.locale}' = ?", id).exists?
+        exists?(["#{friendly_id_config.slug_column}->>'#{I18n.locale}' = ?", id])
       end
 
       private

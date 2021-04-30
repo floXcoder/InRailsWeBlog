@@ -8,7 +8,7 @@ class GenerateCacheUrls
           url_statics(locale),
           url_tags(locale),
           url_topics(locale),
-          url_articles(locale),
+          url_articles(locale)
           # url_users(locale)
         ].flatten.compact.uniq
       end
@@ -22,7 +22,7 @@ class GenerateCacheUrls
           Rails.application.routes.url_helpers.send("home_#{locale}_path"),
           url_tags(locale, updated_at: since.ago..),
           url_topics(locale, updated_at: since.ago..),
-          url_articles(locale, updated_at: since.ago..),
+          url_articles(locale, updated_at: since.ago..)
         ].flatten.compact.uniq
       end
     end.flatten

@@ -7,7 +7,7 @@ data:
     - config/locales/**/*.%{locale}.yml
 
   write:
-    - ['{devise, simple_form, js}.*', 'config/locales/\1.%{locale}.yml']
+    - ['{devise, js}.*', 'config/locales/\1.%{locale}.yml']
     - config/locales/%{locale}.yml
 
   yaml:

@@ -167,7 +167,7 @@ describe 'Tag API', type: :request, basic: true do
     end
 
     context 'when lot of tag' do
-      let!(:articles) { create_list(:tag, 200, user: @user) }
+      let!(:tags) { create_list(:tag, 200, user: @user) }
 
       it 'returns all tags in less than 0.4 seconds' do
         expect {

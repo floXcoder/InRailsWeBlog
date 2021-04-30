@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: topics
@@ -189,7 +190,7 @@ class Topic < ApplicationRecord
     when 'strict'
       TopicSerializer.new(data,
                           fields:  {
-                            topic: %i[id userId userSlug mode name visibility languages slug dateTimestamp link],
+                            topic: %i[id userId userSlug mode name visibility languages slug dateTimestamp link]
                           },
                           include: %i[],
                           **options)
@@ -229,7 +230,7 @@ class Topic < ApplicationRecord
   end
 
   def user_slug
-    user.slug
+    self.user.slug
   end
 
   def link_path(options = {})

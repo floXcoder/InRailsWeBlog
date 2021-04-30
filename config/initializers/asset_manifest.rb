@@ -2,7 +2,7 @@
 
 class AssetManifest
   def self.manifest
-    asset_file = Rails.root.join('public', 'assets', 'manifest.json')
+    asset_file = Rails.root.join('public/assets/manifest.json')
     if File.exist?(asset_file)
       @manifest ||= JSON.parse(File.read(asset_file))
     end
@@ -54,7 +54,7 @@ class AssetManifest
     if AssetManifest.manifest
       AssetManifest.manifest[url] || url
     else
-      AssetManifest.root_url + url
+      AssetManifest.root_url + 'assets/' + url
     end
   end
 

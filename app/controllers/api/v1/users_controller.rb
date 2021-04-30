@@ -39,7 +39,7 @@
 module Api::V1
   class UsersController < ApiController
     skip_before_action :authenticate_user!, only: [:index, :show, :validation]
-    skip_before_action :set_locale, only: [:validation]
+    skip_before_action :set_env, only: [:validation]
 
     before_action :set_context_user, only: []
 
@@ -97,7 +97,7 @@ module Api::V1
 
       track_action(user_id: user.id) { |visitor_token| track_visit(User, user.id, current_user&.id, nil, visitor_token) }
 
-      expires_in InRailsWeBlog.config.cache_time, public: true
+      (user.user?(current_user) || admin_signed_in?) ? reset_cache_headers : expires_in(InRailsWeBlog.config.cache_time, public: true)
       respond_to do |format|
         format.json do
           if params[:complete] && (current_user&.id == user.id || current_user.admin?)

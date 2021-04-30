@@ -298,7 +298,7 @@ it:
       even: deve essere pari
       exclusion: è riservato
       extension_blacklist_error: 'Non è permesso caricare file %{extension}, tipi proibiti: %{allowed_types}'
-      extension_whitelist_error: 'Non è consentito caricare file %{extension}, tipi di file consentiti: %{prohibited_types}'
+      extension_allowlist_error: 'Non è consentito caricare file %{extension}, tipi di file consentiti: %{prohibited_types}'
       greater_than: deve essere maggiore di %{count}
       greater_than_or_equal_to: deve essere maggiore o uguale a %{count}
       inclusion: non è compreso tra le opzioni disponibili

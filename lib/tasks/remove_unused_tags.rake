@@ -7,7 +7,7 @@ namespace :InRailsWeBlog do
   task :remove_unused_tags, [] => :environment do |_task, _args|
     Rails.logger = ActiveRecord::Base.logger = Logger.new(STDOUT)
     Rails.logger.level = Logger::WARN
-    Rails.logger.warn("#{Time.now} : Remove unused tags task")
+    Rails.logger.warn("#{Time.zone.now} : Remove unused tags task")
 
     UnusedTagsWorker.new.perform
   end

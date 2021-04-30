@@ -190,8 +190,8 @@ class ApplicationController < ActionController::Base
       meta_desc  = I18n.t('seo.default.meta_desc', website: ENV['WEBSITE_NAME'])
     end
 
-    canonical = canonical_url(named_route, model, current_locale, **slug_parameters) unless canonical
-    alternate = alternate_urls(named_route, model, **slug_parameters) unless alternate
+    canonical ||= canonical_url(named_route, model, current_locale, **slug_parameters)
+    alternate ||= alternate_urls(named_route, model, **slug_parameters)
 
     set_meta_tags(title:       titleize(page_title),
                   description: meta_desc,
@@ -202,7 +202,7 @@ class ApplicationController < ActionController::Base
   end
 
   def canonical_url(named_route, model, locale = I18n.locale, **params)
-    locale = locale || 'en'
+    locale ||= 'en'
     host   = Rails.env.development? ? nil : ENV['WEBSITE_FULL_ADDRESS']
 
     if model

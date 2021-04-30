@@ -237,6 +237,9 @@ Rails/FindBy:
 Rails/FindById:
   Enabled: true
 
+Rails/HasManyOrHasOneDependent:
+  Enabled: false
+
 Rails/Inquiry:
   Enabled: true
 
@@ -321,6 +324,9 @@ RSpec/LeadingSubject:
 RSpec/MultipleExpectations:
   Max: 10
 
+RSpec/MultipleMemoizedHelpers:
+  Max: 8
+
 RSpec/NestedGroups:
   Max: 4
 
@@ -374,6 +380,9 @@ Style/HashTransformKeys:
 
 Style/HashTransformValues:
   Enabled: true
+
+Style/IfUnlessModifier:
+  Enabled: false
 
 Style/IfWithBooleanLiteralBranches:
   Enabled: true

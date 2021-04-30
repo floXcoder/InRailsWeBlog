@@ -4,7 +4,7 @@
 if $LOADED_FEATURES.grep(/spec\/spec_helper\.rb/).any?
   begin
     raise 'foo'
-  rescue => e
+  rescue => error
     puts <<-MSG
   ===================================================
   It looks like spec_helper.rb has been loaded
@@ -17,7 +17,7 @@ if $LOADED_FEATURES.grep(/spec\/spec_helper\.rb/).any?
 
   Loaded this time from:
 
-    #{e.backtrace.join("\n    ")}
+    #{error.backtrace.join("\n    ")}
   ===================================================
     MSG
   end

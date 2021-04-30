@@ -14,7 +14,11 @@ const styles = (theme) => ({
         overflow: 'hidden',
         minHeight: '100vh',
         flexDirection: 'column',
-        alignItems: 'stretch'
+        alignItems: 'stretch',
+        [theme.breakpoints.down('md')]: {
+            marginLeft: theme.spacing(0.5),
+            marginRight: theme.spacing(0.5)
+        }
         // zIndex: mainZIndex
     },
     sidebar: {

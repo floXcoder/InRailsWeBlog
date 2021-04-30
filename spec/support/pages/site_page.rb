@@ -18,7 +18,7 @@ class SitePage
 
   # Selectors
   def id_for(model, action = nil)
-    '#' + dom_id(model, action)
+    "##{dom_id(model, action)}"
   end
 
   def class_for(model)
@@ -62,11 +62,11 @@ class SitePage
     javascript_logs = javascript_logs.reject { |log| log.message =~ /WebSocket/ }
     javascript_logs = javascript_logs.reject { |log| log.message =~ /React-Hot-Loader/ }
 
-    if !javascript_logs.empty?
+    if javascript_logs.empty?
+      return false
+    else
       ap javascript_logs.map(&:message)
       return true
-    else
-      return false
     end
   end
 

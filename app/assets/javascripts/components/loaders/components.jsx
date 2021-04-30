@@ -47,7 +47,7 @@ export const UserLogin = lazyWithPreload(() => import(/* webpackChunkName: "user
 export const UserPassword = lazyWithPreload(() => import(/* webpackChunkName: "user-password" */ '../users/password'));
 export const UserConfirmation = lazyWithPreload(() => import(/* webpackChunkName: "user-confirmation" */ '../users/confirmation'));
 
-export const HomeSearchHeader = lazyWithPreload(() => import(/* webpackPrefetch: true, webpackChunkName: "search-header" */ '../layouts/header/search'));
+// export const HomeSearchHeader = lazyWithPreload(() => import(/* webpackPrefetch: true, webpackChunkName: "search-header" */ '../layouts/header/search'));
 export const SearchModule = lazyWithPreload(() => import(/* webpackChunkName: "search-module" */ '../search/module'));
 export const SearchIndex = lazyWithPreload(() => import(/* webpackChunkName: "search-index" */ '../search/index'));
 export const ArticleGridModeSearch = lazyWithPreload(() => import(/* webpackChunkName: "article-search-masonry" */ '../search/index/display/grid'));

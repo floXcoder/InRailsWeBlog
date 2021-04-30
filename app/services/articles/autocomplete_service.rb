@@ -17,7 +17,11 @@ module Articles
       fields = @params[:title_only] ? %w[title] : %w[title^10 summary content]
 
       # Highlight results and select a fragment
-      highlight = @params[:highlight] ? { tag: '<span class="search-highlight">', fragment_size: (@params[:no_fragment] ? nil : InRailsWeBlog.config.autocomplete_fragment_size ) } : false
+      highlight = if @params[:highlight]
+                    { tag: '<span class="search-highlight">', fragment_size: (@params[:no_fragment] ? nil : InRailsWeBlog.config.autocomplete_fragment_size) }
+                  else
+                    false
+                  end
 
       # Where options only for ElasticSearch
       where_options = where_search(@params[:where])
@@ -32,7 +36,7 @@ module Articles
         results = Article.search(query_string,
                                  fields:       fields,
                                  match:        :word_middle,
-                                 misspellings: { below: 2, edit_distance: 1 },
+                                 misspellings: { below: 2, edit_distance: @params[:boost_where].present? ? 1 : 2 },
                                  highlight:    highlight,
                                  load:         false,
                                  where:        where_options,

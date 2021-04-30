@@ -6,7 +6,7 @@ namespace :InRailsWeBlog do
   ## rails InRailsWeBlog:create_version
   ## rails InRailsWeBlog:create_version COMMENT='Comment for this version'
   desc 'Create new version using Gitflow'
-  task :create_version do |_task, _args|
+  task :create_version, [] => :environment do |_task, _args|
     # Push dev first for CI
     %x(git push -u origin develop)
 

@@ -73,6 +73,7 @@ export default @connect((state, props) => ({
 })
 class ArticleFormDisplay extends React.Component {
     static propTypes = {
+        classes: PropTypes.object.isRequired,
         currentTopic: PropTypes.object.isRequired,
         article: PropTypes.object.isRequired,
         userSlug: PropTypes.string.isRequired,
@@ -178,7 +179,8 @@ class ArticleFormDisplay extends React.Component {
                         const isNextDisabled = submitting || (this.props.currentTopic.mode === 'inventories' && this.props.currentTopic.inventoryFields.length === 0);
 
                         return (
-                            <form onSubmit={handleSubmit}>
+                            <form className={this.props.classes.articleForm}
+                                  onSubmit={handleSubmit}>
                                 <EnsureValidity/>
 
                                 <Prompt when={dirty && !submitting}

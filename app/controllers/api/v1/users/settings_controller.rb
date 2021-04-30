@@ -32,13 +32,14 @@ module Api::V1
 
       if params[:settings].present?
         params[:settings].each do |pref_type, pref_value|
-          if pref_value == 'true'
+          case pref_value
+          when 'true'
             pref_value = true
-          elsif pref_value == 'false'
+          when 'false'
             pref_value = false
           end
 
-          if topic && topic.storext_definitions.key?(pref_type.to_sym)
+          if topic&.storext_definitions&.key?(pref_type.to_sym)
             if pref_value == 'default'
               topic.settings.delete(pref_type.to_s.downcase)
             else

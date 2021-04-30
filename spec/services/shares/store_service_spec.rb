@@ -6,9 +6,9 @@ describe Shares::StoreService, type: :service, basic: true do
   subject { described_class.new }
 
   before(:all) do
-    @user    = create(:user)
-    @topic   = create(:topic, user: @user, visibility: :everyone)
-    @article = create(:article, user: @user, topic: @topic, visibility: :only_me)
+    @user           = create(:user)
+    @topic          = create(:topic, user: @user, visibility: :everyone)
+    @article        = create(:article, user: @user, topic: @topic, visibility: :only_me)
     @public_article = create(:article, user: @user, topic: @topic, visibility: :everyone)
 
     @contributed_user = create(:user)

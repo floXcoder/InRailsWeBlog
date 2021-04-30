@@ -27,14 +27,19 @@ import TextFormField from '../../../material-ui/form/text';
 
 import styles from '../../../../../jss/article/form/shared';
 
-function TabContainer(props) {
+function TabContainer({isActive, children}) {
     return (
         <Typography component="div"
-                    className={props.isActive ? null : 'hide'}>
-            {props.children}
+                    className={isActive ? null : 'hide'}>
+            {children}
         </Typography>
     );
 }
+
+TabContainer.propTypes = {
+    isActive: PropTypes.bool.isRequired,
+    children: PropTypes.element.isRequired
+};
 
 export default @withStyles(styles)
 class ArticleCommonField extends React.Component {

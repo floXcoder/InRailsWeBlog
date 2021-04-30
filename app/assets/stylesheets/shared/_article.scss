@@ -2,7 +2,7 @@
 
 // Leave a margin when scrolling to the article id
 [id^="article-"] {
-  scroll-margin-top: 75px;
+  scroll-margin-top: $topHeaderScrollMargin;
 }
 
 .article-list-tag-title {

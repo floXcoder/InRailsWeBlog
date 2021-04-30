@@ -23,7 +23,7 @@ require 'rails_helper'
 RSpec.describe Tracker, type: :model, basic: true do
 
   before(:all) do
-    @user    = create(:user)
+    @user = create(:user)
 
     @article = create(:article, user: @user, topic: create(:topic, user: @user))
   end
@@ -89,7 +89,7 @@ RSpec.describe Tracker, type: :model, basic: true do
     it { is_expected.to have_db_index([:tracked_id, :tracked_type]) }
   end
 
-  context 'Instance Methods' do
-  end
+  # context 'Instance Methods' do
+  # end
 
 end

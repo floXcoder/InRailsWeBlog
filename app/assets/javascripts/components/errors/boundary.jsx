@@ -57,7 +57,7 @@ export default class ErrorBoundary extends React.Component {
                 );
             } else if (this.props.errorType === 'card') {
                 return (
-                    <div className="card-panel">
+                    <div>
                         <h3 className={this.props.className}
                             style={{margin: '1rem 0', textAlign: 'center'}}>
                             {this.state.errorTitle}

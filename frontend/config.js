@@ -94,9 +94,24 @@ module.exports = {
             Utils: 'app/assets/javascripts/modules/utils.js',
             Notification: 'app/assets/javascripts/components/layouts/notification.jsx'
         },
-        ignorePlugins: [
-            // {resourceRegExp: //}
-        ],
+        // replacementPlugins: [
+        //     // Keep only the specified packages in the package
+        //     [
+        //         /moment[/\\]locale$/,
+        //         /en|fr/
+        //     ]
+        // ],
+        // ignorePlugins: [
+        //     // Exclude local packages
+        //     // Work only for local sources
+        //     {
+        //         resourceRegExp: /react-beautiful-dnd/
+        //     }
+        // ],
+        // externals: {
+        //     // Exclude external packages included in node_modules
+        //     'react-beautiful-dnd': {}
+        // },
         fonts: [
             {
                 from: './fonts/**/*',

@@ -74,8 +74,8 @@ RSpec.describe TaggedArticle, type: :model, basic: true do
         @second_topic = create(:topic, user: @user)
         @private_tag  = create(:tag, user: @user, visibility: 'only_me')
 
-        other_user   = create(:user)
-        @other_tag   = create(:tag, user: other_user, visibility: 'only_me')
+        other_user = create(:user)
+        @other_tag = create(:tag, user: other_user, visibility: 'only_me')
       end
 
       it 'returns an error if topic does not own by same user than article' do

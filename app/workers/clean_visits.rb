@@ -21,7 +21,7 @@ class CleanVisits
 
     # Do not exclude my IPs
     if ENV['WHITE_LIST_IP'].present?
-      excluded_ips = excluded_ips - ENV['WHITE_LIST_IP'].split(', ')
+      excluded_ips -= ENV['WHITE_LIST_IP'].split(', ')
     end
 
     # Detect patterns

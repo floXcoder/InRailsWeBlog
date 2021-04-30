@@ -69,8 +69,8 @@ describe Articles::StoreService, type: :service, basic: true do
       it 'returns a new article with inventory fields' do
         @user.update_attribute(:current_topic_id, @inventories_topic.id)
 
-        inventory_article    = @user.articles.build
-        article_results = Articles::StoreService.new(inventory_article, topic_id: @inventories_topic.id, title: 'Inventory article', inventories: { string_required: 'My string', text: '<p>My text</p>' }, visibility: 'only_me', tags: ["#{@private_tag.name},#{@private_tag.visibility}"], current_user: @user).perform
+        inventory_article = @user.articles.build
+        article_results   = Articles::StoreService.new(inventory_article, topic_id: @inventories_topic.id, title: 'Inventory article', inventories: { string_required: 'My string', text: '<p>My text</p>' }, visibility: 'only_me', tags: ["#{@private_tag.name},#{@private_tag.visibility}"], current_user: @user).perform
 
         expect(article_results.success?).to be true
         expect(article_results.result).to be_kind_of(Article)

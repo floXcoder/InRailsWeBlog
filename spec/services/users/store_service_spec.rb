@@ -6,7 +6,7 @@ describe Users::StoreService, type: :service, basic: true do
   subject { described_class.new }
 
   before(:all) do
-    @user  = create(:user)
+    @user = create(:user)
   end
 
   describe '#perform' do

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: admin_blogs
@@ -13,6 +15,10 @@
 
 FactoryBot.define do
   factory :admin_blog, class: 'Admin::Blog' do
+
+    title       { Faker::Lorem.sentence }
+    content     { Faker::Lorem.paragraph(sentence_count: 1..20) }
+    visibility  { 'everyone' }
 
   end
 end

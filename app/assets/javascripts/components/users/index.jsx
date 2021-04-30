@@ -89,12 +89,10 @@ export default class UserIndex extends React.Component {
             <div className="blog-user">
                 <div className="row">
                     <div className="col s12">
-                        <div className="card-panel">
-                            <SearchBar label={I18n.t('js.user.index.search')}
-                                       onUserInput={this._handleUserInput}>
-                                {this.state.filterText}
-                            </SearchBar>
-                        </div>
+                        <SearchBar label={I18n.t('js.user.index.search')}
+                                   onSearchInput={this._handleUserInput}>
+                            {this.state.filterText}
+                        </SearchBar>
                     </div>
                 </div>
 

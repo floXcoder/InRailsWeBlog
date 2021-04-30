@@ -19,15 +19,20 @@ import LogLine from './logs/line';
 import LogInput from './logs/input';
 import LogHelp from './logs/help';
 
-function TabContainer(props) {
+function TabContainer({isActive, children}) {
     return (
         <Typography component="div"
-                    className={props.isActive ? null : 'hide'}
+                    className={isActive ? null : 'hide'}
                     style={{padding: 8 * 3}}>
-            {props.children}
+            {children}
         </Typography>
     );
 }
+
+TabContainer.propTypes = {
+    isActive: PropTypes.bool.isRequired,
+    children: PropTypes.element.isRequired
+};
 
 const AUTOMATIC_REFRESH_INTERVAL = 5000;
 const TOP_SCROLL = 50;

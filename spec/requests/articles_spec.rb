@@ -118,7 +118,7 @@ describe 'Article API', type: :request, basic: true do
 
     it 'redirects to the new slug' do
       previous_slug = @multi_lg_article.slug
-      new_slug = Articles::StoreService.new(@multi_lg_article, title: 'New article multi language', current_user: @user).perform.result.slug
+      new_slug      = Articles::StoreService.new(@multi_lg_article, title: 'New article multi language', current_user: @user).perform.result.slug
 
       get "/users/#{@user.slug}/articles/#{previous_slug}"
 
@@ -824,7 +824,7 @@ describe 'Article API', type: :request, basic: true do
 
       it 'returns updated article with new relationships' do
         expect {
-          ::Articles::StoreService.new(@article, title: "Test linked articles", content: "link to other <a data-article-relation-id=#{@private_article.id}>article</a>.", current_user: @user).perform
+          ::Articles::StoreService.new(@article, title: 'Test linked articles', content: "link to other <a data-article-relation-id=#{@private_article.id}>article</a>.", current_user: @user).perform
           @article.save!
           relationships = @article.child_relationships
           expect(relationships.count).to eq(1)

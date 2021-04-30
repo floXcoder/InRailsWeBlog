@@ -96,7 +96,7 @@ class ArticleMiniCardDisplay extends React.Component {
                     root: this.props.classes.header
                 }}
                             title={
-                                <h1 className={this.props.classes.extractTitle}
+                                <h2 className={this.props.classes.extractTitle}
                                     itemProp="name headline">
                                     <Link className={this.props.classes.extractTitleLink}
                                           to={userArticlePath(this.props.article.user.slug, this.props.article.slug)}
@@ -104,7 +104,7 @@ class ArticleMiniCardDisplay extends React.Component {
                                           onClick={spyTrackClick.bind(null, 'article', this.props.article.id, this.props.article.slug, this.props.article.userId, this.props.article.title, this.props.article.topicId)}>
                                         {this.props.article.title}
                                     </Link>
-                                </h1>
+                                </h2>
                             }
                             subheader={(this.props.hasTags && !this.props.isTagDown) && this._renderArticleTags()}
                 />

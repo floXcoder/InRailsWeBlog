@@ -108,7 +108,6 @@ a {
       position: relative;
     }
 
-    //@media #{$small-and-down} {
     $i: 1;
     @while $i <= $num-cols {
       $perc: unquote((100 / ($num-cols / $i)) + '%');
@@ -120,21 +119,20 @@ a {
       @include grid-classes("s", $i, $perc);
       $i: $i + 1;
     }
-    //}
 
-    //@media #{$medium-and-up} {
-    $i: 1;
-    @while $i <= $num-cols {
-      $perc: unquote((100 / ($num-cols / $i)) + '%');
-      &.m#{$i} {
-        @include reset-offset;
-        margin-left: 0;
-        width: $perc;
+    @media #{$medium-and-up} {
+      $i: 1;
+      @while $i <= $num-cols {
+        $perc: unquote((100 / ($num-cols / $i)) + '%');
+        &.m#{$i} {
+          @include reset-offset;
+          margin-left: 0;
+          width: $perc;
+        }
+        @include grid-classes("m", $i, $perc);
+        $i: $i + 1;
       }
-      @include grid-classes("m", $i, $perc);
-      $i: $i + 1;
     }
-    //}
 
     @media #{$medium-only} {
       .col.offset-m0 {
@@ -142,19 +140,19 @@ a {
       }
     }
 
-    //@media #{$large-and-up} {
-    $i: 1;
-    @while $i <= $num-cols {
-      $perc: unquote((100 / ($num-cols / $i)) + '%');
-      &.l#{$i} {
-        @include reset-offset;
-        margin-left: 0;
-        width: $perc;
+    @media #{$large-and-up} {
+      $i: 1;
+      @while $i <= $num-cols {
+        $perc: unquote((100 / ($num-cols / $i)) + '%');
+        &.l#{$i} {
+          @include reset-offset;
+          margin-left: 0;
+          width: $perc;
+        }
+        @include grid-classes("l", $i, $perc);
+        $i: $i + 1;
       }
-      @include grid-classes("l", $i, $perc);
-      $i: $i + 1;
     }
-    //}
 
     @media #{$large-and-up} {
       .col.offset-l0 {
@@ -162,19 +160,19 @@ a {
       }
     }
 
-    //@media #{$extra-large-and-up} {
-    $i: 1;
-    @while $i <= $num-cols {
-      $perc: unquote((100 / ($num-cols / $i)) + '%');
-      &.xl#{$i} {
-        @include reset-offset;
-        margin-left: 0;
-        width: $perc;
+    @media #{$extra-large-and-up} {
+      $i: 1;
+      @while $i <= $num-cols {
+        $perc: unquote((100 / ($num-cols / $i)) + '%');
+        &.xl#{$i} {
+          @include reset-offset;
+          margin-left: 0;
+          width: $perc;
+        }
+        @include grid-classes("xl", $i, $perc);
+        $i: $i + 1;
       }
-      @include grid-classes("xl", $i, $perc);
-      $i: $i + 1;
     }
-    //}
   }
 }
 

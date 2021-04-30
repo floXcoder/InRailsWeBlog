@@ -46,7 +46,7 @@ class Seo::Data < ApplicationRecord
       OpenStruct.new({
                        name:   r.name,
                        params: r.defaults.except(:controller),
-                       parts:  r.parts - [:format],
+                       parts:  r.parts - [:format]
                      })
     end.compact
   end
@@ -103,10 +103,6 @@ class Seo::Data < ApplicationRecord
     return new_parameters
   end
 
-  # == Instance Methods =====================================================
-
-  private
-
   def self.slug_from_model(model)
     if model.is_a?(User)
       model.pseudo
@@ -130,6 +126,10 @@ class Seo::Data < ApplicationRecord
       Article.friendly.find(model)
     end
   end
+
+  # == Instance Methods =====================================================
+
+  private
 
   def route_name
     return unless self.name.present? && self.name_changed?

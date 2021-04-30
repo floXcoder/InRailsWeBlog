@@ -6,12 +6,12 @@ require 'open-uri'
 namespace :InRailsWeBlog do
 
   desc 'Update Geolite2 City database'
-  task :update_geolite do
+  task :update_geolite, [] => :environment do
     Rails.logger = ActiveRecord::Base.logger = Logger.new(STDOUT)
     Rails.logger.level = Logger::WARN
-    Rails.logger.warn("#{Time.now} : Update Geolite task")
+    Rails.logger.warn("#{Time.zone.now} : Update Geolite task")
 
-    geolite_database = Rails.root.join('lib', 'geocoding', 'ip_db', 'GeoLite2-City.mmdb')
+    geolite_database = Rails.root.join('lib/geocoding/ip_db/GeoLite2-City.mmdb')
 
     # Not working anymore: need an signed account
     # url = 'http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.mmdb.gz'

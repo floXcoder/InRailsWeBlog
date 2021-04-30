@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: articles
@@ -343,7 +344,7 @@ class Article < ApplicationRecord
 
   # == Instance Methods =====================================================
   def user?(user)
-    user.id == self.user_id if user
+    self.user_id == user.id if user
   end
 
   def user_slug
@@ -380,7 +381,7 @@ class Article < ApplicationRecord
 
     picture = if self.pictures_count > 0
                 # Use sort_by to avoid N+1 queries and new graph model
-                self.pictures.sort_by(&:priority).reverse.first.image.medium.url
+                self.pictures.sort_by(&:priority).last.image.medium.url
               else
                 default_picture
               end

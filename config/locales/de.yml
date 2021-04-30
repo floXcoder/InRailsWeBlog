@@ -318,7 +318,7 @@ de:
       carrierwave_processing_error: Kann die Größe des Bildes nicht ändern
       carrierwave_integrity_error: Es ist kein Bild
       carrierwave_download_error: Bild kann nicht heruntergeladen werden
-      extension_whitelist_error: 'Es ist nicht erlaubt, Dateien %{extension} hochzuladen, erlaubte Dateitypen: %{allowed_types}'
+      extension_allowlist_error: 'Es ist nicht erlaubt, Dateien %{extension} hochzuladen, erlaubte Dateitypen: %{allowed_types}'
       extension_blacklist_error: 'Es ist nicht erlaubt, Dateien %{extension} hochzuladen, verbotene Typen: %{prohibited_types}'
       content_type_whitelist_error: Es ist nicht erlaubt, Dateien vom Typ %{content_type} hochzuladen
       content_type_blacklist_error: Es ist nicht erlaubt, Dateien vom Typ %{content_type} hochzuladen

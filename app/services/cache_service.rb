@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module CacheService
 
   def component_cache(name, only = nil)

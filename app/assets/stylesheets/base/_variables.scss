@@ -62,6 +62,9 @@ $gutter-width: 1.5rem !default;
 $element-top-margin: $gutter-width/3 !default;
 $element-bottom-margin: ($gutter-width*2)/3 !default;
 
+// Articles
+$topHeaderScrollMargin: 75px;
+
 // Mixins
 // ------------------------------------
 @mixin bordered-item($color) {

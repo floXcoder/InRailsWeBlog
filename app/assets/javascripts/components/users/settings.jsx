@@ -238,11 +238,15 @@ class UserSettings extends React.Component {
                                                           onChange={this._onSettingSwitchChange.bind(this, 'tagSidebarPin')}/>
                                               }/>
 
+                            <br/>
+
                             <FormControlLabel label={I18n.t('js.user.settings.tag.sidebar.with_child')}
                                               control={
                                                   <Switch checked={this.state.tagSidebarWithChild}
                                                           onChange={this._onSettingSwitchChange.bind(this, 'tagSidebarWithChild')}/>
                                               }/>
+
+                            <br/>
 
                             <FormControlLabel label={I18n.t('js.user.settings.tag.parent_and_child')}
                                               control={
@@ -316,9 +320,9 @@ class UserSettings extends React.Component {
                                                   <Switch checked={this.state.searchHighlight}
                                                           onChange={this._onSettingSwitchChange.bind(this, 'searchHighlight')}/>
                                               }/>
-                        </div>
 
-                        <div className="col s12 margin-top-25">
+                            <br/>
+
                             <FormControlLabel label={I18n.t('js.user.settings.search.exact')}
                                               control={
                                                   <Switch checked={this.state.searchExact}

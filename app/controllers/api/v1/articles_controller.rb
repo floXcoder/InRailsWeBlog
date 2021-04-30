@@ -217,7 +217,7 @@ module Api::V1
         tracker:        TrackerSerializer.new(article.tracker).flat_serializable_hash,
         bookmarksCount: article.bookmarks_count,
         commentsCount:  article.comments_count,
-        datesCount:     article_page_visits.order("DATE(time) DESC").group("DATE(time)").count,
+        datesCount:     article_page_visits.order('DATE(time) DESC').group('DATE(time)').count,
         countries:      format_tracking(article_uniq_visits.group_by(&:country), 8),
         browsers:       format_tracking(article_uniq_visits.group_by(&:browser), 8),
         os:             format_tracking(article_uniq_visits.group_by(&:os), 8),

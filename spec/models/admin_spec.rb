@@ -114,7 +114,7 @@ RSpec.describe Admin, type: :model, basic: true do
   end
 
   context 'Associations' do
-    # it { is_expected.to have_one(:blog) }
+    it { is_expected.to have_many(:blogs) }
   end
 
   context 'Public Methods' do

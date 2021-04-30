@@ -33,7 +33,7 @@ module Popen
     cmd_stdout = ''
     cmd_stderr = ''
     cmd_status = nil
-    start      = Time.now
+    start      = Time.zone.now
 
     Open3.popen3(vars, *cmd, options) do |stdin, stdout, stderr, wait_thr|
       # stderr and stdout pipes can block if stderr/stdout aren't drained: https://bugs.ruby-lang.org/issues/9082
@@ -49,7 +49,7 @@ module Popen
       cmd_status = wait_thr.value
     end
 
-    Result.new(cmd, cmd_stdout, cmd_stderr, cmd_status, Time.now - start)
+    Result.new(cmd, cmd_stdout, cmd_stderr, cmd_status, Time.zone.now - start)
   end
 
   # Returns Result
@@ -64,7 +64,7 @@ module Popen
 
     cmd_stdout = ''
     cmd_status = nil
-    start      = Time.now
+    start      = Time.zone.now
 
     Open3.pipeline_rw(*cmds, options) do |first_stdin, last_stdout, wait_threads|
       # stderr and stdout pipes can block if stderr/stdout aren't drained: https://bugs.ruby-lang.org/issues/9082
@@ -78,7 +78,7 @@ module Popen
       cmd_status = wait_threads.last.value
     end
 
-    Result.new(cmds, cmd_stdout, nil, cmd_status, Time.now - start)
+    Result.new(cmds, cmd_stdout, nil, cmd_status, Time.zone.now - start)
   end
 end
 

@@ -5,8 +5,8 @@ require 'rails_helper'
 describe 'Vote Article API', type: :request, basic: true do
 
   before(:all) do
-    @user         = create(:user)
-    @other_user   = create(:user)
+    @user       = create(:user)
+    @other_user = create(:user)
 
     @topic = create(:topic, user: @user)
 

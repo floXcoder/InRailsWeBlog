@@ -158,7 +158,8 @@ class ArticleNew extends React.Component {
                     }
                 </div>
 
-                <ArticleFormDisplay article={article}
+                <ArticleFormDisplay classes={this.props.classes}
+                                    article={article}
                                     isPaste={isPaste}
                                     inheritVisibility={this.props.inheritVisibility}
                                     userSlug={this.props.userSlug}

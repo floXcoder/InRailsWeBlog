@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: admins
@@ -39,10 +40,10 @@ class Admin < ApplicationRecord
          :lockable,
          authentication_keys: [:login]
 
-  # Store settings
-  include Storext.model
-  store_attributes :settings do
-  end
+  # # Store settings
+  # include Storext.model
+  # store_attributes :settings do
+  # end
 
   # == Extensions ===========================================================
   include NiceUrlConcern

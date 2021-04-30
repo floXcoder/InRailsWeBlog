@@ -5,7 +5,7 @@ namespace :InRailsWeBlog do
   # Usage :
   ## rails InRailsWeBlog:check_code
   desc "Check code doesn't contain log trace"
-  task :check_code do |_task, _args|
+  task :check_code, [] => :environment do |_task, _args|
     # Check ruby files
     Dir.glob("#{Rails.root}/{app,config}/**/*.rb").each do |file|
       if File.readlines(file).grep(/ w +/).any?

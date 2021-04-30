@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: users
@@ -306,7 +307,7 @@ class User < ApplicationRecord
     when 'strict'
       UserSerializer.new(data,
                          fields:  {
-                           user: %i[id pseudo avatarUrl slug date link],
+                           user: %i[id pseudo avatarUrl slug date link]
                          },
                          include: [],
                          **options)
@@ -337,7 +338,7 @@ class User < ApplicationRecord
 
   # == Instance Methods =====================================================
   def user?(user)
-    user.id == self.id
+    self.id == user.id if user
   end
 
   def link_path(options = {})

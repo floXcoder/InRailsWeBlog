@@ -41,7 +41,7 @@ class AdminArticles extends React.Component {
         return this.props.updateArticle({
             id: oldData.id,
             rank: newData.tracker.rank,
-            home_page: newData.tracker.homePage == 'true'
+            home_page: newData.tracker.homePage === 'true'
         });
     };
 
@@ -74,7 +74,7 @@ class AdminArticles extends React.Component {
                                title: I18n.t('js.admin.articles.table.columns.id'),
                                field: 'id',
                                hidden: true,
-                               editable: 'onUpdate'
+                               editable: 'never'
                            },
                            {
                                title: I18n.t('js.admin.articles.table.columns.topic_id'),
