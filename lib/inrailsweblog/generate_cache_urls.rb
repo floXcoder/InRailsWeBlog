@@ -8,8 +8,8 @@ class GenerateCacheUrls
           url_statics(locale),
           url_tags(locale),
           url_topics(locale),
-          url_articles(locale)
-          # url_users(locale)
+          url_articles(locale),
+          url_users(locale)
         ].flatten.compact.uniq
       end
     end.flatten
@@ -55,6 +55,8 @@ class GenerateCacheUrls
 
   def url_topics(locale, where_options = nil)
     Topic.everyone.where(where_options).map do |topic|
+      next unless topic.articles.everyone.count > 0
+
       [
         topic.link_path(locale: locale),
         topic.link_path(route_name: 'index', locale: locale),
@@ -72,12 +74,14 @@ class GenerateCacheUrls
     end
   end
 
-  # def url_users(locale, where_options = nil)
-  #   User.everyone.map do |user|
-  #     [
-  #       # user.link_path(route_name: 'topics', locale: locale)
-  #       # user.link_path(route_name: 'index', locale: locale)
-  #     ]
-  #   end
-  # end
+  def url_users(locale, where_options = nil)
+    User.everyone.where(where_options).map do |user|
+      next unless user.articles.everyone.count > 0
+
+      [
+        user.link_path(route_name: 'topics', locale: locale),
+        user.link_path(route_name: 'index', locale: locale)
+      ]
+    end
+  end
 end

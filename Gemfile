@@ -58,7 +58,7 @@ gem 'redis-session-store',      '0.11.3'
 gem 'hiredis',                  '0.6.3'
 
 # Global and model settings
-gem 'storext',                  '3.1.0', github: 'sonianand11/storext'
+gem 'storext',                  '3.3.0'
 
 # Authentification
 gem 'devise',                   '4.8.0'
@@ -194,5 +194,5 @@ group :production do
   gem 'lograge',          '0.11.2'
 
   # Prerender html pages for SEO
-  gem 'seo_cache',        '1.0.2',   require: false
+  gem 'seo_cache',        '1.0.3',   require: false
 end

@@ -207,7 +207,7 @@ class ArticleShow extends React.Component {
     };
 
     _checkArticleLanguages = () => {
-        if (this.props.article && !this.props.isOwner) {
+        if (this.props.article && !this.props.isOwner && !window.seoMode) {
             const visitorLanguage = (navigator.language || navigator.userLanguage)?.split('-')?.first();
 
             if (visitorLanguage && visitorLanguage !== window.locale && this.props.article.slugTranslations && this.props.article.slugTranslations[visitorLanguage] && this.props.article.languages?.length > 1 && this.props.article.languages.includes(visitorLanguage)) {

@@ -34,8 +34,6 @@ import {
     autocompleteLimit
 } from '../../modules/constants';
 
-import EnsureValidity from '../../modules/ensureValidity';
-
 import styles from '../../../../jss/default/search';
 
 export default @withRouter
@@ -218,8 +216,6 @@ class HomeSearchHeader extends React.Component {
                       itemProp="potentialAction"
                       itemScope={true}
                       itemType="https://schema.org/SearchAction">
-                    <EnsureValidity/>
-
                     <meta itemProp="target"
                           content={`${window.websiteUrl}/search?query={search}`}/>
 

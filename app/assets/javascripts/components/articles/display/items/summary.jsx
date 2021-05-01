@@ -84,7 +84,7 @@ class ArticleSummaryDisplay extends React.Component {
             <Observer onChange={this._handleViewportChange}>
                 <div id={`article-${this.props.article.id}`}
                      className={classNames(this.props.className, {
-                         'is-hidden': !this.state.isVisible,
+                         'is-hidden': !this.state.isVisible && !window.seoMode,
                          'bounce-in': this.state.isVisible,
                          'private': this.props.topicVisibility === 'everyone' && this.props.article.visibility !== 'everyone'
                      })}
