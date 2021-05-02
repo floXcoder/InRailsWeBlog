@@ -28,6 +28,8 @@ import {
     fetchArticles,
     updateArticleOrderDisplay,
     setCurrentArticles,
+    fetchTag,
+    fetchTopic,
     setCurrentTags
 } from '../../actions';
 
@@ -53,6 +55,7 @@ import ArticleNoneDisplay from './display/items/none';
 
 import styles from '../../../jss/article/index';
 
+
 export default @connect((state) => ({
     currentUserId: state.userState.currentId,
     currentUserSlug: state.userState.currentSlug,
@@ -66,11 +69,15 @@ export default @connect((state) => ({
     articlesLoaderMode: state.uiState.articlesLoaderMode,
     articleDisplayMode: state.uiState.articleDisplayMode,
     areArticlesMinimized: state.uiState.areArticlesMinimized,
-    articleEditionId: state.articleState.articleEditionId
+    articleEditionId: state.articleState.articleEditionId,
+    topic: state.topicState.topic,
+    tag: state.tagState.tag
 }), {
     fetchArticles,
     updateArticleOrderDisplay,
     setCurrentArticles,
+    fetchTopic,
+    fetchTag,
     setCurrentTags
 })
 @hot
@@ -94,9 +101,13 @@ class ArticleIndex extends React.Component {
         articlesLoaderMode: PropTypes.string,
         articleDisplayMode: PropTypes.string,
         areArticlesMinimized: PropTypes.bool,
+        topic: PropTypes.object,
+        tag: PropTypes.object,
         fetchArticles: PropTypes.func,
         updateArticleOrderDisplay: PropTypes.func,
         setCurrentArticles: PropTypes.func,
+        fetchTopic: PropTypes.func,
+        fetchTag: PropTypes.func,
         setCurrentTags: PropTypes.func,
         // from styles
         classes: PropTypes.object
@@ -207,7 +218,17 @@ class ArticleIndex extends React.Component {
         }, options, payload);
 
         if (this.props.routeParams.tagSlug) {
-            this._request.fetch.then(() => this.props.setCurrentTags([this.props.routeParams.tagSlug, this.props.routeParams.childTagSlug]));
+            this._request.fetch.then(() => {
+                this.props.setCurrentTags([this.props.routeParams.tagSlug, this.props.routeParams.childTagSlug]);
+
+                this.props.fetchTag(this.props.routeParams.tagSlug, {no_meta: true});
+            });
+        }
+
+        if (this.props.routeParams.topicSlug && this.props.routeParams.userSlug) {
+            this._request.fetch.then(() => {
+                this.props.fetchTopic(this.props.routeParams.userSlug, this.props.routeParams.topicSlug, {no_meta: true});
+            });
         }
     };
 
@@ -340,6 +361,24 @@ class ArticleIndex extends React.Component {
                             <div className="center">
                                 <Loader size="big"/>
                             </div>
+                        </div>
+                    }
+
+                    {
+                        this.props.tag?.name &&
+                        <div className="margin-bottom-40">
+                            <h1>
+                                {I18n.t('js.article.index.tagged_title', {tag: this.props.tag.name})}
+                            </h1>
+                        </div>
+                    }
+
+                    {
+                        this.props.topic?.name &&
+                        <div className="margin-bottom-40">
+                            <h1>
+                                {I18n.t('js.article.index.topic_title', {topic: this.props.topic.name})}
+                            </h1>
                         </div>
                     }
 

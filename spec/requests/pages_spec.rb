@@ -12,8 +12,6 @@ describe 'Static pages API', type: :request, basic: true do
       expect(response).to be_html_response
       expect(response.body).to match('id="react-component"')
       expect(response.body).to match('lang="en"')
-      expect(response.body).to match('<title>')
-      expect(response.body).to match('<meta name="description"')
     end
   end
 
@@ -24,8 +22,6 @@ describe 'Static pages API', type: :request, basic: true do
       expect(response).to be_html_response
       expect(response.body).to match('id="react-component"')
       expect(response.body).to match('lang="en"')
-      expect(response.body).to match('<title>')
-      expect(response.body).to match('<meta name="description"')
     end
   end
 
@@ -36,8 +32,6 @@ describe 'Static pages API', type: :request, basic: true do
       expect(response).to be_html_response
       expect(response.body).to match('id="react-component"')
       expect(response.body).to match('lang="en"')
-      expect(response.body).to match('<title>')
-      expect(response.body).to match('<meta name="description"')
     end
   end
 

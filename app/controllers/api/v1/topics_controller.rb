@@ -65,14 +65,15 @@ module Api::V1
         respond_to do |format|
           format.json do
             set_seo_data(:user_topic,
-                         topic_slug: topic,
-                         user_slug:  topic.user,
-                         author:     topic.user.pseudo)
+                         topic_slug:    topic,
+                         topic_content: topic.description&.summary(InRailsWeBlog.config.seo_meta_desc_length),
+                         user_slug:     topic.user,
+                         author:        topic.user.pseudo)
 
             if current_user && topic.user?(current_user)
               render json: topic.serialized_json('complete')
             else
-              render json: topic.serialized_json('normal', meta: meta_attributes)
+              render json: topic.serialized_json('normal', meta: !params[:no_meta] && meta_attributes)
             end
           end
         end

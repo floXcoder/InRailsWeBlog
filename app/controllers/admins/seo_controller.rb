@@ -62,7 +62,7 @@ class Admins::SeoController < AdminsController
     if error
       render json: { error: error }, status: :unprocessable_entity and return
     else
-      parameters = parameters.map { |parameter| Seo::Data.associated_parameters[parameter] }.flatten.concat(parameters).compact.uniq
+      parameters = parameters.map { |parameter| Seo::Data.associated_parameters[parameter.to_sym] }.flatten.concat(parameters).compact.map(&:to_sym).uniq
 
       render json: {
         name:       name,

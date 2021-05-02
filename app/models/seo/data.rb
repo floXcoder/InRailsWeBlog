@@ -64,10 +64,11 @@ class Seo::Data < ApplicationRecord
   end
 
   def self.associated_parameters
+    # Add custom parameters to SEO data
     {
-      tag_slug:     [:user_slug],
-      topic_slug:   [:user_slug, :topic_content_slug],
-      article_slug: [:user_slug, :topic_slug, :article_content_slug],
+      tag_slug:     [:user_slug, :tag_content],
+      topic_slug:   [:user_slug, :topic_content],
+      article_slug: [:user_slug, :topic_slug, :article_content],
       comment_slug: [:user_slug, :topic_slug, :article_slug]
     }
   end

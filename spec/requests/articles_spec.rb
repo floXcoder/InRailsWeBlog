@@ -78,8 +78,6 @@ describe 'Article API', type: :request, basic: true do
       expect(response).to be_html_response
       expect(response.body).to match('id="react-component"')
       expect(response.body).to match('lang="en"')
-      expect(response.body).to match('<title>')
-      expect(response.body).to match('<meta name="description"')
       expect(response.body).to match('data-articles="{')
     end
   end
@@ -91,8 +89,6 @@ describe 'Article API', type: :request, basic: true do
       expect(response).to be_html_response
       expect(response.body).to match('id="react-component"')
       expect(response.body).to match('lang="en"')
-      expect(response.body).to match('<title>')
-      expect(response.body).to match('<meta name="description"')
       expect(response.body).to match('data-articles="{')
     end
   end
@@ -104,8 +100,6 @@ describe 'Article API', type: :request, basic: true do
       expect(response).to be_html_response
       expect(response.body).to match('id="react-component"')
       expect(response.body).to match('lang="en"')
-      expect(response.body).to match('<title>')
-      expect(response.body).to match('<meta name="description"')
       expect(response.body).to match('data-article="{')
     end
 
@@ -138,8 +132,6 @@ describe 'Article API', type: :request, basic: true do
       expect(response).to be_html_response
       expect(response.body).to match('id="react-component"')
       expect(response.body).to match('lang="en"')
-      expect(response.body).to match('<title>')
-      expect(response.body).to match('<meta name="description"')
       expect(response.body).to match('data-article="{')
     end
   end

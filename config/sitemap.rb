@@ -25,7 +25,9 @@ SitemapGenerator::Sitemap.create do
   group(filename: :articles) do
     Article.includes(:user, :pictures).everyone.find_in_batches(batch_size: 200) do |articles|
       articles.each do |article|
-        add article.link_path,
+        locale = article.languages.include?(I18n.locale.to_s) ? I18n.locale.to_s : article.languages.first
+
+        add article.link_path(locale: locale),
             changefreq: 'weekly',
             priority:   0.7,
             lastmod:    article.updated_at,
@@ -41,22 +43,21 @@ SitemapGenerator::Sitemap.create do
   group(filename: :topics) do
     Topic.everyone.find_in_batches(batch_size: 200) do |topics|
       topics.each do |topic|
-        # add topic.link_path,
-        #     changefreq: 'weekly',
-        #     priority:   0.7,
-        #     lastmod:    topic.updated_at
+        next unless topic.articles.everyone.count > 0
 
-        add topic.link_path(route_name: 'index'),
+        locale = topic.languages.include?(I18n.locale.to_s) ? I18n.locale.to_s : topic.languages.first
+
+        add topic.link_path(locale: locale),
             changefreq: 'weekly',
             priority:   0.7,
             lastmod:    topic.updated_at
 
-        add topic.link_path(route_name: 'tags'),
+        add topic.link_path(route_name: 'tags', locale: locale),
             changefreq: 'weekly',
             priority:   0.7,
             lastmod:    topic.updated_at
 
-        add topic.link_path(route_name: 'articles'),
+        add topic.link_path(route_name: 'articles', locale: locale),
             changefreq: 'weekly',
             priority:   0.7,
             lastmod:    topic.updated_at
@@ -83,16 +84,18 @@ SitemapGenerator::Sitemap.create do
     end
   end
 
-  # group(filename: :users) do
-  #   User.everyone.find_in_batches(batch_size: 200) do |users|
-  #     users.each do |user|
-  #       add user.link_path(route_name: 'index'),
-  #           changefreq: 'weekly',
-  #           priority:   0.5,
-  #           lastmod:    user.updated_at
-  #     end
-  #   end
-  # end
+  group(filename: :users) do
+    User.everyone.find_in_batches(batch_size: 200) do |users|
+      users.each do |user|
+        next unless user.articles.everyone.count > 0
+
+        add user.link_path(route_name: 'index'),
+            changefreq: 'weekly',
+            priority:   0.5,
+            lastmod:    user.updated_at
+      end
+    end
+  end
 end
 
 # SitemapGenerator::Sitemap.ping_search_engines("https://#{ENV['WEBSITE_ADDRESS']}/sitemap.xml.gz")

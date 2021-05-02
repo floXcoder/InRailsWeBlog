@@ -28,10 +28,10 @@ module Topics
 
       if !@params[:description_translations].nil? && @topic.languages.size > 1
         @params.delete(:description_translations).each do |locale, description|
-          @topic.description_translations[locale] = Sanitize.fragment(description)
+          @topic.description_translations[locale] = ::Sanitizer.new.sanitize_html(description)
         end
       elsif !@params[:description].nil?
-        @topic.description = Sanitize.fragment(@params.delete(:description))
+        @topic.description = ::Sanitizer.new.sanitize_html(@params.delete(:description))
       end
       @params.delete(:description)
       @params.delete(:description_translations)

@@ -43,8 +43,9 @@ class TagsController < ApplicationController
       respond_to do |format|
         format.html do
           set_seo_data(:show_tag,
-                       tag_slug: tag,
-                       author:   tag.user.pseudo)
+                       tag_slug:    tag,
+                       tag_content: tag.description&.summary(InRailsWeBlog.config.seo_meta_desc_length),
+                       author:      tag.user.pseudo)
 
           tag = tag.serialized_json('complete',
                                     params: { current_user_id: current_user&.id },

@@ -52,22 +52,23 @@ class ArticlesController < ApplicationController
     article, article_redirection_path = find_article_in_locales(article_params[:article_slug])
     admin_or_authorize article
 
+    # Redirect to the correct localized article or the renamed article
     redirect_to(article_redirection_path, status: :moved_permanently) and return if article_redirection_path
 
     track_action(article_id: article.id, parent_id: article.topic_id) { |visitor_token| track_visit(Article, article.id, current_user&.id, article.topic_id, visitor_token) }
 
     set_seo_data(:user_article,
-                 article_slug:         article,
-                 article_content_slug: article.summary_content(InRailsWeBlog.config.seo_meta_desc_length, remove_links: true),
-                 topic_slug:           article.topic,
-                 user_slug:            article.user,
-                 author:               article.user.pseudo,
-                 model:                article,
-                 og:                   {
-                                         type:  "#{ENV['WEBSITE_NAME']}:article",
-                                         url:   article.link_path(host: ENV['WEBSITE_FULL_ADDRESS']),
-                                         image: article.default_picture
-                                       }.compact)
+                 article_slug:    article,
+                 article_content: article.summary_content(InRailsWeBlog.config.seo_meta_desc_length, remove_links: true),
+                 topic_slug:      article.topic,
+                 user_slug:       article.user,
+                 author:          article.user.pseudo,
+                 model:           article,
+                 og:              {
+                                    type:  "#{ENV['WEBSITE_NAME']}:article",
+                                    url:   article.link_path(host: ENV['WEBSITE_FULL_ADDRESS']),
+                                    image: article.default_picture
+                                  }.compact)
 
     (user_signed_in? || admin_signed_in?) ? reset_cache_headers : expires_in(InRailsWeBlog.config.cache_time, public: true)
     if stale?(article, template: false, public: true) || article.user?(current_user)

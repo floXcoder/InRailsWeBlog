@@ -30,7 +30,7 @@ Rails.application.routes.draw do
     get '/tags/:tag_slug', to: 'tags#show', as: :show_tag, defaults: { name: 'show_tag', public: true }
     get '/tags/:tag_slug/edit', to: 'tags#edit', as: :edit_tag, defaults: { name: 'edit_tag' }
 
-    get '/users/:user_slug/topics/:topic_slug/tags', to: 'pages#home', as: :topic_tags, defaults: { name: 'topic_tags', public: true }
+    get '/users/:user_slug/topics/:topic_slug/tags', to: 'tags#index', as: :topic_tags, defaults: { name: 'topic_tags', public: true }
     get '/tags/:user_slug/sort', to: 'pages#home', as: :sort_tag, defaults: { name: 'sort_tag' }
 
     # Topics
@@ -42,10 +42,10 @@ Rails.application.routes.draw do
     get '/users/:user_slug', to: 'articles#index', as: :user_articles, defaults: { name: 'user_articles', public: true }
     get '/users/:user_slug/topics/:topic_slug', to: 'articles#index', as: :topic_articles, defaults: { name: 'topic_articles', public: true }
     get '/tagged/:tag_slug(/:child_tag_slug)', to: 'articles#index', as: :tagged_articles, defaults: { name: 'tagged_articles', public: true }
+    get '/users/:user_slug/topics/:topic_slug/tagged/:tag_slug(/:child_tag_slug)', to: 'articles#index', as: :tagged_topic_articles, defaults: { name: 'tagged_topic_articles', public: true }
     get '/users/:user_slug/articles/:article_slug', to: 'articles#show', as: :user_article, defaults: { name: 'user_article', public: true }
     get '/users/:user_slug/articles/:article_slug/edit', to: 'articles#edit', as: :edit_article, defaults: { name: 'edit_article' }
 
-    get '/users/:user_slug/topics/:topic_slug/tagged/:tag_slug(/:child_tag_slug)', to: 'pages#home', as: :tagged_topic_articles, defaults: { name: 'tagged_topic_articles', public: true }
     get '/users/:user_slug/topics/:topic_slug/order/:order', to: 'pages#home', as: :order_topic_articles, defaults: { name: 'order_topic_articles' }
     get '/users/:user_slug/topics/:topic_slug/sort', to: 'pages#home', as: :sort_topic_articles, defaults: { name: 'sort_topic_articles' }
     get '/articles/shared/:article_slug/:public_link', to: 'pages#home', as: :shared_article, defaults: { name: 'shared_article' }

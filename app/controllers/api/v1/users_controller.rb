@@ -133,7 +133,7 @@ module Api::V1
                                     }.compact)
 
             if stale?(user, template: false, public: true)
-              render json: user.serialized_json(meta: meta_attributes)
+              render json: user.serialized_json(meta: !params[:no_meta] && meta_attributes)
             end
           end
         end

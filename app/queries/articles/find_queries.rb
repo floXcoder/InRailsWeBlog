@@ -49,10 +49,10 @@ module Articles
       if params[:article]
         article = params[:article]
         if article.topic&.stories?
-          @relation             = @relation
-                                    .filter_by(params, @current_user, @user_articles, article.topic)
-                                    .order_by('created_desc')
-                                    .to_a
+          @relation = @relation
+                        .filter_by(params, @current_user, @user_articles, article.topic)
+                        .order_by('created_desc')
+                        .to_a
 
           current_article_index = @relation.index { |a| a.id == article.id }
           if current_article_index == -1
@@ -81,14 +81,16 @@ module Articles
     end
 
     def home(params = {})
-      @relation = @relation
-                    .include_collection
-                    .everyone
-                    .home(params[:limit])
+      I18n.with_locale(params[:with_locale].presence || I18n.locale) do
+        @relation = @relation
+                      .include_collection
+                      .everyone
+                      .home(params[:limit])
 
-      if params[:with_locale]
-        @localized_relation = @relation.where('articles.languages @> ?', "{#{params[:with_locale]}}")
-        @relation           = @localized_relation if @localized_relation.exists?
+        if params[:with_locale]
+          @localized_relation = @relation.where('articles.languages @> ?', "{#{params[:with_locale]}}")
+          @relation           = @localized_relation if @localized_relation.exists?
+        end
       end
 
       return @relation

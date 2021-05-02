@@ -111,17 +111,17 @@ module Api::V1
         respond_to do |format|
           format.json do
             set_seo_data(:user_article,
-                         article_slug:         article,
-                         article_content_slug: article.content.summary(InRailsWeBlog.config.seo_meta_desc_length),
-                         topic_slug:           article.topic,
-                         user_slug:            article.user,
-                         author:               article.user.pseudo,
-                         model:                article,
-                         og:                   {
-                                                 type:  "#{ENV['WEBSITE_NAME']}:article",
-                                                 url:   article.link_path(host: ENV['WEBSITE_FULL_ADDRESS']),
-                                                 image: article.default_picture
-                                               }.compact)
+                         article_slug:    article,
+                         article_content: article.content.summary(InRailsWeBlog.config.seo_meta_desc_length, remove_links: true),
+                         topic_slug:      article.topic,
+                         user_slug:       article.user,
+                         author:          article.user.pseudo,
+                         model:           article,
+                         og:              {
+                                            type:  "#{ENV['WEBSITE_NAME']}:article",
+                                            url:   article.link_path(host: ENV['WEBSITE_FULL_ADDRESS']),
+                                            image: article.default_picture
+                                          }.compact)
 
             if current_user && article.user?(current_user)
               render json: article.serialized_json('complete',
@@ -133,7 +133,7 @@ module Api::V1
               render json: article.serialized_json('normal',
                                                    meta: {
                                                            storyTopic: article.story? ? article.topic.flat_serialized_json(with_model: false) : nil,
-                                                           **meta_attributes
+                                                           **((!params[:no_meta] && meta_attributes) || [])
                                                          }.compact)
             end
           end

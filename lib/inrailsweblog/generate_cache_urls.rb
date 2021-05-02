@@ -59,7 +59,6 @@ class GenerateCacheUrls
 
       [
         topic.link_path(locale: locale),
-        topic.link_path(route_name: 'index', locale: locale),
         topic.link_path(route_name: 'tags', locale: locale),
         topic.link_path(route_name: 'articles', locale: locale)
       ]

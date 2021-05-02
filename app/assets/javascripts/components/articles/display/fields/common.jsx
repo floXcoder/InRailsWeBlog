@@ -13,7 +13,6 @@ import {
 } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
 
 import CompareIcon from '@material-ui/icons/Compare';
 
@@ -23,23 +22,11 @@ import {
 
 import EditorField from '../../../editor/form/editor';
 
+import TabContainer from '../../../material-ui/tabContainer';
 import TextFormField from '../../../material-ui/form/text';
 
 import styles from '../../../../../jss/article/form/shared';
 
-function TabContainer({isActive, children}) {
-    return (
-        <Typography component="div"
-                    className={isActive ? null : 'hide'}>
-            {children}
-        </Typography>
-    );
-}
-
-TabContainer.propTypes = {
-    isActive: PropTypes.bool.isRequired,
-    children: PropTypes.element.isRequired
-};
 
 export default @withStyles(styles)
 class ArticleCommonField extends React.Component {
@@ -104,7 +91,7 @@ class ArticleCommonField extends React.Component {
         return event;
     };
 
-    _renderTitle = (locale) => {
+    _renderTitleField = (locale) => {
         if (this.props.currentMode === 'link') {
             return (
                 <div className="col s12">
@@ -141,7 +128,7 @@ class ArticleCommonField extends React.Component {
         }
     };
 
-    _renderContent = (locale) => {
+    _renderContentField = (locale) => {
         const fieldName = locale ? `content_translations[${locale}]` : 'content';
 
         return (
@@ -202,18 +189,18 @@ class ArticleCommonField extends React.Component {
                                 currentLanguages.map((locale, i) => (
                                     <TabContainer key={locale}
                                                   isActive={this.state.tabStep === i}>
-                                        {this._renderTitle(locale)}
+                                        {this._renderTitleField(locale)}
 
-                                        {this._renderContent(locale)}
+                                        {this._renderContentField(locale)}
                                     </TabContainer>
                                 ))
                             }
                         </>
                         :
                         <>
-                            {this._renderTitle()}
+                            {this._renderTitleField()}
 
-                            {this._renderContent()}
+                            {this._renderContentField()}
                         </>
                 }
             </div>

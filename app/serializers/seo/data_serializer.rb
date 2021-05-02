@@ -28,6 +28,14 @@ class Seo::DataSerializer
              :page_title,
              :meta_desc
 
+  attribute :parameters do |object|
+    if object.parameters.present?
+      (object.parameters + (Seo::Data.associated_parameters[object.parameters.last.to_sym] || [])).compact.map(&:to_s).uniq
+    else
+      []
+    end
+  end
+
   attribute :visibility do |object, params|
     if params[:routes]
       params[:routes].find { |route| route.name == object.name }&.params&.dig(:public) || false

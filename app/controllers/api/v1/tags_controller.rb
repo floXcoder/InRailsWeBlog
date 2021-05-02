@@ -95,12 +95,13 @@ module Api::V1
               render json: tag.serialized_json
             else
               set_seo_data(:show_tag,
-                           tag_slug: tag,
-                           author:   tag.user.pseudo)
+                           tag_content: tag.description&.summary(InRailsWeBlog.config.seo_meta_desc_length),
+                           tag_slug:    tag,
+                           author:      tag.user.pseudo)
 
               render json: tag.serialized_json('complete',
                                                params: { current_user_id: current_user&.id },
-                                               meta:   meta_attributes)
+                                               meta:   !params[:no_meta] && meta_attributes)
             end
           end
         end
@@ -205,10 +206,11 @@ module Api::V1
                                     :accepted,
                                     :archived,
                                     :picture,
-                                    synonyms:            [],
-                                    pictures_attributes: [:id,
-                                                          :image,
-                                                          :_destroy])
+                                    description_translations: {},
+                                    synonyms:                 [],
+                                    pictures_attributes:      [:id,
+                                                               :image,
+                                                               :_destroy])
       else
         {}
       end

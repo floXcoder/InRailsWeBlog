@@ -31,8 +31,12 @@ const styles = (theme) => ({
         paddingBottom: 8,
         borderBottom: '1px solid rgba(0, 0, 0, 0.2)'
     },
+    description: {
+        fontSize: '1.1rem',
+        fontWeight: 'inherit'
+    },
     emptyDesc: {
-      fontStyle: 'italic'
+        fontStyle: 'italic'
     },
     avatar: {
         color: theme.palette.text.primary

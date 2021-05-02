@@ -23,12 +23,14 @@ module FriendlyId
     module Model
       def set_friendly_id
         self[friendly_id_config.slug_column] = nil
-        default_text = slug_candidates
-        I18n.available_locales.each do |l|
-          I18n.with_locale(l) do
-            set_slug(slug_candidates || default_text)
-          end
-        end
+        # default_text = slug_candidates
+        # Do not set same slug for all locales if article not translated
+        # I18n.available_locales.each do |l|
+        #   I18n.with_locale(l) do
+        #     set_slug(slug_candidates || default_text)
+        #   end
+        # end
+        set_slug(slug_candidates)
       end
 
       def slug
@@ -53,6 +55,10 @@ module FriendlyId
       def slug=(value)
         # super
         write_attribute friendly_id_config.slug_column, (self[friendly_id_config.slug_column] || {}).merge(I18n.locale.to_s => value)
+      end
+
+      def slug_translations=(values)
+        write_attribute friendly_id_config.slug_column, values
       end
     end
 

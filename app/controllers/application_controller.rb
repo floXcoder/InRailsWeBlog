@@ -180,7 +180,7 @@ class ApplicationController < ActionController::Base
     end
 
     named_parameters = Seo::Data.named_parameters(parameters)
-    slug_parameters  = Seo::Data.slug_parameters(parameters)
+    slug_parameters  = Seo::Data.slug_parameters(parameters)&.delete_if { |_, value| value.blank? }
 
     if seo_data
       page_title = Seo::Data.convert_parameters(seo_data.page_title, named_parameters)
@@ -213,12 +213,13 @@ class ApplicationController < ActionController::Base
   end
 
   def alternate_urls(named_route, model, **params)
-    Hash[I18n.available_locales.map { |locale| [locale.to_s, canonical_url(named_route, model, locale, **params)] }]
+    available_locales = model.respond_to?(:languages) ? model.languages : I18n.available_locales
+    available_locales.map { |locale| [locale.to_s, canonical_url(named_route, model, locale, **params)] }.to_h
       .merge('x-default': canonical_url(named_route, model, 'en', **params))
   end
 
   def image_url(url)
-    ("#{Rails.env.production? ? 'https' : 'http'}://#{ENV['WEBSITE_ASSET']}/") + 'assets/' + url
+    "#{Rails.env.production? ? 'https' : 'http'}://#{ENV['WEBSITE_ASSET']}/assets/#{url}"
   end
 
   def titleize(page_title)
@@ -489,7 +490,7 @@ class ApplicationController < ActionController::Base
     return if !json_request? || flash.empty? || response.status == 302
 
     # avoiding XSS injections via flash
-    flash_json                           = Hash[flash.map { |k, v| [k, ERB::Util.h(v)] }].to_json
+    flash_json                           = flash.map { |k, v| [k, ERB::Util.h(v)] }.to_h.to_json
     response.headers['X-Flash-Messages'] = flash_json
     # flash.discard
   end
