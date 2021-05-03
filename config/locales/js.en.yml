@@ -305,7 +305,7 @@ en:
         visibility: "Choose visibility"
         visibility_immutable: "Public tag name cannot be changed"
         synonyms: "Tag synonyms..."
-        no_description: "No tag description"
+        no_description: "No description for this tag"
         no_synonyms: "No tag synonyms"
         no_parents: "No parents tag"
         no_children: "No children tag"
@@ -330,7 +330,7 @@ en:
         synonyms: "Synonyms"
         visibility: "Visibility"
         owner: "Owner"
-        articles_count: "Articles count"
+        articles_count: "Article count"
         parents: "Parents tag"
         children: "Children tag"
       enums:
@@ -344,18 +344,22 @@ en:
           all: "All public tags"
         sort: "Sort your tags by priority"
         links:
+          parent_topic: "See topic: %{topic}"
           user_tags: "See all your used tags"
           all_tags: "See all public tags"
       show:
+        title: "Tag: %{name}"
+        tagged_articles: "See all articles tagged %{name}"
+        articles_count: "%{count} articles with this tag"
+        edit_link: "Edit tag"
         back_button: "Cancel"
-        edit_link: "Edit"
       new:
         title: "Tag creation"
         submit: "Create"
       edit:
         title: "Tag edition: %{tag}"
         back_button: "Cancel"
-        submit: "Update"
+        submit: "Update tag"
       errors:
         default: "Cannot create tag! Please try again."
         not_authorized: "Cannot access to this tag!"
@@ -385,9 +389,9 @@ en:
         description: "Description"
         visibility: "Visibility"
         languages: "Associated languages"
-        articles_count: "Articles count"
+        articles_count: "Article count"
         tags: "Associated tags"
-        tags_count: "Tags count"
+        tags_count: "Tag count"
         inventory_fields:
           name: "Field name"
       enums:
@@ -399,9 +403,12 @@ en:
           stories: "Stories"
           inventories: "Inventories"
       show:
+        title: "Topic: %{name}"
+        topic_articles: "See all articles within the topic %{name}"
+        articles_count: "%{count} articles inside this topic"
         share: "Share this topic"
-        back_button: "Cancel"
         edit_link: "Edit this topic"
+        back_button: "Cancel"
       new:
         title: "Add a topic"
         name: "Topic name"
@@ -596,6 +603,9 @@ en:
         added: "Vote added"
       recommendation:
         title: "Tags present in the following themes"
+      index:
+        tagged_title: "Articles tagged %{tag}"
+        topic_title: "Articles for %{topic}"
       show:
         recommendations:
           title: "Articles in the same topic"
@@ -629,7 +639,7 @@ en:
           bookmarks: "Added to bookmarks"
           comments: "Article comments"
         views:
-          title: "Views count"
+          title: "View count"
         origins:
           title: "Origins"
           country: "Visits by country"
@@ -733,7 +743,7 @@ en:
         filter: "Filter results"
       index:
         placeholder: "Search"
-        button: "Find"
+        button: "Search"
         topic:
           current: "Current topic"
           others: "Other topics"
@@ -884,14 +894,14 @@ en:
         uniq:
           title: "Unique visits per day"
           data: "Data"
-          day: "Visits count"
+          day: "Visit count"
           total: "Cumulated visits"
         stats:
           title: "Statistics"
-          uniq: "Unique visits count"
-          clicks: "Clicks count"
-          views: "Article views count"
-          searches: "Searches count"
+          uniq: "Unique visit count"
+          clicks: "Click count"
+          views: "Article view count"
+          searches: "Search count"
           pages: "Average pages view"
           bounce: "Bounce rate"
           duration: "Visit duration"
@@ -914,7 +924,7 @@ en:
             created_at: "Created at"
             last_sign_in_at: "Last connection"
             locale: "Locale"
-            articles_count: "Articles count"
+            articles_count: "Article count"
       comments:
         title: "Comments"
         table:
@@ -937,10 +947,10 @@ en:
             visibility: "Visibility"
             languages: "Languages"
             articles_count: "Associated articles"
-            visits_count: "Visits count"
-            views_count: "Views count"
-            clicks_count: "Clicks count"
-            searches_count: "Searches count"
+            visits_count: "Visit count"
+            views_count: "View count"
+            clicks_count: "Click count"
+            searches_count: "Search count"
             created_at: "Created at"
       tags:
         title: "Tags"
@@ -954,10 +964,10 @@ en:
             priority: "Priority"
             visibility: "Visibility"
             tagged_articles_count: "Associated articles"
-            visits_count: "Visits count"
-            views_count: "Views count"
-            clicks_count: "Clicks count"
-            searches_count: "Searches count"
+            visits_count: "Visit count"
+            views_count: "View count"
+            clicks_count: "Click count"
+            searches_count: "Search count"
             date: "Created at"
       articles:
         title: "Articles"
@@ -971,11 +981,11 @@ en:
             priority: "Priority"
             visibility: "Visibility"
             languages: "Languages"
-            comments_count: "Comments count"
-            visits_count: "Visits count"
-            views_count: "Views count"
-            clicks_count: "Clicks count"
-            searches_count: "Searches count"
+            comments_count: "Comment count"
+            visits_count: "Visit count"
+            views_count: "View count"
+            clicks_count: "Click count"
+            searches_count: "Search count"
             popularity: "Popularity"
             rank: "Rank"
             home_page: "Home?"
@@ -1022,7 +1032,7 @@ en:
           parameters: "Parameters available: %{parameters}"
           no_parameters: "No parameters required"
           add: "Add"
-          update: "Edit"
+          update: "Update SEO content"
           delete: "REMOVE"
           delete_confirmation: "Are you sure to remove: %{name}?"
           cancel: "Cancel"

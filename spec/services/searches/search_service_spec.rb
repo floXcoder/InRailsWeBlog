@@ -85,7 +85,7 @@ describe Searches::SearchService, type: :service, basic: true do
       it 'returns filtered results' do
         @user.update_attribute(:current_topic_id, @inventories_topic.id)
 
-        results = Searches::SearchService.new('string', current_user: @user, filters: {number: [1, 2]}).perform
+        results = Searches::SearchService.new('string', current_user: @user, filters: { number: [1, 2] }).perform
 
         expect(results.success?).to be true
 

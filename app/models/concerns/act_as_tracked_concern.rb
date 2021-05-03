@@ -22,7 +22,7 @@ module ActAsTrackedConcern
                                   allow_destroy: true
 
     # Add the tracker to the new object
-    after_create :create_tracker
+    after_create :add_tracker
 
     # Class methods required for tracker: project name tracked and actions to track
     class_attribute :tracked_name, :tracker_metrics, :tracker_callbacks
@@ -79,8 +79,8 @@ module ActAsTrackedConcern
   end
 
   # Method called after object creation
-  def create_tracker
-    self.update_attribute(:tracker, Tracker.create(tracked: self))
+  def add_tracker
+    self.create_tracker(tracked: self)
   end
 
   # Class methods

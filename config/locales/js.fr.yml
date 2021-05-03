@@ -305,8 +305,8 @@ fr:
         visibility: "Choisissez la visibilité"
         visibility_immutable: "Le nom d'un label public ne peut être modifié"
         synonyms: "Synonymes du label ..."
-        no_description: "Pas de description associée au label"
-        no_synonyms: "Pas de synonymes associés au label"
+        no_description: "Pas de description associée à ce label"
+        no_synonyms: "Pas de synonymes associés à ce label"
         no_parents: "Pas de labels parents associés"
         no_children: "Pas de labels fils associés"
         publics: "Labels public"
@@ -344,11 +344,15 @@ fr:
           all: "Tous les labels publics"
         sort: "Trier vos labels par priorité"
         links:
+          parent_topic: "Consulter le thème : %{topic}"
           user_tags: "Voir tous vos labels utilisés"
           all_tags: "Voir tous les labels publics"
       show:
-        back_button: "Annuler"
+        title: "Label : %{name}"
+        tagged_articles: "Voir tous les articles avec le tag %{name}"
+        articles_count: "%{count} articles avec ce label"
         edit_link: "Modifier ce label"
+        back_button: "Annuler"
       new:
         title: "Ajout d'un label"
         submit: "Créer le label"
@@ -399,9 +403,12 @@ fr:
           stories: "Storie"
           inventories: "Inventaire"
       show:
+        title: "Thème : %{name}"
+        topic_articles: "Voir tous les articles dans ce thème : %{name}"
+        articles_count: "%{count} articles pour ce thème"
         share: "Partager ce thème"
-        back_button: "Annuler"
         edit_link: "Modifier ce thème"
+        back_button: "Annuler"
       new:
         title: "Ajouter un thème"
         name: "Nom du thème"
@@ -596,6 +603,9 @@ fr:
         added: "Votre vote a été pris en compte"
       recommendation:
         title: "Labels présents dans les thèmes suivants"
+      index:
+        tagged_title: "Articles avec le label %{tag}"
+        topic_title: "Articles pour le thème %{topic}"
       show:
         recommendations:
           title: "Articles dans le même thème"
@@ -1022,7 +1032,7 @@ fr:
           parameters: "Paramètres disponibles : %{parameters}"
           no_parameters: "Aucun paramètres requis"
           add: "Ajouter"
-          update: "Modifier"
+          update: "Modifier le contenu SEO"
           delete: "SUPPRIMER"
           delete_confirmation: "Supprimer cette donnée SEO : %{name} ?"
           cancel: "Annuler"

@@ -65,6 +65,7 @@ export default function articleMutationManager(mode) {
             static propTypes = {
                 routeParams: PropTypes.object.isRequired,
                 routeState: PropTypes.object,
+                initProps: PropTypes.object,
                 // from router
                 history: PropTypes.object,
                 // from connect

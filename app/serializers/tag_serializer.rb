@@ -41,6 +41,7 @@ class TagSerializer
              :user_id,
              :name,
              :description,
+             :description_translations,
              :synonyms,
              :priority,
              :visibility,

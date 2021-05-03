@@ -12,45 +12,36 @@
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #
-
 require 'rails_helper'
 
-RSpec.describe Article::Relationship, type: :model, basic: true do
+RSpec.describe Article::Redirection, type: :model, basic: true do
 
   before(:all) do
     @user  = create(:user)
     @topic = create(:topic, user: @user)
 
-    @parent_article = create(:article, user: @user, topic: @topic)
-    @child_article  = create(:article, user: @user, topic: @topic)
+    @article = create(:article, user: @user, topic: @topic)
   end
 
   before do
-    @article_relation = Article::Relationship.create(
-      user:   @user,
-      parent: @parent_article,
-      child:  @child_article
+    @article_redirection = Article::Redirection.create(
+      article:       @article,
+      previous_slug: @article.slug,
+      current_slug:  @article.slug + '-2'
     )
   end
 
-  subject { @article_relation }
+  subject { @article_redirection }
 
   context 'Object' do
     it { is_expected.to be_valid }
   end
 
   context 'Associations' do
-    it { is_expected.to belong_to(:user) }
+    it { is_expected.to belong_to(:article) }
 
-    it { is_expected.to belong_to(:parent) }
-    it { is_expected.to belong_to(:child) }
-
-    it { is_expected.to validate_presence_of(:user) }
-
-    it { is_expected.to validate_presence_of(:parent) }
-    it { is_expected.to validate_presence_of(:child) }
-
-    it { is_expected.to validate_uniqueness_of(:parent_id).scoped_to([:user_id, :child_id]).with_message(I18n.t('activerecord.errors.models.article_relationship.already_linked')) }
+    it { is_expected.to validate_presence_of(:previous_slug) }
+    it { is_expected.to validate_presence_of(:current_slug) }
   end
 
 end

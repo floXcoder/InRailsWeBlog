@@ -11,6 +11,10 @@ const styles = () => ({
         overflow: 'visible',
         maxWidth: articleWidth
     },
+    articleForm: {
+        marginLeft: '.75rem',
+        marginRight: '.75rem'
+    },
     breadcrumb: {
         margin: '1.5rem 0rem',
         position: 'relative'

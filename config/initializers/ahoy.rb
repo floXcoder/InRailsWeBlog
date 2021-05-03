@@ -47,7 +47,7 @@ Ahoy.quiet = true
 
 # Do not log ahoy basic events
 unless Rails.env.test?
-  Ahoy.logger = Logger.new(Rails.root.join('log/ahoy.log'))
+  Ahoy.logger       = Logger.new(Rails.root.join('log/ahoy.log'))
   Ahoy.logger.level = Logger::WARN
 end
 
@@ -61,16 +61,16 @@ Ahoy.cookie_options   = { expires: 1.year }
 # Print exceptions
 Safely.report_exception_method = ->(error) { Rails.logger.error(error) }
 
-EXCLUDE_USER_AGENT = %w[OkHttp]
+EXCLUDE_USER_AGENT = %w[OkHttp].freeze
 
-EXCLUDE_REFERRERS = %w[google.co.uk/url]
+EXCLUDE_REFERRERS = %w[google.co.uk/url].freeze
 
-EXCLUDE_IPS         = if File.exists?(Rails.root.join('lib/tracking/excluded_pattern_ips.txt'))
+EXCLUDE_IPS         = if File.exist?(Rails.root.join('lib/tracking/excluded_pattern_ips.txt'))
                         File.open(Rails.root.join('lib/tracking/excluded_pattern_ips.txt')) { |file| file.readlines.map(&:chomp) }.select(&:present?)
                       else
                         []
                       end
-EXCLUDE_PATTERN_IPS = if File.exists?(Rails.root.join('lib/tracking/excluded_ips.txt'))
+EXCLUDE_PATTERN_IPS = if File.exist?(Rails.root.join('lib/tracking/excluded_ips.txt'))
                         File.open(Rails.root.join('lib/tracking/excluded_ips.txt')) { |file| file.readlines.map(&:chomp) }.select(&:present?)
                       else
                         []
@@ -78,6 +78,8 @@ EXCLUDE_PATTERN_IPS = if File.exists?(Rails.root.join('lib/tracking/excluded_ips
 
 # Exclude asset requests and admin from visits
 Ahoy.exclude_method = lambda do |_controller, request|
+  return true if request&.params&.dig('_seo_cache_').present? || request&.params&.dig('_prerender_').present?
+
   return true if EXCLUDE_USER_AGENT.any? { |user_agent| request&.user_agent&.downcase&.include?(user_agent.downcase) }
 
   return true if EXCLUDE_REFERRERS.any? { |referrer| request&.referrer&.downcase&.include?(referrer.downcase) }

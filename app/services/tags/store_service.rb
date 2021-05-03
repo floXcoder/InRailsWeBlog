@@ -25,11 +25,15 @@ module Tags
         @tag.name      = sanitized_name
       end
 
-      if !@params[:description].nil?
-        @tag.description = Sanitize.fragment(@params.delete(:description))
-      else
-        @params.delete(:description)
+      if !@params[:description_translations].nil?
+        @params.delete(:description_translations).each do |locale, description|
+          @tag.description_translations[locale] = ::Sanitizer.new.sanitize_html(description)
+        end
+      elsif !@params[:description].nil?
+        @tag.description = ::Sanitizer.new.sanitize_html(@params[:description])
       end
+      @params.delete(:description)
+      @params.delete(:description_translations)
 
       unless @params[:icon].nil?
         @tag.build_icon(image: @params.delete(:icon))

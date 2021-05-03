@@ -1,7 +1,7 @@
 'use strict';
 
 const NotAuthorized = ({}) => (
-    <div className="card-panel">
+    <div>
         <h2>
             {I18n.t('js.helpers.not_authorized.title')}
         </h2>

@@ -8,7 +8,7 @@ if ENV['SEO_CACHE'].to_s == 'true'
   end
 
   SeoCache.cache_mode = 'disk'
-  SeoCache.cache_path = Rails.root.join('public', 'seo_cache')
+  SeoCache.cache_path = Rails.root.join('public/seo_cache')
 
   SeoCache.chrome_path = Rails.env.production? ? '/usr/bin/chromium' : '/usr/bin/chromium-browser'
 
@@ -20,7 +20,7 @@ if ENV['SEO_CACHE'].to_s == 'true'
 
   SeoCache.wait_time_for_page_loading = 3
 
-  SeoCache.logger_path = Rails.root.join('log', 'seo_cache.log')
+  SeoCache.logger_path = Rails.root.join('log/seo_cache.log')
   SeoCache.log_missed_cache = true
 
   Rails.application.config.middleware.use SeoCache::Middleware

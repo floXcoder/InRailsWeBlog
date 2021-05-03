@@ -26,9 +26,9 @@ const _handleSubmit = () => {
 };
 
 SearchBar.propTypes = {
-    classes: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
     onSearchInput: PropTypes.func.isRequired,
+    classes: PropTypes.string,
     children: PropTypes.string
 };
 

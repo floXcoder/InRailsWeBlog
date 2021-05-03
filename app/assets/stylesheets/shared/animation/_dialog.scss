@@ -24,7 +24,7 @@
     transform: scaleY(1);
     transition-duration: 900ms;
     transition-property: transform, opacity;
-    transition-timing-function: cubic-bezier(.175, .665, .320, 1), linear;
+    transition-timing-function: cubic-bezier(.175, .665, .32, 1), linear;
   }
 }
 

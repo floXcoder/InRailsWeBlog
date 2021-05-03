@@ -44,8 +44,6 @@ describe 'Tag API', type: :request, basic: true do
       expect(response).to be_html_response
       expect(response.body).to match('id="react-component"')
       expect(response.body).to match('lang="en"')
-      expect(response.body).to match('<title>')
-      expect(response.body).to match('<meta name="description"')
       expect(response.body).to match('data-tags="{')
     end
   end
@@ -57,8 +55,6 @@ describe 'Tag API', type: :request, basic: true do
       expect(response).to be_html_response
       expect(response.body).to match('id="react-component"')
       expect(response.body).to match('lang="en"')
-      expect(response.body).to match('<title>')
-      expect(response.body).to match('<meta name="description"')
       expect(response.body).to match('data-tag="{')
     end
   end
@@ -74,8 +70,6 @@ describe 'Tag API', type: :request, basic: true do
       expect(response).to be_html_response
       expect(response.body).to match('id="react-component"')
       expect(response.body).to match('lang="en"')
-      expect(response.body).to match('<title>')
-      expect(response.body).to match('<meta name="description"')
       expect(response.body).to match('data-tag="{')
     end
   end
@@ -167,7 +161,7 @@ describe 'Tag API', type: :request, basic: true do
     end
 
     context 'when lot of tag' do
-      let!(:articles) { create_list(:tag, 200, user: @user) }
+      let!(:tags) { create_list(:tag, 200, user: @user) }
 
       it 'returns all tags in less than 0.4 seconds' do
         expect {

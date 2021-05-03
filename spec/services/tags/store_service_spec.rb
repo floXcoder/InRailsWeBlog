@@ -6,7 +6,7 @@ describe Tags::StoreService, type: :service, basic: true do
   subject { described_class.new }
 
   before(:all) do
-    @user  = create(:user)
+    @user = create(:user)
 
     @tag = create(:tag, user: @user, visibility: 'only_me')
   end

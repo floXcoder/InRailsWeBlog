@@ -6,7 +6,7 @@ namespace :InRailsWeBlog do
   task :dump, [:dir_name] => :environment do |_task, args|
     Rails.logger = ActiveRecord::Base.logger = Logger.new(STDOUT)
     Rails.logger.level = Logger::WARN
-    Rails.logger.warn("#{Time.now} : Dump database task")
+    Rails.logger.warn("#{Time.zone.now} : Dump database task")
 
     dump_path = Rails.root.join('db', 'dump')
     FileUtils.mkdir_p(dump_path) unless File.directory?(dump_path)
@@ -23,7 +23,7 @@ namespace :InRailsWeBlog do
   desc 'Restore database'
   task restore: :environment do |_task, args|
     Rails.logger = ActiveRecord::Base.logger = Logger.new(STDOUT)
-    Rails.logger.warn("#{Time.now} : Restore database task")
+    Rails.logger.warn("#{Time.zone.now} : Restore database task")
 
     dump_path = Rails.root.join('db', 'dump')
 

@@ -25,7 +25,7 @@ RSpec.configure do |config|
     Searchkick.disable_callbacks
   end
 
-  config.around(:each) do |example|
+  config.around do |example|
     expect {
       example.run
     }.not_to raise_exception

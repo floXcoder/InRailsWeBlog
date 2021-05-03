@@ -34,7 +34,7 @@ module TranslationConcern
 
   def strip_translation(value)
     value = value.respond_to?(:strip) ? value.strip : value
-    value = value.respond_to?(:'blank?') && value.respond_to?(:'empty?') && value.blank? ? nil : value
+    value = value.respond_to?(:blank?) && value.respond_to?(:empty?) && value.blank? ? nil : value
 
     return value
   end
@@ -97,7 +97,7 @@ module TranslationConcern
         if self.fallbacks_for_empty_translations
           translation_keys = send("#{field}_translations").keys
           available_languages = send(:languages)
-          current_language = available_languages.first if !available_languages&.empty? && !translation_keys.include?(current_language)
+          current_language = available_languages.first if !available_languages&.empty? && translation_keys.exclude?(current_language)
         end
 
         send("#{field}_translations")[current_language]

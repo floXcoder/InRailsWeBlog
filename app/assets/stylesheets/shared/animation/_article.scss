@@ -9,7 +9,7 @@
     transform: translate3d(0, 0, 0);
     transition-property: transform, opacity;
     transition-duration: 150ms;
-    transition-timing-function: cubic-bezier(.175, .665, .320, 1), linear;
+    transition-timing-function: cubic-bezier(.175, .665, .32, 1), linear;
     //transition: opacity 500ms ease-in;
   }
 }
@@ -20,7 +20,7 @@
   transform: translate3d(0, 0, 0);
   transition-property: transform, opacity;
   transition-duration: 50ms;
-  transition-timing-function: cubic-bezier(.175, .665, .320, 1), linear;
+  transition-timing-function: cubic-bezier(.175, .665, .32, 1), linear;
 
   &.article-leave-active {
     opacity: .01;

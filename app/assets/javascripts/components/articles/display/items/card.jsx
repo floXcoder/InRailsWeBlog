@@ -4,6 +4,8 @@ import {
     Link
 } from 'react-router-dom';
 
+// Polyfill observer
+import 'intersection-observer';
 import Observer from '@researchgate/react-intersection-observer';
 
 import {

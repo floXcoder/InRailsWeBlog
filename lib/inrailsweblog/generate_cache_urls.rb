@@ -9,7 +9,7 @@ class GenerateCacheUrls
           url_tags(locale),
           url_topics(locale),
           url_articles(locale),
-          # url_users(locale)
+          url_users(locale)
         ].flatten.compact.uniq
       end
     end.flatten
@@ -22,7 +22,7 @@ class GenerateCacheUrls
           Rails.application.routes.url_helpers.send("home_#{locale}_path"),
           url_tags(locale, updated_at: since.ago..),
           url_topics(locale, updated_at: since.ago..),
-          url_articles(locale, updated_at: since.ago..),
+          url_articles(locale, updated_at: since.ago..)
         ].flatten.compact.uniq
       end
     end.flatten
@@ -55,9 +55,10 @@ class GenerateCacheUrls
 
   def url_topics(locale, where_options = nil)
     Topic.everyone.where(where_options).map do |topic|
+      next unless topic.articles.everyone.count > 0
+
       [
         topic.link_path(locale: locale),
-        topic.link_path(route_name: 'index', locale: locale),
         topic.link_path(route_name: 'tags', locale: locale),
         topic.link_path(route_name: 'articles', locale: locale)
       ]
@@ -72,12 +73,14 @@ class GenerateCacheUrls
     end
   end
 
-  # def url_users(locale, where_options = nil)
-  #   User.everyone.map do |user|
-  #     [
-  #       # user.link_path(route_name: 'topics', locale: locale)
-  #       # user.link_path(route_name: 'index', locale: locale)
-  #     ]
-  #   end
-  # end
+  def url_users(locale, where_options = nil)
+    User.everyone.where(where_options).map do |user|
+      next unless user.articles.everyone.count > 0
+
+      [
+        user.link_path(route_name: 'topics', locale: locale),
+        user.link_path(route_name: 'index', locale: locale)
+      ]
+    end
+  end
 end

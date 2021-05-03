@@ -19,7 +19,7 @@ module CommentConcern
       format.json do
         render json: CommentSerializer.new(comments_tree,
                                            fields:  {
-                                             user: %i[id pseudo slug avatarUrl],
+                                             user: %i[id pseudo slug avatarUrl]
                                            },
                                            include: [:user],
                                            meta:    { root: 'comments', **meta_attributes(pagination: comments) }).serializable_hash

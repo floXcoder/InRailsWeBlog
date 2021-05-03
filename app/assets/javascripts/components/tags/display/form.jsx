@@ -14,6 +14,9 @@ import {
     withStyles
 } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
+import Tab from '@material-ui/core/Tab';
+import Tabs from '@material-ui/core/Tabs';
+import Divider from '@material-ui/core/Divider';
 
 import {
     showTagPath
@@ -25,11 +28,13 @@ import {
 
 import EditorField from '../../editor/form/editor';
 
+import TabContainer from '../../material-ui/tabContainer';
 import TextFormField from '../../material-ui/form/text';
 import SelectFormField from '../../material-ui/form/select';
 import AutocompleteFormField from '../../material-ui/form/autocomplete';
 
 import styles from '../../../../jss/tag/form';
+
 
 export default @withStyles(styles)
 class TagFormDisplay extends React.Component {
@@ -44,13 +49,47 @@ class TagFormDisplay extends React.Component {
         super(props);
     }
 
+    state = {
+        tabStep: 0
+    };
+
+    _handleTabChange = (event, value) => {
+        this.setState({tabStep: value});
+    };
+
     _onUnsavedExit = (location) => {
         return I18n.t('js.tag.form.unsaved', {location: location.pathname});
     };
 
-    render() {
+    _renderDescriptionField = (handleSubmit, locale) => {
+        const fieldName = locale ? `description_translations[${locale}]` : 'description';
+
         return (
-            <Form initialValues={this.props.children}
+            <div className="col s12">
+                <Field name={fieldName}
+                       component={EditorField}
+                       id={`tag_description${locale ? '_' + locale : ''}`}
+                       modelName="tag"
+                       modelId={this.props.children.id}
+                       placeholder={I18n.t('js.tag.common.placeholders.description')}
+                       otherStaticBar="#header-user"
+                       onSubmit={handleSubmit}
+                       componentContent={this.props.children.descriptionTranslations[locale] || this.props.children.description}/>
+            </div>
+        );
+    };
+
+    render() {
+        const tagValues = {
+            name: this.props.children?.name,
+            description: this.props.children?.description,
+            description_translations: this.props.children?.descriptionTranslations,
+            visibility: this.props.children?.visibility,
+            synonyms: this.props.children?.synonyms
+        };
+
+        return (
+            <Form initialValues={tagValues}
                   validate={validateTag}
                   onSubmit={this.props.onSubmit}>
                 {
@@ -100,75 +139,88 @@ class TagFormDisplay extends React.Component {
                                         }
                                     </div>
 
-                                    <div className="col s12">
+                                    <div className="col s12 margin-top-30 margin-bottom-30">
+                                        <Divider/>
+
                                         <div className={this.props.classes.categoryTitle}>
                                             {I18n.t('js.tag.model.description')}
                                         </div>
-                                        <Field name="description"
-                                               component={EditorField}
-                                               id="tag_description"
-                                               modelName="tag"
-                                               modelId={this.props.children.id}
-                                               placeholder={I18n.t('js.tag.common.placeholders.description')}
-                                               onSubmit={handleSubmit}
-                                               componentContent={this.props.children.description}/>
 
-                                        <div className="row">
-                                            <div className="col s12 m6 center-align">
-                                                <div className={this.props.classes.categoryTitle}>
-                                                    {I18n.t('js.tag.model.visibility')}
-                                                </div>
+                                        <Tabs value={this.state.tabStep}
+                                              indicatorColor="primary"
+                                              textColor="primary"
+                                              centered={true}
+                                              onChange={this._handleTabChange}>
+                                            {
+                                                window.locales.map((locale) => (
+                                                    <Tab key={locale}
+                                                         label={I18n.t(`js.languages.${locale}`)}/>
+                                                ))
+                                            }
+                                        </Tabs>
 
-                                                <Field name="visibility"
-                                                       component={SelectFormField}
-                                                       id="tag_visibility"
-                                                       className={this.props.classes.select}
-                                                       label=""
-                                                       disabled={this.props.children.visibility === 'everyone'}
-                                                       options={I18n.t('js.tag.enums.visibility')}/>
-                                            </div>
+                                        {
+                                            window.locales.map((locale, i) => (
+                                                <TabContainer key={locale}
+                                                              isActive={this.state.tabStep === i}>
+                                                    {this._renderDescriptionField(handleSubmit, locale)}
+                                                </TabContainer>
+                                            ))
+                                        }
+                                    </div>
 
-                                            <div className="col s12 m6">
-                                                <div className={this.props.classes.categoryTitle}>
-                                                    {I18n.t('js.tag.model.synonyms')}
-                                                </div>
-
-                                                <Field name="synonyms"
-                                                       type="select-multi"
-                                                       component={AutocompleteFormField}
-                                                       label={I18n.t('js.tag.common.synonyms')}
-                                                       inputVariant="standard"
-                                                       isMultiple={true}
-                                                       isSimpleArray={true}
-                                                       isTagged={true}
-                                                       fullWidth={true}
-                                                       hasFilterValues={true}/>
-                                            </div>
+                                    <div className="col s12 m6 center-align">
+                                        <div className={this.props.classes.categoryTitle}>
+                                            {I18n.t('js.tag.model.visibility')}
                                         </div>
+
+                                        <Field name="visibility"
+                                               component={SelectFormField}
+                                               id="tag_visibility"
+                                               className={this.props.classes.select}
+                                               label=""
+                                               disabled={this.props.children.visibility === 'everyone'}
+                                               options={I18n.t('js.tag.enums.visibility')}/>
+                                    </div>
+
+                                    <div className="col s12 m6">
+                                        <div className={this.props.classes.categoryTitle}>
+                                            {I18n.t('js.tag.model.synonyms')}
+                                        </div>
+
+                                        <Field name="synonyms"
+                                               type="select-multi"
+                                               component={AutocompleteFormField}
+                                               label={I18n.t('js.tag.common.synonyms')}
+                                               inputVariant="standard"
+                                               isMultiple={true}
+                                               isSimpleArray={true}
+                                               isTagged={true}
+                                               fullWidth={true}
+                                               hasFilterValues={true}/>
                                     </div>
                                 </div>
                             </div>
 
-
-                            <div className="margin-top-40 margin-bottom-20">
-                                <div className="row">
-                                    <div className="col s6 center-align">
-                                        <Button color="default"
-                                                variant="outlined"
-                                                size="small"
-                                                component={Link}
-                                                to={showTagPath(this.props.children.slug)}>
-                                            {I18n.t('js.tag.edit.back_button')}
-                                        </Button>
-                                    </div>
-
-                                    <div className="col s6 center-align">
+                            <div className="margin-top-50 margin-bottom-20">
+                                <div className="row center-align">
+                                    <div className="col s12 margin-bottom-40">
                                         <Button color="primary"
                                                 variant="outlined"
                                                 size="small"
                                                 disabled={submitting}
                                                 onClick={handleSubmit}>
                                             {I18n.t('js.tag.edit.submit')}
+                                        </Button>
+                                    </div>
+
+                                    <div className="col s12">
+                                        <Button color="default"
+                                                variant="text"
+                                                size="small"
+                                                component={Link}
+                                                to={showTagPath(this.props.children.slug)}>
+                                            {I18n.t('js.tag.edit.back_button')}
                                         </Button>
                                     </div>
                                 </div>

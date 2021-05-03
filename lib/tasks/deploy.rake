@@ -7,7 +7,7 @@ namespace :InRailsWeBlog do
   ## rails InRailsWeBlog:deploy SKIP_CI=true
   ## rails InRailsWeBlog:deploy TAG=1.0.0
   desc 'Deploy project to server (repo must be on develop branch)'
-  task :deploy do |_task, _args|
+  task :deploy, [] => :environment do |_task, _args|
     # Check for uncommitted files
     fail 'Files not committed in repo, run git status' if %x(git diff --exit-code) != ''
 

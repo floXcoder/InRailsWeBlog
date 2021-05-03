@@ -74,7 +74,7 @@ module Api::V1
     end
 
     def check_unconfirmed_user
-      return unless params.dig(:user, :login).present?
+      return if params.dig(:user, :login).blank?
 
       user = User.find_by_login(params[:user][:login])
       if user && !user.confirmed?

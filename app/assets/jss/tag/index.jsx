@@ -17,8 +17,8 @@ const styles = (theme) => ({
         marginTop: 20
     },
     subtitle: {
-        fontSize: '2.4rem',
-        marginTop: 30,
+        fontSize: '2.3rem',
+        marginTop: 40,
         marginBottom: 15
     },
     tagTitle: {

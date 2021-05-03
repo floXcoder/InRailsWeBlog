@@ -12,7 +12,7 @@ module Api::V1
       search_results = Searches::SearchService.new(search_params[:query], search_params.merge(current_user: current_user, current_admin: current_admin)).perform
 
       if search_results.success?
-        track_action(action: 'search', query: search_params[:query], count: search_results.result[:totalCount].values.reduce(:+))
+        track_action(action: 'search', query: search_params[:query], count: search_results.result[:totalCount].values.sum)
 
         respond_to do |format|
           set_seo_data(:search,

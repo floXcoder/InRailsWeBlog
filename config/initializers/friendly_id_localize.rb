@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module FriendlyId
   module LocalizedSlug
     # FriendlyId::Config.use will invoke this method when present, to allow
@@ -21,12 +23,14 @@ module FriendlyId
     module Model
       def set_friendly_id
         self[friendly_id_config.slug_column] = nil
-        default_text = slug_candidates
-        I18n.available_locales.each do |l|
-          I18n.with_locale(l) do
-            set_slug(slug_candidates || default_text)
-          end
-        end
+        # default_text = slug_candidates
+        # Do not set same slug for all locales if article not translated
+        # I18n.available_locales.each do |l|
+        #   I18n.with_locale(l) do
+        #     set_slug(slug_candidates || default_text)
+        #   end
+        # end
+        set_slug(slug_candidates)
       end
 
       def slug
@@ -52,6 +56,10 @@ module FriendlyId
         # super
         write_attribute friendly_id_config.slug_column, (self[friendly_id_config.slug_column] || {}).merge(I18n.locale.to_s => value)
       end
+
+      def slug_translations=(values)
+        write_attribute friendly_id_config.slug_column, values
+      end
     end
 
     module Configuration
@@ -64,7 +72,7 @@ module FriendlyId
       include ::FriendlyId::FinderMethods
 
       def exists_by_friendly_id?(id)
-        where("#{friendly_id_config.slug_column}->>'#{I18n.locale}' = ?", id).exists?
+        exists?(["#{friendly_id_config.slug_column}->>'#{I18n.locale}' = ?", id])
       end
 
       private

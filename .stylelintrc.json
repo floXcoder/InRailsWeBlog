@@ -1,0 +1,17 @@
+{
+  "extends": "stylelint-config-sass-guidelines",
+  "plugins": [
+    "stylelint-scss"
+  ],
+  "rules": {
+    "at-rule-no-unknown": null,
+    "max-nesting-depth": 5,
+    "number-leading-zero": null,
+    "selector-max-compound-selectors": 5,
+    "selector-max-id": 3,
+    "order/order": false,
+    "order/properties-order": false,
+    "order/properties-alphabetical-order": false,
+    "scss/at-rule-no-unknown": true
+  }
+}

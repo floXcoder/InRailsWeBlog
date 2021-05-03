@@ -4,7 +4,7 @@ RSpec::Matchers.define :act_as_tracked do |model|
   match do |actual|
     expect(actual).to have_one(:tracker)
     expect(actual).to accept_nested_attributes_for(:tracker)
-    expect(actual).to callback(:create_tracker).after(:create)
+    expect(actual).to callback(:add_tracker).after(:create)
 
     expect(actual).to delegate_method(:popularity).to(:tracker)
     expect(actual).to delegate_method(:rank).to(:tracker)

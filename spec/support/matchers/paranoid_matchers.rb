@@ -5,7 +5,7 @@ RSpec::Matchers.define :act_as_paranoid do |model|
     expect(actual).to have_db_column(:deleted_at)
     # expect(actual).to have_db_index(:deleted_at)
 
-    expect(model.all.where_clause.to_h).to eq({ "deleted_at" => nil })
+    expect(model.all.where_clause.to_h).to eq({ 'deleted_at' => nil })
     expect(model.unscoped.where_clause.empty?).to be true
   end
 

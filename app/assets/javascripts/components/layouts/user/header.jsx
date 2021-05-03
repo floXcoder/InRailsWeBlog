@@ -40,7 +40,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 
 import {
-    HomeSearchHeader,
+    // HomeSearchHeader,
     UserPreference
 } from '../../loaders/components';
 
@@ -69,6 +69,8 @@ import {
 import ErrorBoundary from '../../errors/boundary';
 
 import HeadLayout from '../head';
+
+import HomeSearchHeader from '../header/search';
 
 import TopicModule from '../../topics/module';
 
@@ -447,11 +449,11 @@ class HeaderLayoutUser extends React.PureComponent {
 
                         {
                             !this.props.routeProperties.noHeaderSearch &&
-                            <Suspense fallback={<div/>}>
-                                <ErrorBoundary errorType="notification">
-                                    <HomeSearchHeader isSearchActive={isSearchActive}/>
-                                </ErrorBoundary>
-                            </Suspense>
+                            // <Suspense fallback={<div/>}>
+                            //     <ErrorBoundary errorType="notification">
+                            <HomeSearchHeader isSearchActive={isSearchActive}/>
+                            //     </ErrorBoundary>
+                            // </Suspense>
                         }
 
                         <div className={this.props.classes.grow}/>

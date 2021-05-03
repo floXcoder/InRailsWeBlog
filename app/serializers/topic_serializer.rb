@@ -40,6 +40,7 @@ class TopicSerializer
              :mode,
              :name,
              :description,
+             :description_translations,
              :priority,
              :visibility,
              :languages,

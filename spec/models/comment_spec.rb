@@ -105,9 +105,9 @@ RSpec.describe Comment, type: :model, basic: true do
     describe 'Default Attributes' do
       before do
         @comment = Comment.create(
-          user:             @user,
-          commentable:      @commentable,
-          body:             'My comment body'
+          user:        @user,
+          commentable: @commentable,
+          body:        'My comment body'
         )
       end
 

@@ -8,7 +8,7 @@ namespace :InRailsWeBlog do
   task :format_articles, [] => :environment do |_task, _args|
     Rails.logger = ActiveRecord::Base.logger = Logger.new(STDOUT)
     Rails.logger.level = Logger::WARN
-    Rails.logger.warn("#{Time.now} : Format articles task")
+    Rails.logger.warn("#{Time.zone.now} : Format articles task")
 
     Article.all.find_in_batches(batch_size: 200) do |articles|
       articles.each do |article|

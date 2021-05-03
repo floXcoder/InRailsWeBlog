@@ -15,22 +15,15 @@ import {
 
 import Loader from '../../components/theme/loader';
 
+import TabContainer from '../../components/material-ui/tabContainer';
+
 import LogLine from './logs/line';
 import LogInput from './logs/input';
 import LogHelp from './logs/help';
 
-function TabContainer(props) {
-    return (
-        <Typography component="div"
-                    className={props.isActive ? null : 'hide'}
-                    style={{padding: 8 * 3}}>
-            {props.children}
-        </Typography>
-    );
-}
-
 const AUTOMATIC_REFRESH_INTERVAL = 5000;
 const TOP_SCROLL = 50;
+
 
 export default @connect(null, {
     fetchLogs

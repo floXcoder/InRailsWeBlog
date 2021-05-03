@@ -1,15 +1,15 @@
 @import 'shared/animation/article';
 
 // Leave a margin when scrolling to the article id
-[id^="article-"] {
-  scroll-margin-top: 75px;
+[id^='article-'] {
+  scroll-margin-top: $top-header-scroll-margin;
 }
 
 .article-list-tag-title {
-  font-size: 1.2rem;
-  font-weight: 500;
-  font-style: italic;
   border-bottom: 1px solid #ddd;
+  font-size: 1.2rem;
+  font-style: italic;
+  font-weight: 500;
   margin-top: 2rem;
 }
 
@@ -31,8 +31,8 @@
 
 // Timeline
 .timeline-container {
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   //display: flex;
 }
 
@@ -42,20 +42,20 @@
   position: relative;
 
   &::before {
-    top: 50px;
-    bottom: 0;
-    position: absolute;
-    content: ' ';
-    width: 1px;
     background-color: #e5e5e5;
+    bottom: 0;
+    content: ' ';
     left: 50%;
+    position: absolute;
+    top: 50px;
+    width: 1px;
 
     @media #{$medium-and-down} {
       left: 5%;
     }
   }
 
-  & > .timeline-item {
+  > .timeline-item {
     margin-bottom: 20px;
     position: relative;
 
@@ -71,20 +71,20 @@
   }
 
   .timeline-icon {
-    color: #fff;
-    width: 42px;
-    height: 42px;
-    line-height: 51px;
-    font-size: 1.4em;
-    text-align: center;
-    position: absolute;
-    top: 16px;
-    left: 50%;
-    z-index: 100;
+    background: $secondary-color none repeat scroll 0 0;
     border-radius: 50%;
     box-shadow: 0 0 0 4px #fff, inset 0 2px 0 rgba(0, 0, 0, .08), 0 3px 0 4px rgba(0, 0, 0, .05);
+    color: #fff;
+    font-size: 1.4em;
+    height: 42px;
+    left: 50%;
+    line-height: 51px;
     margin-left: -21px;
-    background: $secondary-color none repeat scroll 0 0;
+    position: absolute;
+    text-align: center;
+    top: 16px;
+    width: 42px;
+    z-index: 100;
 
     @media #{$medium-and-down} {
       left: 5%;
@@ -92,20 +92,20 @@
   }
 
   .timeline-panel {
-    width: 45%;
-    float: left;
-    padding: 1rem;
-    margin-bottom: 20px;
-    position: relative;
-    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, .14);
-    border-radius: 6px;
-    color: rgba(0, 0, 0, .87);
     background: #fff;
+    border-radius: 6px;
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, .14);
+    color: rgba(0, 0, 0, .87);
+    float: left;
+    margin-bottom: 20px;
+    padding: 1rem;
+    position: relative;
+    width: 45%;
 
     @media #{$medium-and-down} {
       float: right;
-      width: 86%;
       padding: .4rem;
+      width: 86%;
     }
 
     &.is-hidden {
@@ -113,8 +113,8 @@
     }
 
     &.bounce-in {
-      visibility: visible;
       animation: cd-bounce .6s;
+      visibility: visible;
     }
 
     &.private {
@@ -123,22 +123,22 @@
 
     &.timeline-panel-inverted {
       &.bounce-in {
-        visibility: visible;
         animation: cd-bounce-inverse .6s;
+        visibility: visible;
       }
     }
 
     &::before {
-      position: absolute;
-      top: 26px;
-      right: -15px;
-      display: inline-block;
-      border-top: 15px solid transparent;
+      border-bottom: 15px solid transparent;
       border-left: 15px solid #e4e4e4;
       border-right: 0 solid #e4e4e4;
       border-right-width: 0;
-      border-bottom: 15px solid transparent;
+      border-top: 15px solid transparent;
       content: ' ';
+      display: inline-block;
+      position: absolute;
+      right: -15px;
+      top: 26px;
 
       @media #{$medium-and-down} {
         border-left-width: 0;
@@ -149,16 +149,16 @@
     }
 
     &::after {
-      position: absolute;
-      top: 27px;
-      right: -14px;
-      display: inline-block;
-      border-top: 14px solid transparent;
+      border-bottom: 14px solid transparent;
       border-left: 14px solid #fff;
       border-right: 0 solid #fff;
       border-right-width: 0;
-      border-bottom: 14px solid transparent;
+      border-top: 14px solid transparent;
       content: ' ';
+      display: inline-block;
+      position: absolute;
+      right: -14px;
+      top: 27px;
 
       @media #{$medium-and-down} {
         border-left-width: 0;
@@ -176,8 +176,8 @@
     }
 
     .timeline-panel {
-      float: right;
       background-color: #fff;
+      float: right;
 
       &::before {
         border-left-width: 0;
@@ -231,7 +231,7 @@
 
 .normalized-content {
   color: $text-color;
-  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
   font-size: 1rem;
   font-weight: 400;
   letter-spacing: .00938em;
@@ -245,37 +245,57 @@
     white-space: nowrap;
   }
 
-  h1, h2, h3, h4, h5, h6, dl, dd, ol, ul, li, menu, figure, blockquote, p, form, b, i, th, td {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  dl,
+  dd,
+  ol,
+  ul,
+  li,
+  menu,
+  figure,
+  blockquote,
+  p,
+  form,
+  b,
+  i,
+  th,
+  td {
     color: $text-color;
     margin: 0;
     padding: 0;
   }
 
-  h1, h2 {
-    margin-top: 2rem;
+  h1,
+  h2 {
     margin-bottom: .5rem;
+    margin-top: 2rem;
 
-    & + h3,
-    & + p {
+    + h3,
+    + p {
       margin-top: .8rem;
     }
   }
 
   h3 {
-    margin-top: 1.8rem;
     margin-bottom: .5rem;
+    margin-top: 1.8rem;
 
-    & + h4,
-    & + p {
+    + h4,
+    + p {
       margin-top: .8rem;
     }
   }
 
   h4 {
-    margin-top: 1.4rem;
     margin-bottom: .5rem;
+    margin-top: 1.4rem;
 
-    & + p {
+    + p {
       margin-top: .8rem;
     }
   }
@@ -323,11 +343,11 @@
   }
 
   p {
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.92;
     margin-top: 1.2rem;
     white-space: pre-wrap;
-    font-weight: 400;
-    font-style: normal;
-    line-height: 1.92;
   }
 
   b,
@@ -400,30 +420,30 @@
   }
 
   pre {
-    display: block;
-    width: 100%;
     //background-color: #fff;
     border: 2px solid $border-color;
     border-radius: .25rem;
+    display: block;
     margin: .8rem .4rem;
     //padding: .25rem;
     white-space: pre-wrap;
+    width: 100%;
     word-wrap: break-word;
 
     code {
       background-color: inherit;
-      border: none;
+      border: 0;
     }
   }
 
   table {
-    width: 100%;
     border-collapse: collapse;
+    width: 100%;
 
     td,
     th {
-      padding: 5px 3px;
       border: 1px solid #ececec;
+      padding: 5px 3px;
     }
 
     sup {
@@ -454,17 +474,21 @@
 }
 
 .normalized-content-extract {
-  h1, h2, h3, h4 {
-    margin-top: .2rem;
-    margin-bottom: .2rem;
+  h1,
+  h2,
+  h3,
+  h4 {
     clear: left;
     font-style: normal;
     letter-spacing: .05px;
-    text-align: left;
     line-height: 1.1;
+    margin-bottom: .2rem;
+    margin-top: .2rem;
+    text-align: left;
   }
 
-  h1, h2 {
+  h1,
+  h2 {
     font-size: 1.4rem;
     font-weight: 500;
   }
@@ -482,8 +506,8 @@
   }
 
   p {
-    margin-top: 0;
     line-height: 1.5;
+    margin-top: 0;
   }
 }
 

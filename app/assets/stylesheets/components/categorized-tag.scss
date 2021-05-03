@@ -24,43 +24,43 @@ $primary: #4c66be;
     //background: white;
     position: relative;
 
-    &:before {
-      left: 0;
-      right: 0;
-      bottom: 0;
-      content: "\00a0";
-      position: absolute;
-      transition: border-bottom-color 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    &::before {
       border-bottom: 1px solid rgba(0, 0, 0, 0.42);
+      bottom: 0;
+      content: '\00a0';
+      left: 0;
       pointer-events: none;
+      position: absolute;
+      right: 0;
+      transition: border-bottom-color 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
     }
 
-    &:after {
-      left: 0;
-      right: 0;
-      bottom: 0;
-      content: "";
-      position: absolute;
-      transform: scaleX(0);
-      transition: transform 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;
+    &::after {
       border-bottom: 2px solid #7b1fa2;
+      bottom: 0;
+      content: '';
+      left: 0;
       pointer-events: none;
+      position: absolute;
+      right: 0;
+      transform: scaleX(0);
+      transition: transform 200ms cubic-bezier(0, 0, 0.2, 1) 0ms;
     }
   }
 
   .cti-input-input {
-    width: 100%;
-    border: none !important;
+    border: 0 !important;
     font-size: 1rem !important;
     height: auto;
     margin: .1em 0 .1em .4em !important;
     max-width: 100%;
     padding: .4em 0 !important;
+    width: 100%;
 
     &:focus,
     &:focus-visible,
     &:focus-within {
-      border: none !important;
+      border: 0 !important;
       outline: none !important;
     }
   }
@@ -124,24 +124,24 @@ $primary: #4c66be;
 
   .cti-tag-delete {
     background-color: transparent;
-    color: $text-color;
     border: 0;
-    margin: -5px 0;
-    padding: 0 0 0 .3em;
-    outline: 0;
+    color: $text-color;
     display: inline-block;
+    margin: -5px 0;
+    outline: 0;
     overflow: hidden;
+    padding: 0 0 0 .3em;
     text-indent: -9999px;
     width: 20px;
 
-    &:before {
-      content: "\2718";
+    &::before {
+      content: '\2718';
       float: left;
       font-size: 18px;
       line-height: 20px;
       margin: 0;
-      text-indent: 0;
       padding: 0 2px;
+      text-indent: 0;
     }
   }
 
@@ -170,8 +170,8 @@ $primary: #4c66be;
     //font-size: 1rem;
     //line-height: 1.2rem;
 
-    &:before,
-    &:after {
+    &::before,
+    &::after {
       background: $white;
       border: 1px solid $light-gray;
       content: '';
@@ -182,8 +182,8 @@ $primary: #4c66be;
       width: 15px;
     }
 
-    &.cti-panel-arrow-top:before,
-    &.cti-panel-arrow-top:after {
+    &.cti-panel-arrow-top::before,
+    &.cti-panel-arrow-top::after {
       border-bottom: 0;
       border-right: 0;
       bottom: 100%;

@@ -15,8 +15,8 @@ require 'rails_helper'
 RSpec.describe OutdatedArticle, type: :model, basic: true do
 
   before(:all) do
-    @user    = create(:user)
-    @topic   = create(:topic, user: @user)
+    @user  = create(:user)
+    @topic = create(:topic, user: @user)
 
     @article = create(:article, user: @user, topic: @topic)
   end
@@ -24,7 +24,7 @@ RSpec.describe OutdatedArticle, type: :model, basic: true do
   before do
     @outdated_article = OutdatedArticle.create(
       article: @article,
-      user:     @user
+      user:    @user
     )
   end
 

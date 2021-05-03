@@ -1,13 +1,13 @@
 html {
+  box-sizing: border-box;
+  color: $text-color;
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
   font-size: 17px;
-  line-height: 1.5;
-  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
-  font-smoothing: antialiased;
+  font-smooth: antialiased;
   font-weight: 400;
-  color: $text-color;
-  box-sizing: border-box;
+  line-height: 1.5;
 
   //@media only screen and (min-width: $medium-screen) {
   //  font-size: 16px;
@@ -19,23 +19,23 @@ html {
 }
 
 *,
-*:before,
-*:after {
+*::before,
+*::after {
   box-sizing: inherit;
 }
 
 a {
+  color: $link-color;
   // Gets rid of tap active state
   -webkit-tap-highlight-color: transparent;
-  color: $link-color;
   text-decoration: none;
   word-wrap: break-word;
 }
 
 .container {
-  position: relative;
   margin: 0 auto;
   max-width: 1280px;
+  position: relative;
   width: 90%;
 
   @media #{$large-and-up} {
@@ -60,11 +60,10 @@ a {
   margin-right: (-1 * $gutter-width / 2);
 }
 
-
 // Mixins to eliminate code repitition
 @mixin reset-offset {
-  margin-left: auto;
   left: auto;
+  margin-left: auto;
   right: auto;
 }
 
@@ -80,17 +79,16 @@ a {
   }
 }
 
-
 .row {
+  margin-bottom: 20px;
   margin-left: -.75rem;
   margin-right: -.75rem;
-  margin-bottom: 20px;
 
   // Clear floating children
-  &:after {
-    content: "";
-    display: table;
+  &::after {
     clear: both;
+    content: '';
+    display: table;
   }
 
   &.input-form {
@@ -98,17 +96,16 @@ a {
   }
 
   .col {
-    float: left;
     box-sizing: border-box;
-    padding: 0 $gutter-width / 2;
+    float: left;
     min-height: 1px;
+    padding: 0 $gutter-width / 2;
 
-    &[class*="push-"],
-    &[class*="pull-"] {
+    &[class*='push-'],
+    &[class*='pull-'] {
       position: relative;
     }
 
-    //@media #{$small-and-down} {
     $i: 1;
     @while $i <= $num-cols {
       $perc: unquote((100 / ($num-cols / $i)) + '%');
@@ -117,24 +114,23 @@ a {
         margin-left: 0;
         width: $perc;
       }
-      @include grid-classes("s", $i, $perc);
+      @include grid-classes('s', $i, $perc);
       $i: $i + 1;
     }
-    //}
 
-    //@media #{$medium-and-up} {
-    $i: 1;
-    @while $i <= $num-cols {
-      $perc: unquote((100 / ($num-cols / $i)) + '%');
-      &.m#{$i} {
-        @include reset-offset;
-        margin-left: 0;
-        width: $perc;
+    @media #{$medium-and-up} {
+      $i: 1;
+      @while $i <= $num-cols {
+        $perc: unquote((100 / ($num-cols / $i)) + '%');
+        &.m#{$i} {
+          @include reset-offset;
+          margin-left: 0;
+          width: $perc;
+        }
+        @include grid-classes('m', $i, $perc);
+        $i: $i + 1;
       }
-      @include grid-classes("m", $i, $perc);
-      $i: $i + 1;
     }
-    //}
 
     @media #{$medium-only} {
       .col.offset-m0 {
@@ -142,19 +138,19 @@ a {
       }
     }
 
-    //@media #{$large-and-up} {
-    $i: 1;
-    @while $i <= $num-cols {
-      $perc: unquote((100 / ($num-cols / $i)) + '%');
-      &.l#{$i} {
-        @include reset-offset;
-        margin-left: 0;
-        width: $perc;
+    @media #{$large-and-up} {
+      $i: 1;
+      @while $i <= $num-cols {
+        $perc: unquote((100 / ($num-cols / $i)) + '%');
+        &.l#{$i} {
+          @include reset-offset;
+          margin-left: 0;
+          width: $perc;
+        }
+        @include grid-classes('l', $i, $perc);
+        $i: $i + 1;
       }
-      @include grid-classes("l", $i, $perc);
-      $i: $i + 1;
     }
-    //}
 
     @media #{$large-and-up} {
       .col.offset-l0 {
@@ -162,19 +158,19 @@ a {
       }
     }
 
-    //@media #{$extra-large-and-up} {
-    $i: 1;
-    @while $i <= $num-cols {
-      $perc: unquote((100 / ($num-cols / $i)) + '%');
-      &.xl#{$i} {
-        @include reset-offset;
-        margin-left: 0;
-        width: $perc;
+    @media #{$extra-large-and-up} {
+      $i: 1;
+      @while $i <= $num-cols {
+        $perc: unquote((100 / ($num-cols / $i)) + '%');
+        &.xl#{$i} {
+          @include reset-offset;
+          margin-left: 0;
+          width: $perc;
+        }
+        @include grid-classes('xl', $i, $perc);
+        $i: $i + 1;
       }
-      @include grid-classes("xl", $i, $perc);
-      $i: $i + 1;
     }
-    //}
   }
 }
 

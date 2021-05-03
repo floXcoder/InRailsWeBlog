@@ -7,7 +7,7 @@ namespace :InRailsWeBlog do
   task :reset_trackers, [] => :environment do |_task, _args|
     Rails.logger       = ActiveRecord::Base.logger = Logger.new(STDOUT)
     Rails.logger.level = Logger::WARN
-    Rails.logger.warn("#{Time.now} : Reset all tracking data")
+    Rails.logger.warn("#{Time.zone.now} : Reset all tracking data")
 
     Tracker.all.each do |tracker|
       tracker.views_count    = 0

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: tags
@@ -231,7 +232,7 @@ class Tag < ApplicationRecord
     when 'strict'
       TagSerializer.new(data,
                         fields:  {
-                          tag: %i[id userId name synonyms visibility slug topicIds dateTimestamp link],
+                          tag: %i[id userId name synonyms visibility slug topicIds dateTimestamp link]
                         },
                         include: [],
                         **options)
@@ -245,14 +246,14 @@ class Tag < ApplicationRecord
     when 'normal'
       TagSerializer.new(data,
                         fields:  {
-                          tag: %i[id userId name description synonyms priority visibility visibilityTranslated taggedArticlesCount childOnly slug parentIds childIds topicIds],
+                          tag: %i[id userId name description synonyms priority visibility visibilityTranslated taggedArticlesCount childOnly slug parentIds childIds topicIds]
                         },
                         include: [],
                         **options)
     else
       TagSerializer.new(data,
                         fields:  {
-                          tag: %i[id userId name synonyms visibility taggedArticlesCount slug description],
+                          tag: %i[id userId name synonyms visibility taggedArticlesCount slug description]
                         },
                         include: [],
                         **options)

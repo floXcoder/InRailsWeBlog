@@ -26,7 +26,7 @@ webPackConfig.output = {
     publicPath: config.output.publicPath
 };
 
-webPackConfig.externals = config.externals;
+// webPackConfig.externals = config.externals;
 
 webPackConfig.resolve = {
     // tell webpack which extensions to auto search when it resolves modules. With this,
@@ -43,7 +43,7 @@ webPackConfig.resolve = {
 _.forEach(config.alias, (value, key) => webPackConfig.resolve.alias[key] = path.resolve(value));
 
 webPackConfig.module = {
-    noParse: config.modules.noParse,
+    // noParse: config.modules.noParse,
     rules: [
         {
             test: /\.(js|jsx)$/i,
@@ -128,6 +128,10 @@ webPackConfig.plugins = [
     })
 ];
 
-_.map(config.ignorePlugins, (ignore) => {
-    webPackConfig.plugins.push(new webpack.IgnorePlugin(ignore));
-});
+// _.map(config.replacementPlugins, (context) => {
+//     webPackConfig.plugins.push(new webpack.ContextReplacementPlugin(context[0], context[1]))
+// });
+
+// _.map(config.ignorePlugins, (ignore) => {
+//     webPackConfig.plugins.push(new webpack.IgnorePlugin(ignore));
+// });

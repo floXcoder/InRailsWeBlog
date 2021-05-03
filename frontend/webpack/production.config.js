@@ -169,12 +169,13 @@ webPackConfig.plugins.push(
         chunkFilename: config.production.chunkFilename + '.css'
     }),
     new WorkboxPlugin.GenerateSW({
+        swDest: config.serviceWorker.dest,
+        inlineWorkboxRuntime: true,
         additionalManifestEntries: config.serviceWorker.additionalFiles,
         clientsClaim: true,
         skipWaiting: true,
         offlineGoogleAnalytics: false,
         maximumFileSizeToCacheInBytes: 1_200_000,
-        swDest: config.serviceWorker.dest,
         exclude: config.serviceWorker.exclude,
         runtimeCaching: config.serviceWorker.runtimeCaching,
         // navigateFallback: config.serviceWorker.offlineFile,

@@ -37,7 +37,7 @@ import {
 } from '../../../constants/routesHelper';
 
 import {
-    HomeSearchHeader,
+    // HomeSearchHeader,
     UserSignup,
     UserLogin
 } from '../../loaders/components';
@@ -51,6 +51,8 @@ import {
 import ErrorBoundary from '../../errors/boundary';
 
 import HeadLayout from '../head';
+
+import HomeSearchHeader from '../header/search';
 
 import styles from '../../../../jss/default/header';
 
@@ -102,7 +104,7 @@ class HeaderLayoutDefault extends React.Component {
 
     componentDidMount() {
         setTimeout(() => this.setState({isSearchLoaded: true}), window.seoMode ? 20 : 200);
-        setTimeout(() => this.setState({isConnectLoaded: true}), window.seoMode ? 30 : 1000);
+        // setTimeout(() => this.setState({isConnectLoaded: true}), window.seoMode ? 30 : 1000);
     }
 
     _handleTitleClick = () => {
@@ -285,13 +287,13 @@ class HeaderLayoutDefault extends React.Component {
 
                         {
                             this.state.isSearchLoaded && !this.props.routeProperties.noHeaderSearch &&
-                            <Suspense fallback={<div/>}>
-                                <ErrorBoundary errorType="notification">
-                                    <HomeSearchHeader isSearchActive={isSearchActive}
-                                                      onFocus={this._handleSearchOpen}
-                                                      onClose={this._handleSearchClose}/>
-                                </ErrorBoundary>
-                            </Suspense>
+                            // <Suspense fallback={<div/>}>
+                            //     <ErrorBoundary errorType="notification">
+                            <HomeSearchHeader isSearchActive={isSearchActive}
+                                              onFocus={this._handleSearchOpen}
+                                              onClose={this._handleSearchClose}/>
+                            //     </ErrorBoundary>
+                            // </Suspense>
                         }
 
                         <div className={this.props.classes.grow}/>

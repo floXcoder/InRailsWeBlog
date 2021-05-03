@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: shares
@@ -79,7 +80,7 @@ class Share < ApplicationRecord
 
   # == Instance Methods =====================================================
   def user?(user)
-    self.user_id == user.id
+    self.user_id == user.id if user
   end
 
   def generate_public_link

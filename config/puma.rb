@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Puma can serve each request in a thread from an internal thread pool.
 # The `threads` method setting takes two numbers: a minimum and maximum.
 # Any libraries that use thread pools should be configured to match
@@ -5,16 +7,16 @@
 # and maximum; this matches the default thread size of Active Record.
 #
 # !!! In production, they are defined in /etc/systemd/system/inrailsweblog-puma.service
-nb_workers = Integer(ENV.fetch('PUMA_WORKERS') { 8 })
-nb_threads = Integer(ENV.fetch('PUMA_THREADS') { 4 })
+nb_workers = Integer(ENV.fetch('PUMA_WORKERS', 8))
+nb_threads = Integer(ENV.fetch('PUMA_THREADS', 4))
 
 # Specifies the `port` that Puma will listen on to receive requests; default is 3000.
 #
-port Integer(ENV.fetch('PUMA_PORT') { 3000 })
+port Integer(ENV.fetch('PUMA_PORT', 3000))
 
 # Specifies the `environment` that Puma will run in.
 #
-environment ENV.fetch('RAILS_ENV') { 'development' }
+environment ENV.fetch('RAILS_ENV', 'development')
 
 # Store the pid of the server in the file at "path".
 #

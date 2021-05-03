@@ -89,6 +89,17 @@ export default {
                 exact: false,
                 component: () => RouteComponents.ArticleIndex
             },
+            // tagged
+            {
+                path: Routes.taggedArticlesPath(':tagSlug', ':childTagSlug?', false),
+                exact: false,
+                component: () => RouteComponents.ArticleIndex
+            },
+            {
+                path: Routes.taggedTopicArticlesPath(':userSlug', ':topicSlug', ':tagSlug', ':childTagSlug?', '(topics|shared-topics)', false),
+                exact: false,
+                component: () => RouteComponents.ArticleIndex
+            },
             // user: password
             {
                 path: Routes.newPasswordPath(false),

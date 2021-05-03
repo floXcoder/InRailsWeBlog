@@ -15,8 +15,6 @@ describe 'Home API', type: :request, basic: true do
       expect(response).to be_html_response
       expect(response.body).to match('id="react-component"')
       expect(response.body).to match('lang="en"')
-      expect(response.body).to match('<title>')
-      expect(response.body).to match('<meta name="description"')
     end
 
     context 'when seo data are changed' do
@@ -45,39 +43,6 @@ describe 'Home API', type: :request, basic: true do
     end
   end
 
-  describe '/de (HTML)' do
-    it 'returns home page in german' do
-      get '/de'
-
-      expect(response).to be_html_response
-      expect(response.body).to match('lang="de"')
-    ensure
-      I18n.locale = I18n.default_locale
-    end
-  end
-
-  describe '/es (HTML)' do
-    it 'returns home page in spanish' do
-      get '/es'
-
-      expect(response).to be_html_response
-      expect(response.body).to match('lang="es"')
-    ensure
-      I18n.locale = I18n.default_locale
-    end
-  end
-
-  describe '/it (HTML)' do
-    it 'returns home page in italian' do
-      get '/it'
-
-      expect(response).to be_html_response
-      expect(response.body).to match('lang="it"')
-    ensure
-      I18n.locale = I18n.default_locale
-    end
-  end
-
   describe '/users/:user_slug/topics (HTML)' do
     context 'when not connected' do
       it 'returns user home page' do
@@ -98,8 +63,6 @@ describe 'Home API', type: :request, basic: true do
         expect(response).to be_html_response
         expect(response.body).to match('id="react-component"')
         expect(response.body).to match('lang="en"')
-        expect(response.body).to match('<title>')
-        expect(response.body).to match('<meta name="description"')
         expect(response.body).to match('data-current-user="{')
       end
     end

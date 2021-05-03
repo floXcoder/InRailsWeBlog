@@ -13,24 +13,21 @@ import {
 } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-// import IconButton from '@material-ui/core/IconButton';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
-// import CardActions from '@material-ui/core/CardActions';
-
-// import EditIcon from '@material-ui/icons/Edit';
-// import LabelIcon from '@material-ui/icons/Label';
 
 import {
     tagsPath,
     showTagPath,
+    userTopicPath,
     // editTagPath,
     sortTagPath
 } from '../../constants/routesHelper';
 
 import {
     fetchTags,
+    fetchTopic,
     spyTrackClick
 } from '../../actions';
 
@@ -47,15 +44,18 @@ import Loader from '../theme/loader';
 
 import styles from '../../../jss/tag/index';
 
+
 export default @connect((state) => ({
     isUserConnected: state.userState.isConnected,
     currentUser: state.userState.user,
     currentTopic: state.topicState.currentTopic,
+    topic: state.topicState.topic,
     isFetching: state.tagState.isFetching,
     publicTags: getPublicTags(state),
     privateTags: getPrivateTags(state)
 }), {
-    fetchTags
+    fetchTags,
+    fetchTopic
 })
 @hot
 @withStyles(styles)
@@ -67,9 +67,11 @@ class TagIndex extends React.Component {
         currentUser: PropTypes.object,
         currentTopic: PropTypes.object,
         isFetching: PropTypes.bool,
+        topic: PropTypes.object,
         publicTags: PropTypes.array,
         privateTags: PropTypes.array,
         fetchTags: PropTypes.func,
+        fetchTopic: PropTypes.func,
         // from styles
         classes: PropTypes.object
     };
@@ -99,11 +101,15 @@ class TagIndex extends React.Component {
                 limit: tagSidebarLimit
             });
         }
+
+        if (this.props.routeParams.topicSlug && this.props.routeParams.userSlug) {
+            this.props.fetchTopic(this.props.routeParams.userSlug, this.props.routeParams.topicSlug, {no_meta: true});
+        }
     }
 
     _renderTitle = () => {
-        if (this.props.routeParams.topicSlug && this.props.currentTopic) {
-            return I18n.t('js.tag.index.titles.topic', {topic: this.props.currentTopic.name});
+        if (this.props.routeParams.topicSlug) {
+            return I18n.t('js.tag.index.titles.topic', {topic: this.props.currentTopic?.name || this.props.topic?.name});
         } else if (this.props.routeParams.userSlug) {
             return I18n.t('js.tag.index.titles.user');
         } else {
@@ -182,7 +188,7 @@ class TagIndex extends React.Component {
 
         return (
             <div className={this.props.classes.root}>
-                <div className="margin-bottom-20">
+                <div className="margin-top-30 margin-bottom-20">
                     <Typography className={this.props.classes.title}
                                 component="h1"
                                 variant="h1">
@@ -202,6 +208,22 @@ class TagIndex extends React.Component {
                         </div>
                     }
                 </div>
+
+                {
+                    this.props.topic?.description &&
+                    <div className="margin-top-30 margin-bottom-20">
+                        {this.props.topic.description}
+
+                        <div className="margin-top-30 center-align">
+                            <Button color="default"
+                                    size="small"
+                                    component={Link}
+                                    to={userTopicPath(this.props.topic.user.slug, this.props.topic.slug)}>
+                                {I18n.t('js.tag.index.links.parent_topic', {topic: this.props.topic.name})}
+                            </Button>
+                        </div>
+                    </div>
+                }
 
                 <div className="row">
                     <div className={classNames('col s12', {
@@ -223,7 +245,7 @@ class TagIndex extends React.Component {
                                 </div>
                                 :
                                 <Typography variant="body1">
-                                    {I18n.t('js.tag.common.no_publics')}
+                                    <em>{I18n.t('js.tag.common.no_publics')}</em>
                                 </Typography>
                         }
                     </div>
@@ -248,7 +270,7 @@ class TagIndex extends React.Component {
                                         </div>
                                         :
                                         <Typography variant="body1">
-                                            {I18n.t('js.tag.common.no_privates')}
+                                            <em>{I18n.t('js.tag.common.no_privates')}</em>
                                         </Typography>
                                 }
                             </div>
@@ -285,4 +307,5 @@ class TagIndex extends React.Component {
             </div>
         );
     }
+
 }

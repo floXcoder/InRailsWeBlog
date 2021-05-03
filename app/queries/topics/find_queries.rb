@@ -81,16 +81,11 @@ module Topics
       def filter_by(filter, current_user = nil)
         return self if filter.blank?
 
-        records = self
-
-        records = records.from_user(filter[:user_id], current_user&.id) if filter[:user_id]
-
-        records = records.bookmarked_by_user(current_user.id) if filter[:bookmarked] && current_user
-
-        records = records.where(accepted: filter[:accepted]) if filter[:accepted]
-        records = records.with_visibility(filter[:visibility]) if filter[:visibility]
-
-        return records
+        return self
+                 .then { |relation| filter[:user_id] ? relation.from_user(filter[:user_id], current_user&.id) : relation }
+                 .then { |relation| filter[:bookmarked] && current_user ? bookmarked_by_user(current_user.id) : relation }
+                 .then { |relation| filter[:accepted] ? relation.where(accepted: filter[:accepted]) : relation }
+                 .then { |relation| filter[:visibility] ? relation.with_visibility(filter[:visibility]) : relation }
       end
 
       def paginate_or_limit(params)

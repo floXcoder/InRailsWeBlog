@@ -14,7 +14,7 @@ ActiveSupport::Inflector.inflections(:en) do |inflect|
   inflect.irregular('child', 'children')
   inflect.irregular('person', 'people')
   inflect.irregular('self', 'selves')
-  inflect.uncountable(%w(series))
+  inflect.uncountable(%w[series])
 end
 
 ActiveSupport::Inflector.inflections(:fr) do |inflect|

@@ -220,7 +220,7 @@ describe Articles::FindQueries, type: :query, basic: true do
           articles = ::Articles::FindQueries.new(@user).all(user_id: @user.id, topic_id: @public_topic.id)
 
           expect(articles).to match_array(@public_articles)
-          expect(articles.first).to eq(@public_articles.sort_by(&:created_at).reverse.first)
+          expect(articles.first).to eq(@public_articles.sort_by(&:created_at).last)
         end
 
         it 'returns articles by ascendant date' do
@@ -245,7 +245,7 @@ describe Articles::FindQueries, type: :query, basic: true do
           articles = ::Articles::FindQueries.new(@user).all(user_id: @user.id, topic_id: @public_topic.id)
 
           expect(articles).to match_array(@public_articles)
-          expect(articles.first).to eq(@public_articles.sort_by(&:created_at).reverse.first)
+          expect(articles.first).to eq(@public_articles.sort_by(&:created_at).last)
         end
       end
 

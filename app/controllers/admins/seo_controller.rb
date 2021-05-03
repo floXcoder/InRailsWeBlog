@@ -40,9 +40,9 @@ class Admins::SeoController < AdminsController
         name       = params[:route]
         locale     = route_parameters.defaults[:locale].presence || I18n.default_locale
         parameters = route_parameters.parts - [:format]
-        url = Rails.application.routes.url_helpers.send("#{name}_path", Hash[*(parameters.map { |p| [p, p] }.flatten)]) rescue nil
+        url = Rails.application.routes.url_helpers.send("#{name}_path", Hash[*parameters.map { |p| [p, p] }.flatten]) rescue nil
       else
-        error = "Named route not found"
+        error = 'Named route not found'
       end
     elsif params[:url]
       begin
@@ -52,17 +52,17 @@ class Admins::SeoController < AdminsController
           locale     = route_url[:locale].presence || I18n.default_locale
           parameters = route_url.except(:controller, :action, :name).keys
         else
-          error = "URL non définissable pour le SEO"
+          error = 'URL not available for SEO'
         end
       rescue ActionController::RoutingError
-        error = "L'url n'est pas disponible sur le site"
+        error = 'URL not available on website'
       end
     end
 
     if error
       render json: { error: error }, status: :unprocessable_entity and return
     else
-      parameters = parameters.map { |parameter| Seo::Data.associated_parameters[parameter] }.flatten.concat(parameters).compact.uniq
+      parameters = parameters.map { |parameter| Seo::Data.associated_parameters[parameter.to_sym] }.flatten.concat(parameters).compact.map(&:to_sym).uniq
 
       render json: {
         name:       name,

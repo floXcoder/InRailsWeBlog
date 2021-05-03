@@ -6,7 +6,7 @@ describe Topics::StoreService, type: :service, basic: true do
   subject { described_class.new }
 
   before(:all) do
-    @user  = create(:user)
+    @user = create(:user)
 
     @topic = create(:topic, user: @user)
   end

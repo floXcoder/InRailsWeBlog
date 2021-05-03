@@ -46,21 +46,24 @@ $small-screen: 600px;
 $medium-screen: 960px;
 $large-screen: 1280px;
 
-$medium-and-up: "only screen and (min-width: #{$small-screen-up})";
-$large-and-up: "only screen and (min-width: #{$medium-screen-up})";
-$small-and-down: "only screen and (max-width: #{$small-screen})";
-$medium-and-down: "only screen and (max-width: #{$medium-screen})";
-$medium-only: "only screen and (min-width: #{$small-screen-up}) and (max-width: #{$medium-screen})";
+$medium-and-up: 'only screen and (min-width: #{$small-screen-up})';
+$large-and-up: 'only screen and (min-width: #{$medium-screen-up})';
+$small-and-down: 'only screen and (max-width: #{$small-screen})';
+$medium-and-down: 'only screen and (max-width: #{$medium-screen})';
+$medium-only: 'only screen and (min-width: #{$small-screen-up}) and (max-width: #{$medium-screen})';
 
-$large-and-down: "only screen and (max-width: #{$large-screen})";
-$extra-large-and-up: "only screen and (min-width: #{$large-screen})";
-$large-only: "only screen and (min-width: #{$medium-screen}) and (max-width: #{$large-screen})";
+$large-and-down: 'only screen and (max-width: #{$large-screen})';
+$extra-large-and-up: 'only screen and (min-width: #{$large-screen})';
+$large-only: 'only screen and (min-width: #{$medium-screen}) and (max-width: #{$large-screen})';
 
 // Grid
 $num-cols: 12;
 $gutter-width: 1.5rem !default;
 $element-top-margin: $gutter-width/3 !default;
 $element-bottom-margin: ($gutter-width*2)/3 !default;
+
+// Articles
+$top-header-scroll-margin: 75px;
 
 // Mixins
 // ------------------------------------

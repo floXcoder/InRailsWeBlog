@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: articles
@@ -343,7 +344,7 @@ class Article < ApplicationRecord
 
   # == Instance Methods =====================================================
   def user?(user)
-    user.id == self.user_id if user
+    self.user_id == user.id if user
   end
 
   def user_slug
@@ -380,7 +381,7 @@ class Article < ApplicationRecord
 
     picture = if self.pictures_count > 0
                 # Use sort_by to avoid N+1 queries and new graph model
-                self.pictures.sort_by(&:priority).reverse.first.image.medium.url
+                self.pictures.sort_by(&:priority).last.image.medium.url
               else
                 default_picture
               end
@@ -431,11 +432,11 @@ class Article < ApplicationRecord
   end
 
   def remove_outdated(user)
-    if !self.marked_as_outdated.exists?(user.id)
+    if self.marked_as_outdated.exists?(user.id)
+      return self.marked_as_outdated.delete(user)
+    else
       errors.add(:outdated, I18n.t('activerecord.errors.models.outdated_article.not_outdated'))
       return false
-    else
-      return self.marked_as_outdated.delete(user)
     end
   end
 
@@ -457,9 +458,11 @@ class Article < ApplicationRecord
         "#{self.title_translations[I18n.locale.to_s]}__at__#{self.topic&.slug}"
       ]
     else
-      [
-        "#{self.title}__at__#{self.topic&.slug}"
-      ]
+      # Set slug only if title is present in current locale
+      # [
+      #   "#{self.title}__at__#{self.topic&.slug}"
+      # ]
+      nil
     end
   end
 
@@ -485,8 +488,9 @@ class Article < ApplicationRecord
   # end
 
   # Format content for search (keep only return to lines tags)
-  def formatted_content(locale)
-    formatted_content = public_content(true, locale)
+  # force_locale: return content present only in the specified locale
+  def formatted_content(locale, force_locale: false)
+    formatted_content = public_content(with_translations: true, locale: locale, force_locale: force_locale)
     return formatted_content unless formatted_content
 
     # formatted_content = formatted_content.gsub(/<img (.*?)\/?>/im, '')
@@ -494,11 +498,11 @@ class Article < ApplicationRecord
     return formatted_content.strip_html(true)
   end
 
-  def public_content(with_translations = false, locale = nil)
+  def public_content(with_translations: false, locale: nil, force_locale: false)
     if with_translations && locale
       if self.content_translations[locale.to_s].present?
         ::Sanitizer.new.remove_secrets(self.content_translations[locale.to_s])
-      else
+      elsif !force_locale
         # Select first content not empty
         ::Sanitizer.new.remove_secrets(self.content_translations.compact&.first&.last)
       end
@@ -513,9 +517,9 @@ class Article < ApplicationRecord
     self.content&.match?(/<(\w+) class="secret">.*?<\/\1>/im)
   end
 
-  def adapted_content(current_user_id = nil, with_translations = false)
+  def adapted_content(current_user_id = nil, with_translations: false)
     if private_content? && self.user_id != current_user_id
-      public_content(with_translations)
+      public_content(with_translations: with_translations)
     else
       if with_translations
         self.content_translations
@@ -547,22 +551,22 @@ class Article < ApplicationRecord
       tag_slugs:       self.tags.map(&:slug),
       mode:            self.mode,
       mode_translated: mode_translated,
-      title:           self.title, # Fetch first translation if title not found in current locale
-      content:    formatted_content(I18n.locale.to_s),
-      reference:  self.reference,
-      languages:  self.languages,
-      draft:      self.draft,
-      notation:   self.notation,
-      priority:   self.priority,
-      visibility: self.visibility,
-      archived:   self.archived,
-      accepted:   self.accepted,
-      created_at: self.created_at,
-      updated_at: self.updated_at,
-      rank:       self.rank,
-      popularity: self.popularity,
-      slug:       self.slug
-    }.merge(inventories)
+      title:           self.title_translations[I18n.locale.to_s],
+      content:         formatted_content(I18n.locale.to_s, force_locale: true),
+      reference:       self.reference,
+      languages:       self.languages,
+      draft:           self.draft,
+      notation:        self.notation,
+      priority:        self.priority,
+      visibility:      self.visibility,
+      archived:        self.archived,
+      accepted:        self.accepted,
+      created_at:      self.created_at,
+      updated_at:      self.updated_at,
+      rank:            self.rank,
+      popularity:      self.popularity,
+      slug:            self.slug
+    }.merge(self.inventories)
   end
 
   def public_share_link

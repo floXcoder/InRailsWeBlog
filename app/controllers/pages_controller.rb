@@ -54,10 +54,9 @@ class PagesController < ApplicationController
   end
 
   def about
+    expires_in InRailsWeBlog.config.cache_time, public: true
     respond_to do |format|
       format.html do
-        expires_in InRailsWeBlog.config.cache_time, public: true
-
         set_seo_data(:about)
 
         render_associated_page(page: 'about')
@@ -66,10 +65,9 @@ class PagesController < ApplicationController
   end
 
   def terms
+    expires_in InRailsWeBlog.config.cache_time, public: true
     respond_to do |format|
       format.html do
-        expires_in InRailsWeBlog.config.cache_time, public: true
-
         set_seo_data(:terms)
 
         render_associated_page(page: 'terms')
@@ -78,10 +76,9 @@ class PagesController < ApplicationController
   end
 
   def privacy
+    expires_in InRailsWeBlog.config.cache_time, public: true
     respond_to do |format|
       format.html do
-        expires_in InRailsWeBlog.config.cache_time, public: true
-
         set_seo_data(:privacy)
 
         render_associated_page(page: 'privacy')

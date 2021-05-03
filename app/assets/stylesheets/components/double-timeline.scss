@@ -1,20 +1,22 @@
 .double-timeline {
-  position: relative;
   margin-bottom: 1.3rem;
-  &:after {
+  position: relative;
+
+  &::after {
+    clear: both;
     content: '';
     display: table;
-    clear: both;
   }
-  &:before {
+
+  &::before {
+    background: #e0e0e0;
     content: '';
-    position: absolute;
-    top: 0;
+    height: 100%;
     left: 50%;
     margin-left: -2px;
-    height: 100%;
+    position: absolute;
+    top: 0;
     width: 4px;
-    background: #e0e0e0;
   }
 
   @media only screen and(max-width: 992px) {
@@ -33,11 +35,11 @@
       .timeline-content {
         float: none;
 
-        &:before {
-          left: auto;
-          right: 100%;
+        &::before {
           border-color: transparent;
           border-right-color: #fff;
+          left: auto;
+          right: 100%;
         }
 
         .timeline-date {
@@ -56,26 +58,26 @@
       width: 100%;
 
       .timeline-date {
-        position: relative;
         left: 0;
+        position: relative;
       }
     }
 
-    .timeline:before {
+    .timeline::before {
       left: 28px;
       margin-left: 0;
     }
   }
 
   .timeline-block {
-    position: relative;
-    margin: 4em 0;
     clear: both;
+    margin: 4em 0;
+    position: relative;
 
-    &:after {
+    &::after {
+      clear: both;
       content: '';
       display: table;
-      clear: both;
     }
 
     &:first-child {
@@ -89,11 +91,11 @@
     &:nth-child(even) .timeline-content {
       float: right;
 
-      &:before {
-        left: auto;
-        right: 100%;
+      &::before {
         border-color: transparent;
         border-right-color: #fff;
+        left: auto;
+        right: 100%;
       }
 
       .timeline-date {
@@ -105,19 +107,19 @@
   }
 
   .timeline-icon {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    width: 60px;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .26);
+    font-size: 2.5rem;
     height: 60px;
+    left: 50%;
     line-height: 60px;
     margin-left: -30px;
-    border-radius: 50%;
-    background: #fff;
-    font-size: 2.5rem;
-    text-align: center;
     overflow: hidden;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, .26);
+    position: absolute;
+    text-align: center;
+    top: 0;
+    width: 60px;
 
     > .material-icons {
       vertical-align: baseline;
@@ -130,15 +132,15 @@
   }
 
   .timeline-content {
-    position: relative;
     margin: 0;
+    position: relative;
     width: 45%;
 
-    &:before {
-      top: 24px;
-      left: 100%;
+    &::before {
       border-color: transparent;
       border-left-color: #fff;
+      left: 100%;
+      top: 24px;
     }
 
     .timeline-title {
@@ -148,8 +150,8 @@
     }
 
     .timeline-link {
-      margin: .6rem 0;
       color: #757575;
+      margin: .6rem 0;
 
       a {
         color: inherit;
@@ -162,35 +164,35 @@
 
     .timeline-date {
       display: inline-block;
-      position: absolute;
       float: left;
-      padding: .8em 0;
-      opacity: .7;
-      width: 100%;
       left: 122%;
+      opacity: .7;
+      padding: .8em 0;
+      position: absolute;
       top: 10px;
+      width: 100%;
     }
 
-    &.card-panel:before {
-      content: '';
-      position: absolute;
-      top: 20px;
-      right: 100%;
-      height: 0;
-      width: 0;
+    &.card-panel::before {
       border: 10px solid transparent;
       border-left: 10px solid #fff;
+      content: '';
+      height: 0;
+      position: absolute;
+      right: 100%;
+      top: 20px;
+      width: 0;
     }
 
-    &.card:before {
-      content: '';
-      position: absolute;
-      top: 20px;
-      right: 100%;
-      height: 0;
-      width: 0;
+    &.card::before {
       border: 10px solid transparent;
       border-left: 10px solid #fff;
+      content: '';
+      height: 0;
+      position: absolute;
+      right: 100%;
+      top: 20px;
+      width: 0;
     }
   }
 }

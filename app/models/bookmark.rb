@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: bookmarks
@@ -52,7 +53,7 @@ class Bookmark < ApplicationRecord
 
   # == Instance Methods =====================================================
   def user?(user)
-    self.user_id == user.id
+    self.user_id == user.id if user
   end
 
   def add(user, model_name, model_id, topic_id)

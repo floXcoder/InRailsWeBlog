@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: seo_datas
@@ -12,8 +14,16 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
+
 FactoryBot.define do
   factory :seo_data, class: 'Seo::Data' do
+
+    name          { Faker::Lorem.sentence }
+    parameters    { [] }
+    page_title    { {en: Faker::Lorem.sentence} }
+    meta_desc     { { en: Faker::Lorem.paragraph(sentence_count: 1)} }
+    locale        { 'en' }
+    languages     { ['en'] }
 
   end
 end

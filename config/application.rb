@@ -62,7 +62,6 @@ module InRailsWeBlog
     config.log_level = :info
 
     # I18n configuration
-    config.i18n.load_path      += Dir[Rails.root.join('config', 'locales', '*.{ yml }').to_s]
     config.i18n.default_locale = :en
     config.i18n.fallbacks      = [:en, :fr]
 
@@ -108,7 +107,7 @@ module InRailsWeBlog
       connect_timeout: 30, # Defaults to 20 seconds
       read_timeout: 0.2, # Defaults to 1 second
       write_timeout: 0.2, # Defaults to 1 second
-      reconnect_attempts: 1, # Defaults to 0
+      reconnect_attempts: 1 # Defaults to 0
     }
 
     # Errors handling

@@ -31,7 +31,7 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
 
   # Set locale for current user
-  before_action :set_locale
+  before_action :set_env
 
   # Reset headers if admin is connected
   before_action :reset_headers_for_admins, if: -> { request.get? }
@@ -42,7 +42,12 @@ class ApplicationController < ActionController::Base
   # Set flash to headers if ajax request
   after_action :flash_to_headers
 
-  def set_locale
+  if Rails.env.development?
+    before_action { Prosopite.scan }
+    after_action { Prosopite.finish }
+  end
+
+  def set_env
     user_env = ::Users::EnvironmentService.new(session,
                                                cookies,
                                                http_accept_language,
@@ -175,7 +180,7 @@ class ApplicationController < ActionController::Base
     end
 
     named_parameters = Seo::Data.named_parameters(parameters)
-    slug_parameters  = Seo::Data.slug_parameters(parameters)
+    slug_parameters  = Seo::Data.slug_parameters(parameters)&.delete_if { |_, value| value.blank? }
 
     if seo_data
       page_title = Seo::Data.convert_parameters(seo_data.page_title, named_parameters)
@@ -185,8 +190,8 @@ class ApplicationController < ActionController::Base
       meta_desc  = I18n.t('seo.default.meta_desc', website: ENV['WEBSITE_NAME'])
     end
 
-    canonical = canonical_url(named_route, model, current_locale, **slug_parameters) unless canonical
-    alternate = alternate_urls(named_route, model, **slug_parameters) unless alternate
+    canonical ||= canonical_url(named_route, model, current_locale, **slug_parameters)
+    alternate ||= alternate_urls(named_route, model, **slug_parameters)
 
     set_meta_tags(title:       titleize(page_title),
                   description: meta_desc,
@@ -197,7 +202,7 @@ class ApplicationController < ActionController::Base
   end
 
   def canonical_url(named_route, model, locale = I18n.locale, **params)
-    locale = locale || 'en'
+    locale ||= 'en'
     host   = Rails.env.development? ? nil : ENV['WEBSITE_FULL_ADDRESS']
 
     if model
@@ -208,12 +213,13 @@ class ApplicationController < ActionController::Base
   end
 
   def alternate_urls(named_route, model, **params)
-    Hash[I18n.available_locales.map { |locale| [locale.to_s, canonical_url(named_route, model, locale, **params)] }]
+    available_locales = model.respond_to?(:languages) ? model.languages : I18n.available_locales
+    available_locales.map { |locale| [locale.to_s, canonical_url(named_route, model, locale, **params)] }.to_h
       .merge('x-default': canonical_url(named_route, model, 'en', **params))
   end
 
   def image_url(url)
-    ("#{Rails.env.production? ? 'https' : 'http'}://#{ENV['WEBSITE_ASSET']}/") + 'assets/' + url
+    "#{Rails.env.production? ? 'https' : 'http'}://#{ENV['WEBSITE_ASSET']}/assets/#{url}"
   end
 
   def titleize(page_title)
@@ -484,7 +490,7 @@ class ApplicationController < ActionController::Base
     return if !json_request? || flash.empty? || response.status == 302
 
     # avoiding XSS injections via flash
-    flash_json                           = Hash[flash.map { |k, v| [k, ERB::Util.h(v)] }].to_json
+    flash_json                           = flash.map { |k, v| [k, ERB::Util.h(v)] }.to_h.to_json
     response.headers['X-Flash-Messages'] = flash_json
     # flash.discard
   end

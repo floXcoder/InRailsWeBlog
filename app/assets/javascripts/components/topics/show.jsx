@@ -19,9 +19,10 @@ import LabelIcon from '@material-ui/icons/Label';
 import ShareIcon from '@material-ui/icons/Share';
 
 import {
+    userTopicPath,
     taggedTopicArticlesPath,
     editTopicPath,
-    shareTopicParam
+    shareTopicParam, topicArticlesPath
 } from '../../constants/routesHelper';
 
 import {
@@ -37,6 +38,7 @@ import Loader from '../theme/loader';
 import NotFound from '../layouts/notFound';
 
 import styles from '../../../jss/topic/show';
+
 
 export default @connect((state) => ({
     currentUserId: state.userState.currentId,
@@ -111,36 +113,44 @@ class TopicShow extends React.Component {
                 <Typography className={this.props.classes.title}
                             component="h1"
                             variant="h1">
-                    {this.props.topic.name}
+                    {I18n.t('js.topic.show.title', {name: this.props.topic.name})}
                 </Typography>
 
-
                 <div className="row">
-                    <div className="col s12 l8">
-                        <div>
-                            <Typography className={this.props.classes.subtitle}
-                                        component="h2"
-                                        variant="h2">
-                                {I18n.t('js.topic.model.description')}
-                            </Typography>
+                    <div className="col s12 center">
+                        <Button color="primary"
+                                variant="outlined"
+                                size="small"
+                                component={Link}
+                                to={topicArticlesPath(this.props.topic.user.slug, this.props.topic.slug)}>
+                            {I18n.t('js.topic.show.topic_articles', {name: this.props.topic.name})}
+                        </Button>
+                    </div>
 
-                            <div className="margin-bottom-65">
-                                {
-                                    this.props.topic.description
-                                        ?
-                                        this.props.topic.description
-                                        :
-                                        <p className={this.props.classes.emptyDesc}>
-                                            {I18n.t('js.topic.common.no_description')}
-                                        </p>
-                                }
-                            </div>
+                    <div className="col s12 l8">
+                        <Typography className={this.props.classes.subtitle}
+                                    component="h2"
+                                    variant="h2">
+                            {I18n.t('js.topic.model.description')}
+                        </Typography>
+
+                        <div className="margin-bottom-65">
+                            {
+                                this.props.topic.description
+                                    ?
+                                    <h2 className={this.props.classes.description}
+                                        dangerouslySetInnerHTML={{__html: this.props.topic.description}}/>
+                                    :
+                                    <p className={this.props.classes.emptyDesc}>
+                                        {I18n.t('js.topic.common.no_description')}
+                                    </p>
+                            }
                         </div>
 
                         <div>
                             <Typography className={this.props.classes.subtitle}
-                                        component="h2"
-                                        variant="h2">
+                                        variant="h2"
+                                        component="h3">
                                 {I18n.t('js.topic.model.tags')}
                             </Typography>
 
@@ -161,23 +171,12 @@ class TopicShow extends React.Component {
                     </div>
 
                     <div className="col s12 l4">
-                        <div>
-                            <Typography className={this.props.classes.subtitle2}
-                                        component="h3"
-                                        variant="h3">
-                                {I18n.t('js.topic.model.owner')}
-                            </Typography>
-
-                            <UserAvatarIcon className={this.props.classes.avatar}
-                                            user={this.props.topic.user}/>
-                        </div>
-
                         {
                             (this.props.isOwner && this.props.topic.visibility !== 'only_me') &&
                             <div>
                                 <Typography className={this.props.classes.subtitle2}
-                                            component="h3"
-                                            variant="h3">
+                                            variant="h3"
+                                            component="h3">
                                     {I18n.t('js.topic.model.contributors')}
                                 </Typography>
 
@@ -208,20 +207,20 @@ class TopicShow extends React.Component {
 
                         <div>
                             <Typography className={this.props.classes.subtitle2}
-                                        component="h3"
-                                        variant="h3">
+                                        variant="h3"
+                                        component="h3">
                                 {I18n.t('js.topic.model.articles_count')}
                             </Typography>
 
                             <p>
-                                {this.props.topic.articlesCount}
+                                {I18n.t('js.topic.show.articles_count', {count: this.props.topic.articlesCount})}
                             </p>
                         </div>
 
                         <div>
                             <Typography className={this.props.classes.subtitle2}
-                                        component="h3"
-                                        variant="h3">
+                                        variant="h3"
+                                        component="h3">
                                 {I18n.t('js.topic.model.languages')}
                             </Typography>
 
@@ -230,12 +229,23 @@ class TopicShow extends React.Component {
                             </p>
                         </div>
 
+                        <div>
+                            <Typography className={this.props.classes.subtitle2}
+                                        variant="h3"
+                                        component="h3">
+                                {I18n.t('js.topic.model.owner')}
+                            </Typography>
+
+                            <UserAvatarIcon className={this.props.classes.avatar}
+                                            user={this.props.topic.user}/>
+                        </div>
+
                         {
                             this.props.isOwner &&
                             <div>
                                 <Typography className={this.props.classes.subtitle2}
-                                            component="h3"
-                                            variant="h3">
+                                            variant="h3"
+                                            component="h3">
                                     {I18n.t('js.topic.model.visibility')}
                                 </Typography>
 

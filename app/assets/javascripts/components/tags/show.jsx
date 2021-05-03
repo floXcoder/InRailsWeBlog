@@ -18,6 +18,7 @@ import Button from '@material-ui/core/Button';
 import LabelIcon from '@material-ui/icons/Label';
 
 import {
+    taggedArticlesPath,
     showTagPath,
     editTagPath
 } from '../../constants/routesHelper';
@@ -38,6 +39,7 @@ import Loader from '../theme/loader';
 import NotFound from '../layouts/notFound';
 
 import styles from '../../../jss/tag/show';
+
 
 export default @connect((state) => ({
     currentUser: getCurrentUser(state),
@@ -97,126 +99,122 @@ class TagShow extends React.Component {
                 <Typography className={this.props.classes.title}
                             component="h1"
                             variant="h1">
-                    {this.props.tag.name}
+                    {I18n.t('js.tag.show.title', {name: this.props.tag.name})}
                 </Typography>
 
-
                 <div className="row">
+                    <div className="col s12 margin-top-30 center">
+                        <Button color="primary"
+                                variant="outlined"
+                                size="small"
+                                component={Link}
+                                to={taggedArticlesPath(this.props.tag.slug)}>
+                            {I18n.t('js.tag.show.tagged_articles', {name: this.props.tag.name})}
+                        </Button>
+                    </div>
+
                     <div className="col s12 l8">
-                        <div>
+                        <>
                             <Typography className={this.props.classes.subtitle}
-                                        component="h2"
-                                        variant="h2">
+                                        variant="h2"
+                                        component="h3">
                                 {I18n.t('js.tag.model.description')}
                             </Typography>
 
                             {
-                                this.props.tag.description ||
-                                <p>
-                                    <em>{I18n.t('js.tag.common.no_description')}</em>
-                                </p>
-                            }
-                        </div>
-
-                        <div className="margin-bottom-20">
-                            <Typography className={this.props.classes.subtitle}
-                                        component="h2"
-                                        variant="h2">
-                                {I18n.t('js.tag.model.parents')}
-                            </Typography>
-
-                            {
-                                this.props.tag.parents.length > 0
+                                this.props.tag.description
                                     ?
-                                    <div className="tag-parents">
-                                        {
-                                            this.props.tag.parents.map((tag) => (
-                                                <Chip key={tag.id}
-                                                      component={Link}
-                                                      classes={{
-                                                          root: this.props.classes.tagChip,
-                                                          label: this.props.classes.tagLabel
-                                                      }}
-                                                      to={showTagPath(tag.slug)}
-                                                      label={tag.name}
-                                                      variant="outlined"
-                                                      icon={<LabelIcon/>}
-                                                      clickable={true}
-                                                      onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.userId, tag.name, null)}/>
-                                            ))
-                                        }
-                                    </div>
+                                    <h2 className={this.props.classes.description}
+                                        dangerouslySetInnerHTML={{__html: this.props.tag.description}}/>
                                     :
                                     <p>
-                                        <em>{I18n.t('js.tag.common.no_parents')}</em>
+                                        <em>{I18n.t('js.tag.common.no_description')}</em>
                                     </p>
                             }
-                        </div>
+                        </>
 
-                        <div className="margin-bottom-20">
-                            <Typography className={this.props.classes.subtitle}
-                                        component="h2"
-                                        variant="h2">
-                                {I18n.t('js.tag.model.children')}
-                            </Typography>
+                        {
+                            this.props.tag.parents.length > 0 &&
+                            <div className="margin-bottom-20">
+                                <Typography className={this.props.classes.subtitle}
+                                            variant="h2"
+                                            component="h3">
+                                    {I18n.t('js.tag.model.parents')}
+                                </Typography>
 
-                            {
-                                this.props.tag.children.length > 0
-                                    ?
-                                    <div>
-                                        {
-                                            this.props.tag.children.map((tag) => (
-                                                <Chip key={tag.id}
-                                                      component={Link}
-                                                      classes={{
-                                                          root: this.props.classes.tagChip,
-                                                          label: this.props.classes.tagLabel
-                                                      }}
-                                                      to={showTagPath(tag.slug)}
-                                                      label={tag.name}
-                                                      variant="outlined"
-                                                      icon={<LabelIcon/>}
-                                                      clickable={true}
-                                                      onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.userId, tag.name, null)}/>
-                                            ))
-                                        }
-                                    </div>
-                                    :
-                                    <span>
-                                        <em>{I18n.t('js.tag.common.no_children')}</em>
-                                    </span>
-                            }
-                        </div>
+                                <div className="tag-parents">
+                                    {
+                                        this.props.tag.parents.map((tag) => (
+                                            <Chip key={tag.id}
+                                                  component={Link}
+                                                  classes={{
+                                                      root: this.props.classes.tagChip,
+                                                      label: this.props.classes.tagLabel
+                                                  }}
+                                                  to={showTagPath(tag.slug)}
+                                                  label={tag.name}
+                                                  variant="outlined"
+                                                  icon={<LabelIcon/>}
+                                                  clickable={true}
+                                                  onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.userId, tag.name, null)}/>
+                                        ))
+                                    }
+                                </div>
+                            </div>
+                            // <p>
+                            //     <em>{I18n.t('js.tag.common.no_parents')}</em>
+                            // </p>
+                        }
+
+                        {
+                            this.props.tag.children.length > 0 &&
+                            <div className="margin-bottom-20">
+                                <Typography className={this.props.classes.subtitle}
+                                            variant="h2"
+                                            component="h3">
+                                    {I18n.t('js.tag.model.children')}
+                                </Typography>
+
+                                {
+                                    this.props.tag.children.map((tag) => (
+                                        <Chip key={tag.id}
+                                              component={Link}
+                                              classes={{
+                                                  root: this.props.classes.tagChip,
+                                                  label: this.props.classes.tagLabel
+                                              }}
+                                              to={showTagPath(tag.slug)}
+                                              label={tag.name}
+                                              variant="outlined"
+                                              icon={<LabelIcon/>}
+                                              clickable={true}
+                                              onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.userId, tag.name, null)}/>
+                                    ))
+                                }
+                            </div>
+                            // <span>
+                            //     <em>{I18n.t('js.tag.common.no_children')}</em>
+                            // </span>
+                        }
                     </div>
 
                     <div className="col s12 l4">
                         <div>
                             <Typography className={this.props.classes.subtitle2}
-                                        component="h3"
-                                        variant="h3">
-                                {I18n.t('js.tag.model.owner')}
-                            </Typography>
-
-                            <UserAvatarIcon className={this.props.classes.avatar}
-                                            user={this.props.tag.user}/>
-                        </div>
-
-                        <div>
-                            <Typography className={this.props.classes.subtitle2}
-                                        component="h3"
-                                        variant="h3">
+                                        variant="h3"
+                                        component="h3">
                                 {I18n.t('js.tag.model.articles_count')}
                             </Typography>
 
                             <p>
-                                {this.props.tag.taggedArticlesCount}
+                                {I18n.t('js.tag.show.articles_count', {count: this.props.tag.taggedArticlesCount})}
                             </p>
                         </div>
 
                         <div>
                             <Typography className={this.props.classes.subtitle2}
-                                        component="h3"
-                                        variant="h3">
+                                        variant="h3"
+                                        component="h3">
                                 {I18n.t('js.tag.model.visibility')}
                             </Typography>
 
@@ -227,8 +225,8 @@ class TagShow extends React.Component {
 
                         <div>
                             <Typography className={this.props.classes.subtitle2}
-                                        component="h3"
-                                        variant="h3">
+                                        variant="h3"
+                                        component="h3">
                                 {I18n.t('js.tag.model.synonyms')}
                             </Typography>
 
@@ -243,15 +241,25 @@ class TagShow extends React.Component {
                                         <em>{I18n.t('js.tag.common.no_synonyms')}</em>
                                     </p>
                             }
+                        </div>
 
+                        <div>
+                            <Typography className={this.props.classes.subtitle2}
+                                        variant="h3"
+                                        component="h3">
+                                {I18n.t('js.tag.model.owner')}
+                            </Typography>
+
+                            <UserAvatarIcon className={this.props.classes.avatar}
+                                            user={this.props.tag.user}/>
                         </div>
 
                         {
                             (this.props.currentUser?.id === this.props.tag.user.id && this.props.tag.visibility === 'everyone' && this.props.tag.tracker) &&
                             <div>
                                 <Typography className={this.props.classes.subtitle2}
-                                            component="h3"
-                                            variant="h3">
+                                            variant="h3"
+                                            component="h3">
                                     {I18n.t('js.tag.common.stats.title')}
                                 </Typography>
 

@@ -13,10 +13,9 @@ import {
 import {
     withStyles
 } from '@material-ui/core/styles';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
 import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
+import Tab from '@material-ui/core/Tab';
+import Tabs from '@material-ui/core/Tabs';
 
 import {
     editInventoriesTopicPath,
@@ -30,19 +29,12 @@ import {
 
 import EditorField from '../../editor/form/editor';
 
+import TabContainer from '../../material-ui/tabContainer';
 import TextFormField from '../../material-ui/form/text';
 import MultipleSelectFormField from '../../material-ui/form/multiple-select';
 
 import styles from '../../../../jss/topic/form';
 
-function TabContainer(props) {
-    return (
-        <Typography component="div"
-                    className={props.isActive ? null : 'hide'}>
-            {props.children}
-        </Typography>
-    );
-}
 
 export default @withStyles(styles)
 class TopicFormDisplay extends React.Component {
@@ -77,13 +69,13 @@ class TopicFormDisplay extends React.Component {
         return I18n.t('js.topic.form.unsaved', {location: location.pathname});
     };
 
-    _renderDescription = (handleSubmit, locale = undefined) => {
+    _renderDescriptionField = (handleSubmit, locale = undefined) => {
         const fieldName = locale ? `description_translations[${locale}]` : 'description';
 
         return (
             <Field name={fieldName}
                    component={EditorField}
-                   id={`topic_description_${locale}`}
+                   id={`topic_description_${locale ? '_' + locale : ''}`}
                    modelName="topic"
                    modelId={this.props.children.id}
                    placeholder={I18n.t('js.topic.common.placeholders.description')}
@@ -97,8 +89,15 @@ class TopicFormDisplay extends React.Component {
         let localeOptions = {};
         window.locales.map((locale) => localeOptions[locale] = I18n.t(`js.languages.${locale}`));
 
+        const topicValues = {
+            name: this.props.topic?.name,
+            description: this.props.topic?.description,
+            description_translations: this.props.topic?.descriptionTranslations,
+            languages: this.props.topic?.languages
+        };
+
         return (
-            <Form initialValues={this.props.topic}
+            <Form initialValues={topicValues}
                   validate={validateTopic}
                   onSubmit={this.props.onSubmit}>
                 {
@@ -109,7 +108,7 @@ class TopicFormDisplay extends React.Component {
                                     message={this._onUnsavedExit}/>
 
                             <div className="row">
-                                <div className="col s12">
+                                <div className="col s12 margin-bottom-30">
                                     <Field name="name"
                                            component={TextFormField}
                                            className={this.props.classes.name}
@@ -130,7 +129,7 @@ class TopicFormDisplay extends React.Component {
                                            color="primary"/>
                                 </div>
 
-                                <div className="col s12 margin-top-25">
+                                <div className="col s12 margin-bottom-30">
                                     {
                                         values.languages?.length > 1
                                         ?
@@ -152,13 +151,13 @@ class TopicFormDisplay extends React.Component {
                                                     values.languages.map((locale, i) => (
                                                         <TabContainer key={locale}
                                                                       isActive={this.state.tabStep === i}>
-                                                            {this._renderDescription(handleSubmit, locale)}
+                                                            {this._renderDescriptionField(handleSubmit, locale)}
                                                         </TabContainer>
                                                     ))
                                                 }
                                             </>
                                             :
-                                            this._renderDescription(handleSubmit)
+                                            this._renderDescriptionField(handleSubmit)
                                     }
                                 </div>
 
@@ -189,18 +188,8 @@ class TopicFormDisplay extends React.Component {
                             </div>
 
                             <div className="margin-top-50 margin-bottom-20">
-                                <div className="row">
-                                    <div className="col s6 center-align">
-                                        <Button color="default"
-                                                variant="text"
-                                                size="small"
-                                                component={Link}
-                                                to={this.props.isEditing ? userTopicPath(this.props.children.user.slug, this.props.children.slug) : rootPath()}>
-                                            {I18n.t('js.topic.edit.back_button')}
-                                        </Button>
-                                    </div>
-
-                                    <div className="col s6 center-align">
+                                <div className="row center-align">
+                                    <div className="col s12 margin-bottom-40">
                                         <Button color="primary"
                                                 variant="contained"
                                                 size="small"
@@ -213,6 +202,16 @@ class TopicFormDisplay extends React.Component {
                                                     :
                                                     I18n.t('js.topic.new.submit')
                                             }
+                                        </Button>
+                                    </div>
+
+                                    <div className="col s12">
+                                        <Button color="default"
+                                                variant="text"
+                                                size="small"
+                                                component={Link}
+                                                to={this.props.isEditing ? userTopicPath(this.props.children.user.slug, this.props.children.slug) : rootPath()}>
+                                            {I18n.t('js.topic.edit.back_button')}
                                         </Button>
                                     </div>
                                 </div>
