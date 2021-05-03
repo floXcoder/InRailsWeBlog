@@ -27,8 +27,8 @@ global.Utils = utils;
 
 // Translation
 global.I18n = require('../../app/assets/javascripts/modules/i18n');
-require('./translations/en');
-require('./translations/fr');
+// require('./translations/en');
+// require('./translations/fr');
 I18n.defaultLocale = 'fr';
 I18n.locale = 'fr';
 window.defaultLocale = 'en';

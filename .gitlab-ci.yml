@@ -42,7 +42,14 @@ build:
 
 check_code:
   stage: test
-  cache: { }
+  cache:
+    - key:
+        files:
+          - Gemfile.lock
+      paths:
+        - .bundle/
+        - vendor/bundle/
+      policy: pull
   script:
     - bundle exec rails InRailsWeBlog:check_code
   interruptible: true
@@ -147,7 +154,6 @@ test:npm:
         - node_modules/
       policy: pull
   script:
-    - bundle exec rails i18n:js:export
     - npm run test
   interruptible: true
   when: on_success
