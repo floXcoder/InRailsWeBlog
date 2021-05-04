@@ -372,7 +372,7 @@ class ArticleIndex extends React.Component {
                     }
 
                     {
-                        this.props.tag?.name &&
+                        (this.props.currentState !== 'fetching' && this.props.tag?.name) &&
                         <div className="margin-bottom-40">
                             <h1>
                                 {I18n.t('js.article.index.tagged_title', {tag: this.props.tag.name})}
@@ -381,7 +381,7 @@ class ArticleIndex extends React.Component {
                     }
 
                     {
-                        !this.props.isUserConnected && this.props.user?.pseudo &&
+                        (this.props.currentState !== 'fetching' && !this.props.isUserConnected && this.props.user?.pseudo) &&
                         <div className="margin-bottom-40">
                             <h1>
                                 {I18n.t('js.article.index.user_title', {user: this.props.user.pseudo})}
@@ -390,7 +390,7 @@ class ArticleIndex extends React.Component {
                     }
 
                     {
-                        this.props.topic?.name &&
+                        (this.props.currentState !== 'fetching' && this.props.topic?.name) &&
                         <div className="margin-bottom-40">
                             <h1>
                                 {I18n.t('js.article.index.topic_title', {topic: this.props.topic.name})}

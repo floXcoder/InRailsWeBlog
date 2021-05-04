@@ -416,7 +416,7 @@ fr:
         articles_count:
           zero: "Aucun article pour ce thème"
           one: "1 article pour ce thème"
-          other: "%{count} articles pour ce thème"
+          other: "%{count} articles dans ce thème"
         share: "Partager ce thème"
         edit_link: "Modifier ce thème"
         back_button: "Annuler"
@@ -617,7 +617,7 @@ fr:
       index:
         tagged_title: "Articles avec le label %{tag}"
         user_title: "%{user} articles"
-        topic_title: "Articles pour le thème %{topic}"
+        topic_title: "Articles du thème : %{topic}"
       show:
         recommendations:
           title: "Articles dans le même thème"
