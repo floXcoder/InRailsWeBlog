@@ -43,26 +43,31 @@ module Articles
       end
 
       # Languages
-      if !@params[:title_translations].nil?
-        @article.languages = @params[:title_translations].select { |_, value| value.present? }.keys
-      else
-        @article.languages = [I18n.locale]
-      end
+      @article.languages = if @params[:title_translations].nil?
+                             [I18n.locale]
+                           else
+                             @params[:title_translations].select { |_, value| value.present? }.keys
+                           end
 
-      I18n.locale = new_language.to_sym if new_language != current_language.to_s
+      I18n.locale        = new_language.to_sym if new_language != current_language.to_s
 
       # Sanitization
       if !@params[:title_translations].nil?
         @params.delete(:title_translations).each do |locale, title|
           @article.title_translations[locale] = Sanitize.fragment(title)
         end
-        @article.set_friendly_id
       elsif !@params[:title].nil?
         sanitized_title = Sanitize.fragment(@params[:title])
         @article.title  = sanitized_title
-        @article.set_friendly_id
       end
       @params.delete(:title)
+      @params.delete(:title_translations)
+
+      I18n.available_locales.each do |language|
+        I18n.with_locale(language) do
+          @article.set_friendly_id
+        end
+      end
 
       if !@params[:summary_translations].nil?
         @params.delete(:summary_translations).each do |locale, summary|
@@ -86,6 +91,7 @@ module Articles
         @article.child_relationships = extract_relationships(@article.content)
       end
       @params.delete(:content)
+      @params.delete(:content_translations)
 
       unless @params[:reference].nil?
         reference_url      = ActionController::Base.helpers.sanitize(@params.delete(:reference))

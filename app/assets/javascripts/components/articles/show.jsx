@@ -79,6 +79,7 @@ import ArticleSkeleton from '../loaders/skeletons/article';
 
 import styles from '../../../jss/article/show';
 
+
 export default @withRouter
 @connect((state, props) => ({
     currentUserSlug: state.userState.currentSlug,

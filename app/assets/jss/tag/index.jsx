@@ -18,11 +18,15 @@ const styles = (theme) => ({
     },
     subtitle: {
         fontSize: '2.3rem',
-        marginTop: 40,
-        marginBottom: 15
+        marginTop: theme.spacing(2),
+        marginBottom: theme.spacing(1)
     },
     tagTitle: {
-        color: theme.palette.text.primary
+        marginTop: theme.spacing(2),
+        marginBottom: theme.spacing(1),
+        fontSize: '2.3rem',
+        color: theme.palette.text.primary,
+        textAlign: 'center'
     },
     tagCard: {
         margin: '1.3rem 0'
@@ -32,29 +36,24 @@ const styles = (theme) => ({
         paddingBottom: 8
     },
     tagCount: {
-        width: 32,
-        height: 32,
+        width: '100%',
+        textAlign: 'right',
         fontSize: '1rem',
-        borderRadius: '50%',
-        backgroundColor: theme.palette.grey[300],
-        margin: theme.spacing(2),
-        paddingTop: 3,
-        display: 'inline-block',
-        textAlign: 'center'
+        margin: theme.spacing(2, 3)
     },
     tagButton: {
         color: theme.palette.text.primary,
         margin: theme.spacing(0.5),
     },
     actions: {
-        display: 'flex'
+        flexDirection: 'column'
     },
     buttonsRight: {
         marginLeft: 'auto',
         [theme.breakpoints.up('sm')]: {
             marginRight: -8
         }
-    },
+    }
 });
 
 export default styles;

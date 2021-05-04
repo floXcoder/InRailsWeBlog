@@ -9,6 +9,7 @@ class ApplicationController < ActionController::Base
   # Handle exceptions
   rescue_from StandardError, with: :server_error
   rescue_from NameError, with: :server_error
+  rescue_from ActionController::InvalidAuthenticityToken, with: :not_connected_error
   rescue_from ActiveRecord::RecordNotFound, with: :not_found_error
   rescue_from ActionController::RoutingError, with: :not_found_error
   rescue_from AbstractController::ActionNotFound, with: :not_found_error
@@ -199,6 +200,13 @@ class ApplicationController < ActionController::Base
                   alternate:   alternate,
                   author:      author,
                   og:          og)
+
+    if model.respond_to?(:languages) && model.languages.exclude?(current_locale)
+      set_meta_tags(
+        canonical: canonical_url(named_route, model, model.languages.first, **slug_parameters),
+        noindex:   true
+      )
+    end
   end
 
   def canonical_url(named_route, model, locale = I18n.locale, **params)
@@ -215,7 +223,7 @@ class ApplicationController < ActionController::Base
   def alternate_urls(named_route, model, **params)
     available_locales = model.respond_to?(:languages) ? model.languages : I18n.available_locales
     available_locales.map { |locale| [locale.to_s, canonical_url(named_route, model, locale, **params)] }.to_h
-      .merge('x-default': canonical_url(named_route, model, 'en', **params))
+                     .merge('x-default': canonical_url(named_route, model, 'en', **params))
   end
 
   def image_url(url)
@@ -442,6 +450,21 @@ class ApplicationController < ActionController::Base
         end
       end
       format.all { render body: nil, status: :not_found }
+    end
+  end
+
+  def not_connected_error(exception)
+    respond_to do |format|
+      format.json { render json: { errors: t('views.error.not_connected'), details: exception&.try(:message) }, status: :internal_server_error }
+      format.html do
+        flash.now[:error] = t('views.error.not_connected')
+        if current_user
+          render 'pages/user', locals: { status: 500 }, status: :internal_server_error, layout: 'user'
+        else
+          render 'pages/default', locals: { status: 500 }, status: :internal_server_error, layout: 'application'
+        end
+      end
+      format.all { render body: nil, status: :internal_server_error }
     end
   end
 

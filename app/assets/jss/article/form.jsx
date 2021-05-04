@@ -4,7 +4,7 @@ import {
     articleWidth
 } from '../theme';
 
-const styles = () => ({
+const styles = (theme) => ({
     root: {
         position: 'relative',
         margin: '1rem auto 4rem',
@@ -12,8 +12,10 @@ const styles = () => ({
         maxWidth: articleWidth
     },
     articleForm: {
-        marginLeft: '.75rem',
-        marginRight: '.75rem'
+        [theme.breakpoints.down('md')]: {
+            marginLeft: '.75rem',
+            marginRight: '.75rem'
+        }
     },
     breadcrumb: {
         margin: '1.5rem 0rem',

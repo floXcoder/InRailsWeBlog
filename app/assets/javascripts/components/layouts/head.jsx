@@ -9,7 +9,7 @@ const HeadLayout = ({children}) => {
         return null;
     }
 
-    const {title, description, author, canonical, alternate, og} = children;
+    const {title, description, author, canonical, alternate, og, noindex} = children;
 
     return (
         <Helmet>
@@ -22,6 +22,12 @@ const HeadLayout = ({children}) => {
 
             <meta name="description"
                   content={description}/>
+
+            {
+                noindex &&
+                <meta name="robots"
+                      content="noindex, nofollow"/>
+            }
 
             {
                 canonical &&

@@ -161,9 +161,9 @@ class NotificationComponent extends React.Component {
         return (
             <MuiThemeProvider theme={theme}>
                 <Snackbar anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'center',
-                }}
+                              vertical: 'bottom',
+                              horizontal: 'center',
+                          }}
                           open={this.state.isOpen}
                           autoHideDuration={notificationDuration}
                           onClose={this._handleClose}

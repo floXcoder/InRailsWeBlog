@@ -32,8 +32,9 @@ const styles = (theme) => ({
         fontWeight: h1Weight,
         lineHeight: h1LineHeight,
         letterSpacing: h1Spacing,
+        wordWrap: 'break-word',
         [theme.breakpoints.down('md')]: {
-            marginTop: '2rem',
+            marginTop: '.5rem',
             fontSize: h1SizeMobile,
             lineHeight: h1LineHeightMobile
         }

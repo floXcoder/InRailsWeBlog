@@ -458,11 +458,9 @@ class Article < ApplicationRecord
         "#{self.title_translations[I18n.locale.to_s]}__at__#{self.topic&.slug}"
       ]
     else
-      # Set slug only if title is present in current locale
-      # [
-      #   "#{self.title}__at__#{self.topic&.slug}"
-      # ]
-      nil
+      [
+        "#{self.title}__at__#{self.topic&.slug}"
+      ]
     end
   end
 

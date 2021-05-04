@@ -2,8 +2,9 @@ head itemscope="" itemtype="http://schema.org/WebSite"
   meta charset="utf-8"
   meta name="viewport" content="width=device-width, initial-scale=1.0"
   
-  / Managed by helmut
-  / = display_meta_tags(reverse: true, separator: '|')
+  / Managed by react helmet for non admin pages
+  - if admin_signed_in? && controller.class.name =~ /Admins/
+    = display_meta_tags(reverse: true, separator: '|')
   
   = csrf_meta_tags
   

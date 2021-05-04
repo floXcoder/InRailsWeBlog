@@ -33,7 +33,8 @@ const styles = (theme) => ({
     },
     description: {
         fontSize: '1.1rem',
-        fontWeight: 'inherit'
+        fontWeight: 'inherit',
+        lineHeight: 1.43
     },
     emptyDesc: {
         fontStyle: 'italic'

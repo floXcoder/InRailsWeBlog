@@ -12,10 +12,15 @@ class ArticlesController < ApplicationController
   respond_to :html
 
   def index
+    articles = ::Articles::FindQueries.new(current_user, current_admin).all(article_params)
+
     if article_params[:topic_slug].present?
+      context_topic = articles.first.topic
       set_seo_data(:topic_articles,
-                   topic_slug: article_params[:topic_slug],
-                   user_slug:  article_params[:user_slug])
+                   topic_slug:    article_params[:topic_slug],
+                   user_slug:     article_params[:user_slug],
+                   topic_content: context_topic.description.summary(InRailsWeBlog.config.seo_meta_desc_length),
+                   model:         context_topic)
     elsif article_params[:tag_slug].present? || article_params[:parent_tag_slug].present?
       set_seo_data(:tagged_articles,
                    tag_slug: article_params[:parent_tag_slug].presence || article_params[:tag_slug].presence)
@@ -23,8 +28,6 @@ class ArticlesController < ApplicationController
       set_seo_data(:user_articles,
                    user_slug: article_params[:user_slug])
     end
-
-    articles = ::Articles::FindQueries.new(current_user, current_admin).all(article_params)
 
     track_action(article_ids: articles.map(&:id))
 
@@ -38,7 +41,7 @@ class ArticlesController < ApplicationController
                                                current_user_id: current_user&.id
                                              },
                                              meta:   {
-                                               storyTopic: article_params[:topic_slug].present? && articles.present? && articles.all?(&:story?) ? articles.first.topic.flat_serialized_json(with_model: false) : nil,
+                                               storyTopic: context_topic&.stories? ? context_topic.flat_serialized_json(with_model: false) : nil,
                                                **meta_attributes(pagination: articles)
                                              })
 

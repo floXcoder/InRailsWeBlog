@@ -14,6 +14,9 @@ const EnsureValidity = () => {
                    name="ensure[validity]"
                    defaultValue=""
                    type="text"/>
+
+            <button style={{display: 'none'}}
+                    type="submit"/>
         </div>
     );
 };

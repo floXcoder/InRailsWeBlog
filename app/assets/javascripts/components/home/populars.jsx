@@ -96,42 +96,44 @@ class HomePopulars extends React.Component {
                         </div>
                     }
 
-                    <h2 className={this.props.classes.popularsTitle}>
-                        {I18n.t('js.views.home.populars.title')}
-                    </h2>
+                    <div className={this.props.classes.popularsCategory}>
+                        <h2 className={this.props.classes.popularsTitle}>
+                            {I18n.t('js.views.home.populars.title')}
+                        </h2>
 
-                    <Grid container={true}
-                          spacing={4}
-                          direction="row"
-                          justify="space-between"
-                          alignItems="flex-start">
-                        {
-                            this.props.homeArticles?.length > 0
-                                ?
-                                this.props.homeArticles.map((article) => (
-                                    <Grid key={article.id}
-                                          item={true}
-                                          xs={12}
-                                          sm={6}>
-                                        <ArticleMiniCardDisplay article={article}
-                                                                isPaper={true}/>
-                                    </Grid>
-                                ))
-                                :
-                                <>
-                                    <Grid item={true}
-                                          xs={12}
-                                          sm={6}>
-                                        <MiniArticleSkeleton/>
-                                    </Grid>
-                                    <Grid item={true}
-                                          xs={12}
-                                          sm={6}>
-                                        <MiniArticleSkeleton/>
-                                    </Grid>
-                                </>
-                        }
-                    </Grid>
+                        <Grid container={true}
+                              spacing={4}
+                              direction="row"
+                              justify="space-between"
+                              alignItems="flex-start">
+                            {
+                                this.props.homeArticles?.length > 0
+                                    ?
+                                    this.props.homeArticles.map((article) => (
+                                        <Grid key={article.id}
+                                              item={true}
+                                              xs={12}
+                                              sm={6}>
+                                            <ArticleMiniCardDisplay article={article}
+                                                                    isPaper={true}/>
+                                        </Grid>
+                                    ))
+                                    :
+                                    <>
+                                        <Grid item={true}
+                                              xs={12}
+                                              sm={6}>
+                                            <MiniArticleSkeleton/>
+                                        </Grid>
+                                        <Grid item={true}
+                                              xs={12}
+                                              sm={6}>
+                                            <MiniArticleSkeleton/>
+                                        </Grid>
+                                    </>
+                            }
+                        </Grid>
+                    </div>
 
                     <Divider className={this.props.classes.popularsDivider}/>
 
