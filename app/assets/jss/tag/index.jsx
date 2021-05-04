@@ -37,9 +37,8 @@ const styles = (theme) => ({
     },
     tagCount: {
         width: '100%',
-        textAlign: 'right',
         fontSize: '1rem',
-        margin: theme.spacing(2, 3)
+        paddingBottom: theme.spacing(3)
     },
     tagButton: {
         color: theme.palette.text.primary,

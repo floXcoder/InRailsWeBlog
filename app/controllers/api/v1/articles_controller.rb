@@ -43,26 +43,35 @@ module Api::V1
       elsif params[:home]
         articles = component_cache('home_articles') { ::Articles::FindQueries.new.home(limit: params[:limit], with_locale: I18n.locale) }
       else
-        if filter_params[:tag_slug].present?
+        articles = ::Articles::FindQueries.new(current_user, current_admin).all(filter_params.merge(page: params[:page], limit: params[:limit]))
+
+        if filter_params[:tag_slug].present? || filter_params[:parent_tag_slug].present?
+          languages = articles.map(&:languages).flatten.uniq
           if filter_params[:topic_slug].present?
             set_seo_data(:tagged_topic_articles,
                          tag_slug:   filter_params[:parent_tag_slug].presence || filter_params[:tag_slug].presence,
                          topic_slug: filter_params[:topic_slug],
-                         user_slug:  filter_params[:user_slug])
+                         user_slug:  filter_params[:user_slug],
+                         languages:  languages)
           else
             set_seo_data(:tagged_articles,
-                         tag_slug: filter_params[:parent_tag_slug].presence || filter_params[:tag_slug].presence)
+                         tag_slug:  filter_params[:parent_tag_slug].presence || filter_params[:tag_slug].presence,
+                         languages: languages)
           end
         elsif filter_params[:topic_slug].present?
+          context_topic = articles.first.topic
           set_seo_data(:topic_articles,
-                       topic_slug: filter_params[:topic_slug],
-                       user_slug:  filter_params[:user_slug])
+                       topic_slug:    filter_params[:topic_slug],
+                       user_slug:     filter_params[:user_slug],
+                       topic_content: context_topic.description&.summary(InRailsWeBlog.config.seo_meta_desc_length),
+                       model:         context_topic,
+                       languages:     context_topic.languages)
         elsif filter_params[:user_slug].present?
+          languages = articles.map(&:languages).flatten.uniq
           set_seo_data(:user_articles,
-                       user_slug: filter_params[:user_slug])
+                       user_slug: filter_params[:user_slug],
+                       languages: languages)
         end
-
-        articles = ::Articles::FindQueries.new(current_user, current_admin).all(filter_params.merge(page: params[:page], limit: params[:limit]))
       end
 
       track_action(article_ids: articles.map(&:id), tag_slug: filter_params[:tag_slug], topic_slug: filter_params[:topic_slug], user_slug: filter_params[:user_slug])

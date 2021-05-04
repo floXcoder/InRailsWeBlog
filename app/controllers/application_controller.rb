@@ -168,6 +168,7 @@ class ApplicationController < ActionController::Base
   def set_seo_data(named_route, parameters = {})
     current_locale = params[:force_locale] || params[:locale] || I18n.locale
     model          = parameters.delete(:model)
+    languages      = parameters.delete(:languages)
     canonical      = parameters.delete(:canonical)
     alternate      = parameters.delete(:alternate)
     author         = parameters.delete(:author)
@@ -201,9 +202,9 @@ class ApplicationController < ActionController::Base
                   author:      author,
                   og:          og)
 
-    if model.respond_to?(:languages) && model.languages.exclude?(current_locale)
+    if (languages.present? && languages.exclude?(current_locale)) || (model.respond_to?(:languages) && model.languages.exclude?(current_locale))
       set_meta_tags(
-        canonical: canonical_url(named_route, model, model.languages.first, **slug_parameters),
+        canonical: canonical_url(named_route, model, model&.languages&.first || languages&.first, **slug_parameters),
         noindex:   true
       )
     end
