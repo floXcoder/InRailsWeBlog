@@ -25,7 +25,11 @@ class Slug
 
     Article.all.find_in_batches(batch_size: 200) do |articles|
       articles.each do |article|
-        article.set_friendly_id
+        I18n.available_locales.each do |language|
+          I18n.with_locale(language) do
+            article.set_friendly_id
+          end
+        end
         article.save!
       end
     end

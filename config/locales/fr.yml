@@ -146,8 +146,9 @@ fr:
           '404': "La page n'a pas été trouvée sur le serveur, elle a peut être été supprimée !"
           '422': "Impossible de satisfaire votre requête"
           '500': "Une erreur interne s'est produite. Le problème a été signalé, merci d'essayer une autre action en attendant :)"
+      not_connected: "Vous avez été déconnecté du site. Merci de vous reconnecter avant de continuer puis de recharger la page"
       back_button: "Page précédente"
-      home_button: "Retourner à l'acceuil"
+      home_button: "Retourner à l'accueil"
   user:
     model:
       login: "Pseudo ou Email"

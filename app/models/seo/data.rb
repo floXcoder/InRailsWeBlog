@@ -40,15 +40,15 @@ class Seo::Data < ApplicationRecord
 
   # == Class Methods ========================================================
   def self.local_named_routes
-    Rails.application.routes.routes.map do |r|
+    Rails.application.routes.routes.filter_map do |r|
       next unless r.name.present? && r.defaults.has_key?(:locale)
 
-      OpenStruct.new({
-                       name:   r.name,
-                       params: r.defaults.except(:controller),
-                       parts:  r.parts - [:format]
-                     })
-    end.compact
+      OpenStruct.new(
+        name:   r.name,
+        params: r.defaults.except(:controller),
+        parts:  r.parts - [:format]
+      )
+    end
   end
 
   def self.convert_parameters(string, parameters)
@@ -91,11 +91,11 @@ class Seo::Data < ApplicationRecord
 
       unless value
         slug_model = self.model_from_slug(slug_name, model)
-        if slug_model
-          value = self.slug_from_model(slug_model)
-        else
-          value = model
-        end
+        value      = if slug_model
+                       self.slug_from_model(slug_model)
+                     else
+                       model
+                     end
       end
 
       new_parameters[slug_name] = value
@@ -105,25 +105,25 @@ class Seo::Data < ApplicationRecord
   end
 
   def self.slug_from_model(model)
-    if model.is_a?(User)
+    case model
+    when User
       model.pseudo
-    elsif model.is_a?(Tag)
+    when Tag, Topic
       model.name
-    elsif model.is_a?(Topic)
-      model.name
-    elsif model.is_a?(Article)
+    when Article
       model.title
     end
   end
 
   def self.model_from_slug(slug, model)
-    if slug == :user_slug
+    case slug
+    when :user_slug
       User.friendly.find(model)
-    elsif slug == :tag_slug
+    when :tag_slug
       Tag.friendly.find(model)
-    elsif slug == :topic_slug
+    when :topic_slug
       Topic.friendly.find(model)
-    elsif slug == :article_slug
+    when :article_slug
       Article.friendly.find(model)
     end
   end

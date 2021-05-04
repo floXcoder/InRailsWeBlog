@@ -13,7 +13,6 @@ const styles = (theme) => ({
         flexGrow: 1,
         minHeight: '100vh',
         height: '100%',
-        zIndex: 1,
         overflow: 'hidden',
         position: 'relative',
         display: 'flex'

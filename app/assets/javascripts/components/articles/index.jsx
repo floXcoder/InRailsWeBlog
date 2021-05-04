@@ -29,6 +29,7 @@ import {
     updateArticleOrderDisplay,
     setCurrentArticles,
     fetchTag,
+    fetchUser,
     fetchTopic,
     setCurrentTags
 } from '../../actions';
@@ -70,14 +71,16 @@ export default @connect((state) => ({
     articleDisplayMode: state.uiState.articleDisplayMode,
     areArticlesMinimized: state.uiState.areArticlesMinimized,
     articleEditionId: state.articleState.articleEditionId,
+    tag: state.tagState.tag,
+    user: state.userState.user,
     topic: state.topicState.topic,
-    tag: state.tagState.tag
 }), {
     fetchArticles,
     updateArticleOrderDisplay,
     setCurrentArticles,
-    fetchTopic,
     fetchTag,
+    fetchUser,
+    fetchTopic,
     setCurrentTags
 })
 @hot
@@ -101,13 +104,15 @@ class ArticleIndex extends React.Component {
         articlesLoaderMode: PropTypes.string,
         articleDisplayMode: PropTypes.string,
         areArticlesMinimized: PropTypes.bool,
-        topic: PropTypes.object,
         tag: PropTypes.object,
+        user: PropTypes.object,
+        topic: PropTypes.object,
         fetchArticles: PropTypes.func,
         updateArticleOrderDisplay: PropTypes.func,
         setCurrentArticles: PropTypes.func,
-        fetchTopic: PropTypes.func,
         fetchTag: PropTypes.func,
+        fetchUser: PropTypes.func,
+        fetchTopic: PropTypes.func,
         setCurrentTags: PropTypes.func,
         // from styles
         classes: PropTypes.object
@@ -217,17 +222,19 @@ class ArticleIndex extends React.Component {
             ...this._formatParams(),
         }, options, payload);
 
-        if (this.props.routeParams.tagSlug) {
+        if (this.props.routeParams.topicSlug && this.props.routeParams.userSlug) {
+            this._request.fetch.then(() => {
+                this.props.fetchTopic(this.props.routeParams.userSlug, this.props.routeParams.topicSlug, {no_meta: true});
+            });
+        } else if (this.props.routeParams.tagSlug) {
             this._request.fetch.then(() => {
                 this.props.setCurrentTags([this.props.routeParams.tagSlug, this.props.routeParams.childTagSlug]);
 
                 this.props.fetchTag(this.props.routeParams.tagSlug, {no_meta: true});
             });
-        }
-
-        if (this.props.routeParams.topicSlug && this.props.routeParams.userSlug) {
+        } else if (this.props.routeParams.userSlug) {
             this._request.fetch.then(() => {
-                this.props.fetchTopic(this.props.routeParams.userSlug, this.props.routeParams.topicSlug, {no_meta: true});
+                this.props.fetchUser(this.props.routeParams.userSlug, {no_meta: true});
             });
         }
     };
@@ -369,6 +376,15 @@ class ArticleIndex extends React.Component {
                         <div className="margin-bottom-40">
                             <h1>
                                 {I18n.t('js.article.index.tagged_title', {tag: this.props.tag.name})}
+                            </h1>
+                        </div>
+                    }
+
+                    {
+                        !this.props.isUserConnected && this.props.user?.pseudo &&
+                        <div className="margin-bottom-40">
+                            <h1>
+                                {I18n.t('js.article.index.user_title', {user: this.props.user.pseudo})}
                             </h1>
                         </div>
                     }

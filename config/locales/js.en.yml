@@ -341,7 +341,12 @@ en:
         titles:
           topic: "Tags for the current topic: %{topic}"
           user: "All your tags"
-          all: "All public tags"
+          all: "All tags used on %{website}"
+        article_count:
+          zero: "No articles for this tag"
+          one: "1 tagged article"
+          other: "%{count} tagged articles"
+        show: "See tag"
         sort: "Sort your tags by priority"
         links:
           parent_topic: "See topic: %{topic}"
@@ -350,7 +355,10 @@ en:
       show:
         title: "Tag: %{name}"
         tagged_articles: "See all articles tagged %{name}"
-        articles_count: "%{count} articles with this tag"
+        articles_count:
+          zero: "No articles with this tag"
+          one: "1 article with this tag"
+          other: "%{count} articles with this tag"
         edit_link: "Edit tag"
         back_button: "Cancel"
       new:
@@ -405,7 +413,10 @@ en:
       show:
         title: "Topic: %{name}"
         topic_articles: "See all articles within the topic %{name}"
-        articles_count: "%{count} articles inside this topic"
+        articles_count:
+          zero: "No articles inside this topic"
+          one: "1 article inside this topic"
+          other: "%{count} articles inside this topic"
         share: "Share this topic"
         edit_link: "Edit this topic"
         back_button: "Cancel"
@@ -605,6 +616,7 @@ en:
         title: "Tags present in the following themes"
       index:
         tagged_title: "Articles tagged %{tag}"
+        user_title: "%{user} : articles"
         topic_title: "Articles for %{topic}"
       show:
         recommendations:
@@ -748,6 +760,7 @@ en:
           current: "Current topic"
           others: "Other topics"
         results:
+          zero: "No results"
           one: "1 result"
           other: "%{count} results"
         suggestions:
@@ -1009,7 +1022,7 @@ en:
           public: "Public"
           private: "Private"
         table:
-          title: "Pages list"
+          title: "Page list for SEO"
           columns:
             id: "Id"
             name: "Route name"

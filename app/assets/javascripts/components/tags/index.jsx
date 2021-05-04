@@ -16,9 +16,9 @@ import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
+import CardActions from '@material-ui/core/CardActions';
 
 import {
-    tagsPath,
     showTagPath,
     userTopicPath,
     // editTagPath,
@@ -46,7 +46,6 @@ import styles from '../../../jss/tag/index';
 
 
 export default @connect((state) => ({
-    isUserConnected: state.userState.isConnected,
     currentUser: state.userState.user,
     currentTopic: state.topicState.currentTopic,
     topic: state.topicState.topic,
@@ -63,7 +62,6 @@ class TagIndex extends React.Component {
     static propTypes = {
         routeParams: PropTypes.object.isRequired,
         // from connect
-        isUserConnected: PropTypes.bool,
         currentUser: PropTypes.object,
         currentTopic: PropTypes.object,
         isFetching: PropTypes.bool,
@@ -113,16 +111,14 @@ class TagIndex extends React.Component {
         } else if (this.props.routeParams.userSlug) {
             return I18n.t('js.tag.index.titles.user');
         } else {
-            return I18n.t('js.tag.index.titles.all');
+            return I18n.t('js.tag.index.titles.all', {website: window.settings.website_name});
         }
     };
 
     _renderTagItem = (tag) => {
         return (
             <div key={tag.id}
-                 className={classNames('col s12', {
-                     'm4': !this.props.isUserConnected
-                 })}>
+                 className="col s12 m4">
                 <Link to={showTagPath(tag.slug)}
                       onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.userId, tag.name, null)}>
                     <Card className={this.props.classes.tagCard}>
@@ -130,16 +126,11 @@ class TagIndex extends React.Component {
                             root: this.props.classes.tagHeader
                         }}
                                     title={
-                                        <span className={this.props.classes.tagTitle}>
+                                        <h3 className={this.props.classes.tagTitle}>
                                             {tag.name}
-                                        </span>
+                                        </h3>
                                     }
-                                    subheader={tag.synonyms.join(', ')}
-                                    action={
-                                        <span className={this.props.classes.tagCount}>
-                                            {tag.taggedArticlesCount}
-                                        </span>
-                                    }/>
+                                    subheader={tag.synonyms.join(', ')}/>
 
                         {
                             tag.description &&
@@ -147,30 +138,30 @@ class TagIndex extends React.Component {
                                 root: this.props.classes.tagHeader
                             }}>
                                 <Typography component="p">
-                                    {tag.description}
+                                    <div className="normalized-content"
+                                         dangerouslySetInnerHTML={{__html: tag.description}}/>
                                 </Typography>
                             </CardContent>
                         }
 
-                        {/*<CardActions className={this.props.classes.actions}*/}
-                        {/*             disableSpacing={true}>*/}
-                        {/*    <div className={this.props.classes.buttonsRight}>*/}
-                        {/*        <IconButton aria-label="Edit"*/}
-                        {/*                    component={Link}*/}
-                        {/*                    className={this.props.classes.tagButton}*/}
-                        {/*                    to={editTagPath(tag.slug)}>*/}
-                        {/*            <EditIcon/>*/}
-                        {/*        </IconButton>*/}
+                        <CardActions className={this.props.classes.actions}
+                                     disableSpacing={true}>
+                            <Typography className={this.props.classes.tagCount}
+                                        color="textSecondary">
+                                {I18n.t('js.tag.index.article_count', {count: tag.taggedArticlesCount})}
+                            </Typography>
 
-                        {/*        <IconButton aria-label="Show"*/}
-                        {/*                    component={Link}*/}
-                        {/*                    className={this.props.classes.tagButton}*/}
-                        {/*                    to={showTagPath(tag.slug)}*/}
-                        {/*                    onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.userId, tag.name)}>*/}
-                        {/*            <LabelIcon/>*/}
-                        {/*        </IconButton>*/}
-                        {/*    </div>*/}
-                        {/*</CardActions>*/}
+                            <div>
+                                <Button color="default"
+                                        variant="outlined"
+                                        size="small"
+                                        component={Link}
+                                        to={showTagPath(tag.slug)}
+                                        onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.userId, tag.name, null)}>
+                                    {I18n.t('js.tag.index.show')}
+                                </Button>
+                            </div>
+                        </CardActions>
                     </Card>
                 </Link>
             </div>
@@ -226,9 +217,7 @@ class TagIndex extends React.Component {
                 }
 
                 <div className="row">
-                    <div className={classNames('col s12', {
-                        'm6': this.props.isUserConnected
-                    })}>
+                    <div className="col s12">
                         <Typography className={this.props.classes.subtitle}
                                     component="h2"
                                     variant="h2">
@@ -250,7 +239,7 @@ class TagIndex extends React.Component {
                         }
                     </div>
 
-                    <div className="col s12 m6">
+                    <div className="col s12">
                         {
                             (!Utils.isEmpty(this.props.routeParams)) &&
                             <div className="margin-bottom-20">
@@ -277,35 +266,7 @@ class TagIndex extends React.Component {
                         }
                     </div>
                 </div>
-
-                {
-                    this.props.currentUser &&
-                    <div className="margin-top-40 margin-bottom-20">
-                        <div className="row">
-                            <div className="col s6 center-align">
-                                <Button color="default"
-                                        variant="outlined"
-                                        size="small"
-                                        component={Link}
-                                        to={showTagPath(this.props.currentUser.slug)}>
-                                    {I18n.t('js.tag.index.links.user_tags')}
-                                </Button>
-                            </div>
-
-                            <div className="col s6 center-align">
-                                <Button color="default"
-                                        variant="outlined"
-                                        size="small"
-                                        component={Link}
-                                        to={tagsPath()}>
-                                    {I18n.t('js.tag.index.links.all_tags')}
-                                </Button>
-                            </div>
-                        </div>
-                    </div>
-                }
             </div>
         );
     }
-
 }

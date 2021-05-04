@@ -55,7 +55,6 @@ class ArticleSerializer
              :draft,
              :languages,
              :default_picture,
-             :slug,
              :user_slug,
              :topic_slug,
              :topic_name,
@@ -80,6 +79,15 @@ class ArticleSerializer
 
   attribute :mode_translated do |object|
     object.mode_to_tr
+  end
+
+  attribute :slug do |object|
+    if object.slug.present?
+      object.slug
+    else
+      locale_article = object.languages.first
+      object.slug_translations[locale_article]
+    end
   end
 
   attribute :slug_translations do |object|
@@ -165,6 +173,15 @@ class ArticleSerializer
 
   attribute :link do |object|
     Rails.application.routes.url_helpers.user_article_path(user_slug: object.respond_to?(:user_slug) ? object.user_slug : object.user.slug, article_slug: object.slug)
+
+    # if object.slug.present?
+    #   Rails.application.routes.url_helpers.user_article_path(user_slug: object.respond_to?(:user_slug) ? object.user_slug : object.user.slug, article_slug: object.slug)
+    # else
+    #   locale_article = object.languages.first
+    #   localized_slug_article = object.slug_translations[locale_article]
+    #
+    #   Rails.application.routes.url_helpers.send("user_article_#{locale_article}_path", user_slug: object.respond_to?(:user_slug) ? object.user_slug : object.user.slug, article_slug: localized_slug_article)
+    # end
   end
 
   # attribute :outdated_count do |object|

@@ -79,7 +79,7 @@ const styles = (theme) => ({
         }
     },
     bannerBackgroundImg: {
-        maxHeight: 440,
+        width: 300,
         height: 300
     },
 
@@ -251,7 +251,9 @@ const styles = (theme) => ({
     },
     popularsCategory: {
         marginTop: theme.spacing(4),
-        marginBottom: 32
+        marginBottom: theme.spacing(4),
+        paddingLeft: theme.spacing(1),
+        paddingRight: theme.spacing(1)
     },
     popularsButton: {
         marginTop: '2.8rem',
@@ -267,8 +269,8 @@ const styles = (theme) => ({
     },
 
     functionalities: {
-        marginBottom: -12,
-        padding: '3rem 0',
+        marginBottom: -theme.spacing(1),
+        padding: theme.spacing(3, 2),
         background: lighten(theme.palette.primary.main, 0.9)
     },
     functionalitiesTitle: {

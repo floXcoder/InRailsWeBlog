@@ -341,7 +341,12 @@ fr:
         titles:
           topic: "Labels associés au thème : %{topic}"
           user: "Tous vos labels"
-          all: "Tous les labels publics"
+          all: "Tous les labels utilisés sur %{website}"
+        article_count:
+          zero: "Pas d'articles pour ce label"
+          one: "1 article labellisé"
+          other: "%{count} articles labellisé"
+        show: "Voir le label"
         sort: "Trier vos labels par priorité"
         links:
           parent_topic: "Consulter le thème : %{topic}"
@@ -350,7 +355,10 @@ fr:
       show:
         title: "Label : %{name}"
         tagged_articles: "Voir tous les articles avec le tag %{name}"
-        articles_count: "%{count} articles avec ce label"
+        articles_count:
+          zero: "Aucun article avec ce label"
+          one: "1 article avec ce label"
+          other: "%{count} articles avec ce label"
         edit_link: "Modifier ce label"
         back_button: "Annuler"
       new:
@@ -404,8 +412,11 @@ fr:
           inventories: "Inventaire"
       show:
         title: "Thème : %{name}"
-        topic_articles: "Voir tous les articles dans ce thème : %{name}"
-        articles_count: "%{count} articles pour ce thème"
+        topic_articles: "Lire tous les articles du thème : %{name}"
+        articles_count:
+          zero: "Aucun article pour ce thème"
+          one: "1 article pour ce thème"
+          other: "%{count} articles pour ce thème"
         share: "Partager ce thème"
         edit_link: "Modifier ce thème"
         back_button: "Annuler"
@@ -605,6 +616,7 @@ fr:
         title: "Labels présents dans les thèmes suivants"
       index:
         tagged_title: "Articles avec le label %{tag}"
+        user_title: "%{user} articles"
         topic_title: "Articles pour le thème %{topic}"
       show:
         recommendations:
@@ -748,6 +760,7 @@ fr:
           current: "Thème courant"
           others: "Autres thèmes"
         results:
+          zero: "Pas de résultats"
           one: "1 résultat"
           other: "%{count} résultats"
         suggestions:
@@ -1009,7 +1022,7 @@ fr:
           public: "Publique"
           private: "Privé"
         table:
-          title: "Liste des pages"
+          title: "Liste des pages pour SEO"
           columns:
             id: "Id"
             name: "Nom de la route"
