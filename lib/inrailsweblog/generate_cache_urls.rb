@@ -78,7 +78,7 @@ class GenerateCacheUrls
       next unless user.articles.everyone.count > 0
 
       [
-        user.link_path(route_name: 'topics', locale: locale),
+        user.link_path(locale: locale),
         user.link_path(route_name: 'index', locale: locale)
       ]
     end
