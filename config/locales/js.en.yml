@@ -339,7 +339,7 @@ en:
           only_me: "Private"
       index:
         titles:
-          topic: "Tags for the current topic: %{topic}"
+          topic: "Tags for the topic: %{topic}"
           user: "All your tags"
           all: "All tags used on %{website}"
         article_count:

@@ -206,9 +206,10 @@ class TagIndex extends React.Component {
                 {
                     this.props.topic?.description &&
                     <div className="margin-top-30 margin-bottom-20">
-                        {this.props.topic.description}
+                        <div className="normalized-content"
+                             dangerouslySetInnerHTML={{__html: this.props.topic.description}}/>
 
-                        <div className="margin-top-30 center-align">
+                        <div className="margin-top-40 center-align">
                             <Button color="default"
                                     variant="outlined"
                                     size="small"

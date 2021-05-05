@@ -157,19 +157,28 @@ class String
     return Sanitize.fragment(content)
   end
 
-  def summary(length = 60, strip_html: false, replace_tags: false, remove_links: false)
-    string   = if replace_tags
-                 self.strip_html(replace_with_line: true)
-               elsif strip_html
-                 self.strip_html(replace_with_line: false).strip.squish
-               else
-                 self.html_safe
-               end
-    string   = string.gsub(/https?:\/\/(\S+.*?)/, '') if remove_links
+  def summary(length = 60, strip_html: false, replace_tags: false, remove_links: false, remove_code: false)
+    string = self
+
+    string = string.squish.gsub(/<pre(.*?)>(.*?)<\/pre>/i, '') if remove_code
+
+    string = if replace_tags
+               string.strip_html(replace_with_line: true)
+             elsif strip_html
+               string.strip_html(replace_with_line: false)
+             else
+               string.html_safe
+             end
+
+    string = string.gsub(/https?:\/\/(\S+.*?)/, '') if remove_links
+
+    string = string.strip.squish
+
     end_line = string.index(' ', length - 10)
     if end_line && string.length > length
       string = "#{string[0...end_line]}..."
     end
+
     return string
   end
 end

@@ -103,7 +103,7 @@ class TagShow extends React.Component {
                 </Typography>
 
                 <div className="row">
-                    <div className="col s12 margin-top-30 center">
+                    <div className="col s12 margin-top-40 center">
                         <Button color="primary"
                                 variant="outlined"
                                 size="small"

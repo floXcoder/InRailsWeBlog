@@ -11,13 +11,6 @@ module Tags
     def perform
       current_language = new_language = current_user&.locale || I18n.locale
 
-      #  Language
-      if @tag.languages.empty? || @params[:language].present?
-        new_language   = (@params.delete(:language) || current_user&.locale || I18n.locale).to_s
-        @tag.languages |= [new_language]
-        I18n.locale    = new_language.to_sym if new_language != current_language.to_s
-      end
-
       # Sanitization
       unless @params[:name].nil?
         sanitized_name = Sanitize.fragment(@params.delete(:name))
@@ -35,9 +28,13 @@ module Tags
       @params.delete(:description)
       @params.delete(:description_translations)
 
-      unless @params[:icon].nil?
-        @tag.build_icon(image: @params.delete(:icon))
-      end
+      @tag.build_icon(image: @params.delete(:icon)) unless @params[:icon].nil?
+
+      @tag.languages = if @params[:languages].present?
+                         @params.delete(:languages)
+                       else
+                         @tag.description_translations.select { |_, value| value.present? }.keys.presence || [current_user&.locale] || [I18n.locale.to_s]
+                       end
 
       @tag.assign_attributes(@params)
 

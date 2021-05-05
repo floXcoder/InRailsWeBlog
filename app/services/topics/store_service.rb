@@ -38,6 +38,12 @@ module Topics
 
       @topic.build_icon(image: @params.delete(:icon)) unless @params[:icon].nil?
 
+      @topic.languages = if @params[:languages].present?
+                           @params.delete(:languages)
+                         else
+                           @topic.description_translations.select { |_, value| value.present? }.keys.presence || [current_user&.locale] || [I18n.locale.to_s]
+                         end
+
       @topic.assign_attributes(@params)
 
       # Adapt topic settings according to mode
