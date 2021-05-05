@@ -27,7 +27,7 @@ class TopicsController < ApplicationController
           set_seo_data(:user_topic,
                        model:         topic,
                        topic_slug:    topic,
-                       topic_content: topic.description&.summary(InRailsWeBlog.config.seo_meta_desc_length),
+                       topic_content: topic.description&.summary(InRailsWeBlog.config.seo_meta_desc_length, strip_html: true, remove_links: true),
                        user_slug:     topic.user,
                        author:        topic.user.pseudo)
 

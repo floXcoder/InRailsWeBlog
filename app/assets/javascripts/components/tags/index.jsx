@@ -17,6 +17,7 @@ import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
+import Grid from '@material-ui/core/Grid';
 
 import {
     showTagPath,
@@ -117,8 +118,10 @@ class TagIndex extends React.Component {
 
     _renderTagItem = (tag) => {
         return (
-            <div key={tag.id}
-                 className="col s12 m4">
+            <Grid key={tag.id}
+                  item={true}
+                  xs={12}
+                  md={4}>
                 <Link to={showTagPath(tag.slug)}
                       onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.userId, tag.name, null)}>
                     <Card className={this.props.classes.tagCard}>
@@ -164,7 +167,7 @@ class TagIndex extends React.Component {
                         </CardActions>
                     </Card>
                 </Link>
-            </div>
+            </Grid>
         );
     };
 
@@ -188,9 +191,9 @@ class TagIndex extends React.Component {
 
                     {
                         (!Utils.isEmpty(this.props.routeParams) && this.props.currentUser) &&
-                        <div className="center-align margin-top-20">
+                        <div className="center-align margin-top-30">
                             <Button color="default"
-                                    variant="outlined"
+                                    variant="text"
                                     size="small"
                                     component={Link}
                                     to={sortTagPath(this.props.currentUser.slug)}>
@@ -207,6 +210,7 @@ class TagIndex extends React.Component {
 
                         <div className="margin-top-30 center-align">
                             <Button color="default"
+                                    variant="outlined"
                                     size="small"
                                     component={Link}
                                     to={userTopicPath(this.props.topic.user.slug, this.props.topic.slug)}>
@@ -227,11 +231,15 @@ class TagIndex extends React.Component {
                         {
                             this.props.publicTags.length > 0
                                 ?
-                                <div className="row">
+                                <Grid container={true}
+                                      spacing={1}
+                                      direction="row"
+                                      justify="space-between"
+                                      alignItems="flex-start">
                                     {
                                         this.props.publicTags.map(this._renderTagItem)
                                     }
-                                </div>
+                                </Grid>
                                 :
                                 <Typography variant="body1">
                                     <em>{I18n.t('js.tag.common.no_publics')}</em>

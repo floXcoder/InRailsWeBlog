@@ -493,7 +493,7 @@ class Article < ApplicationRecord
 
     # formatted_content = formatted_content.gsub(/<img (.*?)\/?>/im, '')
 
-    return formatted_content.strip_html(true)
+    return formatted_content.strip_html(replace_with_line: true)
   end
 
   def public_content(with_translations: false, locale: nil, force_locale: false)
@@ -528,7 +528,7 @@ class Article < ApplicationRecord
   end
 
   def summary_content(size = 220, strip_html: true, replace_tags: false, remove_links: false, current_user_id: nil)
-    adapted_content(current_user_id)&.summary(size, strip_html, replace_tags, remove_links)
+    adapted_content(current_user_id)&.summary(size, strip_html: strip_html, replace_tags: replace_tags, remove_links: remove_links)
   end
 
   def tag_names

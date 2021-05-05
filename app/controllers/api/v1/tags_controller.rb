@@ -95,7 +95,8 @@ module Api::V1
               render json: tag.serialized_json
             else
               set_seo_data(:show_tag,
-                           tag_content: tag.description&.summary(InRailsWeBlog.config.seo_meta_desc_length),
+                           model:       tag,
+                           tag_content: tag.description&.summary(InRailsWeBlog.config.seo_meta_desc_length, strip_html: true, remove_links: true),
                            tag_slug:    tag,
                            author:      tag.user.pseudo)
 
