@@ -349,8 +349,6 @@ class User < ApplicationRecord
                    'edit_user'
                  when 'index'
                    'user_articles'
-                 when 'topics'
-                   'user_topics'
                  else
                    'show_user'
                  end
