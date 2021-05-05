@@ -11,11 +11,11 @@ module Utilities
 
       pluck(*keys).map do |row|
         row = [row] if keys.size == 1
-        Hash[keys.zip(row)]
+        keys.zip(row).to_h
       end
     end
 
-    alias_method :pluck_h, :pluck_to_hash
+    alias pluck_h pluck_to_hash
   end
 end
 
@@ -87,32 +87,19 @@ class Array
 
     return paginated, current_page, total_pages, total_count
   end
-
-  def mean
-    self.inject(0) { |sum, x| sum += x } / self.size.to_f
-  end
-
-  def median(already_sorted = false)
-    return nil if self.empty?
-
-    array = already_sorted ? self : self.sort
-    m_pos = array.size / 2
-
-    return array.size.odd? ? array[m_pos] : array[m_pos - 1..m_pos].mean
-  end
 end
 
 ###
 # Remove leading and trailing occurrences
 ###
 class String
-  def strip_this!(t)
-    # Removes leading and trailing occurrences of t
+  def strip_this!(string)
+    # Removes leading and trailing occurrences of the string
     # from the string, plus surrounding whitespace.
-    if self.include? t
-      t = Regexp.escape(t)
-      sub!(/^(\s* #{t} \s*)+  /x, '')
-      sub!(/ (\s* #{t} \s*)+ $/x, '')
+    if self.include?(string)
+      string = Regexp.escape(string)
+      sub!(/^(\s* #{string} \s*)+  /x, '')
+      sub!(/ (\s* #{string} \s*)+ $/x, '')
     end
 
     return self
@@ -144,22 +131,22 @@ class String
     end.join(' ')
   end
 
-  def strip_html(replace_with_line = false)
+  def strip_html(replace_with_line: false)
     content = if replace_with_line
                 self.gsub(/<br *\/?>/im, "\n")
-                  .gsub(/<p>/im, "\n")
-                  .gsub(/<h1>/im, "\n")
-                  .gsub(/<h2>/im, "\n")
-                  .gsub(/<h3>/im, "\n")
-                  .gsub(/<h4>/im, "\n")
-                  .gsub(/<h5>/im, "\n")
-                  .gsub(/<h6>/im, "\n")
-                  .gsub(/<ol>/im, "\n")
-                  .gsub(/<ul>/im, "\n")
-                  .gsub(/<li>/im, "\n")
-                  .gsub(/<blockquote>/im, "\n")
-                  .gsub(/<pre>/im, "\n")
-                  .gsub(/<table>/im, "\n")
+                    .gsub(/<p>/im, "\n")
+                    .gsub(/<h1>/im, "\n")
+                    .gsub(/<h2>/im, "\n")
+                    .gsub(/<h3>/im, "\n")
+                    .gsub(/<h4>/im, "\n")
+                    .gsub(/<h5>/im, "\n")
+                    .gsub(/<h6>/im, "\n")
+                    .gsub(/<ol>/im, "\n")
+                    .gsub(/<ul>/im, "\n")
+                    .gsub(/<li>/im, "\n")
+                    .gsub(/<blockquote>/im, "\n")
+                    .gsub(/<pre>/im, "\n")
+                    .gsub(/<table>/im, "\n")
               else
                 self
               end
@@ -170,11 +157,11 @@ class String
     return Sanitize.fragment(content)
   end
 
-  def summary(length = 60, strip_html = false, replace_tags = false, remove_links = false)
+  def summary(length = 60, strip_html: false, replace_tags: false, remove_links: false)
     string   = if replace_tags
-                 self.strip_html(true)
+                 self.strip_html(replace_with_line: true)
                elsif strip_html
-                 self.strip_html(false).strip.squish
+                 self.strip_html(replace_with_line: false).strip.squish
                else
                  self.html_safe
                end
@@ -183,7 +170,6 @@ class String
     if end_line && string.length > length
       string = "#{string[0...end_line]}..."
     end
-
     return string
   end
 end
