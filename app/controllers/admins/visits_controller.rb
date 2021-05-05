@@ -47,7 +47,7 @@ class Admins::VisitsController < AdminsController
     visits_details[:totalTopics]   = Topic.everyone.count
 
     visits_details[:bounceRate]   = uniq_visits.count > 0 ? (uniq_visits.count { |v| v.pages_count < 2 }.to_f / uniq_visits.count).round(2) * 100 : 0
-    median_duration               = uniq_visits.select { |visit| visit.ended_at && visit.started_at && visit.pages_count > 1 }.map { |visit| visit.ended_at - visit.started_at }.median
+    median_duration               = median(uniq_visits.select { |visit| visit.ended_at && visit.started_at && visit.pages_count > 1 }.map { |visit| visit.ended_at - visit.started_at })
     visits_details[:duration]     = median_duration ? Time.zone.at(median_duration).strftime('%Mmin %Ssec').sub!(/^0/, '') : nil
     visits_details[:averagePages] = (uniq_visits.reduce(0) { |sr, visit| sr + visit.pages_count }.to_f / uniq_visits.count).round
 
@@ -82,6 +82,14 @@ class Admins::VisitsController < AdminsController
 
   def search_domains
     %w[www.google.com www.google.fr www.google.co.uk www.bing.com fr.search.yahoo.com www.google.be www.ecosia.org www.google.ca www.google.ch www.qwant.com www.google.dk search.lilo.org search.uselilo.org www.google.lu r.search.yahoo.com www.google.pt www.google.co.ma www.google.co.jp www.google.de r.search.aol.com www.google.sk www.google.it www.google.es cse.google.com www.google.com.co www.google.com.hk duckduckgo.com www.google.com.au baidu.com www.qoqotte.com cn.bing.com tineye.com www.google.com.ar www.google.se recherche.aol.fr int.search.myway.com search.myway.com www.google.pl www.google.nl www.google.com.br www.google.at www.google.co.nz www.google.fi www.google.gr www.google.ru search.yahoo.com lite.qwant.com www.google.no www.google.ro www.google.com.tr www.google.cl www.google.com.mx www.google.com.pa www.google.co.in search.becovi.com nortonsafe.search.ask.com lemoteur.orange.fr www.google.co.za www.google.co.kr www.google.com.mx www.google.hn www.google.com.pa www.startpage.com].freeze
+  end
+
+  def median(array)
+    return nil if array.empty?
+
+    sorted = array.sort
+    len    = sorted.length
+    (sorted[(len - 1) / 2] + sorted[len / 2]) / 2.0
   end
 
 end
