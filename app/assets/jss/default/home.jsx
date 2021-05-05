@@ -277,6 +277,7 @@ const styles = (theme) => ({
         textAlign: 'center',
         marginBottom: '1.4rem',
         color: theme.palette.primary.dark,
+        fontSize: '2.6rem',
         [theme.breakpoints.down('md')]: {
             fontSize: '2.5rem'
         }

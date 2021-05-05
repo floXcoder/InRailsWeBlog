@@ -56,9 +56,9 @@ class SummaryStoriesTopic extends React.Component {
                         </Typography>
                     </Link>
 
-                    <Typography className={this.props.classes.topicDesc}
-                                component="p">
-                        {this.props.topic.description}
+                    <Typography className={this.props.classes.topicDesc}>
+                        <div className="normalized-content"
+                             dangerouslySetInnerHTML={{__html: this.props.topic.description}}/>
                     </Typography>
 
                     {

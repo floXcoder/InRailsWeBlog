@@ -29,9 +29,9 @@ const _renderListItem = (classes, title, details, Icon, reverse = false) => (
               sm={12}
               md={9}
               lg={9}>
-            <h2 className={classes.functionalitiesSubtitle}>
+            <h3 className={classes.functionalitiesSubtitle}>
                 {title}
-            </h2>
+            </h3>
 
             <div className={classes.functionalitiesDetails}>
                 {details}
@@ -55,9 +55,9 @@ const _renderListItem = (classes, title, details, Icon, reverse = false) => (
 const HomeFunctionalities = ({classes, onSignupClick}) => (
     <section className={classes.functionalities}>
         <div className={classes.homeContent}>
-            <h1 className={classes.functionalitiesTitle}>
+            <h2 className={classes.functionalitiesTitle}>
                 {I18n.t('js.views.home.functionalities.title')}
-            </h1>
+            </h2>
 
             <div className={classes.functionalitiesList}>
                 {_renderListItem(classes, I18n.t('js.views.home.functionalities.topics.title'), I18n.t('js.views.home.functionalities.topics.details'), ClassIcon)}

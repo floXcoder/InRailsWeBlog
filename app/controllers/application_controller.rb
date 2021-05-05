@@ -169,6 +169,7 @@ class ApplicationController < ActionController::Base
     current_locale = params[:force_locale] || params[:locale] || I18n.locale
     model          = parameters.delete(:model)
     languages      = parameters.delete(:languages)
+    exclude_slugs  = parameters.delete(:exclude_slugs)
     canonical      = parameters.delete(:canonical)
     alternate      = parameters.delete(:alternate)
     author         = parameters.delete(:author)
@@ -182,7 +183,7 @@ class ApplicationController < ActionController::Base
     end
 
     named_parameters = Seo::Data.named_parameters(parameters)
-    slug_parameters  = Seo::Data.slug_parameters(parameters)&.delete_if { |_, value| value.blank? }
+    slug_parameters  = Seo::Data.slug_parameters(parameters)&.delete_if { |key, value| exclude_slugs&.include?(key.to_sym) || value.blank? }
 
     if seo_data
       page_title = Seo::Data.convert_parameters(seo_data.page_title, named_parameters)

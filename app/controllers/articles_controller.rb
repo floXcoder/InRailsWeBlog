@@ -33,7 +33,7 @@ class ArticlesController < ApplicationController
                    topic_slug:    article_params[:topic_slug],
                    user_slug:     article_params[:user_slug],
                    topic_content: context_topic.description&.summary(InRailsWeBlog.config.seo_meta_desc_length, strip_html: true, remove_links: true),
-                   model:         context_topic,
+                   exclude_slugs: [:topic_content],
                    languages:     context_topic.languages)
     elsif article_params[:user_slug].present?
       languages = articles.map(&:languages).flatten.uniq
@@ -75,7 +75,7 @@ class ArticlesController < ApplicationController
 
     set_seo_data(:user_article,
                  article_slug:    article,
-                 article_content: article.content&.summary(InRailsWeBlog.config.seo_meta_desc_length, strip_html: true, remove_links: true),
+                 article_content: article.content&.summary(InRailsWeBlog.config.seo_meta_desc_length, strip_html: true, remove_links: true, remove_code: true),
                  topic_slug:      article.topic,
                  user_slug:       article.user,
                  author:          article.user.pseudo,

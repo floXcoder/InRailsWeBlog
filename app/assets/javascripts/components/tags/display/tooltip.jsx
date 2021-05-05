@@ -44,9 +44,8 @@ class TooltipTag extends React.PureComponent {
                     </div>
 
                     <div className={classes.description}>
-                        <p>
-                            {tag.description}
-                        </p>
+                        <div className="normalized-content"
+                             dangerouslySetInnerHTML={{__html: tag.description}}/>
 
                         <p>
                             {
