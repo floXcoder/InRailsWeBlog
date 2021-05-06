@@ -28,13 +28,13 @@ class ArticlesController < ApplicationController
                      languages: languages)
       end
     elsif article_params[:topic_slug].present?
-      context_topic = articles.first.topic
+      context_topic = articles.first&.topic
       set_seo_data(:topic_articles,
                    topic_slug:    article_params[:topic_slug],
                    user_slug:     article_params[:user_slug],
-                   topic_content: context_topic.description&.summary(InRailsWeBlog.config.seo_meta_desc_length, strip_html: true, remove_links: true),
+                   topic_content: context_topic&.description&.summary(InRailsWeBlog.config.seo_meta_desc_length, strip_html: true, remove_links: true),
                    exclude_slugs: [:topic_content],
-                   languages:     context_topic.languages)
+                   languages:     context_topic&.languages)
     elsif article_params[:user_slug].present?
       languages = articles.map(&:languages).flatten.uniq
       set_seo_data(:user_articles,

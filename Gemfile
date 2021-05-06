@@ -9,7 +9,7 @@ end
 ruby '3.0.0'
 
 # Rails version
-gem 'rails',                    '6.1.3.1'
+gem 'rails',                    '6.1.3.2'
 
 # Use postgresql as the database for Active Record
 gem 'pg',                       '1.2.3'
@@ -177,12 +177,12 @@ end
 
 group :development, :test do
   # Speed up boot
-  gem 'bootsnap',                   '1.7.4',  require: false
+  gem 'bootsnap',                   '1.7.5',  require: false
 
   # Check errors
-  gem 'rubocop',                    '1.13.0', require: false
-  gem 'rubocop-rails',              '2.9.1',  require: false
-  gem 'rubocop-performance',        '1.11.0', require: false
+  gem 'rubocop',                    '1.14.0', require: false
+  gem 'rubocop-rails',              '2.10.1', require: false
+  gem 'rubocop-performance',        '1.11.3', require: false
   gem 'rubocop-rspec',              '2.3.0',  require: false
 end
 
