@@ -2,8 +2,7 @@
 
 import {
     MuiThemeProvider,
-    StylesProvider,
-    createGenerateClassName
+    StylesProvider
 } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
@@ -44,12 +43,7 @@ import MainLayoutUser from './main';
 import FooterLayoutUser from './footer';
 
 import theme from '../../../../jss/theme';
-
-// Production classnames are overlapping each other
-const generateClassName = createGenerateClassName({
-    dangerouslyUseGlobalCSS: true, // won't minify CSS classnames when true
-    productionPrefix: 'jss', // 'jss' by default
-});
+import generateClassName from '../../../../jss/generateClassname';
 
 export default class ApplicationLayoutUser extends React.Component {
     static propTypes = {
