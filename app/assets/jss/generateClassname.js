@@ -5,7 +5,7 @@ const pseudoClasses = ['checked', 'disabled', 'error', 'focused', 'focusVisible'
 
 const generateClassName = function (options = {}) {
     const disableGlobal = options.disableGlobal || false;
-    // var productionPrefix = options.productionPrefix || 'jss';
+    const productionPrefix = options.productionPrefix || 'jss';
     const seed = options.seed || '';
     const seedPrefix = seed === '' ? '' : ''.concat(seed, '-');
     let ruleCounter = 0;
@@ -41,7 +41,12 @@ const generateClassName = function (options = {}) {
         const suffix = "".concat(rule.key, "-").concat(getNextCounterId()); // Help with debuggability.
 
         if (styleSheet.options.classNamePrefix) {
-            return "".concat(seedPrefix).concat(styleSheet.options.classNamePrefix, "-").concat(suffix);
+            let classNamePrefix = styleSheet.options.classNamePrefix;
+            if(classNamePrefix === 'makeStyles') {
+                classNamePrefix = productionPrefix;
+            }
+
+            return "".concat(seedPrefix).concat(classNamePrefix, "-").concat(suffix);
         }
 
         return "".concat(seedPrefix).concat(suffix);
