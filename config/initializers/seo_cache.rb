@@ -18,7 +18,7 @@ if ENV['SEO_CACHE'].to_s == 'true'
   SeoCache.blacklist_urls = %w[^/admin.* \.html$ \.htm$ \.php$ \.gz$ \.xml$]
   SeoCache.blacklist_params = %w[page locale]
 
-  SeoCache.wait_time_for_page_loading = 3
+  SeoCache.wait_time_for_page_loading = 5
 
   SeoCache.logger_path = Rails.root.join('log/seo_cache.log')
   SeoCache.log_missed_cache = true
