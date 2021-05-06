@@ -100,6 +100,7 @@ export default function articleReducer(state = initState, action) {
                 state.article = undefined;
                 state.articleCurrentLanguage = undefined;
                 state.articles = [];
+                state.currentState = articleMachine.transition(state.currentState, 'EMPTY');
             }
 
             return fetchReducer(state, action, (state) => {
