@@ -1,7 +1,9 @@
 'use strict';
 
 import {
-    MuiThemeProvider
+    MuiThemeProvider,
+    StylesProvider,
+    createGenerateClassName
 } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
@@ -43,6 +45,12 @@ import FooterLayoutUser from './footer';
 
 import theme from '../../../../jss/theme';
 
+// Production classnames are overlapping each other
+const generateClassName = createGenerateClassName({
+    dangerouslyUseGlobalCSS: true, // won't minify CSS classnames when true
+    productionPrefix: 'jss', // 'jss' by default
+});
+
 export default class ApplicationLayoutUser extends React.Component {
     static propTypes = {
         componentId: PropTypes.string,
@@ -66,43 +74,46 @@ export default class ApplicationLayoutUser extends React.Component {
 
     render() {
         return (
-            <MuiThemeProvider theme={theme}>
-                <CssBaseline/>
+            <StylesProvider generateClassName={generateClassName}>
+                <MuiThemeProvider theme={theme}>
+                    <CssBaseline/>
 
-                <Provider store={configureStore}
-                          context={ReactReduxContext}>
-                    <HelmetProvider>
-                        <Router history={browserHistory}>
-                            <PasteManager>
-                                <ScrollBackManager>
-                                    <HotkeyManager>
-                                        <>
-                                            <ErrorBoundary errorType="text"
-                                                           errorTitle={I18n.t('js.helpers.errors.boundary.header')}>
-                                                <HeaderLayoutUser hashRoutes={routes.hashes}/>
-                                            </ErrorBoundary>
+                    <Provider store={configureStore}
+                              context={ReactReduxContext}>
+                        <HelmetProvider>
+                            <Router history={browserHistory}>
+                                <PasteManager>
+                                    <ScrollBackManager>
+                                        <HotkeyManager>
+                                            <>
+                                                <ErrorBoundary errorType="text"
+                                                               errorTitle={I18n.t('js.helpers.errors.boundary.header')}>
+                                                    <HeaderLayoutUser hashRoutes={routes.hashes}/>
+                                                </ErrorBoundary>
 
-                                            <ErrorBoundary errorType="card">
-                                                <MainLayoutUser routes={[...routes.static.common, ...routes.static.user, ...routes.static.notFound]}
-                                                                {...this._componentProps()}/>
-                                            </ErrorBoundary>
+                                                <ErrorBoundary errorType="card">
+                                                    <MainLayoutUser
+                                                        routes={[...routes.static.common, ...routes.static.user, ...routes.static.notFound]}
+                                                        {...this._componentProps()}/>
+                                                </ErrorBoundary>
 
-                                            <ErrorBoundary errorType="card">
-                                                <SidebarLayoutUser/>
-                                            </ErrorBoundary>
+                                                <ErrorBoundary errorType="card">
+                                                    <SidebarLayoutUser/>
+                                                </ErrorBoundary>
 
-                                            <ErrorBoundary errorType="text"
-                                                           errorTitle={I18n.t('js.helpers.errors.boundary.footer')}>
-                                                <FooterLayoutUser/>
-                                            </ErrorBoundary>
-                                        </>
-                                    </HotkeyManager>
-                                </ScrollBackManager>
-                            </PasteManager>
-                        </Router>
-                    </HelmetProvider>
-                </Provider>
-            </MuiThemeProvider>
+                                                <ErrorBoundary errorType="text"
+                                                               errorTitle={I18n.t('js.helpers.errors.boundary.footer')}>
+                                                    <FooterLayoutUser/>
+                                                </ErrorBoundary>
+                                            </>
+                                        </HotkeyManager>
+                                    </ScrollBackManager>
+                                </PasteManager>
+                            </Router>
+                        </HelmetProvider>
+                    </Provider>
+                </MuiThemeProvider>
+            </StylesProvider>
         );
     }
 }

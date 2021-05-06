@@ -1,7 +1,9 @@
 'use strict';
 
 import {
-    MuiThemeProvider
+    MuiThemeProvider,
+    StylesProvider,
+    createGenerateClassName
 } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
@@ -39,6 +41,13 @@ import FooterLayoutDefault from './footer';
 
 import theme from '../../../../jss/theme';
 
+// Production classnames are overlapping each other
+const generateClassName = createGenerateClassName({
+    dangerouslyUseGlobalCSS: true, // won't minify CSS classnames when true
+    productionPrefix: 'jss', // 'jss' by default
+});
+
+
 export default class ApplicationLayoutDefault extends React.Component {
     static propTypes = {
         componentId: PropTypes.string,
@@ -62,35 +71,38 @@ export default class ApplicationLayoutDefault extends React.Component {
 
     render() {
         return (
-            <MuiThemeProvider theme={theme}>
-                <CssBaseline/>
+            <StylesProvider generateClassName={generateClassName}>
+                <MuiThemeProvider theme={theme}>
+                    <CssBaseline/>
 
-                <Provider store={configureStore}
-                          context={ReactReduxContext}>
-                    <HelmetProvider>
-                        <Router history={browserHistory}>
-                            <ScrollBackManager>
-                                <>
-                                    <ErrorBoundary errorType="text"
-                                                   errorTitle={I18n.t('js.helpers.errors.boundary.header')}>
-                                        <HeaderLayoutDefault hashRoutes={routes.hashes}/>
-                                    </ErrorBoundary>
+                    <Provider store={configureStore}
+                              context={ReactReduxContext}>
+                        <HelmetProvider>
+                            <Router history={browserHistory}>
+                                <ScrollBackManager>
+                                    <>
+                                        <ErrorBoundary errorType="text"
+                                                       errorTitle={I18n.t('js.helpers.errors.boundary.header')}>
+                                            <HeaderLayoutDefault hashRoutes={routes.hashes}/>
+                                        </ErrorBoundary>
 
-                                    <ErrorBoundary errorType="card">
-                                        <MainLayoutDefault routes={[...routes.static.common, ...routes.static.home, ...routes.static.notFound]}
-                                                           {...this._componentProps()}/>
-                                    </ErrorBoundary>
+                                        <ErrorBoundary errorType="card">
+                                            <MainLayoutDefault
+                                                routes={[...routes.static.common, ...routes.static.home, ...routes.static.notFound]}
+                                                {...this._componentProps()}/>
+                                        </ErrorBoundary>
 
-                                    <ErrorBoundary errorType="text"
-                                                   errorTitle={I18n.t('js.helpers.errors.boundary.footer')}>
-                                        <FooterLayoutDefault/>
-                                    </ErrorBoundary>
-                                </>
-                            </ScrollBackManager>
-                        </Router>
-                    </HelmetProvider>
-                </Provider>
-            </MuiThemeProvider>
+                                        <ErrorBoundary errorType="text"
+                                                       errorTitle={I18n.t('js.helpers.errors.boundary.footer')}>
+                                            <FooterLayoutDefault/>
+                                        </ErrorBoundary>
+                                    </>
+                                </ScrollBackManager>
+                            </Router>
+                        </HelmetProvider>
+                    </Provider>
+                </MuiThemeProvider>
+            </StylesProvider>
         );
     }
 }
