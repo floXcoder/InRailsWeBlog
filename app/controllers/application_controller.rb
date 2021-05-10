@@ -434,8 +434,9 @@ class ApplicationController < ActionController::Base
       format.html do
         store_current_location
         flash[:error] = error_message
-        redirect_to(ERB::Util.html_escape(request.referer) || root_path)
+        redirect_to(ERB::Util.html_escape(request.referer) || root_path) and return
       end
+      format.all { render body: nil, status: :forbidden }
     end
   end
 
