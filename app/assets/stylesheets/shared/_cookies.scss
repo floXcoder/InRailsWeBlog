@@ -3,7 +3,7 @@
   border-top: 1px solid $border-color;
   bottom: 0;
   color: $text-color;
-  font-size: 1rem;
+  font-size: 14px;
   left: 0;
   margin: 0;
   padding: 12px 0;
@@ -21,7 +21,7 @@
   padding-left: 85px;
   margin-right: auto;
   margin-left: auto;
-  margin-bottom: 1rem;
+  margin-bottom: 0;
   font-size: 15px;
   text-align: left;
 
@@ -39,11 +39,15 @@
 
 .cookies-title {
   font-weight: 800;
-  font-size: 16px;
+  font-size: 14px;
   color: #333;
-  margin-top: 12px;
-  margin-bottom: 12px;
+  margin-top: 8px;
+  margin-bottom: 8px;
   letter-spacing: 1px;
+}
+
+.cookies-content {
+  font-size: 13px;
 }
 
 .cookies-button {
@@ -51,7 +55,7 @@
   color: #fff;
   background: #21ca87;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 14px;
   height: 36px;
   line-height: 36px;
   padding: 0 18px;
@@ -60,12 +64,12 @@
   border: 0;
   display: inline-block;
   text-align: center;
-  margin-top: .5rem;
-  margin-bottom: 1rem;
+  margin-top: 8px;
+  margin-bottom: 12px;
 }
 
 .cookies-more {
-  font-size: 16px;
+  font-size: 14px;
   height: 44px;
   line-height: 44px;
   padding: 0 33px;
@@ -76,8 +80,8 @@
   text-align: center;
   color: $text-color;
   cursor: pointer;
-  margin-top: .5rem;
-  margin-bottom: 1rem;
+  margin-top: 8px;
+  margin-bottom: 12px;
 }
 
 .cookies-details {

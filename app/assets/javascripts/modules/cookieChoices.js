@@ -112,6 +112,10 @@ const cookieChoices = (function () {
 
     function _parametersLinkClick() {
         var cookieContent = document.querySelector('.cookies-content');
+        if (cookieContent.dataset.parameters) {
+            return;
+        }
+        cookieContent.dataset.parameters = 'true';
         var consentDetails = document.createElement('div');
         consentDetails.className = 'cookies-details';
         _setElementText(consentDetails, I18n.t('js.cookies.details'));
