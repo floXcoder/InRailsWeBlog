@@ -15,7 +15,7 @@ class AssetManifest
     if AssetManifest.manifest
       AssetManifest.manifest[url] || url
     else
-      AssetManifest.root_url + 'assets/' + url
+      "#{AssetManifest.root_url}assets/#{url}"
     end
   end
 
@@ -26,7 +26,7 @@ class AssetManifest
     if AssetManifest.manifest
       AssetManifest.manifest[url] || url
     else
-      AssetManifest.root_url + 'assets/' + url
+      "#{AssetManifest.root_url}assets/#{url}"
     end
   end
 
@@ -39,11 +39,13 @@ class AssetManifest
       else
         AssetManifest.root_url + url
       end
+    elsif url.start_with?('data:')
+      url
     else
       if AssetManifest.manifest
         AssetManifest.manifest[url] || url
       else
-        AssetManifest.root_url + 'assets/' + url
+        "#{AssetManifest.root_url}assets/#{url}"
       end
     end
   end
@@ -54,7 +56,7 @@ class AssetManifest
     if AssetManifest.manifest
       AssetManifest.manifest[url] || url
     else
-      AssetManifest.root_url + 'assets/' + url
+      "#{AssetManifest.root_url}assets/#{url}"
     end
   end
 

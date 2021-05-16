@@ -216,6 +216,13 @@ fr:
       title: "Admin"
   email:
     hello: "Bonjour"
+    user:
+      welcome:
+        subject: "Bienvenue sur %{website} !"
+        hello: "Bonjour %{pseudo},"
+        happy: "Nous sommes ravis de vous compter parmi les membres de %{website} !"
+        browse: "Nous vous invitons dès à présent à ajouter vos expériences et articles à partager."
+        contact: "Toute notre équipe est à votre disposition pour vous aider. Vous avez une question ? Une suggestion ? Envoyez nous un mail à <a href='mailto:contact@map-planner.com'>contact@map-planner.com</a>."
     confirmation:
       instruction: "Cliquer sur le lien ci-dessous pour confirmer l'email de votre compte"
     reset_password:

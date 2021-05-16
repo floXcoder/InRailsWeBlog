@@ -75,7 +75,6 @@ RSpec.describe User, type: :model, basic: true do
       phone_number:  '0101010101',
       slug:          'example_user'
     )
-    @user.confirm
   end
 
   subject { @user }

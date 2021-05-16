@@ -1,0 +1,29 @@
+<table cellspacing="0" cellpadding="0" width="600" class="w320">
+  <tr>
+    <td class="header-lg">
+      <p><%= t('email.user.welcome.hello', pseudo: @user.pseudo) %></p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p style="font-weight: 800;">
+        <%= I18n.t('email.user.welcome.happy', website: ENV['WEBSITE_NAME']) %>
+      </p>
+      <p>
+        <%= I18n.t('email.user.welcome.browse') %>
+      </p>
+      <p>
+        <%= I18n.t('email.user.welcome.contact', email: ENV['WEBSITE_EMAIL']).html_safe %>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td class="button">
+      <div>
+        <p class="signature">
+          <%= I18n.t('email.greeting') %>
+        </p>
+      </div>
+    </td>
+  </tr>
+</table>

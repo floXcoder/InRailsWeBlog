@@ -62,7 +62,7 @@ class User < ApplicationRecord
          :trackable,
          :validatable,
          :lockable,
-         :confirmable,
+         # :confirmable,
          authentication_keys: [:login]
 
   include EnumsConcern
