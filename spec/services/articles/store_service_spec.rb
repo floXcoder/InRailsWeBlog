@@ -44,16 +44,26 @@ describe Articles::StoreService, type: :service, basic: true do
 
       it 'returns the correct mode' do
         note_article    = @user.articles.build
-        article_results = Articles::StoreService.new(note_article, topic_id: @public_topic.id, title: 'Article note', content: 'new note', visibility: 'only_me', tags: ["#{@private_tag.name},#{@private_tag.visibility}"], current_user: @user).perform
-        expect(article_results.success?).to be true
-        expect(article_results.result).to be_kind_of(Article)
-        expect(article_results.result.mode).to eq('note')
+        article_result = Articles::StoreService.new(note_article, topic_id: @public_topic.id, title: 'Article note', content: 'new note', visibility: 'only_me', tags: ["#{@private_tag.name},#{@private_tag.visibility}"], current_user: @user).perform
+        expect(article_result.success?).to be true
+        expect(article_result.result).to be_kind_of(Article)
+        expect(article_result.result.mode).to eq('note')
 
         story_article   = @user.articles.build
-        article_results = Articles::StoreService.new(story_article, topic_id: @stories_topic.id, title: 'Article story', content: 'new story', visibility: 'only_me', tags: ["#{@private_tag.name},#{@private_tag.visibility}"], current_user: @user).perform
-        expect(article_results.success?).to be true
-        expect(article_results.result).to be_kind_of(Article)
-        expect(article_results.result.mode).to eq('story')
+        article_result = Articles::StoreService.new(story_article, topic_id: @stories_topic.id, title: 'Article story', content: 'new story', visibility: 'only_me', tags: ["#{@private_tag.name},#{@private_tag.visibility}"], current_user: @user).perform
+        expect(article_result.success?).to be true
+        expect(article_result.result).to be_kind_of(Article)
+        expect(article_result.result.mode).to eq('story')
+      end
+
+      it 'returns a new article with slugs in all languages' do
+        article    = @user.articles.build
+        article_result = Articles::StoreService.new(article, topic_id: @public_topic.id, title: 'Article title slug', content: 'new content', visibility: 'only_me', tags: ["#{@private_tag.name},#{@private_tag.visibility}"], current_user: @user).perform
+        expect(article_result.success?).to be true
+        expect(article_result.result).to be_kind_of(Article)
+        expect(article_result.result.slug).not_to be_empty
+        expect(article_result.result.slug_translations['en']).not_to be_empty
+        expect(article_result.result.slug_translations['fr']).not_to be_empty
       end
 
       it 'returns a new public article even if same private tag name exists' do
@@ -70,12 +80,12 @@ describe Articles::StoreService, type: :service, basic: true do
         @user.update_attribute(:current_topic_id, @inventories_topic.id)
 
         inventory_article = @user.articles.build
-        article_results   = Articles::StoreService.new(inventory_article, topic_id: @inventories_topic.id, title: 'Inventory article', inventories: { string_required: 'My string', text: '<p>My text</p>' }, visibility: 'only_me', tags: ["#{@private_tag.name},#{@private_tag.visibility}"], current_user: @user).perform
+        article_result   = Articles::StoreService.new(inventory_article, topic_id: @inventories_topic.id, title: 'Inventory article', inventories: { string_required: 'My string', text: '<p>My text</p>' }, visibility: 'only_me', tags: ["#{@private_tag.name},#{@private_tag.visibility}"], current_user: @user).perform
 
-        expect(article_results.success?).to be true
-        expect(article_results.result).to be_kind_of(Article)
-        expect(article_results.result.mode).to eq('inventory')
-        expect(article_results.result.inventories).not_to be_empty
+        expect(article_result.success?).to be true
+        expect(article_result.result).to be_kind_of(Article)
+        expect(article_result.result.mode).to eq('inventory')
+        expect(article_result.result.inventories).not_to be_empty
       end
     end
 
@@ -91,6 +101,16 @@ describe Articles::StoreService, type: :service, basic: true do
         expect(article_result.result).to be_kind_of(Article)
         expect(article_result.result.content).to eq('updated content')
         expect(article_result.result.contributor_id).to be_nil
+      end
+
+      it 'updates slugs in all languages' do
+        article_result = Articles::StoreService.new(@article, topic_id: @public_topic.id, title: 'Article updated', current_user: @user).perform
+
+        expect(article_result.success?).to be true
+        expect(article_result.result).to be_kind_of(Article)
+        expect(article_result.result.slug).to include('article-updated@')
+        expect(article_result.result.slug_translations['en']).to include('article-updated@')
+        expect(article_result.result.slug_translations['fr']).to include('article-updated@')
       end
 
       it 'adds a redirection if title change' do

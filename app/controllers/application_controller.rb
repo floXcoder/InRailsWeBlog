@@ -203,7 +203,7 @@ class ApplicationController < ActionController::Base
                   author:      author,
                   og:          og)
 
-    if (languages.present? && languages.exclude?(current_locale)) || (model.respond_to?(:languages) && model.languages.exclude?(current_locale))
+    if (languages.present? && languages.map(&:to_s).exclude?(current_locale.to_s)) || (model.respond_to?(:languages) && model.languages.map(&:to_s).exclude?(current_locale.to_s))
       set_meta_tags(
         canonical: canonical_url(named_route, model, model&.languages&.first || languages&.first, **slug_parameters),
         noindex:   true
