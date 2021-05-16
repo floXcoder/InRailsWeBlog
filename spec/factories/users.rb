@@ -87,17 +87,17 @@ FactoryBot.define do
       not_confirmed       { false }
     end
 
-    after(:build) do |user, evaluator|
-      unless evaluator.confirmation_email
-        user.skip_confirmation_notification!
-      end
-    end
-
-    after(:create) do |user, evaluator|
-      unless evaluator.not_confirmed
-        user.confirm
-      end
-    end
+    # after(:build) do |user, evaluator|
+    #   unless evaluator.confirmation_email
+    #     user.skip_confirmation_notification!
+    #   end
+    # end
+    #
+    # after(:create) do |user, evaluator|
+    #   unless evaluator.not_confirmed
+    #     user.confirm
+    #   end
+    # end
   end
 
 end

@@ -231,6 +231,9 @@ Rails/AttributeDefaultBlockValue:
 Rails/DynamicFindBy:
   Enabled: false
 
+Rails/EnvironmentVariableAccess:
+  Enabled: false
+
 Rails/FindBy:
   Enabled: false
 
@@ -277,6 +280,9 @@ Rails/SkipsModelValidations:
   Enabled: false
 
 Rails/SquishedSQLHeredocs:
+  Enabled: true
+
+Rails/TimeZoneAssignment:
   Enabled: true
 
 Rails/UnknownEnv:

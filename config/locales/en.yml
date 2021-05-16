@@ -216,6 +216,13 @@ en:
       title: "Admin"
   email:
     hello: "Hello"
+    user:
+      welcome:
+        subject: "Welcome on %{website}!"
+        hello: "Hello %{pseudo},"
+        happy: "We are delighted to count you among the members of %{website}!"
+        browse: "We invite you to add your experiences and articles to share."
+        contact: "Our whole team is at your disposal to help you. You have a question? A suggestion? Send us an e-mail at <a href='mailto:%{email}'>%{email}</a>."
     confirmation:
       instruction: "You can confirm your account email through the link below"
     reset_password:

@@ -146,7 +146,7 @@ webPackConfig.plugins.push(
     new CopyWebpackPlugin({
         patterns: _.map(config.datas, (data) => ({
             from: data.from,
-            to: data.to + config.production.filename + '[ext]',
+            to: data.to + config.production.filenameData + '[ext]',
             toType: 'template'
         }))
     }),

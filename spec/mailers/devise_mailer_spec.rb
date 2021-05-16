@@ -12,7 +12,7 @@ RSpec.describe DeviseMailer, type: :mailer, advanced: true do
     it 'renders the headers' do
       expect(mail.subject).to eq(t('devise.mailer.confirmation_instructions.subject'))
       expect(mail.to).to eq([@user.email])
-      expect(mail.from).to eq([ENV['EMAIL_USER']])
+      expect(mail.from).to eq([ENV['WEBSITE_EMAIL']])
     end
 
     it 'renders the body' do
@@ -29,7 +29,7 @@ RSpec.describe DeviseMailer, type: :mailer, advanced: true do
     it 'renders the headers' do
       expect(mail.subject).to eq(t('devise.mailer.reset_password_instructions.subject'))
       expect(mail.to).to eq([@user.email])
-      expect(mail.from).to eq([ENV['EMAIL_USER']])
+      expect(mail.from).to eq([ENV['WEBSITE_EMAIL']])
     end
 
     it 'renders the body' do
@@ -46,7 +46,7 @@ RSpec.describe DeviseMailer, type: :mailer, advanced: true do
     it 'renders the headers' do
       expect(mail.subject).to eq(t('devise.mailer.unlock_instructions.subject'))
       expect(mail.to).to eq([@user.email])
-      expect(mail.from).to eq([ENV['EMAIL_USER']])
+      expect(mail.from).to eq([ENV['WEBSITE_EMAIL']])
     end
 
     it 'renders the body' do

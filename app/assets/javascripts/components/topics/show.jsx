@@ -19,10 +19,10 @@ import LabelIcon from '@material-ui/icons/Label';
 import ShareIcon from '@material-ui/icons/Share';
 
 import {
-    userTopicPath,
     taggedTopicArticlesPath,
     editTopicPath,
-    shareTopicParam, topicArticlesPath
+    shareTopicParam,
+    topicArticlesPath
 } from '../../constants/routesHelper';
 
 import {

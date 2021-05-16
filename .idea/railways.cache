@@ -1,4 +1,4 @@
-do /home/flo/Projects/InRailsWeBlog/bin/bundle exec /home/flo/.rvm/rubies/ruby-3.0.0/bin/ruby /home/flo/Projects/InRailsWeBlog/bin/rails routes --trace 
+do /home/flo/.rvm/rubies/ruby-3.0.0/bin/ruby /home/flo/Projects/InRailsWeBlog/bin/rails routes --trace 
 Ruby enVironment Manager 1.29.12 (latest) (c) 2009-2020 Michal Papis, Piotr Kuczynski, Wayne E. Seguin
 
                               Prefix Verb     URI Pattern                                                                                   Controller#Action

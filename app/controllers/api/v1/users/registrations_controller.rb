@@ -19,6 +19,7 @@ module Api::V1
         if resource.active_for_authentication?
           flash[:success] = t('devise.registrations.signed_up') if is_flashing_format? || request.format.js?
           sign_up(resource_name, resource)
+          after_sign_up(resource)
           @location = after_sign_up_path_for(resource)
         else
           set_flash_message :alert, :"signed_up_but_#{resource.inactive_message}" if is_flashing_format? || request.format.js?
@@ -51,6 +52,10 @@ module Api::V1
     end
 
     protected
+
+    def after_sign_up(resource)
+      UserMailer.welcome_email(resource).deliver_now
+    end
 
     def after_sign_up_path_for(resource)
       after_sign_in_path_for(resource)

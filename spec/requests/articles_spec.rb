@@ -103,7 +103,7 @@ describe 'Article API', type: :request, basic: true do
       expect(response.body).to match('data-article="{')
     end
 
-    it 'redirects to the correct locale' do
+    it 'redirects to the correct locale for articles with multiple locales' do
       get "/users/#{@user.slug}/articles/#{@multi_lg_article.slug_translations['fr']}"
 
       expect(response.status).to eq(301)
@@ -118,6 +118,13 @@ describe 'Article API', type: :request, basic: true do
 
       expect(response.status).to eq(301)
       expect(response.body).to include("/users/#{@user.slug}/articles/#{new_slug}")
+    end
+
+    it 'redirects to the correct locale for article with one locale only' do
+      get "/fr/utilisateurs/#{@user.slug}/articles/#{@article.slug}"
+
+      expect(response.status).to eq(301)
+      expect(response.body).to include("/users/#{@user.slug}/articles/#{@article.slug}")
     end
   end
 
@@ -398,6 +405,20 @@ describe 'Article API', type: :request, basic: true do
         article = JSON.parse(response.body)
         expect(article['data']['attributes']).not_to be_empty
         expect(article['data']['attributes']['title']).to eq(@article.title)
+      end
+
+      it 'returns an index page for article with content in current language' do
+        get "/api/v1/articles/#{@article.id}", params: { user_id: @article.user.slug }, as: :json
+
+        article = JSON.parse(response.body)
+        expect(article['meta']['metaTags']['noindex']).to be nil
+      end
+
+      it 'returns a noindex page for empty article content in current language' do
+        get "/api/v1/articles/#{@article.id}", params: { user_id: @article.user.slug, force_locale: 'fr' }, as: :json
+
+        article = JSON.parse(response.body)
+        expect(article['meta']['metaTags']['noindex']).to be true
       end
 
       it 'returns the article without private tags' do

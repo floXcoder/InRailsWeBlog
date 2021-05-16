@@ -104,8 +104,8 @@ Rails.application.configure do
     port:                ENV['SMTP_PORT'],
     domain:              ENV['WEBSITE_ADDRESS'],
     authentication:      'login',
-    user_name:           ENV['EMAIL_USER'],
-    password:            ENV['EMAIL_PASSWORD'],
+    user_name:           ENV['WEBSITE_EMAIL'],
+    password:            ENV['WEBSITE_EMAIL_PASSWORD'],
     openssl_verify_mode: 'none',
     open_timeout:        3,
     read_timeout:        3

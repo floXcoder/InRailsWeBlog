@@ -112,6 +112,10 @@ const cookieChoices = (function () {
 
     function _parametersLinkClick() {
         var cookieContent = document.querySelector('.cookies-content');
+        if (cookieContent.dataset.parameters) {
+            return;
+        }
+        cookieContent.dataset.parameters = 'true';
         var consentDetails = document.createElement('div');
         consentDetails.className = 'cookies-details';
         _setElementText(consentDetails, I18n.t('js.cookies.details'));
@@ -212,11 +216,11 @@ const cookieChoices = (function () {
         return ret;
     }
 
-    function displayCookies() {
+    function displayCookies(termsUrl) {
         if (acceptCookies()) {
-            showCookieConsentBar(I18n.t('js.cookies.title'), I18n.t('js.cookies.content'), I18n.t('js.cookies.button'), I18n.t('js.cookies.link'), '/politique-des-donnees', '#21ca87');
+            showCookieConsentBar(I18n.t('js.cookies.title'), I18n.t('js.cookies.content'), I18n.t('js.cookies.button'), I18n.t('js.cookies.link'), termsUrl, '#21ca87');
         } else {
-            showCookieConsentBar(I18n.t('js.no_cookies.title'), I18n.t('js.no_cookies.content'), I18n.t('js.no_cookies.button'), I18n.t('js.no_cookies.link'), '/politique-des-donnees', 'red');
+            showCookieConsentBar(I18n.t('js.no_cookies.title'), I18n.t('js.no_cookies.content'), I18n.t('js.no_cookies.button'), I18n.t('js.no_cookies.link'), termsUrl, 'red');
         }
     }
 
@@ -227,6 +231,6 @@ const cookieChoices = (function () {
 
 if (!window.seoMode && js_environment.NODE_ENV === 'production') {
     setTimeout(() => {
-        cookieChoices.displayCookies();
+        cookieChoices.displayCookies(window.termsUrl);
     }, 1000);
 }

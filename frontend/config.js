@@ -221,6 +221,7 @@ module.exports = {
             filename: '[name].[contenthash]',
             filenameImage: '[name]',
             filenameFont: '[name]',
+            filenameData: '[name]',
             chunkFilename: '[name].[contenthash].[id]',
             manifestFilename: 'manifest.json'
         }
