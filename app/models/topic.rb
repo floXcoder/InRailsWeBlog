@@ -263,9 +263,15 @@ class Topic < ApplicationRecord
   end
 
   def slug_candidates
-    [
-      :name
-    ]
+    if self.visibility != 'everyone' && self.user
+      [
+        [:name, self.user.pseudo]
+      ]
+    else
+      [
+        :name
+      ]
+    end
   end
 
   def mode_translated
