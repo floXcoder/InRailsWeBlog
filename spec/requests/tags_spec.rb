@@ -166,7 +166,7 @@ describe 'Tag API', type: :request, basic: true do
       it 'returns all tags in less than 0.4 seconds' do
         expect {
           get '/api/v1/tags', params: { filter: { user_id: @user.id }, limit: 1_000 }, as: :json
-        }.to take_less_than(0.45).seconds
+        }.to take_less_than(0.5).seconds
       end
     end
 
