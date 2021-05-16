@@ -96,8 +96,8 @@ gem 'meta-tags',                '2.14.0'
 gem 'sitemap_generator',        '6.1.2'
 
 # Dummy data
-gem 'factory_bot_rails',        '6.1.0',  require: false
-gem 'faker',                    '2.17.0', require: false
+gem 'factory_bot_rails',        '6.2.0',  require: false
+gem 'faker',                    '2.18.0', require: false
 
 # Deployment
 gem 'capistrano',               '3.16.0', require: false
@@ -112,7 +112,7 @@ gem 'health_check',             '3.0.0'
 gem 'webdrivers',               '4.6.0',  require: false
 
 # Server
-gem 'puma',                     '5.2.2'
+gem 'puma',                     '5.3.1'
 
 group :development do
   # Debugging tool
@@ -128,7 +128,7 @@ group :development do
   gem 'prosopite',              '1.0.1'
 
   # Guard and its minions
-  gem 'guard',                  '2.16.2', require: false
+  gem 'guard',                  '2.17.0', require: false
   gem 'guard-rails',            '0.8.1',  require: false
   gem 'guard-bundler',          '3.0.0',  require: false
   gem 'guard-migrate',          '2.0.0',  require: false
@@ -152,7 +152,7 @@ end
 group :test do
   # Test tools
   gem 'rspec-rails',                '5.0.1'
-  gem 'webmock',                    '3.12.2'
+  gem 'webmock',                    '3.13.0'
   gem 'rspec_junit_formatter',      '0.4.1'
   gem 'shoulda-matchers',           '4.5.1',  require: false
   gem 'shoulda-callback-matchers',  '1.1.4',  require: false
@@ -170,7 +170,7 @@ group :test do
   gem 'launchy',                    '2.5.0'
 
   # static analyzer
-  gem 'rails_best_practices',       '1.20.0', require: false
+  gem 'rails_best_practices',       '1.20.1', require: false
   gem 'brakeman',                   '5.0.1',  require: false
   gem 'i18n-tasks',                 '0.9.34', require: false
 end

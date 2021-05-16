@@ -47,9 +47,8 @@ module InRailsWeBlog
     # Load files from lib directory
     config.enable_dependency_loading = true
     config.eager_load_paths << "#{config.root}/app/services"
-    config.eager_load_paths += Dir["#{config.root}/lib/inrailsweblog/**/"]
-    config.eager_load_paths += Dir["#{config.root}/lib/populate/**/"]
-    config.eager_load_paths << "#{config.root}/spec/mailers/previews/"
+    config.eager_load_paths << "#{config.root}/lib/inrailsweblog"
+    config.eager_load_paths << "#{config.root}/spec/mailers/previews"
 
     # Database time zone
     config.time_zone                      = 'Paris'

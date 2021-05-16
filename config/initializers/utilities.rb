@@ -172,7 +172,7 @@ class String
 
     string = string.gsub(/https?:\/\/(\S+.*?)/, '') if remove_links
 
-    string = string.strip.squish
+    string = replace_tags ? string.strip : string.strip.squish
 
     end_line = string.index(' ', length - 10)
     if end_line && string.length > length
