@@ -329,9 +329,9 @@ class Tag < ApplicationRecord
   end
 
   def slug_candidates
-    if visibility != 'everyone' && user
+    if self.visibility != 'everyone' && self.user
       [
-        [:name, user.pseudo]
+        [:name, self.user.pseudo]
       ]
     else
       [
