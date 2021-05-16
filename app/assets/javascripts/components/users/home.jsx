@@ -255,6 +255,13 @@ class UserHome extends React.Component {
                                                 </Typography>
 
                                                 {
+                                                    topic.languages.length > 1 &&
+                                                    <div className={this.props.classes.topicLanguages}>
+                                                        {topic.languages.join(', ')}
+                                                    </div>
+                                                }
+
+                                                {
                                                     topic.mode !== 'default' &&
                                                     <div className={this.props.classes.topicMode}>
                                                         {I18n.t(`js.topic.enums.mode.${topic.mode}`)}

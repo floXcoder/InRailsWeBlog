@@ -42,11 +42,11 @@ module Api::V1
     private
 
     def after_sending_reset_password_instructions_path_for(_resource_name)
-      root_path if is_navigational_format?
+      send("home_#{I18n.locale}_path") if is_navigational_format?
     end
 
     def after_resetting_password_path_for(_resource_name)
-      root_path if is_navigational_format?
+      send("home_#{I18n.locale}_path") if is_navigational_format?
     end
 
   end

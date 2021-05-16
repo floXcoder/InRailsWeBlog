@@ -82,7 +82,9 @@ const styles = (theme) => ({
     },
     commentCount: {
         display: 'block',
-        fontSize: '1rem',
+        marginTop: '.6rem',
+        fontSize: '.9rem',
+        textAlign: 'right',
         color: 'inherit'
     },
     outdated: {

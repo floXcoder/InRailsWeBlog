@@ -44,20 +44,20 @@ class ArticleFormStepper extends React.Component {
                         }}
                              disableRipple={true}
                              icon={<EditIcon/>}
-                             label="Article"/>
+                             label={I18n.t('js.article.form.tabs.content')}/>
                         <Tab classes={{
                             root: this.props.classes.middleTab,
                             labelIcon: this.props.classes.tab
                         }}
                              disableRipple={true}
                              icon={<LabelIcon/>}
-                             label="Labels"/>
+                             label={I18n.t('js.article.form.tabs.tags')}/>
                         <Tab classes={{
                             labelIcon: this.props.classes.tab
                         }}
                              disableRipple={true}
                              icon={<SendIcon/>}
-                             label="Publier"/>
+                             label={I18n.t('js.article.form.tabs.publish')}/>
                     </Tabs>
                 </AppBar>
             </div>

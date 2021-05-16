@@ -537,6 +537,10 @@ en:
         validation_error:
           common: "Please correct errors before submitting"
       form:
+        tabs:
+          content: "Article"
+          tags: "Tags"
+          publish: "Publish"
         no_inventories: "You have no custom fields yet."
         inventory_button: "Add or update custom fields"
         inventories:
@@ -787,7 +791,10 @@ en:
         commentable_type: "Model commented"
         posted_at: "Posted at"
       tooltip:
-        count: "%{count} comments"
+        count:
+          zero: "0 comments"
+          one: "1 comment"
+          other: "%{count} comments"
       timeline:
         link: "Comment associated to:"
         no_comments: "No comments to display"
