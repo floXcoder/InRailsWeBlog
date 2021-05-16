@@ -107,11 +107,11 @@ class ApplicationController < ActionController::Base
         end
         format.js do
           flash[:alert] = I18n.t('devise.failure.unauthenticated')
-          js_redirect_to(root_path)
+          js_redirect_to(send("home_#{I18n.locale}_path"))
         end
         format.html do
           store_current_location
-          redirect_to root_path, notice: I18n.t('devise.failure.unauthenticated')
+          redirect_to send("home_#{I18n.locale}_path"), notice: I18n.t('devise.failure.unauthenticated')
         end
       end
     end
@@ -297,31 +297,31 @@ class ApplicationController < ActionController::Base
 
   def after_inactive_sign_up_path_for(_resource)
     # login_path
-    root_path
+    send("home_#{I18n.locale}_path")
   end
 
   def after_update_path_for(_resource)
     # user_path(resource)
-    root_path
+    send("home_#{I18n.locale}_path")
   end
 
   def after_sign_out_path_for(_resource)
     # previous_path = request.referer && URI.parse(request.referer).path
     # previous_path || root_path
-    root_path
+    send("home_#{I18n.locale}_path")
   end
 
   def after_confirmation_path_for(_resource_name, _resource)
-    root_path
+    send("home_#{I18n.locale}_path")
   end
 
   def new_session_path(_resource)
-    root_path
+    send("home_#{I18n.locale}_path")
   end
 
   def after_failure_path
     # login_path
-    root_path
+    send("home_#{I18n.locale}_path")
   end
 
   def admin_or_authorize(model = nil, method = nil)
@@ -353,7 +353,7 @@ class ApplicationController < ActionController::Base
     if params.dig(:ensure, :validity).present? || params[:ensure_validity].present?
       respond_to do |format|
         format.json { render json: { success: true }.to_json, status: :ok }
-        format.js { js_redirect_to(root_path) }
+        format.js { js_redirect_to(send("home_#{I18n.locale}_path")) }
         format.html { head(200) }
       end
     end
@@ -430,11 +430,11 @@ class ApplicationController < ActionController::Base
 
     respond_to do |format|
       format.json { render json: { errors: error_message }.to_json, status: :forbidden }
-      format.js { js_redirect_to(ERB::Util.html_escape(request.referer) || root_path) }
+      format.js { js_redirect_to(ERB::Util.html_escape(request.referer) || send("home_#{I18n.locale}_path")) }
       format.html do
         store_current_location
         flash[:error] = error_message
-        redirect_to(ERB::Util.html_escape(request.referer) || root_path) and return
+        redirect_to(ERB::Util.html_escape(request.referer) || send("home_#{I18n.locale}_path")) and return
       end
       format.all { render body: nil, status: :forbidden }
     end

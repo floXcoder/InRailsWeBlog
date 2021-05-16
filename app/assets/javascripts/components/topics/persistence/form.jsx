@@ -221,7 +221,7 @@ export default class PersistenceFormTopic extends React.Component {
 
                     {
                         this.props.isEditing &&
-                        <div className="center-align margin-top-15">
+                        <div className="center-align margin-top-40">
                             <a href="#"
                                onClick={this._handleTopicDelete}>
                                 {I18n.t('js.topic.edit.delete')}

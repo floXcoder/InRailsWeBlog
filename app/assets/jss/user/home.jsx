@@ -51,6 +51,18 @@ const styles = (theme) => ({
         color: '#fff',
         fontSize: '1.2rem'
     },
+    topicLanguages: {
+        marginTop: '.8rem',
+        marginRight: theme.spacing(-1),
+        textAlign: 'left',
+        float: 'left',
+        color: '#fff',
+        fontSize: '.9rem',
+        fontStyle: 'italic',
+        [theme.breakpoints.down('md')]: {
+            marginTop: 0
+        }
+    },
     topicMode: {
         marginTop: '.8rem',
         marginRight: theme.spacing(-1),

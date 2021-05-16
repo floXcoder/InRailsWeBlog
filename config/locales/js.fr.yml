@@ -537,6 +537,10 @@ fr:
         validation_error:
           common: "Merci de remplir l'article comme indiqué avant de continuer"
       form:
+        tabs:
+          content: "Article"
+          tags: "Labels"
+          publish: "Publier"
         no_inventories: "Vous n'avez pas encore défini de champs personnalisé. Merci de les créer :"
         inventory_button: "Ajouter ou modifier les champs personnalisés"
         inventories:
@@ -787,7 +791,10 @@ fr:
         commentable_type: "Model commenté"
         posted_at: "Posté le"
       tooltip:
-        count: "%{count} commentaires"
+        count:
+          zero: "0 commentaire"
+          one: "1 commentaire"
+          other: "%{count} commentaires"
       timeline:
         link: "Commentaire associée à :"
         no_comments: "Pas de commentaires à afficher"

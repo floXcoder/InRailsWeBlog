@@ -41,7 +41,7 @@ class Admins::SessionsController < Devise::SessionsController
   def redirect_after_failure(_error_msg)
     respond_to do |format|
       format.html do
-        redirect_to root_path
+        redirect_to send("home_#{I18n.locale}_path")
       end
     end
   end
