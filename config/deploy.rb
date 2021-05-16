@@ -49,10 +49,6 @@ set :bundle_binstubs, -> { shared_path.join('vendor/bundle/bin') }
 set :bundle_path, -> { shared_path.join('vendor/bundle') }
 set :bundle_jobs, 4
 
-# Passenger config
-set :passenger_roles, :app
-set :passenger_restart_with_sudo, true
-
 # Sidekiq configuration from file
 set :sidekiq_config, -> { File.join(shared_path, 'config', 'sidekiq.yml') }
 

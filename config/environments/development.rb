@@ -62,7 +62,7 @@ Rails.application.configure do
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
   # Mails
-  config.action_mailer.default_url_options   = { host: ENV['WEBSITE_ADDRESS'] } # Use by devise for sending emails. Change to definitive name
+  config.action_mailer.default_url_options   = { host: ENV['WEBSITE_ADDRESS'] }
   config.action_mailer.delivery_method       = :smtp
   config.action_mailer.perform_deliveries    = false
   config.action_mailer.raise_delivery_errors = false
