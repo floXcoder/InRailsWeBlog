@@ -429,7 +429,7 @@ fr:
         submit: "Ajouter"
       edit:
         title: "Modification du thème"
-        title_signup: "Votre premier thème"
+        title_signup: "Votre premier thème privé"
         name: "Nom du thème"
         mode: "Type"
         description: "Description"

@@ -9,6 +9,7 @@ describe Tags::StoreService, type: :service, basic: true do
     @user = create(:user)
 
     @tag = create(:tag, user: @user, visibility: 'only_me')
+    @public_tag = create(:tag, user: @user, visibility: 'everyone')
   end
 
   describe '#perform' do
@@ -30,6 +31,13 @@ describe Tags::StoreService, type: :service, basic: true do
         expect(tag_results.success?).to be true
         expect(tag_results.result).to be_kind_of(Tag)
         expect(tag_results.result.name).to eq('updated content')
+      end
+
+      it 'prevents to change tag visibility if public' do
+        tag_results = Tags::StoreService.new(@public_tag, visibility: 'only_me').perform
+
+        expect(tag_results.success?).to be false
+        expect(tag_results.errors.full_messages.first).to include(I18n.t('activerecord.errors.models.tag.public_visibility_immutable'))
       end
     end
   end

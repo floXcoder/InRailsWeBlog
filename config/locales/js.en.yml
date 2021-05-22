@@ -71,7 +71,7 @@ en:
           placeholder: "Articles, tags, ..."
           button: "Search"
         populars:
-          title: "Populars articles and labels"
+          title: "Populars articles and tags"
           user_home: "See all my topics"
           articles:
             title: "Explore last articles"
@@ -429,7 +429,7 @@ en:
         submit: "Add topic"
       edit:
         title: "Update topic"
-        title_signup: "Your first topic"
+        title_signup: "Your first private topic"
         name: "Topic name"
         mode: "Type"
         description: "Topic description"

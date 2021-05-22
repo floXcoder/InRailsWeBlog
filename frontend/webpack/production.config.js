@@ -4,7 +4,7 @@ const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const {WebpackManifestPlugin} = require('webpack-manifest-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const WorkboxPlugin = require('workbox-webpack-plugin');
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
@@ -98,13 +98,16 @@ webPackConfig.optimization = {
                 module: false
             }
         }),
-        new OptimizeCSSAssetsPlugin({
-            cssProcessorOptions: {
-                discardComments: {
-                    removeAll: true
-                }
-            },
-            canPrint: true
+        new CssMinimizerPlugin({
+            parallel: true,
+            minimizerOptions: {
+                preset: [
+                    'default',
+                    {
+                        discardComments: {removeAll: true}
+                    }
+                ]
+            }
         })
     ]
 };

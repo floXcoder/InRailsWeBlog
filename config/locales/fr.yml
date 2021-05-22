@@ -279,6 +279,7 @@ fr:
           already_selected: "Le nouveau thème est déjà celui utilisé"
           already_exist: "Un thème avec le même nom existe déjà"
           not_owner: "Vous devez être le propriétaire du thème pour l'utiliser"
+          public_visibility_immutable: "La visibilité d'un thème ne peut plus être changé"
         inventory_field:
           already_exist: "Un champ avec le même nom existe déjà"
         vote:

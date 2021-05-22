@@ -18,6 +18,10 @@ import {
     fetchSharedArticle
 } from '../../actions';
 
+import {
+    userArticlePath
+} from '../../constants/routesHelper';
+
 import highlight from '../modules/highlight';
 
 import Loader from '../theme/loader';
@@ -26,8 +30,10 @@ import NotFound from '../layouts/notFound';
 
 import styles from '../../../jss/article/show';
 
+
 export default @withRouter
 @connect((state) => ({
+    currentUserId: state.userState.currentId,
     isFetching: state.articleState.isFetching,
     article: state.articleState.article
 }), {
@@ -40,6 +46,7 @@ class ArticleShared extends React.Component {
     static propTypes = {
         routeParams: PropTypes.object.isRequired,
         // from connect
+        currentUserId: PropTypes.number,
         isFetching: PropTypes.bool,
         article: PropTypes.object,
         fetchSharedArticle: PropTypes.func,
@@ -65,6 +72,8 @@ class ArticleShared extends React.Component {
             this.props.onShow(this.props.article.id, true);
         }
 
+        this._checkArticleOwner();
+
         if (!Object.equals(this.props.routeParams, prevProps.routeParams)) {
             this._request = this.props.fetchSharedArticle(this.props.routeParams.articleSlug, this.props.routeParams.publicLink);
         }
@@ -75,6 +84,12 @@ class ArticleShared extends React.Component {
             this._request.signal.abort();
         }
     }
+
+    _checkArticleOwner = () => {
+        if (this.props.currentUserId && this.props.article?.userId === this.props.currentUserId) {
+            window.location.replace(userArticlePath(this.props.article.user.slug, this.props.article.slug));
+        }
+    };
 
     render() {
         if (!this.props.article && !this.props.isFetching) {
