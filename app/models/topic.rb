@@ -157,6 +157,8 @@ class Topic < ApplicationRecord
 
   validates :visibility,
             presence: true
+  validate :public_visibility_immutable,
+           on: :update
 
   validates :slug,
             presence:   true,
@@ -263,7 +265,7 @@ class Topic < ApplicationRecord
   end
 
   def slug_candidates
-    if self.visibility != 'everyone' && self.user
+    if self.visibility == 'everyone' && self.user
       [
         [:name, self.user.pseudo]
       ]
@@ -313,6 +315,12 @@ class Topic < ApplicationRecord
           article.save
         end
       end
+    end
+  end
+
+  def public_visibility_immutable
+    if visibility_changed?
+      errors.add(:visibility, I18n.t('activerecord.errors.models.topic.public_visibility_immutable'))
     end
   end
 

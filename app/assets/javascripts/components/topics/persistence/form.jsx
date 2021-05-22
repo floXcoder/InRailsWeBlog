@@ -160,23 +160,26 @@ export default class PersistenceFormTopic extends React.Component {
                                onChange={this._handleDescriptionChange}/>
                 }
 
-                <TextField className={this.props.classes.topicField}
-                           select={true}
-                           required={true}
-                           variant="outlined"
-                           fullWidth={true}
-                           label={I18n.t('js.topic.model.visibility')}
-                           value={this.state.visibility}
-                           onChange={this._handleVisibilityChange}>
-                    {
-                        Object.keys(I18n.t('js.topic.enums.visibility')).map((key) => (
-                            <MenuItem key={key}
-                                      value={key}>
-                                {I18n.t('js.topic.enums.visibility')[key]}
-                            </MenuItem>
-                        ))
-                    }
-                </TextField>
+                {
+                    !this.props.topic.id &&
+                    <TextField className={this.props.classes.topicField}
+                               select={true}
+                               required={true}
+                               variant="outlined"
+                               fullWidth={true}
+                               label={I18n.t('js.topic.model.visibility')}
+                               value={this.state.visibility}
+                               onChange={this._handleVisibilityChange}>
+                        {
+                            Object.keys(I18n.t('js.topic.enums.visibility')).map((key) => (
+                                <MenuItem key={key}
+                                          value={key}>
+                                    {I18n.t('js.topic.enums.visibility')[key]}
+                                </MenuItem>
+                            ))
+                        }
+                    </TextField>
+                }
 
                 {
                     this.props.articleMultilanguage &&
