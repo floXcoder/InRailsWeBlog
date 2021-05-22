@@ -283,6 +283,12 @@ export default {
                 path: Routes.userArticlePath(':userSlug', ':articleSlug', false),
                 exact: true,
                 component: () => RouteComponents.ArticleShow
+            },
+            // articles: shared
+            {
+                path: Routes.sharedArticlePath(':articleSlug', ':publicLink', false),
+                exact: true,
+                component: () => RouteComponents.ArticleShared
             }
         ]
     },
