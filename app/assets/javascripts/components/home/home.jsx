@@ -21,8 +21,9 @@ import HomeFunctionalities from './functionalities';
 
 import styles from '../../../jss/default/home';
 
+
 export default @connect((state) => ({
-    isUserConnected: state.userState.isConnected,
+    isUserConnected: state.userState.isConnected
 }), {
     showUserSignup,
     showUserLogin

@@ -7,7 +7,7 @@
 }
 
 .react-responsive-modal {
-  width: 95%;
+  max-width: 95%;
 
   @media #{$large-and-up} {
     width: 900px;
