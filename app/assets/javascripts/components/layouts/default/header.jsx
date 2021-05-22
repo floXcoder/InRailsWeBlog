@@ -98,13 +98,15 @@ class HeaderLayoutDefault extends React.Component {
 
     state = {
         isMobileOpen: false,
-        isSearchLoaded: false,
+        // isSearchLoaded: true,
         isConnectLoaded: false
     };
 
     componentDidMount() {
-        setTimeout(() => this.setState({isSearchLoaded: true}), window.seoMode ? 20 : 200);
-        // setTimeout(() => this.setState({isConnectLoaded: true}), window.seoMode ? 30 : 1000);
+        // setTimeout(() => this.setState({isSearchLoaded: true}), window.seoMode ? 20 : 200);
+        if (!window.seoMode) {
+            setTimeout(() => this.setState({isConnectLoaded: true}), 1000);
+        }
     }
 
     _handleTitleClick = () => {
@@ -286,7 +288,7 @@ class HeaderLayoutDefault extends React.Component {
                         <div className={this.props.classes.grow}/>
 
                         {
-                            this.state.isSearchLoaded && !this.props.routeProperties.noHeaderSearch &&
+                            !this.props.routeProperties.noHeaderSearch &&
                             // <Suspense fallback={<div/>}>
                             //     <ErrorBoundary errorType="notification">
                             <HomeSearchHeader isSearchActive={isSearchActive}
