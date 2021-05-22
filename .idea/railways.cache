@@ -1,4 +1,4 @@
-do /home/flo/.rvm/rubies/ruby-3.0.0/bin/ruby /home/flo/Projects/InRailsWeBlog/bin/rails routes --trace 
+do /home/flo/Projects/InRailsWeBlog/bin/bundle exec /home/flo/.rvm/rubies/ruby-3.0.0/bin/ruby /home/flo/Projects/InRailsWeBlog/bin/rails routes --trace 
 Ruby enVironment Manager 1.29.12 (latest) (c) 2009-2020 Michal Papis, Piotr Kuczynski, Wayne E. Seguin
 
                               Prefix Verb     URI Pattern                                                                                   Controller#Action
@@ -100,9 +100,6 @@ Ruby enVironment Manager 1.29.12 (latest) (c) 2009-2020 Michal Papis, Piotr Kucz
                                      PUT      /api/v1/users(.:format)                                                                       api/v1/users/registrations#update
                                      DELETE   /api/v1/users(.:format)                                                                       api/v1/users/registrations#destroy
                                      POST     /api/v1/users(.:format)                                                                       api/v1/users/registrations#create
-               new_user_confirmation GET      /api/v1/users/confirmation/new(.:format)                                                      devise/confirmations#new
-                   user_confirmation GET      /api/v1/users/confirmation(.:format)                                                          devise/confirmations#show
-                                     POST     /api/v1/users/confirmation(.:format)                                                          devise/confirmations#create
                      new_user_unlock GET      /api/v1/users/unlock/new(.:format)                                                            devise/unlocks#new
                          user_unlock GET      /api/v1/users/unlock(.:format)                                                                devise/unlocks#show
                                      POST     /api/v1/users/unlock(.:format)                                                                devise/unlocks#create
