@@ -163,10 +163,10 @@ describe 'Tag API', type: :request, basic: true do
     context 'when lot of tag' do
       let!(:tags) { create_list(:tag, 200, user: @user) }
 
-      it 'returns all tags in less than 0.4 seconds' do
+      it 'returns all tags in less than 0.6 seconds' do
         expect {
           get '/api/v1/tags', params: { filter: { user_id: @user.id }, limit: 1_000 }, as: :json
-        }.to take_less_than(0.5).seconds
+        }.to take_less_than(0.6).seconds
       end
     end
 
