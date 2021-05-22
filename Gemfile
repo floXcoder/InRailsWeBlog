@@ -21,7 +21,7 @@ gem 'pg_query',                 '2.0.3' # Required for pghero
 gem 'responders',               '3.0.1'
 gem 'http_accept_language',     '2.1.1'
 gem 'secure_headers',           '6.3.2'
-gem 'faraday',                  '1.4.1'
+gem 'faraday',                  '1.4.2'
 
 # JSON
 gem 'jsonapi-serializer',       '2.2.0'
@@ -31,7 +31,7 @@ gem 'oj',                       '3.11.5'
 gem 'slim-rails',               '3.2.0'
 
 # Internationalization
-gem 'i18n-js',                  '3.8.2'
+gem 'i18n-js',                  '3.8.3'
 gem 'geocoder',                 '1.6.7'
 gem 'maxminddb',                '0.1.22'
 
@@ -112,7 +112,7 @@ gem 'health_check',             '3.0.0'
 gem 'webdrivers',               '4.6.0',  require: false
 
 # Server
-gem 'puma',                     '5.3.1'
+gem 'puma',                     '5.3.2'
 
 group :development do
   # Debugging tool
@@ -180,7 +180,7 @@ group :development, :test do
   gem 'bootsnap',                   '1.7.5',  require: false
 
   # Check errors
-  gem 'rubocop',                    '1.14.0', require: false
+  gem 'rubocop',                    '1.15.0', require: false
   gem 'rubocop-rails',              '2.10.1', require: false
   gem 'rubocop-performance',        '1.11.3', require: false
   gem 'rubocop-rspec',              '2.3.0',  require: false

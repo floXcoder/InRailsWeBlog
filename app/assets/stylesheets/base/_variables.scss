@@ -1,3 +1,5 @@
+@use 'sass:math';
+
 // Path
 // ------------------------------------
 $images-path: '/assets';
@@ -58,8 +60,8 @@ $large-only: 'only screen and (min-width: #{$medium-screen}) and (max-width: #{$
 // Grid
 $num-cols: 12;
 $gutter-width: 1.5rem !default;
-$element-top-margin: $gutter-width/3 !default;
-$element-bottom-margin: ($gutter-width*2)/3 !default;
+$element-top-margin: math.div($gutter-width, 3) !default;
+$element-bottom-margin: math.div($gutter-width * 2, 3) !default;
 
 // Articles
 $top-header-scroll-margin: 75px;
