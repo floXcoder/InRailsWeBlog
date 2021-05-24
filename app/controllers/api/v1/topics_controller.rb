@@ -203,7 +203,7 @@ module Api::V1
             current_topic = current_user.current_topic
             if current_user.current_topic_id == topic.id
               current_topic = current_user.topics.first
-              current_user.switch_topic(user.topics.first)
+              current_user.switch_topic(current_topic)
               current_user.save
             end
 
