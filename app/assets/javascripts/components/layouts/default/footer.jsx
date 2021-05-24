@@ -83,25 +83,27 @@ class FooterLayoutDefault extends React.PureComponent {
                         {/*    </h2>*/}
                         {/*</Grid>*/}
 
-                        <Grid item={true}
-                              md={6}>
-                            <h3 className={this.props.classes.footerSubtitle}>
-                                {I18n.t('js.views.footer.languages')}
-                            </h3>
+                        {
+                            !!Object.keys(alternates).length &&
+                            <Grid item={true}
+                                  md={6}>
+                                <h3 className={this.props.classes.footerSubtitle}>
+                                    {I18n.t('js.views.footer.languages')}
+                                </h3>
 
-                            {
-                                alternates &&
-                                Object.keys(alternates).map((locale) => (
-                                    <p key={locale}>
-                                        <a className={this.props.classes.footerLink}
-                                           href={alternates[locale]}
-                                           onClick={this._handleAlternateClick.bind(this, alternates[locale], locale)}>
-                                            {I18n.t(`js.views.footer.locales.${locale}`)}
-                                        </a>
-                                    </p>
-                                ))
-                            }
-                        </Grid>
+                                {
+                                    Object.keys(alternates).map((locale) => (
+                                        <p key={locale}>
+                                            <a className={this.props.classes.footerLink}
+                                               href={alternates[locale]}
+                                               onClick={this._handleAlternateClick.bind(this, alternates[locale], locale)}>
+                                                {I18n.t(`js.views.footer.locales.${locale}`)}
+                                            </a>
+                                        </p>
+                                    ))
+                                }
+                            </Grid>
+                        }
 
                         <Grid item={true}
                               md={6}>

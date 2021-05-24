@@ -9,9 +9,10 @@ describe 'Topic API', type: :request, basic: true do
     @other_user = create(:user)
     @admin      = create(:admin)
 
-    @topic_name    = 'Public'
-    @public_topic  = create(:topic, user: @user, name: @topic_name, visibility: :everyone)
-    @private_topic = create(:topic, user: @user, visibility: :only_me)
+    @topic_name          = 'Public'
+    @public_topic        = create(:topic, user: @user, name: @topic_name, visibility: :everyone)
+    @private_topic       = create(:topic, user: @user, visibility: :only_me)
+    @other_private_topic = create(:topic, user: @user, visibility: :only_me)
 
     @other_topic_name = 'existing_topic'
     @other_topic      = create(:topic, user: @other_user, name: @other_topic_name)
@@ -83,7 +84,7 @@ describe 'Topic API', type: :request, basic: true do
         json_topics = JSON.parse(response.body)
         expect(json_topics['meta']['root']).to eq('topics')
         expect(json_topics['data']).not_to be_empty
-        expect(json_topics['data'].size).to eq(3)
+        expect(json_topics['data'].size).to eq(@user.topics.count)
       end
     end
 
@@ -420,6 +421,19 @@ describe 'Topic API', type: :request, basic: true do
           topic = JSON.parse(response.body)
           expect(topic['data']['attributes']).not_to be_empty
         }.to change(Topic, :count).by(-1).and change(Article, :count).by(-@public_topic.articles.count).and change(TaggedArticle, :count).by(-@public_topic.tags.count).and change(TagRelationship, :count).by(0)
+      end
+
+      it 'deletes the current user topic' do
+        @user.switch_topic(@other_private_topic)
+
+        expect {
+          delete "/api/v1/topics/#{@other_private_topic.id}", as: :json, params: { user_id: @user.id }
+
+          expect(response).to be_json_response
+
+          topic = JSON.parse(response.body)
+          expect(topic['data']['attributes']).not_to be_empty
+        }.to change(Topic, :count).by(-1).and change(Article, :count).by(0).and change(TaggedArticle, :count).by(0).and change(TagRelationship, :count).by(0)
       end
     end
   end
