@@ -24,6 +24,8 @@ describe Articles::FindQueries, type: :query, basic: true do
     @other_topic            = create(:topic, user: @other_user, visibility: :everyone, mode: :stories)
     @other_public_articles  = create_list(:article, 3, user: @other_user, topic: @other_topic, visibility: :everyone)
     @other_private_articles = create_list(:article, 3, user: @other_user, topic: @other_topic, visibility: :only_me)
+
+    @other_lg_articles      = create(:article, user: @other_user, topic: @other_topic, visibility: :everyone, languages: ['fr'])
   end
 
   describe '#all' do
@@ -32,7 +34,7 @@ describe Articles::FindQueries, type: :query, basic: true do
         articles = ::Articles::FindQueries.new.all(limit: 100)
 
         expect(articles.count).to eq(Article.everyone.count)
-        expect(articles.count).to eq(@public_articles.count + @contributor_public_articles.count + @other_public_articles.count)
+        expect(articles.count).to eq(@public_articles.count + @contributor_public_articles.count + @other_public_articles.count + 1)
       end
 
       it 'returns all public articles limited to the pagination' do
@@ -327,6 +329,12 @@ describe Articles::FindQueries, type: :query, basic: true do
         articles = ::Articles::FindQueries.new.recommendations
 
         expect(articles).to match_array([])
+      end
+
+      it 'returns articles only with the same language' do
+        articles = ::Articles::FindQueries.new.recommendations(article: @other_public_articles.last)
+
+        expect(articles).not_to include(@other_lg_articles)
       end
     end
 
