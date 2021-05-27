@@ -45,9 +45,11 @@ module Articles
       @relation = @relation
                     .include_collection
                     .everyone
+                    .where('articles.languages @> ?', "{#{I18n.locale}}")
 
       if params[:article]
         article = params[:article]
+
         if article.topic&.stories?
           @relation = @relation
                         .filter_by(params, @current_user, @user_articles, article.topic)
@@ -55,18 +57,19 @@ module Articles
                         .to_a
 
           current_article_index = @relation.index { |a| a.id == article.id }
-          if current_article_index == -1
-            @relation = []
-          elsif current_article_index == 0
-            @relation = [@relation[1]]
-          elsif current_article_index == @relation.length - 1
-            @relation = [@relation[current_article_index - 1]]
-          else
-            @relation = [
-              @relation[current_article_index - 1],
-              @relation[current_article_index + 1]
-            ]
-          end
+          @relation             = case current_article_index
+                                  when -1
+                                    []
+                                  when 0
+                                    [@relation[1]]
+                                  when @relation.length - 1
+                                    [@relation[current_article_index - 1]]
+                                  else
+                                    [
+                                      @relation[current_article_index - 1],
+                                      @relation[current_article_index + 1]
+                                    ]
+                                  end
         else
           @relation = @relation
                         .filter_by(params, @current_user, @user_articles, article.topic)

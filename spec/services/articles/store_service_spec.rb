@@ -6,10 +6,11 @@ describe Articles::StoreService, type: :service, basic: true do
   subject { described_class.new }
 
   before(:all) do
-    @user          = create(:user)
-    @public_topic  = create(:topic, user: @user, visibility: :everyone)
-    @stories_topic = create(:topic, user: @user, mode: :stories)
-    @public_tag    = create(:tag, user: @user, name: 'Tag for public article', visibility: :everyone)
+    @user           = create(:user)
+    @public_topic   = create(:topic, user: @user, visibility: :everyone)
+    @multi_lg_topic = create(:topic, user: @user, visibility: :everyone, languages: %w[en fr])
+    @stories_topic  = create(:topic, user: @user, mode: :stories)
+    @public_tag     = create(:tag, user: @user, name: 'Tag for public article', visibility: :everyone)
 
     @private_topic = create(:topic, user: @user, visibility: :only_me)
     @private_tag   = create(:tag, user: @user, name: 'Tag for private article', visibility: :only_me)
@@ -43,22 +44,32 @@ describe Articles::StoreService, type: :service, basic: true do
       end
 
       it 'returns the correct mode' do
-        note_article    = @user.articles.build
+        note_article   = @user.articles.build
         article_result = Articles::StoreService.new(note_article, topic_id: @public_topic.id, title: 'Article note', content: 'new note', visibility: 'only_me', tags: ["#{@private_tag.name},#{@private_tag.visibility}"], current_user: @user).perform
         expect(article_result.success?).to be true
         expect(article_result.result).to be_kind_of(Article)
         expect(article_result.result.mode).to eq('note')
 
-        story_article   = @user.articles.build
+        story_article  = @user.articles.build
         article_result = Articles::StoreService.new(story_article, topic_id: @stories_topic.id, title: 'Article story', content: 'new story', visibility: 'only_me', tags: ["#{@private_tag.name},#{@private_tag.visibility}"], current_user: @user).perform
         expect(article_result.success?).to be true
         expect(article_result.result).to be_kind_of(Article)
         expect(article_result.result.mode).to eq('story')
       end
 
-      it 'returns a new article with slugs in all languages' do
-        article    = @user.articles.build
+      it 'returns a new article with slugs in all languages by default' do
+        article        = @user.articles.build
         article_result = Articles::StoreService.new(article, topic_id: @public_topic.id, title: 'Article title slug', content: 'new content', visibility: 'only_me', tags: ["#{@private_tag.name},#{@private_tag.visibility}"], current_user: @user).perform
+        expect(article_result.success?).to be true
+        expect(article_result.result).to be_kind_of(Article)
+        expect(article_result.result.slug).not_to be_empty
+        expect(article_result.result.slug_translations['en']).not_to be_empty
+        expect(article_result.result.slug_translations['fr']).not_to be_empty
+      end
+
+      it 'returns a new article with slugs in all languages for multiple languages topic' do
+        article        = @user.articles.build
+        article_result = Articles::StoreService.new(article, topic_id: @multi_lg_topic.id, title_translations: { 'en' => 'Article title EN slug', 'fr' => 'Article title FR slug' }, content_translations: { 'en' => 'EN content', 'fr' => 'FR content' }, visibility: 'only_me', tags: ["#{@private_tag.name},#{@private_tag.visibility}"], current_user: @user).perform
         expect(article_result.success?).to be true
         expect(article_result.result).to be_kind_of(Article)
         expect(article_result.result.slug).not_to be_empty
@@ -80,7 +91,7 @@ describe Articles::StoreService, type: :service, basic: true do
         @user.update_attribute(:current_topic_id, @inventories_topic.id)
 
         inventory_article = @user.articles.build
-        article_result   = Articles::StoreService.new(inventory_article, topic_id: @inventories_topic.id, title: 'Inventory article', inventories: { string_required: 'My string', text: '<p>My text</p>' }, visibility: 'only_me', tags: ["#{@private_tag.name},#{@private_tag.visibility}"], current_user: @user).perform
+        article_result    = Articles::StoreService.new(inventory_article, topic_id: @inventories_topic.id, title: 'Inventory article', inventories: { string_required: 'My string', text: '<p>My text</p>' }, visibility: 'only_me', tags: ["#{@private_tag.name},#{@private_tag.visibility}"], current_user: @user).perform
 
         expect(article_result.success?).to be true
         expect(article_result.result).to be_kind_of(Article)

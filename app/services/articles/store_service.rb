@@ -63,15 +63,18 @@ module Articles
       @params.delete(:title)
       @params.delete(:title_translations)
 
-      I18n.available_locales.each do |language|
-        I18n.with_locale(language) do
-          @article.set_friendly_id
+      # Add slug for all languages
+      slug_translations = {}
+      I18n.available_locales.each do |locale|
+        I18n.with_locale(locale) do
+          slug_translations.merge!(@article.set_friendly_id)
         end
       end
+      @article.slug_translations = slug_translations
 
       if !@params[:summary_translations].nil?
         @params.delete(:summary_translations).each do |locale, summary|
-          @article.summary_translations[locale] = Sanitize.fragment(summary)
+          @article.summary_translations[locale.to_s] = Sanitize.fragment(summary)
         end
       elsif !@params[:summary].nil?
         @article.summary = Sanitize.fragment(@params.delete(:summary))
@@ -81,7 +84,7 @@ module Articles
 
       if !@params[:content_translations].nil?
         @params.delete(:content_translations).each do |locale, content|
-          @article.content_translations[locale] = ::Sanitizer.new.sanitize_html(content)
+          @article.content_translations[locale.to_s] = ::Sanitizer.new.sanitize_html(content)
         end
 
         @article.child_relationships = extract_relationships(@article.content)
