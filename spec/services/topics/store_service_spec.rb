@@ -32,7 +32,21 @@ describe Topics::StoreService, type: :service, basic: true do
         expect(topic_result.result.name).to eq('updated name')
       end
 
-      it 'prevents to change topic visibility' do
+      it 'updates topic languages' do
+        topic_results = Topics::StoreService.new(@topic, languages: %w[en fr]).perform
+        expect(topic_results.success?).to be true
+        expect(topic_results.result.languages).to eq(%w[en fr])
+
+        topic_results = Topics::StoreService.new(@topic, languages: ['en']).perform
+        expect(topic_results.success?).to be true
+        expect(topic_results.result.languages).to eq(['en'])
+
+        topic_results = Topics::StoreService.new(@topic, description_translations: { en: 'Topic desc EN', fr: 'Topic desc EN' }).perform
+        expect(topic_results.success?).to be true
+        expect(topic_results.result.languages).to eq(%w[en fr])
+      end
+
+      it 'prevents to topic visibility change' do
         topic_results = Topics::StoreService.new(@topic, visibility: 'everyone').perform
 
         expect(topic_results.success?).to be false

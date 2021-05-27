@@ -11,14 +11,6 @@ module Topics
     def perform
       current_language = new_language = current_user&.locale || I18n.locale
 
-      # Languages
-      if @params[:languages].present?
-        @topic.languages = @params.delete(:languages)
-      elsif @topic.languages.empty?
-        new_language     = current_user&.locale || I18n.locale.to_s
-        @topic.languages |= [new_language]
-      end
-
       # Sanitization
       unless @params[:name].nil?
         sanitized_name = Sanitize.fragment(@params.delete(:name))
@@ -26,7 +18,7 @@ module Topics
         @topic.name    = sanitized_name
       end
 
-      if !@params[:description_translations].nil? && @topic.languages.size > 1
+      if !@params[:description_translations].nil?
         @params.delete(:description_translations).each do |locale, description|
           @topic.description_translations[locale] = ::Sanitizer.new.sanitize_html(description)
         end
@@ -36,13 +28,16 @@ module Topics
       @params.delete(:description)
       @params.delete(:description_translations)
 
-      @topic.build_icon(image: @params.delete(:icon)) unless @params[:icon].nil?
+      # Languages
+      if @params[:languages].present?
+        @topic.languages = @params.delete(:languages)
+      else
+        new_language     = current_user&.locale || I18n.locale.to_s
+        @topic.languages = @topic.description_translations.select { |_, value| value.present? }.keys.presence || [current_user&.locale] || [I18n.locale.to_s]
+      end
+      @topic.languages.uniq!
 
-      @topic.languages = if @params[:languages].present?
-                           @params.delete(:languages)
-                         else
-                           @topic.description_translations.select { |_, value| value.present? }.keys.presence || [current_user&.locale] || [I18n.locale.to_s]
-                         end
+      @topic.build_icon(image: @params.delete(:icon)) unless @params[:icon].nil?
 
       @topic.assign_attributes(@params)
 
