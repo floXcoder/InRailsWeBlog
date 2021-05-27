@@ -10,7 +10,7 @@ describe Articles::FindQueries, type: :query, basic: true do
 
     @user             = create(:user)
     @public_topic     = create(:topic, user: @user, visibility: :everyone)
-    @public_articles  = create_list(:article, 5, user: @user, topic: @public_topic)
+    @public_articles  = create_list(:article, 5, user: @user, topic: @public_topic, languages: ['en'])
     @private_topic    = create(:topic, user: @user)
     @private_articles = create_list(:article, 5, user: @user, topic: @private_topic, visibility: :only_me)
 
@@ -30,11 +30,11 @@ describe Articles::FindQueries, type: :query, basic: true do
 
   describe '#all' do
     context 'without user' do
-      it 'returns all public articles' do
+      it 'returns all public articles for current language' do
         articles = ::Articles::FindQueries.new.all(limit: 100)
 
-        expect(articles.count).to eq(Article.everyone.count)
-        expect(articles.count).to eq(@public_articles.count + @contributor_public_articles.count + @other_public_articles.count + 1)
+        expect(articles.count).to eq(Article.everyone.where('articles.languages @> ?', "{#{I18n.locale}}").count)
+        expect(articles.count).to eq(@public_articles.count + @contributor_public_articles.count + @other_public_articles.count)
       end
 
       it 'returns all public articles limited to the pagination' do
@@ -145,10 +145,10 @@ describe Articles::FindQueries, type: :query, basic: true do
     end
 
     context 'when owner is set' do
-      it 'returns all public and user articles by default' do
+      it 'returns all public and user articles by default for current language' do
         articles = ::Articles::FindQueries.new(@user).all(limit: 100)
 
-        expect(articles).to match_array(Article.everyone_and_user(@user.id))
+        expect(articles).to match_array(Article.everyone_and_user(@user.id).where('articles.languages @> ?', "{#{I18n.locale}}"))
       end
 
       context 'when filtering by user' do
@@ -318,7 +318,7 @@ describe Articles::FindQueries, type: :query, basic: true do
       it 'returns all public articles and user articles' do
         articles = ::Articles::FindQueries.new(@user, @admin).all(limit: 100)
 
-        expect(articles.count).to eq(Article.all.count)
+        expect(articles.count).to eq(Article.all.where('articles.languages @> ?', "{#{I18n.locale}}").count)
       end
     end
   end

@@ -372,30 +372,35 @@ class ArticleIndex extends React.Component {
                     }
 
                     {
-                        (this.props.currentState !== 'fetching' && this.props.tag?.name) &&
-                        <div className="margin-bottom-40">
-                            <h1>
-                                {I18n.t('js.article.index.tagged_title', {tag: this.props.tag.name})}
-                            </h1>
-                        </div>
-                    }
-
-                    {
-                        (this.props.currentState !== 'fetching' && !this.props.isUserConnected && this.props.user?.pseudo) &&
-                        <div className="margin-bottom-40">
-                            <h1>
-                                {I18n.t('js.article.index.user_title', {user: this.props.user.pseudo})}
-                            </h1>
-                        </div>
-                    }
-
-                    {
-                        (this.props.currentState !== 'fetching' && this.props.topic?.name) &&
-                        <div className="margin-bottom-40">
-                            <h1>
-                                {I18n.t('js.article.index.topic_title', {topic: this.props.topic.name})}
-                            </h1>
-                        </div>
+                        this.props.currentState !== 'fetching' &&
+                        (
+                            this.props.tag?.name
+                                ?
+                                <div className="margin-bottom-40">
+                                    <h1>
+                                        {I18n.t('js.article.index.tagged_title', {tag: this.props.tag.name})}
+                                    </h1>
+                                </div>
+                                :
+                                (
+                                    this.props.topic?.name
+                                        ?
+                                        <div className="margin-bottom-40">
+                                            <h1>
+                                                {I18n.t('js.article.index.topic_title', {topic: this.props.topic.name})}
+                                            </h1>
+                                        </div>
+                                        :
+                                        (
+                                            (!this.props.isUserConnected && this.props.user?.pseudo) &&
+                                            <div className="margin-bottom-40">
+                                                <h1>
+                                                    {I18n.t('js.article.index.user_title', {user: this.props.user.pseudo})}
+                                                </h1>
+                                            </div>
+                                        )
+                                )
+                        )
                     }
 
                     {

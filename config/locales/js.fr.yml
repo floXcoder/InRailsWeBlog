@@ -300,7 +300,10 @@ fr:
         no_tags: "Pas encore de tags pour ce topic"
         no_cloud_tags: "Ajouter un article pour créer les tags"
         no_results: "Aucun label trouvé pour :"
-        usage: "%{count} utilisations"
+        usage:
+          zero: "Aucun article avec ce label"
+          one: "1 article avec ce label"
+          other: "%{count} articles avec ce label"
         link: "Voir le détail du label"
         visibility: "Choisissez la visibilité"
         visibility_immutable: "Le nom d'un label public ne peut être modifié"
