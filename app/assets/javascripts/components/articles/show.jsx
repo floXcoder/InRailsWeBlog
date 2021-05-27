@@ -324,13 +324,6 @@ class ArticleShow extends React.Component {
                     }
 
                     {
-                        (isStoryMode && !this.props.isUserConnected) &&
-                        <SummaryStoriesTopic userSlug={this.props.routeParams.userSlug}
-                                             topic={this.props.storyTopic}
-                                             hasLink={true}/>
-                    }
-
-                    {
                         !this.props.isFetching &&
                         <article className={this.props.classes.root}
                                  itemProp="blogPost"
@@ -518,6 +511,13 @@ class ArticleShow extends React.Component {
                     (!!this.props.article && !this.props.isFetching && this.props.routeParams.userSlug !== this.props.currentUserSlug) &&
                     <div className={this.props.classes.recommendationsContainer}>
                         <Divider/>
+
+                        {
+                            (isStoryMode && !this.props.isUserConnected) &&
+                            <SummaryStoriesTopic userSlug={this.props.routeParams.userSlug}
+                                                 topic={this.props.storyTopic}
+                                                 hasLink={true}/>
+                        }
 
                         {
                             !isStoryMode &&
