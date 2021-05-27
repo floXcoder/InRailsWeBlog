@@ -26,6 +26,7 @@ module Articles
                     .with_adapted_visibility(@current_user, @current_admin)
                     .order_by(article_order(params)).order_by('created_desc')
                     .filter_by(params, @current_user, @user_articles, @topic_articles)
+                    .where('articles.languages @> ?', "{#{I18n.locale}}")
                     .paginate_or_limit(params, @current_user)
 
       return @relation

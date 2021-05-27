@@ -300,7 +300,10 @@ en:
         no_tags: "Not tag yet for this topic"
         no_cloud_tags: "Add an article to create tags"
         no_results: "No tags for:"
-        usage: "%{count} use"
+        usage:
+          zero: "No articles with this tag"
+          one: "1 tagged article"
+          other: "%{count} tagged articles"
         link: "See tag details"
         visibility: "Choose visibility"
         visibility_immutable: "Public tag name cannot be changed"
