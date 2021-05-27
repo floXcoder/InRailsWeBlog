@@ -14,7 +14,7 @@ import {
 const styles = (theme) => ({
     container: {
         position: 'relative',
-        margin: '0 auto 1.5rem',
+        margin: '1rem auto 0.5rem',
         overflow: 'visible',
         maxWidth: '100%',
         borderRadius: 12,

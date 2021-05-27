@@ -270,7 +270,7 @@ class TopicShow extends React.Component {
                             </Button>
                         </div>
 
-                        <div className="center-align margin-top-20">
+                        <div className="center-align margin-top-40">
                             <Button className={this.props.classes.shareButton}
                                     color="default"
                                     variant="text"

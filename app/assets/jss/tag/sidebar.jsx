@@ -5,10 +5,10 @@ const styles = (theme) => ({
         display: 'flex',
         flexWrap: 'wrap',
         paddingBottom: 80,
+        height: '90vh',
         [theme.breakpoints.down('md')]: {
             margin: '.4rem .6rem'
-        },
-        height: '90vh'
+        }
     },
     cloudTopic: {
         margin: '1.3rem .4rem .3rem',
