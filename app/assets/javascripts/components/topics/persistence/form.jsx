@@ -223,16 +223,16 @@ export default class PersistenceFormTopic extends React.Component {
                     </Button>
 
                     {
-                        this.props.isEditing &&
-                        <div className="center-align margin-top-40">
-                            <a href="#"
-                               onClick={this._handleTopicDelete}>
-                                {I18n.t('js.topic.edit.delete')}
-                            </a>
-                        </div>
+                        // this.props.isEditing &&
+                        // <div className="center-align margin-top-60">
+                        //     <a href="#"
+                        //        onClick={this._handleTopicDelete}>
+                        //         {I18n.t('js.topic.edit.delete')}
+                        //     </a>
+                        // </div>
                     }
 
-                    <div className="center-align margin-top-15">
+                    <div className="center-align margin-top-50">
                         <a href="#"
                            onClick={this.props.onCancel}>
                             {I18n.t('js.topic.new.cancel')}

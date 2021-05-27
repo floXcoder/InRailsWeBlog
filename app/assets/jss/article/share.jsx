@@ -6,11 +6,13 @@ const styles = (theme) => ({
         left: '50%',
         transform: 'translate(-50%, -45%)',
         position: 'absolute',
-        width: 650,
-        maxWidth: '90vw',
+        width: '35vw',
         backgroundColor: theme.palette.background.paper,
         boxShadow: theme.shadows[5],
-        padding: theme.spacing(4)
+        padding: theme.spacing(4),
+        [theme.breakpoints.down('md')]: {
+            width: '90vw'
+        }
     },
     title: {
         marginTop: 0,

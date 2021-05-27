@@ -412,7 +412,7 @@ en:
           inventories: "Inventories"
       show:
         title: "Topic: %{name}"
-        topic_articles: "See all articles within the topic %{name}"
+        topic_articles: "See all articles for the topic %{name}"
         articles_count:
           zero: "No articles inside this topic"
           one: "1 article inside this topic"

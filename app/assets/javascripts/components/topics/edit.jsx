@@ -106,6 +106,7 @@ class TopicEdit extends React.Component {
             name: this.props.topic.name,
             languages: this.props.topic.languages,
             description_translations: this.props.topic.descriptionTranslations,
+            descriptionTranslations: this.props.topic.descriptionTranslations,
             description: this.props.topic.description
         }
 

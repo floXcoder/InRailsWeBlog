@@ -412,7 +412,7 @@ fr:
           inventories: "Inventaire"
       show:
         title: "Thème : %{name}"
-        topic_articles: "Lire tous les articles du thème : %{name}"
+        topic_articles: "Voir tous les articles du thème : %{name}"
         articles_count:
           zero: "Aucun article pour ce thème"
           one: "1 article pour ce thème"
