@@ -58,7 +58,7 @@ module Articles
 
           current_article_index = @relation.index { |a| a.id == article.id }
           @relation             = case current_article_index
-                                  when -1
+                                  when nil, -1
                                     []
                                   when 0
                                     [@relation[1]]
