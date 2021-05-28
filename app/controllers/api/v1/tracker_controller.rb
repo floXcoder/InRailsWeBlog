@@ -3,6 +3,7 @@
 module Api::V1
   class TrackerController < ApiController
     skip_before_action :authenticate_user!
+    skip_before_action :verify_authenticity_token
     skip_before_action :set_env
 
     respond_to :json
