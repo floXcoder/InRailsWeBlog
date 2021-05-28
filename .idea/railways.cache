@@ -118,6 +118,8 @@ Ruby enVironment Manager 1.29.12 (latest) (c) 2009-2020 Michal Papis, Piotr Kucz
                                      GET      /api/v1/users/:id(.:format)                                                                   api/v1/users#show
                                      PATCH    /api/v1/users/:id(.:format)                                                                   api/v1/users#update
                                      PUT      /api/v1/users/:id(.:format)                                                                   api/v1/users#update
+                      tracker_action POST     /api/v1/tracker/:tracker_id/action(.:format)                                                  api/v1/tracker#action
+                       tracker_index GET      /api/v1/tracker(.:format)                                                                     api/v1/tracker#index
                        priority_tags PUT      /api/v1/tags/priority(.:format)                                                               api/v1/tags#update_priority
                          clicked_tag POST     /api/v1/tags/:id/clicked(.:format)                                                            api/v1/tags#clicked
                           viewed_tag POST     /api/v1/tags/:id/viewed(.:format)                                                             api/v1/tags#viewed

@@ -53,11 +53,11 @@ module Api::V1
       users = User.include_collection.all.order('users.id ASC')
 
       complete = filter_params[:complete] && admin_signed_in?
-      if complete
-        users = users.includes(:tracker)
-      else
-        users = users.paginate(page: params[:page], per_page: InRailsWeBlog.config.per_page)
-      end
+      users    = if complete
+                   users.includes(:tracker)
+                 else
+                   users.paginate(page: params[:page], per_page: InRailsWeBlog.config.per_page)
+                 end
 
       expires_in InRailsWeBlog.config.cache_time, public: true
       if stale?(users, template: false, public: true)

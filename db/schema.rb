@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_27_101220) do
+ActiveRecord::Schema.define(version: 2021_05_28_151433) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -97,6 +97,7 @@ ActiveRecord::Schema.define(version: 2020_12_27_101220) do
     t.string "platform"
     t.datetime "started_at"
     t.datetime "ended_at"
+    t.boolean "validated", default: false, null: false
     t.index ["user_id"], name: "index_ahoy_visits_on_user_id"
     t.index ["visit_token"], name: "index_ahoy_visits_on_visit_token", unique: true
   end

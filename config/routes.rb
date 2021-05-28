@@ -138,6 +138,13 @@ Rails.application.routes.draw do
         end
       end
 
+      # Tracking
+      resources :tracker, only: [:index] do
+        collection do
+          post :action, to: 'tracker#action'
+        end
+      end
+
       # Tags
       resources :tags, except: [:new, :create] do
         collection do
@@ -274,7 +281,7 @@ Rails.application.routes.draw do
 
     resources :caches, only: [:index] do
       collection do
-        post  :flush_cache, to: 'caches#flush_cache'
+        post :flush_cache, to: 'caches#flush_cache'
       end
     end
   end

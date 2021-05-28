@@ -106,7 +106,7 @@ gem 'capistrano-rvm',           '0.1.2',  require: false
 gem 'capistrano-bundler',       '2.0.1',  require: false
 gem 'capistrano-rails-console', '2.3.0',  require: false
 gem 'capistrano-db-tasks',      '0.6',    require: false
-gem 'health_check',             '3.0.0'
+gem 'health_check',             '3.1.0'
 
 # SEO
 gem 'webdrivers',               '4.6.0',  require: false
@@ -194,5 +194,5 @@ group :production do
   gem 'lograge',          '0.11.2'
 
   # Prerender html pages for SEO
-  gem 'seo_cache',        '1.0.3',   require: false
+  gem 'seo_cache',        '1.0.5',   require: false
 end

@@ -74,7 +74,7 @@ module Api::V1
         end
       end
 
-      track_action(article_ids: articles.map(&:id), tag_slug: filter_params[:tag_slug], topic_slug: filter_params[:topic_slug], user_slug: filter_params[:user_slug])
+      track_action(article_ids: articles.map(&:id), tag_slug: filter_params[:tag_slug], topic_slug: filter_params[:topic_slug], user_slug: filter_params[:user_slug]) unless params[:home].present? || params[:populars].present?
 
       (user_signed_in? || admin_signed_in?) ? reset_cache_headers : expires_in(InRailsWeBlog.config.cache_time, public: true)
       if stale?(articles, template: false, public: true)

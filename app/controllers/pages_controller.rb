@@ -4,12 +4,10 @@ class PagesController < ApplicationController
 
   before_action :authenticate_user!, only: [:user_home]
 
-  after_action :track_action, except: [:meta_tag, :open_search, :robots]
-
   respond_to :html
 
   def home
-    track_action(action: 'home')
+    track_action
 
     user_signed_in? ? reset_cache_headers : expires_in(InRailsWeBlog.config.cache_time, public: true)
     respond_to do |format|
@@ -31,7 +29,7 @@ class PagesController < ApplicationController
     user     = current_user&.id == user_ref&.to_i || current_user&.slug == user_ref&.to_s ? current_user : User.friendly.find(user_ref)
     authorize user, :show?
 
-    track_action(action: 'user_home', user_id: user.id)
+    track_action(user_id: user.id)
 
     reset_cache_headers
     respond_to do |format|
@@ -54,6 +52,8 @@ class PagesController < ApplicationController
   end
 
   def about
+    track_action
+
     expires_in InRailsWeBlog.config.cache_time, public: true
     respond_to do |format|
       format.html do
@@ -65,6 +65,8 @@ class PagesController < ApplicationController
   end
 
   def terms
+    track_action
+
     expires_in InRailsWeBlog.config.cache_time, public: true
     respond_to do |format|
       format.html do
@@ -76,6 +78,8 @@ class PagesController < ApplicationController
   end
 
   def privacy
+    track_action
+
     expires_in InRailsWeBlog.config.cache_time, public: true
     respond_to do |format|
       format.html do
@@ -87,8 +91,14 @@ class PagesController < ApplicationController
   end
 
   def not_found
+    track_action(status: 404)
+
     respond_to do |format|
-      format.json { render json: { errors: t('views.error.status.explanation.404') }, status: :not_found }
+      format.json do
+        Rails.logger.error("Page not found: #{request.path}") if Rails.env.development?
+
+        render json: { errors: t('views.error.status.explanation.404') }, status: :not_found
+      end
       format.html do
         expires_in InRailsWeBlog.config.cache_time, public: true
 

@@ -359,16 +359,14 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def track_action(action: 'page_visit', **params, &block)
+  def track_action(action: 'page_visit', **tracking_params, &block)
     return if @seo_mode
 
-    ahoy.track action, tracking_params(params)
+    session[:tracking_data] = { action: action, **tracking_params }
+    # Cache data for cached requests
+    Rails.cache.write("#{request.path.tr('/', '-')}-tracking", { action: action, **tracking_params })
 
-    if current_visit && request.get? && (request.format.html? || request.format.json?)
-      current_visit.update(takeoff_page: request.url, ended_at: Time.zone.now, pages_count: current_visit.pages_count + 1)
-
-      block.call(current_visit.visitor_token) if block_given? && block
-    end
+    # yield(current_visit.visitor_token) if block
   end
 
   def tracking_params(params = {})
