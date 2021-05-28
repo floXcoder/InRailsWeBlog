@@ -166,7 +166,7 @@ class ArticlesController < ApplicationController
     elsif (article_redirection = Article::Redirection.where(previous_slug: article_slug).first)
       # Try to find in listed redirections
       article = article_redirection.article
-      article_redirection_path = article.link_path(locale: I18n.locale) rescue nil
+      article_redirection_path = article.link_path(locale: I18n.locale, force_locale: true) rescue nil
 
       return article, article_redirection_path
     else
@@ -178,11 +178,11 @@ class ArticlesController < ApplicationController
         next unless article
 
         article_redirection_path = article.link_path(locale: locale) rescue nil
-        if article_redirection_path
-          skip_authorization
+        next unless article_redirection_path
 
-          return article, article_redirection_path
-        end
+        skip_authorization
+
+        return article, article_redirection_path
       end
     end
 

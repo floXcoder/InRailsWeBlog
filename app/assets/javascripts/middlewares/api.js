@@ -108,7 +108,7 @@ const handleResponseErrors = (response, url) => {
 };
 
 const handleParseErrors = (error, url, isGet = false) => {
-    if (error.name === 'AbortError') {
+    if (error.name === 'AbortError' || error.name === 'SecurityError' || error.name === 'ChunkLoadError') {
         return {
             abort: true
         };

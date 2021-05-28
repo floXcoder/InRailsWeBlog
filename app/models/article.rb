@@ -369,7 +369,7 @@ class Article < ApplicationRecord
                    'user_article'
                  end
 
-    params        = { user_slug: self.user.slug, article_slug: self[friendly_id_config.slug_column][locale.to_s].presence || self.slug }
+    params        = { user_slug: self.user.slug, article_slug: self[friendly_id_config.slug_column][locale.to_s].presence || (options[:force_locale] ? nil : self.slug) }
 
     params[:host] = ENV['WEBSITE_FULL_ADDRESS'] if options[:host]
 

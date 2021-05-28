@@ -219,8 +219,8 @@ module Api::V1
       article = @context_user.articles.include_element.find(params[:id])
       admin_or_authorize article
 
-      article_page_visits = Ahoy::Event.left_outer_joins(:visit).select('distinct ahoy_visits.visitor_token').where(name: 'page_visit').where("properties->>'article_id' = ?", article.id.to_s)
-      article_uniq_visits = Ahoy::Visit.where(id: article_page_visits.pluck(:visit_id).uniq)
+      article_page_visits = Ahoy::Event.left_outer_joins(:visit).select('distinct ahoy_visits.visitor_token').where(name: 'page_visit', 'ahoy_visits.validated': true).where("properties->>'article_id' = ?", article.id.to_s)
+      article_uniq_visits = Ahoy::Visit.where(validated: true).where(id: article_page_visits.pluck(:visit_id).uniq)
 
       tracking_data = {
         tracker:        TrackerSerializer.new(article.tracker).flat_serializable_hash,
