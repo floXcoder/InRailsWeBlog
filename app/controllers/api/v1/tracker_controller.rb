@@ -9,6 +9,8 @@ module Api::V1
     respond_to :json
 
     def action
+      (head :no_content and return) if @seo_mode
+
       tracking_params = session[:tracking_data].presence || Rails.cache.fetch("#{tracker_params[:path].tr('/', '-')}-tracking")
       if tracking_params
         ahoy.track tracking_params.delete(:action) || 'page_visit', tracker_params.merge(tracking_params.except(:path))
