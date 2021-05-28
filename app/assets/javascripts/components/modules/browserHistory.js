@@ -30,12 +30,10 @@ if (window._paq && !window.seoMode) {
 }
 
 // Validate user visit
-function trackData(loc) {
+function trackData() {
     setTimeout(function () {
         const params = {
             // action_name: name,
-            // properties: properties || {},
-            // time: (new Date()).getTime() / 1000.0,
             url: window.location.href,
             title: document.title,
             path: window.location.pathname,
@@ -46,17 +44,19 @@ function trackData(loc) {
     }, 150);
 }
 
-function connectToHistory(history) {
+function trackHistory(history) {
     const initialLocation = (typeof history.getCurrentLocation === 'undefined') ? history.location : history.getCurrentLocation();
     const initialPath = initialLocation.path || (initialLocation.pathname + initialLocation.search).replace(/^\//, '');
     trackData(initialPath);
 
-    const unlistenFromHistory = history.listen((location) => {
+    history.listen((location) => {
         trackData(location);
     });
 }
 
-connectToHistory(browserHistory)
+if (js_environment.NODE_ENV !== 'production' && !window.seoMode) {
+    trackHistory(browserHistory);
+}
 
 
 export default browserHistory;
