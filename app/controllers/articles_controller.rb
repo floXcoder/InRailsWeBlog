@@ -68,8 +68,6 @@ class ArticlesController < ApplicationController
     article, article_redirection_path = find_article_in_locales(article_params[:article_slug])
     admin_or_authorize article
 
-    w article_redirection_path
-
     # Redirect to the correct localized article or the renamed article
     redirect_to(article_redirection_path, status: :moved_permanently) and return if article_redirection_path
 
