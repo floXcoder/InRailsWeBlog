@@ -68,6 +68,8 @@ class ArticlesController < ApplicationController
     article, article_redirection_path = find_article_in_locales(article_params[:article_slug])
     admin_or_authorize article
 
+    w article_redirection_path
+
     # Redirect to the correct localized article or the renamed article
     redirect_to(article_redirection_path, status: :moved_permanently) and return if article_redirection_path
 
@@ -166,7 +168,7 @@ class ArticlesController < ApplicationController
     elsif (article_redirection = Article::Redirection.where(previous_slug: article_slug).first)
       # Try to find in listed redirections
       article = article_redirection.article
-      article_redirection_path = article.link_path(locale: I18n.locale) rescue nil
+      article_redirection_path = article.link_path(locale: I18n.locale, force_locale: true) rescue nil
 
       return article, article_redirection_path
     else
@@ -178,11 +180,11 @@ class ArticlesController < ApplicationController
         next unless article
 
         article_redirection_path = article.link_path(locale: locale) rescue nil
-        if article_redirection_path
-          skip_authorization
+        next unless article_redirection_path
 
-          return article, article_redirection_path
-        end
+        skip_authorization
+
+        return article, article_redirection_path
       end
     end
 
