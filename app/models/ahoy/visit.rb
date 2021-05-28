@@ -34,6 +34,7 @@
 #  platform         :string
 #  started_at       :datetime
 #  ended_at         :datetime
+#  validated        :boolean          default(FALSE), not null
 #
 class Ahoy::Visit < ApplicationRecord
 

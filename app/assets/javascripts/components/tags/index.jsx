@@ -122,51 +122,48 @@ class TagIndex extends React.Component {
                   item={true}
                   xs={12}
                   md={4}>
-                <Link to={showTagPath(tag.slug)}
-                      onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.userId, tag.name, null)}>
-                    <Card className={this.props.classes.tagCard}>
-                        <CardHeader classes={{
+                <Card className={this.props.classes.tagCard}>
+                    <CardHeader classes={{
+                        root: this.props.classes.tagHeader
+                    }}
+                                title={
+                                    <h3 className={this.props.classes.tagTitle}>
+                                        {tag.name}
+                                    </h3>
+                                }
+                                subheader={tag.synonyms.join(', ')}/>
+
+                    {
+                        tag.description &&
+                        <CardContent classes={{
                             root: this.props.classes.tagHeader
-                        }}
-                                    title={
-                                        <h3 className={this.props.classes.tagTitle}>
-                                            {tag.name}
-                                        </h3>
-                                    }
-                                    subheader={tag.synonyms.join(', ')}/>
-
-                        {
-                            tag.description &&
-                            <CardContent classes={{
-                                root: this.props.classes.tagHeader
-                            }}>
-                                <Typography component="p">
-                                    <div className="normalized-content"
-                                         dangerouslySetInnerHTML={{__html: tag.description}}/>
-                                </Typography>
-                            </CardContent>
-                        }
-
-                        <CardActions className={this.props.classes.actions}
-                                     disableSpacing={true}>
-                            <Typography className={this.props.classes.tagCount}
-                                        color="textSecondary">
-                                {I18n.t('js.tag.index.article_count', {count: tag.taggedArticlesCount})}
+                        }}>
+                            <Typography component="p">
+                                <div className="normalized-content"
+                                     dangerouslySetInnerHTML={{__html: tag.description}}/>
                             </Typography>
+                        </CardContent>
+                    }
 
-                            <div>
-                                <Button color="default"
-                                        variant="outlined"
-                                        size="small"
-                                        component={Link}
-                                        to={showTagPath(tag.slug)}
-                                        onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.userId, tag.name, null)}>
-                                    {I18n.t('js.tag.index.show')}
-                                </Button>
-                            </div>
-                        </CardActions>
-                    </Card>
-                </Link>
+                    <CardActions className={this.props.classes.actions}
+                                 disableSpacing={true}>
+                        <Typography className={this.props.classes.tagCount}
+                                    color="textSecondary">
+                            {I18n.t('js.tag.index.article_count', {count: tag.taggedArticlesCount})}
+                        </Typography>
+
+                        <div>
+                            <Button color="default"
+                                    variant="outlined"
+                                    size="small"
+                                    component={Link}
+                                    to={showTagPath(tag.slug)}
+                                    onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.userId, tag.name, null)}>
+                                {I18n.t('js.tag.index.show')}
+                            </Button>
+                        </div>
+                    </CardActions>
+                </Card>
             </Grid>
         );
     };

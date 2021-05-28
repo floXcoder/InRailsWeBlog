@@ -8,6 +8,7 @@ window.I18n = I18n;
 // Auto polyfill
 require('./polyfills');
 
+// Error reporting
 import {
     init as SentryInit,
     configureScope as SentryConfigureScope
@@ -59,9 +60,3 @@ if (js_environment.NODE_ENV !== 'production') {
     window.w = log.info;
     window.log_on_screen = log.now;
 }
-
-// if (window._paq && !window.seoMode) {
-//     perfMetrics.onFirstInputDelay(function (delay, event) {
-//         window._paq.push(['trackEvent', 'First Input Delay', event.type, event.type, Math.round(delay)]);
-//     });
-// }

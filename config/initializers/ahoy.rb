@@ -31,7 +31,7 @@ Ahoy.track_bots = false
 Ahoy.user_agent_parser = :device_detector
 
 # Defer create visits
-Ahoy.server_side_visits = :when_needed
+# Ahoy.server_side_visits = :when_needed
 
 # By default, a new visit is created after 12 hours of inactivity
 Ahoy.visit_duration = 12.hours
@@ -76,7 +76,7 @@ EXCLUDE_PATTERN_IPS = if File.exist?(Rails.root.join('lib/tracking/excluded_ips.
                         []
                       end
 
-# Exclude asset requests and admin from visits
+# Exclude unwanted requests
 Ahoy.exclude_method = lambda do |_controller, request|
   return true if request&.params&.dig('_seo_cache_').present? || request&.params&.dig('_prerender_').present?
 
@@ -88,5 +88,5 @@ Ahoy.exclude_method = lambda do |_controller, request|
 
   return true if EXCLUDE_PATTERN_IPS.any? { |ip| request&.ip&.include?(ip) } || EXCLUDE_IPS.any? { |ip| request&.ip&.include?(ip) }
 
-  return %w[/assets/ /uploads/ .php ?php .js .aspx .sql .gz .bz2 .xz .txt .xml .css .gif .png .jpg .jpeg .ico .abe .start].any? { |path| request&.path&.include?(path) }
+  return true if %w[/assets/ /uploads/ .php ?php .aspx .sql .gz .bz2 .xz .txt .xml .css .gif .png .jpg .jpeg .ico .abe .start].any? { |path| request&.path&.include?(path) }
 end
