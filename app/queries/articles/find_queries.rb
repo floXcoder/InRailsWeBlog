@@ -19,7 +19,7 @@ module Articles
       @user_articles  = User.find_by(user_filter) if user_filter.present?
       @topic_articles = params[:shared_topic] ? @user_articles.contributed_topics.find_by(topic_filter) : @user_articles.topics.find_by(topic_filter) if @user_articles && topic_filter.present?
 
-      return @relation.none if (user_filter.present? && !@user_articles) || (topic_filter.present? && !@topic_articles)
+      return Article.none if (user_filter.present? && !@user_articles) || (topic_filter.present? && !@topic_articles)
 
       @relation = @relation
                     .include_collection
@@ -78,10 +78,10 @@ module Articles
                         .paginate_or_limit({ limit: 2 }, @current_user)
         end
       else
-        @relation = @relation.none
+        @relation = Article.none
       end
 
-      return @relation.presence || @relation.none
+      return @relation.presence || Article.none
     end
 
     def home(params = {})
