@@ -54,7 +54,7 @@ function trackHistory(history) {
     });
 }
 
-if (js_environment.NODE_ENV !== 'production' && !window.seoMode) {
+if (js_environment.NODE_ENV === 'production' && !window.seoMode) {
     trackHistory(browserHistory);
 }
 
