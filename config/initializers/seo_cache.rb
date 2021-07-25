@@ -16,7 +16,7 @@ if ENV['SEO_CACHE'].to_s == 'true'
   SeoCache.redis_namespace =  "_#{ENV['WEBSITE_NAME']}_#{Rails.env}:seo_cache"
 
   SeoCache.blacklist_urls = %w[^/admin.* \.html$ \.htm$ \.php$ \.gz$ \.xml$]
-  SeoCache.blacklist_params = %w[page locale]
+  SeoCache.blacklist_params = %w[page locale force_locale]
 
   SeoCache.wait_time_for_page_loading = 5
 
