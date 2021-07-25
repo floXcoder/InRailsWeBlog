@@ -185,7 +185,7 @@ class HomeSearch extends React.Component {
                 <Grid container={true}
                       spacing={8}
                       direction="row"
-                      justify="space-between"
+                      justifyContent="space-between"
                       alignItems="flex-start">
                     <Grid item={true}
                           xs={12}

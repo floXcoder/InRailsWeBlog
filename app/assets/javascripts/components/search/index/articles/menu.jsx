@@ -54,7 +54,7 @@ export default class ArticleSearchMenuDisplay extends React.PureComponent {
                   container={true}
                   spacing={4}
                   direction="row"
-                  justify="space-between"
+                  justifyContent="space-between"
                   alignItems="flex-end">
                 <Grid item={true}
                       className={this.props.classes.categoryItem}>
@@ -72,7 +72,7 @@ export default class ArticleSearchMenuDisplay extends React.PureComponent {
                         <Grid container={true}
                               spacing={2}
                               direction="row"
-                              justify="flex-end"
+                              justifyContent="flex-end"
                               alignItems="flex-end">
                             {
                                 this.props.currentUserId &&

@@ -52,8 +52,8 @@ class ApplicationController < ActionController::Base
     user_env = ::Users::EnvironmentService.new(session,
                                                cookies,
                                                http_accept_language,
-                                               locale:         params[:locale],
-                                               force_locale:   params[:force_locale],
+                                               locale:         ensure_locale_params(params[:locale]),
+                                               force_locale:   ensure_locale_params(params[:force_locale]),
                                                default_locale: request.path == '/' ? 'en' : nil,
                                                current_user:   current_user).perform
 
@@ -164,9 +164,19 @@ class ApplicationController < ActionController::Base
     raise ActiveRecord::RecordNotFound unless @context_user
   end
 
+  def ensure_locale_params(locale)
+    return if locale.blank?
+
+    if I18n.available_locales.include?(locale.to_sym)
+      locale
+    else
+      I18n.locale
+    end
+  end
+
   # SEO
   def set_seo_data(named_route, parameters = {})
-    current_locale = params[:force_locale] || params[:locale] || I18n.locale
+    current_locale = ensure_locale_params(params[:force_locale]) || ensure_locale_params(params[:locale]) || I18n.locale
     model          = parameters.delete(:model)
     languages      = parameters.delete(:languages)
     exclude_slugs  = parameters.delete(:exclude_slugs)
@@ -212,7 +222,7 @@ class ApplicationController < ActionController::Base
   end
 
   def canonical_url(named_route, model, locale = I18n.locale, **params)
-    locale ||= 'en'
+    locale = ensure_locale_params(locale) || 'en'
     host   = Rails.env.development? ? nil : ENV['WEBSITE_FULL_ADDRESS']
 
     if model

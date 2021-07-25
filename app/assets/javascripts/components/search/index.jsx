@@ -340,7 +340,7 @@ class SearchIndex extends React.Component {
                     <Grid container={true}
                           spacing={4}
                           direction="row"
-                          justify="center"
+                          justifyContent="center"
                           alignItems="center">
                         <Grid item={true}
                               className={this.props.classes.inputItem}>

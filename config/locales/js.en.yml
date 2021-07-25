@@ -34,9 +34,6 @@ en:
           languages:
             en: "English"
             fr: "French"
-            de: "German"
-            es: "Spanish"
-            it: "Italian"
           profile: "My account"
           administration: "Administration"
       sidebar:
@@ -57,9 +54,6 @@ en:
         locales:
           en: "English"
           fr: "Français"
-          de: "Deutsch"
-          es: "Español"
-          it: "Italiano"
       home:
         banner:
           motto: "Write and share your experience"
@@ -1124,9 +1118,6 @@ en:
     languages:
       en: "English"
       fr: "French"
-      de: "German"
-      es: "Spanish"
-      it: "Italian"
     editor:
       helper:
         title: "Help: "

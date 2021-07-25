@@ -23,12 +23,12 @@ const ArticleHistoryIcon = ({userSlug, articleSlug, size, color}) => (
 ArticleHistoryIcon.propTypes = {
     userSlug: PropTypes.string.isRequired,
     articleSlug: PropTypes.string.isRequired,
-    size: PropTypes.oneOf(['small', 'default', 'large']),
+    size: PropTypes.oneOf(['small', 'medium', 'large']),
     color: PropTypes.oneOf(['primary', 'secondary', 'action', 'disabled']),
 };
 
 ArticleHistoryIcon.defaultProps = {
-    size: 'default',
+    size: 'medium',
     color: 'primary'
 };
 

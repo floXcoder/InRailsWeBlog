@@ -104,7 +104,7 @@ class HomePopulars extends React.Component {
                         <Grid container={true}
                               spacing={4}
                               direction="row"
-                              justify="space-between"
+                              justifyContent="space-between"
                               alignItems="flex-start">
                             {
                                 this.props.homeArticles?.length > 0

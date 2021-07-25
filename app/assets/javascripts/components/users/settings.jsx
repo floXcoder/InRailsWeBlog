@@ -41,7 +41,7 @@ class UserSettings extends React.Component {
     static propTypes = {
         // from connect
         currentUserId: PropTypes.number,
-        userPreferenceView: PropTypes.string,
+        userPreferenceView: PropTypes.number,
         articlesLoader: PropTypes.string,
         articleOrder: PropTypes.string,
         articleDisplay: PropTypes.string,

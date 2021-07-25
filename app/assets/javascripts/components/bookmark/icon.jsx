@@ -23,7 +23,7 @@ class BookmarkIcon extends React.PureComponent {
         className: PropTypes.string,
         bookmarkCount: PropTypes.number,
         isIcon: PropTypes.bool,
-        size: PropTypes.oneOf(['small', 'default', 'large']),
+        size: PropTypes.oneOf(['small', 'medium', 'large']),
         color: PropTypes.oneOf(['primary', 'secondary', 'action']),
         // from connect
         bookmarkData: PropTypes.object,
@@ -33,7 +33,7 @@ class BookmarkIcon extends React.PureComponent {
     static defaultProps = {
         bookmarkCount: 0,
         isIcon: false,
-        size: 'default',
+        size: 'medium',
         color: 'primary'
     };
 

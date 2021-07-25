@@ -215,16 +215,16 @@ class ArticleShow extends React.Component {
                 const message = {
                     fr: 'L\'article est disponible en français',
                     en: 'This article is available in english',
-                    de: 'Der Artikel ist auf Deutsch verfügbar',
-                    it: 'L\'articolo è disponibile in italiano',
-                    es: 'El artículo está disponible en español'
+                    // de: 'Der Artikel ist auf Deutsch verfügbar',
+                    // it: 'L\'articolo è disponibile in italiano',
+                    // es: 'El artículo está disponible en español'
                 };
                 const button = {
                     fr: 'Consulter',
                     en: 'See',
-                    de: 'Siehe',
-                    it: 'Vedi',
-                    es: 'Ver'
+                    // de: 'Siehe',
+                    // it: 'Vedi',
+                    // es: 'Ver'
                 };
 
                 Notification.success(message[visitorLanguage], button[visitorLanguage], () => window.location.replace(userArticlePath(this.props.routeParams.userSlug, this.props.article.slugTranslations[visitorLanguage], visitorLanguage)));
@@ -348,7 +348,7 @@ class ArticleShow extends React.Component {
                                                                   className={this.props.classes.floatingIcons}
                                                                   isSticky={isSticky}
                                                                   display="item"
-                                                                  size="default"
+                                                                  size="medium"
                                                                   color="action"
                                                                   history={this.props.history}
                                                                   isOwner={this.props.isOwner}
@@ -390,7 +390,7 @@ class ArticleShow extends React.Component {
                                               }}
                                               spacing={1}
                                               direction="row"
-                                              justify="space-between"
+                                              justifyContent="space-between"
                                               alignItems="center">
                                             <Grid item={true}>
                                                 <ArticleAvatarIcon classes={this.props.classes}
@@ -411,7 +411,7 @@ class ArticleShow extends React.Component {
                                                                         currentLocale={this.props.articleCurrentLanguage || window.locale}
                                                                         languages={this.props.article.languages}
                                                                         onLanguageChange={this.props.changeArticleLanguage}
-                                                                        size="default"
+                                                                        size="medium"
                                                                         color="primary"/>
 
                                                                 </div>
@@ -421,7 +421,7 @@ class ArticleShow extends React.Component {
                                                                 <ArticleEditIcon userSlug={this.props.article.user.slug}
                                                                                  articleSlug={this.props.article.slug}
                                                                                  isIconButton={true}
-                                                                                 size="default"
+                                                                                 size="medium"
                                                                                  color="primary"/>
                                                             </div>
                                                         </>
@@ -488,7 +488,7 @@ class ArticleShow extends React.Component {
                                     {
                                         this.props.isOwner &&
                                         <ArticleActions classes={this.props.classes}
-                                                        size="default"
+                                                        size="medium"
                                                         color="primary"
                                                         userSlug={this.props.article.user.slug}
                                                         articleId={this.props.article.id}
@@ -530,7 +530,7 @@ class ArticleShow extends React.Component {
                             this.props.articleRecommendations?.length > 0 &&
                             <Grid container={true}
                                   direction="row"
-                                  justify="space-evenly"
+                                  justifyContent="space-evenly"
                                   alignItems="flex-start">
                                 {
                                     this.props.articleRecommendations.map((article, i) => (

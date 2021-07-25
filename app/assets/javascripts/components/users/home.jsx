@@ -133,7 +133,7 @@ class UserHome extends React.Component {
                         <Grid container={true}
                               spacing={4}
                               direction="row"
-                              justify="flex-start"
+                              justifyContent="flex-start"
                               alignItems="center">
                             {
                                 this.props.privateTopics.map((topic) => (
@@ -232,7 +232,7 @@ class UserHome extends React.Component {
                         <Grid container={true}
                               spacing={4}
                               direction="row"
-                              justify="flex-start"
+                              justifyContent="flex-start"
                               alignItems="center">
                             {
                                 this.props.publicTopics.map((topic) => (
@@ -327,7 +327,7 @@ class UserHome extends React.Component {
                                 <Grid container={true}
                                       spacing={4}
                                       direction="row"
-                                      justify="flex-start"
+                                      justifyContent="flex-start"
                                       alignItems="center">
                                     {
                                         this.props.contributedTopics.map((topic) => (

@@ -23,12 +23,12 @@ const ArticleTopicLinkIcon = ({userSlug, topicSlug, size, color}) => (
 ArticleTopicLinkIcon.propTypes = {
     userSlug: PropTypes.string.isRequired,
     topicSlug: PropTypes.string.isRequired,
-    size: PropTypes.oneOf(['small', 'default', 'large']),
+    size: PropTypes.oneOf(['small', 'medium', 'large']),
     color: PropTypes.oneOf(['primary', 'secondary', 'action', 'disabled']),
 };
 
 ArticleTopicLinkIcon.defaultProps = {
-    size: 'default',
+    size: 'medium',
     color: 'primary'
 };
 

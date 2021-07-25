@@ -9,26 +9,26 @@ end
 ruby '3.0.0'
 
 # Rails version
-gem 'rails',                    '6.1.3.2'
+gem 'rails',                    '6.1.4'
 
 # Use postgresql as the database for Active Record
 gem 'pg',                       '1.2.3'
 # gem 'active_record_extended',   '1.4.0'
 gem 'pghero',                   '2.8.1'
-gem 'pg_query',                 '2.0.3' # Required for pghero
+gem 'pg_query',                 '2.1.0' # Required for pghero
 
 # HTTP Response
 gem 'responders',               '3.0.1'
 gem 'http_accept_language',     '2.1.1'
 gem 'secure_headers',           '6.3.2'
-gem 'faraday',                  '1.4.2'
+gem 'faraday',                  '1.5.1'
 
 # JSON
 gem 'jsonapi-serializer',       '2.2.0'
-gem 'oj',                       '3.11.5'
+gem 'oj',                       '3.12.1'
 
 # Use slim instead of erb
-gem 'slim-rails',               '3.2.0'
+gem 'slim-rails',               '3.3.0'
 
 # Internationalization
 gem 'i18n-js',                  '3.8.3'
@@ -67,11 +67,11 @@ gem 'devise',                   '4.8.0'
 gem 'pundit',                   '2.1.0'
 
 # Upload pictures
-gem 'carrierwave',              '2.2.1'
+gem 'carrierwave',              '2.2.2'
 gem 'mini_magick',              '4.11.0'
 
 # Search in database
-gem 'searchkick',               '4.4.4'
+gem 'searchkick',               '4.5.0'
 gem 'typhoeus',                 '1.4.0'
 
 # Votable models
@@ -128,7 +128,7 @@ group :development do
   gem 'prosopite',              '1.0.1'
 
   # Guard and its minions
-  gem 'guard',                  '2.17.0', require: false
+  gem 'guard',                  '2.18.0', require: false
   gem 'guard-rails',            '0.8.1',  require: false
   gem 'guard-bundler',          '3.0.0',  require: false
   gem 'guard-migrate',          '2.0.0',  require: false
@@ -154,7 +154,7 @@ group :test do
   gem 'rspec-rails',                '5.0.1'
   gem 'webmock',                    '3.13.0'
   gem 'rspec_junit_formatter',      '0.4.1'
-  gem 'shoulda-matchers',           '4.5.1',  require: false
+  gem 'shoulda-matchers',           '5.0.0',  require: false
   gem 'shoulda-callback-matchers',  '1.1.4',  require: false
   gem 'simplecov',                  '0.21.2', require: false
   gem 'fuubar',                     '2.5.1'
@@ -170,8 +170,8 @@ group :test do
   gem 'launchy',                    '2.5.0'
 
   # static analyzer
-  gem 'rails_best_practices',       '1.20.1', require: false
-  gem 'brakeman',                   '5.0.1',  require: false
+  gem 'rails_best_practices',       '1.21.0', require: false
+  gem 'brakeman',                   '5.1.1',  require: false
   gem 'i18n-tasks',                 '0.9.34', require: false
 end
 
@@ -180,10 +180,10 @@ group :development, :test do
   gem 'bootsnap',                   '1.7.5',  require: false
 
   # Check errors
-  gem 'rubocop',                    '1.15.0', require: false
-  gem 'rubocop-rails',              '2.10.1', require: false
-  gem 'rubocop-performance',        '1.11.3', require: false
-  gem 'rubocop-rspec',              '2.3.0',  require: false
+  gem 'rubocop',                    '1.18.4', require: false
+  gem 'rubocop-rails',              '2.11.3', require: false
+  gem 'rubocop-performance',        '1.11.4', require: false
+  gem 'rubocop-rspec',              '2.4.0',  require: false
 end
 
 group :production do
@@ -194,5 +194,5 @@ group :production do
   gem 'lograge',          '0.11.2'
 
   # Prerender html pages for SEO
-  gem 'seo_cache',        '1.0.5',   require: false
+  gem 'seo_cache',        '1.0.6',   require: false
 end

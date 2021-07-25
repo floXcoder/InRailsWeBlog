@@ -146,7 +146,7 @@ class SearchModule extends React.Component {
                     <Grid container={true}
                           spacing={4}
                           direction="row"
-                          justify="space-between"
+                          justifyContent="space-between"
                           alignItems="flex-start">
                         <Grid className={this.props.classes.gridItem}
                               item={true}

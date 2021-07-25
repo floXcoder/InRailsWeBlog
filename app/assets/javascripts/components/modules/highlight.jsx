@@ -5,7 +5,6 @@ import '../../../stylesheets/components/highlight.scss';
 import HighlightCode from 'highlight.js/lib/core';
 
 import apache from 'highlight.js/lib/languages/apache';
-import cLike from 'highlight.js/lib/languages/c-like';
 import c from 'highlight.js/lib/languages/c';
 import cpp from 'highlight.js/lib/languages/cpp';
 import xml from 'highlight.js/lib/languages/xml';
@@ -63,7 +62,6 @@ import {
 
 
 HighlightCode.registerLanguage('apache', apache);
-HighlightCode.registerLanguage('c-like', cLike);
 HighlightCode.registerLanguage('c', c);
 HighlightCode.registerLanguage('cpp', cpp);
 HighlightCode.registerLanguage('xml', xml);

@@ -413,7 +413,7 @@ class HeaderLayoutUser extends React.PureComponent {
                         {
                             (this.props.isUserConnected && this.props.currentTopic) &&
                             <>
-                                <Button buttonRef={(ref) => this._anchorEl = ref}
+                                <Button ref={(ref) => this._anchorEl = ref}
                                         className={this.props.classes.topicButton}
                                         variant="contained"
                                         color="primary"

@@ -108,7 +108,7 @@ class AdminBlogCard extends React.Component {
                                 <a href="#"
                                    onClick={this._handleEditWiki}>
                                     <EditIcon color="action"
-                                              fontSize="default"/>
+                                              fontSize="medium"/>
                                 </a>
                             </li>
                         </ul>

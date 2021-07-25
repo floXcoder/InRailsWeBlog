@@ -69,7 +69,7 @@ class FooterLayoutUser extends React.Component {
                     <Grid className={this.props.classes.footerContainer}
                           container={true}
                           direction="row"
-                          justify="space-around"
+                          justifyContent="space-around"
                           alignItems="stretch">
                         {/*<Grid item={true}*/}
                         {/*      xs={12}>*/}

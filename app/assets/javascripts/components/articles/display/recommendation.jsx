@@ -69,7 +69,7 @@ class ArticleRecommendationDisplay extends React.Component {
                 <Grid container={true}
                       spacing={4}
                       direction="row"
-                      justify="flex-start"
+                      justifyContent="flex-start"
                       alignItems="center">
                     {
                         this.props.associatedTopics.map((topic) => (

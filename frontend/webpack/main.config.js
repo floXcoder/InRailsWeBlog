@@ -82,12 +82,12 @@ webPackConfig.module = {
             test: /\.(gif|png|jpe?g|svg)$/i,
             exclude: config.rules.file.exclude,
             use: [
-                'file-loader',
                 {
                     loader: 'image-webpack-loader',
                     options: config.rules.file.options
                 }
-            ]
+            ],
+            type: 'asset/resource'
         },
         {
             test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/i,
@@ -97,7 +97,8 @@ webPackConfig.module = {
                     loader: 'file-loader',
                     options: config.rules.font.options
                 }
-            ]
+            ],
+            type: 'asset/resource'
         }
     ]
 };

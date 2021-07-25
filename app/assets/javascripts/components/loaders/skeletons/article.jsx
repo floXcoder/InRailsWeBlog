@@ -24,13 +24,13 @@ const ArticleSkeleton = ({isConnected}) => (
                 <Grid container={true}
                       spacing={1}
                       direction="row"
-                      justify="space-between"
+                      justifyContent="space-between"
                       alignItems="center">
                     <Grid item={true}>
                         <Grid container={true}
                               spacing={1}
                               direction="row"
-                              justify="flex-start"
+                              justifyContent="flex-start"
                               alignItems="flex-start">
                             <Grid item={true}>
                                 <Box my={1}

@@ -57,7 +57,7 @@ export default class TopicFormInventoryFieldDisplay extends React.Component {
                   container={true}
                   spacing={2}
                   direction="row"
-                  justify="flex-start"
+                  justifyContent="flex-start"
                   alignItems="center">
                 {
                     this.props.field.fieldName &&
@@ -138,7 +138,7 @@ export default class TopicFormInventoryFieldDisplay extends React.Component {
                     <Grid container={true}
                           spacing={4}
                           direction="row"
-                          justify="center"
+                          justifyContent="center"
                           alignItems="center">
                         <Grid item={true}
                               xs={12}>

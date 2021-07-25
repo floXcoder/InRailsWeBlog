@@ -32,12 +32,12 @@ ArticleLinkIcon.propTypes = {
     articleUserId: PropTypes.number.isRequired,
     articleTopicId: PropTypes.number.isRequired,
     articleTitle: PropTypes.string,
-    size: PropTypes.oneOf(['small', 'default', 'large']),
+    size: PropTypes.oneOf(['small', 'medium', 'large']),
     color: PropTypes.oneOf(['primary', 'secondary', 'action', 'disabled']),
 };
 
 ArticleLinkIcon.defaultProps = {
-    size: 'default',
+    size: 'medium',
     color: 'primary'
 };
 

@@ -5,17 +5,17 @@ import $ from 'jquery';
 import './summernote/summernote-lite';
 
 import 'summernote/dist/lang/summernote-fr-FR';
-import 'summernote/dist/lang/summernote-de-DE';
-import 'summernote/dist/lang/summernote-it-IT';
-import 'summernote/dist/lang/summernote-es-ES';
+// import 'summernote/dist/lang/summernote-de-DE';
+// import 'summernote/dist/lang/summernote-it-IT';
+// import 'summernote/dist/lang/summernote-es-ES';
 
 import '../../stylesheets/components/summernote.scss';
 
 import '@dsvllc/summernote-image-attributes';
 import '@dsvllc/summernote-image-attributes/lang/fr-FR';
-import '@dsvllc/summernote-image-attributes/lang/de-DE';
-import '@dsvllc/summernote-image-attributes/lang/it-IT';
-import '@dsvllc/summernote-image-attributes/lang/es-ES';
+// import '@dsvllc/summernote-image-attributes/lang/de-DE';
+// import '@dsvllc/summernote-image-attributes/lang/it-IT';
+// import '@dsvllc/summernote-image-attributes/lang/es-ES';
 
 $.extend($.summernote.options, {
     cleanParseContent: true,
@@ -150,65 +150,65 @@ $.extend(true, $.summernote.lang, {
     }
 });
 
-$.extend(true, $.summernote.lang, {
-    'de-DE': {
-        style: {
-            style: 'Stil',
-            p: 'Text',
-            div: 'Text',
-            b: 'Fett',
-            i: 'Kursivschrift',
-            u: 'Unterstrichen',
-            li: 'Liste',
-            blockquote: 'Zitat',
-            pre: 'Quellcode',
-            code: 'Quellcode',
-            h2: 'Titel',
-            h3: 'Untertitel',
-            h4: 'Interline'
-        }
-    }
-});
+// $.extend(true, $.summernote.lang, {
+//     'de-DE': {
+//         style: {
+//             style: 'Stil',
+//             p: 'Text',
+//             div: 'Text',
+//             b: 'Fett',
+//             i: 'Kursivschrift',
+//             u: 'Unterstrichen',
+//             li: 'Liste',
+//             blockquote: 'Zitat',
+//             pre: 'Quellcode',
+//             code: 'Quellcode',
+//             h2: 'Titel',
+//             h3: 'Untertitel',
+//             h4: 'Interline'
+//         }
+//     }
+// });
 
-$.extend(true, $.summernote.lang, {
-    'es-ES': {
-        style: {
-            style: 'Estilo',
-            p: 'Texto',
-            div: 'Texto',
-            b: 'Negrita',
-            i: 'Cursiva',
-            u: 'Sublimado',
-            li: 'Lista',
-            blockquote: 'Cita',
-            pre: 'El código fuente',
-            code: 'El código fuente',
-            h2: 'Título',
-            h3: 'Subtítulo',
-            h4: 'Interlineado'
-        }
-    }
-});
+// $.extend(true, $.summernote.lang, {
+//     'es-ES': {
+//         style: {
+//             style: 'Estilo',
+//             p: 'Texto',
+//             div: 'Texto',
+//             b: 'Negrita',
+//             i: 'Cursiva',
+//             u: 'Sublimado',
+//             li: 'Lista',
+//             blockquote: 'Cita',
+//             pre: 'El código fuente',
+//             code: 'El código fuente',
+//             h2: 'Título',
+//             h3: 'Subtítulo',
+//             h4: 'Interlineado'
+//         }
+//     }
+// });
 
-$.extend(true, $.summernote.lang, {
-    'it-IT': {
-        style: {
-            style: 'Stile',
-            p: 'Testo',
-            div: 'Testo',
-            b: 'In grassetto',
-            i: 'Corsivo',
-            u: 'Sottolineato',
-            li: 'Elenco',
-            blockquote: 'Preventivo',
-            pre: 'Codice sorgente',
-            code: 'Codice sorgente',
-            h2: 'Titolo',
-            h3: 'Sottotitolo',
-            h4: 'Interline'
-        }
-    }
-});
+// $.extend(true, $.summernote.lang, {
+//     'it-IT': {
+//         style: {
+//             style: 'Stile',
+//             p: 'Testo',
+//             div: 'Testo',
+//             b: 'In grassetto',
+//             i: 'Corsivo',
+//             u: 'Sottolineato',
+//             li: 'Elenco',
+//             blockquote: 'Preventivo',
+//             pre: 'Codice sorgente',
+//             code: 'Codice sorgente',
+//             h2: 'Titolo',
+//             h3: 'Sottotitolo',
+//             h4: 'Interline'
+//         }
+//     }
+// });
 
 $.extend($.summernote.options.keyMap.pc, {
     'CTRL+NUM1': 'formatH2',

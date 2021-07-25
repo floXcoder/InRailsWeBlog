@@ -40,12 +40,12 @@ ArticleInlineActions.propTypes = {
     onSaveClick: PropTypes.func.isRequired,
     onCancelClick: PropTypes.func.isRequired,
     onDeleteClick: PropTypes.func.isRequired,
-    size: PropTypes.oneOf(['small', 'default', 'large']),
+    size: PropTypes.oneOf(['small', 'medium', 'large']),
     color: PropTypes.oneOf(['primary', 'secondary', 'action'])
 };
 
 ArticleInlineActions.defaultProps = {
-    size: 'default',
+    size: 'medium',
     color: 'action'
 };
 
