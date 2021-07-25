@@ -22,7 +22,7 @@ const _renderListItem = (classes, title, details, Icon, reverse = false) => (
           container={true}
           spacing={6}
           direction={reverse ? 'row-reverse' : 'row'}
-          justify="space-evenly"
+          justifyContent="space-evenly"
           alignItems="center">
         <Grid item={true}
               xs={12}

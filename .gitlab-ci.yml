@@ -14,16 +14,12 @@ after_script:
 build:
   stage: build
   cache:
-    - key:
-        files:
-          - Gemfile.lock
+    - key: "Gems"
       paths:
         - .bundle/
         - vendor/bundle/
       policy: pull-push
-    - key:
-        files:
-          - yarn.lock
+    - key: "NPM"
       paths:
         - node_modules/
       policy: pull-push
@@ -43,9 +39,7 @@ build:
 check_code:
   stage: test
   cache:
-    - key:
-        files:
-          - Gemfile.lock
+    - key: "Gems"
       paths:
         - .bundle/
         - vendor/bundle/
@@ -77,9 +71,7 @@ audit:
 brakeman:
   stage: test
   cache:
-    - key:
-        files:
-          - Gemfile.lock
+    - key: "Gems"
       paths:
         - .bundle/
         - vendor/bundle/
@@ -99,9 +91,7 @@ test:rails:
     BASIC_TEST: "true"
     COVERAGE: "true"
   cache:
-    - key:
-        files:
-          - Gemfile.lock
+    - key: "Gems"
       paths:
         - .bundle/
         - vendor/bundle/
@@ -126,9 +116,7 @@ test:rails:
 #    TEST_PORT: 3021
 #    RAILS_ENV: "test"
 #  cache:
-#    - key:
-#        files:
-#          - Gemfile.lock
+#    - key: "Gems"
 #      paths:
 #        - .bundle/
 #        - vendor/bundle/
@@ -147,9 +135,7 @@ test:npm:
   variables:
     RAILS_ENV: "test"
   cache:
-    - key:
-        files:
-          - yarn.lock
+    - key: "NPM"
       paths:
         - node_modules/
       policy: pull
@@ -174,16 +160,12 @@ deploy:
     name: production
     url: https://www.ginkonote.com
   cache:
-    - key:
-        files:
-          - Gemfile.lock
+    - key: "Gems"
       paths:
         - .bundle/
         - vendor/bundle/
       policy: pull-push
-    - key:
-        files:
-          - yarn.lock
+    - key: "NPM"
       paths:
         - node_modules/
       policy: pull-push

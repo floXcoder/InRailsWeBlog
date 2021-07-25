@@ -19,7 +19,7 @@ export default class ArticleFloatingIcons extends React.PureComponent {
         articleTitle: PropTypes.string,
         topicSlug: PropTypes.string,
         display: PropTypes.oneOf(['list', 'item']),
-        size: PropTypes.oneOf(['small', 'default', 'large']),
+        size: PropTypes.oneOf(['small', 'medium', 'large']),
         color: PropTypes.oneOf(['primary', 'secondary', 'action']),
         history: PropTypes.object,
         isOwner: PropTypes.bool
@@ -27,7 +27,7 @@ export default class ArticleFloatingIcons extends React.PureComponent {
 
     static defaultProps = {
         display: 'list',
-        size: 'default',
+        size: 'medium',
         color: 'action',
         isOwner: false
     };

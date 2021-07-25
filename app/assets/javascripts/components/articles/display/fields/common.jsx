@@ -166,7 +166,7 @@ class ArticleCommonField extends React.Component {
                                           data-tooltip={I18n.t('js.article.tooltip.compare')}>
                                         <Link to={'#' + compareArticleParam}>
                                             <CompareIcon color="primary"
-                                                         fontSize="default"/>
+                                                         fontSize="medium"/>
                                         </Link>
                                     </span>
                                 </div>

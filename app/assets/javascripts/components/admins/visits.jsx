@@ -202,7 +202,7 @@ class AdminVisits extends React.Component {
                           className={this.props.classes.gridContainer}
                           spacing={2}
                           direction="row"
-                          justify="space-around"
+                          justifyContent="space-around"
                           alignItems="center">
                         <Grid item={true}>
                             <MiniCard title={I18n.t('js.admin.visits.stats.uniq')}
@@ -229,7 +229,7 @@ class AdminVisits extends React.Component {
                           className={this.props.classes.gridContainer}
                           spacing={2}
                           direction="row"
-                          justify="space-around"
+                          justifyContent="space-around"
                           alignItems="center">
                         <Grid item={true}>
                             <MiniCard title={I18n.t('js.admin.visits.stats.pages')}
@@ -257,7 +257,7 @@ class AdminVisits extends React.Component {
                           className={this.props.classes.gridContainer}
                           spacing={2}
                           direction="row"
-                          justify="space-around"
+                          justifyContent="space-around"
                           alignItems="center">
                         <Grid item={true}>
                             <MiniCard title={I18n.t('js.admin.visits.tops.total_articles')}
@@ -279,7 +279,7 @@ class AdminVisits extends React.Component {
                           className={this.props.classes.gridContainer}
                           spacing={2}
                           direction="row"
-                          justify="space-between"
+                          justifyContent="space-between"
                           alignItems="flex-start">
                         <Grid item={true}>
                             <List className={this.props.classes.listContainer}>

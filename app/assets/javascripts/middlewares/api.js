@@ -172,9 +172,10 @@ const handleResponse = (response) => {
     } else if (response.status === 422) { // Response must have a primary "errors" key to be processed
         return response.json();
     } else if (!response.ok) {
-        return response.json().then((status) => ({
-            errors: status.error || status.errors || response.statusText
-        }));
+        return response.json()
+            .then((status) => ({
+                errors: status.error || status.errors || response.statusText
+            }));
     } else if (response.status !== 204) { // No content response
         return response.json();
     }
@@ -190,17 +191,16 @@ const api = {
         const signal = controller.signal;
 
         const promise = fetch(urlParams, {
-            ...headers,
-            method: 'GET',
-            signal
-        })
-            .then((response) => handleResponseErrors(response, urlParams))
-            .then((response) => handleFlashMessage(response))
-            .then((response) => handleResponse(response))
-            .then(
-                (json) => json,
-                (error) => handleParseErrors(error, urlParams, true)
-            );
+                ...headers,
+                method: 'GET',
+                signal
+            })
+                .then((response) => handleResponseErrors(response, urlParams))
+                .then((response) => handleFlashMessage(response))
+                .then((response) => handleResponse(response))
+                .then((json) => json)
+                .catch((error) => handleParseErrors(error, urlParams, true))
+        ;
 
         return {
             promise,
@@ -220,10 +220,8 @@ const api = {
             .then((response) => handleResponseErrors(response, url))
             .then((response) => handleFlashMessage(response))
             .then((response) => handleResponse(response))
-            .then(
-                (json) => json,
-                (error) => handleParseErrors(error, url)
-            )
+            .then((json) => json)
+            .catch((error) => handleParseErrors(error, url))
     },
 
     update: (url, params, isData = false) => {
@@ -238,10 +236,8 @@ const api = {
             .then((response) => handleResponseErrors(response, url))
             .then((response) => handleFlashMessage(response))
             .then((response) => handleResponse(response))
-            .then(
-                (json) => json,
-                (error) => handleParseErrors(error, url)
-            )
+            .then((json) => json)
+            .catch((error) => handleParseErrors(error, url))
     },
 
     delete: (url, params) => {
@@ -256,10 +252,8 @@ const api = {
             .then((response) => handleResponseErrors(response, url))
             .then((response) => handleFlashMessage(response))
             .then((response) => handleResponse(response))
-            .then(
-                (json) => json,
-                (error) => handleParseErrors(error, url)
-            )
+            .then((json) => json)
+            .catch((error) => handleParseErrors(error, url))
     }
 };
 

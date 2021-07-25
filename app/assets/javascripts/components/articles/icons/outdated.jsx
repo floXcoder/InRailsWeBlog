@@ -24,12 +24,12 @@ const ArticleOutdatedIcon = ({isOutdated, onOutdatedClick, size, color}) => (
 ArticleOutdatedIcon.propTypes = {
     isOutdated: PropTypes.bool.isRequired,
     onOutdatedClick: PropTypes.func.isRequired,
-    size: PropTypes.oneOf(['small', 'default', 'large']),
+    size: PropTypes.oneOf(['small', 'medium', 'large']),
     color: PropTypes.oneOf(['primary', 'secondary', 'action', 'disabled']),
 };
 
 ArticleOutdatedIcon.defaultProps = {
-    size: 'default',
+    size: 'medium',
     color: 'primary'
 };
 

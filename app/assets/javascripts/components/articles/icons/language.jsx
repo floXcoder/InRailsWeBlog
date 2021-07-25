@@ -54,12 +54,12 @@ ArticleLanguageIcon.propTypes = {
     currentLocale: PropTypes.string.isRequired,
     languages: PropTypes.array.isRequired,
     onLanguageChange: PropTypes.func.isRequired,
-    size: PropTypes.oneOf(['small', 'default', 'large']),
+    size: PropTypes.oneOf(['small', 'medium', 'large']),
     color: PropTypes.oneOf(['primary', 'secondary', 'action', 'disabled'])
 };
 
 ArticleLanguageIcon.defaultProps = {
-    size: 'default',
+    size: 'medium',
     color: 'primary'
 };
 

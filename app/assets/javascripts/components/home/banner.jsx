@@ -19,7 +19,7 @@ const HomeBanner = ({classes, onLoginClick, onSignupClick}) => (
             <Grid container={true}
                   spacing={2}
                   direction="row"
-                  justify="space-around"
+                  justifyContent="space-around"
                   alignItems="center">
                 <Grid item={true}
                       xs={12}

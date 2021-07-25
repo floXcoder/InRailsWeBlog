@@ -105,7 +105,7 @@ class UserPassword extends React.Component {
                             <Grid container={true}
                                   spacing={2}
                                   direction="column"
-                                  justify="space-between"
+                                  justifyContent="space-between"
                                   alignItems="center">
                                 <Grid classes={{item: this.props.classes.fieldItem}}
                                       item={true}>
@@ -145,7 +145,7 @@ class UserPassword extends React.Component {
                             <Grid container={true}
                                   spacing={2}
                                   direction="column"
-                                  justify="space-between"
+                                  justifyContent="space-between"
                                   alignItems="center">
                                 <Grid classes={{item: this.props.classes.fieldItem}}
                                       item={true}>

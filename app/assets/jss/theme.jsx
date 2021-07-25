@@ -1,7 +1,7 @@
 'use strict';
 
 import {
-    createMuiTheme
+    createTheme
 } from '@material-ui/core/styles';
 
 // Sizes
@@ -47,7 +47,7 @@ export const h1SpacingExtract = 2.6;
 export const adminDrawerWidth = 250;
 
 // Variables also present in _variables.scss
-const theme = createMuiTheme({
+const theme = createTheme({
     breakpoints: {
         keys: ['xs', 'sm', 'md', 'lg', 'xl'],
         values: {

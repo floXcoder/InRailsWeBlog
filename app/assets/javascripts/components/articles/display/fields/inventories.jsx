@@ -125,7 +125,7 @@ class ArticleInventoriesField extends React.Component {
                   container={true}
                   spacing={0}
                   direction="row"
-                  justify="flex-start"
+                  justifyContent="flex-start"
                   alignItems="center">
                 <Grid item={true}
                       sm={12}>

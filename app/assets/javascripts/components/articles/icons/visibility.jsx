@@ -31,12 +31,12 @@ const ArticleVisibilityIcon = ({articleVisibility, onVisibilityClick, size, colo
 ArticleVisibilityIcon.propTypes = {
     articleVisibility: PropTypes.string.isRequired,
     onVisibilityClick: PropTypes.func,
-    size: PropTypes.oneOf(['small', 'default', 'large']),
+    size: PropTypes.oneOf(['small', 'medium', 'large']),
     color: PropTypes.oneOf(['primary', 'secondary', 'action', 'disabled']),
 };
 
 ArticleVisibilityIcon.defaultProps = {
-    size: 'default',
+    size: 'medium',
     color: 'primary'
 };
 

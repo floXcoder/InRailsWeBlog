@@ -131,14 +131,14 @@ ArticleActions.propTypes = {
     isInline: PropTypes.bool,
     isOutdated: PropTypes.bool,
     hasLinks: PropTypes.bool,
-    size: PropTypes.oneOf(['small', 'default', 'large']),
+    size: PropTypes.oneOf(['small', 'medium', 'large']),
     color: PropTypes.oneOf(['primary', 'secondary', 'action'])
 };
 
 ArticleActions.defaultProps = {
     isInline: false,
     isOutdated: false,
-    size: 'default',
+    size: 'medium',
     color: 'action'
 };
 

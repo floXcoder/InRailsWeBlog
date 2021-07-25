@@ -22,7 +22,7 @@ export default class TopicFormMandatoryFieldDisplay extends React.Component {
                       container={true}
                       spacing={2}
                       direction="row"
-                      justify="flex-start"
+                      justifyContent="flex-start"
                       alignItems="center">
                     <Grid item={true}
                           sm={12}

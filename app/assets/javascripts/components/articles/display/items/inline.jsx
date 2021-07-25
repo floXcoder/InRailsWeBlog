@@ -168,7 +168,7 @@ class ArticleInlineDisplay extends React.PureComponent {
                                                  articleUserId={this.props.article.userId}
                                                  articleTopicId={this.props.article.topicId}
                                                  userSlug={this.props.article.user.slug}
-                                                 size="default"
+                                                 size="medium"
                                                  color="action"/>
                             </div>
 
@@ -182,7 +182,7 @@ class ArticleInlineDisplay extends React.PureComponent {
                                        onClick={this.props.onInlineEdit}
                                        data-tooltip={I18n.t('js.article.tooltip.edit')}>
                                         <EditIcon color="action"
-                                                  fontSize="default"/>
+                                                  fontSize="medium"/>
                                     </a>
                                 </div>
                             }

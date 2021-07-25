@@ -119,7 +119,7 @@ class PagesController < ApplicationController
   end
 
   def feed
-    locale = params[:locale].presence || I18n.locale
+    locale = ensure_locale_params(params[:locale]) || I18n.locale
 
     articles = ::Articles::FindQueries.new(nil, nil).all(limit: 100)
 

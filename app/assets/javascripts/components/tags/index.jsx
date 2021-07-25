@@ -232,7 +232,7 @@ class TagIndex extends React.Component {
                                 <Grid container={true}
                                       spacing={1}
                                       direction="row"
-                                      justify="space-between"
+                                      justifyContent="space-between"
                                       alignItems="flex-start">
                                     {
                                         this.props.publicTags.map(this._renderTagItem)

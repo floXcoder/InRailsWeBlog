@@ -68,13 +68,13 @@ ArticleEditIcon.propTypes = {
     articleSlug: PropTypes.string.isRequired,
     history: PropTypes.object,
     isIconButton: PropTypes.bool,
-    size: PropTypes.oneOf(['small', 'default', 'large']),
+    size: PropTypes.oneOf(['small', 'medium', 'large']),
     color: PropTypes.oneOf(['primary', 'secondary', 'action', 'disabled'])
 };
 
 ArticleEditIcon.defaultProps = {
     isIconButton: false,
-    size: 'default',
+    size: 'medium',
     color: 'primary'
 };
 

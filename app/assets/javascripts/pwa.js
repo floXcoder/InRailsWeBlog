@@ -7,9 +7,10 @@ if (js_environment.NODE_ENV === 'production' && !window.seoMode) {
             navigator.serviceWorker.register('/service-worker.js')
                 .then((registration) => {
                     console.info('Service worker registered:', registration);
-                }).catch(registrationError => {
-                console.info('Service worker registration failed: ', registrationError);
-            });
+                })
+                .catch((registrationError) => {
+                    console.info('Service worker registration failed: ', registrationError);
+                });
         });
     }
 }

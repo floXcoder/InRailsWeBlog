@@ -164,7 +164,7 @@ class ArticleMiniCardDisplay extends React.Component {
                           }}
                           spacing={2}
                           direction="row"
-                          justify="flex-start"
+                          justifyContent="flex-start"
                           alignItems="center">
                         <Grid item={true}
                               xs={this.props.article.defaultPicture ? 8 : 12}
@@ -196,7 +196,7 @@ class ArticleMiniCardDisplay extends React.Component {
                           }}
                           spacing={2}
                           direction="row"
-                          justify="space-between"
+                          justifyContent="space-between"
                           alignItems="center">
                         <Grid item={true}
                               className={this.props.classes.headerItem}>
@@ -206,7 +206,7 @@ class ArticleMiniCardDisplay extends React.Component {
                                   }}
                                   spacing={2}
                                   direction="row"
-                                  justify="flex-start"
+                                  justifyContent="flex-start"
                                   alignItems="center">
                                 <Grid item={true}
                                       className={this.props.classes.headerItem}>

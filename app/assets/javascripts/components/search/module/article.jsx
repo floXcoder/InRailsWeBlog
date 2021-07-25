@@ -85,7 +85,7 @@ export default class SearchArticleModule extends React.PureComponent {
                 <Grid container={true}
                       spacing={2}
                       direction="row"
-                      justify="flex-start"
+                      justifyContent="flex-start"
                       alignItems="center">
                     <Grid className={this.props.classes.articleMainItem}
                           item={true}>

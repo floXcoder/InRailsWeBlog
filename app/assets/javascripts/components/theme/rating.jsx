@@ -11,7 +11,7 @@ export default class Rating extends React.PureComponent {
         hasInput: PropTypes.bool,
         inputId: PropTypes.string,
         inputName: PropTypes.string,
-        size: PropTypes.oneOf(['small', 'normal', 'big']),
+        size: PropTypes.oneOf(['small', 'medium', 'big']),
         labelName: PropTypes.string
     };
 

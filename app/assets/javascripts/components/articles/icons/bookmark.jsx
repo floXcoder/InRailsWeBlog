@@ -13,12 +13,12 @@ const ArticleBookmarkIcon = ({articleId, size, color}) => (
 
 ArticleBookmarkIcon.propTypes = {
     articleId: PropTypes.number.isRequired,
-    size: PropTypes.oneOf(['small', 'default', 'large']),
+    size: PropTypes.oneOf(['small', 'medium', 'large']),
     color: PropTypes.oneOf(['primary', 'secondary', 'action', 'disabled']),
 };
 
 ArticleBookmarkIcon.defaultProps = {
-    size: 'default',
+    size: 'medium',
     color: 'primary'
 };
 

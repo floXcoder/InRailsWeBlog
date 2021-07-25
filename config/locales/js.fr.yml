@@ -34,9 +34,6 @@ fr:
           languages:
             en: "English"
             fr: "Français"
-            de: "Allemand"
-            es: "Espagnol"
-            it: "Italien"
           profile: "Mon compte"
           administration: "Administration"
       sidebar:
@@ -57,9 +54,6 @@ fr:
         locales:
           en: "English"
           fr: "Français"
-          de: "Deutsch"
-          es: "Español"
-          it: "Italiano"
       home:
         banner:
           motto: "Noter et partager vos expériences"
@@ -1124,9 +1118,6 @@ fr:
     languages:
       en: "Anglais"
       fr: "Français"
-      de: "Allemand"
-      es: "Espagnol"
-      it: "Italien"
     editor:
       helper:
         title: "Aide : "

@@ -33,13 +33,10 @@ I18n.defaultLocale = 'fr';
 I18n.locale = 'fr';
 window.defaultLocale = 'en';
 window.locale = 'en';
-window.locales = ['en', 'fr', 'de', 'es', 'it'];
+window.locales = ['en', 'fr'];
 window.localizedRoutes = {
     en: {'home': '', 'search': 'search'},
-    fr: {'home': 'fr', 'search': 'recherche', 'locale': '/fr'},
-    de: {'home': 'de', 'search': 'forschung', 'locale': '/de'},
-    es: {'home': 'es', 'search': 'investigacion', 'locale': '/es'},
-    it: {'home': 'it', 'search': 'ricerca', 'locale': '/it'}
+    fr: {'home': 'fr', 'search': 'recherche', 'locale': '/fr'}
 };
 window.defaultMetaTags = {};
 

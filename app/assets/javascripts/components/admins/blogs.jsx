@@ -127,7 +127,7 @@ class AdminBlogs extends React.Component {
                            href="#"
                            onClick={this._handleExpandAll}>
                             <VerticalAlignCenterIcon color="action"
-                                                     fontSize="default"/>
+                                                     fontSize="medium"/>
                         </a>
                     }
                 </div>
