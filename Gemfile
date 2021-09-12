@@ -9,7 +9,7 @@ end
 ruby '3.0.0'
 
 # Rails version
-gem 'rails',                    '6.1.4'
+gem 'rails',                    '6.1.4.1'
 
 # Use postgresql as the database for Active Record
 gem 'pg',                       '1.2.3'
@@ -20,33 +20,33 @@ gem 'pg_query',                 '2.1.0' # Required for pghero
 # HTTP Response
 gem 'responders',               '3.0.1'
 gem 'http_accept_language',     '2.1.1'
-gem 'secure_headers',           '6.3.2'
-gem 'faraday',                  '1.5.1'
+gem 'secure_headers',           '6.3.3'
+gem 'faraday',                  '1.7.1'
 
 # JSON
 gem 'jsonapi-serializer',       '2.2.0'
-gem 'oj',                       '3.12.1'
+gem 'oj',                       '3.13.6'
 
 # Use slim instead of erb
 gem 'slim-rails',               '3.3.0'
 
 # Internationalization
-gem 'i18n-js',                  '3.8.3'
+gem 'i18n-js',                  '3.9.0'
 gem 'geocoder',                 '1.6.7'
 gem 'maxminddb',                '0.1.22'
 
 # Model versioning
-gem 'paper_trail',              '12.0.0'
+gem 'paper_trail',              '12.1.0'
 
 # Marked as deleted
 gem 'paranoia',                 '2.4.3'
 
 # Format user input
 gem 'auto_strip_attributes',    '2.6.0'
-gem 'sanitize',                 '5.2.3'
+gem 'sanitize',                 '6.0.0'
 
 # Run asynschronous process
-gem 'sidekiq',                  '6.2.1'
+gem 'sidekiq',                  '6.2.2'
 gem 'sidekiq-statistic',        '1.4.0'
 gem 'sidekiq-cron',             '1.2.0'
 gem 'attentive_sidekiq',        '0.3.3'
@@ -64,14 +64,14 @@ gem 'storext',                  '3.3.0'
 gem 'devise',                   '4.8.0'
 
 # Authorization mechanism
-gem 'pundit',                   '2.1.0'
+gem 'pundit',                   '2.1.1'
 
 # Upload pictures
 gem 'carrierwave',              '2.2.2'
 gem 'mini_magick',              '4.11.0'
 
 # Search in database
-gem 'searchkick',               '4.5.0'
+gem 'searchkick',               '4.6.0'
 gem 'typhoeus',                 '1.4.0'
 
 # Votable models
@@ -87,17 +87,17 @@ gem 'premailer-rails',          '1.11.1'
 gem 'browser',                  '5.3.1'
 
 # Tracking
-gem 'ahoy_matey',               '3.2.0'
+gem 'ahoy_matey',               '4.0.1'
 
 # SEO
 gem 'friendly_id',              '5.4.2'
 gem 'route_translator',         '10.0.0'
-gem 'meta-tags',                '2.14.0'
+gem 'meta-tags',                '2.15.0'
 gem 'sitemap_generator',        '6.1.2'
 
 # Dummy data
 gem 'factory_bot_rails',        '6.2.0',  require: false
-gem 'faker',                    '2.18.0', require: false
+gem 'faker',                    '2.19.0', require: false
 
 # Deployment
 gem 'capistrano',               '3.16.0', require: false
@@ -109,10 +109,10 @@ gem 'capistrano-db-tasks',      '0.6',    require: false
 gem 'health_check',             '3.1.0'
 
 # SEO
-gem 'webdrivers',               '4.6.0',  require: false
+gem 'webdrivers',               '4.6.1',  require: false
 
 # Server
-gem 'puma',                     '5.3.2'
+gem 'puma',                     '5.4.0'
 
 group :development do
   # Debugging tool
@@ -124,7 +124,7 @@ group :development do
   gem 'binding_of_caller',      '1.0.0'
 
   # N+1 database query
-  gem 'bullet',                 '6.1.4'
+  gem 'bullet',                 '6.1.5'
   gem 'prosopite',              '1.0.1'
 
   # Guard and its minions
@@ -151,8 +151,8 @@ end
 
 group :test do
   # Test tools
-  gem 'rspec-rails',                '5.0.1'
-  gem 'webmock',                    '3.13.0'
+  gem 'rspec-rails',                '5.0.2'
+  gem 'webmock',                    '3.14.0'
   gem 'rspec_junit_formatter',      '0.4.1'
   gem 'shoulda-matchers',           '5.0.0',  require: false
   gem 'shoulda-callback-matchers',  '1.1.4',  require: false
@@ -177,12 +177,12 @@ end
 
 group :development, :test do
   # Speed up boot
-  gem 'bootsnap',                   '1.7.5',  require: false
+  gem 'bootsnap',                   '1.8.1',  require: false
 
   # Check errors
-  gem 'rubocop',                    '1.18.4', require: false
-  gem 'rubocop-rails',              '2.11.3', require: false
-  gem 'rubocop-performance',        '1.11.4', require: false
+  gem 'rubocop',                    '1.20.0', require: false
+  gem 'rubocop-rails',              '2.12.2', require: false
+  gem 'rubocop-performance',        '1.11.5', require: false
   gem 'rubocop-rspec',              '2.4.0',  require: false
 end
 

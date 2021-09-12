@@ -11,7 +11,10 @@ const TabContainer = ({isActive, children}) => (
 
 TabContainer.propTypes = {
     isActive: PropTypes.bool.isRequired,
-    children: PropTypes.element.isRequired
+    children: PropTypes.oneOfType([
+        PropTypes.array,
+        PropTypes.element
+    ]).isRequired
 };
 
 export default TabContainer;

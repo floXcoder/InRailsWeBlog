@@ -6,7 +6,7 @@ import {
 
 import Button from '@material-ui/core/Button';
 
-import arrayMove from 'array-move';
+import {arrayMoveImmutable} from 'array-move';
 
 import {
     SortableContainer,
@@ -60,7 +60,7 @@ export default class TagSorterDisplay extends React.Component {
 
     _handleSortEndProduct = ({oldIndex, newIndex}) => {
         this.setState({
-            tags: arrayMove(this.state.tags, oldIndex, newIndex)
+            tags: arrayMoveImmutable(this.state.tags, oldIndex, newIndex)
         });
     };
 
