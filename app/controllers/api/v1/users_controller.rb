@@ -38,12 +38,13 @@
 
 module Api::V1
   class UsersController < ApiController
-    skip_before_action :authenticate_user!, only: [:index, :show, :validation]
+    skip_before_action :authenticate_user!, only: [:index, :show, :validation, :recents]
     skip_before_action :set_env, only: [:validation]
 
+    # Require for tracker concern
     before_action :set_context_user, only: []
 
-    after_action :verify_authorized, except: [:index, :validation]
+    after_action :verify_authorized, except: [:index, :validation, :recents]
 
     include TrackerConcern
 
@@ -94,8 +95,6 @@ module Api::V1
     def show
       user = current_user&.id == params[:id]&.to_i ? current_user : User.friendly.find(params[:id])
       authorize user
-
-      track_action(user_id: user.id) { |visitor_token| track_visit(User, user.id, current_user&.id, nil, visitor_token) }
 
       (user.user?(current_user) || admin_signed_in?) ? reset_cache_headers : expires_in(InRailsWeBlog.config.cache_time, public: true)
       respond_to do |format|
@@ -161,9 +160,13 @@ module Api::V1
 
     def recents
       user = current_user&.id == params[:id]&.to_i ? current_user : User.friendly.find(params[:id])
-      admin_or_authorize user
+      if user
+        admin_or_authorize user
 
-      user_recents = user.recent_visits(params[:limit])
+        user_recents = user.recent_visits(params[:limit])
+      # elsif params[:visitor_token]
+        # Ahoy::Visit.where(visitor_token: '50427930-9a92-4528-9d81-4b9ac9e536aa').entries
+      end
 
       respond_to do |format|
         format.json do
@@ -180,7 +183,7 @@ module Api::V1
 
       if stored_user.success?
         respond_to do |format|
-          track_action(action: 'update', user_id: stored_user.result.id)
+          track_action(action: 'user_update', user_id: stored_user.result.id)
 
           flash[:success] = stored_user.message
           format.json do

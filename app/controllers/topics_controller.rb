@@ -18,7 +18,7 @@ class TopicsController < ApplicationController
     # Redirect to the correct localized topic
     redirect_to(topic.link_path(locale: topic.languages.first), status: :moved_permanently) and return if topic.languages.present? && topic.languages.exclude?(I18n.locale.to_s)
 
-    track_action(topic_id: topic.id) { |visitor_token| track_visit(Topic, topic.id, current_user&.id, nil, visitor_token) }
+    track_action(topic_id: topic.id) { track_visit(Topic, topic.id, current_user&.id, nil) }
 
     expires_in InRailsWeBlog.config.cache_time, public: true
     if stale?(topic, template: false, public: true)

@@ -5,6 +5,7 @@ import {
 } from 'qs';
 
 import {
+    trackAction,
     pushError
 } from '../actions';
 
@@ -181,6 +182,14 @@ const handleResponse = (response) => {
     }
 };
 
+const handleTrackingData = (response) => {
+    if(response?.meta?.trackingData) {
+        trackAction(response.meta.trackingData, 'fetch');
+    }
+
+    return response;
+};
+
 const api = {
     get: (url, params) => {
         const headers = getHeaders();
@@ -198,7 +207,7 @@ const api = {
                 .then((response) => handleResponseErrors(response, urlParams))
                 .then((response) => handleFlashMessage(response))
                 .then((response) => handleResponse(response))
-                .then((json) => json)
+                .then((response) => handleTrackingData(response))
                 .catch((error) => handleParseErrors(error, urlParams, true))
         ;
 
@@ -220,7 +229,6 @@ const api = {
             .then((response) => handleResponseErrors(response, url))
             .then((response) => handleFlashMessage(response))
             .then((response) => handleResponse(response))
-            .then((json) => json)
             .catch((error) => handleParseErrors(error, url))
     },
 
@@ -236,7 +244,6 @@ const api = {
             .then((response) => handleResponseErrors(response, url))
             .then((response) => handleFlashMessage(response))
             .then((response) => handleResponse(response))
-            .then((json) => json)
             .catch((error) => handleParseErrors(error, url))
     },
 
@@ -252,7 +259,6 @@ const api = {
             .then((response) => handleResponseErrors(response, url))
             .then((response) => handleFlashMessage(response))
             .then((response) => handleResponse(response))
-            .then((json) => json)
             .catch((error) => handleParseErrors(error, url))
     }
 };

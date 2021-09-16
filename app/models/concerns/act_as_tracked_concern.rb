@@ -98,25 +98,29 @@ module ActAsTrackedConcern
       track_queries
     end
 
-    # Tracker model method to increment search count
-    def track_searches(record_ids)
-      return unless self.tracker_metrics.include?(:searches)
-
-      record_ids.each do |record_id|
-        $redis.incr(redis_key(record_id, 'searches'))
-      end
-    end
-
-    # Tracker model method to increment visit count
-    def track_visits(record_id, user_id = nil, parent_id = nil, visitor_token = nil)
+    # Tracker model method to increment visit count ()Visits are counted with Ahoy)
+    def track_visits(record_id, user_id = nil, parent_id = nil)
       return unless self.tracker_metrics.include?(:visits)
 
       if record_id.is_a? Array
         record_id.each do |id|
-          $redis.incr(redis_key(id, 'visits', user_id, parent_id, visitor_token))
+          $redis.incr(redis_key(id, 'visits', user_id, parent_id))
         end
       else
-        $redis.incr(redis_key(record_id, 'visits', user_id, parent_id, visitor_token))
+        $redis.incr(redis_key(record_id, 'visits', user_id, parent_id))
+      end
+    end
+
+    # Tracker model method to increment view count
+    def track_views(record_id, user_id = nil, parent_id = nil)
+      return unless self.tracker_metrics.include?(:views)
+
+      if record_id.is_a? Array
+        record_id.each do |id|
+          $redis.incr(redis_key(id, 'views', user_id, parent_id))
+        end
+      else
+        $redis.incr(redis_key(record_id, 'views', user_id, parent_id))
       end
     end
 
@@ -133,16 +137,12 @@ module ActAsTrackedConcern
       end
     end
 
-    # Tracker model method to increment view count
-    def track_views(record_id, user_id = nil, parent_id = nil)
-      return unless self.tracker_metrics.include?(:views)
+    # Tracker model method to increment search count
+    def track_searches(record_ids)
+      return unless self.tracker_metrics.include?(:searches)
 
-      if record_id.is_a? Array
-        record_id.each do |id|
-          $redis.incr(redis_key(id, 'views', user_id, parent_id))
-        end
-      else
-        $redis.incr(redis_key(record_id, 'views', user_id, parent_id))
+      record_ids.each do |record_id|
+        $redis.incr(redis_key(record_id, 'searches'))
       end
     end
 

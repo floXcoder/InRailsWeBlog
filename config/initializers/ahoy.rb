@@ -30,7 +30,7 @@ Ahoy.track_bots = false
 # Better user agent parsing
 Ahoy.user_agent_parser = :device_detector
 
-# Defer create visits
+# Visits are created for each new session (uncomment to create it with JS only)
 # Ahoy.server_side_visits = :when_needed
 
 # By default, a new visit is created after 12 hours of inactivity

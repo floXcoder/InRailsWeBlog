@@ -16,6 +16,7 @@ module Api::V1
   class TagsController < ApiController
     skip_before_action :authenticate_user!, only: [:index, :show]
 
+    # Require for tracker concern
     before_action :set_context_user, only: []
 
     after_action :verify_authorized, except: [:index]
@@ -85,8 +86,6 @@ module Api::V1
       tag = Tag.include_element.friendly.find(params[:id])
       authorize tag
 
-      track_action(tag_id: tag.id) { |visitor_token| track_visit(Tag, tag.id, current_user&.id, nil, visitor_token) }
-
       expires_in InRailsWeBlog.config.cache_time, public: true
       if stale?(tag, template: false, public: true)
         respond_to do |format|
@@ -102,7 +101,10 @@ module Api::V1
 
               render json: tag.serialized_json('complete',
                                                params: { current_user_id: current_user&.id },
-                                               meta:   !params[:no_meta] && meta_attributes)
+                                               meta:   {
+                                                 trackingData: { tag_id: tag.id },
+                                                 **(params[:no_meta] ? {} : meta_attributes(pagination: articles))
+                                               }.compact)
             end
           end
         end
@@ -113,8 +115,6 @@ module Api::V1
       tag = current_user.tags.include_element.friendly.find(params[:id])
       authorize tag
 
-      track_action(action: 'edit', tag_id: tag.id)
-
       respond_to do |format|
         format.json do
           set_seo_data(:edit_tag,
@@ -124,7 +124,10 @@ module Api::V1
 
           render json: tag.serialized_json('complete',
                                            params: { current_user_id: current_user&.id },
-                                           meta:   meta_attributes)
+                                           meta:   {
+                                             trackingData: { tag_id: tag.id },
+                                             **meta_attributes
+                                           })
         end
       end
     end
@@ -138,7 +141,7 @@ module Api::V1
       respond_to do |format|
         format.json do
           if stored_tag.success?
-            track_action(action: 'update', tag_id: stored_tag.result.id)
+            track_action(action: 'tag_update', tag_id: stored_tag.result.id)
 
             render json: stored_tag.result.serialized_json('complete',
                                                            params: { current_topic_id: current_user&.current_topic_id },
@@ -182,7 +185,7 @@ module Api::V1
       respond_to do |format|
         format.json do
           if params[:permanently] && current_admin ? tag.really_destroy! : tag.destroy
-            track_action(action: 'destroy', tag_id: tag.id)
+            track_action(action: 'tag_destroy', tag_id: tag.id)
 
             flash.now[:success] = I18n.t('views.tag.flash.successful_deletion')
             head :no_content

@@ -11,16 +11,9 @@ module Api::V1
     def action
       (head :no_content and return) if @seo_mode
 
-      tracking_params = session[:tracking_data].presence || Rails.cache.fetch("#{tracker_params[:path].tr('/', '-')}-tracking")
-      if tracking_params
-        ahoy.track tracking_params.delete(:action) || 'page_visit', tracker_params.merge(tracking_params.except(:path))
-      else
-        ahoy.track 'page_visit', tracker_params
-      end
+      ahoy.track(params.dig(:tracker, :action).presence || 'page_visit', tracker_params)
 
       current_visit&.update(validated: true, takeoff_page: tracker_params[:url], ended_at: Time.zone.now, pages_count: current_visit.pages_count + 1)
-
-      session[:tracking_data] = nil
 
       head :no_content
     end
@@ -30,11 +23,23 @@ module Api::V1
     def tracker_params
       if params[:tracker]
         params.require(:tracker).permit(
-          :action_name,
           :url,
           :title,
-          :path,
-          :locale
+          :locale,
+          :article_id,
+          :topic_id,
+          :parent_id,
+          :topic_id,
+          :tag_id,
+          :user_id,
+          :article_ids,
+          :tag_ids,
+          :topic_ids,
+          :user_ids,
+          :article_slug,
+          :tag_slug,
+          :topic_slug,
+          :user_slug
         ).reject { |_, v| v.blank? }
       else
         {}
