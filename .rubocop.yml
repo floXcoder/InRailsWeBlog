@@ -64,6 +64,9 @@ Layout/HashAlignment:
 Layout/LeadingCommentSpace:
   Enabled: false
 
+Layout/LineEndStringConcatenationIndentation:
+  Enabled: true
+
 Layout/LineLength:
   Enabled: false
 
@@ -100,6 +103,12 @@ Lint/AmbiguousAssignment:
 Lint/AmbiguousBlockAssociation:
   Enabled: false
 
+Lint/AmbiguousOperatorPrecedence:
+  Enabled: true
+
+Lint/AmbiguousRange:
+  Enabled: true
+
 Lint/DeprecatedConstants:
   Enabled: true
 
@@ -113,6 +122,12 @@ Lint/EmptyBlock:
   Enabled: true
 
 Lint/EmptyClass:
+  Enabled: true
+
+Lint/EmptyInPattern:
+  Enabled: true
+
+Lint/IncompatibleIoSelectWithFiberScheduler:
   Enabled: true
 
 Lint/LambdaWithoutLiteralBlock:
@@ -222,6 +237,9 @@ Performance/Sum:
 Rails/ActiveRecordCallbacksOrder:
   Enabled: true
 
+Rails/AddColumnIndex:
+  Enabled: true
+
 Rails/AfterCommitOverride:
   Enabled: true
 
@@ -231,8 +249,14 @@ Rails/AttributeDefaultBlockValue:
 Rails/DynamicFindBy:
   Enabled: false
 
+Rails/EagerEvaluationLogMessage:
+  Enabled: true
+
 Rails/EnvironmentVariableAccess:
   Enabled: false
+
+Rails/ExpandedDateRange:
+  Enabled: true
 
 Rails/FindBy:
   Enabled: false
@@ -242,6 +266,9 @@ Rails/FindById:
 
 Rails/HasManyOrHasOneDependent:
   Enabled: false
+
+Rails/I18nLocaleAssignment:
+  Enabled: true
 
 Rails/Inquiry:
   Enabled: true
@@ -267,6 +294,9 @@ Rails/OutputSafety:
 Rails/PluckInWhere:
   Enabled: true
 
+Rails/RedundantTravelBack:
+  Enabled: true
+
 Rails/RenderInline:
   Enabled: true
 
@@ -287,6 +317,9 @@ Rails/TimeZoneAssignment:
 
 Rails/UnknownEnv:
   Enabled: false
+
+Rails/UnusedIgnoredColumns:
+  Enabled: true
 
 Rails/Validation:
   Enabled: false
@@ -315,6 +348,9 @@ RSpec/ExampleLength:
 RSpec/Capybara:
   Enabled: false
 
+RSpec/IdenticalEqualityAssertion:
+  Enabled: true
+
 RSpec/ImplicitExpect:
   Enabled: false
 
@@ -335,6 +371,9 @@ RSpec/MultipleMemoizedHelpers:
 
 RSpec/NestedGroups:
   Max: 4
+
+RSpec/Rails/AvoidSetupHook:
+  Enabled: true
 
 Style/ArgumentsForwarding:
   Enabled: true
@@ -393,11 +432,17 @@ Style/IfUnlessModifier:
 Style/IfWithBooleanLiteralBranches:
   Enabled: true
 
+Style/InPatternThen:
+  Enabled: true
+
 Style/Lambda:
   Enabled: false
 
 Style/MultilineIfModifier:
   Enabled: false
+
+Style/MultilineInPatternThen:
+  Enabled: true
 
 Style/NegatedIfElseCondition:
   Enabled: true
@@ -408,6 +453,9 @@ Style/NilLambda:
 Style/NumericPredicate:
   Enabled: false
 
+Style/QuotedSymbols:
+  Enabled: true
+
 Style/RedundantReturn:
   Enabled: false
   AllowMultipleReturnValues: true
@@ -417,6 +465,9 @@ Style/RedundantArgument:
 
 Style/RedundantSelf:
   Enabled: false
+
+Style/RedundantSelfAssignmentBranch:
+  Enabled: true
 
 Style/RegexpLiteral:
   Enabled: false

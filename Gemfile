@@ -21,11 +21,11 @@ gem 'pg_query',                 '2.1.0' # Required for pghero
 gem 'responders',               '3.0.1'
 gem 'http_accept_language',     '2.1.1'
 gem 'secure_headers',           '6.3.3'
-gem 'faraday',                  '1.7.1'
+gem 'faraday',                  '1.8.0'
 
 # JSON
 gem 'jsonapi-serializer',       '2.2.0'
-gem 'oj',                       '3.13.6'
+gem 'oj',                       '3.13.7'
 
 # Use slim instead of erb
 gem 'slim-rails',               '3.3.0'
@@ -177,10 +177,10 @@ end
 
 group :development, :test do
   # Speed up boot
-  gem 'bootsnap',                   '1.8.1',  require: false
+  gem 'bootsnap',                   '1.9.0',  require: false
 
   # Check errors
-  gem 'rubocop',                    '1.20.0', require: false
+  gem 'rubocop',                    '1.21.0', require: false
   gem 'rubocop-rails',              '2.12.2', require: false
   gem 'rubocop-performance',        '1.11.5', require: false
   gem 'rubocop-rspec',              '2.4.0',  require: false
@@ -194,5 +194,5 @@ group :production do
   gem 'lograge',          '0.11.2'
 
   # Prerender html pages for SEO
-  gem 'seo_cache',        '1.0.6',   require: false
+  gem 'seo_cache',        '1.0.7',   require: false
 end
