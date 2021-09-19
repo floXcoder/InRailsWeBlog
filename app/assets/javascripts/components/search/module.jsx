@@ -93,7 +93,7 @@ class SearchModule extends React.Component {
 
     componentDidMount() {
         if (!window.seoMode && this.props.currentUserId) {
-            this.props.fetchUserRecents(this.props.currentUserId, {limit: 10});
+            this.props.fetchUserRecents(this.props.currentUserId, {limit: 10}, {forceRefresh: true});
         }
     }
 

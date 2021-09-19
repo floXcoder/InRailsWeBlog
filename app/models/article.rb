@@ -285,6 +285,8 @@ class Article < ApplicationRecord
   scope :with_parent_tags, -> (parent_tag_slugs) { joins(:tags).where(tagged_articles: { parent: true }, tags: { slug: parent_tag_slugs }) }
   scope :with_child_tags, -> (child_tag_slugs) { joins(:tags).where(tagged_articles: { child: true }, tags: { slug: child_tag_slugs }) }
 
+  scope :last_updated, -> (user_id, limit) { where(user_id: user_id).order('created_at DESC').limit(limit) }
+
   scope :published, -> { where(draft: false) }
 
   scope :bookmarked_by_user, -> (user_id) { joins(:bookmarks).where(bookmarks: { bookmarked_type: model_name.name, user_id: user_id }) }

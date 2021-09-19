@@ -1,17 +1,26 @@
 'use strict';
 
 import {
-    articleAppendixWidth
+    articleAppendixWidth,
+    mainWidth
 } from '../theme';
 
 const styles = (theme) => ({
-    root: {
+    userHome: {
         position: 'relative',
         margin: '1rem auto 4rem',
         overflow: 'visible',
+        maxWidth: mainWidth
+    },
+    userHomeTopics: {
+        margin: '1rem auto 4rem',
         maxWidth: articleAppendixWidth
     },
-    card: {
+    userHomeArticles: {
+        margin: '1rem auto 4rem',
+        maxWidth: mainWidth
+    },
+    userHomeCard: {
         position: 'relative',
         margin: '3rem .3rem 3rem',
         overflow: 'visible',
@@ -107,6 +116,11 @@ const styles = (theme) => ({
         [theme.breakpoints.down('md')]: {
             display: 'none'
         }
+    },
+    userHomeDivider: {
+        margin: '2.5rem auto',
+        width: 220,
+        background: `linear-gradient(90deg, ${theme.palette.primary.light} 0%, ${theme.palette.secondary.light} 80%)`
     }
 });
 

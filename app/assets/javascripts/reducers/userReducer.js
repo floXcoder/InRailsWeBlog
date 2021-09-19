@@ -25,7 +25,8 @@ const initState = {
 
     recentTopics: [],
     recentTags: [],
-    recentArticles: []
+    recentArticles: [],
+    recentUpdatedArticles: []
 };
 
 export default function userReducer(state = initState, action) {
@@ -33,7 +34,7 @@ export default function userReducer(state = initState, action) {
         case ActionTypes.USER_FETCH_INIT:
         case ActionTypes.USER_FETCH_SUCCESS:
         case ActionTypes.USER_FETCH_ERROR:
-            if(action.errors) {
+            if (action.errors) {
                 state.user = undefined;
                 state.users = [];
             }
@@ -79,12 +80,13 @@ export default function userReducer(state = initState, action) {
         case ActionTypes.USER_RECENTS_CHANGE_INIT:
         case ActionTypes.USER_RECENTS_CHANGE_SUCCESS:
         case ActionTypes.USER_RECENTS_CHANGE_ERROR:
-            if(action.local) {
-            } else {
+            if (!action.local) {
                 state.recentTopics = action.topics || state.recentTopics || [];
                 state.recentTags = action.tags || state.recentTags || [];
                 state.recentArticles = action.articles || state.recentArticles || [];
+                state.recentUpdatedArticles = action.updatedArticles || state.updatedArticles || [];
             }
+
             return state;
 
         default:

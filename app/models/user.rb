@@ -378,14 +378,11 @@ class User < ApplicationRecord
 
   # Activities
   def recent_visits(limit = 12)
-    article_ids = self.events.order('time DESC').where(name: 'page_visit').where("(properties->'article_id') is not null").limit(limit).map { |event| event.properties['article_id'] }
+    article_ids = self.events.recent_articles(limit).map { |event| event.properties['article_id'] }.uniq
 
-    tag_ids = self.events.order('time DESC').where(name: 'page_visit').where("(properties->'tag_id') is not null").limit(limit).map { |event| event.properties['tag_id'] }
+    tag_ids = self.events.recent_tags(limit).map { |event| event.properties['tag_id'] }.uniq
 
-    {
-      tags:     Tag.flat_serialized_json(Tag.where(id: tag_ids), 'strict', with_model: false),
-      articles: Article.flat_serialized_json(Article.where(id: article_ids), 'strict', with_model: false)
-    }
+    return article_ids, tag_ids
   end
 
   ## Bookmarking

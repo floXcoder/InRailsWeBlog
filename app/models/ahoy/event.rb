@@ -31,6 +31,19 @@ class Ahoy::Event < ApplicationRecord
   # == Validations ==========================================================
 
   # == Scopes ===============================================================
+  scope :recent_articles, -> (limit) {
+    where(name: 'page_visit')
+      .where("(properties->'article_id') is not null")
+      .order('time DESC')
+      .limit(limit)
+  }
+
+  scope :recent_tags, -> (limit) {
+    where(name: 'page_visit')
+      .where("(properties->'tag_id') is not null")
+      .order('time DESC')
+      .limit(limit)
+  }
 
   # == Callbacks ============================================================
 

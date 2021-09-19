@@ -64,6 +64,8 @@ en:
           title: "Search for users experience"
           placeholder: "Articles, tags, ..."
           button: "Search"
+        recents:
+          title: "Recently viewed articles"
         populars:
           title: "Populars articles and tags"
           user_home: "See all my topics"
@@ -176,6 +178,9 @@ en:
           title: "YOur shared topics"
           subtitle: "Shared topics with by other users"
         add_topic: "Add a topic"
+        articles:
+          seen: "Last articles viewed"
+          modified: "Last articles modified"
       index:
         link_to_user: "User details"
         search: "Find user"

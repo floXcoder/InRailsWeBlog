@@ -103,7 +103,7 @@ module Api::V1
                                                params: { current_user_id: current_user&.id },
                                                meta:   {
                                                  trackingData: { tag_id: tag.id },
-                                                 **(params[:no_meta] ? {} : meta_attributes(pagination: articles))
+                                                 **(params[:no_meta] ? {} : meta_attributes)
                                                }.compact)
             end
           end

@@ -75,7 +75,7 @@ module Api::V1
               render json: topic.serialized_json('normal',
                                                  meta: {
                                                          trackingData: { topic_id: topic.id },
-                                                         **(params[:no_meta] ? {} : meta_attributes(pagination: articles))
+                                                         **(params[:no_meta] ? {} : meta_attributes)
                                                        }.compact)
             end
           end

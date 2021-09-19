@@ -102,10 +102,14 @@ describe 'Users API', type: :request, basic: true do
 
   describe '/api/v1/users/:id/recents' do
     context 'when user is not connected' do
-      it 'returns an error message' do
+      it 'returns recent articles for the visitor' do
         get "/api/v1/users/#{@user.id}/recents", as: :json
 
-        expect(response).to be_unauthenticated
+        expect(response).to be_json_response
+
+        recents = JSON.parse(response.body)
+        expect(recents['articles']).to be_empty
+        expect(recents['tags']).to be_empty
       end
     end
 

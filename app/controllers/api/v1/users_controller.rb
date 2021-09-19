@@ -159,18 +159,29 @@ module Api::V1
     end
 
     def recents
-      user = current_user&.id == params[:id]&.to_i ? current_user : User.friendly.find(params[:id])
-      if user
-        admin_or_authorize user
+      article_ids      = nil
+      updated_articles = nil
+      tag_ids          = nil
 
-        user_recents = user.recent_visits(params[:limit])
-      # elsif params[:visitor_token]
-        # Ahoy::Visit.where(visitor_token: '50427930-9a92-4528-9d81-4b9ac9e536aa').entries
+      if current_user
+        user = current_user&.id == params[:id]&.to_i ? current_user : User.friendly.find(params[:id])
+        if user
+          admin_or_authorize user
+
+          article_ids, tag_ids = user.recent_visits(params[:limit])
+          updated_articles     = Article.last_updated(current_user.id, params[:limit])
+        end
+      elsif cookies[:ahoy_visitor].present?
+        article_ids = Ahoy::Event.joins(:visit).merge(Ahoy::Visit.where(visitor_token: cookies[:ahoy_visitor])).recent_articles(params[:limit]).map { |event| event.properties['article_id'] }.uniq
       end
 
       respond_to do |format|
         format.json do
-          render json: user_recents
+          render json: {
+            tags:            Tag.flat_serialized_json(Tag.where(id: tag_ids), with_model: false),
+            articles:        Article.flat_serialized_json(Article.where(id: article_ids), with_model: false),
+            updatedArticles: Article.flat_serialized_json(updated_articles, with_model: false)
+          }
         end
       end
     end
