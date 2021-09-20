@@ -15,16 +15,18 @@ class Admins::VisitsController < AdminsController
       end
 
       format.json do
-        visits = format_visits
-
-        render json: { visits: visits }
+        if visit_params.present?
+          render json: { visitsDetails: format_visits(visit_params) }
+        else
+          render json: { visitsStats: format_global_visits }
+        end
       end
     end
   end
 
   private
 
-  def format_visits(top_limit: 25)
+  def format_global_visits(top_limit: 25)
     visits_details = {}
 
     visits_details[:dates] = Ahoy::Visit.where(validated: true).order('DATE(started_at) DESC').group('DATE(started_at)').limit(60).count
@@ -32,15 +34,16 @@ class Admins::VisitsController < AdminsController
     uniq_visits = Ahoy::Visit.where(validated: true).select(%w[DISTINCT(visitor_token) user_agent referrer pages_count referring_domain browser os device_type country city landing_page takeoff_page utm_source utm_medium utm_content utm_campaign started_at ended_at]).to_a
     # .where(:started_at.gte => start_date, :started_at.lte => end_date)
 
-    visits_details[:totalUniqVisits] = Tracker.sum(:visits_count)
-    visits_details[:totalClicks]     = Tracker.sum(:clicks_count)
-    visits_details[:totalViews]      = Tracker.sum(:views_count)
-    visits_details[:totalQueries]    = Tracker.sum(:queries_count)
-    visits_details[:totalSearches]   = Tracker.sum(:searches_count)
+    visits_details[:totalUniqVisits]    = uniq_visits.count
+    visits_details[:totalArticleVisits] = Tracker.where(tracked_type: 'Article').sum(:visits_count)
+    visits_details[:totalClicks]        = Tracker.where(tracked_type: 'Article').sum(:clicks_count)
+    # visits_details[:totalViews]         = Tracker.where(tracked_type: 'Article').sum(:views_count)
+    # visits_details[:totalQueries]    = Tracker.sum(:queries_count)
+    # visits_details[:totalSearches]   = Tracker.sum(:searches_count)
 
-    visits_details[:topArticles] = Tracker.where(tracked_type: 'Article').order('visits_count DESC').limit(top_limit).map { |tracker| { name: tracker.tracked.title, date: I18n.l(tracker.tracked.created_at, format: :custom_full_date).sub(/^[0]+/, ''), link: tracker.tracked.link_path(locale: I18n.locale), count: tracker.visits_count } }
-    visits_details[:topTags]     = Tracker.where(tracked_type: 'Tag').order('visits_count DESC').limit(top_limit).map { |tracker| { name: tracker.tracked.name, link: tracker.tracked.link_path(locale: I18n.locale), count: tracker.visits_count } }
-    visits_details[:topTopics]   = Tracker.where(tracked_type: 'Topic').order('visits_count DESC').limit(top_limit).map { |tracker| { name: tracker.tracked.name, link: tracker.tracked.link_path(locale: I18n.locale), count: tracker.visits_count } }
+    visits_details[:topArticles] = Tracker.where(tracked_type: 'Article').order('visits_count DESC').joins(:article).where(article: { visibility: 'everyone' }).limit(top_limit).map { |tracker| { id: tracker.tracked_id, name: tracker.tracked.title, date: I18n.l(tracker.tracked.created_at, format: :custom_full_date).sub(/^[0]+/, ''), link: tracker.tracked.link_path(locale: I18n.locale), count: tracker.visits_count } }
+    visits_details[:topTags]     = Tracker.where(tracked_type: 'Tag').order('visits_count DESC').joins(:tag).where(tag: { visibility: 'everyone' }).limit(top_limit).map { |tracker| { id: tracker.tracked_id, name: tracker.tracked.name, link: tracker.tracked.link_path(locale: I18n.locale), count: tracker.visits_count } }
+    visits_details[:topTopics]   = Tracker.where(tracked_type: 'Topic').order('visits_count DESC').joins(:topic).where(topic: { visibility: 'everyone' }).limit(top_limit).map { |tracker| { id: tracker.tracked_id, name: tracker.tracked.name, link: tracker.tracked.link_path(locale: I18n.locale), count: tracker.visits_count } }
 
     visits_details[:totalArticles] = Article.everyone.count
     visits_details[:totalTags]     = Tag.everyone.count
@@ -49,7 +52,7 @@ class Admins::VisitsController < AdminsController
     visits_details[:bounceRate]   = uniq_visits.count > 0 ? (uniq_visits.count { |v| v.pages_count < 2 }.to_f / uniq_visits.count).round(2) * 100 : 0
     median_duration               = median(uniq_visits.select { |visit| visit.ended_at && visit.started_at && visit.pages_count > 1 }.map { |visit| visit.ended_at - visit.started_at })
     visits_details[:duration]     = median_duration ? Time.zone.at(median_duration).strftime('%Mmin %Ssec').sub!(/^0/, '') : nil
-    visits_details[:averagePages] = (uniq_visits.reduce(0) { |sr, visit| sr + visit.pages_count }.to_f / uniq_visits.count).round
+    visits_details[:averagePages] = (uniq_visits.reduce(0) { |sr, visit| sr + visit.pages_count }.to_f / uniq_visits.count).round(2)
 
     # direct_source_count = uniq_visits.count { |visit| visit.referrer.nil? }
     # social_source_count = uniq_visits.count { |visit| social_domains.include?(visit.referring_domain) }
@@ -76,6 +79,15 @@ class Admins::VisitsController < AdminsController
     return visits_details
   end
 
+  def format_visits(params)
+    if params[:date]
+      visits = Ahoy::Visit.where(validated: true).order('DATE(started_at) DESC').where(started_at: Date.parse(params[:date]).all_day)
+      Admin::VisitSerializer.new(visits).serializable_hash&.dig(:data)&.map { |d| d[:attributes] }
+    else
+      []
+    end
+  end
+
   def social_domains
     %w[m.facebook.com www.facebook.com l.instagram.com www.pinterest.com l.facebook.com www.linkedin.com instagram.com lm.facebook.com pinterest.com www.pinterest.co.kr www.pinterest.jp www.pinterest.fr www.premiere.fr www.youtube.com youtube.com www.pinterest.fr www.pinterest.ch co.pinterest.com www.pinterest.ca www.pinterest.co.uk].freeze
   end
@@ -90,6 +102,16 @@ class Admins::VisitsController < AdminsController
     sorted = array.sort
     len    = sorted.length
     (sorted[(len - 1) / 2] + sorted[len / 2]) / 2.0
+  end
+
+  def visit_params
+    if params[:filter].present?
+      params.require(:filter).permit(
+        :date
+      ).reject { |_, v| v.blank? }
+    else
+      {}
+    end
   end
 
 end

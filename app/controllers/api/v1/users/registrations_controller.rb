@@ -66,7 +66,7 @@ module Api::V1
     end
 
     def track_successful_registration
-      ahoy.track 'user_registration_success', email: params.dig(:user, :email)
+      track_action(action: 'user_registration_success', email: params.dig(:user, :email))
     end
 
   end

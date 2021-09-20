@@ -19,6 +19,10 @@ const styles = (theme) => ({
     tableData: {
         wordWrap: 'normal'
     },
+    tableDataItem: {
+        color: theme.palette.grey[900],
+        textDecoration: 'underline'
+    },
     gridContainer: {
         width: '90%',
         margin: theme.spacing(3)
@@ -34,6 +38,14 @@ const styles = (theme) => ({
     listItemSecondary: {
         color: theme.palette.grey[700],
         fontSize: '1rem'
+    },
+    listItemTag: {
+        whiteSpace: 'pre'
+    },
+    listItemLink: {
+        color: theme.palette.grey[900],
+        fontSize: '1rem',
+        marginLeft: 6
     }
 });
 

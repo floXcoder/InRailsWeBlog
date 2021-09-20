@@ -22,10 +22,10 @@ export const ArticleShow = lazyWithPreload(() => import(/* webpackPrefetch: true
 export const ArticleNew = lazyWithPreload(() => import(/* webpackChunkName: "article-new" */ '../articles/new'));
 export const ArticleEdit = lazyWithPreload(() => import(/* webpackChunkName: "article-edit" */ '../articles/edit'));
 export const ArticleHistory = lazyWithPreload(() => import(/* webpackChunkName: "article-history" */ '../articles/history'));
-export const ArticleTracking = lazyWithPreload(() => import(/* webpackChunkName: "article-tracker" */ '../articles/tracking'));
+export const ArticleTracking = lazyWithPreload(() => import(/* webpackChunkName: "article-tracking" */ '../articles/tracking'));
 export const ArticleCompare = lazyWithPreload(() => import(/* webpackChunkName: "article-compare" */ '../articles/compare'));
 export const ArticleShare = lazyWithPreload(() => import(/* webpackChunkName: "article-share" */ '../articles/share'));
-export const ArticleShared = lazyWithPreload(() => import(/* webpackChunkName: "article-share" */ '../articles/shared'));
+export const ArticleShared = lazyWithPreload(() => import(/* webpackChunkName: "article-shared" */ '../articles/shared'));
 export const ArticleSort = lazyWithPreload(() => import(/* webpackChunkName: "article-sort" */ '../articles/sort'));
 export const ArticleListMode = lazyWithPreload(() => import(/* webpackChunkName: "article-index-list" */ '../articles/display/modes/list'));
 export const ArticleInfiniteMode = lazyWithPreload(() => import(/* webpackChunkName: "article-index-infinite" */ '../articles/display/modes/infinite'));

@@ -5,10 +5,6 @@ import {
 } from 'react-hot-loader/root';
 
 import {
-    withRouter
-} from 'react-router-dom';
-
-import {
     withStyles
 } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -25,8 +21,7 @@ import TopicSorter from './sort/sorter';
 
 import styles from '../../../jss/topic/sort';
 
-export default @withRouter
-@connect((state) => ({
+export default @connect((state) => ({
     currentUserId: state.userState.currentId,
     currentUserTopicId: state.topicState.currentUserTopicId,
     currentUserTopicSlug: state.topicState.currentUserTopicSlug,
@@ -41,8 +36,7 @@ export default @withRouter
 class SortTopicModal extends React.Component {
     static propTypes = {
         routeState: PropTypes.object.isRequired,
-        // from router
-        history: PropTypes.object,
+        history: PropTypes.object.isRequired,
         // from connect
         currentUserId: PropTypes.number,
         isFetching: PropTypes.bool,

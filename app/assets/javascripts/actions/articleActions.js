@@ -111,10 +111,11 @@ const receiveArticleTracking = (tracking) => ({
     type: ActionTypes.ARTICLE_TRACKING,
     tracking
 });
-export const fetchArticleTracking = (userId, articleId) => (dispatch) => (
+export const fetchArticleTracking = (articleId, userId, options = {}) => (dispatch) => (
     api.get(`/api/v1/articles/${articleId}/tracking`, {
         locale: window.locale,
-        userId
+        userId,
+        ...options
     })
         .promise
         .then((response) => dispatch(receiveArticleTracking(response)))

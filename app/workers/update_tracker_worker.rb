@@ -50,7 +50,7 @@ class UpdateTrackerWorker
   private
 
   def count_visits(tracked_class, element_value)
-    Ahoy::Event.where(name: 'page_visit').where("properties->>'#{tracked_class.downcase}_id' = ?", element_value.to_s).distinct.count(:visit_id)
+    Ahoy::Event.where(name: 'page_visit').where("properties->>'#{tracked_class.downcase}_id' = ?", element_value.to_s).joins(:visit).merge(Ahoy::Visit.where(validated: true)).distinct.count(:visit_id)
   end
 
   def try_callback(action, record, user_id = nil, parent_id = nil)

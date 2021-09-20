@@ -20,7 +20,8 @@ const initState = {
     metaQuery: undefined,
     metaResults: {},
 
-    visits: {},
+    visitsStats: {},
+    visitsDetails: [],
 
     blogs: [],
 
@@ -44,7 +45,11 @@ export default function adminReducer(state = initState, action) {
         case ActionTypes.ADMIN_VISIT_FETCH_SUCCESS:
         case ActionTypes.ADMIN_VISIT_FETCH_ERROR:
             return fetchReducer(state, action, (state) => {
-                state.visits = action.visits || {};
+                if(action.visitsDetails) {
+                    state.visitsDetails = action.visitsDetails || [];
+                } else {
+                    state.visitsStats = action.visitsStats || {};
+                }
             });
 
         case ActionTypes.ADMIN_BLOG_FETCH_INIT:

@@ -42,7 +42,7 @@ module Api::V1
       respond_to do |format|
         format.json do
           if current_user.switch_topic(topic) && current_user.save
-            track_action(action: 'topic_switch', topic_id: topic.id)
+            # track_action(action: 'topic_switch', topic_id: topic.id)
 
             render json:   topic.serialized_json('normal'),
                    status: :ok

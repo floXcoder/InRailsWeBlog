@@ -5,10 +5,6 @@ import {
 } from 'react-hot-loader/root';
 
 import {
-    withRouter
-} from 'react-router-dom';
-
-import {
     withStyles
 } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
@@ -44,8 +40,7 @@ const TRACKING_VIEWS = {
     REFERERS: 3
 };
 
-export default @withRouter
-@connect((state) => ({
+export default @connect((state) => ({
     article: state.articleState.article,
     articleTracking: state.articleState.articleTracking
 }), {
@@ -56,7 +51,7 @@ export default @withRouter
 class TrackingArticleModal extends React.Component {
     static propTypes = {
         trackingView: PropTypes.number,
-        // from router
+        articleId: PropTypes.number,
         history: PropTypes.object,
         // from connect
         article: PropTypes.object,
@@ -80,14 +75,20 @@ class TrackingArticleModal extends React.Component {
     };
 
     componentDidMount() {
-        if (this.props.article) {
-            this.props.fetchArticleTracking(this.props.article.user.id, this.props.article.id);
+        if (this.props.articleId) {
+            this.props.fetchArticleTracking(this.props.articleId, undefined, {withArticle: true});
+        } else if (this.props.article) {
+            this.props.fetchArticleTracking(this.props.article.id, this.props.article.user.id);
         }
     }
 
     componentDidUpdate() {
-        if (this.props.article && !this.props.articleTracking) {
-            this.props.fetchArticleTracking(this.props.article.user.id, this.props.article.id);
+        if (!this.props.articleTracking) {
+            if (this.props.articleId) {
+                this.props.fetchArticleTracking(this.props.articleId, this.props.article.user.id);
+            } else if (this.props.article) {
+                this.props.fetchArticleTracking(this.props.article.id, this.props.article.user.id);
+            }
         }
     }
 
@@ -100,7 +101,7 @@ class TrackingArticleModal extends React.Component {
             isOpen: false
         });
 
-        this.props.history.push({
+        this.props.history?.push({
             hash: undefined
         });
     };
@@ -319,7 +320,6 @@ class TrackingArticleModal extends React.Component {
 
         return this._renderListDetails(this.props.articleTracking.referers);
     };
-
 
     render() {
         if (!this.props.article) {

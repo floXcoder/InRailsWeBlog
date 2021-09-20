@@ -5,10 +5,6 @@ import {
 } from 'react-hot-loader/root';
 
 import {
-    withRouter
-} from 'react-router-dom';
-
-import {
     withStyles
 } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
@@ -27,8 +23,7 @@ import ShareFormTopic from './share/form';
 
 import styles from '../../../jss/topic/share';
 
-export default @withRouter
-@connect((state, props) => ({
+export default @connect((state, props) => ({
     sharingTopic: getSharingTopic(state, props.routeState)
 }), {
     shareTopic
@@ -37,8 +32,7 @@ export default @withRouter
 @withStyles(styles)
 class ShareTopicModal extends React.Component {
     static propTypes = {
-        // from router
-        history: PropTypes.object,
+        history: PropTypes.object.isRequired,
         // from connect
         sharingTopic: PropTypes.object,
         shareTopic: PropTypes.func,

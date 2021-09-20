@@ -97,7 +97,7 @@ module Api::V1
                                                    },
                                                    meta:   {
                                                      trackingData: tracking_data,
-                                                     storyTopic: filter_params[:topic_slug].present? && articles.present? && articles.all?(&:story?) ? articles.first.topic.flat_serialized_json(with_model: false) : nil,
+                                                     storyTopic:   filter_params[:topic_slug].present? && articles.present? && articles.all?(&:story?) ? articles.first.topic.flat_serialized_json(with_model: false) : nil,
                                                      **meta_attributes(pagination: articles)
                                                    })
             else
@@ -225,7 +225,7 @@ module Api::V1
     end
 
     def tracking
-      article = @context_user.articles.include_element.find(params[:id])
+      article = current_admin ? Article.find(params[:id]) : @context_user.articles.include_element.find(params[:id])
       admin_or_authorize article
 
       article_page_visits = Ahoy::Event.left_outer_joins(:visit).select('distinct ahoy_visits.visitor_token').where(name: 'page_visit', 'ahoy_visits.validated': true).where("properties->>'article_id' = ?", article.id.to_s)
@@ -245,7 +245,10 @@ module Api::V1
 
       respond_to do |format|
         format.json do
-          render json: tracking_data
+          render json: {
+                         trackingData: tracking_data,
+                         article:       params[:with_article] ? Article.serialized_json(article, 'normal') : nil
+                       }.compact
         end
       end
     end
@@ -267,7 +270,7 @@ module Api::V1
 
           render json: HistorySerializer.new(article_versions,
                                              meta: {
-                                               root: 'history',
+                                               root:         'history',
                                                trackingData: { article_id: article.id },
                                                **meta_attributes
                                              }).serializable_hash
