@@ -147,7 +147,7 @@ export default function articleReducer(state = initState, action) {
 
         // Article recommendations
         case ActionTypes.ARTICLE_RECOMMENDATIONS:
-            state.articleRecommendations = action.recommendations;
+            state.articleRecommendations = action.recommendations || [];
             return state;
 
         // Article tracking
