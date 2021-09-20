@@ -35,7 +35,7 @@ export const fetchMetaSearch = (query, options= {}) => (dispatch) => {
 };
 
 // Visits
-export const fetchVisits = (filter, options = {}) => ({
+export const fetchVisits = (filter = {}, options = {}) => ({
     actionType: ActionTypes.ADMIN_VISIT,
     fetchAPI: () => api.get('/admins/visits', {
         filter,
@@ -44,7 +44,7 @@ export const fetchVisits = (filter, options = {}) => ({
 });
 
 // Blogs
-export const fetchBlogs = (filter, options = {}) => ({
+export const fetchBlogs = (filter = {}, options = {}) => ({
     actionType: ActionTypes.ADMIN_BLOG,
     fetchAPI: () => api.get('/admins/blogs', {
         filter,

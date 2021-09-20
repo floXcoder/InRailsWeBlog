@@ -1,7 +1,8 @@
 'use strict';
 
 import {
-    routeChange
+    routeChange,
+    trackAction
 } from '../../../actions';
 
 export default @connect(null, {
@@ -22,6 +23,8 @@ class RouteManager extends React.Component {
     }
 
     componentDidMount() {
+        trackAction(this.props.location, 'route');
+
         this.props.routeChange(this.props.currentRoute, this.props.params, this.props.location);
     }
 

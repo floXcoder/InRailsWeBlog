@@ -5,10 +5,6 @@ import {
 } from 'react-hot-loader/root';
 
 import {
-    withRouter
-} from 'react-router-dom';
-
-import {
     withStyles
 } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -35,8 +31,7 @@ import PersistenceFormTopic from './persistence/form';
 
 import styles from '../../../jss/topic/persistence';
 
-export default @withRouter
-@connect((state, props) => ({
+export default @connect((state, props) => ({
     currentUserId: state.userState.currentId,
     currentUserLocale: state.userState.user?.locale,
     articleMultilanguage: state.uiState.articleMultilanguage,
@@ -53,9 +48,8 @@ export default @withRouter
 @withStyles(styles)
 class TopicPersistence extends React.Component {
     static propTypes = {
+        history: PropTypes.object.isRequired,
         routeState: PropTypes.object,
-        // from router
-        history: PropTypes.object,
         // from connect
         currentUserId: PropTypes.number,
         currentUserLocale: PropTypes.string,

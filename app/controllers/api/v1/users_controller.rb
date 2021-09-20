@@ -38,12 +38,13 @@
 
 module Api::V1
   class UsersController < ApiController
-    skip_before_action :authenticate_user!, only: [:index, :show, :validation]
+    skip_before_action :authenticate_user!, only: [:index, :show, :validation, :recents]
     skip_before_action :set_env, only: [:validation]
 
+    # Require for tracker concern
     before_action :set_context_user, only: []
 
-    after_action :verify_authorized, except: [:index, :validation]
+    after_action :verify_authorized, except: [:index, :validation, :recents]
 
     include TrackerConcern
 
@@ -94,8 +95,6 @@ module Api::V1
     def show
       user = current_user&.id == params[:id]&.to_i ? current_user : User.friendly.find(params[:id])
       authorize user
-
-      track_action(user_id: user.id) { |visitor_token| track_visit(User, user.id, current_user&.id, nil, visitor_token) }
 
       (user.user?(current_user) || admin_signed_in?) ? reset_cache_headers : expires_in(InRailsWeBlog.config.cache_time, public: true)
       respond_to do |format|
@@ -160,14 +159,29 @@ module Api::V1
     end
 
     def recents
-      user = current_user&.id == params[:id]&.to_i ? current_user : User.friendly.find(params[:id])
-      admin_or_authorize user
+      article_ids      = nil
+      updated_articles = nil
+      tag_ids          = nil
 
-      user_recents = user.recent_visits(params[:limit])
+      if current_user
+        user = current_user&.id == params[:id]&.to_i ? current_user : User.friendly.find(params[:id])
+        if user
+          admin_or_authorize user
+
+          article_ids, tag_ids = user.recent_visits(params[:limit])
+          updated_articles     = Article.last_updated(current_user.id, params[:limit])
+        end
+      elsif cookies[:ahoy_visitor].present?
+        article_ids = Ahoy::Event.joins(:visit).merge(Ahoy::Visit.where(visitor_token: cookies[:ahoy_visitor])).recent_articles(params[:limit]).map { |event| event.properties['article_id'] }.uniq
+      end
 
       respond_to do |format|
         format.json do
-          render json: user_recents
+          render json: {
+            tags:            Tag.flat_serialized_json(Tag.where(id: tag_ids), with_model: false),
+            articles:        Article.flat_serialized_json(Article.where(id: article_ids), with_model: false),
+            updatedArticles: Article.flat_serialized_json(updated_articles, with_model: false)
+          }
         end
       end
     end
@@ -180,7 +194,7 @@ module Api::V1
 
       if stored_user.success?
         respond_to do |format|
-          track_action(action: 'update', user_id: stored_user.result.id)
+          track_action(action: 'user_update', user_id: stored_user.result.id)
 
           flash[:success] = stored_user.message
           format.json do

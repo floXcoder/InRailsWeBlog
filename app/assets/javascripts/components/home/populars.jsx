@@ -9,7 +9,12 @@ import ClassIcon from '@material-ui/icons/Class';
 import {
     fetchArticles,
     fetchTags,
+    fetchUserRecents
 } from '../../actions';
+
+import {
+    getUserRecentArticles
+} from '../../selectors';
 
 import {
     tagsPath,
@@ -28,24 +33,32 @@ import TagChipDisplay from '../tags/display/chip';
 import MiniArticleSkeleton from '../loaders/skeletons/miniArticle';
 
 export default @connect((state) => ({
+    isUserConnected: state.userState.isConnected,
+    currentUserId: state.userState.currentId,
     homeArticles: state.articleState.homeArticles,
     popularArticles: state.articleState.popularArticles,
     popularTags: state.tagState.popularTags,
-    currentUserSlug: state.userState.currentSlug
+    currentUserSlug: state.userState.currentSlug,
+    recentArticles: getUserRecentArticles(state)
 }), {
     fetchArticles,
-    fetchTags
+    fetchTags,
+    fetchUserRecents
 })
 class HomePopulars extends React.Component {
     static propTypes = {
         classes: PropTypes.object.isRequired,
         // from connect
+        isUserConnected: PropTypes.bool,
+        currentUserId: PropTypes.number,
         homeArticles: PropTypes.array,
         popularArticles: PropTypes.array,
         popularTags: PropTypes.array,
+        currentUserSlug: PropTypes.string,
+        recentArticles: PropTypes.array,
         fetchArticles: PropTypes.func,
         fetchTags: PropTypes.func,
-        currentUserSlug: PropTypes.string
+        fetchUserRecents: PropTypes.func
     };
 
     constructor(props) {
@@ -77,6 +90,8 @@ class HomePopulars extends React.Component {
         }, {
             populars: true
         });
+
+        this.props.fetchUserRecents(this.props.isUserConnected ? this.props.currentUserId : null, {limit: 10});
     }
 
     render() {
@@ -95,6 +110,45 @@ class HomePopulars extends React.Component {
                             </Button>
                         </div>
                     }
+
+                    <div className={this.props.classes.popularsCategory}>
+                        <h2 className={this.props.classes.popularsTitle}>
+                            {I18n.t('js.views.home.recents.title')}
+                        </h2>
+
+                        <Grid container={true}
+                              spacing={4}
+                              direction="row"
+                              justifyContent="space-between"
+                              alignItems="flex-start">
+                            {
+                                this.props.recentArticles?.length > 0
+                                    ?
+                                    this.props.recentArticles.limit(4).map((article) => (
+                                        <Grid key={article.id}
+                                              item={true}
+                                              xs={12}
+                                              sm={6}>
+                                            <ArticleMiniCardDisplay article={article}
+                                                                    isPaper={true}/>
+                                        </Grid>
+                                    ))
+                                    :
+                                    <>
+                                        <Grid item={true}
+                                              xs={12}
+                                              sm={6}>
+                                            <MiniArticleSkeleton/>
+                                        </Grid>
+                                        <Grid item={true}
+                                              xs={12}
+                                              sm={6}>
+                                            <MiniArticleSkeleton/>
+                                        </Grid>
+                                    </>
+                            }
+                        </Grid>
+                    </div>
 
                     <div className={this.props.classes.popularsCategory}>
                         <h2 className={this.props.classes.popularsTitle}>

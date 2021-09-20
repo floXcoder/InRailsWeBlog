@@ -140,7 +140,7 @@ describe('Users actions', () => {
 
             mock(`/api/v1/users/${user.id}/settings.json`, 200, () => ({
                     settings: {
-                        articleDisplay: 'grid'
+                        articleDisplay: 'card'
                     }
                 })
             );
@@ -148,10 +148,10 @@ describe('Users actions', () => {
             dispatch(store, UserActions.fetchUser(user.id));
 
             return dispatch(store, UserActions.updateUserSettings(user.id, {
-                articleDisplay: 'grid'
+                articleDisplay: 'card'
             }))
                 .then((state) => {
-                    expect(state.userState.user.settings.articleDisplay).toEqual('grid');
+                    expect(state.userState.user.settings.articleDisplay).toEqual('card');
                 });
         });
     });

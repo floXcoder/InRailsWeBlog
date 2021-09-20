@@ -6,7 +6,7 @@ const styles = (theme) => ({
         borderRadius: theme.shape.borderRadius,
         backgroundColor: '#000',
         // '&:hover': {
-        //     backgroundColor: fade(theme.palette.common.black, 0.25)
+        //     backgroundColor: alpha(theme.palette.common.black, 0.25)
         // },
         marginRight: theme.spacing(2),
         marginLeft: '0 !important',

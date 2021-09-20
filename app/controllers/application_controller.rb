@@ -364,7 +364,7 @@ class ApplicationController < ActionController::Base
       respond_to do |format|
         format.json { render json: { success: true }.to_json, status: :ok }
         format.js { js_redirect_to(send("home_#{I18n.locale}_path")) }
-        format.html { head(200) }
+        format.html { head(:ok) }
       end
     end
   end
@@ -372,11 +372,17 @@ class ApplicationController < ActionController::Base
   def track_action(action: 'page_visit', **tracking_params, &block)
     return if @seo_mode
 
-    session[:tracking_data] = { action: action, **tracking_params }
-    # Cache data for cached requests
-    Rails.cache.write("#{request.path.tr('/', '-')}-tracking", { action: action, **tracking_params })
+    if action == 'page_visit'
+      @tracking_params = {
+        action: action,
+        metaTags: meta_tags.meta_tags,
+        **tracking_params
+      }
+    else
+      ahoy.track action, tracking_params
+    end
 
-    # yield(current_visit.visitor_token) if block
+    yield if block
   end
 
   def tracking_params(params = {})

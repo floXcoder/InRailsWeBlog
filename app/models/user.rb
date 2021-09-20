@@ -74,7 +74,7 @@ class User < ApplicationRecord
   store_attributes :settings do
     articles_loader String, default: 'infinite' # Load articles by: all / paginate / infinite
     article_display String, default: 'summary' # Display articles: summary / card / inline / grid
-    article_order String, default: 'created_desc' # Order articles by: priority_asc, priority_desc, id_asc, id_desc, created_asc, created_desc, updated_asc, updated_desc, tag_asc, tags_desc, rank_asc, rank_desc, popularity_asc, popularity_desc, default
+    article_order String, default: 'updated_desc' # Order articles by: priority_asc, priority_desc, id_asc, id_desc, created_asc, created_desc, updated_asc, updated_desc, tag_asc, tags_desc, rank_asc, rank_desc, popularity_asc, popularity_desc, default
     article_multilanguage Boolean, default: false # Write articles in multi-language
 
     tag_sidebar_pin Boolean, default: true # Tag sidebar pinned by default
@@ -378,14 +378,11 @@ class User < ApplicationRecord
 
   # Activities
   def recent_visits(limit = 12)
-    article_ids = self.events.order('time DESC').where(name: 'page_visit').where("(properties->'article_id') is not null").limit(limit).map { |event| event.properties['article_id'] }
+    article_ids = self.events.recent_articles(limit).map { |event| event.properties['article_id'] }.uniq
 
-    tag_ids = self.events.order('time DESC').where(name: 'page_visit').where("(properties->'tag_id') is not null").limit(limit).map { |event| event.properties['tag_id'] }
+    tag_ids = self.events.recent_tags(limit).map { |event| event.properties['tag_id'] }.uniq
 
-    {
-      tags:     Tag.flat_serialized_json(Tag.where(id: tag_ids), 'strict', with_model: false),
-      articles: Article.flat_serialized_json(Article.where(id: article_ids), 'strict', with_model: false)
-    }
+    return article_ids, tag_ids
   end
 
   ## Bookmarking

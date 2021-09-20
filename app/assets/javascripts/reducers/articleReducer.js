@@ -96,7 +96,7 @@ export default function articleReducer(state = initState, action) {
                 state.currentState = articleMachine.transition(state.currentState, (action.articles.length > 0 ? 'LOAD' : 'EMPTY') + (action.isOwner ? '_USER' : ''));
             }
 
-            if(action.errors) {
+            if (action.errors) {
                 state.article = undefined;
                 state.articleCurrentLanguage = undefined;
                 state.articles = [];
@@ -152,7 +152,10 @@ export default function articleReducer(state = initState, action) {
 
         // Article tracking
         case ActionTypes.ARTICLE_TRACKING:
-            state.articleTracking = action.tracking || {};
+            state.articleTracking = action.tracking?.trackingData || {};
+            if (action.tracking?.article) {
+                state.article = action.tracking.article;
+            }
             return state;
 
         // History and restoration

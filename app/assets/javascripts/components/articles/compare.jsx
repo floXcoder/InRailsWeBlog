@@ -5,10 +5,6 @@ import {
 } from 'react-hot-loader/root';
 
 import {
-    withRouter
-} from 'react-router-dom';
-
-import {
     withStyles
 } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
@@ -29,8 +25,7 @@ import styles from '../../../jss/article/compare';
 const stripTags = (string) => string.replace(/(<([^>]+)>)/ig, '');
 const diffRenderStyle = {display: 'inline'};
 
-export default @withRouter
-@connect((state) => ({
+export default @connect((state) => ({
     article: state.articleState.article
 }), {
     fetchArticle
@@ -39,8 +34,7 @@ export default @withRouter
 @withStyles(styles)
 class TrackingCompareModal extends React.Component {
     static propTypes = {
-        // from router
-        history: PropTypes.object,
+        history: PropTypes.object.isRequired,
         // from connect
         article: PropTypes.object,
         fetchArticle: PropTypes.func,

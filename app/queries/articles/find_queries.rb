@@ -24,7 +24,7 @@ module Articles
       @relation = @relation
                     .include_collection
                     .with_adapted_visibility(@current_user, @current_admin)
-                    .order_by(article_order(params)).order_by('created_desc')
+                    .order_by(article_order(params)).order_by('updated_desc')
                     .filter_by(params, @current_user, @user_articles, @topic_articles)
                     .where('articles.languages @> ?', "{#{I18n.locale}}")
                     .paginate_or_limit(params, @current_user)
@@ -35,7 +35,7 @@ module Articles
     def complete(params = {})
       @relation = @relation
                     .includes(:tags, :tagged_articles, :tracker, :share, :pictures, user: [:picture], topic: [:inventory_fields])
-                    .order_by(params[:order].presence || 'popularity_desc').order_by('created_desc')
+                    .order_by(params[:order].presence || 'popularity_desc').order_by('updated_desc')
                     .with_visibility(params[:visibility] || 'everyone')
                     .with_adapted_visibility(@current_user, @current_admin)
 
@@ -54,7 +54,7 @@ module Articles
         if article.topic&.stories?
           @relation = @relation
                         .filter_by(params, @current_user, @user_articles, article.topic)
-                        .order_by('created_desc')
+                        .order_by('updated_desc')
                         .to_a
 
           current_article_index = @relation.index { |a| a.id == article.id }
@@ -230,9 +230,9 @@ module Articles
           @current_user.article_order
         end
       elsif @topic_articles&.stories?
-        'created_asc'
+        'updated_desc'
       else
-        'created_desc'
+        'updated_desc'
       end
     end
 

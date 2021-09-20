@@ -4,7 +4,7 @@ import Button from '@material-ui/core/Button';
 
 import DragIndicatorIcon from '@material-ui/icons/DragIndicator';
 
-import arrayMove from 'array-move';
+import {arrayMoveImmutable} from 'array-move';
 
 import {
     SortableContainer,
@@ -79,7 +79,7 @@ export default class TopicInventoryFieldSorter extends React.Component {
 
     _handleSortEndProduct = ({oldIndex, newIndex}) => {
         this.setState({
-            fields: arrayMove(this.state.fields, oldIndex, newIndex).map((field, i) => {
+            fields: arrayMoveImmutable(this.state.fields, oldIndex, newIndex).map((field, i) => {
                 field.priority = i;
                 return field;
             })

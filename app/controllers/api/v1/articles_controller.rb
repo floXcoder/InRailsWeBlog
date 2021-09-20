@@ -74,7 +74,7 @@ module Api::V1
         end
       end
 
-      track_action(article_ids: articles.map(&:id), tag_slug: filter_params[:tag_slug], topic_slug: filter_params[:topic_slug], user_slug: filter_params[:user_slug]) unless params[:home].present? || params[:populars].present?
+      tracking_data = params[:home].present? || params[:populars].present? ? nil : { article_ids: articles.map(&:id), tag_slug: filter_params[:tag_slug], topic_slug: filter_params[:topic_slug], user_slug: filter_params[:user_slug] }
 
       (user_signed_in? || admin_signed_in?) ? reset_cache_headers : expires_in(InRailsWeBlog.config.cache_time, public: true)
       if stale?(articles, template: false, public: true)
@@ -86,14 +86,18 @@ module Api::V1
                                                    params: {
                                                      current_user_id: current_user&.id
                                                    },
-                                                   meta:   meta_attributes)
+                                                   meta:   {
+                                                     trackingData: tracking_data,
+                                                     **meta_attributes
+                                                   })
             elsif params[:summary].present?
               render json: Article.serialized_json(articles,
                                                    params: {
                                                      current_user_id: current_user&.id
                                                    },
                                                    meta:   {
-                                                     storyTopic: filter_params[:topic_slug].present? && articles.present? && articles.all?(&:story?) ? articles.first.topic.flat_serialized_json(with_model: false) : nil,
+                                                     trackingData: tracking_data,
+                                                     storyTopic:   filter_params[:topic_slug].present? && articles.present? && articles.all?(&:story?) ? articles.first.topic.flat_serialized_json(with_model: false) : nil,
                                                      **meta_attributes(pagination: articles)
                                                    })
             else
@@ -102,7 +106,10 @@ module Api::V1
                                                    params: {
                                                      current_user_id: current_user&.id
                                                    },
-                                                   meta:   meta_attributes(pagination: articles))
+                                                   meta:   {
+                                                     trackingData: tracking_data,
+                                                     **meta_attributes(pagination: articles)
+                                                   })
             end
           end
         end
@@ -112,8 +119,6 @@ module Api::V1
     def show
       article = @context_user.articles.friendly.find(params[:id])
       admin_or_authorize article
-
-      track_action(article_id: article.id, parent_id: article.topic_id) { |visitor_token| track_visit(Article, article.id, current_user&.id, article.topic_id, visitor_token) }
 
       (article.user?(current_user) || admin_signed_in?) ? reset_cache_headers : expires_in(InRailsWeBlog.config.cache_time, public: true)
       if stale?(article, template: false, public: true) || article.user?(current_user)
@@ -137,12 +142,16 @@ module Api::V1
                                                    params: {
                                                      current_user_id: current_user&.id
                                                    },
-                                                   meta:   meta_attributes)
+                                                   meta:   {
+                                                     trackingData: { article_id: article.id, topic_id: article.topic_id },
+                                                     **meta_attributes
+                                                   })
             else
               render json: article.serialized_json('normal',
                                                    meta: {
-                                                           storyTopic: article.story? ? article.topic.flat_serialized_json(with_model: false) : nil,
-                                                           **((!params[:no_meta] && meta_attributes) || [])
+                                                           trackingData: { article_id: article.id, topic_id: article.topic_id },
+                                                           storyTopic:   article.story? ? article.topic.flat_serialized_json(with_model: false) : nil,
+                                                           **(params[:no_meta] ? {} : meta_attributes)
                                                          }.compact)
             end
           end
@@ -155,7 +164,7 @@ module Api::V1
       article&.shared_link = params[:public_link]
       admin_or_authorize article
 
-      track_action(action: 'shared', article_id: article.id, parent_id: article.topic_id)
+      track_action(action: 'article_shared', article_id: article.id, topic_id: article.topic_id)
 
       expires_in InRailsWeBlog.config.cache_time, public: true
       if stale?(article, template: false, public: true)
@@ -216,7 +225,7 @@ module Api::V1
     end
 
     def tracking
-      article = @context_user.articles.include_element.find(params[:id])
+      article = current_admin ? Article.find(params[:id]) : @context_user.articles.include_element.find(params[:id])
       admin_or_authorize article
 
       article_page_visits = Ahoy::Event.left_outer_joins(:visit).select('distinct ahoy_visits.visitor_token').where(name: 'page_visit', 'ahoy_visits.validated': true).where("properties->>'article_id' = ?", article.id.to_s)
@@ -236,7 +245,10 @@ module Api::V1
 
       respond_to do |format|
         format.json do
-          render json: tracking_data
+          render json: {
+                         trackingData: tracking_data,
+                         article:       params[:with_article] ? Article.serialized_json(article, 'normal') : nil
+                       }.compact
         end
       end
     end
@@ -244,8 +256,6 @@ module Api::V1
     def history
       article = current_user.articles.friendly.find(params[:id])
       admin_or_authorize article
-
-      track_action(action: 'history', article_id: article.id)
 
       article_versions = article.versions.where(event: 'update').map.with_index { |h, i| h.object_changes.present? || i == 0 ? h : nil }.compact.reverse
 
@@ -260,7 +270,9 @@ module Api::V1
 
           render json: HistorySerializer.new(article_versions,
                                              meta: {
-                                               root: 'history', **meta_attributes
+                                               root:         'history',
+                                               trackingData: { article_id: article.id },
+                                               **meta_attributes
                                              }).serializable_hash
         end
       end
@@ -275,7 +287,7 @@ module Api::V1
       respond_to do |format|
         format.json do
           if stored_article.success?
-            track_action(action: 'create', article_id: stored_article.result.id)
+            track_action(action: 'article_create', article_id: stored_article.result.id)
 
             flash.now[:success] = stored_article.message
             render json:   stored_article.result.serialized_json('complete',
@@ -297,8 +309,6 @@ module Api::V1
       article = Article.include_element.friendly.find(params[:id])
       admin_or_authorize article
 
-      track_action(action: 'edit', article_id: article.id)
-
       respond_to do |format|
         format.json do
           set_seo_data(:edit_article,
@@ -312,7 +322,10 @@ module Api::V1
                                                params: {
                                                  current_user_id: current_user.id
                                                },
-                                               meta:   meta_attributes)
+                                               meta:   {
+                                                 trackingData: { article_id: article.id, topic_id: article.topic_id },
+                                                 **meta_attributes
+                                               })
         end
       end
     end
@@ -326,7 +339,7 @@ module Api::V1
       respond_to do |format|
         format.json do
           if stored_article.success?
-            track_action(action: 'update', article_id: stored_article.result.id)
+            track_action(action: 'article_update', article_id: stored_article.result.id)
 
             expire_home_cache if (user_signed_in? || admin_signed_in?) && article_admin_params.present?
 
@@ -380,7 +393,7 @@ module Api::V1
 
         article.reload
 
-        track_action(action: 'restore', article_id: article.id)
+        track_action(action: 'article_restore', article_id: article.id)
 
         respond_to do |format|
           flash.now[:success] = t('views.article.flash.successful_undeletion') if params[:from_deletion]
@@ -407,7 +420,7 @@ module Api::V1
       respond_to do |format|
         format.json do
           if (params[:permanently] && current_admin) || article.draft? ? article.really_destroy! : article.destroy
-            track_action(action: 'destroy', article_id: article.id)
+            track_action(action: 'article_destroy', article_id: article.id)
 
             flash.now[:success] = I18n.t('views.article.flash.successful_deletion')
             head :no_content

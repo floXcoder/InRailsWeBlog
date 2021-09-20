@@ -1,7 +1,7 @@
 'use strict';
 
 import {
-    fade
+    alpha
 } from '@material-ui/core/styles/colorManipulator';
 
 import {
@@ -86,7 +86,7 @@ const styles = (theme) => ({
     },
     search: {
         position: 'relative',
-        backgroundColor: fade(theme.palette.common.white, 0.15),
+        backgroundColor: alpha(theme.palette.common.white, 0.15),
         marginRight: theme.spacing(2),
         marginLeft: '0 !important',
         width: 35,
@@ -97,7 +97,7 @@ const styles = (theme) => ({
             width: 'auto'
         },
         '&:hover': {
-            backgroundColor: fade(theme.palette.common.white, 0.25)
+            backgroundColor: alpha(theme.palette.common.white, 0.25)
         }
     },
     searchIcon: {

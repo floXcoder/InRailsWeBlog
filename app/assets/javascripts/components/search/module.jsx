@@ -5,10 +5,6 @@ import {
 } from 'react-hot-loader/root';
 
 import {
-    withRouter
-} from 'react-router-dom';
-
-import {
     withStyles
 } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
@@ -38,8 +34,7 @@ import SearchArticleModule from './module/article';
 
 import styles from '../../../jss/search/module';
 
-export default @withRouter
-@connect((state) => ({
+export default @connect((state) => ({
     isUserConnected: state.userState.isConnected,
     currentUserId: state.userState.currentId,
     currentUserSlug: state.userState.currentSlug,
@@ -63,8 +58,7 @@ export default @withRouter
 @withStyles(styles)
 class SearchModule extends React.Component {
     static propTypes = {
-        // from router
-        history: PropTypes.object,
+        history: PropTypes.object.isRequired,
         // from connect
         isUserConnected: PropTypes.bool,
         currentUserId: PropTypes.number,
@@ -93,7 +87,7 @@ class SearchModule extends React.Component {
 
     componentDidMount() {
         if (!window.seoMode && this.props.currentUserId) {
-            this.props.fetchUserRecents(this.props.currentUserId, {limit: 10});
+            this.props.fetchUserRecents(this.props.currentUserId, {limit: 10}, {forceRefresh: true});
         }
     }
 

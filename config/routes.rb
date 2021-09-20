@@ -7,6 +7,30 @@ Rails.application.routes.draw do
   # Root path
   root 'pages#home'
 
+  # Redirections (renamed articles)
+  get '/fr/labels/conseils', to: redirect('/fr/labels/advice', status: 301)
+  get '/fr/utilisateurs/flo/themes/intelligence-artificielle', to: redirect('/fr/utilisateurs/flo/themes/artificial-intelligence', status: 301)
+
+  get '/users/flo/articles/gitlab-installation@serveur-debian', to: redirect('/fr/utilisateurs/flo/articles/gitlab-installation-automatique-et-manuel@debian-server', status: 301)
+  get '/users/flo/articles/sentry@serveur-debian', to: redirect('/fr/utilisateurs/flo/articles/sentry-installation-and-configuration@debian-server', status: 301)
+  get '/fr/utilisateurs/flo/articles/owncloud@serveur-debian', to: redirect('/fr/utilisateurs/flo/articles/owncloud-installation-et-configuration@debian-server', status: 301)
+  get '/fr/utilisateurs/flo/articles/rails-installation-complete-sur-un-serveur@serveur-debian', to: redirect('/fr/utilisateurs/flo/articles/rails-installation-complete-sur-un-serveur@debian-server', status: 301)
+  get '/users/flo/articles/matomo-piwik-installation-et-configuration@serveur-debian', to: redirect('/fr/utilisateurs/flo/articles/matomo-piwik-installation-et-configuration@debian-server', status: 301)
+  get '/fr/utilisateurs/flo/articles/alias-indispensables-pour-linux@serveur-debian', to: redirect('/fr/utilisateurs/flo/articles/alias-indispensables-pour-linux@debian-server', status: 301)
+  get '/fr/utilisateurs/flo/articles/securisation-du-serveur@serveur-debian', to: redirect('/fr/utilisateurs/flo/articles/outils-pour-securiser-un-serveur-debian@debian-server', status: 301)
+  get '/fr/utilisateurs/flo/articles/ssh-configuration@serveur-debian', to: redirect('/fr/utilisateurs/flo/articles/ssh-configuration@debian-server', status: 301)
+  get '/fr/utilisateurs/flo/articles/ssl-installation-des-certificats-sur-linux@serveur-debian', to: redirect('/fr/utilisateurs/flo/articles/ssl-installation-des-certificats-sur-linux@debian-server', status: 301)
+  get '/fr/utilisateurs/flo/articles/initialisation-du-serveur@serveur-debian', to: redirect('/fr/utilisateurs/flo/articles/initialisation-du-serveur@debian-server', status: 301)
+  get '/fr/utilisateurs/flo/articles/redis-installation@serveur-debian', to: redirect('/fr/utilisateurs/flo/articles/redis-installation@debian-server', status: 301)
+  get '/fr/utilisateurs/flo/articles/resume-de-python@intelligence-artificielle', to: redirect('/fr/utilisateurs/flo/articles/resume-de-python@artificial-intelligence', status: 301)
+  get '/fr/utilisateurs/flo/articles/machine-learning-choix-des-modeles-et-donnees@intelligence-artificielle', to: redirect('/fr/utilisateurs/flo/articles/machine-learning-choix-des-modeles-et-donnees@artificial-intelligence', status: 301)
+  get '/fr/utilisateurs/flo/articles/environnement-de-travail-pycharm-et-anaconda@intelligence-artificielle', to: redirect('/fr/utilisateurs/flo/articles/environnement-de-travail-pycharm-et-anaconda@artificial-intelligence', status: 301)
+  get '/fr/utilisateurs/flo/articles/panda-evolution-de-numpy@intelligence-artificielle', to: redirect('/fr/utilisateurs/flo/articles/decouverte-de-numpy@artificial-intelligence', status: 301)
+  get '/fr/utilisateurs/flo/articles/scikit-learn-premiere-approche-du-machine-learning@intelligence-artificielle', to: redirect('/fr/utilisateurs/flo/articles/scikit-learn-premiere-approche-du-machine-learning@artificial-intelligence', status: 301)
+  get '/fr/utilisateurs/flo/articles/matplotlib-et-seaborn-visualisation-des-donnees@intelligence-artificielle', to: redirect('/fr/utilisateurs/flo/articles/matplotlib-et-seaborn-visualisation-des-donnees@artificial-intelligence', status: 301)
+
+  get '/fr/utilisateurs/flo/articles/dokuwiki-customisation@serveur-debian', to: redirect('/', status: 301)
+
   localized do
     ### Routes managed by javascript router (routes.jsx)
     # Base routes

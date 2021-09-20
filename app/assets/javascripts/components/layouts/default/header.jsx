@@ -5,7 +5,6 @@ import {
 } from 'react';
 
 import {
-    withRouter,
     Route,
     Link
 } from 'react-router-dom';
@@ -58,8 +57,7 @@ import styles from '../../../../jss/default/header';
 
 const loadingBarStyle = {backgroundColor: '#036603', height: '2px'};
 
-export default @withRouter
-@connect((state) => ({
+export default @connect((state) => ({
     routeProperties: state.routerState.currentRoute,
     routeLocation: state.routerState.location,
     metaTags: state.uiState.metaTags,
@@ -75,8 +73,7 @@ export default @withRouter
 class HeaderLayoutDefault extends React.Component {
     static propTypes = {
         hashRoutes: PropTypes.object.isRequired,
-        // from router
-        history: PropTypes.object,
+        history: PropTypes.object.isRequired,
         // from connect
         routeProperties: PropTypes.object,
         routeLocation: PropTypes.object,
@@ -173,7 +170,8 @@ class HeaderLayoutDefault extends React.Component {
                            <div>
                                {
                                    location.hash === `#${route.path}` &&
-                                   <Component routeParams={match.params}
+                                   <Component history={this.props.history}
+                                              routeParams={match.params}
                                               routeState={location.state}/>
                                }
                            </div>

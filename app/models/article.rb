@@ -285,6 +285,8 @@ class Article < ApplicationRecord
   scope :with_parent_tags, -> (parent_tag_slugs) { joins(:tags).where(tagged_articles: { parent: true }, tags: { slug: parent_tag_slugs }) }
   scope :with_child_tags, -> (child_tag_slugs) { joins(:tags).where(tagged_articles: { child: true }, tags: { slug: child_tag_slugs }) }
 
+  scope :last_updated, -> (user_id, limit) { where(user_id: user_id).order('created_at DESC').limit(limit) }
+
   scope :published, -> { where(draft: false) }
 
   scope :bookmarked_by_user, -> (user_id) { joins(:bookmarks).where(bookmarks: { bookmarked_type: model_name.name, user_id: user_id }) }
@@ -324,7 +326,7 @@ class Article < ApplicationRecord
     when 'normal'
       ArticleSerializer.new(data,
                             fields:  {
-                              article: %i[id user userId userSlug tags topicId topicSlug topicName mode modeTranslated slugTranslations title summary contentSummary content inventories reference visibility visibilityTranslated allowComment draft languages defaultPicture slug bookmarksCount commentsCount date dateShort link parentTagIds childTagIds],
+                              article: %i[id user userId userSlug tags topicId topicSlug topicName mode modeTranslated slugTranslations title summary contentSummary content inventories reference visibility visibilityTranslated allowComment draft languages defaultPicture slug bookmarksCount commentsCount date dateShort updatedDate link parentTagIds childTagIds],
                               user:    %i[id pseudo slug avatarUrl],
                               tag:     %i[id userId name synonyms visibility taggedArticlesCount slug description]
                             },
@@ -333,7 +335,7 @@ class Article < ApplicationRecord
     else
       ArticleSerializer.new(data,
                             fields:  {
-                              article: %i[id user userId userSlug tags topicId mode summary draft visibility defaultPicture slug outdatedArticlesCount commentsCount modeTranslated title contentSummary inventories date dateShort dateIso parentTagIds childTagIds],
+                              article: %i[id user userId userSlug tags topicId mode summary draft visibility defaultPicture slug outdatedArticlesCount commentsCount modeTranslated title contentSummary inventories date dateShort updatedDate dateIso parentTagIds childTagIds],
                               user:    %i[id pseudo slug avatarUrl],
                               tag:     %i[id userId name synonyms visibility taggedArticlesCount slug description]
                             },

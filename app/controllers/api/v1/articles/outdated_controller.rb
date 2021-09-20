@@ -13,7 +13,7 @@ module Api::V1
       respond_to do |format|
         format.json do
           if article.mark_as_outdated(current_user)
-            track_action(action: 'outdated_up', article_id: article.id)
+            track_action(action: 'article_outdated_up', article_id: article.id)
 
             render json: article.serialized_json('normal')
           else
@@ -31,7 +31,7 @@ module Api::V1
       respond_to do |format|
         format.json do
           if article.remove_outdated(current_user)
-            track_action(action: 'outdated_down', article_id: article.id)
+            track_action(action: 'article_outdated_down', article_id: article.id)
 
             render json: article.serialized_json('normal')
           else

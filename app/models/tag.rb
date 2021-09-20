@@ -253,7 +253,7 @@ class Tag < ApplicationRecord
     else
       TagSerializer.new(data,
                         fields:  {
-                          tag: %i[id userId name synonyms visibility taggedArticlesCount slug description]
+                          tag: %i[id userId name synonyms visibility taggedArticlesCount slug description topicIds]
                         },
                         include: [],
                         **options)

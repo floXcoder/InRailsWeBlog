@@ -2,11 +2,56 @@
 
 import api from '../middlewares/api';
 
-export const trackAction = (params) => {
-    return api
-        .post('/api/v1/tracker/action', {
-            tracker: params
-        });
+window.trackingDatas = {};
+
+export const trackAction = (params, actionType) => {
+    if (js_environment.NODE_ENV !== 'production' || window.seoMode) {
+        return;
+    }
+
+    const pathname = params.pathname
+
+    // Ensure components are loaded and title updated
+    setTimeout(() => {
+        if (actionType === 'route' && (window.trackingData || window.trackingDatas[params.pathname])) {
+            let {action, ...trackingParams} = window.trackingData || window.trackingDatas[params.pathname];
+            let {metaTags, ...trackingData} = trackingParams;
+
+            params = {
+                action: action || 'page_visit',
+                url: window.location.href,
+                title: metaTags.title || document.title,
+                locale: window.locale,
+                ...trackingData
+            }
+
+            if (window.trackingData) {
+                window.trackingDatas[pathname] = window.trackingData;
+
+                window.trackingData = undefined;
+            }
+
+            return api
+                .post('/api/v1/tracker/action', {
+                    tracker: params
+                });
+        } else if (actionType === 'fetch' && params) {
+            params = {
+                action: 'page_visit',
+                url: window.location.href,
+                title: document.title,
+                locale: window.locale,
+                ...params
+            }
+        } else if (actionType === 'route' && !window.trackingData) {
+            return;
+        }
+
+        return api
+            .post('/api/v1/tracker/action', {
+                tracker: params
+            });
+    }, 50);
 }
 
 export const spySearchResults = (searchParams, response) => {

@@ -1,12 +1,15 @@
 # frozen_string_literal: true
 
 class Admins::LogsController < AdminsController
+  DEFAULT_LOG_SIZE = 3_000
+  SEARCH_LOG_SIZE  = 30_000
+
   before_action :verify_requested_format!
 
   respond_to :html, :json
 
   def index
-    log_filename = Rails.env + '.log'
+    log_filename = "#{Rails.env}.log"
 
     tags            = params.keys & tag_search
     environment_log = if tags.present?
@@ -17,20 +20,20 @@ class Admins::LogsController < AdminsController
                           }
                         end
 
-                        Logging.multi_grep_for(log_filename, format_tags_search(h_tags), 6_000)
+                        Logging.multi_grep_for(log_filename, format_tags_search(h_tags), SEARCH_LOG_SIZE)
                       else
-                        Logging.read_latest_for(log_filename, 2_000)
+                        Logging.read_latest_for(log_filename, DEFAULT_LOG_SIZE)
                       end
 
-    job_log = Logging.read_latest_for('jobs.log', 2_000)
+    job_log = Logging.read_latest_for('jobs.log', DEFAULT_LOG_SIZE)
 
-    cron_log = Logging.read_latest_for('cron.log', 2_000)
+    cron_log = Logging.read_latest_for('cron.log', DEFAULT_LOG_SIZE)
 
-    ahoy_log = Logging.read_latest_for('ahoy.log', 2_000)
+    ahoy_log = Logging.read_latest_for('ahoy.log', DEFAULT_LOG_SIZE)
 
-    sentry_log = Logging.read_latest_for('sentry.log', 2_000)
+    sentry_log = Logging.read_latest_for('sentry.log', DEFAULT_LOG_SIZE)
 
-    seo_cache_log = Logging.read_latest_for('seo_cache.log', 2_000)
+    seo_cache_log = Logging.read_latest_for('seo_cache.log', DEFAULT_LOG_SIZE)
 
     respond_to do |format|
       format.html do
@@ -51,22 +54,22 @@ class Admins::LogsController < AdminsController
   end
 
   def stream
-    log_filename = Rails.env + '.log'
+    log_filename = "#{Rails.env}.log"
 
     log_data = if log_params[:element].present?
                  if log_params[:element] == 'top'
-                   Logging.read_latest_for(log_filename, log_params[:value].to_i + 2_000)
+                   Logging.read_latest_for(log_filename, log_params[:value].to_i + DEFAULT_LOG_SIZE)
                  elsif log_params[:element] == 'refresh'
-                   Logging.read_latest_for(log_filename, 2_000)
+                   Logging.read_latest_for(log_filename, DEFAULT_LOG_SIZE)
                  elsif log_params[:element] == 'date'
-                   Logging.grep_date_for(log_filename, log_params[:value], 2_000)
+                   Logging.grep_date_for(log_filename, log_params[:value], DEFAULT_LOG_SIZE)
                  elsif log_params[:value].present?
-                   Logging.grep_for(log_filename, format_search(log_params[:element], log_params[:value]), 6_000)
+                   Logging.grep_for(log_filename, format_search(log_params[:element], log_params[:value]), SEARCH_LOG_SIZE)
                  end
                elsif log_params[:tags].present?
-                 Logging.multi_grep_for(log_filename, format_tags_search(log_params[:tags]&.map(&:to_unsafe_h)), 6_000)
+                 Logging.multi_grep_for(log_filename, format_tags_search(log_params[:tags]&.map(&:to_unsafe_h)), SEARCH_LOG_SIZE)
                else
-                 Logging.read_latest_for(log_filename, 2_000)
+                 Logging.read_latest_for(log_filename, DEFAULT_LOG_SIZE)
                end
 
     respond_to do |format|
@@ -100,8 +103,6 @@ class Admins::LogsController < AdminsController
       "format=#{value}"
     when 'search'
       value
-    else
-      nil
     end
   end
 

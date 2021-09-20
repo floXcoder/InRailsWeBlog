@@ -88,13 +88,18 @@ const receiveUserRecents = (json) => ({
     type: ActionTypes.USER_RECENTS,
     topics: json?.topics || [],
     tags: json?.tags || [],
-    articles: json?.articles || []
+    articles: json?.articles || [],
+    updatedArticles: json?.updatedArticles || []
 });
-export const fetchUserRecents = (userId, options = {}) => (dispatch) => {
-    return api
-        .get(`/api/v1/users/${userId}/recents`, options)
-        .promise
-        .then((json) => dispatch(receiveUserRecents(json)));
+export const fetchUserRecents = (userId, options = {}, payload = {}) => (dispatch, getState) => {
+    if (!getState().userState.recentArticles.length || payload.forceRefresh) {
+        return api
+            .get(`/api/v1/users/${userId}/recents`, options)
+            .promise
+            .then((json) => dispatch(receiveUserRecents(json)));
+    } else {
+        return Promise.resolve();
+    }
 };
 
 // // Export user data

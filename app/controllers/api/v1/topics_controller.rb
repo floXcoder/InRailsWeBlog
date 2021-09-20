@@ -42,7 +42,7 @@ module Api::V1
       respond_to do |format|
         format.json do
           if current_user.switch_topic(topic) && current_user.save
-            track_action(action: 'switch_topic', topic_id: topic.id)
+            # track_action(action: 'topic_switch', topic_id: topic.id)
 
             render json:   topic.serialized_json('normal'),
                    status: :ok
@@ -58,8 +58,6 @@ module Api::V1
       topic = @context_user.topics.friendly.find(params[:id])
       authorize topic
 
-      track_action(topic_id: topic.id) { |visitor_token| track_visit(Topic, topic.id, current_user&.id, nil, visitor_token) }
-
       expires_in InRailsWeBlog.config.cache_time, public: true
       if stale?(topic, template: false, public: true)
         respond_to do |format|
@@ -74,7 +72,11 @@ module Api::V1
             if current_user && topic.user?(current_user)
               render json: topic.serialized_json('complete')
             else
-              render json: topic.serialized_json('normal', meta: !params[:no_meta] && meta_attributes)
+              render json: topic.serialized_json('normal',
+                                                 meta: {
+                                                         trackingData: { topic_id: topic.id },
+                                                         **(params[:no_meta] ? {} : meta_attributes)
+                                                       }.compact)
             end
           end
         end
@@ -90,7 +92,7 @@ module Api::V1
       respond_to do |format|
         format.json do
           if stored_topic.success? && current_user.switch_topic(topic) && current_user.save
-            track_action(action: 'create', topic_id: stored_topic.result.id)
+            track_action(action: 'topic_create', topic_id: stored_topic.result.id)
 
             render json:   stored_topic.result.serialized_json('complete'),
                    status: :created
@@ -107,8 +109,6 @@ module Api::V1
       topic = @context_user.topics.friendly.find(params[:id])
       authorize topic
 
-      track_action(action: 'edit', topic_id: topic.id)
-
       respond_to do |format|
         format.json do
           set_seo_data(:edit_topic,
@@ -116,7 +116,11 @@ module Api::V1
                        user_slug:  topic.user,
                        author:     topic.user.pseudo)
 
-          render json: topic.serialized_json('complete')
+          render json: topic.serialized_json('complete',
+                                             meta: {
+                                               trackingData: { tag_id: tag.id },
+                                               **meta_attributes
+                                             })
         end
       end
     end
@@ -130,7 +134,7 @@ module Api::V1
       respond_to do |format|
         format.json do
           if stored_topic.success?
-            track_action(action: 'update', topic_id: stored_topic.result.id)
+            track_action(action: 'topic_update', topic_id: stored_topic.result.id)
 
             flash.now[:success] = stored_topic.message
             render json:   stored_topic.result.serialized_json('complete'),
@@ -154,7 +158,7 @@ module Api::V1
         format.json do
           flash.now[:success] = shared_topic.message
           if shared_topic.success?
-            track_action(action: 'share', topic_id: shared_topic.id)
+            track_action(action: 'topic_share', topic_id: shared_topic.id)
 
             render json:   shared_topic.result.serialized_json('normal'),
                    status: :ok
@@ -197,7 +201,7 @@ module Api::V1
       respond_to do |format|
         format.json do
           if topic.destroy
-            track_action(action: 'destroy', topic_id: topic.id)
+            track_action(action: 'topic_destroy', topic_id: topic.id)
 
             # Switch topic if needed and return current topic
             current_topic = current_user.current_topic

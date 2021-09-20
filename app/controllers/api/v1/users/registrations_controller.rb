@@ -27,6 +27,8 @@ module Api::V1
           @location = after_inactive_sign_up_path_for(resource)
         end
 
+        track_successful_registration
+
         respond_with resource.serialized_json('profile', meta: { location: @location }),
                      location: @location
       else
@@ -61,6 +63,10 @@ module Api::V1
       after_sign_in_path_for(resource)
       # If user must confirm email use:
       # login_path
+    end
+
+    def track_successful_registration
+      track_action(action: 'user_registration_success', email: params.dig(:user, :email))
     end
 
   end

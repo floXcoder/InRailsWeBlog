@@ -39,12 +39,16 @@ import {
 
 import {
     getPublicTopics,
-    getPrivateTopics
+    getPrivateTopics,
+    getUserRecentArticles,
+    getUserRecentUpdatedArticles
 } from '../../selectors';
 
 import Loader from '../theme/loader';
 
 import NotFound from '../layouts/notFound';
+
+import ArticleMiniCardDisplay from '../articles/display/items/miniCard';
 
 import styles from '../../../jss/user/home';
 
@@ -54,7 +58,9 @@ export default @connect((state) => ({
     user: state.userState.user,
     publicTopics: getPublicTopics(state),
     privateTopics: getPrivateTopics(state),
-    contributedTopics: state.topicState.contributedTopics
+    contributedTopics: state.topicState.contributedTopics,
+    recentArticles: getUserRecentArticles(state),
+    recentUpdatedArticles: getUserRecentUpdatedArticles(state)
 }), {
     fetchMetaTags,
     switchTagSidebar
@@ -70,6 +76,8 @@ class UserHome extends React.Component {
         publicTopics: PropTypes.array,
         privateTopics: PropTypes.array,
         contributedTopics: PropTypes.array,
+        recentArticles: PropTypes.array,
+        recentUpdatedArticles: PropTypes.array,
         fetchMetaTags: PropTypes.func,
         // from styles
         classes: PropTypes.object
@@ -105,269 +113,325 @@ class UserHome extends React.Component {
         }
 
         return (
-            <div className={this.props.classes.root}>
-                <Card component="section"
-                      className={this.props.classes.card}
-                      elevation={6}>
-                    <CardHeader classes={{
-                        root: this.props.classes.header,
-                        subheader: this.props.classes.subheader
-                    }}
-                                title={I18n.t('js.user.home.private.title')}
-                                subheader={I18n.t('js.user.home.private.subtitle')}
-                                action={
-                                    <IconButton className={this.props.classes.sortIcon}
-                                                component={Link}
-                                                aria-label="Show more"
-                                                to={{
-                                                    hash: '#' + sortTopicParam,
-                                                    state: {
-                                                        visibility: 'only_me'
+            <div className={this.props.classes.userHome}>
+                <div className={this.props.classes.userHomeTopics}>
+                    <Card component="section"
+                          className={this.props.classes.userHomeCard}
+                          elevation={6}>
+                        <CardHeader classes={{
+                            root: this.props.classes.header,
+                            subheader: this.props.classes.subheader
+                        }}
+                                    title={I18n.t('js.user.home.private.title')}
+                                    subheader={I18n.t('js.user.home.private.subtitle')}
+                                    action={
+                                        <IconButton className={this.props.classes.sortIcon}
+                                                    component={Link}
+                                                    aria-label="Show more"
+                                                    to={{
+                                                        hash: '#' + sortTopicParam,
+                                                        state: {
+                                                            visibility: 'only_me'
+                                                        }
+                                                    }}>
+                                            <CompareArrowsIcon/>
+                                        </IconButton>
+                                    }/>
+
+                        <CardContent>
+                            <Grid container={true}
+                                  spacing={4}
+                                  direction="row"
+                                  justifyContent="flex-start"
+                                  alignItems="center">
+                                {
+                                    this.props.privateTopics.map((topic) => (
+                                        <Grid key={topic.id}
+                                              className={this.props.classes.gridTheme}
+                                              item={true}
+                                              xs={12}
+                                              sm={6}
+                                              lg={4}>
+                                            <Link to={{
+                                                pathname: topicArticlesPath(this.props.user.slug, topic.slug)
+                                            }}
+                                                  onClick={this._handleTopicClick.bind(this, topic)}>
+                                                <Paper className={classNames(this.props.classes.topic, {
+                                                    [this.props.classes.storyTopic]: topic.mode === 'stories'
+                                                })}
+                                                       elevation={1}>
+                                                    <Typography className={this.props.classes.topicTitle}
+                                                                variant="h5"
+                                                                component="h2">
+                                                        {topic.name}
+                                                    </Typography>
+
+                                                    {
+                                                        topic.mode !== 'default' &&
+                                                        <div className={this.props.classes.topicMode}>
+                                                            {I18n.t(`js.topic.enums.mode.${topic.mode}`)}
+                                                        </div>
                                                     }
-                                                }}>
-                                        <CompareArrowsIcon/>
-                                    </IconButton>
-                                }/>
+                                                </Paper>
+                                            </Link>
 
-                    <CardContent>
-                        <Grid container={true}
-                              spacing={4}
-                              direction="row"
-                              justifyContent="flex-start"
-                              alignItems="center">
-                            {
-                                this.props.privateTopics.map((topic) => (
-                                    <Grid key={topic.id}
-                                          className={this.props.classes.gridTheme}
-                                          item={true}
-                                          xs={12}
-                                          sm={6}
-                                          lg={4}>
-                                        <Link to={{
-                                            pathname: topicArticlesPath(this.props.user.slug, topic.slug)
-                                        }}
-                                              onClick={this._handleTopicClick.bind(this, topic)}>
-                                            <Paper className={classNames(this.props.classes.topic, {
-                                                [this.props.classes.storyTopic]: topic.mode === 'stories'
-                                            })}
-                                                   elevation={1}>
-                                                <Typography className={this.props.classes.topicTitle}
-                                                            variant="h5"
-                                                            component="h2">
-                                                    {topic.name}
-                                                </Typography>
+                                            <Link to={userTopicPath(this.props.user.slug, topic.slug)}>
+                                                <Fab className={classNames(this.props.classes.topicLink, {
+                                                    [this.props.classes.storyTopicLink]: topic.mode === 'stories'
+                                                })}
+                                                     variant="extended"
+                                                     size="small"
+                                                     color="primary"
+                                                     aria-label="Share">
+                                                    <OpenInNewIcon/>
+                                                </Fab>
+                                            </Link>
+                                        </Grid>
+                                    ))
+                                }
 
-                                                {
-                                                    topic.mode !== 'default' &&
-                                                    <div className={this.props.classes.topicMode}>
-                                                        {I18n.t(`js.topic.enums.mode.${topic.mode}`)}
-                                                    </div>
-                                                }
-                                            </Paper>
-                                        </Link>
-
-                                        <Link to={userTopicPath(this.props.user.slug, topic.slug)}>
-                                            <Fab className={classNames(this.props.classes.topicLink, {
-                                                [this.props.classes.storyTopicLink]: topic.mode === 'stories'
-                                            })}
-                                                 variant="extended"
-                                                 size="small"
-                                                 color="primary"
-                                                 aria-label="Share">
-                                                <OpenInNewIcon/>
-                                            </Fab>
-                                        </Link>
-                                    </Grid>
-                                ))
-                            }
-
-                            <Grid item={true}
-                                  xs={12}
-                                  sm={6}
-                                  lg={4}>
-                                <Link to={{
-                                    hash: '#' + newTopicParam,
-                                    state: {
-                                        mode: 'default',
-                                        visibility: 'only_me'
-                                    }
-                                }}>
-                                    <Paper className={this.props.classes.topicNew}
-                                           elevation={1}>
-                                        <Typography className={this.props.classes.topicNewTitle}
-                                                    variant="h5"
-                                                    component="h2">
-                                            {I18n.t('js.user.home.add_topic')}
-                                        </Typography>
-                                    </Paper>
-                                </Link>
-                            </Grid>
-                        </Grid>
-                    </CardContent>
-                </Card>
-
-                <Card component="section"
-                      className={this.props.classes.card}
-                      elevation={5}>
-                    <CardHeader classes={{
-                        root: this.props.classes.header,
-                        subheader: this.props.classes.subheader
-                    }}
-                                title={I18n.t('js.user.home.public.title')}
-                                subheader={I18n.t('js.user.home.public.subtitle')}
-                                action={
-                                    <IconButton className={this.props.classes.sortIcon}
-                                                component={Link}
-                                                to={{
-                                                    hash: '#' + sortTopicParam,
-                                                    state: {
-                                                        visibility: 'everyone'
-                                                    }
-                                                }}>
-                                        <CompareArrowsIcon/>
-                                    </IconButton>
-                                }/>
-
-                    <CardContent>
-                        <Grid container={true}
-                              spacing={4}
-                              direction="row"
-                              justifyContent="flex-start"
-                              alignItems="center">
-                            {
-                                this.props.publicTopics.map((topic) => (
-                                    <Grid key={topic.id}
-                                          className={this.props.classes.gridTheme}
-                                          item={true}
-                                          xs={12}
-                                          sm={6}
-                                          lg={4}>
-                                        <Link to={{
-                                            pathname: topicArticlesPath(this.props.user.slug, topic.slug)
-                                        }}
-                                              onClick={this._handleTopicClick.bind(this, topic)}>
-                                            <Paper className={this.props.classes.topic}
-                                                   elevation={1}>
-                                                <Typography className={this.props.classes.topicTitle}
-                                                            variant="h5"
-                                                            component="h2">
-                                                    {topic.name}
-                                                </Typography>
-
-                                                {
-                                                    topic.languages.length > 1 &&
-                                                    <div className={this.props.classes.topicLanguages}>
-                                                        {topic.languages.join(', ')}
-                                                    </div>
-                                                }
-
-                                                {
-                                                    topic.mode !== 'default' &&
-                                                    <div className={this.props.classes.topicMode}>
-                                                        {I18n.t(`js.topic.enums.mode.${topic.mode}`)}
-                                                    </div>
-                                                }
-                                            </Paper>
-                                        </Link>
-
-                                        <Link to={userTopicPath(this.props.user.slug, topic.slug)}>
-                                            <Fab className={this.props.classes.topicLink}
-                                                 variant="extended"
-                                                 size="small"
-                                                 color="primary"
-                                                 aria-label="Share">
-                                                <OpenInNewIcon/>
-                                            </Fab>
-                                        </Link>
-                                    </Grid>
-                                ))
-                            }
-
-                            <Grid item={true}
-                                  xs={12}
-                                  sm={6}
-                                  lg={4}>
-                                <Link to={{
-                                    hash: '#' + newTopicParam,
-                                    state: {
-                                        mode: 'default',
-                                        visibility: 'everyone'
-                                    }
-                                }}>
-                                    <Paper className={this.props.classes.topicNew}
-                                           elevation={1}>
-                                        <Typography className={this.props.classes.topicNewTitle}
-                                                    variant="h5"
-                                                    component="h2">
-                                            {I18n.t('js.user.home.add_topic')}
-                                        </Typography>
-                                    </Paper>
-                                </Link>
-                            </Grid>
-                        </Grid>
-                    </CardContent>
-                </Card>
-
-                {
-                    this.props.contributedTopics.length > 0 &&
-                    <>
-                        <Divider/>
-
-                        <Card component="section"
-                              className={this.props.classes.card}
-                              elevation={5}>
-                            <CardHeader classes={{
-                                root: this.props.classes.header,
-                                subheader: this.props.classes.subheader
-                            }}
-                                        title={I18n.t('js.user.home.shared.title')}
-                                        subheader={I18n.t('js.user.home.shared.subtitle')}/>
-
-                            <CardContent>
-                                <Grid container={true}
-                                      spacing={4}
-                                      direction="row"
-                                      justifyContent="flex-start"
-                                      alignItems="center">
-                                    {
-                                        this.props.contributedTopics.map((topic) => (
-                                            <Grid key={topic.id}
-                                                  className={this.props.classes.gridTheme}
-                                                  item={true}
-                                                  xs={12}
-                                                  sm={6}
-                                                  lg={4}>
-                                                <Link to={{
-                                                    pathname: topicArticlesPath(this.props.user.slug, topic.slug, 'shared-topics'),
-                                                }}
-                                                      onClick={this._handleTopicClick.bind(this, topic)}>
-                                                    <Paper className={this.props.classes.topic}
-                                                           elevation={1}>
-                                                        <Typography className={this.props.classes.topicTitle}
-                                                                    variant="h5"
-                                                                    component="h2">
-                                                            {topic.name}
-                                                        </Typography>
-                                                    </Paper>
-                                                </Link>
-
-                                                <Link to={userTopicPath(this.props.user.slug, topic.slug)}>
-                                                    <Fab className={this.props.classes.topicLink}
-                                                         variant="extended"
-                                                         size="small"
-                                                         color="primary"
-                                                         aria-label="Share">
-                                                        <OpenInNewIcon/>
-                                                    </Fab>
-                                                </Link>
-                                            </Grid>
-                                        ))
-                                    }
+                                <Grid item={true}
+                                      xs={12}
+                                      sm={6}
+                                      lg={4}>
+                                    <Link to={{
+                                        hash: '#' + newTopicParam,
+                                        state: {
+                                            mode: 'default',
+                                            visibility: 'only_me'
+                                        }
+                                    }}>
+                                        <Paper className={this.props.classes.topicNew}
+                                               elevation={1}>
+                                            <Typography className={this.props.classes.topicNewTitle}
+                                                        variant="h5"
+                                                        component="h2">
+                                                {I18n.t('js.user.home.add_topic')}
+                                            </Typography>
+                                        </Paper>
+                                    </Link>
                                 </Grid>
-                            </CardContent>
-                        </Card>
-                    </>
-                }
+                            </Grid>
+                        </CardContent>
+                    </Card>
+
+                    <Card component="section"
+                          className={this.props.classes.userHomeCard}
+                          elevation={5}>
+                        <CardHeader classes={{
+                            root: this.props.classes.header,
+                            subheader: this.props.classes.subheader
+                        }}
+                                    title={I18n.t('js.user.home.public.title')}
+                                    subheader={I18n.t('js.user.home.public.subtitle')}
+                                    action={
+                                        <IconButton className={this.props.classes.sortIcon}
+                                                    component={Link}
+                                                    to={{
+                                                        hash: '#' + sortTopicParam,
+                                                        state: {
+                                                            visibility: 'everyone'
+                                                        }
+                                                    }}>
+                                            <CompareArrowsIcon/>
+                                        </IconButton>
+                                    }/>
+
+                        <CardContent>
+                            <Grid container={true}
+                                  spacing={4}
+                                  direction="row"
+                                  justifyContent="flex-start"
+                                  alignItems="center">
+                                {
+                                    this.props.publicTopics.map((topic) => (
+                                        <Grid key={topic.id}
+                                              className={this.props.classes.gridTheme}
+                                              item={true}
+                                              xs={12}
+                                              sm={6}
+                                              lg={4}>
+                                            <Link to={{
+                                                pathname: topicArticlesPath(this.props.user.slug, topic.slug)
+                                            }}
+                                                  onClick={this._handleTopicClick.bind(this, topic)}>
+                                                <Paper className={this.props.classes.topic}
+                                                       elevation={1}>
+                                                    <Typography className={this.props.classes.topicTitle}
+                                                                variant="h5"
+                                                                component="h2">
+                                                        {topic.name}
+                                                    </Typography>
+
+                                                    {
+                                                        topic.languages.length > 1 &&
+                                                        <div className={this.props.classes.topicLanguages}>
+                                                            {topic.languages.join(', ')}
+                                                        </div>
+                                                    }
+
+                                                    {
+                                                        topic.mode !== 'default' &&
+                                                        <div className={this.props.classes.topicMode}>
+                                                            {I18n.t(`js.topic.enums.mode.${topic.mode}`)}
+                                                        </div>
+                                                    }
+                                                </Paper>
+                                            </Link>
+
+                                            <Link to={userTopicPath(this.props.user.slug, topic.slug)}>
+                                                <Fab className={this.props.classes.topicLink}
+                                                     variant="extended"
+                                                     size="small"
+                                                     color="primary"
+                                                     aria-label="Share">
+                                                    <OpenInNewIcon/>
+                                                </Fab>
+                                            </Link>
+                                        </Grid>
+                                    ))
+                                }
+
+                                <Grid item={true}
+                                      xs={12}
+                                      sm={6}
+                                      lg={4}>
+                                    <Link to={{
+                                        hash: '#' + newTopicParam,
+                                        state: {
+                                            mode: 'default',
+                                            visibility: 'everyone'
+                                        }
+                                    }}>
+                                        <Paper className={this.props.classes.topicNew}
+                                               elevation={1}>
+                                            <Typography className={this.props.classes.topicNewTitle}
+                                                        variant="h5"
+                                                        component="h2">
+                                                {I18n.t('js.user.home.add_topic')}
+                                            </Typography>
+                                        </Paper>
+                                    </Link>
+                                </Grid>
+                            </Grid>
+                        </CardContent>
+                    </Card>
+
+                    {
+                        this.props.contributedTopics.length > 0 &&
+                        <>
+                            <Divider/>
+
+                            <Card component="section"
+                                  className={this.props.classes.userHomeCard}
+                                  elevation={5}>
+                                <CardHeader classes={{
+                                    root: this.props.classes.header,
+                                    subheader: this.props.classes.subheader
+                                }}
+                                            title={I18n.t('js.user.home.shared.title')}
+                                            subheader={I18n.t('js.user.home.shared.subtitle')}/>
+
+                                <CardContent>
+                                    <Grid container={true}
+                                          spacing={4}
+                                          direction="row"
+                                          justifyContent="flex-start"
+                                          alignItems="center">
+                                        {
+                                            this.props.contributedTopics.map((topic) => (
+                                                <Grid key={topic.id}
+                                                      className={this.props.classes.gridTheme}
+                                                      item={true}
+                                                      xs={12}
+                                                      sm={6}
+                                                      lg={4}>
+                                                    <Link to={{
+                                                        pathname: topicArticlesPath(this.props.user.slug, topic.slug, 'shared-topics'),
+                                                    }}
+                                                          onClick={this._handleTopicClick.bind(this, topic)}>
+                                                        <Paper className={this.props.classes.topic}
+                                                               elevation={1}>
+                                                            <Typography className={this.props.classes.topicTitle}
+                                                                        variant="h5"
+                                                                        component="h2">
+                                                                {topic.name}
+                                                            </Typography>
+                                                        </Paper>
+                                                    </Link>
+
+                                                    <Link to={userTopicPath(this.props.user.slug, topic.slug)}>
+                                                        <Fab className={this.props.classes.topicLink}
+                                                             variant="extended"
+                                                             size="small"
+                                                             color="primary"
+                                                             aria-label="Share">
+                                                            <OpenInNewIcon/>
+                                                        </Fab>
+                                                    </Link>
+                                                </Grid>
+                                            ))
+                                        }
+                                    </Grid>
+                                </CardContent>
+                            </Card>
+                        </>
+                    }
+                </div>
+
+                <div className={this.props.classes.userHomeArticles}>
+                    <Divider className={this.props.classes.userHomeDivider}/>
+
+                    <div>
+                        <h2>
+                            {I18n.t('js.user.home.articles.seen')}
+                        </h2>
+
+                        <Grid container={true}
+                              spacing={4}
+                              direction="row"
+                              justifyContent="space-between"
+                              alignItems="flex-start">
+                            {
+                                this.props.recentArticles?.length > 0 && this.props.recentArticles.limit(4).map((article) => (
+                                    <Grid key={article.id}
+                                          item={true}
+                                          xs={12}
+                                          sm={6}>
+                                        <ArticleMiniCardDisplay article={article}
+                                                                isPaper={true}/>
+                                    </Grid>
+                                ))
+                            }
+                        </Grid>
+                    </div>
+
+                    <Divider className={this.props.classes.userHomeDivider}/>
+
+                    <div>
+                        <h2>
+                            {I18n.t('js.user.home.articles.modified')}
+                        </h2>
+
+                        <Grid container={true}
+                              spacing={4}
+                              direction="row"
+                              justifyContent="space-between"
+                              alignItems="flex-start">
+                            {
+                                this.props.recentUpdatedArticles?.length > 0 && this.props.recentUpdatedArticles.limit(4).map((article) => (
+                                    <Grid key={article.id}
+                                          item={true}
+                                          xs={12}
+                                          sm={6}>
+                                        <ArticleMiniCardDisplay article={article}
+                                                                isPaper={true}/>
+                                    </Grid>
+                                ))
+                            }
+                        </Grid>
+                    </div>
+                </div>
             </div>
         );
     }

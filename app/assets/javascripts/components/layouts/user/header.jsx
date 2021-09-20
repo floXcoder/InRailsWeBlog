@@ -113,6 +113,7 @@ export default @connect((state) => ({
 class HeaderLayoutUser extends React.PureComponent {
     static propTypes = {
         hashRoutes: PropTypes.object.isRequired,
+        history: PropTypes.object.isRequired,
         // from connect
         routeProperties: PropTypes.object,
         routeParams: PropTypes.object,
@@ -366,7 +367,8 @@ class HeaderLayoutUser extends React.PureComponent {
                            <div>
                                {
                                    location.hash === `#${route.path}` &&
-                                   <Component routeParams={match.params}
+                                   <Component history={this.props.history}
+                                              routeParams={match.params}
                                               routeState={location.state}/>
                                }
                            </div>

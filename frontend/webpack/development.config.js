@@ -51,52 +51,62 @@ webPackConfig = _.merge(webPackConfig, {
     },
 
     devServer: {
-        clientLogLevel: 'info',
-        contentBase: path.resolve('./public/assets'),
-        publicPath: config.development.assetPath,
+        devMiddleware: {
+            publicPath: config.development.assetPath,
+            stats: {
+                colors: true,
+                warnings: true,
+                errors: true,
+                errorDetails: true,
+                assets: false,
+                version: false,
+                hash: false,
+                timings: false,
+                chunks: false,
+                chunkModules: false,
+                modules: false,
+                reasons: false,
+                children: false,
+                source: false,
+                publicPath: false
+            }
+        },
+        static: {
+            directory: path.resolve('./public/assets'),
+            publicPath: config.development.assetPath,
+            watch: true,
+            staticOptions: {
+                ignored: /node_modules/
+            }
+        },
         port: 8080,
         https: false,
         headers: {
             'Access-Control-Allow-Origin': '*'
         },
         hot: true,
-        inline: true,
-        overlay: true,
         compress: true,
-        disableHostCheck: true,
-        useLocalIp: false,
-        quiet: false,
-        watchOptions: {
-            ignored: /node_modules/
-        },
         historyApiFallback: {
             disableDotRule: true
         },
-        stats: {
-            colors: true,
-            warnings: true,
-            errors: true,
-            errorDetails: true,
-            assets: false,
-            version: false,
-            hash: false,
-            timings: false,
-            chunks: false,
-            chunkModules: false,
-            modules: false,
-            reasons: false,
-            children: false,
-            source: false,
-            publicPath: false
+        client: {
+            logging: 'info',
+            overlay: true,
+            progress: true,
+            webSocketURL: {
+                hostname: '0.0.0.0',
+                pathname: '/ws',
+                port: 8080
+            }
         },
         // Use sane to monitor all of the templates files and sub-directories
-        before: (app, server) => {
+        onBeforeSetupMiddleware: (devServer) => {
             const watcher = sane(path.join(__dirname, '../..'), {
                 glob: config.development.watchPath
             });
             watcher.on('change', function (filePath, root, stat) {
                 console.log('  File modified:', filePath);
-                server.sockWrite(server.sockets, 'content-changed');
+                devServer.sendMessage(devServer.sockets, 'content-changed');
             });
         }
     }
@@ -142,7 +152,6 @@ webPackConfig.plugins.push(
         }
     }),
     new CleanWebpackPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
     new webpack.LoaderOptionsPlugin({
         debug: true
     }),

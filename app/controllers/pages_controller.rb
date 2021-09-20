@@ -91,7 +91,8 @@ class PagesController < ApplicationController
   end
 
   def not_found
-    track_action(status: 404)
+    # Do not track not found pages in visits, use log instead
+    # track_action(status: 404)
 
     respond_to do |format|
       format.json do

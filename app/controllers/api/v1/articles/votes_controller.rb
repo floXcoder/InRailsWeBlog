@@ -13,7 +13,7 @@ module Api::V1
       respond_to do |format|
         format.json do
           if current_user.vote_for(article)
-            track_action(action: 'vote_up', article_id: article.id)
+            track_action(action: 'article_vote_up', article_id: article.id)
 
             head :no_content
           else
@@ -31,7 +31,7 @@ module Api::V1
       respond_to do |format|
         format.json do
           if current_user.vote_against(article)
-            track_action(action: 'vote_down', article_id: article.id)
+            track_action(action: 'article_vote_down', article_id: article.id)
 
             head :no_content
           else

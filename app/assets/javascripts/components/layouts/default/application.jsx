@@ -77,7 +77,8 @@ export default class ApplicationLayoutDefault extends React.Component {
                                     <>
                                         <ErrorBoundary errorType="text"
                                                        errorTitle={I18n.t('js.helpers.errors.boundary.header')}>
-                                            <HeaderLayoutDefault hashRoutes={routes.hashes}/>
+                                            <HeaderLayoutDefault history={browserHistory}
+                                                                 hashRoutes={routes.hashes}/>
                                         </ErrorBoundary>
 
                                         <ErrorBoundary errorType="card">

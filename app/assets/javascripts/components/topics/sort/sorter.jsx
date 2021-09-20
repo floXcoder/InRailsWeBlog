@@ -6,7 +6,7 @@ import {
 
 import Button from '@material-ui/core/Button';
 
-import arrayMove from 'array-move';
+import {arrayMoveImmutable} from 'array-move';
 
 import {
     SortableContainer,
@@ -57,7 +57,7 @@ export default class TopicSorter extends React.Component {
 
     _handleSortEndProduct = ({oldIndex, newIndex}) => {
         this.setState({
-            topics: arrayMove(this.state.topics, oldIndex, newIndex)
+            topics: arrayMoveImmutable(this.state.topics, oldIndex, newIndex)
         });
     };
 

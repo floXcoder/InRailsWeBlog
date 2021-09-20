@@ -25,3 +25,8 @@ export const getUserRecentArticles = createSelector(
     (_, limit) => limit,
     (recentArticles, limit) => recentArticles.limit(limit)
 );
+export const getUserRecentUpdatedArticles = createSelector(
+    (state) => state.userState.recentUpdatedArticles,
+    (_, limit) => limit,
+    (recentUpdatedArticles, limit) => recentUpdatedArticles.limit(limit)
+);

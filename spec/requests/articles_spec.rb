@@ -514,10 +514,10 @@ describe 'Article API', type: :request, basic: true do
         expect(response).to be_json_response
 
         tracking = JSON.parse(response.body)
-        expect(tracking['tracker']).not_to be_empty
-        expect(tracking['commentsCount']).to eq(0)
-        expect(tracking['countries']).to eq([])
-        expect(tracking['referers']).to eq([])
+        expect(tracking['trackingData']['tracker']).not_to be_empty
+        expect(tracking['trackingData']['commentsCount']).to eq(0)
+        expect(tracking['trackingData']['countries']).to eq([])
+        expect(tracking['trackingData']['referers']).to eq([])
       end
     end
   end

@@ -30,6 +30,19 @@ class Tracker < ApplicationRecord
              polymorphic: true,
              touch:       true
 
+  belongs_to :article,
+             class_name:  'Article',
+             foreign_key: 'tracked_id',
+             optional:    true
+  belongs_to :tag,
+             class_name:  'Tag',
+             foreign_key: 'tracked_id',
+             optional:    true
+  belongs_to :topic,
+             class_name:  'Topic',
+             foreign_key: 'tracked_id',
+             optional:    true
+
   # == Validations ==========================================================
 
   # == Scopes ===============================================================

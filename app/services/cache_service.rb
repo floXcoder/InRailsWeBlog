@@ -2,11 +2,9 @@
 
 module CacheService
 
-  def component_cache(name, only = nil)
+  def component_cache(name, only = nil, &block)
     if caching_enabled? && (only.nil? || (only.present? && only))
-      Rails.cache.fetch(component_cache_path(name), expires_in: InRailsWeBlog.config.cache_time) do
-        yield
-      end
+      Rails.cache.fetch(component_cache_path(name), expires_in: InRailsWeBlog.config.cache_time, &block)
     else
       yield
     end

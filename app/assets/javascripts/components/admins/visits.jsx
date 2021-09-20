@@ -26,6 +26,7 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import LabelIcon from '@material-ui/icons/Label';
 import ClassIcon from '@material-ui/icons/Class';
 import AssignmentIcon from '@material-ui/icons/Assignment';
+import OpenInNewIcon from '@material-ui/icons/OpenInNew';
 
 import {
     fetchVisits
@@ -34,10 +35,13 @@ import {
 import Loader from '../theme/loader';
 import MiniCard from '../material-ui/miniCard';
 
+import TrackingArticleModal from '../articles/tracking';
+import TrackingVisitModal from '../visits/tracking';
+
 import styles from '../../../jss/admin/visits';
 
 export default @connect((state) => ({
-    visits: state.adminState.visits,
+    visitsStats: state.adminState.visitsStats,
     isFetching: state.adminState.isFetching
 }), {
     fetchVisits
@@ -48,7 +52,7 @@ class AdminVisits extends React.Component {
     static propTypes = {
         // from connect
         isFetching: PropTypes.bool,
-        visits: PropTypes.object,
+        visitsStats: PropTypes.object,
         fetchVisits: PropTypes.func,
         // from styles
         classes: PropTypes.object
@@ -58,9 +62,36 @@ class AdminVisits extends React.Component {
         super(props);
     }
 
+    state = {
+        articleIdStats: undefined,
+        visitsDate: undefined
+    }
+
     componentDidMount() {
         this.props.fetchVisits();
     }
+
+    _handleShowArticleStats = (articleId, event) => {
+        event.preventDefault();
+
+        this.setState({
+            articleIdStats: articleId
+        })
+    };
+
+    _handleShowVisitsDate = (date, event) => {
+        event.preventDefault();
+
+        this.setState({
+            visitsDate: date
+        })
+    };
+
+    _handleVisitModalClose = () => {
+        this.setState({
+            visitsDate: undefined
+        })
+    };
 
     _renderListDetails = (listDetails) => {
         if (!listDetails) {
@@ -120,10 +151,10 @@ class AdminVisits extends React.Component {
                 }
             </List>
         );
-    }
+    };
 
     _renderVisits = () => {
-        let totalByDate = 0;
+        // let totalByDate = 0;
 
         return (
             <div className="row margin-top-30 margin-bottom-40">
@@ -143,7 +174,7 @@ class AdminVisits extends React.Component {
                                     </TableCell>
 
                                     {
-                                        Object.keys(this.props.visits.dates).map((date) => (
+                                        Object.keys(this.props.visitsStats.dates).map((date) => (
                                             <TableCell key={date}
                                                        align="center">
                                                 {date}
@@ -160,10 +191,14 @@ class AdminVisits extends React.Component {
                                     </TableCell>
 
                                     {
-                                        Object.values(this.props.visits.dates).map((count, i) => (
+                                        Object.entries(this.props.visitsStats.dates).map(([date, count], i) => (
                                             <TableCell key={i}
                                                        align="center">
-                                                {count}
+                                                <a className={this.props.classes.tableDataItem}
+                                                   href="#"
+                                                   onClick={this._handleShowVisitsDate.bind(this, date)}>
+                                                    {count}
+                                                </a>
                                             </TableCell>
                                         ))
                                     }
@@ -176,7 +211,7 @@ class AdminVisits extends React.Component {
                                 {/*    </TableCell>*/}
 
                                 {/*    {*/}
-                                {/*        Object.values(this.props.visits.dates).map((count, i) => {*/}
+                                {/*        Object.values(this.props.visitsStats.dates).map((count, i) => {*/}
                                 {/*            totalByDate += count;*/}
 
                                 {/*            return (*/}
@@ -205,23 +240,18 @@ class AdminVisits extends React.Component {
                           justifyContent="space-around"
                           alignItems="center">
                         <Grid item={true}>
-                            <MiniCard title={I18n.t('js.admin.visits.stats.uniq')}
-                                      number={this.props.visits.totalUniqVisits}/>
+                            <MiniCard title={I18n.t('js.admin.visits.stats.visits')}
+                                      number={this.props.visitsStats.totalUniqVisits}/>
+                        </Grid>
+
+                        <Grid item={true}>
+                            <MiniCard title={I18n.t('js.admin.visits.stats.article_visits')}
+                                      number={this.props.visitsStats.totalArticleVisits}/>
                         </Grid>
 
                         <Grid item={true}>
                             <MiniCard title={I18n.t('js.admin.visits.stats.clicks')}
-                                      number={this.props.visits.totalClicks}/>
-                        </Grid>
-
-                        <Grid item={true}>
-                            <MiniCard title={I18n.t('js.admin.visits.stats.views')}
-                                      number={this.props.visits.totalViews}/>
-                        </Grid>
-
-                        <Grid item={true}>
-                            <MiniCard title={I18n.t('js.admin.visits.stats.searches')}
-                                      number={this.props.visits.totalSearches}/>
+                                      number={this.props.visitsStats.totalClicks}/>
                         </Grid>
                     </Grid>
 
@@ -233,17 +263,17 @@ class AdminVisits extends React.Component {
                           alignItems="center">
                         <Grid item={true}>
                             <MiniCard title={I18n.t('js.admin.visits.stats.pages')}
-                                      number={this.props.visits.averagePages}/>
+                                      number={this.props.visitsStats.averagePages}/>
                         </Grid>
 
                         <Grid item={true}>
                             <MiniCard title={I18n.t('js.admin.visits.stats.bounce')}
-                                      number={this.props.visits.bounceRate + '%'}/>
+                                      number={this.props.visitsStats.bounceRate + '%'}/>
                         </Grid>
 
                         <Grid item={true}>
                             <MiniCard title={I18n.t('js.admin.visits.stats.duration')}
-                                      number={this.props.visits.duration}/>
+                                      number={this.props.visitsStats.duration}/>
                         </Grid>
                     </Grid>
                 </div>
@@ -261,17 +291,17 @@ class AdminVisits extends React.Component {
                           alignItems="center">
                         <Grid item={true}>
                             <MiniCard title={I18n.t('js.admin.visits.tops.total_articles')}
-                                      number={this.props.visits.totalArticles}/>
+                                      number={this.props.visitsStats.totalArticles}/>
                         </Grid>
 
                         <Grid item={true}>
                             <MiniCard title={I18n.t('js.admin.visits.tops.total_tags')}
-                                      number={this.props.visits.totalTags}/>
+                                      number={this.props.visitsStats.totalTags}/>
                         </Grid>
 
                         <Grid item={true}>
                             <MiniCard title={I18n.t('js.admin.visits.tops.total_topics')}
-                                      number={this.props.visits.totalTopics}/>
+                                      number={this.props.visitsStats.totalTopics}/>
                         </Grid>
                     </Grid>
 
@@ -284,7 +314,7 @@ class AdminVisits extends React.Component {
                         <Grid item={true}>
                             <List className={this.props.classes.listContainer}>
                                 {
-                                    this.props.visits.topArticles.map((article) => (
+                                    this.props.visitsStats.topArticles.map((article) => (
                                         <ListItem key={article.name}>
                                             <ListItemAvatar>
                                                 <Avatar>
@@ -297,11 +327,19 @@ class AdminVisits extends React.Component {
                                                 secondary: this.props.classes.listItemSecondary
                                             }}
                                                           primary={
-                                                              <a className={this.props.classes.listItem}
-                                                                 target="_blank"
-                                                                 href={article.link}>
-                                                                  {article.name}
-                                                              </a>
+                                                              <p>
+                                                                  <a className={this.props.classes.listItem}
+                                                                     href="#"
+                                                                     onClick={this._handleShowArticleStats.bind(this, article.id)}>
+                                                                      {article.name}
+                                                                  </a>
+
+                                                                  <a href={article.link}
+                                                                     target="_blank">
+                                                                      <OpenInNewIcon
+                                                                          className={this.props.classes.listItemLink}/>
+                                                                  </a>
+                                                              </p>
                                                           }
                                                           secondary={`${article.count} (${article.date})`}/>
                                         </ListItem>
@@ -313,7 +351,7 @@ class AdminVisits extends React.Component {
                         <Grid item={true}>
                             <List className={this.props.classes.listContainer}>
                                 {
-                                    this.props.visits.topTags.map((tag) => (
+                                    this.props.visitsStats.topTags.map((tag) => (
                                         <ListItem key={tag.name}>
                                             <ListItemAvatar>
                                                 <Avatar>
@@ -322,7 +360,7 @@ class AdminVisits extends React.Component {
                                             </ListItemAvatar>
 
                                             <ListItemText classes={{
-                                                primary: this.props.classes.listItem,
+                                                primary: this.props.classes.listItemTag,
                                                 secondary: this.props.classes.listItemSecondary
                                             }}
                                                           primary={
@@ -342,7 +380,7 @@ class AdminVisits extends React.Component {
                         <Grid item={true}>
                             <List className={this.props.classes.listContainer}>
                                 {
-                                    this.props.visits.topTopics.map((topic) => (
+                                    this.props.visitsStats.topTopics.map((topic) => (
                                         <ListItem key={topic.name}>
                                             <ListItemAvatar>
                                                 <Avatar>
@@ -381,7 +419,7 @@ class AdminVisits extends React.Component {
                                 {I18n.t('js.article.tracking.origins.referer')}
                             </h3>
 
-                            {this._renderListDetails(this.props.visits.referers)}
+                            {this._renderListDetails(this.props.visitsStats.referers)}
                         </div>
 
                         <div className="col s12 m4">
@@ -389,7 +427,7 @@ class AdminVisits extends React.Component {
                                 {I18n.t('js.article.tracking.origins.country')}
                             </h3>
 
-                            {this._renderListDetails(this.props.visits.countries)}
+                            {this._renderListDetails(this.props.visitsStats.countries)}
                         </div>
 
                         <div className="col s12 m4">
@@ -397,7 +435,7 @@ class AdminVisits extends React.Component {
                                 {I18n.t('js.article.tracking.origins.utm')}
                             </h3>
 
-                            {this._renderListDetails(this.props.visits.utmSources)}
+                            {this._renderListDetails(this.props.visitsStats.utmSources)}
                         </div>
                     </div>
 
@@ -407,7 +445,7 @@ class AdminVisits extends React.Component {
                                 {I18n.t('js.article.tracking.origins.device')}
                             </h3>
 
-                            {this._renderListDetails(this.props.visits.devices)}
+                            {this._renderListDetails(this.props.visitsStats.devices)}
                         </div>
 
                         <div className="col s12 m4">
@@ -415,7 +453,7 @@ class AdminVisits extends React.Component {
                                 {I18n.t('js.article.tracking.origins.os')}
                             </h3>
 
-                            {this._renderListDetails(this.props.visits.os)}
+                            {this._renderListDetails(this.props.visitsStats.os)}
                         </div>
 
                         <div className="col s12 m4">
@@ -423,7 +461,7 @@ class AdminVisits extends React.Component {
                                 {I18n.t('js.article.tracking.origins.browser')}
                             </h3>
 
-                            {this._renderListDetails(this.props.visits.browsers)}
+                            {this._renderListDetails(this.props.visitsStats.browsers)}
                         </div>
                     </div>
                 </div>
@@ -439,13 +477,26 @@ class AdminVisits extends React.Component {
                 </h1>
 
                 {
-                    (Object.keys(this.props.visits).length === 0 || this.props.isFetching)
-                        ?
+                    (Object.keys(this.props.visitsStats).length === 0 && this.props.isFetching) &&
                         <div className="center">
                             <Loader size="big"/>
                         </div>
-                        :
-                        this._renderVisits()
+                }
+
+                {
+                    Object.keys(this.props.visitsStats).length &&
+                    this._renderVisits()
+                }
+
+                {
+                    this.state.articleIdStats &&
+                    <TrackingArticleModal articleId={this.state.articleIdStats}/>
+                }
+
+                {
+                    this.state.visitsDate &&
+                    <TrackingVisitModal date={this.state.visitsDate}
+                                        onClose={this._handleVisitModalClose}/>
                 }
             </div>
         );

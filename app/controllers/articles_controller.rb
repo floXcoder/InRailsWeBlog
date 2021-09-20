@@ -12,7 +12,8 @@ class ArticlesController < ApplicationController
   respond_to :html
 
   def index
-    articles = ::Articles::FindQueries.new(current_user, current_admin).all(article_params)
+    articles      = ::Articles::FindQueries.new(current_user, current_admin).all(article_params)
+    context_topic = nil
 
     if article_params[:tag_slug].present? || article_params[:parent_tag_slug].present?
       languages = articles.map(&:languages).flatten.uniq
@@ -42,9 +43,9 @@ class ArticlesController < ApplicationController
                    languages: languages)
     end
 
-    track_action(article_ids: articles.map(&:id))
+    track_action(article_ids: articles.map(&:id), tag_slug: article_params[:tag_slug], topic_slug: article_params[:topic_slug], user_slug: article_params[:user_slug])
 
-    (user_signed_in? || admin_signed_in?) ? reset_cache_headers : expires_in(InRailsWeBlog.config.cache_time, public: true)
+    user_signed_in? || admin_signed_in? ? reset_cache_headers : expires_in(InRailsWeBlog.config.cache_time, public: true)
     if stale?(articles, template: false, public: true)
       respond_to do |format|
         format.html do
@@ -71,7 +72,7 @@ class ArticlesController < ApplicationController
     # Redirect to the correct localized article or the renamed article
     redirect_to(article_redirection_path, status: :moved_permanently) and return if article_redirection_path
 
-    track_action(article_id: article.id, parent_id: article.topic_id) { |visitor_token| track_visit(Article, article.id, current_user&.id, article.topic_id, visitor_token) }
+    track_action(article_id: article.id, topic_id: article.topic_id) { track_visit(Article, article.id, current_user&.id, article.topic_id) }
 
     set_seo_data(:user_article,
                  article_slug:    article,
@@ -86,14 +87,16 @@ class ArticlesController < ApplicationController
                                     image: article.default_picture
                                   }.compact)
 
-    (user_signed_in? || admin_signed_in?) ? reset_cache_headers : expires_in(InRailsWeBlog.config.cache_time, public: true)
+    user_signed_in? || admin_signed_in? ? reset_cache_headers : expires_in(InRailsWeBlog.config.cache_time, public: true)
     if stale?(article, template: false, public: true) || article.user?(current_user)
       respond_to do |format|
         format.html do
           article = if current_user && article.user?(current_user)
                       article.serialized_json('complete',
                                               params: { current_user_id: current_user&.id },
-                                              meta:   meta_attributes)
+                                              meta:   {
+                                                **meta_attributes
+                                              })
                     else
                       article.serialized_json('normal',
                                               meta: {
@@ -114,7 +117,7 @@ class ArticlesController < ApplicationController
     article = Article.include_element.friendly.find(article_params[:article_slug])
     admin_or_authorize article
 
-    track_action(action: 'edit', article_id: article.id, parent_id: article.topic_id)
+    track_action(article_id: article.id, topic_id: article.topic_id)
 
     respond_to do |format|
       format.html do

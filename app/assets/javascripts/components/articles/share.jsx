@@ -5,10 +5,6 @@ import {
 } from 'react-hot-loader/root';
 
 import {
-    withRouter
-} from 'react-router-dom';
-
-import {
     withStyles
 } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
@@ -21,8 +17,7 @@ import {
 
 import styles from '../../../jss/article/share';
 
-export default @withRouter
-@connect((state) => ({
+export default @connect((state) => ({
     article: state.articleState.article
 }), {
     shareArticle
@@ -31,8 +26,7 @@ export default @withRouter
 @withStyles(styles)
 class ShareArticleModal extends React.Component {
     static propTypes = {
-        // from router
-        history: PropTypes.object,
+        history: PropTypes.object.isRequired,
         // from connect
         article: PropTypes.object,
         shareArticle: PropTypes.func,
