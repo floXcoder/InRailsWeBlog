@@ -29,9 +29,9 @@ class Admins::VisitsController < AdminsController
   def format_global_visits(top_limit: 25)
     visits_details = {}
 
-    visits_details[:dates] = Ahoy::Visit.where(validated: true).order('DATE(started_at) DESC').group('DATE(started_at)').limit(60).count
+    visits_details[:dates] = Ahoy::Visit.validated.external.order('DATE(started_at) DESC').group('DATE(started_at)').limit(60).count
 
-    uniq_visits = Ahoy::Visit.where(validated: true).select(%w[DISTINCT(visitor_token) user_agent referrer pages_count referring_domain browser os device_type country city landing_page takeoff_page utm_source utm_medium utm_content utm_campaign started_at ended_at]).to_a
+    uniq_visits = Ahoy::Visit.validated.external.select(%w[DISTINCT(visitor_token) user_agent referrer pages_count referring_domain browser os device_type country city landing_page takeoff_page utm_source utm_medium utm_content utm_campaign started_at ended_at]).to_a
     # .where(:started_at.gte => start_date, :started_at.lte => end_date)
 
     visits_details[:totalUniqVisits]    = uniq_visits.count
@@ -41,7 +41,7 @@ class Admins::VisitsController < AdminsController
     # visits_details[:totalQueries]    = Tracker.sum(:queries_count)
     # visits_details[:totalSearches]   = Tracker.sum(:searches_count)
 
-    visits_details[:topArticles] = Tracker.where(tracked_type: 'Article').order('visits_count DESC').joins(:article).where(article: { visibility: 'everyone' }).limit(top_limit).map { |tracker| { id: tracker.tracked_id, name: tracker.tracked.title, date: I18n.l(tracker.tracked.created_at, format: :custom_full_date).sub(/^[0]+/, ''), link: tracker.tracked.link_path(locale: I18n.locale), count: tracker.visits_count } }
+    visits_details[:topArticles] = Tracker.where(tracked_type: 'Article').order('visits_count DESC').joins(:article).where(article: { visibility: 'everyone' }).limit(top_limit).map { |tracker| { id: tracker.tracked_id, name: tracker.tracked.title, date: I18n.l(tracker.tracked.created_at, format: :custom_full_date).sub(/^0+/, ''), link: tracker.tracked.link_path(locale: I18n.locale), count: tracker.visits_count } }
     visits_details[:topTags]     = Tracker.where(tracked_type: 'Tag').order('visits_count DESC').joins(:tag).where(tag: { visibility: 'everyone' }).limit(top_limit).map { |tracker| { id: tracker.tracked_id, name: tracker.tracked.name, link: tracker.tracked.link_path(locale: I18n.locale), count: tracker.visits_count } }
     visits_details[:topTopics]   = Tracker.where(tracked_type: 'Topic').order('visits_count DESC').joins(:topic).where(topic: { visibility: 'everyone' }).limit(top_limit).map { |tracker| { id: tracker.tracked_id, name: tracker.tracked.name, link: tracker.tracked.link_path(locale: I18n.locale), count: tracker.visits_count } }
 
@@ -81,7 +81,7 @@ class Admins::VisitsController < AdminsController
 
   def format_visits(params)
     if params[:date]
-      visits = Ahoy::Visit.where(validated: true).order('DATE(started_at) DESC').where(started_at: Date.parse(params[:date]).all_day)
+      visits = Ahoy::Visit.validated.external.order('DATE(started_at) DESC').where(started_at: Date.parse(params[:date]).all_day)
       Admin::VisitSerializer.new(visits).serializable_hash&.dig(:data)&.map { |d| d[:attributes] }
     else
       []

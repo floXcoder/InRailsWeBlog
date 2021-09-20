@@ -84,7 +84,8 @@ Ahoy.exclude_method = lambda do |_controller, request|
 
   return true if EXCLUDE_REFERRERS.any? { |referrer| request&.referrer&.downcase&.include?(referrer.downcase) }
 
-  return true if ENV['TRACKER_EXCLUDED_IP'].split(', ').include?(request&.ip)
+  # Do not exclude my IPs
+  # return true if ENV['TRACKER_EXCLUDED_IPS'].split(', ').include?(request&.ip)
 
   return true if EXCLUDE_PATTERN_IPS.any? { |ip| request&.ip&.include?(ip) } || EXCLUDE_IPS.any? { |ip| request&.ip&.include?(ip) }
 
