@@ -231,10 +231,12 @@ en:
           order:
             title: "Articles order"
             mode:
-              priority_desc: "Priorité"
-              tag_asc: "Label"
-              created_desc: "Plus récent"
-              created_asc: "Plus ancien"
+              priority_desc: "Priority"
+              tag_asc: "Tag"
+              created_desc: "Most recent"
+              created_asc: "Oldest created"
+              updated_desc: "Last modified"
+              updated_asc: "Oldest modified"
           loader:
             title: "Articles loading"
             mode:
@@ -689,7 +691,9 @@ en:
           priority_desc: "Priority"
           tag_asc: "Tag"
           created_desc: "Most recent"
-          created_asc: "Oldest"
+          created_asc: "Oldest created"
+          updated_desc: "Last modified"
+          updated_asc: "Oldest modified"
           default: "Default"
         link_title: "Change order"
         link: "Change priority"

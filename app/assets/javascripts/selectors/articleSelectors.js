@@ -87,9 +87,13 @@ export const getCategorizedArticles = createSelector(
             return categorizedArticles;
         }
 
-        if (articleOrderMode === 'created_asc' || articleOrderMode === 'created_desc' || articleOrderMode === 'updated_asc' || articleOrderMode === 'updated_desc') {
+        if (articleOrderMode === 'created_asc' || articleOrderMode === 'created_desc') {
             articles.forEach((article) => {
                 categorizedArticles[article.date] = categorizedArticles[article.date] ? categorizedArticles[article.date].concat(article) : [article];
+            });
+        } else if (articleOrderMode === 'updated_asc' || articleOrderMode === 'updated_desc') {
+            articles.forEach((article) => {
+                categorizedArticles[article.updatedDate] = categorizedArticles[article.updatedDate] ? categorizedArticles[article.updatedDate].concat(article) : [article];
             });
         } else if (articleOrderMode === 'tag_asc' || articleOrderMode === 'tag_desc') {
             categorizedArticles = articlesByTag(articles, sortedTags, parentTagSlug);

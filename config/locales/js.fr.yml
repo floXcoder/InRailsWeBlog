@@ -234,7 +234,9 @@ fr:
               priority_desc: "Priorité"
               tag_asc: "Label"
               created_desc: "Plus récent"
-              created_asc: "Plus ancien"
+              created_asc: "Plus ancien créé"
+              updated_desc: "Dernier modifié"
+              updated_asc: "Plus ancien modifié"
           loader:
             title: "Chargement des articles"
             mode:
@@ -689,7 +691,9 @@ fr:
           priority_desc: "Priorité"
           tag_asc: "Label"
           created_desc: "Plus récent"
-          created_asc: "Plus ancien"
+          created_asc: "Plus ancien créé"
+          updated_desc: "Dernier modifié"
+          updated_asc: "Plus ancien modifié"
           default: "Défaut"
         link_title: "Changer ordre"
         link: "Changer la priorité"

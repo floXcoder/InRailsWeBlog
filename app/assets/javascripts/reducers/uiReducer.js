@@ -16,7 +16,7 @@ const initState = {
 
     articlesLoaderMode: 'paginate',
     articleDisplayMode: 'summary',
-    articleOrderMode: 'created_desc',
+    articleOrderMode: 'updated_desc',
     articleMultilanguage: false,
 
     areArticlesMinimized: false,

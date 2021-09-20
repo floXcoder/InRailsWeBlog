@@ -20,6 +20,8 @@ import {
 import styles from '../../../../jss/article/filter';
 
 const sortOptions = [
+    'updated_desc',
+    'updated_asc',
     'created_desc',
     'created_asc',
     'tag_asc',
@@ -94,7 +96,7 @@ class ArticleSortMenu extends React.Component {
                     {I18n.t('js.article.sort.title')}
 
                     <span className={this.props.classes.buttonInfo}>
-                        ({I18n.t(`js.article.sort.order.${this.props.currentOrder || 'priority_desc'}`)})
+                        ({I18n.t(`js.article.sort.order.${this.props.currentOrder || 'updated_desc'}`)})
                     </span>
                 </Button>
 
