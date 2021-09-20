@@ -14,7 +14,8 @@ if Rails.env.development?
       media_src:        ['localhost:8080', "'self'"],
       object_src:       ['localhost:8080', "'self'"],
       style_src:        ['localhost:8080', "'self'", "'unsafe-inline'"],
-      form_action:      ["'self'"]
+      form_action:      ["'self'"],
+      frame_ancestors:  ["'none'"]
     }
   end
 else
@@ -25,13 +26,14 @@ else
       default_src:      ["'self'", 'ws:', 'wss:', ENV['WEBSITE_ASSET'], 'www.youtube.com', 'vimeo.com', 'vine.com', 'www.instagram.com', 'www.dailymotion.com', 'v.youku.com'].compact,
       connect_src:      ["'self'", 'ws:', 'wss:', ENV['WEBSITE_ASSET'], ENV['SENTRY_ADDRESS'], ENV['METRICS_ADDRESS']].compact,
       worker_src:       ["'self'"],
-      script_src:       ["'self'", "'unsafe-inline'", "'unsafe-eval'", 'data:', ENV['WEBSITE_ASSET'], ENV['METRICS_ADDRESS'], ENV['SENTRY_ADDRESS']].compact,
+      script_src:       ["'self'", "'unsafe-inline'", ENV['WEBSITE_ASSET'], ENV['METRICS_ADDRESS'], ENV['SENTRY_ADDRESS']].compact,
       img_src:          ['*', 'data:', 'blob:'],
       font_src:         ["'self'", 'data:', ENV['WEBSITE_ASSET'], 'fonts.gstatic.com', 'github.com', 'chrome-extension'].compact,
       media_src:        ["'self'", ENV['WEBSITE_ASSET'], 'data:'].compact,
       object_src:       ["'self'", ENV['WEBSITE_ASSET']].compact,
       style_src:        ["'self'", "'unsafe-inline'", ENV['WEBSITE_ASSET'], 'translate.googleapis.com'].compact,
       form_action:      ["'self'"],
+      frame_ancestors:  ["'none'"],
       report_uri:       [ENV['SENTRY_REPORT_URI']].compact
     }
   end
