@@ -22,7 +22,11 @@ if (window._paq && !window.seoMode) {
         ReactPiwik.push(['setUserId', window.currentUserId]);
     }
 
-    browserHistory = piwik.connectToHistory(browserHistory, true);
+    browserHistory = piwik.connectToHistory(browserHistory);
+
+    // Ensure tracking at connect
+    const initialLocation = (typeof browserHistory.getCurrentLocation === 'undefined') ? browserHistory.location : browserHistory.getCurrentLocation();
+    piwik.track(initialLocation);
 }
 
 export default browserHistory;
