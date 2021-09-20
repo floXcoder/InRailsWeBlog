@@ -45,11 +45,9 @@ head itemscope="" itemtype="http://schema.org/WebSite"
     
     - if %w[user_article].include?(request.path_parameters[:name])
       link rel="preload" href="#{AssetManifest.javascript_path('article-show.js')}" as="script"
-      link rel="preload" href="#{AssetManifest.stylesheet_path('article-show.css')}" as="style"
     - elsif %w[user_articles topic_articles tagged_topic_articles tagged_articles].include?(request.path_parameters[:name])
       link rel="preload" href="#{AssetManifest.javascript_path('article-index.js')}" as="script"
       link rel="preload" href="#{AssetManifest.stylesheet_path('article-index.css')}" as="style"
-      link rel="preload" href="#{AssetManifest.stylesheet_path('article-index-list.css')}" as="style"
     - elsif user_signed_in?
       link rel="preload" href="#{AssetManifest.javascript_path('user.js')}" as="script"
       link rel="preload" href="#{AssetManifest.stylesheet_path('user.css')}" as="style"
