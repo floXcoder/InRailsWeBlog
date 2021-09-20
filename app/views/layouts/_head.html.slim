@@ -56,6 +56,3 @@ head itemscope="" itemtype="http://schema.org/WebSite"
     - elsif request.path_parameters[:name].blank?
       link rel="preload" href="#{AssetManifest.javascript_path('default.js')}" as="script"
       link rel="preload" href="#{AssetManifest.stylesheet_path('default.css')}" as="style"
-      
-    - if request.path_parameters[:action] == 'home'
-      link rel="preload" href="#{AssetManifest.stylesheet_path('home-index.css')}" as="style"

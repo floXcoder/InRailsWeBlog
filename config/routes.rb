@@ -142,6 +142,8 @@ Rails.application.routes.draw do
       resources :users, except: [:new, :create, :edit, :destroy] do
         collection do
           get :validation,         to: 'users#validation'
+
+          get :recents,            to: 'users#recents'
         end
 
         member do
