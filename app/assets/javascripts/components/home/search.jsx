@@ -110,7 +110,11 @@ class HomeSearch extends React.Component {
         });
     }, maxSearchRate);
 
-    _performSearch = () => {
+    _performSearch = (event) => {
+        if (event) {
+            event.preventDefault();
+        }
+
         if (!this.props.query || this.props.query === '') {
             return;
         }
@@ -127,7 +131,9 @@ class HomeSearch extends React.Component {
     _renderSearchForm = () => {
         return (
             <form autoComplete="off"
-                  acceptCharset="UTF-8">
+                  acceptCharset="UTF-8"
+                  noValidate={true}
+                  onSubmit={this._performSearch}>
                 <EnsureValidity/>
 
                 <div className={this.props.classes.searchField}>
