@@ -111,19 +111,19 @@ class HomePopulars extends React.Component {
                         </div>
                     }
 
-                    <div className={this.props.classes.popularsCategory}>
-                        <h2 className={this.props.classes.popularsTitle}>
-                            {I18n.t('js.views.home.recents.title')}
-                        </h2>
+                    {
+                        this.props.recentArticles?.length > 0 &&
+                        <div className={this.props.classes.popularsCategory}>
+                            <h2 className={this.props.classes.popularsTitle}>
+                                {I18n.t('js.views.home.recents.title')}
+                            </h2>
 
-                        <Grid container={true}
-                              spacing={4}
-                              direction="row"
-                              justifyContent="space-between"
-                              alignItems="flex-start">
-                            {
-                                this.props.recentArticles?.length > 0
-                                    ?
+                            <Grid container={true}
+                                  spacing={4}
+                                  direction="row"
+                                  justifyContent="space-between"
+                                  alignItems="flex-start">
+                                {
                                     this.props.recentArticles.limit(4).map((article) => (
                                         <Grid key={article.id}
                                               item={true}
@@ -133,22 +133,10 @@ class HomePopulars extends React.Component {
                                                                     isPaper={true}/>
                                         </Grid>
                                     ))
-                                    :
-                                    <>
-                                        <Grid item={true}
-                                              xs={12}
-                                              sm={6}>
-                                            <MiniArticleSkeleton/>
-                                        </Grid>
-                                        <Grid item={true}
-                                              xs={12}
-                                              sm={6}>
-                                            <MiniArticleSkeleton/>
-                                        </Grid>
-                                    </>
-                            }
-                        </Grid>
-                    </div>
+                                }
+                            </Grid>
+                        </div>
+                    }
 
                     <div className={this.props.classes.popularsCategory}>
                         <h2 className={this.props.classes.popularsTitle}>
