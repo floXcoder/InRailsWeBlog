@@ -55,6 +55,8 @@ class Ahoy::Visit < ApplicationRecord
   # == Validations ==========================================================
 
   # == Scopes ===============================================================
+  scope :validated, -> { where(validated: true) }
+  scope :external, -> { ENV['TRACKER_EXCLUDED_IPS'].present? ? where.not(ip: ENV['TRACKER_EXCLUDED_IPS'].split(', ')) : all }
 
   # == Callbacks ============================================================
 
