@@ -76,7 +76,13 @@ class AdminVisits extends React.Component {
 
         this.setState({
             articleIdStats: articleId
-        })
+        });
+    };
+
+    _handleArticleModalClose = () => {
+        this.setState({
+            articleIdStats: undefined
+        });
     };
 
     _handleShowVisitsDate = (date, event) => {
@@ -84,13 +90,13 @@ class AdminVisits extends React.Component {
 
         this.setState({
             visitsDate: date
-        })
+        });
     };
 
     _handleVisitModalClose = () => {
         this.setState({
             visitsDate: undefined
-        })
+        });
     };
 
     _renderListDetails = (listDetails) => {
@@ -478,9 +484,9 @@ class AdminVisits extends React.Component {
 
                 {
                     (Object.keys(this.props.visitsStats).length === 0 && this.props.isFetching) &&
-                        <div className="center">
-                            <Loader size="big"/>
-                        </div>
+                    <div className="center">
+                        <Loader size="big"/>
+                    </div>
                 }
 
                 {
@@ -490,7 +496,8 @@ class AdminVisits extends React.Component {
 
                 {
                     this.state.articleIdStats &&
-                    <TrackingArticleModal articleId={this.state.articleIdStats}/>
+                    <TrackingArticleModal articleId={this.state.articleIdStats}
+                                          onClose={this._handleArticleModalClose}/>
                 }
 
                 {

@@ -53,6 +53,7 @@ class TrackingArticleModal extends React.Component {
         trackingView: PropTypes.number,
         articleId: PropTypes.number,
         history: PropTypes.object,
+        onClose: PropTypes.func,
         // from connect
         article: PropTypes.object,
         articleTracking: PropTypes.object,
@@ -100,6 +101,10 @@ class TrackingArticleModal extends React.Component {
         this.setState({
             isOpen: false
         });
+
+        if (this.props.onClose) {
+            this.props.onClose();
+        }
 
         this.props.history?.push({
             hash: undefined
