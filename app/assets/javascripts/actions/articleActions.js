@@ -93,9 +93,9 @@ export const deleteArticle = (articleId, options = {}) => ({
 });
 
 // Article stories
-const receiveArticleRecommendations = ({recommendations}) => ({
+const receiveArticleRecommendations = (json) => ({
     type: ActionTypes.ARTICLE_RECOMMENDATIONS,
-    recommendations
+    recommendations: json?.recommendations
 });
 export const fetchArticleRecommendations = (userId, articleId) => (dispatch) => (
     api.get(`/api/v1/articles/${articleId}/recommendations`, {
