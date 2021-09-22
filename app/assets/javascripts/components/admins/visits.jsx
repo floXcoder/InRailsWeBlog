@@ -333,7 +333,7 @@ class AdminVisits extends React.Component {
                                                 secondary: this.props.classes.listItemSecondary
                                             }}
                                                           primary={
-                                                              <p>
+                                                              <span>
                                                                   <a className={this.props.classes.listItem}
                                                                      href="#"
                                                                      onClick={this._handleShowArticleStats.bind(this, article.id)}>
@@ -345,7 +345,7 @@ class AdminVisits extends React.Component {
                                                                       <OpenInNewIcon
                                                                           className={this.props.classes.listItemLink}/>
                                                                   </a>
-                                                              </p>
+                                                              </span>
                                                           }
                                                           secondary={`${article.count} (${article.date})`}/>
                                         </ListItem>

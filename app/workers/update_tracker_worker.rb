@@ -8,7 +8,7 @@ class UpdateTrackerWorker
   def perform(*args)
     return if Rails.env.test?
 
-    tracked_class = args.first['tracked_class']
+    tracked_class = args.first.with_indifferent_access['tracked_class']
 
     class_model = tracked_class.classify.constantize
 
@@ -28,7 +28,7 @@ class UpdateTrackerWorker
             next if user_id && element.try(:user_id) == user_id
             next if element.try(:only_me?)
 
-            if metric == :visits
+            if metric.to_sym == :visits
               element.tracker.update_column(:visits_count, count_visits(tracked_class, element_value))
             else
               # Warning: Increment do not trigger model callbacks

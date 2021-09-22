@@ -41,9 +41,9 @@ class Admins::VisitsController < AdminsController
     # visits_details[:totalQueries]    = Tracker.sum(:queries_count)
     # visits_details[:totalSearches]   = Tracker.sum(:searches_count)
 
-    visits_details[:topArticles] = Tracker.where(tracked_type: 'Article').order('visits_count DESC').joins(:article).where(article: { visibility: 'everyone' }).limit(top_limit).map { |tracker| { id: tracker.tracked_id, name: tracker.tracked.title, date: I18n.l(tracker.tracked.created_at, format: :custom_full_date).sub(/^0+/, ''), link: tracker.tracked.link_path(locale: I18n.locale), count: tracker.visits_count } }
-    visits_details[:topTags]     = Tracker.where(tracked_type: 'Tag').order('visits_count DESC').joins(:tag).where(tag: { visibility: 'everyone' }).limit(top_limit).map { |tracker| { id: tracker.tracked_id, name: tracker.tracked.name, link: tracker.tracked.link_path(locale: I18n.locale), count: tracker.visits_count } }
-    visits_details[:topTopics]   = Tracker.where(tracked_type: 'Topic').order('visits_count DESC').joins(:topic).where(topic: { visibility: 'everyone' }).limit(top_limit).map { |tracker| { id: tracker.tracked_id, name: tracker.tracked.name, link: tracker.tracked.link_path(locale: I18n.locale), count: tracker.visits_count } }
+    visits_details[:topArticles] = Tracker.where(tracked_type: 'Article', visits_count: 1...).order('visits_count DESC').joins(:article).where(article: { visibility: 'everyone' }).limit(top_limit).map { |tracker| { id: tracker.tracked_id, name: tracker.tracked.title, date: I18n.l(tracker.tracked.created_at, format: :custom_full_date).sub(/^0+/, ''), link: tracker.tracked.link_path(locale: I18n.locale), count: tracker.visits_count } }
+    visits_details[:topTags]     = Tracker.where(tracked_type: 'Tag', visits_count: 1...).order('visits_count DESC').joins(:tag).where(tag: { visibility: 'everyone' }).limit(top_limit).map { |tracker| { id: tracker.tracked_id, name: tracker.tracked.name, link: tracker.tracked.link_path(locale: I18n.locale), count: tracker.visits_count } }
+    visits_details[:topTopics]   = Tracker.where(tracked_type: 'Topic', visits_count: 1...).order('visits_count DESC').joins(:topic).where(topic: { visibility: 'everyone' }).limit(top_limit).map { |tracker| { id: tracker.tracked_id, name: tracker.tracked.name, link: tracker.tracked.link_path(locale: I18n.locale), count: tracker.visits_count } }
 
     visits_details[:totalArticles] = Article.everyone.count
     visits_details[:totalTags]     = Tag.everyone.count
