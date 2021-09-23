@@ -115,10 +115,6 @@ Install gems in the gemset of the project:
     
     bundle
     
-Install for all gemset scss-lint:
-
-    rvm @default do gem install scss-lint
-    
 ### Database dependencies
 
 Create the postgres user:
@@ -309,7 +305,7 @@ Cron tool to run analysis tools:
 
 CSS:
 
-    scss-lint
+    stylelint
 
 Javascript:
 
