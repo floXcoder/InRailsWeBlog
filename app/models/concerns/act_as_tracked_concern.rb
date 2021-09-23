@@ -98,7 +98,7 @@ module ActAsTrackedConcern
       track_queries
     end
 
-    # Tracker model method to increment visit count ()Visits are counted with Ahoy)
+    # Tracker model method to increment visit count (Visits are counted with Ahoy)
     def track_visits(record_id, user_id = nil, parent_id = nil)
       return unless self.tracker_metrics.include?(:visits)
 
@@ -174,13 +174,13 @@ module ActAsTrackedConcern
     end
 
     # Private method to get formatted redis key (for object model)
-    def redis_key(record_id, metric, user_id = nil, parent_id = nil, visitor_token = nil)
-      [self.name.downcase, metric, record_id, user_id, parent_id, visitor_token].compact.join(':')
+    def redis_key(record_id, metric, user_id = nil, parent_id = nil)
+      [self.name.downcase, metric, record_id, user_id, parent_id].compact.join(':')
     end
   end
 
   # Private method to get formatted redis key (for class model)
-  def redis_key(record, metric, user_id = nil, parent_id = nil, visitor_token = nil)
-    [self.class.name.downcase, metric, record.id, user_id, parent_id, visitor_token].compact.join(':')
+  def redis_key(record, metric, user_id = nil, parent_id = nil)
+    [self.class.name.downcase, metric, record.id, user_id, parent_id].compact.join(':')
   end
 end
