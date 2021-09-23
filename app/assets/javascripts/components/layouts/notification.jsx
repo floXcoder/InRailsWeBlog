@@ -166,10 +166,8 @@ class NotificationComponent extends React.Component {
                           }}
                           open={this.state.isOpen}
                           autoHideDuration={notificationDuration}
-                          TransitionProps={{
-                              onClose: this._handleClose,
-                              onExited: this._handleExited
-                          }}>
+                          onClose={this._handleClose}
+                          onExited={this._handleExited}>
                     <NotificationContent messageInfo={this.state.messageInfo}
                                          onClose={this._handleClose}/>
                 </Snackbar>

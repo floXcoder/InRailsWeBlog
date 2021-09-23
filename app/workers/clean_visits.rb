@@ -6,9 +6,9 @@ class CleanVisits
   sidekiq_options queue: :default
 
   def perform
-    remove_invalid_visits
-
     update_rejected_ips
+
+    remove_invalid_visits
   end
 
   private
