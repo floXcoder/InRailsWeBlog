@@ -10,6 +10,10 @@
 //
 // export default loadHighlight;
 
+import {
+    manageImportError
+} from '../../actions';
+
 export default function HighlightLoader(callback) {
     import(/* webpackChunkName: "highlight" */ '../theme/highlight')
         .then((highlight) => {
@@ -17,5 +21,5 @@ export default function HighlightLoader(callback) {
                 callback({HighlightCode: highlight.default})
             }
         })
-        .catch(error => console.error('Failed to load highlight', error));
+        .catch(manageImportError);
 }

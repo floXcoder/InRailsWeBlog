@@ -4,6 +4,11 @@ import {
     Children
 } from 'react';
 
+import {
+    manageImportError
+} from '../../actions';
+
+
 class LazyLoader extends React.Component {
     static propTypes = {
         modules: PropTypes.object,
@@ -67,7 +72,7 @@ class LazyLoader extends React.Component {
                     this.setState({module: result.component});
                 }
             })
-            .catch((error) => console.error('Failed to load dynamic component: ', keys, error.message));
+            .catch(manageImportError);
     }
 
     render() {
@@ -83,20 +88,22 @@ class LazyLoader extends React.Component {
     }
 }
 
-export const importPrefetch = (promise) => (
-    promise.then((result) => result.default)
-);
+// export const importPrefetch = (promise) => (
+//     promise
+//         .then((result) => result.default)
+//         .catch(manageImportError)
+// );
 
-const LazyLoaderFactories = (Component, modules) => (props = {}) => (
-    <LazyLoader modules={modules}>
-        {
-            (mods) => (
-                <Component {...mods}
-                           {...props}/>
-            )
-        }
-    </LazyLoader>
-);
+// const LazyLoaderFactories = (Component, modules) => (props = {}) => (
+//     <LazyLoader modules={modules}>
+//         {
+//             (mods) => (
+//                 <Component {...mods}
+//                            {...props}/>
+//             )
+//         }
+//     </LazyLoader>
+// );
 
 const LazyLoaderFactory = ({module, props = {}}) => (
     <LazyLoader module={module}>
