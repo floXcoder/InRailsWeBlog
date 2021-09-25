@@ -36,11 +36,11 @@ class Login extends React.PureComponent {
                     Notification.error(response.errors);
                     // window.location.replace('/');
                 } else if (response.user) {
-                    if (response?.meta?.location) {
-                        window.location.replace(response.meta.location);
-                    } else {
-                        document.location.reload(true);
-                    }
+                    // Add timestamp to ensure page is not cached
+                    const timestamp = Date.now();
+                    const urlParams = window.location.search;
+                    const newUrl = (response?.meta?.location ? response.meta.location : window.location.href) + (urlParams ? urlParams + '&' : '?') + `_=${timestamp}`;
+                    window.location.replace(newUrl);
                 }
             });
     };

@@ -156,6 +156,15 @@ class HeaderLayoutUser extends React.PureComponent {
         hasTemporaryArticle: false
     };
 
+    componentDidMount() {
+        // Clean timestamp after connection
+        if(window.location.search.includes('_=')) {
+            const url = new URL(window.location);
+            url.searchParams.delete('_');
+            window.history.replaceState(null, null, url);
+        }
+    }
+
     _handleMobileTitleClick = () => {
         this._handleTagDrawerToggle();
     };
@@ -196,11 +205,11 @@ class HeaderLayoutUser extends React.PureComponent {
 
     _handleLogoutClick = () => {
         logoutUser().then((response) => {
-            if (response?.location) {
-                window.location.assign(response.location);
-            }
-
-            document.location.reload(true);
+            // Add timestamp to ensure page is not cached
+            const timestamp = Date.now();
+            const urlParams = window.location.search;
+            const newUrl = (response?.location ? response.location : window.location.href) + (urlParams ? urlParams + '&' : '?') + `_=${timestamp}`;
+            window.location.replace(newUrl);
         });
     };
 

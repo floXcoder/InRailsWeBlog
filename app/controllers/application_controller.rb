@@ -49,6 +49,8 @@ class ApplicationController < ActionController::Base
   end
 
   def set_env
+    reset_cache_headers if params['_'].present?
+
     user_env = ::Users::EnvironmentService.new(session,
                                                cookies,
                                                http_accept_language,
