@@ -100,6 +100,13 @@ class HeaderLayoutDefault extends React.Component {
     };
 
     componentDidMount() {
+        // Clean timestamp after connection
+        if (window.location.search.includes('_=')) {
+            const url = new URL(window.location);
+            url.searchParams.delete('_');
+            window.history.replaceState(null, null, url);
+        }
+
         // setTimeout(() => this.setState({isSearchLoaded: true}), window.seoMode ? 20 : 200);
         if (!window.seoMode) {
             setTimeout(() => this.setState({isConnectLoaded: true}), 1000);

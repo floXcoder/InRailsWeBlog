@@ -42,11 +42,11 @@ class Signup extends React.Component {
                         sessionStorage.setItem('user-signed', 'true');
                     }
 
-                    if (response?.meta?.location) {
-                        window.location.replace(response.meta.location);
-                    } else {
-                        location.reload(true);
-                    }
+                    // Add timestamp to ensure page is not cached
+                    const timestamp = Date.now();
+                    const urlParams = window.location.search;
+                    const newUrl = (response?.meta?.location ? response.meta.location : window.location.href) + (urlParams ? urlParams + '&' : '?') + `_=${timestamp}`;
+                    window.location.replace(newUrl);
                 }
             });
     };
