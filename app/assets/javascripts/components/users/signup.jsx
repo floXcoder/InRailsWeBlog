@@ -15,7 +15,7 @@ export default @connect((state) => ({
 }), {
     signupUser
 })
-class Signup extends React.Component {
+class UserSignup extends React.Component {
     static propTypes = {
         isOpen: PropTypes.bool.isRequired,
         onModalChange: PropTypes.func.isRequired,

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Run by whenever: add to cron table
-set :output, Whenever.path + '/log/cron.log'
+set :output, "#{Whenever.path}/log/cron.log"
 
 every :hour, roles: [:production] do
   rake 'InRailsWeBlog:clean_pghero_stats'

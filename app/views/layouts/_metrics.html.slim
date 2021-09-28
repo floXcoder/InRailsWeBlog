@@ -18,6 +18,19 @@ javascript:
         }]);
     }
 
+- if current_user
+  javascript:
+      if (window._paq && !window.seoMode) {
+          window._paq.push(['setUserId', "#{current_user.pseudo}"]);
+      }
+
+javascript:
+    if (window._paq && !window.seoMode) {
+        window._paq.push(['trackPageView']);
+        window._paq.push(['enableLinkTracking']);
+        window._paq.push(['trackAllContentImpressions']);
+    }
+
 noscript
   p
     img alt="" src="//#{ENV['METRICS_ADDRESS']}/#{ENV['METRICS_FILENAME']}.php?idsite=#{ENV['METRICS_SITE_NUMBER']}" style="border:0;"

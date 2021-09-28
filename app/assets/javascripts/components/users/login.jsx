@@ -15,7 +15,7 @@ export default @connect((state) => ({
 }), {
     loginUser
 })
-class Login extends React.PureComponent {
+class UserLogin extends React.PureComponent {
     static propTypes = {
         isOpen: PropTypes.bool.isRequired,
         onModalChange: PropTypes.func.isRequired,

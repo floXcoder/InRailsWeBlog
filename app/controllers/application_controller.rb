@@ -293,7 +293,7 @@ class ApplicationController < ActionController::Base
 
   # Called after sign in and sign up
   def after_sign_in_path_for(resource_or_scope)
-    if resource.is_a?(Admin)
+    if resource_or_scope.is_a?(Admin)
       admins_path
     else
       user_root_path = send("user_home_#{resource_or_scope.locale || 'en'}_path", user_slug: resource_or_scope.slug)
