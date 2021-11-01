@@ -1,24 +1,37 @@
 # frozen_string_literal: true
 
 class PictureUploader < CarrierWave::Uploader::Base
-  include CarrierWave::MiniMagick
+  include CarrierWave::Vips
 
   storage :file
 
   before :cache, :reset_secure_token
   before :cache, :save_original_filename
 
-  process resize_to_limit: [1600, 1200]
+  resize_to_fit 2048, 2048
   process :optimize
+  convert :jpg
+
+  version :webp do
+    convert(:webp)
+  end
 
   version :medium do
-    process resize_to_limit: [460, 460]
+    resize_to_fit 750, 750
     process :optimize
+
+    version :webp do
+      convert(:webp)
+    end
   end
 
   version :mini, from_version: :medium do
-    process resize_to_limit: [260, 260]
+    resize_to_fit 350, 350
     process :optimize
+
+    version :webp do
+      convert(:webp)
+    end
   end
 
   # Override the directory where uploaded files will be stored.
@@ -37,24 +50,26 @@ class PictureUploader < CarrierWave::Uploader::Base
 
   # Add UUID to filenames to have unique name by file and for image caching
   def filename
-    "#{File.basename(original_filename, '.*')}-#{secure_token(12)}.#{file.extension}" if original_filename.present?
+    # Extension must be jpg due to a carrierwave bug
+    "#{File.basename(original_filename, '.*')}-#{secure_token(12)}.jpg" if original_filename.present?
   end
 
   # Add a white list of extensions which are allowed to be uploaded.
   def extension_allowlist
-    %w[jpg jpeg gif png]
+    %w[jpg jpeg gif png webp avif]
   end
 
   # Progressive JPEG
   def optimize
-    manipulate! do |image|
-      image.combine_options do |combine|
-        combine.strip
-        combine.quality '80'
-        combine.depth '8'
-        combine.interlace 'Plane'
-      end
-      image
+    vips! do |builder|
+      builder.strip
+      builder.quality '85'
+      builder.depth '8'
+      builder.interlace 'Plane'
+
+      builder = yield(builder) if block_given?
+
+      builder
     end
   end
 

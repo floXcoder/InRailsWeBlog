@@ -70,7 +70,7 @@ export const getSearchContext = (params = {}) => (dispatch) => {
 
     const searchData = {...previousSearchData, ...params};
 
-    if (!Utils.isEmpty(searchData)) {
+    if (Utils.isPresent(searchData)) {
         dispatch(fetchSearch(searchData, false));
     }
 };
@@ -105,7 +105,7 @@ const _saveHistory = (searchState, searchData) => {
         },
         urlParams,
         false,
-        !Utils.isEmpty(urlParams.filters)
+        Utils.isPresent(urlParams.filters)
     );
 };
 

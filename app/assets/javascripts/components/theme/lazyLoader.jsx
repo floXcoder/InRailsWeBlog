@@ -1,6 +1,6 @@
 'use strict';
 
-import LazyLoad from 'react-lazyload';
+import LazyLoad, {forceVisible} from 'react-lazyload';
 
 export default class LazyLoader extends React.Component {
     static propTypes = {
@@ -9,6 +9,12 @@ export default class LazyLoader extends React.Component {
 
     constructor(props) {
         super(props);
+    }
+
+    componentDidMount() {
+        if (window.seoMode) {
+            forceVisible();
+        }
     }
 
     render() {

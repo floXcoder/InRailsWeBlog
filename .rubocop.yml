@@ -142,6 +142,9 @@ Lint/NumberedParameterAssignment:
 Lint/OrAssignmentToConstant:
   Enabled: true
 
+Lint/RequireRelativeSelfPath:
+  Enabled: true
+
 Lint/RedundantDirGlobSort:
   Enabled: true
 
@@ -348,6 +351,9 @@ RSpec/ExampleLength:
 RSpec/Capybara:
   Enabled: false
 
+RSpec/ExcessiveDocstringSpacing:
+  Enabled: true
+
 RSpec/IdenticalEqualityAssertion:
   Enabled: true
 
@@ -373,6 +379,12 @@ RSpec/NestedGroups:
   Max: 4
 
 RSpec/Rails/AvoidSetupHook:
+  Enabled: true
+
+RSpec/SubjectDeclaration:
+  Enabled: true
+
+Security/IoMethods:
   Enabled: true
 
 Style/ArgumentsForwarding:
@@ -450,6 +462,12 @@ Style/NegatedIfElseCondition:
 Style/NilLambda:
   Enabled: true
 
+Style/NumberedParameters:
+  Enabled: true
+
+Style/NumberedParametersLimit:
+  Enabled: true
+
 Style/NumericPredicate:
   Enabled: false
 
@@ -474,6 +492,9 @@ Style/RegexpLiteral:
 
 Style/RescueModifier:
   Enabled: false
+
+Style/SelectByRegexp:
+  Enabled: true
 
 Style/StringChars:
   Enabled: true

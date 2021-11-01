@@ -61,6 +61,7 @@ class CommentBox extends React.Component {
         commentsCount: PropTypes.number,
         isPaginated: PropTypes.bool,
         isRated: PropTypes.bool,
+        showSignup: PropTypes.func,
         // from connect
         isUserConnected: PropTypes.bool,
         currentUserId: PropTypes.number,
@@ -101,7 +102,7 @@ class CommentBox extends React.Component {
     _loadComments = () => {
         if (!this.state.isCommentsLoaded && !this.props.isLoadingComments) {
             // Check if comment count is not null to avoid useless fetching
-            if (!Utils.isEmpty(this.props.commentsCount) && this.props.commentsCount === 0) {
+            if (Utils.isPresent(this.props.commentsCount) && this.props.commentsCount === 0) {
                 this.setState({
                     isCommentsLoaded: true
                 });
@@ -131,6 +132,9 @@ class CommentBox extends React.Component {
         if (this.props.isUserConnected || this.props.isSuperUserConnected) {
             this.setState({isShowingCommentForm: true});
         } else {
+            if(this.props.showSignup) {
+                this.props.showSignup(true);
+            }
             Notification.alert(I18n.t('js.comment.flash.creation_unpermitted'));
         }
     };
@@ -206,7 +210,7 @@ class CommentBox extends React.Component {
                                  onSubmit={this._handleCommentSubmit}/>
 
                     {
-                        this.state.isCommentsLoaded && !this.state.isShowingCommentForm && !this.props.isUserOwner &&
+                        (this.state.isCommentsLoaded && !this.state.isShowingCommentForm && !this.props.isUserOwner) &&
                         <div className="center-align margin-top-20">
                             <Button color="primary"
                                     variant="outlined"

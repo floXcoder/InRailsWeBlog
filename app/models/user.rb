@@ -264,13 +264,13 @@ class User < ApplicationRecord
     when 'updated_desc'
       order('updated_at DESC')
     when 'rank_asc'
-      joins(:tracker).order('rank ASC')
+      joins(:tracker).order('rank ASC NULLS LAST')
     when 'rank_desc'
-      joins(:tracker).order('rank DESC')
+      joins(:tracker).order('rank DESC NULLS LAST')
     when 'popularity_asc'
-      joins(:tracker).order('popularity ASC')
+      joins(:tracker).order('popularity ASC NULLS LAST')
     when 'popularity_desc'
-      joins(:tracker).order('popularity DESC')
+      joins(:tracker).order('popularity DESC NULLS LAST')
     else
       all
     end
@@ -361,7 +361,7 @@ class User < ApplicationRecord
   end
 
   def avatar_url
-    self.pictures_count > 0 ? self.picture&.image&.url(:mini) : nil
+    self.pictures_count > 0 ? AssetManifest.image_path(self.picture&.image&.url(:mini)) : nil
   end
 
   def switch_topic(new_topic)

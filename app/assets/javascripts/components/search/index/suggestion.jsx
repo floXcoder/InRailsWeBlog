@@ -25,7 +25,7 @@ export default class SearchSuggestionIndex extends React.PureComponent {
         return (
             <div className="search-index-category">
                 {
-                    !Utils.isEmpty(this.props.tagSuggestions) &&
+                    Utils.isPresent(this.props.tagSuggestions) &&
                     <div className="search-suggestion">
                         {I18n.t('js.search.index.suggestions.tags')}
                         {
@@ -42,7 +42,7 @@ export default class SearchSuggestionIndex extends React.PureComponent {
                 }
 
                 {
-                    !Utils.isEmpty(this.props.articleSuggestions) &&
+                    Utils.isPresent(this.props.articleSuggestions) &&
                     <div className="search-suggestion">
                         {I18n.t('js.search.index.suggestions.articles')}
                         {

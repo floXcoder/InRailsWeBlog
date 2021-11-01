@@ -7,8 +7,8 @@ import {
 import {
     withStyles
 } from '@material-ui/core/styles';
-import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 import Button from '@material-ui/core/Button';
 
 import styles from '../../../../jss/article/filter';
@@ -22,10 +22,10 @@ class ArticleFilterMenu extends React.Component {
 
     state = {
         anchorEl: null,
-        selectedIndex: 1,
+        selectedIndex: 0
     };
 
-    _handleClickListItem = event => {
+    _handleClickListItem = (event) => {
         this.setState({
             anchorEl: event.currentTarget
         });
@@ -73,7 +73,7 @@ class ArticleFilterMenu extends React.Component {
                         options.map((option, index) => (
                             <MenuItem key={index}
                                       selected={index === this.state.selectedIndex}
-                                      onClick={event => this._handleMenuItemClick(event, index)}>
+                                      onClick={(event) => this._handleMenuItemClick(event, index)}>
                                 {option}
                             </MenuItem>
                         ))

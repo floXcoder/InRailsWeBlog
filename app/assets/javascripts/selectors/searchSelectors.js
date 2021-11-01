@@ -26,25 +26,3 @@ export const getAutocompleteResults = createSelector(
         return autocompletionValues;
     }
 );
-
-// Suggestions
-export const getArticleSuggestions = createSelector(
-    (state) => state.searchState.articleSuggestions,
-    (articleSuggestions) => articleSuggestions
-);
-
-export const getTagSuggestions = createSelector(
-    (state) => state.searchState.tagSuggestions,
-    (tagSuggestions) => tagSuggestions
-);
-
-// Filters / Aggregations
-export const getSearchFilters = createSelector(
-    (state) => state.searchState.searchFilters,
-    (searchFilters) => searchFilters
-);
-
-export const getArticleAvailableFilters = createSelector(
-    (state) => state.searchState.articleAvailableFilters,
-    (articleAvailableFilters) => articleAvailableFilters
-);

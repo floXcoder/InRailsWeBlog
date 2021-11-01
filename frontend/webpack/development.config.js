@@ -106,7 +106,7 @@ webPackConfig = _.merge(webPackConfig, {
             });
             watcher.on('change', function (filePath, root, stat) {
                 console.log('  File modified:', filePath);
-                devServer.sendMessage(devServer.sockets, 'content-changed');
+                devServer.sendMessage(devServer.webSocketServer.clients, 'content-changed');
             });
         }
     }

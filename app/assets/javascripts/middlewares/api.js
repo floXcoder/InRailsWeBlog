@@ -213,7 +213,7 @@ const api = {
 
         return {
             promise,
-            controller
+            signal: controller
         };
     },
 

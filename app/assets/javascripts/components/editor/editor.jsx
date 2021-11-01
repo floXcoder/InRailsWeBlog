@@ -415,7 +415,7 @@ class Editor extends React.Component {
                     }
                 })
             });
-        })
+        });
     };
 
     onImageDelete = (target) => {

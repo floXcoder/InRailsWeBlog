@@ -12,8 +12,8 @@ class AssetManifest
     return unless url
 
     url += '.css' unless url.end_with?('.css')
-    if AssetManifest.manifest
-      AssetManifest.manifest[url] || url
+    if AssetManifest.manifest && url
+      AssetManifest.manifest[url.split('?')[0]] || url
     else
       "#{AssetManifest.root_url}assets/#{url}"
     end
@@ -23,8 +23,8 @@ class AssetManifest
     return unless url
 
     url += '.js' unless url.end_with?('.js')
-    if AssetManifest.manifest
-      AssetManifest.manifest[url] || url
+    if AssetManifest.manifest && url
+      AssetManifest.manifest[url.split('?')[0]] || url
     else
       "#{AssetManifest.root_url}assets/#{url}"
     end
@@ -37,13 +37,13 @@ class AssetManifest
       if Rails.env.development?
         url
       else
-        AssetManifest.root_url + url
+        InRailsWeBlog.config.full_assets_url + url
       end
     elsif url.start_with?('data:')
       url
     else
-      if AssetManifest.manifest
-        AssetManifest.manifest[url] || url
+      if AssetManifest.manifest && url
+        AssetManifest.manifest[url.split('?')[0]] || url
       else
         "#{AssetManifest.root_url}assets/#{url}"
       end
@@ -53,8 +53,8 @@ class AssetManifest
   def self.asset_path(url)
     return unless url
 
-    if AssetManifest.manifest
-      AssetManifest.manifest[url] || url
+    if AssetManifest.manifest && url
+      AssetManifest.manifest[url.split('?')[0]] || url
     else
       "#{AssetManifest.root_url}assets/#{url}"
     end

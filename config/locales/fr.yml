@@ -285,6 +285,7 @@ fr:
         vote:
           already_voted: "Vous ne pouvez pas voter une seconde fois"
         picture:
+          no_image: "est vide"
           image_size: "doit être inférieur à 5Mo"
           attributes:
             imageable:

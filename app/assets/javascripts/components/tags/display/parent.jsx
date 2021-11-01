@@ -89,7 +89,7 @@ class ParentTag extends React.PureComponent {
     };
 
     render() {
-        const hasChild = !Utils.isEmpty(this.props.tag.children);
+        const hasChild = Utils.isPresent(this.props.tag.children);
 
         return (
             <>

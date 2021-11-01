@@ -1,5 +1,8 @@
 #dropdown-component
 
+script#application-routes type="application/json"
+  = raw localized_routes.to_json
+  
 javascript:
     window.settings = #{raw InRailsWeBlog.config.to_h.to_json};
 
@@ -7,7 +10,6 @@ javascript:
     window.defaultLocale = "#{I18n.default_locale}";
     window.locale = "#{I18n.locale}";
     window.locales = #{I18n.available_locales.to_json.html_safe};
-    window.localizedRoutes = #{localized_routes.to_json.html_safe};
     window.defaultMetaTags = #{meta_tags&.meta_tags.to_json.html_safe};
 
     window.websiteUrl = "#{ENV['WEBSITE_FULL_ADDRESS']}";

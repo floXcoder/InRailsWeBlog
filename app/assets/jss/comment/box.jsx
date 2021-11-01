@@ -21,7 +21,7 @@ const styles = (theme) => ({
         textAlign: 'center'
     },
     content: {
-        padding: 24,
+        padding: theme.spacing(3),
         border: '1px solid #e0e0e0'
     },
     headline: {

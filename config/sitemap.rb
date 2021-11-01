@@ -32,7 +32,7 @@ SitemapGenerator::Sitemap.create do
             priority:   0.7,
             lastmod:    article.updated_at,
             images:     [{
-                           loc:     article.default_picture,
+                           loc:     article.default_picture[:jpg],
                            title:   article.title,
                            caption: article.summary
                          }]

@@ -39,10 +39,10 @@ export const getSortedTopicTags = createSelector(
             let parents = [];
             let children = [];
 
-            if (!Utils.isEmpty(tag.parentIds)) {
+            if (Utils.isPresent(tag.parentIds)) {
                 parents = tag.parentIds.map((parentId) => {
                     const parentTag = tags.find((tag) => tag.id === parentId);
-                    if (!!parentTag && !Utils.isEmpty(filterText) && !Fuzzy.match(filterText, parentTag.name)) {
+                    if (!!parentTag && Utils.isPresent(filterText) && !Fuzzy.match(filterText, parentTag.name)) {
                         return null;
                     } else if (parentTag) {
                         const {parentIds, childIds, ...parentTagProps} = parentTag;
@@ -51,10 +51,10 @@ export const getSortedTopicTags = createSelector(
                 }).compact();
             }
 
-            if (!Utils.isEmpty(tag.childIds)) {
+            if (Utils.isPresent(tag.childIds)) {
                 children = tag.childIds.map((childId) => {
                     const childTag = tags.find((tag) => tag.id === childId);
-                    if (!!childTag && !Utils.isEmpty(filterText) && !Fuzzy.match(filterText, childTag.name)) {
+                    if (!!childTag && Utils.isPresent(filterText) && !Fuzzy.match(filterText, childTag.name)) {
                         return null;
                     } else if (childTag) {
                         const {parentIds, childIds, ...childTagProps} = childTag;
@@ -70,7 +70,7 @@ export const getSortedTopicTags = createSelector(
                 }
             }
 
-            if (!Utils.isEmpty(filterText) && Utils.isEmpty(children) && !Fuzzy.match(filterText, tag.name)) {
+            if (Utils.isPresent(filterText) && Utils.isEmpty(children) && !Fuzzy.match(filterText, tag.name)) {
                 return null;
             }
 
@@ -147,10 +147,10 @@ export const getTagErrors = createSelector(
         let errorContent = undefined;
         if (typeof errors === 'string') {
             errorContent = [errors];
-        } else if (!Utils.isEmpty(errors)) {
+        } else if (Utils.isPresent(errors)) {
             errorContent = [];
             Object.entries(errors).forEach(([errorName, errorDescriptions]) => {
-                if (!Utils.isEmpty(errorDescriptions)) {
+                if (Utils.isPresent(errorDescriptions)) {
                     errorContent.push(I18n.t(`js.tag.model.${errorName}`) + ' ' + (Array.isArray(errorDescriptions) ? errorDescriptions.join(I18n.t('js.helpers.and')) : errorDescriptions));
                 }
             });

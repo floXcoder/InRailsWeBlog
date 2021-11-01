@@ -33,11 +33,6 @@ import {
 } from '../../actions';
 
 import {
-    getArticleSuggestions,
-    getTagSuggestions
-} from '../../selectors';
-
-import {
     maxSearchRate,
     autocompleteLimit,
     searchGridColumns,
@@ -65,10 +60,10 @@ export default @connect((state) => ({
     isSearching: state.searchState.isSearching,
     // hasResults: state.searchState.hasResults,
     tags: state.searchState.tags,
-    tagSuggestions: getTagSuggestions(state),
+    tagSuggestions: state.searchState.tagSuggestions,
     autocompleteTags: state.autocompleteState.tags,
     articles: state.searchState.articles,
-    articleSuggestions: getArticleSuggestions(state),
+    articleSuggestions: state.searchState.articleSuggestions,
     scrapQuery: state.searchState.scrapQuery
 }), {
     getSearchContext,
@@ -401,8 +396,7 @@ class SearchIndex extends React.Component {
                     </div>
                 }
 
-                <SearchSuggestionIndex classes={this.props.classes}
-                                       articleSuggestions={this.props.articleSuggestions}
+                <SearchSuggestionIndex articleSuggestions={this.props.articleSuggestions}
                                        tagSuggestions={this.props.tagSuggestions}
                                        onSuggestionClick={this._handleSuggestionClick}/>
 

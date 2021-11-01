@@ -287,6 +287,7 @@ en:
         vote:
           already_voted: "Already voted"
         picture:
+          no_image: "is empty"
           image_size: "must be less than 5MB"
           attributes:
             imageable:

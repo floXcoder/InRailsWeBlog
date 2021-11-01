@@ -34,6 +34,9 @@
 /config/application.yml
 /config/settings/local.rb
 
+# Ignore geocoding files
+/lib/geocoding/ip_db/*
+
 # Ignore generated trasnaltion files
 /app/assets/javascripts/translations
 /spec/javascripts/translations

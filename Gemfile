@@ -6,7 +6,7 @@ git_source(:github) do |repo_name|
 end
 
 # Specify exact Ruby version (mandatory)
-ruby '3.0.0'
+ruby '3.0.2'
 
 # Rails version
 gem 'rails',                    '6.1.4.1'
@@ -15,7 +15,7 @@ gem 'rails',                    '6.1.4.1'
 gem 'pg',                       '1.2.3'
 # gem 'active_record_extended',   '1.4.0'
 gem 'pghero',                   '2.8.1'
-gem 'pg_query',                 '2.1.0' # Required for pghero
+gem 'pg_query',                 '2.1.1' # Required for pghero
 
 # HTTP Response
 gem 'responders',               '3.0.1'
@@ -25,14 +25,14 @@ gem 'faraday',                  '1.8.0'
 
 # JSON
 gem 'jsonapi-serializer',       '2.2.0'
-gem 'oj',                       '3.13.7'
+gem 'oj',                       '3.13.9'
 
 # Use slim instead of erb
 gem 'slim-rails',               '3.3.0'
 
 # Internationalization
 gem 'i18n-js',                  '3.9.0'
-gem 'geocoder',                 '1.6.7'
+gem 'geocoder',                 '1.7.0'
 gem 'maxminddb',                '0.1.22'
 
 # Model versioning
@@ -69,9 +69,10 @@ gem 'pundit',                   '2.1.1'
 # Upload pictures
 gem 'carrierwave',              '2.2.2'
 gem 'mini_magick',              '4.11.0'
+gem 'image_processing',         '1.12.1'
 
 # Search in database
-gem 'searchkick',               '4.6.0'
+gem 'searchkick',               '4.6.1'
 gem 'typhoeus',                 '1.4.0'
 
 # Votable models
@@ -91,8 +92,8 @@ gem 'ahoy_matey',               '4.0.1'
 
 # SEO
 gem 'friendly_id',              '5.4.2'
-gem 'route_translator',         '10.0.0'
-gem 'meta-tags',                '2.15.0'
+gem 'route_translator',         '11.0.0'
+gem 'meta-tags',                '2.16.0'
 gem 'sitemap_generator',        '6.1.2'
 
 # Dummy data
@@ -109,10 +110,10 @@ gem 'capistrano-db-tasks',      '0.6',    require: false
 gem 'health_check',             '3.1.0'
 
 # SEO
-gem 'webdrivers',               '4.6.1',  require: false
+gem 'webdrivers',               '5.0.0',  require: false
 
 # Server
-gem 'puma',                     '5.4.0'
+gem 'puma',                     '5.5.2'
 
 group :development do
   # Debugging tool
@@ -125,7 +126,7 @@ group :development do
 
   # N+1 database query
   gem 'bullet',                 '6.1.5'
-  gem 'prosopite',              '1.0.1'
+  gem 'prosopite',              '1.0.3'
 
   # Guard and its minions
   gem 'guard',                  '2.18.0', require: false
@@ -162,28 +163,28 @@ group :test do
   gem 'db-query-matchers',          '0.10.0'
 
   # Browser tests
-  gem 'capybara',                   '3.35.3'
+  gem 'capybara',                   '3.36.0'
   gem 'capybara-email',             '3.0.2'
   gem 'capybara-screenshot',        '1.0.25'
-  gem 'selenium-webdriver',         '3.142.7'
+  gem 'selenium-webdriver',         '4.0.3'
   gem 'html_validation',            '1.1.5'
   gem 'launchy',                    '2.5.0'
 
   # static analyzer
-  gem 'rails_best_practices',       '1.21.0', require: false
-  gem 'brakeman',                   '5.1.1',  require: false
+  gem 'rails_best_practices',       '1.22.1', require: false
+  gem 'brakeman',                   '5.1.2',  require: false
   gem 'i18n-tasks',                 '0.9.34', require: false
 end
 
 group :development, :test do
   # Speed up boot
-  gem 'bootsnap',                   '1.9.0',  require: false
+  gem 'bootsnap',                   '1.9.1',  require: false
 
   # Check errors
-  gem 'rubocop',                    '1.21.0', require: false
-  gem 'rubocop-rails',              '2.12.2', require: false
+  gem 'rubocop',                    '1.22.3', require: false
+  gem 'rubocop-rails',              '2.12.4', require: false
   gem 'rubocop-performance',        '1.11.5', require: false
-  gem 'rubocop-rspec',              '2.4.0',  require: false
+  gem 'rubocop-rspec',              '2.5.0',  require: false
 end
 
 group :production do
@@ -194,5 +195,5 @@ group :production do
   gem 'lograge',          '0.11.2'
 
   # Prerender html pages for SEO
-  gem 'seo_cache',        '1.0.7',   require: false
+  gem 'seo_cache',        '1.1.2',   require: false
 end

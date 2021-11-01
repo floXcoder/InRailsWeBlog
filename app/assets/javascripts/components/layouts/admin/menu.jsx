@@ -42,6 +42,12 @@ function Item({href, text, icon}) {
     );
 }
 
+Item.propTypes = {
+    href: PropTypes.string.isRequired,
+    text: PropTypes.string.isRequired,
+    icon: PropTypes.element.isRequired
+};
+
 export default class MenuLayout extends React.PureComponent {
     static propTypes = {
         onLogout: PropTypes.func.isRequired

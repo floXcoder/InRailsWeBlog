@@ -284,16 +284,17 @@ class Tag < ApplicationRecord
     Rails.application.routes.url_helpers.send("#{route_name}_#{locale}_#{options[:host] ? 'url' : 'path'}", **params)
   end
 
-  def default_picture
-    default_picture = ''
-
+  def default_picture(options = {})
     picture = if self.icon
-                self.icon.image.mini.url
+                options[:mini] ? { jpg: self.icon.image.mini.url, webp: self.icon.image.mini.webp.url } : { jpg: self.icon.image.url, webp: self.icon.image.webp.url }
               else
-                default_picture
+                {}
               end
 
-    return AssetManifest.image_path(picture || default_picture)
+    return {
+      jpg: AssetManifest.image_path(picture[:jpg]),
+      webp: AssetManifest.image_path(picture[:webp])
+    }
   end
 
   def child_only_for_topic(topic_id)

@@ -37,7 +37,7 @@ export default class TagSidebarList extends React.Component {
     }
 
     render() {
-        const isFiltering = !Utils.isEmpty(this.props.filterText);
+        const isFiltering = Utils.isPresent(this.props.filterText);
 
         return (
             <List className={this.props.classes.tagList}>
@@ -97,7 +97,7 @@ export default class TagSidebarList extends React.Component {
                 {/*</ListItem>*/}
 
                 {
-                    !Utils.isEmpty(this.props.tags) &&
+                    Utils.isPresent(this.props.tags) &&
                     <div className={classNames(this.props.classes.tags,
                         {[this.props.classes.tagsOpen]: this.props.isOpen})
                     }>

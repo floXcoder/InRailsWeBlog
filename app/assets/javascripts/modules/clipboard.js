@@ -36,10 +36,10 @@ const ClipboardManager = (function () {
             }
 
             // Abort if it looks like they've selected some text
-            if (window.getSelection && !Utils.isEmpty(window.getSelection().toString())) {
+            if (window.getSelection && Utils.isPresent(window.getSelection().toString())) {
                 return;
             }
-            if (document.selection && !Utils.isEmpty(document.selection.createRange().text)) {
+            if (document.selection && Utils.isPresent(document.selection.createRange().text)) {
                 return;
             }
 
