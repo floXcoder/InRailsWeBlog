@@ -110,10 +110,10 @@ export default class CommentForm extends React.PureComponent {
 
                             <TextField multiline={true}
                                        className="margin-top-30"
-                                       rowsMax="4"
                                        fullWidth={true}
                                        required={true}
-                                       rows={3}
+                                       minRows={3}
+                                       maxRows={4}
                                        autoComplete="off"
                                        label={this.props.isAskingForDeletion
                                            ?

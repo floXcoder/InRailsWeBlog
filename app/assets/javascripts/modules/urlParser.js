@@ -45,11 +45,11 @@ function parseUri(url, strictMode) {
     return uri;
 }
 
-function getAttrName(elm) {
-    const tn = elm.tagName;
-    if (typeof tn !== 'undefined') return tag2attr[tn.toLowerCase()];
-    return tn;
-}
+// function getAttrName(elm) {
+//     const tn = elm.tagName;
+//     if (typeof tn !== 'undefined') return tag2attr[tn.toLowerCase()];
+//     return tn;
+// }
 
 function promote(parent, key) {
     if (parent[key].length === 0) return parent[key] = {};

@@ -146,10 +146,10 @@ export default class SearchTagModule extends React.Component {
                             }
 
                             {
-                                !Utils.isEmpty(otherTopicTags) &&
+                                Utils.isPresent(otherTopicTags) &&
                                 <>
                                     {
-                                        !Utils.isEmpty(currentTopicTags) &&
+                                        Utils.isPresent(currentTopicTags) &&
                                         <Divider className={this.props.classes.categoryDivider}
                                                  variant="fullWidth"/>
                                     }
@@ -161,10 +161,10 @@ export default class SearchTagModule extends React.Component {
                             }
 
                             {
-                                !Utils.isEmpty(otherUserTags) &&
+                                Utils.isPresent(otherUserTags) &&
                                 <>
                                     {
-                                        (!Utils.isEmpty(currentTopicTags) || !Utils.isEmpty(otherTopicTags)) &&
+                                        (Utils.isPresent(currentTopicTags) || Utils.isPresent(otherTopicTags)) &&
                                         <Divider className={this.props.classes.categoryDivider}
                                                  variant="fullWidth"/>
                                     }

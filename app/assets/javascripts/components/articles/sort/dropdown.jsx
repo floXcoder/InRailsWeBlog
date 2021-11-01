@@ -58,7 +58,7 @@ class ArticleSortMenu extends React.Component {
         return null;
     }
 
-    _handleClickListItem = event => {
+    _handleClickListItem = (event) => {
         this.setState({
             anchorEl: event.currentTarget
         });

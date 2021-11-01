@@ -188,10 +188,10 @@ export default class SearchArticleModule extends React.PureComponent {
                             }
 
                             {
-                                !Utils.isEmpty(otherTopicArticles) &&
+                                Utils.isPresent(otherTopicArticles) &&
                                 <>
                                     {
-                                        !Utils.isEmpty(currentTopicArticles) &&
+                                        Utils.isPresent(currentTopicArticles) &&
                                         <Divider className={this.props.classes.categoryDivider}
                                                  variant="fullWidth"/>
                                     }
@@ -207,10 +207,10 @@ export default class SearchArticleModule extends React.PureComponent {
                             }
 
                             {
-                                !Utils.isEmpty(otherUserArticles) &&
+                                Utils.isPresent(otherUserArticles) &&
                                 <>
                                     {
-                                        (!Utils.isEmpty(currentTopicArticles) || !Utils.isEmpty(otherTopicArticles)) &&
+                                        (Utils.isPresent(currentTopicArticles) || Utils.isPresent(otherTopicArticles)) &&
                                         <Divider className={this.props.classes.categoryDivider}
                                                  variant="fullWidth"/>
                                     }

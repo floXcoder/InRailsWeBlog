@@ -265,7 +265,7 @@ if (!Array.prototype.includes) {
 }
 
 Array.prototype.compact = function () {
-    return this.filter((val) => !Utils.isEmpty(val));
+    return this.filter((val) => Utils.isPresent(val));
 };
 
 if (!Array.prototype.filter) {
@@ -414,7 +414,7 @@ export const compact = (object) => {
     let newObject = {};
     Object.keys(object).forEach((key) => {
         const value = object[key];
-        if (!Utils.isEmpty(key) && !Utils.isEmpty(value)) {
+        if (Utils.isPresent(key) && Utils.isPresent(value)) {
             newObject[key] = value;
         }
     });
@@ -606,6 +606,9 @@ export const isEmpty = (obj) => {
 
     return true;
 };
+export const isPresent = (obj) => {
+    return !isEmpty(obj);
+};
 
 // Create the following functions :
 // isArray, isObject, isString, isDate, isRegExp, isFunction, isBoolean, isNull, isUndefined
@@ -686,3 +689,15 @@ export const supportScroll = () => ('onscroll' in window) && !(/glebot/.test(nav
 //         return parts.pop().split(';').shift();
 //     }
 // }
+
+// export const scrollTo = (elementId, margin = 40, behavior = 'smooth') => {
+//     const element = document.getElementById(elementId);
+//     if (!element) {
+//         return;
+//     }
+//
+//     window.scroll({
+//         top: element.getBoundingClientRect().top + window.scrollY - margin,
+//         behavior: behavior
+//     });
+// };

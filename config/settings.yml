@@ -3,6 +3,7 @@ shared: &shared
   website_name: <%= ENV['WEBSITE_NAME'] %>
   website_email: <%= ENV['WEBSITE_EMAIL'] %>
   assets_url: <%= ENV['WEBSITE_ASSET_IMAGES'] %>
+  full_assets_url: <%= ENV['WEBSITE_FULL_ASSET'] %>
 
   # Default per page
   per_page: 12
@@ -15,7 +16,7 @@ shared: &shared
   scrap_fragment_size: 45
 
   # Maximum upload image size
-  image_size: <%= 8.megabytes %>
+  image_size: <%= 12.megabytes %>
 
   # SEO
   seo_title_length: 60
@@ -26,6 +27,9 @@ shared: &shared
 
   # Default for Tags
   tag_color: '#e5e5e5'
+
+  # Comments
+  comment_per_page: 60
 
   # Screen size
   small_screen: 600

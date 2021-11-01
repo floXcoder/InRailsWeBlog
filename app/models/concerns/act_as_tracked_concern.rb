@@ -28,15 +28,15 @@ module ActAsTrackedConcern
     class_attribute :tracked_name, :tracker_metrics, :tracker_callbacks
 
     # Helpers scope to get useful information
-    scope :most_visited, -> { joins(:tracker).order('trackers.visits_count DESC') }
-    scope :most_viewed, -> { joins(:tracker).order('trackers.views_count DESC') }
-    scope :most_clicked, -> { joins(:tracker).order('trackers.clicks_count DESC') }
+    scope :most_visited, -> { joins(:tracker).order('trackers.visits_count DESC NULLS LAST') }
+    scope :most_viewed, -> { joins(:tracker).order('trackers.views_count DESC NULLS LAST') }
+    scope :most_clicked, -> { joins(:tracker).order('trackers.clicks_count DESC NULLS LAST') }
     scope :recently_tracked, -> { joins(:tracker).where(trackers: { updated_at: 15.days.ago..Time.zone.now }) }
     scope :home, -> (limit = 10) { joins(:tracker).where(trackers: { home_page: true }).limit(limit) }
 
     # Popularity
     before_update :update_popularity
-    scope :populars, -> (limit = 10) { joins(:tracker).order('trackers.popularity DESC').limit(limit) }
+    scope :populars, -> (limit = 10) { joins(:tracker).order('trackers.popularity DESC NULLS LAST').limit(limit) }
   end
 
   # Popularity

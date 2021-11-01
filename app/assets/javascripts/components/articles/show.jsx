@@ -40,7 +40,8 @@ import {
     unmarkArticleOutdated,
     checkLinksArticle,
     deleteArticle,
-    setCurrentTags
+    setCurrentTags,
+    showUserSignup
 } from '../../actions';
 
 import {
@@ -101,7 +102,8 @@ export default @withRouter
     unmarkArticleOutdated,
     checkLinksArticle,
     deleteArticle,
-    setCurrentTags
+    setCurrentTags,
+    showUserSignup
 })
 @hot
 @highlight(false)
@@ -133,6 +135,7 @@ class ArticleShow extends React.Component {
         checkLinksArticle: PropTypes.func,
         deleteArticle: PropTypes.func,
         setCurrentTags: PropTypes.func,
+        showUserSignup: PropTypes.func,
         // from highlight
         onShow: PropTypes.func,
         // from styles
@@ -588,7 +591,8 @@ class ArticleShow extends React.Component {
                                         commentsCount={this.props.article.commentsCount}
                                         isUserOwner={this.props.isOwner}
                                         isPaginated={false}
-                                        isRated={false}/>
+                                        isRated={false}
+                                        showSignup={this.props.showUserSignup}/>
                         </LazyLoader>
                     </div>
                 }

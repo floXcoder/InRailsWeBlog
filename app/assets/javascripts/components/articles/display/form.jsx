@@ -144,7 +144,7 @@ class ArticleFormDisplay extends React.Component {
         return JSON.stringify(this.props) !== JSON.stringify(nextProps) || JSON.stringify(this.state) !== JSON.stringify(nextState);
     }
 
-    _onUnsavedExit = (location) => {
+    _onUnsavedExit = () => {
         removeLocalData(articleTemporaryDataName);
 
         return I18n.t('js.article.form.unsaved');

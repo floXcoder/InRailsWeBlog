@@ -134,7 +134,7 @@ module Api::V1
                          og:              {
                                             type:  "#{ENV['WEBSITE_NAME']}:article",
                                             url:   article.link_path(host: ENV['WEBSITE_FULL_ADDRESS']),
-                                            image: article.default_picture
+                                            image: article.default_picture[:jpg]
                                           }.compact)
 
             if current_user && article.user?(current_user)
@@ -179,7 +179,7 @@ module Api::V1
                          og:           {
                                          type:  "#{ENV['WEBSITE_NAME']}:article",
                                          url:   article.link_path(host: ENV['WEBSITE_FULL_ADDRESS']),
-                                         image: article.default_picture
+                                         image: article.default_picture[:jpg]
                                        }.compact)
 
             render json: article.serialized_json('normal', meta: {

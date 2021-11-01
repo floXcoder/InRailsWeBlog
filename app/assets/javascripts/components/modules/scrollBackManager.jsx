@@ -44,9 +44,11 @@ class ScrollBackManager extends React.Component {
             // Wait for loading dynamic elements
             this._scrollTimeout = setTimeout(() => {
                 // recover the new route's position if already stored
-                if (this._positionByRoutes[this.props.location.pathname]) { // already stored
+                if (this._positionByRoutes[this.props.location.pathname]) {
+                    // already stored
                     window.scrollTo(this._positionByRoutes[this.props.location.pathname][0] || 0, this._positionByRoutes[this.props.location.pathname][1] || 0);
-                } else { // first time
+                } else {
+                    // first time
                     window.scrollTo(0, 0);
                 }
             }, 50);

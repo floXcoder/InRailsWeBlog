@@ -36,7 +36,7 @@ export default class UserIndex extends React.Component {
         //     newState.usersPagination = userData.meta;
         // }
         //
-        // if (!Utils.isEmpty(newState)) {
+        // if (Utils.isPresent(newState)) {
         //     this.setState(newState);
         // }
     }

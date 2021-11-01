@@ -96,7 +96,7 @@ export default class CommentList extends React.PureComponent {
                              className="collection">
                 {
                     this.props.comments.map((comment) => {
-                        if (!Utils.isEmpty(comment.body) && (!(!this.props.isOwner && comment.askForDeletion) || this.props.isSuperUser)) {
+                        if (Utils.isPresent(comment.body) && (!(!this.props.isOwner && comment.askForDeletion) || this.props.isSuperUser)) {
                             const itemClasses = classNames('collection-item', 'avatar', {
                                 [`comment-child-item-${comment.nestedLevel}`]: comment.parentId
                             });

@@ -7,7 +7,7 @@ import {
 import CommentTableDisplay from './display/table';
 
 export default @connect((state, props) => ({
-    hasInitialComments: !Utils.isEmpty(props.comments),
+    hasInitialComments: Utils.isPresent(props.comments),
     isLoading: state.commentState.isFetching,
     comments: props.comments || state.commentState.comments,
     commentPagination: state.commentState.pagination

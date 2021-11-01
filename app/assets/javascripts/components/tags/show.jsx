@@ -231,7 +231,7 @@ class TagShow extends React.Component {
                             </Typography>
 
                             {
-                                !Utils.isEmpty(this.props.tag.synonyms)
+                                Utils.isPresent(this.props.tag.synonyms)
                                     ?
                                     <p>
                                         {this.props.tag.synonyms.join(', ')}

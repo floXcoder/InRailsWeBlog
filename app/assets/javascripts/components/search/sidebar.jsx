@@ -11,11 +11,6 @@ import {
     filterSearch,
 } from '../../actions';
 
-import {
-    getSearchFilters,
-    getArticleAvailableFilters
-} from '../../selectors';
-
 import Loader from '../theme/loader';
 
 import styles from '../../../jss/search/sidebar';
@@ -23,8 +18,8 @@ import styles from '../../../jss/search/sidebar';
 export default @connect((state) => ({
     currentUser: state.userState.user,
     currentUserTopic: state.topicState.currentTopic,
-    searchFilters: getSearchFilters(state),
-    articleAvailableFilters: getArticleAvailableFilters(state),
+    searchFilters: state.searchState.searchFilters,
+    articleAvailableFilters: state.searchState.articleAvailableFilters
 }), {
     filterSearch,
 })
@@ -62,7 +57,7 @@ class SearchSidebar extends React.Component {
 
     _handleNumberChange = (fieldName, event, value) => {
         let newFilter = {};
-        if (!Utils.isEmpty(value)) {
+        if (Utils.isPresent(value)) {
             newFilter[fieldName] = value;
         } else {
             newFilter[fieldName] = undefined;

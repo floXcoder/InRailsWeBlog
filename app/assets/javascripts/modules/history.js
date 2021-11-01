@@ -1,7 +1,8 @@
 'use strict';
 
 import {
-    parse
+    parse,
+    stringify
 } from 'qs';
 
 import urlParser from './urlParser';
@@ -9,7 +10,7 @@ import urlParser from './urlParser';
 const omitEmptyParams = (params) => {
     let newObject = {};
     Object.entries(params).forEach(([key, value]) => {
-        if(key !== '' && !Utils.isEmpty(key) && value !== '' && !Utils.isEmpty(value)) {
+        if(key !== '' && Utils.isPresent(key) && value !== '' && Utils.isPresent(value)) {
             newObject[key] = value;
         }
     });
@@ -26,8 +27,10 @@ const saveCurrentState = (paramsToSerialize, paramsToUrl, replaceOnly = false) =
 
         const newParams = omitEmptyParams({...currentUrlParams, ...paramsToUrl});
 
-        if (!Utils.isEmpty(Utils.toParams(newParams))) {
-            newPath += '?' + Utils.toParams(newParams);
+        const urlPathParams = stringify(newParams);
+
+        if (Utils.isPresent(urlPathParams)) {
+            newPath += '?' + urlPathParams;
         }
 
         if (replaceOnly) {

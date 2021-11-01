@@ -163,7 +163,7 @@ export default function articleMutationManager(mode) {
             }
 
             componentDidUpdate(prevProps) {
-                if (!Utils.isEmpty(this.props.articleErrors) && prevProps.articleErrors !== this.props.articleErrors) {
+                if (Utils.isPresent(this.props.articleErrors) && prevProps.articleErrors !== this.props.articleErrors) {
                     if (this.props.isTagError) {
                         Notification.warn(this.props.articleErrors);
                     } else {

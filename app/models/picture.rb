@@ -80,7 +80,11 @@ class Picture < ApplicationRecord
   private
 
   def image_size
-    errors.add(:image, I18n.t('activerecord.errors.models.picture.image_size')) if image.size > InRailsWeBlog.config.image_size
+    if image.size.zero?
+      errors.add(:image, I18n.t('activerecord.errors.models.picture.no_image'))
+    elsif image.size > MapPlanner.config.image_size
+      errors.add(:image, I18n.t('activerecord.errors.models.picture.image_size', size: number_to_human_size(InRailsWeBlog.config.image_size)))
+    end
   end
 
 end

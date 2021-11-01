@@ -38,6 +38,16 @@ if (window.SENTRY_JAVASCRIPT_KEY && !window.seoMode) {
     });
 }
 
+// Initialize routes
+import RouteManager from './modules/routeManager';
+
+RouteManager.initialize();
+
+// PWA manager
+import PWAManager from './modules/pwaManager';
+
+PWAManager.initialize();
+
 // Configure log level
 if (js_environment.NODE_ENV !== 'production') {
     const log = require('loglevel');

@@ -43,7 +43,7 @@ class UserEdit extends React.Component {
         //     newState.userTracker.sign_in_count = userData.user.sign_in_count;
         // }
         //
-        // if (!Utils.isEmpty(newState)) {
+        // if (Utils.isPresent(newState)) {
         //     this.setState(newState);
         // }
     }

@@ -98,13 +98,14 @@ class Comment < ApplicationRecord
   end
 
   def self.order_by(order)
-    if order == 'id_asc'
+    case order
+    when 'id_asc'
       order('id ASC')
-    elsif order == 'id_desc'
+    when 'id_desc'
       order('id DESC')
-    elsif order == 'updated_asc'
+    when 'updated_asc'
       order('updated_at ASC')
-    elsif order == 'updated_desc'
+    when 'updated_desc'
       order('updated_at DESC')
     else
       all

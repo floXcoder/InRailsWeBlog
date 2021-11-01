@@ -40,6 +40,14 @@ function Item({col, href, text, icon}) {
     );
 }
 
+Item.propTypes = {
+    col: PropTypes.string.isRequired,
+    href: PropTypes.string.isRequired,
+    text: PropTypes.string.isRequired,
+    icon: PropTypes.element
+};
+
+
 const AdminDashboard = () => (
     <div>
         <h1 className="center-align">

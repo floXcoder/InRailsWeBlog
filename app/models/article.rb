@@ -379,16 +379,21 @@ class Article < ApplicationRecord
   end
 
   def default_picture
-    default_picture = ''
-
     picture = if self.pictures_count > 0
                 # Use sort_by to avoid N+1 queries and new graph model
-                self.pictures.sort_by(&:priority).last.image.medium.url
+                if (pic = self.pictures.max_by(&:priority).image)
+                  options[:mini] ? { jpg: pic.mini.url, webp: pic.mini.webp.url } : { jpg: pic.medium.url, webp: pic.medium.webp.url }
+                end
+              elsif self.static_map.present?
+                options[:mini] ? { jpg: self.static_map.mini.url, webp: self.static_map.mini.webp.url } : { jpg: self.static_map.url, webp: self.static_map.webp.url }
               else
-                default_picture
+                {}
               end
 
-    picture.present? || default_picture.present? ? AssetManifest.image_path(picture || default_picture) : nil
+    return {
+      jpg: AssetManifest.image_path(picture[:jpg]),
+      webp: AssetManifest.image_path(picture[:webp])
+    }
   end
 
   def check_dead_links!

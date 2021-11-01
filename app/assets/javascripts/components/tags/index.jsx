@@ -187,7 +187,7 @@ class TagIndex extends React.Component {
                     </Typography>
 
                     {
-                        (!Utils.isEmpty(this.props.routeParams) && this.props.currentUser) &&
+                        (Utils.isPresent(this.props.routeParams) && this.props.currentUser) &&
                         <div className="center-align margin-top-30">
                             <Button color="default"
                                     variant="text"
@@ -247,7 +247,7 @@ class TagIndex extends React.Component {
 
                     <div className="col s12">
                         {
-                            (!Utils.isEmpty(this.props.routeParams)) &&
+                            (Utils.isPresent(this.props.routeParams)) &&
                             <div className="margin-bottom-20">
                                 <Typography className={this.props.classes.subtitle}
                                             component="h2"

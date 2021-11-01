@@ -16,11 +16,11 @@ export default class AssociatedTagBox extends React.Component {
     constructor(props) {
         super(props);
 
-        // if (!Utils.isEmpty(articleData.articles)) {
+        // if (Utils.isPresent(articleData.articles)) {
         //     let associatedTags = [];
         //
         //     articleData.articles.forEach((article) => {
-        //         if (!Utils.isEmpty(article.tags)) {
+        //         if (Utils.isPresent(article.tags)) {
         //             associatedTags = associatedTags.concat(article.tags);
         //         }
         //     });

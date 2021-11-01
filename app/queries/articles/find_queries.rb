@@ -132,9 +132,9 @@ module Articles
       def order_by(order)
         case order
         when 'priority_asc'
-          order('articles.priority ASC')
+          order('articles.priority ASC NULLS LAST')
         when 'priority_desc'
-          order('articles.priority DESC')
+          order('articles.priority DESC NULLS LAST')
         when 'id_asc'
           order('articles.id ASC')
         when 'id_desc'
@@ -148,21 +148,21 @@ module Articles
         when 'updated_desc'
           order('articles.updated_at DESC')
         when 'tag_asc'
-          order('tags.name ASC')
+          order('tags.name ASC NULLS LAST')
         when 'tags_desc'
-          order('tags.name DESC')
+          order('tags.name DESC NULLS LAST')
         when 'visits_asc'
-          joins(:tracker).order('trackers.visits_count ASC')
+          joins(:tracker).order('trackers.visits_count ASC NULLS LAST')
         when 'visits_desc'
-          joins(:tracker).order('trackers.visits_count DESC')
+          joins(:tracker).order('trackers.visits_count DESC NULLS LAST')
         when 'rank_asc'
-          joins(:tracker).order('trackers.rank ASC')
+          joins(:tracker).order('trackers.rank ASC NULLS LAST')
         when 'rank_desc'
-          joins(:tracker).order('trackers.rank DESC')
+          joins(:tracker).order('trackers.rank DESC NULLS LAST')
         when 'popularity_asc'
-          joins(:tracker).order('trackers.popularity ASC')
+          joins(:tracker).order('trackers.popularity ASC NULLS LAST')
         when 'popularity_desc'
-          joins(:tracker).order('trackers.popularity DESC')
+          joins(:tracker).order('trackers.popularity DESC NULLS LAST')
         else
           all
         end

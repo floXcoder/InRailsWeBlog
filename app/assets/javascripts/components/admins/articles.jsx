@@ -175,7 +175,7 @@ class AdminArticles extends React.Component {
                                field: 'commentsCount',
                                filtering: false,
                                editable: 'never'
-                           },
+                           }
                        ]}
                        options={{
                            columnsButton: true,
