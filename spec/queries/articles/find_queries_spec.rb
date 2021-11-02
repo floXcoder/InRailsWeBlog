@@ -145,10 +145,10 @@ describe Articles::FindQueries, type: :query, basic: true do
     end
 
     context 'when owner is set' do
-      it 'returns all public and user articles by default for current language' do
+      it 'returns all public and user articles for all languages' do
         articles = ::Articles::FindQueries.new(@user).all(limit: 100)
 
-        expect(articles).to match_array(Article.everyone_and_user(@user.id).where('articles.languages @> ?', "{#{I18n.locale}}"))
+        expect(articles).to match_array(Article.everyone_and_user(@user.id))
       end
 
       context 'when filtering by user' do
@@ -315,10 +315,10 @@ describe Articles::FindQueries, type: :query, basic: true do
     end
 
     context 'when admin is set' do
-      it 'returns all public articles and user articles' do
+      it 'returns all public articles and user articles for all languages' do
         articles = ::Articles::FindQueries.new(@user, @admin).all(limit: 100)
 
-        expect(articles.count).to eq(Article.all.where('articles.languages @> ?', "{#{I18n.locale}}").count)
+        expect(articles.count).to eq(Article.all.count)
       end
     end
   end

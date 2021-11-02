@@ -26,7 +26,7 @@ module Articles
                     .with_adapted_visibility(@current_user, @current_admin)
                     .order_by(article_order(params)).order_by('updated_desc')
                     .filter_by(params, @current_user, @user_articles, @topic_articles)
-                    .where('articles.languages @> ?', "{#{I18n.locale}}")
+                    .filter_by_locale(@current_user)
                     .paginate_or_limit(params, @current_user)
 
       return @relation
@@ -207,9 +207,17 @@ module Articles
         return records
       end
 
+      def filter_by_locale(current_user)
+        if current_user
+          self
+        else
+          self.where('articles.languages @> ?', "{#{I18n.locale}}")
+        end
+      end
+
       def paginate_or_limit(params, current_user)
         if params[:limit].present?
-          self.limit(params[:limit])
+          self.limit(params[:limit].to_i)
         elsif current_user&.articles_loader == 'all'
           self.all
         else

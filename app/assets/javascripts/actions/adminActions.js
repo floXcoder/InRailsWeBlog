@@ -21,7 +21,7 @@ const receiveMetaSearch = (query, json) => ({
     metaResults: json
 });
 
-export const fetchMetaSearch = (query, options= {}) => (dispatch) => {
+export const fetchMetaSearch = (query, options = {}) => (dispatch) => {
     dispatch(initSearch());
 
     return api

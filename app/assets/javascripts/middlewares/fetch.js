@@ -101,7 +101,7 @@ export default function fetchMiddleware({dispatch, getState}) {
             return {
                 fetch,
                 signal: fetcher.signal
-        }
+            };
         }
     };
-};
+}

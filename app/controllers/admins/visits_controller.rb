@@ -81,7 +81,7 @@ class Admins::VisitsController < AdminsController
 
   def format_visits(params)
     if params[:date]
-      visits = Ahoy::Visit.validated.external.order('DATE(started_at) DESC').where(started_at: Date.parse(params[:date]).all_day)
+      visits = Ahoy::Visit.validated.external.order('started_at DESC').where(started_at: Date.parse(params[:date]).all_day)
       Admin::VisitSerializer.new(visits).serializable_hash&.dig(:data)&.map { |d| d[:attributes] }
     else
       []

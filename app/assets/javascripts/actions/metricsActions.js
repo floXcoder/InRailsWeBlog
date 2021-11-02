@@ -9,7 +9,7 @@ export const trackAction = (params, actionType) => {
         return;
     }
 
-    const pathname = params.pathname
+    const pathname = params.pathname;
 
     // Ensure components are loaded and title updated
     setTimeout(() => {
@@ -23,7 +23,7 @@ export const trackAction = (params, actionType) => {
                 title: metaTags.title || document.title,
                 locale: window.locale,
                 ...trackingData
-            }
+            };
 
             if (window.trackingData) {
                 window.trackingDatas[pathname] = window.trackingData;
@@ -42,7 +42,7 @@ export const trackAction = (params, actionType) => {
                 title: document.title,
                 locale: window.locale,
                 ...params
-            }
+            };
         } else if (actionType === 'route' && !window.trackingData) {
             return;
         }
@@ -52,7 +52,7 @@ export const trackAction = (params, actionType) => {
                 tracker: params
             });
     }, 50);
-}
+};
 
 export const spySearchResults = (searchParams, response) => {
     if (window._paq && !window.seoMode) {

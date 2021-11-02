@@ -13,7 +13,7 @@ const RouteManager = (function () {
         /* Private Methods
          ******************** */
         this._buildRoute = function (locale, path) {
-            return path.split('/').map((p) => this._model.localizedRoutes[locale][p] || p).join('/').replace(/^(.+?)\/*?$/, '$1') || '/';
+            return [this._model.localizedRoutes[locale].locale].concat(path.substr(1).split('/').map((p) => this._model.localizedRoutes[locale][p] || p)).join('/').replace(/^(.+?)\/*?$/, '$1');
         };
 
         this._buildRoutes = function (path) {
@@ -33,7 +33,7 @@ const RouteManager = (function () {
     };
 
     routeManager.routeBuilder = function (path, locale) {
-        return locale ? (GlobalEnvironment.NODE_ENV !== 'production' ? (this._model.localizedRoutes[locale].locale || '') + this._buildRoute(locale, path) : this._buildRoute(locale, path)) : this._buildRoutes(path);
+        return locale ? this._buildRoute(locale, path) : this._buildRoutes(path);
     };
 
     routeManager.isSharedTopic = function (routeName) {
