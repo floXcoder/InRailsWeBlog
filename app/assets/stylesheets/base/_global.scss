@@ -20,11 +20,11 @@ html {
   }
 }
 
-*,
-*::before,
-*::after {
-  box-sizing: inherit;
-}
+//*,
+//*::before,
+//*::after {
+//  box-sizing: inherit;
+//}
 
 a {
   color: $link-color;

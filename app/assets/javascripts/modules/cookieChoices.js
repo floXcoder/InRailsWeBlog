@@ -229,7 +229,7 @@ const cookieChoices = (function () {
     };
 })();
 
-if (!window.seoMode && js_environment.NODE_ENV === 'production') {
+if (!window.seoMode && GlobalEnvironment.NODE_ENV === 'production') {
     setTimeout(() => {
         cookieChoices.displayCookies(window.termsUrl);
     }, 1000);

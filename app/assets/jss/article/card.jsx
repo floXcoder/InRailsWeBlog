@@ -94,6 +94,11 @@ const styles = (theme) => ({
         // height: 0,
         paddingTop: '56.25%' // 16:9
     },
+    mediaImg: {
+        height: '100%',
+        width: '100%',
+        objectFit: 'cover'
+    },
     content: {
         paddingTop: 6
     },

@@ -2,6 +2,9 @@
 
 import RouteManager from '../modules/routeManager';
 
+// Initialize routes
+RouteManager.initialize();
+
 // Common routes
 export const rootPath = (locale = window.locale) => RouteManager.routeBuilder('/', locale);
 

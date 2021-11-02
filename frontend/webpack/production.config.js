@@ -10,7 +10,7 @@ const WorkboxPlugin = require('workbox-webpack-plugin');
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const config = require('../config').webpack;
-let webPackConfig = module.exports = require('./main.config.js');
+let webPackConfig = module.exports = require('./main.config');
 
 webPackConfig.mode = 'production';
 
@@ -115,7 +115,7 @@ webPackConfig.optimization = {
 webPackConfig.plugins.push(
     new webpack.DefinePlugin({
         'global.WEBPACK': JSON.stringify(true),
-        'js_environment': {
+        'GlobalEnvironment': {
             'NODE_ENV': JSON.stringify('production'),
             'ASSET_PATH': JSON.stringify(config.production.assetPath)
         },

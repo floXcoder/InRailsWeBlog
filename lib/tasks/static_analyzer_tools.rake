@@ -32,7 +32,7 @@ namespace :InRailsWeBlog do
     desc 'Javascript ESLint'
     task eslint: :environment do
       output_file = Rails.root.join('static_analysis', 'eslint.html')
-      %x(node #{Rails.root}/node_modules/eslint/bin/eslint.js -o #{output_file} -f html --ext .jsx,.js -c #{Rails.root}/.eslintrc --ignore-pattern '*i18n*' app/assets/javascripts/**)
+      %x(node #{Rails.root}/node_modules/eslint/bin/eslint.js -o #{output_file} -f html --ext .jsx,.js -c #{Rails.root}/.eslintrc.json --ignore-pattern '*i18n*' app/assets/javascripts/**)
     end
 
     desc 'Code coverage for basic tests'

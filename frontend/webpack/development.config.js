@@ -10,7 +10,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const config = require('../config').webpack;
-let webPackConfig = module.exports = require('./main.config.js');
+let webPackConfig = module.exports = require('./main.config');
 
 webPackConfig.mode = 'development';
 
@@ -104,8 +104,8 @@ webPackConfig = _.merge(webPackConfig, {
             const watcher = sane(path.join(__dirname, '../..'), {
                 glob: config.development.watchPath
             });
-            watcher.on('change', function (filePath, root, stat) {
-                console.log('  File modified:', filePath);
+            watcher.on('change', function (/* filePath, root, stat */) {
+                // console.log('  File modified:', filePath);
                 devServer.sendMessage(devServer.webSocketServer.clients, 'content-changed');
             });
         }
@@ -146,7 +146,7 @@ webPackConfig.optimization = {
 
 webPackConfig.plugins.push(
     new webpack.DefinePlugin({
-        'js_environment': {
+        'GlobalEnvironment': {
             'NODE_ENV': JSON.stringify('development'),
             'ASSET_PATH': JSON.stringify(config.development.assetPath)
         }

@@ -120,7 +120,7 @@ export default class Dropdown extends React.Component {
         } else {
             // if not left nor right, we are horizontally centering the element
             const xOffset = (this._buttonCoords.width - this._popupCoords.width) / 2;
-            style.left = Math.round(this._buttonCoords.left + xOffset + pageXOffset) - 15;
+            style.left = Math.round(this._buttonCoords.left + xOffset + pageXOffset);
             style.right = 'auto';
         }
 
@@ -136,7 +136,7 @@ export default class Dropdown extends React.Component {
             style.top = Math.round((this._buttonCoords.bottom + pageYOffset) - yOffset);
             style.bottom = 'auto';
 
-            const xOffset = this._popupCoords.width + 8;
+            const xOffset = this._popupCoords.width;
             if (positions.includes('right')) {
                 style.right -= xOffset;
             } else {
@@ -318,7 +318,8 @@ export default class Dropdown extends React.Component {
                          style={this.state.style}
                          className={classNames(this.state.position, 'dropdown-slider', {
                              'dropdown-slider-open': this.state.isOpen,
-                             'dropdown-slider-arrow': this.props.hasArrow
+                             'dropdown-slider-arrow': this.props.hasArrow,
+                             'dropdown-slider-no-arrow': !this.props.hasArrow
                          })}>
                         {this.props.children}
                     </div>
