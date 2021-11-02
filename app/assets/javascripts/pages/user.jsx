@@ -2,9 +2,9 @@
 
 import '../../stylesheets/pages/user.scss';
 
-require('./common');
-
 import ApplicationLayoutUser from '../components/layouts/user/application';
+
+require('./common');
 
 ReactDOM.render(
     <ApplicationLayoutUser staticContent={document.getElementById('static-component')?.innerHTML}

@@ -378,14 +378,12 @@ class Article < ApplicationRecord
     Rails.application.routes.url_helpers.send("#{route_name}_#{locale}_#{options[:host] ? 'url' : 'path'}", **params)
   end
 
-  def default_picture
+  def default_picture(options = {})
     picture = if self.pictures_count > 0
                 # Use sort_by to avoid N+1 queries and new graph model
                 if (pic = self.pictures.max_by(&:priority).image)
                   options[:mini] ? { jpg: pic.mini.url, webp: pic.mini.webp.url } : { jpg: pic.medium.url, webp: pic.medium.webp.url }
                 end
-              elsif self.static_map.present?
-                options[:mini] ? { jpg: self.static_map.mini.url, webp: self.static_map.mini.webp.url } : { jpg: self.static_map.url, webp: self.static_map.webp.url }
               else
                 {}
               end

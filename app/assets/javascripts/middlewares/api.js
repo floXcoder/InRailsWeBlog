@@ -81,14 +81,14 @@ const manageError = (origin, error, url) => {
                 error.json().then((parsedError) => {
                     Notification.error(parsedError.errors);
 
-                    if (js_environment.NODE_ENV !== 'production') {
+                    if (GlobalEnvironment.NODE_ENV !== 'production') {
                         window.log_on_screen([parsedError.errors, parsedError.details].join(' / ').split("\n").slice(0, 6))
                     }
 
                     pushError(error, {...errorInfo, ...parsedError});
                 })
             } else {
-                if (js_environment.NODE_ENV === 'production') {
+                if (GlobalEnvironment.NODE_ENV === 'production') {
                     Notification.error(I18n.t('js.helpers.errors.server'));
                 }
 

@@ -44,6 +44,8 @@ import {
     articleShowPreloadTime
 } from '../modules/constants';
 
+import RouteManager from '../../modules/routeManager';
+
 import Loader from '../theme/loader';
 import Pagination from '../theme/pagination';
 
@@ -168,7 +170,7 @@ class ArticleIndex extends React.Component {
     }
 
     _formatParams = () => {
-        let queryParams = {};
+        const queryParams = {};
 
         if (this.props.routeParams.userSlug) {
             queryParams.userSlug = this.props.routeParams.userSlug;
@@ -189,7 +191,7 @@ class ArticleIndex extends React.Component {
             queryParams.order = this.props.routeParams.order;
         }
 
-        if (this.props.routeParams['0'] && this.props.routeParams['0'] === window.localizedRoutes[window.locale]['shared-topics'] || this.props.routeParams['0'] === 'shared-topics') {
+        if (this.props.routeParams['0'] && (RouteManager.isSharedTopic(this.props.routeParams['0']) || this.props.routeParams['0'] === 'shared-topics')) {
             queryParams.sharedTopic = true;
         }
 
@@ -197,7 +199,7 @@ class ArticleIndex extends React.Component {
     };
 
     _fetchArticles = (initParams) => {
-        let options = {};
+        const options = {};
         if (this.props.articleDisplayMode === 'summary') {
             options.summary = true;
         }
@@ -211,7 +213,7 @@ class ArticleIndex extends React.Component {
             options.page = initParams.page;
         }
 
-        let payload = {};
+        const payload = {};
         if (this.props.currentUserId) {
             payload.isConnected = true;
             payload.isOwner = this.props.currentUserSlug === this.props.routeParams.userSlug;
@@ -250,7 +252,7 @@ class ArticleIndex extends React.Component {
                 options.summary = true;
             }
 
-            let payload = {
+            const payload = {
                 infinite: !params.pagination
             };
             if (this.props.currentUserId) {

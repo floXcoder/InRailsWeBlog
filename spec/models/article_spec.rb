@@ -444,7 +444,8 @@ RSpec.describe Article, type: :model, basic: true do
 
     describe '.default_picture' do
       it { is_expected.to respond_to(:default_picture) }
-      it { expect(@article.default_picture).to eq(nil) }
+      it { expect(@article.default_picture[:jpg]).to eq(nil) }
+      it { expect(@article.default_picture[:webp]).to eq(nil) }
     end
 
     describe '.mark_as_outdated' do

@@ -4,7 +4,7 @@ import {
     manageImportError
 } from '../actions';
 
-export default function Masonry (callback) {
+export default function Masonry(callback) {
     import(/* webpackChunkName: "masonry" */ 'react-masonry-component')
         .then((masonry) => {
             if (typeof callback === 'function') {

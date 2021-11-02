@@ -2,7 +2,7 @@
 
 import Paper from '@material-ui/core/Paper';
 
-import MaterialTable from 'material-table';
+import MaterialTable from '@material-table/core';
 
 import {
     CsvBuilder

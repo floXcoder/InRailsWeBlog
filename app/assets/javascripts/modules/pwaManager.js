@@ -33,7 +33,7 @@ export const PWAManager = (function () {
     /* Public Methods
      ******************** */
     pwaManager.initialize = function () {
-        if (js_environment.NODE_ENV !== 'production' || window.seoMode) {
+        if (GlobalEnvironment.NODE_ENV !== 'production' || window.seoMode) {
             return;
         }
 

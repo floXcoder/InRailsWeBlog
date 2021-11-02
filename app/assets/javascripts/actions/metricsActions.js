@@ -5,7 +5,7 @@ import api from '../middlewares/api';
 window.trackingDatas = {};
 
 export const trackAction = (params, actionType) => {
-    if (js_environment.NODE_ENV !== 'production' || window.seoMode) {
+    if (GlobalEnvironment.NODE_ENV !== 'production' || window.seoMode) {
         return;
     }
 
@@ -69,7 +69,7 @@ export const spySearchResults = (searchParams, response) => {
 };
 
 export const spyTrackView = (elementName, elementId) => {
-    if (js_environment.NODE_ENV !== 'production' || window.seoMode) {
+    if (GlobalEnvironment.NODE_ENV !== 'production' || window.seoMode) {
         return;
     }
 
@@ -81,7 +81,7 @@ export const spyTrackView = (elementName, elementId) => {
 };
 
 export const spyTrackClick = (elementType, elementId, elementSlug, elementUserId, elementTitle, elementParentId) => {
-    if (js_environment.NODE_ENV !== 'production' || window.seoMode) {
+    if (GlobalEnvironment.NODE_ENV !== 'production' || window.seoMode) {
         return new Promise((resolve) => {
             resolve();
         });

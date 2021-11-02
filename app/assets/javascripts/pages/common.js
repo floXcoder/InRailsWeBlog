@@ -9,7 +9,6 @@ setConfig({
 });
 
 require('../application');
-require('../pwa');
 
 // Flash messages
 const flashes = document.querySelectorAll('.blog-flash');

@@ -1,18 +1,20 @@
 'use strict';
 
-I18n.defaultLocale = window.defaultLocale;
-I18n.locale = window.locale;
-I18n.translations = window.I18n.translations;
-window.I18n = I18n;
-
-// Auto polyfill
-require('./polyfills');
+import PWAManager from './modules/pwaManager';
 
 // Error reporting
 import {
     init as SentryInit,
     configureScope as SentryConfigureScope
 } from '@sentry/browser';
+
+// Auto polyfill
+require('./polyfills');
+
+I18n.defaultLocale = window.defaultLocale;
+I18n.locale = window.locale;
+I18n.translations = window.I18n.translations;
+window.I18n = I18n;
 
 if (window.SENTRY_JAVASCRIPT_KEY && !window.seoMode) {
     SentryInit({
@@ -38,28 +40,21 @@ if (window.SENTRY_JAVASCRIPT_KEY && !window.seoMode) {
     });
 }
 
-// Initialize routes
-import RouteManager from './modules/routeManager';
-
-RouteManager.initialize();
-
 // PWA manager
-import PWAManager from './modules/pwaManager';
-
 PWAManager.initialize();
 
 // Configure log level
-if (js_environment.NODE_ENV !== 'production') {
+if (GlobalEnvironment.NODE_ENV !== 'production') {
     const log = require('loglevel');
     log.setLevel('info');
 
     const screenLog = require('./modules/screenLog').default;
     screenLog.init({freeConsole: true});
 
-    log.trace = data => {
+    log.trace = (data) => {
         console.trace(data);
     };
-    log.table = data => {
+    log.table = (data) => {
         console.table(data);
     };
 

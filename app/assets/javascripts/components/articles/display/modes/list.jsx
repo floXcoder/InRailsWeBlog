@@ -19,6 +19,7 @@ import {
 
 import ArticleItemsDisplay from '../items';
 
+
 export default @connect((state, props) => ({
     orderedArticles: getOrderedArticles(state, props),
     articleDisplayMode: state.uiState.articleDisplayMode

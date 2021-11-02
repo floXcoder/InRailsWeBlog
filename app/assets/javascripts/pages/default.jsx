@@ -2,11 +2,11 @@
 
 import '../../stylesheets/pages/default.scss';
 
+import ApplicationLayoutDefault from '../components/layouts/default/application';
+
 require('./common');
 
 require('../modules/cookieChoices');
-
-import ApplicationLayoutDefault from '../components/layouts/default/application';
 
 ReactDOM.render(
     <ApplicationLayoutDefault staticContent={document.getElementById('static-component')?.innerHTML}
