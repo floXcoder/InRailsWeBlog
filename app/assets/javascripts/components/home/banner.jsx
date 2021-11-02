@@ -27,9 +27,14 @@ const HomeBanner = ({classes, onLoginClick, onSignupClick}) => (
                       md={6}
                       lg={6}>
                     <div className={classes.bannerBackground}>
-                        <img className={classes.bannerBackgroundImg}
-                             alt={`${window.settings.website_name} logo`}
-                             src={`${window.settings.assets_url}/home/banner.png`}/>
+                        <picture>
+                            <source srcSet={`${window.settings.assets_url}/home/banner.webp`}
+                                    type="image/webp"/>
+                            <img className={classes.bannerBackgroundImg}
+                                 srcSet={`${window.settings.assets_url}/home/banner.png`}
+                                 src={`${window.settings.assets_url}/home/banner.png`}
+                                 alt={`${window.settings.website_name} logo`}/>
+                        </picture>
                     </div>
                 </Grid>
 

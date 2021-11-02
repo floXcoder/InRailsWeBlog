@@ -90,7 +90,7 @@ export const synchronizeBookmarks = () => (dispatch) => {
     Object.keys(pendingData).forEach((dataName) => {
         const dataParams = pendingData[dataName];
         if (dataName === 'bookmark') {
-            dataParams.map((bookmarkParams) => {
+            dataParams.forEach((bookmarkParams) => {
                 dispatch(bookmark(bookmarkParams.bookmarkedType, bookmarkParams.bookmarkedId, bookmarkParams.isRemoving));
             });
         }

@@ -124,7 +124,7 @@ module Tags
       end
 
       def paginate_or_limit(params)
-        params[:limit] ? self.limit(params[:limit]) : self
+        params[:limit].present? ? self.limit(params[:limit].to_i) : self
       end
 
     end

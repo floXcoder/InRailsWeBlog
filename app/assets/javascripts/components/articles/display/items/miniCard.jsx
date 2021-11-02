@@ -75,13 +75,13 @@ class ArticleMiniCardDisplay extends React.Component {
                     ))
                 }
             </div>
-        )
+        );
     };
 
     _renderCard = () => {
-        const isPrivateInPublic = (this.props.isUserArticlesList || this.props.currentUserTopicId === this.props.article.topicId && this.props.currentUserTopicVisibility === 'everyone') && this.props.article.visibility !== 'everyone';
+        const isPrivateInPublic = (this.props.isUserArticlesList || (this.props.currentUserTopicId === this.props.article.topicId && this.props.currentUserTopicVisibility === 'everyone')) && this.props.article.visibility !== 'everyone';
 
-        const contentLength = (this.props.article.contentSummary || this.props.article.content).length
+        const contentLength = (this.props.article.contentSummary || this.props.article.content).length;
 
         return (
             <Card id={`article-${this.props.article.id}`}
@@ -178,20 +178,13 @@ class ArticleMiniCardDisplay extends React.Component {
                         </Grid>
 
                         {
-                            this.props.article.defaultPicture?.jpg &&
+                            this.props.article.defaultPicture?.webp &&
                             <Grid className={this.props.classes.headerItem}
                                   item={true}
                                   xs={4}>
-                                <CardMedia className={this.props.classes.media}>
-                                    <picture>
-                                        <source srcSet={this.props.article.defaultPicture.webp}
-                                                type="image/webp"/>
-                                        <img className={this.props.classes.cardMediaImg}
-                                             srcSet={this.props.article.defaultPicture.jpg}
-                                             src={this.props.article.defaultPicture.jpg}
-                                             alt={this.props.article.name}/>
-                                    </picture>
-                                </CardMedia>
+                                <CardMedia className={this.props.classes.media}
+                                           image={this.props.article.defaultPicture.webp}
+                                           title={this.props.article.name}/>
                             </Grid>
                         }
                     </Grid>

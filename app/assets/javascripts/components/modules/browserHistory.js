@@ -16,12 +16,6 @@ if (window._paq && !window.seoMode) {
         phpFilename: window.METRICS_FILENAME + '.php'
     });
 
-    ReactPiwik.push(['trackPageView']);
-
-    if (window.currentUserId) {
-        ReactPiwik.push(['setUserId', window.currentUserId]);
-    }
-
     browserHistory = piwik.connectToHistory(browserHistory);
 
     // Ensure tracking at connect

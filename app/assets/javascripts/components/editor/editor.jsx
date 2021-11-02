@@ -392,20 +392,23 @@ class Editor extends React.Component {
             model: this.props.modelName,
             modelId: this.props.modelId
         }), (responses) => {
-            responses.map((upload) => {
+            responses.forEach((upload) => {
                 upload.then((response) => {
                     if (response?.data?.attributes) {
-                        this.insertImage(response.data.attributes.url, response.data.attributes.filename, response.data.attributes.id, [
+                        this.insertImage(response.data.attributes.url.jpg, response.data.attributes.filename, response.data.attributes.id, [
                             {
                                 maxWidth: '600',
-                                url: response.data.attributes.miniUrl
+                                url: response.data.attributes.miniUrl.jpg,
+                                webp: response.data.attributes.miniUrl.webp
                             },
                             {
                                 maxWidth: '992',
-                                url: response.data.attributes.mediumUrl
+                                url: response.data.attributes.mediumUrl.jpg,
+                                webp: response.data.attributes.mediumUrl.webp
                             },
                             {
-                                url: response.data.attributes.url
+                                url: response.data.attributes.url.jpg,
+                                webp: response.data.attributes.url.webp
                             }
                         ]);
 
@@ -413,7 +416,7 @@ class Editor extends React.Component {
                             this.props.onImageUpload(response.data.attributes);
                         }
                     }
-                })
+                });
             });
         });
     };
