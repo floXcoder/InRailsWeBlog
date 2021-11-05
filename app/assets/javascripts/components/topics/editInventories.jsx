@@ -105,10 +105,10 @@ class TopicEditInventories extends React.Component {
                 <div className="center margin-top-20">
                     <NotAuthorized/>
                 </div>
-            )
+            );
         }
 
-        const {inventoryFields, ...otherProps} = this.props.topic;
+        const {inventoryFields} = this.props.topic;
 
         return (
             <div className={this.props.classes.root}>

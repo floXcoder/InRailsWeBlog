@@ -80,7 +80,7 @@ class ArticleSortMenu extends React.Component {
     };
 
     render() {
-        let options = sortOptions.map((orderOption) => (
+        const options = sortOptions.map((orderOption) => (
             <Link key={orderOption}
                   className={this.props.classes.buttonLink}
                   to={orderTopicArticlesPath(this.props.currentUserSlug, this.props.currentUserTopicSlug, orderOption)}>

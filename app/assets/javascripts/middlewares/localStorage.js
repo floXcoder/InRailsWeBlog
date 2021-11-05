@@ -51,7 +51,7 @@ export const removeLocalData = (dataName) => {
 };
 
 export const getAllData = () => {
-    let previousData = {};
+    const previousData = {};
 
     if (hasLocalStorage) {
         Object.entries(window.localStorage).forEach(([value, objKey]) => {

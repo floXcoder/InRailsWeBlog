@@ -99,7 +99,7 @@ export default function highlight(highlightOnShow = true) {
                 const domNode = ReactDOM.findDOMNode(this);
                 const nodes = domNode.querySelectorAll('pre');
                 if (nodes.length > 0) {
-                    for (let i = 0; i < nodes.length; i = i + 1) {
+                    for (let i = 0; i < nodes.length; i += 1) {
                         this._highlighter.highlightElement(nodes[i]);
                     }
                 }
@@ -113,6 +113,6 @@ export default function highlight(highlightOnShow = true) {
 
                 return <WrappedComponent {...propsProxy} />;
             }
-        }
-    }
+        };
+    };
 }

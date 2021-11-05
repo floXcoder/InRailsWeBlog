@@ -2,7 +2,15 @@
 
 import TextField from '@material-ui/core/TextField';
 
-const SearchBar = ({classes, label, children, onSearchInput}) => (
+const _handleSearchChange = (onSearchInput, event) => {
+    onSearchInput(event.target.value);
+};
+
+const _handleSubmit = () => {
+    return false;
+};
+
+const SearchBar = ({classes, label, onSearchInput}) => (
     <form className="tag-search"
           noValidate={true}
           onSubmit={_handleSubmit}>
@@ -17,19 +25,10 @@ const SearchBar = ({classes, label, children, onSearchInput}) => (
     </form>
 );
 
-const _handleSearchChange = (onSearchInput, event) => {
-    onSearchInput(event.target.value);
-};
-
-const _handleSubmit = () => {
-    return false;
-};
-
 SearchBar.propTypes = {
     label: PropTypes.string.isRequired,
     onSearchInput: PropTypes.func.isRequired,
-    classes: PropTypes.string,
-    children: PropTypes.string
+    classes: PropTypes.string
 };
 
 export default SearchBar;

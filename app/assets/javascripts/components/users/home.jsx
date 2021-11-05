@@ -102,13 +102,13 @@ class UserHome extends React.Component {
                     <div className="center margin-top-20">
                         <Loader size="big"/>
                     </div>
-                )
+                );
             } else {
                 return (
                     <div className="center margin-top-20">
                         <NotFound/>
                     </div>
-                )
+                );
             }
         }
 

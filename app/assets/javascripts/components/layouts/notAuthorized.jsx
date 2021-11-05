@@ -1,6 +1,6 @@
 'use strict';
 
-const NotAuthorized = ({}) => (
+const NotAuthorized = () => (
     <div>
         <h2>
             {I18n.t('js.helpers.not_authorized.title')}

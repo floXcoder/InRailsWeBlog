@@ -16,8 +16,8 @@ class LazyLoader extends React.Component {
         children: PropTypes.func.isRequired
     };
 
-    constructor() {
-        super(...arguments);
+    constructor(props) {
+        super(props);
 
         this.isLoaded = false;
     }
@@ -50,7 +50,7 @@ class LazyLoader extends React.Component {
         if (this.props.modules) {
             modules = this.props.modules;
         } else {
-            modules = {component: () => this.props.module}
+            modules = {component: () => this.props.module};
         }
 
         const keys = Object.keys(modules);

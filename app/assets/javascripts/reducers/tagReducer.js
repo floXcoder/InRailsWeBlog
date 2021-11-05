@@ -32,7 +32,7 @@ export default function tagReducer(state = initState, action) {
         case ActionTypes.TAG_FETCH_INIT:
         case ActionTypes.TAG_FETCH_SUCCESS:
         case ActionTypes.TAG_FETCH_ERROR:
-            if(action.errors) {
+            if (action.errors) {
                 state.tag = undefined;
                 state.tags = [];
             }
@@ -40,14 +40,12 @@ export default function tagReducer(state = initState, action) {
             return fetchReducer(state, action, (state) => {
                 if (action.tag) {
                     state.tag = action.tag;
+                } else if (action.topicTags) {
+                    state.topicTags = action.tags || [];
+                } else if (action.populars) {
+                    state.popularTags = action.tags || [];
                 } else {
-                    if (action.topicTags) {
-                        state.topicTags = action.tags || [];
-                    } else if (action.populars) {
-                        state.popularTags = action.tags || [];
-                    } else {
-                        state.tags = action.tags || [];
-                    }
+                    state.tags = action.tags || [];
                 }
             });
 
@@ -58,7 +56,7 @@ export default function tagReducer(state = initState, action) {
                 if (action.tags) {
                     state.tags = action.tags;
                 } else {
-                    if(action.removedId) {
+                    if (action.removedId) {
                         state.tags = removeIn(state.tags, action.removedId);
                     } else {
                         state.tag = action.tag;
@@ -78,4 +76,4 @@ export default function tagReducer(state = initState, action) {
         default:
             return state;
     }
-};
+}

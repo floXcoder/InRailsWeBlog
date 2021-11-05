@@ -17,28 +17,26 @@ import TopicFormInventoryFieldDisplay from './field';
 const DragHandle = sortableHandle(() => <DragIndicatorIcon/>);
 
 const SortableItem = SortableElement(({classes, itemIndex, field, onRemoveField}) => (
-        <TopicFormInventoryFieldDisplay classes={classes}
-                                        index={itemIndex}
-                                        field={field}
-                                        onRemoveField={onRemoveField}
-                                        dragHandle={DragHandle}/>
-    )
-);
+    <TopicFormInventoryFieldDisplay classes={classes}
+                                    index={itemIndex}
+                                    field={field}
+                                    onRemoveField={onRemoveField}
+                                    dragHandle={DragHandle}/>
+));
 
 const SortableList = SortableContainer(({classes, fields, onRemoveField}) => (
-        <div className={classes.sortingItems}>
-            {
-                fields.map((field, i) => (
-                    <SortableItem key={`${field.fieldName}-${i}`}
-                                  itemIndex={i}
-                                  classes={classes}
-                                  field={field}
-                                  onRemoveField={onRemoveField}/>
-                ))
-            }
-        </div>
-    )
-);
+    <div className={classes.sortingItems}>
+        {
+            fields.map((field, i) => (
+                <SortableItem key={`${field.fieldName}-${i}`}
+                              itemIndex={i}
+                              classes={classes}
+                              field={field}
+                              onRemoveField={onRemoveField}/>
+            ))
+        }
+    </div>
+));
 
 export default class TopicInventoryFieldSorter extends React.Component {
     static propTypes = {

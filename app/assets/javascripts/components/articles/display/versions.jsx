@@ -67,7 +67,7 @@ class ArticleVersionsDisplay extends React.Component {
                             const previousVersion = index === 0 ? this.props.currentArticle.titleTranslations[locale] : version.article.title_translations[locale];
                             const newVersion = this.props.articleVersions[index + 1].article.title_translations[locale];
 
-                            if(previousVersion !== newVersion) {
+                            if (previousVersion !== newVersion) {
                                 return (
                                     <div key={locale}
                                          className="margin-top-20">
@@ -107,9 +107,9 @@ class ArticleVersionsDisplay extends React.Component {
                     {
                         version.article.languages.map((locale) => {
                             const previousVersion = stripTags(this.props.articleVersions[index + 1].article.content_translations[locale]);
-                            const newVersion = stripTags(index === 0 ? this.props.currentArticle.contentTranslations[locale] : version.article.content_translations[locale])
+                            const newVersion = stripTags(index === 0 ? this.props.currentArticle.contentTranslations[locale] : version.article.content_translations[locale]);
 
-                            if(previousVersion !== newVersion) {
+                            if (previousVersion !== newVersion) {
                                 return (
                                     <div key={locale}
                                          className="margin-top-20">

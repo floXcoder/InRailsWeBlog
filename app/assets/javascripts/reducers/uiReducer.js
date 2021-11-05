@@ -26,22 +26,22 @@ const initState = {
 };
 
 const _updateSettings = (state, settings) => {
-    if(settings && typeof settings.articlesLoader === 'string') {
+    if (settings && typeof settings.articlesLoader === 'string') {
         state.articlesLoaderMode = settings.articlesLoader;
     }
-    if(settings && typeof settings.articleDisplay === 'string') {
+    if (settings && typeof settings.articleDisplay === 'string') {
         state.articleDisplayMode = settings.articleDisplay;
     }
-    if(settings && typeof settings.articleOrder === 'string') {
+    if (settings && typeof settings.articleOrder === 'string') {
         state.articleOrderMode = settings.articleOrder;
     }
-    if(settings && typeof settings.articleMultilanguage === 'boolean') {
+    if (settings && typeof settings.articleMultilanguage === 'boolean') {
         state.articleMultilanguage = settings.articleMultilanguage;
     }
-    if(settings && typeof settings.tagOrder === 'string') {
+    if (settings && typeof settings.tagOrder === 'string') {
         state.tagOrderMode = settings.tagOrder;
     }
-    if(settings && typeof settings.tagSidebarPin === 'boolean') {
+    if (settings && typeof settings.tagSidebarPin === 'boolean') {
         state.isTagSidebarOpen = !settings.tagSidebarPin;
     }
 };
@@ -55,7 +55,7 @@ export default function uiReducer(state = initState, action) {
         case ActionTypes.TAG_FETCH_SUCCESS:
         case ActionTypes.COMMENT_FETCH_SUCCESS:
         case ActionTypes.SEARCH_FETCH_SUCCESS:
-            if(action.meta?.metaTags) {
+            if (action.meta?.metaTags) {
                 state.metaTags = action.meta.metaTags;
             }
             return state;
@@ -63,7 +63,7 @@ export default function uiReducer(state = initState, action) {
         // Update UI according to user settings
         case ActionTypes.USER_FETCH_SUCCESS:
         case ActionTypes.USER_CHANGE_SUCCESS:
-            if(action.meta?.metaTags) {
+            if (action.meta?.metaTags) {
                 state.metaTags = action.meta.metaTags;
             }
             if (action.connection && action.user?.settings) {
@@ -75,7 +75,7 @@ export default function uiReducer(state = initState, action) {
             }
             return state;
         case ActionTypes.TOPIC_FETCH_SUCCESS:
-            if(action.meta?.metaTags) {
+            if (action.meta?.metaTags) {
                 state.metaTags = action.meta.metaTags;
             }
             if (action.isSwitching && action.topic?.settings) {
@@ -113,9 +113,9 @@ export default function uiReducer(state = initState, action) {
             return state;
         case ActionTypes.UI_CHANGE_CURRENT_ARTICLES:
             if (action.action === 'add') {
-                state.currentArticles.push(action.articleId)
+                state.currentArticles.push(action.articleId);
             } else {
-                state.currentArticles = state.currentArticles.filter((articleId) => articleId !== action.articleId)
+                state.currentArticles = state.currentArticles.filter((articleId) => articleId !== action.articleId);
             }
             return state;
 
@@ -126,4 +126,4 @@ export default function uiReducer(state = initState, action) {
         default:
             return state;
     }
-};
+}

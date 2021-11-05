@@ -7,7 +7,7 @@ import {
 function convertRelationships(object, relationships, included) {
     if (relationships && included) {
         Object.entries(relationships).forEach(([relationName, relationData]) => {
-            if(!relationData.data) {
+            if (!relationData.data) {
                 return;
             }
 
@@ -24,7 +24,7 @@ function convertRelationships(object, relationships, included) {
 
                         return undefined;
                     }
-                })
+                });
             } else {
                 const relation = included.find((include) => include.id === relationData.data.id && include.type === relationData.data.type);
                 if (relation) {
@@ -72,7 +72,7 @@ export function convertJsonApi(response) {
 
 export function extractDataFromElement(elementId) {
     const element = document.getElementById(elementId);
-    let data = {};
+    const data = {};
 
     if (!element || !element.attributes) {
         return data;

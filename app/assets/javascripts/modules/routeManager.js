@@ -3,9 +3,7 @@
 // Build routes from translated routes in locales/routes.*.yml
 
 const RouteManager = (function () {
-    const routeManager = RouteManager.prototype;
-
-    function RouteManager() {
+    function RouteManagerModel() {
         this._model = {
             localizedRoutes: {}
         };
@@ -20,6 +18,8 @@ const RouteManager = (function () {
             return window.locales.map((l) => [this._model.localizedRoutes[l].locale].concat(path.substr(1).split('/').map((p) => p.includes('|') ? '(' + p.substr(1).slice(0, -1).split('|').map((s) => this._model.localizedRoutes[l][s] || s).join('|') + ')' : this._model.localizedRoutes[l][p] || p)).join('/').replace(/^(.+?)\/*?$/, '$1'));
         };
     }
+
+    const routeManager = RouteManagerModel.prototype;
 
     /* Public Methods
      ******************** */
@@ -43,4 +43,4 @@ const RouteManager = (function () {
     return RouteManager;
 })();
 
-export default new RouteManager;
+export default new RouteManager();

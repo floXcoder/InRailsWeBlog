@@ -150,5 +150,5 @@ class ParentTag extends React.PureComponent {
                 }
             </>
         );
-    };
+    }
 }

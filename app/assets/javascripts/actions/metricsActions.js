@@ -14,8 +14,8 @@ export const trackAction = (params, actionType) => {
     // Ensure components are loaded and title updated
     setTimeout(() => {
         if (actionType === 'route' && (window.trackingData || window.trackingDatas[params.pathname])) {
-            let {action, ...trackingParams} = window.trackingData || window.trackingDatas[params.pathname];
-            let {metaTags, ...trackingData} = trackingParams;
+            const {action, ...trackingParams} = window.trackingData || window.trackingDatas[params.pathname];
+            const {metaTags, ...trackingData} = trackingParams;
 
             params = {
                 action: action || 'page_visit',

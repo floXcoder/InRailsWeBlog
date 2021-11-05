@@ -21,4 +21,4 @@ export default function routeReducer(state = initState, action) {
         default:
             return state;
     }
-};
+}

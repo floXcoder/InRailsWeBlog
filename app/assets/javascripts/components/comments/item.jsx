@@ -128,7 +128,8 @@ export default class CommentItem extends React.Component {
                                                         secondary={
                                                             <span className="comment-date">
                                                                 {this.props.comment.postedAt}
-                                                            </span>}/>
+                                                            </span>
+                                                        }/>
                             }
                         </div>
 
@@ -222,4 +223,4 @@ export default class CommentItem extends React.Component {
             );
         }
     }
-};
+}

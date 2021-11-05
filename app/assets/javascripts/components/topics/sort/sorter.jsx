@@ -20,24 +20,22 @@ import {
 import TopicCardSort from './card';
 
 const SortableItem = SortableElement(({classes, topic}) => (
-        <TopicCardSort classes={classes}
-                       topic={topic}/>
-    )
-);
+    <TopicCardSort classes={classes}
+                   topic={topic}/>
+));
 
 const SortableList = SortableContainer(({classes, topics}) => (
-        <div className={classes.sortingItems}>
-            {
-                topics.map((topic, i) => (
-                    <SortableItem key={i}
-                                  index={i}
-                                  classes={classes}
-                                  topic={topic}/>
-                ))
-            }
-        </div>
-    )
-);
+    <div className={classes.sortingItems}>
+        {
+            topics.map((topic, i) => (
+                <SortableItem key={i}
+                              index={i}
+                              classes={classes}
+                              topic={topic}/>
+            ))
+        }
+    </div>
+));
 
 export default class TopicSorter extends React.Component {
     static propTypes = {

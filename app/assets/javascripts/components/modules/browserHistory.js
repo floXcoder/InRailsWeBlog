@@ -6,7 +6,7 @@ import {
 
 import ReactPiwik from 'react-piwik';
 
-let browserHistory = createBrowserHistory();
+const browserHistory = createBrowserHistory();
 
 if (window._paq && !window.seoMode) {
     const piwik = new ReactPiwik({

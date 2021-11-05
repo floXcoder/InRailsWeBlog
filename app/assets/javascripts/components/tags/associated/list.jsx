@@ -17,7 +17,7 @@ export default class AssociatedTagList extends React.PureComponent {
     _handleTagClick = (tagId, event) => {
         event.preventDefault();
 
-        let classByTag = this.state.classByTag;
+        const classByTag = this.state.classByTag;
         classByTag[tagId] = !classByTag[tagId];
         this.setState({classByTag: classByTag});
 
@@ -36,7 +36,8 @@ export default class AssociatedTagList extends React.PureComponent {
                                      {
                                          'tag-inactive': this.state.classByTag[tag.id],
                                          'tag-active': !this.state.classByTag[tag.id]
-                                     })
+                                     }
+                                 )
                              }
                              onClick={this._handleTagClick.bind(this, tag.id)}>
                             {tag.name}

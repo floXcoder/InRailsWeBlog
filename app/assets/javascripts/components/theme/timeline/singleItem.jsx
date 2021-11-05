@@ -1,6 +1,6 @@
 'use strict';
 
-const SingleTimelineItem = ({title, currentSeparator, icon, children, date}) => (
+const SingleTimelineItem = ({title, icon, children, date}) => (
     <li className="timeline-item">
         <div className={icon ? 'timeline-icon' : 'timeline-no-icon'}>
             {
@@ -33,13 +33,9 @@ const SingleTimelineItem = ({title, currentSeparator, icon, children, date}) => 
 
 SingleTimelineItem.propTypes = {
     title: PropTypes.element.isRequired,
-    currentSeparator: PropTypes.string,
     icon: PropTypes.string,
     children: PropTypes.element,
     date: PropTypes.string
-};
-
-SingleTimelineItem.defaultProps = {
 };
 
 export default React.memo(SingleTimelineItem);

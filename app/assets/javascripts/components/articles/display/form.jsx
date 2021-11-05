@@ -175,7 +175,7 @@ class ArticleFormDisplay extends React.Component {
                   validate={validateArticle}
                   onSubmit={this.props.onSubmit}>
                 {
-                    ({handleSubmit, dirty, submitting, values, form: {change}, ...other}) => {
+                    ({handleSubmit, dirty, submitting, values, form: {change}}) => {
                         const isNextDisabled = submitting || (this.props.currentTopic.mode === 'inventories' && this.props.currentTopic.inventoryFields.length === 0);
 
                         return (

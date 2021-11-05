@@ -102,6 +102,6 @@ const HomeFunctionalities = ({classes, onSignupClick}) => (
 HomeFunctionalities.propTypes = {
     classes: PropTypes.object.isRequired,
     onSignupClick: PropTypes.func
-}
+};
 
 export default React.memo(HomeFunctionalities);

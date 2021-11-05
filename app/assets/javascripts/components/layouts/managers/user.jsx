@@ -137,7 +137,7 @@ class UserManager extends React.Component {
             });
 
             if (currentUser.currentTopic) {
-                if(currentUser.currentTopic.slug !== this.props.routeParams.topicSlug) {
+                if (currentUser.currentTopic.slug !== this.props.routeParams.topicSlug) {
                     this._checkState();
                 } else {
                     // Fetch also current topic tags
@@ -227,7 +227,7 @@ class UserManager extends React.Component {
                 {
                     topicTags: true
                 });
-        } else if(!this.props.hasTopicTags) {
+        } else if (!this.props.hasTopicTags) {
             this._tagRequest = this.props.fetchTags({
                     topicId: this.props.currentUserTopicId
                 },

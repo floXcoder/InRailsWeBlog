@@ -53,7 +53,7 @@ export default class CommentForm extends React.PureComponent {
             return;
         }
 
-        let submitData = {
+        const submitData = {
             title: this.state.title,
             body: this.state.body,
             parent_id: this.props.parentCommentId,

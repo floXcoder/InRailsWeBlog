@@ -37,7 +37,7 @@ export default function topicReducer(state = initState, action) {
         case ActionTypes.TOPIC_FETCH_INIT:
         case ActionTypes.TOPIC_FETCH_SUCCESS:
         case ActionTypes.TOPIC_FETCH_ERROR:
-            if(action.errors) {
+            if (action.errors) {
                 state.topic = undefined;
                 state.topics = [];
             }
@@ -50,7 +50,7 @@ export default function topicReducer(state = initState, action) {
                     state.currentUserTopicSlug = action.topic.slug;
                     state.currentTopic = action.topic;
 
-                    if(action.topic.mode === 'stories') {
+                    if (action.topic.mode === 'stories') {
                         state.storyTopic = action.topic;
                     } else {
                         state.storyTopic = undefined;
@@ -104,4 +104,4 @@ export default function topicReducer(state = initState, action) {
         default:
             return state;
     }
-};
+}

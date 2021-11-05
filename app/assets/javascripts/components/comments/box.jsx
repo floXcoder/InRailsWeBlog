@@ -31,8 +31,8 @@ import {
 import Pagination from '../theme/pagination';
 import CircleSpinner from '../theme/spinner/circle';
 
-import CommentList from '../comments/list';
-import CommentForm from '../comments/form';
+import CommentList from './list';
+import CommentForm from './form';
 
 import styles from '../../../jss/comment/box';
 
@@ -132,7 +132,7 @@ class CommentBox extends React.Component {
         if (this.props.isUserConnected || this.props.isSuperUserConnected) {
             this.setState({isShowingCommentForm: true});
         } else {
-            if(this.props.showSignup) {
+            if (this.props.showSignup) {
                 this.props.showSignup(true);
             }
             Notification.alert(I18n.t('js.comment.flash.creation_unpermitted'));

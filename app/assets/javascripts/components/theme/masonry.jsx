@@ -61,8 +61,8 @@ const MasonryWrapper = (ComponentCard, componentCardProps, ComponentExposed, com
         }
 
         const localMasonry = getLocalData('masonry');
-        if(localMasonry?.columnCount) {
-            this.state.columnCount = localMasonry.columnCount
+        if (localMasonry?.columnCount) {
+            this.state.columnCount = localMasonry.columnCount;
         }
     }
 
@@ -113,7 +113,7 @@ const MasonryWrapper = (ComponentCard, componentCardProps, ComponentExposed, com
             return;
         }
 
-        let exposedComponents = this.state.exposedComponents;
+        const exposedComponents = this.state.exposedComponents;
         if (exposedComponents[elementId]) {
             delete exposedComponents[elementId];
         } else {
@@ -122,7 +122,7 @@ const MasonryWrapper = (ComponentCard, componentCardProps, ComponentExposed, com
             setTimeout(() => {
                 const {pageYOffset} = window;
                 const elementTop = pageYOffset + ReactDOM.findDOMNode(this.refs[elementId]).getBoundingClientRect().top - (this.props.topOffset || 0);
-                window.scroll({ top: elementTop, behavior: 'smooth' });
+                window.scroll({top: elementTop, behavior: 'smooth'});
             }, TRANSITION_DURATION);
         }
         this.setState({
@@ -131,13 +131,13 @@ const MasonryWrapper = (ComponentCard, componentCardProps, ComponentExposed, com
     };
 
     render() {
-        let exposedComponents = this.state.exposedComponents;
+        const exposedComponents = this.state.exposedComponents;
 
         const ComponentNodes = this.props.elements.map((element, i) => {
             const itemClasses = classNames(
                 'col s12',
                 {
-                    'l4': !this.props.columnCount,
+                    l4: !this.props.columnCount,
                     [`m${COLUMNS[this.state.columnCount]}`]: this.props.columnCount
                 },
                 'masonry-grid-item',
@@ -146,7 +146,7 @@ const MasonryWrapper = (ComponentCard, componentCardProps, ComponentExposed, com
                 }
             );
 
-            let elementType = {};
+            const elementType = {};
             elementType[this.props.type] = element;
 
             return (
@@ -207,7 +207,7 @@ const MasonryWrapper = (ComponentCard, componentCardProps, ComponentExposed, com
                     </this.state.Masonry>
                 }
             </div>
-        )
+        );
     }
 };
 

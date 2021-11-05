@@ -35,7 +35,7 @@ export const filterTags = (filterText) => ({
 // Tag mutations
 export const addTag = (tag, options = {}) => ({
     actionType: ActionTypes.TAG,
-    mutationAPI: () => api.post(`/api/v1/tags`, {
+    mutationAPI: () => api.post('/api/v1/tags', {
         tag,
         ...options
     })

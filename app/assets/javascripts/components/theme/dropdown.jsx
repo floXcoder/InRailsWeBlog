@@ -80,7 +80,7 @@ export default class Dropdown extends React.Component {
         document.addEventListener('touchend', this._handleDocumentClick, false);
         document.addEventListener('keydown', this._handleEscapeClick, false);
         if (this.props.isHidingOnScroll) {
-            window.addEventListener('scroll', this._handleScroll, false)
+            window.addEventListener('scroll', this._handleScroll, false);
         }
 
         // Ensure child is mounted
@@ -94,7 +94,7 @@ export default class Dropdown extends React.Component {
         document.removeEventListener('touchend', this._handleDocumentClick, false);
         document.removeEventListener('keydown', this._handleEscapeClick, false);
         if (this.props.isHidingOnScroll) {
-            window.removeEventListener('scroll', this._handleScroll, false)
+            window.removeEventListener('scroll', this._handleScroll, false);
         }
 
         if (this._dropdownTimeout) {
@@ -199,7 +199,7 @@ export default class Dropdown extends React.Component {
             return false;
         }
 
-        return true
+        return true;
     };
 
     _setPopupStyle = () => {
@@ -221,7 +221,7 @@ export default class Dropdown extends React.Component {
         }
 
         // Append 'px' to every numerical values in the style
-        style = Utils.mapValues(style, value => (Utils.isNumber(value) ? `${value}px` : value));
+        style = Utils.mapValues(style, (value) => (Utils.isNumber(value) ? `${value}px` : value));
 
         this.setState({
             style,
@@ -293,7 +293,8 @@ export default class Dropdown extends React.Component {
                     this.props.className,
                     {
                         'flow-tooltip-top': hasTooltip
-                    })}
+                    }
+                )}
                      data-tooltip={hasTooltip ? this.props.tooltip : undefined}>
                     {
                         this.props.isButton

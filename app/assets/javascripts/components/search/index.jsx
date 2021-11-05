@@ -134,7 +134,7 @@ class SearchIndex extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        if(this.props.scrapQuery && prevProps.scrapQuery !== this.props.scrapQuery) {
+        if (this.props.scrapQuery && prevProps.scrapQuery !== this.props.scrapQuery) {
             this._handleURLSearchSubmit(false, this.props.scrapQuery);
         }
     }
@@ -254,7 +254,7 @@ class SearchIndex extends React.Component {
     };
 
     _handleOrderChange = (order) => {
-        let orders = {};
+        const orders = {};
 
         if (order === 'priority') {
             orders.order = 'priority_desc';
@@ -278,7 +278,7 @@ class SearchIndex extends React.Component {
     };
 
     _handleURLSearchSubmit = (event, urlQuery) => {
-        if(event) {
+        if (event) {
             event.preventDefault();
         }
 
@@ -286,7 +286,7 @@ class SearchIndex extends React.Component {
             Notification.alert(I18n.t('js.search.scrap.message.fetching'));
 
             let data;
-            if(event) {
+            if (event) {
                 const form = event.target;
                 data = new FormData(form);
             } else {

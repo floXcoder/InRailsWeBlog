@@ -108,16 +108,14 @@ export default function articleReducer(state = initState, action) {
                     state.article = action.article;
                     state.articleCurrentLanguage = undefined;
                     state.articleRecommendations = undefined;
+                } else if (action.infinite) {
+                    state.articles.push(...action.articles);
+                } else if (action.home) {
+                    state.homeArticles = action.articles;
+                } else if (action.populars) {
+                    state.popularArticles = action.articles;
                 } else {
-                    if (action.infinite) {
-                        state.articles.push(...action.articles);
-                    } else if (action.home) {
-                        state.homeArticles = action.articles;
-                    } else if (action.populars) {
-                        state.popularArticles = action.articles;
-                    } else {
-                        state.articles = action.articles;
-                    }
+                    state.articles = action.articles;
                 }
             });
 
@@ -171,4 +169,4 @@ export default function articleReducer(state = initState, action) {
         default:
             return state;
     }
-};
+}

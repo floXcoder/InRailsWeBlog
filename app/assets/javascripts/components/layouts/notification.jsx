@@ -39,7 +39,7 @@ class NotificationContent extends React.Component {
     };
 
     render() {
-        let actions = [
+        const actions = [
             <IconButton key="close"
                         aria-label="Close"
                         color="inherit"
@@ -129,7 +129,7 @@ class NotificationComponent extends React.Component {
         }
     };
 
-    _handleClose = (event, reason) => {
+    _handleClose = () => {
         // if (reason === 'clickaway') {
         //     return;
         // }
@@ -161,9 +161,9 @@ class NotificationComponent extends React.Component {
         return (
             <MuiThemeProvider theme={theme}>
                 <Snackbar anchorOrigin={{
-                              vertical: 'bottom',
-                              horizontal: 'center',
-                          }}
+                    vertical: 'bottom',
+                    horizontal: 'center',
+                }}
                           open={this.state.isOpen}
                           autoHideDuration={notificationDuration}
                           onClose={this._handleClose}

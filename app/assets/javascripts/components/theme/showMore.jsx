@@ -25,7 +25,7 @@ export default class ShowMore extends React.PureComponent {
     };
 
     componentDidMount() {
-        if(!window.seoMode && this._showMoreText.current) {
+        if (!window.seoMode && this._showMoreText.current) {
             const boundingElement = this._showMoreText.current.getBoundingClientRect();
             const currentHeight = boundingElement.height;
 
@@ -44,7 +44,7 @@ export default class ShowMore extends React.PureComponent {
             content = '<p>' + content + '</p>';
         }
 
-        if(window.seoMode) {
+        if (window.seoMode) {
             return (
                 <div className={this.props.className}>
                     <div ref={this._showMoreText}

@@ -90,7 +90,7 @@ class ArticleInlineEditionDisplay extends React.Component {
             <div id={`article-${this.props.article.id}`}
                  className={this.props.classes.root}>
                 <Prompt when={!!this.state.modifiedContent && !this._isSaving}
-                        message={location => I18n.t('js.article.form.unsaved', {location: location.pathname})}/>
+                        message={(location) => I18n.t('js.article.form.unsaved', {location: location.pathname})}/>
 
                 {
                     this.props.article.title &&

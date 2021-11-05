@@ -237,6 +237,6 @@ export default class AdminSeoDataForm extends React.Component {
                     </div>
                 }
             </form>
-        )
+        );
     }
 }

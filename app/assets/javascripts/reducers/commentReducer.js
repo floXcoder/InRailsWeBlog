@@ -55,4 +55,4 @@ export default function commentReducer(state = initState, action) {
         default:
             return state;
     }
-};
+}

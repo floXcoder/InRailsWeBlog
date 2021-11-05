@@ -13,8 +13,8 @@ import {
     withStyles
 } from '@material-ui/core/styles';
 
-import RouteManager from '../../layouts/managers/route';
-import UserManager from '../../layouts/managers/user';
+import RouteManager from '../managers/route';
+import UserManager from '../managers/user';
 
 import styles from '../../../../jss/user/main';
 
@@ -80,7 +80,8 @@ class MainLayoutUser extends React.Component {
                                                        [classes.homeContent]: isHome
                                                    })}>
                                                        <Suspense fallback={<div/>}>
-                                                           <div className={isHome ? classes.homeLayout : classes.layout}>
+                                                           <div
+                                                               className={isHome ? classes.homeLayout : classes.layout}>
                                                                <Component routeParams={router.match.params}
                                                                           routeHash={router.location.search}
                                                                           routeState={router.location.state}

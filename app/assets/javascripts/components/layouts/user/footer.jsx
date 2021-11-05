@@ -113,7 +113,7 @@ class FooterLayoutUser extends React.Component {
 
                             <p>
                                 <a className={this.props.classes.footerLink}
-                                   href={"mailto:" + window.settings.website_email}>
+                                   href={`mailto:${window.settings.website_email}`}>
                                     {I18n.t('js.views.footer.links.contact')}
                                 </a>
                             </p>

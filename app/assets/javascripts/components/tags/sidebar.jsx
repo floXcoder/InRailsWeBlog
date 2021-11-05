@@ -83,7 +83,7 @@ class TagSidebar extends React.Component {
                         <Loader/>
                     </div>
                 </List>
-            )
+            );
             // } else if (this.props.isCloud) {
             //     return (
             //         <TagSidebarCloud classes={this.props.classes}

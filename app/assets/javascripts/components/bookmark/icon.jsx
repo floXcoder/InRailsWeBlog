@@ -73,7 +73,7 @@ class BookmarkIcon extends React.PureComponent {
             return (
                 <span
                     className={classNames(this.props.className || 'bookmark', `bookmark-${this.props.bookmarkedType}`, {
-                        'bookmarked': this.props.bookmarkData,
+                        bookmarked: this.props.bookmarkData
                     })}>
                     <a href="#"
                        onClick={this._handleBookmark}>

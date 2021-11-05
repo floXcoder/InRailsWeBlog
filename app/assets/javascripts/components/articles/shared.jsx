@@ -97,7 +97,7 @@ class ArticleShared extends React.Component {
                 <div className="center margin-top-20">
                     <NotFound/>
                 </div>
-            )
+            );
         }
 
         if (!this.props.article) {

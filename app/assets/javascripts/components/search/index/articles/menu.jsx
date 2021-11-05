@@ -137,7 +137,8 @@ export default class ArticleSearchMenuDisplay extends React.PureComponent {
                                         <li className={classNames({
                                             [this.props.classes.categoryFilterSelected]: this.state.order === 'popularity'
                                         })}>
-                                            <a onClick={this._handleOrder.bind(this, 'popularity')}>
+                                            <a href="#"
+                                               onClick={this._handleOrder.bind(this, 'popularity')}>
                                                 {I18n.t('js.search.orders.popularity')}
                                             </a>
                                         </li>
@@ -152,7 +153,8 @@ export default class ArticleSearchMenuDisplay extends React.PureComponent {
                                                 <li className={classNames({
                                                     [this.props.classes.categoryFilterSelected]: this.state.order === 'priority'
                                                 })}>
-                                                    <a onClick={this._handleOrder.bind(this, 'priority')}>
+                                                    <a href="#"
+                                                       onClick={this._handleOrder.bind(this, 'priority')}>
                                                         {I18n.t('js.search.orders.priority')}
                                                     </a>
                                                 </li>
@@ -166,7 +168,8 @@ export default class ArticleSearchMenuDisplay extends React.PureComponent {
                                         <li className={classNames({
                                             [this.props.classes.categoryFilterSelected]: this.state.order === 'date'
                                         })}>
-                                            <a onClick={this._handleOrder.bind(this, 'date')}>
+                                            <a href="#"
+                                               onClick={this._handleOrder.bind(this, 'date')}>
                                                 {I18n.t('js.search.orders.date')}
                                             </a>
                                         </li>
@@ -188,7 +191,8 @@ export default class ArticleSearchMenuDisplay extends React.PureComponent {
                                         <li className={classNames({
                                             [this.props.classes.categoryFilterSelected]: this.props.searchDisplay === 'card'
                                         })}>
-                                            <a onClick={this._handleDisplay.bind(this, 'card')}>
+                                            <a href="#"
+                                               onClick={this._handleDisplay.bind(this, 'card')}>
                                                 {I18n.t('js.search.display.card')}
                                             </a>
                                         </li>
@@ -200,7 +204,8 @@ export default class ArticleSearchMenuDisplay extends React.PureComponent {
                                         <li className={classNames({
                                             [this.props.classes.categoryFilterSelected]: this.props.searchDisplay === 'grid'
                                         })}>
-                                            <a onClick={this._handleDisplay.bind(this, 'grid')}>
+                                            <a href="#"
+                                               onClick={this._handleDisplay.bind(this, 'grid')}>
                                                 {I18n.t('js.search.display.grid')}
                                             </a>
                                         </li>

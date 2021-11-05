@@ -86,7 +86,7 @@ class TopicFormDisplay extends React.Component {
     };
 
     render() {
-        let localeOptions = {};
+        const localeOptions = {};
         window.locales.map((locale) => localeOptions[locale] = I18n.t(`js.languages.${locale}`));
 
         const topicValues = {

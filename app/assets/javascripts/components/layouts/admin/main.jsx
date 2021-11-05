@@ -32,7 +32,7 @@ class AdminMainLayout extends React.Component {
     _extractComponentData = (elementId) => {
         const element = document.getElementById(elementId);
 
-        let data = {};
+        const data = {};
         [].forEach.call(element.attributes, function (attr) {
             if (/^data-/.test(attr.name)) {
                 const camelCaseName = attr.name.substr(5).replace(/-(.)/g, function ($0, $1) {

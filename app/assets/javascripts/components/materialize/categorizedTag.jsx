@@ -126,7 +126,7 @@ export default class CategorizedTag extends React.Component {
             }
         );
 
-        let id = this.props.multipleId ? this.props.id + '_' + this.props.multipleId : this.props.id;
+        const id = this.props.multipleId ? this.props.id + '_' + this.props.multipleId : this.props.id;
 
         let name = this.props.name;
         if (!name && this.props.id.indexOf('_') !== -1) {

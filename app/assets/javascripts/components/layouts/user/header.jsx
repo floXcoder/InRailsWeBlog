@@ -158,7 +158,7 @@ class HeaderLayoutUser extends React.PureComponent {
 
     componentDidMount() {
         // Clean timestamp after connection
-        if(window.location.search.includes('_=')) {
+        if (window.location.search.includes('_=')) {
             const url = new URL(window.location);
             url.searchParams.delete('_');
             window.history.replaceState(null, null, url);
@@ -239,7 +239,7 @@ class HeaderLayoutUser extends React.PureComponent {
 
     _renderMobileTagDrawer = () => {
         if (this.props.width !== 'xs' && this.props.width !== 'sm' && this.props.width !== 'md') {
-            return null
+            return null;
         }
 
         return (

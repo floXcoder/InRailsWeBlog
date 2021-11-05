@@ -57,7 +57,7 @@ class AdminUsers extends React.Component {
 
                 <Table title={I18n.t('js.admin.users.table.title')}
                        locale={I18n.locale}
-                       data={this.props.users.map((user) => Object.assign({}, user))}
+                       data={this.props.users.map((user) => ({ ...user}))}
                        columns={[
                            {
                                title: I18n.t('js.admin.users.table.columns.id'),

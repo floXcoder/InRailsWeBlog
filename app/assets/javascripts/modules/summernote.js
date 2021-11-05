@@ -22,52 +22,52 @@ $.extend($.summernote.options, {
     advice: true,
     secret: true,
     icons: {
-        'alignLeft': 'format_align_left',
-        'alignCenter': 'format_align_center',
-        'alignRight': 'format_align_right',
-        'alignJustify': 'format_align_justify',
-        'floatLeft': 'format_align_left',
-        'floatRight': 'format_align_right',
-        'arrowsAlt': 'fullscreen',
-        'rowBelow': 'expand_more',
-        'colBefore': 'chevron_left',
-        'colAfter': 'chevron_right',
-        'rowAbove': 'expand_less',
-        'rowRemove': 'more_horiz',
-        'colRemove': 'more_vert',
-        'bold': 'format_bold',
-        'caret': 'arrow_drop_down',
-        'circle': 'arrow_drop_down_circle',
-        'code': 'code',
-        'close': 'close',
-        'eraser': 'format_clear',
-        'font': 'font_download',
-        'frame': 'filter_frames',
-        'italic': 'format_italic',
-        'indent': 'format_indent_increase',
-        'link': 'link',
-        'magic': 'text_fields',
-        'menuCheck': 'check_circle',
-        'minus': 'minimize',
-        'unlink': 'link_off',
-        'orderedlist': 'format_list_numbered',
-        'outdent': 'format_indent_decrease',
-        'pencil': 'create',
-        'picture': 'insert_photo',
-        'question': 'help',
-        'redo': 'redo',
-        'square': 'crop_square',
-        'strikethrough': 'format_strikethrough',
-        'superscript': 'vertical_align_top',
-        'subscript': 'vertical_align_bottom',
-        'table': 'border_all',
-        'textHeight': 'format_line_spacing',
-        'trash': 'delete',
-        'underline': 'format_underlined',
-        'undo': 'undo',
-        'unorderedlist': 'format_list_bulleted',
-        'video': 'video_library',
-        'rollback': 'undo'
+        alignLeft: 'format_align_left',
+        alignCenter: 'format_align_center',
+        alignRight: 'format_align_right',
+        alignJustify: 'format_align_justify',
+        floatLeft: 'format_align_left',
+        floatRight: 'format_align_right',
+        arrowsAlt: 'fullscreen',
+        rowBelow: 'expand_more',
+        colBefore: 'chevron_left',
+        colAfter: 'chevron_right',
+        rowAbove: 'expand_less',
+        rowRemove: 'more_horiz',
+        colRemove: 'more_vert',
+        bold: 'format_bold',
+        caret: 'arrow_drop_down',
+        circle: 'arrow_drop_down_circle',
+        code: 'code',
+        close: 'close',
+        eraser: 'format_clear',
+        font: 'font_download',
+        frame: 'filter_frames',
+        italic: 'format_italic',
+        indent: 'format_indent_increase',
+        link: 'link',
+        magic: 'text_fields',
+        menuCheck: 'check_circle',
+        minus: 'minimize',
+        unlink: 'link_off',
+        orderedlist: 'format_list_numbered',
+        outdent: 'format_indent_decrease',
+        pencil: 'create',
+        picture: 'insert_photo',
+        question: 'help',
+        redo: 'redo',
+        square: 'crop_square',
+        strikethrough: 'format_strikethrough',
+        superscript: 'vertical_align_top',
+        subscript: 'vertical_align_bottom',
+        table: 'border_all',
+        textHeight: 'format_line_spacing',
+        trash: 'delete',
+        underline: 'format_underlined',
+        undo: 'undo',
+        unorderedlist: 'format_list_bulleted',
+        video: 'video_library',
+        rollback: 'undo'
     },
     popover: {
         image: [
@@ -247,7 +247,7 @@ jQuery.fn.removeAttributes = function () {
             element.removeAttr(item);
         });
     });
-}
+};
 
 const isPara = (node) => {
     return node && /^P|^LI|^H[1-7]/.test(node.nodeName.toUpperCase());
@@ -355,9 +355,9 @@ const formatCodeBlock = () => {
             const content = range.extractContents();
             for (let idx = 0, len = content.childNodes.length; idx < len; idx++) {
                 if (content.childNodes[idx].nodeName === 'BR') {
-                    content.childNodes[idx].replaceWith("\n");
+                    content.childNodes[idx].replaceWith('\n');
                 } else if (content.childNodes[idx].nodeName === 'P' || content.childNodes[idx].nodeName === 'DIV') {
-                    content.childNodes[idx].replaceWith(content.childNodes[idx].textContent + "\n");
+                    content.childNodes[idx].replaceWith(content.childNodes[idx].textContent + '\n');
                 }
             }
             range.insertNode(document.createTextNode(content.textContent));
@@ -378,7 +378,7 @@ const formatCodeBlock = () => {
 };
 
 $.extend($.summernote.plugins, {
-    'cleaner': function (context) {
+    cleaner: function (context) {
         const ui = $.summernote.ui;
         const options = context.options;
         const $note = context.layoutInfo.note;
@@ -403,7 +403,7 @@ $.extend($.summernote.plugins, {
                             if (element.children) {
                                 $.each(element.children, (id, child) => {
                                     $(child).removeAttributes();
-                                })
+                                });
                             }
                         });
 
@@ -418,7 +418,7 @@ $.extend($.summernote.plugins, {
 });
 
 $.extend($.summernote.plugins, {
-    'advice': function (context) {
+    advice: function (context) {
         const ui = $.summernote.ui;
         const options = context.options;
         const $note = context.layoutInfo.note;
@@ -443,7 +443,7 @@ $.extend($.summernote.plugins, {
 });
 
 $.extend($.summernote.plugins, {
-    'code': function (context) {
+    code: function (context) {
         const ui = $.summernote.ui;
         const options = context.options;
         const $note = context.layoutInfo.note;
@@ -477,7 +477,7 @@ $.extend($.summernote.plugins, {
 });
 
 $.extend($.summernote.plugins, {
-    'pre': function (context) {
+    pre: function (context) {
         const ui = $.summernote.ui;
         const options = context.options;
         const $note = context.layoutInfo.note;
@@ -513,7 +513,7 @@ $.extend($.summernote.plugins, {
 });
 
 $.extend($.summernote.plugins, {
-    'secret': function (context) {
+    secret: function (context) {
         const options = context.options;
 
         if (options.secret) {

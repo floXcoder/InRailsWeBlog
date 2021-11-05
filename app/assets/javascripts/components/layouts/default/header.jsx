@@ -213,7 +213,7 @@ class HeaderLayoutDefault extends React.Component {
 
     _renderMobileDrawer = () => {
         if (this.props.width !== 'xs' && this.props.width !== 'sm' && this.props.width !== 'md') {
-            return null
+            return null;
         }
 
         return (

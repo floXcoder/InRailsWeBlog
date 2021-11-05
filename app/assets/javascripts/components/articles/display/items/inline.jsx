@@ -78,7 +78,7 @@ class ArticleInlineDisplay extends React.PureComponent {
         return null;
     }
 
-    _handleViewportChange = event => {
+    _handleViewportChange = (event) => {
         if (event.isIntersecting) {
             spyTrackView('article', this.props.article.id);
 
@@ -91,12 +91,10 @@ class ArticleInlineDisplay extends React.PureComponent {
                     id: this.props.article.id
                 });
             }
-        } else {
-            if (this.props.onExit) {
-                this.props.onExit({
-                    id: this.props.article.id
-                });
-            }
+        } else if (this.props.onExit) {
+            this.props.onExit({
+                id: this.props.article.id
+            });
         }
     };
 
@@ -115,7 +113,7 @@ class ArticleInlineDisplay extends React.PureComponent {
     _handleOverEdit = () => {
         this.setState({
             isOver: !this.state.isOver
-        })
+        });
     };
 
     render() {

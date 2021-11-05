@@ -70,10 +70,8 @@ class ArticleSummaryDisplay extends React.Component {
             if (this.props.onEnter) {
                 this.props.onEnter(this.props.article);
             }
-        } else {
-            if (this.props.onExit) {
-                this.props.onExit(this.props.article);
-            }
+        } else if (this.props.onExit) {
+            this.props.onExit(this.props.article);
         }
     };
 
@@ -88,7 +86,7 @@ class ArticleSummaryDisplay extends React.Component {
                      className={classNames(this.props.className, {
                          'is-hidden': !this.state.isVisible && !window.seoMode,
                          'bounce-in': this.state.isVisible,
-                         'private': this.props.topicVisibility === 'everyone' && this.props.article.visibility !== 'everyone'
+                         private: this.props.topicVisibility === 'everyone' && this.props.article.visibility !== 'everyone'
                      })}
                      itemScope={true}
                      itemType="https://schema.org/BlogPosting">

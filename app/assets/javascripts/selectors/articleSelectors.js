@@ -9,7 +9,7 @@ import {
 } from './tagSelectors';
 
 const articlesByTag = (articles, sortedTags, parentTagSlug) => {
-    let orderedArticles = {};
+    const orderedArticles = {};
 
     if (!parentTagSlug) {
         sortedTags.forEach((tag) => {
@@ -56,7 +56,7 @@ export const getArticlesCurrentMode = createSelector(
 
 export const getArticlesCount = createSelector(
     (state) => state.articleState.articles,
-    (articles) => articles ? articles.length : 0
+    (articles) => (articles ? articles.length : 0)
 );
 
 export const getOrderedArticles = createSelector(
@@ -166,7 +166,7 @@ export const getArticleChildTags = createSelector(
 export const getArticleErrors = createSelector(
     (state) => state.articleState.errors,
     (errors) => {
-        let errorContent = undefined;
+        let errorContent;
         if (typeof errors === 'string') {
             errorContent = [errors];
         } else if (Utils.isPresent(errors)) {
@@ -184,7 +184,7 @@ export const getArticleErrors = createSelector(
 export const getIsTagError = createSelector(
     (state) => state.articleState.errors,
     (errors) => {
-        const errorKeys = errors && Object.keys(errors)
+        const errorKeys = errors && Object.keys(errors);
 
         return errorKeys && errorKeys.length === 1 && errorKeys[0] === 'tagged_articles';
     }

@@ -23,11 +23,9 @@ const compress = (originalFile, callback) => {
             }
 
             if (image.height > image.width) {
-                let ratio = maxHeight / image.height;
-                maxWidth = image.width * ratio;
+                maxWidth = image.width * (maxHeight / image.height);
             } else {
-                let ratio = maxWidth / image.width;
-                maxHeight = image.height * ratio;
+                maxHeight = image.height * (maxWidth / image.width);
             }
 
             const elem = document.createElement('canvas');
@@ -43,21 +41,21 @@ const compress = (originalFile, callback) => {
                     lastModified: Date.now()
                 });
 
-                callback(compressedFile)
+                callback(compressedFile);
             }, 'image/jpeg', 1);
         };
     };
     reader.onerror = (error) => console.error(error);
-}
+};
 
 export const uploadImages = (images, params, doneCallback) => {
-    let uploads = [];
+    const uploads = [];
 
-    Object.entries(images).forEach(([, value]) => {
-        compress(value, (compressedFile) => {
-            let formData = new FormData();
+    Object.entries(images).forEach(([, imageValue]) => {
+        compress(imageValue, (compressedFile) => {
+            const formData = new FormData();
 
-            formData.append(`upload[file]`, compressedFile);
+            formData.append('upload[file]', compressedFile);
 
             Object.entries(params).forEach(([key, value]) => {
                 formData.append(`upload[${key}]`, value);

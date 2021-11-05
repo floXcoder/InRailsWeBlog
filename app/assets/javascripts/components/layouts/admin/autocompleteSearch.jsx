@@ -25,7 +25,7 @@ import {
     metaSearchLimit
 } from '../../modules/constants';
 
-import Autocomplete from '../../../components/theme/autocomplete';
+import Autocomplete from '../../theme/autocomplete';
 
 import HelpDialog from './helpDialog';
 

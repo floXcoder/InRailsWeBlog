@@ -51,7 +51,7 @@ class AdminComments extends React.Component {
 
                 <Table title={I18n.t('js.admin.comments.table.title')}
                        locale={I18n.locale}
-                       data={this.props.comments.map((comment) => Object.assign({}, comment))}
+                       data={this.props.comments.map((comment) => ({...comment}))}
                        columns={[
                            {
                                title: I18n.t('js.admin.comments.table.columns.id'),
@@ -80,8 +80,7 @@ class AdminComments extends React.Component {
                            pageSizeOptions: [100, 500, 1000],
                            emptyRowsWhenPaging: false
                        }}
-                       actions={[
-                       ]}/>
+                       actions={[]}/>
             </div>
         );
     }

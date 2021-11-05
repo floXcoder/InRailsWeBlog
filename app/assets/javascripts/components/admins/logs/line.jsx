@@ -32,7 +32,7 @@ const logClass = (level) => {
         logClass = 'file-line-error';
     }
 
-    return logClass
+    return logClass;
 };
 
 const LogLine = ({children, onLineElementClick}) => {

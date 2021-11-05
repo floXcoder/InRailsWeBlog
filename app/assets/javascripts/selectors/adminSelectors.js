@@ -8,11 +8,11 @@ import {
 export const getMetaResults = createSelector(
     (state) => state.adminState.metaResults,
     (metaResults) => {
-        let results = [];
+        const results = [];
 
         Object.entries(metaResults).forEach(([model, values]) => {
-            values.map((value) => {
-                if(model === 'articles') {
+            values.forEach((value) => {
+                if (model === 'articles') {
                     results.push({
                         model: 'article',
                         id: value.id,
@@ -41,7 +41,7 @@ export const getMetaResults = createSelector(
                         link: value.link
                     });
                 }
-            })
+            });
         });
 
         return results;

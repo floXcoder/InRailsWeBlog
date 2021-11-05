@@ -186,7 +186,7 @@ export default function articleMutationManager(mode) {
                 this._handleChange.cancel();
             }
 
-            _handleFormChange = (formState, values) => {
+            _handleFormChange = (formState) => {
                 if (formState.dirty && !formState.submitting && !formState.invalid && !formState.submitSucceeded) {
                     this._handleChange(formState.values);
 
@@ -208,7 +208,7 @@ export default function articleMutationManager(mode) {
                         removeLocalData(articleUnsavedDataName);
 
                         event = event || window.event;
-                        let message = I18n.t('js.article.form.unsaved');
+                        const message = I18n.t('js.article.form.unsaved');
                         if (event) {
                             event.returnValue = message;
                         }
@@ -217,7 +217,6 @@ export default function articleMutationManager(mode) {
                 } else {
                     window.onbeforeunload = undefined;
                 }
-
             };
 
             _handleCancel = () => {
@@ -300,30 +299,28 @@ export default function articleMutationManager(mode) {
                         saveLocalData(articleTemporaryDataName, {
                             article: formData
                         }, false);
+                    } else if (!this.props.isUserConnected) {
+                        // Save article in local storage to get it back after reload
+                        saveLocalData(articleUnsavedDataName, {
+                            article: formData
+                        }, false);
+
+                        Notification.alert(I18n.t('js.article.common.not_connected.message'));
+
+                        this.props.showUserLogin();
                     } else {
-                        if (!this.props.isUserConnected) {
-                            // Save article in local storage to get it back after reload
-                            saveLocalData(articleUnsavedDataName, {
-                                article: formData
-                            }, false);
+                        removeLocalData(articleTemporaryDataName);
+                        removeLocalData(articleUnsavedDataName);
 
-                            Notification.alert(I18n.t('js.article.common.not_connected.message'));
-
-                            this.props.showUserLogin();
-                        } else {
-                            removeLocalData(articleTemporaryDataName);
-                            removeLocalData(articleUnsavedDataName);
-
-                            return this.props.addArticle(formData)
-                                .then((response) => {
-                                    if (response.article) {
-                                        this.props.history.push({
-                                            pathname: userArticlePath(response.article.user.slug, response.article.slug),
-                                            state: {reloadTags: true}
-                                        });
-                                    }
-                                });
-                        }
+                        return this.props.addArticle(formData)
+                            .then((response) => {
+                                if (response.article) {
+                                    this.props.history.push({
+                                        pathname: userArticlePath(response.article.user.slug, response.article.slug),
+                                        state: {reloadTags: true}
+                                    });
+                                }
+                            });
                     }
                 }
             };
@@ -361,5 +358,5 @@ export default function articleMutationManager(mode) {
         }
 
         return ArticleMutationComponent;
-    }
+    };
 }

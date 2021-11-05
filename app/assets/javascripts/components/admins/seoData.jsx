@@ -105,7 +105,7 @@ class AdminSeoData extends React.Component {
     };
 
     _handleDeleteSeoData = (event, seoData) => {
-        const validation = confirm(I18n.t('js.admin.seo.form.delete_confirmation', {name: seoData.name}));
+        const validation = window.confirm(I18n.t('js.admin.seo.form.delete_confirmation', {name: seoData.name}));
         if (validation) {
             this.props.deleteSeoData(seoData.id)
                 .then(() => {
@@ -172,7 +172,7 @@ class AdminSeoData extends React.Component {
 
                 <Table title={I18n.t('js.admin.seo.table.title')}
                        locale={I18n.locale}
-                       data={this.props.seoData.map((seoData) => Object.assign({}, seoData))}
+                       data={this.props.seoData.map((seoData) => ({...seoData}))}
                        columns={[
                            {
                                title: I18n.t('js.admin.seo.table.columns.id'),
