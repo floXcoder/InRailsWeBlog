@@ -48,6 +48,8 @@ class GenerateCacheUrls
     tag_links = []
 
     Tag.everyone.where(where_options).each do |tag|
+      next unless tag.articles.everyone.exists?
+
       tag_links << tag.link_path(locale: locale)
       tag_links << tag.link_path(route_name: 'index', locale: locale)
     end
