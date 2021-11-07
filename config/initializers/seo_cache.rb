@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-if ENV['SEO_CACHE'].to_s == 'true'
+if ENV['SEO_CACHE_ACTIVATED'].to_s == 'true'
   require 'seo_cache'
 
   if Rails.env.development?

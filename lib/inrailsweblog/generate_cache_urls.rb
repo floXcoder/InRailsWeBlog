@@ -45,12 +45,23 @@ class GenerateCacheUrls
   end
 
   def url_tags(locale, where_options = nil)
-    Tag.everyone.where(where_options).map do |tag|
-      [
-        tag.link_path(locale: locale),
-        tag.link_path(route_name: 'index', locale: locale)
-      ]
+    tag_links = []
+
+    Tag.everyone.where(where_options).each do |tag|
+      tag_links << tag.link_path(locale: locale)
+      tag_links << tag.link_path(route_name: 'index', locale: locale)
     end
+
+    # Tagged topics
+    Topic.everyone.each do |topic|
+      topic.tags.each do |tag|
+        next unless Article.where(topic_id: topic.id).joins(:tags).where(tags: { id: tag.id }).everyone.exists?
+
+        tag_links << topic.link_path(locale: locale, route_name: :tagged_topic, tag_slug: tag.slug)
+      end
+    end
+
+    return tag_links.flatten.uniq
   end
 
   def url_topics(locale, where_options = nil)

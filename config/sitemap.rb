@@ -63,6 +63,18 @@ SitemapGenerator::Sitemap.create do
             lastmod:    topic.updated_at
       end
     end
+
+    # Tagged topics
+    Topic.everyone.each do |tagged_topic|
+      topic.tags.each do |tag|
+        next unless Article.where(topic_id: tagged_topic.id).joins(:tags).where(tags: { id: tag.id }).everyone.exists?
+
+        add topic.link_path(route_name: 'tagged_topic', locale: locale, tag_slug: tag.slug),
+            changefreq: 'weekly',
+            priority:   0.7,
+            lastmod:    tagged_topic.updated_at
+      end
+    end
   end
 
   group(filename: :tags) do

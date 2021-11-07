@@ -364,14 +364,17 @@ class Article < ApplicationRecord
   def link_path(options = {})
     locale = options[:locale] || 'en'
 
-    route_name = case options[:route_name]
+    route_name = case options[:route_name].to_s
                  when 'edit'
                    'edit_article'
                  else
                    'user_article'
                  end
 
-    params        = { user_slug: self.user.slug, article_slug: self[friendly_id_config.slug_column][locale.to_s].presence || (options[:force_locale] ? nil : self.slug) }
+    params        = {
+      user_slug: self.user.slug,
+      article_slug: self[friendly_id_config.slug_column][locale.to_s].presence || (options[:force_locale] ? nil : self.slug)
+    }
 
     params[:host] = ENV['WEBSITE_FULL_ADDRESS'] if options[:host]
 

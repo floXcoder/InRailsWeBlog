@@ -32,6 +32,25 @@ module Articles
       return @relation
     end
 
+    def available_languages(params = {})
+      user_filter     = { id: params[:user_id], slug: params[:user_slug] }.compact
+      topic_filter    = { id: params[:topic_id], slug: params[:topic_slug] }.compact
+
+      @user_articles  = User.find_by(user_filter) if user_filter.present?
+      @topic_articles = params[:shared_topic] ? @user_articles.contributed_topics.find_by(topic_filter) : @user_articles.topics.find_by(topic_filter) if @user_articles && topic_filter.present?
+
+      return Article.none if (user_filter.present? && !@user_articles) || (topic_filter.present? && !@topic_articles)
+
+      @relation = @relation
+                    .include_collection
+                    .with_adapted_visibility(@current_user, @current_admin)
+                    .order_by(article_order(params)).order_by('updated_desc')
+                    .filter_by(params, @current_user, @user_articles, @topic_articles)
+                    .pluck(:languages).flatten.uniq
+
+      return @relation
+    end
+
     def complete(params = {})
       @relation = @relation
                     .includes(:tags, :tagged_articles, :tracker, :share, :pictures, user: [:picture], topic: [:inventory_fields])

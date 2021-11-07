@@ -49,8 +49,6 @@ import RouteManager from '../../modules/routeManager';
 import Loader from '../theme/loader';
 import Pagination from '../theme/pagination';
 
-import NotFound from '../layouts/notFound';
-
 import SummaryStoriesTopic from '../topics/stories/summary';
 
 import ArticleRecommendationDisplay from './display/recommendation';
@@ -73,6 +71,7 @@ export default @connect((state) => ({
     articleDisplayMode: state.uiState.articleDisplayMode,
     areArticlesMinimized: state.uiState.areArticlesMinimized,
     articleEditionId: state.articleState.articleEditionId,
+    metaTags: state.uiState.metaTags,
     tag: state.tagState.tag,
     user: state.userState.user,
     topic: state.topicState.topic,
@@ -109,6 +108,7 @@ class ArticleIndex extends React.Component {
         tag: PropTypes.object,
         user: PropTypes.object,
         topic: PropTypes.object,
+        metaTags: PropTypes.object,
         fetchArticles: PropTypes.func,
         updateArticleOrderDisplay: PropTypes.func,
         setCurrentArticles: PropTypes.func,
@@ -293,6 +293,7 @@ class ArticleIndex extends React.Component {
                                         topicSlug={this.props.routeParams.topicSlug}
                                         tagSlug={this.props.routeParams.tagSlug}
                                         childTagSlug={this.props.routeParams.childTagSlug}
+                                        isConnected={this.props.isUserConnected}
                                         isTopicPage={true}
                                         isSearchPage={false}/>
 
@@ -310,7 +311,14 @@ class ArticleIndex extends React.Component {
         if (this.props.currentState === 'empty') {
             return (
                 <div className="center margin-top-45 margin-bottom-65">
-                    <NotFound/>
+                    <ArticleNoneDisplay userSlug={this.props.routeParams.userSlug}
+                                        topicSlug={this.props.routeParams.topicSlug}
+                                        tagSlug={this.props.routeParams.tagSlug}
+                                        childTagSlug={this.props.routeParams.childTagSlug}
+                                        isConnected={this.props.isUserConnected}
+                                        alternativeUrl={this.props.metaTags?.alternativeUrl}
+                                        isTopicPage={true}
+                                        isSearchPage={false}/>
                 </div>
             );
         }

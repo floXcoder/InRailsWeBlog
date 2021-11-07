@@ -529,6 +529,7 @@ fr:
           summary_too_short: "Le résumé est trop court"
           content_too_short: "Le contenu est trop court"
         no_results:
+          alternative_url: "Les articles sont disponibles dans cette langue : "
           topic:
             title:
               default: "Ajouter un article à ce thème"

@@ -238,18 +238,24 @@ class Topic < ApplicationRecord
   def link_path(options = {})
     locale = options[:locale] || 'en'
 
-    route_name = case options[:route_name]
+    route_name = case options[:route_name].to_s
                  when 'edit'
                    'edit_topic'
                  when 'tags'
                    'topic_tags'
                  when 'articles'
                    'topic_articles'
+                 when 'tagged_topic'
+                   'tagged_topic_articles'
                  else
                    'user_topic'
                  end
 
-    params        = { user_slug: self.user.slug, topic_slug: self.slug }
+    params        = {
+      user_slug:  self.user.slug,
+      topic_slug: self.slug,
+      tag_slug:   options[:tag_slug].presence
+    }.compact
 
     params[:host] = ENV['WEBSITE_FULL_ADDRESS'] if options[:host]
 
