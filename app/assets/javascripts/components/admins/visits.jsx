@@ -472,7 +472,7 @@ class AdminVisits extends React.Component {
                     </div>
                 </div>
             </div>
-        )
+        );
     };
 
     render() {

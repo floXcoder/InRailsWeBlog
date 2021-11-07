@@ -51,7 +51,7 @@ export default function userReducer(state = initState, action) {
                 } else if (action.user) {
                     state.user = action.user;
                 } else {
-                    state.users = action.users
+                    state.users = action.users;
                 }
             });
 
@@ -92,4 +92,4 @@ export default function userReducer(state = initState, action) {
         default:
             return state;
     }
-};
+}

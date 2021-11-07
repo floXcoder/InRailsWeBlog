@@ -35,47 +35,43 @@ export const bookmark = (bookmarkedType, bookmarkedId, bookmarkData, currentUser
     currentUserId = currentUserId || getState().userState.currentId;
     const currentUserTopicId = getState().topicState.currentUserTopicId;
 
-    const bookmark = {
+    const bookmarkParams = {
         userId: currentUserId,
         bookmarkedType,
         bookmarkedId
     };
 
     if (currentUserTopicId) {
-        bookmark.topicId = currentUserTopicId;
+        bookmarkParams.topicId = currentUserTopicId;
     }
 
     if (!currentUserId) {
         if (bookmarkData) {
             Notification.alert(I18n.t('js.bookmark.notification.not_connected'));
-        } else {
-            if (hasLocalStorage) {
-                saveLocalArray('bookmark', {bookmark});
-                Notification.alert(I18n.t('js.bookmark.notification.saved_later'));
+        } else if (hasLocalStorage) {
+            saveLocalArray('bookmark', {bookmark: bookmarkParams});
+            Notification.alert(I18n.t('js.bookmark.notification.saved_later'));
 
-                return dispatch(receiveBookmark({bookmark}));
-            } else {
-                Notification.alert(I18n.t('js.bookmark.notification.not_connected'));
-            }
+            return dispatch(receiveBookmark({bookmark: bookmarkParams}));
+        } else {
+            Notification.alert(I18n.t('js.bookmark.notification.not_connected'));
         }
 
         return false;
-    } else {
-        if (!bookmarkData) {
-            return api
-                .post(`/api/v1/users/${currentUserId}/bookmarks`, {bookmark})
-                .then((response) => {
-                    if (!bookmarkData && !response.errors) {
-                        Notification.alert(I18n.t('js.bookmark.notification.text'));
-                    }
+    } else if (!bookmarkData) {
+        return api
+            .post(`/api/v1/users/${currentUserId}/bookmarks`, {bookmark: bookmarkParams})
+            .then((response) => {
+                if (!bookmarkData && !response.errors) {
+                    Notification.alert(I18n.t('js.bookmark.notification.text'));
+                }
 
-                    return dispatch(receiveBookmark({bookmark: response.data.attributes}));
-                });
-        } else {
-            return api
-                .delete(`/api/v1/users/${currentUserId}/bookmarks/${bookmarkData.id}`, {bookmark})
-                .then(() => dispatch(deleteBookmark(bookmarkData)));
-        }
+                return dispatch(receiveBookmark({bookmark: response.data.attributes}));
+            });
+    } else {
+        return api
+            .delete(`/api/v1/users/${currentUserId}/bookmarks/${bookmarkData.id}`, {bookmark: bookmarkParams})
+            .then(() => dispatch(deleteBookmark(bookmarkData)));
     }
 };
 

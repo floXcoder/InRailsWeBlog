@@ -31,7 +31,7 @@ const ClipboardManager = (function () {
                 return;
             }
 
-            if(event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA' || event.target.className.includes('note-editable')) {
+            if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA' || event.target.className.includes('note-editable')) {
                 return;
             }
 

@@ -57,7 +57,7 @@ class AdminTags extends React.Component {
 
                 <Table title={I18n.t('js.admin.tags.table.title')}
                        locale={I18n.locale}
-                       data={this.props.tags.map((tag) => Object.assign({}, tag))}
+                       data={this.props.tags.map((tag) => ({...tag}))}
                        columns={[
                            {
                                title: I18n.t('js.admin.tags.table.columns.id'),
@@ -87,8 +87,8 @@ class AdminTags extends React.Component {
                                title: I18n.t('js.admin.tags.table.columns.visibility'),
                                field: 'visibility',
                                lookup: {
-                                   'everyone': I18n.t('js.tag.enums.visibility.everyone'),
-                                   'only_me': I18n.t('js.tag.enums.visibility.only_me')
+                                   everyone: I18n.t('js.tag.enums.visibility.everyone'),
+                                   only_me: I18n.t('js.tag.enums.visibility.only_me')
                                },
                                width: 120
                            },

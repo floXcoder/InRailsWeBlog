@@ -45,7 +45,7 @@ class ArticleFilterMenu extends React.Component {
     };
 
     render() {
-        let options = [
+        const options = [
             <Link key={1}
                   className={this.props.classes.buttonLink}
                   to={{search: 'bookmarked=true'}}>

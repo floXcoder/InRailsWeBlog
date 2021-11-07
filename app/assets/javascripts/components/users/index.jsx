@@ -53,7 +53,7 @@ export default class UserIndex extends React.Component {
         }
     }
 
-    _handleUserInput = (filterText) => {
+    _handleUserInput = () => {
         // let filteredUsers = Filtering.filterArrayOfObject(this.state.users, 'pseudo', filterText);
 
         // this.setState({
@@ -74,7 +74,7 @@ export default class UserIndex extends React.Component {
         }
     };
 
-    _handlePaginationClick = (paginate) => {
+    _handlePaginationClick = () => {
         // UserActions.loadUsers({page: paginate.selected + 1});
 
         this._scrollTimeout = setTimeout(() => {
@@ -83,16 +83,14 @@ export default class UserIndex extends React.Component {
     };
 
     render() {
-        let users = this.state.filteredUsers ? this.state.filteredUsers : this.state.users;
+        const users = this.state.filteredUsers ? this.state.filteredUsers : this.state.users;
 
         return (
             <div className="blog-user">
                 <div className="row">
                     <div className="col s12">
                         <SearchBar label={I18n.t('js.user.index.search')}
-                                   onSearchInput={this._handleUserInput}>
-                            {this.state.filterText}
-                        </SearchBar>
+                                   onSearchInput={this._handleUserInput}/>
                     </div>
                 </div>
 

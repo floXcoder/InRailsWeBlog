@@ -8,9 +8,9 @@ import {
 import urlParser from './urlParser';
 
 const omitEmptyParams = (params) => {
-    let newObject = {};
+    const newObject = {};
     Object.entries(params).forEach(([key, value]) => {
-        if(key !== '' && Utils.isPresent(key) && value !== '' && Utils.isPresent(value)) {
+        if (key !== '' && Utils.isPresent(key) && value !== '' && Utils.isPresent(value)) {
             newObject[key] = value;
         }
     });
@@ -21,7 +21,7 @@ const saveCurrentState = (paramsToSerialize, paramsToUrl, replaceOnly = false) =
     if (window.history?.pushState) {
         paramsToSerialize = omitEmptyParams(paramsToSerialize);
 
-        const urlData = urlParser(location.href).data;
+        const urlData = urlParser(window.location.href).data;
         let newPath = urlData.attr.path;
         const currentUrlParams = omitEmptyParams(urlData.param.query);
 
@@ -36,12 +36,14 @@ const saveCurrentState = (paramsToSerialize, paramsToUrl, replaceOnly = false) =
         if (replaceOnly) {
             try {
                 window.history.replaceState(paramsToSerialize, '', newPath);
-            } catch(error) {
+            } catch (error) {
+                // Do nothing
             }
         } else {
             try {
                 window.history.pushState(paramsToSerialize, '', newPath);
-            } catch(error) {
+            } catch (error) {
+                // Do nothing
             }
         }
 

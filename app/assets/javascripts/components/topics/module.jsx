@@ -63,7 +63,7 @@ class TopicModule extends React.Component {
     _handleOverEdit = (topicId) => {
         this.setState({
             overTopicId: topicId
-        })
+        });
     };
 
     _renderTopicList = (topic) => {

@@ -102,15 +102,15 @@ class ArticleEdit extends React.Component {
                 <div className="center margin-top-20">
                     <NotAuthorized/>
                 </div>
-            )
+            );
         }
 
-        let inventoryData = {};
+        const inventoryData = {};
         if (this.props.article.mode === 'inventory') {
             this.props.article.inventories.map((field) => inventoryData[field.fieldName] = field.value);
         }
 
-        let article = {
+        const article = {
             mode: this.props.article.mode,
             summary: this.props.article.summary,
             reference: this.props.article.reference,

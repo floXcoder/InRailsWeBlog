@@ -29,7 +29,7 @@ export default function history(WrappedComponent) {
         };
 
         addToHistory = (params, pageUrl = {}, replaceOnly = false) => {
-            History.saveCurrentState(params, pageUrl, replaceOnly)
+            History.saveCurrentState(params, pageUrl, replaceOnly);
 
             // if (window.history && window.history.pushState) {
             //     if (replaceOnly) {
@@ -43,7 +43,7 @@ export default function history(WrappedComponent) {
         watchHistory = (paramName, callback) => {
             if (window.history) {
                 window.addEventListener('popstate', (event) => {
-                    if(this._isActive) {
+                    if (this._isActive) {
                         const data = (!!event.state && !!event.state[paramName]) ? event.state[paramName] : null;
                         callback(data);
                     }
@@ -61,5 +61,5 @@ export default function history(WrappedComponent) {
 
             return <WrappedComponent {...propsProxy} />;
         }
-    }
+    };
 }

@@ -105,6 +105,6 @@ export default class AdminBlogForm extends React.Component {
                     </div>
                 </div>
             </form>
-        )
+        );
     }
 }

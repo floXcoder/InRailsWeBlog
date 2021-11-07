@@ -41,7 +41,7 @@ class ArticleSortMenu extends React.Component {
         selectedIndex: sortOptions.findIndex((option) => option === this.props.currentOrder)
     };
 
-    _handleClickListItem = event => {
+    _handleClickListItem = (event) => {
         this.setState({
             anchorEl: event.currentTarget
         });
@@ -61,7 +61,7 @@ class ArticleSortMenu extends React.Component {
     };
 
     render() {
-        let options = sortOptions.map((option) => (
+        const options = sortOptions.map((option) => (
             <Link key={option}
                   className={this.props.classes.buttonLink}
                   to={{search: `order=${option}`}}
@@ -94,7 +94,7 @@ class ArticleSortMenu extends React.Component {
                         options.map((option, index) => (
                             <MenuItem key={index}
                                       selected={index === this.state.selectedIndex}
-                                      onClick={event => this._handleMenuItemClick(event, index)}>
+                                      onClick={(event) => this._handleMenuItemClick(event, index)}>
                                 {option}
                             </MenuItem>
                         ))

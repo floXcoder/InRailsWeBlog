@@ -71,14 +71,14 @@ const _handleTabHeaderClick = (tabIndex, onClick, event) => {
 
 export const Tab = ({header, isActive, tabIndex, onClick}) => {
     return (
-        <li className={classNames('responsive-tab', {'active': isActive})}>
+        <li className={classNames('responsive-tab', {active: isActive})}>
             <a className="responsive-tab-link"
                href="#"
                onClick={_handleTabHeaderClick.bind(null, tabIndex, onClick)}>
                 {header}
             </a>
         </li>
-    )
+    );
 };
 
 Tab.propTypes = {

@@ -45,7 +45,7 @@ class SearchSidebar extends React.Component {
     };
 
     _handleBoolChange = (fieldName, event) => {
-        let newFilter = {};
+        const newFilter = {};
         if (event.target.checked) {
             newFilter[fieldName] = true;
         } else {
@@ -56,7 +56,7 @@ class SearchSidebar extends React.Component {
     };
 
     _handleNumberChange = (fieldName, event, value) => {
-        let newFilter = {};
+        const newFilter = {};
         if (Utils.isPresent(value)) {
             newFilter[fieldName] = value;
         } else {

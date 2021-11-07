@@ -12,9 +12,9 @@ import {
     fetchLogs
 } from '../../actions/admin';
 
-import Loader from '../../components/theme/loader';
+import Loader from '../theme/loader';
 
-import TabContainer from '../../components/material-ui/tabContainer';
+import TabContainer from '../material-ui/tabContainer';
 
 import LogLine from './logs/line';
 import LogInput from './logs/input';
@@ -128,13 +128,13 @@ class AdminLogs extends React.PureComponent {
         }
 
         this.props.fetchLogs(data)
-            .then((data) => {
+            .then((response) => {
                 const previousScrollHeight = this._envLogNode.scrollHeight;
 
                 this.setState({
                     isFetching: false,
                     isFetchingTop: false,
-                    environmentLog: data.environmentLog,
+                    environmentLog: response.environmentLog,
                     hasMore: !element || element === 'refresh' || element === 'top',
                     errors: null
                 }, () => {
@@ -191,7 +191,7 @@ class AdminLogs extends React.PureComponent {
         const inputRegex = INPUT_REGEX.exec(query);
 
         if (inputRegex) {
-            const [, element, symbol, value] = inputRegex;
+            const [, element, , value] = inputRegex;
 
             if (this.state.searchTags.filter((searchTag) => searchTag.element === element).length > 0) {
                 return true;

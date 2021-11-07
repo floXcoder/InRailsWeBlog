@@ -107,10 +107,8 @@ class ArticleCardDisplay extends React.PureComponent {
             if (this.props.onEnter) {
                 this.props.onEnter(this.props.article);
             }
-        } else {
-            if (this.props.onExit) {
-                this.props.onExit(this.props.article);
-            }
+        } else if (this.props.onExit) {
+            this.props.onExit(this.props.article);
         }
     };
 
@@ -127,7 +125,7 @@ class ArticleCardDisplay extends React.PureComponent {
     };
 
     render() {
-        const isPrivateInPublic = (this.props.isUserArticlesList || this.props.currentUserTopicId === this.props.article.topicId && this.props.currentUserTopicVisibility === 'everyone') && this.props.article.visibility !== 'everyone';
+        const isPrivateInPublic = (this.props.isUserArticlesList || (this.props.currentUserTopicId === this.props.article.topicId && this.props.currentUserTopicVisibility === 'everyone')) && this.props.article.visibility !== 'everyone';
 
         return (
             <StickyContainer>

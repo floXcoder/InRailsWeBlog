@@ -35,7 +35,7 @@ class RouteManager extends React.Component {
         const isHashQuery = typeof nextProps.location.state === 'string' ? nextProps.location.state.startsWith('#') : false;
         const updateRouter = JSON.stringify(this.props.currentRoute) !== JSON.stringify(nextProps.currentRoute) || JSON.stringify(this.props.params) !== JSON.stringify(nextProps.params) || (JSON.stringify(this.props.location.state) !== JSON.stringify(nextProps.location.state) && !isHashQuery);
 
-        if(!updateRouter) {
+        if (!updateRouter) {
             this.props.routeChange(nextProps.currentRoute, nextProps.params, nextProps.location);
         }
 

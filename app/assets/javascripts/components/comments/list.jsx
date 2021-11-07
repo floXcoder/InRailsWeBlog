@@ -141,6 +141,8 @@ export default class CommentList extends React.PureComponent {
                                     </div>
                                 </CSSTransition>
                             );
+                        } else {
+                            return null;
                         }
                     })
                 }

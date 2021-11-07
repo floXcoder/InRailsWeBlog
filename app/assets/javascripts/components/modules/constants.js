@@ -43,4 +43,4 @@ export const highlightedLanguages = [
     ['cpp', 'dart', 'java', 'apache', 'cmake', 'rust', 'sql'],
     ['shell', 'makefile', 'dockerfile', 'http', 'nginx'],
     ['markdown', 'json', 'css', 'scss', 'xml', 'yaml']
-]
+];

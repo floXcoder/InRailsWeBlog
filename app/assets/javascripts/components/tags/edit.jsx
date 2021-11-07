@@ -99,7 +99,7 @@ class TagEdit extends React.Component {
                 <div className="center margin-top-20">
                     <NotAuthorized/>
                 </div>
-            )
+            );
         }
 
         return (

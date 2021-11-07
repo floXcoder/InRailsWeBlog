@@ -31,7 +31,7 @@ export default class Category extends React.Component {
             category: this.props.category,
             value: value,
             isNew: isNew
-        })
+        });
     };
 
     _onCreateNew = (event) => {
@@ -111,9 +111,9 @@ export default class Category extends React.Component {
     };
 
     render() {
-        let {items, fullMatch} = this.getItems();
+        const {items, fullMatch} = this.getItems();
 
-        let addBtn = this.getAddBtn(
+        const addBtn = this.getAddBtn(
             fullMatch,
             (items.length === 0 || this.props.selectedItem >= items.length) && this.props.selected
         );

@@ -46,7 +46,7 @@ const manageError = (origin, error, url) => {
         return;
     }
 
-    let errorInfo = {
+    const errorInfo = {
         origin,
         url
     };
@@ -82,11 +82,11 @@ const manageError = (origin, error, url) => {
                     Notification.error(parsedError.errors);
 
                     if (GlobalEnvironment.NODE_ENV !== 'production') {
-                        window.log_on_screen([parsedError.errors, parsedError.details].join(' / ').split("\n").slice(0, 6))
+                        window.log_on_screen([parsedError.errors, parsedError.details].join(' / ').split("\n").slice(0, 6));
                     }
 
                     pushError(error, {...errorInfo, ...parsedError});
-                })
+                });
             } else {
                 if (GlobalEnvironment.NODE_ENV === 'production') {
                     Notification.error(I18n.t('js.helpers.errors.server'));
@@ -150,15 +150,30 @@ const handleFlashMessage = (response) => {
         flashMessage = JSON.parse(decodeURIComponent(escape(flashMessage)));
 
         if (flashMessage?.success) {
-            Notification.success(flashMessage.success.replace(/&amp;/g, '&').replace(/&gt;/g, '<').replace(/&lt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'"));
+            Notification.success(flashMessage.success
+                .replace(/&amp;/g, '&')
+                .replace(/&gt;/g, '<')
+                .replace(/&lt;/g, '>')
+                .replace(/&quot;/g, '"')
+                .replace(/&#39;/g, "'"));
         }
 
         if (flashMessage && (flashMessage.notice || flashMessage.alert)) {
-            Notification.alert((flashMessage.notice || flashMessage.alert).replace(/&amp;/g, '&').replace(/&gt;/g, '<').replace(/&lt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'"));
+            Notification.alert((flashMessage.notice || flashMessage.alert)
+                .replace(/&amp;/g, '&')
+                .replace(/&gt;/g, '<')
+                .replace(/&lt;/g, '>')
+                .replace(/&quot;/g, '"')
+                .replace(/&#39;/g, "'"));
         }
 
         if (flashMessage?.error) {
-            Notification.error(flashMessage.error.replace(/&amp;/g, '&').replace(/&gt;/g, '<').replace(/&lt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'"));
+            Notification.error(flashMessage.error
+                .replace(/&amp;/g, '&')
+                .replace(/&gt;/g, '<')
+                .replace(/&lt;/g, '>')
+                .replace(/&quot;/g, '"')
+                .replace(/&#39;/g, "'"));
         }
     }
 
@@ -183,7 +198,7 @@ const handleResponse = (response) => {
 };
 
 const handleTrackingData = (response) => {
-    if(response?.meta?.trackingData) {
+    if (response?.meta?.trackingData) {
         trackAction(response.meta.trackingData, 'fetch');
     }
 
@@ -200,16 +215,15 @@ const api = {
         const signal = controller.signal;
 
         const promise = fetch(urlParams, {
-                ...headers,
-                method: 'GET',
-                signal
-            })
-                .then((response) => handleResponseErrors(response, urlParams))
-                .then((response) => handleFlashMessage(response))
-                .then((response) => handleResponse(response))
-                .then((response) => handleTrackingData(response))
-                .catch((error) => handleParseErrors(error, urlParams, true))
-        ;
+            ...headers,
+            method: 'GET',
+            signal
+        })
+            .then((response) => handleResponseErrors(response, urlParams))
+            .then((response) => handleFlashMessage(response))
+            .then((response) => handleResponse(response))
+            .then((response) => handleTrackingData(response))
+            .catch((error) => handleParseErrors(error, urlParams, true));
 
         return {
             promise,
@@ -229,7 +243,7 @@ const api = {
             .then((response) => handleResponseErrors(response, url))
             .then((response) => handleFlashMessage(response))
             .then((response) => handleResponse(response))
-            .catch((error) => handleParseErrors(error, url))
+            .catch((error) => handleParseErrors(error, url));
     },
 
     update: (url, params, isData = false) => {
@@ -244,7 +258,7 @@ const api = {
             .then((response) => handleResponseErrors(response, url))
             .then((response) => handleFlashMessage(response))
             .then((response) => handleResponse(response))
-            .catch((error) => handleParseErrors(error, url))
+            .catch((error) => handleParseErrors(error, url));
     },
 
     delete: (url, params) => {
@@ -259,7 +273,7 @@ const api = {
             .then((response) => handleResponseErrors(response, url))
             .then((response) => handleFlashMessage(response))
             .then((response) => handleResponse(response))
-            .catch((error) => handleParseErrors(error, url))
+            .catch((error) => handleParseErrors(error, url));
     }
 };
 

@@ -39,4 +39,4 @@ export default function bookmarkReducer(state = initState, action) {
         default:
             return state;
     }
-};
+}

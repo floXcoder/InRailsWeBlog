@@ -39,8 +39,8 @@ export default class Rating extends React.PureComponent {
             return (value <= this.state.prospectiveValue ? 'suggested' : 'off');
         }
 
-        let current_value = this.props.isReadOnly ? this.props.initialRating : this.state.value;
-        return (value <= current_value ? 'on' : 'off');
+        const currentValue = this.props.isReadOnly ? this.props.initialRating : this.state.value;
+        return (value <= currentValue ? 'on' : 'off');
     };
 
     _handleMouseEnter = (value, event) => {
@@ -125,17 +125,18 @@ export default class Rating extends React.PureComponent {
 
                     {
                         [...Array(this.props.starNumber)].map((number, i) => {
-                            let value = i + 1;
-                            let mode = this.anchorMode(i + 1);
+                            const value = i + 1;
+                            const mode = this.anchorMode(i + 1);
 
-                            let linkClasses = classNames('star-rating-star', mode);
-                            let starClasses = classNames('material-icons star-rating-star-size', this.props.size);
+                            const linkClasses = classNames('star-rating-star', mode);
+                            const starClasses = classNames('material-icons star-rating-star-size', this.props.size);
 
                             return (
                                 <div key={i}
                                      className="star-rating-star-container">
                                     <a className={linkClasses}
                                        title={value}
+                                       href="#"
                                        onMouseEnter={!this.props.isReadOnly ? this._handleMouseEnter.bind(this, value) : null}
                                        onMouseLeave={!this.props.isReadOnly ? this._handleMouseLeave : null}
                                        onClick={!this.props.isReadOnly ? this._handleMouseClick.bind(this, value) : null}>

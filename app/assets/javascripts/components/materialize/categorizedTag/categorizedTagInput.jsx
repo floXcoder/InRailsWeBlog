@@ -109,8 +109,8 @@ export default class CategorizedTagInput extends React.Component {
             }).slice();
         }
 
-        let categoriesWithNewTags = tagCategories.map((category) => {
-            let newCategory = {
+        const categoriesWithNewTags = tagCategories.map((category) => {
+            const newCategory = {
                 id: category.id,
                 title: category.title,
                 type: category.type,
@@ -126,10 +126,8 @@ export default class CategorizedTagInput extends React.Component {
             return newCategory;
         });
 
-        let categories = categoriesWithNewTags.map((category) => {
-            category = Object.assign({}, category, {
-                items: category.items.filter(this.filterItems(value, this.props.minAutocompleteLength))
-            });
+        const categories = categoriesWithNewTags.map((category) => {
+            category = { ...category, items: category.items.filter(this.filterItems(value, this.props.minAutocompleteLength))};
 
             if (category.items.length > this.props.maxAutocompleteTags) {
                 category.items.length = this.props.maxAutocompleteTags;
@@ -138,7 +136,7 @@ export default class CategorizedTagInput extends React.Component {
             }
 
             return (category.items.length === 0 && (!this.props.hasAddNew || category.isSingle)) ? null : category;
-        }).filter(c => c !== null);
+        }).filter((c) => c !== null);
 
         let selection = this.state.selection;
         if (this.state.selection.category >= categories.length) {
@@ -146,11 +144,9 @@ export default class CategorizedTagInput extends React.Component {
                 category: 0,
                 item: 0
             };
-        } else {
-            if (selection.item >= categories[selection.category].items.length) {
+        } else if (selection.item >= categories[selection.category].items.length) {
                 selection.item = 0;
             }
-        }
 
         this.setState({
             categories: categories,
@@ -197,14 +193,14 @@ export default class CategorizedTagInput extends React.Component {
 
         this.setState({
             value,
-            isPanelOpen: value.trim().length > 0 || !isNaN(Number(value.trim()))
+            isPanelOpen: value.trim().length > 0 || !Number.isNaN(Number(value.trim()))
         });
 
         this.filterCategories(value);
     };
 
     onTagDeleted = (i) => {
-        let newTags = this.state.selectedTags.slice(0, i).concat(this.state.selectedTags.slice(i + 1));
+        const newTags = this.state.selectedTags.slice(0, i).concat(this.state.selectedTags.slice(i + 1));
 
         this.setState({
             selectedTags: newTags
@@ -224,7 +220,7 @@ export default class CategorizedTagInput extends React.Component {
 
         let tagValuePresent = null;
         this.state.selectedTags.forEach((tag) => {
-            let regex = new RegExp('^' + tag.value + '[s|x]?$', 'i');
+            const regex = new RegExp('^' + tag.value + '[s|x]?$', 'i');
             if (tag.category.toLowerCase() === category.toLowerCase() && regex.test(value)) {
                 tagValuePresent = tag.value;
             }
@@ -237,7 +233,7 @@ export default class CategorizedTagInput extends React.Component {
                 isPanelOpen: true
             });
         } else {
-            let newTags = this.state.selectedTags.concat([{
+            const newTags = this.state.selectedTags.concat([{
                 category: category,
                 value: value,
                 isNew: isNew
@@ -261,9 +257,9 @@ export default class CategorizedTagInput extends React.Component {
             return;
         }
 
-        let category = this.state.categories[this.state.selection.category];
+        const category = this.state.categories[this.state.selection.category];
         if (category) {
-            let title = category.items[this.state.selection.item];
+            const title = category.items[this.state.selection.item];
 
             this.onAdd({
                 category: category.id,
@@ -281,7 +277,7 @@ export default class CategorizedTagInput extends React.Component {
     };
 
     handleArrowLeft = () => {
-        let result = this.state.selection.item - 1;
+        const result = this.state.selection.item - 1;
         this.setState({
             selection: {
                 category: this.state.selection.category,

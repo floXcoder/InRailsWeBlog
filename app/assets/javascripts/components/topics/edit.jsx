@@ -99,7 +99,7 @@ class TopicEdit extends React.Component {
                 <div className="center margin-top-20">
                     <NotAuthorized/>
                 </div>
-            )
+            );
         }
 
         const topic = {
@@ -108,7 +108,7 @@ class TopicEdit extends React.Component {
             description_translations: this.props.topic.descriptionTranslations,
             descriptionTranslations: this.props.topic.descriptionTranslations,
             description: this.props.topic.description
-        }
+        };
 
         return (
             <div className={this.props.classes.root}>

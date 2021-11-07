@@ -30,7 +30,7 @@ class TooltipTag extends React.PureComponent {
     };
 
     render() {
-        let {articleId, tag, tagTooltipActive, theme, classes} = this.props;
+        const {articleId, tag, tagTooltipActive, theme, classes} = this.props;
 
         return (
             <ToolTip active={tagTooltipActive === tag.id}

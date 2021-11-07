@@ -12,6 +12,30 @@ import {
     editArticlePath
 } from '../../../constants/routesHelper';
 
+const _getScreenPosition = () => {
+    const doc = document.documentElement;
+    const left = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
+    const top = (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0);
+
+    return {
+        left,
+        top
+    };
+};
+
+const _redirectToEdit = (userSlug, articleSlug, history, event) => {
+    if (history) {
+        event.preventDefault();
+
+        history.push({
+            pathname: editArticlePath(userSlug, articleSlug),
+            state: {
+                position: _getScreenPosition()
+            }
+        });
+    }
+};
+
 const ArticleEditIcon = ({userSlug, articleSlug, isIconButton, history, size, color}) => (
     <span className="flow-tooltip-bottom"
           data-tooltip={I18n.t('js.article.tooltip.edit')}>
@@ -35,33 +59,8 @@ const ArticleEditIcon = ({userSlug, articleSlug, isIconButton, history, size, co
                               fontSize={size}/>
                 </Link>
         }
-
     </span>
 );
-
-const _redirectToEdit = (userSlug, articleSlug, history, event) => {
-    if (history) {
-        event.preventDefault();
-
-        history.push({
-            pathname: editArticlePath(userSlug, articleSlug),
-            state: {
-                position: _getScreenPosition()
-            }
-        });
-    }
-};
-
-const _getScreenPosition = () => {
-    const doc = document.documentElement;
-    const left = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
-    const top = (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0);
-
-    return {
-        left,
-        top
-    }
-};
 
 ArticleEditIcon.propTypes = {
     userSlug: PropTypes.string.isRequired,

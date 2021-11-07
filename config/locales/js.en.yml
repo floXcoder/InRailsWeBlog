@@ -729,13 +729,16 @@ en:
           bookmark: "%{message}"
     search:
       display:
+        tooltip: "Display results mode"
         card: "List"
         grid: "Grid"
       orders:
+        tooltip: "Sort results"
         popularity: "Popularity"
         priority: "Priority"
         date: "Date"
       scrap:
+        tooltip: "Search inside result links"
         field: "Search inside links"
         helper: "Search directly with: ?term"
         button: "Search"

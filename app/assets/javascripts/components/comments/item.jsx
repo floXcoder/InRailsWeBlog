@@ -1,6 +1,8 @@
 'use strict';
 
-import marked from 'marked';
+import {
+    marked
+} from 'marked';
 
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -128,7 +130,8 @@ export default class CommentItem extends React.Component {
                                                         secondary={
                                                             <span className="comment-date">
                                                                 {this.props.comment.postedAt}
-                                                            </span>}/>
+                                                            </span>
+                                                        }/>
                             }
                         </div>
 
@@ -222,4 +225,4 @@ export default class CommentItem extends React.Component {
             );
         }
     }
-};
+}

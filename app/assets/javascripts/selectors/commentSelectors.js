@@ -7,7 +7,7 @@ import {
 export const getCommentErrors = createSelector(
     (state) => state.commentState.errors,
     (errors) => {
-        let errorContent = undefined;
+        let errorContent;
         if (typeof errors === 'string') {
             errorContent = [errors];
         } else if (Utils.isPresent(errors)) {

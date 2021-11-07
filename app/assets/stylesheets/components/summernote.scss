@@ -1422,11 +1422,10 @@ html .note-fullscreen-body, body .note-fullscreen-body {
   }
 
   code {
-    background-color: #ddd;
-    border: 1px solid #ddd;
-    border-radius: .25rem;
-    margin: .2rem 0;
-    padding: 0;
+    color: $primary-color-light;
+    font-size: .9rem;
+    font-weight: 400;
+    letter-spacing: 0.00938rem;
     white-space: pre-wrap;
     word-wrap: break-word;
   }
@@ -1442,11 +1441,12 @@ html .note-fullscreen-body, body .note-fullscreen-body {
 
   pre {
     display: block;
+    width: 100%;
+    margin: .6rem 0;
+    padding: .5rem;
     background-color: #fff;
     border: 2px solid $border-color;
-    border-radius: .25rem;
-    margin: .8rem .4rem;
-    padding: .25rem;
+    border-radius: .4rem;
     white-space: pre-wrap;
     word-wrap: break-word;
 

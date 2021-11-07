@@ -102,6 +102,10 @@ class ArticleSerializer
     object.title_translations if object.languages.size > 1 || object.topic.languages.size > 1
   end
 
+  attribute :title_highlighted do |object|
+    object.respond_to?(:highlight) && object.respond_to?(:highlighted_title) && object.highlight.has_key?('title.word_middle') ? object.highlighted_title&.squish&.strip : nil
+  end
+
   attribute :content do |object, params|
     params.dig(:highlight_results, object.id, :content).presence&.gsub(/\n{3,}/, "\n\n") || object.adapted_content(params[:current_user_id])
   end

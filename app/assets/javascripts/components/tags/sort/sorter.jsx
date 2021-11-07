@@ -18,29 +18,27 @@ import {
 } from '../../../constants/routesHelper';
 
 const SortableItem = SortableElement(({tag}) => (
-        <div key={tag.id}
-             className="tag-sort-item">
-            {tag.name}
+    <div key={tag.id}
+         className="tag-sort-item">
+        {tag.name}
 
-            <span className="tag-count">
-                {`(${tag.taggedArticlesCount})`}
-            </span>
-        </div>
-    )
-);
+        <span className="tag-count">
+            {`(${tag.taggedArticlesCount})`}
+        </span>
+    </div>
+));
 
 const SortableList = SortableContainer(({tags}) => (
-        <div className="tag-sorting-items">
-            {
-                tags.map((tag, i) => (
-                    <SortableItem key={i}
-                                  index={i}
-                                  tag={tag}/>
-                ))
-            }
-        </div>
-    )
-);
+    <div className="tag-sorting-items">
+        {
+            tags.map((tag, i) => (
+                <SortableItem key={i}
+                              index={i}
+                              tag={tag}/>
+            ))
+        }
+    </div>
+));
 
 export default class TagSorterDisplay extends React.Component {
     static propTypes = {

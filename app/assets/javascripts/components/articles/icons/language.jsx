@@ -48,7 +48,7 @@ const ArticleLanguageIcon = ({currentLocale, languages, onLanguageChange, size, 
           </Menu>
         </span>
     );
-}
+};
 
 ArticleLanguageIcon.propTypes = {
     currentLocale: PropTypes.string.isRequired,

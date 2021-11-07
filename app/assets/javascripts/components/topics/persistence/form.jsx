@@ -69,7 +69,7 @@ export default class PersistenceFormTopic extends React.Component {
         });
     };
 
-    _handleLocaleChange = event => {
+    _handleLocaleChange = (event) => {
         this.setState({
             locales: event.target.value
         });

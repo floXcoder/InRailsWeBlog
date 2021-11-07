@@ -13,7 +13,7 @@ import {
     withStyles
 } from '@material-ui/core/styles';
 
-import RouteManager from '../../layouts/managers/route';
+import RouteManager from '../managers/route';
 
 import styles from '../../../../jss/default/main';
 
@@ -83,7 +83,7 @@ class MainLayoutDefault extends React.Component {
                                                </Suspense>
                                            </main>
                                        </RouteManager>
-                                   )
+                                   );
                                }}/>
                     ))
                 }

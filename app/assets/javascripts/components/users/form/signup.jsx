@@ -68,8 +68,7 @@ const validate = (values) => {
         }
     }
 
-    const terms = values.terms;
-    if (typeof values.terms !== 'undefined' && terms !== true) {
+    if (typeof values.terms !== 'undefined' && values.terms !== true) {
         errors.terms = I18n.t('js.user.errors.policy');
     }
 
@@ -80,7 +79,7 @@ let previousLoginValue;
 
 const pseudoValidation = (loginValue) => {
     if (loginValue) {
-        if(previousLoginValue === loginValue) {
+        if (previousLoginValue === loginValue) {
             return undefined;
         }
 

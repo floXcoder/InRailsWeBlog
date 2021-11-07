@@ -70,7 +70,7 @@ class ShareTopicModal extends React.Component {
                     errorText: null
                 });
             }
-        })
+        });
     };
 
     _handleShareSubmit = (userLogin) => {

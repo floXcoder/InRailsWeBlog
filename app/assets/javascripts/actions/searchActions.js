@@ -58,31 +58,7 @@ export const setAutocompleteSelectedTag = (tag) => (dispatch) => {
     return dispatch(autocompleteTagSelection(tag));
 };
 
-// Search history
-export const getSearchContext = (params = {}) => (dispatch) => {
-    const previousSearchData = History.getPreviousState('globalSearchData', {useUrlParams: true});
-
-    if (Utils.isEmpty(previousSearchData) && params[0]) {
-        previousSearchData.query = params[0];
-    }
-
-    delete params[0];
-
-    const searchData = {...previousSearchData, ...params};
-
-    if (Utils.isPresent(searchData)) {
-        dispatch(fetchSearch(searchData, false));
-    }
-};
-
-export const searchOnHistoryChange = () => (dispatch) => {
-    History.onStateChange((newState) => {
-        if (newState.globalSearchData) {
-            dispatch(fetchSearch(newState.globalSearchData, false));
-        }
-    });
-};
-
+// Search
 const _saveHistory = (searchState, searchData) => {
     if (!searchData) {
         const currentState = History.getPreviousState('globalSearchData');
@@ -109,7 +85,6 @@ const _saveHistory = (searchState, searchData) => {
     );
 };
 
-// Search
 const searchQuery = (query) => ({
     type: ActionTypes.SEARCH_SEARCH_QUERY,
     query
@@ -126,7 +101,7 @@ const failSearch = () => ({
     type: ActionTypes.SEARCH_FETCH_ERROR,
     isSearching: false
 });
-const receiveSearch = (searchParams, json, options = {}) => ({
+const receiveSearch = (searchParams, json) => ({
     type: ActionTypes.SEARCH_FETCH_SUCCESS,
     isSearching: false,
     searchParams: searchParams,
@@ -202,6 +177,31 @@ const tagSelection = (tag) => ({
 
 export const setSelectedTag = (tag) => (dispatch) => {
     return dispatch(tagSelection(tag));
+};
+
+// Search history
+export const getSearchContext = (params = {}) => (dispatch) => {
+    const previousSearchData = History.getPreviousState('globalSearchData', {useUrlParams: true});
+
+    if (Utils.isEmpty(previousSearchData) && params[0]) {
+        previousSearchData.query = params[0];
+    }
+
+    delete params[0];
+
+    const searchData = {...previousSearchData, ...params};
+
+    if (Utils.isPresent(searchData)) {
+        dispatch(fetchSearch(searchData, false));
+    }
+};
+
+export const searchOnHistoryChange = () => (dispatch) => {
+    History.onStateChange((newState) => {
+        if (newState.globalSearchData) {
+            dispatch(fetchSearch(newState.globalSearchData, false));
+        }
+    });
 };
 
 // Search inside URLs

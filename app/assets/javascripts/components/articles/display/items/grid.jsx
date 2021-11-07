@@ -86,7 +86,7 @@ class ArticleGridDisplay extends React.PureComponent {
         return null;
     }
 
-    _handleViewportChange = event => {
+    _handleViewportChange = (event) => {
         if (event.isIntersecting) {
             spyTrackView('article', this.props.article.id);
 
@@ -97,10 +97,8 @@ class ArticleGridDisplay extends React.PureComponent {
             if (this.props.onEnter) {
                 this.props.onEnter(this.props.article);
             }
-        } else {
-            if (this.props.onExit) {
-                this.props.onExit(this.props.article);
-            }
+        } else if (this.props.onExit) {
+            this.props.onExit(this.props.article);
         }
     };
 
@@ -113,7 +111,7 @@ class ArticleGridDisplay extends React.PureComponent {
     };
 
     render() {
-        const isPrivateInPublic = (this.props.isUserArticlesList || this.props.currentUserTopicId === this.props.article.topicId && this.props.currentUserTopicVisibility === 'everyone') && this.props.article.visibility !== 'everyone';
+        const isPrivateInPublic = (this.props.isUserArticlesList || (this.props.currentUserTopicId === this.props.article.topicId && this.props.currentUserTopicVisibility === 'everyone')) && this.props.article.visibility !== 'everyone';
         const isInventoryMode = this.props.article.mode === 'inventory';
 
         return (

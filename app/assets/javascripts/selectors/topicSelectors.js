@@ -56,7 +56,7 @@ export const getIsCurrentTopicOwner = createSelector(
 export const getTopicErrors = createSelector(
     (state) => state.topicState.errors,
     (errors) => {
-        let errorContent = undefined;
+        let errorContent;
         if (typeof errors === 'string') {
             errorContent = [errors];
         } else if (Utils.isPresent(errors)) {

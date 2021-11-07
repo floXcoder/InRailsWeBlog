@@ -110,9 +110,7 @@ export default class Table extends React.Component {
                 return !columnDef.hidden && columnDef.field && columnDef.export !== false;
             });
 
-        const renderData = data.map((rowData) =>
-            renderColumns.map((columnDef) => getFieldValue(rowData, columnDef))
-        );
+        const renderData = data.map((rowData) => renderColumns.map((columnDef) => getFieldValue(rowData, columnDef)));
 
         const builder = new CsvBuilder(this.props.title + '.csv');
         builder

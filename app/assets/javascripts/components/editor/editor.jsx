@@ -90,7 +90,13 @@ class Editor extends React.Component {
             placeholder: this.props.placeholder,
             popatmouse: false,
             useProtocol: true,
-            codeLanguages: [{value: '', text: 'Auto'}].concat(highlightedLanguages.map((language) => Array.isArray(language) ? language.map((l) => ({value: l, text: l})) : ({value: language, text: language}))),
+            codeLanguages: [{
+                value: '',
+                text: 'Auto'
+            }].concat(highlightedLanguages.map((language) => (Array.isArray(language) ? language.map((l) => ({
+                value: l,
+                text: l
+            })) : ({value: language, text: language})))),
             codeLanguagePrefix: highlightedLanguagePrefix,
             callbacks: {
                 onFocus: this.props.onFocus,
@@ -129,7 +135,7 @@ class Editor extends React.Component {
                         } else {
                             return [];
                         }
-                    })
+                    });
                 },
                 template: ([type, title, id, slug, parentSlug]) => {
                     if (type === 'topic') {
@@ -139,7 +145,7 @@ class Editor extends React.Component {
                     }
                 },
                 content: ([type, title, id, slug, parentSlug]) => {
-                    let nodeItem = document.createElement('a');
+                    const nodeItem = document.createElement('a');
                     nodeItem.target = '_blank';
                     if (type === 'topic') {
                         nodeItem.href = topicArticlesPath(parentSlug, slug);
@@ -202,7 +208,7 @@ class Editor extends React.Component {
                 ];
             }
 
-            let toolbarOptions = {
+            const toolbarOptions = {
                 toolbar: toolbar,
                 followingToolbar: true,
                 // otherStaticBar: '#article-edit-stepper',
@@ -310,24 +316,22 @@ class Editor extends React.Component {
 
         const userAgent = window.navigator.userAgent;
         let msIE = userAgent.indexOf('MSIE ');
-        msIE = msIE > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./);
+        msIE = msIE > 0 || !!navigator.userAgent.match(/Trident.*rv:11\./);
         const firefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
         let text;
         let type = 'plain';
         if (msIE) {
             text = window.clipboardData.getData('Text');
-        } else {
-            if (event.originalEvent.clipboardData.types.includes('text/html')) {
-                text = event.originalEvent.clipboardData.getData('text/html');
+        } else if (event.originalEvent.clipboardData.types.includes('text/html')) {
+            text = event.originalEvent.clipboardData.getData('text/html');
 
-                if (text) {
-                    type = 'html';
-                } else {
-                    text = event.originalEvent.clipboardData.getData('text/plain');
-                }
+            if (text) {
+                type = 'html';
             } else {
                 text = event.originalEvent.clipboardData.getData('text/plain');
             }
+        } else {
+            text = event.originalEvent.clipboardData.getData('text/plain');
         }
 
         const $context = $(event.target).parent();
@@ -376,6 +380,7 @@ class Editor extends React.Component {
             const nodeName = currentNode.nodeName.toLocaleLowerCase();
             displayNodeName = $.summernote.lang[I18n.locale + '-' + I18n.locale.toUpperCase()].style[nodeName];
         } catch (error) {
+            // Do nothing
         }
 
         if (displayNodeName) {

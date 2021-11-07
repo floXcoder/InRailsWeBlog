@@ -47,8 +47,8 @@ export default class AssociatedTagBox extends React.Component {
                 }
 
                 <div className={classNames({
-                    'center': this.props.hasMore,
-                    'hide': !this.props.hasMore
+                    center: this.props.hasMore,
+                    hide: !this.props.hasMore
                 })}>
                     <Loader/>
                 </div>

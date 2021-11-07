@@ -1,12 +1,10 @@
 'use strict';
 
 import {
-    MuiThemeProvider
-} from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import {
+    MuiThemeProvider,
     withStyles
 } from '@material-ui/core/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
 
 import {
     Provider,

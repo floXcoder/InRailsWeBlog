@@ -59,16 +59,17 @@ module Articles
 
       # Aggregations
       aggregations = if @params[:format] != 'strict' && @params[:current_topic]
-                       Hash[@params[:current_topic].inventory_fields.select(&:filterable).map { |field| [field.field_name, {}] }]
+                       @params[:current_topic].inventory_fields.select(&:filterable).map { |field| [field.field_name, {}] }.to_h
                      end
 
       # Includes to add when retrieving data from DB
-      includes = if @params[:format] == 'strict'
-                   [:tags, user: [:picture]]
-                 elsif @params[:format] == 'complete'
-                   [:topic, :tags, user: [:picture]]
+      includes = case @params[:format]
+                 when 'strict'
+                   [:tags, { user: [:picture] }]
+                 when 'complete'
+                   [:topic, :tags, { user: [:picture] }]
                  else
-                   [:topic, :tags, user: [:picture]]
+                   [:topic, :tags, { user: [:picture] }]
                  end
 
       begin

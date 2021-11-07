@@ -67,6 +67,6 @@ HomeBanner.propTypes = {
     classes: PropTypes.object.isRequired,
     onLoginClick: PropTypes.func.isRequired,
     onSignupClick: PropTypes.func.isRequired
-}
+};
 
 export default React.memo(HomeBanner);

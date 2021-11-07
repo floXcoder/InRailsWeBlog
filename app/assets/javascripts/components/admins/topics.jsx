@@ -57,7 +57,7 @@ class AdminTopics extends React.Component {
 
                 <Table title={I18n.t('js.admin.topics.table.title')}
                        locale={I18n.locale}
-                       data={this.props.topics.map((topic) => Object.assign({}, topic))}
+                       data={this.props.topics.map((topic) => ({...topic}))}
                        columns={[
                            {
                                title: I18n.t('js.admin.topics.table.columns.id'),
@@ -73,9 +73,9 @@ class AdminTopics extends React.Component {
                                title: I18n.t('js.admin.topics.table.columns.mode'),
                                field: 'mode',
                                lookup: {
-                                   'default': I18n.t('js.topic.enums.mode.default'),
-                                   'stories': I18n.t('js.topic.enums.mode.stories'),
-                                   'inventories': I18n.t('js.topic.enums.mode.inventories')
+                                   default: I18n.t('js.topic.enums.mode.default'),
+                                   stories: I18n.t('js.topic.enums.mode.stories'),
+                                   inventories: I18n.t('js.topic.enums.mode.inventories')
                                },
                                width: 120
                            },
@@ -92,8 +92,8 @@ class AdminTopics extends React.Component {
                                title: I18n.t('js.admin.topics.table.columns.visibility'),
                                field: 'visibility',
                                lookup: {
-                                   'everyone': I18n.t('js.topic.enums.visibility.everyone'),
-                                   'only_me': I18n.t('js.topic.enums.visibility.everyone')
+                                   everyone: I18n.t('js.topic.enums.visibility.everyone'),
+                                   only_me: I18n.t('js.topic.enums.visibility.everyone')
                                }
                            },
                            {

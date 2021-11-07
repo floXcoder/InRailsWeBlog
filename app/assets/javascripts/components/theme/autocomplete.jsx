@@ -70,7 +70,7 @@ export default class Autocomplete extends React.Component {
     _filterData = (suggestion, inputValue) => {
         let filteredValue = true;
 
-        if(this.props.hasFilterValues) {
+        if (this.props.hasFilterValues) {
             filteredValue = String(this._getItemKey(suggestion)).includes(inputValue);
 
             if (!filteredValue) {
@@ -85,7 +85,7 @@ export default class Autocomplete extends React.Component {
     _getValueFromKey = (key) => {
         const allSuggestions = this.props.initialSuggestions ? this.props.initialSuggestions.concat(this.props.suggestions) : this.props.suggestions;
 
-        if(allSuggestions) {
+        if (allSuggestions) {
             const keyValue = allSuggestions.filter((suggestion) => this._getItemKey(suggestion) === key)[0];
             return this._getItemValue(keyValue);
         } else {
@@ -94,7 +94,7 @@ export default class Autocomplete extends React.Component {
     };
 
     _getItemKey = (item) => {
-        if(this.props.isSimpleArray) {
+        if (this.props.isSimpleArray) {
             return item;
         } else {
             return item ? item.key : '';
@@ -102,7 +102,7 @@ export default class Autocomplete extends React.Component {
     };
 
     _getItemValue = (item) => {
-        if(this.props.isSimpleArray) {
+        if (this.props.isSimpleArray) {
             return item;
         } else {
             return item ? item.value : '';
@@ -116,7 +116,7 @@ export default class Autocomplete extends React.Component {
 
         if (inputLength === 0) {
             return [];
-        } else if(this.props.suggestions) {
+        } else if (this.props.suggestions) {
             return this.props.suggestions.filter((suggestion) => {
                 const keep = count < suggestionsLimit && this._filterData(suggestion, inputValue);
 
@@ -265,7 +265,7 @@ export default class Autocomplete extends React.Component {
                                                                 this._getItemValue(suggestion)
                                                         }
                                                     </MenuItem>
-                                                )
+                                                );
                                             })
                                         }
                                     </Paper>

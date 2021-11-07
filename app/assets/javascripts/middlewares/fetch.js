@@ -41,7 +41,7 @@ export default function fetchMiddleware({dispatch, getState}) {
             ActionTypes[`${actionType}_FETCH_ERROR`],
         ];
 
-        if (!actionTypes.every(action => !!action)) {
+        if (!actionTypes.every((action) => !!action)) {
             console.error(`All actions are not defined: ${actionNames.join(', ')}`);
             throw new Error(`All actions are not defined: ${actionNames.join(', ')}`);
         }

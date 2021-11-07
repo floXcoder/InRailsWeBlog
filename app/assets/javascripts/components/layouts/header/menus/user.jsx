@@ -40,7 +40,7 @@ export default class HeaderUserMenu extends React.Component {
                 <ListItem button={true}
                           component="a"
                           className={this.props.classes.link}
-                          href={'/admins'}>
+                          href="/admins">
                     <ListItemIcon>
                         <DashboardIcon/>
                     </ListItemIcon>

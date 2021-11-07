@@ -24,6 +24,7 @@ const styles = (theme) => ({
         position: 'relative',
         margin: '3rem .3rem 3rem',
         overflow: 'visible',
+        boxShadow: '0 1px 2px rgba(97,97,97,.2),0 2px 4px rgba(97,97,97,.2) !important',
         [theme.breakpoints.down('md')]: {
             marginTop: '2rem'
         }
@@ -51,6 +52,11 @@ const styles = (theme) => ({
         paddingBottom: theme.spacing(2),
         paddingLeft: theme.spacing(2),
         paddingRight: theme.spacing(2),
+
+        border: '3px solid #fff',
+        boxShadow: '0 4px 5px rgba(25,147,50,0.14),0 1px 10px rgba(25,147,50,0.12),0 2px 4px rgba(25,147,50,0.2)',
+        borderRadius: theme.spacing(1),
+
         [theme.breakpoints.down('md')]: {
             height: '5rem'
         },

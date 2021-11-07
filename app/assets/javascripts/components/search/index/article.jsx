@@ -35,7 +35,8 @@ export default class SearchArticleIndex extends React.PureComponent {
     render() {
         const isGridDisplay = this.props.searchDisplay === 'grid';
 
-        let currentTopicArticles, otherTopicsArticles;
+        let currentTopicArticles;
+        let otherTopicsArticles;
 
         if (this.props.currentUserTopicId) {
             currentTopicArticles = this.props.articles.filter((article) => article.topicId === this.props.currentUserTopicId);

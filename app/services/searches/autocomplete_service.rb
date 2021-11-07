@@ -38,7 +38,7 @@ module Searches
             tag_ids:   @params[:tag_ids].presence,
             topic_ids: @params[:topic_ids].presence
           ).compact,
-          boost_where: { topic_id: @params[:topic_id] }
+          boost_where: { topic_id: { value: @params[:topic_id], factor: 5 } }
         )
       end
 
@@ -52,7 +52,7 @@ module Searches
             topic_ids:  @params[:topic_ids].presence,
             parent_ids: @params[:tag_ids].presence
           ).compact,
-          boost_where: { topic_ids: [@params[:topic_id]] }.compact
+          boost_where: { topic_id: { value: @params[:topic_id], factor: 5 } }.compact
         )
       end
 

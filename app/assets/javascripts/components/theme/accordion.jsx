@@ -52,7 +52,7 @@ class AccordionItem extends React.Component {
     };
 
     render() {
-        let itemClass = classNames(
+        const itemClass = classNames(
             'accordion-item',
             {
                 open: this.state.isOpen

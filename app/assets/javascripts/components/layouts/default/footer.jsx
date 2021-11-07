@@ -113,7 +113,7 @@ class FooterLayoutDefault extends React.PureComponent {
 
                             <p>
                                 <a className={this.props.classes.footerLink}
-                                   href={"mailto:" + window.settings.website_email}>
+                                   href={`mailto:${window.settings.website_email}`}>
                                     {I18n.t('js.views.footer.links.contact')}
                                 </a>
                             </p>
@@ -151,10 +151,17 @@ class FooterLayoutDefault extends React.PureComponent {
 
                                 <div className="container center-align margin-top-15"
                                      style={{marginTop: '2rem', fontSize: '1rem'}}>
-                                    &copy; {I18n.t('js.views.footer.copyright', {version: window.revision})} <a
+                                    &copy;
+{' '}
+{I18n.t('js.views.footer.copyright', {version: window.revision})}
+{' '}
+<a
                                     style={{color: 'inherit'}}
-                                    target="_blank" href="https://github.com/floXcoder/seo_cache">Powered by
-                                    SeoCache.</a>
+                                    target="_blank"
+href="https://github.com/floXcoder/seo_cache">
+Powered by
+                                    SeoCache.
+</a>
                                 </div>
                             </div>
                         </Grid>

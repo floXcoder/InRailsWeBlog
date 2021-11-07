@@ -20,24 +20,22 @@ import {
 import ArticleCardSort from './card';
 
 const SortableItem = SortableElement(({classes, article}) => (
-        <ArticleCardSort classes={classes}
-                         article={article}/>
-    )
-);
+    <ArticleCardSort classes={classes}
+                     article={article}/>
+));
 
 const SortableList = SortableContainer(({classes, articles}) => (
-        <div className={classes.sortingItems}>
-            {
-                articles.map((article, i) => (
-                    <SortableItem key={i}
-                                  index={i}
-                                  classes={classes}
-                                  article={article}/>
-                ))
-            }
-        </div>
-    )
-);
+    <div className={classes.sortingItems}>
+        {
+            articles.map((article, i) => (
+                <SortableItem key={i}
+                              index={i}
+                              classes={classes}
+                              article={article}/>
+            ))
+        }
+    </div>
+));
 
 export default class ArticleSorter extends React.Component {
     static propTypes = {
