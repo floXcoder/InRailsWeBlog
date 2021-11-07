@@ -83,6 +83,8 @@ SitemapGenerator::Sitemap.create do
 
     Tag.everyone.find_in_batches(batch_size: 200) do |tags|
       tags.each do |tag|
+        next unless tag.articles.everyone.exists?
+
         add tag.link_path,
             changefreq: 'weekly',
             priority:   0.7,
