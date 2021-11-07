@@ -178,14 +178,15 @@ class ApplicationController < ActionController::Base
 
   # SEO
   def set_seo_data(named_route, parameters = {})
-    current_locale = ensure_locale_params(params[:force_locale]) || ensure_locale_params(params[:locale]) || I18n.locale
-    model          = parameters.delete(:model)
-    languages      = parameters.delete(:languages)
-    exclude_slugs  = parameters.delete(:exclude_slugs)
-    canonical      = parameters.delete(:canonical)
-    alternate      = parameters.delete(:alternate)
-    author         = parameters.delete(:author)
-    og             = parameters.delete(:og)
+    current_locale      = ensure_locale_params(params[:force_locale]) || ensure_locale_params(params[:locale]) || I18n.locale
+    model               = parameters.delete(:model)
+    languages           = parameters.delete(:languages)
+    exclude_slugs       = parameters.delete(:exclude_slugs)
+    canonical           = parameters.delete(:canonical)
+    alternate           = parameters.delete(:alternate)
+    author              = parameters.delete(:author)
+    og                  = parameters.delete(:og)
+    available_languages = parameters.delete(:available_languages)
 
     seo_data = Rails.cache.fetch("seo-#{named_route}_#{current_locale}", expires_in: 1.week) do
       Seo::Data.find_by(
@@ -205,15 +206,21 @@ class ApplicationController < ActionController::Base
       meta_desc  = I18n.t('seo.default.meta_desc', website: ENV['WEBSITE_NAME'])
     end
 
-    canonical ||= canonical_url(named_route, model, current_locale, **slug_parameters)
-    alternate ||= alternate_urls(named_route, model, **slug_parameters)
+    canonical     ||= canonical_url(named_route, model, current_locale, **slug_parameters)
+    alternate     ||= alternate_urls(named_route, model, languages, **slug_parameters)
 
-    set_meta_tags(title:       titleize(page_title),
-                  description: meta_desc,
-                  canonical:   canonical,
-                  alternate:   alternate,
-                  author:      author,
-                  og:          og)
+    available_url = {
+      language: I18n.t("js.languages.#{available_languages.first}"),
+      link:     canonical_url(named_route, nil, available_languages.first, **slug_parameters)
+    } if available_languages.present?
+
+    set_meta_tags(title:          titleize(page_title),
+                  description:    meta_desc,
+                  canonical:      canonical,
+                  alternate:      alternate,
+                  author:         author,
+                  og:             og,
+                  alternativeUrl: available_url)
 
     if (languages.present? && languages.map(&:to_s).exclude?(current_locale.to_s)) || (model.respond_to?(:languages) && model.languages.map(&:to_s).exclude?(current_locale.to_s))
       set_meta_tags(
@@ -234,8 +241,15 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def alternate_urls(named_route, model, **params)
-    available_locales = model.respond_to?(:languages) ? model.languages : I18n.available_locales
+  def alternate_urls(named_route, model, languages, **params)
+    available_locales = if languages.present?
+                          languages
+                        elsif model.respond_to?(:languages)
+                          model.languages
+                        else
+                          I18n.available_locales
+                        end
+
     available_locales.map { |locale| [locale.to_s, canonical_url(named_route, model, locale, **params)] }.to_h
                      .merge('x-default': canonical_url(named_route, model, 'en', **params))
   end
@@ -376,7 +390,7 @@ class ApplicationController < ActionController::Base
 
     if action == 'page_visit'
       @tracking_params = {
-        action: action,
+        action:   action,
         metaTags: meta_tags.meta_tags,
         **tracking_params
       }

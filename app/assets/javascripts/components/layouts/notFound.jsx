@@ -2,9 +2,9 @@
 
 const NotFound = () => (
     <div className="center-align">
-        <h2>
+        <h1>
             {I18n.t('js.helpers.not_found.title')}
-        </h2>
+        </h1>
     </div>
 );
 

@@ -268,7 +268,7 @@ class Tag < ApplicationRecord
   def link_path(options = {})
     locale = options[:locale] || 'en'
 
-    route_name = case options[:route_name]
+    route_name = case options[:route_name].to_s
                  when 'edit'
                    'edit_tag'
                  when 'index'

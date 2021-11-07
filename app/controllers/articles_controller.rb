@@ -12,35 +12,40 @@ class ArticlesController < ApplicationController
   respond_to :html
 
   def index
-    articles      = ::Articles::FindQueries.new(current_user, current_admin).all(article_params)
-    context_topic = nil
+    articles            = Articles::FindQueries.new(current_user, current_admin).all(article_params)
+    context_topic       = nil
+    available_languages = nil
 
+    languages           = articles.map(&:languages).flatten.uniq
+    available_languages = Articles::FindQueries.new(current_user, current_admin).available_languages(article_params) if articles.blank?
     if article_params[:tag_slug].present? || article_params[:parent_tag_slug].present?
-      languages = articles.map(&:languages).flatten.uniq
       if article_params[:topic_slug].present?
         set_seo_data(:tagged_topic_articles,
-                     tag_slug:   article_params[:parent_tag_slug].presence || article_params[:tag_slug].presence,
-                     topic_slug: article_params[:topic_slug],
-                     user_slug:  article_params[:user_slug],
-                     languages:  languages)
+                     tag_slug:            article_params[:parent_tag_slug].presence || article_params[:tag_slug].presence,
+                     topic_slug:          article_params[:topic_slug],
+                     user_slug:           article_params[:user_slug],
+                     languages:           languages,
+                     available_languages: available_languages)
       else
         set_seo_data(:tagged_articles,
-                     tag_slug:  article_params[:parent_tag_slug].presence || article_params[:tag_slug].presence,
-                     languages: languages)
+                     tag_slug:            article_params[:parent_tag_slug].presence || article_params[:tag_slug].presence,
+                     languages:           languages,
+                     available_languages: available_languages)
       end
     elsif article_params[:topic_slug].present?
       context_topic = articles.first&.topic
       set_seo_data(:topic_articles,
-                   topic_slug:    article_params[:topic_slug],
-                   user_slug:     article_params[:user_slug],
-                   topic_content: context_topic&.description&.summary(InRailsWeBlog.config.seo_meta_desc_length, strip_html: true, remove_links: true),
-                   exclude_slugs: [:topic_content],
-                   languages:     context_topic&.languages)
+                   topic_slug:          article_params[:topic_slug],
+                   user_slug:           article_params[:user_slug],
+                   topic_content:       context_topic&.description&.summary(InRailsWeBlog.config.seo_meta_desc_length, strip_html: true, remove_links: true),
+                   exclude_slugs:       [:topic_content],
+                   languages:           languages,
+                   available_languages: available_languages)
     elsif article_params[:user_slug].present?
-      languages = articles.map(&:languages).flatten.uniq
       set_seo_data(:user_articles,
-                   user_slug: article_params[:user_slug],
-                   languages: languages)
+                   user_slug:           article_params[:user_slug],
+                   languages:           languages,
+                   available_languages: available_languages)
     end
 
     track_action(article_ids: articles.map(&:id), tag_slug: article_params[:tag_slug], topic_slug: article_params[:topic_slug], user_slug: article_params[:user_slug])

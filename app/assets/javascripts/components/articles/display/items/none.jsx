@@ -10,14 +10,23 @@ import {
     newArticlePath
 } from '../../../../constants/routesHelper';
 
-const ArticleNoneDisplay = ({userSlug, topicSlug, tagSlug, childTagSlug, isTopicPage, isSearchPage}) => (
+const ArticleNoneDisplay = ({
+                                userSlug,
+                                topicSlug,
+                                tagSlug,
+                                childTagSlug,
+                                alternativeUrl,
+                                isConnected,
+                                isTopicPage,
+                                isSearchPage
+                            }) => (
     <div className="row margin-top-30">
-        <div className="col m6 offset-m3 s10 offset-s1">
+        <div className="col m8 offset-m2 s10 offset-s1">
             <Paper style={{
                 padding: '.6rem'
             }}
                    elevation={4}>
-                <h2 className="center-align"
+                <h1 className="center-align"
                     style={{
                         fontSize: '1.8rem',
                         marginTop: '1rem'
@@ -42,7 +51,17 @@ const ArticleNoneDisplay = ({userSlug, topicSlug, tagSlug, childTagSlug, isTopic
                                 )
                         )
                     }
-                </h2>
+                </h1>
+
+                {
+                    alternativeUrl?.link &&
+                    <p>
+                        {I18n.t('js.article.common.no_results.alternative_url')}
+                        <a href={alternativeUrl.link}>
+                            {alternativeUrl.language}
+                        </a>
+                    </p>
+                }
 
                 {
                     isSearchPage &&
@@ -53,7 +72,7 @@ const ArticleNoneDisplay = ({userSlug, topicSlug, tagSlug, childTagSlug, isTopic
                 }
 
                 {
-                    isTopicPage &&
+                    (isConnected && isTopicPage) &&
                     <p className="center-align">
                         <Button className="margin-top-20"
                                 color="primary"
@@ -75,12 +94,15 @@ ArticleNoneDisplay.propTypes = {
     topicSlug: PropTypes.string,
     tagSlug: PropTypes.string,
     childTagSlug: PropTypes.string,
+    alternativeUrl: PropTypes.object,
     isSearchPage: PropTypes.bool,
+    isConnected: PropTypes.bool,
     isTopicPage: PropTypes.bool
 };
 
 ArticleNoneDisplay.defaultProps = {
     isSearchPage: true,
+    isConnected: false,
     isTopicPage: false
 };
 
