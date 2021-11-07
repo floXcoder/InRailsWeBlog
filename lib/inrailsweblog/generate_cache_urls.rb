@@ -48,7 +48,7 @@ class GenerateCacheUrls
     tag_links = []
 
     Tag.everyone.where(where_options).each do |tag|
-      next unless tag.articles.everyone.exists?
+      next unless tag.articles.everyone.with_locale(locale).exists?
 
       tag_links << tag.link_path(locale: locale)
       tag_links << tag.link_path(route_name: 'index', locale: locale)
@@ -57,7 +57,7 @@ class GenerateCacheUrls
     # Tagged topics
     Topic.everyone.each do |topic|
       topic.tags.each do |tag|
-        next unless Article.where(topic_id: topic.id).joins(:tags).where(tags: { id: tag.id }).everyone.exists?
+        next unless Article.where(topic_id: topic.id).joins(:tags).where(tags: { id: tag.id }).everyone.with_locale(locale).exists?
 
         tag_links << topic.link_path(locale: locale, route_name: :tagged_topic, tag_slug: tag.slug)
       end
@@ -68,7 +68,7 @@ class GenerateCacheUrls
 
   def url_topics(locale, where_options = nil)
     Topic.everyone.where(where_options).map do |topic|
-      next unless topic.articles.everyone.count > 0
+      next unless topic.articles.everyone.with_locale(locale).count > 0
 
       [
         topic.link_path(locale: locale),
@@ -80,6 +80,8 @@ class GenerateCacheUrls
 
   def url_articles(locale, where_options = nil)
     Article.everyone.where(where_options).map do |article|
+      next unless article.languages.include?(locale.to_s)
+
       [
         article.link_path(locale: locale)
       ]
@@ -88,7 +90,7 @@ class GenerateCacheUrls
 
   def url_users(locale, where_options = nil)
     User.everyone.where(where_options).map do |user|
-      next unless user.articles.everyone.count > 0
+      next unless user.articles.everyone.with_locale(locale).count > 0
 
       [
         user.link_path(locale: locale),

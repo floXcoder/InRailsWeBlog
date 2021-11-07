@@ -33,7 +33,7 @@ describe Articles::FindQueries, type: :query, basic: true do
       it 'returns all public articles for current language' do
         articles = ::Articles::FindQueries.new.all(limit: 100)
 
-        expect(articles.count).to eq(Article.everyone.where('articles.languages @> ?', "{#{I18n.locale}}").count)
+        expect(articles.count).to eq(Article.everyone.with_locale(I18n.locale).count)
         expect(articles.count).to eq(@public_articles.count + @contributor_public_articles.count + @other_public_articles.count)
       end
 

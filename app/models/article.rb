@@ -258,6 +258,10 @@ class Article < ApplicationRecord
     where("#{self.friendly_id_config.slug_column}->>'#{locale}' = ?", article_slug)
   }
 
+  scope :with_locale, -> (locale = I18n.locale) {
+    where('articles.languages @> ?', "{#{locale}}")
+  }
+
   scope :everyone_and_user, -> (user_id = nil) {
     user_id ? where('articles.visibility = 0 OR (articles.visibility = 1 AND articles.user_id = :user_id)', user_id: user_id) : everyone
   }
