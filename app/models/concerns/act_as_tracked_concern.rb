@@ -36,7 +36,7 @@ module ActAsTrackedConcern
 
     # Popularity
     before_update :update_popularity
-    scope :populars, -> (limit = 10) { joins(:tracker).order('trackers.popularity DESC NULLS LAST').limit(limit) }
+    scope :populars, -> (limit = 10) { left_outer_joins(:tracker).order('trackers.popularity DESC NULLS LAST').limit(limit) }
   end
 
   # Popularity
