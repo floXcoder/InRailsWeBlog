@@ -310,7 +310,7 @@ class Article < ApplicationRecord
     when 'strict'
       ArticleSerializer.new(data,
                             fields:  {
-                              article: %i[id userId userSlug tag topicId mode modeTranslated title summary draft visibility slug tagNames dateTimestamp contentHighlighted link]
+                              article: %i[id userId userSlug tag topicId mode modeTranslated title titleHighlighted summary contentHighlighted draft visibility slug tagNames dateTimestamp link]
                             },
                             include: %i[],
                             **options)

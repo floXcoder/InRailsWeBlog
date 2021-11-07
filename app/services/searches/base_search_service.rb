@@ -14,18 +14,18 @@ module Searches
       (return options[:strict] ? false : true) unless current_type
 
       if current_type.is_a?(Array)
-        return current_type.map(&:downcase).include?(type.to_s.downcase)
+        current_type.map(&:downcase).include?(type.to_s.downcase)
+      elsif type.to_s.casecmp(current_type.to_s).zero?
+        true
       else
-        if type.to_s.casecmp(current_type.to_s).zero?
-          return true
-        else
-          return !%w[article tag topic].include?(current_type.to_s.downcase)
-        end
+        %w[article tag topic].exclude?(current_type.to_s.downcase)
       end
     end
 
     def where_search(options)
       options ||= {}
+
+      inventory_types = %w[number_type integer_type float_type date_type]
 
       where_options = options.compact.select { |_k, v| v.present? }.map do |key, value|
         # By default all number inventory fields are range type
@@ -33,7 +33,7 @@ module Searches
                             @params[:current_topic].inventory_fields.find { |inv| inv.field_name == key }
                           end
 
-        if inventory_field && %w[number_type integer_type float_type date_type].include?(inventory_field.value_type)
+        if inventory_field && inventory_types.include?(inventory_field.value_type)
           min, max = value.is_a?(Array) ? value : value.split(',')
           [
             key,
@@ -84,8 +84,6 @@ module Searches
         { popularity: :asc }
       when 'popularity_desc'
         { popularity: :desc }
-      else
-        nil
       end
     end
 

@@ -8,7 +8,7 @@ import TextField from '@material-ui/core/TextField';
 import SettingsIcon from '@material-ui/icons/Settings';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import SortIcon from '@material-ui/icons/Sort';
-import ImageSearchIcon from '@material-ui/icons/ImageSearch';
+import FindInPageIcon from '@material-ui/icons/FindInPage';
 
 import Dropdown from '../../../theme/dropdown';
 
@@ -81,9 +81,10 @@ export default class ArticleSearchMenuDisplay extends React.PureComponent {
                                     <Dropdown position="bottom right"
                                               isClosingOnInsideClick={false}
                                               hasArrow={true}
+                                              tooltip={I18n.t('js.search.scrap.field')}
                                               button={
                                                   <Button className={this.props.classes.categoryFilterButton}>
-                                                      <ImageSearchIcon/>
+                                                      <FindInPageIcon/>
                                                   </Button>
                                               }>
                                         <form noValidate={true}
@@ -218,7 +219,7 @@ export default class ArticleSearchMenuDisplay extends React.PureComponent {
                                 <Grid item={true}
                                       className={this.props.classes.categoryItem}>
                                     <Button className={this.props.classes.categoryFilterButton}
-                                            onClick={this.props.onSettingsClick.bind(this, 'SEARCH')}>
+                                            onClick={this.props.onSettingsClick.bind(this, 2)}>
                                         <SettingsIcon/>
                                     </Button>
                                 </Grid>

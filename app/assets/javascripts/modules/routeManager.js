@@ -40,7 +40,7 @@ const RouteManager = (function () {
         return routeName === this._model.localizedRoutes[window.locale]['shared-topics'];
     };
 
-    return RouteManager;
+    return RouteManagerModel;
 })();
 
 export default new RouteManager();

@@ -91,7 +91,7 @@ export const PWAManager = (function () {
         return pwaManager.MODE.BROWSER;
     };
 
-    return PWAManager;
+    return PWAManagerModel;
 })();
 
 export default new PWAManager();

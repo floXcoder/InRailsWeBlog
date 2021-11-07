@@ -56,7 +56,7 @@ module Searches
                            tag_ids:   @params[:tag_ids].presence,
                            tag_slugs: @params[:tags].presence
                          }.merge(@params[:filters] || {}).merge(visibility).compact,
-          boost_where:   { topic_id: @params[:topic_id] || @current_user&.current_topic_id }
+          boost_where:   { topic_id: { value: @params[:topic_id] || @current_user&.current_topic_id, factor: 5 } }
         )
       end
 
@@ -77,7 +77,7 @@ module Searches
                           home_page:  @params[:home_page],
                           parent_ids: @params[:tag_ids].presence
                         }.merge(visibility).compact,
-          boost_where:  { topic_ids: @params[:topic_id] || @current_user&.current_topic_id }.compact
+          boost_where:  { topic_ids: { value: @params[:topic_id] || @current_user&.current_topic_id, factor: 5 } }
         )
       end
 
