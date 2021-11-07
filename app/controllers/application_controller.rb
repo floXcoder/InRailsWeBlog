@@ -251,7 +251,7 @@ class ApplicationController < ActionController::Base
                         end
 
     available_locales.map { |locale| [locale.to_s, canonical_url(named_route, model, locale, **params)] }.to_h
-                     .merge('x-default': canonical_url(named_route, model, 'en', **params))
+                     .merge('x-default': canonical_url(named_route, model, available_locales.map(&:to_s).include?('en') ? 'en' : available_locales.first.to_s, **params))
   end
 
   def image_url(url)
