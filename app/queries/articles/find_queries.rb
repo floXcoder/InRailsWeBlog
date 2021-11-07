@@ -65,7 +65,7 @@ module Articles
       @relation = @relation
                     .include_collection
                     .everyone
-                    .where('articles.languages @> ?', "{#{I18n.locale}}")
+                    .with_locale
 
       if params[:article]
         article = params[:article]
@@ -111,7 +111,7 @@ module Articles
                       .home(params[:limit])
 
         if params[:with_locale]
-          @localized_relation = @relation.where('articles.languages @> ?', "{#{params[:with_locale]}}")
+          @localized_relation = @relation.with_locale(params[:with_locale])
           @relation           = @localized_relation if @localized_relation.exists?
         end
       end
@@ -126,7 +126,7 @@ module Articles
                     .populars(params[:limit])
 
       if params[:with_locale]
-        @localized_relation = @relation.where('articles.languages @> ?', "{#{params[:with_locale]}}")
+        @localized_relation = @relation.with_locale(params[:with_locale])
         @relation           = @localized_relation if @localized_relation.exists?
       end
 
@@ -230,7 +230,7 @@ module Articles
         if current_user
           self
         else
-          self.where('articles.languages @> ?', "{#{I18n.locale}}")
+          self.with_locale(I18n.locale)
         end
       end
 
