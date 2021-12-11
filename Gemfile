@@ -15,7 +15,7 @@ gem 'rails',                    '6.1.4.1'
 gem 'pg',                       '1.2.3'
 # gem 'active_record_extended',   '1.4.0'
 gem 'pghero',                   '2.8.1'
-gem 'pg_query',                 '2.1.1' # Required for pghero
+gem 'pg_query',                 '2.1.2' # Required for pghero
 
 # HTTP Response
 gem 'responders',               '3.0.1'
@@ -46,7 +46,7 @@ gem 'auto_strip_attributes',    '2.6.0'
 gem 'sanitize',                 '6.0.0'
 
 # Run asynschronous process
-gem 'sidekiq',                  '6.2.2'
+gem 'sidekiq',                  '6.3.1'
 gem 'sidekiq-statistic',        '1.4.0'
 gem 'sidekiq-cron',             '1.2.0'
 gem 'attentive_sidekiq',        '0.3.3'
@@ -72,7 +72,7 @@ gem 'mini_magick',              '4.11.0'
 gem 'image_processing',         '1.12.1'
 
 # Search in database
-gem 'searchkick',               '4.6.1'
+gem 'searchkick',               '4.6.3'
 gem 'typhoeus',                 '1.4.0'
 
 # Votable models
@@ -88,11 +88,11 @@ gem 'premailer-rails',          '1.11.1'
 gem 'browser',                  '5.3.1'
 
 # Tracking
-gem 'ahoy_matey',               '4.0.1'
+gem 'ahoy_matey',               '4.0.2'
 
 # SEO
 gem 'friendly_id',              '5.4.2'
-gem 'route_translator',         '11.0.0'
+gem 'route_translator',         '12.0.0'
 gem 'meta-tags',                '2.16.0'
 gem 'sitemap_generator',        '6.1.2'
 
@@ -126,7 +126,7 @@ group :development do
 
   # N+1 database query
   gem 'bullet',                 '6.1.5'
-  gem 'prosopite',              '1.0.3'
+  gem 'prosopite',              '1.0.5'
 
   # Guard and its minions
   gem 'guard',                  '2.18.0', require: false
@@ -166,25 +166,25 @@ group :test do
   gem 'capybara',                   '3.36.0'
   gem 'capybara-email',             '3.0.2'
   gem 'capybara-screenshot',        '1.0.25'
-  gem 'selenium-webdriver',         '4.0.3'
+  gem 'selenium-webdriver',         '4.1.0'
   gem 'html_validation',            '1.1.5'
   gem 'launchy',                    '2.5.0'
 
   # static analyzer
   gem 'rails_best_practices',       '1.22.1', require: false
   gem 'brakeman',                   '5.1.2',  require: false
-  gem 'i18n-tasks',                 '0.9.34', require: false
+  gem 'i18n-tasks',                 '0.9.35', require: false
 end
 
 group :development, :test do
   # Speed up boot
-  gem 'bootsnap',                   '1.9.1',  require: false
+  gem 'bootsnap',                   '1.9.3',  require: false
 
   # Check errors
-  gem 'rubocop',                    '1.22.3', require: false
+  gem 'rubocop',                    '1.23.0', require: false
   gem 'rubocop-rails',              '2.12.4', require: false
   gem 'rubocop-performance',        '1.12.0', require: false
-  gem 'rubocop-rspec',              '2.5.0',  require: false
+  gem 'rubocop-rspec',              '2.6.0',  require: false
 end
 
 group :production do
