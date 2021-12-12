@@ -4,9 +4,6 @@ import {
     withRouter
 } from 'react-router-dom';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 
 import {
@@ -15,22 +12,18 @@ import {
     privacy
 } from '../../../constants/routesHelper';
 
-import styles from '../../../../jss/user/footer';
 
 export default @withRouter
 @connect((state) => ({
     metaTags: state.uiState.metaTags
 }))
-@withStyles(styles)
 class FooterLayoutUser extends React.Component {
     static propTypes = {
         // from router
         location: PropTypes.object,
         history: PropTypes.object,
         // from connect
-        metaTags: PropTypes.object,
-        // from styles
-        classes: PropTypes.object
+        metaTags: PropTypes.object
     };
 
     _handleSearchClose = () => {
@@ -65,15 +58,15 @@ class FooterLayoutUser extends React.Component {
                 })}
                      onClick={this._handleCoverClick}/>
 
-                <div className={this.props.classes.footer}>
-                    <Grid className={this.props.classes.footerContainer}
+                <div className="layout-footer-footer">
+                    <Grid className="layout-footer-footerContainer"
                           container={true}
                           direction="row"
                           justifyContent="space-around"
                           alignItems="stretch">
                         {/*<Grid item={true}*/}
                         {/*      xs={12}>*/}
-                        {/*    <h2 className={this.props.classes.footerTitle}>*/}
+                        {/*    <h2 className={layout-footer-footerTitle}>*/}
                         {/*        <Link className="header-brand-logo"*/}
                         {/*              to={rootPath()}*/}
                         {/*              title={window.settings.website_name}*/}
@@ -87,14 +80,14 @@ class FooterLayoutUser extends React.Component {
                             !!Object.keys(alternates).length &&
                             <Grid item={true}
                                   md={6}>
-                                <h3 className={this.props.classes.footerSubtitle}>
+                                <h3 className="layout-footer-footerSubtitle">
                                     {I18n.t('js.views.footer.languages')}
                                 </h3>
 
                                 {
                                     Object.keys(alternates).map((locale) => (
                                         <p key={locale}>
-                                            <a className={this.props.classes.footerLink}
+                                            <a className="layout-footer-footerLink"
                                                href={alternates[locale]}
                                                onClick={this._handleAlternateClick.bind(this, alternates[locale], locale)}>
                                                 {I18n.t(`js.views.footer.locales.${locale}`)}
@@ -107,33 +100,33 @@ class FooterLayoutUser extends React.Component {
 
                         <Grid item={true}
                               md={6}>
-                            <h3 className={this.props.classes.footerSubtitle}>
+                            <h3 className="layout-footer-footerSubtitle">
                                 {I18n.t('js.views.footer.links.title')}
                             </h3>
 
                             <p>
-                                <a className={this.props.classes.footerLink}
+                                <a className="layout-footer-footerLink"
                                    href={`mailto:${window.settings.website_email}`}>
                                     {I18n.t('js.views.footer.links.contact')}
                                 </a>
                             </p>
 
                             <p>
-                                <a className={this.props.classes.footerLink}
+                                <a className="layout-footer-footerLink"
                                    href={about()}>
                                     {I18n.t('js.views.footer.links.about')}
                                 </a>
                             </p>
 
                             <p>
-                                <a className={this.props.classes.footerLink}
+                                <a className="layout-footer-footerLink"
                                    href={terms()}>
                                     {I18n.t('js.views.footer.links.terms')}
                                 </a>
                             </p>
 
                             <p>
-                                <a className={this.props.classes.footerLink}
+                                <a className="layout-footer-footerLink"
                                    href={privacy()}>
                                     {I18n.t('js.views.footer.links.privacy')}
                                 </a>
@@ -143,7 +136,7 @@ class FooterLayoutUser extends React.Component {
                         <Grid item={true}
                               xs={12}>
                             <div className="margin-top-30">
-                                <a className={this.props.classes.githubLink}
+                                <a className="layout-footer-githubLink"
                                    rel="noopener noreferrer"
                                    target="_blank"
                                    href={I18n.t('js.views.footer.links.github_src')}>

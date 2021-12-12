@@ -10,9 +10,6 @@ import {
     Field
 } from 'react-final-form';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
@@ -33,19 +30,14 @@ import TabContainer from '../../material-ui/tabContainer';
 import TextFormField from '../../material-ui/form/text';
 import MultipleSelectFormField from '../../material-ui/form/multiple-select';
 
-import styles from '../../../../jss/topic/form';
 
-
-export default @withStyles(styles)
-class TopicFormDisplay extends React.Component {
+export default class TopicFormDisplay extends React.Component {
     static propTypes = {
         topic: PropTypes.object.isRequired,
         onSubmit: PropTypes.func.isRequired,
         isEditing: PropTypes.bool,
         articleMultilanguage: PropTypes.bool,
-        children: PropTypes.object,
-        // from styles
-        classes: PropTypes.object
+        children: PropTypes.object
     };
 
     static defaultProps = {
@@ -111,15 +103,15 @@ class TopicFormDisplay extends React.Component {
                                 <div className="col s12 margin-bottom-30">
                                     <Field name="name"
                                            component={TextFormField}
-                                           className={this.props.classes.name}
+                                           className="topic-form-name"
                                            InputLabelProps={{
                                                classes: {
-                                                   root: this.props.classes.nameLabel
+                                                   root: 'topic-form-nameLabel'
                                                }
                                            }}
                                            InputProps={{
                                                classes: {
-                                                   underline: !this.props.children.name && this.props.classes.nameUnderline
+                                                   underline: !this.props.children.name && 'topic-form-nameUnderline'
                                                }
                                            }}
                                            id="topic_name"

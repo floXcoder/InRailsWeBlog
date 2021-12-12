@@ -6,10 +6,10 @@ import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import NativeSelect from '@material-ui/core/NativeSelect';
 
-function TopicFormMandatoryFieldDisplay({classes}) {
+var TopicFormMandatoryFieldDisplay = function () {
     return (
         <div className="col s12">
-            <Grid className={classes.fieldBorder}
+            <Grid className="topic-form-inv-fieldBorder"
                   container={true}
                   spacing={2}
                   direction="row"
@@ -18,18 +18,18 @@ function TopicFormMandatoryFieldDisplay({classes}) {
                 <Grid item={true}
                       sm={12}
                       lg={6}>
-                    <TextField className={classes.field}
+                    <TextField className="topic-form-inv-field"
                                fullWidth={true}
                                variant="outlined"
                                label={I18n.t('js.inventory_fields.model.name')}
                                disabled={true}
-                               defaultValue={'Titre'}/>
+                               defaultValue="Titre"/>
                 </Grid>
 
                 <Grid item={true}
                       sm={12}
                       lg={6}>
-                    <FormControl className={classes.field}
+                    <FormControl className="topic-form-inv-field"
                                  disabled={true}>
                         <InputLabel htmlFor="inventory_fields-value_type">
                             {I18n.t('js.inventory_fields.model.value_type')}
@@ -43,7 +43,7 @@ function TopicFormMandatoryFieldDisplay({classes}) {
                     </FormControl>
                 </Grid>
 
-                <Grid className={classes.mandatoryFieldHelper}
+                <Grid className="topic-form-inv-mandatoryFieldHelper"
                       item={true}
                       sm={12}>
                     {I18n.t('js.topic.edit_inventories.mandatory_field')}
@@ -51,10 +51,6 @@ function TopicFormMandatoryFieldDisplay({classes}) {
             </Grid>
         </div>
     );
-}
-
-TopicFormMandatoryFieldDisplay.propTypes = {
-    classes: PropTypes.object.isRequired
 };
 
 export default TopicFormMandatoryFieldDisplay;

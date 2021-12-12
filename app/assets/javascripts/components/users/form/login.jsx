@@ -9,9 +9,6 @@ import {
     Field
 } from 'react-final-form';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Button from '@material-ui/core/Button';
@@ -31,8 +28,6 @@ import EnsureValidity from '../../modules/ensureValidity';
 
 import TextFormField from '../../material-ui/form/text';
 import CheckBoxFormField from '../../material-ui/form/checkbox';
-
-import styles from '../../../../jss/user/connection';
 
 // let previousLoginValue;
 // const loginValidation = (loginValue) => {
@@ -56,13 +51,10 @@ import styles from '../../../../jss/user/connection';
 // };
 
 
-export default @withStyles(styles)
-class LoginForm extends React.Component {
+export default class LoginForm extends React.Component {
     static propTypes = {
         onSubmit: PropTypes.func.isRequired,
-        onCancel: PropTypes.func.isRequired,
-        // from styles
-        classes: PropTypes.object
+        onCancel: PropTypes.func.isRequired
     };
 
     constructor(props) {
@@ -78,18 +70,18 @@ class LoginForm extends React.Component {
                               onSubmit={handleSubmit}>
                             <EnsureValidity/>
 
-                            <Grid classes={{container: this.props.classes.container}}
+                            <Grid classes={{container: 'user-connection-container'}}
                                   container={true}
                                   spacing={2}
                                   direction="column"
                                   justifyContent="space-between"
                                   alignItems="center">
-                                <Grid classes={{item: this.props.classes.fieldItem}}
+                                <Grid classes={{item: 'user-connection-fieldItem'}}
                                       item={true}>
                                     <Field name="login"
                                            component={TextFormField}
                                            id="user_login_login"
-                                           className={this.props.classes.textField}
+                                           className="user-connection-textField"
                                            label={I18n.t('js.user.login.login')}
                                            autoFocus={true}
                                            required={true}
@@ -103,12 +95,12 @@ class LoginForm extends React.Component {
                                            }}/>
                                 </Grid>
 
-                                <Grid classes={{item: this.props.classes.fieldItem}}
+                                <Grid classes={{item: 'user-connection-fieldItem'}}
                                       item={true}>
                                     <Field name="password"
                                            component={TextFormField}
                                            id="user_password_login"
-                                           className={this.props.classes.textField}
+                                           className="user-connection-textField"
                                            label={I18n.t('js.user.login.password')}
                                            required={true}
                                            autoComplete="off"
@@ -134,7 +126,7 @@ class LoginForm extends React.Component {
                             </Grid>
 
                             <div>
-                                <Link className={this.props.classes.password}
+                                <Link className="user-connection-password"
                                       to={newPasswordPath()}
                                       onClick={this.props.onCancel}>
                                     {I18n.t('js.user.login.new_password')}

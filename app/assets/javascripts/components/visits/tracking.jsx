@@ -4,9 +4,6 @@ import {
     hot
 } from 'react-hot-loader/root';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
@@ -26,7 +23,6 @@ import {
 
 import Loader from '../theme/loader';
 
-import styles from '../../../jss/admin/trackingVisit';
 
 export default @connect((state) => ({
     visitsDetails: state.adminState.visitsDetails
@@ -34,16 +30,13 @@ export default @connect((state) => ({
     fetchVisits
 })
 @hot
-@withStyles(styles)
 class TrackingVisitModal extends React.Component {
     static propTypes = {
         date: PropTypes.string,
         onClose: PropTypes.func,
         // from connect
         visitsDetails: PropTypes.array,
-        fetchVisits: PropTypes.func,
-        // from styles
-        classes: PropTypes.object
+        fetchVisits: PropTypes.func
     };
 
     constructor(props) {
@@ -83,7 +76,7 @@ class TrackingVisitModal extends React.Component {
                 {
                     visits.map((visit) => (
                         <React.Fragment key={visit.id}>
-                            <ListItem className={this.props.classes.listItemVisit}
+                            <ListItem className="admin-tracking-modal-listItemVisit"
                                       button={true}
                                       onClick={this._handleVisitClick.bind(this, visit.id)}>
                                 <ListItemText primary={
@@ -115,19 +108,22 @@ class TrackingVisitModal extends React.Component {
                                     {
                                         visit.events.map((event) => (
                                             <ListItem key={event.id}
-                                                      className={this.props.classes.listItemEvent}
+                                                      className="admin-tracking-modal-listItemEvent"
                                                       button={false}>
                                                 <ListItemIcon>
                                                     <SubdirectoryArrowRightIcon/>
                                                 </ListItemIcon>
 
                                                 <ListItemText classes={{
-                                                    primary: this.props.classes.listItemEventPrimary,
-                                                    secondary: this.props.classes.listItemEventSecondary
+                                                    primary: 'admin-tracking-modal-listItemEventPrimary',
+                                                    secondary: 'admin-tracking-modal-listItemEventSecondary'
                                                 }}
                                                               primary={
                                                                   <span>
-                                                                    {event.time} : {I18n.t(`js.admin.visits.events.${event.name}`, {defaultValue: event.name})}
+                                                                    {event.time}
+{' '}
+:
+{I18n.t(`js.admin.visits.events.${event.name}`, {defaultValue: event.name})}
                                                                   </span>
                                                               }
                                                               secondary={
@@ -151,7 +147,7 @@ class TrackingVisitModal extends React.Component {
                 }
             </List>
         );
-    }
+    };
 
     render() {
         if (!this.props.date) {
@@ -161,8 +157,8 @@ class TrackingVisitModal extends React.Component {
         return (
             <Modal open={this.state.isModalOpen}
                    onClose={this._handleClose}>
-                <div className={this.props.classes.modal}>
-                    <Typography className={this.props.classes.title}
+                <div className="admin-tracking-modal-modal">
+                    <Typography className="admin-tracking-modal-title"
                                 variant="h6">
                         {I18n.t('js.admin.visits.tracking.title', {date: this.props.date})}
                     </Typography>

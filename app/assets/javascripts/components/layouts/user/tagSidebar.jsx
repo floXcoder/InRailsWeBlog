@@ -1,8 +1,5 @@
 'use strict';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import Drawer from '@material-ui/core/Drawer';
 
@@ -19,7 +16,6 @@ import {
 
 import TagSidebar from '../../tags/sidebar';
 
-import styles from '../../../../jss/user/sidebar';
 
 export default @connect((state, props) => ({
     isTagSidebarOpen: getSidebarState(state, props.isCloud),
@@ -27,7 +23,6 @@ export default @connect((state, props) => ({
 }), {
     updateUserSettings
 })
-@withStyles(styles)
 class TagSidebarLayout extends React.PureComponent {
     static propTypes = {
         routeParams: PropTypes.object.isRequired,
@@ -35,9 +30,7 @@ class TagSidebarLayout extends React.PureComponent {
         // from connect
         isTagSidebarOpen: PropTypes.bool,
         currentUserId: PropTypes.number,
-        updateUserSettings: PropTypes.func,
-        // from styles
-        classes: PropTypes.object
+        updateUserSettings: PropTypes.func
     };
 
     static defaultProps = {
@@ -114,7 +107,9 @@ class TagSidebarLayout extends React.PureComponent {
             <Drawer anchor="left"
                     variant="permanent"
                     classes={{
-                        paper: classNames(this.props.classes.drawerPaper, this.props.classes.drawerPaperOverflow, !this.state.isExpanded && this.props.classes.drawerPaperClose),
+                        paper: classNames('search-sidebar-drawerPaper', 'search-sidebar-drawerPaperOverflow', {
+                            'search-sidebar-drawerPaperClose': !this.state.isExpanded
+                        }),
                     }}
                     open={this.state.isExpanded}
                     onMouseOver={this._handleDrawerOver}

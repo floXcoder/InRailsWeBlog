@@ -8,9 +8,6 @@ import {
     withRouter
 } from 'react-router-dom';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 
@@ -28,8 +25,6 @@ import Loader from '../theme/loader';
 
 import NotFound from '../layouts/notFound';
 
-import styles from '../../../jss/article/show';
-
 
 export default @withRouter
 @connect((state) => ({
@@ -41,7 +36,6 @@ export default @withRouter
 })
 @hot
 @highlight(false)
-@withStyles(styles)
 class ArticleShared extends React.Component {
     static propTypes = {
         routeParams: PropTypes.object.isRequired,
@@ -51,9 +45,7 @@ class ArticleShared extends React.Component {
         article: PropTypes.object,
         fetchSharedArticle: PropTypes.func,
         // from highlight
-        onShow: PropTypes.func,
-        // from styles
-        classes: PropTypes.object
+        onShow: PropTypes.func
     };
 
     constructor(props) {
@@ -102,7 +94,7 @@ class ArticleShared extends React.Component {
 
         if (!this.props.article) {
             return (
-                <div className={this.props.classes.root}>
+                <div className="article-show-root">
                     <div className="center">
                         <Loader size="big"/>
                     </div>
@@ -111,7 +103,7 @@ class ArticleShared extends React.Component {
         }
 
         return (
-            <article className={this.props.classes.root}>
+            <article className="article-show-root">
                 <Grid container={true}>
                     {
                         this.props.article.summary &&
@@ -124,12 +116,12 @@ class ArticleShared extends React.Component {
                     }
                 </Grid>
 
-                <Typography className={this.props.classes.title}
+                <Typography className="article-show-title"
                             variant="h1">
                     {this.props.article.title}
                 </Typography>
 
-                <div className={classNames('normalized-content', this.props.classes.content)}
+                <div className="article-show-content normalized-content"
                      dangerouslySetInnerHTML={{__html: this.props.article.content}}/>
 
                 {

@@ -1,5 +1,7 @@
 'use strict';
 
+import '../../../stylesheets/pages/topic/form.scss';
+
 import {
     hot
 } from 'react-hot-loader/root';
@@ -7,10 +9,6 @@ import {
 import {
     withRouter
 } from 'react-router-dom';
-
-import {
-    withStyles
-} from '@material-ui/core/styles';
 
 import {
     userTopicPath
@@ -32,7 +30,6 @@ import NotAuthorized from '../layouts/notAuthorized';
 import TopicFormDisplay from './display/form';
 import TopicErrorField from './display/fields/error';
 
-import styles from '../../../jss/topic/edit';
 
 export default @withRouter
 @connect((state) => ({
@@ -46,7 +43,6 @@ export default @withRouter
     updateTopic
 })
 @hot
-@withStyles(styles)
 class TopicEdit extends React.Component {
     static propTypes = {
         routeParams: PropTypes.object.isRequired,
@@ -59,9 +55,7 @@ class TopicEdit extends React.Component {
         topic: PropTypes.object,
         topicErrors: PropTypes.array,
         fetchTopic: PropTypes.func,
-        updateTopic: PropTypes.func,
-        // from styles
-        classes: PropTypes.object
+        updateTopic: PropTypes.func
     };
 
     constructor(props) {
@@ -111,7 +105,7 @@ class TopicEdit extends React.Component {
         };
 
         return (
-            <div className={this.props.classes.root}>
+            <div className="topic-edit-root">
                 {
                     this.props.topic.name &&
                     <div>

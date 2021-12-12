@@ -1,20 +1,13 @@
 'use strict';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 
 import ArticleSidebar from '../../articles/sidebar';
 
-import styles from '../../../../jss/user/sidebar';
 
-export default @withStyles(styles)
-class ArticleSidebarLayout extends React.PureComponent {
+export default class ArticleSidebarLayout extends React.PureComponent {
     static propTypes = {
-        parentTagSlug: PropTypes.string,
-        // from styles
-        classes: PropTypes.object
+        parentTagSlug: PropTypes.string
     };
 
     constructor(props) {
@@ -26,7 +19,7 @@ class ArticleSidebarLayout extends React.PureComponent {
             <Drawer anchor="right"
                     variant="permanent"
                     classes={{
-                        paper: classNames(this.props.classes.drawerPaper, this.props.classes.drawerPaperBorderless, this.props.classes.drawerPaperOverflow)
+                        paper: 'search-sidebar-drawerPaper search-sidebar-drawerPaperBorderless search-sidebar-drawerPaperOverflow'
                     }}
                     open={true}>
                 <ArticleSidebar parentTagSlug={this.props.parentTagSlug}/>

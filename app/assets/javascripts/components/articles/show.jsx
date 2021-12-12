@@ -1,5 +1,7 @@
 'use strict';
 
+import '../../../stylesheets/pages/article/show.scss';
+
 import {
     hot
 } from 'react-hot-loader/root';
@@ -14,9 +16,6 @@ import {
     Sticky
 } from 'react-sticky';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
@@ -78,8 +77,6 @@ import ArticleInventoryDisplay from './display/items/inventory';
 import ArticleMiniCardDisplay from './display/items/miniCard';
 import ArticleSkeleton from '../loaders/skeletons/article';
 
-import styles from '../../../jss/article/show';
-
 
 export default @withRouter
 @connect((state, props) => ({
@@ -107,7 +104,6 @@ export default @withRouter
 })
 @hot
 @highlight(false)
-@withStyles(styles)
 class ArticleShow extends React.Component {
     static propTypes = {
         routeParams: PropTypes.object.isRequired,
@@ -137,9 +133,7 @@ class ArticleShow extends React.Component {
         setCurrentTags: PropTypes.func,
         showUserSignup: PropTypes.func,
         // from highlight
-        onShow: PropTypes.func,
-        // from styles
-        classes: PropTypes.object
+        onShow: PropTypes.func
     };
 
     constructor(props) {
@@ -154,7 +148,7 @@ class ArticleShow extends React.Component {
     componentDidMount() {
         this._request = this.props.fetchArticle(this.props.routeParams.userSlug, this.props.routeParams.articleSlug, {
             localArticle: this.props.initProps?.article
-        })
+        });
 
         this._highlightMatchedContent();
 
@@ -239,7 +233,7 @@ class ArticleShow extends React.Component {
         if (this.props.article && this.props.routeState?.highlightContent && window.find) {
             window.find(this.props.routeState.highlightContent);
         }
-    }
+    };
 
     _handleOutdatedClick = (event) => {
         event.preventDefault();
@@ -267,10 +261,9 @@ class ArticleShow extends React.Component {
 
         this.props.deleteArticle(this.props.article.id)
             .then(() => this.props.history.push({
-                    pathname: topicArticlesPath(this.props.currentUser.slug, this.props.currentTopic.slug),
-                    state: {reloadTags: true}
-                })
-            );
+                pathname: topicArticlesPath(this.props.currentUser.slug, this.props.currentTopic.slug),
+                state: {reloadTags: true}
+            }));
     };
 
     render() {
@@ -284,7 +277,7 @@ class ArticleShow extends React.Component {
 
         if ((this.props.isUserConnected && (!this.props.currentUser || !this.props.currentTopic)) || !this.props.article || this.props.isFetching) {
             return (
-                <div className={this.props.classes.root}>
+                <div className="article-show-root">
                     <div className="center">
                         <ArticleSkeleton isConnected={this.props.isCurrentTopicOwner}/>
                     </div>
@@ -298,12 +291,12 @@ class ArticleShow extends React.Component {
 
         const hasLinks = this.props.article.content?.includes('<a ');
 
-        let title = this.props.article.title
+        let title = this.props.article.title;
         if (this.props.isOwner && this.props.article.languages?.length > 1 && this.props.articleCurrentLanguage && this.props.article.titleTranslations) {
             title = this.props.article.titleTranslations[this.props.articleCurrentLanguage] || title;
         }
 
-        let content = this.props.article.content
+        let content = this.props.article.content;
         if (this.props.isOwner && this.props.article.languages?.length > 1 && this.props.articleCurrentLanguage && this.props.article.contentTranslations) {
             content = this.props.article.contentTranslations[this.props.articleCurrentLanguage] || content;
         }
@@ -328,13 +321,13 @@ class ArticleShow extends React.Component {
 
                     {
                         !this.props.isFetching &&
-                        <article className={this.props.classes.root}
+                        <article className="article-show-root"
                                  itemProp="blogPost"
                                  itemScope={true}
                                  itemType="https://schema.org/BlogPosting">
                             {
                                 this.props.isCurrentTopicOwner &&
-                                <div className={this.props.classes.breadcrumb}>
+                                <div className="article-show-breadcrumb">
                                     <ArticleBreadcrumbDisplay user={this.props.currentUser}
                                                               topic={this.props.currentTopic}
                                                               tags={this.props.article.tags}/>
@@ -343,12 +336,12 @@ class ArticleShow extends React.Component {
 
                             {
                                 this.props.isUserConnected &&
-                                <div className={this.props.classes.floatingButtons}>
+                                <div className="article-show-floatingButtons">
                                     <Sticky topOffset={0}
                                             bottomOffset={-430}>
                                         {({style, isSticky}) => (
                                             <ArticleFloatingIcons style={style}
-                                                                  className={this.props.classes.floatingIcons}
+                                                                  className="article-show-floatingIcons"
                                                                   isSticky={isSticky}
                                                                   display="item"
                                                                   size="medium"
@@ -366,7 +359,7 @@ class ArticleShow extends React.Component {
                             }
 
                             <div className={classNames({
-                                [this.props.classes.outdated]: this.props.article.outdated
+                                'article-show-outdated': this.props.article.outdated
                             })}>
                                 <Grid container={true}>
                                     {
@@ -379,7 +372,7 @@ class ArticleShow extends React.Component {
                                         </Grid>
                                     }
 
-                                    <Typography className={this.props.classes.title}
+                                    <Typography className="article-show-title"
                                                 variant="h1"
                                                 itemProp="name headline">
                                         {title}
@@ -389,15 +382,14 @@ class ArticleShow extends React.Component {
                                           xs={12}>
                                         <Grid container={true}
                                               classes={{
-                                                  container: this.props.classes.articleInfo
+                                                  container: 'article-show-articleInfo'
                                               }}
                                               spacing={1}
                                               direction="row"
                                               justifyContent="space-between"
                                               alignItems="center">
                                             <Grid item={true}>
-                                                <ArticleAvatarIcon classes={this.props.classes}
-                                                                   user={this.props.article.user}
+                                                <ArticleAvatarIcon user={this.props.article.user}
                                                                    articleDate={this.props.article.date}/>
                                             </Grid>
 
@@ -409,7 +401,7 @@ class ArticleShow extends React.Component {
                                                         <>
                                                             {
                                                                 this.props.article.languages?.length > 1 &&
-                                                                <div className={this.props.classes.editIcon}>
+                                                                <div className="article-show-editIcon">
                                                                     <ArticleLanguageIcon
                                                                         currentLocale={this.props.articleCurrentLanguage || window.locale}
                                                                         languages={this.props.article.languages}
@@ -420,7 +412,7 @@ class ArticleShow extends React.Component {
                                                                 </div>
                                                             }
 
-                                                            <div className={this.props.classes.editIcon}>
+                                                            <div className="article-show-editIcon">
                                                                 <ArticleEditIcon userSlug={this.props.article.user.slug}
                                                                                  articleSlug={this.props.article.slug}
                                                                                  isIconButton={true}
@@ -429,7 +421,7 @@ class ArticleShow extends React.Component {
                                                             </div>
                                                         </>
                                                         :
-                                                        <div className={this.props.classes.editIcon}>
+                                                        <div className="article-show-editIcon">
                                                             <Button color="default"
                                                                     variant="outlined"
                                                                     size="small"
@@ -442,7 +434,7 @@ class ArticleShow extends React.Component {
 
                                                 {
                                                     (this.props.article.allowComment && this.props.article.visibility !== 'only_me' && this.props.article.commentsCount > 0) &&
-                                                    <CommentCountIcon className={this.props.classes.commentCount}
+                                                    <CommentCountIcon className="article-show-commentCount"
                                                                       commentLink={`#article-comments-${this.props.article.id}`}
                                                                       commentsCount={this.props.article.commentsCount}
                                                                       hasIcon={false}/>
@@ -452,7 +444,7 @@ class ArticleShow extends React.Component {
                                     </Grid>
                                 </Grid>
 
-                                <div className={this.props.classes.articleContent}
+                                <div className="article-show-articleContent"
                                      itemProp="articleBody">
                                     {
                                         this.props.article.mode === 'inventory'
@@ -466,9 +458,9 @@ class ArticleShow extends React.Component {
 
                                 {
                                     this.props.article.reference &&
-                                    <div className={this.props.classes.reference}>
+                                    <div className="article-show-reference">
                                         <a href={this.props.article.reference}
-                                           className={this.props.classes.referenceLink}
+                                           className="article-show-referenceLink"
                                            rel="noopener noreferrer"
                                            target="_blank">
                                             {Utils.normalizeLink(this.props.article.reference)}
@@ -476,7 +468,7 @@ class ArticleShow extends React.Component {
                                     </div>
                                 }
 
-                                <div className={this.props.classes.actions}>
+                                <div className="article-show-actions">
                                     {
                                         this.props.article.tags.length > 0 &&
                                         <ArticleTags articleId={this.props.article.id}
@@ -490,8 +482,7 @@ class ArticleShow extends React.Component {
 
                                     {
                                         this.props.isOwner &&
-                                        <ArticleActions classes={this.props.classes}
-                                                        size="medium"
+                                        <ArticleActions size="medium"
                                                         color="primary"
                                                         userSlug={this.props.article.user.slug}
                                                         articleId={this.props.article.id}
@@ -512,7 +503,7 @@ class ArticleShow extends React.Component {
 
                 {
                     (!!this.props.article && !this.props.isFetching && this.props.routeParams.userSlug !== this.props.currentUserSlug) &&
-                    <div className={this.props.classes.recommendationsContainer}>
+                    <div className="article-show-recommendationsContainer">
                         <Divider/>
 
                         {
@@ -524,7 +515,7 @@ class ArticleShow extends React.Component {
 
                         {
                             !isStoryMode &&
-                            <h3 className={this.props.classes.recommendationsTitle}>
+                            <h3 className="article-show-recommendationsTitle">
                                 {I18n.t('js.article.show.recommendations.title')}
                             </h3>
                         }
@@ -541,7 +532,7 @@ class ArticleShow extends React.Component {
                                               item={true}>
                                             {
                                                 isStoryMode &&
-                                                <h3 className={this.props.classes.recommendationsTitle}>
+                                                <h3 className="article-show-recommendationsTitle">
                                                     {
                                                         i % 2 === 0
                                                             ?
@@ -552,7 +543,7 @@ class ArticleShow extends React.Component {
                                                 </h3>
                                             }
 
-                                            <div className={this.props.classes.recommendationsArticle}>
+                                            <div className="article-show-recommendationsArticle">
                                                 <ArticleMiniCardDisplay article={article}
                                                                         isPaper={true}
                                                                         hasTags={false}/>
@@ -565,7 +556,7 @@ class ArticleShow extends React.Component {
 
                         {
                             !isStoryMode &&
-                            <div className={this.props.classes.recommendationsLink}>
+                            <div className="article-show-recommendationsLink">
                                 <Button color="primary"
                                         variant="outlined"
                                         size="small"
@@ -581,7 +572,7 @@ class ArticleShow extends React.Component {
                 {
                     (this.props.article.allowComment && this.props.article.visibility !== 'only_me') &&
                     <div id={`article-comments-${this.props.article.id}`}
-                         className={this.props.classes.commentsContainer}>
+                         className="article-show-commentsContainer">
                         <LazyLoader height={0}
                                     once={true}
                                     offset={50}>

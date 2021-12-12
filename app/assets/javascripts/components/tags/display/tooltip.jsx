@@ -3,11 +3,6 @@
 import ToolTip from 'react-portal-tooltip';
 
 import {
-    withStyles,
-    withTheme
-} from '@material-ui/core/styles';
-
-import {
     spyTrackClick
 } from '../../../actions';
 
@@ -15,35 +10,44 @@ import {
     showTagPath
 } from '../../../constants/routesHelper';
 
-import styles from '../../../../jss/article/tooltip';
+const style = {
+    style: {
+        color: '#199332',
+        border: '1px solid #199332',
+        padding: 16,
+        background: '#fff',
+        boxShadow: 'none',
+        borderRadius: 4,
+    },
+    arrowStyle: {
+        color: '#fff',
+        borderColor: '#199332'
+    }
+};
 
-export default @withTheme
-@withStyles(styles)
-class TooltipTag extends React.PureComponent {
+
+export default class TooltipTag extends React.PureComponent {
     static propTypes = {
         articleId: PropTypes.number.isRequired,
         tag: PropTypes.object.isRequired,
-        tagTooltipActive: PropTypes.number,
-        // from styles
-        theme: PropTypes.object,
-        classes: PropTypes.object,
+        tagTooltipActive: PropTypes.number
     };
 
     render() {
-        const {articleId, tag, tagTooltipActive, theme, classes} = this.props;
+        const {articleId, tag, tagTooltipActive} = this.props;
 
         return (
             <ToolTip active={tagTooltipActive === tag.id}
                      position="bottom"
                      arrow="center"
                      parent={`#article-${articleId}-tags-${tag.id}`}
-                     style={styles(theme)}>
+                     style={style}>
                 <div>
-                    <div className={classes.heading}>
+                    <div className="tooltip-tag-heading">
                         {I18n.t('js.tag.common.usage', {count: tag.taggedArticlesCount})}
                     </div>
 
-                    <div className={classes.description}>
+                    <div className="tooltip-tag-description">
                         <div className="normalized-content"
                              dangerouslySetInnerHTML={{__html: tag.description}}/>
 

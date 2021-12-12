@@ -9,9 +9,9 @@ import Select from '@material-ui/core/Select';
 
 import Separator from '../../theme/separator';
 
+
 export default class AdminSeoDataForm extends React.Component {
     static propTypes = {
-        classes: PropTypes.object.isRequired,
         seoPages: PropTypes.array.isRequired,
         retrieveParameters: PropTypes.func.isRequired,
         onPersistSeoData: PropTypes.func.isRequired,
@@ -112,7 +112,7 @@ export default class AdminSeoDataForm extends React.Component {
                         </div>
 
                         <div className="col s12 margin-top-10 margin-bottom-10 center-align">
-                            <FormControl className={this.props.classes.field}>
+                            <FormControl className="admin-seo-field">
                                 <InputLabel id="named-route">
                                     {I18n.t('js.admin.seo.form.select.route')}
                                 </InputLabel>
@@ -125,7 +125,11 @@ export default class AdminSeoDataForm extends React.Component {
                                         this.props.seoPages.filter((s) => !this.props.seoPagesUsed.includes(s.name)).map((seoPage) => (
                                             <MenuItem key={seoPage.name}
                                                       value={seoPage.name}>
-                                                {seoPage.name} ({I18n.t(`js.admin.seo.visibility.${seoPage.params.public ? 'public' : 'private'}`)})
+                                                {seoPage.name}
+                                                {' '}
+                                                (
+                                                {I18n.t(`js.admin.seo.visibility.${seoPage.params.public ? 'public' : 'private'}`)}
+                                                )
                                             </MenuItem>
                                         ))
                                     }
@@ -138,7 +142,7 @@ export default class AdminSeoDataForm extends React.Component {
                         </div>
 
                         <div className="col s12 center-align">
-                            <TextField className={this.props.classes.field}
+                            <TextField className="admin-seo-field"
                                        label={I18n.t('js.admin.seo.form.select.url')}
                                        margin="normal"
                                        variant="outlined"
@@ -150,7 +154,7 @@ export default class AdminSeoDataForm extends React.Component {
 
                 {
                     this.state.error &&
-                    <h4 className={this.props.classes.errorField}>
+                    <h4 className="admin-seo-errorField">
                         {this.state.error}
                     </h4>
                 }
@@ -167,7 +171,9 @@ export default class AdminSeoDataForm extends React.Component {
                         {
                             this.state.url &&
                             <div className="col s12 center-align margin-bottom-15">
-                                URL : {this.state.url}
+                                URL :
+                                {' '}
+                                {this.state.url}
                             </div>
                         }
 
@@ -175,18 +181,18 @@ export default class AdminSeoDataForm extends React.Component {
                             {
                                 parameters.length > 0
                                     ?
-                                    <span className={this.props.classes.hint}>
+                                    <span className="admin-seo-hint">
                                         {I18n.t('js.admin.seo.form.parameters', {parameters: parameters.map((param) => `:${param}`).join(', ')})}
                                     </span>
                                     :
-                                    <span className={this.props.classes.hint}>
+                                    <span className="admin-seo-hint">
                                         {I18n.t('js.admin.seo.form.no_parameters')}
                                     </span>
                             }
                         </div>
 
                         <div className="col s6 center-align">
-                            <TextField className={this.props.classes.field}
+                            <TextField className="admin-seo-field"
                                        variant="outlined"
                                        margin="normal"
                                        name="seo_data[page_title]"
@@ -195,11 +201,14 @@ export default class AdminSeoDataForm extends React.Component {
                                        required={true}
                                        value={this.state.pageTitle}
                                        onChange={this._handlePageTitleChange}
-                                       helperText={I18n.t('js.admin.seo.form.page_title_length', {count: this.state.pageTitle?.length, max: window.settings.seo_title_length})}/>
+                                       helperText={I18n.t('js.admin.seo.form.page_title_length', {
+                                           count: this.state.pageTitle?.length,
+                                           max: window.settings.seo_title_length
+                                       })}/>
                         </div>
 
                         <div className="col s6 center-align">
-                            <TextField className={this.props.classes.field}
+                            <TextField className="admin-seo-field"
                                        variant="outlined"
                                        multiline={true}
                                        required={true}
@@ -208,7 +217,10 @@ export default class AdminSeoDataForm extends React.Component {
                                        label={I18n.t('js.admin.seo.form.meta_desc')}
                                        value={this.state.metaDesc}
                                        onChange={this._handleMetaDescChange}
-                                       helperText={I18n.t('js.admin.seo.form.meta_desc_length', {count: this.state.metaDesc?.length, max: window.settings.seo_meta_desc_length})}/>
+                                       helperText={I18n.t('js.admin.seo.form.meta_desc_length', {
+                                           count: this.state.metaDesc?.length,
+                                           max: window.settings.seo_meta_desc_length
+                                       })}/>
                         </div>
 
                         <div className="col s12 center-align margin-top-20 margin-bottom-25">

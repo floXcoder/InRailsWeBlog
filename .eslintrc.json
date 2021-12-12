@@ -150,6 +150,7 @@
     "react/jsx-no-literals": 0,
     "react/jsx-no-target-blank": 0,
     "react/jsx-no-undef": 0,
+    "react/jsx-one-expression-per-line": 0,
     "react/jsx-props-no-spreading": 0,
     "react/jsx-pascal-case": 1,
     "react/jsx-sort-prop-types": 0,

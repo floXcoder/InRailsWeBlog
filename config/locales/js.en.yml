@@ -669,7 +669,7 @@ en:
           os: "Visits by systems"
           utm: "Visits by UTM"
           referer: "Visits by traffic origins"
-        referers:
+        referrers:
           title: "Sources"
         internal: "Internal link"
         others: "[Others]"

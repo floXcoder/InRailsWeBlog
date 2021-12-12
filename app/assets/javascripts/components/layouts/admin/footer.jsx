@@ -1,21 +1,9 @@
 'use strict';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
-
-import styles from '../../../../jss/admin/layout';
-
-export default @withStyles(styles)
-class AdminFooterLayout extends React.PureComponent {
-    static propTypes = {
-        // from styles
-        classes: PropTypes.object
-    };
-
+export default class AdminFooterLayout extends React.PureComponent {
     render() {
         return (
-            <footer className={this.props.classes.footer}>
+            <footer className="admin-footer">
                 {/* Empty for now */}
             </footer>
         );

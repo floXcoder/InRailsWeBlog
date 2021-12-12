@@ -4,9 +4,6 @@ import {
     withRouter
 } from 'react-router-dom';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -34,7 +31,6 @@ import {
     autocompleteLimit
 } from '../../modules/constants';
 
-import styles from '../../../../jss/default/search';
 
 export default @withRouter
 @connect((state) => ({
@@ -50,7 +46,6 @@ export default @withRouter
     setAutocompleteAction,
     setAutocompleteSelectedTag
 })
-@withStyles(styles)
 class HomeSearchHeader extends React.Component {
     static propTypes = {
         isSearchActive: PropTypes.bool.isRequired,
@@ -67,9 +62,7 @@ class HomeSearchHeader extends React.Component {
         setAutocompleteQuery: PropTypes.func,
         fetchAutocomplete: PropTypes.func,
         setAutocompleteAction: PropTypes.func,
-        setAutocompleteSelectedTag: PropTypes.func,
-        // from styles
-        classes: PropTypes.object
+        setAutocompleteSelectedTag: PropTypes.func
     };
 
     constructor(props) {
@@ -219,12 +212,12 @@ class HomeSearchHeader extends React.Component {
                     <meta itemProp="target"
                           content={`${window.websiteUrl}/search?query={search}`}/>
 
-                    <div className={this.props.classes.search}>
-                        <div className={this.props.classes.searchIcon}>
+                    <div className="search-header-search">
+                        <div className="search-header-searchIcon">
                             <SearchIcon/>
                         </div>
 
-                        <InputLabel className={this.props.classes.inputLabel}
+                        <InputLabel className="search-header-inputLabel"
                                     htmlFor="search-module">
                             Search
                         </InputLabel>
@@ -236,8 +229,8 @@ class HomeSearchHeader extends React.Component {
                                    itemProp: 'query-input'
                                }}
                                classes={{
-                                   root: this.props.classes.inputRoot,
-                                   input: this.props.isSearchActive ? this.props.classes.inputInputFocus : this.props.classes.inputInput
+                                   root: 'search-header-inputRoot',
+                                   input: this.props.isSearchActive ? 'search-header-inputInputFocus' : 'search-header-inputInput'
                                }}
                                placeholder={I18n.t('js.search.module.placeholder')}
                                disableUnderline={true}
@@ -247,7 +240,7 @@ class HomeSearchHeader extends React.Component {
                                        {
                                            this.props.selectedTags.map((tag) => (
                                                <Chip key={tag.id}
-                                                     className={this.props.classes.selectedTagsChip}
+                                                     className="search-header-selectedTagsChip"
                                                      tabIndex={-1}
                                                      label={tag.name}
                                                      color="primary"

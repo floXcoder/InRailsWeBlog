@@ -1,8 +1,7 @@
 'use strict';
 
 import {
-    MuiThemeProvider,
-    withStyles
+    MuiThemeProvider
 } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Snackbar from '@material-ui/core/Snackbar';
@@ -15,8 +14,7 @@ import InfoIcon from '@material-ui/icons/Info';
 import WarningIcon from '@material-ui/icons/Warning';
 import CloseIcon from '@material-ui/icons/Close';
 
-import theme from '../../../jss/theme';
-import styles from '../../../jss/notification';
+import theme from '../../theme';
 
 import {
     notificationDuration
@@ -29,22 +27,21 @@ const variantIcon = {
     alert: InfoIcon
 };
 
-@withStyles(styles)
 class NotificationContent extends React.Component {
     static propTypes = {
         messageInfo: PropTypes.object.isRequired,
-        onClose: PropTypes.func.isRequired,
-        // from styles
-        classes: PropTypes.object
+        onClose: PropTypes.func.isRequired
     };
 
     render() {
         const actions = [
-            <IconButton key="close"
-                        aria-label="Close"
-                        color="inherit"
-                        className={this.props.classes.close}
-                        onClick={this.props.onClose}>
+            <IconButton
+                key="close"
+                aria-label="Close"
+                color="inherit"
+                className="close"
+                onClick={this.props.onClose}
+                size="large">
                 <CloseIcon/>
             </IconButton>
         ];
@@ -61,20 +58,19 @@ class NotificationContent extends React.Component {
         }
 
         const Icon = variantIcon[this.props.messageInfo.level || 'info'];
-        const className = this.props.classes[this.props.messageInfo.level || 'info'];
+        const className = classNames('notification', 'root', this.props.messageInfo.level || 'info');
 
         return (
-            <SnackbarContent
-                className={className}
-                aria-describedby="message-notification"
-                message={
-                    <span id="message-notification"
-                          className={this.props.classes.message}>
-                        <Icon className={classNames(this.props.classes.icon, this.props.classes.iconVariant)}/>
-                        {this.props.messageInfo.message}
-                    </span>
-                }
-                action={actions}/>
+            <SnackbarContent className={className}
+                             aria-describedby="message-notification"
+                             message={
+                                 <span id="message-notification"
+                                       className="message">
+                                    <Icon className="icon icon-variant"/>
+                                    {this.props.messageInfo.message}
+                                 </span>
+                             }
+                             action={actions}/>
         );
     }
 }

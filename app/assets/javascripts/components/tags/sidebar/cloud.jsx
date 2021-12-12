@@ -12,9 +12,9 @@ import {
 
 import Scrollbar from '../../theme/scrollbar';
 
+
 export default class TagSidebarCloud extends React.Component {
     static propTypes = {
-        classes: PropTypes.object.isRequired,
         currentUserSlug: PropTypes.string.isRequired,
         currentUserTopics: PropTypes.array.isRequired,
         tags: PropTypes.array.isRequired,
@@ -28,20 +28,20 @@ export default class TagSidebarCloud extends React.Component {
 
     render() {
         return (
-            <div className={this.props.classes.cloudList}>
+            <div className="tag-sidebar-cloudList">
                 <Scrollbar>
                     {
                         this.props.currentUserTopics.map((topic) => (
                             <div key={topic.id}>
-                                <h3 className={this.props.classes.cloudTopic}>
+                                <h3 className="tag-sidebar-cloudTopic">
                                     {topic.name}
                                 </h3>
 
                                 {
                                     this.props.tags.filter((tag) => tag.topicIds.includes(topic.id)).map((tag) => (
                                         <Chip key={`${topic.id}-${tag.id}`}
-                                              className={classNames(this.props.classes.cloudTag, {
-                                                  [this.props.classes.selectedLabel]: this.props.currentTagSlug === tag.slug
+                                              className={classNames('tag-sidebar-cloudTag', {
+                                                  'tag-sidebar-selectedLabel': this.props.currentTagSlug === tag.slug
                                               })}
                                               label={tag.name}
                                               color="primary"

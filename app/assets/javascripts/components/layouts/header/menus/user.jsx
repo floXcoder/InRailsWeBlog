@@ -19,9 +19,9 @@ import {
     userHomePath
 } from '../../../../constants/routesHelper';
 
+
 export default class HeaderUserMenu extends React.Component {
     static propTypes = {
-        classes: PropTypes.object.isRequired,
         userSlug: PropTypes.string.isRequired,
         onPreferenceClick: PropTypes.func.isRequired,
         onLogoutClick: PropTypes.func.isRequired,
@@ -39,24 +39,24 @@ export default class HeaderUserMenu extends React.Component {
             <>
                 <ListItem button={true}
                           component="a"
-                          className={this.props.classes.link}
+                          className="layout-header-link"
                           href="/admins">
                     <ListItemIcon>
                         <DashboardIcon/>
                     </ListItemIcon>
 
-                    <ListItemText classes={{primary: this.props.classes.link}}>
+                    <ListItemText classes={{primary: 'layout-header-link'}}>
                         {I18n.t('js.views.header.user.administration')}
                     </ListItemText>
                 </ListItem>
 
-                <Divider />
+                <Divider/>
             </>
         );
 
         return (
             <List className={classNames({
-                [this.props.classes.nestedMenu]: this.props.isNested
+                'layout-header-nestedMenu': this.props.isNested
             })}
                   component="div"
                   disablePadding={this.props.isNested}>
@@ -67,13 +67,13 @@ export default class HeaderUserMenu extends React.Component {
 
                 <ListItem button={true}
                           component={Link}
-                          className={this.props.classes.link}
+                          className="layout-header-link"
                           to={userHomePath(this.props.userSlug)}>
                     <ListItemIcon>
                         <PortraitIcon/>
                     </ListItemIcon>
 
-                    <ListItemText classes={{primary: this.props.classes.link}}>
+                    <ListItemText classes={{primary: 'layout-header-link'}}>
                         {I18n.t('js.views.header.user.profile')}
                     </ListItemText>
                 </ListItem>
@@ -84,7 +84,7 @@ export default class HeaderUserMenu extends React.Component {
                         <SettingsIcon/>
                     </ListItemIcon>
 
-                    <ListItemText classes={{primary: this.props.classes.link}}>
+                    <ListItemText classes={{primary: 'layout-header-link'}}>
                         {I18n.t('js.views.header.user.settings')}
                     </ListItemText>
                 </ListItem>
@@ -96,7 +96,7 @@ export default class HeaderUserMenu extends React.Component {
                         <CancelIcon/>
                     </ListItemIcon>
 
-                    <ListItemText classes={{primary: this.props.classes.link}}>
+                    <ListItemText classes={{primary: 'layout-header-link'}}>
                         {I18n.t('js.views.header.user.log_out')}
                     </ListItemText>
                 </ListItem>

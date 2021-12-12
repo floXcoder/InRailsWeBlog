@@ -1,0 +1,91 @@
+@import 'base/variables';
+
+// ***
+// Topic edit
+// ***
+.topic-edit-root {
+  margin: 1rem auto 4rem;
+  overflow: visible;
+  position: relative;
+  max-width: $article-width;
+}
+
+// ***
+// Topic form
+// ***
+.topic-form-name {
+  width: 100%;
+  margin: 1rem 0;
+}
+
+.topic-form-nameLabel {
+  left: 37%;
+
+  &::before {
+    left: 25%;
+    width: 50%;
+  }
+}
+
+.topic-form-select {
+  width: 90%;
+}
+
+// ***
+// Topic form inventories
+// ***
+.topic-form-inv-sorting-226 {
+  user-select: none;
+}
+
+.topic-form-inv-sortingItems-227 {
+  outline: none;
+  position: relative;
+}
+
+.topic-form-inv-sortingItem-228 {
+  cursor: pointer;
+  align-items: center;
+}
+
+.topic-form-inv-fieldBorder-229 {
+  border: 1px solid #ddd;
+  margin: 24px 0;
+  padding: 8px 16px;
+  position: relative;
+}
+
+.topic-form-inv-mandatoryFieldHelper-230 {
+  font-style: italic;
+  text-align: center;
+  font-weight: 500;
+}
+
+.topic-form-inv-fieldDrag-231 {
+  top: 20px;
+  right: 20px;
+  cursor: row-resize;
+  display: block;
+  position: absolute;
+}
+
+.topic-form-inv-field-232 {
+  width: 90%;
+  margin: .3rem 0;
+}
+
+.topic-form-inv-fieldPropsButton-233 {
+  color: $text-color;
+  outline: none;
+  text-align: center;
+}
+
+.topic-form-inv-fieldPropsExpand-234 {
+  transform: rotate(0deg);
+  transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  margin-left: auto;
+}
+
+.topic-form-inv-fieldPropsExpandOpen-235 {
+  transform: rotate(180deg);
+}

@@ -1,8 +1,7 @@
 'use strict';
 
 import {
-    MuiThemeProvider,
-    StylesProvider
+    MuiThemeProvider
 } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
@@ -42,8 +41,8 @@ import SidebarLayoutUser from './sidebar';
 import MainLayoutUser from './main';
 import FooterLayoutUser from './footer';
 
-import theme from '../../../../jss/theme';
-import generateClassName from '../../../../jss/generateClassname';
+import theme from '../../../theme';
+
 
 export default class ApplicationLayoutUser extends React.Component {
     static propTypes = {
@@ -53,7 +52,7 @@ export default class ApplicationLayoutUser extends React.Component {
             PropTypes.object,
             PropTypes.string
         ])
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -68,47 +67,45 @@ export default class ApplicationLayoutUser extends React.Component {
 
     render() {
         return (
-            <StylesProvider generateClassName={generateClassName}>
-                <MuiThemeProvider theme={theme}>
-                    <CssBaseline/>
+            <MuiThemeProvider theme={theme}>
+                <CssBaseline/>
 
-                    <Provider store={configureStore}
-                              context={ReactReduxContext}>
-                        <HelmetProvider>
-                            <Router history={browserHistory}>
-                                <PasteManager>
-                                    <ScrollBackManager>
-                                        <HotkeyManager>
-                                            <>
-                                                <ErrorBoundary errorType="text"
-                                                               errorTitle={I18n.t('js.helpers.errors.boundary.header')}>
-                                                    <HeaderLayoutUser history={browserHistory}
-                                                                      hashRoutes={routes.hashes}/>
-                                                </ErrorBoundary>
+                <Provider store={configureStore}
+                          context={ReactReduxContext}>
+                    <HelmetProvider>
+                        <Router history={browserHistory}>
+                            <PasteManager>
+                                <ScrollBackManager>
+                                    <HotkeyManager>
+                                        <>
+                                            <ErrorBoundary errorType="text"
+                                                           errorTitle={I18n.t('js.helpers.errors.boundary.header')}>
+                                                <HeaderLayoutUser history={browserHistory}
+                                                                  hashRoutes={routes.hashes}/>
+                                            </ErrorBoundary>
 
-                                                <ErrorBoundary errorType="card">
-                                                    <MainLayoutUser
-                                                        routes={[...routes.static.common, ...routes.static.user, ...routes.static.notFound]}
-                                                        {...this._componentProps()}/>
-                                                </ErrorBoundary>
+                                            <ErrorBoundary errorType="card">
+                                                <MainLayoutUser
+                                                    routes={[...routes.static.common, ...routes.static.user, ...routes.static.notFound]}
+                                                    {...this._componentProps()}/>
+                                            </ErrorBoundary>
 
-                                                <ErrorBoundary errorType="card">
-                                                    <SidebarLayoutUser/>
-                                                </ErrorBoundary>
+                                            <ErrorBoundary errorType="card">
+                                                <SidebarLayoutUser/>
+                                            </ErrorBoundary>
 
-                                                <ErrorBoundary errorType="text"
-                                                               errorTitle={I18n.t('js.helpers.errors.boundary.footer')}>
-                                                    <FooterLayoutUser/>
-                                                </ErrorBoundary>
-                                            </>
-                                        </HotkeyManager>
-                                    </ScrollBackManager>
-                                </PasteManager>
-                            </Router>
-                        </HelmetProvider>
-                    </Provider>
-                </MuiThemeProvider>
-            </StylesProvider>
+                                            <ErrorBoundary errorType="text"
+                                                           errorTitle={I18n.t('js.helpers.errors.boundary.footer')}>
+                                                <FooterLayoutUser/>
+                                            </ErrorBoundary>
+                                        </>
+                                    </HotkeyManager>
+                                </ScrollBackManager>
+                            </PasteManager>
+                        </Router>
+                    </HelmetProvider>
+                </Provider>
+            </MuiThemeProvider>
         );
     }
 }

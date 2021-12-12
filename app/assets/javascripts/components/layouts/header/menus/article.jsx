@@ -17,9 +17,9 @@ import {
     newArticlePath
 } from '../../../../constants/routesHelper';
 
+
 export default class HeaderArticleMenu extends React.Component {
     static propTypes = {
-        classes: PropTypes.object.isRequired,
         routeParams: PropTypes.object.isRequired,
         userSlug: PropTypes.string.isRequired,
         currentTagSlugs: PropTypes.array.isRequired,
@@ -40,7 +40,7 @@ export default class HeaderArticleMenu extends React.Component {
 
         return (
             <List className={classNames({
-                [this.props.classes.nestedMenu]: this.props.isNested
+                'layout-header-nestedMenu': this.props.isNested
             })}
                   component="div"
                   disablePadding={this.props.isNested}>
@@ -50,7 +50,7 @@ export default class HeaderArticleMenu extends React.Component {
                         <>
                             <ListItem button={true}
                                       component={Link}
-                                      className={this.props.classes.link}
+                                      className="layout-header-link"
                                       to={{
                                           pathname: newArticlePath(this.props.userSlug, this.props.topicSlug),
                                           state: {
@@ -61,7 +61,7 @@ export default class HeaderArticleMenu extends React.Component {
                                     <EditIcon/>
                                 </ListItemIcon>
 
-                                <ListItemText classes={{primary: this.props.classes.link}}>
+                                <ListItemText classes={{primary: 'layout-header-link'}}>
                                     {I18n.t('js.views.header.article.menu.temporary')}
                                 </ListItemText>
                             </ListItem>
@@ -72,7 +72,7 @@ export default class HeaderArticleMenu extends React.Component {
 
                     <ListItem button={true}
                               component={Link}
-                              className={this.props.classes.link}
+                              className="layout-header-link"
                               to={{
                                   pathname: newArticlePath(this.props.userSlug, this.props.topicSlug),
                                   state: {
@@ -85,7 +85,7 @@ export default class HeaderArticleMenu extends React.Component {
                             <AssignmentIcon/>
                         </ListItemIcon>
 
-                        <ListItemText classes={{primary: this.props.classes.link}}>
+                        <ListItemText classes={{primary: 'layout-header-link'}}>
                             {I18n.t(`js.views.header.article.menu.add.${this.props.currentTopicMode}`)}
                         </ListItemText>
                     </ListItem>

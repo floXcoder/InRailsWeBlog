@@ -1,0 +1,65 @@
+@import 'base/variables';
+
+.topic-show-root {
+  margin: 1rem auto 4rem;
+  overflow: visible;
+  position: relative;
+  max-width: $grid-width;
+}
+
+.topic-show-title {
+  font-size: 2.8rem;
+  margin-top: 60px;
+  font-weight: 500;
+  margin-bottom: 60px;
+}
+
+.topic-show-subtitle {
+  font-size: 2.4rem;
+  margin-top: 40px;
+  font-weight: 500;
+  margin-bottom: 15px;
+}
+
+.topic-show-subtitle2 {
+  font-size: 1.6rem;
+  margin-top: 48px;
+  font-weight: 400;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+}
+
+.topic-show-description {
+  font-size: 1.1rem;
+  font-weight: inherit;
+  line-height: 1.43;
+}
+
+.topic-show-emptyDesc {
+  font-style: italic;
+}
+
+.topic-show-avatar {
+  color: $text-color;
+}
+
+.topic-show-shareButton {
+  font-size: .8rem;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.topic-show-shareButtonIcon {
+  margin-left: 8px;
+}
+
+.topic-show-topicTag {
+  color: $text-color-secondary;
+  cursor: pointer;
+  margin: 4px;
+  font-size: .9rem;
+  font-weight: 400;
+  border-color: $text-color-secondary;
+  border-radius: 4px;
+}

@@ -15,7 +15,6 @@ import ArticleSearchItemDisplay from './articles/item';
 
 export default class SearchArticleIndex extends React.PureComponent {
     static propTypes = {
-        classes: PropTypes.object.isRequired,
         selectedTagIds: PropTypes.array.isRequired,
         articles: PropTypes.array.isRequired,
         onSettingsClick: PropTypes.func.isRequired,
@@ -44,9 +43,8 @@ export default class SearchArticleIndex extends React.PureComponent {
         }
 
         return (
-            <div className={this.props.classes.category}>
-                <ArticleSearchMenuDisplay classes={this.props.classes}
-                                          currentUserId={this.props.currentUserId}
+            <div className="search-index-category">
+                <ArticleSearchMenuDisplay currentUserId={this.props.currentUserId}
                                           articlesCount={this.props.articles.length}
                                           searchDisplay={this.props.searchDisplay}
                                           onSettingsClick={this.props.onSettingsClick}
@@ -62,7 +60,7 @@ export default class SearchArticleIndex extends React.PureComponent {
                                 {
                                     currentTopicArticles?.length > 0 &&
                                     <>
-                                        <Typography className={this.props.classes.categorySubtitle}
+                                        <Typography className="search-index-categorySubtitle"
                                                     variant="subtitle2"
                                                     gutterBottom={true}>
                                             {I18n.t('js.search.index.topic.current')}
@@ -76,7 +74,7 @@ export default class SearchArticleIndex extends React.PureComponent {
                                 {
                                     (otherTopicsArticles?.length > 0) &&
                                     <>
-                                        <Typography className={this.props.classes.categorySubtitle}
+                                        <Typography className="search-index-categorySubtitle"
                                                     variant="subtitle2"
                                                     gutterBottom={true}>
                                             {I18n.t('js.search.index.topic.others')}
@@ -115,7 +113,7 @@ export default class SearchArticleIndex extends React.PureComponent {
                                 {
                                     (otherTopicsArticles?.length > 0) &&
                                     <>
-                                        <Typography className={this.props.classes.articleOther}
+                                        <Typography className="search-index-articleOther"
                                                     variant="subtitle2"
                                                     gutterBottom={true}>
                                             {I18n.t('js.search.index.topic.others')}

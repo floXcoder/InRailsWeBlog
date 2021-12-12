@@ -19,42 +19,44 @@ import {
     spyTrackClick
 } from '../../../actions';
 
-const ArticleAvatarIcon = ({classes, user, articleDate}) => (
-    <div itemScope={true}
-         itemProp="author"
-         itemType="https://schema.org/Person">
-        <ListItem component="div"
-                  className={classes.avatarContainer}>
-            <ListItemAvatar>
-                <Avatar alt={user.pseudo}
-                        className={classes.avatar}>
-                    <AccountCircleIcon className={classes.avatarIcon}/>
-                    {/*<Link to={userArticlesPath(user.slug)}*/}
-                    {/*      onClick={spyTrackClick.bind(null, 'user', user.id, user.slug, null, user.pseudo, null)}/>*/}
-                </Avatar>
-            </ListItemAvatar>
+const ArticleAvatarIcon = function ({user, articleDate}) {
+    return (
+        <div itemScope={true}
+             itemProp="author"
+             itemType="https://schema.org/Person">
+            <ListItem component="div"
+                      className="article-card-avatarContainer">
+                <ListItemAvatar>
+                    <Avatar alt={user.pseudo}
+                            className="article-card-avatar">
+                        <AccountCircleIcon className="article-card-avatarIcon"/>
+                        {/*<Link to={userArticlesPath(user.slug)}*/}
+                        {/*      onClick={spyTrackClick.bind(null, 'user', user.id, user.slug, null, user.pseudo, null)}/>*/}
+                    </Avatar>
+                </ListItemAvatar>
 
-            <ListItemText classes={{secondary: classes.avatarDate}}
-                          secondary={
-                              <time dateTime={articleDate}
-                                    itemProp="datePublished">
-                                  {articleDate}
-                              </time>}>
-                <Link className={classes.avatarUser}
-                      to={userArticlesPath(user.slug)}
-                      itemProp="url"
-                      onClick={spyTrackClick.bind(null, 'user', user.id, user.slug, null, user.pseudo, null)}>
+                <ListItemText classes={{secondary: 'article-card-avatarDate'}}
+                              secondary={
+                                  <time dateTime={articleDate}
+                                        itemProp="datePublished">
+                                      {articleDate}
+                                  </time>
+                              }>
+                    <Link className="article-card-avatarUser"
+                          to={userArticlesPath(user.slug)}
+                          itemProp="url"
+                          onClick={spyTrackClick.bind(null, 'user', user.id, user.slug, null, user.pseudo, null)}>
                     <span itemProp="name">
                         {user.pseudo}
                     </span>
-                </Link>
-            </ListItemText>
-        </ListItem>
-    </div>
-);
+                    </Link>
+                </ListItemText>
+            </ListItem>
+        </div>
+    );
+};
 
 ArticleAvatarIcon.propTypes = {
-    classes: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
     articleDate: PropTypes.string.isRequired
 };

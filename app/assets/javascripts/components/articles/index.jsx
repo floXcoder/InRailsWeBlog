@@ -1,5 +1,7 @@
 'use strict';
 
+import '../../../stylesheets/pages/article/index.scss';
+
 import {
     hot
 } from 'react-hot-loader/root';
@@ -11,10 +13,6 @@ import {
 import {
     parse
 } from 'qs';
-
-import {
-    withStyles
-} from '@material-ui/core/styles';
 
 import {
     ArticleShow,
@@ -54,8 +52,6 @@ import SummaryStoriesTopic from '../topics/stories/summary';
 import ArticleRecommendationDisplay from './display/recommendation';
 import ArticleNoneDisplay from './display/items/none';
 
-import styles from '../../../jss/article/index';
-
 
 export default @connect((state) => ({
     currentUserId: state.userState.currentId,
@@ -85,7 +81,6 @@ export default @connect((state) => ({
     setCurrentTags
 })
 @hot
-@withStyles(styles)
 class ArticleIndex extends React.Component {
     static propTypes = {
         routeParams: PropTypes.object.isRequired,
@@ -115,9 +110,7 @@ class ArticleIndex extends React.Component {
         fetchTag: PropTypes.func,
         fetchUser: PropTypes.func,
         fetchTopic: PropTypes.func,
-        setCurrentTags: PropTypes.func,
-        // from styles
-        classes: PropTypes.object
+        setCurrentTags: PropTypes.func
     };
 
     constructor(props) {
@@ -368,13 +361,13 @@ class ArticleIndex extends React.Component {
                                          topic={this.props.storyTopic}/>
                 }
 
-                <div className={classNames(this.props.classes.articleIndex, {
-                    [this.props.classes.largeContainer]: isLargeContainer,
-                    [this.props.classes.fullContainer]: isFullContainer
+                <div className={classNames('article-index', {
+                    'article-index-large-container': isLargeContainer,
+                    'article-index-full-container': isFullContainer
                 })}>
                     {
                         this.props.currentState === 'fetching' &&
-                        <div className={this.props.classes.articleIndex}>
+                        <div className="article-index">
                             <div className="center">
                                 <Loader size="big"/>
                             </div>
@@ -419,8 +412,7 @@ class ArticleIndex extends React.Component {
                             {
                                 isInfiniteDisplay
                                     ?
-                                    <ArticleInfiniteMode classes={this.props.classes}
-                                                         articlesCount={this.props.articlesCount}
+                                    <ArticleInfiniteMode articlesCount={this.props.articlesCount}
                                                          hasMoreArticles={hasMoreArticles}
                                                          fetchArticles={this._fetchNextArticles}>
                                         {ArticleNodes}

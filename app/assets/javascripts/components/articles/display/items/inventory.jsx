@@ -4,9 +4,6 @@ import {
     Fragment
 } from 'react';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
@@ -17,15 +14,11 @@ import Typography from '@material-ui/core/Typography';
 import DoneIcon from '@material-ui/icons/Done';
 import CancelIcon from '@material-ui/icons/Cancel';
 
-import styles from '../../../../../jss/article/inventory';
 
-export default @withStyles(styles)
-class ArticleInventoryDisplay extends React.PureComponent {
+export default class ArticleInventoryDisplay extends React.PureComponent {
     static propTypes = {
         inventories: PropTypes.array.isRequired,
-        isList: PropTypes.bool,
-        // from styles
-        classes: PropTypes.object
+        isList: PropTypes.bool
     };
 
     constructor(props) {
@@ -43,7 +36,7 @@ class ArticleInventoryDisplay extends React.PureComponent {
             if (Utils.isURL(field.value)) {
                 return (
                     <Typography component="div"
-                                className={this.props.classes.inventoryListString}
+                                className="article-inline-inventoryListString"
                                 noWrap={true}>
                         <a href={field.value}
                            target="_blank"
@@ -55,7 +48,7 @@ class ArticleInventoryDisplay extends React.PureComponent {
             } else {
                 return (
                     <Typography component="div"
-                                className={this.props.classes.inventoryListString}
+                                className="article-inline-inventoryListString"
                                 noWrap={true}>
                         {field.value}
                     </Typography>
@@ -64,7 +57,7 @@ class ArticleInventoryDisplay extends React.PureComponent {
         } else if (field.type === 'date_type') {
             return (
                 <Typography component="div"
-                            className={this.props.classes.inventoryListString}
+                            className="article-inline-inventoryListString"
                             noWrap={true}>
                     {field.value}
                 </Typography>
@@ -72,7 +65,7 @@ class ArticleInventoryDisplay extends React.PureComponent {
         } else if (field.type === 'number_type') {
             return (
                 <Typography component="div"
-                            className={this.props.classes.inventoryListString}
+                            className="article-inline-inventoryListString"
                             noWrap={true}>
                     {field.value}
                 </Typography>
@@ -101,7 +94,7 @@ class ArticleInventoryDisplay extends React.PureComponent {
         } else if (field.type === 'text_type') {
             return (
                 <div className={classNames({
-                    [this.props.classes.inventoryListText]: this.props.isList
+                    'article-inline-inventoryListText': this.props.isList
                 })}>
                     <div className="normalized-content normalized-content-extract"
                          dangerouslySetInnerHTML={{__html: field.value}}/>
@@ -114,7 +107,7 @@ class ArticleInventoryDisplay extends React.PureComponent {
 
     render() {
         return (
-            <List className={this.props.classes.inventoryList}
+            <List className="article-inline-inventoryList"
                   disablePadding={true}>
                 {
                     this.props.inventories.map((field) => (
@@ -123,12 +116,12 @@ class ArticleInventoryDisplay extends React.PureComponent {
                                       disableGutters={true}>
                                 <ListItemText disableTypography={true}
                                               primary={
-                                                  <span className={this.props.classes.inventoryListTitle}>
+                                                  <span className="article-inline-inventoryListTitle">
                                                       {field.name}
                                                   </span>
                                               }
                                               secondary={
-                                                  <div className={this.props.classes.inventoryListContent}>
+                                                  <div className="article-inline-inventoryListContent">
                                                       {this._renderFieldByType(field)}
                                                   </div>
                                               }/>

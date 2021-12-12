@@ -4,9 +4,6 @@ import {
     Link
 } from 'react-router-dom';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
 import Chip from '@material-ui/core/Chip';
 
 import LabelIcon from '@material-ui/icons/Label';
@@ -22,10 +19,8 @@ import {
 
 import TooltipTag from '../../tags/display/tooltip';
 
-import styles from '../../../../jss/tag/chip';
 
-export default @withStyles(styles)
-class ArticleTags extends React.PureComponent {
+export default class ArticleTags extends React.PureComponent {
     static propTypes = {
         articleId: PropTypes.number.isRequired,
         tags: PropTypes.array.isRequired,
@@ -36,9 +31,7 @@ class ArticleTags extends React.PureComponent {
         childTagIds: PropTypes.array,
         hasTooltip: PropTypes.bool,
         isLarge: PropTypes.bool,
-        isSmall: PropTypes.bool,
-        // from styles
-        classes: PropTypes.object
+        isSmall: PropTypes.bool
     };
 
     static defaultProps = {
@@ -86,16 +79,16 @@ class ArticleTags extends React.PureComponent {
                 {
                     parentTags.map((tag) => (
                         <span key={tag.id}
-                              className={this.props.classes.parent}>
+                              className="tag-chip-parent">
                                 <Chip component={Link}
                                       id={`article-${this.props.articleId}-tags-${tag.id}`}
                                       classes={{
-                                          root: classNames(this.props.classes.tagChip, {
-                                              [this.props.classes.tagChipLarge]: this.props.isLarge,
-                                              [this.props.classes.tagChipSmall]: this.props.isSmall
+                                          root: classNames('tag-chip-tagChip', {
+                                              'tag-chip-tagChipLarge': this.props.isLarge,
+                                              'tag-chip-tagChipSmall': this.props.isSmall
                                           }),
-                                          label: classNames(this.props.classes.tagLabel, {
-                                              [this.props.classes.tagLabelSmall]: this.props.isSmall
+                                          label: classNames('tag-chip-tagLabel', {
+                                              'tag-chip-tagLabelSmall': this.props.isSmall
                                           })
                                       }}
                                       to={this.props.isOwner && this.props.currentUserSlug && this.props.currentUserTopicSlug ? taggedTopicArticlesPath(this.props.currentUserSlug, this.props.currentUserTopicSlug, tag.slug) : taggedArticlesPath(tag.slug)}
@@ -120,12 +113,12 @@ class ArticleTags extends React.PureComponent {
                 {
                     childTags.map((tag) => (
                         <span key={tag.id}
-                              className={this.props.classes.child}>
+                              className="tag-chip-child">
                             <Chip component={Link}
                                   id={`article-${this.props.articleId}-tags-${tag.id}`}
                                   classes={{
-                                      root: this.props.classes.tagChip,
-                                      label: this.props.classes.tagLabel
+                                      root: 'tag-chip-tagChip',
+                                      label: 'tag-chip-tagLabel'
                                   }}
                                   to={this.props.isOwner && this.props.currentUserSlug && this.props.currentUserTopicSlug && parentTags.length ? taggedTopicArticlesPath(this.props.currentUserSlug, this.props.currentUserTopicSlug, parentTags.first().slug, tag.slug) : taggedArticlesPath(tag.slug)}
                                   label={tag.name}

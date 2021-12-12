@@ -1,12 +1,11 @@
 'use strict';
 
+import '../../../stylesheets/pages/article/share.scss';
+
 import {
     hot
 } from 'react-hot-loader/root';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
@@ -15,7 +14,6 @@ import {
     shareArticle
 } from '../../actions';
 
-import styles from '../../../jss/article/share';
 
 export default @connect((state) => ({
     article: state.articleState.article
@@ -23,15 +21,12 @@ export default @connect((state) => ({
     shareArticle
 })
 @hot
-@withStyles(styles)
 class ShareArticleModal extends React.Component {
     static propTypes = {
         history: PropTypes.object.isRequired,
         // from connect
         article: PropTypes.object,
-        shareArticle: PropTypes.func,
-        // from styles
-        classes: PropTypes.object
+        shareArticle: PropTypes.func
     };
 
     constructor(props) {
@@ -64,8 +59,8 @@ class ShareArticleModal extends React.Component {
         return (
             <Modal open={this.state.isOpen}
                    onClose={this._handleClose}>
-                <div className={this.props.classes.modal}>
-                    <Typography className={this.props.classes.title}
+                <div className="article-share-modal">
+                    <Typography className="article-share-title"
                                 variant="h6">
                         {I18n.t('js.article.share.title')}
                     </Typography>

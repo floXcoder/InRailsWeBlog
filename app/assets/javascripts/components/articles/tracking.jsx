@@ -1,12 +1,11 @@
 'use strict';
 
+import '../../../stylesheets/pages/article/tracking.scss';
+
 import {
     hot
 } from 'react-hot-loader/root';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
@@ -31,14 +30,13 @@ import {
 
 import Loader from '../theme/loader';
 
-import styles from '../../../jss/article/tracking';
-
 const TRACKING_VIEWS = {
     STATS: 0,
     VIEWS: 1,
     ORIGINS: 2,
-    REFERERS: 3
+    REFERRERS: 3
 };
+
 
 export default @connect((state) => ({
     article: state.articleState.article,
@@ -47,7 +45,6 @@ export default @connect((state) => ({
     fetchArticleTracking
 })
 @hot
-@withStyles(styles)
 class TrackingArticleModal extends React.Component {
     static propTypes = {
         trackingView: PropTypes.number,
@@ -57,14 +54,12 @@ class TrackingArticleModal extends React.Component {
         // from connect
         article: PropTypes.object,
         articleTracking: PropTypes.object,
-        fetchArticleTracking: PropTypes.func,
-        // from styles
-        classes: PropTypes.object
+        fetchArticleTracking: PropTypes.func
     };
 
     static defaultProps = {
         trackingView: TRACKING_VIEWS.STATS
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -125,12 +120,12 @@ class TrackingArticleModal extends React.Component {
                     </h3>
                 }
 
-                <List className={this.props.classes.listContainer}
+                <List className="article-tracking-listContainer"
                       dense={true}>
                     {
                         Object.entries(listDetails).map(([element, count], i) => (
                             <ListItem key={i}>
-                                <ListItemText className={this.props.classes.listItem}
+                                <ListItemText className="article-tracking-listItem"
                                               primary={
                                                   <div>
                                                       {
@@ -161,7 +156,7 @@ class TrackingArticleModal extends React.Component {
                                               }/>
 
                                 <ListItemSecondaryAction
-                                    className={classNames(this.props.classes.listItem, {
+                                    className={classNames('article-tracking-listItem', {
                                         'margin-top-10': (!element || element === 'internal' || element === 'others')
                                     })}>
                                     {count}
@@ -172,7 +167,7 @@ class TrackingArticleModal extends React.Component {
                 </List>
             </div>
         );
-    }
+    };
 
     _renderStats = (tracker) => {
         return (
@@ -183,10 +178,10 @@ class TrackingArticleModal extends React.Component {
                             <VisibilityIcon/>
                         </ListItemIcon>
 
-                        <ListItemText className={this.props.classes.listItem}
+                        <ListItemText className="article-tracking-listItem"
                                       primary={I18n.t('js.article.tracking.stats.visits')}/>
 
-                        <ListItemSecondaryAction className={this.props.classes.listItem}>
+                        <ListItemSecondaryAction className="article-tracking-listItem">
                             {tracker.visitsCount}
                         </ListItemSecondaryAction>
                     </ListItem>
@@ -196,10 +191,10 @@ class TrackingArticleModal extends React.Component {
                             <VisibilityIcon/>
                         </ListItemIcon>
 
-                        <ListItemText className={this.props.classes.listItem}
+                        <ListItemText className="article-tracking-listItem"
                                       primary={I18n.t('js.article.tracking.stats.views')}/>
 
-                        <ListItemSecondaryAction className={this.props.classes.listItem}>
+                        <ListItemSecondaryAction className="article-tracking-listItem">
                             {tracker.viewsCount}
                         </ListItemSecondaryAction>
                     </ListItem>
@@ -209,10 +204,10 @@ class TrackingArticleModal extends React.Component {
                             <TouchAppIcon/>
                         </ListItemIcon>
 
-                        <ListItemText className={this.props.classes.listItem}
+                        <ListItemText className="article-tracking-listItem"
                                       primary={I18n.t('js.article.tracking.stats.clicks')}/>
 
-                        <ListItemSecondaryAction className={this.props.classes.listItem}>
+                        <ListItemSecondaryAction className="article-tracking-listItem">
                             {tracker.clicksCount}
                         </ListItemSecondaryAction>
                     </ListItem>
@@ -222,10 +217,10 @@ class TrackingArticleModal extends React.Component {
                             <SearchIcon/>
                         </ListItemIcon>
 
-                        <ListItemText className={this.props.classes.listItem}
+                        <ListItemText className="article-tracking-listItem"
                                       primary={I18n.t('js.article.tracking.stats.searches')}/>
 
-                        <ListItemSecondaryAction className={this.props.classes.listItem}>
+                        <ListItemSecondaryAction className="article-tracking-listItem">
                             {tracker.searchesCount}
                         </ListItemSecondaryAction>
                     </ListItem>
@@ -235,10 +230,10 @@ class TrackingArticleModal extends React.Component {
                             <FavoriteIcon/>
                         </ListItemIcon>
 
-                        <ListItemText className={this.props.classes.listItem}
+                        <ListItemText className="article-tracking-listItem"
                                       primary={I18n.t('js.article.tracking.stats.bookmarks')}/>
 
-                        <ListItemSecondaryAction className={this.props.classes.listItem}>
+                        <ListItemSecondaryAction className="article-tracking-listItem">
                             {this.props.article.bookmarksCount}
                         </ListItemSecondaryAction>
                     </ListItem>
@@ -248,10 +243,10 @@ class TrackingArticleModal extends React.Component {
                             <CommentIcon/>
                         </ListItemIcon>
 
-                        <ListItemText className={this.props.classes.listItem}
+                        <ListItemText className="article-tracking-listItem"
                                       primary={I18n.t('js.article.tracking.stats.comments')}/>
 
-                        <ListItemSecondaryAction className={this.props.classes.listItem}>
+                        <ListItemSecondaryAction className="article-tracking-listItem">
                             {this.props.article.commentsCount}
                         </ListItemSecondaryAction>
                     </ListItem>
@@ -264,7 +259,7 @@ class TrackingArticleModal extends React.Component {
         if (!this.props.articleTracking?.datesCount || Object.keys(this.props.articleTracking.datesCount).length === 0) {
             return (
                 <div className="margin-top-30">
-                    <p className={this.props.classes.listItem}>
+                    <p className="article-tracking-listItem">
                         <em>{I18n.t('js.article.tracking.undefined')}</em>
                     </p>
                 </div>
@@ -277,10 +272,10 @@ class TrackingArticleModal extends React.Component {
                     {
                         Object.entries(this.props.articleTracking.datesCount).map(([date, count], i) => (
                             <ListItem key={i}>
-                                <ListItemText className={this.props.classes.listItem}
+                                <ListItemText className="article-tracking-listItem"
                                               primary={date}/>
 
-                                <ListItemSecondaryAction className={this.props.classes.listItem}>
+                                <ListItemSecondaryAction className="article-tracking-listItem">
                                     {count}
                                 </ListItemSecondaryAction>
                             </ListItem>
@@ -295,7 +290,7 @@ class TrackingArticleModal extends React.Component {
         if (!this.props.articleTracking.countries && !this.props.articleTracking.browsers && !this.props.articleTracking.os && !this.props.articleTracking.utmSources) {
             return (
                 <div className="margin-top-30">
-                    <p className={this.props.classes.listItem}>
+                    <p className="article-tracking-listItem">
                         <em>{I18n.t('js.article.tracking.undefined')}</em>
                     </p>
                 </div>
@@ -312,18 +307,18 @@ class TrackingArticleModal extends React.Component {
         );
     };
 
-    _renderReferers = () => {
-        if (!this.props.articleTracking.referers) {
+    _renderReferrers = () => {
+        if (!this.props.articleTracking.referrers) {
             return (
                 <div className="margin-top-30">
-                    <p className={this.props.classes.listItem}>
+                    <p className="article-tracking-listItem">
                         <em>{I18n.t('js.article.tracking.undefined')}</em>
                     </p>
                 </div>
             );
         }
 
-        return this._renderListDetails(this.props.articleTracking.referers);
+        return this._renderListDetails(this.props.articleTracking.referrers);
     };
 
     render() {
@@ -334,8 +329,8 @@ class TrackingArticleModal extends React.Component {
         return (
             <Modal open={this.state.isOpen}
                    onClose={this._handleClose}>
-                <div className={this.props.classes.modal}>
-                    <Typography className={this.props.classes.title}
+                <div className="article-tracking-modal">
+                    <Typography className="article-tracking-title"
                                 variant="h6">
                         {I18n.t('js.article.tracking.title')}
                     </Typography>
@@ -351,24 +346,24 @@ class TrackingArticleModal extends React.Component {
                           onChange={this._handleTabChange}
                           indicatorColor="primary"
                           variant="fullWidth">
-                        <Tab className={this.props.classes.tabItem}
+                        <Tab className="article-tracking-tabItem"
                              label={I18n.t('js.article.tracking.stats.title')}
                              disableRipple={true}/>
 
-                        <Tab className={this.props.classes.tabItem}
+                        <Tab className="article-tracking-tabItem"
                              label={I18n.t('js.article.tracking.views.title')}
                              disableRipple={true}/>
 
-                        <Tab className={this.props.classes.tabItem}
+                        <Tab className="article-tracking-tabItem"
                              label={I18n.t('js.article.tracking.origins.title')}
                              disableRipple={true}/>
 
-                        <Tab className={this.props.classes.tabItem}
-                             label={I18n.t('js.article.tracking.referers.title')}
+                        <Tab className="article-tracking-tabItem"
+                             label={I18n.t('js.article.tracking.referrers.title')}
                              disableRipple={true}/>
                     </Tabs>
 
-                    <div className={this.props.classes.container}>
+                    <div className="article-tracking-container">
                         {
                             this.state.tabIndex === TRACKING_VIEWS.STATS &&
                             this._renderStats(this.props.articleTracking?.tracker || this.props.article.tracker)
@@ -385,8 +380,8 @@ class TrackingArticleModal extends React.Component {
                         }
 
                         {
-                            this.state.tabIndex === TRACKING_VIEWS.REFERERS &&
-                            this._renderReferers()
+                            this.state.tabIndex === TRACKING_VIEWS.REFERRERS &&
+                            this._renderReferrers()
                         }
                     </div>
 

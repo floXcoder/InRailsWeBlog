@@ -55,7 +55,6 @@ export default @withRouter
 })
 class HomeSearch extends React.Component {
     static propTypes = {
-        classes: PropTypes.object.isRequired,
         // from router
         history: PropTypes.object,
         // from connect
@@ -136,12 +135,12 @@ class HomeSearch extends React.Component {
                   onSubmit={this._performSearch}>
                 <EnsureValidity/>
 
-                <div className={this.props.classes.searchField}>
-                    <div className={this.props.classes.searchIcon}>
+                <div className="home-searchField">
+                    <div className="home-searchIcon">
                         <SearchIcon/>
                     </div>
 
-                    <InputLabel className={this.props.classes.inputLabel}
+                    <InputLabel className="home-inputLabel"
                                 htmlFor="home-search">
                         Search
                     </InputLabel>
@@ -150,8 +149,8 @@ class HomeSearch extends React.Component {
                            name="search"
                            type="search"
                            classes={{
-                               root: this.props.classes.inputRoot,
-                               input: this.props.classes.inputInput
+                               root: 'home-inputRoot',
+                               input: 'home-inputInput'
                            }}
                            placeholder={I18n.t('js.views.home.search.placeholder')}
                            disableUnderline={true}
@@ -162,7 +161,7 @@ class HomeSearch extends React.Component {
                                    {
                                        this.props.selectedTags.map((tag) => (
                                            <Chip key={tag.id}
-                                                 className={this.props.classes.selectedTagsChip}
+                                                 className="home-selectedTagsChip"
                                                  tabIndex={-1}
                                                  label={tag.name}
                                                  color="primary"
@@ -183,7 +182,7 @@ class HomeSearch extends React.Component {
             <div>
                 {
                     this.props.isSearching &&
-                    <div className={this.props.classes.searchLoader}>
+                    <div className="home-searchLoader">
                         <Loader size="big"/>
                     </div>
                 }
@@ -198,8 +197,7 @@ class HomeSearch extends React.Component {
                           sm={8}
                           md={9}
                           lg={9}>
-                        <SearchArticleModule classes={this.props.classes}
-                                             isSearching={this.props.isSearching}
+                        <SearchArticleModule isSearching={this.props.isSearching}
                                              isUserConnected={this.props.isUserConnected}
                                              currentUserId={this.props.currentUserId}
                                              currentTopicId={this.props.currentUserTopicId}
@@ -215,8 +213,7 @@ class HomeSearch extends React.Component {
                           sm={4}
                           md={3}
                           lg={3}>
-                        <SearchTagModule classes={this.props.classes}
-                                         isSearching={this.props.isSearching}
+                        <SearchTagModule isSearching={this.props.isSearching}
                                          isUserConnected={this.props.isUserConnected}
                                          currentUserId={this.props.currentUserId}
                                          currentTopicId={this.props.currentUserTopicId}
@@ -235,9 +232,9 @@ class HomeSearch extends React.Component {
         const hasQuery = (this.props.query && this.props.query !== '') || this.props.selectedTags.length > 0;
 
         return (
-            <section className={this.props.classes.search}>
-                <div className={this.props.classes.homeContent}>
-                    <h2 className={this.props.classes.searchTitle}>
+            <section className="home-search">
+                <div className="home-homeContent">
+                    <h2 className="home-searchTitle">
                         {I18n.t('js.views.home.search.title')}
                     </h2>
 
@@ -248,7 +245,7 @@ class HomeSearch extends React.Component {
                         this._renderSearchResults()
                     }
 
-                    <div className={this.props.classes.searchButton}>
+                    <div className="home-searchButton">
                         <Button color="primary"
                                 variant="contained"
                                 onClick={this._performSearch}>

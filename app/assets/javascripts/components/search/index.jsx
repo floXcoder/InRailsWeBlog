@@ -1,12 +1,11 @@
 'use strict';
 
+import '../../../stylesheets/pages/search/index.scss';
+
 import {
     hot
 } from 'react-hot-loader/root';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import FormControl from '@material-ui/core/FormControl';
@@ -47,7 +46,6 @@ import SearchSuggestionIndex from './index/suggestion';
 import SearchTagIndex from './index/tag';
 import SearchArticleIndex from './index/article';
 
-import styles from '../../../jss/search/index';
 
 export default @connect((state) => ({
     currentUserId: state.userState.currentId,
@@ -79,7 +77,6 @@ export default @connect((state) => ({
     showUserPreference
 })
 @hot
-@withStyles(styles)
 class SearchIndex extends React.Component {
     static propTypes = {
         routeParams: PropTypes.object.isRequired,
@@ -109,9 +106,7 @@ class SearchIndex extends React.Component {
         filterSearch: PropTypes.func,
         searchInURLs: PropTypes.func,
         updateUserSettings: PropTypes.func,
-        showUserPreference: PropTypes.func,
-        // from styles
-        classes: PropTypes.object
+        showUserPreference: PropTypes.func
     };
 
     constructor(props) {
@@ -313,7 +308,7 @@ class SearchIndex extends React.Component {
     render() {
         if (this.props.currentUserId && !this.props.currentUser) {
             return (
-                <div className={this.props.classes.root}>
+                <div className="search-index-root">
                     <div className="center">
                         <Loader size="big"/>
                     </div>
@@ -328,7 +323,7 @@ class SearchIndex extends React.Component {
         const searchDisplay = this.state.forceDisplay || (this.props.currentUserTopicMode === 'inventories' ? 'grid' : this.props.searchDisplay) || 'card';
 
         return (
-            <div className={this.props.classes.root}>
+            <div className="search-index-root">
                 <form onSubmit={this._handleSubmit}>
                     <EnsureValidity/>
 
@@ -338,19 +333,19 @@ class SearchIndex extends React.Component {
                           justifyContent="center"
                           alignItems="center">
                         <Grid item={true}
-                              className={this.props.classes.inputItem}>
+                              className="search-index-inputItem">
                             <FormControl classes={{
-                                root: this.props.classes.inputForm
+                                root: 'search-index-inputForm'
                             }}>
-                                <div className={this.props.classes.searchIcon}>
+                                <div className="search-index-searchIcon">
                                     <SearchIcon fontSize="large"/>
                                 </div>
 
                                 <Input name="search"
                                        type="search"
                                        classes={{
-                                           root: this.props.classes.inputRoot,
-                                           input: this.props.classes.inputSearch
+                                           root: 'search-index-inputRoot',
+                                           input: 'search-index-inputSearch'
                                        }}
                                        autoFocus={isDesktop}
                                        placeholder={I18n.t('js.search.index.placeholder')}
@@ -360,7 +355,7 @@ class SearchIndex extends React.Component {
                                                {
                                                    this.props.selectedTags.map((tag) => (
                                                        <Chip key={tag.id}
-                                                             className={this.props.classes.inputTag}
+                                                             className="search-index-inputTag"
                                                              tabIndex={-1}
                                                              label={tag.name}
                                                              color="primary"
@@ -379,7 +374,7 @@ class SearchIndex extends React.Component {
                         </Grid>
 
                         <Grid item={true}
-                              className={this.props.classes.searchButton}>
+                              className="search-index-searchButton">
                             <Button color="primary"
                                     variant="outlined"
                                     onClick={this._handleSubmit}>
@@ -402,8 +397,7 @@ class SearchIndex extends React.Component {
 
                 <Grow in={this.props.autocompleteTags.length > 0}
                       timeout={200}>
-                    <SearchTagIndex classes={this.props.classes}
-                                    isAutocomplete={true}
+                    <SearchTagIndex isAutocomplete={true}
                                     tags={this.props.autocompleteTags}
                                     highlightedTagId={this.state.highlightedTagId}
                                     onTagClick={this._handleTagSelection}/>
@@ -411,23 +405,21 @@ class SearchIndex extends React.Component {
 
                 {
                     // hasNoResults &&
-                    // <div className={this.props.classes.helpMessage}>
+                    // <div className={search-index-helpMessage}>
                     //     {I18n.t('js.search.index.no_results')}
                     // </div>
                 }
 
                 {
                     this.props.tags.length > 0 &&
-                    <SearchTagIndex classes={this.props.classes}
-                                    tags={this.props.tags}
+                    <SearchTagIndex tags={this.props.tags}
                                     highlightedTagId={this.state.highlightedTagId}
                                     onTagClick={this._handleTagSelection}/>
                 }
 
                 {
                     this.props.articles.length > 0 &&
-                    <SearchArticleIndex classes={this.props.classes}
-                                        currentUserId={this.props.currentUserId}
+                    <SearchArticleIndex currentUserId={this.props.currentUserId}
                                         currentUserTopicId={this.props.currentUserTopicId}
                                         selectedTagIds={this.props.selectedTags.map((tag) => tag.id)}
                                         articles={this.props.articles}
@@ -441,7 +433,7 @@ class SearchIndex extends React.Component {
 
                 {
                     (!this.props.articles.length && !this.props.isSearching) &&
-                    <div className={this.props.classes.helpMessage}>
+                    <div className="search-index-helpMessage">
                         {I18n.t('js.search.index.no_results')}
                     </div>
                 }

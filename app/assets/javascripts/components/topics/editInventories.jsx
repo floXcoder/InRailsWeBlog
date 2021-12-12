@@ -1,5 +1,7 @@
 'use strict';
 
+import '../../../stylesheets/pages/topic/form.scss';
+
 import {
     hot
 } from 'react-hot-loader/root';
@@ -7,10 +9,6 @@ import {
 import {
     withRouter
 } from 'react-router-dom';
-
-import {
-    withStyles
-} from '@material-ui/core/styles';
 
 import {
     topicArticlesPath
@@ -32,7 +30,6 @@ import TopicFormInventoriesDisplay from './display/formInventories';
 
 import NotAuthorized from '../layouts/notAuthorized';
 
-import styles from '../../../jss/topic/edit';
 
 export default @withRouter
 @connect((state) => ({
@@ -44,7 +41,6 @@ export default @withRouter
     updateTopicInventories
 })
 @hot
-@withStyles(styles)
 class TopicEditInventories extends React.Component {
     static propTypes = {
         routeParams: PropTypes.object.isRequired,
@@ -55,9 +51,7 @@ class TopicEditInventories extends React.Component {
         currentUser: PropTypes.object,
         topicErrors: PropTypes.array,
         fetchTopic: PropTypes.func,
-        updateTopicInventories: PropTypes.func,
-        // from styles
-        classes: PropTypes.object
+        updateTopicInventories: PropTypes.func
     };
 
     constructor(props) {
@@ -111,7 +105,7 @@ class TopicEditInventories extends React.Component {
         const {inventoryFields} = this.props.topic;
 
         return (
-            <div className={this.props.classes.root}>
+            <div className="topic-edit-root">
                 <TopicFormInventoriesDisplay initialValues={{inventoryFields}}
                                              id={`topic-edit-inventories-${this.props.topic.id}`}
                                              topic={this.props.topic}

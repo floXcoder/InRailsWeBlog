@@ -1,0 +1,173 @@
+@import 'base/variables';
+
+// Article show
+.article-show-root {
+  margin: 1rem auto 4rem;
+  overflow: visible;
+  position: relative;
+  max-width: $article-width;
+
+  @media #{$large-and-down} {
+    padding: .6rem;
+    margin-bottom: 1.8rem;
+  }
+}
+
+.article-show-title {
+  width: 100%;
+  font-size: $h1-size;
+  word-wrap: break-word;
+  margin-top: 2rem;
+  text-align: center;
+  font-weight: $h1-weight;
+  line-height: $h1-line-height;
+  margin-bottom: .5rem;
+  letter-spacing: $h1-spacing;
+
+  @media #{$large-and-down} {
+    font-size: $h1-size-mobile;
+    margin-top: .5rem;
+    line-height: $h1-line-height-mobile;
+  }
+}
+
+.article-show-reference {
+  margin: 8px 0;
+}
+
+.article-show-referenceLink {
+  color: $text-color;
+  font-style: italic;
+}
+
+.article-show-media {
+  padding-top: 56.25%;
+}
+
+.article-show-content {
+  margin-top: .5rem;
+  margin-bottom: 1.5rem;
+}
+
+.article-show-actions {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 1.5rem;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.article-show-avatar {
+  width: 38px;
+  height: 38px;
+}
+
+.article-show-avatarIcon {
+  font-size: 32px;
+}
+
+.article-show-avatarUser {
+  color: inherit;
+  font-size: .95rem;
+}
+
+.article-show-avatarDate {
+  font-size: .9rem;
+}
+
+.article-show-editIcon {
+  margin: 0 .4rem;
+  display: inline-block;
+  text-align: right;
+}
+
+.article-show-commentCount {
+  color: inherit;
+  display: block;
+  font-size: .9rem;
+  margin-top: .6rem;
+  text-align: right;
+}
+
+.article-show-outdated {
+  padding: 9px;
+  background-color: #f5f5f5;
+}
+
+.article-show-articleInfo {
+  color: #757575;
+  font-size: .9rem;
+  margin-top: 0;
+  margin-bottom: 0;
+
+  @media #{$large-and-down} {
+    display: none;
+  }
+}
+
+.article-show-articleContent {
+  margin-top: 2rem;
+}
+
+.article-show-floatingButtons {
+  left: -110px;
+  position: absolute;
+
+  @media #{$large-and-down} {
+    display: none;
+  }
+}
+
+.article-show-floatingIcons {
+  display: flex;
+  font-size: 2.2rem;
+  align-items: center;
+  flex-direction: column;
+}
+
+.article-show-actionButtons {
+  margin-left: auto;
+
+  @media #{$large-and-up} {
+    margin-right: -2px;
+  }
+}
+
+.article-show-actionItem {
+  margin: 12px;
+  display: inline-block;
+
+  @media #{$large-and-down} {
+    margin: 12px 20px;
+  }
+}
+
+.article-show-recommendationsContainer {
+  margin: 0 auto 2rem;
+  max-width: $stories-width;
+}
+
+.article-show-recommendationsTitle {
+  font-size: 1.4rem;
+  margin-top: 2.4rem;
+  text-align: center;
+  margin-bottom: .2rem;
+}
+
+.article-show-recommendationsArticle {
+  width: 420px;
+
+  @media #{$medium-and-down} {
+    max-width: 320px;
+  }
+}
+
+.article-show-recommendationsLink {
+  margin-top: 1.6rem;
+  text-align: center;
+}
+
+.article-show-commentsContainer {
+  margin: 0 auto 2rem;
+  max-width: $article-appendix-width;
+}

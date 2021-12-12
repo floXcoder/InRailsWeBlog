@@ -9,25 +9,17 @@ import {
     Route
 } from 'react-router-dom';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
-
 import RouteManager from '../managers/route';
 
-import styles from '../../../../jss/default/main';
 
-export default @withStyles(styles)
-class MainLayoutDefault extends React.Component {
+export default class MainLayoutDefault extends React.Component {
     static propTypes = {
         routes: PropTypes.array.isRequired,
         staticContent: PropTypes.oneOfType([
             PropTypes.element,
             PropTypes.object,
             PropTypes.string
-        ]),
-        // from styles
-        classes: PropTypes.object
+        ])
     };
 
     constructor(props) {
@@ -61,7 +53,7 @@ class MainLayoutDefault extends React.Component {
                                    const {component, ...routeProperties} = route;
                                    const Component = component();
 
-                                   const {routes, classes, ...initProps} = this.props;
+                                   const {routes, ...initProps} = this.props;
 
                                    const isHome = route.name === 'Home';
 
@@ -69,11 +61,11 @@ class MainLayoutDefault extends React.Component {
                                        <RouteManager currentRoute={routeProperties}
                                                      params={router.match.params}
                                                      location={router.location}>
-                                           <main className={classNames(classes.content, {
-                                               [classes.homeContent]: isHome
+                                           <main className={classNames('layout-default-content', {
+                                               'layout-default-home-content': isHome
                                            })}>
                                                <Suspense fallback={<div/>}>
-                                                   <div className={isHome ? classes.homeLayout : classes.layout}>
+                                                   <div className={isHome ? 'layout-default-home-layout' : 'layout-default-layout'}>
                                                        <Component routeParams={router.match.params}
                                                                   routeHash={router.location.search}
                                                                   routeState={router.location.state}

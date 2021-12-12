@@ -4,9 +4,6 @@ import {
     Link
 } from 'react-router-dom';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -25,14 +22,12 @@ import {
 
 import ChildTag from './child';
 
-import styles from '../../../../jss/tag/sidebar';
 
 export default @connect((state) => ({
     currentTagSlugs: getCurrentTagSlugs(state),
     currentUserSlug: state.userState.currentSlug,
     currentUserTopicSlug: state.topicState.currentUserTopicSlug
 }))
-@withStyles(styles)
 class ParentTag extends React.PureComponent {
     static propTypes = {
         tag: PropTypes.object.isRequired,
@@ -43,9 +38,7 @@ class ParentTag extends React.PureComponent {
         // from connect
         currentTagSlugs: PropTypes.array,
         currentUserSlug: PropTypes.string,
-        currentUserTopicSlug: PropTypes.string,
-        // from styles
-        classes: PropTypes.object
+        currentUserTopicSlug: PropTypes.string
     };
 
     static defaultProps = {
@@ -104,8 +97,8 @@ class ParentTag extends React.PureComponent {
                           }
                           onClick={this._handleTagClick.bind(this, this.props.tag.id, this.props.tag.slug, this.props.tag.userId, this.props.tag.name, true)}>
                     <ListItemText classes={{
-                        primary: classNames(this.props.classes.label, {
-                            [this.props.classes.selectedLabel]: this.props.currentTagSlug ? this.props.currentTagSlug === this.props.tag.slug : this.props.currentTagSlugs.includes(this.props.tag.slug)
+                        primary: classNames('tag-sidebar-label', {
+                            'tag-sidebar-selectedLabel': this.props.currentTagSlug ? this.props.currentTagSlug === this.props.tag.slug : this.props.currentTagSlugs.includes(this.props.tag.slug)
                         })
                     }}>
                         {this.props.tag.name}
@@ -115,10 +108,10 @@ class ParentTag extends React.PureComponent {
                         hasChild && (
                             this.state.isExpanded
                                 ?
-                                <ExpandLess className={this.props.classes.expandIcon}
+                                <ExpandLess className="tag-sidebar-expandIcon"
                                             onClick={this._handleTagIconClick}/>
                                 :
-                                <ExpandMore className={this.props.classes.expandIcon}
+                                <ExpandMore className="tag-sidebar-expandIcon"
                                             onClick={this._handleTagIconClick}/>
                         )
                     }
@@ -141,7 +134,6 @@ class ParentTag extends React.PureComponent {
                                               currentTagSlugs={this.props.currentTagSlugs}
                                               currentUserSlug={this.props.currentUserSlug}
                                               currentUserTopicSlug={this.props.currentUserTopicSlug}
-                                              classes={this.props.classes}
                                               onTagClick={this._handleTagClick.bind(this, tag.id, tag.name, tag.userId, tag.slug, false)}/>
                                 ))
                             }

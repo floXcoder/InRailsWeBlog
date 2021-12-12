@@ -4,9 +4,6 @@ import {
     Link
 } from 'react-router-dom';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import Button from '@material-ui/core/Button';
@@ -14,8 +11,6 @@ import Button from '@material-ui/core/Button';
 import {
     sortTopicArticlesPath
 } from '../../../constants/routesHelper';
-
-import styles from '../../../../jss/article/filter';
 
 const sortOptions = [
     'updated_desc',
@@ -25,15 +20,12 @@ const sortOptions = [
 ];
 
 // Managed by article index to update current user preference
-export default @withStyles(styles)
-class ArticleSortMenu extends React.Component {
+export default class ArticleSortMenu extends React.Component {
     static propTypes = {
         onOrderChange: PropTypes.func.isRequired,
         currentOrder: PropTypes.string,
         currentUserSlug: PropTypes.string,
-        currentUserTopicSlug: PropTypes.string,
-        // from styles
-        classes: PropTypes.object
+        currentUserTopicSlug: PropTypes.string
     };
 
     state = {
@@ -63,7 +55,7 @@ class ArticleSortMenu extends React.Component {
     render() {
         const options = sortOptions.map((option) => (
             <Link key={option}
-                  className={this.props.classes.buttonLink}
+                  className="article-dropdown-buttonLink"
                   to={{search: `order=${option}`}}
                   onClick={this.props.onOrderChange.bind(this, option)}>
                 {I18n.t(`js.article.sort.order.${option}`)}
@@ -81,7 +73,7 @@ class ArticleSortMenu extends React.Component {
 
         return (
             <>
-                <Button className={this.props.classes.button}
+                <Button className="article-dropdown-button"
                         variant="text"
                         onClick={this._handleClickListItem}>
                     {I18n.t('js.article.sort.title')}

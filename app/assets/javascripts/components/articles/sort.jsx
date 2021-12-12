@@ -1,5 +1,7 @@
 'use strict';
 
+import '../../../stylesheets/pages/article/sort.scss';
+
 import {
     hot
 } from 'react-hot-loader/root';
@@ -7,10 +9,6 @@ import {
 import {
     withRouter
 } from 'react-router-dom';
-
-import {
-    withStyles
-} from '@material-ui/core/styles';
 
 import {
     topicArticlesPath
@@ -29,7 +27,6 @@ import Loader from '../theme/loader';
 
 import ArticleSorter from './sort/sorter';
 
-import styles from '../../../jss/article/sort';
 
 export default @withRouter
 @connect((state) => ({
@@ -45,7 +42,6 @@ export default @withRouter
     updateArticlePriority
 })
 @hot
-@withStyles(styles)
 class ArticleSort extends React.Component {
     static propTypes = {
         routeParams: PropTypes.object.isRequired,
@@ -60,9 +56,7 @@ class ArticleSort extends React.Component {
         isProcessing: PropTypes.bool,
         articles: PropTypes.array,
         fetchArticles: PropTypes.func,
-        updateArticlePriority: PropTypes.func,
-        // from styles
-        classes: PropTypes.object
+        updateArticlePriority: PropTypes.func
     };
 
     constructor(props) {
@@ -96,7 +90,7 @@ class ArticleSort extends React.Component {
         }
 
         return (
-            <div className={this.props.classes.root}>
+            <div className="article-sort-root">
                 {
                     this.props.isProcessing &&
                     <div className="center margin-top-20">
@@ -107,7 +101,6 @@ class ArticleSort extends React.Component {
                 {
                     this.props.articles.length > 0 &&
                     <ArticleSorter key={Utils.uuid()}
-                                   classes={this.props.classes}
                                    articles={this.props.articles}
                                    isProcessing={this.props.isProcessing}
                                    currentUserSlug={this.props.currentUserSlug}

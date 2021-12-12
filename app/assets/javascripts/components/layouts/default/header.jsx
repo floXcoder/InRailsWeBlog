@@ -13,9 +13,6 @@ import {
     LoadingBar
 } from 'react-redux-loading-bar';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
 import withWidth from '@material-ui/core/withWidth';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -53,9 +50,8 @@ import HeadLayout from '../head';
 
 import HomeSearchHeader from '../header/search';
 
-import styles from '../../../../jss/default/header';
-
 const loadingBarStyle = {backgroundColor: '#036603', height: '2px'};
+
 
 export default @connect((state) => ({
     routeProperties: state.routerState.currentRoute,
@@ -69,7 +65,6 @@ export default @connect((state) => ({
     showUserLogin
 })
 @withWidth()
-@withStyles(styles)
 class HeaderLayoutDefault extends React.Component {
     static propTypes = {
         hashRoutes: PropTypes.object.isRequired,
@@ -84,9 +79,7 @@ class HeaderLayoutDefault extends React.Component {
         showUserSignup: PropTypes.func,
         showUserLogin: PropTypes.func,
         // from withWidth
-        width: PropTypes.string,
-        // from styles
-        classes: PropTypes.object
+        width: PropTypes.string
     };
 
     constructor(props) {
@@ -189,11 +182,11 @@ class HeaderLayoutDefault extends React.Component {
 
     _renderDesktopMenu = () => {
         return (
-            <div className={this.props.classes.sectionDesktop}
+            <div className="layout-header-sectionDesktop"
                  aria-label="Navigation"
                  itemScope={true}
                  itemType="https://schema.org/SiteNavigationElement">
-                <Button className={this.props.classes.desktopItem}
+                <Button className="layout-header-desktopItem"
                         size="small"
                         color="default"
                         itemProp="url"
@@ -201,7 +194,7 @@ class HeaderLayoutDefault extends React.Component {
                     {I18n.t('js.views.header.user.sign_up')}
                 </Button>
 
-                <Button className={this.props.classes.desktopItem}
+                <Button className="layout-header-desktopItem"
                         color="default"
                         itemProp="url"
                         onClick={this._handleLoginClick}>
@@ -220,7 +213,7 @@ class HeaderLayoutDefault extends React.Component {
             <SwipeableDrawer variant="temporary"
                              anchor="right"
                              classes={{
-                                 paper: this.props.classes.mobileDrawerPaper
+                                 paper: 'layout-header-mobileDrawerPaper'
                              }}
                              ModalProps={{
                                  keepMounted: true
@@ -229,8 +222,8 @@ class HeaderLayoutDefault extends React.Component {
                              onClose={this._handleDrawerToggle}
                              onOpen={this._handleDrawerToggle}>
                 <>
-                    <div className={this.props.classes.mobileToolbar}>
-                        <h5 className={this.props.classes.mobileTitle}
+                    <div className="layout-header-mobileToolbar">
+                        <h5 className="layout-header-mobileTitle"
                             itemProp="name">
                             <Link className="header-brand-logo-mobile"
                                   to={rootPath()}
@@ -270,15 +263,15 @@ class HeaderLayoutDefault extends React.Component {
         return (
             <>
                 <AppBar position="fixed"
-                        className={classNames('animate-search', this.props.classes.appBar)}
+                        className="animate-search layout-header-appBar"
                         itemScope={true}
                         itemType="https://schema.org/Organization">
                     <LoadingBar showFastActions={true}
                                 style={loadingBarStyle}/>
 
-                    <Toolbar className={this.props.classes.toolbar}>
+                    <Toolbar className="layout-header-toolbar">
                         <div>
-                            <div className={this.props.classes.headerTitle}
+                            <div className="layout-header-headerTitle"
                                  itemProp="name">
                                 <Link className="header-brand-logo"
                                       to={rootPath()}
@@ -290,7 +283,7 @@ class HeaderLayoutDefault extends React.Component {
                             </div>
                         </div>
 
-                        <div className={this.props.classes.grow}/>
+                        <div className="layout-header-grow"/>
 
                         {
                             !this.props.routeProperties.noHeaderSearch &&
@@ -303,16 +296,16 @@ class HeaderLayoutDefault extends React.Component {
                             // </Suspense>
                         }
 
-                        <div className={this.props.classes.grow}/>
+                        <div className="layout-header-grow"/>
 
                         {this._renderDesktopMenu()}
 
-                        <div className={this.props.classes.sectionMobile}>
-                            <IconButton className={this.props.classes.menuButton}
+                        <div className="layout-header-sectionMobile">
+                            <IconButton className="layout-header-menuButton"
                                         color="primary"
                                         aria-label="Open drawer"
                                         onClick={this._handleDrawerToggle}>
-                                <AccountCircleIcon className={this.props.classes.mobileIcon}/>
+                                <AccountCircleIcon className="layout-header-mobileIcon"/>
                             </IconButton>
                         </div>
                     </Toolbar>

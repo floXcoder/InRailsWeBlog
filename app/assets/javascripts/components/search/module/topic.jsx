@@ -16,7 +16,6 @@ import {
 
 export default class SearchTopicModule extends React.Component {
     static propTypes = {
-        classes: PropTypes.object.isRequired,
         topics: PropTypes.array.isRequired
     };
 
@@ -27,11 +26,11 @@ export default class SearchTopicModule extends React.Component {
     _renderTopicItem = (topic) => {
         return (
             <Chip key={topic.id}
-                  className={this.props.classes.topic}
+                  className="search-module-topic"
                   color="primary"
                   variant="outlined"
                   label={
-                      <Link className={this.props.classes.tagLink}
+                      <Link className="search-module-tagLink"
                             to={topicArticlesPath(topic.userSlug, topic.slug)}
                             onClick={spyTrackClick.bind(null, 'topic', topic.id, topic.slug, topic.userId, topic.name, null)}>
                           {topic.name}
@@ -46,8 +45,8 @@ export default class SearchTopicModule extends React.Component {
         }
 
         return (
-            <div className={this.props.classes.category}>
-                <h2 className={this.props.classes.categoryName}>
+            <div className="search-module-category">
+                <h2 className="search-module-categoryName">
                     {I18n.t('js.search.module.topics.title')}
                 </h2>
 

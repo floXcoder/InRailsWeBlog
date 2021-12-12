@@ -4,9 +4,6 @@ import {
     Link
 } from 'react-router-dom';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 
 import {
@@ -17,18 +14,14 @@ import TopicFormMandatoryFieldDisplay from './inventories/mandatoryField';
 import TopicInventoryFieldSorter from './inventories/sorter';
 import TopicErrorField from './fields/error';
 
-import styles from '../../../../jss/topic/formInventories';
 
-export default @withStyles(styles)
-class TopicFormInventoriesDisplay extends React.Component {
+export default class TopicFormInventoriesDisplay extends React.Component {
     static propTypes = {
         id: PropTypes.string.isRequired,
         topic: PropTypes.object.isRequired,
         onSubmit: PropTypes.func.isRequired,
         topicErrors: PropTypes.array,
-        children: PropTypes.array,
-        // from styles
-        classes: PropTypes.object
+        children: PropTypes.array
     };
 
     constructor(props) {
@@ -54,10 +47,9 @@ class TopicFormInventoriesDisplay extends React.Component {
                         </div>
                     }
 
-                    <TopicFormMandatoryFieldDisplay classes={this.props.classes}/>
+                    <TopicFormMandatoryFieldDisplay/>
 
-                    <TopicInventoryFieldSorter classes={this.props.classes}
-                                               fields={this.props.children}/>
+                    <TopicInventoryFieldSorter fields={this.props.children}/>
                 </div>
 
                 <div className="margin-top-50 margin-bottom-20">

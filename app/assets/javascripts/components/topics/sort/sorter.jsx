@@ -19,18 +19,16 @@ import {
 
 import TopicCardSort from './card';
 
-const SortableItem = SortableElement(({classes, topic}) => (
-    <TopicCardSort classes={classes}
-                   topic={topic}/>
+const SortableItem = SortableElement(({topic}) => (
+    <TopicCardSort topic={topic}/>
 ));
 
-const SortableList = SortableContainer(({classes, topics}) => (
-    <div className={classes.sortingItems}>
+const SortableList = SortableContainer(({topics}) => (
+    <div className="topic-sort-sortingItems">
         {
             topics.map((topic, i) => (
                 <SortableItem key={i}
                               index={i}
-                              classes={classes}
                               topic={topic}/>
             ))
         }
@@ -39,7 +37,6 @@ const SortableList = SortableContainer(({classes, topics}) => (
 
 export default class TopicSorter extends React.Component {
     static propTypes = {
-        classes: PropTypes.object.isRequired,
         // Topics must already be sorted by priority
         topics: PropTypes.array.isRequired,
         updateTopicPriority: PropTypes.func.isRequired
@@ -67,9 +64,8 @@ export default class TopicSorter extends React.Component {
 
     render() {
         return (
-            <div className={this.props.classes.sorting}>
-                <SortableList classes={this.props.classes}
-                              topics={this.state.topics}
+            <div className="topic-sort-sorting">
+                <SortableList topics={this.state.topics}
                               useWindowAsScrollContainer={true}
                               onSortEnd={this._handleSortEndProduct}/>
 

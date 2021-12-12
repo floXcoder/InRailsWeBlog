@@ -10,9 +10,6 @@ import {
     Field
 } from 'react-final-form';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
@@ -33,16 +30,11 @@ import TextFormField from '../../material-ui/form/text';
 import SelectFormField from '../../material-ui/form/select';
 import AutocompleteFormField from '../../material-ui/form/autocomplete';
 
-import styles from '../../../../jss/tag/form';
 
-
-export default @withStyles(styles)
-class TagFormDisplay extends React.Component {
+export default class TagFormDisplay extends React.Component {
     static propTypes = {
         onSubmit: PropTypes.func.isRequired,
-        children: PropTypes.object.isRequired,
-        // from styles
-        classes: PropTypes.object
+        children: PropTypes.object.isRequired
     };
 
     constructor(props) {
@@ -113,15 +105,15 @@ class TagFormDisplay extends React.Component {
                                     <div className="col s12">
                                         <Field name="name"
                                                component={TextFormField}
-                                               className={this.props.classes.name}
+                                               className="tag-form-name"
                                                InputLabelProps={{
                                                    classes: {
-                                                       root: this.props.classes.nameLabel
+                                                       root: 'tag-form-nameLabel'
                                                    }
                                                }}
                                                InputProps={{
                                                    classes: {
-                                                       underline: !this.props.children.name && this.props.classes.nameUnderline
+                                                       underline: !this.props.children.name && 'tag-form-nameUnderline'
                                                    }
                                                }}
                                                id="tag_name"
@@ -133,7 +125,7 @@ class TagFormDisplay extends React.Component {
 
                                         {
                                             this.props.children.visibility === 'everyone' &&
-                                            <p className={this.props.classes.nameAdvice}>
+                                            <p className="tag-form-nameAdvice">
                                                 {I18n.t('js.tag.common.visibility_immutable')}
                                             </p>
                                         }
@@ -142,7 +134,7 @@ class TagFormDisplay extends React.Component {
                                     <div className="col s12 margin-top-30 margin-bottom-30">
                                         <Divider/>
 
-                                        <div className={this.props.classes.categoryTitle}>
+                                        <div className="tag-form-categoryTitle">
                                             {I18n.t('js.tag.model.description')}
                                         </div>
 
@@ -170,21 +162,21 @@ class TagFormDisplay extends React.Component {
                                     </div>
 
                                     <div className="col s12 m6 center-align">
-                                        <div className={this.props.classes.categoryTitle}>
+                                        <div className="tag-form-categoryTitle">
                                             {I18n.t('js.tag.model.visibility')}
                                         </div>
 
                                         <Field name="visibility"
                                                component={SelectFormField}
                                                id="tag_visibility"
-                                               className={this.props.classes.select}
+                                               className="tag-form-select"
                                                label=""
                                                disabled={this.props.children.visibility === 'everyone'}
                                                options={I18n.t('js.tag.enums.visibility')}/>
                                     </div>
 
                                     <div className="col s12 m6">
-                                        <div className={this.props.classes.categoryTitle}>
+                                        <div className="tag-form-categoryTitle">
                                             {I18n.t('js.tag.model.synonyms')}
                                         </div>
 

@@ -22,7 +22,7 @@ import {
     headerHeight,
     appBarZIndex,
     articleWidth
-} from '../../../../jss/theme';
+} from '../../../theme';
 
 import {
     userArticlePath,
@@ -73,7 +73,6 @@ export default @connect((state, props) => ({
 })
 class ArticleFormDisplay extends React.Component {
     static propTypes = {
-        classes: PropTypes.object.isRequired,
         currentTopic: PropTypes.object.isRequired,
         article: PropTypes.object.isRequired,
         userSlug: PropTypes.string.isRequired,
@@ -179,7 +178,7 @@ class ArticleFormDisplay extends React.Component {
                         const isNextDisabled = submitting || (this.props.currentTopic.mode === 'inventories' && this.props.currentTopic.inventoryFields.length === 0);
 
                         return (
-                            <form className={this.props.classes.articleForm}
+                            <form className="article-form-form"
                                   onSubmit={handleSubmit}>
                                 <EnsureValidity/>
 

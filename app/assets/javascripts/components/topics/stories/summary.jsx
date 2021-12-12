@@ -4,10 +4,6 @@ import {
     Link
 } from 'react-router-dom';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
-
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
@@ -19,21 +15,17 @@ import {
     spyTrackClick
 } from '../../../actions';
 
-import styles from '../../../../jss/topic/stories/summary';
 
-export default @withStyles(styles)
-class SummaryStoriesTopic extends React.Component {
+export default class SummaryStoriesTopic extends React.Component {
     static propTypes = {
         userSlug: PropTypes.string.isRequired,
         topic: PropTypes.object.isRequired,
-        hasLink: PropTypes.bool,
-        // from styles
-        classes: PropTypes.object
+        hasLink: PropTypes.bool
     };
 
     static defaultProps = {
         hasLink: false
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -45,11 +37,11 @@ class SummaryStoriesTopic extends React.Component {
 
     render() {
         return (
-            <div className={this.props.classes.container}>
-                <div className={this.props.classes.root}>
+            <div className="topic-summary-container">
+                <div className="topic-summary-root">
                     <Link to={topicArticlesPath(this.props.userSlug, this.props.topic.slug)}
                           onClick={this._handleTopicClick.bind(this, this.props.topic.id, this.props.topic.slug, this.props.topic.userId, this.props.topic.name)}>
-                        <Typography className={this.props.classes.topicTitle}
+                        <Typography className="topic-summary-topicTitle"
                                     variant="h4"
                                     component="h2">
                             {this.props.topic.name}
@@ -57,7 +49,7 @@ class SummaryStoriesTopic extends React.Component {
                     </Link>
 
                     <Typography component="div"
-                                className={this.props.classes.topicDesc}>
+                                className="topic-summary-topicDesc">
                         <div className="normalized-content"
                              dangerouslySetInnerHTML={{__html: this.props.topic.description}}/>
                     </Typography>
@@ -65,7 +57,7 @@ class SummaryStoriesTopic extends React.Component {
                     {
                         this.props.hasLink &&
                         <div className="center margin-top-15">
-                            <Button className={this.props.classes.topicLink}
+                            <Button className="topic-summary-topicLink"
                                     color="primary"
                                     variant="outlined"
                                     component={Link}

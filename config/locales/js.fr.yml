@@ -669,7 +669,7 @@ fr:
           os: "Visites par systèmes"
           utm: "Visites par UTM"
           referer: "Visites par sites d'origine"
-        referers:
+        referrers:
           title: "Sources"
         internal: "Lien interne"
         others: "[Autres]"

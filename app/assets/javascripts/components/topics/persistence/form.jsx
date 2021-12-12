@@ -11,9 +11,9 @@ import Checkbox from '@material-ui/core/Checkbox';
 import MenuItem from '@material-ui/core/MenuItem';
 import Button from '@material-ui/core/Button';
 
+
 export default class PersistenceFormTopic extends React.Component {
     static propTypes = {
-        classes: PropTypes.object.isRequired,
         onCancel: PropTypes.func.isRequired,
         onSubmit: PropTypes.func.isRequired,
         onDelete: PropTypes.func.isRequired,
@@ -85,11 +85,11 @@ export default class PersistenceFormTopic extends React.Component {
         this.props.onSubmit(this.state.name, this.state.mode, this.state.description, this.state.visibility, this.state.locales);
     };
 
-    _handleTopicDelete = (event) => {
-        event.preventDefault();
-
-        this.props.onDelete(this.props.topic.id);
-    };
+    // _handleTopicDelete = (event) => {
+    //     event.preventDefault();
+    //
+    //     this.props.onDelete(this.props.topic.id);
+    // };
 
     _renderLanguagesSelect = (selected) => {
         return selected.join(', ');
@@ -99,7 +99,7 @@ export default class PersistenceFormTopic extends React.Component {
         return (
             <form id="topic-persistence"
                   onSubmit={this._handleTopicSubmit}>
-                <TextField className={this.props.classes.topicField}
+                <TextField className="topic-persistence-topicField"
                            variant="outlined"
                            fullWidth={true}
                            autoFocus={true}
@@ -114,7 +114,7 @@ export default class PersistenceFormTopic extends React.Component {
 
                 {
                     !this.props.topic.id &&
-                    <TextField className={this.props.classes.topicField}
+                    <TextField className="topic-persistence-topicField"
                                select={true}
                                required={true}
                                variant="outlined"
@@ -135,7 +135,7 @@ export default class PersistenceFormTopic extends React.Component {
 
                 {
                     this.state.mode !== 'default' &&
-                    <Typography className={this.props.classes.topicModeHelper}
+                    <Typography className="topic-persistence-topicModeHelper"
                                 variant="subtitle2"
                                 gutterBottom={true}>
                         {I18n.t(`js.topic.common.modes.${this.state.mode || 'default'}`)}
@@ -144,7 +144,7 @@ export default class PersistenceFormTopic extends React.Component {
 
                 {
                     this.state.mode === 'stories' &&
-                    <TextField className={this.props.classes.topicField}
+                    <TextField className="topic-persistence-topicField"
                                required={true}
                                variant="outlined"
                                fullWidth={true}
@@ -162,7 +162,7 @@ export default class PersistenceFormTopic extends React.Component {
 
                 {
                     !this.props.topic.id &&
-                    <TextField className={this.props.classes.topicField}
+                    <TextField className="topic-persistence-topicField"
                                select={true}
                                required={true}
                                variant="outlined"
@@ -183,7 +183,7 @@ export default class PersistenceFormTopic extends React.Component {
 
                 {
                     this.props.articleMultilanguage &&
-                    <FormControl className={this.props.classes.topicField}
+                    <FormControl className="topic-persistence-topicField"
                                  fullWidth={true}>
                         <InputLabel id="topic-languages-label">
                             {I18n.t('js.topic.model.languages')}

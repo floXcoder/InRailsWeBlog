@@ -1,8 +1,5 @@
 'use strict';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
@@ -16,19 +13,15 @@ import ChangeHistoryIcon from '@material-ui/icons/ChangeHistory';
 
 import ReactDiffViewer, {DiffMethod} from 'react-diff-viewer';
 
-import styles from '../../../../jss/article/history';
 
 const stripTags = (string) => string?.replace(/(<([^>]+)>)/ig, '');
 const diffRenderStyle = {display: 'inline'};
 
-export default @withStyles(styles)
-class ArticleVersionsDisplay extends React.Component {
+export default class ArticleVersionsDisplay extends React.Component {
     static propTypes = {
         currentArticle: PropTypes.object.isRequired,
         articleVersions: PropTypes.array.isRequired,
-        onRestore: PropTypes.func.isRequired,
-        // from styles
-        classes: PropTypes.object
+        onRestore: PropTypes.func.isRequired
     };
 
     constructor(props) {
@@ -156,13 +149,13 @@ class ArticleVersionsDisplay extends React.Component {
                         return (
                             <Card key={i}
                                   component="article"
-                                  className={this.props.classes.card}>
+                                  className="article-version-card">
                                 <CardHeader classes={{
-                                    title: this.props.classes.versionTitle
+                                    title: 'article-version-versionTitle'
                                 }}
                                             action={
-                                                <IconButton className={classNames(this.props.classes.expand, {
-                                                    [this.props.classes.expandOpen]: this.state.expanded.includes(version.id)
+                                                <IconButton className={classNames('article-version-expand', {
+                                                    'article-version-expandOpen': this.state.expanded.includes(version.id)
                                                 })}
                                                             aria-expanded={this.state.expanded.includes(version.id)}
                                                             aria-label="Show more"
@@ -171,7 +164,7 @@ class ArticleVersionsDisplay extends React.Component {
                                                 </IconButton>
                                             }
                                             title={
-                                                <div className={this.props.classes.cardTitle}
+                                                <div className="article-version-cardTitle"
                                                      onClick={this._handleFoldClick.bind(this, version.id)}>
                                                     <ChangeHistoryIcon/>
                                                     {
@@ -188,7 +181,7 @@ class ArticleVersionsDisplay extends React.Component {
                                 <Collapse in={this.state.expanded.includes(version.id)}
                                           timeout="auto"
                                           unmountOnExit={true}>
-                                    <h2 className={this.props.classes.title}>
+                                    <h2 className="article-version-title">
                                         {
                                             isInitialVersion
                                                 ?
@@ -199,7 +192,7 @@ class ArticleVersionsDisplay extends React.Component {
                                     </h2>
 
                                     <CardContent classes={{
-                                        root: this.props.classes.content
+                                        root: 'article-version-content'
                                     }}>
                                         {
                                             i < this.props.articleVersions.length - 1
@@ -210,7 +203,7 @@ class ArticleVersionsDisplay extends React.Component {
                                         }
                                     </CardContent>
 
-                                    <CardActions className={this.props.classes.actions}
+                                    <CardActions className="article-version-actions"
                                                  disableSpacing={true}>
                                         <Button color="primary"
                                                 onClick={this._handleRestoreClick.bind(this, version.article.id, version.id)}>

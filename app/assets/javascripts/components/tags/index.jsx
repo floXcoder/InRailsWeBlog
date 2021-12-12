@@ -1,5 +1,7 @@
 'use strict';
 
+import '../../../stylesheets/pages/tag/index.scss';
+
 import {
     hot
 } from 'react-hot-loader/root';
@@ -8,9 +10,6 @@ import {
     Link
 } from 'react-router-dom';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
@@ -43,8 +42,6 @@ import {
 
 import Loader from '../theme/loader';
 
-import styles from '../../../jss/tag/index';
-
 
 export default @connect((state) => ({
     currentUser: state.userState.user,
@@ -58,7 +55,6 @@ export default @connect((state) => ({
     fetchTopic
 })
 @hot
-@withStyles(styles)
 class TagIndex extends React.Component {
     static propTypes = {
         routeParams: PropTypes.object.isRequired,
@@ -70,9 +66,7 @@ class TagIndex extends React.Component {
         publicTags: PropTypes.array,
         privateTags: PropTypes.array,
         fetchTags: PropTypes.func,
-        fetchTopic: PropTypes.func,
-        // from styles
-        classes: PropTypes.object
+        fetchTopic: PropTypes.func
     };
 
     constructor(props) {
@@ -122,12 +116,12 @@ class TagIndex extends React.Component {
                   item={true}
                   xs={12}
                   md={4}>
-                <Card className={this.props.classes.tagCard}>
+                <Card className="tag-index-tagCard">
                     <CardHeader classes={{
-                        root: this.props.classes.tagHeader
+                        root: 'tag-index-tagHeader'
                     }}
                                 title={
-                                    <h3 className={this.props.classes.tagTitle}>
+                                    <h3 className="tag-index-tagTitle">
                                         {tag.name}
                                     </h3>
                                 }
@@ -136,7 +130,7 @@ class TagIndex extends React.Component {
                     {
                         tag.description &&
                         <CardContent classes={{
-                            root: this.props.classes.tagHeader
+                            root: 'tag-index-tagHeader'
                         }}>
                             <Typography component="p">
                                 <div className="normalized-content"
@@ -145,9 +139,9 @@ class TagIndex extends React.Component {
                         </CardContent>
                     }
 
-                    <CardActions className={this.props.classes.actions}
+                    <CardActions className="tag-index-actions"
                                  disableSpacing={true}>
-                        <Typography className={this.props.classes.tagCount}
+                        <Typography className="tag-index-tagCount"
                                     color="textSecondary">
                             {I18n.t('js.tag.index.article_count', {count: tag.taggedArticlesCount})}
                         </Typography>
@@ -178,9 +172,9 @@ class TagIndex extends React.Component {
         }
 
         return (
-            <div className={this.props.classes.root}>
+            <div className="tag-index-root">
                 <div className="margin-top-30 margin-bottom-20">
-                    <Typography className={this.props.classes.title}
+                    <Typography className="tag-index-title"
                                 component="h1"
                                 variant="h1">
                         {this._renderTitle()}
@@ -220,7 +214,7 @@ class TagIndex extends React.Component {
 
                 <div className="row">
                     <div className="col s12">
-                        <Typography className={this.props.classes.subtitle}
+                        <Typography className="tag-index-subtitle"
                                     component="h2"
                                     variant="h2">
                             {I18n.t('js.tag.common.publics')}
@@ -249,7 +243,7 @@ class TagIndex extends React.Component {
                         {
                             (Utils.isPresent(this.props.routeParams)) &&
                             <div className="margin-bottom-20">
-                                <Typography className={this.props.classes.subtitle}
+                                <Typography className="tag-index-subtitle"
                                             component="h2"
                                             variant="h2">
                                     {I18n.t('js.tag.common.privates')}

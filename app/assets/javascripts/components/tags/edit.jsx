@@ -1,5 +1,7 @@
 'use strict';
 
+import '../../../stylesheets/pages/tag/form.scss';
+
 import {
     hot
 } from 'react-hot-loader/root';
@@ -7,10 +9,6 @@ import {
 import {
     withRouter
 } from 'react-router-dom';
-
-import {
-    withStyles
-} from '@material-ui/core/styles';
 
 import {
     showTagPath
@@ -33,7 +31,6 @@ import NotAuthorized from '../layouts/notAuthorized';
 import TagFormDisplay from './display/form';
 import TagErrorField from './display/fields/error';
 
-import styles from '../../../jss/tag/edit';
 
 export default @withRouter
 @connect((state) => ({
@@ -46,7 +43,6 @@ export default @withRouter
     updateTag
 })
 @hot
-@withStyles(styles)
 class TagEdit extends React.Component {
     static propTypes = {
         routeParams: PropTypes.object.isRequired,
@@ -58,9 +54,7 @@ class TagEdit extends React.Component {
         tag: PropTypes.object,
         tagErrors: PropTypes.array,
         fetchTag: PropTypes.func,
-        updateTag: PropTypes.func,
-        // from styles
-        classes: PropTypes.object
+        updateTag: PropTypes.func
     };
 
     constructor(props) {
@@ -103,7 +97,7 @@ class TagEdit extends React.Component {
         }
 
         return (
-            <div className={this.props.classes.root}>
+            <div className="tag-edit-root">
                 {
                     this.props.tagErrors &&
                     <div>

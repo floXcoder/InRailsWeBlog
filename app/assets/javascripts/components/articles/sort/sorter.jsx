@@ -6,7 +6,9 @@ import {
 
 import Button from '@material-ui/core/Button';
 
-import {arrayMoveImmutable} from 'array-move';
+import {
+    arrayMoveImmutable
+} from 'array-move';
 
 import {
     SortableContainer,
@@ -19,18 +21,16 @@ import {
 
 import ArticleCardSort from './card';
 
-const SortableItem = SortableElement(({classes, article}) => (
-    <ArticleCardSort classes={classes}
-                     article={article}/>
+const SortableItem = SortableElement(({article}) => (
+    <ArticleCardSort article={article}/>
 ));
 
-const SortableList = SortableContainer(({classes, articles}) => (
-    <div className={classes.sortingItems}>
+const SortableList = SortableContainer(({articles}) => (
+    <div className="article-sort-sortingItems">
         {
             articles.map((article, i) => (
                 <SortableItem key={i}
                               index={i}
-                              classes={classes}
                               article={article}/>
             ))
         }
@@ -39,7 +39,6 @@ const SortableList = SortableContainer(({classes, articles}) => (
 
 export default class ArticleSorter extends React.Component {
     static propTypes = {
-        classes: PropTypes.object.isRequired,
         // Articles must already be sorted by priority
         articles: PropTypes.array.isRequired,
         currentUserSlug: PropTypes.string.isRequired,
@@ -69,7 +68,7 @@ export default class ArticleSorter extends React.Component {
 
     render() {
         return (
-            <div className={this.props.classes.sorting}>
+            <div className="article-sort-sorting">
                 <div className="row">
                     <div className="col s12 m6 center-align">
                         <Button color="default"
@@ -91,8 +90,7 @@ export default class ArticleSorter extends React.Component {
                     </div>
                 </div>
 
-                <SortableList classes={this.props.classes}
-                              articles={this.state.articles}
+                <SortableList articles={this.state.articles}
                               useWindowAsScrollContainer={true}
                               onSortEnd={this._handleSortEndProduct}/>
             </div>

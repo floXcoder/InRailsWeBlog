@@ -1,8 +1,5 @@
 'use strict';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
 import withWidth from '@material-ui/core/withWidth';
 
 import ErrorBoundary from '../../errors/boundary';
@@ -11,7 +8,6 @@ import TagSidebarLayout from './tagSidebar';
 import ArticleSidebarLayout from './articleSidebar';
 import SearchSidebarLayout from './searchSidebar';
 
-import styles from '../../../../jss/user/main';
 
 export default @connect((state) => ({
     routeProperties: state.routerState.currentRoute,
@@ -20,7 +16,6 @@ export default @connect((state) => ({
     articleDisplayMode: state.uiState.articleDisplayMode
 }))
 @withWidth()
-@withStyles(styles)
 class SidebarLayoutUser extends React.Component {
     static propTypes = {
         // from connect
@@ -29,9 +24,7 @@ class SidebarLayoutUser extends React.Component {
         currentUserSlug: PropTypes.string,
         articleDisplayMode: PropTypes.string,
         // from withWidth
-        width: PropTypes.string,
-        // from styles
-        classes: PropTypes.object
+        width: PropTypes.string
     };
 
     constructor(props) {
@@ -57,7 +50,7 @@ class SidebarLayoutUser extends React.Component {
                     (!this.props.routeProperties.noTagSidebar && isLargeEnough && isUserData) &&
                     <ErrorBoundary errorType="text"
                                    errorTitle={I18n.t('js.helpers.errors.boundary.title')}>
-                        <div className={this.props.classes.sidebar}>
+                        <div className="layout-user-sidebar">
                             <TagSidebarLayout routeParams={this.props.routeParams}
                                               isCloud={this.props.routeProperties.tagCloud}/>
                         </div>
@@ -68,7 +61,7 @@ class SidebarLayoutUser extends React.Component {
                     (this.props.routeProperties.searchSidebar && isLargeEnough) &&
                     <ErrorBoundary errorType="text"
                                    errorTitle={I18n.t('js.helpers.errors.boundary.title')}>
-                        <div className={this.props.classes.sidebar}>
+                        <div className="layout-user-sidebar">
                             <SearchSidebarLayout/>
                         </div>
                     </ErrorBoundary>
@@ -78,7 +71,7 @@ class SidebarLayoutUser extends React.Component {
                     (this.props.routeProperties.articleSidebar && !isGridDisplay && isLargeEnough) &&
                     <ErrorBoundary errorType="text"
                                    errorTitle={I18n.t('js.helpers.errors.boundary.title')}>
-                        <div className={this.props.classes.sidebar}>
+                        <div className="layout-user-sidebar">
                             <ArticleSidebarLayout parentTagSlug={this.props.routeParams.tagSlug}/>
                         </div>
                     </ErrorBoundary>

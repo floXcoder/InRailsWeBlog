@@ -4,9 +4,6 @@ import {
     hot
 } from 'react-hot-loader/root';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Modal from '@material-ui/core/Modal';
 
@@ -29,7 +26,6 @@ import {
 
 import PersistenceFormTopic from './persistence/form';
 
-import styles from '../../../jss/topic/persistence';
 
 export default @connect((state, props) => ({
     currentUserId: state.userState.currentId,
@@ -45,7 +41,6 @@ export default @connect((state, props) => ({
     fetchTags,
 })
 @hot
-@withStyles(styles)
 class TopicPersistence extends React.Component {
     static propTypes = {
         history: PropTypes.object.isRequired,
@@ -60,9 +55,7 @@ class TopicPersistence extends React.Component {
         updateTopic: PropTypes.func,
         deleteTopic: PropTypes.func,
         showTopicPopup: PropTypes.func,
-        fetchTags: PropTypes.func,
-        // from styles
-        classes: PropTypes.object
+        fetchTags: PropTypes.func
     };
 
     static defaultProps = {
@@ -124,13 +117,15 @@ class TopicPersistence extends React.Component {
                 })
                 .then((response) => {
                     if (response.topic) {
-                        this.props.fetchTags({
+                        this.props.fetchTags(
+{
                                 topicSlug: response.topic.slug
                             },
                             {},
                             {
                                 topicTags: true
-                            });
+                            }
+);
 
                         if (response.topic.mode === 'inventories') {
                             Notification.success('Vous pouvez maintenant ajouter les champs personnalisés pour les articles');
@@ -169,14 +164,13 @@ class TopicPersistence extends React.Component {
         return (
             <Modal open={this.state.isOpen}
                    onClose={this._handleClose}>
-                <div className={this.props.classes.modal}>
+                <div className="topic-persistence-modal">
                     <Typography variant="h6"
                                 gutterBottom={true}>
                         {this._renderTitle()}
                     </Typography>
 
-                    <PersistenceFormTopic classes={this.props.classes}
-                                          topic={this.props.editingTopic}
+                    <PersistenceFormTopic topic={this.props.editingTopic}
                                           isEditing={!!this.props.editingTopic}
                                           articleMultilanguage={this.props.articleMultilanguage}
                                           defaultMode={this.props.routeState.mode}

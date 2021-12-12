@@ -1,0 +1,60 @@
+@import 'base/variables';
+
+.tag-index-root {
+  margin: 1rem auto 4rem;
+  overflow: visible;
+  position: relative;
+  max-width: $grid-width;
+}
+
+.tag-index-title {
+  font-size: 2.8rem;
+  margin-top: 20px;
+  font-weight: 500;
+}
+
+.tag-index-subtitle {
+  font-size: 2.3rem;
+  margin-top: 16px;
+  margin-bottom: 8px;
+}
+
+.tag-index-tagTitle {
+  color: $text-color;
+  font-size: 2.3rem;
+  margin-top: 16px;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.tag-index-tagCard {
+  margin: 1.3rem 0;
+}
+
+.tag-index-tagHeader {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.tag-index-tagCount {
+  width: 100%;
+  font-size: 1rem;
+  padding-bottom: 24px;
+}
+
+.tag-index-tagButton-39 {
+  color: $text-color;
+  margin: 4px;
+}
+
+.tag-index-actions-40 {
+  flex-direction: column;
+}
+
+.tag-index-buttonsRight-41 {
+  margin-left: auto;
+
+  @media #{$medium-and-up} {
+    margin-right: -8px;
+  }
+}

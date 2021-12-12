@@ -1,5 +1,7 @@
 'use strict';
 
+import '../../../stylesheets/pages/tag/sort.scss';
+
 import {
     withRouter
 } from 'react-router-dom';

@@ -4,9 +4,6 @@ import {
     Link
 } from 'react-router-dom';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
 import Chip from '@material-ui/core/Chip';
 
 import LabelIcon from '@material-ui/icons/Label';
@@ -19,20 +16,16 @@ import {
     spyTrackClick
 } from '../../../actions';
 
-import styles from '../../../../jss/tag/chip';
 
-export default @withStyles(styles)
-class TagChipDisplay extends React.Component {
+export default class TagChipDisplay extends React.Component {
     static propTypes = {
         tag: PropTypes.object.isRequired,
-        isLarge: PropTypes.bool,
-        // from styles
-        classes: PropTypes.object
+        isLarge: PropTypes.bool
     };
 
     static defaultProps = {
         isLarge: false
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -40,8 +33,8 @@ class TagChipDisplay extends React.Component {
 
     render() {
         return (
-            <Chip className={classNames(this.props.classes.tagChip, {
-                [this.props.classes.tagChipLarge]: this.props.isLarge
+            <Chip className={classNames('tag-chip-tagChip', {
+                'tag-chip-tagChipLarge': this.props.isLarge
             })}
                   icon={<LabelIcon/>}
                   label={this.props.tag.name}

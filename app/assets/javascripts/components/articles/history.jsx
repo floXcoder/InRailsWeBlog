@@ -1,5 +1,7 @@
 'use strict';
 
+import '../../../stylesheets/pages/article/history.scss';
+
 import {
     hot
 } from 'react-hot-loader/root';
@@ -7,10 +9,6 @@ import {
 import {
     withRouter
 } from 'react-router-dom';
-
-import {
-    withStyles
-} from '@material-ui/core/styles';
 
 import {
     userArticlePath
@@ -34,7 +32,6 @@ import ArticleBreadcrumbDisplay from './display/breadcrumb';
 import ArticleCardDisplay from './display/items/card';
 import ArticleVersionsDisplay from './display/versions';
 
-import styles from '../../../jss/article/history';
 
 export default @withRouter
 @connect((state) => ({
@@ -49,7 +46,6 @@ export default @withRouter
 })
 @hot
 @highlight(true)
-@withStyles(styles)
 class ArticleHistory extends React.Component {
     static propTypes = {
         routeParams: PropTypes.object.isRequired,
@@ -64,9 +60,7 @@ class ArticleHistory extends React.Component {
         fetchArticleHistory: PropTypes.func,
         restoreArticle: PropTypes.func,
         // from highlight
-        // onShow: PropTypes.func,
-        // from styles
-        classes: PropTypes.object
+        // onShow: PropTypes.func
     };
 
     constructor(props) {
@@ -104,14 +98,14 @@ class ArticleHistory extends React.Component {
         }
 
         return (
-            <div className={this.props.classes.history}>
-                <div className={this.props.classes.breadcrumb}>
+            <div className="article-version-history">
+                <div className="article-version-breadcrumb">
                     <ArticleBreadcrumbDisplay user={this.props.currentUser}
                                               topic={this.props.currentTopic}
                                               article={this.props.article}/>
                 </div>
 
-                <div className={this.props.classes.currentArticle}>
+                <div className="article-version-currentArticle">
                     <ArticleCardDisplay article={this.props.article}
                                         isMinimized={true}
                                         hasActions={false}/>

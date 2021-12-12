@@ -1,0 +1,60 @@
+@import 'base/variables';
+
+.topic-sort-modal {
+  top: 5%;
+  left: 35%;
+  width: 650px;
+  padding: 32px;
+  position: absolute;
+  max-width: 90vw;
+  box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2), 0 5px 8px 0 rgba(0, 0, 0, 0.14), 0 1px 14px 0 rgba(0, 0, 0, 0.12);
+  background-color: #fff;
+}
+
+.topic-sort-title {
+  font-size: 2rem;
+  margin-top: 0;
+  text-align: center;
+  margin-bottom: 0;
+}
+
+.topic-sort-sorting {
+  user-select: none;
+}
+
+.topic-sort-sortingItems {
+  outline: none;
+  overflow: auto;
+  position: relative;
+  margin-top: 16px;
+  max-height: 70vh;
+  margin-bottom: 24px;
+}
+
+.topic-sort-sortingItem {
+  cursor: pointer;
+  padding: 8px;
+  z-index: $zindex-sort;
+  align-items: center;
+}
+
+.topic-sort-card {
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
+
+.topic-sort-cardTitle {
+  margin: 0;
+  font-size: 1.3rem;
+  text-align: center;
+}
+
+.topic-sort-cardContent {
+  padding-top: 4px;
+}
+
+.topic-sort-commentCount {
+  color: inherit;
+  font-size: 1rem;
+}
+

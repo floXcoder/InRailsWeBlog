@@ -1,8 +1,5 @@
 'use strict';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -13,19 +10,15 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import HelpIcon from '@material-ui/icons/Help';
 import AutorenewIcon from '@material-ui/icons/Autorenew';
 
-import styles from '../../../../jss/admin/logs';
 
-export default @withStyles(styles)
-class LogInput extends React.Component {
+export default class LogInput extends React.Component {
     static propTypes = {
         isAutoRefresh: PropTypes.bool.isRequired,
         onTagSearchAdd: PropTypes.func.isRequired,
         onTagSearchRemove: PropTypes.func.isRequired,
         onHelpClick: PropTypes.func.isRequired,
         onAutoRefreshClick: PropTypes.func.isRequired,
-        searchTags: PropTypes.array,
-        // from styles
-        classes: PropTypes.object
+        searchTags: PropTypes.array
     };
 
     static defaultProps = {
@@ -86,15 +79,15 @@ class LogInput extends React.Component {
 
     render() {
         return (
-            <form className="blog-search-header"
+            <form className="log-search"
                   autoComplete="off"
                   acceptCharset="UTF-8">
-                <div className={this.props.classes.search}>
-                    <div className={this.props.classes.searchIcon}>
+                <div className="search">
+                    <div className="search-icon">
                         <SearchIcon/>
                     </div>
 
-                    <InputLabel className={this.props.classes.inputLabel}
+                    <InputLabel className="input-label"
                                 htmlFor="search-log">
                         {I18n.t('js.admin.logs.input.title')}
                     </InputLabel>
@@ -103,8 +96,8 @@ class LogInput extends React.Component {
                            name="search"
                            type="search"
                            classes={{
-                               root: this.props.classes.inputRoot,
-                               input: this.props.classes.inputInput
+                               root: 'input-root',
+                               input: 'input-input'
                            }}
                            placeholder={I18n.t('js.admin.logs.input.title')}
                            disableUnderline={true}
@@ -114,13 +107,13 @@ class LogInput extends React.Component {
                                    {
                                        this.props.searchTags.map((tag, i) => (
                                            <Chip key={i}
-                                                 className={this.props.classes.searchTagsChip}
+                                                 className="search-tags-chip"
                                                  tabIndex={-1}
                                                  label={`${tag.element} : ${tag.value}`}
                                                  color="primary"
                                                  variant="outlined"
                                                  deleteIcon={<CancelIcon
-                                                     className={this.props.classes.searchTagsChipIcon}/>}
+                                                     className="search-tags-chip-icon"/>}
                                                  onClick={this._handleTagSearchClick.bind(this, tag.element)}
                                                  onDelete={this._handleTagSearchClick.bind(this, tag.element)}/>
                                        ))
@@ -130,15 +123,15 @@ class LogInput extends React.Component {
                            onKeyDown={this._handleKeyDown}
                            onChange={this._handleChange}/>
 
-                    <a className={classNames(this.props.classes.refreshIcon, {
-                        [this.props.classes.refreshIconActive]: this.props.isAutoRefresh
+                    <a className={classNames('refresh-icon', {
+                        'refresh-icon-active': this.props.isAutoRefresh
                     })}
                        href="#"
                        onClick={this.props.onAutoRefreshClick}>
                         <AutorenewIcon/>
                     </a>
 
-                    <a className={this.props.classes.helpIcon}
+                    <a className="help-icon"
                        href="#"
                        onClick={this.props.onHelpClick}>
                         <HelpIcon/>

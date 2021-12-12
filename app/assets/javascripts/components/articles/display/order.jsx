@@ -7,30 +7,31 @@ import VerticalAlignBottomIcon from '@material-ui/icons/VerticalAlignBottom';
 import ArticleSortMenu from '../sort/dropdown';
 // import ArticleFilterMenu from '../filter/dropdown';
 
-const ArticleOrderDisplay = (props) => (
-    <div className={props.classes.order}>
-        <ArticleSortMenu currentUserSlug={props.currentUserSlug}
-                         currentUserTopicSlug={props.currentUserTopicSlug}
-                         currentOrder={props.articleOrderMode}
-                         onOrderChange={props.onOrderChange}/>
+var ArticleOrderDisplay = function (props) {
+    return (
+        <div className="article-sidebar-order">
+            <ArticleSortMenu currentUserSlug={props.currentUserSlug}
+                             currentUserTopicSlug={props.currentUserTopicSlug}
+                             currentOrder={props.articleOrderMode}
+                             onOrderChange={props.onOrderChange}/>
 
-        {
-            // this.props.currentUserId &&
-            // <ArticleFilterMenu/>
-        }
+            {
+                // this.props.currentUserId &&
+                // <ArticleFilterMenu/>
+            }
 
-        {
-            (props.articleDisplayMode === 'card' || props.articleDisplayMode === 'grid') &&
-            <IconButton aria-label="Minimize all"
-                        onClick={props.onMinimized}>
-                <VerticalAlignBottomIcon className={props.classes.button}/>
-            </IconButton>
-        }
-    </div>
-);
+            {
+                (props.articleDisplayMode === 'card' || props.articleDisplayMode === 'grid') &&
+                <IconButton aria-label="Minimize all"
+                            onClick={props.onMinimized}>
+                    <VerticalAlignBottomIcon className="article-sidebar-button"/>
+                </IconButton>
+            }
+        </div>
+    );
+};
 
 ArticleOrderDisplay.propTypes = {
-    classes: PropTypes.object.isRequired,
     onMinimized: PropTypes.func.isRequired,
     onOrderChange: PropTypes.func.isRequired,
     currentUserSlug: PropTypes.string,

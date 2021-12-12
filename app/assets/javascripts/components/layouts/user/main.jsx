@@ -9,17 +9,11 @@ import {
     Route
 } from 'react-router-dom';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
-
 import RouteManager from '../managers/route';
 import UserManager from '../managers/user';
 
-import styles from '../../../../jss/user/main';
 
-export default @withStyles(styles)
-class MainLayoutUser extends React.Component {
+export default class MainLayoutUser extends React.Component {
     static propTypes = {
         routes: PropTypes.array.isRequired,
         staticContent: PropTypes.oneOfType([
@@ -27,9 +21,7 @@ class MainLayoutUser extends React.Component {
             PropTypes.object,
             PropTypes.string
         ]),
-        currentUser: PropTypes.object,
-        // from styles
-        classes: PropTypes.object
+        currentUser: PropTypes.object
     };
 
     constructor(props) {
@@ -63,7 +55,7 @@ class MainLayoutUser extends React.Component {
                                    const {component, ...routeProperties} = route;
                                    const Component = component();
 
-                                   const {routes, currentUser, classes, ...initProps} = this.props;
+                                   const {routes, currentUser, ...initProps} = this.props;
 
                                    const isHome = route.name === 'UserHome';
 
@@ -75,13 +67,13 @@ class MainLayoutUser extends React.Component {
                                                         routeState={router.location.state}
                                                         pushHistory={router.history.push}
                                                         initialCurrentUser={currentUser}>
-                                               <div className={classes.root}>
-                                                   <main className={classNames(classes.content, {
-                                                       [classes.homeContent]: isHome
+                                               <div className="layout-user-root">
+                                                   <main className={classNames('layout-user-content', {
+                                                       'layout-user-homeContent': isHome
                                                    })}>
                                                        <Suspense fallback={<div/>}>
                                                            <div
-                                                               className={isHome ? classes.homeLayout : classes.layout}>
+                                                               className={isHome ? 'layout-user-homeLayout' : 'layout-user-layout'}>
                                                                <Component routeParams={router.match.params}
                                                                           routeHash={router.location.search}
                                                                           routeState={router.location.state}

@@ -13,9 +13,6 @@ import {
     LoadingBar
 } from 'react-redux-loading-bar';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
 import withWidth from '@material-ui/core/withWidth';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -87,9 +84,8 @@ import HomeUserHeader from '../header/user';
 import HeaderUserMenu from '../header/menus/user';
 import HeaderArticleMenu from '../header/menus/article';
 
-import styles from '../../../../jss/user/header';
-
 const loadingBarStyle = {backgroundColor: '#036603', height: '2px'};
+
 
 export default @connect((state) => ({
     routeProperties: state.routerState.currentRoute,
@@ -109,7 +105,6 @@ export default @connect((state) => ({
     showTopicPopup
 })
 @withWidth()
-@withStyles(styles)
 class HeaderLayoutUser extends React.PureComponent {
     static propTypes = {
         hashRoutes: PropTypes.object.isRequired,
@@ -130,9 +125,7 @@ class HeaderLayoutUser extends React.PureComponent {
         showUserPreference: PropTypes.func,
         showTopicPopup: PropTypes.func,
         // from withWidth
-        width: PropTypes.string,
-        // from styles
-        classes: PropTypes.object
+        width: PropTypes.string
     };
 
     constructor(props) {
@@ -215,7 +208,7 @@ class HeaderLayoutUser extends React.PureComponent {
 
     _renderDesktopMenu = () => {
         return (
-            <div className={this.props.classes.sectionDesktop}
+            <div className="layout-header-sectionDesktop"
                  aria-label="Navigation"
                  itemScope={true}
                  itemType="https://schema.org/SiteNavigationElement">
@@ -246,7 +239,7 @@ class HeaderLayoutUser extends React.PureComponent {
             <SwipeableDrawer variant="temporary"
                              anchor="left"
                              classes={{
-                                 paper: this.props.classes.mobileDrawerPaper
+                                 paper: 'layout-header-mobileDrawerPaper'
                              }}
                              ModalProps={{
                                  keepMounted: true
@@ -255,8 +248,8 @@ class HeaderLayoutUser extends React.PureComponent {
                              onClose={this._handleTagDrawerToggle}
                              onOpen={this._handleTagDrawerToggle}>
                 <>
-                    <div className={this.props.classes.mobileToolbar}>
-                        <h5 className={this.props.classes.mobileTitle}
+                    <div className="layout-header-mobileToolbar">
+                        <h5 className="layout-header-mobileTitle"
                             itemProp="name">
                             <Link className="header-brand-logo-mobile"
                                   to={userHomePath(this.props.userSlug)}
@@ -280,8 +273,7 @@ class HeaderLayoutUser extends React.PureComponent {
                         <Collapse in={this.state.isMobileArticleOpen}
                                   timeout="auto"
                                   unmountOnExit={true}>
-                            <HeaderArticleMenu classes={this.props.classes}
-                                               isNested={true}
+                            <HeaderArticleMenu isNested={true}
                                                routeParams={this.props.routeParams}
                                                userSlug={this.props.userSlug}
                                                topicSlug={this.props.topicSlug}
@@ -316,8 +308,7 @@ class HeaderLayoutUser extends React.PureComponent {
                         <Collapse in={this.state.isMobileUserOpen}
                                   timeout="auto"
                                   unmountOnExit={true}>
-                            <HeaderUserMenu classes={this.props.classes}
-                                            isNested={true}
+                            <HeaderUserMenu isNested={true}
                                             userSlug={this.props.userSlug}
                                             isAdminConnected={this.props.isAdminConnected}
                                             onPreferenceClick={this._handlePreferenceClick}
@@ -325,7 +316,7 @@ class HeaderLayoutUser extends React.PureComponent {
                         </Collapse>
                     </List>
 
-                    <Divider className={this.props.classes.mobileDivider}/>
+                    <Divider className="layout-header-mobileDivider"/>
 
                     <Typography className="center-align"
                                 variant="overline"
@@ -353,7 +344,7 @@ class HeaderLayoutUser extends React.PureComponent {
             <SwipeableDrawer variant="temporary"
                              anchor="right"
                              classes={{
-                                 paper: this.props.classes.mobileDrawerPaper
+                                 paper: 'layout-header-mobileDrawerPaper'
                              }}
                              ModalProps={{
                                  keepMounted: true
@@ -393,15 +384,15 @@ class HeaderLayoutUser extends React.PureComponent {
             <>
                 <AppBar id="header-user"
                         position="fixed"
-                        className={classNames('animate-search', this.props.classes.appBar)}
+                        className="animate-search layout-header-appBar"
                         itemScope={true}
                         itemType="https://schema.org/Organization">
                     <LoadingBar showFastActions={true}
                                 style={loadingBarStyle}/>
 
-                    <Toolbar className={this.props.classes.toolbar}>
-                        <div className={this.props.classes.sectionMobile}>
-                            <IconButton className={this.props.classes.menuButton}
+                    <Toolbar className="layout-header-toolbar">
+                        <div className="layout-header-sectionMobile">
+                            <IconButton className="layout-header-menuButton"
                                         color="primary"
                                         aria-label="Open drawer"
                                         onClick={this._handleTagDrawerToggle}>
@@ -409,8 +400,8 @@ class HeaderLayoutUser extends React.PureComponent {
                             </IconButton>
                         </div>
 
-                        <div className={this.props.classes.sectionDesktop}>
-                            <div className={this.props.classes.title}
+                        <div className="layout-header-sectionDesktop">
+                            <div className="layout-header-title"
                                  itemProp="name">
                                 <Link className="header-brand-logo"
                                       to={userHomePath(this.props.userSlug)}
@@ -425,15 +416,15 @@ class HeaderLayoutUser extends React.PureComponent {
                             (this.props.isUserConnected && this.props.currentTopic) &&
                             <>
                                 <Button ref={(ref) => this._anchorEl = ref}
-                                        className={this.props.classes.topicButton}
+                                        className="layout-header-topicButton"
                                         variant="contained"
                                         color="primary"
                                         onClick={this._handleTopicOpen}>
-                                    <span className={this.props.classes.sectionDesktop}>
+                                    <span className="layout-header-sectionDesktop">
                                         {I18n.t('js.views.header.topic.button', {current: this.props.currentTopic.name})}
                                     </span>
 
-                                    <span className={this.props.classes.sectionMobile}>
+                                    <span className="layout-header-sectionMobile">
                                         <ClassIcon/>
                                     </span>
                                 </Button>
@@ -456,7 +447,7 @@ class HeaderLayoutUser extends React.PureComponent {
                             </>
                         }
 
-                        <div className={this.props.classes.grow}/>
+                        <div className="layout-header-grow"/>
 
                         {
                             !this.props.routeProperties.noHeaderSearch &&
@@ -467,7 +458,7 @@ class HeaderLayoutUser extends React.PureComponent {
                             // </Suspense>
                         }
 
-                        <div className={this.props.classes.grow}/>
+                        <div className="layout-header-grow"/>
 
                         {this._renderDesktopMenu()}
                     </Toolbar>

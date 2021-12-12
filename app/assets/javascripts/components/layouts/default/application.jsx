@@ -1,8 +1,7 @@
 'use strict';
 
 import {
-    MuiThemeProvider,
-    StylesProvider
+    MuiThemeProvider
 } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
@@ -38,8 +37,7 @@ import HeaderLayoutDefault from './header';
 import MainLayoutDefault from './main';
 import FooterLayoutDefault from './footer';
 
-import theme from '../../../../jss/theme';
-import generateClassName from '../../../../jss/generateClassname';
+import theme from '../../../theme';
 
 
 export default class ApplicationLayoutDefault extends React.Component {
@@ -50,7 +48,7 @@ export default class ApplicationLayoutDefault extends React.Component {
             PropTypes.object,
             PropTypes.string
         ])
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -65,39 +63,37 @@ export default class ApplicationLayoutDefault extends React.Component {
 
     render() {
         return (
-            <StylesProvider generateClassName={generateClassName}>
-                <MuiThemeProvider theme={theme}>
-                    <CssBaseline/>
+            <MuiThemeProvider theme={theme}>
+                <CssBaseline/>
 
-                    <Provider store={configureStore}
-                              context={ReactReduxContext}>
-                        <HelmetProvider>
-                            <Router history={browserHistory}>
-                                <ScrollBackManager>
-                                    <>
-                                        <ErrorBoundary errorType="text"
-                                                       errorTitle={I18n.t('js.helpers.errors.boundary.header')}>
-                                            <HeaderLayoutDefault history={browserHistory}
-                                                                 hashRoutes={routes.hashes}/>
-                                        </ErrorBoundary>
+                <Provider store={configureStore}
+                          context={ReactReduxContext}>
+                    <HelmetProvider>
+                        <Router history={browserHistory}>
+                            <ScrollBackManager>
+                                <>
+                                    <ErrorBoundary errorType="text"
+                                                   errorTitle={I18n.t('js.helpers.errors.boundary.header')}>
+                                        <HeaderLayoutDefault history={browserHistory}
+                                                             hashRoutes={routes.hashes}/>
+                                    </ErrorBoundary>
 
-                                        <ErrorBoundary errorType="card">
-                                            <MainLayoutDefault
-                                                routes={[...routes.static.common, ...routes.static.home, ...routes.static.notFound]}
-                                                {...this._componentProps()}/>
-                                        </ErrorBoundary>
+                                    <ErrorBoundary errorType="card">
+                                        <MainLayoutDefault
+                                            routes={[...routes.static.common, ...routes.static.home, ...routes.static.notFound]}
+                                            {...this._componentProps()}/>
+                                    </ErrorBoundary>
 
-                                        <ErrorBoundary errorType="text"
-                                                       errorTitle={I18n.t('js.helpers.errors.boundary.footer')}>
-                                            <FooterLayoutDefault/>
-                                        </ErrorBoundary>
-                                    </>
-                                </ScrollBackManager>
-                            </Router>
-                        </HelmetProvider>
-                    </Provider>
-                </MuiThemeProvider>
-            </StylesProvider>
+                                    <ErrorBoundary errorType="text"
+                                                   errorTitle={I18n.t('js.helpers.errors.boundary.footer')}>
+                                        <FooterLayoutDefault/>
+                                    </ErrorBoundary>
+                                </>
+                            </ScrollBackManager>
+                        </Router>
+                    </HelmetProvider>
+                </Provider>
+            </MuiThemeProvider>
         );
     }
 }

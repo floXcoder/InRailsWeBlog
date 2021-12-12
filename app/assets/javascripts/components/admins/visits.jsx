@@ -4,9 +4,6 @@ import {
     hot
 } from 'react-hot-loader/root';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -38,7 +35,6 @@ import MiniCard from '../material-ui/miniCard';
 import TrackingArticleModal from '../articles/tracking';
 import TrackingVisitModal from '../visits/tracking';
 
-import styles from '../../../jss/admin/visits';
 
 export default @connect((state) => ({
     visitsStats: state.adminState.visitsStats,
@@ -47,15 +43,12 @@ export default @connect((state) => ({
     fetchVisits
 })
 @hot
-@withStyles(styles)
 class AdminVisits extends React.Component {
     static propTypes = {
         // from connect
         isFetching: PropTypes.bool,
         visitsStats: PropTypes.object,
-        fetchVisits: PropTypes.func,
-        // from styles
-        classes: PropTypes.object
+        fetchVisits: PropTypes.func
     };
 
     constructor(props) {
@@ -65,7 +58,7 @@ class AdminVisits extends React.Component {
     state = {
         articleIdStats: undefined,
         visitsDate: undefined
-    }
+    };
 
     componentDidMount() {
         this.props.fetchVisits();
@@ -103,7 +96,7 @@ class AdminVisits extends React.Component {
         if (!listDetails) {
             return (
                 <div className="margin-top-30">
-                    <p className={this.props.classes.listItem}>
+                    <p className="admin-visits-listItem">
                         <em>{I18n.t('js.article.tracking.undefined')}</em>
                     </p>
                 </div>
@@ -111,12 +104,12 @@ class AdminVisits extends React.Component {
         }
 
         return (
-            <List className={this.props.classes.listContainer}
+            <List className="admin-visits-listContainer"
                   dense={true}>
                 {
                     Object.entries(listDetails).map(([element, count], i) => (
                         <ListItem key={i}>
-                            <ListItemText className={this.props.classes.listItem}
+                            <ListItemText className="admin-visits-listItem"
                                           primary={
                                               <div>
                                                   {
@@ -147,7 +140,7 @@ class AdminVisits extends React.Component {
                                           }/>
 
                             <ListItemSecondaryAction
-                                className={classNames(this.props.classes.listItem, {
+                                className={classNames('admin-visits-listItem', {
                                     'margin-top-10': (!element || element === 'internal' || element === 'others')
                                 })}>
                                 {count}
@@ -165,16 +158,16 @@ class AdminVisits extends React.Component {
         return (
             <div className="row margin-top-30 margin-bottom-40">
                 <div className="col s12">
-                    <h2 className={this.props.classes.title}>
+                    <h2 className="admin-visits-title">
                         {I18n.t('js.admin.visits.uniq.title')}
                     </h2>
 
                     <TableContainer component={Paper}
-                                    className={this.props.classes.tableContainer}>
+                                    className="admin-visits-tableContainer">
                         <Table aria-label="visits by days">
                             <TableHead>
                                 <TableRow>
-                                    <TableCell className={this.props.classes.tableData}
+                                    <TableCell className="admin-visits-tableData"
                                                align="left">
                                         {I18n.t('js.admin.visits.uniq.data')}
                                     </TableCell>
@@ -191,7 +184,7 @@ class AdminVisits extends React.Component {
                             </TableHead>
                             <TableBody>
                                 <TableRow>
-                                    <TableCell className={this.props.classes.tableData}
+                                    <TableCell className="admin-visits-tableData"
                                                align="left">
                                         {I18n.t('js.admin.visits.uniq.day')}
                                     </TableCell>
@@ -200,7 +193,7 @@ class AdminVisits extends React.Component {
                                         Object.entries(this.props.visitsStats.dates).map(([date, count], i) => (
                                             <TableCell key={i}
                                                        align="center">
-                                                <a className={this.props.classes.tableDataItem}
+                                                <a className="admin-visits-tableDataItem"
                                                    href="#"
                                                    onClick={this._handleShowVisitsDate.bind(this, date)}>
                                                     {count}
@@ -211,7 +204,7 @@ class AdminVisits extends React.Component {
                                 </TableRow>
 
                                 {/*<TableRow>*/}
-                                {/*    <TableCell className={this.props.classes.tableData}*/}
+                                {/*    <TableCell className={admin-visits-tableData}*/}
                                 {/*               align="left">*/}
                                 {/*        {I18n.t('js.admin.visits.uniq.total')}*/}
                                 {/*    </TableCell>*/}
@@ -235,12 +228,12 @@ class AdminVisits extends React.Component {
                 </div>
 
                 <div className="col s12 margin-top-40">
-                    <h2 className={this.props.classes.title}>
+                    <h2 className="admin-visits-title">
                         {I18n.t('js.admin.visits.stats.title')}
                     </h2>
 
                     <Grid container={true}
-                          className={this.props.classes.gridContainer}
+                          className="admin-visits-gridContainer"
                           spacing={2}
                           direction="row"
                           justifyContent="space-around"
@@ -262,7 +255,7 @@ class AdminVisits extends React.Component {
                     </Grid>
 
                     <Grid container={true}
-                          className={this.props.classes.gridContainer}
+                          className="admin-visits-gridContainer"
                           spacing={2}
                           direction="row"
                           justifyContent="space-around"
@@ -285,12 +278,12 @@ class AdminVisits extends React.Component {
                 </div>
 
                 <div className="col s12 margin-top-40">
-                    <h2 className={this.props.classes.title}>
+                    <h2 className="admin-visits-title">
                         {I18n.t('js.admin.visits.tops.title')}
                     </h2>
 
                     <Grid container={true}
-                          className={this.props.classes.gridContainer}
+                          className="admin-visits-gridContainer"
                           spacing={2}
                           direction="row"
                           justifyContent="space-around"
@@ -312,13 +305,13 @@ class AdminVisits extends React.Component {
                     </Grid>
 
                     <Grid container={true}
-                          className={this.props.classes.gridContainer}
+                          className="admin-visits-gridContainer"
                           spacing={2}
                           direction="row"
                           justifyContent="space-between"
                           alignItems="flex-start">
                         <Grid item={true}>
-                            <List className={this.props.classes.listContainer}>
+                            <List className="admin-visits-listContainer">
                                 {
                                     this.props.visitsStats.topArticles.map((article) => (
                                         <ListItem key={article.name}>
@@ -329,12 +322,12 @@ class AdminVisits extends React.Component {
                                             </ListItemAvatar>
 
                                             <ListItemText classes={{
-                                                primary: this.props.classes.listItem,
-                                                secondary: this.props.classes.listItemSecondary
+                                                primary: 'admin-visits-listItem',
+                                                secondary: 'admin-visits-listItemSecondary'
                                             }}
                                                           primary={
                                                               <span>
-                                                                  <a className={this.props.classes.listItem}
+                                                                  <a className="admin-visits-listItem"
                                                                      href="#"
                                                                      onClick={this._handleShowArticleStats.bind(this, article.id)}>
                                                                       {article.name}
@@ -343,7 +336,7 @@ class AdminVisits extends React.Component {
                                                                   <a href={article.link}
                                                                      target="_blank">
                                                                       <OpenInNewIcon
-                                                                          className={this.props.classes.listItemLink}/>
+                                                                          className="admin-visits-listItemLink"/>
                                                                   </a>
                                                               </span>
                                                           }
@@ -355,7 +348,7 @@ class AdminVisits extends React.Component {
                         </Grid>
 
                         <Grid item={true}>
-                            <List className={this.props.classes.listContainer}>
+                            <List className="admin-visits-listContainer">
                                 {
                                     this.props.visitsStats.topTags.map((tag) => (
                                         <ListItem key={tag.name}>
@@ -366,11 +359,11 @@ class AdminVisits extends React.Component {
                                             </ListItemAvatar>
 
                                             <ListItemText classes={{
-                                                primary: this.props.classes.listItemTag,
-                                                secondary: this.props.classes.listItemSecondary
+                                                primary: 'admin-visits-listItemTag',
+                                                secondary: 'admin-visits-listItemSecondary'
                                             }}
                                                           primary={
-                                                              <a className={this.props.classes.listItem}
+                                                              <a className="admin-visits-listItem"
                                                                  target="_blank"
                                                                  href={tag.link}>
                                                                   {tag.name}
@@ -384,7 +377,7 @@ class AdminVisits extends React.Component {
                         </Grid>
 
                         <Grid item={true}>
-                            <List className={this.props.classes.listContainer}>
+                            <List className="admin-visits-listContainer">
                                 {
                                     this.props.visitsStats.topTopics.map((topic) => (
                                         <ListItem key={topic.name}>
@@ -395,11 +388,11 @@ class AdminVisits extends React.Component {
                                             </ListItemAvatar>
 
                                             <ListItemText classes={{
-                                                primary: this.props.classes.listItem,
-                                                secondary: this.props.classes.listItemSecondary
+                                                primary: 'admin-visits-listItem',
+                                                secondary: 'admin-visits-listItemSecondary'
                                             }}
                                                           primary={
-                                                              <a className={this.props.classes.listItem}
+                                                              <a className="admin-visits-listItem"
                                                                  target="_blank"
                                                                  href={topic.link}>
                                                                   {topic.name}
@@ -415,21 +408,21 @@ class AdminVisits extends React.Component {
                 </div>
 
                 <div className="col s12 margin-top-40">
-                    <h2 className={this.props.classes.title}>
+                    <h2 className="admin-visits-title">
                         {I18n.t('js.admin.visits.sources.title')}
                     </h2>
 
                     <div className="row">
                         <div className="col s12 m4">
-                            <h3 className={this.props.classes.subtitle}>
+                            <h3 className="admin-visits-subtitle">
                                 {I18n.t('js.article.tracking.origins.referer')}
                             </h3>
 
-                            {this._renderListDetails(this.props.visitsStats.referers)}
+                            {this._renderListDetails(this.props.visitsStats.referrers)}
                         </div>
 
                         <div className="col s12 m4">
-                            <h3 className={this.props.classes.subtitle}>
+                            <h3 className="admin-visits-subtitle">
                                 {I18n.t('js.article.tracking.origins.country')}
                             </h3>
 
@@ -437,7 +430,7 @@ class AdminVisits extends React.Component {
                         </div>
 
                         <div className="col s12 m4">
-                            <h3 className={this.props.classes.subtitle}>
+                            <h3 className="admin-visits-subtitle">
                                 {I18n.t('js.article.tracking.origins.utm')}
                             </h3>
 
@@ -447,7 +440,7 @@ class AdminVisits extends React.Component {
 
                     <div className="row margin-top-50">
                         <div className="col s12 m4">
-                            <h3 className={this.props.classes.subtitle}>
+                            <h3 className="admin-visits-subtitle">
                                 {I18n.t('js.article.tracking.origins.device')}
                             </h3>
 
@@ -455,7 +448,7 @@ class AdminVisits extends React.Component {
                         </div>
 
                         <div className="col s12 m4">
-                            <h3 className={this.props.classes.subtitle}>
+                            <h3 className="admin-visits-subtitle">
                                 {I18n.t('js.article.tracking.origins.os')}
                             </h3>
 
@@ -463,7 +456,7 @@ class AdminVisits extends React.Component {
                         </div>
 
                         <div className="col s12 m4">
-                            <h3 className={this.props.classes.subtitle}>
+                            <h3 className="admin-visits-subtitle">
                                 {I18n.t('js.article.tracking.origins.browser')}
                             </h3>
 

@@ -4,9 +4,6 @@ import {
     hot
 } from 'react-hot-loader/root';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
@@ -32,7 +29,6 @@ import SearchTopicModule from './module/topic';
 import SearchTagModule from './module/tag';
 import SearchArticleModule from './module/article';
 
-import styles from '../../../jss/search/module';
 
 export default @connect((state) => ({
     isUserConnected: state.userState.isConnected,
@@ -55,7 +51,6 @@ export default @connect((state) => ({
     setAutocompleteSelectedTag
 })
 @hot
-@withStyles(styles)
 class SearchModule extends React.Component {
     static propTypes = {
         history: PropTypes.object.isRequired,
@@ -76,9 +71,7 @@ class SearchModule extends React.Component {
         highlightedTag: PropTypes.object,
         highlightedArticle: PropTypes.object,
         fetchUserRecents: PropTypes.func,
-        setAutocompleteSelectedTag: PropTypes.func,
-        // from styles
-        classes: PropTypes.object
+        setAutocompleteSelectedTag: PropTypes.func
     };
 
     constructor(props) {
@@ -129,10 +122,10 @@ class SearchModule extends React.Component {
                     </IconButton>
                 </div>
 
-                <div className={this.props.classes.container}>
+                <div className="search-module-container">
                     {
                         (this.props.query !== '' && this.props.selectedTags.length === 0) &&
-                        <div className={classNames(this.props.classes.helpMessage, 'center-align')}>
+                        <div className="search-module-helpMessage center-align">
                             {I18n.t('js.search.module.helpers.select_tag')}
                         </div>
                     }
@@ -142,14 +135,13 @@ class SearchModule extends React.Component {
                           direction="row"
                           justifyContent="space-between"
                           alignItems="flex-start">
-                        <Grid className={this.props.classes.gridItem}
+                        <Grid className="search-module-gridItem"
                               item={true}
                               xs={12}
                               sm={8}
                               md={9}
                               lg={9}>
-                            <SearchArticleModule classes={this.props.classes}
-                                                 isSearching={this.props.isSearching}
+                            <SearchArticleModule isSearching={this.props.isSearching}
                                                  isUserConnected={this.props.isUserConnected}
                                                  currentUserId={this.props.currentUserId}
                                                  currentTopicId={this.props.currentTopicId}
@@ -159,14 +151,13 @@ class SearchModule extends React.Component {
                                                  articles={articles}/>
                         </Grid>
 
-                        <Grid className={this.props.classes.gridItem}
+                        <Grid className="search-module-gridItem"
                               item={true}
                               xs={12}
                               sm={4}
                               md={3}
                               lg={3}>
-                            <SearchTagModule classes={this.props.classes}
-                                             isSearching={this.props.isSearching}
+                            <SearchTagModule isSearching={this.props.isSearching}
                                              isUserConnected={this.props.isUserConnected}
                                              currentUserId={this.props.currentUserId}
                                              currentUserSlug={this.props.currentUserSlug}
@@ -178,19 +169,18 @@ class SearchModule extends React.Component {
                                              highlightedTagId={this.props.highlightedTag && this.props.highlightedTag.id}
                                              onTagClick={this._handleTagSelection}/>
 
-                            <SearchTopicModule classes={this.props.classes}
-                                               topics={this.props.topics}/>
+                            <SearchTopicModule topics={this.props.topics}/>
                         </Grid>
                     </Grid>
 
                     {
                         (!hasQuery && !this.props.isUserConnected) &&
-                        <div className={this.props.classes.defaultMessage}>
+                        <div className="search-module-defaultMessage">
                             {I18n.t('js.search.module.default')}
                         </div>
                     }
 
-                    <div className={this.props.classes.searchButton}>
+                    <div className="search-module-searchButton">
                         <Button color="primary"
                                 variant="outlined"
                                 onClick={this._performSearch}>

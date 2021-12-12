@@ -9,7 +9,6 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 export default @hot
 class ArticleInfiniteMode extends React.Component {
     static propTypes = {
-        classes: PropTypes.object.isRequired,
         fetchArticles: PropTypes.func.isRequired,
         articlesCount: PropTypes.number.isRequired,
         children: PropTypes.object.isRequired,
@@ -26,7 +25,7 @@ class ArticleInfiniteMode extends React.Component {
 
     render() {
         const LoadingArticles = (
-            <div className={this.props.classes.infiniteText}>
+            <div className="article-infinite-text">
                 {I18n.t('js.article.common.infinite.loading')}
             </div>
         );

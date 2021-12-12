@@ -1,0 +1,121 @@
+@import 'base/variables';
+
+.article-form {
+  position: relative;
+  margin: 1rem auto 4rem;
+  overflow: visible;
+  max-width: $article-width;
+}
+
+.article-form-breadcrumb {
+  @media #{$medium-and-down} {
+    margin-left: .75rem;
+    margin-right: .75rem;
+  }
+}
+
+.article-form-form {
+  margin: 1.5rem 0;
+  position: relative;
+}
+
+.sticky-inner-wrapper {
+  z-index: 10;
+}
+
+.article-form-root {
+  margin: .5rem auto 4rem;
+  overflow: visible;
+}
+
+.article-form-titleField {
+  width: 100%;
+  margin: .8rem 0 2.5rem;
+}
+
+.article-form-compareIcon {
+  right: 0;
+  z-index: 5;
+  position: absolute;
+  margin-top: 12px;
+}
+
+.article-form-tagLabel {
+  color: $text-color;
+  width: 100%;
+  margin: 1rem 0 .3rem;
+  display: block;
+  padding: 6px 0 7px;
+  font-size: 1.33rem;
+  background: none;
+  line-height: 1.1875em;
+}
+
+.article-form-select {
+  width: 90%;
+}
+
+.article-form-advancedDivider {
+  margin: 2rem;
+}
+
+.article-form-externalReferenceButton {
+  color: $text-color;
+  outline: none;
+}
+
+.article-form-externalReferenceExpand {
+  transform: rotate(0deg);
+  transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  margin-left: auto;
+}
+
+.article-form-externalReferenceExpandOpen {
+  transform: rotate(180deg);
+}
+
+.article-form-inventoryFields {
+  margin: 0;
+}
+
+.article-form-inventoryField {
+  margin: 24px 0;
+}
+
+.article-form-stepper-stepper {
+  width: 100%;
+  margin: 0;
+  box-shadow: 0 3px 3px -2px rgba(0, 0, 0, 0.2), 0 3px 4px 0 rgba(0, 0, 0, 0.14), 0 1px 8px 0 rgba(0, 0, 0, 0.12);
+  border-radius: 10px;
+  background-color: #fff;
+}
+
+.article-form-stepper-stepperAppBar {
+  box-shadow: none;
+  border-radius: 10px;
+  margin-bottom: 0;
+  background-color: #f5f5f5;
+
+  @media #{$large-and-down} {
+    margin-bottom: 0;
+  }
+}
+
+.article-form-stepper-tabsIndicator {
+  height: 100%;
+  opacity: 0.35;
+  box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2), 0 5px 8px 0px rgba(0, 0, 0, 0.14), 0px 1px 14px 0 rgba(0, 0, 0, 0.12);
+  border-radius: 5px;
+}
+
+.article-form-stepper-tab {
+  color: $secondary-color-dark;
+
+  @media #{$large-and-down} {
+    min-height: 36px;
+  }
+}
+
+.article-form-stepper-middleTab {
+  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+}

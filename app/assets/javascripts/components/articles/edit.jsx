@@ -1,12 +1,10 @@
 'use strict';
 
+import '../../../stylesheets/pages/article/form.scss';
+
 import {
     hot
 } from 'react-hot-loader/root';
-
-import {
-    withStyles
-} from '@material-ui/core/styles';
 
 import {
     ArticleShow
@@ -31,7 +29,6 @@ import articleMutationManager from './managers/mutation';
 import ArticleBreadcrumbDisplay from './display/breadcrumb';
 import ArticleFormDisplay from './display/form';
 
-import styles from '../../../jss/article/form';
 
 export default @articleMutationManager('edit')
 @connect((state, props) => ({
@@ -43,7 +40,6 @@ export default @articleMutationManager('edit')
     switchTagSidebar
 })
 @hot
-@withStyles(styles)
 class ArticleEdit extends React.Component {
     static propTypes = {
         // from articleMutationManager
@@ -59,9 +55,7 @@ class ArticleEdit extends React.Component {
         isOwner: PropTypes.bool,
         inheritVisibility: PropTypes.string,
         setCurrentTags: PropTypes.func,
-        switchTagSidebar: PropTypes.func,
-        // from styles
-        classes: PropTypes.object
+        switchTagSidebar: PropTypes.func
     };
 
     constructor(props) {
@@ -130,8 +124,8 @@ class ArticleEdit extends React.Component {
         }
 
         return (
-            <div className={this.props.classes.root}>
-                <div className={this.props.classes.breadcrumb}>
+            <div className="article-form">
+                <div className="article-form-breadcrumb">
                     {
                         (this.props.currentUser && this.props.currentTopic) &&
                         <ArticleBreadcrumbDisplay isForm={true}
@@ -141,8 +135,7 @@ class ArticleEdit extends React.Component {
                     }
                 </div>
 
-                <ArticleFormDisplay classes={this.props.classes}
-                                    article={article}
+                <ArticleFormDisplay article={article}
                                     inheritVisibility={this.props.inheritVisibility}
                                     userSlug={this.props.userSlug}
                                     currentUser={this.props.currentUser}

@@ -63,6 +63,40 @@ $gutter-width: 1.5rem !default;
 $element-top-margin: math.div($gutter-width, 3) !default;
 $element-bottom-margin: math.div($gutter-width * 2, 3) !default;
 
+// Sizes
+$header-height: 62px;
+$drawer-width: 280px;
+$main-width: 1200px;
+$article-width: 780px;
+$article-appendix-width: 924px;
+$grid-width: 1180px;
+$stories-width: 920px;
+
+$admin-drawer-width: 250px;
+
+// z-indexes
+$zindex-drawer: 1200;
+$zindex-sort: 1400;
+$zindex-topic: 60;
+
+// Titles font
+$h1-size: 3.2rem;
+$h1-size-mobile: 2.4rem;
+$h1-weight: 700;
+$h1-line-height: 3.3rem;
+$h1-line-height-mobile: 2.9rem;
+$h1-spacing: 3.5px;
+
+$h1-size-grid: 2.2rem;
+$h1-weight-grid: 500;
+$h1-line-height-grid: 2.4rem;
+$h1-spacing-grid: 1.8px;
+
+$h1-size-extract: 2rem;
+$h1-weight-extract: 700;
+$h1-line-height-extract: 2.2rem;
+$h1-spacing-extract: 2.6px;
+
 // Articles
 $top-header-scroll-margin: 75px;
 

@@ -1,8 +1,7 @@
 'use strict';
 
 import {
-    MuiThemeProvider,
-    withStyles
+    MuiThemeProvider
 } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
@@ -21,18 +20,14 @@ import AdminHeaderLayout from './admin/header';
 import AdminMainLayout from './admin/main';
 import AdminFooterLayout from './admin/footer';
 
-import theme from '../../../jss/theme';
+import theme from '../../theme';
 
-import styles from '../../../jss/admin/layout';
 
-export default @withStyles(styles)
-class AdminLayout extends React.Component {
+export default class AdminLayout extends React.Component {
     static propTypes = {
         componentId: PropTypes.string,
-        children: PropTypes.object,
-        // from styles
-        classes: PropTypes.object
-    }
+        children: PropTypes.object
+    };
 
     constructor(props) {
         super(props);
@@ -45,7 +40,7 @@ class AdminLayout extends React.Component {
 
                 <Provider store={configureStore}
                           context={ReactReduxContext}>
-                    <div className={this.props.classes.root}>
+                    <div className="admin-root">
                         <ErrorBoundary errorType="text"
                                        errorTitle={I18n.t('js.helpers.errors.boundary.header')}>
                             <AdminHeaderLayout/>

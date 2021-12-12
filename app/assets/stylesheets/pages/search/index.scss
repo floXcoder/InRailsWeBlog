@@ -1,0 +1,220 @@
+@import 'base/variables';
+
+.search-index-root {
+  margin: 1rem auto 4rem;
+  overflow: visible;
+  position: relative;
+  max-width: 1180px;
+
+  @media #{$large-and-down} {
+    margin: 1rem .8rem;
+  }
+}
+
+.search-index-inputItem {
+  width: 80%;
+  margin: 8px;
+
+  @media #{$large-and-down} {
+    width: 95%;
+    padding: 8px !important;
+  }
+}
+
+.search-index-searchIcon {
+  color: #000;
+  height: 100%;
+  display: flex;
+  position: absolute;
+  align-items: center;
+  pointer-events: none;
+  justify-content: center;
+
+  @media #{$large-and-down} {
+    padding: 8px !important;
+    font-size: 1rem;
+    margin-bottom: 1.2rem;
+  }
+}
+
+.search-index-inputForm {
+  width: 100%;
+}
+
+.search-index-inputRoot {
+  color: #000;
+  width: 100%;
+  padding-left: 40px;
+}
+
+.search-index-inputSearch {
+  font-size: 2rem;
+}
+
+.search-index-inputTag {
+  color: rgba(0, 0, 0, 0.63);
+  cursor: pointer;
+  margin: 4px;
+  font-size: .9rem;
+  font-weight: 400;
+  border-color: rgba(0, 0, 0, 0.63);
+  border-radius: 4px;
+}
+
+.search-index-category {
+  margin: 12px;
+}
+
+.search-index-categoryAutocomplete {
+  margin-top: 0;
+  padding-left: 1.5rem;
+  margin-bottom: 16px;
+}
+
+.search-index-categoryHelper {
+  font-size: .9rem;
+  font-style: italic;
+  margin-right: 8px;
+}
+
+.search-index-categoryHeader {
+  border-bottom: 1px solid #e0e0e0;
+  margin-bottom: 1rem;
+}
+
+.search-index-categoryItem {
+  padding-bottom: 0 !important;
+}
+
+.search-index-categoryTitle {
+  display: inline-block;
+  font-size: 1.6rem;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.search-index-categorySubtitle {
+  font-style: italic;
+  margin-left: .6rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.search-index-categoryCount {
+  color: #757575;
+  font-size: 1rem;
+  font-weight: 300;
+  margin-left: .6rem;
+}
+
+.search-index-categoryFilter {
+  display: inline-block;
+}
+
+.search-index-categoryFilterList {
+  padding: 5px;
+}
+
+.search-index-categoryFilterSelected {
+  font-weight: 600;
+}
+
+.search-index-categoryFilterButton {
+  padding: 6px;
+  font-size: .9rem;
+  font-weight: 400;
+}
+
+.search-index-categoryFilterInput {
+  font-size: 1rem;
+}
+
+.search-index-categoryFilterHelper {
+  font-size: .9rem;
+}
+
+.search-index-helpMessage {
+  color: #757575;
+  margin: 1.4rem 0;
+  font-size: 1.4rem;
+  font-style: italic;
+  text-align: center;
+}
+
+.search-index-tag {
+  margin: 8px;
+}
+
+.search-index-tagHighlighted {
+  background-color: $secondary-color;
+}
+
+.search-index-articleCard {
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+.search-index-articleCardHeader {
+  width: 100%;
+}
+
+.search-index-articleContent {
+  word-break: break-word;
+  padding: 0 16px 16px;
+  white-space: pre-line;
+}
+
+.search-index-articleTags {
+  margin-top: 32px;
+  margin-bottom: 0;
+}
+
+.search-index-articleTag {
+  color: $text-color-secondary;
+  cursor: pointer;
+  margin: 4px;
+  padding: 8px;
+  font-size: .9rem;
+  font-weight: 400;
+  border-color: $text-color-secondary;
+  border-radius: 16px;
+}
+
+.search-index-articleHighlightedTag {
+  background-color: #fde15b;
+}
+
+.search-index-tagAutocomplete {
+  font-size: .8rem;
+}
+
+.search-index-articleTitle {
+  color: $text-color;
+  font-size: 1.8rem;
+}
+
+.search-index-articleGridTitle {
+  color: $text-color;
+  font-size: 1.5rem;
+}
+
+.search-index-articleSubtitle {
+  font-size: .9rem;
+}
+
+.search-index-articleOther {
+  margin: 2rem 2rem 0;
+  font-size: 1rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.search-index-articleLinksResults {
+  border: 1px solid $secondary-color-light;
+  margin: 22px 6px 12px;
+  padding: 8px;
+  font-size: 1rem;
+  box-shadow: 1px 1px 2px $secondary-color-light;
+  font-style: italic;
+  border-radius: 8px;
+}
+
+
