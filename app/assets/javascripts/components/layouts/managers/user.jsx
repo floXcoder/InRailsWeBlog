@@ -18,6 +18,9 @@ import {
     newTopicParam
 } from '../../../constants/routesHelper';
 
+import withRouter from '../../modules/router';
+
+
 export default @connect((state) => ({
     currentUserId: state.userState.currentId,
     currentUser: state.userState.user,
@@ -34,13 +37,15 @@ export default @connect((state) => ({
     synchronizeBookmarks,
     setCurrentTags
 })
+@withRouter({location: true, params: true, navigate: true})
 class UserManager extends React.Component {
     static propTypes = {
         children: PropTypes.object.isRequired,
-        routeParams: PropTypes.object.isRequired,
-        routeState: PropTypes.object,
-        pushHistory: PropTypes.func,
         initialCurrentUser: PropTypes.object,
+        // from router
+        routeLocation: PropTypes.object,
+        routeParams: PropTypes.object.isRequired,
+        routeNavigate: PropTypes.func,
         // from connect
         currentUserId: PropTypes.number,
         currentUser: PropTypes.object,
@@ -54,10 +59,6 @@ class UserManager extends React.Component {
         fetchUserRecents: PropTypes.func,
         fetchBookmarks: PropTypes.func,
         setCurrentTags: PropTypes.func
-    };
-
-    static defaultProps = {
-        routeState: {}
     };
 
     constructor(props) {
@@ -121,7 +122,8 @@ class UserManager extends React.Component {
     _fetchUserData = (currentUser) => {
         const currentTopicSlug = (this.props.routeParams.topicSlug || this.props.routeParams.articleSlug) && currentUser.currentTopic ? currentUser.currentTopic.slug : null;
         if (currentTopicSlug) {
-            this._tagRequest = this.props.fetchTags({
+            this._tagRequest = this.props.fetchTags(
+                {
                     topicSlug: currentTopicSlug
                 },
                 {
@@ -129,7 +131,8 @@ class UserManager extends React.Component {
                 },
                 {
                     topicTags: true
-                });
+                }
+            );
         } else if (currentUser.id) {
             // Fetch all tags
             this._tagRequest = this.props.fetchTags({
@@ -141,7 +144,8 @@ class UserManager extends React.Component {
                     this._checkState();
                 } else {
                     // Fetch also current topic tags
-                    this._tagRequest = this.props.fetchTags({
+                    this._tagRequest = this.props.fetchTags(
+                        {
                             topicSlug: currentUser.currentTopic.slug
                         },
                         {
@@ -149,7 +153,8 @@ class UserManager extends React.Component {
                         },
                         {
                             topicTags: true
-                        });
+                        }
+                    );
                 }
             }
         }
@@ -162,7 +167,7 @@ class UserManager extends React.Component {
 
             if (userJustSign) {
                 sessionStorage.removeItem('user-signed');
-                this.props.pushHistory({
+                this.props.routeNavigate({
                     hash: '#' + newTopicParam,
                     state: {
                         topicId: currentUser.currentTopic.id,
@@ -183,7 +188,7 @@ class UserManager extends React.Component {
 
             this._bookmarkRequest = this.props.fetchBookmarks(this.props.currentUserId);
         });
-    }
+    };
 
     _checkState = () => {
         let topicSlug = this.props.routeParams.topicSlug;
@@ -203,8 +208,9 @@ class UserManager extends React.Component {
     _fetchTags = (topicSlug) => {
         // Load tags according to the current route
         // Fetch tags only if different topic
-        if (this.props.routeState.reloadTags) {
-            this._tagRequest = this.props.fetchTags({
+        if (this.props.routeLocation.search.reloadTags) {
+            this._tagRequest = this.props.fetchTags(
+                {
                     topicId: this.props.currentUserTopicId
                 },
                 {
@@ -212,13 +218,15 @@ class UserManager extends React.Component {
                 },
                 {
                     topicTags: true
-                });
+                }
+            );
         } else if (!topicSlug) {
             this._tagRequest = this.props.fetchTags({
                 userId: this.props.currentUserId
             });
         } else if (this.props.currentUserTopicSlug !== topicSlug && this.props.userTopics.map((topic) => topic.slug).includes(topicSlug)) {
-            this._tagRequest = this.props.fetchTags({
+            this._tagRequest = this.props.fetchTags(
+                {
                     topicSlug: topicSlug
                 },
                 {
@@ -226,9 +234,11 @@ class UserManager extends React.Component {
                 },
                 {
                     topicTags: true
-                });
+                }
+            );
         } else if (!this.props.hasTopicTags) {
-            this._tagRequest = this.props.fetchTags({
+            this._tagRequest = this.props.fetchTags(
+                {
                     topicId: this.props.currentUserTopicId
                 },
                 {
@@ -236,7 +246,8 @@ class UserManager extends React.Component {
                 },
                 {
                     topicTags: true
-                });
+                }
+            );
         }
     };
 

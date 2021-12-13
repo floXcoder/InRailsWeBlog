@@ -1,9 +1,5 @@
 'use strict';
 
-import {
-    withRouter
-} from 'react-router-dom';
-
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -31,9 +27,10 @@ import {
     autocompleteLimit
 } from '../../modules/constants';
 
+import withRouter from '../../modules/router';
 
-export default @withRouter
-@connect((state) => ({
+
+export default @connect((state) => ({
     query: state.autocompleteState.query,
     currentUserId: state.userState.currentId,
     currentUserTopicId: state.topicState.currentUserTopicId,
@@ -46,12 +43,13 @@ export default @withRouter
     setAutocompleteAction,
     setAutocompleteSelectedTag
 })
+@withRouter({location: true, navigate: true})
 class HomeSearchHeader extends React.Component {
     static propTypes = {
         isSearchActive: PropTypes.bool.isRequired,
         // from router
-        location: PropTypes.object,
-        history: PropTypes.object,
+        routeLocation: PropTypes.object,
+        routeNavigate: PropTypes.func,
         // from connect
         query: PropTypes.string,
         currentUserId: PropTypes.number,
@@ -151,22 +149,22 @@ class HomeSearchHeader extends React.Component {
     };
 
     _handleSearchOpen = () => {
-        if (this.props.location.hash !== '#search') {
-            this.props.history.push({
+        if (this.props.routeLocation.hash !== '#search') {
+            this.props.routeNavigate({
                 hash: searchParam
             });
         }
     };
 
     _goToTag = (tag) => {
-        this.props.history.push({
+        this.props.routeNavigate({
             pathname: taggedArticlesPath(tag.slug),
             hash: searchParam
         });
     };
 
     _goToArticle = (article) => {
-        this.props.history.push({
+        this.props.routeNavigate({
             pathname: userArticlePath(article.userSlug, article.slug),
             hash: undefined
         });
@@ -179,7 +177,7 @@ class HomeSearchHeader extends React.Component {
 
         this.props.setAutocompleteSelectedTag();
 
-        this.props.history.push({
+        this.props.routeNavigate({
             pathname: searchPath(),
             search: Utils.toParams(Utils.compact({
                 query: this.props.query,
@@ -189,8 +187,8 @@ class HomeSearchHeader extends React.Component {
     };
 
     _handleSearchClose = () => {
-        if (this.props.location.hash === '#search') {
-            this.props.history.push({
+        if (this.props.routeLocation.hash === '#search') {
+            this.props.routeNavigate({
                 hash: undefined
             });
         }

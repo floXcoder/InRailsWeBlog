@@ -18,18 +18,22 @@ import {
     getSharingTopic
 } from '../../selectors';
 
+import withRouter from '../modules/router';
+
 import ShareFormTopic from './share/form';
 
 
-export default @connect((state, props) => ({
-    sharingTopic: getSharingTopic(state, props.routeState)
+export default @withRouter({location: true, navigate: true})
+@connect((state, props) => ({
+    sharingTopic: getSharingTopic(state, props.routeLocation?.search)
 }), {
     shareTopic
 })
 @hot
 class ShareTopicModal extends React.Component {
     static propTypes = {
-        history: PropTypes.object.isRequired,
+        // from router
+        routeNavigate: PropTypes.func,
         // from connect
         sharingTopic: PropTypes.object,
         shareTopic: PropTypes.func
@@ -41,7 +45,7 @@ class ShareTopicModal extends React.Component {
 
     state = {
         isOpen: true,
-        errorText: null
+        errorText: undefined
     };
 
     _handleClose = () => {
@@ -49,7 +53,7 @@ class ShareTopicModal extends React.Component {
             isOpen: false
         });
 
-        this.props.history.push({
+        this.props.routeNavigate({
             hash: undefined
         });
     };

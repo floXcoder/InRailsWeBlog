@@ -39,7 +39,6 @@ export default {
             // User account
             {
                 path: Routes.userConfirmationPath(false),
-                exact: true,
                 component: () => RouteComponents.UserConfirmation
             }
         ],
@@ -51,6 +50,7 @@ export default {
                 component: () => NotFound
             },
             {
+                path: '*',
                 status: 404,
                 component: () => NotFound
             }
@@ -59,13 +59,10 @@ export default {
             {
                 path: Routes.rootPath(false),
                 name: 'Home',
-                exact: true,
                 component: () => RouteComponents.Home
             },
             {
                 path: Routes.searchPath(false),
-                exact: false,
-                strict: false,
                 noTagSidebar: true,
                 noHeaderSearch: true,
                 component: () => RouteComponents.SearchIndex
@@ -73,77 +70,88 @@ export default {
             // tag
             {
                 path: Routes.showTagPath(':tagSlug', false),
-                exact: true,
                 noTagSidebar: true,
                 component: () => RouteComponents.TagShow
             },
             {
                 path: Routes.tagsPath(false),
-                exact: true,
                 noTagSidebar: true,
                 component: () => RouteComponents.TagIndex
             },
             // tagged
             {
-                path: Routes.taggedArticlesPath(':tagSlug', ':childTagSlug?', false),
-                exact: false,
+                path: Routes.taggedArticlesPath(':tagSlug', undefined, false),
+                component: () => RouteComponents.ArticleIndex
+            },
+            {
+                path: Routes.taggedArticlesPath(':tagSlug', ':childTagSlug', false),
                 component: () => RouteComponents.ArticleIndex
             },
             // tagged
             {
-                path: Routes.taggedArticlesPath(':tagSlug', ':childTagSlug?', false),
-                exact: false,
+                path: Routes.taggedArticlesPath(':tagSlug', undefined, false),
                 component: () => RouteComponents.ArticleIndex
             },
             {
-                path: Routes.taggedTopicArticlesPath(':userSlug', ':topicSlug', ':tagSlug', ':childTagSlug?', '(topics|shared-topics)', false),
-                exact: false,
+                path: Routes.taggedArticlesPath(':tagSlug', ':childTagSlug', false),
+                component: () => RouteComponents.ArticleIndex
+            },
+            {
+                path: Routes.taggedTopicArticlesPath(':userSlug', ':topicSlug', ':tagSlug', undefined, 'topics', false),
+                component: () => RouteComponents.ArticleIndex
+            },
+            {
+                path: Routes.taggedTopicArticlesPath(':userSlug', ':topicSlug', ':tagSlug', ':childTagSlug', 'topics', false),
+                component: () => RouteComponents.ArticleIndex
+            },
+            {
+                path: Routes.taggedTopicArticlesPath(':userSlug', ':topicSlug', ':tagSlug', undefined, 'shared-topics', false),
+                component: () => RouteComponents.ArticleIndex
+            },
+            {
+                path: Routes.taggedTopicArticlesPath(':userSlug', ':topicSlug', ':tagSlug', ':childTagSlug', 'shared-topics', false),
                 component: () => RouteComponents.ArticleIndex
             },
             // user: password
             {
                 path: Routes.newPasswordPath(false),
-                exact: true,
                 component: () => RouteComponents.UserPassword
             },
             {
                 path: Routes.editPasswordPath(false),
-                exact: true,
                 component: () => RouteComponents.UserPassword
             },
             // user: articles topic
             {
-                path: Routes.topicArticlesPath(':userSlug', ':topicSlug', '(topics|shared-topics)', false),
-                exact: true,
+                path: Routes.topicArticlesPath(':userSlug', ':topicSlug', 'topics', false),
+                component: () => RouteComponents.ArticleIndex
+            },
+            {
+                path: Routes.topicArticlesPath(':userSlug', ':topicSlug', 'shared-topics', false),
                 component: () => RouteComponents.ArticleIndex
             },
             // user : tags topic
             {
                 path: Routes.topicTagsPath(':userSlug', ':topicSlug', false),
-                exact: true,
                 component: () => RouteComponents.TagIndex
             },
             // user : topics
             {
                 path: Routes.userTopicPath(':userSlug', ':topicSlug', false),
-                exact: true,
                 component: () => RouteComponents.TopicShow
             },
             // user: articles
             {
                 path: Routes.userArticlesPath(':userSlug', false),
-                exact: true,
                 component: () => RouteComponents.ArticleIndex
             },
             {
                 path: Routes.userArticlePath(':userSlug', ':articleSlug', false),
-                exact: true,
                 component: () => RouteComponents.ArticleShow
             },
             // articles: shared
             {
                 path: Routes.sharedArticlePath(':articleSlug', ':publicLink', false),
-                exact: true,
                 component: () => RouteComponents.ArticleShared
             }
         ],
@@ -151,8 +159,6 @@ export default {
             {
                 path: Routes.rootPath(false),
                 name: 'UserHome',
-                exact: true,
-                strict: false,
                 noTagSidebar: true,
                 component: () => RouteComponents.Home
             },
@@ -167,127 +173,142 @@ export default {
             // tag
             {
                 path: Routes.editTagPath(':tagSlug', false),
-                exact: true,
                 noTagSidebar: true,
                 component: () => RouteComponents.TagEdit
             },
             {
                 path: Routes.sortTagPath(':userSlug', false),
-                exact: true,
                 noTagSidebar: true,
                 component: () => RouteComponents.TagSort
             },
             {
                 path: Routes.showTagPath(':tagSlug', false),
-                exact: true,
                 tagCloud: true,
                 component: () => RouteComponents.TagShow
             },
             {
                 path: Routes.tagsPath(false),
-                exact: true,
                 tagCloud: true,
                 component: () => RouteComponents.TagIndex
             },
             // tagged
             {
-                path: Routes.taggedArticlesPath(':tagSlug', ':childTagSlug?', false),
-                exact: false,
+                path: Routes.taggedArticlesPath(':tagSlug', undefined, false),
                 tagCloud: true,
                 articleSidebar: true,
                 component: () => RouteComponents.ArticleIndex
             },
             {
-                path: Routes.taggedTopicArticlesPath(':userSlug', ':topicSlug', ':tagSlug', ':childTagSlug?', '(topics|shared-topics)', false),
-                exact: false,
+                path: Routes.taggedArticlesPath(':tagSlug', ':childTagSlug', false),
+                tagCloud: true,
+                articleSidebar: true,
+                component: () => RouteComponents.ArticleIndex
+            },
+            {
+                path: Routes.taggedTopicArticlesPath(':userSlug', ':topicSlug', ':tagSlug', undefined, 'topics', false),
+                articleSidebar: true,
+                component: () => RouteComponents.ArticleIndex
+            },
+            {
+                path: Routes.taggedTopicArticlesPath(':userSlug', ':topicSlug', ':tagSlug', ':childTagSlug', 'topics', false),
+                articleSidebar: true,
+                component: () => RouteComponents.ArticleIndex
+            },
+            {
+                path: Routes.taggedTopicArticlesPath(':userSlug', ':topicSlug', ':tagSlug', undefined, 'shared-topics', false),
+                articleSidebar: true,
+                component: () => RouteComponents.ArticleIndex
+            },
+            {
+                path: Routes.taggedTopicArticlesPath(':userSlug', ':topicSlug', ':tagSlug', ':childTagSlug', 'shared-topics', false),
                 articleSidebar: true,
                 component: () => RouteComponents.ArticleIndex
             },
             // user: topics
             {
                 path: Routes.userHomePath(':userSlug', false),
-                exact: true,
                 tagCloud: true,
                 component: () => RouteComponents.UserHome
             },
             {
                 path: Routes.userTopicsPath(':userSlug', false),
-                exact: true,
                 component: () => RouteComponents.UserHome
             },
             {
                 path: Routes.userTopicPath(':userSlug', ':topicSlug', false),
-                exact: true,
                 component: () => RouteComponents.TopicShow
             },
             {
                 path: Routes.editTopicPath(':userSlug', ':topicSlug', false),
-                exact: true,
                 noTagSidebar: true,
                 component: () => RouteComponents.TopicEdit
             },
             {
                 path: Routes.editInventoriesTopicPath(':userSlug', ':topicSlug', false),
-                exact: true,
                 noTagSidebar: true,
                 component: () => RouteComponents.TopicEditInventories
             },
             {
-                path: Routes.orderTopicArticlesPath(':userSlug', ':topicSlug', ':order', '(topics|shared-topics)', false),
-                exact: true,
+                path: Routes.orderTopicArticlesPath(':userSlug', ':topicSlug', ':order', 'topics', false),
                 articleSidebar: true,
                 component: () => RouteComponents.ArticleIndex
             },
             {
-                path: Routes.topicArticlesPath(':userSlug', ':topicSlug', '(topics|shared-topics)', false),
-                exact: true,
+                path: Routes.orderTopicArticlesPath(':userSlug', ':topicSlug', ':order', 'shared-topics', false),
+                articleSidebar: true,
+                component: () => RouteComponents.ArticleIndex
+            },
+            {
+                path: Routes.topicArticlesPath(':userSlug', ':topicSlug', 'topics', false),
+                articleSidebar: true,
+                component: () => RouteComponents.ArticleIndex
+            },
+            {
+                path: Routes.topicArticlesPath(':userSlug', ':topicSlug', 'shared-topics', false),
                 articleSidebar: true,
                 component: () => RouteComponents.ArticleIndex
             },
             // user : tags
             {
                 path: Routes.topicTagsPath(':userSlug', ':topicSlug', false),
-                exact: true,
                 component: () => RouteComponents.TagIndex
             },
             // user: articles
             {
                 path: Routes.userArticlesPath(':userSlug', false),
-                exact: true,
                 noTagSidebar: true,
                 articleSidebar: true,
                 component: () => RouteComponents.ArticleIndex
             },
             {
                 path: Routes.sortTopicArticlesPath(':userSlug', ':topicSlug', false),
-                exact: true,
                 component: () => RouteComponents.ArticleSort
             },
             {
-                path: Routes.newArticlePath(':userSlug', ':topicSlug', '(topics|shared-topics)', false),
-                exact: true,
+                path: Routes.newArticlePath(':userSlug', ':topicSlug', 'topics', false),
+                noTagSidebar: true,
+                component: () => RouteComponents.ArticleNew
+            },
+            {
+                path: Routes.newArticlePath(':userSlug', ':topicSlug', 'shared-topics', false),
                 noTagSidebar: true,
                 component: () => RouteComponents.ArticleNew
             },
             {
                 path: Routes.editArticlePath(':userSlug', ':articleSlug', false),
-                exact: true,
                 component: () => RouteComponents.ArticleEdit
             },
             {
                 path: Routes.historyArticlePath(':userSlug', ':articleSlug', false),
-                exact: true,
                 component: () => RouteComponents.ArticleHistory
             },
             {
                 path: Routes.userArticlePath(':userSlug', ':articleSlug', false),
-                exact: true,
                 component: () => RouteComponents.ArticleShow
             },
             // articles: shared
             {
                 path: Routes.sharedArticlePath(':articleSlug', ':publicLink', false),
-                exact: true,
                 component: () => RouteComponents.ArticleShared
             }
         ]

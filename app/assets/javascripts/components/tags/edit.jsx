@@ -7,10 +7,6 @@ import {
 } from 'react-hot-loader/root';
 
 import {
-    withRouter
-} from 'react-router-dom';
-
-import {
     showTagPath
 } from '../../constants/routesHelper';
 
@@ -24,6 +20,8 @@ import {
     getTagErrors
 } from '../../selectors';
 
+import withRouter from '../modules/router';
+
 import Loader from '../theme/loader';
 
 import NotAuthorized from '../layouts/notAuthorized';
@@ -32,8 +30,7 @@ import TagFormDisplay from './display/form';
 import TagErrorField from './display/fields/error';
 
 
-export default @withRouter
-@connect((state) => ({
+export default @connect((state) => ({
     currentUser: getCurrentUser(state),
     isFetching: state.tagState.isFetching,
     tag: state.tagState.tag,
@@ -42,12 +39,13 @@ export default @withRouter
     fetchTag,
     updateTag
 })
+@withRouter({params: true, navigate: true})
 @hot
 class TagEdit extends React.Component {
     static propTypes = {
-        routeParams: PropTypes.object.isRequired,
         // from router
-        history: PropTypes.object,
+        routeParams: PropTypes.object,
+        routeNavigate: PropTypes.func,
         // from connect
         currentUser: PropTypes.object,
         isFetching: PropTypes.bool,
@@ -71,7 +69,7 @@ class TagEdit extends React.Component {
         return this.props.updateTag(values)
             .then((response) => {
                 if (response.tag) {
-                    this.props.history.push({
+                    this.props.routeNavigate({
                         pathname: showTagPath(response.tag.slug),
                         state: {reloadTags: true}
                     });

@@ -1,15 +1,13 @@
 'use strict';
 
-import {
-    withRouter
-} from 'react-router-dom';
+import withRouter from './router';
 
-export default @withRouter
+export default @withRouter({location: true})
 class ScrollBackManager extends React.Component {
     static propTypes = {
         children: PropTypes.element.isRequired,
         // from router
-        location: PropTypes.object
+        routeLocation: PropTypes.object
     };
 
     constructor(props) {
@@ -22,13 +20,13 @@ class ScrollBackManager extends React.Component {
 
     getSnapshotBeforeUpdate(prevProps) {
         // if the route changes
-        if (this.props.location !== prevProps.location) {
+        if (this.props.routeLocation !== prevProps.routeLocation) {
             const doc = document.documentElement;
             const left = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
             const top = (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0);
 
             // store the current route's position
-            this._positionByRoutes[prevProps.location.pathname] = [left, top];
+            this._positionByRoutes[prevProps.routeLocation.pathname] = [left, top];
         }
 
         return null;
@@ -40,13 +38,13 @@ class ScrollBackManager extends React.Component {
         }
 
         // if the route changes
-        if (this.props.location !== prevProps.location) {
+        if (this.props.routeLocation !== prevProps.routeLocation) {
             // Wait for loading dynamic elements
             this._scrollTimeout = setTimeout(() => {
                 // recover the new route's position if already stored
-                if (this._positionByRoutes[this.props.location.pathname]) {
+                if (this._positionByRoutes[this.props.routeLocation.pathname]) {
                     // already stored
-                    window.scrollTo(this._positionByRoutes[this.props.location.pathname][0] || 0, this._positionByRoutes[this.props.location.pathname][1] || 0);
+                    window.scrollTo(this._positionByRoutes[this.props.routeLocation.pathname][0] || 0, this._positionByRoutes[this.props.routeLocation.pathname][1] || 0);
                 } else {
                     // first time
                     window.scrollTo(0, 0);

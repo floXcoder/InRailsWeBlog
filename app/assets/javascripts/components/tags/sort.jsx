@@ -3,8 +3,8 @@
 import '../../../stylesheets/pages/tag/sort.scss';
 
 import {
-    withRouter
-} from 'react-router-dom';
+    hot
+} from 'react-hot-loader/root';
 
 import {
     tagsPath
@@ -19,12 +19,14 @@ import {
     sortItemLimit
 } from '../modules/constants';
 
+import withRouter from '../modules/router';
+
 import Loader from '../theme/loader';
 
 import TagSorter from './sort/sorter';
 
-export default @withRouter
-@connect((state) => ({
+
+export default @connect((state) => ({
     currentUserId: state.userState.currentId,
     currentUserSlug: state.userState.currentSlug,
     isFetching: state.tagState.isFetching,
@@ -33,11 +35,13 @@ export default @withRouter
     fetchTags,
     updateTagPriority
 })
+@withRouter({params: true, navigate: true})
+@hot
 class TagSort extends React.Component {
     static propTypes = {
         // from router
         routeParams: PropTypes.object,
-        history: PropTypes.object,
+        routeNavigate: PropTypes.func,
         // from connect
         currentUserId: PropTypes.number,
         currentUserSlug: PropTypes.string,
@@ -63,7 +67,7 @@ class TagSort extends React.Component {
 
     _handleUpdatePriority = (tagIds) => {
         this.props.updateTagPriority(tagIds)
-            .then(() => this.props.history.push(tagsPath()));
+            .then(() => this.props.routeNavigate(tagsPath()));
     };
 
     render() {

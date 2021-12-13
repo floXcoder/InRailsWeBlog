@@ -5,7 +5,6 @@ import {
 } from 'react';
 
 import {
-    Route,
     Link
 } from 'react-router-dom';
 
@@ -44,6 +43,8 @@ import {
     showUserLogin
 } from '../../../actions';
 
+import withRouter from '../../modules/router';
+
 import ErrorBoundary from '../../errors/boundary';
 
 import HeadLayout from '../head';
@@ -54,8 +55,6 @@ const loadingBarStyle = {backgroundColor: '#036603', height: '2px'};
 
 
 export default @connect((state) => ({
-    routeProperties: state.routerState.currentRoute,
-    routeLocation: state.routerState.location,
     metaTags: state.uiState.metaTags,
     isUserSignupOpen: state.uiState.isUserSignupOpen,
     isUserLoginOpen: state.uiState.isUserLoginOpen
@@ -65,13 +64,16 @@ export default @connect((state) => ({
     showUserLogin
 })
 @withWidth()
+@withRouter({location: true, params: true, navigate: true})
 class HeaderLayoutDefault extends React.Component {
     static propTypes = {
-        hashRoutes: PropTypes.object.isRequired,
-        history: PropTypes.object.isRequired,
-        // from connect
-        routeProperties: PropTypes.object,
+        searchModule: PropTypes.object.isRequired,
+        // from layout
+        routeProperties: PropTypes.object.isRequired,
+        // from router
         routeLocation: PropTypes.object,
+        routeNavigate: PropTypes.func,
+        // from connect
         metaTags: PropTypes.object,
         isUserSignupOpen: PropTypes.bool,
         isUserLoginOpen: PropTypes.bool,
@@ -118,7 +120,7 @@ class HeaderLayoutDefault extends React.Component {
 
     _handleSearchOpen = () => {
         if (this.props.routeLocation.hash !== '#search') {
-            this.props.history.push({
+            this.props.routeNavigate({
                 hash: searchParam
             });
         }
@@ -126,7 +128,7 @@ class HeaderLayoutDefault extends React.Component {
 
     _handleSearchClose = () => {
         if (this.props.routeLocation.hash === '#search') {
-            this.props.history.push({
+            this.props.routeNavigate({
                 hash: undefined
             });
         }
@@ -158,26 +160,6 @@ class HeaderLayoutDefault extends React.Component {
 
     _handleDrawerToggle = () => {
         this.setState((state) => ({isMobileOpen: !state.isMobileOpen}));
-    };
-
-    _renderHashRoutes = (routes) => {
-        return routes.map((route, index) => (
-            <Route key={index}
-                   children={({match, location}) => {
-                       const Component = route.component();
-
-                       return (
-                           <div>
-                               {
-                                   location.hash === `#${route.path}` &&
-                                   <Component history={this.props.history}
-                                              routeParams={match.params}
-                                              routeState={location.state}/>
-                               }
-                           </div>
-                       );
-                   }}/>
-        ));
     };
 
     _renderDesktopMenu = () => {
@@ -258,7 +240,12 @@ class HeaderLayoutDefault extends React.Component {
     };
 
     render() {
-        const isSearchActive = this.props.routeLocation.hash === '#search';
+        const isSearchActive = this.props.routeLocation.hash === `#${this.props.searchModule.path}`;
+
+        let SearchModule = null;
+        if (isSearchActive) {
+            SearchModule = this.props.searchModule.component();
+        }
 
         return (
             <>
@@ -317,7 +304,7 @@ class HeaderLayoutDefault extends React.Component {
                             isSearchActive &&
                             <Suspense fallback={<div/>}>
                                 <ErrorBoundary errorType="notification">
-                                    {this._renderHashRoutes(this.props.hashRoutes.search)}
+                                    <SearchModule/>
                                 </ErrorBoundary>
                             </Suspense>
                         }

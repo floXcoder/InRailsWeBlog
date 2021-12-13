@@ -179,6 +179,7 @@
     "react/sort-comp": 1,
     "react/state-in-constructor": 0,
     "react/static-property-placement": 0,
+    "semi": 1,
     "spaced-comment": 0,
     "strict": 0,
     "vars-on-top": 0,

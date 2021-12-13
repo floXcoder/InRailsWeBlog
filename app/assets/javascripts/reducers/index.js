@@ -12,7 +12,6 @@ import {
 
 enableES5();
 
-import routerReducer from './routerReducer';
 import uiReducer from './uiReducer';
 import userReducer from './userReducer';
 import bookmarkReducer from './bookmarkReducer';
@@ -26,7 +25,6 @@ import {
 import commentReducer from './commentReducer';
 
 export default combineReducers(produce, {
-    routerState: routerReducer,
     uiState: uiReducer,
     userState: userReducer,
     bookmarkState: bookmarkReducer,

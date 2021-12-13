@@ -1,8 +1,27 @@
 'use strict';
 
+import ReactPiwik from 'react-piwik';
+
 import api from '../middlewares/api';
 
+
 window.trackingDatas = {};
+
+let piwik;
+if (window._paq && !window.seoMode) {
+    piwik = new ReactPiwik({
+        url: window.METRICS_ADDRESS,
+        siteId: window.METRICS_SITE_NUMBER,
+        jsFilename: window.METRICS_FILENAME + '.js',
+        phpFilename: window.METRICS_FILENAME + '.php'
+    });
+}
+
+export const trackMetrics = (location) => {
+    if (piwik) {
+        piwik.track(location);
+    }
+};
 
 export const trackAction = (params, actionType) => {
     if (GlobalEnvironment.NODE_ENV !== 'production' || window.seoMode) {
@@ -74,10 +93,12 @@ export const spyTrackView = (elementName, elementId) => {
     }
 
     return api
-        .post(`/api/v1/${elementName}s/${elementId}/viewed`,
+        .post(
+            `/api/v1/${elementName}s/${elementId}/viewed`,
             {
                 id: elementId
-            });
+            }
+        );
 };
 
 export const spyTrackClick = (elementType, elementId, elementSlug, elementUserId, elementTitle, elementParentId) => {
@@ -88,12 +109,14 @@ export const spyTrackClick = (elementType, elementId, elementSlug, elementUserId
     }
 
     return api
-        .post(`/api/v1/${elementType}s/${elementId}/clicked`,
+        .post(
+            `/api/v1/${elementType}s/${elementId}/clicked`,
             {
                 id: elementId,
                 userId: elementUserId,
                 parentId: elementParentId
-            });
+            }
+        );
 };
 
 // Unused for now

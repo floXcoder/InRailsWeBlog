@@ -28,6 +28,10 @@ import {
     fetchArticleTracking
 } from '../../actions';
 
+import {
+    withNavigation
+} from '../modules/router';
+
 import Loader from '../theme/loader';
 
 const TRACKING_VIEWS = {
@@ -49,8 +53,8 @@ class TrackingArticleModal extends React.Component {
     static propTypes = {
         trackingView: PropTypes.number,
         articleId: PropTypes.number,
-        history: PropTypes.object,
         onClose: PropTypes.func,
+
         // from connect
         article: PropTypes.object,
         articleTracking: PropTypes.object,
@@ -101,7 +105,7 @@ class TrackingArticleModal extends React.Component {
             this.props.onClose();
         }
 
-        this.props.history?.push({
+        this.props.routeNavigate({
             hash: undefined
         });
     };

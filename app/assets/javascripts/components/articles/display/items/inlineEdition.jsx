@@ -2,7 +2,7 @@
 
 import {
     Link,
-    Prompt
+    // Prompt
 } from 'react-router-dom';
 
 import {
@@ -81,8 +81,8 @@ class ArticleInlineEditionDisplay extends React.Component {
         return (
             <div id={`article-${this.props.article.id}`}
                  className="article-inline-root">
-                <Prompt when={!!this.state.modifiedContent && !this._isSaving}
-                        message={(location) => I18n.t('js.article.form.unsaved', {location: location.pathname})}/>
+                {/*<Prompt when={!!this.state.modifiedContent && !this._isSaving}*/}
+                {/*        message={(location) => I18n.t('js.article.form.unsaved', {location: location.pathname})}/>*/}
 
                 {
                     this.props.article.title &&

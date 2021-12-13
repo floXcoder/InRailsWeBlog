@@ -7,8 +7,7 @@ import {
 } from 'react-hot-loader/root';
 
 import {
-    Link,
-    withRouter
+    Link
 } from 'react-router-dom';
 
 import {
@@ -54,6 +53,8 @@ import {
     articleEditPreloadTime
 } from '../modules/constants';
 
+import withRouter from '../modules/router';
+
 import CommentBox from '../loaders/commentBox';
 
 import highlight from '../modules/highlight';
@@ -78,7 +79,7 @@ import ArticleMiniCardDisplay from './display/items/miniCard';
 import ArticleSkeleton from '../loaders/skeletons/article';
 
 
-export default @withRouter
+export default @withRouter({location: true, params: true, navigate: true})
 @connect((state, props) => ({
     currentUserSlug: state.userState.currentSlug,
     currentUser: getCurrentUser(state),
@@ -102,15 +103,15 @@ export default @withRouter
     setCurrentTags,
     showUserSignup
 })
-@hot
 @highlight(false)
+@hot
 class ArticleShow extends React.Component {
     static propTypes = {
-        routeParams: PropTypes.object.isRequired,
-        routeState: PropTypes.object,
         initProps: PropTypes.object,
         // from router
-        history: PropTypes.object,
+        routeLocation: PropTypes.object,
+        routeParams: PropTypes.object,
+        routeNavigate: PropTypes.func,
         // from connect
         currentUserSlug: PropTypes.string,
         currentUser: PropTypes.object,
@@ -230,8 +231,8 @@ class ArticleShow extends React.Component {
     };
 
     _highlightMatchedContent = () => {
-        if (this.props.article && this.props.routeState?.highlightContent && window.find) {
-            window.find(this.props.routeState.highlightContent);
+        if (this.props.article && this.props.routeLocation.search?.highlightContent && window.find) {
+            window.find(this.props.routeLocation.search.highlightContent);
         }
     };
 
@@ -260,7 +261,7 @@ class ArticleShow extends React.Component {
         event.preventDefault();
 
         this.props.deleteArticle(this.props.article.id)
-            .then(() => this.props.history.push({
+            .then(() => this.props.routeNavigate({
                 pathname: topicArticlesPath(this.props.currentUser.slug, this.props.currentTopic.slug),
                 state: {reloadTags: true}
             }));
@@ -305,15 +306,15 @@ class ArticleShow extends React.Component {
             <div>
                 <StickyContainer>
                     {
-                        (this.props.routeState?.position && this.props.isFetching) &&
+                        (this.props.routeLocation.search?.position && this.props.isFetching) &&
                         <div className="center margin-top-20">
                             <div>
                                 <span className="transition"
                                       style={{
-                                          top: this.props.routeState.position.y,
-                                          left: this.props.routeState.position.x
+                                          top: this.props.routeLocation.search.position.y,
+                                          left: this.props.routeLocation.search.position.x
                                       }}>
-                                    {this.props.routeState.title}
+                                    {this.props.routeLocation.search.title}
                                 </span>
                             </div>
                         </div>
@@ -346,7 +347,7 @@ class ArticleShow extends React.Component {
                                                                   display="item"
                                                                   size="medium"
                                                                   color="action"
-                                                                  history={this.props.history}
+                                                                  routeNavigate={this.props.routeNavigate}
                                                                   isOwner={this.props.isOwner}
                                                                   userSlug={this.props.article.user.slug}
                                                                   articleId={this.props.article.id}

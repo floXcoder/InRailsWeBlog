@@ -26,13 +26,16 @@ import {
 
 import PersistenceFormTopic from './persistence/form';
 
+import withRouter from '../modules/router';
 
-export default @connect((state, props) => ({
+
+export default @withRouter({location: true, navigate: true})
+@connect((state, props) => ({
     currentUserId: state.userState.currentId,
     currentUserLocale: state.userState.user?.locale,
     articleMultilanguage: state.uiState.articleMultilanguage,
     userSlug: state.userState.currentSlug,
-    editingTopic: getEditingTopic(state, props.routeState)
+    editingTopic: getEditingTopic(state, props.routeLocation.search)
 }), {
     addTopic,
     updateTopic,
@@ -43,8 +46,9 @@ export default @connect((state, props) => ({
 @hot
 class TopicPersistence extends React.Component {
     static propTypes = {
-        history: PropTypes.object.isRequired,
-        routeState: PropTypes.object,
+        // from router
+        routeNavigate: PropTypes.func,
+        routeLocation: PropTypes.object,
         // from connect
         currentUserId: PropTypes.number,
         currentUserLocale: PropTypes.string,
@@ -56,10 +60,6 @@ class TopicPersistence extends React.Component {
         deleteTopic: PropTypes.func,
         showTopicPopup: PropTypes.func,
         fetchTags: PropTypes.func
-    };
-
-    static defaultProps = {
-        routeState: {}
     };
 
     constructor(props) {
@@ -75,7 +75,7 @@ class TopicPersistence extends React.Component {
             isOpen: false
         });
 
-        this.props.history.push({
+        this.props.routeNavigate({
             hash: undefined
         });
     };
@@ -98,7 +98,7 @@ class TopicPersistence extends React.Component {
                 })
                 .then((response) => {
                     if (response.topic) {
-                        return this.props.history.push(topicArticlesPath(this.props.userSlug, response.topic.slug));
+                        return this.props.routeNavigate(topicArticlesPath(this.props.userSlug, response.topic.slug));
                     }
                 });
         } else {
@@ -118,21 +118,21 @@ class TopicPersistence extends React.Component {
                 .then((response) => {
                     if (response.topic) {
                         this.props.fetchTags(
-{
+                            {
                                 topicSlug: response.topic.slug
                             },
                             {},
                             {
                                 topicTags: true
                             }
-);
+                        );
 
                         if (response.topic.mode === 'inventories') {
                             Notification.success('Vous pouvez maintenant ajouter les champs personnalisés pour les articles');
 
-                            this.props.history.push(editInventoriesTopicPath(this.props.userSlug, response.topic.slug));
+                            this.props.routeNavigate(editInventoriesTopicPath(this.props.userSlug, response.topic.slug));
                         } else {
-                            this.props.history.push(topicArticlesPath(this.props.userSlug, response.topic.slug));
+                            this.props.routeNavigate(topicArticlesPath(this.props.userSlug, response.topic.slug));
                         }
                     }
 
@@ -151,7 +151,7 @@ class TopicPersistence extends React.Component {
     };
 
     _renderTitle = () => {
-        if (this.props.routeState.signup) {
+        if (this.props.routeLocation?.search?.signup) {
             return I18n.t('js.topic.edit.title_signup');
         } else if (this.props.editingTopic) {
             return I18n.t('js.topic.edit.title');
@@ -173,8 +173,8 @@ class TopicPersistence extends React.Component {
                     <PersistenceFormTopic topic={this.props.editingTopic}
                                           isEditing={!!this.props.editingTopic}
                                           articleMultilanguage={this.props.articleMultilanguage}
-                                          defaultMode={this.props.routeState.mode}
-                                          defaultVisibility={this.props.routeState.visibility}
+                                          defaultMode={this.props.routeLocation?.search?.mode}
+                                          defaultVisibility={this.props.routeLocation?.search?.visibility}
                                           defaultLocale={this.props.currentUserLocale}
                                           onCancel={this._handleClose}
                                           onSubmit={this._handleTopicSubmit}

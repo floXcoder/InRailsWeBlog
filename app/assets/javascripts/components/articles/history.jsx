@@ -7,10 +7,6 @@ import {
 } from 'react-hot-loader/root';
 
 import {
-    withRouter
-} from 'react-router-dom';
-
-import {
     userArticlePath
 } from '../../constants/routesHelper';
 
@@ -24,6 +20,8 @@ import {
     getCurrentUser
 } from '../../selectors';
 
+import withRouter from '../modules/router';
+
 import highlight from '../modules/highlight';
 
 import Loader from '../theme/loader';
@@ -33,8 +31,7 @@ import ArticleCardDisplay from './display/items/card';
 import ArticleVersionsDisplay from './display/versions';
 
 
-export default @withRouter
-@connect((state) => ({
+export default @connect((state) => ({
     currentUser: getCurrentUser(state),
     currentTopic: state.topicState.currentTopic,
     article: state.articleState.article,
@@ -44,13 +41,14 @@ export default @withRouter
     fetchArticleHistory,
     restoreArticle
 })
+@withRouter({params: true, navigate: true})
 @hot
 @highlight(true)
 class ArticleHistory extends React.Component {
     static propTypes = {
-        routeParams: PropTypes.object.isRequired,
         // from router
-        history: PropTypes.object,
+        routeParams: PropTypes.object,
+        routeNavigate: PropTypes.func,
         // from connect
         currentUser: PropTypes.object,
         currentTopic: PropTypes.object,
@@ -83,7 +81,7 @@ class ArticleHistory extends React.Component {
         this.props.restoreArticle(articleId, versionId)
             .then((response) => {
                 if (response.article) {
-                    return this.props.history.push(userArticlePath(response.article.userSlug, response.article.slug));
+                    return this.props.routeNavigate(userArticlePath(response.article.userSlug, response.article.slug));
                 }
             });
     };

@@ -25,6 +25,8 @@ import {
     getUserRecentArticles
 } from '../../selectors';
 
+import withRouter from '../modules/router';
+
 import SearchTopicModule from './module/topic';
 import SearchTagModule from './module/tag';
 import SearchArticleModule from './module/article';
@@ -50,10 +52,12 @@ export default @connect((state) => ({
     fetchUserRecents,
     setAutocompleteSelectedTag
 })
+@withRouter({navigate: true})
 @hot
 class SearchModule extends React.Component {
     static propTypes = {
-        history: PropTypes.object.isRequired,
+        // from router
+        routeNavigate: PropTypes.func,
         // from connect
         isUserConnected: PropTypes.bool,
         currentUserId: PropTypes.number,
@@ -89,7 +93,7 @@ class SearchModule extends React.Component {
     };
 
     _performSearch = () => {
-        this.props.history.push({
+        this.props.routeNavigate({
             pathname: searchPath(),
             search: Utils.toParams(Utils.compact({
                 query: this.props.query,
@@ -99,7 +103,7 @@ class SearchModule extends React.Component {
     };
 
     _handleSearchClose = () => {
-        this.props.history.push({
+        this.props.routeNavigate({
             hash: undefined
         });
     };

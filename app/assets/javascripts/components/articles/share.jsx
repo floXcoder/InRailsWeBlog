@@ -14,16 +14,20 @@ import {
     shareArticle
 } from '../../actions';
 
+import withRouter from '../modules/router';
+
 
 export default @connect((state) => ({
     article: state.articleState.article
 }), {
     shareArticle
 })
+@withRouter({navigate: true})
 @hot
 class ShareArticleModal extends React.Component {
     static propTypes = {
-        history: PropTypes.object.isRequired,
+        // from router
+        routeNavigate: PropTypes.func,
         // from connect
         article: PropTypes.object,
         shareArticle: PropTypes.func
@@ -42,7 +46,7 @@ class ShareArticleModal extends React.Component {
             isOpen: false
         });
 
-        this.props.history.push({
+        this.props.routeNavigate({
             hash: undefined
         });
     };

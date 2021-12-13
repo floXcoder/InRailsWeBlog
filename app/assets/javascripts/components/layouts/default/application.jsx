@@ -11,7 +11,7 @@ import {
 } from 'react-redux';
 
 import {
-    Router
+    BrowserRouter
 } from 'react-router-dom';
 
 import {
@@ -28,14 +28,9 @@ import {
 
 import routes from '../../../routes';
 
-import browserHistory from '../../modules/browserHistory';
 import ScrollBackManager from '../../modules/scrollBackManager';
 
-import ErrorBoundary from '../../errors/boundary';
-
-import HeaderLayoutDefault from './header';
-import MainLayoutDefault from './main';
-import FooterLayoutDefault from './footer';
+import LayoutDefault from './layout';
 
 import theme from '../../../theme';
 
@@ -69,28 +64,14 @@ export default class ApplicationLayoutDefault extends React.Component {
                 <Provider store={configureStore}
                           context={ReactReduxContext}>
                     <HelmetProvider>
-                        <Router history={browserHistory}>
+                        <BrowserRouter>
                             <ScrollBackManager>
-                                <>
-                                    <ErrorBoundary errorType="text"
-                                                   errorTitle={I18n.t('js.helpers.errors.boundary.header')}>
-                                        <HeaderLayoutDefault history={browserHistory}
-                                                             hashRoutes={routes.hashes}/>
-                                    </ErrorBoundary>
-
-                                    <ErrorBoundary errorType="card">
-                                        <MainLayoutDefault
-                                            routes={[...routes.static.common, ...routes.static.home, ...routes.static.notFound]}
-                                            {...this._componentProps()}/>
-                                    </ErrorBoundary>
-
-                                    <ErrorBoundary errorType="text"
-                                                   errorTitle={I18n.t('js.helpers.errors.boundary.footer')}>
-                                        <FooterLayoutDefault/>
-                                    </ErrorBoundary>
-                                </>
+                                <LayoutDefault
+                                    routes={[...routes.static.common, ...routes.static.home, ...routes.static.notFound]}
+                                    hashRoutes={routes.hashes}
+                                    {...this._componentProps()}/>
                             </ScrollBackManager>
-                        </Router>
+                        </BrowserRouter>
                     </HelmetProvider>
                 </Provider>
             </MuiThemeProvider>

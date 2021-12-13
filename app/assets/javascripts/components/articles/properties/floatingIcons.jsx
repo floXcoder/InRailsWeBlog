@@ -21,7 +21,7 @@ export default class ArticleFloatingIcons extends React.PureComponent {
         display: PropTypes.oneOf(['list', 'item']),
         size: PropTypes.oneOf(['small', 'medium', 'large']),
         color: PropTypes.oneOf(['primary', 'secondary', 'action']),
-        history: PropTypes.object,
+        routeNavigate: PropTypes.func,
         isOwner: PropTypes.bool
     };
 
@@ -68,7 +68,7 @@ export default class ArticleFloatingIcons extends React.PureComponent {
                     this.props.isOwner &&
                     <ArticleEditIcon userSlug={this.props.userSlug}
                                      articleSlug={this.props.articleSlug}
-                                     history={this.props.history}
+                                     routeNavigate={this.props.routeNavigate}
                                      size={this.props.size}
                                      color={this.props.color}/>
                 }

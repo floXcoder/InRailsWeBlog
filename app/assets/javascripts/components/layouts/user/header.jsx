@@ -5,7 +5,6 @@ import {
 } from 'react';
 
 import {
-    Route,
     Link
 } from 'react-router-dom';
 
@@ -63,6 +62,8 @@ import {
     articleTemporaryDataName
 } from '../../modules/constants';
 
+import withRouter from '../../modules/router';
+
 import ErrorBoundary from '../../errors/boundary';
 
 import HeadLayout from '../head';
@@ -88,9 +89,6 @@ const loadingBarStyle = {backgroundColor: '#036603', height: '2px'};
 
 
 export default @connect((state) => ({
-    routeProperties: state.routerState.currentRoute,
-    routeParams: state.routerState.params,
-    routeLocation: state.routerState.location,
     metaTags: state.uiState.metaTags,
     isUserPreferenceOpen: state.uiState.isUserPreferenceOpen,
     isTopicPopupOpen: state.uiState.isTopicPopupOpen,
@@ -105,14 +103,16 @@ export default @connect((state) => ({
     showTopicPopup
 })
 @withWidth()
+@withRouter({location: true, params: true})
 class HeaderLayoutUser extends React.PureComponent {
     static propTypes = {
-        hashRoutes: PropTypes.object.isRequired,
-        history: PropTypes.object.isRequired,
-        // from connect
-        routeProperties: PropTypes.object,
-        routeParams: PropTypes.object,
+        searchModule: PropTypes.object.isRequired,
+        // from layout
+        routeProperties: PropTypes.object.isRequired,
+        // from router
         routeLocation: PropTypes.object,
+        routeParams: PropTypes.object,
+        // from connect
         metaTags: PropTypes.object,
         isUserPreferenceOpen: PropTypes.bool,
         isTopicPopupOpen: PropTypes.bool,
@@ -357,28 +357,13 @@ class HeaderLayoutUser extends React.PureComponent {
         );
     };
 
-    _renderHashRoutes = (routes) => {
-        return routes.map((route, index) => (
-            <Route key={index}
-                   children={({match, location}) => {
-                       const Component = route.component();
-
-                       return (
-                           <div>
-                               {
-                                   location.hash === `#${route.path}` &&
-                                   <Component history={this.props.history}
-                                              routeParams={match.params}
-                                              routeState={location.state}/>
-                               }
-                           </div>
-                       );
-                   }}/>
-        ));
-    };
-
     render() {
-        const isSearchActive = this.props.routeLocation.hash === '#search';
+        const isSearchActive = this.props.routeLocation.hash === `#${this.props.searchModule.path}`;
+
+        let SearchModule = null;
+        if (isSearchActive) {
+            SearchModule = this.props.searchModule.component();
+        }
 
         return (
             <>
@@ -470,7 +455,7 @@ class HeaderLayoutUser extends React.PureComponent {
                             isSearchActive &&
                             <Suspense fallback={<div/>}>
                                 <ErrorBoundary errorType="notification">
-                                    {this._renderHashRoutes(this.props.hashRoutes.search)}
+                                    <SearchModule/>
                                 </ErrorBoundary>
                             </Suspense>
                         }
@@ -483,18 +468,6 @@ class HeaderLayoutUser extends React.PureComponent {
                     this.props.routeProperties.articleSidebar &&
                     this._renderMobileArticleDrawer()
                 }
-
-                <Suspense fallback={<div/>}>
-                    <ErrorBoundary errorType="notification">
-                        {this._renderHashRoutes(this.props.hashRoutes.topic)}
-                    </ErrorBoundary>
-                </Suspense>
-
-                <Suspense fallback={<div/>}>
-                    <ErrorBoundary errorType="notification">
-                        {this._renderHashRoutes(this.props.hashRoutes.article)}
-                    </ErrorBoundary>
-                </Suspense>
 
                 <HeadLayout>
                     {this.props.metaTags}

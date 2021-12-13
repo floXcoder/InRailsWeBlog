@@ -1,9 +1,5 @@
 'use strict';
 
-import {
-    withRouter
-} from 'react-router-dom';
-
 import Grid from '@material-ui/core/Grid';
 
 import {
@@ -12,23 +8,25 @@ import {
     privacy
 } from '../../../constants/routesHelper';
 
+import withRouter from '../../modules/router';
 
-export default @withRouter
-@connect((state) => ({
+
+export default @connect((state) => ({
     metaTags: state.uiState.metaTags
 }))
+@withRouter({location: true, navigate: true})
 class FooterLayoutUser extends React.Component {
     static propTypes = {
         // from router
-        location: PropTypes.object,
-        history: PropTypes.object,
+        routeLocation: PropTypes.object,
+        routeNavigate: PropTypes.func,
         // from connect
         metaTags: PropTypes.object
     };
 
     _handleSearchClose = () => {
-        if (this.props.location.hash === '#search') {
-            this.props.history.push({
+        if (this.props.routeLocation.hash === '#search') {
+            this.props.routeNavigate({
                 hash: undefined
             });
         }
@@ -47,7 +45,7 @@ class FooterLayoutUser extends React.Component {
     };
 
     render() {
-        const isSearchActive = this.props.location.hash === '#search';
+        const isSearchActive = this.props.routeLocation.hash === '#search';
 
         const {'x-default': xDefault, ...alternates} = this.props.metaTags.alternate || {};
 

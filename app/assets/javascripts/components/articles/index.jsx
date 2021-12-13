@@ -43,6 +43,7 @@ import {
 } from '../modules/constants';
 
 import RouteManager from '../../modules/routeManager';
+import withRouter from '../modules/router';
 
 import Loader from '../theme/loader';
 import Pagination from '../theme/pagination';
@@ -80,12 +81,14 @@ export default @connect((state) => ({
     fetchTopic,
     setCurrentTags
 })
+@withRouter({location: true, params: true})
 @hot
 class ArticleIndex extends React.Component {
     static propTypes = {
-        routeParams: PropTypes.object.isRequired,
-        routeHash: PropTypes.string,
         initProps: PropTypes.object,
+        // from router
+        routeLocation: PropTypes.object,
+        routeParams: PropTypes.object,
         // from connect
         currentUserId: PropTypes.number,
         currentTopic: PropTypes.object,
@@ -140,7 +143,7 @@ class ArticleIndex extends React.Component {
 
     componentDidUpdate(prevProps) {
         // Manage articles order or sort display
-        if (!Object.equals(this.props.routeParams, prevProps.routeParams) || this.props.routeHash !== prevProps.routeHash) {
+        if (!Object.equals(this.props.routeParams, prevProps.routeParams) || this.props.routeLocation.search !== prevProps.routeLocation.search) {
             if (prevProps.routeParams.order !== this.props.routeParams.order) {
                 if (this.props.routeParams.order) {
                     this.props.updateArticleOrderDisplay(this.props.routeParams.order);
@@ -236,7 +239,7 @@ class ArticleIndex extends React.Component {
 
     _fetchNextArticles = (params = {}) => {
         if (this.props.articlePagination && this.props.articlePagination.currentPage <= this.props.articlePagination.totalPages) {
-            const queryParams = parse(this.props.routeHash.replace(/^\?/, ''));
+            const queryParams = parse(this.props.routeLocation.search.replace(/^\?/, ''));
             const options = {
                 page: (params.selected ?? this.props.articlePagination.currentPage) + 1
             };

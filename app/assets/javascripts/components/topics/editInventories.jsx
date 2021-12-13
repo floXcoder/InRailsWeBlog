@@ -7,10 +7,6 @@ import {
 } from 'react-hot-loader/root';
 
 import {
-    withRouter
-} from 'react-router-dom';
-
-import {
     topicArticlesPath
 } from '../../constants/routesHelper';
 
@@ -24,6 +20,8 @@ import {
     getTopicErrors
 } from '../../selectors';
 
+import withRouter from '../modules/router';
+
 import Loader from '../theme/loader';
 
 import TopicFormInventoriesDisplay from './display/formInventories';
@@ -31,8 +29,7 @@ import TopicFormInventoriesDisplay from './display/formInventories';
 import NotAuthorized from '../layouts/notAuthorized';
 
 
-export default @withRouter
-@connect((state) => ({
+export default @connect((state) => ({
     topic: state.topicState.topic,
     currentUser: getCurrentUser(state),
     topicErrors: getTopicErrors(state)
@@ -40,12 +37,13 @@ export default @withRouter
     fetchTopic,
     updateTopicInventories
 })
+@withRouter({params: true, navigate: true})
 @hot
 class TopicEditInventories extends React.Component {
     static propTypes = {
-        routeParams: PropTypes.object.isRequired,
         // from router
-        history: PropTypes.object,
+        routeParams: PropTypes.object,
+        routeNavigate: PropTypes.object,
         // from connect
         topic: PropTypes.object,
         currentUser: PropTypes.object,
@@ -76,7 +74,7 @@ class TopicEditInventories extends React.Component {
         this.props.updateTopicInventories(this.props.topic.id, data)
             .then((response) => {
                 if (response.topic) {
-                    this.props.history.push({
+                    this.props.routeNavigate({
                         pathname: topicArticlesPath(this.props.topic.user.slug, this.props.topic.slug)
                     });
                 }

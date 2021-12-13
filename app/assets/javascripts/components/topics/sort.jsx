@@ -14,6 +14,8 @@ import {
     updateTopicPriority
 } from '../../actions';
 
+import withRouter from '../modules/router';
+
 import Loader from '../theme/loader';
 
 import TopicSorter from './sort/sorter';
@@ -29,11 +31,13 @@ export default @connect((state) => ({
     fetchTopics,
     updateTopicPriority
 })
+@withRouter({location: true, navigate: true})
 @hot
 class SortTopicModal extends React.Component {
     static propTypes = {
-        routeState: PropTypes.object.isRequired,
-        history: PropTypes.object.isRequired,
+        // from router
+        routeLocation: PropTypes.object,
+        routeNavigate: PropTypes.func,
         // from connect
         currentUserId: PropTypes.number,
         isFetching: PropTypes.bool,
@@ -53,7 +57,7 @@ class SortTopicModal extends React.Component {
     componentDidMount() {
         this.props.fetchTopics(this.props.currentUserId, {
             order: 'priority_desc',
-            visibility: this.props.routeState.visibility
+            visibility: this.props.routeLocation?.search?.visibility
         });
     }
 
@@ -62,7 +66,7 @@ class SortTopicModal extends React.Component {
             isOpen: false
         });
 
-        this.props.history.push({
+        this.props.routeNavigate({
             hash: undefined
         });
     };
@@ -70,7 +74,7 @@ class SortTopicModal extends React.Component {
     _handleUpdatePriority = (topicIds) => {
         this.props.updateTopicPriority(this.props.currentUserId, topicIds)
             .then(() => {
-                this.props.history.push({
+                this.props.routeNavigate({
                     hash: undefined
                 });
             });

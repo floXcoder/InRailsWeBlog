@@ -4,10 +4,6 @@ import {
     hot
 } from 'react-hot-loader/root';
 
-import {
-    withRouter
-} from 'react-router-dom';
-
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 
@@ -19,6 +15,8 @@ import {
     userArticlePath
 } from '../../constants/routesHelper';
 
+import withRouter from '../modules/router';
+
 import highlight from '../modules/highlight';
 
 import Loader from '../theme/loader';
@@ -26,19 +24,20 @@ import Loader from '../theme/loader';
 import NotFound from '../layouts/notFound';
 
 
-export default @withRouter
-@connect((state) => ({
+export default @connect((state) => ({
     currentUserId: state.userState.currentId,
     isFetching: state.articleState.isFetching,
     article: state.articleState.article
 }), {
     fetchSharedArticle
 })
-@hot
+@withRouter({params: true})
 @highlight(false)
+@hot
 class ArticleShared extends React.Component {
     static propTypes = {
-        routeParams: PropTypes.object.isRequired,
+        // from router
+        routeParams: PropTypes.object,
         // from connect
         currentUserId: PropTypes.number,
         isFetching: PropTypes.bool,

@@ -7,10 +7,6 @@ import {
 } from 'react-hot-loader/root';
 
 import {
-    withRouter
-} from 'react-router-dom';
-
-import {
     topicArticlesPath
 } from '../../constants/routesHelper';
 
@@ -18,6 +14,8 @@ import {
     fetchArticles,
     updateArticlePriority
 } from '../../actions';
+
+import withRouter from '../modules/router';
 
 import {
     sortItemLimit
@@ -28,8 +26,7 @@ import Loader from '../theme/loader';
 import ArticleSorter from './sort/sorter';
 
 
-export default @withRouter
-@connect((state) => ({
+export default @connect((state) => ({
     currentUserId: state.userState.currentId,
     currentUserSlug: state.userState.currentSlug,
     currentUserTopicId: state.topicState.currentUserTopicId,
@@ -41,12 +38,13 @@ export default @withRouter
     fetchArticles,
     updateArticlePriority
 })
+@withRouter({params: true, navigate: true})
 @hot
 class ArticleSort extends React.Component {
     static propTypes = {
-        routeParams: PropTypes.object.isRequired,
         // from router
-        history: PropTypes.object,
+        routeParams: PropTypes.object.isRequired,
+        routeNavigate: PropTypes.func,
         // from connect
         currentUserId: PropTypes.number,
         currentUserSlug: PropTypes.string,
@@ -77,7 +75,7 @@ class ArticleSort extends React.Component {
 
     _handleUpdatePriority = (articleIds) => {
         this.props.updateArticlePriority(articleIds)
-            .then(() => this.props.history.push(topicArticlesPath(this.props.currentUserSlug, this.props.currentUserTopicSlug)));
+            .then(() => this.props.routeNavigate(topicArticlesPath(this.props.currentUserSlug, this.props.currentUserTopicSlug)));
     };
 
     render() {

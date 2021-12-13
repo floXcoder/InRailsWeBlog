@@ -19,6 +19,8 @@ import {
     fetchArticle
 } from '../../actions';
 
+import withRouter from '../modules/router';
+
 
 const stripTags = (string) => string?.replace(/(<([^>]+)>)/ig, '');
 const diffRenderStyle = {display: 'inline'};
@@ -28,10 +30,12 @@ export default @connect((state) => ({
 }), {
     fetchArticle
 })
+@withRouter({navigate: true})
 @hot
 class TrackingCompareModal extends React.Component {
     static propTypes = {
-        history: PropTypes.object.isRequired,
+        // from router
+        routeNavigate: PropTypes.func,
         // from connect
         article: PropTypes.object,
         fetchArticle: PropTypes.func
@@ -58,7 +62,7 @@ class TrackingCompareModal extends React.Component {
             isOpen: false
         });
 
-        this.props.history.push({
+        this.props.routeNavigate({
             hash: undefined
         });
     };

@@ -1,8 +1,8 @@
 'use strict';
 
 import {
-    Prompt,
     Link
+    // Prompt,
 } from 'react-router-dom';
 
 import {
@@ -49,9 +49,9 @@ export default class TagFormDisplay extends React.Component {
         this.setState({tabStep: value});
     };
 
-    _onUnsavedExit = (location) => {
-        return I18n.t('js.tag.form.unsaved', {location: location.pathname});
-    };
+    // _onUnsavedExit = (location) => {
+    //     return I18n.t('js.tag.form.unsaved', {location: location.pathname});
+    // };
 
     _renderDescriptionField = (handleSubmit, locale) => {
         const fieldName = locale ? `description_translations[${locale}]` : 'description';
@@ -88,8 +88,8 @@ export default class TagFormDisplay extends React.Component {
                     ({handleSubmit, dirty, submitting}) => (
                         <form id={`tag-form-${this.props.children.id || 'new'}`}
                               onSubmit={handleSubmit}>
-                            <Prompt when={dirty && !submitting}
-                                    message={this._onUnsavedExit}/>
+                            {/*<Prompt when={dirty && !submitting}*/}
+                            {/*        message={this._onUnsavedExit}/>*/}
 
                             <div>
                                 <div className="row">

@@ -1,9 +1,5 @@
 'use strict';
 
-import {
-    withRouter
-} from 'react-router-dom';
-
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -19,6 +15,8 @@ import {
     setAutocompleteAction,
     setAutocompleteQuery
 } from '../../actions';
+
+import withRouter from '../modules/router';
 
 import {
     searchPath
@@ -36,8 +34,8 @@ import Loader from '../theme/loader';
 import SearchArticleModule from '../search/module/article';
 import SearchTagModule from '../search/module/tag';
 
-export default @withRouter
-@connect((state) => ({
+
+export default @connect((state) => ({
     query: state.autocompleteState.query,
     isSearching: state.autocompleteState.isFetching,
     currentUserId: state.userState.currentId,
@@ -53,10 +51,11 @@ export default @withRouter
     fetchAutocomplete,
     setAutocompleteAction
 })
+@withRouter({navigate: true})
 class HomeSearch extends React.Component {
     static propTypes = {
         // from router
-        history: PropTypes.object,
+        routeNavigate: PropTypes.func,
         // from connect
         query: PropTypes.string,
         isSearching: PropTypes.bool,
@@ -118,7 +117,7 @@ class HomeSearch extends React.Component {
             return;
         }
 
-        this.props.history.push({
+        this.props.routeNavigate({
             pathname: searchPath(),
             search: Utils.toParams(Utils.compact({
                 query: this.props.query,

@@ -1,8 +1,8 @@
 'use strict';
 
 import {
-    Prompt,
-    Link
+    Link,
+    // Prompt,
 } from 'react-router-dom';
 
 import {
@@ -57,9 +57,9 @@ export default class TopicFormDisplay extends React.Component {
         this.setState({tabStep: value});
     };
 
-    _onUnsavedExit = (location) => {
-        return I18n.t('js.topic.form.unsaved', {location: location.pathname});
-    };
+    // _onUnsavedExit = (location) => {
+    //     return I18n.t('js.topic.form.unsaved', {location: location.pathname});
+    // };
 
     _renderDescriptionField = (handleSubmit, locale = undefined) => {
         const fieldName = locale ? `description_translations[${locale}]` : 'description';
@@ -96,8 +96,8 @@ export default class TopicFormDisplay extends React.Component {
                     ({handleSubmit, dirty, submitting, values}) => (
                         <form id={`topic-form-${this.props.children.id || 'new'}`}
                               onSubmit={handleSubmit}>
-                            <Prompt when={dirty && !submitting}
-                                    message={this._onUnsavedExit}/>
+                            {/*<Prompt when={dirty && !submitting}*/}
+                            {/*        message={this._onUnsavedExit}/>*/}
 
                             <div className="row">
                                 <div className="col s12 margin-bottom-30">

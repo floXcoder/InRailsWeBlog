@@ -8,19 +8,22 @@ import TagSidebarLayout from './tagSidebar';
 import ArticleSidebarLayout from './articleSidebar';
 import SearchSidebarLayout from './searchSidebar';
 
+import withRouter from '../../modules/router';
+
 
 export default @connect((state) => ({
-    routeProperties: state.routerState.currentRoute,
-    routeParams: state.routerState.params,
     currentUserSlug: state.userState.currentSlug,
     articleDisplayMode: state.uiState.articleDisplayMode
 }))
 @withWidth()
+@withRouter({params: true})
 class SidebarLayoutUser extends React.Component {
     static propTypes = {
-        // from connect
+        // from layout
         routeProperties: PropTypes.object,
+        // from router
         routeParams: PropTypes.object,
+        // from connect
         currentUserSlug: PropTypes.string,
         articleDisplayMode: PropTypes.string,
         // from withWidth

@@ -2,7 +2,7 @@
 
 import {
     Link,
-    Prompt
+    // Prompt
 } from 'react-router-dom';
 
 import {
@@ -143,11 +143,11 @@ class ArticleFormDisplay extends React.Component {
         return JSON.stringify(this.props) !== JSON.stringify(nextProps) || JSON.stringify(this.state) !== JSON.stringify(nextState);
     }
 
-    _onUnsavedExit = () => {
-        removeLocalData(articleTemporaryDataName);
-
-        return I18n.t('js.article.form.unsaved');
-    };
+    // _onUnsavedExit = () => {
+    //     removeLocalData(articleTemporaryDataName);
+    //
+    //     return I18n.t('js.article.form.unsaved');
+    // };
 
     _handleTabChange = (event, index) => {
         this.setState({
@@ -182,8 +182,8 @@ class ArticleFormDisplay extends React.Component {
                                   onSubmit={handleSubmit}>
                                 <EnsureValidity/>
 
-                                <Prompt when={dirty && !submitting}
-                                        message={this._onUnsavedExit}/>
+                                {/*<Prompt when={dirty && !submitting}*/}
+                                {/*        message={this._onUnsavedExit}/>*/}
 
                                 <StickyContainer>
                                     <Sticky topOffset={-headerMargin}>
