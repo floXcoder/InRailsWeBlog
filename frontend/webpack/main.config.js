@@ -3,7 +3,6 @@ const path = require('path');
 const webpack = require('webpack');
 
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const config = require('../config').webpack;
@@ -119,13 +118,6 @@ webPackConfig.plugins = [
             from: 'images/favicon.ico',
             to: 'favicon.ico'
         }]
-    }),
-    new LodashModuleReplacementPlugin({
-        // 'currying': true,
-        'caching': true,
-        'collections': true,
-        'flattening': true,
-        'placeholders': true
     })
 ];
 

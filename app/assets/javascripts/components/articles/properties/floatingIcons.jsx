@@ -8,9 +8,7 @@ import ArticleBookmarkIcon from '../icons/bookmark';
 
 export default class ArticleFloatingIcons extends React.PureComponent {
     static propTypes = {
-        style: PropTypes.object.isRequired,
         className: PropTypes.string.isRequired,
-        isSticky: PropTypes.bool.isRequired,
         userSlug: PropTypes.string.isRequired,
         articleId: PropTypes.number.isRequired,
         articleSlug: PropTypes.string.isRequired,
@@ -37,17 +35,8 @@ export default class ArticleFloatingIcons extends React.PureComponent {
     }
 
     render() {
-        const {position, transform} = this.props.style;
-
         return (
-            <div className={this.props.className}
-                 style={{
-                     position,
-                     transform,
-                     top: (this.props.style.top || 0) + 140,
-                     left: 'inherit',
-                     display: this.props.isSticky ? 'flex' : 'none'
-                 }}>
+            <div className={this.props.className}>
                 {
                     this.props.display === 'list' &&
                     <ArticleLinkIcon userSlug={this.props.userSlug}

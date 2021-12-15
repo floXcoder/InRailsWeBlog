@@ -16,7 +16,7 @@ const getHeaders = () => {
     return {
         credentials: 'same-origin',
         headers: new Headers({
-            'Accept': 'application/json',
+            Accept: 'application/json',
             'Content-Type': 'application/json',
             'X-CSRF-Token': token
         })
@@ -31,7 +31,7 @@ const getDataHeaders = () => {
         credentials: 'same-origin',
         headers: new Headers({
             'X-CSRF-Token': token,
-            'Accept': 'application/json'
+            Accept: 'application/json'
         })
     };
 };
@@ -82,7 +82,7 @@ const manageError = (origin, error, url) => {
                     Notification.error(parsedError.errors);
 
                     if (GlobalEnvironment.NODE_ENV !== 'production') {
-                        window.log_on_screen([parsedError.errors, parsedError.details].join(' / ').split("\n").slice(0, 6));
+                        window.log_on_screen([parsedError.errors, parsedError.details].join(' / ').split('\n').slice(0, 6));
                     }
 
                     pushError(error, {...errorInfo, ...parsedError});

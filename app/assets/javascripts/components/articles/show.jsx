@@ -10,10 +10,7 @@ import {
     Link
 } from 'react-router-dom';
 
-import {
-    StickyContainer,
-    Sticky
-} from 'react-sticky';
+import Sticky from 'react-sticky-el';
 
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
@@ -303,12 +300,11 @@ class ArticleShow extends React.Component {
         }
 
         return (
-            <div>
-                <StickyContainer>
-                    {
-                        (this.props.routeLocation.search?.position && this.props.isFetching) &&
-                        <div className="center margin-top-20">
-                            <div>
+            <div className="block">
+                {
+                    (this.props.routeLocation.search?.position && this.props.isFetching) &&
+                    <div className="center margin-top-20">
+                        <div>
                                 <span className="transition"
                                       style={{
                                           top: this.props.routeLocation.search.position.y,
@@ -316,191 +312,190 @@ class ArticleShow extends React.Component {
                                       }}>
                                     {this.props.routeLocation.search.title}
                                 </span>
-                            </div>
                         </div>
-                    }
+                    </div>
+                }
 
-                    {
-                        !this.props.isFetching &&
-                        <article className="article-show-root"
-                                 itemProp="blogPost"
-                                 itemScope={true}
-                                 itemType="https://schema.org/BlogPosting">
-                            {
-                                this.props.isCurrentTopicOwner &&
-                                <div className="article-show-breadcrumb">
-                                    <ArticleBreadcrumbDisplay user={this.props.currentUser}
-                                                              topic={this.props.currentTopic}
-                                                              tags={this.props.article.tags}/>
-                                </div>
-                            }
+                {
+                    !this.props.isFetching &&
+                    <article id={`article-${this.props.article.id}`}
+                             className="article-show-root scroll-area"
+                             itemProp="blogPost"
+                             itemScope={true}
+                             itemType="https://schema.org/BlogPosting">
+                        {
+                            this.props.isCurrentTopicOwner &&
+                            <div className="article-show-breadcrumb">
+                                <ArticleBreadcrumbDisplay user={this.props.currentUser}
+                                                          topic={this.props.currentTopic}
+                                                          tags={this.props.article.tags}/>
+                            </div>
+                        }
 
-                            {
-                                this.props.isUserConnected &&
-                                <div className="article-show-floatingButtons">
-                                    <Sticky topOffset={0}
-                                            bottomOffset={-430}>
-                                        {({style, isSticky}) => (
-                                            <ArticleFloatingIcons style={style}
-                                                                  className="article-show-floatingIcons"
-                                                                  isSticky={isSticky}
-                                                                  display="item"
-                                                                  size="medium"
-                                                                  color="action"
-                                                                  routeNavigate={this.props.routeNavigate}
-                                                                  isOwner={this.props.isOwner}
-                                                                  userSlug={this.props.article.user.slug}
-                                                                  articleId={this.props.article.id}
-                                                                  articleSlug={this.props.article.slug}
-                                                                  articleTitle={this.props.article.title}
-                                                                  topicSlug={currentTopicSlug}/>
-                                        )}
-                                    </Sticky>
-                                </div>
-                            }
+                        {
+                            this.props.isUserConnected &&
+                            <div className="article-show-floatingButtons">
+                                <Sticky boundaryElement={`#article-${this.props.article.id}`}
+                                        topOffset={20}
+                                        bottomOffset={400}>
+                                    <div className="article-show-floatingButtons">
+                                        <ArticleFloatingIcons className="article-show-floatingIcons"
+                                                              display="item"
+                                                              size="medium"
+                                                              color="action"
+                                                              routeNavigate={this.props.routeNavigate}
+                                                              isOwner={this.props.isOwner}
+                                                              userSlug={this.props.article.user.slug}
+                                                              articleId={this.props.article.id}
+                                                              articleSlug={this.props.article.slug}
+                                                              articleTitle={this.props.article.title}
+                                                              topicSlug={currentTopicSlug}/>
+                                    </div>
+                                </Sticky>
+                            </div>
+                        }
 
-                            <div className={classNames({
-                                'article-show-outdated': this.props.article.outdated
-                            })}>
-                                <Grid container={true}>
-                                    {
-                                        this.props.article.summary &&
-                                        <Grid item={true}
-                                              xs={12}>
-                                            <h2 itemProp="description">
-                                                {this.props.article.summary}
-                                            </h2>
-                                        </Grid>
-                                    }
-
-                                    <Typography className="article-show-title"
-                                                variant="h1"
-                                                itemProp="name headline">
-                                        {title}
-                                    </Typography>
-
+                        <div className={classNames({
+                            'article-show-outdated': this.props.article.outdated
+                        })}>
+                            <Grid container={true}>
+                                {
+                                    this.props.article.summary &&
                                     <Grid item={true}
                                           xs={12}>
-                                        <Grid container={true}
-                                              classes={{
-                                                  container: 'article-show-articleInfo'
-                                              }}
-                                              spacing={1}
-                                              direction="row"
-                                              justifyContent="space-between"
-                                              alignItems="center">
-                                            <Grid item={true}>
-                                                <ArticleAvatarIcon user={this.props.article.user}
-                                                                   articleDate={this.props.article.date}/>
-                                            </Grid>
+                                        <h2 itemProp="description">
+                                            {this.props.article.summary}
+                                        </h2>
+                                    </Grid>
+                                }
 
-                                            <Grid className="hide-on-small"
-                                                  item={true}>
-                                                {
-                                                    this.props.isOwner
-                                                        ?
-                                                        <>
-                                                            {
-                                                                this.props.article.languages?.length > 1 &&
-                                                                <div className="article-show-editIcon">
-                                                                    <ArticleLanguageIcon
-                                                                        currentLocale={this.props.articleCurrentLanguage || window.locale}
-                                                                        languages={this.props.article.languages}
-                                                                        onLanguageChange={this.props.changeArticleLanguage}
-                                                                        size="medium"
-                                                                        color="primary"/>
+                                <Typography className="article-show-title"
+                                            variant="h1"
+                                            itemProp="name headline">
+                                    {title}
+                                </Typography>
 
-                                                                </div>
-                                                            }
+                                <Grid item={true}
+                                      xs={12}>
+                                    <Grid container={true}
+                                          classes={{
+                                              container: 'article-show-articleInfo'
+                                          }}
+                                          spacing={1}
+                                          direction="row"
+                                          justifyContent="space-between"
+                                          alignItems="center">
+                                        <Grid item={true}>
+                                            <ArticleAvatarIcon user={this.props.article.user}
+                                                               articleDate={this.props.article.date}/>
+                                        </Grid>
 
+                                        <Grid className="hide-on-small"
+                                              item={true}>
+                                            {
+                                                this.props.isOwner
+                                                    ?
+                                                    <>
+                                                        {
+                                                            this.props.article.languages?.length > 1 &&
                                                             <div className="article-show-editIcon">
-                                                                <ArticleEditIcon userSlug={this.props.article.user.slug}
-                                                                                 articleSlug={this.props.article.slug}
-                                                                                 isIconButton={true}
-                                                                                 size="medium"
-                                                                                 color="primary"/>
-                                                            </div>
-                                                        </>
-                                                        :
-                                                        <div className="article-show-editIcon">
-                                                            <Button color="default"
-                                                                    variant="outlined"
-                                                                    size="small"
-                                                                    component={Link}
-                                                                    to={topicArticlesPath(this.props.article.userSlug, this.props.article.topicSlug)}>
-                                                                {this.props.article.topicName}
-                                                            </Button>
-                                                        </div>
-                                                }
+                                                                <ArticleLanguageIcon
+                                                                    currentLocale={this.props.articleCurrentLanguage || window.locale}
+                                                                    languages={this.props.article.languages}
+                                                                    onLanguageChange={this.props.changeArticleLanguage}
+                                                                    size="medium"
+                                                                    color="primary"/>
 
-                                                {
-                                                    (this.props.article.allowComment && this.props.article.visibility !== 'only_me' && this.props.article.commentsCount > 0) &&
-                                                    <CommentCountIcon className="article-show-commentCount"
-                                                                      commentLink={`#article-comments-${this.props.article.id}`}
-                                                                      commentsCount={this.props.article.commentsCount}
-                                                                      hasIcon={false}/>
-                                                }
-                                            </Grid>
+                                                            </div>
+                                                        }
+
+                                                        <div className="article-show-editIcon">
+                                                            <ArticleEditIcon userSlug={this.props.article.user.slug}
+                                                                             articleSlug={this.props.article.slug}
+                                                                             isIconButton={true}
+                                                                             size="medium"
+                                                                             color="primary"/>
+                                                        </div>
+                                                    </>
+                                                    :
+                                                    <div className="article-show-editIcon">
+                                                        <Button color="default"
+                                                                variant="outlined"
+                                                                size="small"
+                                                                component={Link}
+                                                                to={topicArticlesPath(this.props.article.userSlug, this.props.article.topicSlug)}>
+                                                            {this.props.article.topicName}
+                                                        </Button>
+                                                    </div>
+                                            }
+
+                                            {
+                                                (this.props.article.allowComment && this.props.article.visibility !== 'only_me' && this.props.article.commentsCount > 0) &&
+                                                <CommentCountIcon className="article-show-commentCount"
+                                                                  commentLink={`#article-comments-${this.props.article.id}`}
+                                                                  commentsCount={this.props.article.commentsCount}
+                                                                  hasIcon={false}/>
+                                            }
                                         </Grid>
                                     </Grid>
                                 </Grid>
+                            </Grid>
 
-                                <div className="article-show-articleContent"
-                                     itemProp="articleBody">
-                                    {
-                                        this.props.article.mode === 'inventory'
-                                            ?
-                                            <ArticleInventoryDisplay inventories={this.props.article.inventories}/>
-                                            :
-                                            <div className="normalized-content"
-                                                 dangerouslySetInnerHTML={{__html: content}}/>
-                                    }
-                                </div>
-
+                            <div className="article-show-articleContent"
+                                 itemProp="articleBody">
                                 {
-                                    this.props.article.reference &&
-                                    <div className="article-show-reference">
-                                        <a href={this.props.article.reference}
-                                           className="article-show-referenceLink"
-                                           rel="noopener noreferrer"
-                                           target="_blank">
-                                            {Utils.normalizeLink(this.props.article.reference)}
-                                        </a>
-                                    </div>
+                                    this.props.article.mode === 'inventory'
+                                        ?
+                                        <ArticleInventoryDisplay inventories={this.props.article.inventories}/>
+                                        :
+                                        <div className="normalized-content"
+                                             dangerouslySetInnerHTML={{__html: content}}/>
+                                }
+                            </div>
+
+                            {
+                                this.props.article.reference &&
+                                <div className="article-show-reference">
+                                    <a href={this.props.article.reference}
+                                       className="article-show-referenceLink"
+                                       rel="noopener noreferrer"
+                                       target="_blank">
+                                        {Utils.normalizeLink(this.props.article.reference)}
+                                    </a>
+                                </div>
+                            }
+
+                            <div className="article-show-actions">
+                                {
+                                    this.props.article.tags.length > 0 &&
+                                    <ArticleTags articleId={this.props.article.id}
+                                                 isOwner={this.props.currentUser?.id === this.props.article.userId}
+                                                 currentUserSlug={this.props.currentUserSlug}
+                                                 currentUserTopicSlug={this.props.currentTopic?.slug}
+                                                 tags={this.props.article.tags}
+                                                 parentTagIds={this.props.article.parentTagIds}
+                                                 childTagIds={this.props.article.childTagIds}/>
                                 }
 
-                                <div className="article-show-actions">
-                                    {
-                                        this.props.article.tags.length > 0 &&
-                                        <ArticleTags articleId={this.props.article.id}
-                                                     isOwner={this.props.currentUser?.id === this.props.article.userId}
-                                                     currentUserSlug={this.props.currentUserSlug}
-                                                     currentUserTopicSlug={this.props.currentTopic?.slug}
-                                                     tags={this.props.article.tags}
-                                                     parentTagIds={this.props.article.parentTagIds}
-                                                     childTagIds={this.props.article.childTagIds}/>
-                                    }
-
-                                    {
-                                        this.props.isOwner &&
-                                        <ArticleActions size="medium"
-                                                        color="primary"
-                                                        userSlug={this.props.article.user.slug}
-                                                        articleId={this.props.article.id}
-                                                        articleSlug={this.props.article.slug}
-                                                        articleTitle={this.props.article.title}
-                                                        articleVisibility={this.props.article.visibility}
-                                                        isOutdated={this.props.article.outdated}
-                                                        hasLinks={hasLinks}
-                                                        onOutdatedClick={this._handleOutdatedClick}
-                                                        onCheckLinkClick={this._handleCheckLinkClick}
-                                                        onDeleteClick={this._handleDeleteClick}/>
-                                    }
-                                </div>
+                                {
+                                    this.props.isOwner &&
+                                    <ArticleActions size="medium"
+                                                    color="primary"
+                                                    userSlug={this.props.article.user.slug}
+                                                    articleId={this.props.article.id}
+                                                    articleSlug={this.props.article.slug}
+                                                    articleTitle={this.props.article.title}
+                                                    articleVisibility={this.props.article.visibility}
+                                                    isOutdated={this.props.article.outdated}
+                                                    hasLinks={hasLinks}
+                                                    onOutdatedClick={this._handleOutdatedClick}
+                                                    onCheckLinkClick={this._handleCheckLinkClick}
+                                                    onDeleteClick={this._handleDeleteClick}/>
+                                }
                             </div>
-                        </article>
-                    }
-                </StickyContainer>
+                        </div>
+                    </article>
+                }
 
                 {
                     (!!this.props.article && !this.props.isFetching && this.props.routeParams.userSlug !== this.props.currentUserSlug) &&

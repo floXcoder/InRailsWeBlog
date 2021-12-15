@@ -17,10 +17,6 @@ RSpec.configure do |config|
     DatabaseCleaner.strategy = :transaction
   end
 
-  config.before(:all, js: true) do
-    DatabaseCleaner.strategy = :truncation
-  end
-
   config.before(:all) do
     DatabaseCleaner.start
   end
@@ -40,12 +36,6 @@ RSpec.configure do |config|
   # config.before(:each, type: :feature) do
   #   resize_window_to_default
   # end
-
-  config.after(:each, js: true) do
-    Warden.test_reset!
-    Capybara.current_session.driver.browser.manage.delete_all_cookies
-    Capybara.reset_sessions!
-  end
 
   config.after(:all) do
     DatabaseCleaner.clean

@@ -19,6 +19,12 @@
   position: relative;
 }
 
+.sticky {
+  .article-form-stepper {
+    position: relative;
+  }
+}
+
 .sticky-inner-wrapper {
   z-index: 10;
 }

@@ -315,11 +315,19 @@
 }
 
 .article-card-floatingButtons {
-  left: -90px;
   position: absolute;
+  left: -50px;
+  top: 80px;
+  visibility: hidden;
 
-  @media #{$large-and-down} {
+  @media #{$medium-and-down} {
     display: none;
+  }
+}
+
+.sticky {
+  .article-card-floatingButtons {
+    visibility: visible;
   }
 }
 
@@ -1142,6 +1150,20 @@
 // ***
 // Tag tooltip
 // ***
+.tooltip-tag-tooltip {
+  color: $primary-color-light;
+  border: 1px solid $primary-color-light;
+  padding: 16px;
+  background: #fff;
+  box-shadow: none;
+  border-radius: 4px;
+}
+
+.tooltip-tag-arrow {
+  color: $primary-color-light;
+  border-color: $primary-color-light;
+}
+
 .tooltip-tag-heading {
   color: $primary-color-light;
   display: block;

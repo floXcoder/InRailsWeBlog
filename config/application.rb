@@ -102,12 +102,23 @@ module InRailsWeBlog
       url:             "redis://#{ENV['REDIS_HOST']}:#{ENV['REDIS_PORT']}",
       expires_in:      2.weeks.to_i,
       namespace:       "_#{ENV['WEBSITE_NAME']}_#{Rails.env}:cache",
-      driver:          :hiredis,
       connect_timeout: 30, # Defaults to 20 seconds
       read_timeout: 0.2, # Defaults to 1 second
       write_timeout: 0.2, # Defaults to 1 second
       reconnect_attempts: 1 # Defaults to 0
     }
+
+    # Session with Redis
+    config.session_store :cache_store,
+                         key:        "_#{ENV['WEBSITE_NAME']}_session",
+                         redis:      {
+                           # db:           0,
+                           expire_after: 10.days,
+                           host:         ENV['REDIS_HOST'],
+                           port:         ENV['REDIS_PORT'],
+                           key_prefix:   "_#{ENV['WEBSITE_NAME']}_#{Rails.env}:session:"
+                         },
+                         serializer: :hybrid # migrate from Marshal to JSON
 
     # Errors handling
     # Errors are handled by ApplicationController

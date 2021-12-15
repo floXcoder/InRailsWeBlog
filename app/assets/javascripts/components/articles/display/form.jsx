@@ -13,10 +13,7 @@ import Collapse from '@material-ui/core/Collapse';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
-import {
-    StickyContainer,
-    Sticky
-} from 'react-sticky';
+import Sticky from 'react-sticky-el';
 
 import {
     headerHeight,
@@ -185,160 +182,157 @@ class ArticleFormDisplay extends React.Component {
                                 {/*<Prompt when={dirty && !submitting}*/}
                                 {/*        message={this._onUnsavedExit}/>*/}
 
-                                <StickyContainer>
-                                    <Sticky topOffset={-headerMargin}>
-                                        {({style}) => (
-                                            <div style={{
-                                                position: style.position,
-                                                transform: style.transform,
-                                                top: style.top || headerHeight,
-                                                zIndex: appBarZIndex,
-                                                maxWidth: articleWidth,
-                                                width: '100%'
-                                            }}>
-                                                <ArticleFormStepper tabIndex={this.state.tabIndex}
-                                                                    onTabChange={this._handleTabChange}/>
-                                            </div>
-                                        )}
-                                    </Sticky>
+                                <Sticky boundaryElement=".article-form-form"
+                                        topOffset={headerMargin}
+                                        bottomOffset={320}>
+                                    <div style={{
+                                        top: headerHeight,
+                                        zIndex: appBarZIndex,
+                                        // maxWidth: articleWidth,
+                                        // width: '100%'
+                                    }}
+                                         className="article-form-stepper">
+                                        <ArticleFormStepper tabIndex={this.state.tabIndex}
+                                                            onTabChange={this._handleTabChange}/>
+                                    </div>
+                                </Sticky>
 
-                                    <div className="margin-bottom-30">
+                                <div className="margin-bottom-30">
+                                    {
+                                        this.props.articleErrors &&
+                                        <ArticleErrorField errors={this.props.articleErrors}/>
+                                    }
+
+                                    <Collapse in={this.state.tabIndex === 0}>
                                         {
-                                            this.props.articleErrors &&
-                                            <ArticleErrorField errors={this.props.articleErrors}/>
+                                            this.props.currentTopic.mode === 'inventories'
+                                                ?
+                                                <ArticleInventoriesField currentUserId={this.props.currentUser.id}
+                                                                         currentTopicId={this.props.currentTopic.id}
+                                                                         inventoryFields={this.props.currentTopic.inventoryFields}
+                                                                         article={this.props.children}
+                                                                         change={change}/>
+                                                :
+                                                <ArticleCommonField currentMode={currentMode}
+                                                                    currentUserId={this.props.currentUser.id}
+                                                                    currentTopicId={this.props.currentTopic.id}
+                                                                    topicLanguages={this.props.currentTopic.languages}
+                                                                    isPaste={this.props.isPaste}
+                                                                    article={this.props.children}
+                                                                    change={change}
+                                                                    onSubmit={handleSubmit}/>
                                         }
 
-                                        <Collapse in={this.state.tabIndex === 0}>
-                                            {
-                                                this.props.currentTopic.mode === 'inventories'
-                                                    ?
-                                                    <ArticleInventoriesField currentUserId={this.props.currentUser.id}
-                                                                             currentTopicId={this.props.currentTopic.id}
-                                                                             inventoryFields={this.props.currentTopic.inventoryFields}
-                                                                             article={this.props.children}
-                                                                             change={change}/>
-                                                    :
-                                                    <ArticleCommonField currentMode={currentMode}
-                                                                        currentUserId={this.props.currentUser.id}
-                                                                        currentTopicId={this.props.currentTopic.id}
-                                                                        topicLanguages={this.props.currentTopic.languages}
-                                                                        isPaste={this.props.isPaste}
-                                                                        article={this.props.children}
-                                                                        change={change}
-                                                                        onSubmit={handleSubmit}/>
-                                            }
+                                        {
+                                            (this.props.currentTopic.mode === 'inventories' && this.props.currentTopic.inventoryFields.length === 0) &&
+                                            <div className="center-align margin-bottom-75">
+                                                <Typography variant="h5"
+                                                            gutterBottom={true}>
+                                                    {I18n.t('js.article.form.no_inventories')}
+                                                </Typography>
 
-                                            {
-                                                (this.props.currentTopic.mode === 'inventories' && this.props.currentTopic.inventoryFields.length === 0) &&
-                                                <div className="center-align margin-bottom-75">
-                                                    <Typography variant="h5"
-                                                                gutterBottom={true}>
-                                                        {I18n.t('js.article.form.no_inventories')}
-                                                    </Typography>
-
-                                                    <Button className="margin-top-25"
-                                                            color="primary"
-                                                            variant="contained"
-                                                            component={Link}
-                                                            to={editInventoriesTopicPath(this.props.currentUser.slug, this.props.currentTopic.slug)}>
-                                                        {I18n.t('js.article.form.inventory_button')}
-                                                    </Button>
-                                                </div>
-                                            }
-
-                                            <div className="center-align margin-top-20">
-                                                <div className="row">
-                                                    <div className="col s12 margin-bottom-15">
-                                                        <Button color="primary"
-                                                                variant="outlined"
-                                                                disabled={isNextDisabled}
-                                                                onClick={this._handleButtonChange.bind(this, 1)}>
-                                                            {I18n.t('js.article.form.next')}
-                                                        </Button>
-                                                    </div>
-
-                                                    {
-                                                        (this.props.currentTopic.mode === 'inventories' && this.props.currentTopic.inventoryFields.length > 0) &&
-                                                        <div className="col s12 margin-top-25 margin-bottom-25">
-                                                            <Button style={{
-                                                                color: '#aaa'
-                                                            }}
-                                                                    variant="text"
-                                                                    size="small"
-                                                                    component={Link}
-                                                                    to={editInventoriesTopicPath(this.props.currentUser.slug, this.props.currentTopic.slug)}>
-                                                                {I18n.t('js.article.form.inventory_button')}
-                                                            </Button>
-                                                        </div>
-                                                    }
-
-                                                    <div className="col s12 margin-top-25">
-                                                        <Button size="small"
-                                                                component={Link}
-                                                                to={this.props.isEditing ? userArticlePath(this.props.userSlug, this.props.children.slug) : userHomePath(this.props.userSlug)}
-                                                                onClick={this.props.onCancel}>
-                                                            {I18n.t('js.helpers.buttons.cancel')}
-                                                        </Button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </Collapse>
-
-                                        <Collapse in={this.state.tabIndex === 1}>
-                                            <ArticleTagsField article={this.props.children}
-                                                              availableParentTags={this.props.availableParentTags}
-                                                              availableChildTags={this.props.availableChildTags}
-                                                              parentTags={this.props.parentTags}
-                                                              childTags={this.props.childTags}
-                                                              onSubmit={handleSubmit}/>
-
-                                            <div className="center-align margin-top-30">
-                                                <Button color="primary"
-                                                        variant="outlined"
-                                                        disabled={isNextDisabled}
-                                                        onClick={this._handleButtonChange.bind(this, 2)}>
-                                                    {I18n.t('js.article.form.next')}
+                                                <Button className="margin-top-25"
+                                                        color="primary"
+                                                        variant="contained"
+                                                        component={Link}
+                                                        to={editInventoriesTopicPath(this.props.currentUser.slug, this.props.currentTopic.slug)}>
+                                                    {I18n.t('js.article.form.inventory_button')}
                                                 </Button>
                                             </div>
-                                        </Collapse>
+                                        }
 
-                                        <Collapse in={this.state.tabIndex === 2}>
-                                            <ArticleAdvancedField currentMode={currentMode}
-                                                                  isEditing={this.props.isEditing}
-                                                                  inheritVisibility={this.props.inheritVisibility}
-                                                                  currentVisibility={values.visibility}
-                                                                  currentDraft={values.draft}
-                                                                  change={change}/>
-
+                                        <div className="center-align margin-top-20">
                                             <div className="row">
-                                                <div className="col s6 left-align">
-                                                    <Button color="default"
-                                                            size="small"
+                                                <div className="col s12 margin-bottom-15">
+                                                    <Button color="primary"
+                                                            variant="outlined"
+                                                            disabled={isNextDisabled}
+                                                            onClick={this._handleButtonChange.bind(this, 1)}>
+                                                        {I18n.t('js.article.form.next')}
+                                                    </Button>
+                                                </div>
+
+                                                {
+                                                    (this.props.currentTopic.mode === 'inventories' && this.props.currentTopic.inventoryFields.length > 0) &&
+                                                    <div className="col s12 margin-top-25 margin-bottom-25">
+                                                        <Button style={{
+                                                            color: '#aaa'
+                                                        }}
+                                                                variant="text"
+                                                                size="small"
+                                                                component={Link}
+                                                                to={editInventoriesTopicPath(this.props.currentUser.slug, this.props.currentTopic.slug)}>
+                                                            {I18n.t('js.article.form.inventory_button')}
+                                                        </Button>
+                                                    </div>
+                                                }
+
+                                                <div className="col s12 margin-top-25">
+                                                    <Button size="small"
                                                             component={Link}
                                                             to={this.props.isEditing ? userArticlePath(this.props.userSlug, this.props.children.slug) : userHomePath(this.props.userSlug)}
                                                             onClick={this.props.onCancel}>
                                                         {I18n.t('js.helpers.buttons.cancel')}
                                                     </Button>
                                                 </div>
-
-                                                <div className="col s6 right-align">
-                                                    <Button color="primary"
-                                                            variant="outlined"
-                                                            disabled={submitting}
-                                                            onClick={handleSubmit}>
-                                                        {
-                                                            this.props.isEditing
-                                                                ?
-                                                                I18n.t('js.article.edit.submit')
-                                                                :
-                                                                I18n.t('js.article.new.submit')
-                                                        }
-                                                    </Button>
-                                                </div>
                                             </div>
-                                        </Collapse>
-                                    </div>
-                                </StickyContainer>
+                                        </div>
+                                    </Collapse>
+
+                                    <Collapse in={this.state.tabIndex === 1}>
+                                        <ArticleTagsField article={this.props.children}
+                                                          availableParentTags={this.props.availableParentTags}
+                                                          availableChildTags={this.props.availableChildTags}
+                                                          parentTags={this.props.parentTags}
+                                                          childTags={this.props.childTags}
+                                                          onSubmit={handleSubmit}/>
+
+                                        <div className="center-align margin-top-30">
+                                            <Button color="primary"
+                                                    variant="outlined"
+                                                    disabled={isNextDisabled}
+                                                    onClick={this._handleButtonChange.bind(this, 2)}>
+                                                {I18n.t('js.article.form.next')}
+                                            </Button>
+                                        </div>
+                                    </Collapse>
+
+                                    <Collapse in={this.state.tabIndex === 2}>
+                                        <ArticleAdvancedField currentMode={currentMode}
+                                                              isEditing={this.props.isEditing}
+                                                              inheritVisibility={this.props.inheritVisibility}
+                                                              currentVisibility={values.visibility}
+                                                              currentDraft={values.draft}
+                                                              change={change}/>
+
+                                        <div className="row">
+                                            <div className="col s6 left-align">
+                                                <Button color="default"
+                                                        size="small"
+                                                        component={Link}
+                                                        to={this.props.isEditing ? userArticlePath(this.props.userSlug, this.props.children.slug) : userHomePath(this.props.userSlug)}
+                                                        onClick={this.props.onCancel}>
+                                                    {I18n.t('js.helpers.buttons.cancel')}
+                                                </Button>
+                                            </div>
+
+                                            <div className="col s6 right-align">
+                                                <Button color="primary"
+                                                        variant="outlined"
+                                                        disabled={submitting}
+                                                        onClick={handleSubmit}>
+                                                    {
+                                                        this.props.isEditing
+                                                            ?
+                                                            I18n.t('js.article.edit.submit')
+                                                            :
+                                                            I18n.t('js.article.new.submit')
+                                                    }
+                                                </Button>
+                                            </div>
+                                        </div>
+                                    </Collapse>
+                                </div>
                             </form>
                         );
                     }

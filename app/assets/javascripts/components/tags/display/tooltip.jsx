@@ -1,6 +1,6 @@
 'use strict';
 
-import ToolTip from 'react-portal-tooltip';
+import Tooltip from '@material-ui/core/Tooltip';
 
 import {
     spyTrackClick
@@ -10,63 +10,50 @@ import {
     showTagPath
 } from '../../../constants/routesHelper';
 
-const style = {
-    style: {
-        color: '#199332',
-        border: '1px solid #199332',
-        padding: 16,
-        background: '#fff',
-        boxShadow: 'none',
-        borderRadius: 4,
-    },
-    arrowStyle: {
-        color: '#fff',
-        borderColor: '#199332'
-    }
-};
-
 
 export default class TooltipTag extends React.PureComponent {
     static propTypes = {
-        articleId: PropTypes.number.isRequired,
         tag: PropTypes.object.isRequired,
-        tagTooltipActive: PropTypes.number
+        children: PropTypes.element.isRequired
     };
 
     render() {
-        const {articleId, tag, tagTooltipActive} = this.props;
-
         return (
-            <ToolTip active={tagTooltipActive === tag.id}
-                     position="bottom"
-                     arrow="center"
-                     parent={`#article-${articleId}-tags-${tag.id}`}
-                     style={style}>
-                <div>
-                    <div className="tooltip-tag-heading">
-                        {I18n.t('js.tag.common.usage', {count: tag.taggedArticlesCount})}
-                    </div>
+            <Tooltip placement="bottom"
+                     arrow={true}
+                     interactive={true}
+                     classes={{
+                         tooltip: 'tooltip-tag-tooltip',
+                         arrow: 'tooltip-tag-arrow'
+                     }}
+                     title={
+                         <div>
+                             <div className="tooltip-tag-heading">
+                                 {I18n.t('js.tag.common.usage', {count: this.props.tag.taggedArticlesCount})}
+                             </div>
 
-                    <div className="tooltip-tag-description">
-                        <div className="normalized-content"
-                             dangerouslySetInnerHTML={{__html: tag.description}}/>
+                             <div className="tooltip-tag-description">
+                                 <div className="normalized-content"
+                                      dangerouslySetInnerHTML={{__html: this.props.tag.description}}/>
 
-                        <p>
-                            {
-                                Utils.isPresent(tag.synonyms) &&
-                                I18n.t('js.tag.model.synonyms') + ' : ' + tag.synonyms.join(', ')
-                            }
-                        </p>
+                                 <p>
+                                     {
+                                         Utils.isPresent(this.props.tag.synonyms) &&
+                                         I18n.t('js.tag.model.synonyms') + ' : ' + this.props.tag.synonyms.join(', ')
+                                     }
+                                 </p>
 
-                        <div className="margin-top-10">
-                            <a href={showTagPath(tag.slug)}
-                               onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.userId, tag.name, null)}>
-                                {I18n.t('js.tag.common.link')}
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </ToolTip>
+                                 <div className="margin-top-10">
+                                     <a href={showTagPath(this.props.tag.slug)}
+                                        onClick={spyTrackClick.bind(null, 'tag', this.props.tag.id, this.props.tag.slug, this.props.tag.userId, this.props.tag.name, null)}>
+                                         {I18n.t('js.tag.common.link')}
+                                     </a>
+                                 </div>
+                             </div>
+                         </div>
+                     }>
+                {this.props.children}
+            </Tooltip>
         );
     }
 }

@@ -55,20 +55,6 @@ set :sidekiq_config, -> { File.join(shared_path, 'config', 'sidekiq.yml') }
 # Cron tasks
 set :whenever_identifier, -> { "#{fetch(:application)}_#{fetch(:stage)}" }
 
-## Synchronize local database with server database ##
-
-# if you want to remove the local dump file after loading
-set :db_local_clean, true
-
-# if you want to remove the dump file from the server after downloading
-set :db_remote_clean, true
-
-# if you want to work on a specific local environment (default = ENV['RAILS_ENV'] || 'development')
-set :locals_rails_env, 'production'
-
-# if you are highly paranoid and want to prevent any push operation to the server
-set :disallow_pushing, false
-
 namespace :assets do
   desc 'Install NPM packages'
   task :install do
