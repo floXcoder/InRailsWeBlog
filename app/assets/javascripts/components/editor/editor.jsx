@@ -2,8 +2,6 @@
 
 import $ from 'jquery';
 
-import withWidth from '@material-ui/core/withWidth';
-
 import {
     userArticlePath,
     topicArticlesPath
@@ -20,6 +18,8 @@ import {
     highlightedLanguages
 } from '../modules/constants';
 
+import withWidth from '../modules/mediaQuery';
+
 import '../../modules/summernote';
 import SanitizePaste from '../../modules/sanitizePaste';
 
@@ -27,6 +27,7 @@ export const EDITOR_MODE = {
     EDIT: 1,
     INLINE_EDIT: 2
 };
+
 
 export default @withWidth()
 class Editor extends React.Component {
@@ -57,7 +58,6 @@ class Editor extends React.Component {
         onSubmit: PropTypes.func,
         // from withWidth
         width: PropTypes.string
-
     };
 
     static defaultProps = {
@@ -257,7 +257,7 @@ class Editor extends React.Component {
     }
 
     shouldComponentUpdate(nextProps) {
-        return this.props.modelId !== nextProps.modelId || this.props.isDisabled !== nextProps.isDisabled || this.props.placeholder !== nextProps.placeholder;
+        return this.props.modelId !== nextProps.modelId || this.props.isDisabled !== nextProps.isDisabled || this.props.placeholder !== nextProps.placeholder || this.props.width !== nextProps.width;
     }
 
     componentDidUpdate(prevProps) {

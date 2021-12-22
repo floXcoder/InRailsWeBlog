@@ -1,31 +1,30 @@
 'use strict';
 
-import IconButton from '@material-ui/core/IconButton';
+import IconButton from '@mui/material/IconButton';
 
-import FavoriteIcon from '@material-ui/icons/Favorite';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 import Dropdown from '../../theme/dropdown';
 
 import BookmarkList from '../../bookmark/list';
 
 
-export default class HomeBookmarkHeader extends React.PureComponent {
-    render() {
-        return (
-            <Dropdown button={
-                <IconButton color="default"
-                            itemProp="url">
-                    <FavoriteIcon/>
-                </IconButton>
-            }
-                      position="bottom right"
-                      buttonClassName="layout-header-headerButton"
-                      isClosingOnInsideClick={true}
-                      isFixed={true}
-                      hasWavesEffect={false}
-                      hasArrow={true}>
-                <BookmarkList/>
-            </Dropdown>
-        );
-    }
-}
+const HomeBookmarkHeader = function () {
+    return (
+        <Dropdown button={
+            <IconButton color="default" itemProp="url" size="large">
+                <FavoriteIcon/>
+            </IconButton>
+        }
+                  position="bottom right"
+                  buttonClassName="layout-header-headerButton"
+                  isClosingOnInsideClick={true}
+                  isFixed={true}
+                  hasWavesEffect={false}
+                  hasArrow={true}>
+            <BookmarkList/>
+        </Dropdown>
+    );
+};
+
+export default React.memo(HomeBookmarkHeader);

@@ -10,9 +10,9 @@ import {
     Field
 } from 'react-final-form';
 
-import Button from '@material-ui/core/Button';
-import Tab from '@material-ui/core/Tab';
-import Tabs from '@material-ui/core/Tabs';
+import Button from '@mui/material/Button';
+import Tab from '@mui/material/Tab';
+import Tabs from '@mui/material/Tabs';
 
 import {
     editInventoriesTopicPath,
@@ -124,7 +124,7 @@ export default class TopicFormDisplay extends React.Component {
                                 <div className="col s12 margin-bottom-30">
                                     {
                                         values.languages?.length > 1
-                                        ?
+                                            ?
                                             <>
                                                 <Tabs value={this.state.tabStep}
                                                       indicatorColor="primary"
@@ -132,8 +132,9 @@ export default class TopicFormDisplay extends React.Component {
                                                       centered={true}
                                                       onChange={this._handleTabChange}>
                                                     {
-                                                        values.languages.map((locale) => (
+                                                        values.languages.map((locale, i) => (
                                                             <Tab key={locale}
+                                                                 index={i}
                                                                  label={I18n.t(`js.languages.${locale}`)}/>
                                                         ))
                                                     }
@@ -198,11 +199,11 @@ export default class TopicFormDisplay extends React.Component {
                                     </div>
 
                                     <div className="col s12">
-                                        <Button color="default"
-                                                variant="text"
-                                                size="small"
-                                                component={Link}
-                                                to={this.props.isEditing ? userTopicPath(this.props.children.user.slug, this.props.children.slug) : rootPath()}>
+                                        <Button
+                                            variant="text"
+                                            size="small"
+                                            component={Link}
+                                            to={this.props.isEditing ? userTopicPath(this.props.children.user.slug, this.props.children.slug) : rootPath()}>
                                             {I18n.t('js.topic.edit.back_button')}
                                         </Button>
                                     </div>

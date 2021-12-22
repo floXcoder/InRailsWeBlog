@@ -4,16 +4,16 @@ import {
     Link
 } from 'react-router-dom';
 
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import List from '@mui/material/List';
+import Divider from '@mui/material/Divider';
 
-import DashboardIcon from '@material-ui/icons/Dashboard';
-import PortraitIcon from '@material-ui/icons/Portrait';
-import SettingsIcon from '@material-ui/icons/Settings';
-import CancelIcon from '@material-ui/icons/Cancel';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import PortraitIcon from '@mui/icons-material/Portrait';
+import SettingsIcon from '@mui/icons-material/Settings';
+import CancelIcon from '@mui/icons-material/Cancel';
 
 import {
     userHomePath

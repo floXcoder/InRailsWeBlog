@@ -1,9 +1,9 @@
 'use strict';
 
-import Paper from '@material-ui/core/Paper';
-import TextField from '@material-ui/core/TextField/TextField';
-import MenuItem from '@material-ui/core/MenuItem/MenuItem';
-import Chip from '@material-ui/core/Chip';
+import Paper from '@mui/material/Paper';
+import TextField from '@mui/material/TextField/TextField';
+import MenuItem from '@mui/material/MenuItem/MenuItem';
+import Chip from '@mui/material/Chip';
 
 import Downshift from 'downshift';
 

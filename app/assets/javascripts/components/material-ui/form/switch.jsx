@@ -1,24 +1,27 @@
 'use strict';
 
-import FormControl from '@material-ui/core/FormControl';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Switch from '@material-ui/core/Switch';
+import FormControl from '@mui/material/FormControl';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Switch from '@mui/material/Switch';
 
-const SwitchFormField = ({input, label, meta, componentContent, ...custom}) => (
-    <FormControl component="fieldset">
-        <FormGroup>
-            <FormControlLabel
-                control={
-                    <Switch {...input}
-                            checked={!!input.value}
-                            {...custom}/>
-                }
-                label={label}
-            />
-        </FormGroup>
-    </FormControl>
-);
+
+const SwitchFormField = function ({input, label, meta, componentContent, ...custom}) {
+    return (
+        <FormControl component="fieldset">
+            <FormGroup>
+                <FormControlLabel
+                    control={
+                        <Switch {...input}
+                                checked={!!input.value}
+                                {...custom}/>
+                    }
+                    label={label}
+                />
+            </FormGroup>
+        </FormControl>
+    );
+};
 
 SwitchFormField.propTypes = {
     input: PropTypes.object.isRequired,

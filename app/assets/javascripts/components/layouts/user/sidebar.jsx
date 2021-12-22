@@ -1,6 +1,7 @@
 'use strict';
 
-import withWidth from '@material-ui/core/withWidth';
+import withRouter from '../../modules/router';
+import withWidth from '../../modules/mediaQuery';
 
 import ErrorBoundary from '../../errors/boundary';
 
@@ -8,15 +9,13 @@ import TagSidebarLayout from './tagSidebar';
 import ArticleSidebarLayout from './articleSidebar';
 import SearchSidebarLayout from './searchSidebar';
 
-import withRouter from '../../modules/router';
-
 
 export default @connect((state) => ({
     currentUserSlug: state.userState.currentSlug,
     articleDisplayMode: state.uiState.articleDisplayMode
 }))
-@withWidth()
 @withRouter({params: true})
+@withWidth()
 class SidebarLayoutUser extends React.Component {
     static propTypes = {
         // from layout

@@ -1,6 +1,6 @@
 'use strict';
 
-import TextField from '@material-ui/core/TextField';
+import TextField from '@mui/material/TextField';
 
 const _handleSearchChange = (onSearchInput, event) => {
     onSearchInput(event.target.value);

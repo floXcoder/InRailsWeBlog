@@ -6,9 +6,9 @@ import {
     hot
 } from 'react-hot-loader/root';
 
-import Modal from '@material-ui/core/Modal';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
+import Modal from '@mui/material/Modal';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
 
 import {
     shareArticle
@@ -93,10 +93,7 @@ class ShareArticleModal extends React.Component {
                         }
 
                         <div className="center-align margin-top-35">
-                            <Button color="default"
-                                    variant="text"
-                                    href="#"
-                                    onClick={this._handleClose}>
+                            <Button variant="text" href="#" onClick={this._handleClose}>
                                 {I18n.t('js.article.share.cancel')}
                             </Button>
                         </div>

@@ -96,7 +96,8 @@ class LayoutUser extends React.Component {
                 const HashComponent = route.component();
 
                 return (
-                    <Suspense fallback={<div/>}>
+                    <Suspense key={route.path}
+                              fallback={<div/>}>
                         <ErrorBoundary errorType="notification">
                             <HashComponent/>
                         </ErrorBoundary>

@@ -6,16 +6,16 @@ import {
     hot
 } from 'react-hot-loader/root';
 
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
-import FormControl from '@material-ui/core/FormControl';
-import Input from '@material-ui/core/Input';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import Chip from '@material-ui/core/Chip';
-import Grow from '@material-ui/core/Grow';
+import Button from '@mui/material/Button';
+import Grid from '@mui/material/Grid';
+import FormControl from '@mui/material/FormControl';
+import Input from '@mui/material/Input';
+import InputAdornment from '@mui/material/InputAdornment';
+import Chip from '@mui/material/Chip';
+import Grow from '@mui/material/Grow';
 
-import SearchIcon from '@material-ui/icons/Search';
-import CancelIcon from '@material-ui/icons/Cancel';
+import SearchIcon from '@mui/icons-material/Search';
+import CancelIcon from '@mui/icons-material/Cancel';
 
 import {
     getSearchContext,
@@ -37,6 +37,8 @@ import {
     searchGridColumns,
     searchGridColumnsMobile
 } from '../modules/constants';
+
+import withRouter from '../modules/router';
 
 import EnsureValidity from '../modules/ensureValidity';
 
@@ -76,10 +78,12 @@ export default @connect((state) => ({
     updateUserSettings,
     showUserPreference
 })
+@withRouter({params: true})
 @hot
 class SearchIndex extends React.Component {
     static propTypes = {
-        routeParams: PropTypes.object.isRequired,
+        // from router
+        routeParams: PropTypes.object,
         // from connect
         currentUserId: PropTypes.number,
         currentUser: PropTypes.object,

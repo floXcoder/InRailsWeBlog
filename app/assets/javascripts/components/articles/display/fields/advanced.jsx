@@ -4,14 +4,14 @@ import {
     Field
 } from 'react-final-form';
 
-import InputAdornment from '@material-ui/core/InputAdornment';
-import Collapse from '@material-ui/core/Collapse';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
+import InputAdornment from '@mui/material/InputAdornment';
+import Collapse from '@mui/material/Collapse';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import Divider from '@mui/material/Divider';
 
-import OpenInNewIcon from '@material-ui/icons/OpenInNew';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import SelectFormField from '../../../material-ui/form/select';
 import TextFormField from '../../../material-ui/form/text';
@@ -126,10 +126,12 @@ export default class ArticleAdvancedField extends React.PureComponent {
                                         gutterBottom={false}>
                                 {I18n.t('js.article.common.external_source')}
 
-                                <IconButton className={classNames('article-form-externalReferenceExpand', {
-                                    'article-form-externalReferenceExpandOpen': this.state.isSourceExpanded
-                                })}
-                                            aria-label="Show more">
+                                <IconButton
+                                    className={classNames('article-form-externalReferenceExpand', {
+                                        'article-form-externalReferenceExpandOpen': this.state.isSourceExpanded
+                                    })}
+                                    aria-label="Show more"
+                                    size="large">
                                     <ExpandMoreIcon/>
                                 </IconButton>
                             </Typography>

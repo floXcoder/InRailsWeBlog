@@ -12,19 +12,18 @@ import {
     LoadingBar
 } from 'react-redux-loading-bar';
 
-import withWidth from '@material-ui/core/withWidth';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import List from '@material-ui/core/List';
-import Button from '@material-ui/core/Button';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import SwipeableDrawer from '@mui/material/SwipeableDrawer';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import List from '@mui/material/List';
+import Button from '@mui/material/Button';
 
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
 
 import {
     rootPath,
@@ -43,6 +42,7 @@ import {
     showUserLogin
 } from '../../../actions';
 
+import withWidth from '../../modules/mediaQuery';
 import withRouter from '../../modules/router';
 
 import ErrorBoundary from '../../errors/boundary';
@@ -63,8 +63,8 @@ export default @connect((state) => ({
     showUserSignup,
     showUserLogin
 })
-@withWidth()
 @withRouter({location: true, params: true, navigate: true})
+@withWidth()
 class HeaderLayoutDefault extends React.Component {
     static propTypes = {
         searchModule: PropTypes.object.isRequired,
@@ -170,15 +170,14 @@ class HeaderLayoutDefault extends React.Component {
                  itemType="https://schema.org/SiteNavigationElement">
                 <Button className="layout-header-desktopItem"
                         size="small"
-                        color="default"
                         itemProp="url"
                         onClick={this._handleSignupClick}>
                     {I18n.t('js.views.header.user.sign_up')}
                 </Button>
 
                 <Button className="layout-header-desktopItem"
-                        color="default"
                         itemProp="url"
+                        size="small"
                         onClick={this._handleLoginClick}>
                     {I18n.t('js.views.header.user.log_in')}
                 </Button>
@@ -218,21 +217,19 @@ class HeaderLayoutDefault extends React.Component {
                     </div>
 
                     <List>
-                        <ListItem button={true}
-                                  onClick={this._handleLoginClick}>
+                        <ListItemButton onClick={this._handleLoginClick}>
                             <ListItemIcon>
                                 <AccountCircleIcon/>
                             </ListItemIcon>
                             <ListItemText primary={I18n.t('js.views.header.user.log_in')}/>
-                        </ListItem>
+                        </ListItemButton>
 
-                        <ListItem button={true}
-                                  onClick={this._handleSignupClick}>
+                        <ListItemButton onClick={this._handleSignupClick}>
                             <ListItemIcon>
                                 <PersonAddIcon/>
                             </ListItemIcon>
                             <ListItemText primary={I18n.t('js.views.header.user.sign_up')}/>
-                        </ListItem>
+                        </ListItemButton>
                     </List>
                 </>
             </SwipeableDrawer>
@@ -288,10 +285,12 @@ class HeaderLayoutDefault extends React.Component {
                         {this._renderDesktopMenu()}
 
                         <div className="layout-header-sectionMobile">
-                            <IconButton className="layout-header-menuButton"
-                                        color="primary"
-                                        aria-label="Open drawer"
-                                        onClick={this._handleDrawerToggle}>
+                            <IconButton
+                                className="layout-header-menuButton"
+                                color="primary"
+                                aria-label="Open drawer"
+                                onClick={this._handleDrawerToggle}
+                                size="large">
                                 <AccountCircleIcon className="layout-header-mobileIcon"/>
                             </IconButton>
                         </div>
@@ -319,8 +318,8 @@ class HeaderLayoutDefault extends React.Component {
 
                 <div id="clipboard-area"
                      className="hidden">
-                    <textarea id="clipboard"
-                              title="clipboard"/>
+                <textarea id="clipboard"
+                          title="clipboard"/>
                 </div>
 
                 {

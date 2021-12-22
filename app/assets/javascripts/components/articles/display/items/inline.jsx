@@ -8,11 +8,11 @@ import {
 import 'intersection-observer';
 import Observer from '@researchgate/react-intersection-observer';
 
-import Collapse from '@material-ui/core/Collapse';
-import IconButton from '@material-ui/core/IconButton';
+import Collapse from '@mui/material/Collapse';
+import IconButton from '@mui/material/IconButton';
 
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import EditIcon from '@material-ui/icons/EditOutlined';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import EditIcon from '@mui/icons-material/EditOutlined';
 
 import {
     userArticlePath
@@ -119,10 +119,12 @@ class ArticleInlineDisplay extends React.PureComponent {
                              'article-inline-over': this.state.isOver,
                              'article-inline-rootPrivate': isPrivateInPublic
                          })}>
-                    <IconButton className="article-inline-expand"
-                                aria-expanded={this.state.isFolded}
-                                aria-label="Show more"
-                                onClick={this._handleFoldClick}>
+                    <IconButton
+                        className="article-inline-expand"
+                        aria-expanded={this.state.isFolded}
+                        aria-label="Show more"
+                        onClick={this._handleFoldClick}
+                        size="large">
                         <ExpandMoreIcon/>
                     </IconButton>
 

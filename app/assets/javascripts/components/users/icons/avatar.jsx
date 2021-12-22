@@ -4,10 +4,10 @@ import {
     Link
 } from 'react-router-dom';
 
-import Avatar from '@material-ui/core/Avatar';
-import Grid from '@material-ui/core/Grid';
+import Avatar from '@mui/material/Avatar';
+import Grid from '@mui/material/Grid';
 
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 import {
     userArticlesPath

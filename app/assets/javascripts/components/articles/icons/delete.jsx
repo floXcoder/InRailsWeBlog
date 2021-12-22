@@ -1,6 +1,6 @@
 'use strict';
 
-import DeleteIcon from '@material-ui/icons/DeleteOutline';
+import DeleteIcon from '@mui/icons-material/DeleteOutline';
 
 const ArticleDeleteIcon = ({onDeleteClick, size, color}) => (
     <span className="flow-tooltip-bottom"

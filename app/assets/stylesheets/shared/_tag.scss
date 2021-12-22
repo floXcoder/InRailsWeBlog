@@ -99,7 +99,7 @@
 .tag-sidebar-expandIcon {
   width: 25%;
   height: 30px;
-  padding: 2px 8px 2px 8px;
+  padding: 2px 8px;
 }
 
 .tag-sidebar-label {
@@ -144,13 +144,17 @@
   font-size: .9rem;
   font-weight: 400;
   border-color: $text-color-secondary;
-  border-radius: 16px;
+  border-radius: 20px;
 }
 
 .tag-chip-tagChipLarge {
   height: 42px;
   margin: 8px;
   padding: 8px;
+
+  @media #{$small-and-down} {
+    padding: 3px;
+  }
 }
 
 .tag-chip-tagChipSmall {

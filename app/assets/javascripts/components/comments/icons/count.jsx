@@ -1,6 +1,6 @@
 'use strict';
 
-import CommentIcon from '@material-ui/icons/Comment';
+import CommentIcon from '@mui/icons-material/Comment';
 
 const CommentCountIcon = ({className, commentsCount, commentLink, hasIcon}) => (
     <a className={className}

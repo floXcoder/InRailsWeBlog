@@ -4,9 +4,9 @@ import {
     Link
 } from 'react-router-dom';
 
-import IconButton from '@material-ui/core/IconButton';
+import IconButton from '@mui/material/IconButton';
 
-import EditIcon from '@material-ui/icons/EditOutlined';
+import EditIcon from '@mui/icons-material/EditOutlined';
 
 import {
     editArticlePath
@@ -27,7 +27,7 @@ const _redirectToEdit = (userSlug, articleSlug, routeNavigate, event) => {
     if (routeNavigate) {
         event.preventDefault();
 
-        routeNavigate.push({
+        routeNavigate({
             pathname: editArticlePath(userSlug, articleSlug),
             state: {
                 position: _getScreenPosition()
@@ -43,12 +43,14 @@ const ArticleEditIcon = function ({userSlug, articleSlug, isIconButton, routeNav
             {
                 isIconButton
                     ?
-                    <IconButton aria-label="more"
-                                aria-controls="article-language-select"
-                                aria-haspopup="true"
-                                component={Link}
-                                to={editArticlePath(userSlug, articleSlug)}
-                                onClick={_redirectToEdit.bind(undefined, userSlug, articleSlug, routeNavigate)}>
+                    <IconButton
+                        aria-label="more"
+                        aria-controls="article-language-select"
+                        aria-haspopup="true"
+                        component={Link}
+                        to={editArticlePath(userSlug, articleSlug)}
+                        onClick={_redirectToEdit.bind(undefined, userSlug, articleSlug, routeNavigate)}
+                        size="large">
                         <EditIcon color={color}
                                   fontSize={size}/>
                     </IconButton>

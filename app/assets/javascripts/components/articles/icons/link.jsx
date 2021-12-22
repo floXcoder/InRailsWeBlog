@@ -4,7 +4,7 @@ import {
     Link
 } from 'react-router-dom';
 
-import AssignmentIcon from '@material-ui/icons/AssignmentOutlined';
+import AssignmentIcon from '@mui/icons-material/AssignmentOutlined';
 
 import {
     userArticlePath

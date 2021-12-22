@@ -53,7 +53,7 @@ class LayoutDefault extends React.Component {
 
         const {routes, ...initProps} = this.props;
 
-        const isHome = route.name === 'UserHome';
+        const isHome = route.name === 'Home';
 
         return (
             <RouteManager routeProperties={routeProperties}>

@@ -6,7 +6,7 @@ import {
     hot
 } from 'react-hot-loader/root';
 
-import Divider from '@material-ui/core/Divider';
+import Divider from '@mui/material/Divider';
 
 import {
     showUserLogin,

@@ -2,7 +2,7 @@
 
 import {
     createTheme
-} from '@material-ui/core/styles';
+} from '@mui/material/styles';
 
 // Sizes
 export const headerHeight = 62;
@@ -23,14 +23,22 @@ const theme = createTheme({
         values: {
             xs: 0,
             sm: 600,
-            md: 960,
-            lg: 1280,
-            xl: 1920
+            md: 900,
+            lg: 1200,
+            xl: 1536
         }
     },
 
     typography: {
-        htmlFontSize: 12
+        // Also declared in: _typography.scss
+        htmlFontSize: 11,
+        fontSize: 12,
+        body1: {
+            fontSize: '1.1rem'
+        },
+        body2: {
+            fontSize: '1.1rem'
+        }
     },
 
     palette: {
@@ -62,6 +70,22 @@ const theme = createTheme({
             // disabled: 'rgba(0, 0, 0, 0.26)',
             // disabledBackground: 'rgba(0, 0, 0, 0.12)'
         },
+        grey: {
+            50: '#fafafa',
+            100: '#f5f5f5',
+            200: '#eeeeee',
+            300: '#e0e0e0',
+            400: '#bdbdbd',
+            500: '#9e9e9e',
+            600: '#757575',
+            700: '#616161',
+            800: '#424242',
+            900: '#212121',
+            A100: '#d5d5d5',
+            A200: '#aaaaaa',
+            A400: '#303030',
+            A700: '#616161'
+        }
         // error: {
         //     light: '#e57373',
         //     main: '#f44336',
@@ -98,68 +122,113 @@ const theme = createTheme({
         tooltip: tooltipZIndex
     },
 
-    overrides: {
+    components: {
         MuiButton: {
-            // root: {
-            //     color: theme.palette.text.primary
-            // },
-            // textPrimary: {
-            //     color: theme.palette.primary.main
-            // },
-            // textSecondary: {
-            //     color: theme.palette.secondary.main
-            // },
-            sizeSmall: {
-                fontSize: '0.95rem'
-            }
-        },
-        MuiIcon: {
-            // colorPrimary: {
-            //     color: theme.palette.primary.main
-            // },
-            // colorSecondary: {
-            //     color: theme.palette.secondary.main
-            // },
-            // colorAction: {
-            //     color: theme.palette.action.active
-            // }
-        },
-        MuiIconButton: {
-            // root: {
-            //     color: theme.palette.action.active
-            // },
-            // colorPrimary: {
-            //     color: theme.palette.primary.main
-            // },
-            // colorSecondary: {
-            //     color: theme.palette.secondary.main
-            // }
-        },
-        MuiSvgIcon: {
-            root: {
-                fontSize: '1.5rem',
-                '@media (max-width:960px)': {
-                    width: 28,
-                    height: 28,
-                    fontSize: 28
+            styleOverrides: {
+                // root: {
+                //     color: theme.palette.text.primary
+                // },
+                // textPrimary: {
+                //     color: theme.palette.primary.main
+                // },
+                // textSecondary: {
+                //     color: theme.palette.secondary.main
+                // },
+                sizeSmall: {
+                    fontSize: '0.95rem'
                 }
             },
-            fontSizeLarge: {
-                fontSize: '2.3rem'
-            },
-            fontSizeSmall: {
-                fontSize: '1.2rem'
-            },
-            colorPrimary: {
-                color: '#036603',
-            },
-            colorSecondary: {
-                color: '#bda731'
-            },
-            colorAction: {
-                color: 'rgba(0, 0, 0, 0.54)'
+            variants: [
+                {
+                    props: {
+                        variant: 'contained',
+                        color: 'default'
+                    },
+                    style: {
+                        color: 'rgba(0, 0, 0, 0.87)'
+                    }
+                },
+                {
+                    props: {
+                        variant: 'outlined',
+                        color: 'default'
+                    },
+                    style: {
+                        color: 'rgba(0, 0, 0, 0.87)'
+                    }
+                },
+                {
+                    props: {
+                        variant: 'text',
+                        color: 'default'
+                    },
+                    style: {
+                        color: 'rgba(0, 0, 0, 0.87)'
+                    }
+                },
+            ]
+        },
+        MuiIcon: {
+            styleOverrides: {
+                // colorPrimary: {
+                //     color: theme.palette.primary.main
+                // },
+                // colorSecondary: {
+                //     color: theme.palette.secondary.main
+                // },
+                // colorAction: {
+                //     color: theme.palette.action.active
+                // }
             }
-        }
+        },
+        MuiIconButton: {
+            styleOverrides: {
+                // root: {
+                //     color: theme.palette.action.active
+                // },
+                // colorPrimary: {
+                //     color: theme.palette.primary.main
+                // },
+                // colorSecondary: {
+                //     color: theme.palette.secondary.main
+                // }
+            }
+        },
+        MuiSvgIcon: {
+            styleOverrides: {
+                root: {
+                    fontSize: '1.5rem',
+                    '@media (max-width:960px)': {
+                        width: 28,
+                        height: 28,
+                        fontSize: 28
+                    }
+                },
+                fontSizeLarge: {
+                    fontSize: '2.3rem'
+                },
+                fontSizeSmall: {
+                    fontSize: '1.2rem'
+                },
+                colorPrimary: {
+                    color: '#036603',
+                },
+                colorSecondary: {
+                    color: '#bda731'
+                },
+                colorAction: {
+                    color: 'rgba(0, 0, 0, 0.54)'
+                }
+            }
+        },
+        // MuiInputBase: {
+        //     styleOverrides: {
+        //         root: {
+        //             lineHeight: '1.33rem',
+        //             fontSize: '1.1876em'
+        //         }
+        //     }
+        // }
     }
 });
 

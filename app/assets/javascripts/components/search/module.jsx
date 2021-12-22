@@ -4,12 +4,12 @@ import {
     hot
 } from 'react-hot-loader/root';
 
-import Paper from '@material-ui/core/Paper';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import Grid from '@material-ui/core/Grid';
+import Paper from '@mui/material/Paper';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import Grid from '@mui/material/Grid';
 
-import CloseIcon from '@material-ui/icons/Close';
+import CloseIcon from '@mui/icons-material/Close';
 
 import {
     searchPath
@@ -118,9 +118,11 @@ class SearchModule extends React.Component {
                    square={true}
                    elevation={4}>
                 <div className="search-module-close show-on-small">
-                    <IconButton aria-expanded={true}
-                                aria-label="Close"
-                                onClick={this._handleSearchClose}>
+                    <IconButton
+                        aria-expanded={true}
+                        aria-label="Close"
+                        onClick={this._handleSearchClose}
+                        size="large">
                         <CloseIcon color="primary"
                                    fontSize="large"/>
                     </IconButton>

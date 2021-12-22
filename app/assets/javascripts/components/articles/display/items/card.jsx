@@ -10,16 +10,16 @@ import Observer from '@researchgate/react-intersection-observer';
 
 import Sticky from 'react-sticky-el';
 
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import CardMedia from '@material-ui/core/CardMedia';
-import Collapse from '@material-ui/core/Collapse';
-import IconButton from '@material-ui/core/IconButton';
-import Grid from '@material-ui/core/Grid';
+import Card from '@mui/material/Card';
+import CardHeader from '@mui/material/CardHeader';
+import CardContent from '@mui/material/CardContent';
+import CardActions from '@mui/material/CardActions';
+import CardMedia from '@mui/material/CardMedia';
+import Collapse from '@mui/material/Collapse';
+import IconButton from '@mui/material/IconButton';
+import Grid from '@mui/material/Grid';
 
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import {
     userArticlePath
@@ -155,12 +155,14 @@ class ArticleCardDisplay extends React.PureComponent {
                         root: 'article-card-header'
                     }}
                                 action={
-                                    <IconButton className={classNames('article-card-expand', {
-                                        'article-card-expandOpen': this.state.isFolded
-                                    })}
-                                                aria-expanded={this.state.isFolded}
-                                                aria-label="Show more"
-                                                onClick={this._handleFoldClick}>
+                                    <IconButton
+                                        className={classNames('article-card-expand', {
+                                            'article-card-expandOpen': this.state.isFolded
+                                        })}
+                                        aria-expanded={this.state.isFolded}
+                                        aria-label="Show more"
+                                        onClick={this._handleFoldClick}
+                                        size="large">
                                         <ExpandMoreIcon/>
                                     </IconButton>
                                 }

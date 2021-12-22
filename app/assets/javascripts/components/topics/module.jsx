@@ -4,11 +4,11 @@ import {
     Link
 } from 'react-router-dom';
 
-import IconButton from '@material-ui/core/IconButton';
-import Divider from '@material-ui/core/Divider';
+import IconButton from '@mui/material/IconButton';
+import Divider from '@mui/material/Divider';
 
-import EditIcon from '@material-ui/icons/Edit';
-import CloseIcon from '@material-ui/icons/Close';
+import EditIcon from '@mui/icons-material/Edit';
+import CloseIcon from '@mui/icons-material/Close';
 
 import {
     topicArticlesPath,
@@ -102,9 +102,11 @@ class TopicModule extends React.Component {
                 </div>
 
                 <div className="topic-module-close">
-                    <IconButton aria-expanded={true}
-                                aria-label="Close"
-                                onClick={this.props.onClose}>
+                    <IconButton
+                        aria-expanded={true}
+                        aria-label="Close"
+                        onClick={this.props.onClose}
+                        size="large">
                         <CloseIcon color="primary"
                                    fontSize="large"/>
                     </IconButton>

@@ -12,28 +12,27 @@ import {
     LoadingBar
 } from 'react-redux-loading-bar';
 
-import withWidth from '@material-ui/core/withWidth';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import List from '@material-ui/core/List';
-import Button from '@material-ui/core/Button';
-import Popover from '@material-ui/core/Popover';
-import Collapse from '@material-ui/core/Collapse';
-import Divider from '@material-ui/core/Divider';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
+import SwipeableDrawer from '@mui/material/SwipeableDrawer';
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import List from '@mui/material/List';
+import Button from '@mui/material/Button';
+import Popover from '@mui/material/Popover';
+import Collapse from '@mui/material/Collapse';
+import Divider from '@mui/material/Divider';
 
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
-import MenuIcon from '@material-ui/icons/Menu';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import ClassIcon from '@material-ui/icons/Class';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import AssignmentIcon from '@material-ui/icons/Assignment';
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
+import MenuIcon from '@mui/icons-material/Menu';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import ClassIcon from '@mui/icons-material/Class';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import AssignmentIcon from '@mui/icons-material/Assignment';
 
 import {
     // HomeSearchHeader,
@@ -63,6 +62,7 @@ import {
 } from '../../modules/constants';
 
 import withRouter from '../../modules/router';
+import withWidth from '../../modules/mediaQuery';
 
 import ErrorBoundary from '../../errors/boundary';
 
@@ -102,8 +102,8 @@ export default @connect((state) => ({
     showUserPreference,
     showTopicPopup
 })
-@withWidth()
 @withRouter({location: true, params: true})
+@withWidth()
 class HeaderLayoutUser extends React.PureComponent {
     static propTypes = {
         searchModule: PropTypes.object.isRequired,
@@ -377,10 +377,12 @@ class HeaderLayoutUser extends React.PureComponent {
 
                     <Toolbar className="layout-header-toolbar">
                         <div className="layout-header-sectionMobile">
-                            <IconButton className="layout-header-menuButton"
-                                        color="primary"
-                                        aria-label="Open drawer"
-                                        onClick={this._handleTagDrawerToggle}>
+                            <IconButton
+                                className="layout-header-menuButton"
+                                color="primary"
+                                aria-label="Open drawer"
+                                onClick={this._handleTagDrawerToggle}
+                                size="large">
                                 <MenuIcon/>
                             </IconButton>
                         </div>
@@ -405,13 +407,13 @@ class HeaderLayoutUser extends React.PureComponent {
                                         variant="contained"
                                         color="primary"
                                         onClick={this._handleTopicOpen}>
-                                    <span className="layout-header-sectionDesktop">
-                                        {I18n.t('js.views.header.topic.button', {current: this.props.currentTopic.name})}
-                                    </span>
+                                <span className="layout-header-sectionDesktop">
+                                    {I18n.t('js.views.header.topic.button', {current: this.props.currentTopic.name})}
+                                </span>
 
                                     <span className="layout-header-sectionMobile">
-                                        <ClassIcon/>
-                                    </span>
+                                    <ClassIcon/>
+                                </span>
                                 </Button>
 
                                 <Popover open={this.props.isTopicPopupOpen}
@@ -475,8 +477,8 @@ class HeaderLayoutUser extends React.PureComponent {
 
                 <div id="clipboard-area"
                      className="hidden">
-                    <textarea id="clipboard"
-                              title="clipboard"/>
+                <textarea id="clipboard"
+                          title="clipboard"/>
                 </div>
 
                 <Suspense fallback={<div/>}>

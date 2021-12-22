@@ -1,6 +1,6 @@
 'use strict';
 
-import Grid from '@material-ui/core/Grid';
+import Grid from '@mui/material/Grid';
 
 import {
     about,

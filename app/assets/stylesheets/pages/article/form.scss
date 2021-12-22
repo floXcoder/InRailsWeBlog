@@ -20,6 +20,8 @@
 }
 
 .sticky {
+  z-index: $zindex-appbar;
+
   .article-form-stepper {
     position: relative;
   }

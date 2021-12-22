@@ -1,14 +1,14 @@
 'use strict';
 
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import Collapse from '@material-ui/core/Collapse';
-import IconButton from '@material-ui/core/IconButton';
+import Card from '@mui/material/Card';
+import CardHeader from '@mui/material/CardHeader';
+import CardContent from '@mui/material/CardContent';
+import CardActions from '@mui/material/CardActions';
+import Collapse from '@mui/material/Collapse';
+import IconButton from '@mui/material/IconButton';
 
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import EditIcon from '@material-ui/icons/EditOutlined';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import EditIcon from '@mui/icons-material/EditOutlined';
 
 
 export default class AdminBlogCard extends React.Component {
@@ -74,12 +74,14 @@ export default class AdminBlogCard extends React.Component {
                                 </a>
                             }
                             action={
-                                <IconButton className={classNames('admin-blog-expand', {
-                                    'admin-blog-expandOpen': this.state.isFolded
-                                })}
-                                            aria-expanded={this.state.isFolded}
-                                            aria-label="Show more"
-                                            onClick={this._handleFoldClick}>
+                                <IconButton
+                                    className={classNames('admin-blog-expand', {
+                                        'admin-blog-expandOpen': this.state.isFolded
+                                    })}
+                                    aria-expanded={this.state.isFolded}
+                                    aria-label="Show more"
+                                    onClick={this._handleFoldClick}
+                                    size="large">
                                     <ExpandMoreIcon/>
                                 </IconButton>
                             }/>

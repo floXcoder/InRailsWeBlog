@@ -1,29 +1,36 @@
 'use strict';
 
-import IconButton from '@material-ui/core/IconButton';
+import IconButton from '@mui/material/IconButton';
 
-import VerticalAlignBottomIcon from '@material-ui/icons/VerticalAlignBottom';
+import VerticalAlignBottomIcon from '@mui/icons-material/VerticalAlignBottom';
 
 import ArticleSortMenu from '../sort/dropdown';
 // import ArticleFilterMenu from '../filter/dropdown';
 
-var ArticleOrderDisplay = function (props) {
+
+const ArticleOrderDisplay = function ({
+                                          onMinimized,
+                                          onOrderChange,
+                                          currentUserSlug,
+                                          currentUserTopicSlug,
+                                          articleOrderMode,
+                                          articleDisplayMode
+                                      }) {
     return (
         <div className="article-sidebar-order">
-            <ArticleSortMenu currentUserSlug={props.currentUserSlug}
-                             currentUserTopicSlug={props.currentUserTopicSlug}
-                             currentOrder={props.articleOrderMode}
-                             onOrderChange={props.onOrderChange}/>
+            <ArticleSortMenu currentUserSlug={currentUserSlug}
+                             currentUserTopicSlug={currentUserTopicSlug}
+                             currentOrder={articleOrderMode}
+                             onOrderChange={onOrderChange}/>
 
             {
-                // this.props.currentUserId &&
+                // this.currentUserId &&
                 // <ArticleFilterMenu/>
             }
 
             {
-                (props.articleDisplayMode === 'card' || props.articleDisplayMode === 'grid') &&
-                <IconButton aria-label="Minimize all"
-                            onClick={props.onMinimized}>
+                (articleDisplayMode === 'card' || articleDisplayMode === 'grid') &&
+                <IconButton aria-label="Minimize all" onClick={onMinimized} size="large">
                     <VerticalAlignBottomIcon className="article-sidebar-button"/>
                 </IconButton>
             }

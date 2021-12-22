@@ -34,34 +34,34 @@
 // ***
 // Topic form inventories
 // ***
-.topic-form-inv-sorting-226 {
+.topic-form-inv-sorting {
   user-select: none;
 }
 
-.topic-form-inv-sortingItems-227 {
+.topic-form-inv-sortingItems {
   outline: none;
   position: relative;
 }
 
-.topic-form-inv-sortingItem-228 {
+.topic-form-inv-sortingItem {
   cursor: pointer;
   align-items: center;
 }
 
-.topic-form-inv-fieldBorder-229 {
+.topic-form-inv-fieldBorder {
   border: 1px solid #ddd;
   margin: 24px 0;
   padding: 8px 16px;
   position: relative;
 }
 
-.topic-form-inv-mandatoryFieldHelper-230 {
+.topic-form-inv-mandatoryFieldHelper {
   font-style: italic;
   text-align: center;
   font-weight: 500;
 }
 
-.topic-form-inv-fieldDrag-231 {
+.topic-form-inv-fieldDrag {
   top: 20px;
   right: 20px;
   cursor: row-resize;
@@ -69,23 +69,23 @@
   position: absolute;
 }
 
-.topic-form-inv-field-232 {
+.topic-form-inv-field {
   width: 90%;
   margin: .3rem 0;
 }
 
-.topic-form-inv-fieldPropsButton-233 {
+.topic-form-inv-fieldPropsButton {
   color: $text-color;
   outline: none;
   text-align: center;
 }
 
-.topic-form-inv-fieldPropsExpand-234 {
+.topic-form-inv-fieldPropsExpand {
   transform: rotate(0deg);
   transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   margin-left: auto;
 }
 
-.topic-form-inv-fieldPropsExpandOpen-235 {
+.topic-form-inv-fieldPropsExpandOpen {
   transform: rotate(180deg);
 }

@@ -4,10 +4,10 @@ import {
     Link
 } from 'react-router-dom';
 
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
-import Button from '@material-ui/core/Button';
-import Divider from '@material-ui/core/Divider';
+import MenuItem from '@mui/material/MenuItem';
+import Menu from '@mui/material/Menu';
+import Button from '@mui/material/Button';
+import Divider from '@mui/material/Divider';
 
 import {
     orderTopicArticlesPath,
@@ -93,7 +93,6 @@ export default class ArticleSortMenu extends React.Component {
                 </Button>
 
                 <Menu anchorEl={this.state.anchorEl}
-                      getContentAnchorEl={null}
                       anchorOrigin={{
                           vertical: 'bottom',
                           horizontal: 'center',

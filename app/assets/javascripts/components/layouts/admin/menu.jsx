@@ -1,35 +1,36 @@
 'use strict';
 
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import Divider from '@material-ui/core/Divider';
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import Divider from '@mui/material/Divider';
 
-import DashboardIcon from '@material-ui/icons/Dashboard';
-import CloudCircleIcon from '@material-ui/icons/CloudCircle';
-import AccountBoxIcon from '@material-ui/icons/AccountBox';
-import CommentIcon from '@material-ui/icons/Comment';
-import ClassIcon from '@material-ui/icons/Class';
-import LabelIcon from '@material-ui/icons/Label';
-import AssignmentIcon from '@material-ui/icons/Assignment';
-import ChromeReaderModeIcon from '@material-ui/icons/ChromeReaderMode';
-import SettingsApplicationsIcon from '@material-ui/icons/SettingsApplications';
-import ListIcon from '@material-ui/icons/List';
-import CachedIcon from '@material-ui/icons/Cached';
-import HomeIcon from '@material-ui/icons/Home';
-import CancelIcon from '@material-ui/icons/Cancel';
-import AllInboxIcon from '@material-ui/icons/AllInbox';
-import ListAltIcon from '@material-ui/icons/ListAlt';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import CloudCircleIcon from '@mui/icons-material/CloudCircle';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import CommentIcon from '@mui/icons-material/Comment';
+import ClassIcon from '@mui/icons-material/Class';
+import LabelIcon from '@mui/icons-material/Label';
+import AssignmentIcon from '@mui/icons-material/Assignment';
+import ChromeReaderModeIcon from '@mui/icons-material/ChromeReaderMode';
+import SettingsApplicationsIcon from '@mui/icons-material/SettingsApplications';
+import ListIcon from '@mui/icons-material/List';
+import CachedIcon from '@mui/icons-material/Cached';
+import HomeIcon from '@mui/icons-material/Home';
+import CancelIcon from '@mui/icons-material/Cancel';
+import AllInboxIcon from '@mui/icons-material/AllInbox';
+import ListAltIcon from '@mui/icons-material/ListAlt';
 
-function ListItemLink(props) {
+
+const ListItemLink = function (props) {
     return (
         <ListItem button={true}
                   component="a"
                   {...props}/>
     );
-}
+};
 
-function Item({href, text, icon}) {
+const Item = function ({href, text, icon}) {
     return (
         <ListItemLink button={true}
                       href={href}>
@@ -40,7 +41,7 @@ function Item({href, text, icon}) {
             <ListItemText primary={text}/>
         </ListItemLink>
     );
-}
+};
 
 Item.propTypes = {
     href: PropTypes.string.isRequired,
@@ -48,97 +49,93 @@ Item.propTypes = {
     icon: PropTypes.element.isRequired
 };
 
-export default class MenuLayout extends React.PureComponent {
-    static propTypes = {
-        onLogout: PropTypes.func.isRequired
-    };
+const MenuLayout = function ({onLogout}) {
+    return (
+        <>
+            <Item href="/admins"
+                  text={I18n.t('js.admin.menu.dashboard')}
+                  icon={<DashboardIcon/>}/>
 
-    constructor(props) {
-        super(props);
-    }
+            <Divider/>
 
-    render() {
-        return (
-            <>
-                <Item href="/admins"
-                      text={I18n.t('js.admin.menu.dashboard')}
-                      icon={<DashboardIcon/>}/>
+            <Item href="/admins/visits"
+                  text={I18n.t('js.admin.menu.visits')}
+                  icon={<CloudCircleIcon/>}/>
 
-                <Divider/>
+            <Item href="/admins/users"
+                  text={I18n.t('js.admin.menu.users')}
+                  icon={<AccountBoxIcon/>}/>
 
-                <Item href="/admins/visits"
-                      text={I18n.t('js.admin.menu.visits')}
-                      icon={<CloudCircleIcon/>}/>
+            <Item href="/admins/comments"
+                  text={I18n.t('js.admin.menu.comments')}
+                  icon={<CommentIcon/>}/>
 
-                <Item href="/admins/users"
-                      text={I18n.t('js.admin.menu.users')}
-                      icon={<AccountBoxIcon/>}/>
+            <Divider/>
 
-                <Item href="/admins/comments"
-                      text={I18n.t('js.admin.menu.comments')}
-                      icon={<CommentIcon/>}/>
+            <Item href="/admins/articles"
+                  text={I18n.t('js.admin.menu.articles')}
+                  icon={<AssignmentIcon/>}/>
 
-                <Divider/>
+            <Item href="/admins/topics"
+                  text={I18n.t('js.admin.menu.topics')}
+                  icon={<ClassIcon/>}/>
 
-                <Item href="/admins/articles"
-                      text={I18n.t('js.admin.menu.articles')}
-                      icon={<AssignmentIcon/>}/>
+            <Item href="/admins/tags"
+                  text={I18n.t('js.admin.menu.tags')}
+                  icon={<LabelIcon/>}/>
 
-                <Item href="/admins/topics"
-                      text={I18n.t('js.admin.menu.topics')}
-                      icon={<ClassIcon/>}/>
+            <Divider/>
 
-                <Item href="/admins/tags"
-                      text={I18n.t('js.admin.menu.tags')}
-                      icon={<LabelIcon/>}/>
+            <Item href="/admins/blogs"
+                  text={I18n.t('js.admin.menu.blogs')}
+                  icon={<ChromeReaderModeIcon/>}/>
 
-                <Divider/>
+            <Divider/>
 
-                <Item href="/admins/blogs"
-                      text={I18n.t('js.admin.menu.blogs')}
-                      icon={<ChromeReaderModeIcon/>}/>
+            <Item href="/admins/seo"
+                  text={I18n.t('js.admin.menu.seo')}
+                  icon={<ListAltIcon/>}/>
 
-                <Divider/>
+            <Divider/>
 
-                <Item href="/admins/seo"
-                      text={I18n.t('js.admin.menu.seo')}
-                      icon={<ListAltIcon/>}/>
+            <Item href="/admins/sidekiq"
+                  text={I18n.t('js.admin.menu.jobs')}
+                  icon={<SettingsApplicationsIcon/>}/>
 
-                <Divider/>
+            <Item href="/admins/postgres"
+                  text={I18n.t('js.admin.menu.postgres')}
+                  icon={<AllInboxIcon/>}/>
 
-                <Item href="/admins/sidekiq"
-                      text={I18n.t('js.admin.menu.jobs')}
-                      icon={<SettingsApplicationsIcon/>}/>
+            <Divider/>
 
-                <Item href="/admins/postgres"
-                      text={I18n.t('js.admin.menu.postgres')}
-                      icon={<AllInboxIcon/>}/>
+            <Item href="/admins/logs"
+                  text={I18n.t('js.admin.menu.logs')}
+                  icon={<ListIcon/>}/>
 
-                <Divider/>
+            <Item href="/admins/caches"
+                  text={I18n.t('js.admin.menu.cache')}
+                  icon={<CachedIcon/>}/>
 
-                <Item href="/admins/logs"
-                      text={I18n.t('js.admin.menu.logs')}
-                      icon={<ListIcon/>}/>
+            <Divider/>
 
-                <Item href="/admins/caches"
-                      text={I18n.t('js.admin.menu.cache')}
-                      icon={<CachedIcon/>}/>
+            <Item href="/"
+                  text={I18n.t('js.admin.menu.back_home')}
+                  icon={<HomeIcon/>}/>
 
-                <Divider/>
+            <ListItemLink button={true}
+                          onClick={onLogout}>
+                <ListItemIcon>
+                    <CancelIcon/>
+                </ListItemIcon>
 
-                <Item href="/"
-                      text={I18n.t('js.admin.menu.back_home')}
-                      icon={<HomeIcon/>}/>
+                <ListItemText primary={I18n.t('js.admin.menu.log_out')}/>
+            </ListItemLink>
+        </>
+    );
+};
 
-                <ListItemLink button={true}
-                              onClick={this.props.onLogout}>
-                    <ListItemIcon>
-                        <CancelIcon/>
-                    </ListItemIcon>
+MenuLayout.propTypes = {
+    onLogout: PropTypes.func.isRequired
+};
 
-                    <ListItemText primary={I18n.t('js.admin.menu.log_out')}/>
-                </ListItemLink>
-            </>
-        );
-    }
-}
+export default React.memo(MenuLayout);

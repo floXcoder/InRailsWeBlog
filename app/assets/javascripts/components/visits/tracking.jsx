@@ -4,18 +4,18 @@ import {
     hot
 } from 'react-hot-loader/root';
 
-import Modal from '@material-ui/core/Modal';
-import Typography from '@material-ui/core/Typography';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import Button from '@material-ui/core/Button';
-import Collapse from '@material-ui/core/Collapse';
+import Modal from '@mui/material/Modal';
+import Typography from '@mui/material/Typography';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import Button from '@mui/material/Button';
+import Collapse from '@mui/material/Collapse';
 
-import ExpandLessIcon from '@material-ui/icons/ExpandLess';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import SubdirectoryArrowRightIcon from '@material-ui/icons/SubdirectoryArrowRight';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import SubdirectoryArrowRightIcon from '@mui/icons-material/SubdirectoryArrowRight';
 
 import {
     fetchVisits
@@ -174,11 +174,7 @@ class TrackingVisitModal extends React.Component {
                     }
 
                     <div className="center-align margin-top-45">
-                        <Button color="default"
-                                variant="outlined"
-                                size="small"
-                                href="#"
-                                onClick={this._handleClose}>
+                        <Button variant="outlined" size="small" href="#" onClick={this._handleClose}>
                             {I18n.t('js.admin.visits.tracking.cancel')}
                         </Button>
                     </div>

@@ -1,19 +1,22 @@
 'use strict';
 
-import TextField from '@material-ui/core/TextField';
+import TextField from '@mui/material/TextField';
 
-const DateFormField = ({input, label, helperText, meta: {touched, error}, ...custom}) => (
-    <TextField {...input}
-               type="date"
-               label={label}
-               value={input.value}
-               error={touched && !!error}
-               helperText={!!error ? error : helperText}
-               InputLabelProps={{
-                   shrink: true
-               }}
-               {...custom}/>
-);
+
+const DateFormField = function ({input, label, helperText, meta: {touched, error}, ...custom}) {
+    return (
+        <TextField {...input}
+                   type="date"
+                   label={label}
+                   value={input.value}
+                   error={touched && !!error}
+                   helperText={!!error ? error : helperText}
+                   InputLabelProps={{
+                       shrink: true
+                   }}
+                   {...custom}/>
+    );
+};
 
 DateFormField.propTypes = {
     input: PropTypes.object.isRequired,

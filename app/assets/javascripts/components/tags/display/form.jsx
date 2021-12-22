@@ -10,10 +10,9 @@ import {
     Field
 } from 'react-final-form';
 
-import Button from '@material-ui/core/Button';
-import Tab from '@material-ui/core/Tab';
-import Tabs from '@material-ui/core/Tabs';
-import Divider from '@material-ui/core/Divider';
+import Button from '@mui/material/Button';
+import Tab from '@mui/material/Tab';
+import Tabs from '@mui/material/Tabs';
 
 import {
     showTagPath
@@ -120,6 +119,7 @@ export default class TagFormDisplay extends React.Component {
                                                label={I18n.t('js.tag.common.placeholders.name')}
                                                autoFocus={true}
                                                required={true}
+                                               variant="standard"
                                                color="primary"
                                                disabled={this.props.children.visibility === 'everyone'}/>
 
@@ -132,8 +132,6 @@ export default class TagFormDisplay extends React.Component {
                                     </div>
 
                                     <div className="col s12 margin-top-30 margin-bottom-30">
-                                        <Divider/>
-
                                         <div className="tag-form-categoryTitle">
                                             {I18n.t('js.tag.model.description')}
                                         </div>
@@ -171,6 +169,7 @@ export default class TagFormDisplay extends React.Component {
                                                id="tag_visibility"
                                                className="tag-form-select"
                                                label=""
+                                               variant="standard"
                                                disabled={this.props.children.visibility === 'everyone'}
                                                options={I18n.t('js.tag.enums.visibility')}/>
                                     </div>
@@ -207,11 +206,11 @@ export default class TagFormDisplay extends React.Component {
                                     </div>
 
                                     <div className="col s12">
-                                        <Button color="default"
-                                                variant="text"
-                                                size="small"
-                                                component={Link}
-                                                to={showTagPath(this.props.children.slug)}>
+                                        <Button
+                                            variant="text"
+                                            size="small"
+                                            component={Link}
+                                            to={showTagPath(this.props.children.slug)}>
                                             {I18n.t('js.tag.edit.back_button')}
                                         </Button>
                                     </div>

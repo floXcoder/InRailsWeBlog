@@ -6,8 +6,8 @@ import {
     hot
 } from 'react-hot-loader/root';
 
-import Typography from '@material-ui/core/Typography';
-import Modal from '@material-ui/core/Modal';
+import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
 
 import {
     fetchTopics,

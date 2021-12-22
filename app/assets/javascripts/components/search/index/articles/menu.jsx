@@ -1,14 +1,14 @@
 'use strict';
 
-import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
-import Hidden from '@material-ui/core/Hidden';
-import TextField from '@material-ui/core/TextField';
+import Grid from '@mui/material/Grid';
+import Button from '@mui/material/Button';
+import Hidden from '@mui/material/Hidden';
+import TextField from '@mui/material/TextField';
 
-import SettingsIcon from '@material-ui/icons/Settings';
-import DashboardIcon from '@material-ui/icons/Dashboard';
-import SortIcon from '@material-ui/icons/Sort';
-import FindInPageIcon from '@material-ui/icons/FindInPage';
+import SettingsIcon from '@mui/icons-material/Settings';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import SortIcon from '@mui/icons-material/Sort';
+import FindInPageIcon from '@mui/icons-material/FindInPage';
 
 import Dropdown from '../../../theme/dropdown';
 
@@ -67,8 +67,9 @@ export default class ArticleSearchMenuDisplay extends React.PureComponent {
                     </span>
                 </Grid>
 
-                <Hidden smDown={true}>
-                    <Grid item={true}>
+                <Hidden mdDown={true}>
+                    <Grid item={true}
+                          className="search-index-categoryMenu">
                         <Grid container={true}
                               spacing={2}
                               direction="row"

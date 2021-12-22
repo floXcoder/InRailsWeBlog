@@ -4,12 +4,12 @@ import {
     Link
 } from 'react-router-dom';
 
-import Grid from '@material-ui/core/Grid';
-import Divider from '@material-ui/core/Divider';
-import Chip from '@material-ui/core/Chip';
+import Grid from '@mui/material/Grid';
+import Divider from '@mui/material/Divider';
+import Chip from '@mui/material/Chip';
 
-import LabelIcon from '@material-ui/icons/Label';
-// import EditIcon from '@material-ui/icons/Edit';
+import LabelIcon from '@mui/icons-material/Label';
+// import EditIcon from '@mui/icons-material/Edit';
 
 import {
     userArticlePath

@@ -1,6 +1,6 @@
 'use strict';
 
-import Typography from '@material-ui/core/Typography';
+import Typography from '@mui/material/Typography';
 
 const TabContainer = ({isActive, children}) => (
     <Typography component="div"

@@ -43,7 +43,7 @@ export default @connect((state) => ({
 class ArticleSort extends React.Component {
     static propTypes = {
         // from router
-        routeParams: PropTypes.object.isRequired,
+        routeParams: PropTypes.object,
         routeNavigate: PropTypes.func,
         // from connect
         currentUserId: PropTypes.number,

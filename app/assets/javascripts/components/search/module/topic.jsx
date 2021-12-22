@@ -4,7 +4,7 @@ import {
     Link
 } from 'react-router-dom';
 
-import Chip from '@material-ui/core/Chip';
+import Chip from '@mui/material/Chip';
 
 import {
     topicArticlesPath

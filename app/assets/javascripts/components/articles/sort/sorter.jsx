@@ -4,7 +4,7 @@ import {
     Link
 } from 'react-router-dom';
 
-import Button from '@material-ui/core/Button';
+import Button from '@mui/material/Button';
 
 import {
     arrayMoveImmutable
@@ -71,11 +71,11 @@ export default class ArticleSorter extends React.Component {
             <div className="article-sort-sorting">
                 <div className="row">
                     <div className="col s12 m6 center-align">
-                        <Button color="default"
-                                variant="outlined"
-                                size="small"
-                                component={Link}
-                                to={userHomePath(this.props.currentUserSlug)}>
+                        <Button
+                            variant="outlined"
+                            size="small"
+                            component={Link}
+                            to={userHomePath(this.props.currentUserSlug)}>
                             {I18n.t('js.helpers.buttons.cancel')}
                         </Button>
                     </div>

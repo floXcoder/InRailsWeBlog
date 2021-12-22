@@ -4,10 +4,10 @@ import {
     hot
 } from 'react-hot-loader/root';
 
-import Drawer from '@material-ui/core/Drawer';
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import Drawer from '@mui/material/Drawer';
+import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 
 import {
     logoutAdmin
@@ -52,31 +52,29 @@ class AdminHeaderLayout extends React.Component {
     };
 
     render() {
-        return (
-            <>
-                <AppBarLayout isDrawerOpen={this.state.isDrawerOpen}
-                              onDrawerOpen={this._handleDrawerOpen}/>
+        return <>
+            <AppBarLayout isDrawerOpen={this.state.isDrawerOpen}
+                          onDrawerOpen={this._handleDrawerOpen}/>
 
-                <Drawer variant="permanent"
-                        classes={{
-                            paper: classNames('drawer-paper', {
-                                'drawer-paper-close': !this.state.isDrawerOpen
-                            })
-                        }}
-                        open={this.state.isDrawerOpen}
-                        onMouseOver={this._handleDrawerOver}
-                        onMouseOut={this._handleDrawerOut}>
-                    <div className="toolbar">
-                        <IconButton onClick={this._handleDrawerClose}>
-                            <ChevronLeftIcon/>
-                        </IconButton>
-                    </div>
+            <Drawer variant="permanent"
+                    classes={{
+                        paper: classNames('drawer-paper', {
+                            'drawer-paper-close': !this.state.isDrawerOpen
+                        })
+                    }}
+                    open={this.state.isDrawerOpen}
+                    onMouseOver={this._handleDrawerOver}
+                    onMouseOut={this._handleDrawerOut}>
+                <div className="toolbar">
+                    <IconButton onClick={this._handleDrawerClose} size="large">
+                        <ChevronLeftIcon/>
+                    </IconButton>
+                </div>
 
-                    <Divider/>
+                <Divider/>
 
-                    <MenuLayout onLogout={this._handleLogoutClick}/>
-                </Drawer>
-            </>
-        );
+                <MenuLayout onLogout={this._handleLogoutClick}/>
+            </Drawer>
+        </>;
     }
 }

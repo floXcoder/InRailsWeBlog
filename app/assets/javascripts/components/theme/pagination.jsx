@@ -4,8 +4,8 @@ import '../../../stylesheets/components/pagination.scss';
 
 import ReactPaginate from 'react-paginate';
 
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
 import history from '../modules/history';
 
@@ -91,7 +91,7 @@ class Pagination extends React.PureComponent {
             <div className={className}>
                 <ReactPaginate ref={(pagination) => this._pagination = pagination}
                                pageCount={totalPages}
-                               initialPage={this.state.selected}
+                               // initialPage={this.state.selected}
                                forcePage={currentPage ? (currentPage - 1) : this.state.selected}
                                disableInitialCallback={true}
                                pageRangeDisplayed={pageRangeDisplayed}

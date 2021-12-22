@@ -1,14 +1,14 @@
 'use strict';
 
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import Typography from '@material-ui/core/Typography';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import Typography from '@mui/material/Typography';
 
-import SearchIcon from '@material-ui/icons/Search';
-import HelpIcon from '@material-ui/icons/Help';
-import AccountBoxIcon from '@material-ui/icons/AccountBox';
-import ClassIcon from '@material-ui/icons/Class';
-import LabelIcon from '@material-ui/icons/Label';
-import AssignmentIcon from '@material-ui/icons/Assignment';
+import SearchIcon from '@mui/icons-material/Search';
+import HelpIcon from '@mui/icons-material/Help';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import ClassIcon from '@mui/icons-material/Class';
+import LabelIcon from '@mui/icons-material/Label';
+import AssignmentIcon from '@mui/icons-material/Assignment';
 
 import {
     fetchMetaSearch

@@ -6,12 +6,12 @@ import {
     hot
 } from 'react-hot-loader/root';
 
-import Modal from '@material-ui/core/Modal';
-import Typography from '@material-ui/core/Typography';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
+import Modal from '@mui/material/Modal';
+import Typography from '@mui/material/Typography';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 
 import ReactDiffViewer, {DiffMethod} from 'react-diff-viewer';
 

@@ -1,10 +1,10 @@
 'use strict';
 
-import IconButton from '@material-ui/core/IconButton';
-import Drawer from '@material-ui/core/Drawer';
+import IconButton from '@mui/material/IconButton';
+import Drawer from '@mui/material/Drawer';
 
-import FirstPageIcon from '@material-ui/icons/FirstPage';
-import LastPageIcon from '@material-ui/icons/LastPage';
+import FirstPageIcon from '@mui/icons-material/FirstPage';
+import LastPageIcon from '@mui/icons-material/LastPage';
 
 import {
     updateUserSettings
@@ -115,7 +115,7 @@ class TagSidebarLayout extends React.PureComponent {
                     onMouseOver={this._handleDrawerOver}
                     onMouseLeave={this._handleDrawerOut}>
                 <div>
-                    <IconButton onClick={this._handleExpandSwitch}>
+                    <IconButton onClick={this._handleExpandSwitch} size="large">
                         {
                             this.props.isTagSidebarOpen
                                 ?

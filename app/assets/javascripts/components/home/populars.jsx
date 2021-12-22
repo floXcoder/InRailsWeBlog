@@ -1,10 +1,10 @@
 'use strict';
 
-import Grid from '@material-ui/core/Grid';
-import Divider from '@material-ui/core/Divider';
-import Button from '@material-ui/core/Button';
+import Grid from '@mui/material/Grid';
+import Divider from '@mui/material/Divider';
+import Button from '@mui/material/Button';
 
-import ClassIcon from '@material-ui/icons/Class';
+import ClassIcon from '@mui/icons-material/Class';
 
 import {
     fetchArticles,
@@ -122,7 +122,7 @@ class HomePopulars extends React.Component {
                                   alignItems="flex-start">
                                 {
                                     this.props.recentArticles.limit(4).map((article) => (
-                                        <Grid key={article.id}
+                                        <Grid key={`recents-${article.id}`}
                                               item={true}
                                               xs={12}
                                               sm={6}>
@@ -149,7 +149,7 @@ class HomePopulars extends React.Component {
                                 this.props.homeArticles?.length > 0
                                     ?
                                     this.props.homeArticles.map((article) => (
-                                        <Grid key={article.id}
+                                        <Grid key={`home-${article.id}`}
                                               item={true}
                                               xs={12}
                                               sm={6}>
@@ -186,7 +186,7 @@ class HomePopulars extends React.Component {
                                 this.props.popularTags?.length > 0
                                     ?
                                     this.props.popularTags.map((tag) => (
-                                        <div key={tag.id}
+                                        <div key={`populars-tag-${tag.id}`}
                                              className="home-popularsTag">
                                             <TagChipDisplay tag={tag}
                                                             isLarge={true}/>
@@ -220,7 +220,7 @@ class HomePopulars extends React.Component {
                                 this.props.popularArticles?.length > 0
                                     ?
                                     this.props.popularArticles.filter((article) => !this.props.homeArticles.map((homeArticle) => homeArticle.id).includes(article.id)).map((article) => (
-                                        <div key={article.id}
+                                        <div key={`popular-${article.id}`}
                                              className="home-popularsItem">
                                             <ArticleMiniCardDisplay article={article}
                                                                     isPaper={true}/>

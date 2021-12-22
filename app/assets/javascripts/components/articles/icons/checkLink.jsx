@@ -1,6 +1,6 @@
 'use strict';
 
-import LinkOffIcon from '@material-ui/icons/LinkOff';
+import LinkOffIcon from '@mui/icons-material/LinkOff';
 
 const CheckLinkIcon = ({onCheckLinkClick, size, color}) => (
     <span className="flow-tooltip-bottom"

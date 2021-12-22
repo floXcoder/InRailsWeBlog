@@ -1,8 +1,8 @@
 'use strict';
 
-import SendIcon from '@material-ui/icons/Send';
-import ClearIcon from '@material-ui/icons/Clear';
-import DeleteIcon from '@material-ui/icons/DeleteOutline';
+import SendIcon from '@mui/icons-material/Send';
+import ClearIcon from '@mui/icons-material/Clear';
+import DeleteIcon from '@mui/icons-material/DeleteOutline';
 
 const ArticleInlineActions = function ({onSaveClick, onCancelClick, onDeleteClick, color, size}) {
     return (

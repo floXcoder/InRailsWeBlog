@@ -12,10 +12,10 @@ import {
 
 import Sticky from 'react-sticky-el';
 
-import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
-import Divider from '@material-ui/core/Divider';
+import Typography from '@mui/material/Typography';
+import Grid from '@mui/material/Grid';
+import Button from '@mui/material/Button';
+import Divider from '@mui/material/Divider';
 
 import {
     ArticleIndex,
@@ -419,11 +419,11 @@ class ArticleShow extends React.Component {
                                                     </>
                                                     :
                                                     <div className="article-show-editIcon">
-                                                        <Button color="default"
-                                                                variant="outlined"
-                                                                size="small"
-                                                                component={Link}
-                                                                to={topicArticlesPath(this.props.article.userSlug, this.props.article.topicSlug)}>
+                                                        <Button
+                                                            variant="outlined"
+                                                            size="small"
+                                                            component={Link}
+                                                            to={topicArticlesPath(this.props.article.userSlug, this.props.article.topicSlug)}>
                                                             {this.props.article.topicName}
                                                         </Button>
                                                     </div>

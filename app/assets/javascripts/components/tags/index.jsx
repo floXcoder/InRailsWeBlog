@@ -10,13 +10,13 @@ import {
     Link
 } from 'react-router-dom';
 
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import Grid from '@material-ui/core/Grid';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import Card from '@mui/material/Card';
+import CardHeader from '@mui/material/CardHeader';
+import CardContent from '@mui/material/CardContent';
+import CardActions from '@mui/material/CardActions';
+import Grid from '@mui/material/Grid';
 
 import {
     showTagPath,
@@ -42,6 +42,8 @@ import {
 
 import Loader from '../theme/loader';
 
+import withRouter from '../modules/router';
+
 
 export default @connect((state) => ({
     currentUser: state.userState.user,
@@ -54,10 +56,12 @@ export default @connect((state) => ({
     fetchTags,
     fetchTopic
 })
+@withRouter({params: true})
 @hot
 class TagIndex extends React.Component {
     static propTypes = {
-        routeParams: PropTypes.object.isRequired,
+        // from router
+        routeParams: PropTypes.object,
         // from connect
         currentUser: PropTypes.object,
         currentTopic: PropTypes.object,
@@ -132,7 +136,7 @@ class TagIndex extends React.Component {
                         <CardContent classes={{
                             root: 'tag-index-tagHeader'
                         }}>
-                            <Typography component="p">
+                            <Typography component="div">
                                 <div className="normalized-content"
                                      dangerouslySetInnerHTML={{__html: tag.description}}/>
                             </Typography>
@@ -147,12 +151,12 @@ class TagIndex extends React.Component {
                         </Typography>
 
                         <div>
-                            <Button color="default"
-                                    variant="outlined"
-                                    size="small"
-                                    component={Link}
-                                    to={showTagPath(tag.slug)}
-                                    onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.userId, tag.name, null)}>
+                            <Button
+                                variant="outlined"
+                                size="small"
+                                component={Link}
+                                to={showTagPath(tag.slug)}
+                                onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.userId, tag.name, null)}>
                                 {I18n.t('js.tag.index.show')}
                             </Button>
                         </div>
@@ -183,11 +187,11 @@ class TagIndex extends React.Component {
                     {
                         (Utils.isPresent(this.props.routeParams) && this.props.currentUser) &&
                         <div className="center-align margin-top-30">
-                            <Button color="default"
-                                    variant="text"
-                                    size="small"
-                                    component={Link}
-                                    to={sortTagPath(this.props.currentUser.slug)}>
+                            <Button
+                                variant="text"
+                                size="small"
+                                component={Link}
+                                to={sortTagPath(this.props.currentUser.slug)}>
                                 {I18n.t('js.tag.index.sort')}
                             </Button>
                         </div>
@@ -201,11 +205,11 @@ class TagIndex extends React.Component {
                              dangerouslySetInnerHTML={{__html: this.props.topic.description}}/>
 
                         <div className="margin-top-40 center-align">
-                            <Button color="default"
-                                    variant="outlined"
-                                    size="small"
-                                    component={Link}
-                                    to={userTopicPath(this.props.topic.user.slug, this.props.topic.slug)}>
+                            <Button
+                                variant="outlined"
+                                size="small"
+                                component={Link}
+                                to={userTopicPath(this.props.topic.user.slug, this.props.topic.slug)}>
                                 {I18n.t('js.tag.index.links.parent_topic', {topic: this.props.topic.name})}
                             </Button>
                         </div>

@@ -4,8 +4,8 @@ import {
     hot
 } from 'react-hot-loader/root';
 
-import Paper from '@material-ui/core/Paper';
-import Button from '@material-ui/core/Button';
+import Paper from '@mui/material/Paper';
+import Button from '@mui/material/Button';
 
 import {
     fetchSeoData,

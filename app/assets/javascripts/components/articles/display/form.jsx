@@ -9,15 +9,14 @@ import {
     Form
 } from 'react-final-form';
 
-import Collapse from '@material-ui/core/Collapse';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
+import Collapse from '@mui/material/Collapse';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
 
 import Sticky from 'react-sticky-el';
 
 import {
     headerHeight,
-    appBarZIndex,
     articleWidth
 } from '../../../theme';
 
@@ -37,9 +36,9 @@ import {
     getArticleChildTags
 } from '../../../selectors';
 
-import {
-    removeLocalData
-} from '../../../middlewares/localStorage';
+// import {
+//     removeLocalData
+// } from '../../../middlewares/localStorage';
 
 import {
     validateArticle
@@ -47,7 +46,7 @@ import {
 
 import {
     headerMargin,
-    articleTemporaryDataName
+    // articleTemporaryDataName
 } from '../../modules/constants';
 
 // import ArticleModeField from './fields/mode';
@@ -59,6 +58,7 @@ import ArticleAdvancedField from './fields/advanced';
 import ArticleErrorField from './fields/error';
 
 import EnsureValidity from '../../modules/ensureValidity';
+
 
 export default @connect((state, props) => ({
     availableParentTags: getCategorizedTags(state, props.inheritVisibility),
@@ -183,13 +183,12 @@ class ArticleFormDisplay extends React.Component {
                                 {/*        message={this._onUnsavedExit}/>*/}
 
                                 <Sticky boundaryElement=".article-form-form"
-                                        topOffset={headerMargin}
+                                        topOffset={-headerMargin}
                                         bottomOffset={320}>
                                     <div style={{
                                         top: headerHeight,
-                                        zIndex: appBarZIndex,
-                                        // maxWidth: articleWidth,
-                                        // width: '100%'
+                                        maxWidth: articleWidth,
+                                        width: '100%'
                                     }}
                                          className="article-form-stepper">
                                         <ArticleFormStepper tabIndex={this.state.tabIndex}
@@ -307,11 +306,11 @@ class ArticleFormDisplay extends React.Component {
 
                                         <div className="row">
                                             <div className="col s6 left-align">
-                                                <Button color="default"
-                                                        size="small"
-                                                        component={Link}
-                                                        to={this.props.isEditing ? userArticlePath(this.props.userSlug, this.props.children.slug) : userHomePath(this.props.userSlug)}
-                                                        onClick={this.props.onCancel}>
+                                                <Button
+                                                    size="small"
+                                                    component={Link}
+                                                    to={this.props.isEditing ? userArticlePath(this.props.userSlug, this.props.children.slug) : userHomePath(this.props.userSlug)}
+                                                    onClick={this.props.onCancel}>
                                                     {I18n.t('js.helpers.buttons.cancel')}
                                                 </Button>
                                             </div>

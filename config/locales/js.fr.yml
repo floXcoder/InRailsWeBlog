@@ -358,7 +358,7 @@ fr:
           all_tags: "Voir tous les labels publics"
       show:
         title: "Label : %{name}"
-        tagged_articles: "Voir tous les articles avec le tag %{name}"
+        tagged_articles: "Voir tous les articles avec le label %{name}"
         articles_count:
           zero: "Aucun article avec ce label"
           one: "1 article avec ce label"

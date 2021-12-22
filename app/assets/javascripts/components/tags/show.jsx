@@ -10,11 +10,11 @@ import {
     Link
 } from 'react-router-dom';
 
-import Chip from '@material-ui/core/Chip';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
+import Chip from '@mui/material/Chip';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
 
-import LabelIcon from '@material-ui/icons/Label';
+import LabelIcon from '@mui/icons-material/Label';
 
 import {
     taggedArticlesPath,
@@ -31,11 +31,13 @@ import {
     getCurrentUser
 } from '../../selectors';
 
-import UserAvatarIcon from '../users/icons/avatar';
+import withRouter from '../modules/router';
 
 import Loader from '../theme/loader';
 
 import NotFound from '../layouts/notFound';
+
+import UserAvatarIcon from '../users/icons/avatar';
 
 
 export default @connect((state) => ({
@@ -45,11 +47,13 @@ export default @connect((state) => ({
 }), {
     fetchTag
 })
+@withRouter({params: true})
 @hot
 class TagShow extends React.Component {
     static propTypes = {
-        routeParams: PropTypes.object.isRequired,
         initProps: PropTypes.object,
+        // from router
+        routeParams: PropTypes.object,
         // from connect
         currentUser: PropTypes.object,
         isFetching: PropTypes.bool,
@@ -275,11 +279,11 @@ class TagShow extends React.Component {
                 {
                     this.props.currentUser?.id === this.props.tag.user.id &&
                     <div className="center-align margin-top-60 margin-bottom-20">
-                        <Button color="default"
-                                variant="outlined"
-                                size="small"
-                                component={Link}
-                                to={editTagPath(this.props.tag.slug)}>
+                        <Button
+                            variant="outlined"
+                            size="small"
+                            component={Link}
+                            to={editTagPath(this.props.tag.slug)}>
                             {I18n.t('js.tag.show.edit_link')}
                         </Button>
                     </div>

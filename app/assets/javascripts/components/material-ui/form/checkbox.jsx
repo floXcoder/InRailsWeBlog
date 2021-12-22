@@ -1,27 +1,30 @@
 'use strict';
 
-import FormControl from '@material-ui/core/FormControl';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import Checkbox from '@material-ui/core/Checkbox';
+import FormControl from '@mui/material/FormControl';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormHelperText from '@mui/material/FormHelperText';
+import Checkbox from '@mui/material/Checkbox';
 
-const CheckBoxFormField = ({input, label, meta: {touched, error}, componentContent, ...custom}) => (
-    <FormControl error={touched && !!error}
-                 {...custom}>
-        <FormGroup>
-            <FormControlLabel control={<Checkbox checked={!!input.value}
-                                                 required={custom.required}
-                                                 {...input}/>}
-                              label={label}
-                              labelPlacement="end"/>
-        </FormGroup>
-        {
-            !!error &&
-            <FormHelperText>{error}</FormHelperText>
-        }
-    </FormControl>
-);
+
+const CheckBoxFormField = function ({input, label, meta: {touched, error}, componentContent, ...custom}) {
+    return (
+        <FormControl error={touched && !!error}
+                     {...custom}>
+            <FormGroup>
+                <FormControlLabel control={<Checkbox checked={!!input.value}
+                                                     required={custom.required}
+                                                     {...input}/>}
+                                  label={label}
+                                  labelPlacement="end"/>
+            </FormGroup>
+            {
+                !!error &&
+                <FormHelperText>{error}</FormHelperText>
+            }
+        </FormControl>
+    );
+};
 
 CheckBoxFormField.propTypes = {
     input: PropTypes.object.isRequired,

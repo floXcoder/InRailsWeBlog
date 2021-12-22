@@ -1,6 +1,6 @@
 'use strict';
 
-import List from '@material-ui/core/List';
+import List from '@mui/material/List';
 
 import ParentTag from './parent';
 

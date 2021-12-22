@@ -10,12 +10,12 @@ import {
     Link
 } from 'react-router-dom';
 
-import Typography from '@material-ui/core/Typography';
-import Chip from '@material-ui/core/Chip';
-import Button from '@material-ui/core/Button';
+import Typography from '@mui/material/Typography';
+import Chip from '@mui/material/Chip';
+import Button from '@mui/material/Button';
 
-import LabelIcon from '@material-ui/icons/Label';
-import ShareIcon from '@material-ui/icons/Share';
+import LabelIcon from '@mui/icons-material/Label';
+import ShareIcon from '@mui/icons-material/Share';
 
 import {
     taggedTopicArticlesPath,
@@ -30,11 +30,13 @@ import {
     spyTrackClick
 } from '../../actions';
 
-import UserAvatarIcon from '../users/icons/avatar';
+import withRouter from '../modules/router';
 
 import Loader from '../theme/loader';
 
 import NotFound from '../layouts/notFound';
+
+import UserAvatarIcon from '../users/icons/avatar';
 
 
 export default @connect((state) => ({
@@ -46,11 +48,13 @@ export default @connect((state) => ({
     fetchTopic,
     deleteTopic
 })
+@withRouter({params: true})
 @hot
 class TopicShow extends React.Component {
     static propTypes = {
-        routeParams: PropTypes.object.isRequired,
         initProps: PropTypes.object,
+        // from router
+        routeParams: PropTypes.object,
         // from connect
         currentUserId: PropTypes.number,
         isFetching: PropTypes.bool,
@@ -182,17 +186,17 @@ class TopicShow extends React.Component {
                                     ))
                                 }
 
-                                <Button className="topic-show-shareButton"
-                                        color="default"
-                                        variant="outlined"
-                                        size="small"
-                                        component={Link}
-                                        to={{
-                                            hash: '#' + shareTopicParam,
-                                            state: {
-                                                topicId: this.props.topic.id
-                                            }
-                                        }}>
+                                <Button
+                                    className="topic-show-shareButton"
+                                    variant="outlined"
+                                    size="small"
+                                    component={Link}
+                                    to={{
+                                        hash: '#' + shareTopicParam,
+                                        state: {
+                                            topicId: this.props.topic.id
+                                        }
+                                    }}>
                                     {I18n.t('js.topic.show.share')}
                                     <ShareIcon className="topic-show-shareButtonIcon"/>
                                 </Button>
@@ -255,21 +259,21 @@ class TopicShow extends React.Component {
                     this.props.isOwner &&
                     <>
                         <div className="center-align margin-top-60 margin-bottom-20">
-                            <Button color="default"
-                                    variant="outlined"
-                                    size="small"
-                                    component={Link}
-                                    to={editTopicPath(this.props.topic.user.slug, this.props.topic.slug)}>
+                            <Button
+                                variant="outlined"
+                                size="small"
+                                component={Link}
+                                to={editTopicPath(this.props.topic.user.slug, this.props.topic.slug)}>
                                 {I18n.t('js.topic.show.edit_link')}
                             </Button>
                         </div>
 
                         <div className="center-align margin-top-40">
-                            <Button className="topic-show-shareButton"
-                                    color="default"
-                                    variant="text"
-                                    size="small"
-                                    onClick={this._handleTopicDelete}>
+                            <Button
+                                className="topic-show-shareButton"
+                                variant="text"
+                                size="small"
+                                onClick={this._handleTopicDelete}>
                                 {I18n.t('js.topic.edit.delete')}
                             </Button>
                         </div>

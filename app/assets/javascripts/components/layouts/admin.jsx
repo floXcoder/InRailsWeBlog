@@ -1,9 +1,10 @@
 'use strict';
 
 import {
-    MuiThemeProvider
-} from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
+    StyledEngineProvider,
+    ThemeProvider
+} from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
 
 import {
     Provider,
@@ -23,19 +24,10 @@ import AdminFooterLayout from './admin/footer';
 import theme from '../../theme';
 
 
-export default class AdminLayout extends React.Component {
-    static propTypes = {
-        componentId: PropTypes.string,
-        children: PropTypes.object
-    };
-
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        return (
-            <MuiThemeProvider theme={theme}>
+const AdminLayout = function ({componentId, children}) {
+    return (
+        <StyledEngineProvider injectFirst={true}>
+            <ThemeProvider theme={theme}>
                 <CssBaseline/>
 
                 <Provider store={configureStore}
@@ -47,8 +39,8 @@ export default class AdminLayout extends React.Component {
                         </ErrorBoundary>
 
                         <ErrorBoundary errorType="card">
-                            <AdminMainLayout componentId={this.props.componentId}>
-                                {this.props.children}
+                            <AdminMainLayout componentId={componentId}>
+                                {children}
                             </AdminMainLayout>
                         </ErrorBoundary>
 
@@ -58,7 +50,14 @@ export default class AdminLayout extends React.Component {
                         </ErrorBoundary>
                     </div>
                 </Provider>
-            </MuiThemeProvider>
-        );
-    }
-}
+            </ThemeProvider>
+        </StyledEngineProvider>
+    );
+};
+
+AdminLayout.propTypes = {
+    componentId: PropTypes.string,
+    children: PropTypes.object
+};
+
+export default AdminLayout;

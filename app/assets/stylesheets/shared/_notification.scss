@@ -1,25 +1,27 @@
 @import 'base/variables';
 
 .notification {
+  font-size: 1rem;
+
   &.root {
     @media #{$medium-only} {
       min-width: 460px;
     }
   }
 
-  .success {
+  &.success {
     background-color: $success-color;
   }
 
-  .error {
+  &.error {
     background-color: $error-color;
   }
 
-  .info {
+  &.info {
     background-color: $secondary-color;
   }
 
-  .warning {
+  &.warning {
     background-color: $warning-color;
   }
 
@@ -29,7 +31,7 @@
 
   .icon-variant {
     opacity: 0.9;
-    margin-right: 4px;
+    margin-right: 10px;
   }
 
   .close {

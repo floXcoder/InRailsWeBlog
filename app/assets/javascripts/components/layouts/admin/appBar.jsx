@@ -1,57 +1,53 @@
 'use strict';
 
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
 
-import MenuIcon from '@material-ui/icons/Menu';
+import MenuIcon from '@mui/icons-material/Menu';
 
 import AutocompleteSearch from './autocompleteSearch';
 
 
-export default class AppBarLayout extends React.PureComponent {
-    static propTypes = {
-        isDrawerOpen: PropTypes.bool.isRequired,
-        onDrawerOpen: PropTypes.func.isRequired
-    };
+const AppBarLayout = function ({isDrawerOpen, onDrawerOpen}) {
+    return (
+        <AppBar position="absolute"
+                className={classNames('appbar', {
+                    'appbar-shift': isDrawerOpen
+                })}>
+            <Toolbar>
+                <IconButton
+                    color="inherit"
+                    aria-label="Open drawer"
+                    onClick={onDrawerOpen}
+                    className={classNames('menu-button', {
+                        hide: isDrawerOpen
+                    })}
+                    size="large">
+                    <MenuIcon/>
+                </IconButton>
 
-    constructor(props) {
-        super(props);
-    }
+                <Typography className="admin-title"
+                            variant="h6"
+                            color="inherit"
+                            noWrap={true}>
+                    {I18n.t('js.admin.common.title')}
+                </Typography>
 
-    render() {
-        return (
-            <AppBar position="absolute"
-                    className={classNames('appbar', {
-                        'appbar-shift': this.props.isDrawerOpen
-                    })}>
-                <Toolbar>
-                    <IconButton
-                        color="inherit"
-                        aria-label="Open drawer"
-                        onClick={this.props.onDrawerOpen}
-                        className={classNames('menu-button', {
-                            hide: this.props.isDrawerOpen
-                        })}
-                        size="large">
-                        <MenuIcon/>
-                    </IconButton>
+                <div className="grow"/>
 
-                    <Typography className="admin-title"
-                                variant="h6"
-                                color="inherit"
-                                noWrap={true}>
-                        {I18n.t('js.admin.common.title')}
-                    </Typography>
+                <AutocompleteSearch/>
 
-                    <div className="grow"/>
+                <div className="grow"/>
+            </Toolbar>
+        </AppBar>
+    );
+};
 
-                    <AutocompleteSearch/>
+AppBarLayout.propTypes = {
+    isDrawerOpen: PropTypes.bool.isRequired,
+    onDrawerOpen: PropTypes.func.isRequired
+};
 
-                    <div className="grow"/>
-                </Toolbar>
-            </AppBar>
-        );
-    }
-}
+export default React.memo(AppBarLayout);

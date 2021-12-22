@@ -8,10 +8,10 @@ import {
     Field
 } from 'react-final-form';
 
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
 
-import CompareIcon from '@material-ui/icons/Compare';
+import CompareIcon from '@mui/icons-material/Compare';
 
 import {
     compareArticleParam
@@ -95,6 +95,7 @@ export default class ArticleCommonField extends React.Component {
                            component={TextFormField}
                            id="article_reference"
                            icon="link"
+                           variant="standard"
                            label={I18n.t(`js.article.common.placeholders.reference.${this.props.currentMode}`)}
                            characterCount={window.settings.article_title_max_length}
                            onBlur={this._handleTitleBlur}/>
@@ -112,6 +113,7 @@ export default class ArticleCommonField extends React.Component {
                            label={I18n.t(`js.article.common.placeholders.title.${this.props.currentMode}`)}
                            autoFocus={true}
                            required={true}
+                           variant="standard"
                            color="primary"
                            onBlur={this._handleTitleBlur}
                            onKeyPress={this._handleTitleKeyPress}/>

@@ -1,8 +1,8 @@
 'use strict';
 
-import Box from '@material-ui/core/Box';
-import Grid from '@material-ui/core/Grid';
-import Skeleton from '@material-ui/lab/Skeleton';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import Skeleton from '@mui/material/Skeleton';
 
 const ArticleSkeleton = ({isConnected}) => (
     <Box width="100%"
@@ -35,7 +35,7 @@ const ArticleSkeleton = ({isConnected}) => (
                             <Grid item={true}>
                                 <Box my={1}
                                      marginRight={2}>
-                                    <Skeleton variant="circle"
+                                    <Skeleton variant="circular"
                                               width={40}
                                               height={40}
                                               animation="wave"/>
@@ -66,7 +66,7 @@ const ArticleSkeleton = ({isConnected}) => (
                      marginTop={4}
                      marginBottom={1}>
                     <Skeleton className="center-block"
-                              variant="rect"
+                              variant="rectangular"
                               width="60%"
                               height={60}
                               animation="wave"/>
@@ -77,7 +77,7 @@ const ArticleSkeleton = ({isConnected}) => (
                   xs={12}>
                 <Box width="100%"
                      my={3}>
-                    <Skeleton variant="rect"
+                    <Skeleton variant="rectangular"
                               width="100%"
                               height={400}
                               animation="wave"/>

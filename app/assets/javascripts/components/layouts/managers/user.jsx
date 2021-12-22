@@ -44,7 +44,7 @@ class UserManager extends React.Component {
         initialCurrentUser: PropTypes.object,
         // from router
         routeLocation: PropTypes.object,
-        routeParams: PropTypes.object.isRequired,
+        routeParams: PropTypes.object,
         routeNavigate: PropTypes.func,
         // from connect
         currentUserId: PropTypes.number,

@@ -4,15 +4,15 @@ import {
     Link
 } from 'react-router-dom';
 
-import Grid from '@material-ui/core/Grid';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
-import CardContent from '@material-ui/core/CardContent';
-import Chip from '@material-ui/core/Chip';
-import Paper from '@material-ui/core/Paper';
+import Grid from '@mui/material/Grid';
+import Card from '@mui/material/Card';
+import CardHeader from '@mui/material/CardHeader';
+import CardMedia from '@mui/material/CardMedia';
+import CardContent from '@mui/material/CardContent';
+import Chip from '@mui/material/Chip';
+import Paper from '@mui/material/Paper';
 
-import LabelIcon from '@material-ui/icons/Label';
+import LabelIcon from '@mui/icons-material/Label';
 
 import {
     userArticlePath,
@@ -126,13 +126,13 @@ class ArticleMiniCardDisplay extends React.Component {
                     </div>
 
                     {
-                        this.props.article.defaultPicture
+                        this.props.article.defaultPicture?.jpg
                             ?
                             <div itemType="https://schema.org/ImageObject"
                                  itemScope={true}
                                  itemProp="image">
                                 <meta itemProp="url"
-                                      content={this.props.article.defaultPicture}/>
+                                      content={this.props.article.defaultPicture.jpg}/>
                                 <meta itemProp="width"
                                       content="320"/>
                                 <meta itemProp="height"
@@ -160,7 +160,7 @@ class ArticleMiniCardDisplay extends React.Component {
                           justifyContent="flex-start"
                           alignItems="center">
                         <Grid item={true}
-                              xs={this.props.article.defaultPicture ? 8 : 12}
+                              xs={this.props.article.defaultPicture?.jpg ? 8 : 12}
                               className={classNames('article-mini-card-headerItem', {
                                   'article-mini-card-articleContentFaded': this.props.isFaded && contentLength > 120
                               })}

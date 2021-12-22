@@ -4,10 +4,10 @@ import {
     Link
 } from 'react-router-dom';
 
-import List from '@material-ui/core/List';
-import Zoom from '@material-ui/core/Zoom';
+import List from '@mui/material/List';
+import Zoom from '@mui/material/Zoom';
 
-import OpenInNewIcon from '@material-ui/icons/OpenInNew';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 
 import {
     topicTagsPath

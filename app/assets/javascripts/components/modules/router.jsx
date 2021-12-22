@@ -7,6 +7,7 @@ import {
     useSearchParams
 } from 'react-router-dom';
 
+
 export default function withRouter(options = {}) {
     const {location, params, searchParams, navigate} = options;
 

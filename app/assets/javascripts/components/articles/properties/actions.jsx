@@ -1,6 +1,6 @@
 'use strict';
 
-import Hidden from '@material-ui/core/Hidden';
+import Hidden from '@mui/material/Hidden';
 
 import ArticleDeleteIcon from '../icons/delete';
 import ArticleTrackingIcon from '../icons/tracking';
@@ -46,7 +46,7 @@ const ArticleActions = function ({
 
             {
                 (!isInline && articleVisibility !== 'only_me') &&
-                <Hidden mdDown={true}>
+                <Hidden lgDown={true}>
                     <li className="article-card-actionItem">
                         <ArticleTrackingIcon articleId={articleId}
                                              size={size}
@@ -57,7 +57,7 @@ const ArticleActions = function ({
 
             {
                 !isInline && hasLinks &&
-                <Hidden mdDown={true}>
+                <Hidden lgDown={true}>
                     <li className="article-card-actionItem">
                         <CheckLinkIcon onCheckLinkClick={onCheckLinkClick}
                                        size={size}
@@ -68,7 +68,7 @@ const ArticleActions = function ({
 
             {
                 (!isInline && articleVisibility !== 'everyone') &&
-                <Hidden mdDown={true}>
+                <Hidden lgDown={true}>
                     <li className="article-card-actionItem">
                         <ArticleShareIcon articleId={articleId}
                                           size={size}
@@ -97,7 +97,7 @@ const ArticleActions = function ({
 
             {
                 (!isInline && userSlug) &&
-                <Hidden mdDown={true}>
+                <Hidden lgDown={true}>
                     <li className="article-card-actionItem">
                         <ArticleHistoryIcon userSlug={userSlug}
                                             articleSlug={articleSlug}

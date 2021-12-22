@@ -10,9 +10,9 @@ import {
     CSSTransition
 } from 'react-transition-group';
 
-import Button from '@material-ui/core/Button';
+import Button from '@mui/material/Button';
 
-import CommentIcon from '@material-ui/icons/Comment';
+import CommentIcon from '@mui/icons-material/Comment';
 
 import {
     fetchComments,

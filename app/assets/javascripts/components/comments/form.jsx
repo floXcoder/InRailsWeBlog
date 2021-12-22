@@ -1,8 +1,8 @@
 'use strict';
 
-import TextField from '@material-ui/core/TextField';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import Button from '@material-ui/core/Button';
+import TextField from '@mui/material/TextField';
+import FormHelperText from '@mui/material/FormHelperText';
+import Button from '@mui/material/Button';
 
 import Rating from '../theme/rating';
 
@@ -158,10 +158,7 @@ export default class CommentForm extends React.PureComponent {
 
                             <div className="row margin-top-25">
                                 <div className="col s6">
-                                    <Button color="default"
-                                            variant="outlined"
-                                            size="small"
-                                            onClick={this.props.onCancel}>
+                                    <Button variant="outlined" size="small" onClick={this.props.onCancel}>
                                         {I18n.t('js.comment.form.cancel')}
                                     </Button>
                                 </div>

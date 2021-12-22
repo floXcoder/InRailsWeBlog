@@ -1,8 +1,8 @@
 'use strict';
 
-import Button from '@material-ui/core/Button';
+import Button from '@mui/material/Button';
 
-import DragIndicatorIcon from '@material-ui/icons/DragIndicator';
+import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 
 import {
     arrayMoveImmutable

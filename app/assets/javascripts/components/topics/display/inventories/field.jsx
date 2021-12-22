@@ -1,19 +1,19 @@
 'use strict';
 
-import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
-import Checkbox from '@material-ui/core/Checkbox';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormControl from '@material-ui/core/FormControl';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import NativeSelect from '@material-ui/core/NativeSelect';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import Collapse from '@material-ui/core/Collapse';
+import Grid from '@mui/material/Grid';
+import TextField from '@mui/material/TextField';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl';
+import Input from '@mui/material/Input';
+import InputLabel from '@mui/material/InputLabel';
+import NativeSelect from '@mui/material/NativeSelect';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
+import Collapse from '@mui/material/Collapse';
 
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 
 export default class TopicFormInventoryFieldDisplay extends React.Component {
@@ -122,10 +122,12 @@ export default class TopicFormInventoryFieldDisplay extends React.Component {
                             {I18n.t('js.topic.edit_inventories.field_props')}
 
 
-                            <IconButton className={classNames('topic-form-inv-fieldPropsExpand', {
-                                'topic-form-inv-fieldPropsExpandOpen': this.state.isSourceExpanded
-                            })}
-                                        aria-label="Show more">
+                            <IconButton
+                                className={classNames('topic-form-inv-fieldPropsExpand', {
+                                    'topic-form-inv-fieldPropsExpandOpen': this.state.isSourceExpanded
+                                })}
+                                aria-label="Show more"
+                                size="large">
                                 <ExpandMoreIcon/>
                             </IconButton>
                         </Typography>
@@ -193,10 +195,10 @@ export default class TopicFormInventoryFieldDisplay extends React.Component {
                         <Grid className="center-align"
                               item={true}
                               sm={12}>
-                            <Button color="default"
-                                    variant="text"
-                                    size="small"
-                                    onClick={this.props.onRemoveField.bind(this, this.props.index)}>
+                            <Button
+                                variant="text"
+                                size="small"
+                                onClick={this.props.onRemoveField.bind(this, this.props.index)}>
                                 {I18n.t('js.topic.edit_inventories.remove_field')}
                             </Button>
                         </Grid>

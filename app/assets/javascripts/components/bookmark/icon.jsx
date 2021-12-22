@@ -1,7 +1,7 @@
 'use strict';
 
-import FavoriteIcon from '@material-ui/icons/FavoriteOutlined';
-import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorderOutlined';
+import FavoriteIcon from '@mui/icons-material/FavoriteOutlined';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorderOutlined';
 
 import {
     bookmark

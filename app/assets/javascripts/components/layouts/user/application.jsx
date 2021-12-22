@@ -1,9 +1,10 @@
 'use strict';
 
 import {
-    MuiThemeProvider
-} from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
+    ThemeProvider,
+    StyledEngineProvider
+} from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
 
 import {
     Provider,
@@ -61,27 +62,29 @@ export default class ApplicationLayoutUser extends React.Component {
 
     render() {
         return (
-            <MuiThemeProvider theme={theme}>
-                <CssBaseline/>
+            <StyledEngineProvider injectFirst={true}>
+                <ThemeProvider theme={theme}>
+                    <CssBaseline/>
 
-                <Provider store={configureStore}
-                          context={ReactReduxContext}>
-                    <HelmetProvider>
-                        <BrowserRouter>
-                            <PasteManager>
-                                <ScrollBackManager>
-                                    <HotkeyManager>
-                                        <LayoutUser
-                                            routes={[...routes.static.common, ...routes.static.user, ...routes.static.notFound]}
-                                            hashRoutes={routes.hashes}
-                                            {...this._componentProps()}/>
-                                    </HotkeyManager>
-                                </ScrollBackManager>
-                            </PasteManager>
-                        </BrowserRouter>
-                    </HelmetProvider>
-                </Provider>
-            </MuiThemeProvider>
+                    <Provider store={configureStore}
+                              context={ReactReduxContext}>
+                        <HelmetProvider>
+                            <BrowserRouter>
+                                <PasteManager>
+                                    <ScrollBackManager>
+                                        <HotkeyManager>
+                                            <LayoutUser
+                                                routes={[...routes.static.common, ...routes.static.user, ...routes.static.notFound]}
+                                                hashRoutes={routes.hashes}
+                                                {...this._componentProps()}/>
+                                        </HotkeyManager>
+                                    </ScrollBackManager>
+                                </PasteManager>
+                            </BrowserRouter>
+                        </HelmetProvider>
+                    </Provider>
+                </ThemeProvider>
+            </StyledEngineProvider>
         );
     }
 }

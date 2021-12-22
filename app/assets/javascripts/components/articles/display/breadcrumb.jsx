@@ -4,9 +4,9 @@ import {
     Link
 } from 'react-router-dom';
 
-import Chip from '@material-ui/core/Chip';
+import Chip from '@mui/material/Chip';
 
-import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
+import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 
 import {
     userArticlesPath,

@@ -1,7 +1,7 @@
 'use strict';
 
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
+import Button from '@mui/material/Button';
+import Grid from '@mui/material/Grid';
 
 var HomeBanner = function ({onLoginClick, onSignupClick}) {
     return (

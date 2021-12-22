@@ -1,21 +1,21 @@
 'use strict';
 
-import Grid from '@material-ui/core/Grid';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
+import Grid from '@mui/material/Grid';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
 
-import ClassIcon from '@material-ui/icons/Class';
-import LabelIcon from '@material-ui/icons/Label';
-import AssignmentIcon from '@material-ui/icons/Assignment';
-import TimelineIcon from '@material-ui/icons/Timeline';
-import TocIcon from '@material-ui/icons/Toc';
-import SpeakerNotesIcon from '@material-ui/icons/SpeakerNotes';
-import SearchIcon from '@material-ui/icons/Search';
-import ShareIcon from '@material-ui/icons/Share';
-import AnalyticsIcon from '@material-ui/icons/Assessment';
-import LinkOffIcon from '@material-ui/icons/LinkOff';
-import MobileFriendlyIcon from '@material-ui/icons/MobileFriendly';
-import VisibilityIcon from '@material-ui/icons/Visibility';
+import ClassIcon from '@mui/icons-material/Class';
+import LabelIcon from '@mui/icons-material/Label';
+import AssignmentIcon from '@mui/icons-material/Assignment';
+import TimelineIcon from '@mui/icons-material/Timeline';
+import TocIcon from '@mui/icons-material/Toc';
+import SpeakerNotesIcon from '@mui/icons-material/SpeakerNotes';
+import SearchIcon from '@mui/icons-material/Search';
+import ShareIcon from '@mui/icons-material/Share';
+import AnalyticsIcon from '@mui/icons-material/Assessment';
+import LinkOffIcon from '@mui/icons-material/LinkOff';
+import MobileFriendlyIcon from '@mui/icons-material/MobileFriendly';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 const _renderListItem = function (title, details, Icon, reverse = false) {
     return (

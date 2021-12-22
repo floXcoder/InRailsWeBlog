@@ -6,31 +6,27 @@ import {
     hot
 } from 'react-hot-loader/root';
 
-import Modal from '@material-ui/core/Modal';
-import Typography from '@material-ui/core/Typography';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Button from '@material-ui/core/Button';
-import Divider from '@material-ui/core/Divider';
+import Modal from '@mui/material/Modal';
+import Typography from '@mui/material/Typography';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Button from '@mui/material/Button';
+import Divider from '@mui/material/Divider';
 
-import VisibilityIcon from '@material-ui/icons/Visibility';
-import TouchAppIcon from '@material-ui/icons/TouchApp';
-import SearchIcon from '@material-ui/icons/Search';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import CommentIcon from '@material-ui/icons/Comment';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import TouchAppIcon from '@mui/icons-material/TouchApp';
+import SearchIcon from '@mui/icons-material/Search';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import CommentIcon from '@mui/icons-material/Comment';
 
 import {
     fetchArticleTracking
 } from '../../actions';
-
-import {
-    withNavigation
-} from '../modules/router';
 
 import Loader from '../theme/loader';
 
@@ -54,7 +50,6 @@ class TrackingArticleModal extends React.Component {
         trackingView: PropTypes.number,
         articleId: PropTypes.number,
         onClose: PropTypes.func,
-
         // from connect
         article: PropTypes.object,
         articleTracking: PropTypes.object,
@@ -104,10 +99,6 @@ class TrackingArticleModal extends React.Component {
         if (this.props.onClose) {
             this.props.onClose();
         }
-
-        this.props.routeNavigate({
-            hash: undefined
-        });
     };
 
     _renderListDetails = (listDetails, title) => {
@@ -390,11 +381,7 @@ class TrackingArticleModal extends React.Component {
                     </div>
 
                     <div className="center-align margin-top-45">
-                        <Button color="default"
-                                variant="outlined"
-                                size="small"
-                                href="#"
-                                onClick={this._handleClose}>
+                        <Button variant="outlined" size="small" href="#" onClick={this._handleClose}>
                             {I18n.t('js.article.tracking.cancel')}
                         </Button>
                     </div>

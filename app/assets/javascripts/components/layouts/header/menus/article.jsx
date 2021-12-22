@@ -4,93 +4,93 @@ import {
     Link
 } from 'react-router-dom';
 
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import Divider from '@material-ui/core/Divider';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import Divider from '@mui/material/Divider';
 
-import EditIcon from '@material-ui/icons/Edit';
-import AssignmentIcon from '@material-ui/icons/Assignment';
+import EditIcon from '@mui/icons-material/Edit';
+import AssignmentIcon from '@mui/icons-material/Assignment';
 
 import {
     newArticlePath
 } from '../../../../constants/routesHelper';
 
 
-export default class HeaderArticleMenu extends React.Component {
-    static propTypes = {
-        routeParams: PropTypes.object.isRequired,
-        userSlug: PropTypes.string.isRequired,
-        currentTagSlugs: PropTypes.array.isRequired,
-        hasTemporaryArticle: PropTypes.bool.isRequired,
-        currentTopicMode: PropTypes.string,
-        topicSlug: PropTypes.string,
-        isNested: PropTypes.bool,
-        onItemClick: PropTypes.func
-    };
+const HeaderArticleMenu = function (props) {
+    const parentTagSlug = props.routeParams.parentTagSlug || props.routeParams.tagSlug || props.currentTagSlugs[0];
+    const childTagSlug = props.routeParams.childTagSlug || props.currentTagSlugs[1];
 
-    static defaultProps = {
-        isNested: false
-    };
+    return (
+        <List className={classNames({
+            'layout-header-nestedMenu': props.isNested
+        })}
+              component="div"
+              disablePadding={props.isNested}>
+            <List component="div">
+                {
+                    props.hasTemporaryArticle &&
+                    <>
+                        <ListItem button={true}
+                                  component={Link}
+                                  className="layout-header-link"
+                                  to={{
+                                      pathname: newArticlePath(props.userSlug, props.topicSlug),
+                                      state: {
+                                          temporary: true
+                                      }
+                                  }}>
+                            <ListItemIcon>
+                                <EditIcon/>
+                            </ListItemIcon>
 
-    render() {
-        const parentTagSlug = this.props.routeParams.parentTagSlug || this.props.routeParams.tagSlug || this.props.currentTagSlugs[0];
-        const childTagSlug = this.props.routeParams.childTagSlug || this.props.currentTagSlugs[1];
+                            <ListItemText classes={{primary: 'layout-header-link'}}>
+                                {I18n.t('js.views.header.article.menu.temporary')}
+                            </ListItemText>
+                        </ListItem>
 
-        return (
-            <List className={classNames({
-                'layout-header-nestedMenu': this.props.isNested
-            })}
-                  component="div"
-                  disablePadding={this.props.isNested}>
-                <List component="div">
-                    {
-                        this.props.hasTemporaryArticle &&
-                        <>
-                            <ListItem button={true}
-                                      component={Link}
-                                      className="layout-header-link"
-                                      to={{
-                                          pathname: newArticlePath(this.props.userSlug, this.props.topicSlug),
-                                          state: {
-                                              temporary: true
-                                          }
-                                      }}>
-                                <ListItemIcon>
-                                    <EditIcon/>
-                                </ListItemIcon>
+                        <Divider/>
+                    </>
+                }
 
-                                <ListItemText classes={{primary: 'layout-header-link'}}>
-                                    {I18n.t('js.views.header.article.menu.temporary')}
-                                </ListItemText>
-                            </ListItem>
+                <ListItem button={true}
+                          component={Link}
+                          className="layout-header-link"
+                          to={{
+                              pathname: newArticlePath(props.userSlug, props.topicSlug),
+                              state: {
+                                  parentTagSlug: parentTagSlug,
+                                  childTagSlug: childTagSlug
+                              }
+                          }}
+                          onClick={props.onItemClick}>
+                    <ListItemIcon>
+                        <AssignmentIcon/>
+                    </ListItemIcon>
 
-                            <Divider/>
-                        </>
-                    }
-
-                    <ListItem button={true}
-                              component={Link}
-                              className="layout-header-link"
-                              to={{
-                                  pathname: newArticlePath(this.props.userSlug, this.props.topicSlug),
-                                  state: {
-                                      parentTagSlug: parentTagSlug,
-                                      childTagSlug: childTagSlug
-                                  }
-                              }}
-                              onClick={this.props.onItemClick}>
-                        <ListItemIcon>
-                            <AssignmentIcon/>
-                        </ListItemIcon>
-
-                        <ListItemText classes={{primary: 'layout-header-link'}}>
-                            {I18n.t(`js.views.header.article.menu.add.${this.props.currentTopicMode}`)}
-                        </ListItemText>
-                    </ListItem>
-                </List>
+                    <ListItemText classes={{primary: 'layout-header-link'}}>
+                        {I18n.t(`js.views.header.article.menu.add.${props.currentTopicMode}`)}
+                    </ListItemText>
+                </ListItem>
             </List>
-        );
-    }
-}
+        </List>
+    );
+};
+
+HeaderArticleMenu.propTypes = {
+    routeParams: PropTypes.object.isRequired,
+    userSlug: PropTypes.string.isRequired,
+    currentTagSlugs: PropTypes.array.isRequired,
+    hasTemporaryArticle: PropTypes.bool.isRequired,
+    currentTopicMode: PropTypes.string,
+    topicSlug: PropTypes.string,
+    isNested: PropTypes.bool,
+    onItemClick: PropTypes.func
+};
+
+HeaderArticleMenu.defaultProps = {
+    isNested: false
+};
+
+export default HeaderArticleMenu;

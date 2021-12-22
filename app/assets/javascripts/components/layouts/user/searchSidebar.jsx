@@ -1,25 +1,21 @@
 'use strict';
 
-import Drawer from '@material-ui/core/Drawer';
+import Drawer from '@mui/material/Drawer';
 
 import SearchSidebar from '../../search/sidebar';
 
 
-export default class SearchSidebarLayout extends React.PureComponent {
-    constructor(props) {
-        super(props);
-    }
+const SearchSidebarLayout = function () {
+    return (
+        <Drawer anchor="left"
+                variant="permanent"
+                classes={{
+                    paper: 'search-sidebar-drawerPaper search-sidebar-drawerPaperBorderless'
+                }}
+                open={true}>
+            <SearchSidebar/>
+        </Drawer>
+    );
+};
 
-    render() {
-        return (
-            <Drawer anchor="left"
-                    variant="permanent"
-                    classes={{
-                        paper: 'search-sidebar-drawerPaper search-sidebar-drawerPaperBorderless'
-                    }}
-                    open={true}>
-                <SearchSidebar/>
-            </Drawer>
-        );
-    }
-}
+export default React.memo(SearchSidebarLayout);

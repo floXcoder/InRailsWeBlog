@@ -4,7 +4,7 @@ import {
     Link
 } from 'react-router-dom';
 
-import Button from '@material-ui/core/Button';
+import Button from '@mui/material/Button';
 
 import {
     editTopicPath
@@ -55,11 +55,11 @@ export default class TopicFormInventoriesDisplay extends React.Component {
                 <div className="margin-top-50 margin-bottom-20">
                     <div className="row">
                         <div className="col s6 center-align">
-                            <Button color="default"
-                                    variant="text"
-                                    size="small"
-                                    component={Link}
-                                    to={editTopicPath(this.props.topic.user.slug, this.props.topic.slug)}>
+                            <Button
+                                variant="text"
+                                size="small"
+                                component={Link}
+                                to={editTopicPath(this.props.topic.user.slug, this.props.topic.slug)}>
                                 {I18n.t('js.topic.edit.back_button')}
                             </Button>
                         </div>

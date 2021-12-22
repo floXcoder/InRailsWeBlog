@@ -82,6 +82,10 @@
   margin-bottom: 1rem;
 }
 
+.search-index-categoryMenu {
+  padding-bottom: 12px;
+}
+
 .search-index-categoryItem {
   padding-bottom: 0 !important;
 }
@@ -122,6 +126,7 @@
   padding: 6px;
   font-size: .9rem;
   font-weight: 400;
+  color: $text-color;
 }
 
 .search-index-categoryFilterInput {
@@ -180,7 +185,7 @@
 }
 
 .search-index-articleHighlightedTag {
-  background-color: #fde15b;
+  background-color: $secondary-color-light;
 }
 
 .search-index-tagAutocomplete {

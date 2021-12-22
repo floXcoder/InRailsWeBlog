@@ -4,11 +4,11 @@ import {
     Link
 } from 'react-router-dom';
 
-import Chip from '@material-ui/core/Chip';
-import Divider from '@material-ui/core/Divider';
+import Chip from '@mui/material/Chip';
+import Divider from '@mui/material/Divider';
 
-import LabelIcon from '@material-ui/icons/Label';
-import ZoomInIcon from '@material-ui/icons/ZoomIn';
+import LabelIcon from '@mui/icons-material/Label';
+import ZoomInIcon from '@mui/icons-material/ZoomIn';
 
 import {
     taggedArticlesPath,
@@ -93,7 +93,7 @@ export default class SearchTagModule extends React.Component {
                   color="primary"
                   variant="outlined"
                   clickable={true}
-                  icon={this.props.hasTagIcon ? <LabelIcon/> : undefined}
+                  icon={this.props.hasTagIcon ? <LabelIcon/> : null}
                   label={
                       <Link className="search-module-tagLink"
                             to={this.props.currentUserSlug && this.props.currentUserTopicSlug ? taggedTopicArticlesPath(this.props.currentUserSlug, this.props.currentUserTopicSlug, tag.slug) : taggedArticlesPath(tag.slug)}
@@ -102,7 +102,7 @@ export default class SearchTagModule extends React.Component {
                       </Link>
                   }
                   onDelete={this.props.hasSearchIcon && this.props.onTagClick ? this.props.onTagClick.bind(this, tag) : undefined}
-                  deleteIcon={this.props.hasSearchIcon ? <ZoomInIcon className="search-module-tagAdd"/> : undefined}/>
+                  deleteIcon={this.props.hasSearchIcon ? <ZoomInIcon className="search-module-tagAdd"/> : null}/>
         );
     };
 

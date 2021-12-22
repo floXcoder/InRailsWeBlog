@@ -30,8 +30,8 @@ const getDataHeaders = () => {
     return {
         credentials: 'same-origin',
         headers: new Headers({
-            'X-CSRF-Token': token,
-            Accept: 'application/json'
+            Accept: 'application/json',
+            'X-CSRF-Token': token
         })
     };
 };

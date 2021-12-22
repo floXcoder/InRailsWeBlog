@@ -19,7 +19,7 @@
 // Article sidebar
 // ***
 .article-sidebar-root {
-  margin: .1rem .2rem 2.5rem;
+  margin: .1rem .4rem 2.5rem;
   padding-bottom: 1.5rem;
 }
 
@@ -224,9 +224,9 @@
   margin: 1rem auto 0;
   letter-spacing: $h1-spacing;
 
-  @media #{$large-and-down} {
-    font-size: 2.4rem;
-    line-height: 2.9rem;
+  @media #{$medium-and-down} {
+    font-size: $h1-size-mobile;
+    line-height: $h1-line-height-mobile;
   }
 }
 

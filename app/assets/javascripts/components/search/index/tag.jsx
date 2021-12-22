@@ -4,9 +4,9 @@ import {
     Link
 } from 'react-router-dom';
 
-import Chip from '@material-ui/core/Chip';
+import Chip from '@mui/material/Chip';
 
-import LabelIcon from '@material-ui/icons/Label';
+import LabelIcon from '@mui/icons-material/Label';
 
 import {
     taggedArticlesPath
@@ -15,6 +15,7 @@ import {
 import {
     spyTrackClick
 } from '../../../actions';
+
 
 export default class SearchTagIndex extends React.PureComponent {
     static propTypes = {

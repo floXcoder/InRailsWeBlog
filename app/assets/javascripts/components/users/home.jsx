@@ -10,18 +10,18 @@ import {
     Link
 } from 'react-router-dom';
 
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardContent from '@material-ui/core/CardContent';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
-import Fab from '@material-ui/core/Fab';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import Divider from '@material-ui/core/Divider';
+import Card from '@mui/material/Card';
+import CardHeader from '@mui/material/CardHeader';
+import CardContent from '@mui/material/CardContent';
+import Grid from '@mui/material/Grid';
+import Paper from '@mui/material/Paper';
+import Fab from '@mui/material/Fab';
+import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
+import Divider from '@mui/material/Divider';
 
-import CompareArrowsIcon from '@material-ui/icons/CompareArrows';
-import OpenInNewIcon from '@material-ui/icons/OpenInNew';
+import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 
 import {
     topicArticlesPath,
@@ -120,15 +120,17 @@ class UserHome extends React.Component {
                                     title={I18n.t('js.user.home.private.title')}
                                     subheader={I18n.t('js.user.home.private.subtitle')}
                                     action={
-                                        <IconButton className="user-home-sortIcon"
-                                                    component={Link}
-                                                    aria-label="Show more"
-                                                    to={{
-                                                        hash: '#' + sortTopicParam,
-                                                        state: {
-                                                            visibility: 'only_me'
-                                                        }
-                                                    }}>
+                                        <IconButton
+                                            className="user-home-sortIcon"
+                                            component={Link}
+                                            aria-label="Show more"
+                                            to={{
+                                                hash: '#' + sortTopicParam,
+                                                state: {
+                                                    visibility: 'only_me'
+                                                }
+                                            }}
+                                            size="large">
                                             <CompareArrowsIcon/>
                                         </IconButton>
                                     }/>
@@ -220,14 +222,16 @@ class UserHome extends React.Component {
                                     title={I18n.t('js.user.home.public.title')}
                                     subheader={I18n.t('js.user.home.public.subtitle')}
                                     action={
-                                        <IconButton className="user-home-sortIcon"
-                                                    component={Link}
-                                                    to={{
-                                                        hash: '#' + sortTopicParam,
-                                                        state: {
-                                                            visibility: 'everyone'
-                                                        }
-                                                    }}>
+                                        <IconButton
+                                            className="user-home-sortIcon"
+                                            component={Link}
+                                            to={{
+                                                hash: '#' + sortTopicParam,
+                                                state: {
+                                                    visibility: 'everyone'
+                                                }
+                                            }}
+                                            size="large">
                                             <CompareArrowsIcon/>
                                         </IconButton>
                                     }/>
