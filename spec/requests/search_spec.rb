@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'Search API', type: :request, basic: true do
+describe 'Search API', type: :request do
 
   before(:all) do
     @user  = create(:user) # Create a default topic

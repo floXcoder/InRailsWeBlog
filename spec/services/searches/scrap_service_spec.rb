@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe Searches::ScrapSearchService, type: :service, basic: true do
+describe Searches::ScrapSearchService, type: :service do
   subject { described_class.new }
 
   before(:all) do

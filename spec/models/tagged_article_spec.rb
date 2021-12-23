@@ -18,7 +18,7 @@
 
 require 'rails_helper'
 
-RSpec.describe TaggedArticle, type: :model, basic: true do
+RSpec.describe TaggedArticle, type: :model do
 
   before(:all) do
     @user  = create(:user)

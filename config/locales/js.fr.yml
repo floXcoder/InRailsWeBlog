@@ -566,8 +566,8 @@ fr:
         parent_tags: "Labels principaux"
         child_tags: "Labels secondaires"
         topic: "Thème"
-        tagged_articles: "Labels de l'article"
         inventories: "Champs personnalisé"
+        tagged_articles: "Labels de l'article"
         comment:
           true: "Activé"
           false: "Désactivé"

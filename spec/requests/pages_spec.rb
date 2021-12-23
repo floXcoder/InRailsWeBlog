@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe 'Static pages API', type: :request, basic: true do
+describe 'Static pages API', type: :request do
 
   # before(:all) do
   # end

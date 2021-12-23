@@ -23,6 +23,7 @@
   z-index: $zindex-appbar;
 
   .article-form-stepper {
+    margin-top: $header-height;
     position: relative;
   }
 }
@@ -49,14 +50,14 @@
 }
 
 .article-form-tagLabel {
+  display: block;
   color: $text-color;
+  font-size: 1.24rem;
   width: 100%;
   margin: 1rem 0 .3rem;
-  display: block;
   padding: 6px 0 7px;
-  font-size: 1.33rem;
   background: none;
-  line-height: 1.1875em;
+  line-height: 1.32rem;
 }
 
 .article-form-select {
@@ -93,7 +94,7 @@
 .article-form-stepper-stepper {
   width: 100%;
   margin: 0;
-  box-shadow: 0 3px 3px -2px rgba(0, 0, 0, 0.2), 0 3px 4px 0 rgba(0, 0, 0, 0.14), 0 1px 8px 0 rgba(0, 0, 0, 0.12);
+  box-shadow: 0 1px 2px rgba(97, 97, 97, .2), 0 2px 4px rgba(97, 97, 97, .2);
   border-radius: 10px;
   background-color: #fff;
 }
@@ -102,28 +103,46 @@
   box-shadow: none;
   border-radius: 10px;
   margin-bottom: 0;
-  background-color: #f5f5f5;
+  background-color: $background-color;
 
   @media #{$large-and-down} {
     margin-bottom: 0;
   }
 }
 
-.article-form-stepper-tabsIndicator {
-  height: 100%;
-  opacity: 0.35;
-  box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2), 0 5px 8px 0px rgba(0, 0, 0, 0.14), 0px 1px 14px 0 rgba(0, 0, 0, 0.12);
-  border-radius: 5px;
-}
-
 .article-form-stepper-tab {
-  color: $secondary-color-dark;
+  color: $text-color-secondary;
+  min-height: 56px !important;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: bold;
+  background-color: transparent;
+  width: 100%;
+  padding: 12px 16px;
+  margin: 6px;
+  border: 0;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
 
   @media #{$large-and-down} {
     min-height: 36px;
   }
 }
 
-.article-form-stepper-middleTab {
-  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+.article-form-stepper-tabs-indicator {
+  height: 0;
 }
+
+.article-form-stepper-selected {
+  color: #fff !important;
+  height: 100%;
+  opacity: 0.65;
+  box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2), 0 5px 8px 0 rgba(0, 0, 0, 0.14), 0 1px 14px 0 rgba(0, 0, 0, 0.12);
+  border-radius: 5px;
+  background-color: $primary-color-dark;
+}
+
+//.article-form-stepper-middle-tab {
+//  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+//}

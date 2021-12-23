@@ -14,7 +14,7 @@
 
 .user-home-userHomeArticles {
   margin: 1rem auto 4rem;
-  max-width: $main-width;
+  max-width: $article-appendix-width;
 }
 
 .user-home-userHomeCard {
@@ -69,8 +69,12 @@
 .user-home-topicTitle {
   color: #fff;
   font-size: 1.2rem;
-  margin-top: 0.3rem;
+  margin-top: 1rem;
   text-align: center;
+
+  @media #{$medium-and-down} {
+    margin-top: 0.3rem;
+  }
 }
 
 .user-home-topicLanguages {

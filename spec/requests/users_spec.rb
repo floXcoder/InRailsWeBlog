@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'Users API', type: :request, basic: true do
+describe 'Users API', type: :request do
 
   before(:all) do
     @admin = create(:admin)

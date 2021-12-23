@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'Users Session API', type: :request, basic: true do
+describe 'Users Session API', type: :request do
 
   before(:all) do
     @user = create(:user, pseudo: 'Main User', password: 'password')

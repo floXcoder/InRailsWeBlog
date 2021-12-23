@@ -3,7 +3,7 @@
 import IconButton from '@mui/material/IconButton';
 import Badge from '@mui/material/Badge';
 
-import AddIcon from '@mui/icons-material/Add';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 import Dropdown from '../../theme/dropdown';
 
@@ -26,10 +26,10 @@ const HomeArticleHeader = function ({
                         ?
                         <Badge badgeContent="1"
                                color="secondary">
-                            <AddIcon/>
+                            <AddCircleIcon/>
                         </Badge>
                         :
-                        <AddIcon/>
+                        <AddCircleIcon color="primary"/>
                 }
             </IconButton>
         }

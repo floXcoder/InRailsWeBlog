@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe ArticlePolicy, basic: true do
+describe ArticlePolicy do
 
   before(:all) do
     @user  = create(:user)

@@ -409,7 +409,9 @@ class ArticleShow extends React.Component {
                                                             </div>
                                                         }
 
-                                                        <div className="article-show-editIcon">
+                                                        <div className={classNames('article-show-editIcon', {
+                                                            'article-show-editIcon-private': this.props.currentTopic?.visibility === 'everyone' && this.props.article.visibility !== 'everyone'
+                                                        })}>
                                                             <ArticleEditIcon userSlug={this.props.article.user.slug}
                                                                              articleSlug={this.props.article.slug}
                                                                              isIconButton={true}
@@ -435,6 +437,13 @@ class ArticleShow extends React.Component {
                                                                   commentLink={`#article-comments-${this.props.article.id}`}
                                                                   commentsCount={this.props.article.commentsCount}
                                                                   hasIcon={false}/>
+                                            }
+
+                                            {
+                                                (this.props.currentTopic?.visibility === 'everyone' && this.props.article.visibility !== 'everyone') &&
+                                                <div className="article-show-private-message">
+                                                    {I18n.t('js.article.common.private_in_public')}
+                                                </div>
                                             }
                                         </Grid>
                                     </Grid>

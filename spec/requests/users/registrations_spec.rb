@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'Users Registration API', type: :request, basic: true do
+describe 'Users Registration API', type: :request do
 
   before(:all) do
     @user = create(:user, pseudo: 'Main User', password: 'password')

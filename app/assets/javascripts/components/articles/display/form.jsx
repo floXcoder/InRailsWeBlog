@@ -16,11 +16,6 @@ import Typography from '@mui/material/Typography';
 import Sticky from 'react-sticky-el';
 
 import {
-    headerHeight,
-    articleWidth
-} from '../../../theme';
-
-import {
     userArticlePath,
     userHomePath,
     editInventoriesTopicPath
@@ -183,14 +178,10 @@ class ArticleFormDisplay extends React.Component {
                                 {/*        message={this._onUnsavedExit}/>*/}
 
                                 <Sticky boundaryElement=".article-form-form"
-                                        topOffset={-headerMargin}
-                                        bottomOffset={320}>
-                                    <div style={{
-                                        top: headerHeight,
-                                        maxWidth: articleWidth,
-                                        width: '100%'
-                                    }}
-                                         className="article-form-stepper">
+                                        topOffset={-headerMargin / 2}
+                                        bottomOffset={320}
+                                        hideOnBoundaryHit={false}>
+                                    <div className="article-form-stepper">
                                         <ArticleFormStepper tabIndex={this.state.tabIndex}
                                                             onTabChange={this._handleTabChange}/>
                                     </div>

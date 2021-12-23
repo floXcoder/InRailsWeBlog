@@ -9,12 +9,12 @@ end
 ruby '3.0.2'
 
 # Rails version
-gem 'rails',                    '6.1.4.1'
+gem 'rails',                    '6.1.4.2'
 
 # Use postgresql as the database for Active Record
 gem 'pg',                       '1.2.3'
 # gem 'active_record_extended',   '1.4.0'
-gem 'pghero',                   '2.8.1'
+gem 'pghero',                   '2.8.2'
 gem 'pg_query',                 '2.1.2' # Required for pghero
 
 # HTTP Response
@@ -23,7 +23,7 @@ gem 'secure_headers',           '6.3.3'
 
 # JSON
 gem 'jsonapi-serializer',       '2.2.0'
-gem 'oj',                       '3.13.9'
+gem 'oj',                       '3.13.10'
 
 # Use slim instead of erb
 gem 'slim-rails',               '3.3.0'
@@ -36,7 +36,7 @@ gem 'geocoder',                 '1.7.0'
 gem 'paper_trail',              '12.1.0'
 
 # Marked as deleted
-gem 'paranoia',                 '2.4.3'
+gem 'paranoia',                 '2.5.0'
 
 # Format user input
 gem 'auto_strip_attributes',    '2.6.0'
@@ -56,7 +56,7 @@ gem 'hiredis',                  '0.6.3'
 gem 'storext',                  '3.3.0'
 
 # Authentification
-gem 'devise',                   '4.8.0'
+gem 'devise',                   '4.8.1'
 
 # Authorization mechanism
 gem 'pundit',                   '2.1.1'
@@ -87,7 +87,7 @@ gem 'ahoy_matey',               '4.0.2'
 
 # SEO
 gem 'friendly_id',              '5.4.2'
-gem 'route_translator',         '12.0.0'
+gem 'route_translator',         '12.1.0'
 gem 'meta-tags',                '2.16.0'
 gem 'sitemap_generator',        '6.1.2'
 
@@ -119,8 +119,7 @@ group :development do
   gem 'binding_of_caller',      '1.0.0'
 
   # N+1 database query
-  gem 'bullet',                 '6.1.5'
-  gem 'prosopite',              '1.0.5'
+  gem 'bullet',                 '7.0.0'
 
   # Guard and its minions
   gem 'guard',                  '2.18.0', require: false
@@ -161,8 +160,8 @@ group :development, :test do
 
   # static analyzer
   gem 'rails_best_practices',       '1.22.1', require: false
-  gem 'brakeman',                   '5.1.2',  require: false
-  gem 'i18n-tasks',                 '0.9.35', require: false
+  gem 'brakeman',                   '5.2.0',  require: false
+  gem 'i18n-tasks',                 '0.9.36', require: false
 end
 
 group :production do

@@ -13,39 +13,47 @@ const ArticleFormStepper = function ({tabIndex, onTabChange}) {
     return (
         <div className="article-form-stepper-stepper"
             // id="article-edit-stepper"
-             >
+        >
             <AppBar className="article-form-stepper-stepperAppBar"
                     position="static"
                     color="inherit">
-                <Tabs classes={{indicator: 'article-form-stepper-tabsIndicator'}}
+                <Tabs classes={{
+                    indicator: 'article-form-stepper-tabs-indicator'
+                }}
                       value={tabIndex}
                       onChange={onTabChange}
                       indicatorColor="secondary"
                       textColor="primary"
                       variant="fullWidth">
                     <Tab classes={{
-                        labelIcon: 'article-form-stepper-tab'
+                        labelIcon: 'article-form-stepper-tab',
+                        selected: 'article-form-stepper-selected'
                     }}
                          index={0}
                          disableRipple={true}
                          icon={<EditIcon/>}
+                         iconPosition="start"
                          label={I18n.t('js.article.form.tabs.content')}/>
 
                     <Tab classes={{
-                        root: 'article-form-stepper-middleTab',
-                        labelIcon: 'article-form-stepper-tab'
+                        root: 'article-form-stepper-middle-tab',
+                        labelIcon: 'article-form-stepper-tab',
+                        selected: 'article-form-stepper-selected'
                     }}
                          index={1}
                          disableRipple={true}
                          icon={<LabelIcon/>}
+                         iconPosition="start"
                          label={I18n.t('js.article.form.tabs.tags')}/>
 
                     <Tab classes={{
-                        labelIcon: 'article-form-stepper-tab'
+                        labelIcon: 'article-form-stepper-tab',
+                        selected: 'article-form-stepper-selected'
                     }}
                          index={2}
                          disableRipple={true}
                          icon={<SendIcon/>}
+                         iconPosition="start"
                          label={I18n.t('js.article.form.tabs.publish')}/>
                 </Tabs>
             </AppBar>

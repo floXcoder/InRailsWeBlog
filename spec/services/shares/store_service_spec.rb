@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe Shares::StoreService, type: :service, basic: true do
+describe Shares::StoreService, type: :service do
   subject { described_class.new }
 
   before(:all) do

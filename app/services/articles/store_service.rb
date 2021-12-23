@@ -53,6 +53,9 @@ module Articles
 
       # Sanitization
       if !@params[:title_translations].nil?
+        # Clear other translations
+        @article.title_translations = {} unless new_article
+
         @params.delete(:title_translations).each do |locale, title|
           @article.title_translations[locale] = Sanitize.fragment(title)
         end
@@ -73,6 +76,9 @@ module Articles
       @article.slug_translations = slug_translations
 
       if !@params[:summary_translations].nil?
+        # Clear other translations
+        @article.summary_translations = {} unless new_article
+
         @params.delete(:summary_translations).each do |locale, summary|
           @article.summary_translations[locale.to_s] = Sanitize.fragment(summary)
         end
@@ -83,6 +89,9 @@ module Articles
       end
 
       if !@params[:content_translations].nil?
+        # Clear other translations
+        @article.content_translations = {} unless new_article
+
         @params.delete(:content_translations).each do |locale, content|
           @article.content_translations[locale.to_s] = ::Sanitizer.new.sanitize_html(content)
         end
@@ -185,8 +194,8 @@ module Articles
         @params.delete(:tags)
       end
 
-      @article.rank      = @params.delete(:rank).to_i if @params[:rank].present?
-      @article.home_page = @params.delete(:home_page) if @params[:home_page].present?
+      @article.rank        = @params.delete(:rank).to_i if @params[:rank].present?
+      @article.home_page   = @params.delete(:home_page) if @params[:home_page].present?
 
       @article.assign_attributes(@params)
 
@@ -238,6 +247,8 @@ module Articles
       # Extract all relationship ids
       other_ids             = []
       article_relationships = []
+      return article_relationships if content.blank?
+
       content.scan(/data-article-relation-id="(\d+)"/) { |other_id| other_ids << other_id }
 
       other_ids.flatten.map do |other_id|

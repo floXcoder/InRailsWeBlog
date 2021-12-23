@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'Errors API', type: :request, basic: true do
+describe 'Errors API', type: :request do
 
   before(:all) do
   end

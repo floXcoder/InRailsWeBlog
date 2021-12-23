@@ -17,7 +17,7 @@
 
 require 'rails_helper'
 
-RSpec.describe TagRelationship, type: :model, basic: true do
+RSpec.describe TagRelationship, type: :model do
 
   before(:all) do
     @user    = create(:user)

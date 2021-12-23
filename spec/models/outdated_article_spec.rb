@@ -12,7 +12,7 @@
 #
 require 'rails_helper'
 
-RSpec.describe OutdatedArticle, type: :model, basic: true do
+RSpec.describe OutdatedArticle, type: :model do
 
   before(:all) do
     @user  = create(:user)

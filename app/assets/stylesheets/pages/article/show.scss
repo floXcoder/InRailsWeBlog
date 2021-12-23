@@ -79,6 +79,19 @@
   margin: 0 .4rem;
   display: inline-block;
   text-align: right;
+
+  &.article-show-editIcon-private {
+    float: right;
+  }
+}
+
+.article-show-private-message {
+  border: 1px solid #e3c23e;
+  display: block;
+  padding: 2px 6px;
+  font-size: .85rem;
+  font-style: italic;
+  border-radius: 5px;
 }
 
 .article-show-commentCount {

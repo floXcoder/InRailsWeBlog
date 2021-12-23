@@ -43,11 +43,6 @@ class ApplicationController < ActionController::Base
   # Set flash to headers if ajax request
   after_action :flash_to_headers
 
-  if Rails.env.development?
-    before_action { Prosopite.scan }
-    after_action { Prosopite.finish }
-  end
-
   def set_env
     reset_cache_headers if params['_'].present?
 

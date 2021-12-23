@@ -102,6 +102,7 @@ export default class ArticleCommonField extends React.Component {
                 </div>
             );
         } else {
+            const fieldId = locale ? `article_title_${locale}` : 'article_title';
             const fieldName = locale ? `title_translations[${locale}]` : 'title';
 
             return (
@@ -109,9 +110,10 @@ export default class ArticleCommonField extends React.Component {
                     <Field name={fieldName}
                            component={TextFormField}
                            className="article-form-titleField"
-                           id={`article_title_${locale}`}
+                           id={fieldId}
                            label={I18n.t(`js.article.common.placeholders.title.${this.props.currentMode}`)}
                            autoFocus={true}
+                           spellCheck="true"
                            required={true}
                            variant="standard"
                            color="primary"

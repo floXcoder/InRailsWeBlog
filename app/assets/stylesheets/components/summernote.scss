@@ -1444,6 +1444,7 @@ html .note-fullscreen-body, body .note-fullscreen-body {
     width: 100%;
     margin: .6rem 0;
     padding: .5rem;
+    font-size: .85rem;
     background-color: #fff;
     border: 2px solid $border-color;
     border-radius: .4rem;
@@ -1452,7 +1453,8 @@ html .note-fullscreen-body, body .note-fullscreen-body {
 
     code {
       background-color: inherit;
-      border: none;
+      border: 0;
+      color: inherit;
     }
   }
 

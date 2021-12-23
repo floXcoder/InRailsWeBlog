@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'Topic Inventory Fields API', type: :request, basic: true do
+describe 'Topic Inventory Fields API', type: :request do
 
   before(:all) do
     @user       = create(:user)

@@ -146,9 +146,9 @@ webPackConfig.optimization = {
 
 webPackConfig.plugins.push(
     new webpack.DefinePlugin({
-        'GlobalEnvironment': {
-            'NODE_ENV': JSON.stringify('development'),
-            'ASSET_PATH': JSON.stringify(config.development.assetPath)
+        GlobalEnvironment: {
+            NODE_ENV: JSON.stringify('development'),
+            ASSET_PATH: JSON.stringify(config.development.assetPath)
         }
     }),
     new CleanWebpackPlugin(),

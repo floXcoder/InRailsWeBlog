@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe UserPolicy, basic: true do
+describe UserPolicy do
 
   before(:all) do
     @user = create(:user)

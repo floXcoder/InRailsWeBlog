@@ -60,10 +60,12 @@ export default class ArticleAdvancedField extends React.PureComponent {
 
     render() {
         return (
-            <div className="row margin-top-20 margin-bottom-50">
+            <div className="row margin-top-40 margin-bottom-50">
                 {
                     this.props.inheritVisibility !== 'only_me' &&
-                    <div className="col s12 m6 center-align">
+                    <div className={classNames('col s12 center-align', {
+                        m6: this.props.currentVisibility !== 'everyone'
+                    })}>
                         <Field name="visibility"
                                component={SelectFormField}
                                id="article_visibility"
@@ -76,7 +78,9 @@ export default class ArticleAdvancedField extends React.PureComponent {
 
                 {
                     this.props.currentVisibility !== 'everyone' &&
-                    <div className="col s12 m6 center-align">
+                    <div className={classNames('col s12 center-align', {
+                        m6: this.props.inheritVisibility !== 'only_me'
+                    })}>
                         <Field name="draft"
                                type="checkbox"
                                onChange={this._handleDraftChange}

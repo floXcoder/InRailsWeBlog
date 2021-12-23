@@ -28,7 +28,7 @@
 #
 require 'rails_helper'
 
-RSpec.describe Admin, type: :model, basic: true do
+RSpec.describe Admin, type: :model do
 
   before do
     @admin = Admin.create(

@@ -17,7 +17,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Share, type: :model, basic: true do
+RSpec.describe Share, type: :model do
 
   before(:all) do
     @user  = create(:user)

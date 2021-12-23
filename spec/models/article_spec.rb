@@ -33,7 +33,7 @@
 #
 require 'rails_helper'
 
-RSpec.describe Article, type: :model, basic: true do
+RSpec.describe Article, type: :model do
 
   before(:all) do
     @user  = create(:user)

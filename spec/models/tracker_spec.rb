@@ -20,7 +20,7 @@
 #
 require 'rails_helper'
 
-RSpec.describe Tracker, type: :model, basic: true do
+RSpec.describe Tracker, type: :model do
 
   before(:all) do
     @user = create(:user)
