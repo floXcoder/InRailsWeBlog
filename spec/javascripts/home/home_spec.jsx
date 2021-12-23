@@ -32,9 +32,11 @@ describe('<HomePage />', () => {
         // shallowWrapper.render()
         // shallowWrapper.text()
 
+        console.log(shallowWrapper)
+
         expect(shallowWrapper.find('ThemeProvider')).toHaveLength(1);
-        expect(shallowWrapper.find('Router')).toHaveLength(1);
         expect(shallowWrapper.find('Provider')).toHaveLength(1);
+        expect(shallowWrapper.find('BrowserRouter')).toHaveLength(1);
         // expect(shallowWrapper.find('HeaderLayoutDefault')).toHaveLength(1);
         // expect(shallowWrapper.find('MainLayoutDefault')).toHaveLength(1);
         // expect(shallowWrapper.find('FooterLayoutDefault')).toHaveLength(1);
