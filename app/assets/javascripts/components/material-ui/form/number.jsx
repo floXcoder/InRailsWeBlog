@@ -1,16 +1,19 @@
 'use strict';
 
-import TextField from '@material-ui/core/TextField';
+import TextField from '@mui/material/TextField';
 
-const NumberFormField = ({input, label, helperText, meta: {touched, error}, ...custom}) => (
-    <TextField {...input}
-               type="number"
-               label={label}
-               value={input.value}
-               error={touched && !!error}
-               helperText={!!error ? error : helperText}
-               {...custom}/>
-);
+
+const NumberFormField = function ({input, label, helperText, meta: {touched, error}, ...custom}) {
+    return (
+        <TextField {...input}
+                   type="number"
+                   label={label}
+                   value={input.value}
+                   error={touched && !!error}
+                   helperText={!!error ? error : helperText}
+                   {...custom}/>
+    );
+};
 
 NumberFormField.propTypes = {
     input: PropTypes.object.isRequired,

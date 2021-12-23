@@ -1,30 +1,20 @@
 'use strict';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Typography from '@material-ui/core/Typography';
+import Container from '@mui/material/Container';
+import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Grid';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import InputAdornment from '@mui/material/InputAdornment';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import Typography from '@mui/material/Typography';
 
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import LockIcon from '@material-ui/icons/Lock';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import LockIcon from '@mui/icons-material/Lock';
 
-import styles from '../../../jss/admin/connection';
 
-export default @withStyles(styles)
-class AdminLogin extends React.Component {
-    static propTypes = {
-        // from styles
-        classes: PropTypes.object
-    };
-
+export default class AdminLogin extends React.Component {
     constructor(props) {
         super(props);
     }
@@ -34,9 +24,9 @@ class AdminLogin extends React.Component {
         const token = csrfToken?.getAttribute('content');
 
         return (
-            <Container className={this.props.classes.container}
+            <Container className="admin-login-container"
                        maxWidth="sm">
-                <Paper className={this.props.classes.paper}>
+                <Paper className="admin-login-paper">
                     <form className="connection"
                           action="/admins/sign_in"
                           autoComplete="off"
@@ -47,7 +37,7 @@ class AdminLogin extends React.Component {
                                name="authenticity_token"
                                value={token}/>
 
-                        <Typography className={this.props.classes.title}
+                        <Typography className="admin-login-title"
                                     variant="h1"
                                     component="h1">
                             {I18n.t('js.user.login.title')}
@@ -58,11 +48,11 @@ class AdminLogin extends React.Component {
                               direction="column"
                               justifyContent="space-between"
                               alignItems="center">
-                            <Grid classes={{item: this.props.classes.fieldItem}}
+                            <Grid classes={{item: 'admin-login-fieldItem'}}
                                   item={true}>
                                 <TextField id="admin_login"
                                            name="admin[login]"
-                                           className={this.props.classes.textField}
+                                           className="admin-login-textField"
                                            label={I18n.t('js.user.login.login')}
                                            autoFocus={true}
                                            required={true}
@@ -76,11 +66,11 @@ class AdminLogin extends React.Component {
                                            }}/>
                             </Grid>
 
-                            <Grid classes={{item: this.props.classes.fieldItem}}
+                            <Grid classes={{item: 'admin-login-fieldItem'}}
                                   item={true}>
                                 <TextField id="admin_password"
                                            name="admin[password]"
-                                           className={this.props.classes.textField}
+                                           className="admin-login-textField"
                                            label={I18n.t('js.user.login.password')}
                                            required={true}
                                            autoComplete="off"

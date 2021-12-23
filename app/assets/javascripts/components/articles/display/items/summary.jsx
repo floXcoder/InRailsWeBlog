@@ -8,11 +8,8 @@ import {
 import 'intersection-observer';
 import Observer from '@researchgate/react-intersection-observer';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
+import Grid from '@mui/material/Grid';
+import Button from '@mui/material/Button';
 
 import {
     userArticlePath
@@ -28,10 +25,8 @@ import highlight from '../../../modules/highlight';
 import ArticleTags from '../../properties/tags';
 import ArticleAvatarIcon from '../../icons/avatar';
 
-import styles from '../../../../../jss/article/summary';
 
 export default @highlight()
-@withStyles(styles)
 class ArticleSummaryDisplay extends React.Component {
     static propTypes = {
         article: PropTypes.object.isRequired,
@@ -40,9 +35,7 @@ class ArticleSummaryDisplay extends React.Component {
         onEnter: PropTypes.func,
         onExit: PropTypes.func,
         // from highlight
-        onShow: PropTypes.func,
-        // from styles
-        classes: PropTypes.object
+        onShow: PropTypes.func
     };
 
     constructor(props) {
@@ -136,28 +129,27 @@ class ArticleSummaryDisplay extends React.Component {
                             </div>
                     }
 
-                    <div className={this.props.classes.heading}>
+                    <div className="article-summary-heading">
                         <Grid container={true}
                               classes={{
-                                  container: this.props.classes.articleInfo
+                                  container: 'article-summary-articleInfo'
                               }}
                               spacing={2}
                               direction="row"
                               justifyContent="space-between"
                               alignItems="center">
                             <Grid classes={{
-                                item: this.props.classes.infoItem
+                                item: 'article-summary-infoItem'
                             }}
                                   item={true}>
-                                <ArticleAvatarIcon classes={this.props.classes}
-                                                   user={this.props.article.user}
+                                <ArticleAvatarIcon user={this.props.article.user}
                                                    articleDate={this.props.article.date}/>
                             </Grid>
                         </Grid>
 
-                        <h1 className={this.props.classes.title}
+                        <h1 className="article-summary-title"
                             itemProp="name headline">
-                            <Link className={this.props.classes.titleLink}
+                            <Link className="article-summary-titleLink"
                                   to={userArticlePath(this.props.article.user.slug, this.props.article.slug)}
                                   itemProp="mainEntityOfPage url"
                                   onClick={this._handleTitleClick}>
@@ -166,7 +158,7 @@ class ArticleSummaryDisplay extends React.Component {
                         </h1>
                     </div>
 
-                    <div className={this.props.classes.summaryContent}
+                    <div className="article-summary-summaryContent"
                          itemProp="articleBody">
                         <div className="normalized-content normalized-content-extract"
                              dangerouslySetInnerHTML={{__html: this.props.article.contentSummary || this.props.article.content}}/>
@@ -180,8 +172,8 @@ class ArticleSummaryDisplay extends React.Component {
                                      childTagIds={this.props.article.childTagIds}/>
                     }
 
-                    <div className={this.props.classes.summaryLinkContainer}>
-                        <Button className={this.props.classes.summaryLink}
+                    <div className="article-summary-summaryLinkContainer">
+                        <Button className="article-summary-summaryLink"
                                 color="primary"
                                 variant="outlined"
                                 size="small"
@@ -194,7 +186,7 @@ class ArticleSummaryDisplay extends React.Component {
 
                     {
                         (this.props.topicVisibility === 'everyone' && this.props.article.visibility !== 'everyone') &&
-                        <div className={this.props.classes.privateMessage}>
+                        <div className="article-summary-privateMessage">
                             {I18n.t('js.article.common.private_in_public')}
                         </div>
                     }

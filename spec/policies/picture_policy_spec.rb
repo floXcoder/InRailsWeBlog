@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe PicturePolicy, basic: true do
+describe PicturePolicy do
 
   before(:all) do
     @owner_user = create(:user)

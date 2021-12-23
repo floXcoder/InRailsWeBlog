@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'Home API', type: :request, basic: true do
+describe 'Home API', type: :request do
 
   before(:all) do
     @user = create(:user)

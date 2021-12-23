@@ -14,7 +14,7 @@
 #
 require 'rails_helper'
 
-RSpec.describe Article::Redirection, type: :model, basic: true do
+RSpec.describe Article::Redirection, type: :model do
 
   before(:all) do
     @user  = create(:user)

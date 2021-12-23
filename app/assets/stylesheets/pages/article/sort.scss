@@ -1,0 +1,50 @@
+@import 'base/variables';
+
+.article-sort-root {
+  margin: 1rem auto 4rem;
+  overflow: visible;
+  position: relative;
+  max-width: $article-appendix-width;
+}
+
+.article-sort-sorting {
+  user-select: none;
+}
+
+.article-sort-sortingItems {
+  outline: none;
+  overflow: auto;
+  position: relative;
+}
+
+.article-sort-sortingItem {
+  cursor: pointer;
+  padding: 8px;
+  align-items: center;
+}
+
+.article-sort-card {
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+
+.article-sort-cardHeader {
+  padding: 4px;
+}
+
+.article-sort-cardTitle {
+  font-size: 1.6rem;
+  margin-top: 12px;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.article-sort-cardContent {
+  padding-top: 4px;
+  padding-bottom: 8px !important;
+}
+
+.article-sort-commentCount {
+  color: inherit;
+  font-size: 1rem;
+}

@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'Share API', type: :request, basic: true do
+describe 'Share API', type: :request do
 
   before(:all) do
     @user       = create(:user)

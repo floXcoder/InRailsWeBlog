@@ -1,9 +1,6 @@
 'use strict';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
-import List from '@material-ui/core/List';
+import List from '@mui/material/List';
 
 import {
     // filterTags,
@@ -22,7 +19,6 @@ import Loader from '../theme/loader';
 // import TagSidebarCloud from './sidebar/cloud';
 import TagSidebarList from './sidebar/list';
 
-import styles from '../../../jss/tag/sidebar';
 
 export default @connect((state, props) => ({
     isLoading: state.tagState.isFetching,
@@ -34,7 +30,6 @@ export default @connect((state, props) => ({
 }), {
     // filterTags
 })
-@withStyles(styles)
 class TagSidebar extends React.Component {
     static propTypes = {
         currentTagSlug: PropTypes.string,
@@ -50,9 +45,7 @@ class TagSidebar extends React.Component {
         currentUserTopicSlug: PropTypes.string,
         // currentUserTopics: PropTypes.array,
         tags: PropTypes.array,
-        // filterTags: PropTypes.func,
-        // from styles
-        classes: PropTypes.object
+        // filterTags: PropTypes.func
     };
 
     static defaultProps = {
@@ -86,8 +79,7 @@ class TagSidebar extends React.Component {
             );
             // } else if (this.props.isCloud) {
             //     return (
-            //         <TagSidebarCloud classes={this.props.classes}
-            //                          currentUserSlug={this.props.currentUserSlug}
+            //         <TagSidebarCloud currentUserSlug={this.props.currentUserSlug}
             //                          currentTagSlug={this.props.currentTagSlug}
             //                          currentUserTopics={this.props.currentUserTopics}
             //                          tags={this.props.tags}
@@ -95,8 +87,7 @@ class TagSidebar extends React.Component {
             //     );
         } else {
             return (
-                <TagSidebarList classes={this.props.classes}
-                                currentUserSlug={this.props.currentUserSlug}
+                <TagSidebarList currentUserSlug={this.props.currentUserSlug}
                                 currentUserTopicSlug={this.props.currentUserTopicSlug}
                                 filterText={this.props.filterText}
                                 currentTagSlug={this.props.currentTagSlug}

@@ -1,11 +1,10 @@
 'use strict';
 
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 
 export default class ShareFormTopic extends React.Component {
     static propTypes = {
-        classes: PropTypes.object.isRequired,
         onCancel: PropTypes.func.isRequired,
         onShare: PropTypes.func.isRequired,
         onUserChange: PropTypes.func,
@@ -40,7 +39,7 @@ export default class ShareFormTopic extends React.Component {
         return (
             <form id="topic-share"
                   onSubmit={this._handleTopicSubmit}>
-                <TextField className={this.props.classes.input}
+                <TextField className="topic-share-input"
                            fullWidth={true}
                            autoFocus={true}
                            required={true}

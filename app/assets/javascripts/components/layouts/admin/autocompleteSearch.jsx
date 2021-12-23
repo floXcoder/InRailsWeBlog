@@ -1,17 +1,14 @@
 'use strict';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import Typography from '@material-ui/core/Typography';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import Typography from '@mui/material/Typography';
 
-import SearchIcon from '@material-ui/icons/Search';
-import HelpIcon from '@material-ui/icons/Help';
-import AccountBoxIcon from '@material-ui/icons/AccountBox';
-import ClassIcon from '@material-ui/icons/Class';
-import LabelIcon from '@material-ui/icons/Label';
-import AssignmentIcon from '@material-ui/icons/Assignment';
+import SearchIcon from '@mui/icons-material/Search';
+import HelpIcon from '@mui/icons-material/Help';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import ClassIcon from '@mui/icons-material/Class';
+import LabelIcon from '@mui/icons-material/Label';
+import AssignmentIcon from '@mui/icons-material/Assignment';
 
 import {
     fetchMetaSearch
@@ -29,21 +26,17 @@ import Autocomplete from '../../theme/autocomplete';
 
 import HelpDialog from './helpDialog';
 
-import styles from '../../../../jss/admin/layout';
 
 export default @connect((state) => ({
     metaResults: getMetaResults(state)
 }), {
     fetchMetaSearch
 })
-@withStyles(styles)
 class AutocompleteSearch extends React.Component {
     static propTypes = {
         // from connect
         metaResults: PropTypes.array,
-        fetchMetaSearch: PropTypes.func,
-        // from styles
-        classes: PropTypes.object
+        fetchMetaSearch: PropTypes.func
     };
 
     constructor(props) {
@@ -116,8 +109,8 @@ class AutocompleteSearch extends React.Component {
     render() {
         return (
             <>
-                <div className={this.props.classes.search}>
-                    <div className={this.props.classes.searchIcon}>
+                <div className="search-admin">
+                    <div className="search-icon">
                         <SearchIcon/>
                     </div>
 
@@ -132,8 +125,8 @@ class AutocompleteSearch extends React.Component {
                                   inputVariant="standard"
                                   inputMargin="none"
                                   classes={{
-                                      root: this.props.classes.inputRoot,
-                                      input: this.props.classes.inputInput
+                                      root: 'input-root',
+                                      input: 'input-input'
                                   }}
                                   isAsync={true}
                                   fullWidth={true}
@@ -144,7 +137,7 @@ class AutocompleteSearch extends React.Component {
                                   renderSuggestion={this._renderSuggestion}
                                   onChange={this._handleAutocompleteChange}/>
 
-                    <a className={this.props.classes.helpIcon}
+                    <a className="help-icon"
                        href="#"
                        onClick={this._handleHelpClick}>
                         <HelpIcon/>

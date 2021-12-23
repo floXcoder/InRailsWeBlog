@@ -21,7 +21,7 @@
 #
 require 'rails_helper'
 
-RSpec.describe Topic::InventoryField, type: :model, basic: true do
+RSpec.describe Topic::InventoryField, type: :model do
 
   before(:all) do
     @user  = create(:user)

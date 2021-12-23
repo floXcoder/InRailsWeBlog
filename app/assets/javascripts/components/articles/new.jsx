@@ -1,12 +1,10 @@
 'use strict';
 
+import '../../../stylesheets/pages/article/form.scss';
+
 import {
     hot
 } from 'react-hot-loader/root';
-
-import {
-    withStyles
-} from '@material-ui/core/styles';
 
 import {
     fetchMetaTags,
@@ -23,7 +21,6 @@ import articleMutationManager from './managers/mutation';
 import ArticleBreadcrumbDisplay from './display/breadcrumb';
 import ArticleFormDisplay from './display/form';
 
-import styles from '../../../jss/article/form';
 
 export default @articleMutationManager('new')
 @connect((state) => ({
@@ -34,7 +31,6 @@ export default @articleMutationManager('new')
     switchTagSidebar
 })
 @hot
-@withStyles(styles)
 class ArticleNew extends React.Component {
     static propTypes = {
         // from articleMutationManager
@@ -52,9 +48,7 @@ class ArticleNew extends React.Component {
         userSlug: PropTypes.string,
         inheritVisibility: PropTypes.string,
         fetchMetaTags: PropTypes.func,
-        switchTagSidebar: PropTypes.func,
-        // from styles
-        classes: PropTypes.object
+        switchTagSidebar: PropTypes.func
     };
 
     constructor(props) {
@@ -91,7 +85,7 @@ class ArticleNew extends React.Component {
     render() {
         if (!this.props.currentUser || !this.props.currentTopic) {
             return (
-                <div className={this.props.classes.root}>
+                <div className="article-form">
                     <div className="center">
                         <Loader size="big"/>
                     </div>
@@ -148,8 +142,8 @@ class ArticleNew extends React.Component {
         }
 
         return (
-            <div className={this.props.classes.root}>
-                <div className={this.props.classes.breadcrumb}>
+            <div className="article-form">
+                <div className="article-form-breadcrumb">
                     {
                         (this.props.currentUser && this.props.currentTopic) &&
                         <ArticleBreadcrumbDisplay isForm={true}
@@ -158,8 +152,7 @@ class ArticleNew extends React.Component {
                     }
                 </div>
 
-                <ArticleFormDisplay classes={this.props.classes}
-                                    article={article}
+                <ArticleFormDisplay article={article}
                                     isPaste={isPaste}
                                     inheritVisibility={this.props.inheritVisibility}
                                     userSlug={this.props.userSlug}

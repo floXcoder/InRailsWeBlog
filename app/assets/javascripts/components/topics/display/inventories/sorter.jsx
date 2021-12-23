@@ -1,10 +1,12 @@
 'use strict';
 
-import Button from '@material-ui/core/Button';
+import Button from '@mui/material/Button';
 
-import DragIndicatorIcon from '@material-ui/icons/DragIndicator';
+import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 
-import {arrayMoveImmutable} from 'array-move';
+import {
+    arrayMoveImmutable
+} from 'array-move';
 
 import {
     SortableContainer,
@@ -16,21 +18,19 @@ import TopicFormInventoryFieldDisplay from './field';
 
 const DragHandle = sortableHandle(() => <DragIndicatorIcon/>);
 
-const SortableItem = SortableElement(({classes, itemIndex, field, onRemoveField}) => (
-    <TopicFormInventoryFieldDisplay classes={classes}
-                                    index={itemIndex}
+const SortableItem = SortableElement(({itemIndex, field, onRemoveField}) => (
+    <TopicFormInventoryFieldDisplay index={itemIndex}
                                     field={field}
                                     onRemoveField={onRemoveField}
                                     dragHandle={DragHandle}/>
 ));
 
-const SortableList = SortableContainer(({classes, fields, onRemoveField}) => (
-    <div className={classes.sortingItems}>
+const SortableList = SortableContainer(({fields, onRemoveField}) => (
+    <div className="topic-form-inv-sortingItems">
         {
             fields.map((field, i) => (
                 <SortableItem key={`${field.fieldName}-${i}`}
                               itemIndex={i}
-                              classes={classes}
                               field={field}
                               onRemoveField={onRemoveField}/>
             ))
@@ -38,9 +38,9 @@ const SortableList = SortableContainer(({classes, fields, onRemoveField}) => (
     </div>
 ));
 
+
 export default class TopicInventoryFieldSorter extends React.Component {
     static propTypes = {
-        classes: PropTypes.object.isRequired,
         // Fields must already be sorted by priority
         fields: PropTypes.array.isRequired
     };
@@ -88,9 +88,8 @@ export default class TopicInventoryFieldSorter extends React.Component {
         return (
             <>
                 <div className="col s12">
-                    <div className={this.props.classes.sorting}>
-                        <SortableList classes={this.props.classes}
-                                      fields={this.state.fields}
+                    <div className="topic-form-inv-sorting">
+                        <SortableList fields={this.state.fields}
                                       onRemoveField={this._handleRemoveField}
                                       useDragHandle={true}
                                       useWindowAsScrollContainer={true}

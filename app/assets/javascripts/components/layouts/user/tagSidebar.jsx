@@ -1,13 +1,10 @@
 'use strict';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
-import IconButton from '@material-ui/core/IconButton';
-import Drawer from '@material-ui/core/Drawer';
+import IconButton from '@mui/material/IconButton';
+import Drawer from '@mui/material/Drawer';
 
-import FirstPageIcon from '@material-ui/icons/FirstPage';
-import LastPageIcon from '@material-ui/icons/LastPage';
+import FirstPageIcon from '@mui/icons-material/FirstPage';
+import LastPageIcon from '@mui/icons-material/LastPage';
 
 import {
     updateUserSettings
@@ -19,7 +16,6 @@ import {
 
 import TagSidebar from '../../tags/sidebar';
 
-import styles from '../../../../jss/user/sidebar';
 
 export default @connect((state, props) => ({
     isTagSidebarOpen: getSidebarState(state, props.isCloud),
@@ -27,7 +23,6 @@ export default @connect((state, props) => ({
 }), {
     updateUserSettings
 })
-@withStyles(styles)
 class TagSidebarLayout extends React.PureComponent {
     static propTypes = {
         routeParams: PropTypes.object.isRequired,
@@ -35,9 +30,7 @@ class TagSidebarLayout extends React.PureComponent {
         // from connect
         isTagSidebarOpen: PropTypes.bool,
         currentUserId: PropTypes.number,
-        updateUserSettings: PropTypes.func,
-        // from styles
-        classes: PropTypes.object
+        updateUserSettings: PropTypes.func
     };
 
     static defaultProps = {
@@ -114,13 +107,15 @@ class TagSidebarLayout extends React.PureComponent {
             <Drawer anchor="left"
                     variant="permanent"
                     classes={{
-                        paper: classNames(this.props.classes.drawerPaper, this.props.classes.drawerPaperOverflow, !this.state.isExpanded && this.props.classes.drawerPaperClose),
+                        paper: classNames('search-sidebar-drawerPaper', 'search-sidebar-drawerPaperOverflow', {
+                            'search-sidebar-drawerPaperClose': !this.state.isExpanded
+                        }),
                     }}
                     open={this.state.isExpanded}
                     onMouseOver={this._handleDrawerOver}
                     onMouseLeave={this._handleDrawerOut}>
                 <div>
-                    <IconButton onClick={this._handleExpandSwitch}>
+                    <IconButton onClick={this._handleExpandSwitch} size="large">
                         {
                             this.props.isTagSidebarOpen
                                 ?

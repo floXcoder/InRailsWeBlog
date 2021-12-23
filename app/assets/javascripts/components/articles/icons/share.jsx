@@ -4,7 +4,7 @@ import {
     Link
 } from 'react-router-dom';
 
-import ShareIcon from '@material-ui/icons/Share';
+import ShareIcon from '@mui/icons-material/Share';
 
 import {
     shareArticleParam

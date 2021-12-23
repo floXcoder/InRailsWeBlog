@@ -196,11 +196,7 @@ class UserEdit extends React.Component {
                     <div className="card-action">
                         <div className="row">
                             <div className="col s6 left-align">
-                                <Button color="default"
-                                        variant="outlined"
-                                        size="small"
-                                        component={Link}
-                                        to={rootPath()}>
+                                <Button variant="outlined" size="small" component={Link} to={rootPath()}>
                                     {I18n.t('js.user.edit.back_button')}
                                 </Button>
                             </div>

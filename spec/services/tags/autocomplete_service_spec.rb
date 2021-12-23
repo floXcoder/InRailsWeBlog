@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe Tags::AutocompleteService, type: :service, basic: true do
+describe Tags::AutocompleteService, type: :service do
   subject { described_class.new }
 
   before(:all) do

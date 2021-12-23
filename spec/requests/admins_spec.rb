@@ -2,7 +2,7 @@
 
 # require 'rails_helper'
 #
-# describe 'Admins API', type: :request, basic: true do
+# describe 'Admins API', type: :request do
 #
 #   before(:all) do
 #     @admin = create(:admin)

@@ -1,0 +1,48 @@
+@import 'base/variables';
+
+.tag-sort {
+  margin-top: 25px;
+}
+
+.tag-sorting {
+  user-select: none;
+
+  .tag-sorting {
+    text-align: center;
+  }
+
+  .tag-sorting-items {
+    margin-left: auto;
+    margin-right: auto;
+    width: 360px;
+    //height: 75vh;
+    outline: none;
+    overflow: auto;
+    position: relative;
+  }
+}
+
+.tag-sort-item {
+  background-color: rgba(143, 143, 143, .35);
+  border: 0;
+  border-radius: 5px;
+  margin: 5px 10px;
+  padding: 3px 12px;
+
+  .tag-count {
+    font-weight: 600;
+    line-height: 26px;
+    margin-left: 10px;
+  }
+
+  .tag-desc {
+    margin: 5px;
+    padding: .2rem .6rem;
+  }
+
+  .tag-synonyms {
+    margin: 5px;
+    padding: .2rem .6rem;
+    font-style: italic;
+  }
+}

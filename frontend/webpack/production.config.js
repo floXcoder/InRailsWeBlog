@@ -16,6 +16,10 @@ webPackConfig.mode = 'production';
 
 webPackConfig.target = ['web', 'es5'];
 
+// Add new options to babel loader
+webPackConfig.module.rules[0].options.cacheCompression = true;
+webPackConfig.module.rules[0].options.compact = true;
+
 webPackConfig.output = _.merge(webPackConfig.output, {
     filename: config.production.filename + '.js'
 });
@@ -91,10 +95,22 @@ webPackConfig.optimization = {
         new TerserPlugin({
             parallel: true,
             terserOptions: {
-                ecma: 5,
-                parse: {},
-                compress: {},
-                mangle: true, // Note `mangle.properties` is `false` by default.
+                parse: {
+                    // Let terser parse ecma 8 code but always output
+                    // ES5 compliant code for older browsers
+                    ecma: 8
+                },
+                compress: {
+                    ecma: 5,
+                    warnings: false,
+                    comparisons: false
+                },
+                mangle: { safari10: true },
+                output: {
+                    ecma: 5,
+                    comments: false,
+                    ascii_only: true
+                },
                 module: false
             }
         }),
@@ -115,11 +131,11 @@ webPackConfig.optimization = {
 webPackConfig.plugins.push(
     new webpack.DefinePlugin({
         'global.WEBPACK': JSON.stringify(true),
-        'GlobalEnvironment': {
-            'NODE_ENV': JSON.stringify('production'),
-            'ASSET_PATH': JSON.stringify(config.production.assetPath)
+        GlobalEnvironment: {
+            NODE_ENV: JSON.stringify('production'),
+            ASSET_PATH: JSON.stringify(config.production.assetPath)
         },
-        'NODE_ENV': JSON.stringify('production')
+        NODE_ENV: JSON.stringify('production')
     }),
     new webpack.LoaderOptionsPlugin({
         minimize: true,

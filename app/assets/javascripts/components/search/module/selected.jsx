@@ -1,24 +1,25 @@
 'use strict';
 
-import Chip from '@material-ui/core/Chip';
+import Chip from '@mui/material/Chip';
 
-function SearchSelectedModule(props) {
+
+const SearchSelectedModule = function ({selectedTags, onTagClick}) {
     return (
         <div className="search-category">
             <div className="tag-selected-list">
                 {
-                    props.selectedTags.map((tag) => (
+                    selectedTags.map((tag) => (
                         <Chip key={tag.id}
                               label={tag.name}
                               color="primary"
                               variant="outlined"
-                              onClick={props.onTagClick.bind(null, tag)}/>
+                              onClick={onTagClick.bind(null, tag)}/>
                     ))
                 }
             </div>
         </div>
     );
-}
+};
 
 SearchSelectedModule.propTypes = {
     selectedTags: PropTypes.array.isRequired,

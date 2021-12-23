@@ -1,10 +1,6 @@
 'use strict';
 
 import {
-    withRouter
-} from 'react-router-dom';
-
-import {
     userArticlePath
 } from '../../../constants/routesHelper';
 
@@ -27,13 +23,15 @@ import {
     getIsTagError
 } from '../../../selectors';
 
-import {
-    formatTagArticles
-} from '../../../forms/article';
+import withRouter from '../../modules/router';
 
 import {
     getDisplayName
 } from '../../modules/common';
+
+import {
+    formatTagArticles
+} from '../../../forms/article';
 
 import {
     articleWaitTimeBeforeSaving,
@@ -41,9 +39,9 @@ import {
     articleUnsavedDataName
 } from '../../modules/constants';
 
+
 export default function articleMutationManager(mode) {
     return function articleMutation(WrappedComponent) {
-        @withRouter
         @connect((state) => ({
             isUserConnected: state.userState.isConnected,
             currentUser: getCurrentUser(state),
@@ -59,15 +57,16 @@ export default function articleMutationManager(mode) {
             fetchArticle,
             updateArticle
         })
+        @withRouter({location: true, params: true, navigate: true})
         class ArticleMutationComponent extends React.Component {
             static displayName = `ArticleMutationManager(${getDisplayName(WrappedComponent)})`;
 
             static propTypes = {
-                routeParams: PropTypes.object.isRequired,
-                routeState: PropTypes.object,
                 initProps: PropTypes.object,
                 // from router
-                history: PropTypes.object,
+                routeLocation: PropTypes.object,
+                routeParams: PropTypes.object,
+                routeNavigate: PropTypes.func,
                 // from connect
                 isUserConnected: PropTypes.bool,
                 currentUser: PropTypes.object,
@@ -102,20 +101,20 @@ export default function articleMutationManager(mode) {
                         edit: true,
                         localArticle: props.initProps?.article
                     });
-                } else if (props.routeState) {
-                    this.state.article = props.routeState;
+                } else if (props.routeLocation.search) {
+                    this.state.article = props.routeLocation.search;
 
-                    if (props.routeState.parentTagSlug) {
+                    if (props.routeLocation.search.parentTagSlug) {
                         this.state.article = this.state.article ? {...this.state.article} : {};
 
-                        this.state.article.tags = props.tags ? props.tags.filter((tag) => tag.slug === props.routeState.parentTagSlug || tag.slug === props.routeState.childTagSlug) : [];
-                        this.state.article.parentTagSlugs = [props.routeState.parentTagSlug];
-                        if (props.routeState.childTagSlug) {
-                            this.state.article.childTagSlugs = [props.routeState.childTagSlug];
+                        this.state.article.tags = props.tags ? props.tags.filter((tag) => tag.slug === props.routeLocation.search.parentTagSlug || tag.slug === props.routeLocation.search.childTagSlug) : [];
+                        this.state.article.parentTagSlugs = [props.routeLocation.search.parentTagSlug];
+                        if (props.routeLocation.search.childTagSlug) {
+                            this.state.article.childTagSlugs = [props.routeLocation.search.childTagSlug];
                         }
                     }
 
-                    if (props.routeState.temporary) {
+                    if (props.routeLocation.search.temporary) {
                         const temporaryArticle = getLocalData(articleTemporaryDataName, true);
                         if (temporaryArticle?.article) {
                             this.state.article = temporaryArticle.article;
@@ -123,7 +122,7 @@ export default function articleMutationManager(mode) {
                         }
                     }
 
-                    if (props.routeState.content) {
+                    if (props.routeLocation.search.content) {
                         Notification.success(I18n.t('js.article.clipboard'));
                     }
                 } else if (unsavedArticle?.length > 0) {
@@ -131,7 +130,7 @@ export default function articleMutationManager(mode) {
                     this.props.addArticle(this.state.article)
                         .then((response) => {
                             if (response.article) {
-                                this.props.history.push({
+                                this.props.routeNavigate({
                                     pathname: userArticlePath(response.article.user.slug, response.article.slug),
                                     state: {reloadTags: true}
                                 });
@@ -155,9 +154,9 @@ export default function articleMutationManager(mode) {
             }
 
             componentDidMount() {
-                if (this.props.routeState?.position) {
+                if (this.props.routeLocation.search?.position) {
                     this._scrollTimeout = setTimeout(() => {
-                        window.scrollTo(this.props.routeState.position.left || 0, (this.props.routeState.position.top || 0) + 100);
+                        window.scrollTo(this.props.routeLocation.search.position.left || 0, (this.props.routeLocation.search.position.top || 0) + 100);
                     }, 600);
                 }
             }
@@ -264,7 +263,7 @@ export default function articleMutationManager(mode) {
                                 return;
                             }
 
-                            this.props.history.push({
+                            this.props.routeNavigate({
                                 pathname: userArticlePath(response.article.user.slug, response.article.slug),
                                 state: {reloadTags: true}
                             });
@@ -315,7 +314,7 @@ export default function articleMutationManager(mode) {
                         return this.props.addArticle(formData)
                             .then((response) => {
                                 if (response.article) {
-                                    this.props.history.push({
+                                    this.props.routeNavigate({
                                         pathname: userArticlePath(response.article.user.slug, response.article.slug),
                                         state: {reloadTags: true}
                                     });
@@ -326,12 +325,12 @@ export default function articleMutationManager(mode) {
             };
 
             render() {
-                let currentMode = (this.props.routeState?.mode) || 'note';
+                let currentMode = (this.props.routeLocation.search?.mode) || 'note';
                 if (this.props.currentTopic && this.props.currentTopic.mode === 'stories') {
                     currentMode = 'story';
                 }
 
-                const pasteContent = this.props.routeState ? this.props.routeState.pasteContent : undefined;
+                const pasteContent = this.props.routeLocation.search ? this.props.routeLocation.search.pasteContent : undefined;
 
                 // Ensure current article is correct (do not use previous edited article)
                 let article = this.state.article;

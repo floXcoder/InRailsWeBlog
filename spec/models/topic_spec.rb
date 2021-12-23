@@ -26,7 +26,7 @@
 #
 require 'rails_helper'
 
-RSpec.describe Topic, type: :model, basic: true do
+RSpec.describe Topic, type: :model do
 
   before(:all) do
     @user = create(:user)

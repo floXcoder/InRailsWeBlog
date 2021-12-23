@@ -1,8 +1,8 @@
 'use strict';
 
 import {
-    Prompt,
-    Link
+    Link,
+    // Prompt,
 } from 'react-router-dom';
 
 import {
@@ -10,12 +10,9 @@ import {
     Field
 } from 'react-final-form';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import Tab from '@material-ui/core/Tab';
-import Tabs from '@material-ui/core/Tabs';
+import Button from '@mui/material/Button';
+import Tab from '@mui/material/Tab';
+import Tabs from '@mui/material/Tabs';
 
 import {
     editInventoriesTopicPath,
@@ -33,19 +30,14 @@ import TabContainer from '../../material-ui/tabContainer';
 import TextFormField from '../../material-ui/form/text';
 import MultipleSelectFormField from '../../material-ui/form/multiple-select';
 
-import styles from '../../../../jss/topic/form';
 
-
-export default @withStyles(styles)
-class TopicFormDisplay extends React.Component {
+export default class TopicFormDisplay extends React.Component {
     static propTypes = {
         topic: PropTypes.object.isRequired,
         onSubmit: PropTypes.func.isRequired,
         isEditing: PropTypes.bool,
         articleMultilanguage: PropTypes.bool,
-        children: PropTypes.object,
-        // from styles
-        classes: PropTypes.object
+        children: PropTypes.object
     };
 
     static defaultProps = {
@@ -65,9 +57,9 @@ class TopicFormDisplay extends React.Component {
         this.setState({tabStep: value});
     };
 
-    _onUnsavedExit = (location) => {
-        return I18n.t('js.topic.form.unsaved', {location: location.pathname});
-    };
+    // _onUnsavedExit = (location) => {
+    //     return I18n.t('js.topic.form.unsaved', {location: location.pathname});
+    // };
 
     _renderDescriptionField = (handleSubmit, locale = undefined) => {
         const fieldName = locale ? `description_translations[${locale}]` : 'description';
@@ -104,22 +96,22 @@ class TopicFormDisplay extends React.Component {
                     ({handleSubmit, dirty, submitting, values}) => (
                         <form id={`topic-form-${this.props.children.id || 'new'}`}
                               onSubmit={handleSubmit}>
-                            <Prompt when={dirty && !submitting}
-                                    message={this._onUnsavedExit}/>
+                            {/*<Prompt when={dirty && !submitting}*/}
+                            {/*        message={this._onUnsavedExit}/>*/}
 
                             <div className="row">
                                 <div className="col s12 margin-bottom-30">
                                     <Field name="name"
                                            component={TextFormField}
-                                           className={this.props.classes.name}
+                                           className="topic-form-name"
                                            InputLabelProps={{
                                                classes: {
-                                                   root: this.props.classes.nameLabel
+                                                   root: 'topic-form-nameLabel'
                                                }
                                            }}
                                            InputProps={{
                                                classes: {
-                                                   underline: !this.props.children.name && this.props.classes.nameUnderline
+                                                   underline: !this.props.children.name && 'topic-form-nameUnderline'
                                                }
                                            }}
                                            id="topic_name"
@@ -132,7 +124,7 @@ class TopicFormDisplay extends React.Component {
                                 <div className="col s12 margin-bottom-30">
                                     {
                                         values.languages?.length > 1
-                                        ?
+                                            ?
                                             <>
                                                 <Tabs value={this.state.tabStep}
                                                       indicatorColor="primary"
@@ -140,8 +132,9 @@ class TopicFormDisplay extends React.Component {
                                                       centered={true}
                                                       onChange={this._handleTabChange}>
                                                     {
-                                                        values.languages.map((locale) => (
+                                                        values.languages.map((locale, i) => (
                                                             <Tab key={locale}
+                                                                 index={i}
                                                                  label={I18n.t(`js.languages.${locale}`)}/>
                                                         ))
                                                     }
@@ -206,11 +199,11 @@ class TopicFormDisplay extends React.Component {
                                     </div>
 
                                     <div className="col s12">
-                                        <Button color="default"
-                                                variant="text"
-                                                size="small"
-                                                component={Link}
-                                                to={this.props.isEditing ? userTopicPath(this.props.children.user.slug, this.props.children.slug) : rootPath()}>
+                                        <Button
+                                            variant="text"
+                                            size="small"
+                                            component={Link}
+                                            to={this.props.isEditing ? userTopicPath(this.props.children.user.slug, this.props.children.slug) : rootPath()}>
                                             {I18n.t('js.topic.edit.back_button')}
                                         </Button>
                                     </div>

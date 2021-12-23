@@ -88,7 +88,6 @@ test:rails:
   stage: test
   variables:
     RAILS_ENV: "test"
-    BASIC_TEST: "true"
     COVERAGE: "true"
   cache:
     - key: "Gems"
@@ -97,7 +96,7 @@ test:rails:
         - vendor/bundle/
       policy: pull
   script:
-    - bundle exec rspec --tag basic
+    - bundle exec rspec
   interruptible: true
   when: on_success
 #  rules:

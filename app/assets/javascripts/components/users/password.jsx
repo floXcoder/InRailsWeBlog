@@ -1,5 +1,7 @@
 'use strict';
 
+import '../../../stylesheets/pages/user/connection.scss';
+
 import {
     hot
 } from 'react-hot-loader/root';
@@ -8,18 +10,15 @@ import {
     Link
 } from 'react-router-dom';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import Typography from '@material-ui/core/Typography';
+import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import InputAdornment from '@mui/material/InputAdornment';
+import Typography from '@mui/material/Typography';
 
-import EmailIcon from '@material-ui/icons/Email';
-import LockIcon from '@material-ui/icons/Lock';
+import EmailIcon from '@mui/icons-material/Email';
+import LockIcon from '@mui/icons-material/Lock';
 
 import {
     fetchMetaTags
@@ -29,20 +28,16 @@ import {
     rootPath
 } from '../../constants/routesHelper';
 
-import styles from '../../../jss/user/password';
 
 export default @connect(null, {
     fetchMetaTags
 })
 @hot
-@withStyles(styles)
 class UserPassword extends React.Component {
     static propTypes = {
         resetPasswordToken: PropTypes.string,
         // from connect
-        fetchMetaTags: PropTypes.func,
-        // from styles
-        classes: PropTypes.object
+        fetchMetaTags: PropTypes.func
     };
 
     static defaultProps = {
@@ -62,7 +57,7 @@ class UserPassword extends React.Component {
         const token = csrfToken?.getAttribute('content');
 
         return (
-            <Container className={this.props.classes.container}
+            <Container className="user-password-container"
                        maxWidth="md">
                 <form className="connection"
                       action="/api/v1/users/password"
@@ -87,7 +82,7 @@ class UserPassword extends React.Component {
                         </>
                     }
 
-                    <Typography className={this.props.classes.title}
+                    <Typography className="user-password-title"
                                 variant="h1"
                                 component="h1">
                         {
@@ -107,11 +102,11 @@ class UserPassword extends React.Component {
                                   direction="column"
                                   justifyContent="space-between"
                                   alignItems="center">
-                                <Grid classes={{item: this.props.classes.fieldItem}}
+                                <Grid classes={{item: 'user-password-fieldItem'}}
                                       item={true}>
                                     <TextField id="user_password"
                                                name="user[password]"
-                                               className={this.props.classes.textField}
+                                               className="user-password-textField"
                                                label={I18n.t('js.user.password.edit.password')}
                                                required={true}
                                                autoFocus={true}
@@ -127,7 +122,7 @@ class UserPassword extends React.Component {
 
                                     <TextField id="user_password_confirmation"
                                                name="user[password_confirmation]"
-                                               className={this.props.classes.textField}
+                                               className="user-password-textField"
                                                label={I18n.t('js.user.password.edit.password_confirmation')}
                                                required={true}
                                                color="primary"
@@ -147,11 +142,11 @@ class UserPassword extends React.Component {
                                   direction="column"
                                   justifyContent="space-between"
                                   alignItems="center">
-                                <Grid classes={{item: this.props.classes.fieldItem}}
+                                <Grid classes={{item: 'user-password-fieldItem'}}
                                       item={true}>
                                     <TextField id="user_email"
                                                name="user[email]"
-                                               className={this.props.classes.textField}
+                                               className="user-password-textField"
                                                label={I18n.t('js.user.password.new.email')}
                                                required={true}
                                                autoFocus={true}
@@ -168,7 +163,7 @@ class UserPassword extends React.Component {
                     }
 
                     <div className="margin-top-25 margin-bottom-25">
-                        <Link className={this.props.classes.link}
+                        <Link className="user-password-link"
                               to={rootPath()}>
                             {I18n.t('js.user.password.new.back')}
                         </Link>

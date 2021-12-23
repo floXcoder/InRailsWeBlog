@@ -4,22 +4,14 @@ import {
     Suspense
 } from 'react';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
-
 import * as RouteAdminComponents from '../../loaders/adminComponents';
 
-import styles from '../../../../jss/admin/layout';
 
-export default @withStyles(styles)
-class AdminMainLayout extends React.Component {
+export default class AdminMainLayout extends React.Component {
     static propTypes = {
         componentId: PropTypes.string,
-        children: PropTypes.object,
-        // from styles
-        classes: PropTypes.object
-    }
+        children: PropTypes.object
+    };
 
     constructor(props) {
         super(props);
@@ -43,7 +35,7 @@ class AdminMainLayout extends React.Component {
         });
 
         return data;
-    }
+    };
 
     _renderComponent = () => {
         const {component, ...componentData} = this._extractComponentData(this.props.componentId);
@@ -55,15 +47,13 @@ class AdminMainLayout extends React.Component {
                 <Component {...componentData}/>
             </Suspense>
         );
-    }
+    };
 
     render() {
         return (
-            <main className={this.props.classes.content}>
-                <div className={this.props.classes.toolbar}/>
-
+            <main className="main-content">
                 <Suspense fallback={<div/>}>
-                    <div className={this.props.classes.layout}>
+                    <div className="main-layout">
                         {
                             this.props.children
                                 ?

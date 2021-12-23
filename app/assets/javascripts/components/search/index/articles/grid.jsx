@@ -4,16 +4,13 @@ import {
     Link
 } from 'react-router-dom';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import Chip from '@material-ui/core/Chip';
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
+import Card from '@mui/material/Card';
+import CardHeader from '@mui/material/CardHeader';
+import CardContent from '@mui/material/CardContent';
+import CardActions from '@mui/material/CardActions';
+import Chip from '@mui/material/Chip';
+import Typography from '@mui/material/Typography';
+import Divider from '@mui/material/Divider';
 
 import {
     userArticlePath,
@@ -26,14 +23,10 @@ import {
 
 import ArticleInventoryDisplay from '../../../articles/display/items/inventory';
 
-import styles from '../../../../../jss/search/index';
 
-export default @withStyles(styles)
-class ArticleItemDisplay extends React.Component {
+export default class ArticleItemDisplay extends React.Component {
     static propTypes = {
-        article: PropTypes.object.isRequired,
-        // from styles
-        classes: PropTypes.object
+        article: PropTypes.object.isRequired
     };
 
     constructor(props) {
@@ -48,14 +41,14 @@ class ArticleItemDisplay extends React.Component {
         const isInventoryMode = this.props.article.mode === 'inventory';
 
         return (
-            <Card className={this.props.classes.articleCard}
+            <Card className="search-index-articleCard"
                   component="article">
                 <CardHeader
                     classes={{
-                        content: this.props.classes.articleCardHeader
+                        content: 'search-index-articleCardHeader'
                     }}
                     title={
-                        <Link className={this.props.classes.articleGridTitle}
+                        <Link className="search-index-articleGridTitle"
                               to={userArticlePath(this.props.article.user.slug, this.props.article.slug)}
                               onClick={this._handleArticleClick}>
                             {
@@ -71,14 +64,14 @@ class ArticleItemDisplay extends React.Component {
                         </Link>
                     }
                     subheader={
-                        <span className={this.props.classes.articleSubtitle}>
+                        <span className="search-index-articleSubtitle">
                             {`(${this.props.article.date} - ${this.props.article.user.pseudo})`}
                         </span>
                     }
                 />
 
                 <CardContent classes={{
-                    root: this.props.classes.articleContent
+                    root: 'search-index-articleContent'
                 }}>
                     {
                         this.props.article.mode === 'inventory'
@@ -92,7 +85,7 @@ class ArticleItemDisplay extends React.Component {
 
                     {
                         this.props.article.scrapResults &&
-                        <div className={this.props.classes.articleLinksResults}>
+                        <div className="search-index-articleLinksResults">
                             {
                                 this.props.article.scrapResults.slice(1).map((resultsByLink, i) => (
                                     <div key={i}>
@@ -123,13 +116,13 @@ class ArticleItemDisplay extends React.Component {
 
                 {
                     this.props.article.tags.length > 0 &&
-                    <CardActions className={this.props.classes.actions}
+                    <CardActions className="search-index-actions"
                                  disableSpacing={true}>
-                        <div className={this.props.classes.articleTags}>
+                        <div className="search-index-articleTags">
                             {
                                 this.props.article.tags.map((tag) => (
                                     <Chip key={tag.id}
-                                          className={this.props.classes.articleTag}
+                                          className="search-index-articleTag"
                                           component={Link}
                                           to={taggedArticlesPath(tag.slug)}
                                           label={tag.name}

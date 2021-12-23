@@ -1,7 +1,7 @@
 'use strict';
 
-import VisibilityIcon from '@material-ui/icons/VisibilityOutlined';
-import VisibilityOffIcon from '@material-ui/icons/VisibilityOffOutlined';
+import VisibilityIcon from '@mui/icons-material/VisibilityOutlined';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOffOutlined';
 
 const ArticleVisibilityIcon = ({articleVisibility, onVisibilityClick, size, color}) => {
     const isVisible = articleVisibility === 'everyone';

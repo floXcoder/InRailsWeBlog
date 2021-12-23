@@ -1,11 +1,8 @@
 'use strict';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Slider from '@material-ui/core/Slider';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import Slider from '@mui/material/Slider';
 
 import {
     filterSearch,
@@ -13,7 +10,6 @@ import {
 
 import Loader from '../theme/loader';
 
-import styles from '../../../jss/search/sidebar';
 
 export default @connect((state) => ({
     currentUser: state.userState.user,
@@ -23,7 +19,6 @@ export default @connect((state) => ({
 }), {
     filterSearch,
 })
-@withStyles(styles)
 class SearchSidebar extends React.Component {
     static propTypes = {
         // from connect
@@ -31,9 +26,7 @@ class SearchSidebar extends React.Component {
         currentUserTopic: PropTypes.object,
         searchFilters: PropTypes.object,
         articleAvailableFilters: PropTypes.array,
-        filterSearch: PropTypes.func,
-        // from styles
-        classes: PropTypes.object
+        filterSearch: PropTypes.func
     };
 
     constructor(props) {
@@ -104,7 +97,7 @@ class SearchSidebar extends React.Component {
 
             return (
                 <Slider classes={{
-                    markLabel: this.props.classes.sliderMark
+                    markLabel: search - sidebar - sliderMark
                 }}
                         value={formattedValues}
                         onChangeCommitted={this._handleNumberChange.bind(this, filter.fieldName)}
@@ -123,7 +116,7 @@ class SearchSidebar extends React.Component {
 
             return (
                 <Slider classes={{
-                    markLabel: this.props.classes.sliderMark
+                    markLabel: search - sidebar - sliderMark
                 }}
                         value={formattedValues}
                         step={dayStep}
@@ -156,7 +149,7 @@ class SearchSidebar extends React.Component {
     render() {
         if (this.props.currentUser && !this.props.currentUserTopic) {
             return (
-                <div className={this.props.classes.searchSidebar}>
+                <div className="search-sidebar-searchSidebar">
                     <div className="center">
                         <Loader size="big"/>
                     </div>
@@ -169,8 +162,8 @@ class SearchSidebar extends React.Component {
         }
 
         return (
-            <div className={this.props.classes.searchSidebar}>
-                <h2 className={this.props.classes.filterTitle}>
+            <div className="search-sidebar-searchSidebar">
+                <h2 className="search-sidebar-filterTitle">
                     {I18n.t('js.search.sidebar.filter')}
                 </h2>
 
@@ -178,8 +171,8 @@ class SearchSidebar extends React.Component {
                     {
                         this.props.articleAvailableFilters.map((filter, i) => (
                             <div key={i}
-                                 className={this.props.classes.filterCategory}>
-                                <div className={this.props.classes.filterCategoryTitle}>
+                                 className="search-sidebar-filterCategory">
+                                <div className="search-sidebar-filterCategoryTitle">
                                     {filter.name}
                                 </div>
 

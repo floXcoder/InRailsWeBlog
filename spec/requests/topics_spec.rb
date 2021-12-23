@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'Topic API', type: :request, basic: true do
+describe 'Topic API', type: :request do
 
   before(:all) do
     @user       = create(:user)

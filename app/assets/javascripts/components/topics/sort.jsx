@@ -1,25 +1,25 @@
 'use strict';
 
+import '../../../stylesheets/pages/topic/sort.scss';
+
 import {
     hot
 } from 'react-hot-loader/root';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import Modal from '@material-ui/core/Modal';
+import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
 
 import {
     fetchTopics,
     updateTopicPriority
 } from '../../actions';
 
+import withRouter from '../modules/router';
+
 import Loader from '../theme/loader';
 
 import TopicSorter from './sort/sorter';
 
-import styles from '../../../jss/topic/sort';
 
 export default @connect((state) => ({
     currentUserId: state.userState.currentId,
@@ -31,20 +31,19 @@ export default @connect((state) => ({
     fetchTopics,
     updateTopicPriority
 })
+@withRouter({location: true, navigate: true})
 @hot
-@withStyles(styles)
 class SortTopicModal extends React.Component {
     static propTypes = {
-        routeState: PropTypes.object.isRequired,
-        history: PropTypes.object.isRequired,
+        // from router
+        routeLocation: PropTypes.object,
+        routeNavigate: PropTypes.func,
         // from connect
         currentUserId: PropTypes.number,
         isFetching: PropTypes.bool,
         topics: PropTypes.array,
         fetchTopics: PropTypes.func,
-        updateTopicPriority: PropTypes.func,
-        // from styles
-        classes: PropTypes.object
+        updateTopicPriority: PropTypes.func
     };
 
     constructor(props) {
@@ -58,7 +57,7 @@ class SortTopicModal extends React.Component {
     componentDidMount() {
         this.props.fetchTopics(this.props.currentUserId, {
             order: 'priority_desc',
-            visibility: this.props.routeState.visibility
+            visibility: this.props.routeLocation?.search?.visibility
         });
     }
 
@@ -67,7 +66,7 @@ class SortTopicModal extends React.Component {
             isOpen: false
         });
 
-        this.props.history.push({
+        this.props.routeNavigate({
             hash: undefined
         });
     };
@@ -75,7 +74,7 @@ class SortTopicModal extends React.Component {
     _handleUpdatePriority = (topicIds) => {
         this.props.updateTopicPriority(this.props.currentUserId, topicIds)
             .then(() => {
-                this.props.history.push({
+                this.props.routeNavigate({
                     hash: undefined
                 });
             });
@@ -85,8 +84,8 @@ class SortTopicModal extends React.Component {
         return (
             <Modal open={this.state.isOpen}
                    onClose={this._handleClose}>
-                <div className={this.props.classes.modal}>
-                    <Typography className={this.props.classes.title}
+                <div className="topic-sort-modal">
+                    <Typography className="topic-sort-title"
                                 variant="h6">
                         {I18n.t('js.topic.sort.title')}
                     </Typography>
@@ -101,7 +100,6 @@ class SortTopicModal extends React.Component {
                     {
                         this.props.topics.length > 0 &&
                         <TopicSorter key={Utils.uuid()}
-                                     classes={this.props.classes}
                                      topics={this.props.topics}
                                      updateTopicPriority={this._handleUpdatePriority}/>
                     }

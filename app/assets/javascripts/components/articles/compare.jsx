@@ -1,18 +1,17 @@
 'use strict';
 
+import '../../../stylesheets/pages/article/compare.scss';
+
 import {
     hot
 } from 'react-hot-loader/root';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
-import Modal from '@material-ui/core/Modal';
-import Typography from '@material-ui/core/Typography';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
+import Modal from '@mui/material/Modal';
+import Typography from '@mui/material/Typography';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 
 import ReactDiffViewer, {DiffMethod} from 'react-diff-viewer';
 
@@ -20,9 +19,10 @@ import {
     fetchArticle
 } from '../../actions';
 
-import styles from '../../../jss/article/compare';
+import withRouter from '../modules/router';
 
-const stripTags = (string) => string.replace(/(<([^>]+)>)/ig, '');
+
+const stripTags = (string) => string?.replace(/(<([^>]+)>)/ig, '');
 const diffRenderStyle = {display: 'inline'};
 
 export default @connect((state) => ({
@@ -30,16 +30,15 @@ export default @connect((state) => ({
 }), {
     fetchArticle
 })
+@withRouter({navigate: true})
 @hot
-@withStyles(styles)
 class TrackingCompareModal extends React.Component {
     static propTypes = {
-        history: PropTypes.object.isRequired,
+        // from router
+        routeNavigate: PropTypes.func,
         // from connect
         article: PropTypes.object,
-        fetchArticle: PropTypes.func,
-        // from styles
-        classes: PropTypes.object
+        fetchArticle: PropTypes.func
     };
 
     constructor(props) {
@@ -63,7 +62,7 @@ class TrackingCompareModal extends React.Component {
             isOpen: false
         });
 
-        this.props.history.push({
+        this.props.routeNavigate({
             hash: undefined
         });
     };
@@ -85,7 +84,7 @@ class TrackingCompareModal extends React.Component {
 
     _renderLocaleSelect = (name, localePosition) => {
         return (
-            <FormControl className={this.props.classes.select}>
+            <FormControl className="article-compare-select">
                 <InputLabel id={`${localePosition}-label`}>
                     {name}
                 </InputLabel>
@@ -116,12 +115,12 @@ class TrackingCompareModal extends React.Component {
         return (
             <Modal open={this.state.isOpen}
                    onClose={this._handleClose}>
-                <div className={this.props.classes.modal}>
+                <div className="article-compare-modal">
                     {
                         Utils.isEmpty(this.props.article.contentTranslations)
                             ?
                             <>
-                                <Typography className={this.props.classes.title}
+                                <Typography className="article-compare-title"
                                             variant="h6">
                                     {I18n.t('js.article.compare.nothing')}
                                 </Typography>
@@ -137,7 +136,7 @@ class TrackingCompareModal extends React.Component {
                             </>
                             :
                             <>
-                                <Typography className={this.props.classes.title}
+                                <Typography className="article-compare-title"
                                             variant="h6">
                                     {I18n.t('js.article.compare.title')}
                                 </Typography>

@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe Topics::StoreService, type: :service, basic: true do
+describe Topics::StoreService, type: :service do
   subject { described_class.new }
 
   before(:all) do

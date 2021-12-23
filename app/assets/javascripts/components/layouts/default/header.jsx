@@ -5,7 +5,6 @@ import {
 } from 'react';
 
 import {
-    Route,
     Link
 } from 'react-router-dom';
 
@@ -13,22 +12,18 @@ import {
     LoadingBar
 } from 'react-redux-loading-bar';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
-import withWidth from '@material-ui/core/withWidth';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import List from '@material-ui/core/List';
-import Button from '@material-ui/core/Button';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import SwipeableDrawer from '@mui/material/SwipeableDrawer';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import List from '@mui/material/List';
+import Button from '@mui/material/Button';
 
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
 
 import {
     rootPath,
@@ -47,19 +42,19 @@ import {
     showUserLogin
 } from '../../../actions';
 
+import withWidth from '../../modules/mediaQuery';
+import withRouter from '../../modules/router';
+
 import ErrorBoundary from '../../errors/boundary';
 
 import HeadLayout from '../head';
 
 import HomeSearchHeader from '../header/search';
 
-import styles from '../../../../jss/default/header';
-
 const loadingBarStyle = {backgroundColor: '#036603', height: '2px'};
 
+
 export default @connect((state) => ({
-    routeProperties: state.routerState.currentRoute,
-    routeLocation: state.routerState.location,
     metaTags: state.uiState.metaTags,
     isUserSignupOpen: state.uiState.isUserSignupOpen,
     isUserLoginOpen: state.uiState.isUserLoginOpen
@@ -68,15 +63,17 @@ export default @connect((state) => ({
     showUserSignup,
     showUserLogin
 })
+@withRouter({location: true, params: true, navigate: true})
 @withWidth()
-@withStyles(styles)
 class HeaderLayoutDefault extends React.Component {
     static propTypes = {
-        hashRoutes: PropTypes.object.isRequired,
-        history: PropTypes.object.isRequired,
-        // from connect
-        routeProperties: PropTypes.object,
+        searchModule: PropTypes.object.isRequired,
+        // from layout
+        routeProperties: PropTypes.object.isRequired,
+        // from router
         routeLocation: PropTypes.object,
+        routeNavigate: PropTypes.func,
+        // from connect
         metaTags: PropTypes.object,
         isUserSignupOpen: PropTypes.bool,
         isUserLoginOpen: PropTypes.bool,
@@ -84,9 +81,7 @@ class HeaderLayoutDefault extends React.Component {
         showUserSignup: PropTypes.func,
         showUserLogin: PropTypes.func,
         // from withWidth
-        width: PropTypes.string,
-        // from styles
-        classes: PropTypes.object
+        width: PropTypes.string
     };
 
     constructor(props) {
@@ -125,7 +120,7 @@ class HeaderLayoutDefault extends React.Component {
 
     _handleSearchOpen = () => {
         if (this.props.routeLocation.hash !== '#search') {
-            this.props.history.push({
+            this.props.routeNavigate({
                 hash: searchParam
             });
         }
@@ -133,7 +128,7 @@ class HeaderLayoutDefault extends React.Component {
 
     _handleSearchClose = () => {
         if (this.props.routeLocation.hash === '#search') {
-            this.props.history.push({
+            this.props.routeNavigate({
                 hash: undefined
             });
         }
@@ -167,43 +162,22 @@ class HeaderLayoutDefault extends React.Component {
         this.setState((state) => ({isMobileOpen: !state.isMobileOpen}));
     };
 
-    _renderHashRoutes = (routes) => {
-        return routes.map((route, index) => (
-            <Route key={index}
-                   children={({match, location}) => {
-                       const Component = route.component();
-
-                       return (
-                           <div>
-                               {
-                                   location.hash === `#${route.path}` &&
-                                   <Component history={this.props.history}
-                                              routeParams={match.params}
-                                              routeState={location.state}/>
-                               }
-                           </div>
-                       );
-                   }}/>
-        ));
-    };
-
     _renderDesktopMenu = () => {
         return (
-            <div className={this.props.classes.sectionDesktop}
+            <div className="layout-header-sectionDesktop"
                  aria-label="Navigation"
                  itemScope={true}
                  itemType="https://schema.org/SiteNavigationElement">
-                <Button className={this.props.classes.desktopItem}
+                <Button className="layout-header-desktopItem"
                         size="small"
-                        color="default"
                         itemProp="url"
                         onClick={this._handleSignupClick}>
                     {I18n.t('js.views.header.user.sign_up')}
                 </Button>
 
-                <Button className={this.props.classes.desktopItem}
-                        color="default"
+                <Button className="layout-header-desktopItem"
                         itemProp="url"
+                        size="small"
                         onClick={this._handleLoginClick}>
                     {I18n.t('js.views.header.user.log_in')}
                 </Button>
@@ -220,7 +194,7 @@ class HeaderLayoutDefault extends React.Component {
             <SwipeableDrawer variant="temporary"
                              anchor="right"
                              classes={{
-                                 paper: this.props.classes.mobileDrawerPaper
+                                 paper: 'layout-header-mobileDrawerPaper'
                              }}
                              ModalProps={{
                                  keepMounted: true
@@ -229,8 +203,8 @@ class HeaderLayoutDefault extends React.Component {
                              onClose={this._handleDrawerToggle}
                              onOpen={this._handleDrawerToggle}>
                 <>
-                    <div className={this.props.classes.mobileToolbar}>
-                        <h5 className={this.props.classes.mobileTitle}
+                    <div className="layout-header-mobileToolbar">
+                        <h5 className="layout-header-mobileTitle"
                             itemProp="name">
                             <Link className="header-brand-logo-mobile"
                                   to={rootPath()}
@@ -243,21 +217,19 @@ class HeaderLayoutDefault extends React.Component {
                     </div>
 
                     <List>
-                        <ListItem button={true}
-                                  onClick={this._handleLoginClick}>
+                        <ListItemButton onClick={this._handleLoginClick}>
                             <ListItemIcon>
                                 <AccountCircleIcon/>
                             </ListItemIcon>
                             <ListItemText primary={I18n.t('js.views.header.user.log_in')}/>
-                        </ListItem>
+                        </ListItemButton>
 
-                        <ListItem button={true}
-                                  onClick={this._handleSignupClick}>
+                        <ListItemButton onClick={this._handleSignupClick}>
                             <ListItemIcon>
                                 <PersonAddIcon/>
                             </ListItemIcon>
                             <ListItemText primary={I18n.t('js.views.header.user.sign_up')}/>
-                        </ListItem>
+                        </ListItemButton>
                     </List>
                 </>
             </SwipeableDrawer>
@@ -265,20 +237,25 @@ class HeaderLayoutDefault extends React.Component {
     };
 
     render() {
-        const isSearchActive = this.props.routeLocation.hash === '#search';
+        const isSearchActive = this.props.routeLocation.hash === `#${this.props.searchModule.path}`;
+
+        let SearchModule = null;
+        if (isSearchActive) {
+            SearchModule = this.props.searchModule.component();
+        }
 
         return (
             <>
                 <AppBar position="fixed"
-                        className={classNames('animate-search', this.props.classes.appBar)}
+                        className="animate-search layout-header-appBar"
                         itemScope={true}
                         itemType="https://schema.org/Organization">
                     <LoadingBar showFastActions={true}
                                 style={loadingBarStyle}/>
 
-                    <Toolbar className={this.props.classes.toolbar}>
+                    <Toolbar className="layout-header-toolbar">
                         <div>
-                            <div className={this.props.classes.headerTitle}
+                            <div className="layout-header-headerTitle"
                                  itemProp="name">
                                 <Link className="header-brand-logo"
                                       to={rootPath()}
@@ -290,7 +267,7 @@ class HeaderLayoutDefault extends React.Component {
                             </div>
                         </div>
 
-                        <div className={this.props.classes.grow}/>
+                        <div className="layout-header-grow"/>
 
                         {
                             !this.props.routeProperties.noHeaderSearch &&
@@ -303,16 +280,18 @@ class HeaderLayoutDefault extends React.Component {
                             // </Suspense>
                         }
 
-                        <div className={this.props.classes.grow}/>
+                        <div className="layout-header-grow"/>
 
                         {this._renderDesktopMenu()}
 
-                        <div className={this.props.classes.sectionMobile}>
-                            <IconButton className={this.props.classes.menuButton}
-                                        color="primary"
-                                        aria-label="Open drawer"
-                                        onClick={this._handleDrawerToggle}>
-                                <AccountCircleIcon className={this.props.classes.mobileIcon}/>
+                        <div className="layout-header-sectionMobile">
+                            <IconButton
+                                className="layout-header-menuButton"
+                                color="primary"
+                                aria-label="Open drawer"
+                                onClick={this._handleDrawerToggle}
+                                size="large">
+                                <AccountCircleIcon className="layout-header-mobileIcon"/>
                             </IconButton>
                         </div>
                     </Toolbar>
@@ -324,7 +303,7 @@ class HeaderLayoutDefault extends React.Component {
                             isSearchActive &&
                             <Suspense fallback={<div/>}>
                                 <ErrorBoundary errorType="notification">
-                                    {this._renderHashRoutes(this.props.hashRoutes.search)}
+                                    <SearchModule/>
                                 </ErrorBoundary>
                             </Suspense>
                         }
@@ -339,8 +318,8 @@ class HeaderLayoutDefault extends React.Component {
 
                 <div id="clipboard-area"
                      className="hidden">
-                    <textarea id="clipboard"
-                              title="clipboard"/>
+                <textarea id="clipboard"
+                          title="clipboard"/>
                 </div>
 
                 {

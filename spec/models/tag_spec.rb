@@ -29,7 +29,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Tag, type: :model, basic: true do
+RSpec.describe Tag, type: :model do
 
   before(:all) do
     @user = create(:user)

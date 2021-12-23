@@ -1,0 +1,70 @@
+@import 'base/variables';
+
+// ***
+// User connection
+// ***
+.user-connection-container {
+  margin-bottom: .6rem;
+}
+
+.user-connection-fieldItem {
+  width: 90%;
+  margin: 8px auto;
+
+  @media #{$large-and-down} {
+    width: 95%;
+  }
+}
+
+.user-connection-textField {
+  width: 100%;
+}
+
+.user-connection-terms {
+  font-size: .9rem;
+}
+
+.user-connection-password {
+  color: #757575;
+  display: block;
+  font-size: .9rem;
+  font-weight: 300;
+  padding-bottom: 1rem;
+}
+
+// ***
+// User password
+// ***
+.user-password-container {
+  margin: 2rem auto;
+}
+
+.user-password-paper {
+  padding: 1rem;
+}
+
+.user-password-title {
+  margin: 2.4rem;
+  font-size: 2.4rem;
+  text-align: center;
+}
+
+.user-password-fieldItem {
+  width: 90%;
+  margin: 8px auto;
+
+  @media #{$large-and-down} {
+    width: 95%;
+  }
+}
+
+.user-password-textField {
+  width: 100%;
+  margin: 24px;
+}
+
+.user-password-link {
+  color: #757575;
+  font-size: .9rem;
+  font-weight: 300;
+}

@@ -1,16 +1,7 @@
 'use strict';
 
-import {
-    withRouter
-} from 'react-router-dom';
-
 // Keyboard inputs
 import Mousetrap from 'mousetrap';
-
-import {
-    newArticlePath,
-    searchParam
-} from '../../../constants/routesHelper';
 
 import {
     showUserLogin,
@@ -18,8 +9,15 @@ import {
     showUserPreference
 } from '../../../actions';
 
-export default @withRouter
-@connect((state) => ({
+import withRouter from '../../modules/router';
+
+import {
+    newArticlePath,
+    searchParam
+} from '../../../constants/routesHelper';
+
+
+export default @connect((state) => ({
     isUserConnected: state.userState.isConnected,
     currentUserSlug: state.userState.currentSlug,
     currentUserTopicSlug: state.topicState.currentUserTopicSlug
@@ -28,11 +26,12 @@ export default @withRouter
     showTopicPopup,
     showUserPreference
 })
+@withRouter({navigate: true})
 class HotkeyManager extends React.Component {
     static propTypes = {
         children: PropTypes.object.isRequired,
         // from router
-        history: PropTypes.object,
+        routeNavigate: PropTypes.func,
         // from connect
         currentUserSlug: PropTypes.string,
         currentUserTopicSlug: PropTypes.string,
@@ -50,7 +49,7 @@ class HotkeyManager extends React.Component {
     _setHotkeys = () => {
         Mousetrap.bind('alt+a', (event) => {
             event.preventDefault();
-            this.props.history.push(newArticlePath(this.props.currentUserSlug, this.props.currentUserTopicSlug));
+            this.props.routeNavigate(newArticlePath(this.props.currentUserSlug, this.props.currentUserTopicSlug));
         }, 'keydown');
 
         Mousetrap.bind('alt+l', (event) => {
@@ -65,7 +64,7 @@ class HotkeyManager extends React.Component {
 
         Mousetrap.bind('alt+s', (event) => {
             event.preventDefault();
-            this.props.history.push({
+            this.props.routeNavigate({
                 hash: searchParam
             });
         }, 'keydown');

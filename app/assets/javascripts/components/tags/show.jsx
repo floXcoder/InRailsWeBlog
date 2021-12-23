@@ -1,5 +1,7 @@
 'use strict';
 
+import '../../../stylesheets/pages/tag/show.scss';
+
 import {
     hot
 } from 'react-hot-loader/root';
@@ -8,14 +10,11 @@ import {
     Link
 } from 'react-router-dom';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
-import Chip from '@material-ui/core/Chip';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
+import Chip from '@mui/material/Chip';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
 
-import LabelIcon from '@material-ui/icons/Label';
+import LabelIcon from '@mui/icons-material/Label';
 
 import {
     taggedArticlesPath,
@@ -32,13 +31,13 @@ import {
     getCurrentUser
 } from '../../selectors';
 
-import UserAvatarIcon from '../users/icons/avatar';
+import withRouter from '../modules/router';
 
 import Loader from '../theme/loader';
 
 import NotFound from '../layouts/notFound';
 
-import styles from '../../../jss/tag/show';
+import UserAvatarIcon from '../users/icons/avatar';
 
 
 export default @connect((state) => ({
@@ -48,19 +47,18 @@ export default @connect((state) => ({
 }), {
     fetchTag
 })
+@withRouter({params: true})
 @hot
-@withStyles(styles)
 class TagShow extends React.Component {
     static propTypes = {
-        routeParams: PropTypes.object.isRequired,
         initProps: PropTypes.object,
+        // from router
+        routeParams: PropTypes.object,
         // from connect
         currentUser: PropTypes.object,
         isFetching: PropTypes.bool,
         tag: PropTypes.object,
-        fetchTag: PropTypes.func,
-        // from styles
-        classes: PropTypes.object
+        fetchTag: PropTypes.func
     };
 
     constructor(props) {
@@ -95,8 +93,8 @@ class TagShow extends React.Component {
         }
 
         return (
-            <article className={this.props.classes.root}>
-                <Typography className={this.props.classes.title}
+            <article className="tag-show-root">
+                <Typography className="tag-show-title"
                             component="h1"
                             variant="h1">
                     {I18n.t('js.tag.show.title', {name: this.props.tag.name})}
@@ -114,29 +112,27 @@ class TagShow extends React.Component {
                     </div>
 
                     <div className="col s12 l8">
-                        <>
-                            <Typography className={this.props.classes.subtitle}
+                        <Typography className="tag-show-subtitle"
                                         variant="h2"
                                         component="h3">
                                 {I18n.t('js.tag.model.description')}
-                            </Typography>
+                        </Typography>
 
                             {
                                 this.props.tag.description
                                     ?
-                                    <h2 className={this.props.classes.description}
+                                    <h2 className="tag-show-description"
                                         dangerouslySetInnerHTML={{__html: this.props.tag.description}}/>
                                     :
                                     <p>
                                         <em>{I18n.t('js.tag.common.no_description')}</em>
                                     </p>
                             }
-                        </>
 
                         {
                             this.props.tag.parents.length > 0 &&
                             <div className="margin-bottom-20">
-                                <Typography className={this.props.classes.subtitle}
+                                <Typography className="tag-show-subtitle"
                                             variant="h2"
                                             component="h3">
                                     {I18n.t('js.tag.model.parents')}
@@ -148,8 +144,8 @@ class TagShow extends React.Component {
                                             <Chip key={tag.id}
                                                   component={Link}
                                                   classes={{
-                                                      root: this.props.classes.tagChip,
-                                                      label: this.props.classes.tagLabel
+                                                      root: 'tag-show-tagChip',
+                                                      label: 'tag-show-tagLabel'
                                                   }}
                                                   to={showTagPath(tag.slug)}
                                                   label={tag.name}
@@ -169,7 +165,7 @@ class TagShow extends React.Component {
                         {
                             this.props.tag.children.length > 0 &&
                             <div className="margin-bottom-20">
-                                <Typography className={this.props.classes.subtitle}
+                                <Typography className="tag-show-subtitle"
                                             variant="h2"
                                             component="h3">
                                     {I18n.t('js.tag.model.children')}
@@ -180,8 +176,8 @@ class TagShow extends React.Component {
                                         <Chip key={tag.id}
                                               component={Link}
                                               classes={{
-                                                  root: this.props.classes.tagChip,
-                                                  label: this.props.classes.tagLabel
+                                                  root: 'tag-show-tagChip',
+                                                  label: 'tag-show-tagLabel'
                                               }}
                                               to={showTagPath(tag.slug)}
                                               label={tag.name}
@@ -200,7 +196,7 @@ class TagShow extends React.Component {
 
                     <div className="col s12 l4">
                         <div>
-                            <Typography className={this.props.classes.subtitle2}
+                            <Typography className="tag-show-subtitle2"
                                         variant="h3"
                                         component="h3">
                                 {I18n.t('js.tag.model.articles_count')}
@@ -212,7 +208,7 @@ class TagShow extends React.Component {
                         </div>
 
                         <div>
-                            <Typography className={this.props.classes.subtitle2}
+                            <Typography className="tag-show-subtitle2"
                                         variant="h3"
                                         component="h3">
                                 {I18n.t('js.tag.model.visibility')}
@@ -224,7 +220,7 @@ class TagShow extends React.Component {
                         </div>
 
                         <div>
-                            <Typography className={this.props.classes.subtitle2}
+                            <Typography className="tag-show-subtitle2"
                                         variant="h3"
                                         component="h3">
                                 {I18n.t('js.tag.model.synonyms')}
@@ -244,20 +240,20 @@ class TagShow extends React.Component {
                         </div>
 
                         <div>
-                            <Typography className={this.props.classes.subtitle2}
+                            <Typography className="tag-show-subtitle2"
                                         variant="h3"
                                         component="h3">
                                 {I18n.t('js.tag.model.owner')}
                             </Typography>
 
-                            <UserAvatarIcon className={this.props.classes.avatar}
+                            <UserAvatarIcon className="tag-show-avatar"
                                             user={this.props.tag.user}/>
                         </div>
 
                         {
                             (this.props.currentUser?.id === this.props.tag.user.id && this.props.tag.visibility === 'everyone' && this.props.tag.tracker) &&
                             <div>
-                                <Typography className={this.props.classes.subtitle2}
+                                <Typography className="tag-show-subtitle2"
                                             variant="h3"
                                             component="h3">
                                     {I18n.t('js.tag.common.stats.title')}
@@ -283,11 +279,11 @@ class TagShow extends React.Component {
                 {
                     this.props.currentUser?.id === this.props.tag.user.id &&
                     <div className="center-align margin-top-60 margin-bottom-20">
-                        <Button color="default"
-                                variant="outlined"
-                                size="small"
-                                component={Link}
-                                to={editTagPath(this.props.tag.slug)}>
+                        <Button
+                            variant="outlined"
+                            size="small"
+                            component={Link}
+                            to={editTagPath(this.props.tag.slug)}>
                             {I18n.t('js.tag.show.edit_link')}
                         </Button>
                     </div>

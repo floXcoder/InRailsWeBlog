@@ -16,7 +16,7 @@
 #
 require 'rails_helper'
 
-RSpec.describe Seo::Data, type: :model, basic: true do
+RSpec.describe Seo::Data, type: :model do
 
   before do
     @seo_data = Seo::Data.create(

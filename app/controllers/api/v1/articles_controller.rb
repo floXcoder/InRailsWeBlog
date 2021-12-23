@@ -240,7 +240,7 @@ module Api::V1
         browsers:       format_tracking(article_uniq_visits.group_by(&:browser), 8),
         os:             format_tracking(article_uniq_visits.group_by(&:os), 8),
         utmSources:     format_tracking(article_uniq_visits.group_by(&:utm_source), 8),
-        referers:       format_tracking(article_uniq_visits.group_by(&:referring_domain), 10)
+        referrers:       format_tracking(article_uniq_visits.group_by(&:referring_domain), 10)
       }
 
       respond_to do |format|

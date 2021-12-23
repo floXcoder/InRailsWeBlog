@@ -1,10 +1,10 @@
 'use strict';
 
 import {
-    MuiThemeProvider,
-    StylesProvider
-} from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
+    ThemeProvider,
+    StyledEngineProvider
+} from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
 
 import {
     Provider,
@@ -12,7 +12,7 @@ import {
 } from 'react-redux';
 
 import {
-    Router
+    BrowserRouter
 } from 'react-router-dom';
 
 import {
@@ -29,17 +29,11 @@ import {
 
 import routes from '../../../routes';
 
-import browserHistory from '../../modules/browserHistory';
 import ScrollBackManager from '../../modules/scrollBackManager';
 
-import ErrorBoundary from '../../errors/boundary';
+import LayoutDefault from './layout';
 
-import HeaderLayoutDefault from './header';
-import MainLayoutDefault from './main';
-import FooterLayoutDefault from './footer';
-
-import theme from '../../../../jss/theme';
-import generateClassName from '../../../../jss/generateClassname';
+import theme from '../../../theme';
 
 
 export default class ApplicationLayoutDefault extends React.Component {
@@ -50,7 +44,7 @@ export default class ApplicationLayoutDefault extends React.Component {
             PropTypes.object,
             PropTypes.string
         ])
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -65,39 +59,25 @@ export default class ApplicationLayoutDefault extends React.Component {
 
     render() {
         return (
-            <StylesProvider generateClassName={generateClassName}>
-                <MuiThemeProvider theme={theme}>
+            <StyledEngineProvider injectFirst={true}>
+                <ThemeProvider theme={theme}>
                     <CssBaseline/>
 
                     <Provider store={configureStore}
                               context={ReactReduxContext}>
                         <HelmetProvider>
-                            <Router history={browserHistory}>
+                            <BrowserRouter>
                                 <ScrollBackManager>
-                                    <>
-                                        <ErrorBoundary errorType="text"
-                                                       errorTitle={I18n.t('js.helpers.errors.boundary.header')}>
-                                            <HeaderLayoutDefault history={browserHistory}
-                                                                 hashRoutes={routes.hashes}/>
-                                        </ErrorBoundary>
-
-                                        <ErrorBoundary errorType="card">
-                                            <MainLayoutDefault
-                                                routes={[...routes.static.common, ...routes.static.home, ...routes.static.notFound]}
-                                                {...this._componentProps()}/>
-                                        </ErrorBoundary>
-
-                                        <ErrorBoundary errorType="text"
-                                                       errorTitle={I18n.t('js.helpers.errors.boundary.footer')}>
-                                            <FooterLayoutDefault/>
-                                        </ErrorBoundary>
-                                    </>
+                                    <LayoutDefault
+                                        routes={[...routes.static.common, ...routes.static.home, ...routes.static.notFound]}
+                                        hashRoutes={routes.hashes}
+                                        {...this._componentProps()}/>
                                 </ScrollBackManager>
-                            </Router>
+                            </BrowserRouter>
                         </HelmetProvider>
                     </Provider>
-                </MuiThemeProvider>
-            </StylesProvider>
+                </ThemeProvider>
+            </StyledEngineProvider>
         );
     }
 }

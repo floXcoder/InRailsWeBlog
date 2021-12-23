@@ -4,11 +4,8 @@ import {
     hot
 } from 'react-hot-loader/root';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import Button from '@material-ui/core/Button';
+import Paper from '@mui/material/Paper';
+import Button from '@mui/material/Button';
 
 import {
     fetchSeoData,
@@ -23,7 +20,6 @@ import Loader from '../theme/loader';
 
 import AdminSeoDataForm from './seo/form';
 
-import styles from '../../../jss/admin/form';
 
 export default @connect((state) => ({
     seoData: state.adminState.seoData,
@@ -36,7 +32,6 @@ export default @connect((state) => ({
     deleteSeoData
 })
 @hot
-@withStyles(styles)
 class AdminSeoData extends React.Component {
     static propTypes = {
         seoPages: PropTypes.array.isRequired,
@@ -47,9 +42,7 @@ class AdminSeoData extends React.Component {
         retrieveParametersSeoData: PropTypes.func,
         addSeoData: PropTypes.func,
         updateSeoData: PropTypes.func,
-        deleteSeoData: PropTypes.func,
-        // from styles
-        classes: PropTypes.object
+        deleteSeoData: PropTypes.func
     };
 
     constructor(props) {
@@ -159,8 +152,7 @@ class AdminSeoData extends React.Component {
                     (this.state.isAddingSeoData || this.state.editingSeoData) &&
                     <Paper className="margin-top-30 margin-bottom-40"
                            elevation={1}>
-                        <AdminSeoDataForm classes={this.props.classes}
-                                          seoPages={this.props.seoPages}
+                        <AdminSeoDataForm seoPages={this.props.seoPages}
                                           seoPagesUsed={this.props.seoData?.map((seoData) => seoData.name)}
                                           retrieveParameters={this.props.retrieveParametersSeoData}
                                           isNew={this.state.isNew}

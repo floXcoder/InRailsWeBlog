@@ -4,36 +4,29 @@ import {
     Field
 } from 'react-final-form';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import Collapse from '@material-ui/core/Collapse';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
+import InputAdornment from '@mui/material/InputAdornment';
+import Collapse from '@mui/material/Collapse';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import Divider from '@mui/material/Divider';
 
-import OpenInNewIcon from '@material-ui/icons/OpenInNew';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import SelectFormField from '../../../material-ui/form/select';
 import TextFormField from '../../../material-ui/form/text';
 import CheckBoxFieldForm from '../../../material-ui/form/checkbox';
 import SwitchFormField from '../../../material-ui/form/switch';
 
-import styles from '../../../../../jss/article/form/shared';
 
-export default @withStyles(styles)
-class ArticleAdvancedField extends React.PureComponent {
+export default class ArticleAdvancedField extends React.PureComponent {
     static propTypes = {
         currentMode: PropTypes.string.isRequired,
         isEditing: PropTypes.bool.isRequired,
         change: PropTypes.func.isRequired,
         inheritVisibility: PropTypes.string,
         currentVisibility: PropTypes.string,
-        currentDraft: PropTypes.bool,
-        // from styles
-        classes: PropTypes.object
+        currentDraft: PropTypes.bool
     };
 
     state = {
@@ -67,15 +60,17 @@ class ArticleAdvancedField extends React.PureComponent {
 
     render() {
         return (
-            <div className="row margin-top-20 margin-bottom-50">
+            <div className="row margin-top-40 margin-bottom-50">
                 {
                     this.props.inheritVisibility !== 'only_me' &&
-                    <div className="col s12 m6 center-align">
+                    <div className={classNames('col s12 center-align', {
+                        m6: this.props.currentVisibility !== 'everyone'
+                    })}>
                         <Field name="visibility"
                                component={SelectFormField}
                                id="article_visibility"
                                onChange={this._handleVisibilityChange}
-                               className={this.props.classes.select}
+                               className="article-form-select"
                                label={I18n.t('js.article.model.visibility')}
                                options={I18n.t('js.article.enums.visibility')}/>
                     </div>
@@ -83,7 +78,9 @@ class ArticleAdvancedField extends React.PureComponent {
 
                 {
                     this.props.currentVisibility !== 'everyone' &&
-                    <div className="col s12 m6 center-align">
+                    <div className={classNames('col s12 center-align', {
+                        m6: this.props.inheritVisibility !== 'only_me'
+                    })}>
                         <Field name="draft"
                                type="checkbox"
                                onChange={this._handleDraftChange}
@@ -97,7 +94,7 @@ class ArticleAdvancedField extends React.PureComponent {
                 {
                     (this.props.inheritVisibility !== 'only_me' || this.props.currentVisibility !== 'everyone' || this.props.isEditing) &&
                     <div className="col s12 center-align">
-                        <Divider className={this.props.classes.advancedDivider}/>
+                        <Divider className="article-form-advancedDivider"/>
                     </div>
                 }
 
@@ -110,14 +107,14 @@ class ArticleAdvancedField extends React.PureComponent {
                                label={I18n.t('js.article.common.allow_comment.title')}
                                values={I18n.t('js.article.common.allow_comment')}/>
 
-                        <Divider className={this.props.classes.advancedDivider}/>
+                        <Divider className="article-form-advancedDivider"/>
                     </div>
                 }
 
                 {/*<div className="col s12 m6">*/}
                 {/*    <Field name="language"*/}
                 {/*           id="article_language"*/}
-                {/*           className={this.props.classes.select}*/}
+                {/*           className={article-form-select}*/}
                 {/*           label={I18n.t('js.article.model.language')}*/}
                 {/*           options={I18n.t('js.languages')}*/}
                 {/*           component={SelectFormField}/>*/}
@@ -126,17 +123,19 @@ class ArticleAdvancedField extends React.PureComponent {
                 {
                     this.props.currentMode !== 'link' &&
                     <div className="col s12 center-align">
-                        <a className={this.props.classes.externalReferenceButton}
+                        <a className="article-form-externalReferenceButton"
                            href="#"
                            onClick={this._handleExpandClick}>
                             <Typography variant="body1"
                                         gutterBottom={false}>
                                 {I18n.t('js.article.common.external_source')}
 
-                                <IconButton className={classNames(this.props.classes.externalReferenceExpand, {
-                                    [this.props.classes.externalReferenceExpandOpen]: this.state.isSourceExpanded
-                                })}
-                                            aria-label="Show more">
+                                <IconButton
+                                    className={classNames('article-form-externalReferenceExpand', {
+                                        'article-form-externalReferenceExpandOpen': this.state.isSourceExpanded
+                                    })}
+                                    aria-label="Show more"
+                                    size="large">
                                     <ExpandMoreIcon/>
                                 </IconButton>
                             </Typography>
@@ -151,7 +150,7 @@ class ArticleAdvancedField extends React.PureComponent {
                         <Field name="reference"
                                component={TextFormField}
                                id="article_reference"
-                               className={this.props.classes.select}
+                               className="article-form-select"
                                icon="open_in_new"
                                label={I18n.t(`js.article.common.placeholders.reference.${this.props.currentMode}`)}
                                InputProps={{

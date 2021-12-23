@@ -1,10 +1,10 @@
 'use strict';
 
-import IconButton from '@material-ui/core/IconButton';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
+import IconButton from '@mui/material/IconButton';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 
-import LanguageIcon from '@material-ui/icons/Language';
+import LanguageIcon from '@mui/icons-material/Language';
 
 const ArticleLanguageIcon = ({currentLocale, languages, onLanguageChange, size, color}) => {
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -25,10 +25,12 @@ const ArticleLanguageIcon = ({currentLocale, languages, onLanguageChange, size, 
     return (
         <span className="flow-tooltip-bottom"
               data-tooltip={I18n.t('js.article.tooltip.languages')}>
-          <IconButton aria-label="more"
-                      aria-controls="article-language-select"
-                      aria-haspopup="true"
-                      onClick={handleClick}>
+          <IconButton
+              aria-label="more"
+              aria-controls="article-language-select"
+              aria-haspopup="true"
+              onClick={handleClick}
+              size="large">
             <LanguageIcon color={color}
                           fontSize={size}/>
           </IconButton>

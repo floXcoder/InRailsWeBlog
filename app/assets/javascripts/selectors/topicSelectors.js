@@ -18,13 +18,13 @@ export const getPrivateTopics = createSelector(
 // Topic
 export const getEditingTopic = createSelector(
     (state) => state.topicState.userTopics,
-    (_, routerState) => routerState?.topicId,
+    (_, routerSearch) => routerSearch?.topicId,
     (topics, topicId) => topics.find((topic) => topic.id === topicId)
 );
 
 export const getSharingTopic = createSelector(
     (state) => state.topicState.userTopics,
-    (_, routerState) => routerState?.topicId,
+    (_, routerSearch) => routerSearch?.topicId,
     (topics, topicId) => topics.find((topic) => topic.id === topicId)
 );
 

@@ -1,5 +1,7 @@
 'use strict';
 
+import '../../../stylesheets/pages/article/index.scss';
+
 import {
     hot
 } from 'react-hot-loader/root';
@@ -11,10 +13,6 @@ import {
 import {
     parse
 } from 'qs';
-
-import {
-    withStyles
-} from '@material-ui/core/styles';
 
 import {
     ArticleShow,
@@ -45,6 +43,7 @@ import {
 } from '../modules/constants';
 
 import RouteManager from '../../modules/routeManager';
+import withRouter from '../modules/router';
 
 import Loader from '../theme/loader';
 import Pagination from '../theme/pagination';
@@ -53,8 +52,6 @@ import SummaryStoriesTopic from '../topics/stories/summary';
 
 import ArticleRecommendationDisplay from './display/recommendation';
 import ArticleNoneDisplay from './display/items/none';
-
-import styles from '../../../jss/article/index';
 
 
 export default @connect((state) => ({
@@ -84,13 +81,14 @@ export default @connect((state) => ({
     fetchTopic,
     setCurrentTags
 })
+@withRouter({location: true, params: true})
 @hot
-@withStyles(styles)
 class ArticleIndex extends React.Component {
     static propTypes = {
-        routeParams: PropTypes.object.isRequired,
-        routeHash: PropTypes.string,
         initProps: PropTypes.object,
+        // from router
+        routeLocation: PropTypes.object,
+        routeParams: PropTypes.object,
         // from connect
         currentUserId: PropTypes.number,
         currentTopic: PropTypes.object,
@@ -115,9 +113,7 @@ class ArticleIndex extends React.Component {
         fetchTag: PropTypes.func,
         fetchUser: PropTypes.func,
         fetchTopic: PropTypes.func,
-        setCurrentTags: PropTypes.func,
-        // from styles
-        classes: PropTypes.object
+        setCurrentTags: PropTypes.func
     };
 
     constructor(props) {
@@ -147,7 +143,7 @@ class ArticleIndex extends React.Component {
 
     componentDidUpdate(prevProps) {
         // Manage articles order or sort display
-        if (!Object.equals(this.props.routeParams, prevProps.routeParams) || this.props.routeHash !== prevProps.routeHash) {
+        if (!Object.equals(this.props.routeParams, prevProps.routeParams) || this.props.routeLocation.search !== prevProps.routeLocation.search) {
             if (prevProps.routeParams.order !== this.props.routeParams.order) {
                 if (this.props.routeParams.order) {
                     this.props.updateArticleOrderDisplay(this.props.routeParams.order);
@@ -243,7 +239,7 @@ class ArticleIndex extends React.Component {
 
     _fetchNextArticles = (params = {}) => {
         if (this.props.articlePagination && this.props.articlePagination.currentPage <= this.props.articlePagination.totalPages) {
-            const queryParams = parse(this.props.routeHash.replace(/^\?/, ''));
+            const queryParams = parse(this.props.routeLocation.search.replace(/^\?/, ''));
             const options = {
                 page: (params.selected ?? this.props.articlePagination.currentPage) + 1
             };
@@ -368,13 +364,13 @@ class ArticleIndex extends React.Component {
                                          topic={this.props.storyTopic}/>
                 }
 
-                <div className={classNames(this.props.classes.articleIndex, {
-                    [this.props.classes.largeContainer]: isLargeContainer,
-                    [this.props.classes.fullContainer]: isFullContainer
+                <div className={classNames('article-index', {
+                    'article-index-large-container': isLargeContainer,
+                    'article-index-full-container': isFullContainer
                 })}>
                     {
                         this.props.currentState === 'fetching' &&
-                        <div className={this.props.classes.articleIndex}>
+                        <div className="article-index">
                             <div className="center">
                                 <Loader size="big"/>
                             </div>
@@ -419,8 +415,7 @@ class ArticleIndex extends React.Component {
                             {
                                 isInfiniteDisplay
                                     ?
-                                    <ArticleInfiniteMode classes={this.props.classes}
-                                                         articlesCount={this.props.articlesCount}
+                                    <ArticleInfiniteMode articlesCount={this.props.articlesCount}
                                                          hasMoreArticles={hasMoreArticles}
                                                          fetchArticles={this._fetchNextArticles}>
                                         {ArticleNodes}

@@ -4,7 +4,7 @@ import {
     hot
 } from 'react-hot-loader/root';
 
-import AssignmentIcon from '@material-ui/icons/Assignment';
+import AssignmentIcon from '@mui/icons-material/Assignment';
 
 import ArticleSummaryDisplay from '../items/summary';
 

@@ -2,14 +2,17 @@
 
 import Autocomplete from '../../theme/autocomplete';
 
-const AutocompleteFormField = ({input, label, helperText, meta: {touched, error}, ...custom}) => (
-    <Autocomplete {...input}
-                  label={label}
-                  currentSuggestion={input.value}
-                  helperText={!!error ? error : helperText}
-                  error={touched && !!error}
-                  {...custom}/>
-);
+
+const AutocompleteFormField = function ({input, label, helperText, meta: {touched, error}, ...custom}) {
+    return (
+        <Autocomplete {...input}
+                      label={label}
+                      currentSuggestion={input.value}
+                      helperText={!!error ? error : helperText}
+                      error={touched && !!error}
+                      {...custom}/>
+    );
+};
 
 AutocompleteFormField.propTypes = {
     input: PropTypes.object.isRequired,

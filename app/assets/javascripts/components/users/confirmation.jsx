@@ -4,7 +4,7 @@ import {
     hot
 } from 'react-hot-loader/root';
 
-import Container from '@material-ui/core/Container';
+import Container from '@mui/material/Container';
 
 export default @hot
 class UserConfirmation extends React.Component {

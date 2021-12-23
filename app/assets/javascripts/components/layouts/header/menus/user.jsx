@@ -4,24 +4,24 @@ import {
     Link
 } from 'react-router-dom';
 
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import List from '@mui/material/List';
+import Divider from '@mui/material/Divider';
 
-import DashboardIcon from '@material-ui/icons/Dashboard';
-import PortraitIcon from '@material-ui/icons/Portrait';
-import SettingsIcon from '@material-ui/icons/Settings';
-import CancelIcon from '@material-ui/icons/Cancel';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import PortraitIcon from '@mui/icons-material/Portrait';
+import SettingsIcon from '@mui/icons-material/Settings';
+import CancelIcon from '@mui/icons-material/Cancel';
 
 import {
     userHomePath
 } from '../../../../constants/routesHelper';
 
+
 export default class HeaderUserMenu extends React.Component {
     static propTypes = {
-        classes: PropTypes.object.isRequired,
         userSlug: PropTypes.string.isRequired,
         onPreferenceClick: PropTypes.func.isRequired,
         onLogoutClick: PropTypes.func.isRequired,
@@ -39,24 +39,24 @@ export default class HeaderUserMenu extends React.Component {
             <>
                 <ListItem button={true}
                           component="a"
-                          className={this.props.classes.link}
+                          className="layout-header-link"
                           href="/admins">
                     <ListItemIcon>
                         <DashboardIcon/>
                     </ListItemIcon>
 
-                    <ListItemText classes={{primary: this.props.classes.link}}>
+                    <ListItemText classes={{primary: 'layout-header-link'}}>
                         {I18n.t('js.views.header.user.administration')}
                     </ListItemText>
                 </ListItem>
 
-                <Divider />
+                <Divider/>
             </>
         );
 
         return (
             <List className={classNames({
-                [this.props.classes.nestedMenu]: this.props.isNested
+                'layout-header-nestedMenu': this.props.isNested
             })}
                   component="div"
                   disablePadding={this.props.isNested}>
@@ -67,13 +67,13 @@ export default class HeaderUserMenu extends React.Component {
 
                 <ListItem button={true}
                           component={Link}
-                          className={this.props.classes.link}
+                          className="layout-header-link"
                           to={userHomePath(this.props.userSlug)}>
                     <ListItemIcon>
                         <PortraitIcon/>
                     </ListItemIcon>
 
-                    <ListItemText classes={{primary: this.props.classes.link}}>
+                    <ListItemText classes={{primary: 'layout-header-link'}}>
                         {I18n.t('js.views.header.user.profile')}
                     </ListItemText>
                 </ListItem>
@@ -84,7 +84,7 @@ export default class HeaderUserMenu extends React.Component {
                         <SettingsIcon/>
                     </ListItemIcon>
 
-                    <ListItemText classes={{primary: this.props.classes.link}}>
+                    <ListItemText classes={{primary: 'layout-header-link'}}>
                         {I18n.t('js.views.header.user.settings')}
                     </ListItemText>
                 </ListItem>
@@ -96,7 +96,7 @@ export default class HeaderUserMenu extends React.Component {
                         <CancelIcon/>
                     </ListItemIcon>
 
-                    <ListItemText classes={{primary: this.props.classes.link}}>
+                    <ListItemText classes={{primary: 'layout-header-link'}}>
                         {I18n.t('js.views.header.user.log_out')}
                     </ListItemText>
                 </ListItem>

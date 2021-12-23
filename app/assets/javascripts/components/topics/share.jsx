@@ -1,14 +1,13 @@
 'use strict';
 
+import '../../../stylesheets/pages/topic/share.scss';
+
 import {
     hot
 } from 'react-hot-loader/root';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
-import Modal from '@material-ui/core/Modal';
-import Typography from '@material-ui/core/Typography';
+import Modal from '@mui/material/Modal';
+import Typography from '@mui/material/Typography';
 
 import {
     validateUser,
@@ -19,25 +18,25 @@ import {
     getSharingTopic
 } from '../../selectors';
 
+import withRouter from '../modules/router';
+
 import ShareFormTopic from './share/form';
 
-import styles from '../../../jss/topic/share';
 
-export default @connect((state, props) => ({
-    sharingTopic: getSharingTopic(state, props.routeState)
+export default @withRouter({location: true, navigate: true})
+@connect((state, props) => ({
+    sharingTopic: getSharingTopic(state, props.routeLocation?.search)
 }), {
     shareTopic
 })
 @hot
-@withStyles(styles)
 class ShareTopicModal extends React.Component {
     static propTypes = {
-        history: PropTypes.object.isRequired,
+        // from router
+        routeNavigate: PropTypes.func,
         // from connect
         sharingTopic: PropTypes.object,
-        shareTopic: PropTypes.func,
-        // from styles
-        classes: PropTypes.object
+        shareTopic: PropTypes.func
     };
 
     constructor(props) {
@@ -46,7 +45,7 @@ class ShareTopicModal extends React.Component {
 
     state = {
         isOpen: true,
-        errorText: null
+        errorText: undefined
     };
 
     _handleClose = () => {
@@ -54,7 +53,7 @@ class ShareTopicModal extends React.Component {
             isOpen: false
         });
 
-        this.props.history.push({
+        this.props.routeNavigate({
             hash: undefined
         });
     };
@@ -92,14 +91,13 @@ class ShareTopicModal extends React.Component {
         return (
             <Modal open={this.state.isOpen}
                    onClose={this._handleClose}>
-                <div className={this.props.classes.modal}>
-                    <Typography className={this.props.classes.title}
+                <div className="topic-share-modal">
+                    <Typography className="topic-share-title"
                                 variant="h6">
                         {I18n.t('js.topic.share.title')}
                     </Typography>
 
-                    <ShareFormTopic classes={this.props.classes}
-                                    errorText={this.state.errorText}
+                    <ShareFormTopic errorText={this.state.errorText}
                                     onUserChange={this._handleUserChange}
                                     onCancel={this._handleClose}
                                     onShare={this._handleShareSubmit}/>

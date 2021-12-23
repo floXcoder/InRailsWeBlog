@@ -10,12 +10,9 @@ import {
     CSSTransition
 } from 'react-transition-group';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
+import Button from '@mui/material/Button';
 
-import CommentIcon from '@material-ui/icons/Comment';
+import CommentIcon from '@mui/icons-material/Comment';
 
 import {
     fetchComments,
@@ -34,7 +31,6 @@ import CircleSpinner from '../theme/spinner/circle';
 import CommentList from './list';
 import CommentForm from './form';
 
-import styles from '../../../jss/comment/box';
 
 export default @connect((state) => ({
     isUserConnected: state.userState.isConnected,
@@ -50,7 +46,6 @@ export default @connect((state) => ({
     deleteComment
 })
 @hot
-@withStyles(styles)
 class CommentBox extends React.Component {
     static propTypes = {
         commentableId: PropTypes.number.isRequired,
@@ -72,9 +67,7 @@ class CommentBox extends React.Component {
         fetchComments: PropTypes.func,
         addComment: PropTypes.func,
         updateComment: PropTypes.func,
-        deleteComment: PropTypes.func,
-        // from styles
-        classes: PropTypes.object
+        deleteComment: PropTypes.func
     };
 
     static defaultProps = {
@@ -171,14 +164,14 @@ class CommentBox extends React.Component {
     render() {
         return (
             <div id={this.props.id}
-                 className={classNames('comments', this.props.classes.root)}>
-                <hr className={this.props.classes.separation}/>
+                 className="comments">
+                <hr className="separation"/>
 
-                <h2 className={this.props.classes.title}>
+                <h2 className="title">
                     {I18n.t('js.comment.common.title')}
                 </h2>
 
-                <div className={this.props.classes.content}>
+                <div className="content">
                     {
                         this.props.isLoadingComments &&
                         <CircleSpinner className="center-align"/>
@@ -189,11 +182,11 @@ class CommentBox extends React.Component {
                         (
                             this.props.isUserOwner
                                 ?
-                                <div className={this.props.classes.headline}>
+                                <div className="headline">
                                     {I18n.t('js.comment.common.no_opinion')}
                                 </div>
                                 :
-                                <div className={this.props.classes.headline}>
+                                <div className="headline">
                                     {I18n.t('js.comment.common.empty')}
                                 </div>
                         )
@@ -216,7 +209,7 @@ class CommentBox extends React.Component {
                                     variant="outlined"
                                     size="small"
                                     onClick={this._handleShowFormComment}>
-                                <CommentIcon className={this.props.classes.leftIcon}/>
+                                <CommentIcon className="left-icon"/>
                                 {I18n.t('js.comment.new.button')}
                             </Button>
                         </div>

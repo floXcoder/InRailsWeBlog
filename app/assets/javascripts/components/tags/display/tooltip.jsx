@@ -1,11 +1,6 @@
 'use strict';
 
-import ToolTip from 'react-portal-tooltip';
-
-import {
-    withStyles,
-    withTheme
-} from '@material-ui/core/styles';
+import Tooltip from '@mui/material/Tooltip';
 
 import {
     spyTrackClick
@@ -15,54 +10,49 @@ import {
     showTagPath
 } from '../../../constants/routesHelper';
 
-import styles from '../../../../jss/article/tooltip';
 
-export default @withTheme
-@withStyles(styles)
-class TooltipTag extends React.PureComponent {
-    static propTypes = {
-        articleId: PropTypes.number.isRequired,
-        tag: PropTypes.object.isRequired,
-        tagTooltipActive: PropTypes.number,
-        // from styles
-        theme: PropTypes.object,
-        classes: PropTypes.object,
-    };
+const TooltipTag = function TooltipTag({tag, children}) {
+    return (
+        <Tooltip placement="bottom"
+                 arrow={true}
+                 classes={{
+                     tooltip: 'tooltip-tag-tooltip',
+                     arrow: 'tooltip-tag-arrow'
+                 }}
+                 title={
+                     <div>
+                         <div className="tooltip-tag-heading">
+                             {I18n.t('js.tag.common.usage', {count: tag.taggedArticlesCount})}
+                         </div>
 
-    render() {
-        const {articleId, tag, tagTooltipActive, theme, classes} = this.props;
+                         <div className="tooltip-tag-description">
+                             <div className="normalized-content"
+                                  dangerouslySetInnerHTML={{__html: tag.description}}/>
 
-        return (
-            <ToolTip active={tagTooltipActive === tag.id}
-                     position="bottom"
-                     arrow="center"
-                     parent={`#article-${articleId}-tags-${tag.id}`}
-                     style={styles(theme)}>
-                <div>
-                    <div className={classes.heading}>
-                        {I18n.t('js.tag.common.usage', {count: tag.taggedArticlesCount})}
-                    </div>
+                             <p>
+                                 {
+                                     Utils.isPresent(tag.synonyms) &&
+                                     I18n.t('js.tag.model.synonyms') + ' : ' + tag.synonyms.join(', ')
+                                 }
+                             </p>
 
-                    <div className={classes.description}>
-                        <div className="normalized-content"
-                             dangerouslySetInnerHTML={{__html: tag.description}}/>
+                             <div className="margin-top-10">
+                                 <a href={showTagPath(tag.slug)}
+                                    onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.userId, tag.name, null)}>
+                                     {I18n.t('js.tag.common.link')}
+                                 </a>
+                             </div>
+                         </div>
+                     </div>
+                 }>
+            {children}
+        </Tooltip>
+    );
+};
 
-                        <p>
-                            {
-                                Utils.isPresent(tag.synonyms) &&
-                                I18n.t('js.tag.model.synonyms') + ' : ' + tag.synonyms.join(', ')
-                            }
-                        </p>
+TooltipTag.propTypes = {
+    tag: PropTypes.object.isRequired,
+    children: PropTypes.element.isRequired
+};
 
-                        <div className="margin-top-10">
-                            <a href={showTagPath(tag.slug)}
-                               onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.userId, tag.name, null)}>
-                                {I18n.t('js.tag.common.link')}
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </ToolTip>
-        );
-    }
-}
+export default React.memo(TooltipTag);

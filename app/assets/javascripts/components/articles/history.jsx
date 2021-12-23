@@ -1,16 +1,10 @@
 'use strict';
 
+import '../../../stylesheets/pages/article/history.scss';
+
 import {
     hot
 } from 'react-hot-loader/root';
-
-import {
-    withRouter
-} from 'react-router-dom';
-
-import {
-    withStyles
-} from '@material-ui/core/styles';
 
 import {
     userArticlePath
@@ -26,6 +20,8 @@ import {
     getCurrentUser
 } from '../../selectors';
 
+import withRouter from '../modules/router';
+
 import highlight from '../modules/highlight';
 
 import Loader from '../theme/loader';
@@ -34,10 +30,8 @@ import ArticleBreadcrumbDisplay from './display/breadcrumb';
 import ArticleCardDisplay from './display/items/card';
 import ArticleVersionsDisplay from './display/versions';
 
-import styles from '../../../jss/article/history';
 
-export default @withRouter
-@connect((state) => ({
+export default @connect((state) => ({
     currentUser: getCurrentUser(state),
     currentTopic: state.topicState.currentTopic,
     article: state.articleState.article,
@@ -47,14 +41,14 @@ export default @withRouter
     fetchArticleHistory,
     restoreArticle
 })
+@withRouter({params: true, navigate: true})
 @hot
 @highlight(true)
-@withStyles(styles)
 class ArticleHistory extends React.Component {
     static propTypes = {
-        routeParams: PropTypes.object.isRequired,
         // from router
-        history: PropTypes.object,
+        routeParams: PropTypes.object,
+        routeNavigate: PropTypes.func,
         // from connect
         currentUser: PropTypes.object,
         currentTopic: PropTypes.object,
@@ -64,9 +58,7 @@ class ArticleHistory extends React.Component {
         fetchArticleHistory: PropTypes.func,
         restoreArticle: PropTypes.func,
         // from highlight
-        // onShow: PropTypes.func,
-        // from styles
-        classes: PropTypes.object
+        // onShow: PropTypes.func
     };
 
     constructor(props) {
@@ -89,7 +81,7 @@ class ArticleHistory extends React.Component {
         this.props.restoreArticle(articleId, versionId)
             .then((response) => {
                 if (response.article) {
-                    return this.props.history.push(userArticlePath(response.article.userSlug, response.article.slug));
+                    return this.props.routeNavigate(userArticlePath(response.article.userSlug, response.article.slug));
                 }
             });
     };
@@ -104,14 +96,14 @@ class ArticleHistory extends React.Component {
         }
 
         return (
-            <div className={this.props.classes.history}>
-                <div className={this.props.classes.breadcrumb}>
+            <div className="article-version-history">
+                <div className="article-version-breadcrumb">
                     <ArticleBreadcrumbDisplay user={this.props.currentUser}
                                               topic={this.props.currentTopic}
                                               article={this.props.article}/>
                 </div>
 
-                <div className={this.props.classes.currentArticle}>
+                <div className="article-version-currentArticle">
                     <ArticleCardDisplay article={this.props.article}
                                         isMinimized={true}
                                         hasActions={false}/>

@@ -4,14 +4,11 @@ import {
     Link
 } from 'react-router-dom';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardContent from '@material-ui/core/CardContent';
-import Chip from '@material-ui/core/Chip';
-import Divider from '@material-ui/core/Divider';
+import Card from '@mui/material/Card';
+import CardHeader from '@mui/material/CardHeader';
+import CardContent from '@mui/material/CardContent';
+import Chip from '@mui/material/Chip';
+import Divider from '@mui/material/Divider';
 
 import {
     userArticlePath,
@@ -24,15 +21,11 @@ import {
 
 import ArticleInventoryDisplay from '../../../articles/display/items/inventory';
 
-import styles from '../../../../../jss/search/index';
 
-export default @withStyles(styles)
-class ArticleSearchItemDisplay extends React.Component {
+export default class ArticleSearchItemDisplay extends React.Component {
     static propTypes = {
         article: PropTypes.object.isRequired,
-        highlightTagIds: PropTypes.array,
-        // from styles
-        classes: PropTypes.object
+        highlightTagIds: PropTypes.array
     };
 
     static defaultProps = {
@@ -49,23 +42,23 @@ class ArticleSearchItemDisplay extends React.Component {
 
     render() {
         return (
-            <Card className={this.props.classes.articleCard}
+            <Card className="search-index-articleCard"
                   component="article">
                 <CardHeader title={
-                    <Link className={this.props.classes.articleTitle}
+                    <Link className="search-index-articleTitle"
                           to={userArticlePath(this.props.article.user.slug, this.props.article.slug)}
                           onClick={this._handleArticleClick}>
                         <span dangerouslySetInnerHTML={{__html: this.props.article.title}}/>
                     </Link>
                 }
                             subheader={
-                                <span className={this.props.classes.articleSubtitle}>
+                                <span className="search-index-articleSubtitle">
                                     {`(${this.props.article.date} - ${this.props.article.user.pseudo})`}
                                 </span>
                             }/>
 
                 <CardContent classes={{
-                    root: this.props.classes.articleContent
+                    root: 'search-index-articleContent'
                 }}>
                     {
                         this.props.article.mode === 'inventory'
@@ -78,7 +71,7 @@ class ArticleSearchItemDisplay extends React.Component {
 
                     {
                         this.props.article.scrapResults &&
-                        <div className={this.props.classes.articleLinksResults}>
+                        <div className="search-index-articleLinksResults">
                             {
                                 this.props.article.scrapResults.slice(1).map((resultsByLink, i) => (
                                     <div key={i}>
@@ -106,14 +99,12 @@ class ArticleSearchItemDisplay extends React.Component {
                         </div>
                     }
 
-                    <div className={this.props.classes.articleTags}>
+                    <div className="search-index-articleTags">
                         {
                             this.props.article.tags.map((tag) => (
                                 <Chip key={tag.id}
-                                      className={classNames(
-                                          this.props.classes.articleTag,
-                                          {
-                                              [this.props.classes.articleHighlightedTag]: this.props.highlightTagIds.includes(tag.id)
+                                      className={classNames('search-index-articleTag', {
+                                              'search-index-articleHighlightedTag': this.props.highlightTagIds.includes(tag.id)
                                           }
                                       )}
                                       component={Link}

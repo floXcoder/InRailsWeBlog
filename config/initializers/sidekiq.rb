@@ -7,10 +7,6 @@ Sidekiq.configure_server do |config|
   config.logger       = Logger.new(Rails.root.join('log/jobs.log'))
   config.logger.level = Logger::INFO
 
-  config.server_middleware do |chain|
-    chain.add AttentiveSidekiq::Middleware::Server::Attentionist
-  end
-
   if InRailsWeBlog.config.cron_jobs_active
     schedule_file = 'config/sidekiq_schedule.yml'
     if File.exist?(schedule_file) && Sidekiq.server?

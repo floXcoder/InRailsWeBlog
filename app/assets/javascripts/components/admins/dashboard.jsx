@@ -1,20 +1,20 @@
 'use strict';
 
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
+import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
 
-import CloudCircleIcon from '@material-ui/icons/CloudCircle';
-import AccountBoxIcon from '@material-ui/icons/AccountBox';
-import CommentIcon from '@material-ui/icons/Comment';
-import LabelIcon from '@material-ui/icons/Label';
-import ClassIcon from '@material-ui/icons/Class';
-import AssignmentIcon from '@material-ui/icons/Assignment';
-import ChromeReaderModeIcon from '@material-ui/icons/ChromeReaderMode';
-import SettingsApplicationsIcon from '@material-ui/icons/SettingsApplications';
-import ListIcon from '@material-ui/icons/List';
-import CachedIcon from '@material-ui/icons/Cached';
-import ListAltIcon from '@material-ui/icons/ListAlt';
+import CloudCircleIcon from '@mui/icons-material/CloudCircle';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import CommentIcon from '@mui/icons-material/Comment';
+import LabelIcon from '@mui/icons-material/Label';
+import ClassIcon from '@mui/icons-material/Class';
+import AssignmentIcon from '@mui/icons-material/Assignment';
+import ChromeReaderModeIcon from '@mui/icons-material/ChromeReaderMode';
+import SettingsApplicationsIcon from '@mui/icons-material/SettingsApplications';
+import ListIcon from '@mui/icons-material/List';
+import CachedIcon from '@mui/icons-material/Cached';
+import ListAltIcon from '@mui/icons-material/ListAlt';
 
 function Item({col, href, text, icon}) {
     return (

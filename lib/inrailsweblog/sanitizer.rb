@@ -4,7 +4,8 @@ class Sanitizer
   include ActionView::Helpers::SanitizeHelper
 
   def sanitize_html(html)
-    return '' if html.blank?
+    return nil if html.blank?
+    return nil if %w[<br> <br/> <p><br></p>].include?(html)
 
     # Remove empty beginning block
     html = html.sub(/^<p><br><\/p>/, '')
@@ -41,7 +42,7 @@ class Sanitizer
     # html = html.gsub(/<\/pre>/i, '</code></pre>')
 
     # Replace all br tags by simple return to line
-    html = html.gsub(/<pre(.*?)>(.*?)<\/pre>/) { |b| b.gsub(/<br(\/?)>/, "\n") }
+    html = html.gsub(/<pre(.*?)>(.*?)<\/pre>/mi) { |b| b.gsub(/<br(\/?)>/, "\n") }
 
     # Simplify code tags
     # html = html.gsub(/<code(.*?)>/i, '<code>')

@@ -2,11 +2,11 @@
 
 import '../../../stylesheets/components/masonry.scss';
 
-import Tooltip from '@material-ui/core/Tooltip';
-import IconButton from '@material-ui/core/IconButton';
+import Tooltip from '@mui/material/Tooltip';
+import IconButton from '@mui/material/IconButton';
 
-import AddIcon from '@material-ui/icons/Add';
-import RemoveIcon from '@material-ui/icons/Remove';
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
 
 import {
     hasLocalStorage,
@@ -27,7 +27,7 @@ const COLUMNS = {
 
 // Components must have a "onClick" function to change to exposed mode
 // isMasonry property is passed to components if active
-const MasonryWrapper = (ComponentCard, componentCardProps, ComponentExposed, componentExposedProps) => class extends React.Component {
+const MasonryWrapper = (ComponentCard, componentCardProps, ComponentExposed, componentExposedProps) => (class extends React.Component {
     static propTypes = {
         elements: PropTypes.array.isRequired,
         isActive: PropTypes.bool.isRequired,
@@ -180,17 +180,21 @@ const MasonryWrapper = (ComponentCard, componentCardProps, ComponentExposed, com
                     this.props.hasColumnButtons &&
                     <div className="masonry-buttons">
                         <Tooltip title={I18n.t('js.article.masonry.add_column')}>
-                            <IconButton aria-label="Delete"
-                                        className="masonry-button"
-                                        onClick={this._handleColumnChange.bind(this, 1)}>
+                            <IconButton
+                                aria-label="Delete"
+                                className="masonry-button"
+                                onClick={this._handleColumnChange.bind(this, 1)}
+                                size="large">
                                 <AddIcon/>
                             </IconButton>
                         </Tooltip>
 
                         <Tooltip title={I18n.t('js.article.masonry.remove_column')}>
-                            <IconButton aria-label="Delete"
-                                        className="masonry-button"
-                                        onClick={this._handleColumnChange.bind(this, -1)}>
+                            <IconButton
+                                aria-label="Delete"
+                                className="masonry-button"
+                                onClick={this._handleColumnChange.bind(this, -1)}
+                                size="large">
                                 <RemoveIcon/>
                             </IconButton>
                         </Tooltip>
@@ -209,6 +213,6 @@ const MasonryWrapper = (ComponentCard, componentCardProps, ComponentExposed, com
             </div>
         );
     }
-};
+});
 
 export default MasonryWrapper;

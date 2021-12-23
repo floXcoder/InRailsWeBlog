@@ -4,14 +4,11 @@ import {
     Link
 } from 'react-router-dom';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
-import IconButton from '@material-ui/core/IconButton';
-import Divider from '@material-ui/core/Divider';
+import IconButton from '@mui/material/IconButton';
+import Divider from '@mui/material/Divider';
 
-import EditIcon from '@material-ui/icons/Edit';
-import CloseIcon from '@material-ui/icons/Close';
+import EditIcon from '@mui/icons-material/Edit';
+import CloseIcon from '@mui/icons-material/Close';
 
 import {
     topicArticlesPath,
@@ -23,7 +20,6 @@ import {
     spyTrackClick
 } from '../../actions';
 
-import styles from '../../../jss/topic/module';
 
 export default @connect((state) => ({
     userSlug: state.userState.currentSlug,
@@ -32,8 +28,6 @@ export default @connect((state) => ({
 }), {
     showTopicPopup
 })
-
-@withStyles(styles)
 class TopicModule extends React.Component {
     static propTypes = {
         onClose: PropTypes.func,
@@ -41,9 +35,7 @@ class TopicModule extends React.Component {
         userSlug: PropTypes.string,
         topics: PropTypes.array,
         currentUserTopicId: PropTypes.number,
-        showTopicPopup: PropTypes.func,
-        // from styles
-        classes: PropTypes.object
+        showTopicPopup: PropTypes.func
     };
 
     constructor(props) {
@@ -69,16 +61,15 @@ class TopicModule extends React.Component {
     _renderTopicList = (topic) => {
         return (
             <div key={topic.id}
-                 className={this.props.classes.list}
+                 className="topic-module-list"
                  onMouseEnter={this._handleOverEdit.bind(this, topic.id)}
                  onMouseLeave={this._handleOverEdit.bind(this, null)}>
                 <Link to={topicArticlesPath(this.props.userSlug, topic.slug)}
                       onClick={this._handleSwitchTopicClick.bind(this, topic.id, topic.slug, topic.userId, topic.name)}>
-                                    <span className={this.props.classes.item}>
-                                        <span className={classNames(
-                                            this.props.classes.itemContent, {
-                                                [this.props.classes.currentItem]: topic.id === this.props.currentUserTopicId
-                                            })}>
+                                    <span className="topic-module-item">
+                                        <span className={classNames('topic-module-itemContent', {
+                                            'topic-module-currentItem': topic.id === this.props.currentUserTopicId
+                                        })}>
                                             {topic.name}
                                         </span>
                                     </span>
@@ -86,7 +77,7 @@ class TopicModule extends React.Component {
 
                 {
                     this.state.overTopicId === topic.id &&
-                    <Link className={this.props.classes.edition}
+                    <Link className="topic-module-edition"
                           to={{
                               hash: '#' + newTopicParam,
                               state: {
@@ -105,15 +96,17 @@ class TopicModule extends React.Component {
         const publicTopics = this.props.topics.filter((topic) => topic.visibility !== 'only_me');
 
         return (
-            <div className={this.props.classes.module}>
-                <div className={this.props.classes.title}>
+            <div className="topic-module-module">
+                <div className="topic-module-title">
                     {I18n.t('js.views.header.topic.title')}
                 </div>
 
-                <div className={this.props.classes.close}>
-                    <IconButton aria-expanded={true}
-                                aria-label="Close"
-                                onClick={this.props.onClose}>
+                <div className="topic-module-close">
+                    <IconButton
+                        aria-expanded={true}
+                        aria-label="Close"
+                        onClick={this.props.onClose}
+                        size="large">
                         <CloseIcon color="primary"
                                    fontSize="large"/>
                     </IconButton>
@@ -129,7 +122,7 @@ class TopicModule extends React.Component {
                     publicTopics.map(this._renderTopicList)
                 }
 
-                <div className={this.props.classes.addTopic}>
+                <div className="topic-module-addTopic">
                     <Link to={{
                         hash: '#' + newTopicParam
                     }}

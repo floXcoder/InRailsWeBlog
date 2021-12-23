@@ -4,23 +4,16 @@ import {
     Field
 } from 'react-final-form';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
 import CategorizedField from '../../../materialize/form/categorized';
 
-import styles from '../../../../../jss/article/form/shared';
 
-export default @withStyles(styles)
-class ArticleTagField extends React.Component {
+export default class ArticleTagField extends React.Component {
     static propTypes = {
         onSubmit: PropTypes.func.isRequired,
         availableParentTags: PropTypes.array,
         availableChildTags: PropTypes.array,
         parentTags: PropTypes.array,
-        childTags: PropTypes.array,
-        // from styles
-        classes: PropTypes.object
+        childTags: PropTypes.array
     };
 
     static defaultProps = {
@@ -53,7 +46,7 @@ class ArticleTagField extends React.Component {
 
     render() {
         return (
-            <div className={this.props.classes.tags}>
+            <div>
                 <div className="categorized-parent-tag">
                     <Field name="parent_tags"
                            component={CategorizedField}
@@ -63,7 +56,7 @@ class ArticleTagField extends React.Component {
                            addNewPlaceholder={I18n.t('js.article.common.tags.placeholder')}
                            addNewText={I18n.t('js.article.common.tags.add')}
                            isSortingCategoriesByAlpha={false}
-                           labelClass={this.props.classes.tagLabel}
+                           labelClass="article-form-tagLabel"
                            categorizedTags={this.props.availableParentTags}
                            transformInitialTags={this._normalizeTags}
                            onTabPress={this._handleSwitchTag}
@@ -81,7 +74,7 @@ class ArticleTagField extends React.Component {
                            addNewText={I18n.t('js.article.common.tags.add')}
                            hasChildTagFocus={this.state.hasChildTagFocus}
                            isSortingCategoriesByAlpha={false}
-                           labelClass={this.props.classes.tagLabel}
+                           labelClass="article-form-tagLabel"
                            categorizedTags={this.props.availableChildTags}
                            transformInitialTags={this._normalizeTags}
                            onSubmit={this.props.onSubmit}

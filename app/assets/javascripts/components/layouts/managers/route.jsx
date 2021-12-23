@@ -1,21 +1,20 @@
 'use strict';
 
 import {
-    routeChange,
-    trackAction
+    trackAction,
+    trackMetrics
 } from '../../../actions';
 
-export default @connect(null, {
-    routeChange
-})
+import withRouter from '../../modules/router';
+
+export default @withRouter({location: true, params: true})
 class RouteManager extends React.Component {
     static propTypes = {
-        currentRoute: PropTypes.object.isRequired,
-        params: PropTypes.object.isRequired,
-        location: PropTypes.object.isRequired,
-        children: PropTypes.object.isRequired,
-        // from connect
-        routeChange: PropTypes.func
+        routeProperties: PropTypes.object.isRequired,
+        // from router
+        routeParams: PropTypes.object,
+        routeLocation: PropTypes.object,
+        children: PropTypes.object
     };
 
     constructor(props) {
@@ -23,27 +22,23 @@ class RouteManager extends React.Component {
     }
 
     componentDidMount() {
-        trackAction(this.props.location, 'route');
+        trackAction(this.props.routeLocation, 'route');
 
-        this.props.routeChange(this.props.currentRoute, this.props.params, this.props.location);
+        trackMetrics(this.props.routeLocation);
     }
 
     shouldComponentUpdate(nextProps) {
         // Called only when hash route change (search module, topic module, ...)
 
         // Update only if route, params or query string (ignore hash parameters) has changed
-        const isHashQuery = typeof nextProps.location.state === 'string' ? nextProps.location.state.startsWith('#') : false;
-        const updateRouter = JSON.stringify(this.props.currentRoute) !== JSON.stringify(nextProps.currentRoute) || JSON.stringify(this.props.params) !== JSON.stringify(nextProps.params) || (JSON.stringify(this.props.location.state) !== JSON.stringify(nextProps.location.state) && !isHashQuery);
-
-        if (!updateRouter) {
-            this.props.routeChange(nextProps.currentRoute, nextProps.params, nextProps.location);
-        }
+        const isHashQuery = typeof nextProps.routeLocation.state === 'string' ? nextProps.routeLocation.state.startsWith('#') : false;
+        const updateRouter = JSON.stringify(this.props.routeProperties) !== JSON.stringify(nextProps.routeProperties) || JSON.stringify(this.props.routeParams) !== JSON.stringify(nextProps.routeParams) || (JSON.stringify(this.props.routeLocation.state) !== JSON.stringify(nextProps.routeLocation.state) && !isHashQuery);
 
         return updateRouter;
     }
 
     componentDidUpdate() {
-        this.props.routeChange(this.props.currentRoute, this.props.params, this.props.location);
+        trackMetrics(this.props.routeLocation);
     }
 
     render() {

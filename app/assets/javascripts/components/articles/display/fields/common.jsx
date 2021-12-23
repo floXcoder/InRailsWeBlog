@@ -8,13 +8,10 @@ import {
     Field
 } from 'react-final-form';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
 
-import CompareIcon from '@material-ui/icons/Compare';
+import CompareIcon from '@mui/icons-material/Compare';
 
 import {
     compareArticleParam
@@ -25,11 +22,8 @@ import EditorField from '../../../editor/form/editor';
 import TabContainer from '../../../material-ui/tabContainer';
 import TextFormField from '../../../material-ui/form/text';
 
-import styles from '../../../../../jss/article/form/shared';
 
-
-export default @withStyles(styles)
-class ArticleCommonField extends React.Component {
+export default class ArticleCommonField extends React.Component {
     static propTypes = {
         currentMode: PropTypes.string.isRequired,
         currentUserId: PropTypes.number.isRequired,
@@ -38,9 +32,7 @@ class ArticleCommonField extends React.Component {
         onSubmit: PropTypes.func.isRequired,
         topicLanguages: PropTypes.array,
         isPaste: PropTypes.bool,
-        article: PropTypes.object,
-        // from styles
-        classes: PropTypes.object
+        article: PropTypes.object
     };
 
     static defaultProps = {
@@ -103,23 +95,27 @@ class ArticleCommonField extends React.Component {
                            component={TextFormField}
                            id="article_reference"
                            icon="link"
+                           variant="standard"
                            label={I18n.t(`js.article.common.placeholders.reference.${this.props.currentMode}`)}
                            characterCount={window.settings.article_title_max_length}
                            onBlur={this._handleTitleBlur}/>
                 </div>
             );
         } else {
+            const fieldId = locale ? `article_title_${locale}` : 'article_title';
             const fieldName = locale ? `title_translations[${locale}]` : 'title';
 
             return (
                 <div className="col s12">
                     <Field name={fieldName}
                            component={TextFormField}
-                           className={this.props.classes.titleField}
-                           id={`article_title_${locale}`}
+                           className="article-form-titleField"
+                           id={fieldId}
                            label={I18n.t(`js.article.common.placeholders.title.${this.props.currentMode}`)}
                            autoFocus={true}
+                           spellCheck="true"
                            required={true}
+                           variant="standard"
                            color="primary"
                            onBlur={this._handleTitleBlur}
                            onKeyPress={this._handleTitleKeyPress}/>
@@ -154,14 +150,14 @@ class ArticleCommonField extends React.Component {
         const currentLanguages = this.props.topicLanguages && this.props.article.languages && this.props.article.languages?.length > this.props.topicLanguages?.length ? this.props.article.languages : this.props.topicLanguages;
 
         return (
-            <div className={classNames('row', this.props.classes.root)}>
+            <div className="row article-form-root">
                 {
                     currentLanguages?.length > 1
                         ?
                         <>
                             {
                                 this.props.article.id &&
-                                <div className={this.props.classes.compareIcon}>
+                                <div className="article-form-compareIcon">
                                     <span className="flow-tooltip-bottom"
                                           data-tooltip={I18n.t('js.article.tooltip.compare')}>
                                         <Link to={'#' + compareArticleParam}>

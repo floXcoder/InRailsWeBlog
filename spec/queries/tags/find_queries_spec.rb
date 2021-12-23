@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe Tags::FindQueries, type: :query, basic: true do
+describe Tags::FindQueries, type: :query do
   subject { described_class.new }
 
   before(:all) do

@@ -4,14 +4,14 @@ import {
     Link
 } from 'react-router-dom';
 
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
 
 import {
     taggedArticlesPath, taggedTopicArticlesPath
 } from '../../../constants/routesHelper';
 
-const ChildTag = ({tag, parentTagSlug, currentChildTagSlug, currentTagSlugs, currentUserSlug, currentUserTopicSlug, onTagClick, classes}) => (
+const ChildTag = ({tag, parentTagSlug, currentChildTagSlug, currentTagSlugs, currentUserSlug, currentUserTopicSlug, onTagClick}) => (
     <ListItem button={true}
               component={Link}
               to={
@@ -23,9 +23,9 @@ const ChildTag = ({tag, parentTagSlug, currentChildTagSlug, currentTagSlugs, cur
               }
               onClick={onTagClick}>
         <ListItemText classes={{
-            root: classes.nestedLabelRoot,
-            primary: classNames(classes.nestedLabel, {
-                [classes.selectedLabel]: currentChildTagSlug ? currentChildTagSlug === tag.slug : currentTagSlugs.includes(tag.slug)
+            root: 'tag-sidebar-nestedLabelRoot',
+            primary: classNames('tag-sidebar-nestedLabel', {
+                'tag-sidebar-selectedLabel': currentChildTagSlug ? currentChildTagSlug === tag.slug : currentTagSlugs.includes(tag.slug)
             })
         }}
                       inset={true}>
@@ -39,7 +39,6 @@ ChildTag.propTypes = {
     parentTagSlug: PropTypes.string.isRequired,
     currentTagSlugs: PropTypes.array.isRequired,
     onTagClick: PropTypes.func.isRequired,
-    classes: PropTypes.object.isRequired,
     currentChildTagSlug: PropTypes.string,
     currentUserSlug: PropTypes.string,
     currentUserTopicSlug: PropTypes.string

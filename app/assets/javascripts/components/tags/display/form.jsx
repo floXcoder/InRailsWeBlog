@@ -1,8 +1,8 @@
 'use strict';
 
 import {
-    Prompt,
     Link
+    // Prompt,
 } from 'react-router-dom';
 
 import {
@@ -10,13 +10,9 @@ import {
     Field
 } from 'react-final-form';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import Tab from '@material-ui/core/Tab';
-import Tabs from '@material-ui/core/Tabs';
-import Divider from '@material-ui/core/Divider';
+import Button from '@mui/material/Button';
+import Tab from '@mui/material/Tab';
+import Tabs from '@mui/material/Tabs';
 
 import {
     showTagPath
@@ -33,16 +29,11 @@ import TextFormField from '../../material-ui/form/text';
 import SelectFormField from '../../material-ui/form/select';
 import AutocompleteFormField from '../../material-ui/form/autocomplete';
 
-import styles from '../../../../jss/tag/form';
 
-
-export default @withStyles(styles)
-class TagFormDisplay extends React.Component {
+export default class TagFormDisplay extends React.Component {
     static propTypes = {
         onSubmit: PropTypes.func.isRequired,
-        children: PropTypes.object.isRequired,
-        // from styles
-        classes: PropTypes.object
+        children: PropTypes.object.isRequired
     };
 
     constructor(props) {
@@ -57,9 +48,9 @@ class TagFormDisplay extends React.Component {
         this.setState({tabStep: value});
     };
 
-    _onUnsavedExit = (location) => {
-        return I18n.t('js.tag.form.unsaved', {location: location.pathname});
-    };
+    // _onUnsavedExit = (location) => {
+    //     return I18n.t('js.tag.form.unsaved', {location: location.pathname});
+    // };
 
     _renderDescriptionField = (handleSubmit, locale) => {
         const fieldName = locale ? `description_translations[${locale}]` : 'description';
@@ -96,8 +87,8 @@ class TagFormDisplay extends React.Component {
                     ({handleSubmit, dirty, submitting}) => (
                         <form id={`tag-form-${this.props.children.id || 'new'}`}
                               onSubmit={handleSubmit}>
-                            <Prompt when={dirty && !submitting}
-                                    message={this._onUnsavedExit}/>
+                            {/*<Prompt when={dirty && !submitting}*/}
+                            {/*        message={this._onUnsavedExit}/>*/}
 
                             <div>
                                 <div className="row">
@@ -113,36 +104,35 @@ class TagFormDisplay extends React.Component {
                                     <div className="col s12">
                                         <Field name="name"
                                                component={TextFormField}
-                                               className={this.props.classes.name}
+                                               className="tag-form-name"
                                                InputLabelProps={{
                                                    classes: {
-                                                       root: this.props.classes.nameLabel
+                                                       root: 'tag-form-nameLabel'
                                                    }
                                                }}
                                                InputProps={{
                                                    classes: {
-                                                       underline: !this.props.children.name && this.props.classes.nameUnderline
+                                                       underline: !this.props.children.name && 'tag-form-nameUnderline'
                                                    }
                                                }}
                                                id="tag_name"
                                                label={I18n.t('js.tag.common.placeholders.name')}
                                                autoFocus={true}
                                                required={true}
+                                               variant="standard"
                                                color="primary"
                                                disabled={this.props.children.visibility === 'everyone'}/>
 
                                         {
                                             this.props.children.visibility === 'everyone' &&
-                                            <p className={this.props.classes.nameAdvice}>
+                                            <p className="tag-form-nameAdvice">
                                                 {I18n.t('js.tag.common.visibility_immutable')}
                                             </p>
                                         }
                                     </div>
 
                                     <div className="col s12 margin-top-30 margin-bottom-30">
-                                        <Divider/>
-
-                                        <div className={this.props.classes.categoryTitle}>
+                                        <div className="tag-form-categoryTitle">
                                             {I18n.t('js.tag.model.description')}
                                         </div>
 
@@ -170,21 +160,22 @@ class TagFormDisplay extends React.Component {
                                     </div>
 
                                     <div className="col s12 m6 center-align">
-                                        <div className={this.props.classes.categoryTitle}>
+                                        <div className="tag-form-categoryTitle">
                                             {I18n.t('js.tag.model.visibility')}
                                         </div>
 
                                         <Field name="visibility"
                                                component={SelectFormField}
                                                id="tag_visibility"
-                                               className={this.props.classes.select}
+                                               className="tag-form-select"
                                                label=""
+                                               variant="standard"
                                                disabled={this.props.children.visibility === 'everyone'}
                                                options={I18n.t('js.tag.enums.visibility')}/>
                                     </div>
 
                                     <div className="col s12 m6">
-                                        <div className={this.props.classes.categoryTitle}>
+                                        <div className="tag-form-categoryTitle">
                                             {I18n.t('js.tag.model.synonyms')}
                                         </div>
 
@@ -215,11 +206,11 @@ class TagFormDisplay extends React.Component {
                                     </div>
 
                                     <div className="col s12">
-                                        <Button color="default"
-                                                variant="text"
-                                                size="small"
-                                                component={Link}
-                                                to={showTagPath(this.props.children.slug)}>
+                                        <Button
+                                            variant="text"
+                                            size="small"
+                                            component={Link}
+                                            to={showTagPath(this.props.children.slug)}>
                                             {I18n.t('js.tag.edit.back_button')}
                                         </Button>
                                     </div>

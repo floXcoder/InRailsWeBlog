@@ -1,10 +1,10 @@
 'use strict';
 
 import {
-    MuiThemeProvider,
-    withStyles
-} from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
+    StyledEngineProvider,
+    ThemeProvider
+} from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
 
 import {
     Provider,
@@ -21,39 +21,26 @@ import AdminHeaderLayout from './admin/header';
 import AdminMainLayout from './admin/main';
 import AdminFooterLayout from './admin/footer';
 
-import theme from '../../../jss/theme';
+import theme from '../../theme';
 
-import styles from '../../../jss/admin/layout';
 
-export default @withStyles(styles)
-class AdminLayout extends React.Component {
-    static propTypes = {
-        componentId: PropTypes.string,
-        children: PropTypes.object,
-        // from styles
-        classes: PropTypes.object
-    }
-
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        return (
-            <MuiThemeProvider theme={theme}>
+const AdminLayout = function ({componentId, children}) {
+    return (
+        <StyledEngineProvider injectFirst={true}>
+            <ThemeProvider theme={theme}>
                 <CssBaseline/>
 
                 <Provider store={configureStore}
                           context={ReactReduxContext}>
-                    <div className={this.props.classes.root}>
+                    <div className="admin-root">
                         <ErrorBoundary errorType="text"
                                        errorTitle={I18n.t('js.helpers.errors.boundary.header')}>
                             <AdminHeaderLayout/>
                         </ErrorBoundary>
 
                         <ErrorBoundary errorType="card">
-                            <AdminMainLayout componentId={this.props.componentId}>
-                                {this.props.children}
+                            <AdminMainLayout componentId={componentId}>
+                                {children}
                             </AdminMainLayout>
                         </ErrorBoundary>
 
@@ -63,7 +50,14 @@ class AdminLayout extends React.Component {
                         </ErrorBoundary>
                     </div>
                 </Provider>
-            </MuiThemeProvider>
-        );
-    }
-}
+            </ThemeProvider>
+        </StyledEngineProvider>
+    );
+};
+
+AdminLayout.propTypes = {
+    componentId: PropTypes.string,
+    children: PropTypes.object
+};
+
+export default AdminLayout;

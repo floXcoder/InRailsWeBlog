@@ -4,11 +4,11 @@ import {
     Link
 } from 'react-router-dom';
 
-import Chip from '@material-ui/core/Chip';
-import Divider from '@material-ui/core/Divider';
+import Chip from '@mui/material/Chip';
+import Divider from '@mui/material/Divider';
 
-import LabelIcon from '@material-ui/icons/Label';
-import ZoomInIcon from '@material-ui/icons/ZoomIn';
+import LabelIcon from '@mui/icons-material/Label';
+import ZoomInIcon from '@mui/icons-material/ZoomIn';
 
 import {
     taggedArticlesPath,
@@ -23,7 +23,6 @@ import Loader from '../../theme/loader';
 
 export default class SearchTagModule extends React.Component {
     static propTypes = {
-        classes: PropTypes.object.isRequired,
         isSearching: PropTypes.bool.isRequired,
         isUserConnected: PropTypes.bool.isRequired,
         tags: PropTypes.array.isRequired,
@@ -87,24 +86,23 @@ export default class SearchTagModule extends React.Component {
     _renderTagItem = (primary, tag) => {
         return (
             <Chip key={tag.id}
-                  className={classNames(this.props.classes.tag, {
-                      [this.props.classes.tagSelected]: this.props.selectedTags.includes(tag),
-                      [this.props.classes.tagHighlighted]: this.props.highlightedTagId === tag.id
+                  className={classNames('search-module-tag', {
+                      'search-module-tagSelected': this.props.selectedTags.includes(tag),
+                      'search-module-tagHighlighted': this.props.highlightedTagId === tag.id
                   })}
                   color="primary"
                   variant="outlined"
                   clickable={true}
-                  icon={this.props.hasTagIcon ? <LabelIcon/> : undefined}
+                  icon={this.props.hasTagIcon ? <LabelIcon/> : null}
                   label={
-                      <Link className={this.props.classes.tagLink}
+                      <Link className="search-module-tagLink"
                             to={this.props.currentUserSlug && this.props.currentUserTopicSlug ? taggedTopicArticlesPath(this.props.currentUserSlug, this.props.currentUserTopicSlug, tag.slug) : taggedArticlesPath(tag.slug)}
                             onClick={this._handleTagClick.bind(this, tag)}>
                           {tag.name}
                       </Link>
                   }
                   onDelete={this.props.hasSearchIcon && this.props.onTagClick ? this.props.onTagClick.bind(this, tag) : undefined}
-                  deleteIcon={this.props.hasSearchIcon ?
-                      <ZoomInIcon className={this.props.classes.tagAdd}/> : undefined}/>
+                  deleteIcon={this.props.hasSearchIcon ? <ZoomInIcon className="search-module-tagAdd"/> : null}/>
         );
     };
 
@@ -114,13 +112,13 @@ export default class SearchTagModule extends React.Component {
         const otherUserTags = this._otherUserTags();
 
         return (
-            <div className={this.props.classes.category}>
-                <h2 className={this.props.classes.categoryName}>
+            <div className="search-module-category">
+                <h2 className="search-module-categoryName">
                     {I18n.t('js.search.module.tags.title')}
 
                     {
                         (this.props.isUserConnected && !this.props.hasQuery) &&
-                        <span className={this.props.classes.categoryCount}>
+                        <span className="search-module-categoryCount">
                             {I18n.t('js.search.module.tags.recents')}
                         </span>
                     }
@@ -136,7 +134,7 @@ export default class SearchTagModule extends React.Component {
                         <div>
                             {
                                 (this.props.hasQuery && this.props.tags.length === 0) &&
-                                <p className={this.props.classes.tagNone}>
+                                <p className="search-module-tagNone">
                                     <em>{I18n.t('js.search.module.tags.none')}</em>
                                 </p>
                             }
@@ -150,7 +148,7 @@ export default class SearchTagModule extends React.Component {
                                 <>
                                     {
                                         Utils.isPresent(currentTopicTags) &&
-                                        <Divider className={this.props.classes.categoryDivider}
+                                        <Divider className="search-module-categoryDivider"
                                                  variant="fullWidth"/>
                                     }
 
@@ -165,7 +163,7 @@ export default class SearchTagModule extends React.Component {
                                 <>
                                     {
                                         (Utils.isPresent(currentTopicTags) || Utils.isPresent(otherTopicTags)) &&
-                                        <Divider className={this.props.classes.categoryDivider}
+                                        <Divider className="search-module-categoryDivider"
                                                  variant="fullWidth"/>
                                     }
 

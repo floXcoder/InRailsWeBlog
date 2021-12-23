@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe BookmarkPolicy, basic: true do
+describe BookmarkPolicy do
 
   before(:all) do
     @user = create(:user)

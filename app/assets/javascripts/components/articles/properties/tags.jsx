@@ -4,12 +4,9 @@ import {
     Link
 } from 'react-router-dom';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
-import Chip from '@material-ui/core/Chip';
+import Chip from '@mui/material/Chip';
 
-import LabelIcon from '@material-ui/icons/Label';
+import LabelIcon from '@mui/icons-material/Label';
 
 import {
     taggedArticlesPath,
@@ -22,10 +19,8 @@ import {
 
 import TooltipTag from '../../tags/display/tooltip';
 
-import styles from '../../../../jss/tag/chip';
 
-export default @withStyles(styles)
-class ArticleTags extends React.PureComponent {
+export default class ArticleTags extends React.PureComponent {
     static propTypes = {
         articleId: PropTypes.number.isRequired,
         tags: PropTypes.array.isRequired,
@@ -36,9 +31,7 @@ class ArticleTags extends React.PureComponent {
         childTagIds: PropTypes.array,
         hasTooltip: PropTypes.bool,
         isLarge: PropTypes.bool,
-        isSmall: PropTypes.bool,
-        // from styles
-        classes: PropTypes.object
+        isSmall: PropTypes.bool
     };
 
     static defaultProps = {
@@ -53,20 +46,29 @@ class ArticleTags extends React.PureComponent {
         super(props);
     }
 
-    state = {
-        tagTooltipActive: undefined
-    };
+    _renderTag = (tag, parentTags) => {
+        const link = parentTags ? (this.props.isOwner && this.props.currentUserSlug && this.props.currentUserTopicSlug && parentTags.length ? taggedTopicArticlesPath(this.props.currentUserSlug, this.props.currentUserTopicSlug, parentTags.first().slug, tag.slug) : taggedArticlesPath(tag.slug)) : (this.props.isOwner && this.props.currentUserSlug && this.props.currentUserTopicSlug ? taggedTopicArticlesPath(this.props.currentUserSlug, this.props.currentUserTopicSlug, tag.slug) : taggedArticlesPath(tag.slug));
 
-    _showTagTooltip = (tagId) => {
-        this.setState({
-            tagTooltipActive: tagId
-        });
-    };
-
-    _hideTagTooltip = () => {
-        this.setState({
-            tagTooltipActive: null
-        });
+        return (
+            <Chip component={Link}
+                  id={`article-${this.props.articleId}-tags-${tag.id}`}
+                  classes={{
+                      root: classNames('tag-chip-tagChip', {
+                          'tag-chip-tagChipLarge': this.props.isLarge,
+                          'tag-chip-tagChipSmall': this.props.isSmall
+                      }),
+                      label: classNames('tag-chip-tagLabel', {
+                          'tag-chip-tagLabelSmall': this.props.isSmall
+                      })
+                  }}
+                  to={link}
+                  label={tag.name}
+                  variant="outlined"
+                  color="default"
+                  icon={<LabelIcon/>}
+                  clickable={true}
+                  onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.userId, tag.name, null)}/>
+        );
     };
 
     render() {
@@ -86,32 +88,15 @@ class ArticleTags extends React.PureComponent {
                 {
                     parentTags.map((tag) => (
                         <span key={tag.id}
-                              className={this.props.classes.parent}>
-                                <Chip component={Link}
-                                      id={`article-${this.props.articleId}-tags-${tag.id}`}
-                                      classes={{
-                                          root: classNames(this.props.classes.tagChip, {
-                                              [this.props.classes.tagChipLarge]: this.props.isLarge,
-                                              [this.props.classes.tagChipSmall]: this.props.isSmall
-                                          }),
-                                          label: classNames(this.props.classes.tagLabel, {
-                                              [this.props.classes.tagLabelSmall]: this.props.isSmall
-                                          })
-                                      }}
-                                      to={this.props.isOwner && this.props.currentUserSlug && this.props.currentUserTopicSlug ? taggedTopicArticlesPath(this.props.currentUserSlug, this.props.currentUserTopicSlug, tag.slug) : taggedArticlesPath(tag.slug)}
-                                      label={tag.name}
-                                      variant="outlined"
-                                      icon={<LabelIcon/>}
-                                      clickable={true}
-                                      onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.userId, tag.name, null)}
-                                      onMouseEnter={this._showTagTooltip.bind(this, tag.id)}
-                                      onMouseLeave={this._hideTagTooltip.bind(this, tag.id)}/>
-
+                              className="tag-chip-parent">
                             {
-                                this.props.hasTooltip &&
-                                <TooltipTag tag={tag}
-                                            articleId={this.props.articleId}
-                                            tagTooltipActive={this.state.tagTooltipActive}/>
+                                this.props.hasTooltip
+                                    ?
+                                    <TooltipTag tag={tag}>
+                                        {this._renderTag(tag)}
+                                    </TooltipTag>
+                                    :
+                                    this._renderTag(tag)
                             }
                         </span>
                     ))
@@ -120,28 +105,15 @@ class ArticleTags extends React.PureComponent {
                 {
                     childTags.map((tag) => (
                         <span key={tag.id}
-                              className={this.props.classes.child}>
-                            <Chip component={Link}
-                                  id={`article-${this.props.articleId}-tags-${tag.id}`}
-                                  classes={{
-                                      root: this.props.classes.tagChip,
-                                      label: this.props.classes.tagLabel
-                                  }}
-                                  to={this.props.isOwner && this.props.currentUserSlug && this.props.currentUserTopicSlug && parentTags.length ? taggedTopicArticlesPath(this.props.currentUserSlug, this.props.currentUserTopicSlug, parentTags.first().slug, tag.slug) : taggedArticlesPath(tag.slug)}
-                                  label={tag.name}
-                                  variant="outlined"
-                                  color="default"
-                                  icon={<LabelIcon/>}
-                                  clickable={true}
-                                  onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.userId, tag.name, null)}
-                                  onMouseEnter={this._showTagTooltip.bind(this, tag.id)}
-                                  onMouseLeave={this._hideTagTooltip.bind(this, tag.id)}/>
-
+                              className="tag-chip-child">
                             {
-                                this.props.hasTooltip &&
-                                <TooltipTag tag={tag}
-                                            articleId={this.props.articleId}
-                                            tagTooltipActive={this.state.tagTooltipActive}/>
+                                this.props.hasTooltip
+                                    ?
+                                    <TooltipTag tag={tag}>
+                                        {this._renderTag(tag, parentTags)}
+                                    </TooltipTag>
+                                    :
+                                    this._renderTag(tag)
                             }
                         </span>
                     ))

@@ -4,9 +4,9 @@ import {
     Link
 } from 'react-router-dom';
 
-import IconButton from '@material-ui/core/IconButton';
+import IconButton from '@mui/material/IconButton';
 
-import EditIcon from '@material-ui/icons/EditOutlined';
+import EditIcon from '@mui/icons-material/EditOutlined';
 
 import {
     editArticlePath
@@ -23,11 +23,11 @@ const _getScreenPosition = () => {
     };
 };
 
-const _redirectToEdit = (userSlug, articleSlug, history, event) => {
-    if (history) {
+const _redirectToEdit = (userSlug, articleSlug, routeNavigate, event) => {
+    if (routeNavigate) {
         event.preventDefault();
 
-        history.push({
+        routeNavigate({
             pathname: editArticlePath(userSlug, articleSlug),
             state: {
                 position: _getScreenPosition()
@@ -36,36 +36,39 @@ const _redirectToEdit = (userSlug, articleSlug, history, event) => {
     }
 };
 
-const ArticleEditIcon = ({userSlug, articleSlug, isIconButton, history, size, color}) => (
-    <span className="flow-tooltip-bottom"
-          data-tooltip={I18n.t('js.article.tooltip.edit')}>
-        {
-            isIconButton
-                ?
-                <IconButton
-                    aria-label="more"
-                    aria-controls="article-language-select"
-                    aria-haspopup="true"
-                    component={Link}
-                    to={editArticlePath(userSlug, articleSlug)}
-                    onClick={_redirectToEdit.bind(undefined, userSlug, articleSlug, history)}>
-                    <EditIcon color={color}
-                              fontSize={size}/>
-                </IconButton>
-                :
-                <Link to={editArticlePath(userSlug, articleSlug)}
-                      onClick={_redirectToEdit.bind(undefined, userSlug, articleSlug, history)}>
-                    <EditIcon color={color}
-                              fontSize={size}/>
-                </Link>
-        }
-    </span>
-);
+const ArticleEditIcon = function ({userSlug, articleSlug, isIconButton, routeNavigate, size, color}) {
+    return (
+        <span className="flow-tooltip-bottom"
+              data-tooltip={I18n.t('js.article.tooltip.edit')}>
+            {
+                isIconButton
+                    ?
+                    <IconButton
+                        aria-label="more"
+                        aria-controls="article-language-select"
+                        aria-haspopup="true"
+                        component={Link}
+                        to={editArticlePath(userSlug, articleSlug)}
+                        onClick={_redirectToEdit.bind(undefined, userSlug, articleSlug, routeNavigate)}
+                        size="large">
+                        <EditIcon color={color}
+                                  fontSize={size}/>
+                    </IconButton>
+                    :
+                    <Link to={editArticlePath(userSlug, articleSlug)}
+                          onClick={_redirectToEdit.bind(undefined, userSlug, articleSlug, routeNavigate)}>
+                        <EditIcon color={color}
+                                  fontSize={size}/>
+                    </Link>
+            }
+        </span>
+    );
+};
 
 ArticleEditIcon.propTypes = {
     userSlug: PropTypes.string.isRequired,
     articleSlug: PropTypes.string.isRequired,
-    history: PropTypes.object,
+    routeNavigate: PropTypes.func,
     isIconButton: PropTypes.bool,
     size: PropTypes.oneOf(['small', 'medium', 'large']),
     color: PropTypes.oneOf(['primary', 'secondary', 'action', 'disabled'])

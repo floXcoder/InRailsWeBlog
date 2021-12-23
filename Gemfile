@@ -9,23 +9,21 @@ end
 ruby '3.0.2'
 
 # Rails version
-gem 'rails',                    '6.1.4.1'
+gem 'rails',                    '6.1.4.2'
 
 # Use postgresql as the database for Active Record
 gem 'pg',                       '1.2.3'
 # gem 'active_record_extended',   '1.4.0'
-gem 'pghero',                   '2.8.1'
-gem 'pg_query',                 '2.1.1' # Required for pghero
+gem 'pghero',                   '2.8.2'
+gem 'pg_query',                 '2.1.2' # Required for pghero
 
 # HTTP Response
-gem 'responders',               '3.0.1'
 gem 'http_accept_language',     '2.1.1'
 gem 'secure_headers',           '6.3.3'
-gem 'faraday',                  '1.8.0'
 
 # JSON
 gem 'jsonapi-serializer',       '2.2.0'
-gem 'oj',                       '3.13.9'
+gem 'oj',                       '3.13.10'
 
 # Use slim instead of erb
 gem 'slim-rails',               '3.3.0'
@@ -33,23 +31,20 @@ gem 'slim-rails',               '3.3.0'
 # Internationalization
 gem 'i18n-js',                  '3.9.0'
 gem 'geocoder',                 '1.7.0'
-gem 'maxminddb',                '0.1.22'
 
 # Model versioning
 gem 'paper_trail',              '12.1.0'
 
 # Marked as deleted
-gem 'paranoia',                 '2.4.3'
+gem 'paranoia',                 '2.5.0'
 
 # Format user input
 gem 'auto_strip_attributes',    '2.6.0'
 gem 'sanitize',                 '6.0.0'
 
 # Run asynschronous process
-gem 'sidekiq',                  '6.2.2'
-gem 'sidekiq-statistic',        '1.4.0'
+gem 'sidekiq',                  '6.3.1'
 gem 'sidekiq-cron',             '1.2.0'
-gem 'attentive_sidekiq',        '0.3.3'
 gem 'whenever',                 '1.0.0', require: false
 
 # Redis session store and cache
@@ -61,7 +56,7 @@ gem 'hiredis',                  '0.6.3'
 gem 'storext',                  '3.3.0'
 
 # Authentification
-gem 'devise',                   '4.8.0'
+gem 'devise',                   '4.8.1'
 
 # Authorization mechanism
 gem 'pundit',                   '2.1.1'
@@ -72,7 +67,7 @@ gem 'mini_magick',              '4.11.0'
 gem 'image_processing',         '1.12.1'
 
 # Search in database
-gem 'searchkick',               '4.6.1'
+gem 'searchkick',               '4.6.3'
 gem 'typhoeus',                 '1.4.0'
 
 # Votable models
@@ -88,11 +83,11 @@ gem 'premailer-rails',          '1.11.1'
 gem 'browser',                  '5.3.1'
 
 # Tracking
-gem 'ahoy_matey',               '4.0.1'
+gem 'ahoy_matey',               '4.0.2'
 
 # SEO
 gem 'friendly_id',              '5.4.2'
-gem 'route_translator',         '11.0.0'
+gem 'route_translator',         '12.1.0'
 gem 'meta-tags',                '2.16.0'
 gem 'sitemap_generator',        '6.1.2'
 
@@ -105,12 +100,11 @@ gem 'capistrano',               '3.16.0', require: false
 gem 'capistrano-rails',         '1.6.1',  require: false
 gem 'capistrano-rvm',           '0.1.2',  require: false
 gem 'capistrano-bundler',       '2.0.1',  require: false
-gem 'capistrano-rails-console', '2.3.0',  require: false
-gem 'capistrano-db-tasks',      '0.6',    require: false
 gem 'health_check',             '3.1.0'
 
 # SEO
 gem 'webdrivers',               '5.0.0',  require: false
+gem 'selenium-webdriver',       '4.1.0',  require: false
 
 # Server
 gem 'puma',                     '5.5.2'
@@ -125,8 +119,7 @@ group :development do
   gem 'binding_of_caller',      '1.0.0'
 
   # N+1 database query
-  gem 'bullet',                 '6.1.5'
-  gem 'prosopite',              '1.0.3'
+  gem 'bullet',                 '7.0.0'
 
   # Guard and its minions
   gem 'guard',                  '2.18.0', require: false
@@ -139,13 +132,6 @@ group :development do
   # Annotate models from DB
   gem 'annotate',               '3.1.1',  require: false
 
-  # Find index to add
-  # gem 'lol_dba',                '2.1.8', require: false # Not compatible with Rails 6
-  #gem 'unique_validation_inspector', '0.3.0', require: false
-
-  # Faster ruby code
-  gem 'fasterer',               '0.9.0', require: false
-
   # Load tests
   gem 'ruby-jmeter',            '3.1.08', require: false
 end
@@ -154,37 +140,28 @@ group :test do
   # Test tools
   gem 'rspec-rails',                '5.0.2'
   gem 'webmock',                    '3.14.0'
-  gem 'rspec_junit_formatter',      '0.4.1'
   gem 'shoulda-matchers',           '5.0.0',  require: false
   gem 'shoulda-callback-matchers',  '1.1.4',  require: false
   gem 'simplecov',                  '0.21.2', require: false
   gem 'fuubar',                     '2.5.1'
   gem 'database_cleaner',           '2.0.1'
   gem 'db-query-matchers',          '0.10.0'
-
-  # Browser tests
-  gem 'capybara',                   '3.36.0'
-  gem 'capybara-email',             '3.0.2'
-  gem 'capybara-screenshot',        '1.0.25'
-  gem 'selenium-webdriver',         '4.0.3'
-  gem 'html_validation',            '1.1.5'
-  gem 'launchy',                    '2.5.0'
-
-  # static analyzer
-  gem 'rails_best_practices',       '1.22.1', require: false
-  gem 'brakeman',                   '5.1.2',  require: false
-  gem 'i18n-tasks',                 '0.9.34', require: false
 end
 
 group :development, :test do
   # Speed up boot
-  gem 'bootsnap',                   '1.9.1',  require: false
+  gem 'bootsnap',                   '1.9.3',  require: false
 
   # Check errors
-  gem 'rubocop',                    '1.22.3', require: false
+  gem 'rubocop',                    '1.23.0', require: false
   gem 'rubocop-rails',              '2.12.4', require: false
   gem 'rubocop-performance',        '1.12.0', require: false
-  gem 'rubocop-rspec',              '2.5.0',  require: false
+  gem 'rubocop-rspec',              '2.6.0',  require: false
+
+  # static analyzer
+  gem 'rails_best_practices',       '1.22.1', require: false
+  gem 'brakeman',                   '5.2.0',  require: false
+  gem 'i18n-tasks',                 '0.9.36', require: false
 end
 
 group :production do

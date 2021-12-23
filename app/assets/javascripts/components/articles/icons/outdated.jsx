@@ -1,7 +1,7 @@
 'use strict';
 
-import HighlightIcon from '@material-ui/icons/HighlightOutlined';
-import HighlightOffIcon from '@material-ui/icons/HighlightOffOutlined';
+import HighlightIcon from '@mui/icons-material/HighlightOutlined';
+import HighlightOffIcon from '@mui/icons-material/HighlightOffOutlined';
 
 const ArticleOutdatedIcon = ({isOutdated, onOutdatedClick, size, color}) => (
     <span className="flow-tooltip-bottom"

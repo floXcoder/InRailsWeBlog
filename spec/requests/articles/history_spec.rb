@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'History API', type: :request, basic: true do
+describe 'History API', type: :request do
 
   before(:all) do
     @user       = create(:user)

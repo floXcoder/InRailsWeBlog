@@ -1,13 +1,12 @@
 'use strict';
 
+import '../../../stylesheets/pages/default/home.scss';
+
 import {
     hot
 } from 'react-hot-loader/root';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
-import Divider from '@material-ui/core/Divider';
+import Divider from '@mui/material/Divider';
 
 import {
     showUserLogin,
@@ -19,8 +18,6 @@ import HomeSearch from './search';
 import HomePopulars from './populars';
 import HomeFunctionalities from './functionalities';
 
-import styles from '../../../jss/default/home';
-
 
 export default @connect((state) => ({
     isUserConnected: state.userState.isConnected
@@ -29,15 +26,12 @@ export default @connect((state) => ({
     showUserLogin
 })
 @hot
-@withStyles(styles)
 class Home extends React.Component {
     static propTypes = {
         // from connect
         isUserConnected: PropTypes.bool,
         showUserSignup: PropTypes.func,
-        showUserLogin: PropTypes.func,
-        // from styles
-        classes: PropTypes.object
+        showUserLogin: PropTypes.func
     };
 
     constructor(props) {
@@ -58,26 +52,24 @@ class Home extends React.Component {
 
     render() {
         return (
-            <div className={this.props.classes.home}>
+            <div className="home-home">
                 {
                     !this.props.isUserConnected &&
-                    <HomeBanner classes={this.props.classes}
-                                onLoginClick={this._handleLoginClick}
+                    <HomeBanner onLoginClick={this._handleLoginClick}
                                 onSignupClick={this._handleSignupClick}/>
                 }
 
-                <Divider className={this.props.classes.homeDivider}/>
+                <Divider className="home-homeDivider"/>
 
-                <HomeSearch classes={this.props.classes}/>
+                <HomeSearch/>
 
-                <Divider className={this.props.classes.homeDivider}/>
+                <Divider className="home-homeDivider"/>
 
-                <HomePopulars classes={this.props.classes}/>
+                <HomePopulars/>
 
-                <Divider className={this.props.classes.homeDivider}/>
+                <Divider className="home-homeDivider"/>
 
-                <HomeFunctionalities classes={this.props.classes}
-                                     onSignupClick={!this.props.isUserConnected ? this._handleSignupClick : undefined}/>
+                <HomeFunctionalities onSignupClick={!this.props.isUserConnected ? this._handleSignupClick : undefined}/>
             </div>
         );
     }

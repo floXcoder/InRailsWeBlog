@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'Vote Article API', type: :request, basic: true do
+describe 'Vote Article API', type: :request do
 
   before(:all) do
     @user       = create(:user)

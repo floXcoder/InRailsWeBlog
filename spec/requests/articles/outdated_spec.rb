@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'Outdated Article API', type: :request, basic: true do
+describe 'Outdated Article API', type: :request do
 
   before(:all) do
     @user         = create(:user)

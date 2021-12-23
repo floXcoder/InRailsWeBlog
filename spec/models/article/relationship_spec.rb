@@ -14,7 +14,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Article::Relationship, type: :model, basic: true do
+RSpec.describe Article::Relationship, type: :model do
 
   before(:all) do
     @user  = create(:user)

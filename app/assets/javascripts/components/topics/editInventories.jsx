@@ -1,16 +1,10 @@
 'use strict';
 
+import '../../../stylesheets/pages/topic/form.scss';
+
 import {
     hot
 } from 'react-hot-loader/root';
-
-import {
-    withRouter
-} from 'react-router-dom';
-
-import {
-    withStyles
-} from '@material-ui/core/styles';
 
 import {
     topicArticlesPath
@@ -26,16 +20,16 @@ import {
     getTopicErrors
 } from '../../selectors';
 
+import withRouter from '../modules/router';
+
 import Loader from '../theme/loader';
 
 import TopicFormInventoriesDisplay from './display/formInventories';
 
 import NotAuthorized from '../layouts/notAuthorized';
 
-import styles from '../../../jss/topic/edit';
 
-export default @withRouter
-@connect((state) => ({
+export default @connect((state) => ({
     topic: state.topicState.topic,
     currentUser: getCurrentUser(state),
     topicErrors: getTopicErrors(state)
@@ -43,21 +37,19 @@ export default @withRouter
     fetchTopic,
     updateTopicInventories
 })
+@withRouter({params: true, navigate: true})
 @hot
-@withStyles(styles)
 class TopicEditInventories extends React.Component {
     static propTypes = {
-        routeParams: PropTypes.object.isRequired,
         // from router
-        history: PropTypes.object,
+        routeParams: PropTypes.object,
+        routeNavigate: PropTypes.object,
         // from connect
         topic: PropTypes.object,
         currentUser: PropTypes.object,
         topicErrors: PropTypes.array,
         fetchTopic: PropTypes.func,
-        updateTopicInventories: PropTypes.func,
-        // from styles
-        classes: PropTypes.object
+        updateTopicInventories: PropTypes.func
     };
 
     constructor(props) {
@@ -82,7 +74,7 @@ class TopicEditInventories extends React.Component {
         this.props.updateTopicInventories(this.props.topic.id, data)
             .then((response) => {
                 if (response.topic) {
-                    this.props.history.push({
+                    this.props.routeNavigate({
                         pathname: topicArticlesPath(this.props.topic.user.slug, this.props.topic.slug)
                     });
                 }
@@ -111,7 +103,7 @@ class TopicEditInventories extends React.Component {
         const {inventoryFields} = this.props.topic;
 
         return (
-            <div className={this.props.classes.root}>
+            <div className="topic-edit-root">
                 <TopicFormInventoriesDisplay initialValues={{inventoryFields}}
                                              id={`topic-edit-inventories-${this.props.topic.id}`}
                                              topic={this.props.topic}

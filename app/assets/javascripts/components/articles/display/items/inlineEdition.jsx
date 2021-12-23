@@ -2,12 +2,8 @@
 
 import {
     Link,
-    Prompt
+    // Prompt
 } from 'react-router-dom';
-
-import {
-    withStyles
-} from '@material-ui/core/styles';
 
 import {
     userArticlePath
@@ -26,14 +22,12 @@ import {
     Editor
 } from '../../../loaders/components';
 
-import styles from '../../../../../jss/article/inline';
 
 export default @connect(null, {
     inlineEditArticle,
     updateArticle,
     deleteArticle
 })
-@withStyles(styles)
 class ArticleInlineEditionDisplay extends React.Component {
     static propTypes = {
         article: PropTypes.object.isRequired,
@@ -42,9 +36,7 @@ class ArticleInlineEditionDisplay extends React.Component {
         // from connect
         inlineEditArticle: PropTypes.func,
         updateArticle: PropTypes.func,
-        deleteArticle: PropTypes.func,
-        // from styles
-        classes: PropTypes.object
+        deleteArticle: PropTypes.func
     };
 
     constructor(props) {
@@ -88,21 +80,21 @@ class ArticleInlineEditionDisplay extends React.Component {
     render() {
         return (
             <div id={`article-${this.props.article.id}`}
-                 className={this.props.classes.root}>
-                <Prompt when={!!this.state.modifiedContent && !this._isSaving}
-                        message={(location) => I18n.t('js.article.form.unsaved', {location: location.pathname})}/>
+                 className="article-inline-root">
+                {/*<Prompt when={!!this.state.modifiedContent && !this._isSaving}*/}
+                {/*        message={(location) => I18n.t('js.article.form.unsaved', {location: location.pathname})}/>*/}
 
                 {
                     this.props.article.title &&
                     <Link to={userArticlePath(this.props.article.user.slug, this.props.article.slug)}
                           onClick={this._handleTitleClick}>
-                        <h1 className={this.props.classes.title}>
+                        <h1 className="article-inline-title">
                             {this.props.article.title}
                         </h1>
                     </Link>
                 }
 
-                <div className={this.props.classes.inlineEditor}>
+                <div className="article-inline-inlineEditor">
                     <Editor modelName="article"
                             modelId={this.props.article.id}
                             currentUserId={this.props.currentUserId}
@@ -115,9 +107,8 @@ class ArticleInlineEditionDisplay extends React.Component {
                     </Editor>
                 </div>
 
-                <div className={this.props.classes.actions}>
-                    <ArticleInlineActions classes={this.props.classes}
-                                          onSaveClick={this._handleSaveClick}
+                <div className="article-inline-actions">
+                    <ArticleInlineActions onSaveClick={this._handleSaveClick}
                                           onCancelClick={this._handleCancelClick}
                                           onDeleteClick={this._handleDeleteClick}/>
                 </div>

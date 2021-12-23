@@ -3,7 +3,7 @@
 require 'rails_helper'
 require 'i18n/tasks'
 
-describe 'I18n', basic: true do
+describe 'I18n' do
   let(:translation) { I18n::Tasks::BaseTask.new }
   let(:missing_keys) { translation.missing_keys }
   let(:unused_keys) { translation.unused_keys }

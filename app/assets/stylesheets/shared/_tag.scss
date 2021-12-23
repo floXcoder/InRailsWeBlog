@@ -1,48 +1,184 @@
-.tag-sort {
-  margin-top: 25px;
-}
+@import 'base/variables';
 
-.tag-sorting {
-  user-select: none;
+// ***
+// Tag sidebar
+// ***
+.tag-sidebar-cloudList {
+  height: 90vh;
+  display: flex;
+  flex-wrap: wrap;
+  padding-bottom: 80px;
 
-  .tag-sorting {
-    text-align: center;
-  }
-
-  .tag-sorting-items {
-    margin-left: auto;
-    margin-right: auto;
-    width: 360px;
-    //height: 75vh;
-    outline: none;
-    overflow: auto;
-    position: relative;
+  @media #{$large-and-down} {
+    margin: .4rem .6rem;
   }
 }
 
-.tag-sort-item {
-  background-color: rgba(143, 143, 143, .35);
-  border: 0;
-  border-radius: 5px;
-  margin: 5px 10px;
-  padding: 3px 12px;
+.tag-sidebar-cloudTopic {
+  margin: 1.3rem .4rem .3rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-bottom: 1px solid #eee;
+}
 
-  .tag-count {
-    font-weight: 600;
-    line-height: 26px;
-    margin-left: 10px;
-  }
+.tag-sidebar-cloudTag {
+  color: rgba(0, 0, 0, 0.63);
+  cursor: pointer;
+  margin: 4px;
+  font-size: .9rem;
+  font-weight: 400;
+  border-color: rgba(0, 0, 0, 0.63);
+  border-radius: 4px;
+}
 
-  .tag-desc {
-    margin: 5px;
-    padding: .2rem .6rem;
-  }
+.tag-sidebar-tagList {
+  padding: 0 0 80px;
+  position: relative;
+  white-space: nowrap;
+}
 
-  .tag-synonyms {
-    margin: 5px;
-    padding: .2rem .6rem;
-    font-style: italic;
+.tag-sidebar-labelsLink {
+  top: -32px;
+  right: 12px;
+  position: absolute;
+
+  @media #{$large-and-down} {
+    display: none;
   }
+}
+
+.tag-sidebar-labelsIcon {
+  color: $text-color;
+  height: .8em;
+  margin-left: 8px;
+}
+
+.tag-sidebar-listItem {
+  padding-bottom: 4px;
+}
+
+.tag-sidebar-searchItem {
+  padding-top: 4px;
+}
+
+.tag-sidebar-title {
+  font-style: italic;
+  text-align: center;
+  margin-left: 60px;
+}
+
+.tag-sidebar-item {
+  padding: 0 16px;
+  transform: translate(0);
+  transition: all .45s;
+}
+
+.tag-sidebar-itemOpen {
+  transform: translate(-60px);
+}
+
+.tag-sidebar-input {
+  width: auto;
+  margin-top: 0;
+  margin-right: -60px;
+}
+
+.tag-sidebar-tags {
+  height: 90vh;
+  opacity: 0;
+  margin-top: 1rem;
+  transition: visibility .35s, opacity .35s ease-in-out;
+  visibility: hidden;
+}
+
+.tag-sidebar-tagsOpen {
+  opacity: 1;
+  visibility: visible;
+}
+
+.tag-sidebar-expandIcon {
+  width: 25%;
+  height: 30px;
+  padding: 2px 8px;
+}
+
+.tag-sidebar-label {
+  color: $text-color-secondary;
+  margin: 4px;
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.tag-sidebar-nestedLabelRoot {
+  padding-left: 36px;
+}
+
+.tag-sidebar-nestedLabel {
+  color: $text-color-secondary;
+  font-size: .9rem;
+  font-weight: 400;
+}
+
+.tag-sidebar-selectedLabel {
+  color: $secondary-color-dark;
+  font-size: 1.1rem !important;
+  font-weight: 700;
+}
+
+.tag-sidebar-noTags {
+  color: #616161;
+  padding: 1rem;
+  font-size: .95rem;
+  font-style: italic;
+  white-space: normal;
+}
+
+// ***
+// Tag chip
+// ***
+.tag-chip-tagChip {
+  color: $text-color-secondary;
+  cursor: pointer;
+  margin: 4px;
+  padding: 8px;
+  font-size: .9rem;
+  font-weight: 400;
+  border-color: $text-color-secondary;
+  border-radius: 20px;
+}
+
+.tag-chip-tagChipLarge {
+  height: 42px;
+  margin: 8px;
+  padding: 8px;
+
+  @media #{$small-and-down} {
+    padding: 3px;
+  }
+}
+
+.tag-chip-tagChipSmall {
+  height: 30px;
+  margin: 4px;
+  padding: 4px;
+}
+
+.tag-chip-tagLabel {
+  margin: 2.4px;
+  padding: 12px;
+  font-size: .9rem;
+}
+
+.tag-chip-tagLabelSmall {
+  font-size: .8rem;
+}
+
+.tag-chip-parent {
+  margin: 8px;
+}
+
+.tag-chip-child {
+  margin: 8px;
 }
 
 .tag-errors {

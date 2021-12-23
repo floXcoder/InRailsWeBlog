@@ -8,24 +8,18 @@ import {
 import 'intersection-observer';
 import Observer from '@researchgate/react-intersection-observer';
 
-import {
-    StickyContainer,
-    Sticky
-} from 'react-sticky';
+import Sticky from 'react-sticky-el';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import CardMedia from '@material-ui/core/CardMedia';
-import Collapse from '@material-ui/core/Collapse';
-import IconButton from '@material-ui/core/IconButton';
-import Grid from '@material-ui/core/Grid';
+import Card from '@mui/material/Card';
+import CardHeader from '@mui/material/CardHeader';
+import CardContent from '@mui/material/CardContent';
+import CardActions from '@mui/material/CardActions';
+import CardMedia from '@mui/material/CardMedia';
+import Collapse from '@mui/material/Collapse';
+import IconButton from '@mui/material/IconButton';
+import Grid from '@mui/material/Grid';
 
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import {
     userArticlePath
@@ -44,10 +38,8 @@ import ArticleFloatingIcons from '../../properties/floatingIcons';
 import ArticleActions from '../../properties/actions';
 import ArticleAvatarIcon from '../../icons/avatar';
 
-import styles from '../../../../../jss/article/card';
 
 export default @highlight()
-@withStyles(styles)
 class ArticleCardDisplay extends React.PureComponent {
     static propTypes = {
         article: PropTypes.object.isRequired,
@@ -63,9 +55,7 @@ class ArticleCardDisplay extends React.PureComponent {
         onEnter: PropTypes.func,
         onExit: PropTypes.func,
         // from highlight
-        onShow: PropTypes.func,
-        // from styles
-        classes: PropTypes.object
+        onShow: PropTypes.func
     };
 
     static defaultProps = {
@@ -128,195 +118,191 @@ class ArticleCardDisplay extends React.PureComponent {
         const isPrivateInPublic = (this.props.isUserArticlesList || (this.props.currentUserTopicId === this.props.article.topicId && this.props.currentUserTopicVisibility === 'everyone')) && this.props.article.visibility !== 'everyone';
 
         return (
-            <StickyContainer>
-                <Observer onChange={this._handleViewportChange}>
-                    <Card component="article"
-                          id={`article-${this.props.article.id}`}
-                          className={classNames(this.props.classes.articleCard, {
-                              [this.props.classes.cardFolded]: this.state.isFolded,
-                              [this.props.classes.cardPrivate]: isPrivateInPublic,
-                              [this.props.classes.cardOutdated]: this.props.article.outdated
-                          })}
-                          itemScope={true}
-                          itemType="https://schema.org/BlogPosting">
+            <Observer onChange={this._handleViewportChange}>
+                <Card component="article"
+                      id={`article-${this.props.article.id}`}
+                      className={classNames('article-card-articleCard', {
+                          'article-card-cardFolded': this.state.isFolded,
+                          'article-card-cardPrivate': isPrivateInPublic,
+                          'article-card-cardOutdated': this.props.article.outdated
+                      })}
+                      itemScope={true}
+                      itemType="https://schema.org/BlogPosting">
+                    {
+                        (this.props.hasActions && !this.state.isFolded) &&
+                        <div className="article-card-floatingButtons">
+                            <Sticky boundaryElement={`#article-${this.props.article.id}`}
+                                    topOffset={60}
+                                    bottomOffset={310}>
+                                <div className="article-card-floatingButtons">
+                                    <ArticleFloatingIcons className="article-card-floatingIcons"
+                                                          display="list"
+                                                          size="medium"
+                                                          color="action"
+                                                          isOwner={this.props.isOwner}
+                                                          userSlug={this.props.article.user.slug}
+                                                          articleId={this.props.article.id}
+                                                          articleSlug={this.props.article.slug}
+                                                          articleUserId={this.props.article.userId}
+                                                          articleTopicId={this.props.article.topicId}
+                                                          articleTitle={this.props.article.title}/>
+                                </div>
+                            </Sticky>
+                        </div>
+                    }
+
+                    <CardHeader classes={{
+                        root: 'article-card-header'
+                    }}
+                                action={
+                                    <IconButton
+                                        className={classNames('article-card-expand', {
+                                            'article-card-expandOpen': this.state.isFolded
+                                        })}
+                                        aria-expanded={this.state.isFolded}
+                                        aria-label="Show more"
+                                        onClick={this._handleFoldClick}
+                                        size="large">
+                                        <ExpandMoreIcon/>
+                                    </IconButton>
+                                }
+                                title={
+                                    <Grid container={true}
+                                          classes={{
+                                              container: 'article-card-articleInfo'
+                                          }}
+                                          spacing={2}
+                                          direction="row"
+                                          justifyContent="space-between"
+                                          alignItems="center">
+                                        <Grid classes={{
+                                            item: 'article-card-infoItem'
+                                        }}
+                                              item={true}>
+                                            <ArticleAvatarIcon user={this.props.article.user}
+                                                               articleDate={this.props.article.date}/>
+                                        </Grid>
+                                    </Grid>
+                                }
+                                subheader={
+                                    <h1 className="article-card-title"
+                                        itemProp="name headline">
+                                        <Link className="article-card-titleLink"
+                                              to={userArticlePath(this.props.article.user.slug, this.props.article.slug)}
+                                              itemProp="mainEntityOfPage url"
+                                              onClick={this._handleTitleClick}>
+                                            {this.props.article.title}
+                                        </Link>
+                                    </h1>
+                                }/>
+
+                    <Collapse in={!this.state.isFolded}
+                              timeout="auto"
+                              unmountOnExit={true}>
                         {
-                            (this.props.hasActions && !this.state.isFolded) &&
-                            <div className={this.props.classes.floatingButtons}>
-                                <Sticky topOffset={-80}
-                                        bottomOffset={-260}>
-                                    {({style, isSticky}) => (
-                                        <ArticleFloatingIcons style={style}
-                                                              className={this.props.classes.floatingIcons}
-                                                              isSticky={isSticky}
-                                                              display="list"
-                                                              size="medium"
-                                                              color="action"
-                                                              isOwner={this.props.isOwner}
-                                                              userSlug={this.props.article.user.slug}
-                                                              articleId={this.props.article.id}
-                                                              articleSlug={this.props.article.slug}
-                                                              articleUserId={this.props.article.userId}
-                                                              articleTopicId={this.props.article.topicId}
-                                                              articleTitle={this.props.article.title}/>
-                                    )}
-                                </Sticky>
-                            </div>
+                            this.props.article.defaultPicture?.webp &&
+                            <CardMedia className="article-card-media"
+                                       image={this.props.article.defaultPicture.webp}
+                                       title={this.props.article.name}/>
                         }
 
-                        <CardHeader classes={{
-                            root: this.props.classes.header
-                        }}
-                                    action={
-                                        <IconButton className={classNames(this.props.classes.expand, {
-                                            [this.props.classes.expandOpen]: this.state.isFolded
-                                        })}
-                                                    aria-expanded={this.state.isFolded}
-                                                    aria-label="Show more"
-                                                    onClick={this._handleFoldClick}>
-                                            <ExpandMoreIcon/>
-                                        </IconButton>
-                                    }
-                                    title={
-                                        <Grid container={true}
-                                              classes={{
-                                                  container: this.props.classes.articleInfo
-                                              }}
-                                              spacing={2}
-                                              direction="row"
-                                              justifyContent="space-between"
-                                              alignItems="center">
-                                            <Grid classes={{
-                                                item: this.props.classes.infoItem
-                                            }}
-                                                  item={true}>
-                                                <ArticleAvatarIcon classes={this.props.classes}
-                                                                   user={this.props.article.user}
-                                                                   articleDate={this.props.article.date}/>
-                                            </Grid>
-                                        </Grid>
-                                    }
-                                    subheader={
-                                        <h1 className={this.props.classes.title}
-                                            itemProp="name headline">
-                                            <Link className={this.props.classes.titleLink}
-                                                  to={userArticlePath(this.props.article.user.slug, this.props.article.slug)}
-                                                  itemProp="mainEntityOfPage url"
-                                                  onClick={this._handleTitleClick}>
-                                                {this.props.article.title}
-                                            </Link>
-                                        </h1>
-                                    }/>
+                        <CardContent classes={{
+                            root: 'article-card-content'
+                        }}>
+                            <meta itemProp="dateModified"
+                                  content={this.props.article.dateIso}/>
 
-                        <Collapse in={!this.state.isFolded}
-                                  timeout="auto"
-                                  unmountOnExit={true}>
-                            {
-                                this.props.article.defaultPicture?.webp &&
-                                <CardMedia className={this.props.classes.media}
-                                           image={this.props.article.defaultPicture.webp}
-                                           title={this.props.article.name}/>
-                            }
-
-                            <CardContent classes={{
-                                root: this.props.classes.content
-                            }}>
-                                <meta itemProp="dateModified"
-                                      content={this.props.article.dateIso}/>
-
-                                <div itemType="https://schema.org/Organization"
-                                     itemProp="publisher"
+                            <div itemType="https://schema.org/Organization"
+                                 itemProp="publisher"
+                                 itemScope={true}>
+                                <div itemType="https://schema.org/ImageObject"
+                                     itemProp="logo"
                                      itemScope={true}>
+                                    <meta itemProp="url"
+                                          content={window.logoUrl}/>
+                                    <meta itemProp="width"
+                                          content="192"/>
+                                    <meta itemProp="height"
+                                          content="192"/>
+                                </div>
+                                <meta itemProp="name"
+                                      content={window.settings.website_name}/>
+                            </div>
+
+                            {
+                                this.props.article.defaultPicture
+                                    ?
                                     <div itemType="https://schema.org/ImageObject"
-                                         itemProp="logo"
-                                         itemScope={true}>
+                                         itemScope={true}
+                                         itemProp="image">
+                                        <meta itemProp="url"
+                                              content={this.props.article.defaultPicture}/>
+                                        <meta itemProp="width"
+                                              content="320"/>
+                                        <meta itemProp="height"
+                                              content="320"/>
+                                    </div>
+                                    :
+                                    <div itemType="https://schema.org/ImageObject"
+                                         itemScope={true}
+                                         itemProp="image">
                                         <meta itemProp="url"
                                               content={window.logoUrl}/>
                                         <meta itemProp="width"
-                                              content="192"/>
+                                              content="320"/>
                                         <meta itemProp="height"
-                                              content="192"/>
+                                              content="320"/>
                                     </div>
-                                    <meta itemProp="name"
-                                          content={window.settings.website_name}/>
-                                </div>
+                            }
 
+                            <div itemProp="articleBody">
                                 {
-                                    this.props.article.defaultPicture
+                                    this.props.article.mode === 'inventory'
                                         ?
-                                        <div itemType="https://schema.org/ImageObject"
-                                             itemScope={true}
-                                             itemProp="image">
-                                            <meta itemProp="url"
-                                                  content={this.props.article.defaultPicture}/>
-                                            <meta itemProp="width"
-                                                  content="320"/>
-                                            <meta itemProp="height"
-                                                  content="320"/>
-                                        </div>
+                                        <ArticleInventoryDisplay inventories={this.props.article.inventories}/>
                                         :
-                                        <div itemType="https://schema.org/ImageObject"
-                                             itemScope={true}
-                                             itemProp="image">
-                                            <meta itemProp="url"
-                                                  content={window.logoUrl}/>
-                                            <meta itemProp="width"
-                                                  content="320"/>
-                                            <meta itemProp="height"
-                                                  content="320"/>
-                                        </div>
+                                        <div className="normalized-content"
+                                             dangerouslySetInnerHTML={{__html: this.props.article.content}}/>
                                 }
-
-                                <div itemProp="articleBody">
-                                    {
-                                        this.props.article.mode === 'inventory'
-                                            ?
-                                            <ArticleInventoryDisplay inventories={this.props.article.inventories}/>
-                                            :
-                                            <div className="normalized-content"
-                                                 dangerouslySetInnerHTML={{__html: this.props.article.content}}/>
-                                    }
-                                </div>
-                            </CardContent>
-
-                            <CardActions className={this.props.classes.actions}
-                                         disableSpacing={true}>
-                                {
-                                    this.props.article.tags.length > 0 &&
-                                    <ArticleTags articleId={this.props.article.id}
-                                                 tags={this.props.article.tags}
-                                                 isOwner={this.props.isOwner}
-                                                 currentUserSlug={this.props.currentUserSlug}
-                                                 currentUserTopicSlug={this.props.currentUserTopicSlug}
-                                                 parentTagIds={this.props.article.parentTagIds}
-                                                 childTagIds={this.props.article.childTagIds}/>
-                                }
-
-                                {
-                                    this.props.isOwner &&
-                                    <ArticleActions classes={this.props.classes}
-                                                    isInline={true}
-                                                    userSlug={this.props.article.user.slug}
-                                                    articleId={this.props.article.id}
-                                                    articleSlug={this.props.article.slug}
-                                                    articleUserId={this.props.article.userId}
-                                                    articleTopicId={this.props.article.topicId}
-                                                    articleTitle={this.props.article.title}
-                                                    articleVisibility={this.props.article.visibility}
-                                                    isOutdated={this.props.article.outdated}/>
-                                }
-                            </CardActions>
-                        </Collapse>
-
-                        {
-                            isPrivateInPublic &&
-                            <div
-                                className={classNames(this.props.classes.privateMessage, this.props.classes.privateMessageTop)}>
-                                {I18n.t('js.article.common.private_in_public')}
                             </div>
-                        }
-                    </Card>
-                </Observer>
-            </StickyContainer>
+                        </CardContent>
+
+                        <CardActions className="article-card-actions"
+                                     disableSpacing={true}>
+                            {
+                                this.props.article.tags.length > 0 &&
+                                <ArticleTags articleId={this.props.article.id}
+                                             tags={this.props.article.tags}
+                                             isOwner={this.props.isOwner}
+                                             currentUserSlug={this.props.currentUserSlug}
+                                             currentUserTopicSlug={this.props.currentUserTopicSlug}
+                                             parentTagIds={this.props.article.parentTagIds}
+                                             childTagIds={this.props.article.childTagIds}/>
+                            }
+
+                            {
+                                this.props.isOwner &&
+                                <ArticleActions isInline={true}
+                                                userSlug={this.props.article.user.slug}
+                                                articleId={this.props.article.id}
+                                                articleSlug={this.props.article.slug}
+                                                articleUserId={this.props.article.userId}
+                                                articleTopicId={this.props.article.topicId}
+                                                articleTitle={this.props.article.title}
+                                                articleVisibility={this.props.article.visibility}
+                                                isOutdated={this.props.article.outdated}/>
+                            }
+                        </CardActions>
+                    </Collapse>
+
+                    {
+                        isPrivateInPublic &&
+                        <div className="article-card-privateMessage article-card-privateMessageTop">
+                            {I18n.t('js.article.common.private_in_public')}
+                        </div>
+                    }
+                </Card>
+            </Observer>
         );
     }
 }

@@ -1,20 +1,20 @@
 'use strict';
 
-import {
-    MuiThemeProvider
-} from '@material-ui/core/styles';
-
 import '../../../stylesheets/pages/admin.scss';
 
-require('../common');
+import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 
-import theme from '../../../jss/theme';
+import theme from '../../theme';
 
 import AdminLogin from '../../components/admins/login';
 
+require('../common');
+
 ReactDOM.render(
-    <MuiThemeProvider theme={theme}>
-        <AdminLogin/>
-    </MuiThemeProvider>,
+    <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+            <AdminLogin/>
+        </ThemeProvider>
+    </StyledEngineProvider>,
     document.getElementById('admins-login-component')
 );

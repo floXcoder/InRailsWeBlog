@@ -8,14 +8,11 @@ import {
 import 'intersection-observer';
 import Observer from '@researchgate/react-intersection-observer';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
-import Collapse from '@material-ui/core/Collapse';
-import IconButton from '@material-ui/core/IconButton';
+import Collapse from '@mui/material/Collapse';
+import IconButton from '@mui/material/IconButton';
 
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import EditIcon from '@material-ui/icons/EditOutlined';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import EditIcon from '@mui/icons-material/EditOutlined';
 
 import {
     userArticlePath
@@ -31,10 +28,8 @@ import highlight from '../../../modules/highlight';
 import ArticleInventoryDisplay from './inventory';
 import ArticleLinkIcon from '../../icons/link';
 
-import styles from '../../../../../jss/article/inline';
 
 export default @highlight()
-@withStyles(styles)
 class ArticleInlineDisplay extends React.PureComponent {
     static propTypes = {
         article: PropTypes.object.isRequired,
@@ -46,9 +41,7 @@ class ArticleInlineDisplay extends React.PureComponent {
         onEnter: PropTypes.func,
         onExit: PropTypes.func,
         // from highlight
-        onShow: PropTypes.func,
-        // from styles
-        classes: PropTypes.object
+        onShow: PropTypes.func
     };
 
     static defaultProps = {
@@ -122,14 +115,16 @@ class ArticleInlineDisplay extends React.PureComponent {
         return (
             <Observer onChange={this._handleViewportChange}>
                 <article id={`article-${this.props.article.id}`}
-                         className={classNames(this.props.classes.root, {
-                             [this.props.classes.over]: this.state.isOver,
-                             [this.props.classes.rootPrivate]: isPrivateInPublic
+                         className={classNames('article-inline-root', {
+                             'article-inline-over': this.state.isOver,
+                             'article-inline-rootPrivate': isPrivateInPublic
                          })}>
-                    <IconButton className={this.props.classes.expand}
-                                aria-expanded={this.state.isFolded}
-                                aria-label="Show more"
-                                onClick={this._handleFoldClick}>
+                    <IconButton
+                        className="article-inline-expand"
+                        aria-expanded={this.state.isFolded}
+                        aria-label="Show more"
+                        onClick={this._handleFoldClick}
+                        size="large">
                         <ExpandMoreIcon/>
                     </IconButton>
 
@@ -137,7 +132,7 @@ class ArticleInlineDisplay extends React.PureComponent {
                         this.props.article.title &&
                         <Link to={userArticlePath(this.props.article.user.slug, this.props.article.slug)}
                               onClick={this._handleTitleClick}>
-                            <h1 className={this.props.classes.title}>
+                            <h1 className="article-inline-title">
                                 {this.props.article.title}
                             </h1>
                         </Link>
@@ -158,8 +153,8 @@ class ArticleInlineDisplay extends React.PureComponent {
 
                     {
                         !this.state.isFolded &&
-                        <div className={this.props.classes.floatingButtons}>
-                            <div className={this.props.classes.floatingIcons}>
+                        <div className="article-inline-floatingButtons">
+                            <div className="article-inline-floatingIcons">
                                 <ArticleLinkIcon articleId={this.props.article.id}
                                                  articleSlug={this.props.article.slug}
                                                  articleTitle={this.props.article.title}
@@ -172,7 +167,7 @@ class ArticleInlineDisplay extends React.PureComponent {
 
                             {
                                 this.props.isOwner &&
-                                <div className={this.props.classes.floatingIcons}>
+                                <div className="article-inline-floatingIcons">
                                     <a className="flow-tooltip-bottom"
                                        href="#"
                                        onMouseEnter={this._handleOverEdit}
@@ -189,7 +184,7 @@ class ArticleInlineDisplay extends React.PureComponent {
 
                     {
                         isPrivateInPublic &&
-                        <div className={this.props.classes.privateMessage}>
+                        <div className="article-inline-privateMessage">
                             {I18n.t('js.article.common.private_in_public')}
                         </div>
                     }

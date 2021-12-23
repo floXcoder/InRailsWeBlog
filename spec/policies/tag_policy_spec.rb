@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe TagPolicy, basic: true do
+describe TagPolicy do
 
   before(:all) do
     @user = create(:user)

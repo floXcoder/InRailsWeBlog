@@ -4,22 +4,12 @@ import {
     Link
 } from 'react-router-dom';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import Button from '@material-ui/core/Button';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import Button from '@mui/material/Button';
 
-import styles from '../../../../jss/article/filter';
 
-export default @withStyles(styles)
-class ArticleFilterMenu extends React.Component {
-    static propTypes = {
-        // from styles
-        classes: PropTypes.object
-    };
-
+export default class ArticleFilterMenu extends React.Component {
     state = {
         anchorEl: null,
         selectedIndex: 0
@@ -47,12 +37,12 @@ class ArticleFilterMenu extends React.Component {
     render() {
         const options = [
             <Link key={1}
-                  className={this.props.classes.buttonLink}
+                  className="article-dropdown-buttonLink"
                   to={{search: 'bookmarked=true'}}>
                 {I18n.t('js.article.filter.filters.bookmark')}
             </Link>,
             <Link key={2}
-                  className={this.props.classes.buttonLink}
+                  className="article-dropdown-buttonLink"
                   to={{search: 'draft=true'}}>
                 {I18n.t('js.article.filter.filters.draft')}
             </Link>
@@ -60,7 +50,7 @@ class ArticleFilterMenu extends React.Component {
 
         return (
             <>
-                <Button className={this.props.classes.button}
+                <Button className="article-dropdown-button"
                         variant="text"
                         onClick={this._handleClickListItem}>
                     {I18n.t('js.article.filter.title')}

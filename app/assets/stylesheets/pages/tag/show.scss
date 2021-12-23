@@ -1,0 +1,63 @@
+@import 'base/variables';
+
+.tag-show-root {
+  margin: 1rem auto 4rem;
+  overflow: visible;
+  position: relative;
+  max-width: $grid-width;
+}
+
+.tag-show-title {
+  font-size: 2.8rem;
+  margin-top: 30px;
+  font-weight: 500;
+}
+
+.tag-show-subtitle {
+  font-size: 2.4rem;
+  margin-top: 48px;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.tag-show-subtitle2 {
+  font-size: 1.4rem;
+  margin-top: 48px;
+  font-weight: 400;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+}
+
+.tag-show-description {
+  font-size: 1.1rem;
+  font-weight: inherit;
+}
+
+.tag-show-avatar {
+  color: $text-color;
+}
+
+.tag-show-tagChip {
+  color: $text-color-secondary;
+  cursor: pointer;
+  margin: 4px;
+  padding: 8px;
+  font-size: .9rem;
+  font-weight: 400;
+  border-color: $text-color-secondary;
+  border-radius: 16px;
+}
+
+.tag-show-tagLabel {
+  margin: 2.4px;
+  font-size: .9rem;
+}
+
+// Tag edit
+.tag-edit-root {
+  margin: 1rem auto 4rem;
+  overflow: visible;
+  position: relative;
+  max-width: $grid-width;
+}

@@ -1,37 +1,36 @@
 'use strict';
 
+import '../../../stylesheets/pages/article/share.scss';
+
 import {
     hot
 } from 'react-hot-loader/root';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
-import Modal from '@material-ui/core/Modal';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
+import Modal from '@mui/material/Modal';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
 
 import {
     shareArticle
 } from '../../actions';
 
-import styles from '../../../jss/article/share';
+import withRouter from '../modules/router';
+
 
 export default @connect((state) => ({
     article: state.articleState.article
 }), {
     shareArticle
 })
+@withRouter({navigate: true})
 @hot
-@withStyles(styles)
 class ShareArticleModal extends React.Component {
     static propTypes = {
-        history: PropTypes.object.isRequired,
+        // from router
+        routeNavigate: PropTypes.func,
         // from connect
         article: PropTypes.object,
-        shareArticle: PropTypes.func,
-        // from styles
-        classes: PropTypes.object
+        shareArticle: PropTypes.func
     };
 
     constructor(props) {
@@ -47,7 +46,7 @@ class ShareArticleModal extends React.Component {
             isOpen: false
         });
 
-        this.props.history.push({
+        this.props.routeNavigate({
             hash: undefined
         });
     };
@@ -64,8 +63,8 @@ class ShareArticleModal extends React.Component {
         return (
             <Modal open={this.state.isOpen}
                    onClose={this._handleClose}>
-                <div className={this.props.classes.modal}>
-                    <Typography className={this.props.classes.title}
+                <div className="article-share-modal">
+                    <Typography className="article-share-title"
                                 variant="h6">
                         {I18n.t('js.article.share.title')}
                     </Typography>
@@ -94,10 +93,7 @@ class ShareArticleModal extends React.Component {
                         }
 
                         <div className="center-align margin-top-35">
-                            <Button color="default"
-                                    variant="text"
-                                    href="#"
-                                    onClick={this._handleClose}>
+                            <Button variant="text" href="#" onClick={this._handleClose}>
                                 {I18n.t('js.article.share.cancel')}
                             </Button>
                         </div>

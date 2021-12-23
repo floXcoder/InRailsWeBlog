@@ -102,7 +102,6 @@ module InRailsWeBlog
       url:             "redis://#{ENV['REDIS_HOST']}:#{ENV['REDIS_PORT']}",
       expires_in:      2.weeks.to_i,
       namespace:       "_#{ENV['WEBSITE_NAME']}_#{Rails.env}:cache",
-      driver:          :hiredis,
       connect_timeout: 30, # Defaults to 20 seconds
       read_timeout: 0.2, # Defaults to 1 second
       write_timeout: 0.2, # Defaults to 1 second

@@ -1,16 +1,10 @@
 'use strict';
 
+import '../../../stylesheets/pages/tag/form.scss';
+
 import {
     hot
 } from 'react-hot-loader/root';
-
-import {
-    withRouter
-} from 'react-router-dom';
-
-import {
-    withStyles
-} from '@material-ui/core/styles';
 
 import {
     showTagPath
@@ -26,6 +20,8 @@ import {
     getTagErrors
 } from '../../selectors';
 
+import withRouter from '../modules/router';
+
 import Loader from '../theme/loader';
 
 import NotAuthorized from '../layouts/notAuthorized';
@@ -33,10 +29,8 @@ import NotAuthorized from '../layouts/notAuthorized';
 import TagFormDisplay from './display/form';
 import TagErrorField from './display/fields/error';
 
-import styles from '../../../jss/tag/edit';
 
-export default @withRouter
-@connect((state) => ({
+export default @connect((state) => ({
     currentUser: getCurrentUser(state),
     isFetching: state.tagState.isFetching,
     tag: state.tagState.tag,
@@ -45,22 +39,20 @@ export default @withRouter
     fetchTag,
     updateTag
 })
+@withRouter({params: true, navigate: true})
 @hot
-@withStyles(styles)
 class TagEdit extends React.Component {
     static propTypes = {
-        routeParams: PropTypes.object.isRequired,
         // from router
-        history: PropTypes.object,
+        routeParams: PropTypes.object,
+        routeNavigate: PropTypes.func,
         // from connect
         currentUser: PropTypes.object,
         isFetching: PropTypes.bool,
         tag: PropTypes.object,
         tagErrors: PropTypes.array,
         fetchTag: PropTypes.func,
-        updateTag: PropTypes.func,
-        // from styles
-        classes: PropTypes.object
+        updateTag: PropTypes.func
     };
 
     constructor(props) {
@@ -77,7 +69,7 @@ class TagEdit extends React.Component {
         return this.props.updateTag(values)
             .then((response) => {
                 if (response.tag) {
-                    this.props.history.push({
+                    this.props.routeNavigate({
                         pathname: showTagPath(response.tag.slug),
                         state: {reloadTags: true}
                     });
@@ -103,7 +95,7 @@ class TagEdit extends React.Component {
         }
 
         return (
-            <div className={this.props.classes.root}>
+            <div className="tag-edit-root">
                 {
                     this.props.tagErrors &&
                     <div>

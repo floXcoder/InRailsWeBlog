@@ -1,26 +1,22 @@
 'use strict';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
-
 // import UserComplete from './complete';
 
-// import styles from '../../../jss/user/show';
+import withRouter from '../modules/router';
+
 
 export default @connect((state) => ({
     user: state.userState.user
 }), {
     // fetchUser,
 })
-@withStyles(styles)
+@withRouter({params: true})
 class UserShow extends React.Component {
     static propTypes = {
-        routeParams: PropTypes.object.isRequired,
+        // from router
+        routeParams: PropTypes.object,
         // from connect
-        user: PropTypes.object,
-        // from styles
-        // classes: PropTypes.object
+        user: PropTypes.object
     };
 
     constructor(props) {

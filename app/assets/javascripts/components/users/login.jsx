@@ -1,5 +1,7 @@
 'use strict';
 
+import '../../../stylesheets/pages/user/connection.scss';
+
 import {
     loginUser
 } from '../../actions';

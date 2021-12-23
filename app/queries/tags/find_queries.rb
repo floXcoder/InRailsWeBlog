@@ -37,7 +37,7 @@ module Tags
     def populars(params = {})
       @relation = @relation
                     .include_collection
-                    .select('distinct trackers.popularity, tags.name, tags.slug, tags.updated_at, tags.user_id, tags.description_translations, tags.languages, tags.synonyms, tags.priority, tags.visibility, tags.tagged_articles_count')
+                    .select('distinct trackers.popularity, tags.id, tags.name, tags.slug, tags.updated_at, tags.user_id, tags.description_translations, tags.languages, tags.synonyms, tags.priority, tags.visibility, tags.tagged_articles_count')
                     .everyone
                     .left_outer_joins(:articles).where('articles.languages @> ?', "{#{I18n.locale}}")
                     .populars(params[:limit])

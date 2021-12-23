@@ -2,9 +2,9 @@
 
 import '../../stylesheets/pages/admin.scss';
 
-require('./common');
-
 import AdminLayout from '../components/layouts/admin';
+
+require('./common');
 
 ReactDOM.render(
     <AdminLayout componentId="admins-component"/>,

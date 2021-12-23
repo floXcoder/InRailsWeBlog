@@ -1,12 +1,8 @@
 'use strict';
 
-import Paper from '@material-ui/core/Paper';
+import Paper from '@mui/material/Paper';
 
 import MaterialTable from '@material-table/core';
-
-import {
-    CsvBuilder
-} from 'filefy';
 
 const Localizations = {
     fr: {
@@ -104,22 +100,6 @@ export default class Table extends React.Component {
         isExpandedRow: false
     };
 
-    _exportCSV = (columns, data) => {
-        const renderColumns = columns
-            .filter((columnDef) => {
-                return !columnDef.hidden && columnDef.field && columnDef.export !== false;
-            });
-
-        const renderData = data.map((rowData) => renderColumns.map((columnDef) => getFieldValue(rowData, columnDef)));
-
-        const builder = new CsvBuilder(this.props.title + '.csv');
-        builder
-            .setDelimeter(';')
-            .setColumns(renderColumns.map((columnDef) => columnDef.title))
-            .addRows(renderData)
-            .exportFile();
-    };
-
     _toggleRow = (event, rowData, togglePanel) => {
         return togglePanel();
     };
@@ -133,8 +113,7 @@ export default class Table extends React.Component {
                                columns={this.props.columns}
                                data={this.props.data}
                                options={{
-                                   ...this.props.options,
-                                   exportCsv: this._exportCSV
+                                   ...this.props.options
                                }}
                                actions={this.props.actions}
                                detailPanel={this.props.detailPanel}

@@ -4,15 +4,14 @@ namespace :InRailsWeBlog do
 
   # rails InRailsWeBlog:static_analysis:all
 
-  # rails InRailsWeBlog:static_analysis:best_pratices
+  # rails InRailsWeBlog:static_analysis:best_practices
   # rails InRailsWeBlog:static_analysis:rubocop
   # rails InRailsWeBlog:static_analysis:eslint
-  # rails InRailsWeBlog:static_analysis:rspec_basic_coverage
-  # rails InRailsWeBlog:static_analysis:rspec_advanced_coverage
+  # rails InRailsWeBlog:static_analysis:rspec_coverage
 
   namespace :static_analysis do
     desc 'Rails Best Practices'
-    task best_pratices: :environment do
+    task best_practices: :environment do
       Rails.env = 'test'
 
       output_file = Rails.root.join('static_analysis', 'rails_best_practices.html')
@@ -35,8 +34,8 @@ namespace :InRailsWeBlog do
       %x(node #{Rails.root}/node_modules/eslint/bin/eslint.js -o #{output_file} -f html --ext .jsx,.js -c #{Rails.root}/.eslintrc.json --ignore-pattern '*i18n*' app/assets/javascripts/**)
     end
 
-    desc 'Code coverage for basic tests'
-    task rspec_basic_coverage: :environment do
+    desc 'Code coverage for Rails tests'
+    task rspec_coverage: :environment do
       Rails.env = 'test'
 
       require 'rspec/core/rake_task'
@@ -46,37 +45,13 @@ namespace :InRailsWeBlog do
       RSpec::Core::RakeTask.new(:spec) do |t|
         t.pattern    = Dir.glob('spec/**/*_spec.rb')
         t.rspec_opts = '--options .rspec_coverage'
-        t.rspec_opts += ' --tag basic'
       end
 
       begin
         Rake.application.invoke_task('spec')
       ensure
         generated_file = "#{Rails.root}/static_analysis/index.html"
-        output_file    = Rails.root.join('static_analysis', 'basic_code_coverage.html')
-        %x(mv #{Rails.root}/static_analysis/rspec_results.html #{output_file}) if File.exist?(generated_file)
-      end
-    end
-
-    desc 'Code coverage for advanced tests'
-    task rspec_advanced_coverage: :environment do
-      Rails.env = 'test'
-
-      require 'rspec/core/rake_task'
-
-      ENV['COVERAGE'] = 'true'
-
-      RSpec::Core::RakeTask.new(:spec) do |t|
-        t.pattern    = Dir.glob('spec/**/*_spec.rb')
-        t.rspec_opts = '--options .rspec_coverage'
-        t.rspec_opts += ' --tag advanced'
-      end
-
-      begin
-        Rake.application.invoke_task('spec')
-      ensure
-        generated_file = "#{Rails.root}/static_analysis/index.html"
-        output_file    = Rails.root.join('static_analysis', 'advanced_code_coverage.html')
+        output_file    = Rails.root.join('static_analysis', 'code_coverage.html')
         %x(mv #{Rails.root}/static_analysis/rspec_results.html #{output_file}) if File.exist?(generated_file)
       end
     end
@@ -91,6 +66,6 @@ namespace :InRailsWeBlog do
     # end
 
     desc 'Generate all reports'
-    task all: [:best_pratices, :rubocop, :eslint, :rspec_basic_coverage, :rspec_advanced_coverage]
+    task all: [:best_practices, :rubocop, :eslint, :rspec_coverage]
   end
 end

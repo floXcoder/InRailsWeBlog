@@ -6,7 +6,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const config = require('../config').webpack;
-let webPackConfig = module.exports = require('./main.config');
+const webPackConfig = module.exports = require('./main.config');
 
 webPackConfig.mode = 'development';
 
@@ -32,9 +32,9 @@ webPackConfig.optimization = {
 
 webPackConfig.plugins.push(
     new webpack.DefinePlugin({
-        'GlobalEnvironment': {
-            'NODE_ENV': JSON.stringify('test'),
-            'ASSET_PATH': JSON.stringify(config.test.assetPath)
+        GlobalEnvironment: {
+            NODE_ENV: JSON.stringify('test'),
+            ASSET_PATH: JSON.stringify(config.test.assetPath)
         }
     }),
     new CleanWebpackPlugin(),

@@ -4,7 +4,7 @@ import {
     Link
 } from 'react-router-dom';
 
-import HistoryIcon from '@material-ui/icons/HistoryOutlined';
+import HistoryIcon from '@mui/icons-material/HistoryOutlined';
 
 import {
     historyArticlePath

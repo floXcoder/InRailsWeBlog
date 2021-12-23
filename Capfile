@@ -9,8 +9,6 @@ require 'capistrano/scm/git'
 require 'capistrano/rvm'
 require 'capistrano/bundler'
 require 'capistrano/rails/migrations'
-require 'capistrano-db-tasks'
-require 'capistrano/rails/console'
 require 'whenever/capistrano'
 
 # SCM

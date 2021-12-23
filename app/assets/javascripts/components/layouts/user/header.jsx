@@ -5,7 +5,6 @@ import {
 } from 'react';
 
 import {
-    Route,
     Link
 } from 'react-router-dom';
 
@@ -13,31 +12,27 @@ import {
     LoadingBar
 } from 'react-redux-loading-bar';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
-import withWidth from '@material-ui/core/withWidth';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import List from '@material-ui/core/List';
-import Button from '@material-ui/core/Button';
-import Popover from '@material-ui/core/Popover';
-import Collapse from '@material-ui/core/Collapse';
-import Divider from '@material-ui/core/Divider';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
+import SwipeableDrawer from '@mui/material/SwipeableDrawer';
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import List from '@mui/material/List';
+import Button from '@mui/material/Button';
+import Popover from '@mui/material/Popover';
+import Collapse from '@mui/material/Collapse';
+import Divider from '@mui/material/Divider';
 
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
-import MenuIcon from '@material-ui/icons/Menu';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import ClassIcon from '@material-ui/icons/Class';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import AssignmentIcon from '@material-ui/icons/Assignment';
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
+import MenuIcon from '@mui/icons-material/Menu';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import ClassIcon from '@mui/icons-material/Class';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import AssignmentIcon from '@mui/icons-material/Assignment';
 
 import {
     // HomeSearchHeader,
@@ -66,6 +61,9 @@ import {
     articleTemporaryDataName
 } from '../../modules/constants';
 
+import withRouter from '../../modules/router';
+import withWidth from '../../modules/mediaQuery';
+
 import ErrorBoundary from '../../errors/boundary';
 
 import HeadLayout from '../head';
@@ -87,14 +85,10 @@ import HomeUserHeader from '../header/user';
 import HeaderUserMenu from '../header/menus/user';
 import HeaderArticleMenu from '../header/menus/article';
 
-import styles from '../../../../jss/user/header';
-
 const loadingBarStyle = {backgroundColor: '#036603', height: '2px'};
 
+
 export default @connect((state) => ({
-    routeProperties: state.routerState.currentRoute,
-    routeParams: state.routerState.params,
-    routeLocation: state.routerState.location,
     metaTags: state.uiState.metaTags,
     isUserPreferenceOpen: state.uiState.isUserPreferenceOpen,
     isTopicPopupOpen: state.uiState.isTopicPopupOpen,
@@ -108,16 +102,17 @@ export default @connect((state) => ({
     showUserPreference,
     showTopicPopup
 })
+@withRouter({location: true, params: true})
 @withWidth()
-@withStyles(styles)
 class HeaderLayoutUser extends React.PureComponent {
     static propTypes = {
-        hashRoutes: PropTypes.object.isRequired,
-        history: PropTypes.object.isRequired,
-        // from connect
-        routeProperties: PropTypes.object,
-        routeParams: PropTypes.object,
+        searchModule: PropTypes.object.isRequired,
+        // from layout
+        routeProperties: PropTypes.object.isRequired,
+        // from router
         routeLocation: PropTypes.object,
+        routeParams: PropTypes.object,
+        // from connect
         metaTags: PropTypes.object,
         isUserPreferenceOpen: PropTypes.bool,
         isTopicPopupOpen: PropTypes.bool,
@@ -130,9 +125,7 @@ class HeaderLayoutUser extends React.PureComponent {
         showUserPreference: PropTypes.func,
         showTopicPopup: PropTypes.func,
         // from withWidth
-        width: PropTypes.string,
-        // from styles
-        classes: PropTypes.object
+        width: PropTypes.string
     };
 
     constructor(props) {
@@ -215,7 +208,7 @@ class HeaderLayoutUser extends React.PureComponent {
 
     _renderDesktopMenu = () => {
         return (
-            <div className={this.props.classes.sectionDesktop}
+            <div className="layout-header-sectionDesktop"
                  aria-label="Navigation"
                  itemScope={true}
                  itemType="https://schema.org/SiteNavigationElement">
@@ -246,7 +239,7 @@ class HeaderLayoutUser extends React.PureComponent {
             <SwipeableDrawer variant="temporary"
                              anchor="left"
                              classes={{
-                                 paper: this.props.classes.mobileDrawerPaper
+                                 paper: 'layout-header-mobileDrawerPaper'
                              }}
                              ModalProps={{
                                  keepMounted: true
@@ -255,8 +248,8 @@ class HeaderLayoutUser extends React.PureComponent {
                              onClose={this._handleTagDrawerToggle}
                              onOpen={this._handleTagDrawerToggle}>
                 <>
-                    <div className={this.props.classes.mobileToolbar}>
-                        <h5 className={this.props.classes.mobileTitle}
+                    <div className="layout-header-mobileToolbar">
+                        <h5 className="layout-header-mobileTitle"
                             itemProp="name">
                             <Link className="header-brand-logo-mobile"
                                   to={userHomePath(this.props.userSlug)}
@@ -280,8 +273,7 @@ class HeaderLayoutUser extends React.PureComponent {
                         <Collapse in={this.state.isMobileArticleOpen}
                                   timeout="auto"
                                   unmountOnExit={true}>
-                            <HeaderArticleMenu classes={this.props.classes}
-                                               isNested={true}
+                            <HeaderArticleMenu isNested={true}
                                                routeParams={this.props.routeParams}
                                                userSlug={this.props.userSlug}
                                                topicSlug={this.props.topicSlug}
@@ -316,8 +308,7 @@ class HeaderLayoutUser extends React.PureComponent {
                         <Collapse in={this.state.isMobileUserOpen}
                                   timeout="auto"
                                   unmountOnExit={true}>
-                            <HeaderUserMenu classes={this.props.classes}
-                                            isNested={true}
+                            <HeaderUserMenu isNested={true}
                                             userSlug={this.props.userSlug}
                                             isAdminConnected={this.props.isAdminConnected}
                                             onPreferenceClick={this._handlePreferenceClick}
@@ -325,7 +316,7 @@ class HeaderLayoutUser extends React.PureComponent {
                         </Collapse>
                     </List>
 
-                    <Divider className={this.props.classes.mobileDivider}/>
+                    <Divider className="layout-header-mobileDivider"/>
 
                     <Typography className="center-align"
                                 variant="overline"
@@ -353,7 +344,7 @@ class HeaderLayoutUser extends React.PureComponent {
             <SwipeableDrawer variant="temporary"
                              anchor="right"
                              classes={{
-                                 paper: this.props.classes.mobileDrawerPaper
+                                 paper: 'layout-header-mobileDrawerPaper'
                              }}
                              ModalProps={{
                                  keepMounted: true
@@ -366,51 +357,38 @@ class HeaderLayoutUser extends React.PureComponent {
         );
     };
 
-    _renderHashRoutes = (routes) => {
-        return routes.map((route, index) => (
-            <Route key={index}
-                   children={({match, location}) => {
-                       const Component = route.component();
-
-                       return (
-                           <div>
-                               {
-                                   location.hash === `#${route.path}` &&
-                                   <Component history={this.props.history}
-                                              routeParams={match.params}
-                                              routeState={location.state}/>
-                               }
-                           </div>
-                       );
-                   }}/>
-        ));
-    };
-
     render() {
-        const isSearchActive = this.props.routeLocation.hash === '#search';
+        const isSearchActive = this.props.routeLocation.hash === `#${this.props.searchModule.path}`;
+
+        let SearchModule = null;
+        if (isSearchActive) {
+            SearchModule = this.props.searchModule.component();
+        }
 
         return (
             <>
                 <AppBar id="header-user"
                         position="fixed"
-                        className={classNames('animate-search', this.props.classes.appBar)}
+                        className="animate-search layout-header-appBar"
                         itemScope={true}
                         itemType="https://schema.org/Organization">
                     <LoadingBar showFastActions={true}
                                 style={loadingBarStyle}/>
 
-                    <Toolbar className={this.props.classes.toolbar}>
-                        <div className={this.props.classes.sectionMobile}>
-                            <IconButton className={this.props.classes.menuButton}
-                                        color="primary"
-                                        aria-label="Open drawer"
-                                        onClick={this._handleTagDrawerToggle}>
+                    <Toolbar className="layout-header-toolbar">
+                        <div className="layout-header-sectionMobile">
+                            <IconButton
+                                className="layout-header-menuButton"
+                                color="primary"
+                                aria-label="Open drawer"
+                                onClick={this._handleTagDrawerToggle}
+                                size="large">
                                 <MenuIcon/>
                             </IconButton>
                         </div>
 
-                        <div className={this.props.classes.sectionDesktop}>
-                            <div className={this.props.classes.title}
+                        <div className="layout-header-sectionDesktop">
+                            <div className="layout-header-title"
                                  itemProp="name">
                                 <Link className="header-brand-logo"
                                       to={userHomePath(this.props.userSlug)}
@@ -425,17 +403,17 @@ class HeaderLayoutUser extends React.PureComponent {
                             (this.props.isUserConnected && this.props.currentTopic) &&
                             <>
                                 <Button ref={(ref) => this._anchorEl = ref}
-                                        className={this.props.classes.topicButton}
+                                        className="layout-header-topicButton"
                                         variant="contained"
                                         color="primary"
                                         onClick={this._handleTopicOpen}>
-                                    <span className={this.props.classes.sectionDesktop}>
-                                        {I18n.t('js.views.header.topic.button', {current: this.props.currentTopic.name})}
-                                    </span>
+                                <span className="layout-header-sectionDesktop">
+                                    {I18n.t('js.views.header.topic.button', {current: this.props.currentTopic.name})}
+                                </span>
 
-                                    <span className={this.props.classes.sectionMobile}>
-                                        <ClassIcon/>
-                                    </span>
+                                    <span className="layout-header-sectionMobile">
+                                    <ClassIcon/>
+                                </span>
                                 </Button>
 
                                 <Popover open={this.props.isTopicPopupOpen}
@@ -456,7 +434,7 @@ class HeaderLayoutUser extends React.PureComponent {
                             </>
                         }
 
-                        <div className={this.props.classes.grow}/>
+                        <div className="layout-header-grow"/>
 
                         {
                             !this.props.routeProperties.noHeaderSearch &&
@@ -467,7 +445,7 @@ class HeaderLayoutUser extends React.PureComponent {
                             // </Suspense>
                         }
 
-                        <div className={this.props.classes.grow}/>
+                        <div className="layout-header-grow"/>
 
                         {this._renderDesktopMenu()}
                     </Toolbar>
@@ -479,7 +457,7 @@ class HeaderLayoutUser extends React.PureComponent {
                             isSearchActive &&
                             <Suspense fallback={<div/>}>
                                 <ErrorBoundary errorType="notification">
-                                    {this._renderHashRoutes(this.props.hashRoutes.search)}
+                                    <SearchModule/>
                                 </ErrorBoundary>
                             </Suspense>
                         }
@@ -493,26 +471,14 @@ class HeaderLayoutUser extends React.PureComponent {
                     this._renderMobileArticleDrawer()
                 }
 
-                <Suspense fallback={<div/>}>
-                    <ErrorBoundary errorType="notification">
-                        {this._renderHashRoutes(this.props.hashRoutes.topic)}
-                    </ErrorBoundary>
-                </Suspense>
-
-                <Suspense fallback={<div/>}>
-                    <ErrorBoundary errorType="notification">
-                        {this._renderHashRoutes(this.props.hashRoutes.article)}
-                    </ErrorBoundary>
-                </Suspense>
-
                 <HeadLayout>
                     {this.props.metaTags}
                 </HeadLayout>
 
                 <div id="clipboard-area"
                      className="hidden">
-                    <textarea id="clipboard"
-                              title="clipboard"/>
+                <textarea id="clipboard"
+                          title="clipboard"/>
                 </div>
 
                 <Suspense fallback={<div/>}>

@@ -325,13 +325,9 @@ Initialize test environment:
 
     RAILS_ENV=test bin/rails db:setup
 
-Basic tests:
+Run all tests:
 
-    rspec -t basic
-
-Advanced tests (with HTML):
-
-    rspec -t advanced
+    rspec
 
 ### Javascript tests
 

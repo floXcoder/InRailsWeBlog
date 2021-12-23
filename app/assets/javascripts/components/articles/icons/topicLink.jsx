@@ -4,7 +4,7 @@ import {
     Link
 } from 'react-router-dom';
 
-import ReplyIcon from '@material-ui/icons/Reply';
+import ReplyIcon from '@mui/icons-material/Reply';
 
 import {
     topicArticlesPath

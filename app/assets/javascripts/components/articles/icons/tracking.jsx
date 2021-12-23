@@ -4,7 +4,7 @@ import {
     Link
 } from 'react-router-dom';
 
-import ExploreIcon from '@material-ui/icons/Explore';
+import ExploreIcon from '@mui/icons-material/Explore';
 
 import {
     trackingArticleParam

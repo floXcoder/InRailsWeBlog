@@ -1,16 +1,10 @@
 'use strict';
 
+import '../../../stylesheets/pages/topic/form.scss';
+
 import {
     hot
 } from 'react-hot-loader/root';
-
-import {
-    withRouter
-} from 'react-router-dom';
-
-import {
-    withStyles
-} from '@material-ui/core/styles';
 
 import {
     userTopicPath
@@ -25,6 +19,8 @@ import {
     getTopicErrors
 } from '../../selectors';
 
+import withRouter from '../modules/router';
+
 import Loader from '../theme/loader';
 
 import NotAuthorized from '../layouts/notAuthorized';
@@ -32,10 +28,8 @@ import NotAuthorized from '../layouts/notAuthorized';
 import TopicFormDisplay from './display/form';
 import TopicErrorField from './display/fields/error';
 
-import styles from '../../../jss/topic/edit';
 
-export default @withRouter
-@connect((state) => ({
+export default @connect((state) => ({
     currentUserId: state.userState.currentId,
     articleMultilanguage: state.uiState.articleMultilanguage,
     isFetching: state.topicState.isFetching,
@@ -45,13 +39,13 @@ export default @withRouter
     fetchTopic,
     updateTopic
 })
+@withRouter({params: true, navigate: true})
 @hot
-@withStyles(styles)
 class TopicEdit extends React.Component {
     static propTypes = {
-        routeParams: PropTypes.object.isRequired,
         // from router
-        history: PropTypes.object,
+        routeParams: PropTypes.object,
+        routeNavigate: PropTypes.object,
         // from connect
         currentUserId: PropTypes.number,
         articleMultilanguage: PropTypes.bool,
@@ -59,9 +53,7 @@ class TopicEdit extends React.Component {
         topic: PropTypes.object,
         topicErrors: PropTypes.array,
         fetchTopic: PropTypes.func,
-        updateTopic: PropTypes.func,
-        // from styles
-        classes: PropTypes.object
+        updateTopic: PropTypes.func
     };
 
     constructor(props) {
@@ -78,7 +70,7 @@ class TopicEdit extends React.Component {
         return this.props.updateTopic(this.props.topic.user.id, values)
             .then((response) => {
                 if (response.topic) {
-                    this.props.history.push({
+                    this.props.routeNavigate({
                         pathname: userTopicPath(this.props.topic.user.slug, response.topic.slug)
                     });
                 }
@@ -111,7 +103,7 @@ class TopicEdit extends React.Component {
         };
 
         return (
-            <div className={this.props.classes.root}>
+            <div className="topic-edit-root">
                 {
                     this.props.topic.name &&
                     <div>

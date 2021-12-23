@@ -118,7 +118,7 @@ module Api::V1
 
           render json: topic.serialized_json('complete',
                                              meta: {
-                                               trackingData: { tag_id: tag.id },
+                                               trackingData: { topic_id: topic.id },
                                                **meta_attributes
                                              })
         end

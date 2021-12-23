@@ -1,5 +1,26 @@
+@import 'base/variables';
+
 @import 'shared/animation/user';
 
+// ***
+// User breadcrumb
+// ***
+//.user-breadcrumb-breadcrumb {
+//  margin: .5rem 3rem;
+//  position: relative;
+//}
+//
+//.user-breadcrumb-chip {
+//  margin: 8px;
+//}
+//
+//.user-breadcrumb-currentChip {
+//  background-color: #fff;
+//}
+
+// ***
+// User blog
+// ***
 .blog-user {
   .user-card {
     .user-image {

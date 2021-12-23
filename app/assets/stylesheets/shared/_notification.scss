@@ -1,0 +1,45 @@
+@import 'base/variables';
+
+.notification {
+  font-size: 1rem;
+
+  &.root {
+    @media #{$medium-only} {
+      min-width: 460px;
+    }
+  }
+
+  &.success {
+    background-color: $success-color;
+  }
+
+  &.error {
+    background-color: $error-color;
+  }
+
+  &.info {
+    background-color: $secondary-color;
+  }
+
+  &.warning {
+    background-color: $warning-color;
+  }
+
+  .icon {
+    font-size: 20px;
+  }
+
+  .icon-variant {
+    opacity: 0.9;
+    margin-right: 10px;
+  }
+
+  .close {
+    padding: 2px;
+  }
+
+  .message {
+    display: flex;
+    align-items: center;
+  }
+}

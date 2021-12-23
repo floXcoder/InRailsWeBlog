@@ -8,15 +8,12 @@ import {
     Link
 } from 'react-router-dom';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
 
-import AssignmentIcon from '@material-ui/icons/Assignment';
+import AssignmentIcon from '@mui/icons-material/Assignment';
 
 import {
     userArticlePath
@@ -26,19 +23,15 @@ import {
     getBookmarks
 } from '../../selectors';
 
-import styles from '../../../jss/user/bookmark';
 
 export default @connect((state) => ({
     bookmarks: getBookmarks(state)
 }))
-@withStyles(styles)
 class BookmarkList extends React.Component {
     static propTypes = {
         onBookmarkClick: PropTypes.func,
         // from connect
-        bookmarks: PropTypes.array,
-        // from styles
-        classes: PropTypes.object
+        bookmarks: PropTypes.array
     };
 
     constructor(props) {
@@ -47,8 +40,8 @@ class BookmarkList extends React.Component {
 
     render() {
         return (
-            <div className={this.props.classes.root}>
-                <h3 className={this.props.classes.title}>
+            <div className="bookmark-root">
+                <h3 className="bookmark-title">
                     {I18n.t('js.bookmark.list.title')}
                 </h3>
 
@@ -69,7 +62,7 @@ class BookmarkList extends React.Component {
                                             </ListItemIcon>
 
                                             <ListItemText classes={{
-                                                primary: this.props.classes.link
+                                                primary: 'bookmark-link'
                                             }}>
                                                 {bookmark.name || bookmark.slug}
                                             </ListItemText>
@@ -79,7 +72,7 @@ class BookmarkList extends React.Component {
                             }
                         </List>
                         :
-                        <div className={this.props.classes.none}>
+                        <div className="bookmark-none">
                             {I18n.t('js.bookmark.list.none')}
                         </div>
                 }

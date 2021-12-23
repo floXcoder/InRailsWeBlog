@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe TopicPolicy, basic: true do
+describe TopicPolicy do
 
   before(:all) do
     @user = create(:user)

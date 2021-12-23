@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'User Settings API', type: :request, basic: true do
+describe 'User Settings API', type: :request do
 
   before(:all) do
     @user       = create(:user)

@@ -16,6 +16,38 @@
     padding: 1rem;
   }
 
+  .separation {
+    width: 80%;
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #ddd;
+    padding: 0;
+    margin: auto;
+  }
+
+  .title {
+    margin-top: 3rem;
+    font-size: 2rem;
+    text-align: center;
+  }
+
+  .content {
+    padding: 12px;
+  }
+
+  .headline {
+    font-size: 1rem;
+  }
+
+  .actions {
+    display: flex;
+  }
+
+  .left-icon {
+    margin-right: 4px;
+  }
+
   .collection {
     border: 0;
 

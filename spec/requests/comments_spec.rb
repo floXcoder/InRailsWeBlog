@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'Comments API', type: :request, basic: true do
+describe 'Comments API', type: :request do
 
   before(:all) do
     @user  = create(:user)

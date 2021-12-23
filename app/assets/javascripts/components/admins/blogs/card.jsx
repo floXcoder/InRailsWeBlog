@@ -1,28 +1,21 @@
 'use strict';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import Collapse from '@material-ui/core/Collapse';
-import IconButton from '@material-ui/core/IconButton';
+import Card from '@mui/material/Card';
+import CardHeader from '@mui/material/CardHeader';
+import CardContent from '@mui/material/CardContent';
+import CardActions from '@mui/material/CardActions';
+import Collapse from '@mui/material/Collapse';
+import IconButton from '@mui/material/IconButton';
 
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import EditIcon from '@material-ui/icons/EditOutlined';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import EditIcon from '@mui/icons-material/EditOutlined';
 
-import styles from '../../../../jss/admin/blogs';
 
-export default @withStyles(styles)
-class AdminBlogCard extends React.Component {
+export default class AdminBlogCard extends React.Component {
     static propTypes = {
         blog: PropTypes.object.isRequired,
         onEditClick: PropTypes.func.isRequired,
-        isMinimized: PropTypes.bool,
-        // from withStyles
-        classes: PropTypes.object
+        isMinimized: PropTypes.bool
     };
 
     static defaultProps = {
@@ -68,25 +61,27 @@ class AdminBlogCard extends React.Component {
         return (
             <Card component="article"
                   id={this.props.blog.id}
-                  className={this.props.classes.card}>
+                  className="admin-blog-card">
                 <CardHeader classes={{
-                    root: this.props.classes.header
+                    root: 'admin-blog-header'
                 }}
                             title={
                                 <a href="#"
                                    onClick={this._handleFoldClick}>
-                                    <h1 className={this.props.classes.title}>
+                                    <h1 className="admin-blog-title">
                                         {this.props.blog.title}
                                     </h1>
                                 </a>
                             }
                             action={
-                                <IconButton className={classNames(this.props.classes.expand, {
-                                    [this.props.classes.expandOpen]: this.state.isFolded
-                                })}
-                                            aria-expanded={this.state.isFolded}
-                                            aria-label="Show more"
-                                            onClick={this._handleFoldClick}>
+                                <IconButton
+                                    className={classNames('admin-blog-expand', {
+                                        'admin-blog-expandOpen': this.state.isFolded
+                                    })}
+                                    aria-expanded={this.state.isFolded}
+                                    aria-label="Show more"
+                                    onClick={this._handleFoldClick}
+                                    size="large">
                                     <ExpandMoreIcon/>
                                 </IconButton>
                             }/>
@@ -95,16 +90,16 @@ class AdminBlogCard extends React.Component {
                           timeout="auto"
                           unmountOnExit={true}>
                     <CardContent classes={{
-                        root: this.props.classes.content
+                        root: 'admin-blog-content'
                     }}>
                         <div className="normalized-content"
                              dangerouslySetInnerHTML={{__html: this.props.blog.content}}/>
                     </CardContent>
 
-                    <CardActions className={this.props.classes.actions}
+                    <CardActions className="admin-blog-actions"
                                  disableSpacing={true}>
-                        <ul className={this.props.classes.actionButtons}>
-                            <li className={this.props.classes.actionItem}>
+                        <ul className="admin-blog-actionButtons">
+                            <li className="admin-blog-actionItem">
                                 <a href="#"
                                    onClick={this._handleEditWiki}>
                                     <EditIcon color="action"

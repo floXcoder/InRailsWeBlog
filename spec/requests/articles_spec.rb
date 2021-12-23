@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'Article API', type: :request, basic: true do
+describe 'Article API', type: :request do
 
   before(:all) do
     @user       = create(:user)
@@ -517,7 +517,7 @@ describe 'Article API', type: :request, basic: true do
         expect(tracking['trackingData']['tracker']).not_to be_empty
         expect(tracking['trackingData']['commentsCount']).to eq(0)
         expect(tracking['trackingData']['countries']).to eq([])
-        expect(tracking['trackingData']['referers']).to eq([])
+        expect(tracking['trackingData']['referrers']).to eq([])
       end
     end
   end

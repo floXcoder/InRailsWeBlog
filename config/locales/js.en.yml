@@ -566,8 +566,8 @@ en:
         parent_tags: "Main tags"
         child_tags: "Secondary tags"
         topic: "Topic"
-        tagged_articles: "Article tags"
         inventories: "Custom field"
+        tagged_articles: "Article tags"
         comment:
           true: "Enabled"
           false: "Disabled"
@@ -669,7 +669,7 @@ en:
           os: "Visits by systems"
           utm: "Visits by UTM"
           referer: "Visits by traffic origins"
-        referers:
+        referrers:
           title: "Sources"
         internal: "Internal link"
         others: "[Others]"

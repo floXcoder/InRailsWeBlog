@@ -1,16 +1,10 @@
 'use strict';
 
+import '../../../stylesheets/pages/article/sort.scss';
+
 import {
     hot
 } from 'react-hot-loader/root';
-
-import {
-    withRouter
-} from 'react-router-dom';
-
-import {
-    withStyles
-} from '@material-ui/core/styles';
 
 import {
     topicArticlesPath
@@ -21,6 +15,8 @@ import {
     updateArticlePriority
 } from '../../actions';
 
+import withRouter from '../modules/router';
+
 import {
     sortItemLimit
 } from '../modules/constants';
@@ -29,10 +25,8 @@ import Loader from '../theme/loader';
 
 import ArticleSorter from './sort/sorter';
 
-import styles from '../../../jss/article/sort';
 
-export default @withRouter
-@connect((state) => ({
+export default @connect((state) => ({
     currentUserId: state.userState.currentId,
     currentUserSlug: state.userState.currentSlug,
     currentUserTopicId: state.topicState.currentUserTopicId,
@@ -44,13 +38,13 @@ export default @withRouter
     fetchArticles,
     updateArticlePriority
 })
+@withRouter({params: true, navigate: true})
 @hot
-@withStyles(styles)
 class ArticleSort extends React.Component {
     static propTypes = {
-        routeParams: PropTypes.object.isRequired,
         // from router
-        history: PropTypes.object,
+        routeParams: PropTypes.object,
+        routeNavigate: PropTypes.func,
         // from connect
         currentUserId: PropTypes.number,
         currentUserSlug: PropTypes.string,
@@ -60,9 +54,7 @@ class ArticleSort extends React.Component {
         isProcessing: PropTypes.bool,
         articles: PropTypes.array,
         fetchArticles: PropTypes.func,
-        updateArticlePriority: PropTypes.func,
-        // from styles
-        classes: PropTypes.object
+        updateArticlePriority: PropTypes.func
     };
 
     constructor(props) {
@@ -83,7 +75,7 @@ class ArticleSort extends React.Component {
 
     _handleUpdatePriority = (articleIds) => {
         this.props.updateArticlePriority(articleIds)
-            .then(() => this.props.history.push(topicArticlesPath(this.props.currentUserSlug, this.props.currentUserTopicSlug)));
+            .then(() => this.props.routeNavigate(topicArticlesPath(this.props.currentUserSlug, this.props.currentUserTopicSlug)));
     };
 
     render() {
@@ -96,7 +88,7 @@ class ArticleSort extends React.Component {
         }
 
         return (
-            <div className={this.props.classes.root}>
+            <div className="article-sort-root">
                 {
                     this.props.isProcessing &&
                     <div className="center margin-top-20">
@@ -107,7 +99,6 @@ class ArticleSort extends React.Component {
                 {
                     this.props.articles.length > 0 &&
                     <ArticleSorter key={Utils.uuid()}
-                                   classes={this.props.classes}
                                    articles={this.props.articles}
                                    isProcessing={this.props.isProcessing}
                                    currentUserSlug={this.props.currentUserSlug}

@@ -25,7 +25,7 @@
 #
 require 'rails_helper'
 
-RSpec.describe Comment, type: :model, basic: true do
+RSpec.describe Comment, type: :model do
 
   before(:all) do
     @user  = create(:user)

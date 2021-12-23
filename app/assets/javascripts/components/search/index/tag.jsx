@@ -4,9 +4,9 @@ import {
     Link
 } from 'react-router-dom';
 
-import Chip from '@material-ui/core/Chip';
+import Chip from '@mui/material/Chip';
 
-import LabelIcon from '@material-ui/icons/Label';
+import LabelIcon from '@mui/icons-material/Label';
 
 import {
     taggedArticlesPath
@@ -16,9 +16,9 @@ import {
     spyTrackClick
 } from '../../../actions';
 
+
 export default class SearchTagIndex extends React.PureComponent {
     static propTypes = {
-        classes: PropTypes.object.isRequired,
         tags: PropTypes.array.isRequired,
         onTagClick: PropTypes.func.isRequired,
         highlightedTagId: PropTypes.number,
@@ -41,13 +41,13 @@ export default class SearchTagIndex extends React.PureComponent {
 
     render() {
         return (
-            <div className={classNames(this.props.classes.category, {
-                [this.props.classes.categoryAutocomplete]: this.props.isAutocomplete
+            <div className={classNames('search-index-category', {
+                'search-index-categoryAutocomplete': this.props.isAutocomplete
             })}
                  style={this.props.style}>
                 {
                     this.props.isAutocomplete &&
-                    <span className={this.props.classes.categoryHelper}>
+                    <span className="search-index-categoryHelper">
                         {I18n.t('js.search.index.tags.filter')}
                     </span>
                 }
@@ -55,9 +55,9 @@ export default class SearchTagIndex extends React.PureComponent {
                 {
                     this.props.tags.map((tag) => (
                         <Chip key={tag.id}
-                              className={classNames(this.props.classes.articleTag, {
-                                  [this.props.classes.tagHighlighted]: this.props.highlightedTagId === tag.id,
-                                  [this.props.classes.tagAutocomplete]: this.props.isAutocomplete
+                              className={classNames('search-index-articleTag', {
+                                  'search-index-tagHighlighted': this.props.highlightedTagId === tag.id,
+                                  'search-index-tagAutocomplete': this.props.isAutocomplete
                               })}
                               icon={<LabelIcon fontSize={this.props.isAutocomplete ? 'small' : 'medium'}/>}
                               label={tag.name}

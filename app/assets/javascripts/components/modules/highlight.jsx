@@ -62,7 +62,8 @@ export default function highlight(highlightOnShow = true) {
 
                     this._highlighter.configure({
                         // classPrefix: 'language-',
-                        languages: highlightedLanguages.flat()
+                        languages: highlightedLanguages.flat(),
+                        ignoreUnescapedHTML: true
                     });
 
                     if (highlightOnShow) {

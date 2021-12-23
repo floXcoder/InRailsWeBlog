@@ -4,12 +4,9 @@ import {
     Link
 } from 'react-router-dom';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
-import Chip from '@material-ui/core/Chip';
+import Chip from '@mui/material/Chip';
 
-import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
+import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 
 import {
     userArticlesPath,
@@ -22,17 +19,13 @@ import {
     spyTrackClick
 } from '../../../actions';
 
-import styles from '../../../../jss/article/breadcrumb';
 
-export default @withStyles(styles)
-class ArticleBreadcrumbDisplay extends React.Component {
+export default class ArticleBreadcrumbDisplay extends React.Component {
     static propTypes = {
         user: PropTypes.object.isRequired,
         topic: PropTypes.object.isRequired,
         article: PropTypes.object,
-        tags: PropTypes.array,
-        // from styles
-        classes: PropTypes.object
+        tags: PropTypes.array
     };
 
     _handleElementClick = (elementType, elementId, elementSlug, elementUserId, elementTitle, elementParentId, event) => {
@@ -43,15 +36,15 @@ class ArticleBreadcrumbDisplay extends React.Component {
 
     render() {
         return (
-            <ul className={this.props.classes.breadcrumb}
+            <ul className="article-breadcrumb-breadcrumb"
                 aria-label="Breadcrumb navigation"
                 itemType="http://schema.org/BreadcrumbList"
                 itemScope={true}>
-                <li className={this.props.classes.breadcrumbItem}
+                <li className="article-breadcrumb-breadcrumbItem"
                     itemType="http://schema.org/ListItem"
                     itemProp="itemListElement"
                     itemScope={true}>
-                    <Link className={this.props.classes.breadcrumbLink}
+                    <Link className="article-breadcrumb-breadcrumbLink"
                           to={userArticlesPath(this.props.user.slug)}
                           itemType="http://schema.org/Thing"
                           itemProp="item"
@@ -64,16 +57,16 @@ class ArticleBreadcrumbDisplay extends React.Component {
                           content="1"/>
                 </li>
 
-                <li className={this.props.classes.breadcrumbSeparator}>
+                <li className="article-breadcrumb-breadcrumbSeparator">
                     <KeyboardArrowRight/>
                 </li>
 
-                <li className={this.props.classes.breadcrumbItem}
+                <li className="article-breadcrumb-breadcrumbItem"
                     itemType="http://schema.org/ListItem"
                     itemProp="itemListElement"
                     itemScope={true}>
-                    <Link className={classNames(this.props.classes.breadcrumbLink, {
-                        [this.props.classes.breadcrumbLast]: !this.props.article
+                    <Link className={classNames('article-breadcrumb-breadcrumbLink', {
+                        'article-breadcrumb-breadcrumbLast': !this.props.article
                     })}
                           to={topicArticlesPath(this.props.user.slug, this.props.topic.slug)}
                           itemType="http://schema.org/Thing"
@@ -94,16 +87,16 @@ class ArticleBreadcrumbDisplay extends React.Component {
                 {
                     this.props.article?.title &&
                     <>
-                        <li className={this.props.classes.breadcrumbSeparator}>
+                        <li className="article-breadcrumb-breadcrumbSeparator">
                             <KeyboardArrowRight/>
                         </li>
 
-                        <li className={this.props.classes.breadcrumbItem}
+                        <li className="article-breadcrumb-breadcrumbItem"
                             itemType="http://schema.org/ListItem"
                             itemProp="itemListElement"
                             itemScope={true}>
                             <Link
-                                className={classNames(this.props.classes.breadcrumbLink, this.props.classes.breadcrumbLast)}
+                                className="article-breadcrumb-breadcrumbLink article-breadcrumb-breadcrumbLast"
                                 to={userArticlePath(this.props.article.user.slug, this.props.article.slug)}
                                 itemType="http://schema.org/Thing"
                                 itemProp="item"
@@ -125,8 +118,8 @@ class ArticleBreadcrumbDisplay extends React.Component {
                             this.props.tags.map((tag) => (
                                 <Chip key={tag.id}
                                       classes={{
-                                          root: this.props.classes.breadcrumbTag,
-                                          label: this.props.classes.breadcrumbTagLabel
+                                          root: 'article-breadcrumb-breadcrumbTag',
+                                          label: 'article-breadcrumb-breadcrumbTagLabel'
                                       }}
                                       label={tag.name}
                                       variant="outlined"

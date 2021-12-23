@@ -1,10 +1,10 @@
 'use strict';
 
 import {
-    MuiThemeProvider,
-    StylesProvider
-} from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
+    ThemeProvider,
+    StyledEngineProvider
+} from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
 
 import {
     Provider,
@@ -12,7 +12,7 @@ import {
 } from 'react-redux';
 
 import {
-    Router
+    BrowserRouter
 } from 'react-router-dom';
 
 import {
@@ -29,21 +29,15 @@ import {
 
 import routes from '../../../routes';
 
-import browserHistory from '../../modules/browserHistory';
 import PasteManager from '../../modules/pasteManager';
 import ScrollBackManager from '../../modules/scrollBackManager';
 
-import ErrorBoundary from '../../errors/boundary';
-
 import HotkeyManager from '../managers/hotkey';
 
-import HeaderLayoutUser from './header';
-import SidebarLayoutUser from './sidebar';
-import MainLayoutUser from './main';
-import FooterLayoutUser from './footer';
+import LayoutUser from './layout';
 
-import theme from '../../../../jss/theme';
-import generateClassName from '../../../../jss/generateClassname';
+import theme from '../../../theme';
+
 
 export default class ApplicationLayoutUser extends React.Component {
     static propTypes = {
@@ -53,7 +47,7 @@ export default class ApplicationLayoutUser extends React.Component {
             PropTypes.object,
             PropTypes.string
         ])
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -68,47 +62,29 @@ export default class ApplicationLayoutUser extends React.Component {
 
     render() {
         return (
-            <StylesProvider generateClassName={generateClassName}>
-                <MuiThemeProvider theme={theme}>
+            <StyledEngineProvider injectFirst={true}>
+                <ThemeProvider theme={theme}>
                     <CssBaseline/>
 
                     <Provider store={configureStore}
                               context={ReactReduxContext}>
                         <HelmetProvider>
-                            <Router history={browserHistory}>
+                            <BrowserRouter>
                                 <PasteManager>
                                     <ScrollBackManager>
                                         <HotkeyManager>
-                                            <>
-                                                <ErrorBoundary errorType="text"
-                                                               errorTitle={I18n.t('js.helpers.errors.boundary.header')}>
-                                                    <HeaderLayoutUser history={browserHistory}
-                                                                      hashRoutes={routes.hashes}/>
-                                                </ErrorBoundary>
-
-                                                <ErrorBoundary errorType="card">
-                                                    <MainLayoutUser
-                                                        routes={[...routes.static.common, ...routes.static.user, ...routes.static.notFound]}
-                                                        {...this._componentProps()}/>
-                                                </ErrorBoundary>
-
-                                                <ErrorBoundary errorType="card">
-                                                    <SidebarLayoutUser/>
-                                                </ErrorBoundary>
-
-                                                <ErrorBoundary errorType="text"
-                                                               errorTitle={I18n.t('js.helpers.errors.boundary.footer')}>
-                                                    <FooterLayoutUser/>
-                                                </ErrorBoundary>
-                                            </>
+                                            <LayoutUser
+                                                routes={[...routes.static.common, ...routes.static.user, ...routes.static.notFound]}
+                                                hashRoutes={routes.hashes}
+                                                {...this._componentProps()}/>
                                         </HotkeyManager>
                                     </ScrollBackManager>
                                 </PasteManager>
-                            </Router>
+                            </BrowserRouter>
                         </HelmetProvider>
                     </Provider>
-                </MuiThemeProvider>
-            </StylesProvider>
+                </ThemeProvider>
+            </StyledEngineProvider>
         );
     }
 }

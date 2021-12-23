@@ -20,12 +20,10 @@ require 'database_cleaner'
 require 'fuubar'
 require 'awesome_print'
 require 'sidekiq/testing'
-require 'html_validation'
 require 'webmock/rspec'
 
 require 'spec_helper'
 
-include PageValidations
 include Warden::Test::Helpers
 
 # Setup warden in test mode
@@ -41,21 +39,12 @@ WebMock.disable_net_connect!(allow_localhost: true)
 # of increasing the boot-up time by auto-requiring all files in the support
 # directory. Alternatively, in the individual `*_spec.rb` files, manually
 # require only the support files necessary.
-if ENV['BASIC_TEST']
-  require 'support/database_cleaner'
-  require 'support/factory_girl'
-  require 'support/headers'
-  require 'support/i18n'
+require 'support/database_cleaner'
+require 'support/factory_girl'
+require 'support/headers'
+require 'support/i18n'
 
-  Dir[Rails.root.join('spec/support/matchers/**/*.rb')].each { |f| require f }
-  Dir[Rails.root.join('spec/support/shared/**/*.rb')].each { |f| require f }
-else
-  require 'capybara/rails'
-  require 'capybara-screenshot/rspec'
-  require 'capybara/email/rspec'
-
-  Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
-end
+Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
 # Checks for pending migration and applies them before tests are run.
 # If you are not using ActiveRecord, you can remove this line.

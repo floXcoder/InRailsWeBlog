@@ -1,36 +1,25 @@
 'use strict';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
+import Drawer from '@mui/material/Drawer';
 
 import ArticleSidebar from '../../articles/sidebar';
 
-import styles from '../../../../jss/user/sidebar';
 
-export default @withStyles(styles)
-class ArticleSidebarLayout extends React.PureComponent {
-    static propTypes = {
-        parentTagSlug: PropTypes.string,
-        // from styles
-        classes: PropTypes.object
-    };
+const ArticleSidebarLayout = function ({parentTagSlug}) {
+    return (
+        <Drawer anchor="right"
+                variant="permanent"
+                classes={{
+                    paper: 'search-sidebar-drawerPaper search-sidebar-drawerPaperBorderless search-sidebar-drawerPaperOverflow'
+                }}
+                open={true}>
+            <ArticleSidebar parentTagSlug={parentTagSlug}/>
+        </Drawer>
+    );
+};
 
-    constructor(props) {
-        super(props);
-    }
+ArticleSidebarLayout.propTypes = {
+    parentTagSlug: PropTypes.string
+};
 
-    render() {
-        return (
-            <Drawer anchor="right"
-                    variant="permanent"
-                    classes={{
-                        paper: classNames(this.props.classes.drawerPaper, this.props.classes.drawerPaperBorderless, this.props.classes.drawerPaperOverflow)
-                    }}
-                    open={true}>
-                <ArticleSidebar parentTagSlug={this.props.parentTagSlug}/>
-            </Drawer>
-        );
-    }
-}
+export default React.memo(ArticleSidebarLayout);

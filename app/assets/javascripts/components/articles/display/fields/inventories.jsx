@@ -4,10 +4,7 @@ import {
     Field
 } from 'react-final-form';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
+import Grid from '@mui/material/Grid';
 
 import EditorField from '../../../editor/form/editor';
 
@@ -16,18 +13,14 @@ import NumberFormField from '../../../material-ui/form/number';
 import DateFormField from '../../../material-ui/form/date';
 import CheckBoxFormField from '../../../material-ui/form/checkbox';
 
-import styles from '../../../../../jss/article/form/shared';
 
-export default @withStyles(styles)
-class ArticleInventoriesField extends React.Component {
+export default class ArticleInventoriesField extends React.Component {
     static propTypes = {
         currentUserId: PropTypes.number.isRequired,
         currentTopicId: PropTypes.number.isRequired,
         inventoryFields: PropTypes.array.isRequired,
         change: PropTypes.func.isRequired,
-        article: PropTypes.object,
-        // from styles
-        classes: PropTypes.object
+        article: PropTypes.object
     };
 
     static defaultProps = {
@@ -59,7 +52,7 @@ class ArticleInventoriesField extends React.Component {
             return (
                 <Field name={`inventories[${field.fieldName}]`}
                        component={TextFormField}
-                       className={this.props.classes.inventoryField}
+                       className="article-form-inventoryField"
                        variant="outlined"
                        color="primary"
                        fullWidth={true}
@@ -71,7 +64,7 @@ class ArticleInventoriesField extends React.Component {
             return (
                 <Field name={`inventories[${field.fieldName}]`}
                        component={DateFormField}
-                       className={this.props.classes.inventoryField}
+                       className="article-form-inventoryField"
                        variant="outlined"
                        color="primary"
                        fullWidth={true}
@@ -83,7 +76,7 @@ class ArticleInventoriesField extends React.Component {
             return (
                 <Field name={`inventories[${field.fieldName}]`}
                        component={NumberFormField}
-                       className={this.props.classes.inventoryField}
+                       className="article-form-inventoryField"
                        variant="outlined"
                        color="primary"
                        fullWidth={true}
@@ -96,7 +89,7 @@ class ArticleInventoriesField extends React.Component {
                 <Field name={`inventories[${field.fieldName}]`}
                        type="checkbox"
                        component={CheckBoxFormField}
-                       className={this.props.classes.inventoryField}
+                       className="article-form-inventoryField"
                        color="primary"
                        label={field.name}
                        required={field.required}/>
@@ -106,7 +99,7 @@ class ArticleInventoriesField extends React.Component {
                 <Field name={`inventories[${field.fieldName}]`}
                        component={EditorField}
                        id={field.fieldName}
-                       className={this.props.classes.inventoryField}
+                       className="article-form-inventoryField"
                        modelName="article"
                        modelId={this.props.article.id}
                        currentUserId={this.props.currentUserId}
@@ -121,7 +114,7 @@ class ArticleInventoriesField extends React.Component {
 
     render() {
         return (
-            <Grid className={this.props.classes.inventoryFields}
+            <Grid className="article-form-inventoryFields"
                   container={true}
                   spacing={0}
                   direction="row"
@@ -131,7 +124,7 @@ class ArticleInventoriesField extends React.Component {
                       sm={12}>
                     <Field name="title"
                            component={TextFormField}
-                           className={this.props.classes.inventoryField}
+                           className="article-form-inventoryField"
                            id="article_title"
                            label={I18n.t('js.article.common.placeholders.title.inventory')}
                            required={true}

@@ -1,5 +1,7 @@
 'use strict';
 
+import '../../../stylesheets/pages/tag/index.scss';
+
 import {
     hot
 } from 'react-hot-loader/root';
@@ -8,16 +10,13 @@ import {
     Link
 } from 'react-router-dom';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import Grid from '@material-ui/core/Grid';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import Card from '@mui/material/Card';
+import CardHeader from '@mui/material/CardHeader';
+import CardContent from '@mui/material/CardContent';
+import CardActions from '@mui/material/CardActions';
+import Grid from '@mui/material/Grid';
 
 import {
     showTagPath,
@@ -43,7 +42,7 @@ import {
 
 import Loader from '../theme/loader';
 
-import styles from '../../../jss/tag/index';
+import withRouter from '../modules/router';
 
 
 export default @connect((state) => ({
@@ -57,11 +56,12 @@ export default @connect((state) => ({
     fetchTags,
     fetchTopic
 })
+@withRouter({params: true})
 @hot
-@withStyles(styles)
 class TagIndex extends React.Component {
     static propTypes = {
-        routeParams: PropTypes.object.isRequired,
+        // from router
+        routeParams: PropTypes.object,
         // from connect
         currentUser: PropTypes.object,
         currentTopic: PropTypes.object,
@@ -70,9 +70,7 @@ class TagIndex extends React.Component {
         publicTags: PropTypes.array,
         privateTags: PropTypes.array,
         fetchTags: PropTypes.func,
-        fetchTopic: PropTypes.func,
-        // from styles
-        classes: PropTypes.object
+        fetchTopic: PropTypes.func
     };
 
     constructor(props) {
@@ -122,12 +120,12 @@ class TagIndex extends React.Component {
                   item={true}
                   xs={12}
                   md={4}>
-                <Card className={this.props.classes.tagCard}>
+                <Card className="tag-index-tagCard">
                     <CardHeader classes={{
-                        root: this.props.classes.tagHeader
+                        root: 'tag-index-tagHeader'
                     }}
                                 title={
-                                    <h3 className={this.props.classes.tagTitle}>
+                                    <h3 className="tag-index-tagTitle">
                                         {tag.name}
                                     </h3>
                                 }
@@ -136,29 +134,29 @@ class TagIndex extends React.Component {
                     {
                         tag.description &&
                         <CardContent classes={{
-                            root: this.props.classes.tagHeader
+                            root: 'tag-index-tagHeader'
                         }}>
-                            <Typography component="p">
+                            <Typography component="div">
                                 <div className="normalized-content"
                                      dangerouslySetInnerHTML={{__html: tag.description}}/>
                             </Typography>
                         </CardContent>
                     }
 
-                    <CardActions className={this.props.classes.actions}
+                    <CardActions className="tag-index-actions"
                                  disableSpacing={true}>
-                        <Typography className={this.props.classes.tagCount}
+                        <Typography className="tag-index-tagCount"
                                     color="textSecondary">
                             {I18n.t('js.tag.index.article_count', {count: tag.taggedArticlesCount})}
                         </Typography>
 
                         <div>
-                            <Button color="default"
-                                    variant="outlined"
-                                    size="small"
-                                    component={Link}
-                                    to={showTagPath(tag.slug)}
-                                    onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.userId, tag.name, null)}>
+                            <Button
+                                variant="outlined"
+                                size="small"
+                                component={Link}
+                                to={showTagPath(tag.slug)}
+                                onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.userId, tag.name, null)}>
                                 {I18n.t('js.tag.index.show')}
                             </Button>
                         </div>
@@ -178,9 +176,9 @@ class TagIndex extends React.Component {
         }
 
         return (
-            <div className={this.props.classes.root}>
+            <div className="tag-index-root">
                 <div className="margin-top-30 margin-bottom-20">
-                    <Typography className={this.props.classes.title}
+                    <Typography className="tag-index-title"
                                 component="h1"
                                 variant="h1">
                         {this._renderTitle()}
@@ -189,11 +187,11 @@ class TagIndex extends React.Component {
                     {
                         (Utils.isPresent(this.props.routeParams) && this.props.currentUser) &&
                         <div className="center-align margin-top-30">
-                            <Button color="default"
-                                    variant="text"
-                                    size="small"
-                                    component={Link}
-                                    to={sortTagPath(this.props.currentUser.slug)}>
+                            <Button
+                                variant="text"
+                                size="small"
+                                component={Link}
+                                to={sortTagPath(this.props.currentUser.slug)}>
                                 {I18n.t('js.tag.index.sort')}
                             </Button>
                         </div>
@@ -207,11 +205,11 @@ class TagIndex extends React.Component {
                              dangerouslySetInnerHTML={{__html: this.props.topic.description}}/>
 
                         <div className="margin-top-40 center-align">
-                            <Button color="default"
-                                    variant="outlined"
-                                    size="small"
-                                    component={Link}
-                                    to={userTopicPath(this.props.topic.user.slug, this.props.topic.slug)}>
+                            <Button
+                                variant="outlined"
+                                size="small"
+                                component={Link}
+                                to={userTopicPath(this.props.topic.user.slug, this.props.topic.slug)}>
                                 {I18n.t('js.tag.index.links.parent_topic', {topic: this.props.topic.name})}
                             </Button>
                         </div>
@@ -220,7 +218,7 @@ class TagIndex extends React.Component {
 
                 <div className="row">
                     <div className="col s12">
-                        <Typography className={this.props.classes.subtitle}
+                        <Typography className="tag-index-subtitle"
                                     component="h2"
                                     variant="h2">
                             {I18n.t('js.tag.common.publics')}
@@ -249,7 +247,7 @@ class TagIndex extends React.Component {
                         {
                             (Utils.isPresent(this.props.routeParams)) &&
                             <div className="margin-bottom-20">
-                                <Typography className={this.props.classes.subtitle}
+                                <Typography className="tag-index-subtitle"
                                             component="h2"
                                             variant="h2">
                                     {I18n.t('js.tag.common.privates')}

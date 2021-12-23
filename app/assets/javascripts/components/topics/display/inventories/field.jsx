@@ -1,23 +1,23 @@
 'use strict';
 
-import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
-import Checkbox from '@material-ui/core/Checkbox';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormControl from '@material-ui/core/FormControl';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import NativeSelect from '@material-ui/core/NativeSelect';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import Collapse from '@material-ui/core/Collapse';
+import Grid from '@mui/material/Grid';
+import TextField from '@mui/material/TextField';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl';
+import Input from '@mui/material/Input';
+import InputLabel from '@mui/material/InputLabel';
+import NativeSelect from '@mui/material/NativeSelect';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
+import Collapse from '@mui/material/Collapse';
 
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+
 
 export default class TopicFormInventoryFieldDisplay extends React.Component {
     static propTypes = {
-        classes: PropTypes.object.isRequired,
         index: PropTypes.number.isRequired,
         field: PropTypes.object.isRequired,
         onRemoveField: PropTypes.func.isRequired,
@@ -53,7 +53,7 @@ export default class TopicFormInventoryFieldDisplay extends React.Component {
         const DragHandle = this.props.dragHandle;
 
         return (
-            <Grid className={this.props.classes.fieldBorder}
+            <Grid className="topic-form-inv-fieldBorder"
                   container={true}
                   spacing={2}
                   direction="row"
@@ -70,14 +70,14 @@ export default class TopicFormInventoryFieldDisplay extends React.Component {
                        defaultValue={this.props.field.priority || 0}
                        type="hidden"/>
 
-                <div className={this.props.classes.fieldDrag}>
+                <div className="topic-form-inv-fieldDrag">
                     <DragHandle/>
                 </div>
 
                 <Grid item={true}
                       sm={12}
                       lg={6}>
-                    <TextField className={this.props.classes.field}
+                    <TextField className="topic-form-inv-field"
                                fullWidth={true}
                                variant="outlined"
                                name="inventory_field[fields][][name]"
@@ -89,7 +89,7 @@ export default class TopicFormInventoryFieldDisplay extends React.Component {
                 <Grid item={true}
                       sm={12}
                       lg={6}>
-                    <FormControl className={this.props.classes.field}
+                    <FormControl className="topic-form-inv-field"
                                  required={true}>
                         <InputLabel htmlFor="inventory_fields-value_type">
                             {I18n.t('js.inventory_fields.model.value_type')}
@@ -114,7 +114,7 @@ export default class TopicFormInventoryFieldDisplay extends React.Component {
 
                 <Grid item={true}
                       sm={12}>
-                    <a className={this.props.classes.fieldPropsButton}
+                    <a className="topic-form-inv-fieldPropsButton"
                        href="#"
                        onClick={this._handleExpandClick}>
                         <Typography variant="body1"
@@ -122,10 +122,12 @@ export default class TopicFormInventoryFieldDisplay extends React.Component {
                             {I18n.t('js.topic.edit_inventories.field_props')}
 
 
-                            <IconButton className={classNames(this.props.classes.fieldPropsExpand, {
-                                [this.props.classes.fieldPropsExpandOpen]: this.state.isSourceExpanded
-                            })}
-                                        aria-label="Show more">
+                            <IconButton
+                                className={classNames('topic-form-inv-fieldPropsExpand', {
+                                    'topic-form-inv-fieldPropsExpandOpen': this.state.isSourceExpanded
+                                })}
+                                aria-label="Show more"
+                                size="large">
                                 <ExpandMoreIcon/>
                             </IconButton>
                         </Typography>
@@ -142,7 +144,7 @@ export default class TopicFormInventoryFieldDisplay extends React.Component {
                           alignItems="center">
                         <Grid item={true}
                               xs={12}>
-                            <FormControlLabel className={this.props.classes.field}
+                            <FormControlLabel className="topic-form-inv-field"
                                               label={I18n.t('js.inventory_fields.model.required')}
                                               control={
                                                   <Checkbox checked={this.state.required}
@@ -159,7 +161,7 @@ export default class TopicFormInventoryFieldDisplay extends React.Component {
                         <Grid item={true}
                               sm={12}
                               lg={6}>
-                            <FormControlLabel className={this.props.classes.field}
+                            <FormControlLabel className="topic-form-inv-field"
                                               label={I18n.t('js.inventory_fields.model.searchable')}
                                               control={
                                                   <Checkbox checked={this.state.searchable}
@@ -176,7 +178,7 @@ export default class TopicFormInventoryFieldDisplay extends React.Component {
                         <Grid item={true}
                               sm={12}
                               lg={6}>
-                            <FormControlLabel className={this.props.classes.field}
+                            <FormControlLabel className="topic-form-inv-field"
                                               label={I18n.t('js.inventory_fields.model.filterable')}
                                               control={
                                                   <Checkbox checked={this.state.filterable}
@@ -193,10 +195,10 @@ export default class TopicFormInventoryFieldDisplay extends React.Component {
                         <Grid className="center-align"
                               item={true}
                               sm={12}>
-                            <Button color="default"
-                                    variant="text"
-                                    size="small"
-                                    onClick={this.props.onRemoveField.bind(this, this.props.index)}>
+                            <Button
+                                variant="text"
+                                size="small"
+                                onClick={this.props.onRemoveField.bind(this, this.props.index)}>
                                 {I18n.t('js.topic.edit_inventories.remove_field')}
                             </Button>
                         </Grid>

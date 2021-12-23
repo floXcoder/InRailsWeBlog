@@ -1,66 +1,64 @@
 'use strict';
 
-import {
-    withStyles
-} from '@material-ui/core/styles';
-import IconButton from '@material-ui/core/IconButton';
-import Badge from '@material-ui/core/Badge';
+import IconButton from '@mui/material/IconButton';
+import Badge from '@mui/material/Badge';
 
-import AddIcon from '@material-ui/icons/Add';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 import Dropdown from '../../theme/dropdown';
 
 import HeaderArticleMenu from './menus/article';
 
-import styles from '../../../../jss/user/header';
 
-export default @withStyles(styles)
-class HomeArticleHeader extends React.PureComponent {
-    static propTypes = {
-        routeParams: PropTypes.object.isRequired,
-        userSlug: PropTypes.string.isRequired,
-        currentTagSlugs: PropTypes.array.isRequired,
-        currentTopicMode: PropTypes.string,
-        topicSlug: PropTypes.string,
-        hasTemporaryArticle: PropTypes.bool,
-        // from styles
-        classes: PropTypes.object
-    };
+const HomeArticleHeader = function ({
+                                        routeParams,
+                                        userSlug,
+                                        currentTagSlugs,
+                                        currentTopicMode,
+                                        topicSlug,
+                                        hasTemporaryArticle
+                                    }) {
+    return (
+        <Dropdown button={
+            <IconButton color="default" itemProp="url" size="large">
+                {
+                    hasTemporaryArticle
+                        ?
+                        <Badge badgeContent="1"
+                               color="secondary">
+                            <AddCircleIcon/>
+                        </Badge>
+                        :
+                        <AddCircleIcon color="primary"/>
+                }
+            </IconButton>
+        }
+                  position="bottom right"
+                  buttonClassName="layout-header-headerButton"
+                  isFixed={true}
+                  hasWavesEffect={false}
+                  hasArrow={true}>
+            <HeaderArticleMenu routeParams={routeParams}
+                               userSlug={userSlug}
+                               currentTopicMode={currentTopicMode}
+                               currentTagSlugs={currentTagSlugs}
+                               topicSlug={topicSlug}
+                               hasTemporaryArticle={hasTemporaryArticle}/>
+        </Dropdown>
+    );
+};
 
-    static defaultProps = {
-        hasTemporaryArticle: false
-    };
+HomeArticleHeader.propTypes = {
+    routeParams: PropTypes.object.isRequired,
+    userSlug: PropTypes.string.isRequired,
+    currentTagSlugs: PropTypes.array.isRequired,
+    currentTopicMode: PropTypes.string,
+    topicSlug: PropTypes.string,
+    hasTemporaryArticle: PropTypes.bool
+};
 
-    render() {
-        return (
-            <Dropdown button={
-                <IconButton color="default"
-                            itemProp="url">
-                    {
-                        this.props.hasTemporaryArticle
-                            ?
-                            <Badge badgeContent="1"
-                                   color="secondary">
-                                <AddIcon/>
-                            </Badge>
-                            :
-                            <AddIcon/>
-                    }
-                </IconButton>
-            }
-                      position="bottom right"
-                      buttonClassName={this.props.classes.headerButton}
-                      isFixed={true}
-                      hasWavesEffect={false}
-                      hasArrow={true}>
-                <HeaderArticleMenu classes={this.props.classes}
-                                   routeParams={this.props.routeParams}
-                                   userSlug={this.props.userSlug}
-                                   currentTopicMode={this.props.currentTopicMode}
-                                   currentTagSlugs={this.props.currentTagSlugs}
-                                   topicSlug={this.props.topicSlug}
-                                   hasTemporaryArticle={this.props.hasTemporaryArticle}/>
-            </Dropdown>
-        );
-    }
-}
+HomeArticleHeader.defaultProps = {
+    hasTemporaryArticle: false
+};
+
+export default React.memo(HomeArticleHeader);
