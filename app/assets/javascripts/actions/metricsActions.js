@@ -8,7 +8,7 @@ import api from '../middlewares/api';
 window.trackingDatas = {};
 
 let piwik;
-if (GlobalEnvironment.NODE_ENV === 'production' && window._paq && !window.seoMode) {
+if (window._paq && !window.seoMode && GlobalEnvironment.NODE_ENV === 'production') {
     piwik = new ReactPiwik({
         url: window.METRICS_ADDRESS,
         siteId: window.METRICS_SITE_NUMBER,
@@ -79,21 +79,23 @@ export const trackAction = (params, actionType) => {
 };
 
 export const spySearchResults = (searchParams, response) => {
-    if (window._paq && !window.seoMode) {
-        const keywords = [searchParams.query, searchParams.location?.place_name].compact().join(', ');
-        let totalResults = 0;
-        for (const resultType in response.totalCount) {
-            if (response.totalCount.hasOwnProperty(resultType)) {
-                totalResults += response.totalCount[resultType];
-            }
-        }
-
-        window._paq.push(['trackSiteSearch', keywords, 'Search', totalResults]);
+    if (!piwik) {
+        return;
     }
+
+    const keywords = [searchParams.query, searchParams.location?.place_name].compact().join(', ');
+    let totalResults = 0;
+    for (const resultType in response.totalCount) {
+        if (response.totalCount.hasOwnProperty(resultType)) {
+            totalResults += response.totalCount[resultType];
+        }
+    }
+
+    window._paq.push(['trackSiteSearch', keywords, 'Search', totalResults]);
 };
 
 export const spyTrackView = (elementName, elementId) => {
-    if (GlobalEnvironment.NODE_ENV !== 'production' || window.seoMode) {
+    if (!piwik) {
         return;
     }
 
@@ -107,7 +109,7 @@ export const spyTrackView = (elementName, elementId) => {
 };
 
 export const spyTrackClick = (elementType, elementId, elementSlug, elementUserId, elementTitle, elementParentId) => {
-    if (GlobalEnvironment.NODE_ENV !== 'production' || window.seoMode) {
+    if (!piwik) {
         return new Promise((resolve) => {
             resolve();
         });
