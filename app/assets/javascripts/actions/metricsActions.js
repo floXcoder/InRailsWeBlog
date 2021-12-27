@@ -8,7 +8,7 @@ import api from '../middlewares/api';
 window.trackingDatas = {};
 
 let piwik;
-if (window._paq && !window.seoMode) {
+if (GlobalEnvironment.NODE_ENV === 'production' && window._paq && !window.seoMode) {
     piwik = new ReactPiwik({
         url: window.METRICS_ADDRESS,
         siteId: window.METRICS_SITE_NUMBER,
@@ -18,13 +18,18 @@ if (window._paq && !window.seoMode) {
 }
 
 export const trackMetrics = (location) => {
-    if (piwik) {
-        piwik.track(location);
+    if (!piwik) {
+        return;
     }
+
+    // Ensure components are loaded and title updated
+    setTimeout(() => {
+        piwik.track(location);
+    }, 400);
 };
 
 export const trackAction = (params, actionType) => {
-    if (GlobalEnvironment.NODE_ENV !== 'production' || window.seoMode) {
+    if (!piwik) {
         return;
     }
 
@@ -70,7 +75,7 @@ export const trackAction = (params, actionType) => {
             .post('/api/v1/tracker/action', {
                 tracker: params
             });
-    }, 50);
+    }, 150);
 };
 
 export const spySearchResults = (searchParams, response) => {

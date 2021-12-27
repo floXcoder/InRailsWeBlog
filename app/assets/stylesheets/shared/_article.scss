@@ -19,7 +19,8 @@
 // Article sidebar
 // ***
 .article-sidebar-root {
-  margin: .1rem .4rem 2.5rem;
+  margin: $header-height .4rem 2.5rem;
+  padding-top: .5rem;
   padding-bottom: 1.5rem;
 }
 
