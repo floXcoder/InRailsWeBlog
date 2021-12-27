@@ -7,6 +7,7 @@ import {
 
 import withRouter from '../../modules/router';
 
+
 export default @withRouter({location: true, params: true})
 class RouteManager extends React.Component {
     static propTypes = {

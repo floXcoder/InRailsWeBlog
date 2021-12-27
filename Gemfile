@@ -140,7 +140,7 @@ group :test do
   # Test tools
   gem 'rspec-rails',                '5.0.2'
   gem 'webmock',                    '3.14.0'
-  gem 'shoulda-matchers',           '5.0.0',  require: false
+  gem 'shoulda-matchers',           '5.1.0',  require: false
   gem 'shoulda-callback-matchers',  '1.1.4',  require: false
   gem 'simplecov',                  '0.21.2', require: false
   gem 'fuubar',                     '2.5.1'
@@ -153,15 +153,15 @@ group :development, :test do
   gem 'bootsnap',                   '1.9.3',  require: false
 
   # Check errors
-  gem 'rubocop',                    '1.23.0', require: false
-  gem 'rubocop-rails',              '2.12.4', require: false
-  gem 'rubocop-performance',        '1.12.0', require: false
-  gem 'rubocop-rspec',              '2.6.0',  require: false
+  gem 'rubocop',                    '1.24.0', require: false
+  gem 'rubocop-rails',              '2.13.0', require: false
+  gem 'rubocop-performance',        '1.13.0', require: false
+  gem 'rubocop-rspec',              '2.7.0',  require: false
 
   # static analyzer
   gem 'rails_best_practices',       '1.22.1', require: false
   gem 'brakeman',                   '5.2.0',  require: false
-  gem 'i18n-tasks',                 '0.9.36', require: false
+  gem 'i18n-tasks',                 '0.9.37', require: false
 end
 
 group :production do

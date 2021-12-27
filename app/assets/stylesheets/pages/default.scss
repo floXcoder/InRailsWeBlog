@@ -77,8 +77,9 @@
 }
 
 .layout-header-mobileToolbar {
-  margin-top: 15px;
   min-height: 48px !important;
+  margin-top: $header-height;
+  padding-top: .5rem;
   padding-left: 26px;
 
   @media (min-width: 0) and (orientation: landscape) {
