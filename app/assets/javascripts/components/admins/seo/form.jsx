@@ -125,11 +125,7 @@ export default class AdminSeoDataForm extends React.Component {
                                         this.props.seoPages.filter((s) => !this.props.seoPagesUsed.includes(s.name)).map((seoPage) => (
                                             <MenuItem key={seoPage.name}
                                                       value={seoPage.name}>
-                                                {seoPage.name}
-                                                {' '}
-                                                (
-                                                {I18n.t(`js.admin.seo.visibility.${seoPage.params.public ? 'public' : 'private'}`)}
-                                                )
+                                                {seoPage.name} ({I18n.t(`js.admin.seo.visibility.${seoPage.params.public ? 'public' : 'private'}`)})
                                             </MenuItem>
                                         ))
                                     }
@@ -171,9 +167,7 @@ export default class AdminSeoDataForm extends React.Component {
                         {
                             this.state.url &&
                             <div className="col s12 center-align margin-bottom-15">
-                                URL :
-                                {' '}
-                                {this.state.url}
+                                URL : {this.state.url}
                             </div>
                         }
 

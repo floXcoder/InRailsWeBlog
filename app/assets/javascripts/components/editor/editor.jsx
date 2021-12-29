@@ -217,7 +217,7 @@ class Editor extends React.Component {
             if (this.props.otherStaticBar) {
                 toolbarOptions.otherStaticBar = this.props.otherStaticBar;
             } else if (this.props.hasOuterHeight) {
-                toolbarOptions.otherStaticBarHeight = this.props.width === 'xs' ? 111 : (this.props.width === 'md' ? 128 : 122);
+                toolbarOptions.otherStaticBarHeight = this.props.width === 'xs' ? 111 : (this.props.width === 'md' ? 128 : 126);
             }
 
             this._editor = $editor.summernote({
