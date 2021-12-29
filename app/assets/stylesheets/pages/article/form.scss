@@ -20,10 +20,10 @@
 }
 
 .sticky {
-  z-index: $zindex-icons;
+  z-index: $zindex-appbar;
 
   .article-form-stepper {
-    margin-top: $header-height;
+    margin-top: 64px;
     position: relative;
   }
 }

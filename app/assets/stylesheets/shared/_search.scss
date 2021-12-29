@@ -5,21 +5,15 @@
 // ***
 .search-header-search {
   width: 100%;
-  border: 1px solid $secondary-color;
   position: relative;
-  transition: border 1s ease-out;
   margin-left: 0 !important;
   margin-right: 16px;
   border-radius: 24px;
-  box-shadow: 0 1px 2px rgba(97, 97, 97, .1), 0 2px 4px rgba(97, 97, 97, .1);
+  box-shadow: 0 1px 2px 1px rgba(227, 194, 62, 0.55);
 
   @media (min-width: 600px) {
     width: auto;
     margin-left: 24px;
-  }
-
-  &:hover {
-    border: 1px solid #aaa;
   }
 }
 

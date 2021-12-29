@@ -120,10 +120,7 @@ class TrackingVisitModal extends React.Component {
                                                 }}
                                                               primary={
                                                                   <span>
-                                                                    {event.time}
-{' '}
-:
-{I18n.t(`js.admin.visits.events.${event.name}`, {defaultValue: event.name})}
+                                                                    {event.time} : {I18n.t(`js.admin.visits.events.${event.name}`, {defaultValue: event.name})}
                                                                   </span>
                                                               }
                                                               secondary={

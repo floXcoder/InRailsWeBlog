@@ -178,7 +178,8 @@ class ArticleFormDisplay extends React.Component {
                                 {/*        message={this._onUnsavedExit}/>*/}
 
                                 <Sticky boundaryElement=".article-form-form"
-                                        topOffset={-headerMargin / 2}
+                                        // topOffset={-headerMargin / 2}
+                                        topOffset={headerMargin}
                                         bottomOffset={320}
                                         hideOnBoundaryHit={false}>
                                     <div className="article-form-stepper">
