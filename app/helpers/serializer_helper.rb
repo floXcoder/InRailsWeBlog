@@ -7,6 +7,8 @@ module SerializerHelper
     options             = options ? options.dup : {}
     options[:namespace] ||= "_#{ENV['WEBSITE_NAME']}_#{Rails.env}:serializer"
 
+    options[:no_cache] = true if params&.dig(:no_cache)
+
     fieldset_key = fieldset.present? ? fieldset.join('_') : nil
     params_key = params.present? ? params.map { |k, v| "#{k}-#{v}" }.join('_') : nil
     locale_key = I18n.locale.to_s
@@ -22,7 +24,7 @@ module SerializerHelper
 
   class CacheSerializer
     def self.fetch(record_key, **options, &block)
-      if record_key.is_a?(Hash) && record_key['_index'].present?
+      if (record_key.is_a?(Hash) && record_key['_index'].present?) || options[:no_cache]
         # Change record key if record is from Searchkick
         # record = "#{record['_index']}/#{record['id']}"
 

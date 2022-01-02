@@ -7,7 +7,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const config = require('../config').webpack;
 
-let webPackConfig = module.exports = {
+const webPackConfig = module.exports = {
     // the base path which will be used to resolve entry points
     context: path.resolve(config.context)
 };

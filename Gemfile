@@ -30,7 +30,7 @@ gem 'slim-rails',               '3.3.0'
 
 # Internationalization
 gem 'i18n-js',                  '3.9.0'
-gem 'geocoder',                 '1.7.0'
+gem 'geocoder',                 '1.7.1'
 
 # Model versioning
 gem 'paper_trail',              '12.1.0'
@@ -153,9 +153,9 @@ group :development, :test do
   gem 'bootsnap',                   '1.9.3',  require: false
 
   # Check errors
-  gem 'rubocop',                    '1.24.0', require: false
+  gem 'rubocop',                    '1.24.1', require: false
   gem 'rubocop-rails',              '2.13.0', require: false
-  gem 'rubocop-performance',        '1.13.0', require: false
+  gem 'rubocop-performance',        '1.13.1', require: false
   gem 'rubocop-rspec',              '2.7.0',  require: false
 
   # static analyzer

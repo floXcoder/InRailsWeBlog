@@ -2,7 +2,10 @@
 
 import '../../../stylesheets/pages/admin.scss';
 
-import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
+import {
+    ThemeProvider,
+    StyledEngineProvider
+} from '@mui/material/styles';
 
 import theme from '../../theme';
 
