@@ -7,6 +7,10 @@ import {
 import CssBaseline from '@mui/material/CssBaseline';
 
 import {
+    CacheProvider
+} from '@emotion/react';
+
+import {
     Provider,
     ReactReduxContext
 } from 'react-redux';
@@ -27,6 +31,10 @@ import {
     extractDataFromElement
 } from '../../../middlewares/json';
 
+import emotionCache from '../../../modules/emotionCache';
+
+import theme from '../../../theme';
+
 import routes from '../../../routes';
 
 import PasteManager from '../../modules/pasteManager';
@@ -35,8 +43,6 @@ import ScrollBackManager from '../../modules/scrollBackManager';
 import HotkeyManager from '../managers/hotkey';
 
 import LayoutUser from './layout';
-
-import theme from '../../../theme';
 
 
 export default class ApplicationLayoutUser extends React.Component {
@@ -63,27 +69,29 @@ export default class ApplicationLayoutUser extends React.Component {
     render() {
         return (
             <StyledEngineProvider injectFirst={true}>
-                <ThemeProvider theme={theme}>
-                    <CssBaseline/>
+                <CacheProvider value={emotionCache()}>
+                    <ThemeProvider theme={theme}>
+                        <CssBaseline/>
 
-                    <Provider store={configureStore}
-                              context={ReactReduxContext}>
-                        <HelmetProvider>
-                            <BrowserRouter>
-                                <PasteManager>
-                                    <ScrollBackManager>
-                                        <HotkeyManager>
-                                            <LayoutUser
-                                                routes={[...routes.static.common, ...routes.static.user, ...routes.static.notFound]}
-                                                hashRoutes={routes.hashes}
-                                                {...this._componentProps()}/>
-                                        </HotkeyManager>
-                                    </ScrollBackManager>
-                                </PasteManager>
-                            </BrowserRouter>
-                        </HelmetProvider>
-                    </Provider>
-                </ThemeProvider>
+                        <Provider store={configureStore}
+                                  context={ReactReduxContext}>
+                            <HelmetProvider>
+                                <BrowserRouter>
+                                    <PasteManager>
+                                        <ScrollBackManager>
+                                            <HotkeyManager>
+                                                <LayoutUser
+                                                    routes={[...routes.static.common, ...routes.static.user, ...routes.static.notFound]}
+                                                    hashRoutes={routes.hashes}
+                                                    {...this._componentProps()}/>
+                                            </HotkeyManager>
+                                        </ScrollBackManager>
+                                    </PasteManager>
+                                </BrowserRouter>
+                            </HelmetProvider>
+                        </Provider>
+                    </ThemeProvider>
+                </CacheProvider>
             </StyledEngineProvider>
         );
     }
