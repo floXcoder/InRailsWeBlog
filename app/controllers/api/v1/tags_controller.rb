@@ -69,7 +69,7 @@ module Api::V1
             if complete
               render json: Tag.serialized_json(tags,
                                                'complete',
-                                               params: { current_topic_id: topic_id },
+                                               params: { current_topic_id: topic_id, no_cache: complete },
                                                meta:   meta_attributes)
             else
               render json: Tag.serialized_json(tags,
@@ -102,9 +102,9 @@ module Api::V1
               render json: tag.serialized_json('complete',
                                                params: { current_user_id: current_user&.id },
                                                meta:   {
-                                                 trackingData: { tag_id: tag.id },
-                                                 **(params[:no_meta] ? {} : meta_attributes)
-                                               }.compact)
+                                                         trackingData: { tag_id: tag.id },
+                                                         **(params[:no_meta] ? {} : meta_attributes)
+                                                       }.compact)
             end
           end
         end

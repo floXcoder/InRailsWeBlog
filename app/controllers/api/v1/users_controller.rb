@@ -65,7 +65,7 @@ module Api::V1
         respond_to do |format|
           format.json do
             if complete
-              render json: User.serialized_json(users, 'complete')
+              render json: User.serialized_json(users, 'complete', params: { no_cache: complete })
             else
               render json: User.serialized_json(users, 'sample', meta: meta_attributes(pagination: users))
             end

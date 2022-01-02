@@ -26,7 +26,7 @@ module Api::V1
         respond_to do |format|
           format.json do
             if complete
-              render json: Topic.serialized_json(topics, 'complete')
+              render json: Topic.serialized_json(topics, 'complete', params: { no_cache: complete })
             else
               render json: Topic.serialized_json(topics, 'normal')
             end

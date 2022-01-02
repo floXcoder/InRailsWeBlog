@@ -84,7 +84,8 @@ module Api::V1
               render json: Article.serialized_json(articles,
                                                    'complete',
                                                    params: {
-                                                     current_user_id: current_user&.id
+                                                     current_user_id: current_user&.id,
+                                                     no_cache: true
                                                    },
                                                    meta:   {
                                                      trackingData: tracking_data,

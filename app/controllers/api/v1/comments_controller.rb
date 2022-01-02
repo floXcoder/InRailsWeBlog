@@ -36,12 +36,15 @@ module Api::V1
       comments = comments.filter_by(comments, filter_params) unless filter_params.empty?
       comments = comments.order_by(filter_params[:order]) if filter_params[:order]
 
+      complete = params[:complete] && admin_signed_in?
+
       expires_in InRailsWeBlog.config.cache_time, public: true
       respond_to do |format|
         format.json do
-          if params[:complete] && admin_signed_in?
+          if complete
             render json: CommentFullSerializer.new(comments,
                                                    include: [:user, :commentable],
+                                                   params:  { no_cache: complete },
                                                    meta:    { root: 'comments', **meta_attributes(pagination: comments) }).serializable_hash
           else
             render json: CommentSerializer.new(comments,
