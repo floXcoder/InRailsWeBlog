@@ -42,6 +42,7 @@
     "@babel/preset-env": "7.16.7",
     "@babel/preset-react": "7.16.7",
     "@dsvllc/summernote-image-attributes": "1.0.0",
+    "@emotion/cache": "11.7.1",
     "@emotion/react": "11.7.1",
     "@emotion/styled": "11.6.0",
     "@material-table/core": "0.2.11",
