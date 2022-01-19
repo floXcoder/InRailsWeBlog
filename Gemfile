@@ -23,14 +23,14 @@ gem 'secure_headers',           '6.3.3'
 
 # JSON
 gem 'jsonapi-serializer',       '2.2.0'
-gem 'oj',                       '3.13.10'
+gem 'oj',                       '3.13.11'
 
 # Use slim instead of erb
 gem 'slim-rails',               '3.3.0'
 
 # Internationalization
 gem 'i18n-js',                  '3.9.0'
-gem 'geocoder',                 '1.7.1'
+gem 'geocoder',                 '1.7.3'
 
 # Model versioning
 gem 'paper_trail',              '12.1.0'
@@ -83,13 +83,13 @@ gem 'premailer-rails',          '1.11.1'
 gem 'browser',                  '5.3.1'
 
 # Tracking
-gem 'ahoy_matey',               '4.0.2'
+gem 'ahoy_matey',               '4.0.3'
 
 # SEO
 gem 'friendly_id',              '5.4.2'
 gem 'route_translator',         '12.1.0'
 gem 'meta-tags',                '2.16.0'
-gem 'sitemap_generator',        '6.1.2'
+gem 'sitemap_generator',        '6.2.1'
 
 # Dummy data
 gem 'factory_bot_rails',        '6.2.0',  require: false
@@ -119,7 +119,7 @@ group :development do
   gem 'binding_of_caller',      '1.0.0'
 
   # N+1 database query
-  gem 'bullet',                 '7.0.0'
+  gem 'bullet',                 '7.0.1'
 
   # Guard and its minions
   gem 'guard',                  '2.18.0', require: false
@@ -150,12 +150,12 @@ end
 
 group :development, :test do
   # Speed up boot
-  gem 'bootsnap',                   '1.9.3',  require: false
+  gem 'bootsnap',                   '1.10.1',  require: false
 
   # Check errors
-  gem 'rubocop',                    '1.24.1', require: false
-  gem 'rubocop-rails',              '2.13.0', require: false
-  gem 'rubocop-performance',        '1.13.1', require: false
+  gem 'rubocop',                    '1.25.0', require: false
+  gem 'rubocop-rails',              '2.13.2', require: false
+  gem 'rubocop-performance',        '1.13.2', require: false
   gem 'rubocop-rspec',              '2.7.0',  require: false
 
   # static analyzer
