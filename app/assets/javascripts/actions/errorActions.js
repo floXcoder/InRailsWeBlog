@@ -11,6 +11,10 @@ export const pushError = (error, errorInfo = null) => {
         return;
     }
 
+    if (error.name && (error.name === 'AbortError' || error.name === 'SecurityError' || error.name === 'ChunkLoadError')) {
+        return;
+    }
+
     if (window.SENTRY_JAVASCRIPT_KEY) {
         SentryWithScope((scope) => {
             if (error instanceof Error) {
