@@ -6,8 +6,11 @@ Geocoder.configure(
   language:     :fr, # ISO-639 language code
   use_https:    true, # use HTTPS for lookup requests? (if supported)
 
-  cache:        Redis.new, # cache object (must respond to #[], #[]=, and #keys)
-  cache_prefix: "_#{ENV['WEBSITE_NAME']}_#{Rails.env}:geocoder:", # prefix (string) to use for all cache keys
+  cache: Redis.new, # cache object (must respond to #[], #[]=, and #keys)
+  cache_options: {
+    expiration: 30.days, # Redis ttl
+    prefix: "_#{ENV['WEBSITE_NAME']}_#{Rails.env}:geocoder:" # prefix (string) to use for all cache keys
+  },
 
   ip_lookup:    :geoip2,
   geoip2:       {
