@@ -17,7 +17,7 @@ class ApplicationController < ActionController::Base
   rescue_from ActionController::UnknownFormat, with: :not_found_error
 
   # Pundit
-  include Pundit
+  include Pundit::Authorization
   rescue_from Pundit::NotDefinedError, with: :user_not_authorized
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
   rescue_from Pundit::AuthorizationNotPerformedError, with: :user_not_authorized
