@@ -541,7 +541,7 @@ class ApplicationController < ActionController::Base
     return if !json_request? || flash.empty? || response.status == 302
 
     # avoiding XSS injections via flash
-    flash_json                           = flash.transform_values { |v| ERB::Util.h(v) }.to_json
+    flash_json                           = flash.map { |k, v| [k, ERB::Util.h(v)] }.to_h.to_json
     response.headers['X-Flash-Messages'] = flash_json
     # flash.discard
   end
