@@ -153,7 +153,7 @@ class ApplicationController < ActionController::Base
     user_ref = params[:user_id].presence || params[:user_slug].presence
 
     @context_user ||= if user_ref
-                        (current_user&.id == user_ref.to_i || current_user&.slug == user_ref.to_s) ? current_user : User.friendly.find(user_ref)
+                        current_user&.id == user_ref.to_i || current_user&.slug == user_ref.to_s ? current_user : User.friendly.find(user_ref)
                       else
                         current_user
                       end
@@ -306,9 +306,9 @@ class ApplicationController < ActionController::Base
       admins_path
     else
       user_root_path = send("user_home_#{resource_or_scope.locale || 'en'}_path", user_slug: resource_or_scope.slug)
-      previous_path  = request.env['omniauth.origin'] || stored_location_for(resource_or_scope) || request.referer && URI.parse(request.referer).path
+      previous_path  = request.env['omniauth.origin'] || stored_location_for(resource_or_scope) || (request.referer && URI.parse(request.referer).path)
 
-      if previous_path =~ /\/login/ || previous_path =~ /\/signup/ || previous_path == '/'
+      if  previous_path.include?('/login') || previous_path.include?('/signup') || previous_path.include?('/sign_in') || previous_path.include?('/sign_up') || previous_path.include?('/sign_out') || previous_path.include?('/logout') || previous_path.include?('/password') || previous_path.include?('/unlock') || previous_path == '/'
         user_root_path
       else
         previous_path || user_root_path
@@ -541,7 +541,7 @@ class ApplicationController < ActionController::Base
     return if !json_request? || flash.empty? || response.status == 302
 
     # avoiding XSS injections via flash
-    flash_json                           = flash.map { |k, v| [k, ERB::Util.h(v)] }.to_h.to_json
+    flash_json                           = flash.transform_values { |v| ERB::Util.h(v) }.to_json
     response.headers['X-Flash-Messages'] = flash_json
     # flash.discard
   end

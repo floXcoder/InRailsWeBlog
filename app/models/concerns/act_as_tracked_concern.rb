@@ -164,13 +164,13 @@ module ActAsTrackedConcern
       formatted_name = self.name.underscore
       cron_job_name  = "#{formatted_name}_tracker"
 
-      unless Sidekiq::Cron::Job.find(name: cron_job_name)
-        Sidekiq::Cron::Job.create(name:  cron_job_name,
-                                  cron:  "*/#{InRailsWeBlog.config.tracker_cron} * * * *",
-                                  class: 'UpdateTrackerWorker',
-                                  args:  { tracked_class: formatted_name },
-                                  queue: 'default')
-      end
+      return if Sidekiq::Cron::Job.find(name: cron_job_name)&.exists? != 0
+
+      Sidekiq::Cron::Job.create(name:  cron_job_name,
+                                cron:  "*/#{InRailsWeBlog.config.tracker_cron} * * * *",
+                                class: 'UpdateTrackerWorker',
+                                args:  { tracked_class: formatted_name },
+                                queue: 'default')
     end
 
     # Private method to get formatted redis key (for object model)
