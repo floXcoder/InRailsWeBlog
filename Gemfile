@@ -9,7 +9,7 @@ end
 ruby '3.0.2'
 
 # Rails version
-gem 'rails',                    '6.1.4.2'
+gem 'rails',                    '6.1.4.6'
 
 # Use postgresql as the database for Active Record
 gem 'pg',                       '1.3.1'
