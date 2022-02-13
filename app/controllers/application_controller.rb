@@ -308,7 +308,7 @@ class ApplicationController < ActionController::Base
       user_root_path = send("user_home_#{resource_or_scope.locale || 'en'}_path", user_slug: resource_or_scope.slug)
       previous_path  = request.env['omniauth.origin'] || stored_location_for(resource_or_scope) || (request.referer && URI.parse(request.referer).path)
 
-      if  previous_path.include?('/login') || previous_path.include?('/signup') || previous_path.include?('/sign_in') || previous_path.include?('/sign_up') || previous_path.include?('/sign_out') || previous_path.include?('/logout') || previous_path.include?('/password') || previous_path.include?('/unlock') || previous_path == '/'
+      if previous_path.present? && (previous_path.include?('/login') || previous_path.include?('/signup') || previous_path.include?('/sign_in') || previous_path.include?('/sign_up') || previous_path.include?('/sign_out') || previous_path.include?('/logout') || previous_path.include?('/password') || previous_path.include?('/unlock') || previous_path == '/')
         user_root_path
       else
         previous_path || user_root_path
