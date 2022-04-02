@@ -1,6 +1,8 @@
 'use strict';
 
-import produce, {enableES5} from 'immer';
+import produce, {
+    enableES5
+} from 'immer';
 
 import {
     combineReducers
@@ -9,8 +11,6 @@ import {
 import {
     loadingBarReducer
 } from 'react-redux-loading-bar';
-
-enableES5();
 
 import adminReducer from './adminReducer';
 import userReducer from './userReducer';
@@ -22,6 +22,8 @@ import {
     searchReducer
 } from './searchReducer';
 import commentReducer from './commentReducer';
+
+enableES5();
 
 export default combineReducers(produce, {
     adminState: adminReducer,

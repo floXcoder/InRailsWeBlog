@@ -19,6 +19,14 @@ window.I18n = I18n;
 if (window.SENTRY_JAVASCRIPT_KEY && !window.seoMode) {
     SentryInit({
         dsn: window.SENTRY_JAVASCRIPT_KEY,
+        ignoreErrors: [
+            'TypeError: Failed to fetch',
+            'TypeError: NetworkError when attempting to fetch resource.',
+            'TypeError: Cancelled',
+            'TypeError: Load failed',
+            'UnknownError: Background Sync is disabled.',
+            /Loading CSS chunk/
+        ]
         // beforeSend(event, hint) {
         //     // Check if it is an exception, and if so, show the report dialog
         //     if (event.exception) {
@@ -31,10 +39,12 @@ if (window.SENTRY_JAVASCRIPT_KEY && !window.seoMode) {
     SentryConfigureScope((scope) => {
         scope.setLevel('warning');
 
-        scope.setUser({
-            id: window.currentUserId,
-            username: window.currentUserSlug
-        });
+        if (window.currentUserId || window.currentUserSlug) {
+            scope.setUser({
+                id: window.currentUserId,
+                username: window.currentUserSlug
+            });
+        }
 
         scope.setTag('locale', window.locale);
     });

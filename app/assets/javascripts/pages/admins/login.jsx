@@ -14,7 +14,7 @@ import AdminLogin from '../../components/admins/login';
 require('../common');
 
 ReactDOM.render(
-    <StyledEngineProvider injectFirst>
+    <StyledEngineProvider injectFirst={true}>
         <ThemeProvider theme={theme}>
             <AdminLogin/>
         </ThemeProvider>

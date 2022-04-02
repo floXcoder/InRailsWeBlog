@@ -4,10 +4,6 @@ import {
     createTheme
 } from '@mui/material/styles';
 
-// Sizes
-export const headerHeight = 62;
-export const articleWidth = 780;
-
 // zIndex
 export const mobileStepperZIndex = 1000;
 export const appBarZIndex = 1100;
