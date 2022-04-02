@@ -55,13 +55,11 @@ export default function tagReducer(state = initState, action) {
             return mutationReducer(state, action, (state) => {
                 if (action.tags) {
                     state.tags = action.tags;
+                } else if (action.removedId) {
+                    state.tags = removeIn(state.tags, action.removedId);
                 } else {
-                    if (action.removedId) {
-                        state.tags = removeIn(state.tags, action.removedId);
-                    } else {
-                        state.tag = action.tag;
-                        state.tags = addOrReplaceIn(state.tags, action.tag);
-                    }
+                    state.tag = action.tag;
+                    state.tags = addOrReplaceIn(state.tags, action.tag);
                 }
             });
 

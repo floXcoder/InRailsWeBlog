@@ -34,10 +34,13 @@ class AdminArticles extends React.Component {
     }
 
     componentDidMount() {
-        this.props.fetchArticles({complete: true, order: 'visits_desc'});
+        this.props.fetchArticles({
+            complete: true,
+            order: 'visits_desc'
+        });
     }
 
-    _updateArticle =  (newData, oldData) => {
+    _updateArticle = (newData, oldData) => {
         return this.props.updateArticle({
             id: oldData.id,
             rank: newData.tracker.rank,
@@ -68,7 +71,7 @@ class AdminArticles extends React.Component {
 
                 <Table title={I18n.t('js.admin.articles.table.title')}
                        locale={I18n.locale}
-                       data={this.props.articles.map((article) => Object.assign({}, article))}
+                       data={this.props.articles.map((article) => ({...article}))}
                        columns={[
                            {
                                title: I18n.t('js.admin.articles.table.columns.id'),
@@ -87,10 +90,10 @@ class AdminArticles extends React.Component {
                                field: 'mode',
                                hidden: true,
                                lookup: {
-                                   'note': I18n.t('js.article.enums.mode.note'),
-                                   'story': I18n.t('js.article.enums.mode.story'),
-                                   'inventory': I18n.t('js.article.enums.mode.inventory'),
-                                   'link': I18n.t('js.article.enums.mode.link')
+                                   note: I18n.t('js.article.enums.mode.note'),
+                                   story: I18n.t('js.article.enums.mode.story'),
+                                   inventory: I18n.t('js.article.enums.mode.inventory'),
+                                   link: I18n.t('js.article.enums.mode.link')
                                },
                                editable: 'never'
                            },
@@ -109,8 +112,8 @@ class AdminArticles extends React.Component {
                                title: I18n.t('js.admin.articles.table.columns.visibility'),
                                field: 'visibility',
                                lookup: {
-                                   'everyone': I18n.t('js.article.enums.visibility.everyone'),
-                                   'only_me': I18n.t('js.article.enums.visibility.only_me')
+                                   everyone: I18n.t('js.article.enums.visibility.everyone'),
+                                   only_me: I18n.t('js.article.enums.visibility.only_me')
                                },
                                editable: 'never'
                            },
@@ -118,7 +121,9 @@ class AdminArticles extends React.Component {
                                title: I18n.t('js.admin.articles.table.columns.date'),
                                field: 'dateShort',
                                filtering: false,
-                               render: (article) => article.dateShort.slice().reverse().join(' '),
+                               render: (article) => article.dateShort.slice()
+                                   .reverse()
+                                   .join(' '),
                                editable: 'never'
                            },
                            {

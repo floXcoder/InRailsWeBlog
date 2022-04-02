@@ -1,10 +1,10 @@
 'use strict';
 
-import * as ActionTypes from '../constants/actionTypes';
-
 import {
     createMachine
 } from '@xstate/fsm';
+
+import * as ActionTypes from '../constants/actionTypes';
 
 import {
     fetchReducer,
