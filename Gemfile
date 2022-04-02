@@ -68,7 +68,7 @@ gem 'image_processing',         '1.12.2'
 
 # Search in database
 gem 'searchkick',               '5.0.3'
-gem 'elasticsearch',            '8.1.0'
+gem 'elasticsearch',            '7.17.1'
 gem 'faraday',                  '1.10.0'
 gem 'typhoeus',                 '1.4.0'
 
