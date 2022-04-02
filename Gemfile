@@ -67,8 +67,8 @@ gem 'mini_magick',              '4.11.0'
 gem 'image_processing',         '1.12.2'
 
 # Search in database
-gem 'searchkick',               '5.0.3'
-gem 'elasticsearch',            '7.17.1'
+gem 'searchkick',               '4.6.3'
+gem 'elasticsearch',            '7.13.3'
 gem 'faraday',                  '1.10.0'
 gem 'typhoeus',                 '1.4.0'
 
