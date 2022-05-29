@@ -36,6 +36,9 @@ Rails.application.configure do
   # Store uploaded files on the local file system in a temporary directory
   # config.active_storage.service = :test
 
+  # I18n configuration
+  config.i18n.default_locale = :en
+
   # Tell Action Mailer not to deliver emails to the real world.
   # The :test delivery method accumulates sent emails in the
   # ActionMailer::Base.deliveries array.
@@ -55,8 +58,10 @@ Rails.application.configure do
   config.i18n.raise_on_missing_translations = true
 
   # Logs
+  #  config.log_level = :debug
+  #  config.active_record.verbose_query_logs = true
   unless ENV['RAILS_ENABLE_TEST_LOG']
-    config.logger    = Logger.new(nil)
-    config.log_level = :info
+    config.logger = Logger.new(nil)
+    config.log_level = :error
   end
 end

@@ -7,8 +7,7 @@ namespace :InRailsWeBlog do
   desc 'Reindex all models for each locale'
   task :search_reindex, [] => :environment do |_task, _args|
     Rails.logger = ActiveRecord::Base.logger = Logger.new(STDOUT)
-    Rails.logger.level = Logger::WARN
-    Rails.logger.warn("#{Time.zone.now} : Reindex models with all locales task")
+    Rails.logger.level = Logger::INFO
 
     # Search index is by locale
     I18n.available_locales.map do |locale|
@@ -21,5 +20,7 @@ namespace :InRailsWeBlog do
     User.reindex
     Topic.reindex
     Tag.reindex
+
+    Rails.logger.warn("#{Time.zone.now} : Reindex models with all locales task DONE")
   end
 end

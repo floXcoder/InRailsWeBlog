@@ -45,7 +45,7 @@ module DataSerializerConcern
       serialized_data = self.send(self.serialize_method, data, format, **options)
 
       if flat
-        serialized_data.flat_serializable_hash(with_model)
+        serialized_data.flat_serializable_hash(extract_options: with_model)
       else
         serialized_data.serializable_hash
       end

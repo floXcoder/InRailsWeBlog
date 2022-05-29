@@ -86,10 +86,10 @@ module Articles
                                  boost_where:  boost_where,
                                  order:        order,
                                  aggs:         aggregations,
-                                 includes:     includes,
-                                 # index_name:    %w[articles-fr articles-en],
-                                 # indices_boost: { "articles-#{I18n.locale}" => 5 },
-                                 execute: !@params[:defer])
+                                 includes:     includes
+        # index_name:    %w[articles-fr articles-en],
+        # indices_boost: { "articles-#{I18n.locale}" => 5 },
+        )
 
         track_results(results)
 

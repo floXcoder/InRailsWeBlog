@@ -63,7 +63,8 @@ class Article < ApplicationRecord
 
   # == Extensions ===========================================================
   # Voteable model
-  acts_as_voteable
+  include ActAsVoteableConcern
+  # acts_as_voteable
 
   # Versioning
   has_paper_trail on:   [:create, :update, :destroy],

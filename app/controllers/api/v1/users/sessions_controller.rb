@@ -7,6 +7,9 @@ module Api::V1
 
     prepend_before_action :check_unconfirmed_user, if: -> { request.xhr? }
 
+    # Manage JSON response
+    skip_before_action :require_no_authentication, only: [:create]
+
     before_action :honeypot_protection, only: [:create]
 
     respond_to :html, :js, :json
@@ -40,9 +43,10 @@ module Api::V1
 
       @location = after_sign_out_path_for(resource)
       respond_to do |format|
-        format.html { redirect_to(@location) }
-        format.js
+        # Ensure to use the first format if format is */*
         format.json { render json: { location: @location } }
+        format.js
+        format.html { redirect_to(@location) }
       end
     end
 

@@ -9,18 +9,29 @@ import {
     pushError
 } from '../actions';
 
-const getHeaders = () => {
-    const csrfToken = document.getElementsByName('csrf-token')[0];
-    const token = csrfToken?.getAttribute('content');
+let retryTokenCount = 0;
 
-    return {
-        credentials: 'same-origin',
-        headers: new Headers({
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-            'X-CSRF-Token': token
-        })
-    };
+const getHeaders = (external = false) => {
+    if (external) {
+        return {
+            headers: new Headers({
+                Accept: 'application/json',
+                // 'Content-Type': 'application/json'
+            })
+        };
+    } else {
+        const csrfToken = document.getElementsByName('csrf-token')[0];
+        const token = csrfToken?.getAttribute('content');
+
+        return {
+            credentials: 'same-origin',
+            headers: new Headers({
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                'X-CSRF-Token': token
+            })
+        };
+    }
 };
 
 const getDataHeaders = () => {
@@ -30,8 +41,8 @@ const getDataHeaders = () => {
     return {
         credentials: 'same-origin',
         headers: new Headers({
-            Accept: 'application/json',
-            'X-CSRF-Token': token
+            'X-CSRF-Token': token,
+            Accept: 'application/json'
         })
     };
 };
@@ -53,7 +64,7 @@ const manageError = (origin, error, url) => {
 
     if (error.statusText) {
         if (error.statusText === 'Forbidden') {
-            // Notification.error(I18n.t('js.helpers.errors.not_authorized'));
+            // Notification.message.error(I18n.t('js.helpers.errors.not_authorized'));
             // if (document.referrer === '') {
             //     window.location = '/';
             // } else {
@@ -64,32 +75,35 @@ const manageError = (origin, error, url) => {
         } else if (error.statusText === 'Cancelled') {
             return error;
         } else if (error.statusText === 'Not Found') {
-            // Notification.error(I18n.t('js.helpers.errors.unprocessable'));
+            // Notification.message.error(I18n.t('js.helpers.errors.unprocessable'));
             // } else if (error.statusText === 'Unprocessable Entity') {
             // Managed by handleResponse
             // if (!error.bodyUsed) {
             //     return error.json().then((status) => (
-            //         Notification.error(status.error || status.errors || error.statusText)
+            //         Notification.message.error(status.error || status.errors || error.statusText)
             //     ));
             // } else {
-            //     Notification.error(I18n.t('js.helpers.errors.unprocessable'));
+            //     Notification.message.error(I18n.t('js.helpers.errors.unprocessable'));
             // }
 
             return error;
         } else if (error.statusText === 'Internal Server Error') {
             if (!error.bodyUsed) {
-                error.json().then((parsedError) => {
-                    Notification.error(parsedError.errors);
+                error.json()
+                    .then((parsedError) => {
+                        Notification.message.error(parsedError.errors);
 
-                    if (GlobalEnvironment.NODE_ENV !== 'production') {
-                        window.log_on_screen([parsedError.errors, parsedError.details].join(' / ').split('\n').slice(0, 6));
-                    }
+                        if (GlobalEnvironment.NODE_ENV !== 'production') {
+                            window.log_on_screen([parsedError.errors, parsedError.details].join(' / ')
+                                .split('\n')
+                                .slice(0, 6));
+                        }
 
-                    pushError(error, {...errorInfo, ...parsedError});
-                });
+                        pushError(error, {...errorInfo, ...parsedError});
+                    });
             } else {
                 if (GlobalEnvironment.NODE_ENV === 'production') {
-                    Notification.error(I18n.t('js.helpers.errors.server'));
+                    Notification.message.error(I18n.t('js.helpers.errors.server'));
                 }
 
                 pushError(error, errorInfo);
@@ -100,8 +114,31 @@ const manageError = (origin, error, url) => {
     }
 };
 
+const handleTokenError = (response, url, params, isData) => {
+    if (response.status === 405) {
+        return response.json()
+            .then((status) => {
+                const csrfToken = document.getElementsByName('csrf-token')[0];
+                csrfToken?.setAttribute('content', status.token);
+
+                if (retryTokenCount > 0) {
+                    // Cannot get good token: reload the page
+                    window.location.reload();
+                    return Promise.reject(new Error('TokenError'));
+                } else {
+                    retryTokenCount++;
+                    return api.post(url, params, isData);
+                }
+            });
+    } else {
+        retryTokenCount = 0;
+
+        return response;
+    }
+};
+
 const handleResponseErrors = (response, url) => {
-    if (!response.ok) {
+    if (response.status && !response.ok) {
         manageError('server', response, url);
     }
 
@@ -109,7 +146,7 @@ const handleResponseErrors = (response, url) => {
 };
 
 const handleParseErrors = (error, url, isGet = false) => {
-    if (error.name === 'AbortError' || error.name === 'SecurityError' || error.name === 'ChunkLoadError') {
+    if (error.message === 'TokenError' || error.name === 'AbortError' || error.name === 'SecurityError' || error.name === 'ChunkLoadError') {
         return {
             abort: true
         };
@@ -118,7 +155,7 @@ const handleParseErrors = (error, url, isGet = false) => {
     // Offline mode (do not report error)
     if (error.name === 'TypeError' && error.message === 'Failed to fetch') {
         if (isGet) {
-            Notification.error(I18n.t('js.helpers.errors.no_network'));
+            Notification.message.error(I18n.t('js.helpers.errors.no_network'));
         }
 
         return {
@@ -143,37 +180,35 @@ const handleParseErrors = (error, url, isGet = false) => {
 };
 
 const handleFlashMessage = (response) => {
-    let flashMessage = response.headers.get('X-Flash-Messages');
+    if (response && response.headers) {
+        let flashMessage = response.headers.get('X-Flash-Messages');
 
-    // Article errors are managed in article component
-    if (flashMessage && !response.url?.match(/\/articles$/)) {
-        flashMessage = JSON.parse(decodeURIComponent(escape(flashMessage)));
+        if (flashMessage) {
+            flashMessage = JSON.parse(decodeURIComponent(escape(flashMessage)));
 
-        if (flashMessage?.success) {
-            Notification.success(flashMessage.success
-                .replace(/&amp;/g, '&')
-                .replace(/&gt;/g, '<')
-                .replace(/&lt;/g, '>')
-                .replace(/&quot;/g, '"')
-                .replace(/&#39;/g, "'"));
-        }
+            if (flashMessage?.success) {
+                Notification.message.success(flashMessage.success.replace(/&amp;/g, '&')
+                    .replace(/&gt;/g, '<')
+                    .replace(/&lt;/g, '>')
+                    .replace(/&quot;/g, '"')
+                    .replace(/&#39;/g, '\''));
+            }
 
-        if (flashMessage && (flashMessage.notice || flashMessage.alert)) {
-            Notification.alert((flashMessage.notice || flashMessage.alert)
-                .replace(/&amp;/g, '&')
-                .replace(/&gt;/g, '<')
-                .replace(/&lt;/g, '>')
-                .replace(/&quot;/g, '"')
-                .replace(/&#39;/g, "'"));
-        }
+            if (flashMessage && (flashMessage.notice || flashMessage.alert)) {
+                Notification.message.alert((flashMessage.notice || flashMessage.alert).replace(/&amp;/g, '&')
+                    .replace(/&gt;/g, '<')
+                    .replace(/&lt;/g, '>')
+                    .replace(/&quot;/g, '"')
+                    .replace(/&#39;/g, '\''));
+            }
 
-        if (flashMessage?.error) {
-            Notification.error(flashMessage.error
-                .replace(/&amp;/g, '&')
-                .replace(/&gt;/g, '<')
-                .replace(/&lt;/g, '>')
-                .replace(/&quot;/g, '"')
-                .replace(/&#39;/g, "'"));
+            if (flashMessage?.error) {
+                Notification.message.error(flashMessage.error.replace(/&amp;/g, '&')
+                    .replace(/&gt;/g, '<')
+                    .replace(/&lt;/g, '>')
+                    .replace(/&quot;/g, '"')
+                    .replace(/&#39;/g, '\''));
+            }
         }
     }
 
@@ -181,6 +216,10 @@ const handleFlashMessage = (response) => {
 };
 
 const handleResponse = (response) => {
+    if (!response.status) {
+        return response;
+    }
+
     if (response.bodyUsed) {
         return {
             errors: response.statusText
@@ -195,6 +234,8 @@ const handleResponse = (response) => {
     } else if (response.status !== 204) { // No content response
         return response.json();
     }
+
+    return response;
 };
 
 const handleTrackingData = (response) => {
@@ -206,10 +247,15 @@ const handleTrackingData = (response) => {
 };
 
 const api = {
-    get: (url, params) => {
-        const headers = getHeaders();
+    get: (url, params, external = false) => {
+        const headers = getHeaders(external);
         const parameters = stringify(params, {arrayFormat: 'brackets'});
-        const urlParams = `${url}.json${parameters !== '' ? '?' + parameters : ''}`;
+        let urlParams;
+        if (external) {
+            urlParams = url;
+        } else {
+            urlParams = `${url}.json${parameters !== '' ? '?' + parameters : ''}`;
+        }
 
         const controller = new AbortController();
         const signal = controller.signal;
@@ -240,6 +286,7 @@ const api = {
             method: 'POST',
             body: parameters
         })
+            .then((response) => handleTokenError(response, url, params, isData))
             .then((response) => handleResponseErrors(response, url))
             .then((response) => handleFlashMessage(response))
             .then((response) => handleResponse(response))
@@ -255,6 +302,7 @@ const api = {
             method: 'PUT',
             body: parameters
         })
+            .then((response) => handleTokenError(response, url, isData))
             .then((response) => handleResponseErrors(response, url))
             .then((response) => handleFlashMessage(response))
             .then((response) => handleResponse(response))

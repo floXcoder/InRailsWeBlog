@@ -33,6 +33,13 @@ module Api::V1
                      location: @location
       else
         respond_to do |format|
+          # Ensure to use the first format if format is */*
+          format.json do
+            clean_up_passwords resource
+            flash.now[:alert] = resource.errors.full_messages.to_sentence
+            respond_with resource
+          end
+
           format.html do
             clean_up_passwords resource
             respond_with resource
@@ -42,12 +49,6 @@ module Api::V1
             clean_up_passwords resource
             flash.now[:alert] = resource.errors.full_messages.to_sentence
             render template: 'devise/registrations/failure'
-          end
-
-          format.json do
-            clean_up_passwords resource
-            flash.now[:alert] = resource.errors.full_messages.to_sentence
-            respond_with resource
           end
         end
       end

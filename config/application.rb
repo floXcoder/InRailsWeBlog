@@ -15,7 +15,7 @@ Bundler.require(*Rails.groups)
 
 # Preload variables in application.yml to local ENV unless variables are already defined (by Gitlab runner for instance)
 unless ENV['CI_SERVER']
-  config = YAML.safe_load(File.read(File.expand_path('application.yml', __dir__)), [], [], true)
+  config = YAML.safe_load(File.read(File.expand_path('application.yml', __dir__)), aliases: true)
   config.merge!(config.fetch(Rails.env, {}))
   config.each do |key, value|
     ENV[key] = value.to_s unless value.is_a?(Hash)
@@ -25,7 +25,7 @@ end
 module InRailsWeBlog
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 6.1
+    config.load_defaults 7.0
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers
@@ -92,7 +92,8 @@ module InRailsWeBlog
     config.action_controller.default_protect_from_forgery = true
 
     # Use SHA-1 instead of MD5 to generate non-sensitive digests, such as the ETag header.
-    config.active_support.hash_digest_class = ::Digest::SHA1
+    config.active_support.key_generator_hash_digest_class = OpenSSL::Digest::SHA256
+    config.active_support.hash_digest_class               = OpenSSL::Digest::SHA256
 
     # Use sidekiq for ActiveJob (not working with letter_opener)
     config.active_job.queue_adapter = :sidekiq
@@ -114,9 +115,14 @@ module InRailsWeBlog
 
     # App-specific configuration
     config.x = config_for(:settings)
+
+    # Reload application with setting model
+    config.after_initialize do
+      InRailsWeBlog.config(force_reload: true)
+    end
   end
 
-  def self.config(reload = false)
-    reload ? @config = Setting.all_settings : @config ||= Setting.all_settings
+  def self.config(force_reload: false)
+    force_reload ? @config = ApplicationSettings.all_settings(force_reload: true) : @config ||= ApplicationSettings.all_settings
   end
 end

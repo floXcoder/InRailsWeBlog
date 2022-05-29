@@ -129,7 +129,7 @@ module Searches
         highlight_results[item.id][:title]   = highlights[:'title.analyzed'].presence || highlights[:title]
         highlight_results[item.id][:content] = highlights[:'content.analyzed'].presence || highlights[:content]
       end
-      formatted_results = format_search(results, highlight_results)
+      formatted_results = format_search(results.to_a, highlight_results)
 
       {
         suggestions:  results.suggestions,

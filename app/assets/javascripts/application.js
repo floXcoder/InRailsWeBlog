@@ -22,9 +22,11 @@ if (window.SENTRY_JAVASCRIPT_KEY && !window.seoMode) {
         ignoreErrors: [
             'TypeError: Failed to fetch',
             'TypeError: NetworkError when attempting to fetch resource.',
-            'TypeError: Cancelled',
+            'TypeError: cancelled',
+            'TypeError: annulé',
             'TypeError: Load failed',
             'UnknownError: Background Sync is disabled.',
+            'Error: QuotaExceededError: QuotaExceededError',
             /Loading CSS chunk/
         ]
         // beforeSend(event, hint) {

@@ -21,6 +21,7 @@ head itemscope="" itemtype="http://schema.org/WebSite"
   = favicon_link_tag 'logos/favicon-192x192.png', rel: 'icon', type: 'image/png', sizes: '192x192'
   
   = favicon_link_tag 'logos/apple-touch-icon.png', rel: 'apple-touch-icon', type: 'image/png'
+  = favicon_link_tag 'logos/favicon-192x192.png', rel: 'apple-touch-startup-image', type: 'image/png'
   
   / Manifest for PWA
   link rel="manifest" href="/manifest.webmanifest"
@@ -28,7 +29,7 @@ head itemscope="" itemtype="http://schema.org/WebSite"
   meta name="theme-color" content="#199332"
   / For iOS only
   meta name="apple-mobile-web-app-capable" content="yes"
-  meta name="apple-mobile-web-app-status-bar-style" content="black"
+  meta name="apple-mobile-web-app-status-bar-style" content="#199332"
   meta name="apple-mobile-web-app-title" content="#{ENV['WEBSITE_NAME']}"
   
   / RSS

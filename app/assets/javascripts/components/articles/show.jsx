@@ -578,7 +578,8 @@ class ArticleShow extends React.Component {
                     (this.props.article.allowComment && this.props.article.visibility !== 'only_me') &&
                     <div id={`article-comments-${this.props.article.id}`}
                          className="article-show-commentsContainer">
-                        <LazyLoader height={0}
+                        <LazyLoader loadOnmount={window.seoMode}
+                                    height={0}
                                     once={true}
                                     offset={50}>
                             <CommentBox commentableType="articles"

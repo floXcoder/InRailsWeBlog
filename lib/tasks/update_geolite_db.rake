@@ -9,8 +9,7 @@ namespace :InRailsWeBlog do
   desc 'Update Geolite2 City database'
   task :update_geolite_db do
     Rails.logger = ActiveRecord::Base.logger = Logger.new(STDOUT)
-    Rails.logger.level = Logger::WARN
-    Rails.logger.warn("#{Time.now} : Update Geolite task")
+    Rails.logger.level = Logger::INFO
 
     geolite_database = Rails.root.join('lib/geocoding/ip_db/GeoLite2-City.mmdb')
 
@@ -20,6 +19,8 @@ namespace :InRailsWeBlog do
     Zlib::GzipReader.open(URI.parse(db_url).open) do |gz|
       File.open(geolite_database, 'wb') { |file| file.write(gz.read) }
     end
+
+    Rails.logger.warn("#{Time.now} : Update Geolite task DONE")
   end
 
 end

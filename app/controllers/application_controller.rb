@@ -460,7 +460,7 @@ class ApplicationController < ActionController::Base
         redirect_back(fallback_location: send("home_#{I18n.locale}_path"))
       end
       format.json { render json: { errors: error_message }.to_json, status: :forbidden }
-      format.js { js_redirect_to(ERB::Util.html_escape(request.referer) || send("home_#{I18n.locale}_path")) }
+      format.js { js_redirect_to(ERB::Util.html_escape(request.referer) || root_path) }
       format.all { render body: nil, status: :forbidden }
     end
   end
@@ -482,8 +482,18 @@ class ApplicationController < ActionController::Base
   end
 
   def not_connected_error(exception)
+    token_problem = exception.is_a?(ActionController::InvalidAuthenticityToken)
+
     respond_to do |format|
-      format.json { render json: { errors: t('views.error.not_connected'), details: exception&.try(:message) }, status: :internal_server_error }
+      format.json do
+        render json:   {
+          errors:  t('views.error.not_connected'),
+          details: exception&.try(:message),
+          token:   token_problem ? form_authenticity_token : nil
+        },
+               status: token_problem ? :method_not_allowed : :unprocessable_entity
+      end
+
       format.html do
         flash.now[:error] = t('views.error.not_connected')
         if current_user
@@ -492,7 +502,10 @@ class ApplicationController < ActionController::Base
           render 'pages/default', locals: { status: 500 }, status: :internal_server_error, layout: 'application'
         end
       end
-      format.all { render body: nil, status: :internal_server_error }
+
+      format.all do
+        render body: nil, status: :unprocessable_entity
+      end
     end
   end
 
