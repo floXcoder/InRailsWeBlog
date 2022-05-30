@@ -2,16 +2,22 @@
 
 import DeleteIcon from '@mui/icons-material/DeleteOutline';
 
-const ArticleDeleteIcon = ({onDeleteClick, size, color}) => (
-    <span className="flow-tooltip-bottom"
-          data-tooltip={I18n.t('js.article.tooltip.delete')}>
-        <a href="#"
-           onClick={onDeleteClick}>
-           <DeleteIcon color={color}
-                       fontSize={size}/>
-        </a>
-    </span>
-);
+function ArticleDeleteIcon({
+                               onDeleteClick,
+                               size,
+                               color
+                           }) {
+    return (
+        <span className="flow-tooltip-bottom"
+              data-tooltip={I18n.t('js.article.tooltip.delete')}>
+            <a href="#"
+               onClick={onDeleteClick}>
+               <DeleteIcon color={color}
+                           fontSize={size}/>
+            </a>
+         </span>
+    );
+}
 
 
 ArticleDeleteIcon.propTypes = {

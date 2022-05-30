@@ -57,7 +57,11 @@ export default function articleMutationManager(mode) {
             fetchArticle,
             updateArticle
         })
-        @withRouter({location: true, params: true, navigate: true})
+        @withRouter({
+            location: true,
+            params: true,
+            navigate: true
+        })
         class ArticleMutationComponent extends React.Component {
             static displayName = `ArticleMutationManager(${getDisplayName(WrappedComponent)})`;
 
@@ -123,7 +127,7 @@ export default function articleMutationManager(mode) {
                     }
 
                     if (props.routeLocation.search.content) {
-                        Notification.success(I18n.t('js.article.clipboard'));
+                        Notification.message.success(I18n.t('js.article.clipboard'));
                     }
                 } else if (unsavedArticle?.length > 0) {
                     this.state.article = unsavedArticle.first().article;
@@ -164,9 +168,9 @@ export default function articleMutationManager(mode) {
             componentDidUpdate(prevProps) {
                 if (Utils.isPresent(this.props.articleErrors) && prevProps.articleErrors !== this.props.articleErrors) {
                     if (this.props.isTagError) {
-                        Notification.warn(this.props.articleErrors);
+                        Notification.message.warn(this.props.articleErrors);
                     } else {
-                        Notification.error(this.props.articleErrors);
+                        Notification.message.error(this.props.articleErrors);
                     }
                 }
             }
@@ -304,7 +308,7 @@ export default function articleMutationManager(mode) {
                             article: formData
                         }, false);
 
-                        Notification.alert(I18n.t('js.article.common.not_connected.message'));
+                        Notification.message.alert(I18n.t('js.article.common.not_connected.message'));
 
                         this.props.showUserLogin();
                     } else {
@@ -352,7 +356,9 @@ export default function articleMutationManager(mode) {
                     onFormChange: this._handleFormChange
                 };
 
-                return <WrappedComponent {...propsProxy}/>;
+                return (
+                    <WrappedComponent {...propsProxy}/>
+                );
             }
         }
 

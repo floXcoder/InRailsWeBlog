@@ -3,10 +3,6 @@
 import '../../../stylesheets/pages/article/sort.scss';
 
 import {
-    hot
-} from 'react-hot-loader/root';
-
-import {
     topicArticlesPath
 } from '../../constants/routesHelper';
 
@@ -39,7 +35,6 @@ export default @connect((state) => ({
     updateArticlePriority
 })
 @withRouter({params: true, navigate: true})
-@hot
 class ArticleSort extends React.Component {
     static propTypes = {
         // from router

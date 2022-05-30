@@ -1,9 +1,5 @@
 'use strict';
 
-import {
-    hot
-} from 'react-hot-loader/root';
-
 import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
 import List from '@mui/material/List';
@@ -29,7 +25,6 @@ export default @connect((state) => ({
 }), {
     fetchVisits
 })
-@hot
 class TrackingVisitModal extends React.Component {
     static propTypes = {
         date: PropTypes.string,

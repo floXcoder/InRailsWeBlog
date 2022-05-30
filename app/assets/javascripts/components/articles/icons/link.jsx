@@ -14,16 +14,27 @@ import {
     spyTrackClick
 } from '../../../actions';
 
-const ArticleLinkIcon = ({userSlug, articleId, articleSlug, articleUserId, articleTitle, articleTopicId, size, color}) => (
-    <span className="flow-tooltip-bottom"
-          data-tooltip={I18n.t('js.article.tooltip.link_to')}>
-        <Link to={userArticlePath(userSlug, articleSlug)}
-              onClick={spyTrackClick.bind(null, 'article', articleId, articleSlug, articleUserId, articleTitle, articleTopicId)}>
-            <AssignmentIcon color={color}
-                            fontSize={size}/>
-        </Link>
-    </span>
-);
+function ArticleLinkIcon({
+                             userSlug,
+                             articleId,
+                             articleSlug,
+                             articleUserId,
+                             articleTitle,
+                             articleTopicId,
+                             size,
+                             color
+                         }) {
+    return (
+        <span className="flow-tooltip-bottom"
+              data-tooltip={I18n.t('js.article.tooltip.link_to')}>
+            <Link to={userArticlePath(userSlug, articleSlug)}
+                  onClick={spyTrackClick.bind(null, 'article', articleId, articleSlug, articleUserId, articleTitle, articleTopicId)}>
+                <AssignmentIcon color={color}
+                                fontSize={size}/>
+            </Link>
+        </span>
+    );
+}
 
 ArticleLinkIcon.propTypes = {
     userSlug: PropTypes.string.isRequired,

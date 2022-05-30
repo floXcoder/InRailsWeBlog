@@ -6,7 +6,13 @@ import MenuItem from '@mui/material/MenuItem';
 
 import LanguageIcon from '@mui/icons-material/Language';
 
-const ArticleLanguageIcon = ({currentLocale, languages, onLanguageChange, size, color}) => {
+function ArticleLanguageIcon({
+                                 currentLocale,
+                                 languages,
+                                 onLanguageChange,
+                                 size,
+                                 color
+                             }) {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
 
@@ -50,7 +56,7 @@ const ArticleLanguageIcon = ({currentLocale, languages, onLanguageChange, size, 
           </Menu>
         </span>
     );
-};
+}
 
 ArticleLanguageIcon.propTypes = {
     currentLocale: PropTypes.string.isRequired,

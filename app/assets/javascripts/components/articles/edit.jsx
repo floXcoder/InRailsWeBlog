@@ -3,10 +3,6 @@
 import '../../../stylesheets/pages/article/form.scss';
 
 import {
-    hot
-} from 'react-hot-loader/root';
-
-import {
     ArticleShow
 } from '../loaders/components';
 
@@ -39,7 +35,6 @@ export default @articleMutationManager('edit')
     setCurrentTags,
     switchTagSidebar
 })
-@hot
 class ArticleEdit extends React.Component {
     static propTypes = {
         // from articleMutationManager

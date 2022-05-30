@@ -50,7 +50,8 @@ const MasonryWrapper = (ComponentCard, componentCardProps, ComponentExposed, com
     constructor(props) {
         super(props);
 
-        this._masonry = null;
+        this._masonryWrapperRef = React.createRef();
+        this._masonryComponentRef = React.createRef();
 
         if (props.isActive) {
             MasonryLoader(({Masonry}) => {
@@ -78,14 +79,14 @@ const MasonryWrapper = (ComponentCard, componentCardProps, ComponentExposed, com
     };
 
     componentDidMount() {
-        if (this.props.isActive && this._masonry) {
-            this._masonry.layout();
+        if (this.props.isActive && this._masonryComponentRef?.current) {
+            this._masonryComponentRef.current.layout();
         }
     }
 
     // componentDidUpdate() {
-    //     if (this.props.isActive && this._masonry) {
-    //         this._masonry.layout();
+    //     if (this.props.isActive && this._masonryComponentRef?.current) {
+    //         this._masonryComponentRef.current.layout();
     //     }
     // }
 
@@ -120,9 +121,16 @@ const MasonryWrapper = (ComponentCard, componentCardProps, ComponentExposed, com
             exposedComponents[elementId] = true;
 
             setTimeout(() => {
-                const {pageYOffset} = window;
-                const elementTop = pageYOffset + ReactDOM.findDOMNode(this.refs[elementId]).getBoundingClientRect().top - (this.props.topOffset || 0);
-                window.scroll({top: elementTop, behavior: 'smooth'});
+                const {
+                    pageYOffset
+                } = window;
+                const masonryWrapperNode = this._masonryWrapperRef.current;
+                const elementTop = pageYOffset + masonryWrapperNode.getBoundingClientRect().top - (this.props.topOffset || 0);
+
+                window.scroll({
+                    top: elementTop,
+                    behavior: 'smooth'
+                });
             }, TRANSITION_DURATION);
         }
         this.setState({
@@ -146,12 +154,13 @@ const MasonryWrapper = (ComponentCard, componentCardProps, ComponentExposed, com
                 }
             );
 
-            const elementType = {};
-            elementType[this.props.type] = element;
+            const elementType = {
+                [this.props.type]: element
+            };
 
             return (
                 <div key={`${element.id}-${i}`}
-                     ref={element.id}
+                     ref={this._masonryWrapperRef}
                      className={itemClasses}>
                     {
                         (this.props.hasExposedMode && exposedComponents[element.id])
@@ -206,7 +215,7 @@ const MasonryWrapper = (ComponentCard, componentCardProps, ComponentExposed, com
                     <this.state.Masonry className="masonry-grid"
                                         elementType="div"
                                         options={this.state.masonryOptions}
-                                        ref={(ref) => this._masonry = ref?.masonry}>
+                                        ref={this._masonryComponentRef}>
                         {ComponentNodes}
                     </this.state.Masonry>
                 }

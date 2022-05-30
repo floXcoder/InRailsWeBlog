@@ -1,19 +1,14 @@
 'use strict';
 
-import {
-    hot
-} from 'react-hot-loader/root';
-
 import Container from '@mui/material/Container';
 
-export default @hot
-class UserConfirmation extends React.Component {
+export default class UserConfirmation extends React.Component {
     static propTypes = {
-        confirmationToken: PropTypes.string,
+        confirmationToken: PropTypes.string
     };
 
     static defaultProps = {
-        confirmationToken: (new URL(window.location)).searchParams.get('confirmation_token') || null,
+        confirmationToken: (new URL(window.location)).searchParams.get('confirmation_token') || null
     };
 
     constructor(props) {

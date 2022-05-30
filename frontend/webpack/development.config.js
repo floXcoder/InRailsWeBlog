@@ -6,6 +6,7 @@ const sane = require('sane');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 // const WorkboxPlugin = require('workbox-webpack-plugin');
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
@@ -13,8 +14,6 @@ const config = require('../config').webpack;
 let webPackConfig = module.exports = require('./main.config');
 
 webPackConfig.mode = 'development';
-
-webPackConfig.resolve.alias['react-dom'] = path.resolve('node_modules/@hot-loader/react-dom');
 
 webPackConfig.output = _.merge(webPackConfig.output, {
     filename: config.development.filename + '.js'
@@ -31,6 +30,15 @@ webPackConfig = _.merge(webPackConfig, {
 
     devtool: 'cheap-module-source-map',
     // devtool: 'eval',
+
+    experiments: {
+        asyncWebAssembly: true,
+        layers: true,
+        lazyCompilation: false,
+        outputModule: true,
+        syncWebAssembly: true,
+        topLevelAwait: true
+    },
 
     stats: {
         colors: true,
@@ -90,7 +98,7 @@ webPackConfig = _.merge(webPackConfig, {
             disableDotRule: true
         },
         client: {
-            logging: 'info',
+            logging: 'warn',
             overlay: true,
             progress: true,
             webSocketURL: {
@@ -100,14 +108,20 @@ webPackConfig = _.merge(webPackConfig, {
             }
         },
         // Use sane to monitor all of the templates files and sub-directories
-        onBeforeSetupMiddleware: (devServer) => {
+        setupMiddlewares: (middlewares, devServer) => {
+            if (!devServer) {
+                throw new Error('webpack-dev-server is not defined');
+            }
+
             const watcher = sane(path.join(__dirname, '../..'), {
                 glob: config.development.watchPath
             });
-            watcher.on('change', function (/* filePath, root, stat */) {
+            watcher.on('change', function (/* filePath */) {
                 // console.log('  File modified:', filePath);
                 devServer.sendMessage(devServer.webSocketServer.clients, 'content-changed');
             });
+
+            return middlewares;
         }
     }
 });
@@ -189,6 +203,7 @@ webPackConfig.plugins.push(
         filename: config.development.filename + '.css',
         chunkFilename: config.development.chunkFilename + '.css'
     }),
+    new ReactRefreshWebpackPlugin(),
     // new WorkboxPlugin.GenerateSW({
     //     swDest: config.serviceWorker.dest,
     //     inlineWorkboxRuntime: true,

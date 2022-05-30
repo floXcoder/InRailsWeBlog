@@ -41,9 +41,9 @@ export default class AssociatedTagBox extends React.Component {
         return (
             <div className="center-align">
                 {
-                    this.state.associatedTags &&
-                    <AssociatedTagList tags={this.state.associatedTags}
-                                       onClickTag={this._handleTagClick}/>
+                    // this.state.associatedTags &&
+                    // <AssociatedTagList tags={this.state.associatedTags}
+                    //                    onClickTag={this._handleTagClick}/>
                 }
 
                 <div className={classNames({

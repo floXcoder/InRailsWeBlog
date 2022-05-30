@@ -134,6 +134,7 @@ const SignupForm = function ({onSubmit, onCancel}) {
                                        className="user-connection-textField"
                                        label={I18n.t('js.user.signup.email')}
                                        required={true}
+                                       type="email"
                                        variant="standard"
                                        color="primary"
                                        InputProps={{

@@ -40,7 +40,7 @@ export default class ErrorBoundary extends React.Component {
         });
 
         if (this.props.errorType === 'notification') {
-            Notification.error(this.state.errorTitle);
+            Notification.message.error(this.state.errorTitle);
         }
 
         pushError(error, info);

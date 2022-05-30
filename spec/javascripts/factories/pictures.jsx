@@ -1,6 +1,6 @@
 'use strict';
 
-import faker from 'faker';
+const { faker } = require('@faker-js/faker');
 
 module.exports = (props = {}) => ({
     description: props.defined ? 'picture description' : faker.lorem.paragraphs(2),

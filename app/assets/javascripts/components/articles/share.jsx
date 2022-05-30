@@ -2,10 +2,6 @@
 
 import '../../../stylesheets/pages/article/share.scss';
 
-import {
-    hot
-} from 'react-hot-loader/root';
-
 import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
@@ -23,7 +19,6 @@ export default @connect((state) => ({
     shareArticle
 })
 @withRouter({navigate: true})
-@hot
 class ShareArticleModal extends React.Component {
     static propTypes = {
         // from router

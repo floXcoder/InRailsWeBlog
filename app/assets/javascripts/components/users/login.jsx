@@ -35,7 +35,7 @@ class UserLogin extends React.PureComponent {
         this.props.loginUser(values)
             .then((response) => {
                 if (response?.errors) {
-                    Notification.error(response.errors);
+                    Notification.message.error(response.errors);
                     // window.location.replace('/');
                 } else if (response.user) {
                     // Add timestamp to ensure page is not cached

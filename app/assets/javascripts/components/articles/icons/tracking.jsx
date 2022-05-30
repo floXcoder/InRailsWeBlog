@@ -10,20 +10,27 @@ import {
     trackingArticleParam
 } from '../../../constants/routesHelper';
 
-const ArticleTrackingIcon = ({articleId, size, color}) => (
-    <span className="flow-tooltip-bottom"
-          data-tooltip={I18n.t('js.article.tooltip.tracking')}>
-        <Link to={{
-            hash: '#' + trackingArticleParam,
-            state: {
-                articleId
-            }
-        }}>
-            <ExploreIcon color={color}
-                         fontSize={size}/>
-        </Link>
-    </span>
-);
+
+function ArticleTrackingIcon({
+                                 articleId,
+                                 size,
+                                 color
+                             }) {
+    return (
+        <span className="flow-tooltip-bottom"
+              data-tooltip={I18n.t('js.article.tooltip.tracking')}>
+            <Link to={{
+                hash: '#' + trackingArticleParam,
+                state: {
+                    articleId
+                }
+            }}>
+                <ExploreIcon color={color}
+                             fontSize={size}/>
+            </Link>
+        </span>
+    );
+}
 
 
 ArticleTrackingIcon.propTypes = {

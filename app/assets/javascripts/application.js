@@ -1,12 +1,12 @@
 'use strict';
 
-import PWAManager from './modules/pwaManager';
-
 // Error reporting
 import {
     init as SentryInit,
     configureScope as SentryConfigureScope
 } from '@sentry/browser';
+
+import PWAManager from './modules/pwaManager';
 
 // Auto polyfill
 require('./polyfills');

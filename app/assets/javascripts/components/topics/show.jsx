@@ -3,10 +3,6 @@
 import '../../../stylesheets/pages/topic/show.scss';
 
 import {
-    hot
-} from 'react-hot-loader/root';
-
-import {
     Link
 } from 'react-router-dom';
 
@@ -49,7 +45,6 @@ export default @connect((state) => ({
     deleteTopic
 })
 @withRouter({params: true})
-@hot
 class TopicShow extends React.Component {
     static propTypes = {
         initProps: PropTypes.object,

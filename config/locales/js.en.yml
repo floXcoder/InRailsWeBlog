@@ -1138,7 +1138,8 @@ en:
     cookies:
       title: "This website uses cookies"
       content: "Our website uses cookies to personalize and improve your comfort of use. By continuing to browse this site, you accept our personal data protection policy and our policy cookies."
-      button: "I agree"
+      accept_button: "I agree"
+      reject_button: "I refuse"
       link: "Change parameters"
       details: "Cookies guarantee an optimal browsing experience.\nClick on each category to enable or disable the use of cookies.  The coloured button indicates whether cookies are active (green) or inactive (grey)."
       website:

@@ -1,9 +1,9 @@
 'use strict';
 
-import faker from 'faker';
+const { faker } = require('@faker-js/faker');
 
 module.exports = (props = {}) => ({
-    pseudo: props.defined ? 'user pseudo' : faker.name.title(),
+    pseudo: props.defined ? 'user pseudo' : faker.name.firstName(),
     email: props.defined ? 'user@email.com' : faker.internet.email(),
     firstName: props.defined ? 'user first name' : faker.internet.userName(),
     lastName: props.defined ? 'user last name' : faker.internet.userName(),

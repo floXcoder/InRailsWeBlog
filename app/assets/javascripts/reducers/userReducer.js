@@ -4,7 +4,8 @@ import * as ActionTypes from '../constants/actionTypes';
 
 import {
     fetchReducer,
-    mutationReducer
+    mutationReducer,
+    removeIn
 } from './mutators';
 
 const initState = {
@@ -39,40 +40,42 @@ export default function userReducer(state = initState, action) {
                 state.users = [];
             }
 
-            return fetchReducer(state, action, (state) => {
+            return fetchReducer(state, action, (newState) => {
                 if (action.connection) {
                     window.currentUserId = action.user.id;
                     window.currentSlug = action.user.slug;
 
-                    state.isConnected = true;
-                    state.currentId = action.user.id;
-                    state.currentSlug = action.user.slug;
-                    state.user = action.user;
+                    newState.isConnected = true;
+                    newState.currentId = action.user.id;
+                    newState.currentSlug = action.user.slug;
+                    newState.user = action.user;
                 } else if (action.user) {
-                    state.user = action.user;
+                    newState.user = action.user;
                 } else {
-                    state.users = action.users;
+                    newState.users = action.users;
                 }
             });
 
         case ActionTypes.USER_CHANGE_INIT:
         case ActionTypes.USER_CHANGE_SUCCESS:
         case ActionTypes.USER_CHANGE_ERROR:
-            return mutationReducer(state, action, (state) => {
+            return mutationReducer(state, action, (newState) => {
                 if (action.connection && action.user) {
                     window.currentUserId = action.user.id;
                     window.currentSlug = action.user.slug;
 
-                    state.isConnected = true;
-                    state.currentId = action.user.id;
-                    state.currentSlug = action.user.slug;
-                    state.user = action.user;
+                    newState.isConnected = true;
+                    newState.currentId = action.user.id;
+                    newState.currentSlug = action.user.slug;
+                    newState.user = action.user;
                 } else if (action.settings && (!action.meta || !action.meta.topic)) {
-                    state.user = state.user && {...state.user, settings: action.settings};
+                    newState.user = state.user && {...newState.user, settings: action.settings};
                 } else if (action.user) {
-                    state.user = action.user;
+                    newState.user = action.user;
+                } else if (action.removedId) {
+                    removeIn(newState.topics, action.removedId);
                 } else {
-                    state.isConnected = false;
+                    newState.isConnected = false;
                 }
             });
 

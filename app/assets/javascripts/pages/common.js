@@ -1,13 +1,5 @@
 'use strict';
 
-import {
-    setConfig
-} from 'react-hot-loader';
-
-setConfig({
-    reloadHooks: false
-});
-
 require('../application');
 
 // Flash messages
@@ -23,13 +15,16 @@ Array.prototype.forEach.call(flashes, function (element) {
         }
     }
 
-    if (level === 'success') {
-        Notification.success(element.innerHTML);
-    } else if (level === 'error') {
-        Notification.error(element.innerHTML);
-    } else {
-        Notification.alert(element.innerHTML);
-    }
+    // Let's the Notification component initialize
+    setTimeout(function () {
+        if (level === 'success') {
+            Notification.message.success(element.innerHTML);
+        } else if (level === 'error') {
+            Notification.message.error(element.innerHTML);
+        } else {
+            Notification.message.alert(element.innerHTML);
+        }
+    }, 300);
 
     if (sessionStorage) {
         sessionStorage.setItem(`flash-message-${token}`, 'true');

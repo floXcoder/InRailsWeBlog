@@ -128,15 +128,17 @@ const performSearch = (searchParams, options = {}) => (dispatch) => {
             search: searchParams
         })
         .promise
-        .then((json) => {
-            if (json.errors) {
-                Notification.error(json.errors);
+        .then((response) => {
+            if (!response || response.errors) {
+                if (response.errors) {
+                    Notification.message.error(response.errors);
+                }
 
-                return dispatch(failSearch(json));
+                return dispatch(failSearch(response));
             } else {
-                spySearchResults(searchParams, json);
+                spySearchResults(searchParams, response);
 
-                return dispatch(receiveSearch(searchParams, json, options));
+                return dispatch(receiveSearch(searchParams, response, options));
             }
         });
 };

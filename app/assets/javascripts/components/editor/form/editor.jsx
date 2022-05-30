@@ -6,22 +6,31 @@ import {
 
 import ErrorForm from '../../materialize/form/error';
 
-const EditorField = ({input, meta: {touched, error}, componentContent, ...custom}) => (
-    <>
-        <Editor {...input}
-                hasError={touched && !!error}
-                {...custom}>
-            {componentContent || input.value}
-        </Editor>
+function EditorField({input,
+                         meta: {
+                             touched,
+                             error
+                         },
+                         componentContent,
+                         ...custom
+                     }) {
+    return (
+        <>
+            <Editor {...input}
+                    hasError={touched && !!error}
+                    {...custom}>
+                {componentContent || input.value}
+            </Editor>
 
-        {
-            touched && error &&
-            <ErrorForm hasIcon={custom && !!custom.icon}>
-                {error}
-            </ErrorForm>
-        }
-    </>
-);
+            {
+                touched && error &&
+                <ErrorForm hasIcon={custom && !!custom.icon}>
+                    {error}
+                </ErrorForm>
+            }
+        </>
+    );
+}
 
 EditorField.propTypes = {
     input: PropTypes.object.isRequired,

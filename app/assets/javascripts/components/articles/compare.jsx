@@ -2,10 +2,6 @@
 
 import '../../../stylesheets/pages/article/compare.scss';
 
-import {
-    hot
-} from 'react-hot-loader/root';
-
 import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
 import InputLabel from '@mui/material/InputLabel';
@@ -31,7 +27,6 @@ export default @connect((state) => ({
     fetchArticle
 })
 @withRouter({navigate: true})
-@hot
 class TrackingCompareModal extends React.Component {
     static propTypes = {
         // from router

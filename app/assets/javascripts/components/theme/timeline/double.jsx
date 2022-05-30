@@ -1,10 +1,12 @@
 'use strict';
 
-const DoubleTimeline = ({children}) => (
-    <div className="double-timeline">
-        {children}
-    </div>
-);
+function DoubleTimeline({children}) {
+    return (
+        <div className="double-timeline">
+            {children}
+        </div>
+    );
+}
 
 DoubleTimeline.propTypes = {
     children: PropTypes.array.isRequired

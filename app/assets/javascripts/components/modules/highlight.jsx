@@ -26,6 +26,8 @@ export default function highlight(highlightOnShow = true) {
                 this._unmounted = false;
 
                 this._highlightTimeout = null;
+
+                this._wrapperRef = React.createRef();
             }
 
             componentDidMount() {
@@ -73,8 +75,8 @@ export default function highlight(highlightOnShow = true) {
             };
 
             _checkNodesPresence = () => {
-                const domNode = ReactDOM.findDOMNode(this);
-                const nodes = domNode.querySelectorAll('pre');
+                const wrapperNode = this._wrapperRef.current;
+                const nodes = wrapperNode.querySelectorAll('pre');
 
                 return !!nodes.length;
             };
@@ -97,8 +99,8 @@ export default function highlight(highlightOnShow = true) {
                     return;
                 }
 
-                const domNode = ReactDOM.findDOMNode(this);
-                const nodes = domNode.querySelectorAll('pre');
+                const wrapperNode = this._wrapperRef.current;
+                const nodes = wrapperNode.querySelectorAll('pre');
                 if (nodes.length > 0) {
                     for (let i = 0; i < nodes.length; i += 1) {
                         this._highlighter.highlightElement(nodes[i]);
@@ -112,7 +114,11 @@ export default function highlight(highlightOnShow = true) {
                     onShow: this._handleShow
                 };
 
-                return <WrappedComponent {...propsProxy} />;
+                return (
+                    <div ref={this._wrapperRef}>
+                        <WrappedComponent {...propsProxy}/>
+                    </div>
+                );
             }
         };
     };

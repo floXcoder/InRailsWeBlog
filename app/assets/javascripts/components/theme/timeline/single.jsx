@@ -2,11 +2,13 @@
 
 import '../../../../stylesheets/components/single-timeline.scss';
 
-const SingleTimeline = ({children}) => (
-    <ul className="single-timeline">
-        {children}
-    </ul>
-);
+function SingleTimeline({children}) {
+    return (
+        <ul className="single-timeline">
+            {children}
+        </ul>
+    );
+}
 
 SingleTimeline.propTypes = {
     children: PropTypes.array.isRequired

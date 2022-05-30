@@ -42,43 +42,43 @@ export default function topicReducer(state = initState, action) {
                 state.topics = [];
             }
 
-            return fetchReducer(state, action, (state) => {
+            return fetchReducer(state, action, (newState) => {
                 if (action.isSwitching) {
                     window.currentUserTopicId = action.topic.id;
 
-                    state.currentUserTopicId = action.topic.id;
-                    state.currentUserTopicSlug = action.topic.slug;
-                    state.currentTopic = action.topic;
+                    newState.currentUserTopicId = action.topic.id;
+                    newState.currentUserTopicSlug = action.topic.slug;
+                    newState.currentTopic = action.topic;
 
-                    if (action.topic.mode === 'stories') {
+                    if (newState.topic.mode === 'stories') {
                         state.storyTopic = action.topic;
                     } else {
-                        state.storyTopic = undefined;
+                        newState.storyTopic = undefined;
                     }
                 } else if (action.topic) {
-                    state.topic = action.topic;
+                    newState.topic = action.topic;
                 } else {
-                    state.topics = action.topics || [];
+                    newState.topics = action.topics || [];
                 }
             });
 
         case ActionTypes.TOPIC_CHANGE_INIT:
         case ActionTypes.TOPIC_CHANGE_SUCCESS:
         case ActionTypes.TOPIC_CHANGE_ERROR:
-            return mutationReducer(state, action, (state) => {
+            return mutationReducer(state, action, (newState) => {
                 if (action.priority) {
                     // User topics are returned after priority changed
-                    state.userTopics = action.topics;
+                    newState.userTopics = action.topics;
                 } else {
-                    state.topic = action.topic;
+                    newState.topic = action.topic;
                     if (action.removedId) {
-                        state.userTopics = removeIn(state.userTopics, action.removedId);
+                        newState.userTopics = removeIn(newState.userTopics, action.removedId);
                     } else {
-                        state.userTopics = addOrReplaceIn(state.userTopics, action.topic);
+                        newState.userTopics = addOrReplaceIn(newState.userTopics, action.topic);
                     }
-                    state.currentUserTopicId = (action.topic?.id) === (state.currentTopic?.id) || findItemIndex(state.userTopics, action.topic?.id) !== -1 ? (action.topic && action.topic.id) : state.currentUserTopicId;
-                    state.currentUserTopicSlug = (action.topic?.id) === (state.currentTopic?.id) || findItemIndex(state.userTopics, action.topic?.id) !== -1 ? (action.topic?.slug) : state.currentUserTopicSlug;
-                    state.currentTopic = (action.topic?.id) === (state.currentTopic?.id) || findItemIndex(state.userTopics, action.topic?.id) !== -1 ? action.topic : state.currentTopic;
+                    newState.currentUserTopicId = (action.topic?.id) === (newState.currentTopic?.id) || findItemIndex(newState.userTopics, action.topic?.id) !== -1 ? (action.topic && action.topic.id) : newState.currentUserTopicId;
+                    newState.currentUserTopicSlug = (action.topic?.id) === (newState.currentTopic?.id) || findItemIndex(newState.userTopics, action.topic?.id) !== -1 ? (action.topic?.slug) : newState.currentUserTopicSlug;
+                    newState.currentTopic = (action.topic?.id) === (newState.currentTopic?.id) || findItemIndex(newState.userTopics, action.topic?.id) !== -1 ? action.topic : newState.currentTopic;
                 }
             });
 

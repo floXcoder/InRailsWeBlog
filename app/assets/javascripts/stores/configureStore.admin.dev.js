@@ -7,7 +7,7 @@ import {
 
 import {
     composeWithDevTools
-} from 'redux-devtools-extension';
+} from '@redux-devtools/extension';
 
 import thunk from 'redux-thunk';
 

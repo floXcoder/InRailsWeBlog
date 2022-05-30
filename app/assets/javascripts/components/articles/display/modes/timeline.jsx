@@ -1,9 +1,5 @@
 'use strict';
 
-import {
-    hot
-} from 'react-hot-loader/root';
-
 import AssignmentIcon from '@mui/icons-material/Assignment';
 
 import ArticleSummaryDisplay from '../items/summary';
@@ -12,7 +8,6 @@ export default @connect((state) => ({
     articles: state.articleState.articles,
     articleDisplayMode: state.uiState.articleDisplayMode
 }))
-@hot
 class ArticleTimelineMode extends React.Component {
     static propTypes = {
         topicVisibility: PropTypes.string,

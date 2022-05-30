@@ -50,26 +50,27 @@ export default function mutationMiddleware({dispatch}) {
             type: requestType
         });
 
-        return mutationAPI().then(
-            (response) => {
-                if (response?.errors) {
-                    return dispatch({
-                        ...payload,
-                        errors: response.errors,
-                        isProcessing: false,
-                        type: failureType
-                    });
-                } else if (response?.redirect) {
-                    window.location = response.redirect;
-                } else {
-                    return dispatch({
-                        ...payload,
-                        ...convertJsonApi(response),
-                        isProcessing: false,
-                        type: successType
-                    });
+        return mutationAPI()
+            .then(
+                (response) => {
+                    if (response?.redirect) {
+                        window.location = response.redirect;
+                    } else if (response?.errors) {
+                        return dispatch({
+                            ...payload,
+                            errors: response.errors,
+                            isProcessing: false,
+                            type: failureType
+                        });
+                    } else {
+                        return dispatch({
+                            ...payload,
+                            ...convertJsonApi(response),
+                            isProcessing: false,
+                            type: successType
+                        });
+                    }
                 }
-            }
-        );
+            );
     };
 }

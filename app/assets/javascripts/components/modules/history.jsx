@@ -59,7 +59,9 @@ export default function history(WrappedComponent) {
                 onHistoryChanged: this.watchHistory
             };
 
-            return <WrappedComponent {...propsProxy} />;
+            return (
+                <WrappedComponent {...propsProxy} />
+            );
         }
     };
 }

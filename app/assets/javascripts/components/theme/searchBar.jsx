@@ -10,20 +10,26 @@ const _handleSubmit = () => {
     return false;
 };
 
-const SearchBar = ({classes, label, onSearchInput}) => (
-    <form className="tag-search"
-          noValidate={true}
-          onSubmit={_handleSubmit}>
-        <TextField id="filter-text-input"
-                   classes={{
-                       root: classes
-                   }}
-                   label={label}
-                   margin="normal"
-                   variant="standard"
-                   onChange={_handleSearchChange.bind(null, onSearchInput)}/>
-    </form>
-);
+function SearchBar({
+                       classes,
+                       label,
+                       onSearchInput
+                   }) {
+    return (
+        <form className="tag-search"
+              noValidate={true}
+              onSubmit={_handleSubmit}>
+            <TextField id="filter-text-input"
+                       classes={{
+                           root: classes
+                       }}
+                       label={label}
+                       margin="normal"
+                       variant="standard"
+                       onChange={_handleSearchChange.bind(null, onSearchInput)}/>
+        </form>
+    );
+}
 
 SearchBar.propTypes = {
     label: PropTypes.string.isRequired,

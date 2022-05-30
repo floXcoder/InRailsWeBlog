@@ -1,9 +1,5 @@
 'use strict';
 
-import {
-    hot
-} from 'react-hot-loader/root';
-
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 
@@ -31,7 +27,6 @@ export default @connect((state) => ({
     updateSeoData,
     deleteSeoData
 })
-@hot
 class AdminSeoData extends React.Component {
     static propTypes = {
         seoPages: PropTypes.array.isRequired,

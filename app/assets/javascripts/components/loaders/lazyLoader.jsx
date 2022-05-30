@@ -105,15 +105,21 @@ class LazyLoader extends React.Component {
 //     </LazyLoader>
 // );
 
-const LazyLoaderFactory = ({module, props = {}}) => (
-    <LazyLoader module={module}>
-        {
-            (Component) => (
-                <Component {...props}/>
-            )
-        }
-    </LazyLoader>
-);
+function LazyLoaderFactory({
+                               module,
+                               props = {}
+                           }) {
+    return (
+        <LazyLoader module={module}>
+            {
+                (Component) => (
+                    <Component {...props}/>
+                )
+            }
+        </LazyLoader>
+    );
+}
+
 LazyLoaderFactory.propTypes = {
     module: PropTypes.object,
     props: PropTypes.object

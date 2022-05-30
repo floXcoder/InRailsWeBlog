@@ -3,10 +3,6 @@
 import '../../../stylesheets/pages/article/show.scss';
 
 import {
-    hot
-} from 'react-hot-loader/root';
-
-import {
     Link
 } from 'react-router-dom';
 
@@ -76,7 +72,11 @@ import ArticleMiniCardDisplay from './display/items/miniCard';
 import ArticleSkeleton from '../loaders/skeletons/article';
 
 
-export default @withRouter({location: true, params: true, navigate: true})
+export default @withRouter({
+    location: true,
+    params: true,
+    navigate: true
+})
 @connect((state, props) => ({
     currentUserSlug: state.userState.currentSlug,
     currentUser: getCurrentUser(state),
@@ -101,7 +101,6 @@ export default @withRouter({location: true, params: true, navigate: true})
     showUserSignup
 })
 @highlight(false)
-@hot
 class ArticleShow extends React.Component {
     static propTypes = {
         initProps: PropTypes.object,
@@ -204,7 +203,8 @@ class ArticleShow extends React.Component {
 
     _checkArticleLanguages = () => {
         if (this.props.article && !this.props.isOwner && !window.seoMode) {
-            const visitorLanguage = (navigator.language || navigator.userLanguage)?.split('-')?.first();
+            const visitorLanguage = (navigator.language || navigator.userLanguage)?.split('-')
+                ?.first();
 
             if (visitorLanguage && visitorLanguage !== window.locale && this.props.article.slugTranslations && this.props.article.slugTranslations[visitorLanguage] && this.props.article.languages?.length > 1 && this.props.article.languages.includes(visitorLanguage)) {
                 const message = {
@@ -222,7 +222,7 @@ class ArticleShow extends React.Component {
                     // es: 'Ver'
                 };
 
-                Notification.success(message[visitorLanguage], button[visitorLanguage], () => window.location.replace(userArticlePath(this.props.routeParams.userSlug, this.props.article.slugTranslations[visitorLanguage], visitorLanguage)));
+                Notification.message.success(message[visitorLanguage], button[visitorLanguage], () => window.location.replace(userArticlePath(this.props.routeParams.userSlug, this.props.article.slugTranslations[visitorLanguage], visitorLanguage)));
             }
         }
     };
@@ -238,20 +238,20 @@ class ArticleShow extends React.Component {
 
         if (this.props.article.outdated) {
             this.props.unmarkArticleOutdated(this.props.article.id)
-                .then((response) => response?.errors && Notification.error(response.errors));
+                .then((response) => response?.errors && Notification.message.error(response.errors));
         } else {
             this.props.markArticleOutdated(this.props.article.id)
-                .then((response) => response?.errors && Notification.error(response.errors));
+                .then((response) => response?.errors && Notification.message.error(response.errors));
         }
     };
 
     _handleCheckLinkClick = (event) => {
         event.preventDefault();
 
-        Notification.warn(I18n.t('js.article.common.dead_links.checking'));
+        Notification.message.warn(I18n.t('js.article.common.dead_links.checking'));
 
         this.props.checkLinksArticle(this.props.article.id)
-            .then(() => Notification.success(I18n.t('js.article.common.dead_links.done')));
+            .then(() => Notification.message.success(I18n.t('js.article.common.dead_links.done')));
     };
 
     _handleDeleteClick = (event) => {
@@ -283,7 +283,8 @@ class ArticleShow extends React.Component {
             );
         }
 
-        const currentTopicSlug = this.props.article.slug.split('@').last();
+        const currentTopicSlug = this.props.article.slug.split('@')
+            .last();
 
         const isStoryMode = this.props.article.mode === 'story' && !!this.props.storyTopic && this.props.storyTopic.slug === currentTopicSlug;
 

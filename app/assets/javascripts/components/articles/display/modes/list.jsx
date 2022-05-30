@@ -5,10 +5,6 @@ import {
 } from 'react';
 
 import {
-    hot
-} from 'react-hot-loader/root';
-
-import {
     TransitionGroup,
     CSSTransition
 } from 'react-transition-group';
@@ -24,7 +20,6 @@ export default @connect((state, props) => ({
     orderedArticles: getOrderedArticles(state, props),
     articleDisplayMode: state.uiState.articleDisplayMode
 }))
-@hot
 class ArticleListMode extends React.Component {
     static propTypes = {
         isMinimized: PropTypes.bool,

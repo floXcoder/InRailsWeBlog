@@ -1138,7 +1138,8 @@ fr:
     cookies:
       title: "Ce site utilise des cookies"
       content: "Notre site utilise des cookies pour personnaliser et améliorer votre confort d'utilisation. En poursuivant votre navigation sur ce site, vous acceptez notre politique de protection des données personnelles et notre politique cookies."
-      button: "J'accepte"
+      accept_button: "J'accepte"
+      reject_button: "Je refuse"
       link: "Je paramètre"
       details: "Les cookies garantissent une expérience de navigation optimale.\nCliquez sur chaque catégorie pour activer ou désactiver l’utilisation des cookies. Le bouton de couleur indique si les cookies sont actifs (vert) ou inactifs (gris)."
       website:

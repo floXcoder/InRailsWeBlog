@@ -3,10 +3,6 @@
 import '../../../stylesheets/pages/tag/index.scss';
 
 import {
-    hot
-} from 'react-hot-loader/root';
-
-import {
     Link
 } from 'react-router-dom';
 
@@ -57,7 +53,6 @@ export default @connect((state) => ({
     fetchTopic
 })
 @withRouter({params: true})
-@hot
 class TagIndex extends React.Component {
     static propTypes = {
         // from router

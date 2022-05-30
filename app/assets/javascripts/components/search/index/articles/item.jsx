@@ -73,28 +73,29 @@ export default class ArticleSearchItemDisplay extends React.Component {
                         this.props.article.scrapResults &&
                         <div className="search-index-articleLinksResults">
                             {
-                                this.props.article.scrapResults.slice(1).map((resultsByLink, i) => (
-                                    <div key={i}>
-                                        <a href={this.props.article.scrapResults[0]}>
-                                            {this.props.article.scrapResults[0]}
-                                        </a>
+                                this.props.article.scrapResults.slice(1)
+                                    .map((resultsByLink, i) => (
+                                        <div key={i}>
+                                            <a href={this.props.article.scrapResults[0]}>
+                                                {this.props.article.scrapResults[0]}
+                                            </a>
 
-                                        <ul>
+                                            <ul>
+                                                {
+                                                    resultsByLink.map((result, j) => (
+                                                        <li key={j}>
+                                                            {result}
+                                                        </li>
+                                                    ))
+                                                }
+                                            </ul>
+
                                             {
-                                                resultsByLink.map((result, j) => (
-                                                    <li key={j}>
-                                                        {result}
-                                                    </li>
-                                                ))
+                                                i !== this.props.article.scrapResults.length - 2 &&
+                                                <Divider className="margin-top-5 margin-bottom-15"/>
                                             }
-                                        </ul>
-
-                                        {
-                                            i !== this.props.article.scrapResults.length - 2 &&
-                                            <Divider className="margin-top-5 margin-bottom-15"/>
-                                        }
-                                    </div>
-                                ))
+                                        </div>
+                                    ))
                             }
                         </div>
                     }
@@ -103,10 +104,11 @@ export default class ArticleSearchItemDisplay extends React.Component {
                         {
                             this.props.article.tags.map((tag) => (
                                 <Chip key={tag.id}
-                                      className={classNames('search-index-articleTag', {
+                                      className={
+                                          classNames('search-index-articleTag', {
                                               'search-index-articleHighlightedTag': this.props.highlightTagIds.includes(tag.id)
-                                          }
-                                      )}
+                                          })
+                                      }
                                       component={Link}
                                       to={taggedArticlesPath(tag.slug)}
                                       onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.userId, tag.name, null)}

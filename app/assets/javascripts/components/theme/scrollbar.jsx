@@ -4,11 +4,13 @@ import '../../../stylesheets/components/scrollbar.scss';
 
 import PerfectScrollbar from 'react-perfect-scrollbar';
 
-const Scrollbar = ({children}) => (
-    <PerfectScrollbar>
-        {children}
-    </PerfectScrollbar>
-);
+function Scrollbar({children}) {
+    return (
+        <PerfectScrollbar>
+            {children}
+        </PerfectScrollbar>
+    );
+}
 
 Scrollbar.propTypes = {
     children: PropTypes.oneOfType([

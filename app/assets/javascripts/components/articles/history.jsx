@@ -3,10 +3,6 @@
 import '../../../stylesheets/pages/article/history.scss';
 
 import {
-    hot
-} from 'react-hot-loader/root';
-
-import {
     userArticlePath
 } from '../../constants/routesHelper';
 
@@ -42,7 +38,6 @@ export default @connect((state) => ({
     restoreArticle
 })
 @withRouter({params: true, navigate: true})
-@hot
 @highlight(true)
 class ArticleHistory extends React.Component {
     static propTypes = {
@@ -73,7 +68,7 @@ class ArticleHistory extends React.Component {
 
     componentDidUpdate(prevProps) {
         if (!this.props.articleVersions && prevProps.articleVersions && prevProps.articleVersions.length === 0) {
-            Notification.alert(I18n.t('js.article.history.none'));
+            Notification.message.alert(I18n.t('js.article.history.none'));
         }
     }
 

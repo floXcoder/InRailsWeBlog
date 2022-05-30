@@ -43,7 +43,10 @@ const fuzzyMatch = function (pattern, str, opts) {
     if (patternIdx === pattern.length) {
         // if the string is an exact match with pattern, totalScore should be maxed
         totalScore = (compareString === pattern) ? Infinity : totalScore;
-        return {rendered: result.join(''), score: totalScore};
+        return {
+            rendered: result.join(''),
+            score: totalScore
+        };
     }
 
     return null;
@@ -85,26 +88,40 @@ export const getSortedTopicTags = createSelector(
 
             if (Utils.isPresent(tag.parentIds)) {
                 parents = tag.parentIds.map((parentId) => {
-                    const parentTag = tags.find((tag) => tag.id === parentId);
+                    const parentTag = tags.find((newTag) => newTag.id === parentId);
                     if (!!parentTag && Utils.isPresent(filterText) && !fuzzyMatch(filterText, parentTag.name)) {
                         return null;
                     } else if (parentTag) {
-                        const {parentIds, childIds, ...parentTagProps} = parentTag;
+                        const {
+                            parentIds,
+                            childIds,
+                            ...parentTagProps
+                        } = parentTag;
                         return parentTagProps;
+                    } else {
+                        return undefined;
                     }
-                }).compact();
+                })
+                    .compact();
             }
 
             if (Utils.isPresent(tag.childIds)) {
                 children = tag.childIds.map((childId) => {
-                    const childTag = tags.find((tag) => tag.id === childId);
+                    const childTag = tags.find((newTag) => newTag.id === childId);
                     if (!!childTag && Utils.isPresent(filterText) && !fuzzyMatch(filterText, childTag.name)) {
                         return null;
                     } else if (childTag) {
-                        const {parentIds, childIds, ...childTagProps} = childTag;
+                        const {
+                            parentIds,
+                            childIds,
+                            ...childTagProps
+                        } = childTag;
                         return childTagProps;
+                    } else {
+                        return undefined;
                     }
-                }).compact();
+                })
+                    .compact();
             }
 
             // Will hide also tags which are both without parents and child type
@@ -118,9 +135,18 @@ export const getSortedTopicTags = createSelector(
                 return null;
             }
 
-            const {parentIds, childIds, ...tagProps} = tag;
-            return {...tagProps, parents, children};
-        }).compact();
+            const {
+                parentIds,
+                childIds,
+                ...tagProps
+            } = tag;
+            return {
+                ...tagProps,
+                parents,
+                children
+            };
+        })
+            .compact();
     }
 );
 
@@ -152,12 +178,13 @@ export const getCategorizedTags = createSelector(
                 }
             });
 
-            categorizedTags = Object.keys(tagsByVisibility).map((visibility) => ({
-                id: visibility,
-                type: ' ',
-                title: I18n.t(`js.article.common.tags.${visibility}`),
-                items: tagsByVisibility[visibility]
-            }));
+            categorizedTags = Object.keys(tagsByVisibility)
+                .map((visibility) => ({
+                    id: visibility,
+                    type: ' ',
+                    title: I18n.t(`js.article.common.tags.${visibility}`),
+                    items: tagsByVisibility[visibility]
+                }));
         }
 
         return categorizedTags;
@@ -193,11 +220,12 @@ export const getTagErrors = createSelector(
             errorContent = [errors];
         } else if (Utils.isPresent(errors)) {
             errorContent = [];
-            Object.entries(errors).forEach(([errorName, errorDescriptions]) => {
-                if (Utils.isPresent(errorDescriptions)) {
-                    errorContent.push(I18n.t(`js.tag.model.${errorName}`) + ' ' + (Array.isArray(errorDescriptions) ? errorDescriptions.join(I18n.t('js.helpers.and')) : errorDescriptions));
-                }
-            });
+            Object.entries(errors)
+                .forEach(([errorName, errorDescriptions]) => {
+                    if (Utils.isPresent(errorDescriptions)) {
+                        errorContent.push(I18n.t(`js.tag.model.${errorName}`) + ' ' + (Array.isArray(errorDescriptions) ? errorDescriptions.join(I18n.t('js.helpers.and')) : errorDescriptions));
+                    }
+                });
         }
         return errorContent;
     }

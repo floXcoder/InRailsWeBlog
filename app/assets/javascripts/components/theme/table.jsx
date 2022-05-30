@@ -73,14 +73,14 @@ const byString = (o, s) => {
     return o;
 };
 
-const getFieldValue = (rowData, columnDef, lookup = true) => {
-    let value = (typeof rowData[columnDef.field] !== 'undefined' ? rowData[columnDef.field] : byString(rowData, columnDef.field));
-    if (columnDef.lookup && lookup) {
-        value = columnDef.lookup[value];
-    }
-
-    return value;
-};
+// const getFieldValue = (rowData, columnDef, lookup = true) => {
+//     let value = (typeof rowData[columnDef.field] !== 'undefined' ? rowData[columnDef.field] : byString(rowData, columnDef.field));
+//     if (columnDef.lookup && lookup) {
+//         value = columnDef.lookup[value];
+//     }
+//
+//     return value;
+// };
 
 export default class Table extends React.Component {
     static propTypes = {

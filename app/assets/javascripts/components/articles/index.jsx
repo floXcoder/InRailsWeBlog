@@ -3,10 +3,6 @@
 import '../../../stylesheets/pages/article/index.scss';
 
 import {
-    hot
-} from 'react-hot-loader/root';
-
-import {
     Suspense
 } from 'react';
 
@@ -82,7 +78,6 @@ export default @connect((state) => ({
     setCurrentTags
 })
 @withRouter({location: true, params: true})
-@hot
 class ArticleIndex extends React.Component {
     static propTypes = {
         initProps: PropTypes.object,

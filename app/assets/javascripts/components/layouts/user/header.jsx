@@ -407,13 +407,13 @@ class HeaderLayoutUser extends React.PureComponent {
                                         variant="contained"
                                         color="primary"
                                         onClick={this._handleTopicOpen}>
-                                <span className="layout-header-sectionDesktop">
-                                    {I18n.t('js.views.header.topic.button', {current: this.props.currentTopic.name})}
-                                </span>
+                                    <span className="layout-header-sectionDesktop">
+                                        {I18n.t('js.views.header.topic.button', {current: this.props.currentTopic.name})}
+                                    </span>
 
                                     <span className="layout-header-sectionMobile">
-                                    <ClassIcon/>
-                                </span>
+                                        <ClassIcon/>
+                                    </span>
                                 </Button>
 
                                 <Popover open={this.props.isTopicPopupOpen}

@@ -69,7 +69,12 @@ const _handleTabHeaderClick = (tabIndex, onClick, event) => {
     onClick(tabIndex);
 };
 
-export const Tab = ({header, isActive, tabIndex, onClick}) => {
+export function Tab({
+                 header,
+                 isActive,
+                 tabIndex,
+                 onClick
+             }) {
     return (
         <li className={classNames('responsive-tab', {active: isActive})}>
             <a className="responsive-tab-link"
@@ -79,7 +84,7 @@ export const Tab = ({header, isActive, tabIndex, onClick}) => {
             </a>
         </li>
     );
-};
+}
 
 Tab.propTypes = {
     header: PropTypes.oneOfType([

@@ -89,20 +89,42 @@ const manageError = (origin, error, url) => {
             return error;
         } else if (error.statusText === 'Internal Server Error') {
             if (!error.bodyUsed) {
-                error.json()
-                    .then((parsedError) => {
-                        Notification.message.error(parsedError.errors);
+                const contentType = error.headers.get('content-type');
+                if (contentType && contentType.indexOf('application/json') !== -1) {
+                    return error.json()
+                        .then((parsedError) => {
+                            if (GlobalEnvironment.NODE_ENV !== 'production') {
+                                window.log_on_screen([parsedError.errors, parsedError.details].join(' / ')
+                                    .split('\n')
+                                    .slice(0, 10));
+                            } else {
+                                Notification.message.error(I18n.t('js.helpers.errors.server'));
+                            }
 
-                        if (GlobalEnvironment.NODE_ENV !== 'production') {
-                            window.log_on_screen([parsedError.errors, parsedError.details].join(' / ')
-                                .split('\n')
-                                .slice(0, 6));
-                        }
+                            pushError(error, {...errorInfo, ...parsedError});
+                        });
+                } else {
+                    return error.text()
+                        .then((text) => {
+                            if (GlobalEnvironment.NODE_ENV !== 'production') {
+                                window.log_on_screen(
+                                    text.split('\n')
+                                        .slice(0, 10)
+                                );
+                            } else {
+                                Notification.message.error(I18n.t('js.helpers.errors.server'));
+                            }
 
-                        pushError(error, {...errorInfo, ...parsedError});
-                    });
+                            pushError(error, {...errorInfo});
+                        });
+                }
             } else {
-                if (GlobalEnvironment.NODE_ENV === 'production') {
+                if (GlobalEnvironment.NODE_ENV !== 'production') {
+                    window.log_on_screen(
+                        error.split('\n')
+                            .slice(0, 10)
+                    );
+                } else {
                     Notification.message.error(I18n.t('js.helpers.errors.server'));
                 }
 

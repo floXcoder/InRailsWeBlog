@@ -3,10 +3,6 @@
 import '../../../stylesheets/pages/topic/form.scss';
 
 import {
-    hot
-} from 'react-hot-loader/root';
-
-import {
     userTopicPath
 } from '../../constants/routesHelper';
 
@@ -40,7 +36,6 @@ export default @connect((state) => ({
     updateTopic
 })
 @withRouter({params: true, navigate: true})
-@hot
 class TopicEdit extends React.Component {
     static propTypes = {
         // from router

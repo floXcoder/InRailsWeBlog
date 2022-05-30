@@ -6,7 +6,7 @@ import AdminLayout from '../components/layouts/admin';
 
 require('./common');
 
-ReactDOM.render(
-    <AdminLayout componentId="admins-component"/>,
-    document.getElementById('admins-component')
+const root = ReactCreateRoot(document.getElementById('admins-component'));
+root.render(
+    <AdminLayout componentId="admins-component"/>
 );

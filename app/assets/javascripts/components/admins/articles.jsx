@@ -1,10 +1,6 @@
 'use strict';
 
 import {
-    hot
-} from 'react-hot-loader/root';
-
-import {
     fetchArticles,
     updateArticle
 } from '../../actions';
@@ -19,7 +15,6 @@ export default @connect((state) => ({
     fetchArticles,
     updateArticle
 })
-@hot
 class AdminArticles extends React.Component {
     static propTypes = {
         // from connect
@@ -66,7 +61,7 @@ class AdminArticles extends React.Component {
         return (
             <div>
                 <h1 className="center-align">
-                    {I18n.t('js.admin.articles.title')}
+                    {I18n.t('js.admin.articles.title')} ({this.props.articles.length})
                 </h1>
 
                 <Table title={I18n.t('js.admin.articles.table.title')}

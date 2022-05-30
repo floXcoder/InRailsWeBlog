@@ -4,7 +4,7 @@ import {
     Helmet
 } from 'react-helmet-async';
 
-const HeadLayout = ({children}) => {
+function HeadLayout({children}) {
     if (!children) {
         return null;
     }
@@ -76,7 +76,7 @@ const HeadLayout = ({children}) => {
             }
         </Helmet>
     );
-};
+}
 
 HeadLayout.propTypes = {
     children: PropTypes.object.isRequired

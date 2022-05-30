@@ -2,12 +2,17 @@
 
 import Typography from '@mui/material/Typography';
 
-const TabContainer = ({isActive, children}) => (
-    <Typography component="div"
-                className={isActive ? null : 'hide'}>
-        {children}
-    </Typography>
-);
+function TabContainer({
+                          isActive,
+                          children
+                      }) {
+    return (
+        <Typography component="div"
+                    className={isActive ? null : 'hide'}>
+            {children}
+        </Typography>
+    );
+}
 
 TabContainer.propTypes = {
     isActive: PropTypes.bool.isRequired,

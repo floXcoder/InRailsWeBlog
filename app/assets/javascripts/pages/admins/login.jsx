@@ -13,11 +13,11 @@ import AdminLogin from '../../components/admins/login';
 
 require('../common');
 
-ReactDOM.render(
+const root = ReactCreateRoot(document.getElementById('admins-login-component'));
+root.render(
     <StyledEngineProvider injectFirst={true}>
         <ThemeProvider theme={theme}>
             <AdminLogin/>
         </ThemeProvider>
-    </StyledEngineProvider>,
-    document.getElementById('admins-login-component')
+    </StyledEngineProvider>
 );

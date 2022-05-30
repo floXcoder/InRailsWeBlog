@@ -2,10 +2,6 @@
 
 import '../../../stylesheets/pages/default/home.scss';
 
-import {
-    hot
-} from 'react-hot-loader/root';
-
 import Divider from '@mui/material/Divider';
 
 import {
@@ -25,7 +21,6 @@ export default @connect((state) => ({
     showUserSignup,
     showUserLogin
 })
-@hot
 class Home extends React.Component {
     static propTypes = {
         // from connect

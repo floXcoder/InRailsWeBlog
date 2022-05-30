@@ -1,6 +1,6 @@
 'use strict';
 
-const CircleSpinner = ({size, className}) => {
+function CircleSpinner({size, className}) {
     const preloaderClasses = classNames(
         'preloader-wrapper',
         'active',
@@ -24,7 +24,7 @@ const CircleSpinner = ({size, className}) => {
             </div>
         </div>
     );
-};
+}
 
 CircleSpinner.propTypes = {
     size: PropTypes.string,

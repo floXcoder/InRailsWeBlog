@@ -1,35 +1,42 @@
 'use strict';
 
-const SingleTimelineItem = ({title, icon, children, date}) => (
-    <li className="timeline-item">
-        <div className={icon ? 'timeline-icon' : 'timeline-no-icon'}>
-            {
-                icon &&
-                <span className="material-icons"
-                      data-icon={icon}
-                      aria-hidden="true"/>
-            }
-        </div>
-
-        {
-            date &&
-            <div className="timeline-date">
-                {date}
+function SingleTimelineItem({
+                                title,
+                                icon,
+                                children,
+                                date
+                            }) {
+    return (
+        <li className="timeline-item">
+            <div className={icon ? 'timeline-icon' : 'timeline-no-icon'}>
+                {
+                    icon &&
+                    <span className="material-icons"
+                          data-icon={icon}
+                          aria-hidden="true"/>
+                }
             </div>
-        }
-
-        <div className="timeline-content">
-            {title}
 
             {
-                children &&
-                <div className="card-panel">
-                    {children}
+                date &&
+                <div className="timeline-date">
+                    {date}
                 </div>
             }
-        </div>
-    </li>
-);
+
+            <div className="timeline-content">
+                {title}
+
+                {
+                    children &&
+                    <div className="card-panel">
+                        {children}
+                    </div>
+                }
+            </div>
+        </li>
+    );
+}
 
 SingleTimelineItem.propTypes = {
     title: PropTypes.element.isRequired,

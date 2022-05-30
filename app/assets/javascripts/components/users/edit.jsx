@@ -1,10 +1,6 @@
 'use strict';
 
 import {
-    hot
-} from 'react-hot-loader/root';
-
-import {
     Link
 } from 'react-router-dom';
 
@@ -20,7 +16,6 @@ import {
 export default @connect(null, {
     fetchMetaTags
 })
-@hot
 class UserEdit extends React.Component {
     static propTypes = {
         // from connect
@@ -118,6 +113,7 @@ class UserEdit extends React.Component {
                                                 {I18n.t('js.user.edit.current_picture')}
                                             </p>
                                             <img src={this.state.user.avatar}
+                                                 loading="lazy"
                                                  alt="User avatar"/>
                                             <p className="margin-bottom-20">
                                                 <Checkbox id="user_picture_attributes__destroy"

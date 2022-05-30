@@ -10,20 +10,26 @@ import {
     shareArticleParam
 } from '../../../constants/routesHelper';
 
-const ArticleShareIcon = ({articleId, size, color}) => (
-    <span className="flow-tooltip-bottom"
-          data-tooltip={I18n.t('js.article.tooltip.share')}>
-        <Link to={{
-            hash: '#' + shareArticleParam,
-            state: {
-                articleId
-            }
-        }}>
-            <ShareIcon color={color}
-                       fontSize={size}/>
-        </Link>
-    </span>
-);
+function ArticleShareIcon({
+                              articleId,
+                              size,
+                              color
+                          }) {
+    return (
+        <span className="flow-tooltip-bottom"
+              data-tooltip={I18n.t('js.article.tooltip.share')}>
+            <Link to={{
+                hash: '#' + shareArticleParam,
+                state: {
+                    articleId
+                }
+            }}>
+                <ShareIcon color={color}
+                           fontSize={size}/>
+            </Link>
+        </span>
+    );
+}
 
 
 ArticleShareIcon.propTypes = {

@@ -517,7 +517,7 @@ class ApplicationController < ActionController::Base
     end
 
     respond_to do |format|
-      format.json { render json: { errors: t('views.error.status.explanation.500'), details: exception&.try(:message) }, status: :internal_server_error }
+      format.json { render json: { errors: t('views.error.status.explanation.500'), details: exception&.try(:full_message) }, status: :internal_server_error }
       format.html do
         if current_user
           render 'pages/user', locals: { status: 500 }, status: :internal_server_error, layout: 'user'
