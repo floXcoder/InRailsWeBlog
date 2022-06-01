@@ -39,7 +39,7 @@ set :log_level, :debug
 set :linked_files, %w[config/application.yml]
 
 # dirs we want symlinking to shared
-set :linked_dirs, %w[lib/geocoding/ip_db lib/tracking log node_modules public/assets public/sitemaps public/seo_cache public/uploads public/system tmp/pids tmp/cache tmp/sockets vendor/bundle]
+set :linked_dirs, %w[lib/geocoding/ip_db lib/tracking log node_modules public/assets public/sitemaps public/seo_cache public/uploads tmp/pids tmp/cache tmp/sockets vendor/bundle]
 
 # Compile assets
 set :assets_roles, [:app]
