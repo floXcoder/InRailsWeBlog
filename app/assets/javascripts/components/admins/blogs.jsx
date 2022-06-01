@@ -1,9 +1,5 @@
 'use strict';
 
-import {
-    hot
-} from 'react-hot-loader/root';
-
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 
@@ -26,7 +22,6 @@ export default @connect((state) => ({
     addBlog,
     updateBlog
 })
-@hot
 class AdminBlogs extends React.Component {
     static propTypes = {
         // from connect

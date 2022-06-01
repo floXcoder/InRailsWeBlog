@@ -3,7 +3,7 @@
 import VisibilityIcon from '@mui/icons-material/VisibilityOutlined';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOffOutlined';
 
-const ArticleVisibilityIcon = ({articleVisibility, onVisibilityClick, size, color}) => {
+function ArticleVisibilityIcon({articleVisibility, onVisibilityClick, size, color}) {
     const isVisible = articleVisibility === 'everyone';
 
     const visibilityName = I18n.t(`js.article.enums.visibility.${articleVisibility}`);
@@ -26,7 +26,7 @@ const ArticleVisibilityIcon = ({articleVisibility, onVisibilityClick, size, colo
             </a>
         </span>
     );
-};
+}
 
 ArticleVisibilityIcon.propTypes = {
     articleVisibility: PropTypes.string.isRequired,

@@ -14,7 +14,7 @@ module Tags
       filter_by_topic = [params[:topic_id], params[:topic_slug]].compact.present?
 
       @relation = @relation
-                    .include_collection(filter_by_topic)
+                    .include_collection(filter_by_topic: filter_by_topic)
                     .with_adapted_visibility(@current_user, @current_admin)
                     .order_by(params[:order] || 'name').order_by('created_desc')
                     .filter_by(params, @current_user)
@@ -46,7 +46,7 @@ module Tags
     end
 
     module Scopes
-      def include_collection(filter_by_topic = false)
+      def include_collection(filter_by_topic: false)
         filter_by_topic ? includes(:parent_relationships, :child_relationships, :tagged_articles) : includes(:child_relationships, :tagged_articles)
       end
 

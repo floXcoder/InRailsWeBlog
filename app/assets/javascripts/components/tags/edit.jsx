@@ -3,10 +3,6 @@
 import '../../../stylesheets/pages/tag/form.scss';
 
 import {
-    hot
-} from 'react-hot-loader/root';
-
-import {
     showTagPath
 } from '../../constants/routesHelper';
 
@@ -40,7 +36,6 @@ export default @connect((state) => ({
     updateTag
 })
 @withRouter({params: true, navigate: true})
-@hot
 class TagEdit extends React.Component {
     static propTypes = {
         // from router

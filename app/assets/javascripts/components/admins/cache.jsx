@@ -1,9 +1,5 @@
 'use strict';
 
-import {
-    hot
-} from 'react-hot-loader/root';
-
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button/Button';
 import Paper from '@mui/material/Paper';
@@ -15,7 +11,6 @@ import {
 export default @connect(null, {
     flushCache
 })
-@hot
 class AdminCache extends React.Component {
     static propTypes = {
         // from connect
@@ -30,9 +25,9 @@ class AdminCache extends React.Component {
         this.props.flushCache()
             .then((json) => {
                 if (json.success) {
-                    Notification.success(I18n.t('js.admin.cache.successful'));
+                    Notification.message.success(I18n.t('js.admin.cache.successful'));
                 } else {
-                    Notification.error(I18n.t('js.admin.cache.error'));
+                    Notification.message.error(I18n.t('js.admin.cache.error'));
                 }
             });
     };

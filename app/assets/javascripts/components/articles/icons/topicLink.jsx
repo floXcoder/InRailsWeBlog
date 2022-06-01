@@ -10,15 +10,22 @@ import {
     topicArticlesPath
 } from '../../../constants/routesHelper';
 
-const ArticleTopicLinkIcon = ({userSlug, topicSlug, size, color}) => (
-    <span className="flow-tooltip-bottom"
-          data-tooltip={I18n.t('js.article.tooltip.topic_link')}>
-        <Link to={topicArticlesPath(userSlug, topicSlug)}>
-            <ReplyIcon color={color}
-                       fontSize={size}/>
-        </Link>
-    </span>
-);
+function ArticleTopicLinkIcon({
+                                  userSlug,
+                                  topicSlug,
+                                  size,
+                                  color
+                              }) {
+    return (
+        <span className="flow-tooltip-bottom"
+              data-tooltip={I18n.t('js.article.tooltip.topic_link')}>
+            <Link to={topicArticlesPath(userSlug, topicSlug)}>
+                <ReplyIcon color={color}
+                           fontSize={size}/>
+            </Link>
+        </span>
+    );
+}
 
 ArticleTopicLinkIcon.propTypes = {
     userSlug: PropTypes.string.isRequired,

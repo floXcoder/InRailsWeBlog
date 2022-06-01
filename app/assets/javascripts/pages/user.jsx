@@ -6,8 +6,8 @@ import ApplicationLayoutUser from '../components/layouts/user/application';
 
 require('./common');
 
-ReactDOM.render(
+const root = ReactCreateRoot(document.getElementById('react-component'));
+root.render(
     <ApplicationLayoutUser staticContent={document.getElementById('static-component')?.innerHTML}
-                           componentId="data-component"/>,
-    document.getElementById('react-component')
+                           componentId="data-component"/>
 );

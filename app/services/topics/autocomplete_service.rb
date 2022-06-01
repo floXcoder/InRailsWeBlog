@@ -33,15 +33,14 @@ module Topics
                                load:         false,
                                where:        where_options,
                                order:        order,
-                               limit:        limit,
-                               execute:      !@params[:defer])
+                               limit:        limit)
 
         track_results(results)
 
         if @params[:defer]
           success(results)
         else
-          success(format_search(results))
+          success(format_search(results.to_a))
         end
       rescue StandardError => error
         error(I18n.t('search.errors.topic'), error)

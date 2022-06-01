@@ -96,7 +96,10 @@ class Editor extends React.Component {
             }].concat(highlightedLanguages.map((language) => (Array.isArray(language) ? language.map((l) => ({
                 value: l,
                 text: l
-            })) : ({value: language, text: language})))),
+            })) : ({
+                value: language,
+                text: language
+            })))),
             codeLanguagePrefix: highlightedLanguagePrefix,
             callbacks: {
                 onFocus: this.props.onFocus,
@@ -120,24 +123,27 @@ class Editor extends React.Component {
                         titleOnly: true,
                         query: keyword,
                         limit: 5
-                    }, this.props.currentLocale).then((results) => {
-                        let autocompletes = [];
+                    }, this.props.currentLocale)
+                        .then((results) => {
+                            let autocompletes = [];
 
-                        if (results.articles) {
-                            autocompletes = autocompletes.concat(results.articles.map((article) => ['article', article.title, article.id, article.slug, article.userSlug]).compact());
-                        }
-                        if (results.topics) {
-                            autocompletes = autocompletes.concat(results.topics.map((topic) => ['topic', topic.name, topic.id, topic.slug, topic.userSlug]).compact());
-                        }
+                            if (results.articles) {
+                                autocompletes = autocompletes.concat(results.articles.map((article) => ['article', article.title, article.id, article.slug, article.userSlug])
+                                    .compact());
+                            }
+                            if (results.topics) {
+                                autocompletes = autocompletes.concat(results.topics.map((topic) => ['topic', topic.name, topic.id, topic.slug, topic.userSlug])
+                                    .compact());
+                            }
 
-                        if (autocompletes.length > 0) {
-                            return callback(autocompletes);
-                        } else {
-                            return [];
-                        }
-                    });
+                            if (autocompletes.length > 0) {
+                                return callback(autocompletes);
+                            } else {
+                                return [];
+                            }
+                        });
                 },
-                template: ([type, title, id, slug, parentSlug]) => {
+                template: ([type, title /* id, slug, parentSlug */]) => {
                     if (type === 'topic') {
                         return title + ' (' + I18n.t(`js.editor.hint.${type}`) + ')';
                     } else {
@@ -236,7 +242,7 @@ class Editor extends React.Component {
 
         const $statusBar = $container.find('.note-status-output');
         $statusBar.html(
-            '<div class="note-status-element">' + '</div>' + '<div class="note-status-helper">' + '</div>'
+            '<div class="note-status-element"></div><div class="note-status-helper"></div>'
         );
 
         this._noteStatusElement = $container.find('.note-status-element');
@@ -317,7 +323,8 @@ class Editor extends React.Component {
         const userAgent = window.navigator.userAgent;
         let msIE = userAgent.indexOf('MSIE ');
         msIE = msIE > 0 || !!navigator.userAgent.match(/Trident.*rv:11\./);
-        const firefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+        const firefox = navigator.userAgent.toLowerCase()
+            .indexOf('firefox') > -1;
         let text;
         let type = 'plain';
         if (msIE) {
@@ -334,7 +341,8 @@ class Editor extends React.Component {
             text = event.originalEvent.clipboardData.getData('text/plain');
         }
 
-        const $context = $(event.target).parent();
+        const $context = $(event.target)
+            .parent();
 
         const parsedContent = SanitizePaste.parse(text, type, $context);
         const insertType = type === 'html' ? 'insertHTML' : 'insertText';

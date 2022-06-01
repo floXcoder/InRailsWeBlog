@@ -3,10 +3,6 @@
 # Run by whenever: add to cron table
 set :output, "#{Whenever.path}/log/cron.log"
 
-every :hour, roles: [:production] do
-  rake 'InRailsWeBlog:clean_pghero_stats'
-end
-
 every :day, at: '1am', roles: [:production] do
   rake 'InRailsWeBlog:remove_unused_tags'
 end
@@ -28,8 +24,11 @@ every :day, at: '2:30am', roles: [:production] do
   rake 'InRailsWeBlog:generate_sitemap'
 end
 
+every :hour, roles: [:production] do
+  rake 'InRailsWeBlog:pghero_clean_query_stats'
+end
 every :day, at: '3am', roles: [:production] do
-  rake 'pghero:capture_space_stats'
+  rake 'InRailsWeBlog:pghero_capture_stats'
 end
 
 every :week, at: '5am', roles: [:production] do

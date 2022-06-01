@@ -3,10 +3,6 @@
 import '../../../stylesheets/pages/user/home.scss';
 
 import {
-    hot
-} from 'react-hot-loader/root';
-
-import {
     Link
 } from 'react-router-dom';
 
@@ -63,7 +59,6 @@ export default @connect((state) => ({
     fetchMetaTags,
     switchTagSidebar
 })
-@hot
 class UserHome extends React.Component {
     static propTypes = {
         // from connect

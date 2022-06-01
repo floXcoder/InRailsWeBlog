@@ -2,10 +2,6 @@
 
 import '../../../stylesheets/pages/search/index.scss';
 
-import {
-    hot
-} from 'react-hot-loader/root';
-
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import FormControl from '@mui/material/FormControl';
@@ -79,7 +75,6 @@ export default @connect((state) => ({
     showUserPreference
 })
 @withRouter({params: true})
-@hot
 class SearchIndex extends React.Component {
     static propTypes = {
         // from router
@@ -282,7 +277,7 @@ class SearchIndex extends React.Component {
         }
 
         if (this.props.currentUserId) {
-            Notification.alert(I18n.t('js.search.scrap.message.fetching'));
+            Notification.message.alert(I18n.t('js.search.scrap.message.fetching'));
 
             let data;
             if (event) {
@@ -296,7 +291,7 @@ class SearchIndex extends React.Component {
             data.append('search[article_ids]', this.props.articles.map((article) => article.id));
 
             this.props.searchInURLs(data)
-                .then(() => Notification.success(I18n.t('js.search.scrap.message.result')));
+                .then(() => Notification.message.success(I18n.t('js.search.scrap.message.result')));
         }
     };
 

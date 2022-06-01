@@ -1,9 +1,5 @@
 'use strict';
 
-import {
-    hot
-} from 'react-hot-loader/root';
-
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -42,7 +38,6 @@ export default @connect((state) => ({
 }), {
     fetchVisits
 })
-@hot
 class AdminVisits extends React.Component {
     static propTypes = {
         // from connect

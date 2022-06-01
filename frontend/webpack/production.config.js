@@ -54,7 +54,13 @@ webPackConfig = _.merge(webPackConfig, {
     devtool: 'source-map'
 });
 
-// Configuration options: https://github.com/webpack/webpack/blob/master/schemas/WebpackOptions.json#L1285
+// Configuration options: https://github.com/webpack/webpack/blob/master/schemas/WebpackOptions.json
+webPackConfig.performance = {
+    hints: 'error',
+    maxAssetSize: 1000000,
+    maxEntrypointSize: 1000000
+};
+
 webPackConfig.optimization = {
     nodeEnv: 'production',
     flagIncludedChunks: true,

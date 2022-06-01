@@ -5,7 +5,8 @@ module ApplicationHelper
     routes = {}
 
     I18n.available_locales.each do |locale|
-      routes[locale] = I18n.t('routes', locale: locale)
+      routes[locale]          = I18n.t('routes', locale: locale).dup
+      routes[locale][:home]   = '/' if routes[locale][:home].empty?
       routes[locale][:locale] = "/#{locale}" if locale != :en
     end
 

@@ -23,6 +23,9 @@ build:
       paths:
         - node_modules/
       policy: pull-push
+  variables:
+    BUNDLE_PATH: vendor/bundle
+    BUNDLE_BIN: vendor/bundle/bin
   script:
     - ruby -v
     - node -v
@@ -30,7 +33,7 @@ build:
     - which ruby
     - gem install bundler
     - bundle config set --local path 'vendor/bundle'
-    - bundle install --quiet --binstubs vendor/bundle/bin --jobs $(nproc) "${FLAGS[@]}"
+    - bundle install --quiet --jobs $(nproc) "${FLAGS[@]}"
     - yarn install --frozen-lockfile
   interruptible: true
   only:

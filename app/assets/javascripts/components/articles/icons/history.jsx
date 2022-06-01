@@ -10,15 +10,22 @@ import {
     historyArticlePath
 } from '../../../constants/routesHelper';
 
-const ArticleHistoryIcon = ({userSlug, articleSlug, size, color}) => (
-    <span className="flow-tooltip-bottom"
-          data-tooltip={I18n.t('js.article.tooltip.history')}>
-        <Link to={historyArticlePath(userSlug, articleSlug)}>
-            <HistoryIcon color={color}
-                         fontSize={size}/>
-        </Link>
-    </span>
-);
+function ArticleHistoryIcon({
+                                userSlug,
+                                articleSlug,
+                                size,
+                                color
+                            }) {
+    return (
+        <span className="flow-tooltip-bottom"
+              data-tooltip={I18n.t('js.article.tooltip.history')}>
+            <Link to={historyArticlePath(userSlug, articleSlug)}>
+                <HistoryIcon color={color}
+                             fontSize={size}/>
+            </Link>
+        </span>
+    );
+}
 
 ArticleHistoryIcon.propTypes = {
     userSlug: PropTypes.string.isRequired,

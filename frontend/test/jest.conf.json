@@ -18,9 +18,6 @@
   "setupFiles": [
     "<rootDir>/spec/javascripts/setup.js"
   ],
-  "snapshotSerializers": [
-    "enzyme-to-json/serializer"
-  ],
   "testMatch": [
     "<rootDir>/spec/javascripts/**/*_spec.jsx"
   ]

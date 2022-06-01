@@ -3,10 +3,6 @@
 import '../../../stylesheets/pages/tag/show.scss';
 
 import {
-    hot
-} from 'react-hot-loader/root';
-
-import {
     Link
 } from 'react-router-dom';
 
@@ -48,7 +44,6 @@ export default @connect((state) => ({
     fetchTag
 })
 @withRouter({params: true})
-@hot
 class TagShow extends React.Component {
     static propTypes = {
         initProps: PropTypes.object,

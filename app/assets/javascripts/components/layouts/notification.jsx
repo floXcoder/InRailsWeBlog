@@ -28,12 +28,20 @@ const variantIcon = {
     alert: InfoIcon
 };
 
+const Notification = {};
+
 
 class NotificationComponent extends React.Component {
     constructor(props) {
         super(props);
 
         this._queue = [];
+
+        ['success', 'alert', 'warn', 'error'].forEach((type) => {
+            Notification[type] = (message, actionButton, actionCallback) => {
+                this._handleAdd(type, message, actionButton, actionCallback);
+            };
+        });
     }
 
     state = {
@@ -44,11 +52,13 @@ class NotificationComponent extends React.Component {
     _handleAdd = (level, message, actionButton, actionCallback) => {
         if (Array.isArray(message)) {
             message = message.join(I18n.t('js.helpers.and'));
-        } else if (Utils.is().isObject(message)) {
+        } else if (Utils.is()
+            .isObject(message)) {
             let messageText = '';
-            Object.keys(message).map((key) => (
-                messageText += Array.isArray(message[key]) ? key + ' ' + message[key].join(I18n.t('js.helpers.and')) : key + ' ' + message[key]
-            ));
+            Object.keys(message)
+                .map((key) => (
+                    messageText += Array.isArray(message[key]) ? key + ' ' + message[key].join(I18n.t('js.helpers.and')) : key + ' ' + message[key]
+                ));
             message = messageText;
         }
 
@@ -89,22 +99,6 @@ class NotificationComponent extends React.Component {
 
     _handleExited = () => {
         this._processQueue();
-    };
-
-    success = (message, actionButton, actionCallback) => {
-        this._handleAdd('success', message, actionButton, actionCallback);
-    };
-
-    alert = (message, actionButton, actionCallback) => {
-        this._handleAdd('alert', message, actionButton, actionCallback);
-    };
-
-    warn = (message, actionButton, actionCallback) => {
-        this._handleAdd('warning', message, actionButton, actionCallback);
-    };
-
-    error = (message, actionButton, actionCallback) => {
-        this._handleAdd('error', message, actionButton, actionCallback);
     };
 
     render() {
@@ -155,7 +149,7 @@ class NotificationComponent extends React.Component {
                                                  <span id="message-notification"
                                                        className="message">
                                                     <Icon className="icon icon-variant"/>
-                                                    {this.state.messageInfo.message || null}
+                                                     {this.state.messageInfo.message || null}
                                                  </span>
                                              }
                                              action={actions}/>
@@ -167,12 +161,9 @@ class NotificationComponent extends React.Component {
     }
 }
 
-const Notification = ReactDOM.render(
-    <NotificationComponent/>,
-    document.getElementById('notification-component')
+const root = ReactCreateRoot(document.getElementById('notification-component'));
+root.render(
+    <NotificationComponent/>
 );
 
-export const success = Notification.success;
-export const alert = Notification.alert;
-export const warn = Notification.warn;
-export const error = Notification.error;
+export const message = Notification;

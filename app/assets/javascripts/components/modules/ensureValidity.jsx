@@ -1,6 +1,6 @@
 'use strict';
 
-const EnsureValidity = () => {
+function EnsureValidity() {
     const id = `ensure_validity_${Utils.uuid()}`;
 
     return (
@@ -19,7 +19,7 @@ const EnsureValidity = () => {
                     type="submit"/>
         </div>
     );
-};
+}
 
 export default React.memo(EnsureValidity);
 

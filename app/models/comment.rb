@@ -103,6 +103,10 @@ class Comment < ApplicationRecord
       order('id ASC')
     when 'id_desc'
       order('id DESC')
+    when 'created_asc'
+      order('created_at ASC')
+    when 'created_desc'
+      order('created_at DESC')
     when 'updated_asc'
       order('updated_at ASC')
     when 'updated_desc'

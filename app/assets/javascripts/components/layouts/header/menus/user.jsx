@@ -20,87 +20,87 @@ import {
 } from '../../../../constants/routesHelper';
 
 
-export default class HeaderUserMenu extends React.Component {
-    static propTypes = {
-        userSlug: PropTypes.string.isRequired,
-        onPreferenceClick: PropTypes.func.isRequired,
-        onLogoutClick: PropTypes.func.isRequired,
-        isNested: PropTypes.bool,
-        isAdminConnected: PropTypes.bool
-    };
+function HeaderUserMenu(props) {
+    const adminContent = (
+        <>
+            <ListItem button={true}
+                      component="a"
+                      className="layout-header-link"
+                      href="/admins">
+                <ListItemIcon>
+                    <DashboardIcon/>
+                </ListItemIcon>
 
-    static defaultProps = {
-        isNested: false,
-        isAdminConnected: false
-    };
+                <ListItemText classes={{primary: 'layout-header-link'}}>
+                    {I18n.t('js.views.header.user.administration')}
+                </ListItemText>
+            </ListItem>
 
-    render() {
-        const adminContent = (
-            <>
-                <ListItem button={true}
-                          component="a"
-                          className="layout-header-link"
-                          href="/admins">
-                    <ListItemIcon>
-                        <DashboardIcon/>
-                    </ListItemIcon>
+            <Divider/>
+        </>
+    );
 
-                    <ListItemText classes={{primary: 'layout-header-link'}}>
-                        {I18n.t('js.views.header.user.administration')}
-                    </ListItemText>
-                </ListItem>
+    return (
+        <List className={classNames({
+            'layout-header-nestedMenu': props.isNested
+        })}
+              component="div"
+              disablePadding={props.isNested}>
+            {
+                props.isAdminConnected &&
+                adminContent
+            }
 
-                <Divider/>
-            </>
-        );
+            <ListItem button={true}
+                      component={Link}
+                      className="layout-header-link"
+                      to={userHomePath(props.userSlug)}>
+                <ListItemIcon>
+                    <PortraitIcon/>
+                </ListItemIcon>
 
-        return (
-            <List className={classNames({
-                'layout-header-nestedMenu': this.props.isNested
-            })}
-                  component="div"
-                  disablePadding={this.props.isNested}>
-                {
-                    this.props.isAdminConnected &&
-                    adminContent
-                }
+                <ListItemText classes={{primary: 'layout-header-link'}}>
+                    {I18n.t('js.views.header.user.profile')}
+                </ListItemText>
+            </ListItem>
 
-                <ListItem button={true}
-                          component={Link}
-                          className="layout-header-link"
-                          to={userHomePath(this.props.userSlug)}>
-                    <ListItemIcon>
-                        <PortraitIcon/>
-                    </ListItemIcon>
+            <ListItem button={true}
+                      onClick={props.onPreferenceClick}>
+                <ListItemIcon>
+                    <SettingsIcon/>
+                </ListItemIcon>
 
-                    <ListItemText classes={{primary: 'layout-header-link'}}>
-                        {I18n.t('js.views.header.user.profile')}
-                    </ListItemText>
-                </ListItem>
+                <ListItemText classes={{primary: 'layout-header-link'}}>
+                    {I18n.t('js.views.header.user.settings')}
+                </ListItemText>
+            </ListItem>
 
-                <ListItem button={true}
-                          onClick={this.props.onPreferenceClick}>
-                    <ListItemIcon>
-                        <SettingsIcon/>
-                    </ListItemIcon>
+            <ListItem button={true}
+                      onClick={props.onLogoutClick}
+                      rel="nofollow">
+                <ListItemIcon>
+                    <CancelIcon/>
+                </ListItemIcon>
 
-                    <ListItemText classes={{primary: 'layout-header-link'}}>
-                        {I18n.t('js.views.header.user.settings')}
-                    </ListItemText>
-                </ListItem>
-
-                <ListItem button={true}
-                          onClick={this.props.onLogoutClick}
-                          rel="nofollow">
-                    <ListItemIcon>
-                        <CancelIcon/>
-                    </ListItemIcon>
-
-                    <ListItemText classes={{primary: 'layout-header-link'}}>
-                        {I18n.t('js.views.header.user.log_out')}
-                    </ListItemText>
-                </ListItem>
-            </List>
-        );
-    }
+                <ListItemText classes={{primary: 'layout-header-link'}}>
+                    {I18n.t('js.views.header.user.log_out')}
+                </ListItemText>
+            </ListItem>
+        </List>
+    );
 }
+
+HeaderUserMenu.propTypes = {
+    userSlug: PropTypes.string.isRequired,
+    onPreferenceClick: PropTypes.func.isRequired,
+    onLogoutClick: PropTypes.func.isRequired,
+    isNested: PropTypes.bool,
+    isAdminConnected: PropTypes.bool
+};
+
+HeaderUserMenu.defaultProps = {
+    isNested: false,
+    isAdminConnected: false
+};
+
+export default HeaderUserMenu;

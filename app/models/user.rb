@@ -116,7 +116,8 @@ class User < ApplicationRecord
   data_serializer :serialized_data
 
   # Voter
-  acts_as_voter
+  include ActAsVoterConcern
+  # acts_as_voter
 
   # Marked as deleted
   acts_as_paranoid
@@ -150,7 +151,7 @@ class User < ApplicationRecord
 
   has_many :article_relationships,
            class_name: 'Article::Relationship',
-           dependent: :destroy
+           dependent:  :destroy
 
   has_many :outdated_articles,
            dependent: :destroy

@@ -1,9 +1,5 @@
 'use strict';
 
-import {
-    updateUserSettings
-} from '../../actions';
-
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Radio from '@mui/material/Radio';
@@ -14,11 +10,16 @@ import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import Button from '@mui/material/Button';
 
+import {
+    updateUserSettings
+} from '../../actions';
+
 const PREFERENCE_VIEWS = {
     ARTICLES: 0,
     TAGS: 1,
     SEARCH: 2
 };
+
 
 export default @connect((state) => ({
     currentUserId: state.userState.currentId,
@@ -58,7 +59,7 @@ class UserSettings extends React.Component {
 
     static defaultProps = {
         userPreferenceView: PREFERENCE_VIEWS.ARTICLES
-    }
+    };
 
     constructor(props) {
         super(props);

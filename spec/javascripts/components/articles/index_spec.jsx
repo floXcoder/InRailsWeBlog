@@ -8,7 +8,8 @@ import reducers from '../../../../app/assets/javascripts/reducers';
 
 describe('<ArticleIndex />', () => {
     let store;
-    let shallowWrapper, mountWrapper;
+    // let shallowWrapper;
+    let mountWrapper;
 
     beforeEach(() => {
         // Mock errors reporting

@@ -5,8 +5,7 @@ namespace :InRailsWeBlog do
   desc 'Dump database into YAML files'
   task :dump, [:dir_name] => :environment do |_task, args|
     Rails.logger = ActiveRecord::Base.logger = Logger.new(STDOUT)
-    Rails.logger.level = Logger::WARN
-    Rails.logger.warn("#{Time.zone.now} : Dump database task")
+    Rails.logger.level = Logger::INFO
 
     dump_path = Rails.root.join('db', 'dump')
     FileUtils.mkdir_p(dump_path) unless File.directory?(dump_path)
@@ -18,12 +17,14 @@ namespace :InRailsWeBlog do
       Rake::Task['db:data:dump_dir'].reenable
       Rake::Task['db:data:dump_dir'].invoke
     end
+
+    Rails.logger.warn("#{Time.zone.now} : Dump database task DONE")
   end
 
   desc 'Restore database'
   task restore: :environment do |_task, args|
     Rails.logger = ActiveRecord::Base.logger = Logger.new(STDOUT)
-    Rails.logger.warn("#{Time.zone.now} : Restore database task")
+    Rails.logger.level = Logger::INFO
 
     dump_path = Rails.root.join('db', 'dump')
 
@@ -35,6 +36,8 @@ namespace :InRailsWeBlog do
       Rake::Task['db:data:load_dir'].reenable
       Rake::Task['db:data:load_dir'].invoke
     end
+
+    Rails.logger.warn("#{Time.zone.now} : Restore database task DONE")
   end
 
 end

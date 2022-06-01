@@ -78,8 +78,7 @@ module Tags
                              boost_where:  @params[:boost_where],
                              order:        order,
                              aggs:         aggregations,
-                             includes:     includes,
-                             execute:      !@params[:defer])
+                             includes:     includes)
 
         track_results(results)
 

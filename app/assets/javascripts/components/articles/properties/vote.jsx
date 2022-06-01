@@ -1,6 +1,6 @@
 'use strict';
 
-const ArticleVotes = ({articleId, articleVotesUp, articleVotesDown, onVoteClick}) => {
+function ArticleVotes({articleId, articleVotesUp, articleVotesDown, onVoteClick}) {
     return (
         <div>
             <a href="#"
@@ -26,7 +26,7 @@ const ArticleVotes = ({articleId, articleVotesUp, articleVotesDown, onVoteClick}
             </span>
         </div>
     );
-};
+}
 
 ArticleVotes.propTypes = {
     articleId: PropTypes.number.isRequired,

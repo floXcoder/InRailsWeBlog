@@ -3,10 +3,6 @@
 import '../../../stylesheets/pages/tag/sort.scss';
 
 import {
-    hot
-} from 'react-hot-loader/root';
-
-import {
     tagsPath
 } from '../../constants/routesHelper';
 
@@ -36,7 +32,6 @@ export default @connect((state) => ({
     updateTagPriority
 })
 @withRouter({params: true, navigate: true})
-@hot
 class TagSort extends React.Component {
     static propTypes = {
         // from router

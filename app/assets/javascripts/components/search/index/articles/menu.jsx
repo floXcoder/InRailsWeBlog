@@ -79,10 +79,8 @@ export default class ArticleSearchMenuDisplay extends React.PureComponent {
                                 this.props.currentUserId &&
                                 <Grid item={true}
                                       className="search-index-categoryItem">
-                                    <Dropdown position="bottom right"
-                                              isClosingOnInsideClick={false}
-                                              hasArrow={true}
-                                              tooltip={I18n.t('js.search.scrap.field')}
+                                    <Dropdown id="search-filter"
+                                              // tooltip={I18n.t('js.search.scrap.field')}
                                               button={
                                                   <Button className="search-index-categoryFilterButton">
                                                       <FindInPageIcon/>
@@ -127,9 +125,7 @@ export default class ArticleSearchMenuDisplay extends React.PureComponent {
 
                             <Grid item={true}
                                   className="search-index-categoryItem">
-                                <Dropdown position="bottom right"
-                                          isClosingOnInsideClick={true}
-                                          hasArrow={true}
+                                <Dropdown id="search-order"
                                           button={
                                               <Button className="search-index-categoryFilterButton">
                                                   <SortIcon/>
@@ -181,9 +177,7 @@ export default class ArticleSearchMenuDisplay extends React.PureComponent {
 
                             <Grid item={true}
                                   className="search-index-categoryItem">
-                                <Dropdown position="bottom right"
-                                          isClosingOnInsideClick={true}
-                                          hasArrow={true}
+                                <Dropdown id="search-display"
                                           button={
                                               <Button className="search-index-categoryFilterButton">
                                                   <DashboardIcon/>

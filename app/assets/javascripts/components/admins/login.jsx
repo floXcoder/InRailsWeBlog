@@ -14,114 +14,109 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LockIcon from '@mui/icons-material/Lock';
 
 
-export default class AdminLogin extends React.Component {
-    constructor(props) {
-        super(props);
-    }
+function AdminLogin() {
+    const csrfToken = document.getElementsByName('csrf-token')[0];
+    const token = csrfToken?.getAttribute('content');
 
-    render() {
-        const csrfToken = document.getElementsByName('csrf-token')[0];
-        const token = csrfToken?.getAttribute('content');
+    return (
+        <Container className="admin-login-container"
+                   maxWidth="sm">
+            <Paper className="admin-login-paper">
+                <form className="connection"
+                      action="/admins/sign_in"
+                      autoComplete="off"
+                      noValidate="novalidate"
+                      acceptCharset="UTF-8"
+                      method="post">
+                    <input type="hidden"
+                           name="authenticity_token"
+                           value={token}/>
 
-        return (
-            <Container className="admin-login-container"
-                       maxWidth="sm">
-                <Paper className="admin-login-paper">
-                    <form className="connection"
-                          action="/admins/sign_in"
-                          autoComplete="off"
-                          noValidate="novalidate"
-                          acceptCharset="UTF-8"
-                          method="post">
-                        <input type="hidden"
-                               name="authenticity_token"
-                               value={token}/>
+                    <Typography className="admin-login-title"
+                                variant="h1"
+                                component="h1">
+                        {I18n.t('js.user.login.title')}
+                    </Typography>
 
-                        <Typography className="admin-login-title"
-                                    variant="h1"
-                                    component="h1">
-                            {I18n.t('js.user.login.title')}
-                        </Typography>
-
-                        <Grid container={true}
-                              spacing={2}
-                              direction="column"
-                              justifyContent="space-between"
-                              alignItems="center">
-                            <Grid classes={{item: 'admin-login-fieldItem'}}
-                                  item={true}>
-                                <TextField id="admin_login"
-                                           name="admin[login]"
-                                           className="admin-login-textField"
-                                           label={I18n.t('js.user.login.login')}
-                                           autoFocus={true}
-                                           required={true}
-                                           color="primary"
-                                           InputProps={{
-                                               startAdornment: (
-                                                   <InputAdornment position="start">
-                                                       <AccountCircleIcon/>
-                                                   </InputAdornment>
-                                               )
-                                           }}/>
-                            </Grid>
-
-                            <Grid classes={{item: 'admin-login-fieldItem'}}
-                                  item={true}>
-                                <TextField id="admin_password"
-                                           name="admin[password]"
-                                           className="admin-login-textField"
-                                           label={I18n.t('js.user.login.password')}
-                                           required={true}
-                                           autoComplete="off"
-                                           color="primary"
-                                           type="password"
-                                           InputProps={{
-                                               startAdornment: (
-                                                   <InputAdornment position="start">
-                                                       <LockIcon/>
-                                                   </InputAdornment>
-                                               )
-                                           }}/>
-                            </Grid>
-
-                            <Grid item={true}>
-                                <FormControlLabel label={I18n.t('js.user.login.remember_me')}
-                                                  labelPlacement="end"
-                                                  control={
-                                                      <Checkbox id="admin_remember_me"
-                                                                name="admin[remember_me]"
-                                                                type="checkbox"
-                                                                color="primary"/>
-                                                  }/>
-                            </Grid>
+                    <Grid container={true}
+                          spacing={2}
+                          direction="column"
+                          justifyContent="space-between"
+                          alignItems="center">
+                        <Grid classes={{item: 'admin-login-fieldItem'}}
+                              item={true}>
+                            <TextField id="admin_login"
+                                       name="admin[login]"
+                                       className="admin-login-textField"
+                                       label={I18n.t('js.user.login.login')}
+                                       autoFocus={true}
+                                       required={true}
+                                       color="primary"
+                                       InputProps={{
+                                           startAdornment: (
+                                               <InputAdornment position="start">
+                                                   <AccountCircleIcon/>
+                                               </InputAdornment>
+                                           )
+                                       }}/>
                         </Grid>
 
-                        <Grid className="center-align margin-top-15 margin-bottom-25"
-                              container={true}
-                              spacing={2}
-                              direction="row-reverse"
-                              justifyContent="space-between"
-                              alignItems="center">
-                            <Grid item={true}>
-                                <Button type="submit"
-                                        id="login-submit"
-                                        variant="contained"
-                                        color="primary">
-                                    {I18n.t('js.user.login.submit')}
-                                </Button>
-                            </Grid>
-
-                            <Grid item={true}>
-                                <Button href="/">
-                                    {I18n.t('js.user.login.cancel')}
-                                </Button>
-                            </Grid>
+                        <Grid classes={{item: 'admin-login-fieldItem'}}
+                              item={true}>
+                            <TextField id="admin_password"
+                                       name="admin[password]"
+                                       className="admin-login-textField"
+                                       label={I18n.t('js.user.login.password')}
+                                       required={true}
+                                       autoComplete="off"
+                                       color="primary"
+                                       type="password"
+                                       InputProps={{
+                                           startAdornment: (
+                                               <InputAdornment position="start">
+                                                   <LockIcon/>
+                                               </InputAdornment>
+                                           )
+                                       }}/>
                         </Grid>
-                    </form>
-                </Paper>
-            </Container>
-        );
-    }
+
+                        <Grid item={true}>
+                            <FormControlLabel label={I18n.t('js.user.login.remember_me')}
+                                              labelPlacement="end"
+                                              control={
+                                                  <Checkbox id="admin_remember_me"
+                                                            name="admin[remember_me]"
+                                                            type="checkbox"
+                                                            color="primary"/>
+                                              }/>
+                        </Grid>
+                    </Grid>
+
+                    <Grid className="center-align margin-top-15 margin-bottom-25"
+                          container={true}
+                          spacing={2}
+                          direction="row-reverse"
+                          justifyContent="space-between"
+                          alignItems="center">
+                        <Grid item={true}>
+                            <Button type="submit"
+                                    id="login-submit"
+                                    variant="contained"
+                                    color="primary">
+                                {I18n.t('js.user.login.submit')}
+                            </Button>
+                        </Grid>
+
+                        <Grid item={true}>
+                            <Button href="/">
+                                {I18n.t('js.user.login.cancel')}
+                            </Button>
+                        </Grid>
+                    </Grid>
+                </form>
+            </Paper>
+        </Container>
+    );
 }
 
+export default AdminLogin;

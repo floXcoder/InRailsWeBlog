@@ -11,18 +11,15 @@ import HeaderUserMenu from './menus/user';
 
 const HomeUserHeader = function ({userSlug, onLogoutClick, onPreferenceClick, isAdminConnected}) {
     return (
-        <Dropdown button={
+        <Dropdown id="header-user"
+                  buttonClassName="layout-header-headerButton"
+                  button={
             <IconButton color="default"
                         itemProp="url"
                         size="large">
                 <AccountCircleIcon/>
             </IconButton>
-        }
-                  position="bottom right"
-                  buttonClassName="layout-header-headerButton"
-                  isFixed={true}
-                  hasWavesEffect={false}
-                  hasArrow={true}>
+        }>
             <HeaderUserMenu isAdminConnected={isAdminConnected}
                             userSlug={userSlug}
                             onPreferenceClick={onPreferenceClick}

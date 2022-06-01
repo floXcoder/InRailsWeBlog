@@ -15,7 +15,7 @@ namespace :InRailsWeBlog do
       Rails.env = 'test'
 
       output_file = Rails.root.join('static_analysis', 'rails_best_practices.html')
-      %x(mkdir -p static_analysis && rails_best_practices -f html --output-file #{output_file} --with-git --silent --spec .)
+      %x(mkdir -p static_analysis && rails_best_practices -f html --output-file #{output_file} --silent --spec .)
     end
 
     desc 'Rubocop'

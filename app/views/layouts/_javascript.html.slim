@@ -2,7 +2,7 @@
 
 script#application-routes type="application/json"
   = raw localized_routes.to_json
-  
+
 javascript:
     window.settings = #{raw InRailsWeBlog.config.to_h.to_json};
 
@@ -41,11 +41,11 @@ javascript:
   javascript:
       window.currentAdminId = "#{current_admin.id}";
       window.currentAdminPseudo = "#{current_admin.pseudo}";
-    
+
 - if @tracking_params.present?
   javascript:
       window.trackingData = window.trackingData || {};
-  
+
   - @tracking_params.each do |var, value|
     javascript:
         window.trackingData["#{var}"] = #{raw value.to_json};

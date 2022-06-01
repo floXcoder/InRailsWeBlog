@@ -7,7 +7,7 @@ import {
 import CategorizedField from '../../../materialize/form/categorized';
 
 
-export default class ArticleTagField extends React.Component {
+export default class ArticleTagsField extends React.Component {
     static propTypes = {
         onSubmit: PropTypes.func.isRequired,
         availableParentTags: PropTypes.array,
@@ -28,7 +28,7 @@ export default class ArticleTagField extends React.Component {
     }
 
     state = {
-        hasChildTagFocus: false,
+        hasChildTagFocus: false
     };
 
     _handleSwitchTag = () => {
@@ -46,7 +46,7 @@ export default class ArticleTagField extends React.Component {
 
     render() {
         return (
-            <div>
+            <>
                 <div className="categorized-parent-tag">
                     <Field name="parent_tags"
                            component={CategorizedField}
@@ -80,7 +80,7 @@ export default class ArticleTagField extends React.Component {
                            onSubmit={this.props.onSubmit}
                            componentContent={this.props.childTags}/>
                 </div>
-            </div>
+            </>
         );
     }
 }

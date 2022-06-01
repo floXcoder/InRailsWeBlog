@@ -3,10 +3,6 @@
 import '../../../stylesheets/pages/topic/form.scss';
 
 import {
-    hot
-} from 'react-hot-loader/root';
-
-import {
     topicArticlesPath
 } from '../../constants/routesHelper';
 
@@ -38,7 +34,6 @@ export default @connect((state) => ({
     updateTopicInventories
 })
 @withRouter({params: true, navigate: true})
-@hot
 class TopicEditInventories extends React.Component {
     static propTypes = {
         // from router

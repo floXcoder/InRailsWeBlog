@@ -17,32 +17,31 @@ import {
 } from '../../../actions';
 
 
-export default class TagChipDisplay extends React.Component {
-    static propTypes = {
-        tag: PropTypes.object.isRequired,
-        isLarge: PropTypes.bool
-    };
-
-    static defaultProps = {
-        isLarge: false
-    };
-
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        return (
-            <Chip className={classNames('tag-chip-tagChip', {
-                'tag-chip-tagChipLarge': this.props.isLarge
-            })}
-                  icon={<LabelIcon/>}
-                  label={this.props.tag.name}
-                  color="primary"
-                  variant="outlined"
-                  component={Link}
-                  to={taggedArticlesPath(this.props.tag.slug)}
-                  onClick={spyTrackClick.bind(null, 'tag', this.props.tag.id, this.props.tag.slug, this.props.tag.userId, this.props.tag.name, null)}/>
-        );
-    }
+function TagChipDisplay({
+                            tag,
+                            isLarge
+                        }) {
+    return (
+        <Chip className={classNames('tag-chip-tagChip', {
+            'tag-chip-tagChipLarge': isLarge
+        })}
+              icon={<LabelIcon/>}
+              label={tag.name}
+              color="primary"
+              variant="outlined"
+              component={Link}
+              to={taggedArticlesPath(tag.slug)}
+              onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.userId, tag.name, null)}/>
+    );
 }
+
+TagChipDisplay.propTypes = {
+    tag: PropTypes.object.isRequired,
+    isLarge: PropTypes.bool
+};
+
+TagChipDisplay.defaultProps = {
+    isLarge: false
+};
+
+export default TagChipDisplay;

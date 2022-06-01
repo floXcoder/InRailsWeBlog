@@ -3,10 +3,6 @@
 import '../../../stylesheets/pages/topic/show.scss';
 
 import {
-    hot
-} from 'react-hot-loader/root';
-
-import {
     Link
 } from 'react-router-dom';
 
@@ -49,7 +45,6 @@ export default @connect((state) => ({
     deleteTopic
 })
 @withRouter({params: true})
-@hot
 class TopicShow extends React.Component {
     static propTypes = {
         initProps: PropTypes.object,
@@ -92,7 +87,7 @@ class TopicShow extends React.Component {
     };
 
     render() {
-        if (!this.props.topic && !this.props.isFetching) {
+        if ((!this.props.topic && !this.props.isFetching) || this.props.initProps?.status === '404') {
             return (
                 <div className="center margin-top-20">
                     <NotFound/>

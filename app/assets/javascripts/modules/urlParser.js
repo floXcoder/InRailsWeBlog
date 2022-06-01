@@ -1,18 +1,18 @@
 'use strict';
 
-const tag2attr = {
-    a: 'href',
-    img: 'src',
-    form: 'action',
-    base: 'href',
-    script: 'src',
-    iframe: 'src',
-    link: 'href'
-};
+// const tag2attr = {
+//     a: 'href',
+//     img: 'src',
+//     form: 'action',
+//     base: 'href',
+//     script: 'src',
+//     iframe: 'src',
+//     link: 'href'
+// };
 
 const key = ['source', 'protocol', 'authority', 'userInfo', 'user', 'password', 'host', 'port', 'relative', 'path', 'directory', 'file', 'query', 'fragment']; // keys available to query
 
-const aliases = {'anchor': 'fragment'}; // aliases for backwards compatibility
+const aliases = {anchor: 'fragment'}; // aliases for backwards compatibility
 
 const parser = {
     strict: /^(?:([^:\/?#]+):)?(?:\/\/((?:(([^:@]*):?([^:@]*))?@)?([^:\/?#]*)(?::(\d*))?))?((((?:[^?#\/]*\/)*)([^?#]*))(?:\?([^#]*))?(?:#(.*))?)/,  //less intuitive, more accurate to the specs
@@ -24,7 +24,11 @@ const isInt = /^[0-9]+$/;
 function parseUri(url, strictMode) {
     let str = decodeURI(url);
     let res = parser[strictMode || false ? 'strict' : 'loose'].exec(str);
-    let uri = {attr: {}, param: {}, seg: {}};
+    let uri = {
+        attr: {},
+        param: {},
+        seg: {}
+    };
     let i = 14;
 
     while (i--) {
@@ -36,8 +40,10 @@ function parseUri(url, strictMode) {
     uri.param['fragment'] = parseString(uri.attr['fragment']);
 
     // split path and fragment into segments
-    uri.seg['path'] = uri.attr.path.replace(/^\/+|\/+$/g, '').split('/');
-    uri.seg['fragment'] = uri.attr.fragment.replace(/^\/+|\/+$/g, '').split('/');
+    uri.seg['path'] = uri.attr.path.replace(/^\/+|\/+$/g, '')
+        .split('/');
+    uri.seg['fragment'] = uri.attr.fragment.replace(/^\/+|\/+$/g, '')
+        .split('/');
 
     // compile a 'base' domain attribute
     uri.attr['base'] = uri.attr.host ? (uri.attr.protocol ? uri.attr.protocol + '://' + uri.attr.host : uri.attr.host) + (uri.attr.port ? ':' + uri.attr.port : '') : '';
@@ -111,7 +117,8 @@ function merge(parent, key, val) {
 }
 
 function parseString(str) {
-    return reduce(String(str).split(/&|;/), function (ret, pair) {
+    return reduce(String(str)
+        .split(/&|;/), function (ret, pair) {
         try {
             pair = decodeURIComponent(pair.replace(/\+/g, ' '));
         } catch (e) {
@@ -163,7 +170,7 @@ function reduce(obj, accumulator, curr) {
 }
 
 function isArray(vArg) {
-    return Object.prototype.toString.call(vArg) === "[object Array]";
+    return Object.prototype.toString.call(vArg) === '[object Array]';
 }
 
 function keys(obj) {
@@ -192,30 +199,30 @@ const urlParser = (url, strictMode) => {
             return typeof param !== 'undefined' ? this.data.param.query[param] : this.data.param.query;
         },
 
-        // return fragment parameters
-        fparam: function (param) {
-            return typeof param !== 'undefined' ? this.data.param.fragment[param] : this.data.param.fragment;
-        },
-
-        // return path segments
-        segment: function (seg) {
-            if (typeof seg === 'undefined') {
-                return this.data.seg.path;
-            } else {
-                seg = seg < 0 ? this.data.seg.path.length + seg : seg - 1; // negative segments count from the end
-                return this.data.seg.path[seg];
-            }
-        },
-
-        // return fragment segments
-        fsegment: function (seg) {
-            if (typeof seg === 'undefined') {
-                return this.data.seg.fragment;
-            } else {
-                seg = seg < 0 ? this.data.seg.fragment.length + seg : seg - 1; // negative segments count from the end
-                return this.data.seg.fragment[seg];
-            }
-        }
+        // // return fragment parameters
+        // fparam: function (param) {
+        //     return typeof param !== 'undefined' ? this.data.param.fragment[param] : this.data.param.fragment;
+        // },
+        //
+        // // return path segments
+        // segment: function (seg) {
+        //     if (typeof seg === 'undefined') {
+        //         return this.data.seg.path;
+        //     } else {
+        //         seg = seg < 0 ? this.data.seg.path.length + seg : seg - 1; // negative segments count from the end
+        //         return this.data.seg.path[seg];
+        //     }
+        // },
+        //
+        // // return fragment segments
+        // fsegment: function (seg) {
+        //     if (typeof seg === 'undefined') {
+        //         return this.data.seg.fragment;
+        //     } else {
+        //         seg = seg < 0 ? this.data.seg.fragment.length + seg : seg - 1; // negative segments count from the end
+        //         return this.data.seg.fragment[seg];
+        //     }
+        // }
     };
 };
 

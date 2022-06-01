@@ -16,7 +16,7 @@ export default class PersistenceFormTopic extends React.Component {
     static propTypes = {
         onCancel: PropTypes.func.isRequired,
         onSubmit: PropTypes.func.isRequired,
-        onDelete: PropTypes.func.isRequired,
+        // onDelete: PropTypes.func.isRequired,
         articleMultilanguage: PropTypes.bool,
         defaultMode: PropTypes.string,
         defaultVisibility: PropTypes.string,

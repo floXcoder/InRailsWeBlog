@@ -5,7 +5,6 @@ RSpec::Matchers.define :have_search do |model|
     expect(actual).to respond_to(:search_data)
 
     expect(actual.search_data).to be_a(Hash)
-    expect(actual).to respond_to(:searchkick_options)
 
     expect(model).to respond_to(:searchkick_search)
     expect(model).to respond_to(:searchkick_reindex)

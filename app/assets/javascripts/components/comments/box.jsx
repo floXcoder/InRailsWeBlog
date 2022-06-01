@@ -3,10 +3,6 @@
 import '../../../stylesheets/components/comment.scss';
 
 import {
-    hot
-} from 'react-hot-loader/root';
-
-import {
     CSSTransition
 } from 'react-transition-group';
 
@@ -45,7 +41,6 @@ export default @connect((state) => ({
     updateComment,
     deleteComment
 })
-@hot
 class CommentBox extends React.Component {
     static propTypes = {
         commentableId: PropTypes.number.isRequired,
@@ -128,7 +123,7 @@ class CommentBox extends React.Component {
             if (this.props.showSignup) {
                 this.props.showSignup(true);
             }
-            Notification.alert(I18n.t('js.comment.flash.creation_unpermitted'));
+            Notification.message.alert(I18n.t('js.comment.flash.creation_unpermitted'));
         }
     };
 
@@ -143,7 +138,7 @@ class CommentBox extends React.Component {
                 this.props.deleteComment(commentId, this.props.commentableType, this.props.commentableId);
             }
         } else {
-            Notification.alert(I18n.t('js.comment.flash.creation_unpermitted'));
+            Notification.message.alert(I18n.t('js.comment.flash.creation_unpermitted'));
         }
     };
 
@@ -157,7 +152,7 @@ class CommentBox extends React.Component {
                 this.props.addComment(commentData, this.props.commentableType, this.props.commentableId);
             }
         } else {
-            Notification.alert(I18n.t('js.comment.flash.creation_unpermitted'));
+            Notification.message.alert(I18n.t('js.comment.flash.creation_unpermitted'));
         }
     };
 

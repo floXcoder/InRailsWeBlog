@@ -19,7 +19,7 @@
     "log": true,
     "PropTypes": true,
     "React": true,
-    "ReactDOM": true,
+    "ReactCreateRoot": true,
     "connect": true,
     "I18n": true,
     "classNames": true,
@@ -29,7 +29,7 @@
   "plugins": [
     "react"
   ],
-  "ignorePatterns": ["**/i18n.js"],
+  "ignorePatterns": ["**/i18n.js", "**/*summernote*.js", "**/translations/**"],
   "rules": {
     "accessor-pairs": 0,
     "arrow-body-style": 0,
@@ -66,6 +66,7 @@
     "max-len": 0,
     "new-cap": 0,
     "no-alert": 0,
+    "no-bitwise": 0,
     "no-caller": 0,
     "no-console": 0,
     "no-div-regex": 0,

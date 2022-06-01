@@ -1,10 +1,6 @@
 'use strict';
 
 import {
-    hot
-} from 'react-hot-loader/root';
-
-import {
     fetchTags
 } from '../../actions';
 
@@ -17,7 +13,6 @@ export default @connect((state) => ({
 }), {
     fetchTags
 })
-@hot
 class AdminTags extends React.Component {
     static propTypes = {
         // from connect
@@ -31,7 +26,7 @@ class AdminTags extends React.Component {
     }
 
     componentDidMount() {
-        this.props.fetchTags({complete: true});
+        this.props.fetchTags({order: 'created_desc', complete: true});
     }
 
     render() {
@@ -52,7 +47,7 @@ class AdminTags extends React.Component {
         return (
             <div>
                 <h1 className="center-align">
-                    {I18n.t('js.admin.tags.title')}
+                    {I18n.t('js.admin.tags.title')} ({this.props.tags.length})
                 </h1>
 
                 <Table title={I18n.t('js.admin.tags.table.title')}

@@ -37,7 +37,7 @@ class UserSignup extends React.Component {
         this.props.signupUser(values)
             .then((response) => {
                 if (response?.errors) {
-                    Notification.error(response.errors);
+                    Notification.message.error(response.errors);
                     // window.location.replace('/');
                 } else if (response.user) {
                     if (sessionStorage) {

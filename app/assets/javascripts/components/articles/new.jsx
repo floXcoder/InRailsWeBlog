@@ -3,10 +3,6 @@
 import '../../../stylesheets/pages/article/form.scss';
 
 import {
-    hot
-} from 'react-hot-loader/root';
-
-import {
     fetchMetaTags,
     switchTagSidebar
 } from '../../actions';
@@ -30,7 +26,6 @@ export default @articleMutationManager('new')
     fetchMetaTags,
     switchTagSidebar
 })
-@hot
 class ArticleNew extends React.Component {
     static propTypes = {
         // from articleMutationManager

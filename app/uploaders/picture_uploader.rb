@@ -8,7 +8,7 @@ class PictureUploader < CarrierWave::Uploader::Base
   before :cache, :reset_secure_token
   before :cache, :save_original_filename
 
-  resize_to_fit 2048, 2048
+  resize_to_limit 2048, 2048
   process :optimize
   convert :jpg
 
@@ -17,7 +17,7 @@ class PictureUploader < CarrierWave::Uploader::Base
   end
 
   version :medium do
-    resize_to_fit 750, 750
+    resize_to_limit 750, 750
     process :optimize
 
     version :webp do
@@ -26,7 +26,7 @@ class PictureUploader < CarrierWave::Uploader::Base
   end
 
   version :mini, from_version: :medium do
-    resize_to_fit 350, 350
+    resize_to_limit 350, 350
     process :optimize
 
     version :webp do

@@ -4,7 +4,8 @@ import * as ActionTypes from '../constants/actionTypes';
 
 import {
     fetchReducer,
-    mutationReducer
+    mutationReducer,
+    removeIn
 } from './mutators';
 
 const initState = {
@@ -71,6 +72,8 @@ export default function userReducer(state = initState, action) {
                     state.user = state.user && {...state.user, settings: action.settings};
                 } else if (action.user) {
                     state.user = action.user;
+                } else if (action.removedId) {
+                    removeIn(state.topics, action.removedId);
                 } else {
                     state.isConnected = false;
                 }

@@ -17,6 +17,7 @@ import UserAvatarIcon from '../users/icons/avatar';
 
 import CommentForm from './form';
 
+
 export default class CommentItem extends React.Component {
     static propTypes = {
         id: PropTypes.number.isRequired,
@@ -78,7 +79,7 @@ export default class CommentItem extends React.Component {
     _handleDeleteClick = (event) => {
         event.preventDefault();
 
-        Notification.alert(I18n.t('js.comment.delete.confirmation_message'), I18n.t('js.comment.delete.confirmation_button'), this.props.onDelete.bind(this, this.props.comment.id));
+        Notification.message.alert(I18n.t('js.comment.delete.confirmation_message'), I18n.t('js.comment.delete.confirmation_button'), this.props.onDelete.bind(this, this.props.comment.id));
     };
 
     _handleAskForDeletionClick = (event) => {
@@ -136,8 +137,12 @@ export default class CommentItem extends React.Component {
                         </div>
 
                         <div className="header-action">
-                            <Dropdown tooltip={I18n.t('js.comment.common.actions')}
-                                      button={<ReplyIcon color="secondary"/>}>
+                            <Dropdown id="comment-actions"
+                                      hasArrow={true}
+                                      // tooltip={I18n.t('js.comment.common.actions')}
+                                      button={
+                                          <ReplyIcon color="primary"/>
+                                      }>
                                 {
                                     (this.props.currentUserId === this.props.comment.user.id || this.props.isSuperUser)
                                         ?

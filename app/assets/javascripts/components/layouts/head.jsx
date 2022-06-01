@@ -4,12 +4,20 @@ import {
     Helmet
 } from 'react-helmet-async';
 
-const HeadLayout = ({children}) => {
+function HeadLayout({children}) {
     if (!children) {
         return null;
     }
 
-    const {title, description, author, canonical, alternate, og, noindex} = children;
+    const {
+        title,
+        description,
+        author,
+        canonical,
+        alternate,
+        og,
+        noindex
+    } = children;
 
     return (
         <Helmet>
@@ -37,12 +45,13 @@ const HeadLayout = ({children}) => {
 
             {
                 alternate &&
-                Object.keys(alternate).map((locale) => (
-                    <link key={locale}
-                          rel="alternate"
-                          hrefLang={locale}
-                          href={alternate[locale]}/>
-                ))
+                Object.keys(alternate)
+                    .map((locale) => (
+                        <link key={locale}
+                              rel="alternate"
+                              hrefLang={locale}
+                              href={alternate[locale]}/>
+                    ))
             }
 
             {
@@ -76,7 +85,7 @@ const HeadLayout = ({children}) => {
             }
         </Helmet>
     );
-};
+}
 
 HeadLayout.propTypes = {
     children: PropTypes.object.isRequired

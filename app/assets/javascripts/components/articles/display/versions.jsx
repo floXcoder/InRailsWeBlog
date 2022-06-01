@@ -140,82 +140,84 @@ export default class ArticleVersionsDisplay extends React.Component {
     };
 
     render() {
-        return <>
-            {
-                this.props.articleVersions.map((version, i) => {
-                    const isInitialVersion = (i === this.props.articleVersions.length - 1);
+        return (
+            <>
+                {
+                    this.props.articleVersions.map((version, i) => {
+                        const isInitialVersion = (i === this.props.articleVersions.length - 1);
 
-                    return (
-                        <Card key={i}
-                              component="article"
-                              className="article-version-card">
-                            <CardHeader classes={{
-                                title: 'article-version-versionTitle'
-                            }}
-                                        action={
-                                            <IconButton
-                                                className={classNames('article-version-expand', {
-                                                    'article-version-expandOpen': this.state.expanded.includes(version.id)
-                                                })}
-                                                aria-expanded={this.state.expanded.includes(version.id)}
-                                                aria-label="Show more"
-                                                onClick={this._handleFoldClick.bind(this, version.id)}
-                                                size="large">
-                                                <ExpandMoreIcon/>
-                                            </IconButton>
+                        return (
+                            <Card key={i}
+                                  component="article"
+                                  className="article-version-card">
+                                <CardHeader classes={{
+                                    title: 'article-version-versionTitle'
+                                }}
+                                            action={
+                                                <IconButton
+                                                    className={classNames('article-version-expand', {
+                                                        'article-version-expandOpen': this.state.expanded.includes(version.id)
+                                                    })}
+                                                    aria-expanded={this.state.expanded.includes(version.id)}
+                                                    aria-label="Show more"
+                                                    onClick={this._handleFoldClick.bind(this, version.id)}
+                                                    size="large">
+                                                    <ExpandMoreIcon/>
+                                                </IconButton>
+                                            }
+                                            title={
+                                                <div className="article-version-cardTitle"
+                                                     onClick={this._handleFoldClick.bind(this, version.id)}>
+                                                    <ChangeHistoryIcon/>
+                                                    {
+                                                        isInitialVersion
+                                                            ?
+                                                            ` ${I18n.t('js.article.history.initial')} ${version.changedAt}`
+                                                            :
+                                                            ` ${I18n.t('js.article.history.changed_at')} ${version.changedAt}`
+                                                    }
+                                                </div>
+                                            }
+                                />
+
+                                <Collapse in={this.state.expanded.includes(version.id)}
+                                          timeout="auto"
+                                          unmountOnExit={true}>
+                                    <h2 className="article-version-title">
+                                        {
+                                            isInitialVersion
+                                                ?
+                                                version.article.title
+                                                :
+                                                this._renderDiffTitle(i, version)
                                         }
-                                        title={
-                                            <div className="article-version-cardTitle"
-                                                 onClick={this._handleFoldClick.bind(this, version.id)}>
-                                                <ChangeHistoryIcon/>
-                                                {
-                                                    isInitialVersion
-                                                        ?
-                                                        ` ${I18n.t('js.article.history.initial')} ${version.changedAt}`
-                                                        :
-                                                        ` ${I18n.t('js.article.history.changed_at')} ${version.changedAt}`
-                                                }
-                                            </div>
+                                    </h2>
+
+                                    <CardContent classes={{
+                                        root: 'article-version-content'
+                                    }}>
+                                        {
+                                            i < this.props.articleVersions.length - 1
+                                                ?
+                                                this._renderDiffContent(i, version)
+                                                :
+                                                <div dangerouslySetInnerHTML={{__html: version.article.content}}/>
                                         }
-                            />
+                                    </CardContent>
 
-                            <Collapse in={this.state.expanded.includes(version.id)}
-                                      timeout="auto"
-                                      unmountOnExit={true}>
-                                <h2 className="article-version-title">
-                                    {
-                                        isInitialVersion
-                                            ?
-                                            version.article.title
-                                            :
-                                            this._renderDiffTitle(i, version)
-                                    }
-                                </h2>
-
-                                <CardContent classes={{
-                                    root: 'article-version-content'
-                                }}>
-                                    {
-                                        i < this.props.articleVersions.length - 1
-                                            ?
-                                            this._renderDiffContent(i, version)
-                                            :
-                                            <div dangerouslySetInnerHTML={{__html: version.article.content}}/>
-                                    }
-                                </CardContent>
-
-                                <CardActions className="article-version-actions"
-                                             disableSpacing={true}>
-                                    <Button color="primary"
-                                            onClick={this._handleRestoreClick.bind(this, version.article.id, version.id)}>
-                                        {I18n.t('js.article.history.restore')}
-                                    </Button>
-                                </CardActions>
-                            </Collapse>
-                        </Card>
-                    );
-                })
-            }
-        </>;
+                                    <CardActions className="article-version-actions"
+                                                 disableSpacing={true}>
+                                        <Button color="primary"
+                                                onClick={this._handleRestoreClick.bind(this, version.article.id, version.id)}>
+                                            {I18n.t('js.article.history.restore')}
+                                        </Button>
+                                    </CardActions>
+                                </Collapse>
+                            </Card>
+                        );
+                    })
+                }
+            </>
+        );
     }
 }

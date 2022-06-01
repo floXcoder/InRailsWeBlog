@@ -105,7 +105,7 @@ describe 'Topic API', type: :request do
       it 'limits the number of database queries' do
         expect {
           get '/api/v1/topics', params: { user_id: @user.id }, as: :json
-        }.to make_database_queries(count: 5..8)
+        }.to make_database_queries(count: 6..9)
       end
     end
 

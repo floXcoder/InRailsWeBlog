@@ -19,25 +19,22 @@ const HomeArticleHeader = function ({
                                         hasTemporaryArticle
                                     }) {
     return (
-        <Dropdown button={
-            <IconButton color="default" itemProp="url" size="large">
-                {
-                    hasTemporaryArticle
-                        ?
-                        <Badge badgeContent="1"
-                               color="secondary">
-                            <AddCircleIcon/>
-                        </Badge>
-                        :
-                        <AddCircleIcon color="primary"/>
-                }
-            </IconButton>
-        }
-                  position="bottom right"
+        <Dropdown id="header-article"
                   buttonClassName="layout-header-headerButton"
-                  isFixed={true}
-                  hasWavesEffect={false}
-                  hasArrow={true}>
+                  button={
+                      <IconButton color="default" itemProp="url" size="large">
+                          {
+                              hasTemporaryArticle
+                                  ?
+                                  <Badge badgeContent="1"
+                                         color="secondary">
+                                      <AddCircleIcon/>
+                                  </Badge>
+                                  :
+                                  <AddCircleIcon color="primary"/>
+                          }
+                      </IconButton>
+                  }>
             <HeaderArticleMenu routeParams={routeParams}
                                userSlug={userSlug}
                                currentTopicMode={currentTopicMode}

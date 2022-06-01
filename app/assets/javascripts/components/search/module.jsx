@@ -1,9 +1,5 @@
 'use strict';
 
-import {
-    hot
-} from 'react-hot-loader/root';
-
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
@@ -53,7 +49,6 @@ export default @connect((state) => ({
     setAutocompleteSelectedTag
 })
 @withRouter({navigate: true})
-@hot
 class SearchModule extends React.Component {
     static propTypes = {
         // from router

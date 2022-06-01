@@ -1,10 +1,18 @@
 'use strict';
 
-import LazyLoad, {forceVisible} from 'react-lazyload';
+import LazyLoad, {
+    forceVisible
+} from 'react-lazyload';
+
 
 export default class LazyLoader extends React.Component {
     static propTypes = {
-        children: PropTypes.object.isRequired
+        children: PropTypes.object.isRequired,
+        loadOnmount: PropTypes.bool
+    };
+
+    static defaultProps = {
+        loadOnmount: false
     };
 
     constructor(props) {
@@ -18,9 +26,12 @@ export default class LazyLoader extends React.Component {
     }
 
     render() {
-        const {children, ...lazyProps} = this.props;
+        const {
+            children,
+            ...lazyProps
+        } = this.props;
 
-        if (Utils.supportScroll()) {
+        if (Utils.supportScroll() && !this.props.loadOnmount) {
             return (
                 <LazyLoad {...lazyProps}>
                     {children}

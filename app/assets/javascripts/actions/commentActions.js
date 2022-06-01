@@ -20,10 +20,18 @@ export const fetchComments = (commentParams) => {
             url = '/api/v1/comments';
         }
 
-        if (commentParams.page) {
+        if (commentParams.limit) {
+            requestParam.limit = commentParams.limit;
+        } else if (commentParams.page) {
             requestParam.page = commentParams.page;
         } else if (commentParams.isPaginated) {
             requestParam.page = 1;
+        }
+
+        if (commentParams.order) {
+            requestParam.filter = {
+                order: commentParams.order
+            };
         }
     }
 

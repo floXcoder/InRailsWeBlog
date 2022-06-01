@@ -270,7 +270,7 @@ Rails.application.routes.draw do
     mount Sidekiq::Web => '/admins/sidekiq'
 
     # Postgres requests analysis
-    mount PgHero::Engine, at: '/admins/postgres'
+    mount PgHero::Engine, at: '/admins/postgres' if Rails.env.production?
   end
 
   # resources :admins

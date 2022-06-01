@@ -7,7 +7,12 @@ export const fetchReducer = (state, action, payloadReducer) => {
         throw new Error('To use fetchReducer, action name must respect format: TYPE/FETCH_');
     }
 
-    const {type, isFetching, meta, errors} = action;
+    const {
+        // type,
+        isFetching,
+        meta,
+        errors
+    } = action;
 
     switch (actionName) {
         case 'FETCH_INIT':
@@ -36,7 +41,12 @@ export const mutationReducer = (state, action, payloadReducer) => {
         throw new Error('To use fetchReducer, action name must respect format: TYPE/CHANGE_');
     }
 
-    const {type, isProcessing, removedId, errors} = action;
+    const {
+        // type,
+        isProcessing,
+        // removedId,
+        errors
+    } = action;
 
     switch (actionName) {
         case 'CHANGE_INIT':

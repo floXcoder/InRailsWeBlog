@@ -3,10 +3,6 @@
 import '../../../stylesheets/pages/user/connection.scss';
 
 import {
-    hot
-} from 'react-hot-loader/root';
-
-import {
     Link
 } from 'react-router-dom';
 
@@ -32,7 +28,6 @@ import {
 export default @connect(null, {
     fetchMetaTags
 })
-@hot
 class UserPassword extends React.Component {
     static propTypes = {
         resetPasswordToken: PropTypes.string,

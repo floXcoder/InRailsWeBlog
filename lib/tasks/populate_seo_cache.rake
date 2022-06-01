@@ -8,8 +8,7 @@ namespace :InRailsWeBlog do
   desc 'Populate cache for SEO'
   task :populate_seo_cache, [] => :environment do |_task, _args|
     Rails.logger       = Logger.new(STDOUT)
-    Rails.logger.level = Logger::WARN
-    Rails.logger.warn("#{Time.zone.now} : Cache pages with prerender for SEO task")
+    Rails.logger.level = Logger::INFO
 
     require 'seo_cache'
     require 'seo_cache/populate_cache'
@@ -23,5 +22,7 @@ namespace :InRailsWeBlog do
             end
 
     SeoCache::PopulateCache.new(Rails.env.production? ? ENV['WEBSITE_FULL_ADDRESS'] : 'http://localhost:3000', paths, force_cache: true).perform
+
+    Rails.logger.warn("#{Time.zone.now} : Cache pages with prerender for SEO task DONE")
   end
 end

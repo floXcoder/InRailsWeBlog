@@ -11,29 +11,8 @@ const cookieChoices = (function () {
 
     var cookieConsentId = 'cookieChoiceInfo';
     var parametersLinkId = 'cookieChoiceParameters';
-    var dismissLinkId = 'cookieChoiceDismiss';
-
-    function _createHeaderElement(cookieTitle, cookieText, dismissText, parametersText, linkText, linkHref, color) {
-        var cookieConsentElement = document.createElement('div');
-        cookieConsentElement.id = cookieConsentId;
-        cookieConsentElement.className = 'cookies-message';
-
-        var cookieContent = document.createElement('div');
-        cookieContent.className = 'cookies-container';
-        cookieConsentElement.appendChild(cookieContent);
-        cookieContent.appendChild(_createConsentTitle(cookieTitle));
-        cookieContent.appendChild(_createConsentText(cookieText));
-
-        cookieContent.appendChild(_createDismissButton(dismissText, color));
-
-        cookieContent.appendChild(_createParametersButton(parametersText, color));
-
-        // if (!!linkText && !!linkHref) {
-        //     cookieContent.appendChild(_createInformationLink(linkText, linkHref));
-        // }
-
-        return cookieConsentElement;
-    }
+    var acceptLinkId = 'cookieChoiceAccept';
+    var rejectLinkId = 'cookieChoiceReject';
 
     function _setElementText(element, text) {
         if (supportsTextContent) {
@@ -66,16 +45,51 @@ const cookieChoices = (function () {
         return parametersLink;
     }
 
-    function _createDismissButton(dismissText, color) {
+    function _createAcceptButton(dismissText, color) {
         var dismissLink = document.createElement('button');
         _setElementText(dismissLink, dismissText);
-        dismissLink.id = dismissLinkId;
+        dismissLink.id = acceptLinkId;
         dismissLink.type = 'button';
         dismissLink.className = 'cookies-button';
         if (color) {
             dismissLink.style.backgroundColor = color;
         }
         return dismissLink;
+    }
+
+    function _createRejectButton(dismissText, color) {
+        var dismissLink = document.createElement('button');
+        _setElementText(dismissLink, dismissText);
+        dismissLink.id = rejectLinkId;
+        dismissLink.type = 'button';
+        dismissLink.className = 'cookies-button';
+        if (color) {
+            dismissLink.style.backgroundColor = color;
+        }
+        return dismissLink;
+    }
+
+    function _createHeaderElement(cookieTitle, cookieText, acceptText, rejectText, parametersText, linkText, linkHref, color) {
+        var cookieConsentElement = document.createElement('div');
+        cookieConsentElement.id = cookieConsentId;
+        cookieConsentElement.className = 'cookies-message';
+
+        var cookieContent = document.createElement('div');
+        cookieContent.className = 'cookies-container';
+        cookieConsentElement.appendChild(cookieContent);
+        cookieContent.appendChild(_createConsentTitle(cookieTitle));
+        cookieContent.appendChild(_createConsentText(cookieText));
+
+        cookieContent.appendChild(_createAcceptButton(acceptText, color));
+        cookieContent.appendChild(_createRejectButton(rejectText, color));
+
+        cookieContent.appendChild(_createParametersButton(parametersText, color));
+
+        // if (!!linkText && !!linkHref) {
+        //     cookieContent.appendChild(_createParametersButton(linkText, linkHref));
+        // }
+
+        return cookieConsentElement;
     }
 
     function _createConsentCheckbox(id, title, detail, checked, disabled) {
@@ -99,8 +113,8 @@ const cookieChoices = (function () {
 
         if (!disabled) {
             elementLabel.onclick = function () {
-                return _changeConsentClick(!elementInput.checked)
-            }
+                return _changeConsentClick(!elementInput.checked);
+            };
         }
 
         cookiesConsentElement.appendChild(elementInput);
@@ -148,15 +162,16 @@ const cookieChoices = (function () {
         return false;
     }
 
-    function _showCookieConsent(cookieTitle, cookieText, dismissText, parametersText, linkText, linkHref, warning, force) {
+    function _showCookieConsent(cookieTitle, cookieText, acceptText, rejectText, parametersText, linkText, linkHref, warning, force) {
         if (_shouldDisplayConsent() || force) {
             _removeCookieConsent();
-            var consentElement = _createHeaderElement(cookieTitle, cookieText, dismissText, parametersText, linkText, linkHref, warning);
+            var consentElement = _createHeaderElement(cookieTitle, cookieText, acceptText, rejectText, parametersText, linkText, linkHref, warning);
             var fragment = document.createDocumentFragment();
             fragment.appendChild(consentElement);
             document.body.appendChild(fragment.cloneNode(true));
             document.getElementById(parametersLinkId).onclick = _parametersLinkClick;
-            document.getElementById(dismissLinkId).onclick = _dismissLinkClick;
+            document.getElementById(acceptLinkId).onclick = _dismissLinkClick;
+            document.getElementById(rejectLinkId).onclick = _dismissLinkClick;
         }
 
         if (force) {
@@ -164,8 +179,8 @@ const cookieChoices = (function () {
         }
     }
 
-    function showCookieConsentBar(cookieTitle, cookieText, dismissText, parametersText, linkText, linkHref, warning, force) {
-        _showCookieConsent(cookieTitle, cookieText, dismissText, parametersText, linkText, linkHref, warning, force);
+    function showCookieConsentBar(cookieTitle, cookieText, acceptText, rejectText, parametersText, linkText, linkHref, warning, force) {
+        _showCookieConsent(cookieTitle, cookieText, acceptText, rejectText, parametersText, linkText, linkHref, warning, force);
     }
 
     function _removeCookieConsent() {
@@ -207,18 +222,18 @@ const cookieChoices = (function () {
         if (navigator.cookieEnabled) return true;
 
         // set and read cookie
-        document.cookie = "cookietest=1";
-        var ret = document.cookie.indexOf("cookietest=") !== -1;
+        document.cookie = 'cookietest=1';
+        var ret = document.cookie.indexOf('cookietest=') !== -1;
 
         // delete cookie
-        document.cookie = "cookietest=1; expires=Thu, 01-Jan-1970 00:00:01 GMT";
+        document.cookie = 'cookietest=1; expires=Thu, 01-Jan-1970 00:00:01 GMT';
 
         return ret;
     }
 
     function displayCookies(termsUrl) {
         if (acceptCookies()) {
-            showCookieConsentBar(I18n.t('js.cookies.title'), I18n.t('js.cookies.content'), I18n.t('js.cookies.button'), I18n.t('js.cookies.link'), termsUrl, '#21ca87');
+            showCookieConsentBar(I18n.t('js.cookies.title'), I18n.t('js.cookies.content'), I18n.t('js.cookies.accept_button'), I18n.t('js.cookies.reject_button'), I18n.t('js.cookies.link'), termsUrl, '#21ca87');
         } else {
             showCookieConsentBar(I18n.t('js.no_cookies.title'), I18n.t('js.no_cookies.content'), I18n.t('js.no_cookies.button'), I18n.t('js.no_cookies.link'), termsUrl, 'red');
         }

@@ -1,9 +1,5 @@
 'use strict';
 
-import {
-    hot
-} from 'react-hot-loader/root';
-
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 
@@ -43,7 +39,6 @@ export default @withRouter({location: true, navigate: true})
     showTopicPopup,
     fetchTags,
 })
-@hot
 class TopicPersistence extends React.Component {
     static propTypes = {
         // from router
@@ -128,7 +123,7 @@ class TopicPersistence extends React.Component {
                         );
 
                         if (response.topic.mode === 'inventories') {
-                            Notification.success('Vous pouvez maintenant ajouter les champs personnalisés pour les articles');
+                            Notification.message.success('Vous pouvez maintenant ajouter les champs personnalisés pour les articles');
 
                             this.props.routeNavigate(editInventoriesTopicPath(this.props.userSlug, response.topic.slug));
                         } else {

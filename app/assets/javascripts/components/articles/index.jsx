@@ -3,10 +3,6 @@
 import '../../../stylesheets/pages/article/index.scss';
 
 import {
-    hot
-} from 'react-hot-loader/root';
-
-import {
     Suspense
 } from 'react';
 
@@ -48,6 +44,8 @@ import withRouter from '../modules/router';
 import Loader from '../theme/loader';
 import Pagination from '../theme/pagination';
 
+import NotFound from '../layouts/notFound';
+
 import SummaryStoriesTopic from '../topics/stories/summary';
 
 import ArticleRecommendationDisplay from './display/recommendation';
@@ -81,8 +79,10 @@ export default @connect((state) => ({
     fetchTopic,
     setCurrentTags
 })
-@withRouter({location: true, params: true})
-@hot
+@withRouter({
+    location: true,
+    params: true
+})
 class ArticleIndex extends React.Component {
     static propTypes = {
         initProps: PropTypes.object,
@@ -226,14 +226,16 @@ class ArticleIndex extends React.Component {
             });
         } else if (this.props.routeParams.tagSlug) {
             this._request.fetch.then(() => {
-                this.props.setCurrentTags([this.props.routeParams.tagSlug, this.props.routeParams.childTagSlug]);
-
                 this.props.fetchTag(this.props.routeParams.tagSlug, {no_meta: true});
             });
         } else if (this.props.routeParams.userSlug) {
             this._request.fetch.then(() => {
                 this.props.fetchUser(this.props.routeParams.userSlug, {no_meta: true});
             });
+        }
+
+        if (this.props.routeParams.tagSlug) {
+            this.props.setCurrentTags([this.props.routeParams.tagSlug, this.props.routeParams.childTagSlug]);
         }
     };
 
@@ -281,7 +283,43 @@ class ArticleIndex extends React.Component {
         this.props.setCurrentArticles('remove', article.id);
     };
 
+    _renderTitle = () => {
+        if (this.props.tag?.name) {
+            return (
+                <div className="margin-bottom-30">
+                    <h1>
+                        {I18n.t('js.article.index.tagged_title', {tag: this.props.tag.name})}
+                    </h1>
+                </div>
+            );
+        } else if (this.props.topic?.name) {
+            return (
+                <div className="margin-bottom-30">
+                    <h1>
+                        {I18n.t('js.article.index.topic_title', {topic: this.props.topic.name})}
+                    </h1>
+                </div>
+            );
+        } else if (this.props.user?.pseudo) {
+            return (
+                <div className="margin-bottom-30">
+                    <h1>
+                        {I18n.t('js.article.index.user_title', {user: this.props.user.pseudo})}
+                    </h1>
+                </div>
+            );
+        }
+    };
+
     render() {
+        if (this.props.initProps?.status === '404') {
+            return (
+                <div className="center margin-top-20">
+                    <NotFound/>
+                </div>
+            );
+        }
+
         if (this.props.currentState === 'userEmpty') {
             return (
                 <div>
@@ -379,34 +417,7 @@ class ArticleIndex extends React.Component {
 
                     {
                         this.props.currentState !== 'fetching' &&
-                        (
-                            this.props.tag?.name
-                                ?
-                                <div className="margin-bottom-40">
-                                    <h1>
-                                        {I18n.t('js.article.index.tagged_title', {tag: this.props.tag.name})}
-                                    </h1>
-                                </div>
-                                :
-                                (
-                                    this.props.topic?.name
-                                        ?
-                                        <div className="margin-bottom-40">
-                                            <h1>
-                                                {I18n.t('js.article.index.topic_title', {topic: this.props.topic.name})}
-                                            </h1>
-                                        </div>
-                                        :
-                                        (
-                                            (!this.props.isUserConnected && this.props.user?.pseudo) &&
-                                            <div className="margin-bottom-40">
-                                                <h1>
-                                                    {I18n.t('js.article.index.user_title', {user: this.props.user.pseudo})}
-                                                </h1>
-                                            </div>
-                                        )
-                                )
-                        )
+                        this._renderTitle()
                     }
 
                     {

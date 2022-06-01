@@ -1,10 +1,6 @@
 'use strict';
 
 import {
-    hot
-} from 'react-hot-loader/root';
-
-import {
     fetchTopics
 } from '../../actions';
 
@@ -17,7 +13,6 @@ export default @connect((state) => ({
 }), {
     fetchTopics
 })
-@hot
 class AdminTopics extends React.Component {
     static propTypes = {
         // from connect
@@ -31,7 +26,7 @@ class AdminTopics extends React.Component {
     }
 
     componentDidMount() {
-        this.props.fetchTopics(null, {complete: true});
+        this.props.fetchTopics(null, {order: 'created_desc', complete: true});
     }
 
     render() {
@@ -52,7 +47,7 @@ class AdminTopics extends React.Component {
         return (
             <div>
                 <h1 className="center-align">
-                    {I18n.t('js.admin.topics.title')}
+                    {I18n.t('js.admin.topics.title')} ({this.props.topics.length})
                 </h1>
 
                 <Table title={I18n.t('js.admin.topics.table.title')}

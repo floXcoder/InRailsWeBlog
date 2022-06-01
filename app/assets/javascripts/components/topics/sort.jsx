@@ -2,10 +2,6 @@
 
 import '../../../stylesheets/pages/topic/sort.scss';
 
-import {
-    hot
-} from 'react-hot-loader/root';
-
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 
@@ -32,7 +28,6 @@ export default @connect((state) => ({
     updateTopicPriority
 })
 @withRouter({location: true, navigate: true})
-@hot
 class SortTopicModal extends React.Component {
     static propTypes = {
         // from router

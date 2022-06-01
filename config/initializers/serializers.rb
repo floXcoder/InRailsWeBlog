@@ -13,7 +13,7 @@ module FastJsonapi
       end
     end
 
-    def flat_serializable_hash(extract_options = false)
+    def flat_serializable_hash(extract_options: false)
       data       = self.serializable_hash
       other_keys = data.except(:data, :included)
 

@@ -47,10 +47,12 @@ module Users
     end
 
     def locale_from_browser
-      case @browser_language.compatible_language_from(%w[fr fr-FR fr-BE fr-CA fr-CH en en-GB en-US en-CA])
+      case @browser_language.user_preferred_languages.first
       when 'fr', 'fr-FR', 'fr-BE', 'fr-CH', 'fr-CA'
         'fr'
-      when 'en', 'en-US', 'en-CA', 'en-GB'
+      when 'en', 'en-CA', 'en-GB', 'en-US'
+        'en'
+      else
         'en'
       end
     end

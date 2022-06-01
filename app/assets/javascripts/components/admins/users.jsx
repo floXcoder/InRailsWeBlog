@@ -1,10 +1,6 @@
 'use strict';
 
 import {
-    hot
-} from 'react-hot-loader/root';
-
-import {
     fetchUsers
 } from '../../actions';
 
@@ -17,7 +13,6 @@ export default @connect((state) => ({
 }), {
     fetchUsers
 })
-@hot
 class AdminUsers extends React.Component {
     static propTypes = {
         // from connect
@@ -31,7 +26,7 @@ class AdminUsers extends React.Component {
     }
 
     componentDidMount() {
-        this.props.fetchUsers({complete: true});
+        this.props.fetchUsers({order: 'created_desc', complete: true});
     }
 
     render() {
@@ -52,7 +47,7 @@ class AdminUsers extends React.Component {
         return (
             <div>
                 <h1 className="center-align">
-                    {I18n.t('js.admin.users.title')}
+                    {I18n.t('js.admin.users.title')} ({this.props.users.length})
                 </h1>
 
                 <Table title={I18n.t('js.admin.users.table.title')}

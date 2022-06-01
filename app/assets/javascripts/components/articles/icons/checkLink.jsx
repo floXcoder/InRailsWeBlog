@@ -2,16 +2,22 @@
 
 import LinkOffIcon from '@mui/icons-material/LinkOff';
 
-const CheckLinkIcon = ({onCheckLinkClick, size, color}) => (
-    <span className="flow-tooltip-bottom"
-          data-tooltip={I18n.t('js.article.tooltip.check_link')}>
-        <a href="#"
-           onClick={onCheckLinkClick}>
-           <LinkOffIcon color={color}
-                       fontSize={size}/>
-        </a>
-    </span>
-);
+function CheckLinkIcon({
+                           onCheckLinkClick,
+                           size,
+                           color
+                       }) {
+    return (
+        <span className="flow-tooltip-bottom"
+              data-tooltip={I18n.t('js.article.tooltip.check_link')}>
+            <a href="#"
+               onClick={onCheckLinkClick}>
+               <LinkOffIcon color={color}
+                            fontSize={size}/>
+            </a>
+        </span>
+    );
+}
 
 
 CheckLinkIcon.propTypes = {

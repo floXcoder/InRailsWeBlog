@@ -2,10 +2,6 @@
 
 import '../../../stylesheets/pages/topic/share.scss';
 
-import {
-    hot
-} from 'react-hot-loader/root';
-
 import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
 
@@ -29,7 +25,6 @@ export default @withRouter({location: true, navigate: true})
 }), {
     shareTopic
 })
-@hot
 class ShareTopicModal extends React.Component {
     static propTypes = {
         // from router

@@ -8,6 +8,7 @@ import {
 import CommentItem from './item';
 import CommentForm from './form';
 
+
 export default class CommentList extends React.PureComponent {
     static propTypes = {
         comments: PropTypes.array.isRequired,
@@ -42,7 +43,7 @@ export default class CommentList extends React.PureComponent {
                 replyAsOwner: this.props.isOwner
             });
         } else {
-            Notification.error(I18n.t('js.comment.flash.creation_unpermitted'));
+            Notification.message.error(I18n.t('js.comment.flash.creation_unpermitted'));
         }
     };
 
@@ -114,7 +115,7 @@ export default class CommentList extends React.PureComponent {
                                                      isConnected={this.props.isConnected}
                                                      isSuperUser={this.props.isSuperUser}
                                                      isAskingForDeletion={this.state.replyForDeletion}
-                                                     onDropdownClick={this._handleDropdownClick}
+                                                     // onDropdownClick={this._handleDropdownClick}
                                                      onSubmit={this._handleModifySubmit}
                                                      onReply={this._handleReply}
                                                      onAskForDeletion={this._handleAskForDeletion}

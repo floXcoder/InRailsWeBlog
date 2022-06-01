@@ -1,6 +1,6 @@
 'use strict';
 
-import faker from 'faker';
+const { faker } = require('@faker-js/faker');
 
 module.exports = (props = {}) => ({
     name: props.defined ? 'tag name' : faker.lorem.words(),

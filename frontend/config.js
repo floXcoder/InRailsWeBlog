@@ -85,7 +85,7 @@ module.exports = {
             'window.$': 'jquery',
             'window.jQuery': 'jquery',
             React: 'react',
-            ReactDOM: 'react-dom',
+            ReactCreateRoot: ['react-dom/client', 'createRoot'],
             PropTypes: 'prop-types',
             connect: ['react-redux', 'connect'],
             classNames: 'classnames',

@@ -8,11 +8,11 @@ RSpec::Matchers.define :acts_as_voteable do |model|
     expect(actual).to respond_to(:votes_against)
     expect(actual).to respond_to(:percent_for)
     expect(actual).to respond_to(:percent_against)
-    expect(actual).to respond_to(:votes_count)
+    # expect(actual).to respond_to(:votes_count)
     expect(actual).to respond_to(:voted_by?)
 
-    expect(model).to respond_to(:plusminus_tally)
-    expect(model).to respond_to(:tally)
+    # expect(model).to respond_to(:plusminus_tally)
+    # expect(model).to respond_to(:tally)
   end
 
   description do

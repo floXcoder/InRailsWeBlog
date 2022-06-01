@@ -90,6 +90,7 @@ module Articles
                                       @relation[current_article_index + 1]
                                     ]
                                   end
+          @relation.compact!
         else
           @relation = @relation
                         .filter_by(params, @current_user, @user_articles, article.topic)

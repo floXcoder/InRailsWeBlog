@@ -205,6 +205,8 @@ class ArticleMiniCardDisplay extends React.Component {
                                       className="article-mini-card-headerItem">
                                     <meta itemProp="author"
                                           content={this.props.article.user.pseudo}/>
+                                    <meta itemProp="url"
+                                          content={userArticlesPath(this.props.article.user.slug)}/>
 
                                     <Link className="article-mini-card-userPseudo"
                                           to={userArticlesPath(this.props.article.user.slug)}

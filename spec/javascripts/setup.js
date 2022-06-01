@@ -6,23 +6,23 @@ global.requestAnimationFrame = (callback) => {
 };
 
 // Mock localStorage
-const localStorageMock = (function() {
+const localStorageMock = (function () {
     let store = {};
 
     return {
-        getItem: function(key) {
+        getItem: function (key) {
             return store[key];
         },
-        setItem: function(key, value) {
+        setItem: function (key, value) {
             store[key] = value.toString();
         },
-        clear: function() {
+        clear: function () {
             store = {};
         },
-        removeItem: function(key) {
+        removeItem: function (key) {
             delete store[key];
         }
     };
 })();
 
-Object.defineProperty(window, 'localStorage', { value: localStorageMock });
+Object.defineProperty(window, 'localStorage', {value: localStorageMock});

@@ -1,12 +1,12 @@
 'use strict';
 
-import PWAManager from './modules/pwaManager';
-
 // Error reporting
 import {
     init as SentryInit,
     configureScope as SentryConfigureScope
 } from '@sentry/browser';
+
+import PWAManager from './modules/pwaManager';
 
 // Auto polyfill
 require('./polyfills');
@@ -22,10 +22,13 @@ if (window.SENTRY_JAVASCRIPT_KEY && !window.seoMode) {
         ignoreErrors: [
             'TypeError: Failed to fetch',
             'TypeError: NetworkError when attempting to fetch resource.',
-            'TypeError: Cancelled',
+            'TypeError: cancelled',
+            'TypeError: annulé',
             'TypeError: Load failed',
             'UnknownError: Background Sync is disabled.',
-            /Loading CSS chunk/
+            'Error: QuotaExceededError: QuotaExceededError',
+            /Loading CSS chunk/,
+            /wasm/
         ]
         // beforeSend(event, hint) {
         //     // Check if it is an exception, and if so, show the report dialog

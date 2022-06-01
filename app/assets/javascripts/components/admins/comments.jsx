@@ -1,10 +1,6 @@
 'use strict';
 
 import {
-    hot
-} from 'react-hot-loader/root';
-
-import {
     fetchComments
 } from '../../actions';
 
@@ -17,7 +13,6 @@ export default @connect((state) => ({
 }), {
     fetchComments
 })
-@hot
 class AdminComments extends React.Component {
     static propTypes = {
         // from connect
@@ -31,7 +26,7 @@ class AdminComments extends React.Component {
     }
 
     componentDidMount() {
-        this.props.fetchComments({complete: true});
+        this.props.fetchComments({order: 'created_desc', complete: true, limit: 2000});
     }
 
     render() {
@@ -46,7 +41,7 @@ class AdminComments extends React.Component {
         return (
             <div>
                 <h1 className="center-align">
-                    {I18n.t('js.admin.comments.title')}
+                    {I18n.t('js.admin.comments.title')} ({this.props.comments.length})
                 </h1>
 
                 <Table title={I18n.t('js.admin.comments.table.title')}

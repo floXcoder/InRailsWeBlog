@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   include CacheService
 
   # Security
-  protect_from_forgery with: :exception, except: [:not_found, :not_found_error, :server_error]
+  protect_from_forgery with: :exception, except: [:not_found_error, :server_error]
 
   # Handle exceptions
   rescue_from StandardError, with: :server_error
@@ -460,17 +460,19 @@ class ApplicationController < ActionController::Base
         redirect_back(fallback_location: send("home_#{I18n.locale}_path"))
       end
       format.json { render json: { errors: error_message }.to_json, status: :forbidden }
-      format.js { js_redirect_to(ERB::Util.html_escape(request.referer) || send("home_#{I18n.locale}_path")) }
+      format.js { js_redirect_to(ERB::Util.html_escape(request.referer) || root_path) }
       format.all { render body: nil, status: :forbidden }
     end
   end
 
   def not_found_error(exception = nil)
-    raise if Rails.env.development?
+    # raise if Rails.env.development?
 
     respond_to do |format|
       format.json { render json: { errors: t('views.error.status.explanation.404'), details: exception&.try(:message) }, status: :not_found }
       format.html do
+        set_seo_data(:not_found)
+
         if current_user
           render 'pages/user', locals: { status: 404 }, status: :not_found, layout: 'user'
         else
@@ -482,8 +484,18 @@ class ApplicationController < ActionController::Base
   end
 
   def not_connected_error(exception)
+    token_problem = exception.is_a?(ActionController::InvalidAuthenticityToken)
+
     respond_to do |format|
-      format.json { render json: { errors: t('views.error.not_connected'), details: exception&.try(:message) }, status: :internal_server_error }
+      format.json do
+        render json:   {
+          errors:  t('views.error.not_connected'),
+          details: exception&.try(:message),
+          token:   token_problem ? form_authenticity_token : nil
+        },
+               status: token_problem ? :method_not_allowed : :unprocessable_entity
+      end
+
       format.html do
         flash.now[:error] = t('views.error.not_connected')
         if current_user
@@ -492,7 +504,10 @@ class ApplicationController < ActionController::Base
           render 'pages/default', locals: { status: 500 }, status: :internal_server_error, layout: 'application'
         end
       end
-      format.all { render body: nil, status: :internal_server_error }
+
+      format.all do
+        render body: nil, status: :unprocessable_entity
+      end
     end
   end
 
@@ -504,7 +519,7 @@ class ApplicationController < ActionController::Base
     end
 
     respond_to do |format|
-      format.json { render json: { errors: t('views.error.status.explanation.500'), details: exception&.try(:message) }, status: :internal_server_error }
+      format.json { render json: { errors: t('views.error.status.explanation.500'), details: exception&.try(:full_message) }, status: :internal_server_error }
       format.html do
         if current_user
           render 'pages/user', locals: { status: 500 }, status: :internal_server_error, layout: 'user'

@@ -1,9 +1,5 @@
 'use strict';
 
-import {
-    hot
-} from 'react-hot-loader/root';
-
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 
@@ -33,7 +29,6 @@ export default @connect((state) => ({
 })
 @withRouter({params: true})
 @highlight(false)
-@hot
 class ArticleShared extends React.Component {
     static propTypes = {
         // from router

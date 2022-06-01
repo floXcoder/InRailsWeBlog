@@ -1,9 +1,5 @@
 'use strict';
 
-import {
-    hot
-} from 'react-hot-loader/root';
-
 import MasonryWrapper from '../../../theme/masonry';
 
 import ArticleItemsDisplay from '../items';
@@ -13,7 +9,6 @@ const ArticleMasonry = MasonryWrapper(ArticleItemsDisplay, {articleDisplayMode: 
 export default @connect((state) => ({
     articles: state.articleState.articles
 }))
-@hot
 class ArticleMasonryMode extends React.Component {
     static propTypes = {
         onEnter: PropTypes.func,

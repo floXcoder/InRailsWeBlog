@@ -11,17 +11,13 @@ import BookmarkList from '../../bookmark/list';
 
 const HomeBookmarkHeader = function () {
     return (
-        <Dropdown button={
+        <Dropdown id="header-bookmark"
+            buttonClassName="layout-header-headerButton"
+            button={
             <IconButton color="default" itemProp="url" size="large">
                 <FavoriteIcon/>
             </IconButton>
-        }
-                  position="bottom right"
-                  buttonClassName="layout-header-headerButton"
-                  isClosingOnInsideClick={true}
-                  isFixed={true}
-                  hasWavesEffect={false}
-                  hasArrow={true}>
+        }>
             <BookmarkList/>
         </Dropdown>
     );

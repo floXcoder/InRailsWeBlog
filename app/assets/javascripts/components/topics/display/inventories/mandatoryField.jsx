@@ -6,7 +6,7 @@ import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import NativeSelect from '@mui/material/NativeSelect';
 
-var TopicFormMandatoryFieldDisplay = function () {
+function TopicFormMandatoryFieldDisplay() {
     return (
         <div className="col s12">
             <Grid className="topic-form-inv-fieldBorder"
@@ -51,6 +51,6 @@ var TopicFormMandatoryFieldDisplay = function () {
             </Grid>
         </div>
     );
-};
+}
 
 export default TopicFormMandatoryFieldDisplay;

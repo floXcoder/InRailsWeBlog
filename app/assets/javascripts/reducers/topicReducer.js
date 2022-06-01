@@ -50,7 +50,7 @@ export default function topicReducer(state = initState, action) {
                     state.currentUserTopicSlug = action.topic.slug;
                     state.currentTopic = action.topic;
 
-                    if (action.topic.mode === 'stories') {
+                    if (state.currentTopic.mode === 'stories') {
                         state.storyTopic = action.topic;
                     } else {
                         state.storyTopic = undefined;

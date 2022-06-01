@@ -18,25 +18,28 @@ const createPanel = (options) => {
     options.color = options.color || 'lightgreen';
     options.css = options.css || '';
 
-    return createElement('div',
+    return createElement(
+        'div',
         'display:none;font-family:Helvetica,Arial,sans-serif;font-size:14px;font-weight:bold;padding:8px;text-align:left;opacity:0.7;position:fixed;right:0;bottom:0;min-width:260px;max-height:50vh;overflow:auto;z-index:9999;background:'
         + options.bgColor + ';color:'
         + options.color + ';'
-        + options.css);
+        + options.css
+    );
 };
 
 const log = (data, colorStyle) => {
     if (!isInitialized) {
         throw 'You need to call `screenLog.init()` first.';
     }
-    const el = createElement('div', 'line-height:18px;background:' +
+
+    const el = createElement('div', 'white-space: pre;line-height:18px;background:' +
         (logEl.children.length % 2 ? 'rgba(255,255,255,0.1);' : 'inherit;') +
         (colorStyle ? 'color:' + colorStyle : '')); // zebra lines
     //el.textContent = [].slice.call(arguments).reduce(function(prev, arg) {
     //    return prev + ' ' + arg;
     //}, '');
 
-    el.textContent = data;
+    el.textContent = Array.isArray(data) ? data.join('\n') : data;
 
     // If any elements, show log element
     logEl.style.removeProperty('display');

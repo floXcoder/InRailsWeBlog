@@ -13,8 +13,11 @@ Rails.application.configure do
   # Do not eager load code on boot.
   config.eager_load = false
 
-  # Show full error reports.
+  # Show full error reports and disable caching.
   config.consider_all_requests_local = true
+
+  # Enable server timing
+  config.server_timing = true
 
   # Enable/disable caching. By default caching is disabled.
   # Run rails dev:cache to toggle caching.
@@ -41,11 +44,14 @@ Rails.application.configure do
   # Log file for development
   config.logger = ActiveSupport::TaggedLogging.new(Logger.new('log/development.log'))
 
-  # Don't care if the mailer can't send.
-  config.action_mailer.raise_delivery_errors = false
-
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
+
+  # Raise exceptions for disallowed deprecations.
+  config.active_support.disallowed_deprecation = :raise
+
+  # Tell Active Support which deprecation messages to disallow.
+  config.active_support.disallowed_deprecation_warnings = []
 
   # Raise an error on page load if there are pending migrations.
   config.active_record.migration_error = :page_load
@@ -56,14 +62,14 @@ Rails.application.configure do
   # Raise warning when loading large data set
   config.active_record.warn_on_records_fetched_greater_than = 1500
 
-  # Raises error for missing translations.
-  config.i18n.raise_on_missing_translations = true
-
   # Use an evented file watcher to asynchronously detect changes in source code,
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
   # Mails
+  # Don't care if the mailer can't send.
+  config.action_mailer.raise_delivery_errors = false
+
   config.action_mailer.default_url_options   = { host: ENV['WEBSITE_ADDRESS'] }
   config.action_mailer.delivery_method       = :smtp
   config.action_mailer.perform_deliveries    = false
@@ -79,12 +85,15 @@ Rails.application.configure do
   # Log levels :debug, :info, :warn, :error, :fatal and :unknown
   config.log_level = :info
 
+  # Annotate rendered view with file names.
+  config.action_view.annotate_rendered_view_with_filenames = true
+
   # N 1 Queries
   config.after_initialize do
     Bullet.enable               = false
     Bullet.alert                = false
     Bullet.bullet_logger        = false
-    Bullet.console              = true
+    Bullet.console              = false
     Bullet.rails_logger         = true
     Bullet.add_footer           = false
     Bullet.counter_cache_enable = true

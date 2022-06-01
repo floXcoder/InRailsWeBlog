@@ -81,8 +81,7 @@ module Topics
                                where:        where_options,
                                order:        order,
                                aggs:         aggregations,
-                               includes:     includes,
-                               execute:      !@params[:defer])
+                               includes:     includes)
 
         track_results(results)
 

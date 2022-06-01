@@ -22,12 +22,18 @@ const articlesByTag = (articles, sortedTags, parentTagSlug) => {
 
         if (parentTagSlug) {
             // Tag articles view
-            let firstArticleTag = article.tags.filter((tag) => parentTagSlugs.includes(tag.slug)).map((tag) => tag.name).sort().first();
+            let firstArticleTag = article.tags.filter((tag) => parentTagSlugs.includes(tag.slug))
+                .map((tag) => tag.name)
+                .sort()
+                .first();
             firstArticleTag = firstArticleTag || 'undefined';
             orderedArticles[firstArticleTag] = orderedArticles[firstArticleTag] ? orderedArticles[firstArticleTag].concat(article) : [article];
         } else {
             // Topic or user articles view
-            const firstArticleTag = article.tags.filter((tag) => parentTagSlugs.includes(tag.slug)).map((tag) => tag.name).sort().first();
+            const firstArticleTag = article.tags.filter((tag) => parentTagSlugs.includes(tag.slug))
+                .map((tag) => tag.name)
+                .sort()
+                .first();
             // In case of previous articles are still in memory
             if (orderedArticles[firstArticleTag]) {
                 orderedArticles[firstArticleTag].push(article);
@@ -125,41 +131,38 @@ export const getArticleIsOwner = (state, article) => {
 };
 
 export const getArticleParentTags = createSelector(
-    (article) => article,
-    (article) => {
-        if (!article || !article.tags) {
-            return;
+    (_, article) => article,
+    (state) => state.tagState.currentTagSlugs,
+    (state) => state.tagState.topicTags,
+    (article, currentTagSlugs, topicTags) => {
+        if (article && article.tags) {
+            // If tags and no parents, set as parent tags for display
+            const hasParentSlugs = article.parentTagSlugs && article.parentTagSlugs.length > 0;
+            const hasParentIds = article.parentTagIds && article.parentTagIds.length > 0;
+
+            return article.tags.filter((tag) => {
+                if (hasParentSlugs) {
+                    return article.parentTagSlugs.includes(tag.slug);
+                } else if (hasParentIds) {
+                    return article.parentTagIds.includes(tag.id);
+                } else {
+                    return true;
+                }
+            });
+        } else if (currentTagSlugs?.length && topicTags?.length) {
+            return topicTags.filter((tag) => currentTagSlugs.includes(tag.slug));
         }
-
-        // If tags and no parents, set as parent tags for display
-        const hasParentSlugs = article.parentTagSlugs && article.parentTagSlugs.length > 0;
-        const hasParentIds = article.parentTagIds && article.parentTagIds.length > 0;
-        const tags = article.tags.filter((tag) => {
-            if (hasParentSlugs) {
-                return article.parentTagSlugs.includes(tag.slug);
-            } else if (hasParentIds) {
-                return article.parentTagIds.includes(tag.id);
-            } else {
-                return true;
-            }
-        });
-
-        return tags;
     }
 );
 
 export const getArticleChildTags = createSelector(
     (article) => article,
     (article) => {
-        if (!article || !article.tags) {
-            return;
+        if (article && article.tags) {
+            return article.tags.filter((tag) => (
+                article.childTagSlugs ? article.childTagSlugs.includes(tag.slug) : article.childTagIds && article.childTagIds.includes(tag.id)
+            ));
         }
-
-        const tags = article.tags.filter((tag) => (
-            article.childTagSlugs ? article.childTagSlugs.includes(tag.slug) : article.childTagIds && article.childTagIds.includes(tag.id)
-        ));
-
-        return tags;
     }
 );
 
@@ -171,11 +174,12 @@ export const getArticleErrors = createSelector(
             errorContent = [errors];
         } else if (Utils.isPresent(errors)) {
             errorContent = [];
-            Object.entries(errors).forEach(([errorName, errorDescriptions]) => {
-                if (Utils.isPresent(errorDescriptions)) {
-                    errorContent.push(I18n.t(`js.article.model.${errorName}`) + ' ' + (Array.isArray(errorDescriptions) ? errorDescriptions.join(I18n.t('js.helpers.and')) : errorDescriptions));
-                }
-            });
+            Object.entries(errors)
+                .forEach(([errorName, errorDescriptions]) => {
+                    if (Utils.isPresent(errorDescriptions)) {
+                        errorContent.push(I18n.t(`js.article.model.${errorName}`) + ' ' + (Array.isArray(errorDescriptions) ? errorDescriptions.join(I18n.t('js.helpers.and')) : errorDescriptions));
+                    }
+                });
         }
         return errorContent;
     }

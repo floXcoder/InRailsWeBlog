@@ -1,9 +1,5 @@
 'use strict';
 
-import {
-    hot
-} from 'react-hot-loader/root';
-
 import Paper from '@mui/material/Paper';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -27,7 +23,6 @@ const TOP_SCROLL = 50;
 export default @connect(null, {
     fetchLogs
 })
-@hot
 class AdminLogs extends React.PureComponent {
     static propTypes = {
         logFilename: PropTypes.string.isRequired,

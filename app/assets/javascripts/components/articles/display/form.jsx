@@ -58,7 +58,7 @@ import EnsureValidity from '../../modules/ensureValidity';
 export default @connect((state, props) => ({
     availableParentTags: getCategorizedTags(state, props.inheritVisibility),
     availableChildTags: getCategorizedTags(state, props.inheritVisibility, true),
-    parentTags: getArticleParentTags(props.children),
+    parentTags: getArticleParentTags(state, props.children),
     childTags: getArticleChildTags(props.children)
 }), {
     fetchTags

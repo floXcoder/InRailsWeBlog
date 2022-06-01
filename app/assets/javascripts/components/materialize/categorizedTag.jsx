@@ -109,7 +109,7 @@ export default class CategorizedTag extends React.Component {
             {
                 'input-field': !this.props.isHorizontal,
                 'input-horizontal-field': this.props.isHorizontal,
-                'row': this.props.isHorizontal
+                row: this.props.isHorizontal
             }
         );
 
