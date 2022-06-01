@@ -56,9 +56,9 @@ webPackConfig = _.merge(webPackConfig, {
 
 // Configuration options: https://github.com/webpack/webpack/blob/master/schemas/WebpackOptions.json
 webPackConfig.performance = {
-    hints: 'error',
-    maxAssetSize: 1000000,
-    maxEntrypointSize: 1000000
+    hints: 'warning',
+    maxAssetSize: 1200000,
+    maxEntrypointSize: 1200000
 };
 
 webPackConfig.optimization = {
