@@ -20,7 +20,7 @@ const HomeArticleHeader = function ({
                                     }) {
     return (
         <Dropdown id="header-article"
-            // buttonClassName="layout-header-headerButton"
+                  buttonClassName="layout-header-headerButton"
                   button={
                       <IconButton color="default" itemProp="url" size="large">
                           {

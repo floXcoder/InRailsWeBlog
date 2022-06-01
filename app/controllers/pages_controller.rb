@@ -96,7 +96,7 @@ class PagesController < ApplicationController
 
     respond_to do |format|
       format.json do
-        Rails.logger.error("Page not found: #{request.path}") if Rails.env.development?
+        Rails.logger.error("Page not found: #{request.path}") if Rails.env.production?
 
         render json: { errors: t('views.error.status.explanation.404') }, status: :not_found
       end

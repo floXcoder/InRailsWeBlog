@@ -7,7 +7,7 @@
  * Copyright 2013- Alan Hong and contributors
  * Summernote may be freely distributed under the MIT license.
  *
- * Date: 2021-11-02T21:37Z
+ * Date: 2022-05-31T18:42Z
  *
  */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -300,15 +300,31 @@ function validFontName(fontName) {
 
 function isFontInstalled(fontName) {
   var testFontName = fontName === 'Comic Sans MS' ? 'Courier New' : 'Comic Sans MS';
-  var testText = 'mmmmmmmmmmwwwww';
-  var testSize = '200px';
-  var canvas = document.createElement('canvas');
-  var context = canvas.getContext('2d');
-  context.font = testSize + " '" + testFontName + "'";
-  var originalWidth = context.measureText(testText).width;
-  context.font = testSize + ' ' + validFontName(fontName) + ', "' + testFontName + '"';
-  var width = context.measureText(testText).width;
-  return originalWidth !== width;
+  var testText = "mw";
+  var fontSize = "20px";
+  var canvasWidth = 40;
+  var canvasHeight = 20;
+  var canvas = document.createElement("canvas");
+  var context = canvas.getContext("2d");
+  canvas.width = canvasWidth;
+  canvas.height = canvasHeight; // Center display
+
+  context.textAlign = "center";
+  context.fillStyle = "black";
+  context.textBaseline = "middle";
+
+  function getPxInfo(font) {
+    context.clearRect(0, 0, canvasWidth, canvasHeight);
+    context.font = fontSize + ' ' + validFontName(font) + ', "' + testFontName + '"';
+    context.fillText(testText, canvasWidth / 2, canvasHeight / 2); // Get pixel information
+
+    var pxInfo = context.getImageData(0, 0, canvasWidth, canvasHeight).data;
+    return pxInfo.join("");
+  }
+
+  var testInfo = getPxInfo(testFontName);
+  var fontInfo = getPxInfo(fontName);
+  return testInfo !== fontInfo;
 }
 
 var userAgent = navigator.userAgent;
@@ -891,7 +907,7 @@ function isPara(node) {
   } // Chrome(v31.0), FF(v25.0.1) use DIV for paragraph
 
 
-  return node && /^DIV|^P|^LI|^H[1-7]/.test(node.nodeName.toUpperCase());
+  return node && /^DIV$|^P$|^LI$|^H[1-7]$/.test(node.nodeName.toUpperCase());
 }
 
 function isHeading(node) {
@@ -1791,6 +1807,35 @@ function splitTree(root, point, options) {
     return null;
   } else if (ancestors.length === 1) {
     return splitNode(point, options);
+  } // Filter elements with sibling elements
+
+
+  if (ancestors.length > 2) {
+    var domList = ancestors.slice(0, ancestors.length - 1);
+    var ifHasNextSibling = domList.find(function (item) {
+      return item.nextSibling;
+    });
+
+    if (ifHasNextSibling && point.offset != 0 && isRightEdgePoint(point)) {
+      var nestSibling = ifHasNextSibling.nextSibling;
+      var textNode;
+
+      if (nestSibling.nodeType == 1) {
+        textNode = nestSibling.childNodes[0];
+        ancestors = listAncestor(textNode, func.eq(root));
+        point = {
+          node: textNode,
+          offset: 0
+        };
+      } else if (nestSibling.nodeType == 3 && !nestSibling.data.match(/[\n\r]/g)) {
+        textNode = nestSibling;
+        ancestors = listAncestor(textNode, func.eq(root));
+        point = {
+          node: textNode,
+          offset: 0
+        };
+      }
+    }
   }
 
   return ancestors.reduce(function (node, parent) {
@@ -2399,6 +2444,8 @@ var Context = /*#__PURE__*/function () {
 
 
 ;// CONCATENATED MODULE: ./src/js/summernote.js
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 
 
 
@@ -2411,7 +2458,8 @@ external_root_jQuery_commonjs_jquery_commonjs2_jquery_amd_jquery_default().fn.ex
    * @return {this}
    */
   summernote: function summernote() {
-    var type = external_root_jQuery_commonjs_jquery_commonjs2_jquery_amd_jquery_default().type(lists.head(arguments));
+    var type = _typeof(lists.head(arguments));
+
     var isExternalAPICalled = type === 'string';
     var hasInitOptions = type === 'object';
     var options = external_root_jQuery_commonjs_jquery_commonjs2_jquery_amd_jquery_default().extend({}, (external_root_jQuery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()).summernote.options, hasInitOptions ? lists.head(arguments) : {}); // Update options
@@ -3463,6 +3511,17 @@ var KEY_MAP = {
   },
 
   /**
+   * @method isRemove
+   *
+   * @param {Number} keyCode
+   * @return {Boolean}
+   */
+  isRemove: function isRemove(keyCode) {
+    // LB
+    return lists.contains([KEY_MAP.BACKSPACE, KEY_MAP.DELETE], keyCode);
+  },
+
+  /**
    * @method isMove
    *
    * @param {Number} keyCode
@@ -3555,19 +3614,23 @@ function createPicture(url, param, imageId, srcsets) {
 
     for (var srcsetIndex = 0; srcsetIndex < srcsets.length; srcsetIndex++) {
       if (srcsets[srcsetIndex].maxWidth) {
-        $picture.append(external_root_jQuery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()('<source>').attr('media', '(max-width: ' + srcsets[srcsetIndex].maxWidth + 'px)').attr('data-srcset', srcsets[srcsetIndex].url));
+        $picture.append(external_root_jQuery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()('<source>').attr('media', '(max-width: ' + srcsets[srcsetIndex].maxWidth + 'px)').attr('srcset', srcsets[srcsetIndex].url));
       } else {
-        $picture.append(external_root_jQuery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()('<source>').attr('data-srcset', srcsets[srcsetIndex].url));
+        $picture.append(external_root_jQuery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()('<source>').attr('srcset', srcsets[srcsetIndex].url));
       }
 
       if (srcsets[srcsetIndex].webp) {
-        $picture.append(external_root_jQuery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()('<source>').attr('type', 'image/webp').attr('media', '(max-width: ' + srcsets[srcsetIndex].maxWidth + 'px)').attr('data-srcset', srcsets[srcsetIndex].webp));
+        if (srcsets[srcsetIndex].maxWidth) {
+          $picture.append(external_root_jQuery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()('<source>').attr('type', 'image/webp').attr('media', '(max-width: ' + srcsets[srcsetIndex].maxWidth + 'px)').attr('srcset', srcsets[srcsetIndex].webp));
+        } else {
+          $picture.append(external_root_jQuery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()('<source>').attr('type', 'image/webp').attr('srcset', srcsets[srcsetIndex].webp));
+        }
       } else {
-        $picture.append(external_root_jQuery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()('<source>').attr('type', 'image/webp').attr('data-srcset', srcsets[srcsetIndex].webp));
+        $picture.append(external_root_jQuery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()('<source>').attr('type', 'image/webp').attr('srcset', srcsets[srcsetIndex].webp));
       }
     }
 
-    var $img = external_root_jQuery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()('<img>').addClass('lazyload').attr('data-src', url).attr('data-id', imageId);
+    var $img = external_root_jQuery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()('<img>').attr('loading', 'lazy').attr('src', url).attr('data-id', imageId);
     $picture.append($img);
     deferred.resolve($picture);
   }).promise();
@@ -5271,10 +5334,13 @@ var Editor = /*#__PURE__*/function () {
      */
 
     this.createLink = this.wrapCommand(function (linkInfo) {
+      var rel = [];
       var linkUrl = linkInfo.url;
       var linkText = linkInfo.text;
       var isNewWindow = linkInfo.isNewWindow;
       var checkProtocol = linkInfo.checkProtocol;
+      var addNoReferrer = _this.options.linkAddNoReferrer;
+      var addNoOpener = _this.options.linkAddNoOpener;
 
       var rng = linkInfo.range || _this.getLastRange();
 
@@ -5316,6 +5382,18 @@ var Editor = /*#__PURE__*/function () {
 
         if (isNewWindow) {
           external_root_jQuery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()(anchor).attr('target', '_blank');
+
+          if (addNoReferrer) {
+            rel.push('noreferrer');
+          }
+
+          if (addNoOpener) {
+            rel.push('noopener');
+          }
+
+          if (rel.length) {
+            external_root_jQuery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()(anchor).attr('rel', rel.join(' '));
+          }
         } else {
           external_root_jQuery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()(anchor).removeAttr('target');
         }
@@ -5573,6 +5651,10 @@ var Editor = /*#__PURE__*/function () {
           return true;
         }
       } else if (key.isEdit(event.keyCode)) {
+        if (key.isRemove(event.keyCode)) {
+          this.context.invoke('removed');
+        }
+
         this.afterCommand();
       }
 
@@ -5862,6 +5944,28 @@ var Editor = /*#__PURE__*/function () {
       };
     }
     /**
+     * removed (function added by 1der1)
+    */
+
+  }, {
+    key: "removed",
+    value: function removed(rng, node, tagName) {
+      // LB
+      rng = range.create();
+
+      if (rng.isCollapsed() && rng.isOnCell()) {
+        node = rng.ec;
+
+        if ((tagName = node.tagName) && node.childElementCount === 1 && node.childNodes[0].tagName === "BR") {
+          if (tagName === "P") {
+            node.remove();
+          } else if (['TH', 'TD'].indexOf(tagName) >= 0) {
+            node.firstChild.remove();
+          }
+        }
+      }
+    }
+    /**
      * insert image
      *
      * @param {String} src
@@ -5888,18 +5992,16 @@ var Editor = /*#__PURE__*/function () {
             $image.attr('data-filename', param);
           }
 
-          $image.css('width', Math.min(_this3.$editable.width(), $image.width()));
+          if (!srcsets) {
+            $image.css('width', Math.min(_this3.$editable.width(), $image.width()));
+          }
         }
 
         $image.show();
 
-        _this3.getLastRange().insertNode($image[0]); // this.setLastRange(range.createFromNodeAfter($image[0]).select());
+        _this3.getLastRange().insertNode($image[0]);
 
-
-        var $nodePara = external_root_jQuery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()('<p><br/></p>');
-        $nodePara.insertAfter($image[0]);
-
-        _this3.setLastRange(range.createFromNodeAfter($nodePara[0]).select());
+        _this3.setLastRange(range.createFromNodeAfter($image[0]).select());
 
         _this3.afterCommand();
       }).fail(function (e) {
@@ -6013,7 +6115,7 @@ var Editor = /*#__PURE__*/function () {
             this.$editable.data(KEY_BOGUS, firstSpan);
           }
         } else {
-          this.setLastRange(this.createRangeFromList(spans).select());
+          rng.select();
         }
       } else {
         var noteStatusOutput = external_root_jQuery_commonjs_jquery_commonjs2_jquery_amd_jquery_default().now();
@@ -6417,7 +6519,7 @@ var Dropzone = /*#__PURE__*/function () {
       var _this2 = this;
 
       Object.keys(this.documentEventHandlers).forEach(function (key) {
-        _this2.$eventListener.off(key.substr(2).toLowerCase(), _this2.documentEventHandlers[key]);
+        _this2.$eventListener.off(key.slice(2).toLowerCase(), _this2.documentEventHandlers[key]);
       });
       this.documentEventHandlers = {};
     }
@@ -6907,27 +7009,19 @@ var Handle = /*#__PURE__*/function () {
 
       if (isImage) {
         var $image = external_root_jQuery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()(target);
-        var position = $image.position();
-        var pos = {
-          left: position.left + parseInt($image.css('marginLeft'), 10),
-          top: position.top + parseInt($image.css('marginTop'), 10)
-        }; // exclude margin
-
-        var imageSize = {
-          w: $image.outerWidth(false),
-          h: $image.outerHeight(false)
-        };
+        var areaRect = this.$editingArea[0].getBoundingClientRect();
+        var imageRect = target.getBoundingClientRect();
         $selection.css({
           display: 'block',
-          left: pos.left,
-          top: pos.top,
-          width: imageSize.w,
-          height: imageSize.h
+          left: imageRect.left - areaRect.left,
+          top: imageRect.top - areaRect.top,
+          width: imageRect.width,
+          height: imageRect.height
         }).data('target', $image); // save current image element.
 
         var origImageObj = new Image();
         origImageObj.src = $image.attr('src');
-        var sizingText = imageSize.w + 'x' + imageSize.h + ' (' + this.lang.image.original + ': ' + origImageObj.width + 'x' + origImageObj.height + ')';
+        var sizingText = imageRect.width + 'x' + imageRect.height + ' (' + this.lang.image.original + ': ' + origImageObj.width + 'x' + origImageObj.height + ')';
         $selection.find('.note-control-selection-info').text(sizingText);
         this.context.invoke('editor.saveTarget', target);
       } else {
@@ -7032,7 +7126,7 @@ var AutoLink = /*#__PURE__*/function () {
   }, {
     key: "handleKeyup",
     value: function handleKeyup(e) {
-      if (lists.contains([key.code.ENTER, key.code.SPACE], e.keyCode)) {
+      if (key.code.SPACE === e.keyCode || key.code.ENTER === e.keyCode && !e.shiftKey) {
         this.replace();
       }
     }
@@ -7410,7 +7504,7 @@ var Buttons = /*#__PURE__*/function () {
               }).render());
             });
             $dropdown.find('input[type=color]').each(function (idx, item) {
-              external_root_jQuery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()(item).change(function () {
+              external_root_jQuery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()(item).on("change", function () {
                 var $chip = $dropdown.find('#' + external_root_jQuery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()(this).data('event')).find('.note-color-btn').first();
                 var color = this.value.toUpperCase();
                 $chip.css('background-color', color).attr('aria-label', color).attr('data-value', color).attr('data-original-title', color);
@@ -7733,7 +7827,7 @@ var Buttons = /*#__PURE__*/function () {
             $catcher.css({
               width: _this2.options.insertTableMaxSize.col + 'em',
               height: _this2.options.insertTableMaxSize.row + 'em'
-            }).mouseup(_this2.context.createInvokeHandler('editor.insertTable')).on('mousemove', _this2.tableMoveHandler.bind(_this2));
+            }).mousedown(_this2.context.createInvokeHandler('editor.insertTable')).on('mousemove', _this2.tableMoveHandler.bind(_this2));
           }
         }).render();
       });
@@ -9582,15 +9676,18 @@ var HintPopover = /*#__PURE__*/function () {
     key: "createItemTemplates",
     value: function createItemTemplates(hintIdx, items) {
       var hint = this.hints[hintIdx];
-      return items.map(function (item
-      /*, idx */
-      ) {
+      return items.map(function (item, idx) {
         var $item = external_root_jQuery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()('<div class="note-hint-item"></div>');
         $item.append(hint.template ? hint.template(item) : item + '');
         $item.data({
           'index': hintIdx,
           'item': item
         });
+
+        if (hintIdx === 0 && idx === 0) {
+          $item.addClass('active');
+        }
+
         return $item;
       });
     }
@@ -9989,6 +10086,9 @@ var CodePopover = /*#__PURE__*/function () {
       air: [['color', ['color']], ['font', ['bold', 'underline', 'clear']], ['para', ['ul', 'paragraph']], ['table', ['table']], ['insert', ['link', 'picture']], ['view', ['fullscreen', 'codeview']]],
       code: [['code']]
     },
+    // link options
+    linkAddNoReferrer: false,
+    addLinkNoOpener: false,
     // air mode: inline editor
     airMode: false,
     overrideContextMenu: false,
@@ -9999,7 +10099,7 @@ var CodePopover = /*#__PURE__*/function () {
     useProtocol: true,
     defaultProtocol: 'http://',
     focus: false,
-    tabDisabled: false,
+    tabDisable: false,
     tabSize: 4,
     styleWithCSS: false,
     shortcuts: true,
@@ -10192,7 +10292,7 @@ var CodePopover = /*#__PURE__*/function () {
   }
 });
 ;// CONCATENATED MODULE: ./src/js/renderer.js
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function renderer_typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { renderer_typeof = function _typeof(obj) { return typeof obj; }; } else { renderer_typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return renderer_typeof(obj); }
 
 function renderer_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -10264,7 +10364,7 @@ var Renderer = /*#__PURE__*/function () {
 /* harmony default export */ const renderer = ({
   create: function create(markup, callback) {
     return function () {
-      var options = _typeof(arguments[1]) === 'object' ? arguments[1] : arguments[0];
+      var options = renderer_typeof(arguments[1]) === 'object' ? arguments[1] : arguments[0];
       var children = Array.isArray(arguments[0]) ? arguments[0] : [];
 
       if (options && options.children) {
@@ -10461,10 +10561,10 @@ var DropdownUI = /*#__PURE__*/function () {
   return DropdownUI;
 }();
 
-external_root_jQuery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()(document).on('click', function (e) {
+external_root_jQuery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()(document).on('click.note-dropdown-menu', function (e) {
   if (!external_root_jQuery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()(e.target).closest('.note-btn-group').length) {
+    external_root_jQuery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()('.note-btn-group.open .note-btn.active').removeClass('active');
     external_root_jQuery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()('.note-btn-group.open').removeClass('open');
-    external_root_jQuery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()('.note-btn-group .note-btn.active').removeClass('active');
   }
 });
 external_root_jQuery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()(document).on('click.note-dropdown-menu', function (e) {

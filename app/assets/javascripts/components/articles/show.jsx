@@ -441,7 +441,7 @@ class ArticleShow extends React.Component {
                                             }
 
                                             {
-                                                (this.props.currentTopic && this.props.currentTopic.visibility === 'everyone' && this.props.article.visibility !== 'everyone') &&
+                                                (this.props.currentTopic && this.props.article && this.props.currentTopic.visibility === 'everyone' && this.props.article.visibility !== 'everyone') &&
                                                 <div className="article-show-private-message">
                                                     {I18n.t('js.article.common.private_in_public')}
                                                 </div>

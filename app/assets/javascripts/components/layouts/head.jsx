@@ -9,7 +9,15 @@ function HeadLayout({children}) {
         return null;
     }
 
-    const {title, description, author, canonical, alternate, og, noindex} = children;
+    const {
+        title,
+        description,
+        author,
+        canonical,
+        alternate,
+        og,
+        noindex
+    } = children;
 
     return (
         <Helmet>
@@ -37,12 +45,13 @@ function HeadLayout({children}) {
 
             {
                 alternate &&
-                Object.keys(alternate).map((locale) => (
-                    <link key={locale}
-                          rel="alternate"
-                          hrefLang={locale}
-                          href={alternate[locale]}/>
-                ))
+                Object.keys(alternate)
+                    .map((locale) => (
+                        <link key={locale}
+                              rel="alternate"
+                              hrefLang={locale}
+                              href={alternate[locale]}/>
+                    ))
             }
 
             {

@@ -24,8 +24,8 @@ export default function bookmarkReducer(state = initState, action) {
         case ActionTypes.BOOKMARK_FETCH_INIT:
         case ActionTypes.BOOKMARK_FETCH_SUCCESS:
         case ActionTypes.BOOKMARK_FETCH_ERROR:
-            return fetchReducer(state, action, (newState) => {
-                newState.bookmarks = action.bookmarks || [];
+            return fetchReducer(state, action, (state) => {
+                state.bookmarks = action.bookmarks || [];
             });
 
         case ActionTypes.BOOKMARK_ADD:

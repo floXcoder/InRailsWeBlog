@@ -1,6 +1,6 @@
 'use strict';
 
-import AssociatedTagList from './list';
+// import AssociatedTagList from './list';
 
 import Loader from '../../theme/loader';
 
@@ -34,8 +34,8 @@ export default class AssociatedTagBox extends React.Component {
         // }
     }
 
-    _handleTagClick = (tagId, activeTag) => {
-    };
+    // _handleTagClick = (tagId, activeTag) => {
+    // };
 
     render() {
         return (

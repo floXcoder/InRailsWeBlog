@@ -315,7 +315,7 @@ class Article < ApplicationRecord
     when 'strict'
       ArticleSerializer.new(data,
                             fields:  {
-                              article: %i[id userId userSlug tag topicId mode modeTranslated title titleHighlighted summary contentHighlighted draft visibility slug tagNames dateTimestamp link]
+                              article: %i[id userId userSlug mode modeTranslated title titleHighlighted summary contentHighlighted draft visibility slug dateTimestamp link topicId topicName tag tagNames]
                             },
                             include: %i[],
                             **options)
@@ -331,7 +331,7 @@ class Article < ApplicationRecord
     when 'normal'
       ArticleSerializer.new(data,
                             fields:  {
-                              article: %i[id user userId userSlug tags topicId topicSlug topicName mode modeTranslated slugTranslations title summary contentSummary content inventories reference visibility visibilityTranslated allowComment draft languages defaultPicture slug bookmarksCount commentsCount date dateShort updatedDate link parentTagIds childTagIds],
+                              article: %i[id userId userSlug user tags topicId topicSlug topicName mode modeTranslated slugTranslations title summary contentSummary content inventories reference visibility visibilityTranslated allowComment draft languages defaultPicture slug bookmarksCount commentsCount date dateShort updatedDate link parentTagIds childTagIds],
                               user:    %i[id pseudo slug avatarUrl],
                               tag:     %i[id userId name synonyms visibility taggedArticlesCount slug description]
                             },
@@ -340,7 +340,7 @@ class Article < ApplicationRecord
     else
       ArticleSerializer.new(data,
                             fields:  {
-                              article: %i[id user userId userSlug tags topicId mode summary draft visibility defaultPicture slug outdatedArticlesCount commentsCount modeTranslated title contentSummary inventories date dateShort updatedDate dateIso parentTagIds childTagIds],
+                              article: %i[id userId userSlug user mode summary draft visibility defaultPicture slug outdatedArticlesCount commentsCount modeTranslated title contentSummary inventories date dateShort updatedDate dateIso topicId topicName tags parentTagIds childTagIds],
                               user:    %i[id pseudo slug avatarUrl],
                               tag:     %i[id userId name synonyms visibility taggedArticlesCount slug description]
                             },

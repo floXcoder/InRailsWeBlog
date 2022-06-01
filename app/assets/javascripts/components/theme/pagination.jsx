@@ -69,7 +69,10 @@ class Pagination extends React.PureComponent {
 
     _handlePaginationClick = (pagination, addToHistory = true) => {
         if (this.props.onPaginationClick) {
-            this.props.onPaginationClick({...pagination, pagination: true});
+            this.props.onPaginationClick({
+                ...pagination,
+                pagination: true
+            });
 
             if (this.props.hasHistory && addToHistory) {
                 this.props.addToHistory({pagination: {page: pagination.selected}}, {page: pagination.selected > 0 ? pagination.selected + 1 : undefined});
@@ -78,7 +81,13 @@ class Pagination extends React.PureComponent {
     };
 
     render() {
-        const {totalPages, initialPage, currentPage, numOfPageShow, className} = this.props;
+        const {
+            totalPages,
+            // initialPage,
+            currentPage,
+            numOfPageShow,
+            className
+        } = this.props;
 
         const pageRangeDisplayed = Math.ceil(numOfPageShow / 2);
         const marginPagesDisplayed = Math.ceil(numOfPageShow / 4);
@@ -91,7 +100,7 @@ class Pagination extends React.PureComponent {
             <div className={className}>
                 <ReactPaginate ref={(pagination) => this._pagination = pagination}
                                pageCount={totalPages}
-                               // initialPage={this.state.selected}
+                    // initialPage={this.state.selected}
                                forcePage={currentPage ? (currentPage - 1) : this.state.selected}
                                disableInitialCallback={true}
                                pageRangeDisplayed={pageRangeDisplayed}

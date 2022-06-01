@@ -114,12 +114,12 @@ GEM
       smart_properties
     binding_of_caller (1.0.0)
       debug_inspector (>= 0.0.1)
-    bootsnap (1.11.1)
+    bootsnap (1.12.0)
       msgpack (~> 1.2)
     brakeman (5.2.3)
     browser (5.3.1)
     builder (3.2.4)
-    bullet (7.0.1)
+    bullet (7.0.2)
       activesupport (>= 3.0.0)
       uniform_notifier (~> 1.11)
     capistrano (3.17.0)
@@ -513,7 +513,7 @@ GEM
       activemodel (>= 5.2)
       hashie
     secure_headers (6.3.3)
-    selenium-webdriver (4.2.0)
+    selenium-webdriver (4.2.1)
       childprocess (>= 0.5, < 5.0)
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
@@ -613,10 +613,10 @@ DEPENDENCIES
   awesome_print (= 1.9.2)
   better_errors (= 2.9.1)
   binding_of_caller (= 1.0.0)
-  bootsnap (= 1.11.1)
+  bootsnap (= 1.12.0)
   brakeman (= 5.2.3)
   browser (= 5.3.1)
-  bullet (= 7.0.1)
+  bullet (= 7.0.2)
   capistrano (= 3.17.0)
   capistrano-bundler (= 2.1.0)
   capistrano-rails (= 1.6.2)
@@ -671,7 +671,7 @@ DEPENDENCIES
   sanitize (= 6.0.0)
   searchkick (= 5.0.3)
   secure_headers (= 6.3.3)
-  selenium-webdriver (= 4.2.0)
+  selenium-webdriver (= 4.2.1)
   sentry-raven (= 3.1.2)
   seo_cache (= 1.2.2)
   shoulda-callback-matchers (= 1.1.4)
@@ -691,4 +691,4 @@ RUBY VERSION
    ruby 3.1.2p20
 
 BUNDLED WITH
-   2.3.11
+   2.3.14

@@ -85,7 +85,7 @@ module Api::V1
                                                    'complete',
                                                    params: {
                                                      current_user_id: current_user&.id,
-                                                     no_cache: true
+                                                     no_cache:        true
                                                    },
                                                    meta:   {
                                                      trackingData: tracking_data,
@@ -215,7 +215,8 @@ module Api::V1
       if stale?(articles, template: false, public: true)
         respond_to do |format|
           format.json do
-            render json: Article.serialized_json(articles, 'normal',
+            render json: Article.serialized_json(articles,
+                                                 'normal',
                                                  params: {
                                                    current_user_id: current_user&.id
                                                  },
@@ -241,14 +242,14 @@ module Api::V1
         browsers:       format_tracking(article_uniq_visits.group_by(&:browser), 8),
         os:             format_tracking(article_uniq_visits.group_by(&:os), 8),
         utmSources:     format_tracking(article_uniq_visits.group_by(&:utm_source), 8),
-        referrers:       format_tracking(article_uniq_visits.group_by(&:referring_domain), 10)
+        referrers:      format_tracking(article_uniq_visits.group_by(&:referring_domain), 10)
       }
 
       respond_to do |format|
         format.json do
           render json: {
                          trackingData: tracking_data,
-                         article:       params[:with_article] ? Article.serialized_json(article, 'normal') : nil
+                         article:      params[:with_article] ? Article.serialized_json(article, 'normal') : nil
                        }.compact
         end
       end

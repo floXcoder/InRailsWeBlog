@@ -8,7 +8,8 @@ export default class Dropdown extends React.Component {
         id: PropTypes.string.isRequired,
         children: PropTypes.element.isRequired,
         button: PropTypes.element.isRequired,
-        hasArrow: PropTypes.bool
+        hasArrow: PropTypes.bool,
+        buttonClassName: PropTypes.string
     };
 
     static defaultProps = {
@@ -76,6 +77,7 @@ export default class Dropdown extends React.Component {
             <>
                 {
                     React.cloneElement(this.props.button, {
+                        className: this.props.buttonClassName,
                         onClick: this._handleOpen,
                         'aria-controls': open ? 'account-menu' : undefined,
                         'aria-haspopup': 'true',

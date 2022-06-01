@@ -38,13 +38,13 @@ export function autocompleteReducer(state = autocompleteState, action) {
         case ActionTypes.SEARCH_AUTOCOMPLETE_FETCH_INIT:
         case ActionTypes.SEARCH_AUTOCOMPLETE_FETCH_SUCCESS:
         case ActionTypes.SEARCH_AUTOCOMPLETE_FETCH_ERROR:
-            return fetchReducer(state, action, (newState) => {
+            return fetchReducer(state, action, (state) => {
                 // query: payload.query,
-                newState.highlightedTag = undefined;
-                newState.highlightedArticle = undefined;
-                newState.topics = action.topics || [];
-                newState.tags = action.tags || [];
-                newState.articles = action.articles || [];
+                state.highlightedTag = undefined;
+                state.highlightedArticle = undefined;
+                state.topics = action.topics || [];
+                state.tags = action.tags || [];
+                state.articles = action.articles || [];
             });
 
         case ActionTypes.SEARCH_AUTOCOMPLETE_ACTION:

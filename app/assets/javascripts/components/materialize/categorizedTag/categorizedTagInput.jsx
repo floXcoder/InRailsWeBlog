@@ -106,7 +106,8 @@ export default class CategorizedTagInput extends React.Component {
         if (this.props.isSortingCategoriesByAlpha) {
             tagCategories = tagCategories.sort((categoryA, categoryB) => {
                 return categoryA.title.localeCompare(categoryB.title);
-            }).slice();
+            })
+                .slice();
         }
 
         const categoriesWithNewTags = tagCategories.map((category) => {
@@ -127,7 +128,10 @@ export default class CategorizedTagInput extends React.Component {
         });
 
         const categories = categoriesWithNewTags.map((category) => {
-            category = { ...category, items: category.items.filter(this.filterItems(value, this.props.minAutocompleteLength))};
+            category = {
+                ...category,
+                items: category.items.filter(this.filterItems(value, this.props.minAutocompleteLength))
+            };
 
             if (category.items.length > this.props.maxAutocompleteTags) {
                 category.items.length = this.props.maxAutocompleteTags;
@@ -136,7 +140,8 @@ export default class CategorizedTagInput extends React.Component {
             }
 
             return (category.items.length === 0 && (!this.props.hasAddNew || category.isSingle)) ? null : category;
-        }).filter((c) => c !== null);
+        })
+            .filter((c) => c !== null);
 
         let selection = this.state.selection;
         if (this.state.selection.category >= categories.length) {
@@ -145,8 +150,8 @@ export default class CategorizedTagInput extends React.Component {
                 item: 0
             };
         } else if (selection.item >= categories[selection.category].items.length) {
-                selection.item = 0;
-            }
+            selection.item = 0;
+        }
 
         this.setState({
             categories: categories,
@@ -164,7 +169,9 @@ export default class CategorizedTagInput extends React.Component {
                 return false;
             }
 
-            return item.toLowerCase().indexOf(value.trim().toLowerCase()) >= 0;
+            return item.toLowerCase()
+                .indexOf(value.trim()
+                    .toLowerCase()) >= 0;
         };
     };
 
@@ -200,7 +207,8 @@ export default class CategorizedTagInput extends React.Component {
     };
 
     onTagDeleted = (i) => {
-        const newTags = this.state.selectedTags.slice(0, i).concat(this.state.selectedTags.slice(i + 1));
+        const newTags = this.state.selectedTags.slice(0, i)
+            .concat(this.state.selectedTags.slice(i + 1));
 
         this.setState({
             selectedTags: newTags
@@ -212,7 +220,11 @@ export default class CategorizedTagInput extends React.Component {
     };
 
     onAdd = (newTag) => {
-        let {category, value, isNew} = newTag;
+        let {
+            category,
+            value,
+            isNew
+        } = newTag;
 
         if (this.props.transformTag) {
             value = this.props.transformTag(category, value);

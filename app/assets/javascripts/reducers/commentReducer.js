@@ -23,31 +23,31 @@ export default function commentReducer(state = initState, action) {
         case ActionTypes.COMMENT_FETCH_INIT:
         case ActionTypes.COMMENT_FETCH_SUCCESS:
         case ActionTypes.COMMENT_FETCH_ERROR:
-            return fetchReducer(state, action, (newState) => {
-                newState.comments = action.comments;
+            return fetchReducer(state, action, (state) => {
+                state.comments = action.comments;
             });
 
         case ActionTypes.COMMENT_CHANGE_INIT:
         case ActionTypes.COMMENT_CHANGE_SUCCESS:
         case ActionTypes.COMMENT_CHANGE_ERROR:
-            return mutationReducer(state, action, (newState) => {
+            return mutationReducer(state, action, (state) => {
                 if (action.deletedCommentIds) {
                     action.deletedCommentIds.forEach((deletedCommentId) => {
-                        const deleteIndex = findItemIndex(newState.comments, deletedCommentId);
-                        delete newState.comments[deleteIndex];
+                        const deleteIndex = findItemIndex(state.comments, deletedCommentId);
+                        delete state.comments[deleteIndex];
                     });
                 } else {
                     const newItem = action.comment;
-                    const index = findItemIndex(newState.comments, newItem.id);
+                    const index = findItemIndex(state.comments, newItem.id);
                     if (index === -1) {
                         if (newItem.parentId) {
-                            const parentIndex = findItemIndex(newState.comments, newItem.id, 'parentId');
-                            newState.comments.insert(parentIndex + 1, newItem);
+                            const parentIndex = findItemIndex(state.comments, newItem.id, 'parentId');
+                            state.comments.insert(parentIndex + 1, newItem);
                         } else {
-                            newState.comments.push(newItem);
+                            state.comments.push(newItem);
                         }
                     } else {
-                        newState.comments[index] = newItem;
+                        state.comments[index] = newItem;
                     }
                 }
             });

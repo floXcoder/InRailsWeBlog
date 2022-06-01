@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   include CacheService
 
   # Security
-  protect_from_forgery with: :exception, except: [:not_found, :not_found_error, :server_error]
+  protect_from_forgery with: :exception, except: [:not_found_error, :server_error]
 
   # Handle exceptions
   rescue_from StandardError, with: :server_error
@@ -466,11 +466,13 @@ class ApplicationController < ActionController::Base
   end
 
   def not_found_error(exception = nil)
-    raise if Rails.env.development?
+    # raise if Rails.env.development?
 
     respond_to do |format|
       format.json { render json: { errors: t('views.error.status.explanation.404'), details: exception&.try(:message) }, status: :not_found }
       format.html do
+        set_seo_data(:not_found)
+
         if current_user
           render 'pages/user', locals: { status: 404 }, status: :not_found, layout: 'user'
         else

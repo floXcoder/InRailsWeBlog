@@ -87,7 +87,7 @@ class TopicShow extends React.Component {
     };
 
     render() {
-        if (!this.props.topic && !this.props.isFetching) {
+        if ((!this.props.topic && !this.props.isFetching) || this.props.initProps?.status === '404') {
             return (
                 <div className="center margin-top-20">
                     <NotFound/>

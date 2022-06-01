@@ -32,7 +32,7 @@ export default function mutationMiddleware({dispatch}) {
             ActionTypes[`${actionType}_CHANGE_ERROR`]
         ];
 
-        if (!actionTypes.every((action) => !!action)) {
+        if (!actionTypes.every((actionType) => !!actionType)) {
             console.error(`All actions are not defined: ${actionNames.join(', ')}`);
             throw new Error(`All actions are not defined: ${actionNames.join(', ')}`);
         }

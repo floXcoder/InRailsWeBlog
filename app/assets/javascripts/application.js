@@ -27,7 +27,8 @@ if (window.SENTRY_JAVASCRIPT_KEY && !window.seoMode) {
             'TypeError: Load failed',
             'UnknownError: Background Sync is disabled.',
             'Error: QuotaExceededError: QuotaExceededError',
-            /Loading CSS chunk/
+            /Loading CSS chunk/,
+            /wasm/
         ]
         // beforeSend(event, hint) {
         //     // Check if it is an exception, and if so, show the report dialog

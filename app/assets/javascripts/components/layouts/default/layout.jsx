@@ -51,7 +51,10 @@ class LayoutDefault extends React.Component {
     _renderRouteChildren = (route, component, routeProperties) => {
         const Component = component();
 
-        const {routes, ...initProps} = this.props;
+        const {
+            routes,
+            ...initProps
+        } = this.props;
 
         const isHome = route.name === 'Home';
 
@@ -76,7 +79,10 @@ class LayoutDefault extends React.Component {
             throw new Error(`Path to render is null: ${JSON.stringify(route)}`);
         }
 
-        const {component, ...routeProperties} = route;
+        const {
+            component,
+            ...routeProperties
+        } = route;
 
         return (
             <Route key={path || index}

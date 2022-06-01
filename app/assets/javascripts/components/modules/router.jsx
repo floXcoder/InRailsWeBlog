@@ -9,7 +9,12 @@ import {
 
 
 export default function withRouter(options = {}) {
-    const {location, params, searchParams, navigate} = options;
+    const {
+        location,
+        params,
+        searchParams,
+        navigate
+    } = options;
 
     return function router(WrappedComponent) {
         return function (initialProps) {

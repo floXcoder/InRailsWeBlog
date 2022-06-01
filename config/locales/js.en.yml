@@ -759,7 +759,7 @@ en:
         articles:
           title: "Articles"
           recents: "(recent)"
-          other_topics: "Results in other topics"
+          other_topics: "Results for the topic: %{topic}"
           other_users: "Results from other users"
           none: "No articles found"
         helpers:

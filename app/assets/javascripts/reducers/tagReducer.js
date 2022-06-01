@@ -37,29 +37,29 @@ export default function tagReducer(state = initState, action) {
                 state.tags = [];
             }
 
-            return fetchReducer(state, action, (newState) => {
+            return fetchReducer(state, action, (state) => {
                 if (action.tag) {
-                    newState.tag = action.tag;
+                    state.tag = action.tag;
                 } else if (action.topicTags) {
-                    newState.topicTags = action.tags || [];
+                    state.topicTags = action.tags || [];
                 } else if (action.populars) {
-                    newState.popularTags = action.tags || [];
+                    state.popularTags = action.tags || [];
                 } else {
-                    newState.tags = action.tags || [];
+                    state.tags = action.tags || [];
                 }
             });
 
         case ActionTypes.TAG_CHANGE_INIT:
         case ActionTypes.TAG_CHANGE_SUCCESS:
         case ActionTypes.TAG_CHANGE_ERROR:
-            return mutationReducer(state, action, (newState) => {
+            return mutationReducer(state, action, (state) => {
                 if (action.tags) {
-                    newState.tags = action.tags;
+                    state.tags = action.tags;
                 } else if (action.removedId) {
-                    newState.tags = removeIn(newState.tags, action.removedId);
+                    state.tags = removeIn(state.tags, action.removedId);
                 } else {
-                    newState.tag = action.tag;
-                    newState.tags = addOrReplaceIn(newState.tags, action.tag);
+                    state.tag = action.tag;
+                    state.tags = addOrReplaceIn(state.tags, action.tag);
                 }
             });
 

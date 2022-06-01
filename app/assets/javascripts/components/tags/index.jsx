@@ -13,6 +13,7 @@ import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 import Grid from '@mui/material/Grid';
+import Paper from '@mui/material/Paper';
 
 import {
     showTagPath,
@@ -40,6 +41,8 @@ import Loader from '../theme/loader';
 
 import withRouter from '../modules/router';
 
+import NotFound from '../layouts/notFound';
+
 
 export default @connect((state) => ({
     currentUser: state.userState.user,
@@ -55,6 +58,7 @@ export default @connect((state) => ({
 @withRouter({params: true})
 class TagIndex extends React.Component {
     static propTypes = {
+        initProps: PropTypes.object,
         // from router
         routeParams: PropTypes.object,
         // from connect
@@ -162,10 +166,39 @@ class TagIndex extends React.Component {
     };
 
     render() {
+        if (this.props.initProps?.status === '404') {
+            return (
+                <div className="center margin-top-20">
+                    <NotFound/>
+                </div>
+            );
+        }
+
         if (this.props.isFetching) {
             return (
                 <div className="center margin-top-20">
                     <Loader size="big"/>
+                </div>
+            );
+        }
+
+        if (!this.props.publicTags?.length && !this.props.privateTags?.length) {
+            return (
+                <div className="row margin-top-30">
+                    <div className="col m8 offset-m2 s10 offset-s1">
+                        <Paper style={{
+                            padding: '.6rem'
+                        }}
+                               elevation={4}>
+                            <h1 className="center-align"
+                                style={{
+                                    fontSize: '1.8rem',
+                                    marginTop: '1rem'
+                                }}>
+                                {I18n.t('js.tag.common.no_tags')}
+                            </h1>
+                        </Paper>
+                    </div>
                 </div>
             );
         }

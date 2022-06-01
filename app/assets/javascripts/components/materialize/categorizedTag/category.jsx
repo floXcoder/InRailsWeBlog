@@ -65,6 +65,8 @@ export default class Category extends React.Component {
         this.props.items.map((item) => {
             if (item === this.props.value) {
                 return true;
+            } else {
+                return false;
             }
         });
 

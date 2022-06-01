@@ -30,6 +30,9 @@ Bundler/OrderedGems:
 Gemspec/DateAssignment:
   Enabled: true
 
+Gemspec/DeprecatedAttributeAssignment:
+  Enabled: true
+
 Gemspec/RequireMFA:
   Enabled: true
 
@@ -399,6 +402,9 @@ RSpec/BeforeAfterAll:
 RSpec/BeNil:
   Enabled: true
 
+RSpec/ChangeByZero:
+  Enabled: true
+
 RSpec/ContextWording:
   Enabled: false
 
@@ -489,8 +495,11 @@ Style/DoubleNegation:
 Style/EndlessMethod:
   Enabled: true
 
-Style/FetchEnvVar:
+Style/EnvHome:
   Enabled: true
+
+Style/FetchEnvVar:
+  Enabled: false
 
 Style/FileRead:
   Enabled: true
@@ -533,6 +542,9 @@ Style/InPatternThen:
 
 Style/Lambda:
   Enabled: false
+
+Style/MapCompactWithConditionalBlock:
+  Enabled: true
 
 Style/MapToHash:
   Enabled: true

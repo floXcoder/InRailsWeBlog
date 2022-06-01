@@ -103,19 +103,19 @@ export default function articleReducer(state = initState, action) {
                 state.currentState = articleMachine.transition(state.currentState, 'EMPTY');
             }
 
-            return fetchReducer(state, action, (newState) => {
+            return fetchReducer(state, action, (state) => {
                 if (action.article) {
-                    newState.article = action.article;
-                    newState.articleCurrentLanguage = undefined;
-                    newState.articleRecommendations = undefined;
+                    state.article = action.article;
+                    state.articleCurrentLanguage = undefined;
+                    state.articleRecommendations = undefined;
                 } else if (action.infinite) {
-                    newState.articles.push(...action.articles);
+                    state.articles.push(...action.articles);
                 } else if (action.home) {
-                    newState.homeArticles = action.articles;
+                    state.homeArticles = action.articles;
                 } else if (action.populars) {
-                    newState.popularArticles = action.articles;
+                    state.popularArticles = action.articles;
                 } else {
-                    newState.articles = action.articles;
+                    state.articles = action.articles;
                 }
             });
 
@@ -130,15 +130,15 @@ export default function articleReducer(state = initState, action) {
         case ActionTypes.ARTICLE_CHANGE_INIT:
         case ActionTypes.ARTICLE_CHANGE_SUCCESS:
         case ActionTypes.ARTICLE_CHANGE_ERROR:
-            return mutationReducer(state, action, (newState) => {
+            return mutationReducer(state, action, (state) => {
                 if (action.articles) {
-                    newState.articles = action.articles;
+                    state.articles = action.articles;
                 } else {
-                    newState.article = action.article;
+                    state.article = action.article;
                     if (action.removedId) {
-                        removeIn(newState.articles, action.removedId);
+                        removeIn(state.articles, action.removedId);
                     } else {
-                        addOrReplaceIn(newState.articles, action.article);
+                        addOrReplaceIn(state.articles, action.article);
                     }
                 }
             });

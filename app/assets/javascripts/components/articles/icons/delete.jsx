@@ -15,7 +15,7 @@ function ArticleDeleteIcon({
                <DeleteIcon color={color}
                            fontSize={size}/>
             </a>
-         </span>
+        </span>
     );
 }
 

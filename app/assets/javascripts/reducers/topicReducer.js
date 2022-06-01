@@ -42,43 +42,43 @@ export default function topicReducer(state = initState, action) {
                 state.topics = [];
             }
 
-            return fetchReducer(state, action, (newState) => {
+            return fetchReducer(state, action, (state) => {
                 if (action.isSwitching) {
                     window.currentUserTopicId = action.topic.id;
 
-                    newState.currentUserTopicId = action.topic.id;
-                    newState.currentUserTopicSlug = action.topic.slug;
-                    newState.currentTopic = action.topic;
+                    state.currentUserTopicId = action.topic.id;
+                    state.currentUserTopicSlug = action.topic.slug;
+                    state.currentTopic = action.topic;
 
-                    if (newState.topic.mode === 'stories') {
+                    if (state.currentTopic.mode === 'stories') {
                         state.storyTopic = action.topic;
                     } else {
-                        newState.storyTopic = undefined;
+                        state.storyTopic = undefined;
                     }
                 } else if (action.topic) {
-                    newState.topic = action.topic;
+                    state.topic = action.topic;
                 } else {
-                    newState.topics = action.topics || [];
+                    state.topics = action.topics || [];
                 }
             });
 
         case ActionTypes.TOPIC_CHANGE_INIT:
         case ActionTypes.TOPIC_CHANGE_SUCCESS:
         case ActionTypes.TOPIC_CHANGE_ERROR:
-            return mutationReducer(state, action, (newState) => {
+            return mutationReducer(state, action, (state) => {
                 if (action.priority) {
                     // User topics are returned after priority changed
-                    newState.userTopics = action.topics;
+                    state.userTopics = action.topics;
                 } else {
-                    newState.topic = action.topic;
+                    state.topic = action.topic;
                     if (action.removedId) {
-                        newState.userTopics = removeIn(newState.userTopics, action.removedId);
+                        state.userTopics = removeIn(state.userTopics, action.removedId);
                     } else {
-                        newState.userTopics = addOrReplaceIn(newState.userTopics, action.topic);
+                        state.userTopics = addOrReplaceIn(state.userTopics, action.topic);
                     }
-                    newState.currentUserTopicId = (action.topic?.id) === (newState.currentTopic?.id) || findItemIndex(newState.userTopics, action.topic?.id) !== -1 ? (action.topic && action.topic.id) : newState.currentUserTopicId;
-                    newState.currentUserTopicSlug = (action.topic?.id) === (newState.currentTopic?.id) || findItemIndex(newState.userTopics, action.topic?.id) !== -1 ? (action.topic?.slug) : newState.currentUserTopicSlug;
-                    newState.currentTopic = (action.topic?.id) === (newState.currentTopic?.id) || findItemIndex(newState.userTopics, action.topic?.id) !== -1 ? action.topic : newState.currentTopic;
+                    state.currentUserTopicId = (action.topic?.id) === (state.currentTopic?.id) || findItemIndex(state.userTopics, action.topic?.id) !== -1 ? (action.topic && action.topic.id) : state.currentUserTopicId;
+                    state.currentUserTopicSlug = (action.topic?.id) === (state.currentTopic?.id) || findItemIndex(state.userTopics, action.topic?.id) !== -1 ? (action.topic?.slug) : state.currentUserTopicSlug;
+                    state.currentTopic = (action.topic?.id) === (state.currentTopic?.id) || findItemIndex(state.userTopics, action.topic?.id) !== -1 ? action.topic : state.currentTopic;
                 }
             });
 

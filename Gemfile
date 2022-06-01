@@ -100,7 +100,7 @@ gem 'health_check',             '3.1.0'
 
 # SEO
 gem 'webdrivers',               '5.0.0',  require: false
-gem 'selenium-webdriver',       '4.2.0',  require: false
+gem 'selenium-webdriver',       '4.2.1',  require: false
 
 # Server
 gem 'puma',                     '5.6.4'
@@ -115,7 +115,7 @@ group :development do
   gem 'binding_of_caller',      '1.0.0'
 
   # N+1 database query
-  gem 'bullet',                 '7.0.1'
+  gem 'bullet',                 '7.0.2'
 
   # Guard and its minions
   gem 'guard',                  '2.18.0', require: false
@@ -146,7 +146,7 @@ end
 
 group :development, :test do
   # Speed up boot
-  gem 'bootsnap',                   '1.11.1',  require: false
+  gem 'bootsnap',                   '1.12.0',  require: false
 
   # Check errors
   gem 'rubocop',                    '1.30.0', require: false

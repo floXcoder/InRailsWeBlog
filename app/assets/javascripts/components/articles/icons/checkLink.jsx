@@ -15,7 +15,7 @@ function CheckLinkIcon({
                <LinkOffIcon color={color}
                             fontSize={size}/>
             </a>
-         </span>
+        </span>
     );
 }
 

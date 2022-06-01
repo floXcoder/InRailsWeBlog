@@ -20,6 +20,9 @@ import {
 } from '../../../actions';
 
 import Loader from '../../theme/loader';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 
 export default class SearchArticleModule extends React.PureComponent {
     static propTypes = {
@@ -62,7 +65,16 @@ export default class SearchArticleModule extends React.PureComponent {
         if (this.props.currentTopicId) {
             return this.props.articles.filter((article) => (
                 article.userId === this.props.currentUserId && article.topicId !== this.props.currentTopicId
-            )).reverse();
+            ))
+                .reduce((articlesByTopics, article) => {
+                    if (!articlesByTopics[article.topicName]) {
+                        articlesByTopics[article.topicName] = [];
+                    }
+
+                    articlesByTopics[article.topicName].push(article);
+
+                    return articlesByTopics;
+                }, {});
         } else {
             return [];
         }
@@ -95,7 +107,9 @@ export default class SearchArticleModule extends React.PureComponent {
                               to={{
                                   pathname: userArticlePath(article.userSlug, article.slug),
                                   state: {
-                                      highlightContent: article.contentHighlighted?.match(/>(.*?)<\//)?.splice(1, 1)?.toString()
+                                      highlightContent: article.contentHighlighted?.match(/>(.*?)<\//)
+                                          ?.splice(1, 1)
+                                          ?.toString()
                                   }
                               }}
                               onClick={this._handleArticleClick.bind(this, article)}>
@@ -145,7 +159,7 @@ export default class SearchArticleModule extends React.PureComponent {
 
     render() {
         const currentTopicArticles = this._currentTopicArticles();
-        const otherTopicArticles = this._otherTopicArticles();
+        const articlesByTopics = this._otherTopicArticles();
         const otherUserArticles = this._otherUserArticles();
 
         return (
@@ -172,7 +186,10 @@ export default class SearchArticleModule extends React.PureComponent {
                             {
                                 this.props.selectedTags.length > 0 &&
                                 <div className="search-module-helpMessage">
-                                    {I18n.t('js.search.module.helpers.tagged_articles', {tags: this.props.selectedTags.map((tag) => tag.name).join(', ')})}
+                                    {I18n.t('js.search.module.helpers.tagged_articles', {
+                                        tags: this.props.selectedTags.map((tag) => tag.name)
+                                            .join(', ')
+                                    })}
                                 </div>
                             }
 
@@ -188,22 +205,25 @@ export default class SearchArticleModule extends React.PureComponent {
                             }
 
                             {
-                                Utils.isPresent(otherTopicArticles) &&
-                                <>
-                                    {
-                                        Utils.isPresent(currentTopicArticles) &&
-                                        <Divider className="search-module-categoryDivider"
-                                                 variant="fullWidth"/>
-                                    }
+                                Utils.isPresent(articlesByTopics) &&
+                                Object.entries(articlesByTopics)
+                                    .map(([topicName, articles], i) => (
+                                        <React.Fragment key={topicName}>
+                                            {
+                                                (i !== 0 || Utils.isPresent(currentTopicArticles)) &&
+                                                <Divider className="search-module-categoryDivider"
+                                                         variant="fullWidth"/>
+                                            }
 
-                                    <h3 className="search-module-otherArticlesTitle">
-                                        {I18n.t('js.search.module.articles.other_topics')}
-                                    </h3>
+                                            <h3 className="search-module-otherArticlesTitle">
+                                                {I18n.t('js.search.module.articles.other_topics', {topic: topicName})}
+                                            </h3>
 
-                                    {
-                                        otherTopicArticles.map(this._renderArticleItem.bind(this, false))
-                                    }
-                                </>
+                                            {
+                                                articles.map(this._renderArticleItem.bind(this, false))
+                                            }
+                                        </React.Fragment>
+                                    ))
                             }
 
                             {

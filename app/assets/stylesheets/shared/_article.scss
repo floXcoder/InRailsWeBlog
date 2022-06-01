@@ -204,7 +204,7 @@
 
 .article-card-cardHeader {
   width: 100%;
-  max-width: 94%;
+  max-width: 90%;
 }
 
 .article-card-articleInfo {
@@ -240,7 +240,7 @@
   font-weight: $h1-weight-grid;
   line-height: $h1-line-height-grid;
   margin: .6rem auto 0;
-  letter-spacing: $h1-line-height-grid;
+  letter-spacing: inherit;
 }
 
 .article-card-gridTitleLink {
@@ -780,17 +780,17 @@
     font-size: 2.6rem;
     font-style: normal;
     font-weight: 700;
-    letter-spacing: .03px;
+    letter-spacing: 1px;
     line-height: 1.2;
     text-align: left;
   }
 
   h2 {
     clear: left;
-    font-size: 2.2rem;
+    font-size: 2rem;
     font-style: normal;
     font-weight: 500;
-    letter-spacing: 1.2px;
+    letter-spacing: 1px;
     line-height: 1.2;
     text-align: left;
   }

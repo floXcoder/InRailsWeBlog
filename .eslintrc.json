@@ -29,7 +29,7 @@
   "plugins": [
     "react"
   ],
-  "ignorePatterns": ["**/i18n.js"],
+  "ignorePatterns": ["**/i18n.js", "**/*summernote*.js", "**/translations/**"],
   "rules": {
     "accessor-pairs": 0,
     "arrow-body-style": 0,

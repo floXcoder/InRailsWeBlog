@@ -26,7 +26,7 @@ function TopicCardSort({topic}) {
             </Card>
         </div>
     );
-};
+}
 
 TopicCardSort.propTypes = {
     topic: PropTypes.object.isRequired

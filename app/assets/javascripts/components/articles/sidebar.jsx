@@ -77,28 +77,26 @@ class ArticleSidebar extends React.Component {
                             <Loader size="big"/>
                         </div>
                         :
-                        <>
-                            {
-                                this.props.articlesCount === 0
-                                    ?
-                                    <span className="article-sidebar-none">
+                        (
+                            this.props.articlesCount === 0
+                                ?
+                                <span className="article-sidebar-none">
                                         {I18n.t('js.article.toc.no_articles')}
                                     </span>
-                                    :
-                                    <>
-                                        <ArticleOrderDisplay currentUserSlug={this.props.currentUserSlug}
-                                                             currentUserTopicSlug={this.props.currentUserTopicSlug}
-                                                             articleOrderMode={this.props.articleOrderMode}
-                                                             articleDisplayMode={this.props.articleDisplayMode}
-                                                             onMinimized={this.props.switchArticleMinimized}
-                                                             onOrderChange={this._handleOrderChange}/>
+                                :
+                                <>
+                                    <ArticleOrderDisplay currentUserSlug={this.props.currentUserSlug}
+                                                         currentUserTopicSlug={this.props.currentUserTopicSlug}
+                                                         articleOrderMode={this.props.articleOrderMode}
+                                                         articleDisplayMode={this.props.articleDisplayMode}
+                                                         onMinimized={this.props.switchArticleMinimized}
+                                                         onOrderChange={this._handleOrderChange}/>
 
-                                        <ArticleTimelineDisplay categorizedArticles={this.props.categorizedArticles}
-                                                                articlePagination={this.props.articlePagination}
-                                                                currentArticles={this.props.currentArticles}/>
-                                    </>
-                            }
-                        </>
+                                    <ArticleTimelineDisplay categorizedArticles={this.props.categorizedArticles}
+                                                            articlePagination={this.props.articlePagination}
+                                                            currentArticles={this.props.currentArticles}/>
+                                </>
+                        )
                 }
             </div>
         );

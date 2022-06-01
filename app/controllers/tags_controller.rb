@@ -12,7 +12,9 @@ class TagsController < ApplicationController
   respond_to :html
 
   def index
-    tags = ::Tags::FindQueries.new.all(filter_params.merge(limit: params[:limit]))
+    not_found_error and return if (params[:user_slug].present? && !User.find_by(slug: params[:user_slug])) || (params[:topic_slug].present? && !Topic.find_by(slug: params[:topic_slug]))
+
+    tags = ::Tags::FindQueries.new.all(filter_params.merge(user_slug: params[:user_slug], topic_slug: params[:topic_slug], limit: params[:limit]))
 
     track_action(tag_ids: tags.map(&:id))
 
