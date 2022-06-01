@@ -39,15 +39,13 @@ class Topic < ApplicationRecord
              fallbacks_for_empty_translations: true
 
   # Store settings
-  include Storext.model
-  # Settings are inherited from user
-  store_attributes :settings do
-    article_order String, default: nil # Order articles by: priority_asc, priority_desc, id_asc, id_desc, created_asc, created_desc, updated_asc, updated_desc, tag_asc, tags_desc, rank_asc, rank_desc, popularity_asc, popularity_desc, default
-    # articles_loader String, default: nil # Load articles by: all / paginate / infinite
-    # article_display String, default: nil # Display articles: summary / card / inline / grid
+  store :settings, accessors: [
+                                :article_order, # Order articles by: priority_asc, priority_desc, id_asc, id_desc, created_asc, created_desc, updated_asc, updated_desc, tag_asc, tags_desc, rank_asc, rank_desc, popularity_asc, popularity_desc, default, default: nil
+                                # :articles_loader, # Load articles by: all / paginate / infinite, default: nil
+                                # :article_display, # Display articles: summary / card / inline / grid, default: nil
 
-    tag_sidebar_pin Boolean, default: nil # Tag sidebar pinned by default
-  end
+                                :tag_sidebar_pin # Tag sidebar pinned by default, default: nil
+                              ]
 
   # Strip whitespaces
   auto_strip_attributes :name, :color
@@ -182,6 +180,8 @@ class Topic < ApplicationRecord
         -> (user_id) { joins(:bookmarks).where(bookmarks: { bookmarked_type: model_name.name, user_id: user_id }) }
 
   # == Callbacks ============================================================
+  after_initialize :define_default_settings
+
   before_create :set_default_color
 
   after_update :regenerate_article_slug
@@ -308,6 +308,13 @@ class Topic < ApplicationRecord
   end
 
   private
+
+  def define_default_settings
+    self.settings = {
+      article_order:   nil,
+      tag_sidebar_pin: nil
+    } if self.settings.blank?
+  end
 
   def set_default_color
     self.color = InRailsWeBlog.config.topic_color unless self.color

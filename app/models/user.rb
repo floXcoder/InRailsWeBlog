@@ -55,6 +55,7 @@ class User < ApplicationRecord
 
   # == Attributes ===========================================================
   attr_accessor :login
+
   devise :database_authenticatable,
          :registerable,
          :recoverable,
@@ -70,23 +71,22 @@ class User < ApplicationRecord
   enums_to_tr('user', [:visibility])
 
   # Store settings
-  include Storext.model
-  store_attributes :settings do
-    articles_loader String, default: 'infinite' # Load articles by: all / paginate / infinite
-    article_display String, default: 'summary' # Display articles: summary / card / inline / grid
-    article_order String, default: 'updated_desc' # Order articles by: priority_asc, priority_desc, id_asc, id_desc, created_asc, created_desc, updated_asc, updated_desc, tag_asc, tags_desc, rank_asc, rank_desc, popularity_asc, popularity_desc, default
-    article_multilanguage Boolean, default: false # Write articles in multi-language
+  store :settings, accessors: [
+                                :articles_loader, # Load articles by: all / paginate / infinite, default: 'infinite'
+                                :article_display, # Display articles: summary / card / inline / grid, default: 'summary'
+                                :article_order, # Order articles by: priority_asc, priority_desc, id_asc, id_desc, created_asc, created_desc, updated_asc, updated_desc, tag_asc, tags_desc, rank_asc, rank_desc, popularity_asc, popularity_desc, default, default: 'updated_desc'
+                                :article_multilanguage, # Write articles in multi-language, default: false
 
-    tag_sidebar_pin Boolean, default: true # Tag sidebar pinned by default
-    tag_sidebar_with_child Boolean, default: false # Display child only tags in sidebar
-    tag_order String, default: 'name' # Order tags by: name, priority_asc, priority_desc, id_asc, id_desc, created_asc, created_desc, updated_asc, updated_desc, rank_asc, rank_desc, popularity_asc, popularity_desc, default
-    tag_parent_and_child Boolean, default: true # Display child articles for parent tag
+                                :tag_sidebar_pin, # Tag sidebar pinned by default, default: true
+                                :tag_sidebar_with_child, # Display child only tags in sidebar, default: false
+                                :tag_order, # Order tags by: name, priority_asc, priority_desc, id_asc, id_desc, created_asc, created_desc, updated_asc, updated_desc, rank_asc, rank_desc, popularity_asc, popularity_desc, default, default: 'name'
+                                :tag_parent_and_child, # Display child articles for parent tag, default: true
 
-    search_display Boolean, default: 'card' # Display view for search results: card / grid
-    search_highlight Boolean, default: true # Highlight terms in search results
-    search_operator String, default: 'and' # Search mode for multi-terms: and / or
-    search_exact Boolean, default: true # Search for exact terms
-  end
+                                :search_display, # Display view for search results: card / grid, default: 'card'
+                                :search_highlight, # Highlight terms in search results, default: true
+                                :search_operator, # Search mode for multi-terms: and / or, default: 'and'
+                                :search_exact # Search for exact terms, default: true
+                              ]
 
   # Strip whitespaces
   auto_strip_attributes :first_name, :last_name, :city, :country, :additional_info, :phone_number, :mobile_number
@@ -247,6 +247,8 @@ class User < ApplicationRecord
   scope :include_collection, -> { includes(:picture) }
 
   # == Callbacks ============================================================
+  after_initialize :define_default_settings
+
   after_create :create_default_topic
 
   # == Class Methods ========================================================
@@ -368,7 +370,7 @@ class User < ApplicationRecord
   def switch_topic(new_topic)
     if self.current_topic_id == new_topic.id
       return new_topic
-    elsif self.id != new_topic.user_id && !self.contributed_topic_ids.include?(new_topic.id)
+    elsif self.id != new_topic.user_id && self.contributed_topic_ids.exclude?(new_topic.id)
       self.errors.add(:topic, I18n.t('activerecord.errors.models.topic.not_owner'))
       return false
     else
@@ -403,11 +405,12 @@ class User < ApplicationRecord
 
     return false unless model_class && related_object
 
-    if model_name.classify == 'User'
+    case model_name.classify
+    when 'User'
       return following_users.include?(related_object)
-    elsif model_name.classify == 'Article'
+    when 'Article'
       return following_articles.include?(related_object)
-    elsif model_name.classify == 'Tag'
+    when 'Tag'
       return following_tags.include?(related_object)
     else
       return false
@@ -440,6 +443,23 @@ class User < ApplicationRecord
   end
 
   private
+
+  def define_default_settings
+    self.articles_loader ||= 'infinite'
+    self.article_display ||= 'summary'
+    self.article_order ||= 'updated_desc'
+    self.article_multilanguage ||= false
+
+    self.tag_sidebar_pin ||= true
+    self.tag_sidebar_with_child ||= false
+    self.tag_order ||= 'name'
+    self.tag_parent_and_child ||= true
+
+    self.search_display ||= 'card'
+    self.search_highlight ||= true
+    self.search_operator ||= 'and'
+    self.search_exact ||= true
+  end
 
   def create_default_topic
     default_topic = self.topics.create(name: I18n.t('topic.default_name'), languages: [self.locale], visibility: :only_me)

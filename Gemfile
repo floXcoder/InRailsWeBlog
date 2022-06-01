@@ -50,9 +50,6 @@ gem 'redis-namespace',          '1.8.2'
 gem 'redis-session-store',      '0.11.4'
 gem 'hiredis',                  '0.6.3'
 
-# Global and model settings
-gem 'storext',                  '3.3.0', github: 'erikaxel/storext'
-
 # Authentification
 gem 'devise',                   '4.8.1'
 

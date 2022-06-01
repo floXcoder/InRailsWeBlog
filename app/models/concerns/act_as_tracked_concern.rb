@@ -146,6 +146,22 @@ module ActAsTrackedConcern
       end
     end
 
+    # Add a cron job to update database each InRailsWeBlog.config.tracker_cron minutes
+    # Automatically added to cron jobs when loading application
+    def tracker_cron_job
+      # Get current class name
+      formatted_name = self.name.underscore
+      cron_job_name  = "#{formatted_name}_tracker"
+
+      return false if Sidekiq::Cron::Job.find(name: cron_job_name)
+
+      Sidekiq::Cron::Job.create(name:  cron_job_name,
+                                cron:  "*/#{InRailsWeBlog.config.tracker_cron} * * * *",
+                                class: 'UpdateTrackerWorker',
+                                args:  { tracked_class: formatted_name },
+                                queue: 'default')
+    end
+
     private
 
     # Private model method to increment find count
@@ -155,22 +171,6 @@ module ActAsTrackedConcern
       after_find do |record|
         $redis.incr(redis_key(record, 'queries'))
       end
-    end
-
-    # Private method to add a cron job to update database each InRailsWeBlog.config.tracker_cron minutes
-    # Automatically added to cron jobs when loading application
-    def tracker_cron_job
-      # Get current class name
-      formatted_name = self.name.underscore
-      cron_job_name  = "#{formatted_name}_tracker"
-
-      return if Sidekiq::Cron::Job.find(name: cron_job_name)&.exists? != 0
-
-      Sidekiq::Cron::Job.create(name:  cron_job_name,
-                                cron:  "*/#{InRailsWeBlog.config.tracker_cron} * * * *",
-                                class: 'UpdateTrackerWorker',
-                                args:  { tracked_class: formatted_name },
-                                queue: 'default')
     end
 
     # Private method to get formatted redis key (for object model)
