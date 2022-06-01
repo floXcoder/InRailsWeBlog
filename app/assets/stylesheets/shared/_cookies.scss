@@ -31,7 +31,7 @@
   }
 
   @media #{$medium-and-down} {
-    width: 90%;
+    width: 96%;
     padding-left: 0;
     font-size: 11px;
   }
@@ -64,15 +64,14 @@
   border: 0;
   display: inline-block;
   text-align: center;
-  margin-top: 8px;
-  margin-bottom: 12px;
+  margin: 8px 7px 12px;
 }
 
 .cookies-more {
-  font-size: 14px;
+  font-size: 12px;
   height: 44px;
   line-height: 44px;
-  padding: 0 33px;
+  padding: 0 16px;
   text-decoration: underline;
   background: $background-color;
   border: 0;
@@ -82,6 +81,10 @@
   cursor: pointer;
   margin-top: 8px;
   margin-bottom: 12px;
+
+  @media #{$medium-and-down} {
+    font-size: 10px;
+  }
 }
 
 .cookies-details {

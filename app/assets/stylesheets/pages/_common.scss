@@ -33,11 +33,19 @@
   transition: color .6s ease-in-out;
   width: 160px;
   margin-right: 12px;
+  margin-top: 18px;
 
   @media #{$medium-and-down} {
     background-image: url('#{$images-path}/logos/favicon-96x96.png');
     width: 40px;
     margin-right: 0;
+    margin-top: 0;
+  }
+}
+
+#header-user {
+  .header-brand-logo {
+    margin-top: 0;
   }
 }
 
