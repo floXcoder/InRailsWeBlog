@@ -180,7 +180,7 @@ class Topic < ApplicationRecord
         -> (user_id) { joins(:bookmarks).where(bookmarks: { bookmarked_type: model_name.name, user_id: user_id }) }
 
   # == Callbacks ============================================================
-  after_initialize :define_default_settings
+  before_create :define_default_settings
 
   before_create :set_default_color
 
