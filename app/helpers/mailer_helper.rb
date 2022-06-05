@@ -13,10 +13,11 @@ module MailerHelper
     image_tag attachments[image_name].url, **options
   end
 
-  def base64_image(image, **options)
-    image   = image.start_with?('/uploads') ? "public/#{image}" : "app/assets/images/#{image}"
-    image64 = Base64.encode64 File.read(Rails.root.join(image))
-
-    image_tag "data:image/png;base64,#{image64}", **options
-  end
+  # Transform image to base 64 (but not working with many gmail)
+  # def base64_image(image, **options)
+  #   image   = image.start_with?('/uploads') ? "public/#{image}" : "app/assets/images/#{image}"
+  #   image64 = Base64.encode64 File.read(Rails.root.join(image))
+  #
+  #   image_tag "data:image/png;base64,#{image64}", **options
+  # end
 end

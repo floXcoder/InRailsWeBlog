@@ -61,7 +61,7 @@ export default class AdminHeaderLayout extends React.Component {
                         }}
                         open={this.state.isDrawerOpen}
                         onMouseOver={this._handleDrawerOver}
-                        onMouseOut={this._handleDrawerOut}>
+                        onMouseLeave={this._handleDrawerOut}>
                     <div className="toolbar">
                         <IconButton onClick={this._handleDrawerClose} size="large">
                             <ChevronLeftIcon/>

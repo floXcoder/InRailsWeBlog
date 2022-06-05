@@ -247,7 +247,7 @@ class User < ApplicationRecord
   scope :include_collection, -> { includes(:picture) }
 
   # == Callbacks ============================================================
-  after_initialize :define_default_settings
+  before_create :define_default_settings
 
   after_create :create_default_topic
 

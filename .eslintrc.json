@@ -29,7 +29,7 @@
   "plugins": [
     "react"
   ],
-  "ignorePatterns": ["**/i18n.js", "**/*summernote*.js", "**/translations/**"],
+  "ignorePatterns": ["**/i18n.js", "**/urlParser.js", "**/*summernote*.js", "**/translations/**"],
   "rules": {
     "accessor-pairs": 0,
     "arrow-body-style": 0,
@@ -100,6 +100,7 @@
     "no-plusplus": 0,
     "no-process-env": 0,
     "no-proto": 0,
+    "no-prototype-builtins": 0,
     "no-redeclare": 2,
     "no-return-assign": 0,
     "no-script-url": 0,

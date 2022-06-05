@@ -21,7 +21,7 @@ gem 'secure_headers',           '6.3.3'
 
 # JSON
 gem 'jsonapi-serializer',       '2.2.0'
-gem 'oj',                       '3.13.13'
+gem 'oj',                       '3.13.14'
 
 # Use slim instead of erb
 gem 'slim-rails',               '3.5.1'
@@ -148,7 +148,7 @@ group :development, :test do
   # Check errors
   gem 'rubocop',                    '1.30.0', require: false
   gem 'rubocop-rails',              '2.14.2', require: false
-  gem 'rubocop-performance',        '1.14.0', require: false
+  gem 'rubocop-performance',        '1.14.1', require: false
   gem 'rubocop-rspec',              '2.11.1',  require: false
 
   # static analyzer
