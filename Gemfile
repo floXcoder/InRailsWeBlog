@@ -12,7 +12,7 @@ ruby '3.1.2'
 gem 'rails',                    '7.0.3'
 
 # Use postgresql as the database for Active Record
-gem 'pg',                       '1.3.5'
+gem 'pg',                       '1.4.1'
 # gem 'active_record_extended',   '1.4.0'
 
 # HTTP Response
@@ -41,8 +41,8 @@ gem 'auto_strip_attributes',    '2.6.0'
 gem 'sanitize',                 '6.0.0'
 
 # Run asynschronous process
-gem 'sidekiq',                  '6.4.2'
-gem 'sidekiq-cron',             '1.4.0'
+gem 'sidekiq',                  '6.5.1'
+gem 'sidekiq-cron',             '1.5.1'
 gem 'whenever',                 '1.0.0', require: false
 
 # Redis session store and cache
@@ -62,7 +62,7 @@ gem 'mini_magick',              '4.11.0'
 gem 'image_processing',         '1.12.2'
 
 # Search in database
-gem 'searchkick',               '5.0.3'
+gem 'searchkick',               '5.0.4'
 gem 'elasticsearch',            '7.13.3'
 gem 'typhoeus',                 '1.4.0'
 
@@ -76,7 +76,7 @@ gem 'premailer-rails',          '1.11.1'
 gem 'browser',                  '5.3.1'
 
 # Tracking
-gem 'ahoy_matey',               '4.0.3'
+gem 'ahoy_matey',               '4.1.0'
 
 # SEO
 gem 'friendly_id',              '5.4.2'
@@ -97,7 +97,7 @@ gem 'health_check',             '3.1.0'
 
 # SEO
 gem 'webdrivers',               '5.0.0',  require: false
-gem 'selenium-webdriver',       '4.2.1',  require: false
+gem 'selenium-webdriver',       '4.3.0',  require: false
 
 # Server
 gem 'puma',                     '5.6.4'
@@ -143,18 +143,18 @@ end
 
 group :development, :test do
   # Speed up boot
-  gem 'bootsnap',                   '1.12.0',  require: false
+  gem 'bootsnap',                   '1.12.0', require: false
 
   # Check errors
-  gem 'rubocop',                    '1.30.0', require: false
-  gem 'rubocop-rails',              '2.14.2', require: false
-  gem 'rubocop-performance',        '1.14.1', require: false
-  gem 'rubocop-rspec',              '2.11.1',  require: false
+  gem 'rubocop',                    '1.30.1', require: false
+  gem 'rubocop-rails',              '2.15.0', require: false
+  gem 'rubocop-performance',        '1.14.2', require: false
+  gem 'rubocop-rspec',              '2.11.1', require: false
 
   # static analyzer
   gem 'rails_best_practices',       '1.23.1', require: false
   gem 'brakeman',                   '5.2.3',  require: false
-  gem 'i18n-tasks',                 '1.0.10',  require: false
+  gem 'i18n-tasks',                 '1.0.11', require: false
 end
 
 group :production do

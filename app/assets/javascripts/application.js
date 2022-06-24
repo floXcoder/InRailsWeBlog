@@ -28,7 +28,9 @@ if (window.SENTRY_JAVASCRIPT_KEY && !window.seoMode) {
             'UnknownError: Background Sync is disabled.',
             'Error: QuotaExceededError: QuotaExceededError',
             /Loading CSS chunk/,
-            /wasm/
+            /wasm/,
+            /script-src/,
+            /script-src-elem/
         ]
         // beforeSend(event, hint) {
         //     // Check if it is an exception, and if so, show the report dialog

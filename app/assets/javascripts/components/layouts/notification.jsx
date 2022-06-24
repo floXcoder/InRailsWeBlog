@@ -23,9 +23,9 @@ import {
 
 const variantIcon = {
     success: CheckCircleIcon,
-    warning: WarningIcon,
-    error: ErrorIcon,
-    alert: InfoIcon
+    alert: InfoIcon,
+    warn: WarningIcon,
+    error: ErrorIcon
 };
 
 const Notification = {};
@@ -102,6 +102,10 @@ class NotificationComponent extends React.Component {
     };
 
     render() {
+        if (Utils.isEmpty(this.state.messageInfo)) {
+            return null;
+        }
+
         const actions = [
             <IconButton key="close"
                         aria-label="Close"
@@ -141,19 +145,16 @@ class NotificationComponent extends React.Component {
                         TransitionProps={{
                             onExited: this._handleExited
                         }}>
-                        {
-                            this.state.messageInfo.message &&
-                            <SnackbarContent className={className}
-                                             aria-describedby="message-notification"
-                                             message={
-                                                 <span id="message-notification"
-                                                       className="message">
-                                                    <Icon className="icon icon-variant"/>
-                                                     {this.state.messageInfo.message || null}
-                                                 </span>
-                                             }
-                                             action={actions}/>
-                        }
+                        <SnackbarContent className={className}
+                                         aria-describedby="message-notification"
+                                         message={
+                                             <span id="message-notification"
+                                                   className="message">
+                                                 <Icon className="icon icon-variant"/>
+                                                 {this.state.messageInfo.message || null}
+                                             </span>
+                                         }
+                                         action={actions}/>
                     </Snackbar>
                 </ThemeProvider>
             </StyledEngineProvider>

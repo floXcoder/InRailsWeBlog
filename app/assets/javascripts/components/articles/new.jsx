@@ -8,6 +8,8 @@ import {
 } from '../../actions';
 
 import {
+    getArticleChildTags,
+    getArticleParentTags,
     getCurrentUserTopicVisibility
 } from '../../selectors';
 
@@ -19,9 +21,11 @@ import ArticleFormDisplay from './display/form';
 
 
 export default @articleMutationManager('new')
-@connect((state) => ({
+@connect((state, props) => ({
     userSlug: state.userState.currentSlug,
-    inheritVisibility: getCurrentUserTopicVisibility(state)
+    inheritVisibility: getCurrentUserTopicVisibility(state),
+    parentTags: getArticleParentTags(state, props.children),
+    childTags: getArticleChildTags(props.children)
 }), {
     fetchMetaTags,
     switchTagSidebar
@@ -42,6 +46,8 @@ class ArticleNew extends React.Component {
         // from connect
         userSlug: PropTypes.string,
         inheritVisibility: PropTypes.string,
+        parentTags: PropTypes.array,
+        childTags: PropTypes.array,
         fetchMetaTags: PropTypes.func,
         switchTagSidebar: PropTypes.func
     };
@@ -95,6 +101,13 @@ class ArticleNew extends React.Component {
             allowComment: this.props.inheritVisibility !== 'only_me'
         };
 
+        if (this.props.parentTags) {
+            article.parentTags = this.props.parentTags;
+        }
+        if (this.props.childTags) {
+            article.childTags = this.props.childTags;
+        }
+
         if (this.props.article?.temporary) {
             article.visibility = this.props.article.visibility;
             article.allowComment = this.props.article.allowComment;
@@ -127,7 +140,7 @@ class ArticleNew extends React.Component {
             }
         }
 
-        let errorStep = null;
+        let errorStep;
         if (this.props.articleErrors?.length > 0) {
             if (this.props.isTagError) {
                 errorStep = 'tag';
@@ -154,6 +167,8 @@ class ArticleNew extends React.Component {
                                     currentUser={this.props.currentUser}
                                     currentTopic={this.props.currentTopic}
                                     currentMode={this.props.currentMode}
+                                    parentTags={this.props.parentTags}
+                                    childTags={this.props.childTags}
                                     errorStep={errorStep}
                                     articleErrors={this.props.articleErrors}
                                     onFormChange={this.props.onFormChange}

@@ -102,7 +102,7 @@ export function autocompleteReducer(state = autocompleteState, action) {
                 state.highlightedArticle = newArticle;
             } else if (action.keyCode === 'Tab') {
                 state.query = '';
-                state.selectedTags = addOrRemoveIn(state.selectedTags, state.tags[findItemIndex(state.tags, state.highlightedTag ? state.highlightedTag.id : state.tags.first().id)]);
+                state.selectedTags = addOrRemoveIn(state.selectedTags, state.tags[findItemIndex(state.tags, state.highlightedTag ? state.highlightedTag.id : state.tags.first().id)]).compact();
                 state.topics = [];
                 state.tags = [];
                 state.articles = [];
@@ -111,7 +111,7 @@ export function autocompleteReducer(state = autocompleteState, action) {
             } else if (action.keyCode === 'Enter') {
                 if (state.highlightedTag) {
                     state.query = '';
-                    state.selectedTags = addOrRemoveIn(state.selectedTags, state.tags[findItemIndex(state.tags, state.highlightedTag.id)]);
+                    state.selectedTags = addOrRemoveIn(state.selectedTags, state.tags[findItemIndex(state.tags, state.highlightedTag.id)]).compact();
                     state.topics = [];
                     state.tags = [];
                     state.articles = [];
@@ -251,7 +251,7 @@ export function searchReducer(state = searchState, action) {
             return _parseSearchResults(state, action);
 
         case ActionTypes.SEARCH_TAG_SELECTED:
-            state.selectedTags = addOrRemoveIn(state.selectedTags, action.tag);
+            state.selectedTags = addOrRemoveIn(state.selectedTags, action.tag).compact();
             return state;
 
         case ActionTypes.SEARCH_URL_SCRAP:

@@ -21,7 +21,7 @@
     background-color: $secondary-color;
   }
 
-  &.warning {
+  &.warn {
     background-color: $warning-color;
   }
 
@@ -36,6 +36,8 @@
 
   .close {
     padding: 2px;
+    color: #fff;
+    opacity: .7;
   }
 
   .message {

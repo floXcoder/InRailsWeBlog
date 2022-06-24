@@ -16,18 +16,18 @@ function EditorField({input,
                      }) {
     return (
         <>
-            <Editor {...input}
-                    hasError={touched && !!error}
-                    {...custom}>
-                {componentContent || input.value}
-            </Editor>
-
             {
                 touched && error &&
                 <ErrorForm hasIcon={custom && !!custom.icon}>
                     {error}
                 </ErrorForm>
             }
+
+            <Editor {...input}
+                    hasError={touched && !!error}
+                    {...custom}>
+                {componentContent || input.value}
+            </Editor>
         </>
     );
 }
