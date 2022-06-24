@@ -5,11 +5,11 @@ function ErrorForm({
                        hasIcon
                    }) {
     return (
-        <ul className={classNames('field-errors filled', {'with-icon': hasIcon})}>
-            <li className="field-error">
+        <div className={classNames('article-errors', {'with-icon': hasIcon})}>
+            <p className="field-error">
                 {children}
-            </li>
-        </ul>
+            </p>
+        </div>
     );
 }
 

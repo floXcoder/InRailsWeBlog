@@ -26,9 +26,7 @@ import {
 } from '../../../actions';
 
 import {
-    getCategorizedTags,
-    getArticleParentTags,
-    getArticleChildTags
+    getCategorizedTags
 } from '../../../selectors';
 
 // import {
@@ -57,9 +55,7 @@ import EnsureValidity from '../../modules/ensureValidity';
 
 export default @connect((state, props) => ({
     availableParentTags: getCategorizedTags(state, props.inheritVisibility),
-    availableChildTags: getCategorizedTags(state, props.inheritVisibility, true),
-    parentTags: getArticleParentTags(state, props.children),
-    childTags: getArticleChildTags(props.children)
+    availableChildTags: getCategorizedTags(state, props.inheritVisibility, true)
 }), {
     fetchTags
 })
@@ -75,6 +71,8 @@ class ArticleFormDisplay extends React.Component {
         isEditing: PropTypes.bool,
         currentUser: PropTypes.object,
         currentMode: PropTypes.string,
+        parentTags: PropTypes.array,
+        childTags: PropTypes.array,
         errorStep: PropTypes.string,
         articleErrors: PropTypes.array,
         onCancel: PropTypes.func,
@@ -82,8 +80,6 @@ class ArticleFormDisplay extends React.Component {
         // from connect
         availableParentTags: PropTypes.array,
         availableChildTags: PropTypes.array,
-        parentTags: PropTypes.array,
-        childTags: PropTypes.array,
         fetchTags: PropTypes.func
     };
 
