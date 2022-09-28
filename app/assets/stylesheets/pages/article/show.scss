@@ -34,7 +34,7 @@
   margin: 8px 0;
 }
 
-.article-show-referenceLink {
+.article-show-reference-link {
   color: $text-color;
   font-style: italic;
 }
@@ -61,25 +61,25 @@
   height: 38px;
 }
 
-.article-show-avatarIcon {
+.article-show-avatar-icon {
   font-size: 32px;
 }
 
-.article-show-avatarUser {
+.article-show-avatar-user {
   color: inherit;
   font-size: .95rem;
 }
 
-.article-show-avatarDate {
+.article-show-avatar-date {
   font-size: .9rem;
 }
 
-.article-show-editIcon {
+.article-show-edit-icon {
   margin: 0 .4rem;
   display: inline-block;
   text-align: right;
 
-  &.article-show-editIcon-private {
+  &.article-show-edit-icon-private {
     float: right;
   }
 }
@@ -93,7 +93,7 @@
   border-radius: 5px;
 }
 
-.article-show-commentCount {
+.article-show-comment-count {
   color: inherit;
   display: block;
   font-size: .9rem;
@@ -106,7 +106,7 @@
   background-color: #f5f5f5;
 }
 
-.article-show-articleInfo {
+.article-show-article-info {
   color: #757575;
   font-size: .9rem;
   margin-top: 0;
@@ -117,11 +117,11 @@
   }
 }
 
-.article-show-articleContent {
+.article-show-article-content {
   margin-top: 2rem;
 }
 
-.article-show-floatingButtons {
+.article-show-floating-buttons {
   position: absolute;
   left: -60px;
   top: 100px;
@@ -133,19 +133,19 @@
 }
 
 .sticky {
-  .article-show-floatingButtons {
+  .article-show-floating-buttons {
     visibility: visible;
   }
 }
 
-.article-show-floatingIcons {
+.article-show-floating-icons {
   display: flex;
   font-size: 2.2rem;
   align-items: center;
   flex-direction: column;
 }
 
-.article-show-actionButtons {
+.article-show-action-buttons {
   margin-left: auto;
 
   @media #{$large-and-up} {
@@ -153,7 +153,7 @@
   }
 }
 
-.article-show-actionItem {
+.article-show-action-item {
   margin: 12px;
   display: inline-block;
 
@@ -162,19 +162,19 @@
   }
 }
 
-.article-show-recommendationsContainer {
+.article-show-recommendations-container {
   margin: 0 auto 2rem;
   max-width: $stories-width;
 }
 
-.article-show-recommendationsTitle {
+.article-show-recommendations-title {
   font-size: 1.4rem;
   margin-top: 2.4rem;
   text-align: center;
   margin-bottom: .2rem;
 }
 
-.article-show-recommendationsArticle {
+.article-show-recommendations-article {
   width: 420px;
 
   @media #{$medium-and-down} {
@@ -182,12 +182,12 @@
   }
 }
 
-.article-show-recommendationsLink {
+.article-show-recommendations-link {
   margin-top: 1.6rem;
   text-align: center;
 }
 
-.article-show-commentsContainer {
+.article-show-comments-container {
   margin: 0 auto 2rem;
   max-width: $article-appendix-width;
 }

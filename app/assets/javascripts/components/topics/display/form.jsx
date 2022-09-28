@@ -168,7 +168,7 @@ export default class TopicFormDisplay extends React.Component {
                                 }
 
                                 {
-                                    this.props.articleMultilanguage &&
+                                    !!this.props.articleMultilanguage &&
                                     <div className="col s12 margin-top-25">
                                         <Field name="languages"
                                                component={MultipleSelectFormField}

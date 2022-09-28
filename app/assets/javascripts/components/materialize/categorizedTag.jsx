@@ -4,6 +4,7 @@ import '../../../stylesheets/components/categorized-tag.scss';
 
 import CategorizedTagInput from './categorizedTag/categorizedTagInput';
 
+
 export default class CategorizedTag extends React.Component {
     static propTypes = {
         id: PropTypes.string.isRequired,
@@ -140,7 +141,7 @@ export default class CategorizedTag extends React.Component {
         return (
             <div className={fieldClass}>
                 {
-                    this.props.icon &&
+                    !!this.props.icon &&
                     <span className="material-icons prefix"
                           data-icon={this.props.icon}
                           aria-hidden="true"/>

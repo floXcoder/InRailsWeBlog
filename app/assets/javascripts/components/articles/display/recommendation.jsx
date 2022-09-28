@@ -77,7 +77,7 @@ class ArticleRecommendationDisplay extends React.Component {
                                 }}>
                                     <Paper className="article-recommendation-topic"
                                            elevation={1}>
-                                        <Typography className="article-recommendation-topicTitle"
+                                        <Typography className="article-recommendation-topic-title"
                                                     variant="h5"
                                                     component="h2">
                                             {topic.name} / {this.props.tag.name}

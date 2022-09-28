@@ -45,6 +45,10 @@ module ApplicationHelper
     end
   end
 
+  def translations(file)
+    content_for(:translations) { raw Rails.root.join("app/assets/javascripts/translations/#{file}.json").read }
+  end
+
   # Assets with manifest management
   def image_tag(url, options = {})
     url = AssetManifest.image_path(url)

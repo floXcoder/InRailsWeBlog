@@ -33,10 +33,10 @@ const ArticleActions = function ({
                                      color
                                  }) {
     return (
-        <ul className="article-card-actionButtons">
+        <ul className="article-card-action-buttons">
             {
                 !isInline &&
-                <li className="article-card-actionItem"
+                <li className="article-card-action-item"
                     style={deleteIconStyle}>
                     <ArticleDeleteIcon size={size}
                                        color="action"
@@ -47,7 +47,7 @@ const ArticleActions = function ({
             {
                 (!isInline && articleVisibility !== 'only_me') &&
                 <Hidden lgDown={true}>
-                    <li className="article-card-actionItem">
+                    <li className="article-card-action-item">
                         <ArticleTrackingIcon articleId={articleId}
                                              size={size}
                                              color={color}/>
@@ -56,9 +56,9 @@ const ArticleActions = function ({
             }
 
             {
-                !isInline && hasLinks &&
+                !isInline && !!hasLinks &&
                 <Hidden lgDown={true}>
-                    <li className="article-card-actionItem">
+                    <li className="article-card-action-item">
                         <CheckLinkIcon onCheckLinkClick={onCheckLinkClick}
                                        size={size}
                                        color={color}/>
@@ -69,7 +69,7 @@ const ArticleActions = function ({
             {
                 (!isInline && articleVisibility !== 'everyone') &&
                 <Hidden lgDown={true}>
-                    <li className="article-card-actionItem">
+                    <li className="article-card-action-item">
                         <ArticleShareIcon articleId={articleId}
                                           size={size}
                                           color={color}/>
@@ -77,7 +77,7 @@ const ArticleActions = function ({
                 </Hidden>
             }
 
-            <li className="article-card-actionItem">
+            <li className="article-card-action-item">
                 <ArticleBookmarkIcon articleId={articleId}
                                      size={size}
                                      color={color}/>
@@ -96,9 +96,9 @@ const ArticleActions = function ({
             }
 
             {
-                (!isInline && userSlug) &&
+                !!(!isInline && userSlug) &&
                 <Hidden lgDown={true}>
-                    <li className="article-card-actionItem">
+                    <li className="article-card-action-item">
                         <ArticleHistoryIcon userSlug={userSlug}
                                             articleSlug={articleSlug}
                                             size={size}
@@ -108,8 +108,8 @@ const ArticleActions = function ({
             }
 
             {
-                userSlug &&
-                <li className="article-card-actionItem">
+                !!userSlug &&
+                <li className="article-card-action-item">
                     <ArticleEditIcon userSlug={userSlug}
                                      articleSlug={articleSlug}
                                      size={size}
@@ -118,8 +118,8 @@ const ArticleActions = function ({
             }
 
             {
-                (isInline && userSlug) &&
-                <li className="article-card-actionItem">
+                !!(isInline && userSlug) &&
+                <li className="article-card-action-item">
                     <ArticleLinkIcon articleId={articleId}
                                      articleSlug={articleSlug}
                                      articleTitle={articleTitle}

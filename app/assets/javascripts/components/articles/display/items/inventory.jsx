@@ -36,7 +36,7 @@ export default class ArticleInventoryDisplay extends React.PureComponent {
             if (Utils.isURL(field.value)) {
                 return (
                     <Typography component="div"
-                                className="article-inline-inventoryListString"
+                                className="article-inline-inventory-list-string"
                                 noWrap={true}>
                         <a href={field.value}
                            target="_blank"
@@ -48,7 +48,7 @@ export default class ArticleInventoryDisplay extends React.PureComponent {
             } else {
                 return (
                     <Typography component="div"
-                                className="article-inline-inventoryListString"
+                                className="article-inline-inventory-list-string"
                                 noWrap={true}>
                         {field.value}
                     </Typography>
@@ -57,7 +57,7 @@ export default class ArticleInventoryDisplay extends React.PureComponent {
         } else if (field.type === 'date_type') {
             return (
                 <Typography component="div"
-                            className="article-inline-inventoryListString"
+                            className="article-inline-inventory-list-string"
                             noWrap={true}>
                     {field.value}
                 </Typography>
@@ -65,7 +65,7 @@ export default class ArticleInventoryDisplay extends React.PureComponent {
         } else if (field.type === 'number_type') {
             return (
                 <Typography component="div"
-                            className="article-inline-inventoryListString"
+                            className="article-inline-inventory-list-string"
                             noWrap={true}>
                     {field.value}
                 </Typography>
@@ -94,7 +94,7 @@ export default class ArticleInventoryDisplay extends React.PureComponent {
         } else if (field.type === 'text_type') {
             return (
                 <div className={classNames({
-                    'article-inline-inventoryListText': this.props.isList
+                    'article-inline-inventory-list-text': this.props.isList
                 })}>
                     <div className="normalized-content normalized-content-extract"
                          dangerouslySetInnerHTML={{__html: field.value}}/>
@@ -107,7 +107,7 @@ export default class ArticleInventoryDisplay extends React.PureComponent {
 
     render() {
         return (
-            <List className="article-inline-inventoryList"
+            <List className="article-inline-inventory-list"
                   disablePadding={true}>
                 {
                     this.props.inventories.map((field) => (
@@ -116,12 +116,12 @@ export default class ArticleInventoryDisplay extends React.PureComponent {
                                       disableGutters={true}>
                                 <ListItemText disableTypography={true}
                                               primary={
-                                                  <span className="article-inline-inventoryListTitle">
+                                                  <span className="article-inline-inventory-list-title">
                                                       {field.name}
                                                   </span>
                                               }
                                               secondary={
-                                                  <div className="article-inline-inventoryListContent">
+                                                  <div className="article-inline-inventory-list-content">
                                                       {this._renderFieldByType(field)}
                                                   </div>
                                               }/>

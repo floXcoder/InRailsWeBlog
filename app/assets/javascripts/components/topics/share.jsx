@@ -10,9 +10,7 @@ import {
     shareTopic
 } from '../../actions';
 
-import {
-    getSharingTopic
-} from '../../selectors';
+import AnalyticsService from '../../modules/analyticsService';
 
 import withRouter from '../modules/router';
 
@@ -20,8 +18,8 @@ import ShareFormTopic from './share/form';
 
 
 export default @withRouter({location: true, navigate: true})
-@connect((state, props) => ({
-    sharingTopic: getSharingTopic(state, props.routeLocation?.search)
+@connect((state) => ({
+    topic: state.topicState.topic
 }), {
     shareTopic
 })
@@ -30,7 +28,7 @@ class ShareTopicModal extends React.Component {
         // from router
         routeNavigate: PropTypes.func,
         // from connect
-        sharingTopic: PropTypes.object,
+        topic: PropTypes.object,
         shareTopic: PropTypes.func
     };
 
@@ -42,6 +40,18 @@ class ShareTopicModal extends React.Component {
         isOpen: true,
         errorText: undefined
     };
+
+    componentDidMount() {
+        if (this.state.isOpen && this.props.topic) {
+            AnalyticsService.trackTopicSharePage(this.props.topic.user.slug, this.props.topic.slug);
+        }
+    }
+
+    componentDidUpdate() {
+        if (this.state.isOpen) {
+            AnalyticsService.trackTopicSharePage(this.props.topic.user.slug, this.props.topic.slug);
+        }
+    }
 
     _handleClose = () => {
         this.setState({
@@ -73,7 +83,7 @@ class ShareTopicModal extends React.Component {
                 errorText: I18n.t('js.topic.share.errors.user_empty')
             });
         } else {
-            this.props.shareTopic(this.props.sharingTopic.id, userLogin)
+            this.props.shareTopic(this.props.topic.id, userLogin)
                 .then((response) => {
                     if (!response.errors) {
                         this._handleClose();

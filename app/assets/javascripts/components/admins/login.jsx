@@ -43,11 +43,11 @@ function AdminLogin() {
                           direction="column"
                           justifyContent="space-between"
                           alignItems="center">
-                        <Grid classes={{item: 'admin-login-fieldItem'}}
+                        <Grid classes={{item: 'admin-login-field-item'}}
                               item={true}>
                             <TextField id="admin_login"
                                        name="admin[login]"
-                                       className="admin-login-textField"
+                                       className="admin-login-text-field"
                                        label={I18n.t('js.user.login.login')}
                                        autoFocus={true}
                                        required={true}
@@ -61,11 +61,11 @@ function AdminLogin() {
                                        }}/>
                         </Grid>
 
-                        <Grid classes={{item: 'admin-login-fieldItem'}}
+                        <Grid classes={{item: 'admin-login-field-item'}}
                               item={true}>
                             <TextField id="admin_password"
                                        name="admin[password]"
-                                       className="admin-login-textField"
+                                       className="admin-login-text-field"
                                        label={I18n.t('js.user.login.password')}
                                        required={true}
                                        autoComplete="off"

@@ -11,6 +11,7 @@ import {
     Editor
 } from '../../loaders/components';
 
+
 export default class AdminBlogForm extends React.Component {
     static propTypes = {
         onPersistBlog: PropTypes.func.isRequired,

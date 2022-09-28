@@ -1,9 +1,6 @@
 'use strict';
 
-import {
-    trackAction,
-    trackMetrics
-} from '../../../actions';
+import AnalyticsService from '../../../modules/analyticsService';
 
 import withRouter from '../../modules/router';
 
@@ -23,9 +20,9 @@ class RouteManager extends React.Component {
     }
 
     componentDidMount() {
-        trackAction(this.props.routeLocation, 'route');
+        AnalyticsService.trackAction(this.props.routeLocation, 'route');
 
-        trackMetrics(this.props.routeLocation);
+        AnalyticsService.trackMetrics(this.props.routeLocation);
     }
 
     shouldComponentUpdate(nextProps) {
@@ -39,7 +36,7 @@ class RouteManager extends React.Component {
     }
 
     componentDidUpdate() {
-        trackMetrics(this.props.routeLocation);
+        AnalyticsService.trackMetrics(this.props.routeLocation);
     }
 
     render() {

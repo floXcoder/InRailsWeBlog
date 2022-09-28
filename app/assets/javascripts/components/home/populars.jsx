@@ -94,11 +94,11 @@ class HomePopulars extends React.Component {
     render() {
         return (
             <section className="home-populars">
-                <div className="home-homeContent">
+                <div className="home-home-content">
                     {
-                        this.props.currentUserSlug &&
-                        <div className="home-popularsHomeButtonContainer">
-                            <Button className="home-popularsHomeButton"
+                        !!this.props.currentUserSlug &&
+                        <div className="home-populars-home-button-container">
+                            <Button className="home-populars-home-button"
                                     color="secondary"
                                     variant="contained"
                                     startIcon={<ClassIcon/>}
@@ -110,8 +110,8 @@ class HomePopulars extends React.Component {
 
                     {
                         this.props.recentArticles?.length > 0 &&
-                        <div className="home-popularsCategory">
-                            <h2 className="home-popularsTitle">
+                        <div className="home-populars-category">
+                            <h2 className="home-populars-title">
                                 {I18n.t('js.views.home.recents.title')}
                             </h2>
 
@@ -135,8 +135,8 @@ class HomePopulars extends React.Component {
                         </div>
                     }
 
-                    <div className="home-popularsCategory">
-                        <h2 className="home-popularsTitle">
+                    <div className="home-populars-category">
+                        <h2 className="home-populars-title">
                             {I18n.t('js.views.home.populars.title')}
                         </h2>
 
@@ -174,10 +174,10 @@ class HomePopulars extends React.Component {
                         </Grid>
                     </div>
 
-                    <Divider className="home-popularsDivider"/>
+                    <Divider className="home-populars-divider"/>
 
-                    <div className="home-popularsCategory">
-                        <h2 className="home-popularsSubtitle">
+                    <div className="home-populars-category">
+                        <h2 className="home-populars-subtitle">
                             {I18n.t('js.views.home.populars.tags.title')}
                         </h2>
 
@@ -187,7 +187,7 @@ class HomePopulars extends React.Component {
                                     ?
                                     this.props.popularTags.map((tag) => (
                                         <div key={`populars-tag-${tag.id}`}
-                                             className="home-popularsTag">
+                                             className="home-populars-tag">
                                             <TagChipDisplay tag={tag}
                                                             isLarge={true}/>
                                         </div>
@@ -199,7 +199,7 @@ class HomePopulars extends React.Component {
                             }
                         </div>
 
-                        <div className="home-popularsButton">
+                        <div className="home-populars-button">
                             <Button color="primary"
                                     variant="contained"
                                     href={tagsPath()}>
@@ -208,10 +208,10 @@ class HomePopulars extends React.Component {
                         </div>
                     </div>
 
-                    <Divider className="home-popularsDivider"/>
+                    <Divider className="home-populars-divider"/>
 
-                    <div className="home-popularsCategory">
-                        <h2 className="home-popularsSubtitle">
+                    <div className="home-populars-category">
+                        <h2 className="home-populars-subtitle">
                             {I18n.t('js.views.home.populars.articles.title')}
                         </h2>
 
@@ -221,7 +221,7 @@ class HomePopulars extends React.Component {
                                     ?
                                     this.props.popularArticles.filter((article) => !this.props.homeArticles.map((homeArticle) => homeArticle.id).includes(article.id)).map((article) => (
                                         <div key={`popular-${article.id}`}
-                                             className="home-popularsItem">
+                                             className="home-populars-item">
                                             <ArticleMiniCardDisplay article={article}
                                                                     isPaper={true}/>
                                         </div>

@@ -65,7 +65,7 @@ class UserPassword extends React.Component {
                            value={token}/>
 
                     {
-                        this.props.resetPasswordToken &&
+                        !!this.props.resetPasswordToken &&
                         <>
                             <input type="hidden"
                                    name="_method"
@@ -97,11 +97,11 @@ class UserPassword extends React.Component {
                                   direction="column"
                                   justifyContent="space-between"
                                   alignItems="center">
-                                <Grid classes={{item: 'user-password-fieldItem'}}
+                                <Grid classes={{item: 'user-password-field-item'}}
                                       item={true}>
                                     <TextField id="user_password"
                                                name="user[password]"
-                                               className="user-password-textField"
+                                               className="user-password-text-field"
                                                label={I18n.t('js.user.password.edit.password')}
                                                required={true}
                                                autoFocus={true}
@@ -117,7 +117,7 @@ class UserPassword extends React.Component {
 
                                     <TextField id="user_password_confirmation"
                                                name="user[password_confirmation]"
-                                               className="user-password-textField"
+                                               className="user-password-text-field"
                                                label={I18n.t('js.user.password.edit.password_confirmation')}
                                                required={true}
                                                color="primary"
@@ -137,11 +137,11 @@ class UserPassword extends React.Component {
                                   direction="column"
                                   justifyContent="space-between"
                                   alignItems="center">
-                                <Grid classes={{item: 'user-password-fieldItem'}}
+                                <Grid classes={{item: 'user-password-field-item'}}
                                       item={true}>
                                     <TextField id="user_email"
                                                name="user[email]"
-                                               className="user-password-textField"
+                                               className="user-password-text-field"
                                                label={I18n.t('js.user.password.new.email')}
                                                required={true}
                                                autoFocus={true}

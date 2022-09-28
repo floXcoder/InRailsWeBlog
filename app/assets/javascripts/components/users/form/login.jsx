@@ -65,12 +65,12 @@ const LoginForm = function ({onSubmit, onCancel}) {
                               direction="column"
                               justifyContent="space-between"
                               alignItems="center">
-                            <Grid classes={{item: 'user-connection-fieldItem'}}
+                            <Grid classes={{item: 'user-connection-field-item'}}
                                   item={true}>
                                 <Field name="login"
                                        component={TextFormField}
                                        id="user_login_login"
-                                       className="user-connection-textField"
+                                       className="user-connection-text-field"
                                        label={I18n.t('js.user.login.login')}
                                        autoFocus={true}
                                        required={true}
@@ -85,12 +85,12 @@ const LoginForm = function ({onSubmit, onCancel}) {
                                        }}/>
                             </Grid>
 
-                            <Grid classes={{item: 'user-connection-fieldItem'}}
+                            <Grid classes={{item: 'user-connection-field-item'}}
                                   item={true}>
                                 <Field name="password"
                                        component={TextFormField}
                                        id="user_password_login"
-                                       className="user-connection-textField"
+                                       className="user-connection-text-field"
                                        label={I18n.t('js.user.login.password')}
                                        required={true}
                                        autoComplete="off"

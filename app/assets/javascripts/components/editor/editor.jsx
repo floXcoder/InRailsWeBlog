@@ -143,7 +143,7 @@ class Editor extends React.Component {
                             }
                         });
                 },
-                template: ([type, title /* id, slug, parentSlug */]) => {
+                template: ([type, title/* id, slug, parentSlug */]) => {
                     if (type === 'topic') {
                         return title + ' (' + I18n.t(`js.editor.hint.${type}`) + ')';
                     } else {

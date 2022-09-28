@@ -112,7 +112,7 @@ class ArticleGridDisplay extends React.PureComponent {
                 <Card component="article"
                       id={`article-${this.props.article.id}`}
                       className={classNames('article-card-card', {
-                          'article-card-cardPrivate': isPrivateInPublic
+                          'article-card-card-private': isPrivateInPublic
                       })}
                       itemScope={true}
                       itemType="https://schema.org/BlogPosting">
@@ -127,7 +127,7 @@ class ArticleGridDisplay extends React.PureComponent {
                                         ?
                                         <IconButton
                                             className={classNames('article-card-expand', {
-                                                'article-card-expandOpen': this.state.isFolded
+                                                'article-card-expand-open': this.state.isFolded
                                             })}
                                             aria-expanded={this.state.isFolded}
                                             aria-label="Show more"
@@ -143,18 +143,19 @@ class ArticleGridDisplay extends React.PureComponent {
                                         ?
                                         <Grid container={true}
                                               classes={{
-                                                  container: 'article-card-articleInfo'
+                                                  container: 'article-card-article-info'
                                               }}
                                               spacing={2}
                                               direction="row"
                                               justifyContent="space-between"
                                               alignItems="center">
                                             <Grid classes={{
-                                                item: 'article-card-infoItem'
+                                                item: 'article-card-info-item'
                                             }}
                                                   item={true}>
                                                 <ArticleAvatarIcon user={this.props.article.user}
-                                                                   articleDate={this.props.article.date}/>
+                                                                   createdDate={this.props.article.date}
+                                                                   updatedDate={this.props.article.updatedDate}/>
                                             </Grid>
                                         </Grid>
                                         :
@@ -162,10 +163,10 @@ class ArticleGridDisplay extends React.PureComponent {
                                 }
                                 subheader={
                                     <Typography component="h1"
-                                                className="article-card-gridTitle"
+                                                className="article-card-grid-title"
                                                 noWrap={true}
                                                 itemProp="name headline">
-                                        <Link className="article-card-gridTitleLink"
+                                        <Link className="article-card-grid-title-link"
                                               to={userArticlePath(this.props.article.user.slug, this.props.article.slug)}
                                               itemProp="mainEntityOfPage url"
                                               onClick={spyTrackClick.bind(null, 'article', this.props.article.id, this.props.article.slug, this.props.article.userId, this.props.article.title, this.props.article.topicId)}>
@@ -253,7 +254,7 @@ class ArticleGridDisplay extends React.PureComponent {
                             }
 
                             {
-                                this.props.isOwner &&
+                                !!this.props.isOwner &&
                                 <ArticleActions isInline={true}
                                                 userSlug={this.props.currentUserSlug}
                                                 articleId={this.props.article.id}
@@ -268,8 +269,8 @@ class ArticleGridDisplay extends React.PureComponent {
                     </Collapse>
 
                     {
-                        isPrivateInPublic &&
-                        <div className="article-card-privateMessage">
+                        !!isPrivateInPublic &&
+                        <div className="article-card-private-message">
                             {I18n.t('js.article.common.private_in_public')}
                         </div>
                     }

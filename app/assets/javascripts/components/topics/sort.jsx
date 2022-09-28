@@ -10,6 +10,8 @@ import {
     updateTopicPriority
 } from '../../actions';
 
+import AnalyticsService from '../../modules/analyticsService';
+
 import withRouter from '../modules/router';
 
 import Loader from '../theme/loader';
@@ -19,6 +21,7 @@ import TopicSorter from './sort/sorter';
 
 export default @connect((state) => ({
     currentUserId: state.userState.currentId,
+    currentUserSlug: state.userState.currentSlug,
     currentUserTopicId: state.topicState.currentUserTopicId,
     currentUserTopicSlug: state.topicState.currentUserTopicSlug,
     isFetching: state.topicState.isFetching,
@@ -35,6 +38,7 @@ class SortTopicModal extends React.Component {
         routeNavigate: PropTypes.func,
         // from connect
         currentUserId: PropTypes.number,
+        currentUserSlug: PropTypes.string,
         isFetching: PropTypes.bool,
         topics: PropTypes.array,
         fetchTopics: PropTypes.func,
@@ -54,6 +58,10 @@ class SortTopicModal extends React.Component {
             order: 'priority_desc',
             visibility: this.props.routeLocation?.search?.visibility
         });
+
+        if (this.state.isOpen) {
+            AnalyticsService.trackTopicSortPage(this.props.currentUserSlug);
+        }
     }
 
     _handleClose = () => {
@@ -86,7 +94,7 @@ class SortTopicModal extends React.Component {
                     </Typography>
 
                     {
-                        (this.props.isFetching && this.props.topics.length === 0) &&
+                        !!(this.props.isFetching && this.props.topics.length === 0) &&
                         <div className="center margin-top-20">
                             <Loader size="big"/>
                         </div>

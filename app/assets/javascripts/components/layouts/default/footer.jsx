@@ -57,7 +57,7 @@ class FooterLayoutDefault extends React.PureComponent {
                      onClick={this._handleCoverClick}/>
 
                 <div className="layout-footer-footer">
-                    <Grid className="layout-footer-footerContainer"
+                    <Grid className="layout-footer-footer-container"
                           container={true}
                           direction="row"
                           justifyContent="space-around"
@@ -78,14 +78,14 @@ class FooterLayoutDefault extends React.PureComponent {
                             !!Object.keys(alternates).length &&
                             <Grid item={true}
                                   md={6}>
-                                <h3 className="layout-footer-footerSubtitle">
+                                <h3 className="layout-footer-footer-subtitle">
                                     {I18n.t('js.views.footer.languages')}
                                 </h3>
 
                                 {
                                     Object.keys(alternates).map((locale) => (
                                         <p key={locale}>
-                                            <a className="layout-footer-footerLink"
+                                            <a className="layout-footer-footer-link"
                                                href={alternates[locale]}
                                                onClick={this._handleAlternateClick.bind(this, alternates[locale], locale)}>
                                                 {I18n.t(`js.views.footer.locales.${locale}`)}
@@ -98,33 +98,33 @@ class FooterLayoutDefault extends React.PureComponent {
 
                         <Grid item={true}
                               md={6}>
-                            <h3 className="layout-footer-footerSubtitle">
+                            <h3 className="layout-footer-footer-subtitle">
                                 {I18n.t('js.views.footer.links.title')}
                             </h3>
 
                             <p>
-                                <a className="layout-footer-footerLink"
+                                <a className="layout-footer-footer-link"
                                    href={`mailto:${window.settings.website_email}`}>
                                     {I18n.t('js.views.footer.links.contact')}
                                 </a>
                             </p>
 
                             <p>
-                                <a className="layout-footer-footerLink"
+                                <a className="layout-footer-footer-link"
                                    href={about()}>
                                     {I18n.t('js.views.footer.links.about')}
                                 </a>
                             </p>
 
                             <p>
-                                <a className="layout-footer-footerLink"
+                                <a className="layout-footer-footer-link"
                                    href={terms()}>
                                     {I18n.t('js.views.footer.links.terms')}
                                 </a>
                             </p>
 
                             <p>
-                                <a className="layout-footer-footerLink"
+                                <a className="layout-footer-footer-link"
                                    href={privacy()}>
                                     {I18n.t('js.views.footer.links.privacy')}
                                 </a>
@@ -134,7 +134,7 @@ class FooterLayoutDefault extends React.PureComponent {
                         <Grid item={true}
                               xs={12}>
                             <div className="margin-top-30">
-                                <a className="layout-footer-githubLink"
+                                <a className="layout-footer-github-link"
                                    target="_blank"
                                    href={I18n.t('js.views.footer.links.github_src')}>
                                     {I18n.t('js.views.footer.links.github')}

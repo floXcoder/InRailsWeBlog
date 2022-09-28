@@ -7,17 +7,17 @@
   max-width: $main-width;
 }
 
-.user-home-userHomeTopics {
+.user-home-user-home-topics {
   margin: 1rem auto 4rem;
   max-width: $article-appendix-width;
 }
 
-.user-home-userHomeArticles {
+.user-home-user-home-articles {
   margin: 1rem auto 4rem;
   max-width: $article-appendix-width;
 }
 
-.user-home-userHomeCard {
+.user-home-user-home-card {
   margin: 3rem .3rem;
   overflow: visible;
   position: relative;
@@ -37,13 +37,13 @@
   font-size: .9rem;
 }
 
-.user-home-sortIcon {
+.user-home-sort-icon {
   @media #{$large-and-down} {
     display: none;
   }
 }
 
-.user-home-gridTheme {
+.user-home-grid-theme {
   position: relative;
 }
 
@@ -66,7 +66,7 @@
   }
 }
 
-.user-home-topicTitle {
+.user-home-topic-title {
   color: #fff;
   font-size: 1.2rem;
   margin-top: 1rem;
@@ -77,7 +77,7 @@
   }
 }
 
-.user-home-topicLanguages {
+.user-home-topic-languages {
   color: #fff;
   float: left;
   font-size: .9rem;
@@ -91,7 +91,7 @@
   }
 }
 
-.user-home-topicMode {
+.user-home-topic-mode {
   color: #fff;
   font-size: .9rem;
   font-style: italic;
@@ -104,7 +104,7 @@
   }
 }
 
-.user-home-topicNew {
+.user-home-topic-new {
   height: 6rem;
   background-color: #eee;
 
@@ -113,7 +113,7 @@
   }
 }
 
-.user-home-topicNewTitle {
+.user-home-topic-new-title {
   font-size: 1.05rem;
   font-style: italic;
   text-align: center;
@@ -124,7 +124,7 @@
   }
 }
 
-.user-home-topicLink {
+.user-home-topic-link {
   top: 8px;
   right: -20px;
   width: 44px !important;
@@ -139,14 +139,14 @@
   }
 }
 
-.user-home-userHomeDivider {
+.user-home-user-home-divider {
   width: 220px;
   margin: 2.5rem auto;
   background: linear-gradient(90deg, $primary-color-light 0%, $secondary-color-light 80%);
 }
 
 .home-search {
-  .search-module-articleMainItem {
+  .search-module-article-main-item {
     width: 100%;
     border: 1px solid $primary-color-light;
     margin: 18px 10px;
@@ -161,7 +161,7 @@
     }
   }
 
-  .search-module-articleTitleResult {
+  .search-module-article-title-result {
     color: $text-color;
     display: block;
     font-size: 1.4rem;
@@ -169,7 +169,7 @@
     line-height: 2.6rem;
   }
 
-  .search-module-articleHighlightResult {
+  .search-module-article-highlight-result {
     margin-top: .8rem;
     margin-bottom: .8rem;
     color: $text-color-secondary;
@@ -178,7 +178,7 @@
     line-height: 1.8rem;
   }
 
-  .search-module-articleTag {
+  .search-module-article-tag {
     color: $text-color-secondary;
     margin: 12px 16px 0 0;
     padding: 8px;
@@ -196,12 +196,12 @@
     background-color: #f7f7f7;
   }
 
-  .search-module-tagLink {
+  .search-module-tag-link {
     color: $text-color-secondary;
     font-size: 1rem;
   }
 
-  .search-module-tagNone {
+  .search-module-tag-none {
     font-size: 1rem;
     font-style: italic;
   }

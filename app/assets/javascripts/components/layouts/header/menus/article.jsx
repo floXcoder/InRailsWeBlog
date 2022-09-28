@@ -24,13 +24,13 @@ const HeaderArticleMenu = function (props) {
 
     return (
         <List className={classNames({
-            'layout-header-nestedMenu': props.isNested
+            'layout-header-nested-menu': props.isNested
         })}
               component="div"
               disablePadding={props.isNested}>
             <List component="div">
                 {
-                    props.hasTemporaryArticle &&
+                    !!props.hasTemporaryArticle &&
                     <>
                         <ListItem button={true}
                                   component={Link}

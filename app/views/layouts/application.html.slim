@@ -4,7 +4,7 @@ html lang="#{I18n.locale}"
   = render 'layouts/head'
 
   - stylesheet 'default'
-  - javascript "translations/default-#{I18n.locale}"
+  - translations "default-#{I18n.locale}"
   - javascript_defer 'commons', 'default'
 
   body class="lang-#{I18n.locale}"

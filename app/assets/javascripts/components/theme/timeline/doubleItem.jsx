@@ -11,7 +11,7 @@ const DoubleTimelineItem = function ({date, content, children, icon, title}) {
 
             <div className="card-panel timeline-content">
                 {
-                    title &&
+                    !!title &&
                     <h4 className="timeline-date">
                         {title}
                     </h4>

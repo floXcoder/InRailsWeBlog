@@ -2,6 +2,7 @@
 
 import Container from '@mui/material/Container';
 
+
 export default class UserConfirmation extends React.Component {
     static propTypes = {
         confirmationToken: PropTypes.string

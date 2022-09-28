@@ -24,7 +24,7 @@ const SortableItem = SortableElement(({topic}) => (
 ));
 
 const SortableList = SortableContainer(({topics}) => (
-    <div className="topic-sort-sortingItems">
+    <div className="topic-sort-sorting-items">
         {
             topics.map((topic, i) => (
                 <SortableItem key={i}
@@ -34,6 +34,7 @@ const SortableList = SortableContainer(({topics}) => (
         }
     </div>
 ));
+
 
 export default class TopicSorter extends React.Component {
     static propTypes = {

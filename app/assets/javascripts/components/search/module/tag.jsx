@@ -21,6 +21,7 @@ import {
 
 import Loader from '../../theme/loader';
 
+
 export default class SearchTagModule extends React.Component {
     static propTypes = {
         isSearching: PropTypes.bool.isRequired,
@@ -87,22 +88,22 @@ export default class SearchTagModule extends React.Component {
         return (
             <Chip key={tag.id}
                   className={classNames('search-module-tag', {
-                      'search-module-tagSelected': this.props.selectedTags.includes(tag),
-                      'search-module-tagHighlighted': this.props.highlightedTagId === tag.id
+                      'search-module-tag-selected': this.props.selectedTags.includes(tag),
+                      'search-module-tag-highlighted': this.props.highlightedTagId === tag.id
                   })}
                   color="primary"
                   variant="outlined"
                   clickable={true}
                   icon={this.props.hasTagIcon ? <LabelIcon/> : null}
                   label={
-                      <Link className="search-module-tagLink"
+                      <Link className="search-module-tag-link"
                             to={this.props.currentUserSlug && this.props.currentUserTopicSlug ? taggedTopicArticlesPath(this.props.currentUserSlug, this.props.currentUserTopicSlug, tag.slug) : taggedArticlesPath(tag.slug)}
                             onClick={this._handleTagClick.bind(this, tag)}>
                           {tag.name}
                       </Link>
                   }
                   onDelete={this.props.hasSearchIcon && this.props.onTagClick ? this.props.onTagClick.bind(this, tag) : undefined}
-                  deleteIcon={this.props.hasSearchIcon ? <ZoomInIcon className="search-module-tagAdd"/> : null}/>
+                  deleteIcon={this.props.hasSearchIcon ? <ZoomInIcon className="search-module-tag-add"/> : null}/>
         );
     };
 
@@ -113,12 +114,12 @@ export default class SearchTagModule extends React.Component {
 
         return (
             <div className="search-module-category">
-                <h2 className="search-module-categoryName">
+                <h2 className="search-module-category-name">
                     {I18n.t('js.search.module.tags.title')}
 
                     {
-                        (this.props.isUserConnected && !this.props.hasQuery) &&
-                        <span className="search-module-categoryCount">
+                        !!(this.props.isUserConnected && !this.props.hasQuery) &&
+                        <span className="search-module-category-count">
                             {I18n.t('js.search.module.tags.recents')}
                         </span>
                     }
@@ -133,8 +134,8 @@ export default class SearchTagModule extends React.Component {
                         :
                         <div>
                             {
-                                (this.props.hasQuery && this.props.tags.length === 0) &&
-                                <p className="search-module-tagNone">
+                                !!(this.props.hasQuery && this.props.tags.length === 0) &&
+                                <p className="search-module-tag-none">
                                     <em>{I18n.t('js.search.module.tags.none')}</em>
                                 </p>
                             }
@@ -148,7 +149,7 @@ export default class SearchTagModule extends React.Component {
                                 <>
                                     {
                                         Utils.isPresent(currentTopicTags) &&
-                                        <Divider className="search-module-categoryDivider"
+                                        <Divider className="search-module-category-divider"
                                                  variant="fullWidth"/>
                                     }
 
@@ -163,7 +164,7 @@ export default class SearchTagModule extends React.Component {
                                 <>
                                     {
                                         (Utils.isPresent(currentTopicTags) || Utils.isPresent(otherTopicTags)) &&
-                                        <Divider className="search-module-categoryDivider"
+                                        <Divider className="search-module-category-divider"
                                                  variant="fullWidth"/>
                                     }
 

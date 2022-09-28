@@ -3,7 +3,7 @@
 // ***
 // Tag sidebar
 // ***
-.tag-sidebar-cloudList {
+.tag-sidebar-cloud-list {
   height: 90vh;
   display: flex;
   flex-wrap: wrap;
@@ -14,14 +14,14 @@
   }
 }
 
-.tag-sidebar-cloudTopic {
+.tag-sidebar-cloud-topic {
   margin: 1.3rem .4rem .3rem;
   font-size: 1rem;
   font-weight: 600;
   border-bottom: 1px solid #eee;
 }
 
-.tag-sidebar-cloudTag {
+.tag-sidebar-cloud-tag {
   color: rgba(0, 0, 0, 0.63);
   cursor: pointer;
   margin: 4px;
@@ -31,13 +31,13 @@
   border-radius: 4px;
 }
 
-.tag-sidebar-tagList {
+.tag-sidebar-tag-list {
   padding: 0 0 80px;
   position: relative;
   white-space: nowrap;
 }
 
-.tag-sidebar-labelsLink {
+.tag-sidebar-labels-link {
   top: -32px;
   right: 12px;
   position: absolute;
@@ -47,17 +47,17 @@
   }
 }
 
-.tag-sidebar-labelsIcon {
+.tag-sidebar-labels-icon {
   color: $text-color;
   height: .8em;
   margin-left: 8px;
 }
 
-.tag-sidebar-listItem {
+.tag-sidebar-list-item {
   padding-bottom: 4px;
 }
 
-.tag-sidebar-searchItem {
+.tag-sidebar-search-item {
   padding-top: 4px;
 }
 
@@ -73,7 +73,7 @@
   transition: all .45s;
 }
 
-.tag-sidebar-itemOpen {
+.tag-sidebar-item-open {
   transform: translate(-60px);
 }
 
@@ -91,12 +91,12 @@
   visibility: hidden;
 }
 
-.tag-sidebar-tagsOpen {
+.tag-sidebar-tags-open {
   opacity: 1;
   visibility: visible;
 }
 
-.tag-sidebar-expandIcon {
+.tag-sidebar-expand-icon {
   width: 25%;
   height: 30px;
   padding: 2px 8px;
@@ -109,23 +109,23 @@
   font-weight: 400;
 }
 
-.tag-sidebar-nestedLabelRoot {
+.tag-sidebar-nested-label-root {
   padding-left: 36px;
 }
 
-.tag-sidebar-nestedLabel {
+.tag-sidebar-nested-label {
   color: $text-color-secondary;
   font-size: .9rem;
   font-weight: 400;
 }
 
-.tag-sidebar-selectedLabel {
+.tag-sidebar-selected-label {
   color: $secondary-color-dark;
   font-size: 1.1rem !important;
   font-weight: 700;
 }
 
-.tag-sidebar-noTags {
+.tag-sidebar-no-tags {
   color: #616161;
   padding: 1rem;
   font-size: .95rem;
@@ -136,7 +136,7 @@
 // ***
 // Tag chip
 // ***
-.tag-chip-tagChip {
+.tag-chip-tag-chip {
   color: $text-color-secondary;
   cursor: pointer;
   margin: 4px;
@@ -147,7 +147,7 @@
   border-radius: 20px;
 }
 
-.tag-chip-tagChipLarge {
+.tag-chip-tag-chip-large {
   height: 42px;
   margin: 8px;
   padding: 8px;
@@ -157,19 +157,19 @@
   }
 }
 
-.tag-chip-tagChipSmall {
+.tag-chip-tag-chip-small {
   height: 30px;
   margin: 4px;
   padding: 4px;
 }
 
-.tag-chip-tagLabel {
+.tag-chip-tag-label {
   margin: 2.4px;
   padding: 12px;
   font-size: .9rem;
 }
 
-.tag-chip-tagLabelSmall {
+.tag-chip-tag-label-small {
   font-size: .8rem;
 }
 

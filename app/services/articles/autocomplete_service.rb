@@ -18,7 +18,7 @@ module Articles
 
       # Highlight results and select a fragment
       highlight = if @params[:highlight]
-                    { tag: '<span class="search-highlight">', fragment_size: (@params[:no_fragment] ? nil : InRailsWeBlog.config.autocomplete_fragment_size) }
+                    { tag: '<span class="search-highlight">', fragment_size: (@params[:no_fragment] ? nil : InRailsWeBlog.settings.autocomplete_fragment_size) }
                   else
                     false
                   end
@@ -30,7 +30,7 @@ module Articles
       order = order_search(@params[:order])
 
       # Set result limit
-      limit = @params[:limit] || InRailsWeBlog.config.per_page
+      limit = @params[:limit] || InRailsWeBlog.settings.per_page
 
       begin
         results = Article.search(query_string,

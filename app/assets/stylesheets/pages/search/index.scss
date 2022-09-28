@@ -11,7 +11,7 @@
   }
 }
 
-.search-index-inputItem {
+.search-index-input-item {
   width: 80%;
   margin: 8px;
 
@@ -21,7 +21,7 @@
   }
 }
 
-.search-index-searchIcon {
+.search-index-search-icon {
   color: #000;
   height: 100%;
   display: flex;
@@ -37,21 +37,21 @@
   }
 }
 
-.search-index-inputForm {
+.search-index-input-form {
   width: 100%;
 }
 
-.search-index-inputRoot {
+.search-index-input-root {
   color: #000;
   width: 100%;
   padding-left: 40px;
 }
 
-.search-index-inputSearch {
+.search-index-input-search {
   font-size: 2rem;
 }
 
-.search-index-inputTag {
+.search-index-input-tag {
   color: rgba(0, 0, 0, 0.63);
   cursor: pointer;
   margin: 4px;
@@ -65,79 +65,79 @@
   margin: 12px;
 }
 
-.search-index-categoryAutocomplete {
+.search-index-category-autocomplete {
   margin-top: 0;
   padding-left: 1.5rem;
   margin-bottom: 16px;
 }
 
-.search-index-categoryHelper {
+.search-index-category-helper {
   font-size: .9rem;
   font-style: italic;
   margin-right: 8px;
 }
 
-.search-index-categoryHeader {
+.search-index-category-header {
   border-bottom: 1px solid #e0e0e0;
   margin-bottom: 1rem;
 }
 
-.search-index-categoryMenu {
+.search-index-category-menu {
   padding-bottom: 12px;
 }
 
-.search-index-categoryItem {
+.search-index-category-item {
   padding-bottom: 0 !important;
 }
 
-.search-index-categoryTitle {
+.search-index-category-title {
   display: inline-block;
   font-size: 1.6rem;
   font-weight: 500;
   margin-bottom: 4px;
 }
 
-.search-index-categorySubtitle {
+.search-index-category-subtitle {
   font-style: italic;
   margin-left: .6rem;
   border-bottom: 1px solid #e0e0e0;
 }
 
-.search-index-categoryCount {
+.search-index-category-count {
   color: #757575;
   font-size: 1rem;
   font-weight: 300;
   margin-left: .6rem;
 }
 
-.search-index-categoryFilter {
+.search-index-category-filter {
   display: inline-block;
 }
 
-.search-index-categoryFilterList {
+.search-index-category-filter-list {
   padding: 5px;
 }
 
-.search-index-categoryFilterSelected {
+.search-index-category-filter-selected {
   font-weight: 600;
 }
 
-.search-index-categoryFilterButton {
+.search-index-category-filter-button {
   padding: 6px;
   font-size: .9rem;
   font-weight: 400;
   color: $text-color;
 }
 
-.search-index-categoryFilterInput {
+.search-index-category-filter-input {
   font-size: 1rem;
 }
 
-.search-index-categoryFilterHelper {
+.search-index-category-filter-helper {
   font-size: .9rem;
 }
 
-.search-index-helpMessage {
+.search-index-help-message {
   color: #757575;
   margin: 1.4rem 0;
   font-size: 1.4rem;
@@ -149,31 +149,31 @@
   margin: 8px;
 }
 
-.search-index-tagHighlighted {
+.search-index-tag-highlighted {
   background-color: $secondary-color;
 }
 
-.search-index-articleCard {
+.search-index-article-card {
   margin-top: 16px;
   margin-bottom: 16px;
 }
 
-.search-index-articleCardHeader {
+.search-index-article-card-header {
   width: 100%;
 }
 
-.search-index-articleContent {
+.search-index-article-content {
   word-break: break-word;
   padding: 0 16px 16px;
   white-space: pre-line;
 }
 
-.search-index-articleTags {
+.search-index-article-tags {
   margin-top: 32px;
   margin-bottom: 0;
 }
 
-.search-index-articleTag {
+.search-index-article-tag {
   color: $text-color-secondary;
   cursor: pointer;
   margin: 4px;
@@ -184,35 +184,35 @@
   border-radius: 16px;
 }
 
-.search-index-articleHighlightedTag {
+.search-index-article-highlighted-tag {
   background-color: $secondary-color-light;
 }
 
-.search-index-tagAutocomplete {
+.search-index-tag-autocomplete {
   font-size: .8rem;
 }
 
-.search-index-articleTitle {
+.search-index-article-title {
   color: $text-color;
   font-size: 1.8rem;
 }
 
-.search-index-articleGridTitle {
+.search-index-article-grid-title {
   color: $text-color;
   font-size: 1.5rem;
 }
 
-.search-index-articleSubtitle {
+.search-index-article-subtitle {
   font-size: .9rem;
 }
 
-.search-index-articleOther {
+.search-index-article-other {
   margin: 2rem 2rem 0;
   font-size: 1rem;
   border-bottom: 1px solid #e0e0e0;
 }
 
-.search-index-articleLinksResults {
+.search-index-article-links-results {
   border: 1px solid $secondary-color-light;
   margin: 22px 6px 12px;
   padding: 8px;

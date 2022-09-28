@@ -20,14 +20,14 @@ class TopicsController < ApplicationController
 
     track_action(topic_id: topic.id) { track_visit(Topic, topic.id, current_user&.id, nil) }
 
-    expires_in InRailsWeBlog.config.cache_time, public: true
-    if stale?(topic, template: false, public: true)
+    with_cache?(topic) ? expires_in(InRailsWeBlog.settings.cache_time, public: true) : reset_cache_headers
+    if !with_cache?(topic) || stale?(topic, template: false, public: true)
       respond_to do |format|
         format.html do
           set_seo_data(:user_topic,
                        model:         topic,
                        topic_slug:    topic,
-                       topic_content: topic.description&.summary(InRailsWeBlog.config.seo_meta_desc_length, strip_html: true, remove_links: true),
+                       topic_content: topic.description&.summary(InRailsWeBlog.settings.seo_meta_desc_length, strip_html: true, remove_links: true),
                        user_slug:     topic.user,
                        author:        topic.user.pseudo)
 

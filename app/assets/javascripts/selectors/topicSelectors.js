@@ -22,12 +22,6 @@ export const getEditingTopic = createSelector(
     (topics, topicId) => topics.find((topic) => topic.id === topicId)
 );
 
-export const getSharingTopic = createSelector(
-    (state) => state.topicState.userTopics,
-    (_, routerSearch) => routerSearch?.topicId,
-    (topics, topicId) => topics.find((topic) => topic.id === topicId)
-);
-
 // Current topic of user
 export const getCurrentUserTopicVisibility = createSelector(
     (state) => state.topicState.currentTopic,

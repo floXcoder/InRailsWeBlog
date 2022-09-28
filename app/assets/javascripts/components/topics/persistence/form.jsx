@@ -99,7 +99,7 @@ export default class PersistenceFormTopic extends React.Component {
         return (
             <form id="topic-persistence"
                   onSubmit={this._handleTopicSubmit}>
-                <TextField className="topic-persistence-topicField"
+                <TextField className="topic-persistence-topic-field"
                            variant="outlined"
                            fullWidth={true}
                            autoFocus={true}
@@ -114,7 +114,7 @@ export default class PersistenceFormTopic extends React.Component {
 
                 {
                     !this.props.topic.id &&
-                    <TextField className="topic-persistence-topicField"
+                    <TextField className="topic-persistence-topic-field"
                                select={true}
                                required={true}
                                variant="outlined"
@@ -135,7 +135,7 @@ export default class PersistenceFormTopic extends React.Component {
 
                 {
                     this.state.mode !== 'default' &&
-                    <Typography className="topic-persistence-topicModeHelper"
+                    <Typography className="topic-persistence-topic-mode-helper"
                                 variant="subtitle2"
                                 gutterBottom={true}>
                         {I18n.t(`js.topic.common.modes.${this.state.mode || 'default'}`)}
@@ -144,7 +144,7 @@ export default class PersistenceFormTopic extends React.Component {
 
                 {
                     this.state.mode === 'stories' &&
-                    <TextField className="topic-persistence-topicField"
+                    <TextField className="topic-persistence-topic-field"
                                required={true}
                                variant="outlined"
                                fullWidth={true}
@@ -162,7 +162,7 @@ export default class PersistenceFormTopic extends React.Component {
 
                 {
                     !this.props.topic.id &&
-                    <TextField className="topic-persistence-topicField"
+                    <TextField className="topic-persistence-topic-field"
                                select={true}
                                required={true}
                                variant="outlined"
@@ -182,8 +182,8 @@ export default class PersistenceFormTopic extends React.Component {
                 }
 
                 {
-                    this.props.articleMultilanguage &&
-                    <FormControl className="topic-persistence-topicField"
+                    !!this.props.articleMultilanguage &&
+                    <FormControl className="topic-persistence-topic-field"
                                  fullWidth={true}>
                         <InputLabel id="topic-languages-label">
                             {I18n.t('js.topic.model.languages')}

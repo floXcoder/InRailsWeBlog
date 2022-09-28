@@ -91,7 +91,7 @@ function Accordion({
         <div id={id}
              className={classNames('accordion', className)}>
             {
-                title &&
+                !!title &&
                 <h5 className="accordion-title">
                     {title}
                 </h5>

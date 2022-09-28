@@ -5,11 +5,14 @@ shared: &shared
   assets_url: <%= ENV['WEBSITE_ASSET_IMAGES'] %>
   full_assets_url: <%= ENV['WEBSITE_FULL_ASSET'] %>
 
+  # Cache time
+  cache_time: <%= 4.weeks %>
+
   # Default per page
-  per_page: 12
+  per_page: 60
 
   # Search results per page
-  search_per_page: 20
+  search_per_page: 50
   # Length of the highlighted search result
   search_fragment_size: 500
   autocomplete_fragment_size: 30
@@ -38,9 +41,6 @@ shared: &shared
   medium_screen_up: 993
   large_screen: 1200
   large_screen_up: 1201
-
-  # Cache time
-  cache_time: <%= 7.days %>
 
   # User validation parameters
   user_pseudo_min_length: 3

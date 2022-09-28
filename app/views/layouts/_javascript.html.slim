@@ -1,11 +1,15 @@
 #dropdown-component
 
+script#translations type="application/json"
+  = yield(:translations)
+  
 script#application-routes type="application/json"
   = raw localized_routes.to_json
+  
+script#settings type="application/json"
+  = raw InRailsWeBlog.settings.to_h.to_json
 
 javascript:
-    window.settings = #{raw InRailsWeBlog.config.to_h.to_json};
-
     window.I18n = {};
     window.defaultLocale = "#{I18n.default_locale}";
     window.locale = "#{I18n.locale}";
@@ -29,6 +33,10 @@ javascript:
       window.METRICS_FILENAME = "#{ENV['METRICS_FILENAME']}";
 
       window._paq = window._paq || [];
+    
+- if Rails.env.production? && !current_admin && !@seo_mode
+  javascript:
+      window.isMetricsEnabled = !!window._paq && !window.seoMode;
 
 - if current_user
   javascript:

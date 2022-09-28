@@ -53,12 +53,12 @@ export default class ArticleTags extends React.PureComponent {
             <Chip component={Link}
                   id={`article-${this.props.articleId}-tags-${tag.id}`}
                   classes={{
-                      root: classNames('tag-chip-tagChip', {
-                          'tag-chip-tagChipLarge': this.props.isLarge,
-                          'tag-chip-tagChipSmall': this.props.isSmall
+                      root: classNames('tag-chip-tag-chip', {
+                          'tag-chip-tag-chip-large': this.props.isLarge,
+                          'tag-chip-tag-chip-small': this.props.isSmall
                       }),
-                      label: classNames('tag-chip-tagLabel', {
-                          'tag-chip-tagLabelSmall': this.props.isSmall
+                      label: classNames('tag-chip-tag-chip', {
+                          'tag-chip-tag-chip-small': this.props.isSmall
                       })
                   }}
                   to={link}

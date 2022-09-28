@@ -11,7 +11,7 @@
   position: relative;
 }
 
-.article-version-currentArticle {
+.article-version-current-article {
   max-width: $article-width;
   margin-left: auto;
   margin-right: auto;
@@ -22,7 +22,7 @@
   margin-bottom: 12px;
 }
 
-.article-version-cardTitle {
+.article-version-card-title {
   cursor: pointer;
 }
 
@@ -37,11 +37,11 @@
   }
 }
 
-.article-version-expandOpen {
+.article-version-expand-open {
   transform: rotate(180deg);
 }
 
-.article-version-versionTitle {
+.article-version-version-title {
   font-size: 1.5rem;
 }
 

@@ -604,6 +604,8 @@ fr:
         delete: "Supprimer cet article"
         updated_at: "Dernière modification"
         check_link: "Vérifier les liens morts"
+        created: "Création de l'article"
+        updated: "Dernière mise à jour"
       masonry:
         add_column: "Ajouter colonne"
         remove_column: "Enlever colonne"

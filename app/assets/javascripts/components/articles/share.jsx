@@ -10,6 +10,8 @@ import {
     shareArticle
 } from '../../actions';
 
+import AnalyticsService from '../../modules/analyticsService';
+
 import withRouter from '../modules/router';
 
 
@@ -35,6 +37,12 @@ class ShareArticleModal extends React.Component {
     state = {
         isOpen: true
     };
+
+    componentDidMount() {
+        if (this.state.isOpen && this.props.article) {
+            AnalyticsService.trackArticleSharePage(this.props.article.user.slug, this.props.article.slug);
+        }
+    }
 
     _handleClose = () => {
         this.setState({

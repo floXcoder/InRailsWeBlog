@@ -18,11 +18,11 @@ Array.prototype.forEach.call(flashes, function (element) {
     // Let's the Notification component initialize
     setTimeout(function () {
         if (level === 'success') {
-            Notification.message.success(element.innerHTML);
+            Notification.success(element.innerHTML);
         } else if (level === 'error') {
-            Notification.message.error(element.innerHTML);
+            Notification.error(element.innerHTML);
         } else {
-            Notification.message.alert(element.innerHTML);
+            Notification.alert(element.innerHTML);
         }
     }, 300);
 

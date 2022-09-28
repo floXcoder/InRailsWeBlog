@@ -35,7 +35,7 @@ export const pushError = (error, errorInfo = null) => {
 export const manageImportError = (error) => {
     pushError(error);
 
-    Notification.message.error(I18n.t('js.helpers.errors.boundary.title'));
+    Notification.error(I18n.t('js.helpers.errors.boundary.title'));
 
     return {
         default: () => null

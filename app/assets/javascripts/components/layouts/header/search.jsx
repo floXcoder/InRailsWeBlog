@@ -211,11 +211,11 @@ class HomeSearchHeader extends React.Component {
                           content={`${window.websiteUrl}/search?query={search}`}/>
 
                     <div className="search-header-search">
-                        <div className="search-header-searchIcon">
+                        <div className="search-header-search-icon">
                             <SearchIcon/>
                         </div>
 
-                        <InputLabel className="search-header-inputLabel"
+                        <InputLabel className="search-header-input-label"
                                     htmlFor="search-module">
                             Search
                         </InputLabel>
@@ -227,8 +227,8 @@ class HomeSearchHeader extends React.Component {
                                    itemProp: 'query-input'
                                }}
                                classes={{
-                                   root: 'search-header-inputRoot',
-                                   input: this.props.isSearchActive ? 'search-header-inputInputFocus' : 'search-header-inputInput'
+                                   root: 'search-header-input-root',
+                                   input: this.props.isSearchActive ? 'search-header-input-input-focus' : 'search-header-input-input'
                                }}
                                placeholder={I18n.t('js.search.module.placeholder')}
                                disableUnderline={true}
@@ -238,7 +238,7 @@ class HomeSearchHeader extends React.Component {
                                        {
                                            this.props.selectedTags.map((tag) => (
                                                <Chip key={tag.id}
-                                                     className="search-header-selectedTagsChip"
+                                                     className="search-header-selected-tags-chip"
                                                      tabIndex={-1}
                                                      label={tag.name}
                                                      color="primary"

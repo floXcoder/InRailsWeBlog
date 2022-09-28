@@ -81,8 +81,8 @@ class ArticleSidebar extends React.Component {
                             this.props.articlesCount === 0
                                 ?
                                 <span className="article-sidebar-none">
-                                        {I18n.t('js.article.toc.no_articles')}
-                                    </span>
+                                    {I18n.t('js.article.toc.no_articles')}
+                                </span>
                                 :
                                 <>
                                     <ArticleOrderDisplay currentUserSlug={this.props.currentUserSlug}

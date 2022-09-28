@@ -40,11 +40,11 @@ export default class ArticleBreadcrumbDisplay extends React.Component {
                 aria-label="Breadcrumb navigation"
                 itemType="http://schema.org/BreadcrumbList"
                 itemScope={true}>
-                <li className="article-breadcrumb-breadcrumbItem"
+                <li className="article-breadcrumb-breadcrumb-item"
                     itemType="http://schema.org/ListItem"
                     itemProp="itemListElement"
                     itemScope={true}>
-                    <Link className="article-breadcrumb-breadcrumbLink"
+                    <Link className="article-breadcrumb-breadcrumb-link"
                           to={userArticlesPath(this.props.user.slug)}
                           itemType="http://schema.org/Thing"
                           itemProp="item"
@@ -57,16 +57,16 @@ export default class ArticleBreadcrumbDisplay extends React.Component {
                           content="1"/>
                 </li>
 
-                <li className="article-breadcrumb-breadcrumbSeparator">
+                <li className="article-breadcrumb-breadcrumb-separator">
                     <KeyboardArrowRight/>
                 </li>
 
-                <li className="article-breadcrumb-breadcrumbItem"
+                <li className="article-breadcrumb-breadcrumb-item"
                     itemType="http://schema.org/ListItem"
                     itemProp="itemListElement"
                     itemScope={true}>
-                    <Link className={classNames('article-breadcrumb-breadcrumbLink', {
-                        'article-breadcrumb-breadcrumbLast': !this.props.article
+                    <Link className={classNames('article-breadcrumb-breadcrumb-link', {
+                        'article-breadcrumb-breadcrumb-last': !this.props.article
                     })}
                           to={topicArticlesPath(this.props.user.slug, this.props.topic.slug)}
                           itemType="http://schema.org/Thing"
@@ -85,18 +85,18 @@ export default class ArticleBreadcrumbDisplay extends React.Component {
                 </li>
 
                 {
-                    this.props.article?.title &&
+                    !!this.props.article?.title &&
                     <>
-                        <li className="article-breadcrumb-breadcrumbSeparator">
+                        <li className="article-breadcrumb-breadcrumb-separator">
                             <KeyboardArrowRight/>
                         </li>
 
-                        <li className="article-breadcrumb-breadcrumbItem"
+                        <li className="article-breadcrumb-breadcrumb-item"
                             itemType="http://schema.org/ListItem"
                             itemProp="itemListElement"
                             itemScope={true}>
                             <Link
-                                className="article-breadcrumb-breadcrumbLink article-breadcrumb-breadcrumbLast"
+                                className="article-breadcrumb-breadcrumb-link article-breadcrumb-breadcrumb-last"
                                 to={userArticlePath(this.props.article.user.slug, this.props.article.slug)}
                                 itemType="http://schema.org/Thing"
                                 itemProp="item"
@@ -112,14 +112,14 @@ export default class ArticleBreadcrumbDisplay extends React.Component {
                 }
 
                 {
-                    this.props.tags &&
+                    !!this.props.tags &&
                     <li>
                         {
                             this.props.tags.map((tag) => (
                                 <Chip key={tag.id}
                                       classes={{
-                                          root: 'article-breadcrumb-breadcrumbTag',
-                                          label: 'article-breadcrumb-breadcrumbTagLabel'
+                                          root: 'article-breadcrumb-breadcrumb-tag',
+                                          label: 'article-breadcrumb-breadcrumb-tag-label'
                                       }}
                                       label={tag.name}
                                       variant="outlined"

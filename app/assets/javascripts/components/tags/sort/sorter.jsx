@@ -40,6 +40,7 @@ const SortableList = SortableContainer(({tags}) => (
     </div>
 ));
 
+
 export default class TagSorterDisplay extends React.Component {
     static propTypes = {
         // Tags must already be sorted by priority

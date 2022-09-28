@@ -37,12 +37,12 @@ export default class ArticleFilterMenu extends React.Component {
     render() {
         const options = [
             <Link key={1}
-                  className="article-dropdown-buttonLink"
+                  className="article-dropdown-button-link"
                   to={{search: 'bookmarked=true'}}>
                 {I18n.t('js.article.filter.filters.bookmark')}
             </Link>,
             <Link key={2}
-                  className="article-dropdown-buttonLink"
+                  className="article-dropdown-button-link"
                   to={{search: 'draft=true'}}>
                 {I18n.t('js.article.filter.filters.draft')}
             </Link>

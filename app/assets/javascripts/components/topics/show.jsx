@@ -134,7 +134,7 @@ class TopicShow extends React.Component {
                                     <h2 className="topic-show-description"
                                         dangerouslySetInnerHTML={{__html: this.props.topic.description}}/>
                                     :
-                                    <p className="topic-show-emptyDesc">
+                                    <p className="topic-show-empty-desc">
                                         {I18n.t('js.topic.common.no_description')}
                                     </p>
                             }
@@ -150,7 +150,7 @@ class TopicShow extends React.Component {
                             {
                                 this.props.topic.tags.map((tag) => (
                                     <Chip key={tag.id}
-                                          className="topic-show-topicTag"
+                                          className="topic-show-topic-tag"
                                           icon={<LabelIcon/>}
                                           label={tag.name}
                                           color="primary"
@@ -165,7 +165,7 @@ class TopicShow extends React.Component {
 
                     <div className="col s12 l4">
                         {
-                            (this.props.isOwner && this.props.topic.visibility !== 'only_me') &&
+                            !!(this.props.isOwner && this.props.topic.visibility !== 'only_me') &&
                             <div>
                                 <Typography className="topic-show-subtitle2"
                                             variant="h3"
@@ -182,7 +182,7 @@ class TopicShow extends React.Component {
                                 }
 
                                 <Button
-                                    className="topic-show-shareButton"
+                                    className="topic-show-share-button"
                                     variant="outlined"
                                     size="small"
                                     component={Link}
@@ -193,7 +193,7 @@ class TopicShow extends React.Component {
                                         }
                                     }}>
                                     {I18n.t('js.topic.show.share')}
-                                    <ShareIcon className="topic-show-shareButtonIcon"/>
+                                    <ShareIcon className="topic-show-share-button-icon"/>
                                 </Button>
                             </div>
                         }
@@ -234,7 +234,7 @@ class TopicShow extends React.Component {
                         </div>
 
                         {
-                            this.props.isOwner &&
+                            !!this.props.isOwner &&
                             <div>
                                 <Typography className="topic-show-subtitle2"
                                             variant="h3"
@@ -251,7 +251,7 @@ class TopicShow extends React.Component {
                 </div>
 
                 {
-                    this.props.isOwner &&
+                    !!this.props.isOwner &&
                     <>
                         <div className="center-align margin-top-60 margin-bottom-20">
                             <Button
@@ -265,7 +265,7 @@ class TopicShow extends React.Component {
 
                         <div className="center-align margin-top-40">
                             <Button
-                                className="topic-show-shareButton"
+                                className="topic-show-share-button"
                                 variant="text"
                                 size="small"
                                 onClick={this._handleTopicDelete}>

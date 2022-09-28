@@ -104,7 +104,7 @@ class TrackingArticleModal extends React.Component {
         return (
             <div className="col s12 margin-top-40">
                 {
-                    title &&
+                    !!title &&
                     <h3 className="margin-top-0 margin-bottom-5">
                         {title}
                     </h3>
@@ -115,7 +115,7 @@ class TrackingArticleModal extends React.Component {
                     {
                         Object.entries(listDetails).map(([element, count], i) => (
                             <ListItem key={i}>
-                                <ListItemText className="article-tracking-listItem"
+                                <ListItemText className="article-tracking-list-item"
                                               primary={
                                                   <div>
                                                       {
@@ -146,7 +146,7 @@ class TrackingArticleModal extends React.Component {
                                               }/>
 
                                 <ListItemSecondaryAction
-                                    className={classNames('article-tracking-listItem', {
+                                    className={classNames('article-tracking-list-item', {
                                         'margin-top-10': (!element || element === 'internal' || element === 'others')
                                     })}>
                                     {count}
@@ -168,10 +168,10 @@ class TrackingArticleModal extends React.Component {
                             <VisibilityIcon/>
                         </ListItemIcon>
 
-                        <ListItemText className="article-tracking-listItem"
+                        <ListItemText className="article-tracking-list-item"
                                       primary={I18n.t('js.article.tracking.stats.visits')}/>
 
-                        <ListItemSecondaryAction className="article-tracking-listItem">
+                        <ListItemSecondaryAction className="article-tracking-list-item">
                             {tracker.visitsCount}
                         </ListItemSecondaryAction>
                     </ListItem>
@@ -181,10 +181,10 @@ class TrackingArticleModal extends React.Component {
                             <VisibilityIcon/>
                         </ListItemIcon>
 
-                        <ListItemText className="article-tracking-listItem"
+                        <ListItemText className="article-tracking-list-item"
                                       primary={I18n.t('js.article.tracking.stats.views')}/>
 
-                        <ListItemSecondaryAction className="article-tracking-listItem">
+                        <ListItemSecondaryAction className="article-tracking-list-item">
                             {tracker.viewsCount}
                         </ListItemSecondaryAction>
                     </ListItem>
@@ -194,10 +194,10 @@ class TrackingArticleModal extends React.Component {
                             <TouchAppIcon/>
                         </ListItemIcon>
 
-                        <ListItemText className="article-tracking-listItem"
+                        <ListItemText className="article-tracking-list-item"
                                       primary={I18n.t('js.article.tracking.stats.clicks')}/>
 
-                        <ListItemSecondaryAction className="article-tracking-listItem">
+                        <ListItemSecondaryAction className="article-tracking-list-item">
                             {tracker.clicksCount}
                         </ListItemSecondaryAction>
                     </ListItem>
@@ -207,10 +207,10 @@ class TrackingArticleModal extends React.Component {
                             <SearchIcon/>
                         </ListItemIcon>
 
-                        <ListItemText className="article-tracking-listItem"
+                        <ListItemText className="article-tracking-list-item"
                                       primary={I18n.t('js.article.tracking.stats.searches')}/>
 
-                        <ListItemSecondaryAction className="article-tracking-listItem">
+                        <ListItemSecondaryAction className="article-tracking-list-item">
                             {tracker.searchesCount}
                         </ListItemSecondaryAction>
                     </ListItem>
@@ -220,10 +220,10 @@ class TrackingArticleModal extends React.Component {
                             <FavoriteIcon/>
                         </ListItemIcon>
 
-                        <ListItemText className="article-tracking-listItem"
+                        <ListItemText className="article-tracking-list-item"
                                       primary={I18n.t('js.article.tracking.stats.bookmarks')}/>
 
-                        <ListItemSecondaryAction className="article-tracking-listItem">
+                        <ListItemSecondaryAction className="article-tracking-list-item">
                             {this.props.article.bookmarksCount}
                         </ListItemSecondaryAction>
                     </ListItem>
@@ -233,10 +233,10 @@ class TrackingArticleModal extends React.Component {
                             <CommentIcon/>
                         </ListItemIcon>
 
-                        <ListItemText className="article-tracking-listItem"
+                        <ListItemText className="article-tracking-list-item"
                                       primary={I18n.t('js.article.tracking.stats.comments')}/>
 
-                        <ListItemSecondaryAction className="article-tracking-listItem">
+                        <ListItemSecondaryAction className="article-tracking-list-item">
                             {this.props.article.commentsCount}
                         </ListItemSecondaryAction>
                     </ListItem>
@@ -249,7 +249,7 @@ class TrackingArticleModal extends React.Component {
         if (!this.props.articleTracking?.datesCount || Object.keys(this.props.articleTracking.datesCount).length === 0) {
             return (
                 <div className="margin-top-30">
-                    <p className="article-tracking-listItem">
+                    <p className="article-tracking-list-item">
                         <em>{I18n.t('js.article.tracking.undefined')}</em>
                     </p>
                 </div>
@@ -262,10 +262,10 @@ class TrackingArticleModal extends React.Component {
                     {
                         Object.entries(this.props.articleTracking.datesCount).map(([date, count], i) => (
                             <ListItem key={i}>
-                                <ListItemText className="article-tracking-listItem"
+                                <ListItemText className="article-tracking-list-item"
                                               primary={date}/>
 
-                                <ListItemSecondaryAction className="article-tracking-listItem">
+                                <ListItemSecondaryAction className="article-tracking-list-item">
                                     {count}
                                 </ListItemSecondaryAction>
                             </ListItem>
@@ -280,7 +280,7 @@ class TrackingArticleModal extends React.Component {
         if (!this.props.articleTracking.countries && !this.props.articleTracking.browsers && !this.props.articleTracking.os && !this.props.articleTracking.utmSources) {
             return (
                 <div className="margin-top-30">
-                    <p className="article-tracking-listItem">
+                    <p className="article-tracking-list-item">
                         <em>{I18n.t('js.article.tracking.undefined')}</em>
                     </p>
                 </div>
@@ -301,7 +301,7 @@ class TrackingArticleModal extends React.Component {
         if (!this.props.articleTracking.referrers) {
             return (
                 <div className="margin-top-30">
-                    <p className="article-tracking-listItem">
+                    <p className="article-tracking-list-item">
                         <em>{I18n.t('js.article.tracking.undefined')}</em>
                     </p>
                 </div>
@@ -336,19 +336,19 @@ class TrackingArticleModal extends React.Component {
                           onChange={this._handleTabChange}
                           indicatorColor="primary"
                           variant="fullWidth">
-                        <Tab className="article-tracking-tabItem"
+                        <Tab className="article-tracking-tab-item"
                              label={I18n.t('js.article.tracking.stats.title')}
                              disableRipple={true}/>
 
-                        <Tab className="article-tracking-tabItem"
+                        <Tab className="article-tracking-tab-item"
                              label={I18n.t('js.article.tracking.views.title')}
                              disableRipple={true}/>
 
-                        <Tab className="article-tracking-tabItem"
+                        <Tab className="article-tracking-tab-item"
                              label={I18n.t('js.article.tracking.origins.title')}
                              disableRipple={true}/>
 
-                        <Tab className="article-tracking-tabItem"
+                        <Tab className="article-tracking-tab-item"
                              label={I18n.t('js.article.tracking.referrers.title')}
                              disableRipple={true}/>
                     </Tabs>

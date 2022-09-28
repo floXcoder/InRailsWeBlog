@@ -104,8 +104,9 @@ webPackConfig.module = {
 
 const providePlugins = {};
 _.forEach(config.plugins, (value, key) => {
-    if (value.includes('.js') || value.includes('.jsx')) {
-        return providePlugins[key] = path.resolve(value);
+    const pluginName = Array.isArray(value) ? value[0] : value;
+    if (pluginName.includes('.js') || pluginName.includes('.jsx')) {
+        return providePlugins[key] = Array.isArray(value) ? [path.resolve(pluginName), value[1]] : path.resolve(pluginName);
     } else {
         return providePlugins[key] = value;
     }

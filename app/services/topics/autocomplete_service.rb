@@ -23,7 +23,7 @@ module Topics
       order = order_search(@params[:order])
 
       # Set result limit
-      limit = @params[:limit] || InRailsWeBlog.config.per_page
+      limit = @params[:limit] || InRailsWeBlog.settings.per_page
 
       begin
         results = Topic.search(query_string,

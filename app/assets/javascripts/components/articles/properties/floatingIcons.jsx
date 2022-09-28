@@ -27,7 +27,7 @@ const ArticleFloatingIcons = function (props) {
                                  color={props.color}/>
 
             {
-                props.isOwner &&
+                !!props.isOwner &&
                 <ArticleEditIcon userSlug={props.userSlug}
                                  articleSlug={props.articleSlug}
                                  routeNavigate={props.routeNavigate}
@@ -36,7 +36,7 @@ const ArticleFloatingIcons = function (props) {
             }
 
             {
-                props.topicSlug &&
+                !!props.topicSlug &&
                 <ArticleTopicLinkIcon userSlug={props.userSlug}
                                       topicSlug={props.topicSlug}
                                       color={props.color}/>

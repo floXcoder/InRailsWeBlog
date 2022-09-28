@@ -17,9 +17,10 @@ import LinkOffIcon from '@mui/icons-material/LinkOff';
 import MobileFriendlyIcon from '@mui/icons-material/MobileFriendly';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 
+
 const _renderListItem = function (title, details, Icon, reverse = false) {
     return (
-        <Grid className="home-functionalitiesItem"
+        <Grid className="home-functionalities-item"
               container={true}
               spacing={6}
               direction={reverse ? 'row-reverse' : 'row'}
@@ -30,23 +31,23 @@ const _renderListItem = function (title, details, Icon, reverse = false) {
                   sm={12}
                   md={9}
                   lg={9}>
-                <h3 className="home-functionalitiesSubtitle">
+                <h3 className="home-functionalities-subtitle">
                     {title}
                 </h3>
 
-                <div className="home-functionalitiesDetails">
+                <div className="home-functionalities-details">
                     {details}
                 </div>
             </Grid>
 
-            <Grid className="home-functionalitiesIconItem"
+            <Grid className="home-functionalities-icon-item"
                   item={true}
                   xs={false}
                   sm={false}
                   md={3}
                   lg={3}>
-                <Avatar className="home-functionalitiesIconContainer">
-                    <Icon className="home-functionalitiesIcon"
+                <Avatar className="home-functionalities-icon-container">
+                    <Icon className="home-functionalities-icon"
                           variant="rounded"/>
                 </Avatar>
             </Grid>
@@ -57,8 +58,8 @@ const _renderListItem = function (title, details, Icon, reverse = false) {
 const HomeFunctionalities = function ({onSignupClick}) {
     return (
         <section className="home-functionalities">
-            <div className="home-homeContent">
-                <h2 className="home-functionalitiesTitle">
+            <div className="home-home-content">
+                <h2 className="home-functionalities-title">
                     {I18n.t('js.views.home.functionalities.title')}
                 </h2>
 
@@ -90,8 +91,8 @@ const HomeFunctionalities = function ({onSignupClick}) {
             </div>
 
             {
-                onSignupClick &&
-                <div className="home-functionalitiesButton">
+                !!onSignupClick &&
+                <div className="home-functionalities-button">
                     <Button color="primary"
                             variant="contained"
                             onClick={onSignupClick}>

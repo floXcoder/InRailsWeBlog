@@ -211,23 +211,23 @@ class Article < ApplicationRecord
 
   validates :title,
             presence: true,
-            length:   { minimum: InRailsWeBlog.config.article_title_min_length, maximum: InRailsWeBlog.config.article_title_max_length },
+            length:   { minimum: InRailsWeBlog.settings.article_title_min_length, maximum: InRailsWeBlog.settings.article_title_max_length },
             unless:   -> { draft? }
 
   validates :summary,
-            length: { minimum: InRailsWeBlog.config.article_summary_min_length, maximum: InRailsWeBlog.config.article_summary_max_length },
+            length: { minimum: InRailsWeBlog.settings.article_summary_min_length, maximum: InRailsWeBlog.settings.article_summary_max_length },
             if:     -> { summary.present? }
 
   validates :content,
             presence: true,
-            length:   { minimum: InRailsWeBlog.config.article_content_min_length, maximum: InRailsWeBlog.config.article_content_max_length },
+            length:   { minimum: InRailsWeBlog.settings.article_content_min_length, maximum: InRailsWeBlog.settings.article_content_max_length },
             unless:   -> { reference.present? || inventory? }
 
   validates :languages,
             presence: true
 
   validates :notation,
-            inclusion: InRailsWeBlog.config.notation_min..InRailsWeBlog.config.notation_max
+            inclusion: InRailsWeBlog.settings.notation_min..InRailsWeBlog.settings.notation_max
 
   validates :visibility,
             presence: true

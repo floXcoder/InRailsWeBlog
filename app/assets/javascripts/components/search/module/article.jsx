@@ -20,9 +20,7 @@ import {
 } from '../../../actions';
 
 import Loader from '../../theme/loader';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
-import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
+
 
 export default class SearchArticleModule extends React.PureComponent {
     static propTypes = {
@@ -98,11 +96,11 @@ export default class SearchArticleModule extends React.PureComponent {
                       direction="row"
                       justifyContent="flex-start"
                       alignItems="center">
-                    <Grid className="search-module-articleMainItem"
+                    <Grid className="search-module-article-main-item"
                           item={true}>
-                        <Link className={classNames('search-module-articleMainResult', {
-                            'search-module-articleSecondaryResult': !primary,
-                            'search-module-articleHighlighted': this.props.highlightedArticleId === article.id
+                        <Link className={classNames('search-module-article-main-result', {
+                            'search-module-article-secondary-result': !primary,
+                            'search-module-article-highlighted': this.props.highlightedArticleId === article.id
                         })}
                               to={{
                                   pathname: userArticlePath(article.userSlug, article.slug),
@@ -114,12 +112,12 @@ export default class SearchArticleModule extends React.PureComponent {
                               }}
                               onClick={this._handleArticleClick.bind(this, article)}>
 
-                            <span className="search-module-articleTitleResult"
+                            <span className="search-module-article-title-result"
                                   dangerouslySetInnerHTML={{__html: article.titleHighlighted || article.title || article.slug}}/>
 
                             {
-                                article.contentHighlighted &&
-                                <span className="search-module-articleHighlightResult">
+                                !!article.contentHighlighted &&
+                                <span className="search-module-article-highlight-result">
                                     {
                                         this.props.hasParenthesis
                                             ?
@@ -138,7 +136,7 @@ export default class SearchArticleModule extends React.PureComponent {
                         {
                             article.tagNames?.map((tagName) => (
                                 <Chip key={tagName}
-                                      className="search-module-articleTag"
+                                      className="search-module-article-tag"
                                       icon={this.props.hasTagIcon ? <LabelIcon/> : undefined}
                                       label={tagName}
                                       color="primary"
@@ -164,12 +162,12 @@ export default class SearchArticleModule extends React.PureComponent {
 
         return (
             <div className="search-module-category">
-                <h2 className="search-module-categoryName">
+                <h2 className="search-module-category-name">
                     {I18n.t('js.search.module.articles.title')}
 
                     {
-                        (this.props.isUserConnected && !this.props.hasQuery) &&
-                        <span className="search-module-categoryCount">
+                        !!(this.props.isUserConnected && !this.props.hasQuery) &&
+                        <span className="search-module-category-count">
                             {I18n.t('js.search.module.articles.recents')}
                         </span>
                     }
@@ -185,7 +183,7 @@ export default class SearchArticleModule extends React.PureComponent {
                         <div>
                             {
                                 this.props.selectedTags.length > 0 &&
-                                <div className="search-module-helpMessage">
+                                <div className="search-module-help-message">
                                     {I18n.t('js.search.module.helpers.tagged_articles', {
                                         tags: this.props.selectedTags.map((tag) => tag.name)
                                             .join(', ')
@@ -194,8 +192,8 @@ export default class SearchArticleModule extends React.PureComponent {
                             }
 
                             {
-                                (this.props.hasQuery && this.props.articles.length === 0) &&
-                                <p className="search-module-articleSecondaryResult">
+                                !!(this.props.hasQuery && this.props.articles.length === 0) &&
+                                <p className="search-module-article-secondary-result">
                                     <em>{I18n.t('js.search.module.articles.none')}</em>
                                 </p>
                             }
@@ -211,11 +209,11 @@ export default class SearchArticleModule extends React.PureComponent {
                                         <React.Fragment key={topicName}>
                                             {
                                                 (i !== 0 || Utils.isPresent(currentTopicArticles)) &&
-                                                <Divider className="search-module-categoryDivider"
+                                                <Divider className="search-module-category-divider"
                                                          variant="fullWidth"/>
                                             }
 
-                                            <h3 className="search-module-otherArticlesTitle">
+                                            <h3 className="search-module-other-articles-title">
                                                 {I18n.t('js.search.module.articles.other_topics', {topic: topicName})}
                                             </h3>
 
@@ -231,11 +229,11 @@ export default class SearchArticleModule extends React.PureComponent {
                                 <>
                                     {
                                         (Utils.isPresent(currentTopicArticles) || Utils.isPresent(otherTopicArticles)) &&
-                                        <Divider className="search-module-categoryDivider"
+                                        <Divider className="search-module-category-divider"
                                                  variant="fullWidth"/>
                                     }
 
-                                    <h3 className="search-module-otherArticlesTitle">
+                                    <h3 className="search-module-other-articles-title">
                                         {I18n.t('js.search.module.articles.other_users')}
                                     </h3>
 

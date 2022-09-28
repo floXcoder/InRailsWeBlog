@@ -149,7 +149,7 @@ class SearchSidebar extends React.Component {
     render() {
         if (this.props.currentUser && !this.props.currentUserTopic) {
             return (
-                <div className="search-sidebar-searchSidebar">
+                <div className="search-sidebar-search-sidebar">
                     <div className="center">
                         <Loader size="big"/>
                     </div>
@@ -162,8 +162,8 @@ class SearchSidebar extends React.Component {
         }
 
         return (
-            <div className="search-sidebar-searchSidebar">
-                <h2 className="search-sidebar-filterTitle">
+            <div className="search-sidebar-search-sidebar">
+                <h2 className="search-sidebar-filter-title">
                     {I18n.t('js.search.sidebar.filter')}
                 </h2>
 
@@ -171,8 +171,8 @@ class SearchSidebar extends React.Component {
                     {
                         this.props.articleAvailableFilters.map((filter, i) => (
                             <div key={i}
-                                 className="search-sidebar-filterCategory">
-                                <div className="search-sidebar-filterCategoryTitle">
+                                 className="search-sidebar-filter-category">
+                                <div className="search-sidebar-filter-category-title">
                                     {filter.name}
                                 </div>
 

@@ -85,7 +85,7 @@ class ArticleSort extends React.Component {
         return (
             <div className="article-sort-root">
                 {
-                    this.props.isProcessing &&
+                    !!this.props.isProcessing &&
                     <div className="center margin-top-20">
                         <Loader size="big"/>
                     </div>

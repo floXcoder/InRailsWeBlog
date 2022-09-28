@@ -4,10 +4,11 @@ import SendIcon from '@mui/icons-material/Send';
 import ClearIcon from '@mui/icons-material/Clear';
 import DeleteIcon from '@mui/icons-material/DeleteOutline';
 
+
 const ArticleInlineActions = function ({onSaveClick, onCancelClick, onDeleteClick, color, size}) {
     return (
-        <ul className="article-inline-actionButtons">
-            <li className="flow-tooltip-bottom article-inline-actionItem"
+        <ul className="article-inline-action-buttons">
+            <li className="flow-tooltip-bottom article-inline-action-item"
                 data-tooltip={I18n.t('js.article.tooltip.delete')}>
                 <a href="#"
                    onClick={onDeleteClick}>
@@ -16,7 +17,7 @@ const ArticleInlineActions = function ({onSaveClick, onCancelClick, onDeleteClic
                 </a>
             </li>
 
-            <li className="flow-tooltip-bottom article-inline-actionItem"
+            <li className="flow-tooltip-bottom article-inline-action-item"
                 data-tooltip={I18n.t('js.article.tooltip.cancel')}>
                 <a href="#"
                    onClick={onCancelClick}>
@@ -25,7 +26,7 @@ const ArticleInlineActions = function ({onSaveClick, onCancelClick, onDeleteClic
                 </a>
             </li>
 
-            <li className="flow-tooltip-bottom article-inline-actionItem"
+            <li className="flow-tooltip-bottom article-inline-action-item"
                 data-tooltip={I18n.t('js.article.tooltip.update')}>
                 <a href="#"
                    onClick={onSaveClick}>

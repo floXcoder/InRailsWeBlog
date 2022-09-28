@@ -34,7 +34,7 @@ function TopicFormInventoriesDisplay({
                 </div>
 
                 {
-                    topicErrors &&
+                    !!topicErrors &&
                     <div className="col s12">
                         <TopicErrorField errors={topicErrors}/>
                     </div>

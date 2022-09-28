@@ -20,6 +20,8 @@ import {
     getEditingTopic
 } from '../../selectors';
 
+import AnalyticsService from '../../modules/analyticsService';
+
 import PersistenceFormTopic from './persistence/form';
 
 import withRouter from '../modules/router';
@@ -64,6 +66,12 @@ class TopicPersistence extends React.Component {
     state = {
         isOpen: true
     };
+
+    componentDidMount() {
+        if (this.state.isOpen) {
+            AnalyticsService.trackTopicPersistencePage(this.props.userSlug);
+        }
+    }
 
     _handleClose = () => {
         this.setState({
@@ -123,7 +131,7 @@ class TopicPersistence extends React.Component {
                         );
 
                         if (response.topic.mode === 'inventories') {
-                            Notification.message.success('Vous pouvez maintenant ajouter les champs personnalisés pour les articles');
+                            Notification.success('Vous pouvez maintenant ajouter les champs personnalisés pour les articles');
 
                             this.props.routeNavigate(editInventoriesTopicPath(this.props.userSlug, response.topic.slug));
                         } else {

@@ -75,8 +75,8 @@ RSpec.describe Admin, type: :model do
 
     describe '#pseudo' do
       it { is_expected.to validate_presence_of(:pseudo) }
-      it { is_expected.to validate_length_of(:pseudo).is_at_least(InRailsWeBlog.config.user_pseudo_min_length) }
-      it { is_expected.to validate_length_of(:pseudo).is_at_most(InRailsWeBlog.config.user_pseudo_max_length) }
+      it { is_expected.to validate_length_of(:pseudo).is_at_least(InRailsWeBlog.settings.user_pseudo_min_length) }
+      it { is_expected.to validate_length_of(:pseudo).is_at_most(InRailsWeBlog.settings.user_pseudo_max_length) }
       it { is_expected.to validate_uniqueness_of(:pseudo).case_insensitive }
       it { expect(@admin.pseudo).to eq('Admin') }
       it { is_expected.to have_db_index(:pseudo) }
@@ -85,8 +85,8 @@ RSpec.describe Admin, type: :model do
 
     describe '#email' do
       it { is_expected.to validate_presence_of(:email) }
-      it { is_expected.to validate_length_of(:email).is_at_least(InRailsWeBlog.config.user_email_min_length) }
-      it { is_expected.to validate_length_of(:email).is_at_most(InRailsWeBlog.config.user_email_max_length) }
+      it { is_expected.to validate_length_of(:email).is_at_least(InRailsWeBlog.settings.user_email_min_length) }
+      it { is_expected.to validate_length_of(:email).is_at_most(InRailsWeBlog.settings.user_email_max_length) }
       it { is_expected.to validate_uniqueness_of(:email).case_insensitive }
       it { expect(@admin.email).to match 'admin@example.com' }
       it { is_expected.to have_db_index(:email) }
@@ -95,8 +95,8 @@ RSpec.describe Admin, type: :model do
     describe '#password' do
       it { is_expected.to respond_to(:password) }
       it { is_expected.to validate_presence_of(:password) }
-      it { is_expected.to validate_length_of(:password).is_at_least(InRailsWeBlog.config.user_password_min_length) }
-      it { is_expected.to validate_length_of(:password).is_at_most(InRailsWeBlog.config.user_password_max_length) }
+      it { is_expected.to validate_length_of(:password).is_at_least(InRailsWeBlog.settings.user_password_min_length) }
+      it { is_expected.to validate_length_of(:password).is_at_most(InRailsWeBlog.settings.user_password_max_length) }
       it { expect(@admin.password).to match 'foobarfoo' }
     end
 

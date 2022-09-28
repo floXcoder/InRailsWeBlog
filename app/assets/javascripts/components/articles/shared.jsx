@@ -100,7 +100,7 @@ class ArticleShared extends React.Component {
             <article className="article-show-root">
                 <Grid container={true}>
                     {
-                        this.props.article.summary &&
+                        !!this.props.article.summary &&
                         <Grid item={true}
                               xs={12}>
                             <h2>
@@ -119,7 +119,7 @@ class ArticleShared extends React.Component {
                      dangerouslySetInnerHTML={{__html: this.props.article.content}}/>
 
                 {
-                    this.props.article.reference &&
+                    !!this.props.article.reference &&
                     <div>
                         <a href={this.props.article.reference}
                            rel="noopener noreferrer"

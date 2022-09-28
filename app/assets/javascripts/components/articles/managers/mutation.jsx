@@ -127,7 +127,7 @@ export default function articleMutationManager(mode) {
                     }
 
                     if (props.routeLocation.search.content) {
-                        Notification.message.success(I18n.t('js.article.clipboard'));
+                        Notification.success(I18n.t('js.article.clipboard'));
                     }
                 } else if (unsavedArticle?.length > 0) {
                     this.state.article = unsavedArticle.first().article;
@@ -168,9 +168,9 @@ export default function articleMutationManager(mode) {
             componentDidUpdate(prevProps) {
                 if (Utils.isPresent(this.props.articleErrors) && prevProps.articleErrors !== this.props.articleErrors) {
                     if (this.props.isTagError) {
-                        Notification.message.warn(this.props.articleErrors);
+                        Notification.warn(this.props.articleErrors);
                     } else {
-                        Notification.message.error(this.props.articleErrors);
+                        Notification.error(this.props.articleErrors);
                     }
                 }
             }
@@ -308,7 +308,7 @@ export default function articleMutationManager(mode) {
                             article: formData
                         }, false);
 
-                        Notification.message.alert(I18n.t('js.article.common.not_connected.message'));
+                        Notification.alert(I18n.t('js.article.common.not_connected.message'));
 
                         this.props.showUserLogin();
                     } else {

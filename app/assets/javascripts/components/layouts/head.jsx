@@ -32,19 +32,19 @@ function HeadLayout({children}) {
                   content={description}/>
 
             {
-                noindex &&
+                !!noindex &&
                 <meta name="robots"
                       content="noindex, nofollow"/>
             }
 
             {
-                canonical &&
+                !!canonical &&
                 <link rel="canonical"
                       href={canonical}/>
             }
 
             {
-                alternate &&
+                !!alternate &&
                 Object.keys(alternate)
                     .map((locale) => (
                         <link key={locale}
@@ -55,31 +55,31 @@ function HeadLayout({children}) {
             }
 
             {
-                author &&
+                !!author &&
                 <meta property="author"
                       content={author}/>
             }
 
             {
-                title &&
+                !!title &&
                 <meta property="og:title"
                       content={title}/>
             }
 
             {
-                (og?.type) &&
+                !!(og?.type) &&
                 <meta property="og:type"
                       content={og.type}/>
             }
 
             {
-                (og?.url) &&
+                !!(og?.url) &&
                 <meta property="og:url"
                       content={og.url}/>
             }
 
             {
-                (og?.image) &&
+                !!(og?.image) &&
                 <meta property="og:image"
                       content={og.image || window.logoUrl}/>
             }

@@ -128,8 +128,8 @@ class NotificationComponent extends React.Component {
             );
         }
 
-        const Icon = variantIcon[this.state.messageInfo.level || 'info'];
-        const className = classNames('notification', 'root', this.state.messageInfo.level || 'info');
+        const Icon = variantIcon[this.state.messageInfo.level || 'alert'];
+        const className = classNames('notification', 'root', this.state.messageInfo.level || 'alert');
 
         return (
             <StyledEngineProvider injectFirst={true}>

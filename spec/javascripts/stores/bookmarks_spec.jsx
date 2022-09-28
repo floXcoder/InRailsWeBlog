@@ -16,7 +16,7 @@ describe('Bookmarks actions', () => {
 
         jest.useFakeTimers();
 
-        global.Notification.message.alert.mockReset();
+        global.Notification.alert.mockReset();
     });
 
     describe('bookmark', () => {
@@ -66,7 +66,7 @@ describe('Bookmarks actions', () => {
                 bookmarkedType: 'article'
             });
 
-            expect(global.Notification.message.alert).toHaveBeenCalledTimes(1);
+            expect(global.Notification.alert).toHaveBeenCalledTimes(1);
         });
 
         it('should unbookmark an article for the current user', () => {
@@ -109,7 +109,7 @@ describe('Bookmarks actions', () => {
                 bookmarkedId: 1
             })).toBe(null);
 
-            expect(global.Notification.message.alert).toHaveBeenCalledTimes(1);
+            expect(global.Notification.alert).toHaveBeenCalledTimes(1);
         });
     });
 

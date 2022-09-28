@@ -18,8 +18,8 @@ class TagsController < ApplicationController
 
     track_action(tag_ids: tags.map(&:id))
 
-    expires_in InRailsWeBlog.config.cache_time, public: true
-    if stale?(tags, template: false, public: true)
+    with_cache? ? expires_in(InRailsWeBlog.settings.cache_time, public: true) : reset_cache_headers
+    if !with_cache? || stale?(tags, template: false, public: true)
       respond_to do |format|
         format.html do
           set_seo_data(:tags)
@@ -40,14 +40,14 @@ class TagsController < ApplicationController
 
     track_action(tag_id: tag.id) { track_visit(Tag, tag.id, current_user&.id, nil) }
 
-    expires_in InRailsWeBlog.config.cache_time, public: true
-    if stale?(tag, template: false, public: true)
+    with_cache?(tag) ? expires_in(InRailsWeBlog.settings.cache_time, public: true) : reset_cache_headers
+    if !with_cache?(tag) || stale?(tag, template: false, public: true)
       respond_to do |format|
         format.html do
           set_seo_data(:show_tag,
                        model:       tag,
                        tag_slug:    tag,
-                       tag_content: tag.description&.summary(InRailsWeBlog.config.seo_meta_desc_length, strip_html: true, remove_links: true),
+                       tag_content: tag.description&.summary(InRailsWeBlog.settings.seo_meta_desc_length, strip_html: true, remove_links: true),
                        author:      tag.user.pseudo)
 
           tag = tag.serialized_json('complete',

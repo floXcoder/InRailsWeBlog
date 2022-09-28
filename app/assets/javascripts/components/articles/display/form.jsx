@@ -186,7 +186,7 @@ class ArticleFormDisplay extends React.Component {
 
                                 <div className="margin-bottom-30">
                                     {
-                                        this.props.articleErrors &&
+                                        !!this.props.articleErrors &&
                                         <ArticleErrorField errors={this.props.articleErrors}/>
                                     }
 

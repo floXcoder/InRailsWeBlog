@@ -31,8 +31,9 @@ module Api::V1
         respond_with resource, location: after_resetting_password_path_for(resource)
       else
         set_minimum_password_length
+
         flash[:error] = resource.errors.full_messages.join(', ')
-        @location     = edit_password_path(reset_password_token: resource_params[:reset_password_token])
+        @location     = edit_user_password_path(reset_password_token: resource_params[:reset_password_token])
         respond_to do |format|
           format.html { redirect_to(@location) }
         end

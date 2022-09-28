@@ -71,22 +71,24 @@ class User < ApplicationRecord
   enums_to_tr('user', [:visibility])
 
   # Store settings
-  store :settings, accessors: [
-                                :articles_loader, # Load articles by: all / paginate / infinite, default: 'infinite'
-                                :article_display, # Display articles: summary / card / inline / grid, default: 'summary'
-                                :article_order, # Order articles by: priority_asc, priority_desc, id_asc, id_desc, created_asc, created_desc, updated_asc, updated_desc, tag_asc, tags_desc, rank_asc, rank_desc, popularity_asc, popularity_desc, default, default: 'updated_desc'
-                                :article_multilanguage, # Write articles in multi-language, default: false
+  store :settings,
+        accessors: [
+                     :articles_loader, # Load articles by: all / paginate / infinite, default: 'infinite'
+                     :article_display, # Display articles: summary / card / inline / grid, default: 'summary'
+                     :article_order, # Order articles by: priority_asc, priority_desc, id_asc, id_desc, created_asc, created_desc, updated_asc, updated_desc, tag_asc, tags_desc, rank_asc, rank_desc, popularity_asc, popularity_desc, default, default: 'updated_desc'
+                     :article_multilanguage, # Write articles in multi-language, default: false
 
-                                :tag_sidebar_pin, # Tag sidebar pinned by default, default: true
-                                :tag_sidebar_with_child, # Display child only tags in sidebar, default: false
-                                :tag_order, # Order tags by: name, priority_asc, priority_desc, id_asc, id_desc, created_asc, created_desc, updated_asc, updated_desc, rank_asc, rank_desc, popularity_asc, popularity_desc, default, default: 'name'
-                                :tag_parent_and_child, # Display child articles for parent tag, default: true
+                     :tag_sidebar_pin, # Tag sidebar pinned by default, default: true
+                     :tag_sidebar_with_child, # Display child only tags in sidebar, default: false
+                     :tag_order, # Order tags by: name, priority_asc, priority_desc, id_asc, id_desc, created_asc, created_desc, updated_asc, updated_desc, rank_asc, rank_desc, popularity_asc, popularity_desc, default, default: 'name'
+                     :tag_parent_and_child, # Display child articles for parent tag, default: true
 
-                                :search_display, # Display view for search results: card / grid, default: 'card'
-                                :search_highlight, # Highlight terms in search results, default: true
-                                :search_operator, # Search mode for multi-terms: and / or, default: 'and'
-                                :search_exact # Search for exact terms, default: true
-                              ]
+                     :search_display, # Display view for search results: card / grid, default: 'card'
+                     :search_highlight, # Highlight terms in search results, default: true
+                     :search_operator, # Search mode for multi-terms: and / or, default: 'and'
+                     :search_exact # Search for exact terms, default: true
+                   ],
+        coder:     JSON
 
   # Strip whitespaces
   auto_strip_attributes :first_name, :last_name, :city, :country, :additional_info, :phone_number, :mobile_number
@@ -235,10 +237,10 @@ class User < ApplicationRecord
   validates :pseudo,
             presence:   true,
             uniqueness: { case_sensitive: false },
-            length:     { minimum: InRailsWeBlog.config.user_pseudo_min_length, maximum: InRailsWeBlog.config.user_pseudo_max_length }
+            length:     { minimum: InRailsWeBlog.settings.user_pseudo_min_length, maximum: InRailsWeBlog.settings.user_pseudo_max_length }
   validates :email,
             presence: true,
-            length:   { minimum: InRailsWeBlog.config.user_email_min_length, maximum: InRailsWeBlog.config.user_email_max_length }
+            length:   { minimum: InRailsWeBlog.settings.user_email_min_length, maximum: InRailsWeBlog.settings.user_email_max_length }
 
   # == Scopes ===============================================================
   scope :bookmarked_by_user,
@@ -445,20 +447,20 @@ class User < ApplicationRecord
   private
 
   def define_default_settings
-    self.articles_loader ||= 'infinite'
-    self.article_display ||= 'summary'
-    self.article_order ||= 'updated_desc'
+    self.articles_loader       ||= 'infinite'
+    self.article_display       ||= 'summary'
+    self.article_order         ||= 'updated_desc'
     self.article_multilanguage ||= false
 
-    self.tag_sidebar_pin ||= true
+    self.tag_sidebar_pin        ||= true
     self.tag_sidebar_with_child ||= false
-    self.tag_order ||= 'name'
-    self.tag_parent_and_child ||= true
+    self.tag_order              ||= 'name'
+    self.tag_parent_and_child   ||= true
 
-    self.search_display ||= 'card'
+    self.search_display   ||= 'card'
     self.search_highlight ||= true
-    self.search_operator ||= 'and'
-    self.search_exact ||= true
+    self.search_operator  ||= 'and'
+    self.search_exact     ||= true
   end
 
   def create_default_topic

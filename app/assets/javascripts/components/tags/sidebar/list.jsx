@@ -22,12 +22,12 @@ const TagSidebarList = function (props) {
     const isFiltering = Utils.isPresent(props.filterText);
 
     return (
-        <List className="tag-sidebar-tagList">
+        <List className="tag-sidebar-tag-list">
             <Zoom in={props.isOpen}
                   timeout={350}>
-                <Link className="tag-sidebar-labelsLink"
+                <Link className="tag-sidebar-labels-link"
                       to={topicTagsPath(props.currentUserSlug, props.currentUserTopicSlug)}>
-                    <OpenInNewIcon className="tag-sidebar-labelsIcon"/>
+                    <OpenInNewIcon className="tag-sidebar-labels-icon"/>
                 </Link>
             </Zoom>
 
@@ -43,7 +43,7 @@ const TagSidebarList = function (props) {
 
             {/*    <ListItemText classes={{*/}
             {/*        root: classNames(tag-sidebar-item, tag-sidebar-title, {*/}
-            {/*            [tag-sidebar-itemOpen]: this.props.isOpen*/}
+            {/*            [tag-sidebar-item-open]: this.props.isOpen*/}
             {/*        })*/}
             {/*    }}>*/}
             {/*        {I18n.t('js.tag.common.list')}*/}
@@ -55,7 +55,7 @@ const TagSidebarList = function (props) {
             {/*</ListItem>*/}
 
             {/*<ListItem classes={{*/}
-            {/*    root: tag-sidebar-searchItem*/}
+            {/*    root: tag-sidebar-search-item*/}
             {/*}}>*/}
             {/*    <Grow in={!this.props.isOpen}*/}
             {/*          timeout={350}*/}
@@ -67,7 +67,7 @@ const TagSidebarList = function (props) {
 
             {/*    <div className={*/}
             {/*        classNames(tag-sidebar-item, {*/}
-            {/*            [tag-sidebar-itemOpen]: this.props.isOpen*/}
+            {/*            [tag-sidebar-item-open]: this.props.isOpen*/}
             {/*        })*/}
             {/*    }>*/}
             {/*        <SearchBar classes={tag-sidebar-input}*/}
@@ -82,7 +82,7 @@ const TagSidebarList = function (props) {
                 Utils.isPresent(props.tags) &&
                 <div className={classNames(
                     'tag-sidebar-tags',
-                    {'tag-sidebar-tagsOpen': props.isOpen}
+                    {'tag-sidebar-tags-open': props.isOpen}
                 )}>
                     <Scrollbar>
                         <TagRelationshipDisplay tags={props.tags}
@@ -96,8 +96,8 @@ const TagSidebarList = function (props) {
             }
 
             {
-                props.isOpen && Utils.isEmpty(props.tags) &&
-                <p className="tag-sidebar-noTags">
+                !!(props.isOpen && Utils.isEmpty(props.tags)) &&
+                <p className="tag-sidebar-no-tags">
                     {
                         props.filterText
                             ?

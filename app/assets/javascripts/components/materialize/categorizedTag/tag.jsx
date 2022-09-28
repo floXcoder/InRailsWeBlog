@@ -78,7 +78,7 @@ export default class Tag extends React.PureComponent {
                 </div>
 
                 {
-                    this.props.isDeletable &&
+                    !!this.props.isDeletable &&
                     <span className="cti-tag-delete"
                           onClick={this._onDelete}
                           dangerouslySetInnerHTML={{__html: '&times;'}}/>

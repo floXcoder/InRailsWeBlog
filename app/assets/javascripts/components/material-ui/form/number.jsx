@@ -9,7 +9,7 @@ const NumberFormField = function ({input, label, helperText, meta: {touched, err
                    type="number"
                    label={label}
                    value={input.value}
-                   error={touched && !!error}
+                   error={!!touched && !!error}
                    helperText={!!error ? error : helperText}
                    {...custom}/>
     );

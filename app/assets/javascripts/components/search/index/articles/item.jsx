@@ -42,23 +42,23 @@ export default class ArticleSearchItemDisplay extends React.Component {
 
     render() {
         return (
-            <Card className="search-index-articleCard"
+            <Card className="search-index-article-card"
                   component="article">
                 <CardHeader title={
-                    <Link className="search-index-articleTitle"
+                    <Link className="search-index-article-title"
                           to={userArticlePath(this.props.article.user.slug, this.props.article.slug)}
                           onClick={this._handleArticleClick}>
                         <span dangerouslySetInnerHTML={{__html: this.props.article.title}}/>
                     </Link>
                 }
                             subheader={
-                                <span className="search-index-articleSubtitle">
+                                <span className="search-index-article-subtitle">
                                     {`(${this.props.article.date} - ${this.props.article.user.pseudo})`}
                                 </span>
                             }/>
 
                 <CardContent classes={{
-                    root: 'search-index-articleContent'
+                    root: 'search-index-article-content'
                 }}>
                     {
                         this.props.article.mode === 'inventory'
@@ -70,8 +70,8 @@ export default class ArticleSearchItemDisplay extends React.Component {
                     }
 
                     {
-                        this.props.article.scrapResults &&
-                        <div className="search-index-articleLinksResults">
+                        !!this.props.article.scrapResults &&
+                        <div className="search-index-article-links-results">
                             {
                                 this.props.article.scrapResults.slice(1)
                                     .map((resultsByLink, i) => (
@@ -100,13 +100,13 @@ export default class ArticleSearchItemDisplay extends React.Component {
                         </div>
                     }
 
-                    <div className="search-index-articleTags">
+                    <div className="search-index-article-tags">
                         {
                             this.props.article.tags.map((tag) => (
                                 <Chip key={tag.id}
                                       className={
-                                          classNames('search-index-articleTag', {
-                                              'search-index-articleHighlightedTag': this.props.highlightTagIds.includes(tag.id)
+                                          classNames('search-index-article-tag', {
+                                              'search-index-article-highlighted-tag': this.props.highlightTagIds.includes(tag.id)
                                           })
                                       }
                                       component={Link}

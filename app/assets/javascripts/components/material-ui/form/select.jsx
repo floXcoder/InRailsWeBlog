@@ -10,7 +10,7 @@ const SelectFormField = function ({input, label, helperText, options, meta: {tou
                    select={true}
                    label={label}
                    value={input.value}
-                   error={touched && !!error}
+                   error={!!touched && !!error}
                    helperText={!!error ? error : helperText}
                    {...custom}>
             {

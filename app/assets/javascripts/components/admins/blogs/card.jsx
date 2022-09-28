@@ -98,8 +98,8 @@ export default class AdminBlogCard extends React.Component {
 
                     <CardActions className="admin-blog-actions"
                                  disableSpacing={true}>
-                        <ul className="admin-blog-actionButtons">
-                            <li className="admin-blog-actionItem">
+                        <ul className="admin-blog-action-buttons">
+                            <li className="admin-blog-action-item">
                                 <a href="#"
                                    onClick={this._handleEditWiki}>
                                     <EditIcon color="action"

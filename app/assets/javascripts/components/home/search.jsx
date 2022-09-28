@@ -134,12 +134,12 @@ class HomeSearch extends React.Component {
                   onSubmit={this._performSearch}>
                 <EnsureValidity/>
 
-                <div className="home-searchField">
-                    <div className="home-searchIcon">
+                <div className="home-search-field">
+                    <div className="home-search-icon">
                         <SearchIcon/>
                     </div>
 
-                    <InputLabel className="home-inputLabel"
+                    <InputLabel className="home-input-label"
                                 htmlFor="home-search">
                         Search
                     </InputLabel>
@@ -148,8 +148,8 @@ class HomeSearch extends React.Component {
                            name="search"
                            type="search"
                            classes={{
-                               root: 'home-inputRoot',
-                               input: 'home-inputInput'
+                               root: 'home-input-root',
+                               input: 'home-input-input'
                            }}
                            placeholder={I18n.t('js.views.home.search.placeholder')}
                            disableUnderline={true}
@@ -180,8 +180,8 @@ class HomeSearch extends React.Component {
         return (
             <div>
                 {
-                    this.props.isSearching &&
-                    <div className="home-searchLoader">
+                    !!this.props.isSearching &&
+                    <div className="home-search-loader">
                         <Loader size="big"/>
                     </div>
                 }
@@ -232,19 +232,19 @@ class HomeSearch extends React.Component {
 
         return (
             <section className="home-search">
-                <div className="home-homeContent">
-                    <h2 className="home-searchTitle">
+                <div className="home-home-content">
+                    <h2 className="home-search-title">
                         {I18n.t('js.views.home.search.title')}
                     </h2>
 
                     {this._renderSearchForm()}
 
                     {
-                        hasQuery &&
+                        !!hasQuery &&
                         this._renderSearchResults()
                     }
 
-                    <div className="home-searchButton">
+                    <div className="home-search-button">
                         <Button color="primary"
                                 variant="contained"
                                 onClick={this._performSearch}>

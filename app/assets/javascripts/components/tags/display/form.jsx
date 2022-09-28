@@ -93,7 +93,7 @@ export default class TagFormDisplay extends React.Component {
                             <div>
                                 <div className="row">
                                     {
-                                        this.props.children.name &&
+                                        !!this.props.children.name &&
                                         <div className="col s12">
                                             <h1>
                                                 {I18n.t('js.tag.edit.title', {tag: this.props.children.name})}
@@ -125,14 +125,14 @@ export default class TagFormDisplay extends React.Component {
 
                                         {
                                             this.props.children.visibility === 'everyone' &&
-                                            <p className="tag-form-nameAdvice">
+                                            <p className="tag-form-name-advice">
                                                 {I18n.t('js.tag.common.visibility_immutable')}
                                             </p>
                                         }
                                     </div>
 
                                     <div className="col s12 margin-top-30 margin-bottom-30">
-                                        <div className="tag-form-categoryTitle">
+                                        <div className="tag-form-category-title">
                                             {I18n.t('js.tag.model.description')}
                                         </div>
 
@@ -160,7 +160,7 @@ export default class TagFormDisplay extends React.Component {
                                     </div>
 
                                     <div className="col s12 m6 center-align">
-                                        <div className="tag-form-categoryTitle">
+                                        <div className="tag-form-category-title">
                                             {I18n.t('js.tag.model.visibility')}
                                         </div>
 
@@ -175,7 +175,7 @@ export default class TagFormDisplay extends React.Component {
                                     </div>
 
                                     <div className="col s12 m6">
-                                        <div className="tag-form-categoryTitle">
+                                        <div className="tag-form-category-title">
                                             {I18n.t('js.tag.model.synonyms')}
                                         </div>
 

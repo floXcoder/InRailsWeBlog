@@ -92,14 +92,14 @@ RSpec.describe Comment, type: :model do
     end
 
     describe '#title' do
-      # it { is_expected.to validate_length_of(:title).is_at_least(InRailsWeBlog.config.comment_title_min_length) }
-      it { is_expected.to validate_length_of(:title).is_at_most(InRailsWeBlog.config.comment_title_max_length) }
+      # it { is_expected.to validate_length_of(:title).is_at_least(InRailsWeBlog.settings.comment_title_min_length) }
+      it { is_expected.to validate_length_of(:title).is_at_most(InRailsWeBlog.settings.comment_title_max_length) }
     end
 
     describe '#body' do
       it { is_expected.to validate_presence_of(:body) }
-      it { is_expected.to validate_length_of(:body).is_at_least(InRailsWeBlog.config.comment_body_min_length) }
-      it { is_expected.to validate_length_of(:body).is_at_most(InRailsWeBlog.config.comment_body_max_length) }
+      it { is_expected.to validate_length_of(:body).is_at_least(InRailsWeBlog.settings.comment_body_min_length) }
+      it { is_expected.to validate_length_of(:body).is_at_most(InRailsWeBlog.settings.comment_body_max_length) }
     end
 
     describe 'Default Attributes' do

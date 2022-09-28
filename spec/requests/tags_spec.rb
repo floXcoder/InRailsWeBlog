@@ -275,7 +275,7 @@ describe 'Tag API', type: :request do
             expect(response).to be_json_response(422)
 
             tag = JSON.parse(response.body)
-            expect(tag['errors']['name'].first).to eq(I18n.t('errors.messages.too_long.other', count: InRailsWeBlog.config.tag_name_max_length))
+            expect(tag['errors']['name'].first).to eq(I18n.t('errors.messages.too_long.other', count: InRailsWeBlog.settings.tag_name_max_length))
             expect(tag['errors']['name'].second).to eq(I18n.t('activerecord.errors.models.tag.public_name_immutable'))
           }.not_to change(Tag, :count)
         end

@@ -4,3 +4,5 @@
 # Mime::Type.register "text/richtext", :rtf
 
 Mime::Type.register 'application/zip', :zip
+
+Mime::Type.register 'application/json', :json, %w[application/json application/cloudevents+json]

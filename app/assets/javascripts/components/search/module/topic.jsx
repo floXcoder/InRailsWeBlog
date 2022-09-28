@@ -14,6 +14,7 @@ import {
     spyTrackClick
 } from '../../../actions';
 
+
 export default class SearchTopicModule extends React.Component {
     static propTypes = {
         topics: PropTypes.array.isRequired
@@ -30,7 +31,7 @@ export default class SearchTopicModule extends React.Component {
                   color="primary"
                   variant="outlined"
                   label={
-                      <Link className="search-module-tagLink"
+                      <Link className="search-module-tag-link"
                             to={topicArticlesPath(topic.userSlug, topic.slug)}
                             onClick={spyTrackClick.bind(null, 'topic', topic.id, topic.slug, topic.userId, topic.name, null)}>
                           {topic.name}
@@ -46,7 +47,7 @@ export default class SearchTopicModule extends React.Component {
 
         return (
             <div className="search-module-category">
-                <h2 className="search-module-categoryName">
+                <h2 className="search-module-category-name">
                     {I18n.t('js.search.module.topics.title')}
                 </h2>
 

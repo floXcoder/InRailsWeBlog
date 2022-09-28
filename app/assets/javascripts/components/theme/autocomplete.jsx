@@ -11,6 +11,7 @@ import {
     suggestionsLimit
 } from '../modules/constants';
 
+
 export default class Autocomplete extends React.Component {
     static propTypes = {
         currentSuggestion: PropTypes.oneOfType([
@@ -274,7 +275,7 @@ export default class Autocomplete extends React.Component {
                             }
 
                             {
-                                (this.props.name && this.props.isMultiple) &&
+                                !!(this.props.name && this.props.isMultiple) &&
                                 this.props.currentSuggestion.map((suggestion, i) => (
                                     <input key={suggestion + '-' + i}
                                            name={this.props.name + '[]'}

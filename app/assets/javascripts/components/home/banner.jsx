@@ -3,16 +3,17 @@
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 
-var HomeBanner = function ({onLoginClick, onSignupClick}) {
+
+const HomeBanner = function ({onLoginClick, onSignupClick}) {
     return (
         <section className="home-banner">
-            <div className="home-homeContent">
-                <div className="home-bannerTitle">
-                    <h1 className="home-bannerMotto">
+            <div className="home-home-content">
+                <div className="home-banner-title">
+                    <h1 className="home-banner-motto">
                         {I18n.t('js.views.home.banner.motto')}
                     </h1>
 
-                    <h2 className="home-bannerMottoSub">
+                    <h2 className="home-banner-motto-sub">
                         {I18n.t('js.views.home.banner.submotto')}
                     </h2>
                 </div>
@@ -27,11 +28,11 @@ var HomeBanner = function ({onLoginClick, onSignupClick}) {
                           sm={12}
                           md={6}
                           lg={6}>
-                        <div className="home-bannerBackground">
+                        <div className="home-banner-background">
                             <picture>
                                 <source srcSet={`${window.settings.assets_url}/home/banner.webp`}
                                         type="image/webp"/>
-                                <img className="home-bannerBackgroundImg"
+                                <img className="home-banner-background-img"
                                      srcSet={`${window.settings.assets_url}/home/banner.png`}
                                      src={`${window.settings.assets_url}/home/banner.png`}
                                      alt={`${window.settings.website_name} logo`}/>
@@ -44,15 +45,15 @@ var HomeBanner = function ({onLoginClick, onSignupClick}) {
                           sm={12}
                           md={6}
                           lg={6}>
-                        <div className="home-bannerButtons">
-                            <Button className="home-bannerButton"
+                        <div className="home-banner-buttons">
+                            <Button className="home-banner-button"
                                     color="primary"
                                     variant="contained"
                                     onClick={onSignupClick}>
                                 {I18n.t('js.views.home.banner.sign_up')}
                             </Button>
 
-                            <Button className="home-bannerButton"
+                            <Button className="home-banner-button"
                                     color="primary"
                                     onClick={onLoginClick}>
                                 {I18n.t('js.views.home.banner.log_in')}

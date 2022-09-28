@@ -10,12 +10,9 @@ module Api::V1
       user = User.find(params[:user_id])
       authorize user, :settings?
 
-      expires_in InRailsWeBlog.config.cache_time, public: true
-      if stale?(user, template: false, public: true)
-        respond_to do |format|
-          format.json do
-            render json: UserSettingSerializer.new(user).serializable_hash
-          end
+      respond_to do |format|
+        format.json do
+          render json: UserSettingSerializer.new(user).serializable_hash
         end
       end
     end

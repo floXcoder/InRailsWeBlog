@@ -62,8 +62,8 @@ module Api::V1
         tags = ::Tags::FindQueries.new.all(filter_params.merge(limit: params[:limit]))
       end
 
-      expires_in InRailsWeBlog.config.cache_time, public: true
-      if stale?(tags, template: false, public: true)
+      with_cache? ? expires_in(InRailsWeBlog.settings.cache_time, public: true) : reset_cache_headers
+      if !with_cache? || stale?(tags, template: false, public: true)
         respond_to do |format|
           format.json do
             if complete
@@ -86,8 +86,8 @@ module Api::V1
       tag = Tag.include_element.friendly.find(params[:id])
       authorize tag
 
-      expires_in InRailsWeBlog.config.cache_time, public: true
-      if stale?(tag, template: false, public: true)
+      with_cache?(tag) ? expires_in(InRailsWeBlog.settings.cache_time, public: true) : reset_cache_headers
+      if !with_cache?(tag) || stale?(tag, template: false, public: true)
         respond_to do |format|
           format.json do
             if params[:recommendation]
@@ -95,7 +95,7 @@ module Api::V1
             else
               set_seo_data(:show_tag,
                            model:       tag,
-                           tag_content: tag.description&.summary(InRailsWeBlog.config.seo_meta_desc_length, strip_html: true, remove_links: true),
+                           tag_content: tag.description&.summary(InRailsWeBlog.settings.seo_meta_desc_length, strip_html: true, remove_links: true),
                            tag_slug:    tag,
                            author:      tag.user.pseudo)
 

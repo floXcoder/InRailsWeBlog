@@ -15,6 +15,8 @@ import {
     fetchArticle
 } from '../../actions';
 
+import AnalyticsService from '../../modules/analyticsService';
+
 import withRouter from '../modules/router';
 
 
@@ -47,6 +49,10 @@ class TrackingCompareModal extends React.Component {
     };
 
     componentDidMount() {
+        if (this.state.isOpen && this.props.article) {
+            AnalyticsService.trackArticleComparePage(this.props.article.user.slug, this.props.article.slug);
+        }
+
         if (this.props.article && !this.props.article.contentTranslations) {
             this.props.fetchArticle(this.props.article.user.id, this.props.article.id, {complete: true});
         }

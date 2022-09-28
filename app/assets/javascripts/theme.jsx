@@ -217,14 +217,32 @@ const theme = createTheme({
                 }
             }
         },
-        // MuiInputBase: {
-        //     styleOverrides: {
-        //         root: {
-        //             lineHeight: '1.33rem',
-        //             fontSize: '1.1876em'
-        //         }
-        //     }
-        // }
+        MuiPaper: {
+            styleOverrides: {
+                root: {
+                    backgroundColor: '#fff'
+                }
+            }
+        },
+        MuiFormHelperText: {
+            styleOverrides: {
+                root: {
+                    fontSize: '.8rem',
+                    color: '#9e9e9e'
+                },
+                filled: {
+                    fontSize: '.8rem',
+                    color: '#9e9e9e'
+                }
+            }
+        },
+        MuiTab: {
+            styleOverrides: {
+                root: {
+                    minWidth: 120
+                }
+            }
+        }
     }
 });
 

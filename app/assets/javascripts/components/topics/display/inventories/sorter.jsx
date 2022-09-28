@@ -26,7 +26,7 @@ const SortableItem = SortableElement(({itemIndex, field, onRemoveField}) => (
 ));
 
 const SortableList = SortableContainer(({fields, onRemoveField}) => (
-    <div className="topic-form-inv-sortingItems">
+    <div className="topic-form-inv-sorting-items">
         {
             fields.map((field, i) => (
                 <SortableItem key={`${field.fieldName}-${i}`}

@@ -4,6 +4,7 @@ import {
     pushError
 } from '../../actions';
 
+
 export default class ErrorBoundary extends React.Component {
     static propTypes = {
         children: PropTypes.oneOfType([
@@ -40,7 +41,7 @@ export default class ErrorBoundary extends React.Component {
         });
 
         if (this.props.errorType === 'notification') {
-            Notification.message.error(this.state.errorTitle);
+            Notification.error(this.state.errorTitle);
         }
 
         pushError(error, info);

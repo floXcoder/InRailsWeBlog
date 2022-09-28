@@ -56,9 +56,9 @@ class Admin < ApplicationRecord
   validates :pseudo,
             presence:   true,
             uniqueness: { case_sensitive: false },
-            length:     { minimum: InRailsWeBlog.config.user_pseudo_min_length, maximum: InRailsWeBlog.config.user_pseudo_max_length }
+            length:     { minimum: InRailsWeBlog.settings.user_pseudo_min_length, maximum: InRailsWeBlog.settings.user_pseudo_max_length }
   validates :email,
-            length: { minimum: InRailsWeBlog.config.user_email_min_length, maximum: InRailsWeBlog.config.user_email_max_length }
+            length: { minimum: InRailsWeBlog.settings.user_email_min_length, maximum: InRailsWeBlog.settings.user_email_max_length }
 
   # == Scopes ===============================================================
 

@@ -28,6 +28,7 @@ function isCategoryValid(category) {
         && (category.type || category.isSingle);
 }
 
+
 export default class CategorizedTagInput extends React.Component {
     static propTypes = {
         categories: PropTypes.arrayOf(PropTypes.object).isRequired,

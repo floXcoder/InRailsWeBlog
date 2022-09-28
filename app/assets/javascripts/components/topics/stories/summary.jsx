@@ -41,7 +41,7 @@ export default class SummaryStoriesTopic extends React.Component {
                 <div className="topic-summary-root">
                     <Link to={topicArticlesPath(this.props.userSlug, this.props.topic.slug)}
                           onClick={this._handleTopicClick.bind(this, this.props.topic.id, this.props.topic.slug, this.props.topic.userId, this.props.topic.name)}>
-                        <Typography className="topic-summary-topicTitle"
+                        <Typography className="topic-summary-topic-title"
                                     variant="h4"
                                     component="h2">
                             {this.props.topic.name}
@@ -49,15 +49,15 @@ export default class SummaryStoriesTopic extends React.Component {
                     </Link>
 
                     <Typography component="div"
-                                className="topic-summary-topicDesc">
+                                className="topic-summary-topic-desc">
                         <div className="normalized-content"
                              dangerouslySetInnerHTML={{__html: this.props.topic.description}}/>
                     </Typography>
 
                     {
-                        this.props.hasLink &&
+                        !!this.props.hasLink &&
                         <div className="center margin-top-15">
-                            <Button className="topic-summary-topicLink"
+                            <Button className="topic-summary-topic-link"
                                     color="primary"
                                     variant="outlined"
                                     component={Link}

@@ -107,8 +107,8 @@ class TagSidebarLayout extends React.PureComponent {
             <Drawer anchor="left"
                     variant="permanent"
                     classes={{
-                        paper: classNames('search-sidebar-drawerPaper', 'search-sidebar-drawerPaperOverflow', {
-                            'search-sidebar-drawerPaperClose': !this.state.isExpanded
+                        paper: classNames('search-sidebar-drawer-paper', 'search-sidebar-drawer-paper-overflow', {
+                            'search-sidebar-drawer-paper-close': !this.state.isExpanded
                         }),
                     }}
                     open={this.state.isExpanded}

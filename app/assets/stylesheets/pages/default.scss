@@ -1,7 +1,7 @@
 @import './common';
 
 // Header
-.layout-header-appBar {
+.layout-header-app-bar {
   display: inline-flex;
   z-index: $zindex-appbar;
   transition: width 195ms cubic-bezier(0.4, 0, 0.6, 1) 0ms, margin 195ms cubic-bezier(0.4, 0, 0.6, 1) 0ms;
@@ -30,22 +30,22 @@
   flex-grow: 1;
 }
 
-.layout-header-headerTitle {
+.layout-header-header-title {
   margin: 8px;
   display: block;
   font-size: 24px;
 }
 
-.layout-header-menuButton {
+.layout-header-menu-button {
   margin-left: 5px;
   margin-right: 5px;
 }
 
-.layout-header-mobileIcon {
+.layout-header-mobile-icon {
   font-size: 1.6rem;
 }
 
-.layout-header-sectionDesktop {
+.layout-header-section-desktop {
   display: flex;
 
   @media #{$large-and-down} {
@@ -53,7 +53,7 @@
   }
 }
 
-.layout-header-desktopItem {
+.layout-header-desktop-item {
   font-size: 1rem;
   font-weight: initial;
   white-space: nowrap;
@@ -62,7 +62,7 @@
   color: $text-color;
 }
 
-.layout-header-sectionMobile {
+.layout-header-section-mobile {
   display: none;
 
   @media #{$large-and-down} {
@@ -70,7 +70,7 @@
   }
 }
 
-.layout-header-mobileDrawerPaper {
+.layout-header-mobile-drawer-paper {
   width: $drawer-width;
 
   @media (min-width: 1280px) {
@@ -78,7 +78,7 @@
   }
 }
 
-.layout-header-mobileToolbar {
+.layout-header-mobile-toolbar {
   min-height: 48px !important;
   margin-top: $header-height;
   padding-top: .5rem;
@@ -93,14 +93,14 @@
   }
 }
 
-.layout-header-mobileTitle {
+.layout-header-mobile-title {
   color: $text-color;
   margin: 5px 2px;
   display: block;
   font-size: 30px;
 }
 
-.layout-header-nestedMenu {
+.layout-header-nested-menu {
   padding-left: 32px;
 }
 
@@ -149,30 +149,30 @@
   background-color: #fff;
 }
 
-.layout-footer-footerContainer {
+.layout-footer-footer-container {
   width: 70%;
   text-align: center;
   margin-left: auto;
   margin-right: auto;
 }
 
-.layout-footer-footerTitle {
+.layout-footer-footer-title {
   margin: 10px 8px 0;
   display: block;
   font-size: 2rem;
 }
 
-.layout-footer-footerSubtitle {
+.layout-footer-footer-subtitle {
   color: $primary-color-dark;
 }
 
-.layout-footer-footerLink {
+.layout-footer-footer-link {
   color: $text-color;
   font-size: 1rem;
   background-color: #fff;
 }
 
-.layout-footer-githubLink {
+.layout-footer-github-link {
   color: $text-color;
   font-size: .9rem;
   background-color: #fff;

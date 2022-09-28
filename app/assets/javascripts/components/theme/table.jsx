@@ -82,6 +82,7 @@ const Localizations = {
 //     return value;
 // };
 
+
 export default class Table extends React.Component {
     static propTypes = {
         title: PropTypes.string.isRequired,

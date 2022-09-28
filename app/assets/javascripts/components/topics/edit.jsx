@@ -100,7 +100,7 @@ class TopicEdit extends React.Component {
         return (
             <div className="topic-edit-root">
                 {
-                    this.props.topic.name &&
+                    !!this.props.topic.name &&
                     <div>
                         <h1>
                             {I18n.t('js.topic.edit.title')}
@@ -109,7 +109,7 @@ class TopicEdit extends React.Component {
                 }
 
                 {
-                    this.props.topicErrors &&
+                    !!this.props.topicErrors &&
                     <div>
                         <TopicErrorField errors={this.props.topicErrors}/>
                     </div>

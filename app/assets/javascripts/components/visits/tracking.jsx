@@ -71,7 +71,7 @@ class TrackingVisitModal extends React.Component {
                 {
                     visits.map((visit) => (
                         <React.Fragment key={visit.id}>
-                            <ListItem className="admin-tracking-modal-listItemVisit"
+                            <ListItem className="admin-tracking-modal-list-item-visit"
                                       button={true}
                                       onClick={this._handleVisitClick.bind(this, visit.id)}>
                                 <ListItemText primary={
@@ -103,15 +103,15 @@ class TrackingVisitModal extends React.Component {
                                     {
                                         visit.events.map((event) => (
                                             <ListItem key={event.id}
-                                                      className="admin-tracking-modal-listItemEvent"
+                                                      className="admin-tracking-modal-list-item-event"
                                                       button={false}>
                                                 <ListItemIcon>
                                                     <SubdirectoryArrowRightIcon/>
                                                 </ListItemIcon>
 
                                                 <ListItemText classes={{
-                                                    primary: 'admin-tracking-modal-listItemEventPrimary',
-                                                    secondary: 'admin-tracking-modal-listItemEventSecondary'
+                                                    primary: 'admin-tracking-modal-list-item-event-primary',
+                                                    secondary: 'admin-tracking-modal-list-item-event-secondary'
                                                 }}
                                                               primary={
                                                                   <span>

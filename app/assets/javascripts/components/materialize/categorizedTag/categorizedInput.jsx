@@ -2,6 +2,7 @@
 
 import Tag from './tag';
 
+
 export default class CategorizedInput extends React.Component {
     static propTypes = {
         openPanel: PropTypes.func.isRequired,

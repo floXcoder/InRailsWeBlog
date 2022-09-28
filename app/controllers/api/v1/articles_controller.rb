@@ -43,7 +43,7 @@ module Api::V1
       elsif params[:home]
         articles = component_cache('home_articles') { ::Articles::FindQueries.new.home(limit: params[:limit], with_locale: I18n.locale) }
       else
-        articles = ::Articles::FindQueries.new(current_user, current_admin).all(filter_params.merge(page: params[:page], limit: params[:limit]))
+        articles = ::Articles::FindQueries.new(current_user, current_admin).all(filter_params.merge(page: params[:page]&.to_i, limit: params[:limit]&.to_i))
 
         if filter_params[:tag_slug].present? || filter_params[:parent_tag_slug].present?
           languages = articles.map(&:languages).flatten.uniq
@@ -63,7 +63,7 @@ module Api::V1
           set_seo_data(:topic_articles,
                        topic_slug:    filter_params[:topic_slug],
                        user_slug:     filter_params[:user_slug],
-                       topic_content: context_topic&.description&.summary(InRailsWeBlog.config.seo_meta_desc_length, strip_html: true, remove_links: true),
+                       topic_content: context_topic&.description&.summary(InRailsWeBlog.settings.seo_meta_desc_length, strip_html: true, remove_links: true),
                        exclude_slugs: [:topic_content],
                        languages:     context_topic&.languages)
         elsif filter_params[:user_slug].present?
@@ -76,8 +76,8 @@ module Api::V1
 
       tracking_data = params[:home].present? || params[:populars].present? ? nil : { article_ids: articles.map(&:id), tag_slug: filter_params[:tag_slug], topic_slug: filter_params[:topic_slug], user_slug: filter_params[:user_slug] }
 
-      (user_signed_in? || admin_signed_in?) ? reset_cache_headers : expires_in(InRailsWeBlog.config.cache_time, public: true)
-      if stale?(articles, template: false, public: true)
+      with_cache? ? expires_in(InRailsWeBlog.settings.cache_time, public: true) : reset_cache_headers
+      if !with_cache? || stale?(articles, template: false, public: true)
         respond_to do |format|
           format.json do
             if complete
@@ -121,13 +121,13 @@ module Api::V1
       article = @context_user.articles.friendly.find(params[:id])
       admin_or_authorize article
 
-      (article.user?(current_user) || admin_signed_in?) ? reset_cache_headers : expires_in(InRailsWeBlog.config.cache_time, public: true)
-      if stale?(article, template: false, public: true) || article.user?(current_user)
+      with_cache?(article) ? expires_in(InRailsWeBlog.settings.cache_time, public: true) : reset_cache_headers
+      if !with_cache?(article) || stale?(article, template: false, public: true)
         respond_to do |format|
           format.json do
             set_seo_data(:user_article,
                          article_slug:    article,
-                         article_content: article.content&.summary(InRailsWeBlog.config.seo_meta_desc_length, strip_html: true, remove_links: true, remove_code: true),
+                         article_content: article.content&.summary(InRailsWeBlog.settings.seo_meta_desc_length, strip_html: true, remove_links: true, remove_code: true),
                          topic_slug:      article.topic,
                          user_slug:       article.user,
                          author:          article.user.pseudo,
@@ -167,8 +167,8 @@ module Api::V1
 
       track_action(action: 'article_shared', article_id: article.id, topic_id: article.topic_id)
 
-      expires_in InRailsWeBlog.config.cache_time, public: true
-      if stale?(article, template: false, public: true)
+      with_cache? ? expires_in(InRailsWeBlog.settings.cache_time, public: true) : reset_cache_headers
+      if !with_cache? || stale?(article, template: false, public: true)
         respond_to do |format|
           format.json do
             set_seo_data(:shared_article,
@@ -211,8 +211,8 @@ module Api::V1
 
       articles = ::Articles::FindQueries.new(@context_user, current_admin).recommendations(article: article)
 
-      expires_in InRailsWeBlog.config.cache_time, public: true
-      if stale?(articles, template: false, public: true)
+      with_cache?(article) ? expires_in(InRailsWeBlog.settings.cache_time, public: true) : reset_cache_headers
+      if !with_cache?(article) || stale?(articles, template: false, public: true)
         respond_to do |format|
           format.json do
             render json: Article.serialized_json(articles,

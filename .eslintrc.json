@@ -29,7 +29,7 @@
   "plugins": [
     "react"
   ],
-  "ignorePatterns": ["**/i18n.js", "**/urlParser.js", "**/*summernote*.js", "**/translations/**"],
+  "ignorePatterns": ["**/urlParser.js", "**/*summernote*.js", "**/translations/**"],
   "rules": {
     "accessor-pairs": 0,
     "arrow-body-style": 0,
@@ -69,6 +69,7 @@
     "no-bitwise": 0,
     "no-caller": 0,
     "no-console": 0,
+    "no-continue": 0,
     "no-div-regex": 0,
     "no-else-return": 0,
     "no-empty-label": 0,
@@ -152,6 +153,7 @@
     "react/jsx-max-props-per-line": 1,
     "react/jsx-no-bind": 0,
     "react/jsx-no-duplicate-props": 1,
+    "react/jsx-no-leaked-render": 1,
     "react/jsx-no-literals": 0,
     "react/jsx-no-target-blank": 0,
     "react/jsx-no-undef": 0,

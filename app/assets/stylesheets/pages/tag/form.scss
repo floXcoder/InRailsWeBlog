@@ -1,6 +1,6 @@
 @import 'base/variables';
 
-.tag-form-categoryTitle {
+.tag-form-category-title {
   font-size: 1.4rem;
   font-weight: 500;
   margin-top: 2rem;
@@ -13,18 +13,18 @@
   // borderBottom: '1px solid #000'
 }
 
-.tag-form-nameLabel {
+.tag-form-name-label {
   left: 37%;
 }
 
-.tag-form-nameUnderline {
+.tag-form-name-underline {
   &::before {
     left: 25%;
     width: 50%;
   }
 }
 
-.tag-form-nameAdvice {
+.tag-form-name-advice {
   margin-top: -8px;
   margin-left: 8px;
   font-size: 0.9rem;

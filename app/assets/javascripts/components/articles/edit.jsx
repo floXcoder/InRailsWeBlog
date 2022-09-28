@@ -122,7 +122,7 @@ class ArticleEdit extends React.Component {
             <div className="article-form">
                 <div className="article-form-breadcrumb">
                     {
-                        (this.props.currentUser && this.props.currentTopic) &&
+                        !!(this.props.currentUser && this.props.currentTopic) &&
                         <ArticleBreadcrumbDisplay isForm={true}
                                                   user={this.props.currentUser}
                                                   topic={this.props.currentTopic}

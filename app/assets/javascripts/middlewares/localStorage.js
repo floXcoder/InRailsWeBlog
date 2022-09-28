@@ -8,14 +8,14 @@ export const saveLocalData = (dataName, dataParams) => {
     if (hasLocalStorage) {
         const currentItem = `${localDataPrefix}${dataName}`;
 
-        localStorage.setItem(currentItem, JSON.stringify(dataParams));
+        window.localStorage.setItem(currentItem, JSON.stringify(dataParams));
     }
 };
 
 export const saveLocalArray = (dataName, dataParams, concat = true) => {
     if (hasLocalStorage) {
         const currentItem = `${localDataPrefix}${dataName}`;
-        const previousData = localStorage.getItem(currentItem);
+        const previousData = window.localStorage.getItem(currentItem);
         let currentData = [];
 
         if (concat && previousData) {
@@ -24,17 +24,17 @@ export const saveLocalArray = (dataName, dataParams, concat = true) => {
             currentData = currentData.concat(dataParams);
         }
 
-        localStorage.setItem(currentItem, JSON.stringify(currentData));
+        window.localStorage.setItem(currentItem, JSON.stringify(currentData));
     }
 };
 
 export const getLocalData = (dataName, remove = false) => {
     if (hasLocalStorage) {
         const currentItem = `${localDataPrefix}${dataName}`;
-        const previousData = localStorage.getItem(currentItem);
+        const previousData = window.localStorage.getItem(currentItem);
 
         if (remove) {
-            localStorage.removeItem(currentItem);
+            window.localStorage.removeItem(currentItem);
         }
 
         if (previousData) {
@@ -46,7 +46,7 @@ export const getLocalData = (dataName, remove = false) => {
 export const removeLocalData = (dataName) => {
     if (hasLocalStorage) {
         const currentItem = `${localDataPrefix}${dataName}`;
-        return localStorage.removeItem(currentItem);
+        return window.localStorage.removeItem(currentItem);
     }
 };
 
@@ -57,7 +57,7 @@ export const getAllData = () => {
         Object.entries(window.localStorage).forEach(([value, objKey]) => {
             if (objKey.startsWith(localDataPrefix)) {
                 const previousDataName = objKey.replace(localDataPrefix, '');
-                const previousDataParams = localStorage.getItem(objKey);
+                const previousDataParams = window.localStorage.getItem(objKey);
 
                 if (previousDataParams) {
                     previousData[previousDataName] = JSON.parse(previousDataParams);

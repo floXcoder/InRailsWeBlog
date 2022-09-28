@@ -6,10 +6,13 @@ import {
     signupUser
 } from '../../actions';
 
+import AnalyticsService from '../../modules/analyticsService';
+
 import SignupForm from './form/signup';
 
 import Modal from '../theme/modal';
 import BounceSpinner from '../theme/spinner/bounce';
+
 
 export default @connect((state) => ({
     isProcessing: state.userState.isProcessing,
@@ -31,15 +34,23 @@ class UserSignup extends React.Component {
         super(props);
     }
 
+    componentDidMount() {
+        if (this.props.isOpen) {
+            AnalyticsService.trackSignupPage();
+        }
+    }
+
     _handleSubmit = (values) => {
         values.locale = window.locale;
 
         this.props.signupUser(values)
             .then((response) => {
                 if (response?.errors) {
-                    Notification.message.error(response.errors);
+                    Notification.error(response.errors);
                     // window.location.replace('/');
                 } else if (response.user) {
+                    AnalyticsService.trackSignupSuccess(response?.user?.id);
+
                     if (sessionStorage) {
                         sessionStorage.setItem('user-signed', 'true');
                     }
@@ -71,7 +82,7 @@ class UserSignup extends React.Component {
 
                 <div className="responsive-modal-content">
                     {
-                        this.props.isProcessing &&
+                        !!this.props.isProcessing &&
                         <div className="center-align">
                             <h2 className="responsive-modal-subtitle">
                                 {I18n.t('js.user.signup.connecting')}
@@ -81,7 +92,7 @@ class UserSignup extends React.Component {
                     }
 
                     {
-                        this.props.isConnected &&
+                        !!this.props.isConnected &&
                         <div className="center-align">
                             <h2 className="responsive-modal-subtitle">
                                 {I18n.t('js.user.signup.connected')}

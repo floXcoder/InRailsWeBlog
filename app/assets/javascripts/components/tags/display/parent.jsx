@@ -98,27 +98,27 @@ class ParentTag extends React.PureComponent {
                           onClick={this._handleTagClick.bind(this, this.props.tag.id, this.props.tag.slug, this.props.tag.userId, this.props.tag.name, true)}>
                     <ListItemText classes={{
                         primary: classNames('tag-sidebar-label', {
-                            'tag-sidebar-selectedLabel': this.props.currentTagSlug ? this.props.currentTagSlug === this.props.tag.slug : this.props.currentTagSlugs.includes(this.props.tag.slug)
+                            'tag-sidebar-selected-label': this.props.currentTagSlug ? this.props.currentTagSlug === this.props.tag.slug : this.props.currentTagSlugs.includes(this.props.tag.slug)
                         })
                     }}>
                         {this.props.tag.name}
                     </ListItemText>
 
                     {
-                        hasChild && (
+                        !!hasChild && (
                             this.state.isExpanded
                                 ?
-                                <ExpandLess className="tag-sidebar-expandIcon"
+                                <ExpandLess className="tag-sidebar-expand-icon"
                                             onClick={this._handleTagIconClick}/>
                                 :
-                                <ExpandMore className="tag-sidebar-expandIcon"
+                                <ExpandMore className="tag-sidebar-expand-icon"
                                             onClick={this._handleTagIconClick}/>
                         )
                     }
                 </ListItem>
 
                 {
-                    hasChild &&
+                    !!hasChild &&
                     <Collapse in={this.state.isExpanded}
                               timeout="auto"
                               unmountOnExit={true}>

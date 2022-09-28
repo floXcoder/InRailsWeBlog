@@ -32,7 +32,7 @@ const MiniCard = function ({title, number, icon, color}) {
                     </Grid>
 
                     {
-                        icon &&
+                        !!icon &&
                         <Grid item={true}
                               xs={3}>
                             <Avatar style={{

@@ -109,7 +109,7 @@ export default class ArticleCommonField extends React.Component {
                 <div className="col s12">
                     <Field name={fieldName}
                            component={TextFormField}
-                           className="article-form-titleField"
+                           className="article-form-title-field"
                            id={fieldId}
                            label={I18n.t(`js.article.common.placeholders.title.${this.props.currentMode}`)}
                            autoFocus={true}
@@ -156,8 +156,8 @@ export default class ArticleCommonField extends React.Component {
                         ?
                         <>
                             {
-                                this.props.article.id &&
-                                <div className="article-form-compareIcon">
+                                !!this.props.article.id &&
+                                <div className="article-form-compare-icon">
                                     <span className="flow-tooltip-bottom"
                                           data-tooltip={I18n.t('js.article.tooltip.compare')}>
                                         <Link to={'#' + compareArticleParam}>

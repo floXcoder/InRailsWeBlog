@@ -32,9 +32,9 @@ function ChildTag({
                   }
                   onClick={onTagClick}>
             <ListItemText classes={{
-                root: 'tag-sidebar-nestedLabelRoot',
-                primary: classNames('tag-sidebar-nestedLabel', {
-                    'tag-sidebar-selectedLabel': currentChildTagSlug ? currentChildTagSlug === tag.slug : currentTagSlugs.includes(tag.slug)
+                root: 'tag-sidebar-nested-label-root',
+                primary: classNames('tag-sidebar-nested-label', {
+                    'tag-sidebar-selected-label': currentChildTagSlug ? currentChildTagSlug === tag.slug : currentTagSlugs.includes(tag.slug)
                 })
             }}
                           inset={true}>
