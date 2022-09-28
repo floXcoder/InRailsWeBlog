@@ -115,17 +115,16 @@ class UserHome extends React.Component {
                                     title={I18n.t('js.user.home.private.title')}
                                     subheader={I18n.t('js.user.home.private.subtitle')}
                                     action={
-                                        <IconButton
-                                            className="user-home-sort-icon"
-                                            component={Link}
-                                            aria-label="Show more"
-                                            to={{
-                                                hash: '#' + sortTopicParam,
-                                                state: {
-                                                    visibility: 'only_me'
-                                                }
-                                            }}
-                                            size="large">
+                                        <IconButton className="user-home-sort-icon"
+                                                    component={Link}
+                                                    aria-label="Show more"
+                                                    to={{
+                                                        hash: '#' + sortTopicParam
+                                                    }}
+                                                    state={{
+                                                        visibility: 'only_me'
+                                                    }}
+                                                    size="large">
                                             <CompareArrowsIcon/>
                                         </IconButton>
                                     }/>
@@ -187,12 +186,12 @@ class UserHome extends React.Component {
                                       sm={6}
                                       lg={4}>
                                     <Link to={{
-                                        hash: '#' + newTopicParam,
-                                        state: {
-                                            mode: 'default',
-                                            visibility: 'only_me'
-                                        }
-                                    }}>
+                                        hash: '#' + newTopicParam
+                                    }}
+                                          state={{
+                                              mode: 'default',
+                                              visibility: 'only_me'
+                                          }}>
                                         <Paper className="user-home-topic-new"
                                                elevation={1}>
                                             <Typography className="user-home-topic-new-title"
@@ -217,16 +216,15 @@ class UserHome extends React.Component {
                                     title={I18n.t('js.user.home.public.title')}
                                     subheader={I18n.t('js.user.home.public.subtitle')}
                                     action={
-                                        <IconButton
-                                            className="user-home-sort-icon"
-                                            component={Link}
-                                            to={{
-                                                hash: '#' + sortTopicParam,
-                                                state: {
-                                                    visibility: 'everyone'
-                                                }
-                                            }}
-                                            size="large">
+                                        <IconButton className="user-home-sort-icon"
+                                                    component={Link}
+                                                    to={{
+                                                        hash: '#' + sortTopicParam
+                                                    }}
+                                                    state={{
+                                                        visibility: 'everyone'
+                                                    }}
+                                                    size="large">
                                             <CompareArrowsIcon/>
                                         </IconButton>
                                     }/>
@@ -291,12 +289,12 @@ class UserHome extends React.Component {
                                       sm={6}
                                       lg={4}>
                                     <Link to={{
-                                        hash: '#' + newTopicParam,
-                                        state: {
-                                            mode: 'default',
-                                            visibility: 'everyone'
-                                        }
-                                    }}>
+                                        hash: '#' + newTopicParam
+                                    }}
+                                          state={{
+                                              mode: 'default',
+                                              visibility: 'everyone'
+                                          }}>
                                         <Paper className="user-home-topic-new"
                                                elevation={1}>
                                             <Typography className="user-home-topic-new-title"
@@ -387,15 +385,16 @@ class UserHome extends React.Component {
                               justifyContent="space-between"
                               alignItems="flex-start">
                             {
-                                this.props.recentArticles?.length > 0 && this.props.recentArticles.limit(4).map((article) => (
-                                    <Grid key={article.id}
-                                          item={true}
-                                          xs={12}
-                                          sm={6}>
-                                        <ArticleMiniCardDisplay article={article}
-                                                                isPaper={true}/>
-                                    </Grid>
-                                ))
+                                this.props.recentArticles?.length > 0 && this.props.recentArticles.limit(4)
+                                    .map((article) => (
+                                        <Grid key={article.id}
+                                              item={true}
+                                              xs={12}
+                                              sm={6}>
+                                            <ArticleMiniCardDisplay article={article}
+                                                                    isPaper={true}/>
+                                        </Grid>
+                                    ))
                             }
                         </Grid>
                     </div>
@@ -413,15 +412,16 @@ class UserHome extends React.Component {
                               justifyContent="space-between"
                               alignItems="flex-start">
                             {
-                                this.props.recentUpdatedArticles?.length > 0 && this.props.recentUpdatedArticles.limit(4).map((article) => (
-                                    <Grid key={article.id}
-                                          item={true}
-                                          xs={12}
-                                          sm={6}>
-                                        <ArticleMiniCardDisplay article={article}
-                                                                isPaper={true}/>
-                                    </Grid>
-                                ))
+                                this.props.recentUpdatedArticles?.length > 0 && this.props.recentUpdatedArticles.limit(4)
+                                    .map((article) => (
+                                        <Grid key={article.id}
+                                              item={true}
+                                              xs={12}
+                                              sm={6}>
+                                            <ArticleMiniCardDisplay article={article}
+                                                                    isPaper={true}/>
+                                        </Grid>
+                                    ))
                             }
                         </Grid>
                     </div>

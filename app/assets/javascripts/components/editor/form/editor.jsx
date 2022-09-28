@@ -6,6 +6,7 @@ import {
 
 import ErrorForm from '../../materialize/form/error';
 
+
 function EditorField({input,
                          meta: {
                              touched,

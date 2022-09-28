@@ -14,7 +14,10 @@ export default @connect((state) => ({
     currentUserSlug: state.userState.currentSlug,
     currentUserTopicSlug: state.topicState.currentUserTopicSlug
 }))
-@withRouter({location: true, navigate: true})
+@withRouter({
+    location: true,
+    navigate: true
+})
 class PasteManager extends React.Component {
     static propTypes = {
         children: PropTypes.element.isRequired,
@@ -37,7 +40,8 @@ class PasteManager extends React.Component {
     _onPaste = (content) => {
         if (content && !this.props.routeLocation.pathname.includes('/article-new') && !this.props.routeLocation.pathname.includes('/edit')) {
             this.props.routeNavigate({
-                pathname: newArticlePath(this.props.currentUserSlug, this.props.currentUserTopicSlug),
+                pathname: newArticlePath(this.props.currentUserSlug, this.props.currentUserTopicSlug)
+            }, {
                 state: {
                     isPaste: true,
                     pasteContent: content

@@ -33,7 +33,7 @@ export default @withRouter({location: true, navigate: true})
     currentUserLocale: state.userState.user?.locale,
     articleMultilanguage: state.uiState.articleMultilanguage,
     userSlug: state.userState.currentSlug,
-    editingTopic: getEditingTopic(state, props.routeLocation.search)
+    editingTopic: getEditingTopic(state, props.routeLocation.state)
 }), {
     addTopic,
     updateTopic,
@@ -154,7 +154,7 @@ class TopicPersistence extends React.Component {
     };
 
     _renderTitle = () => {
-        if (this.props.routeLocation?.search?.signup) {
+        if (this.props.routeLocation?.state?.signup) {
             return I18n.t('js.topic.edit.title_signup');
         } else if (this.props.editingTopic) {
             return I18n.t('js.topic.edit.title');
@@ -176,8 +176,8 @@ class TopicPersistence extends React.Component {
                     <PersistenceFormTopic topic={this.props.editingTopic}
                                           isEditing={!!this.props.editingTopic}
                                           articleMultilanguage={this.props.articleMultilanguage}
-                                          defaultMode={this.props.routeLocation?.search?.mode}
-                                          defaultVisibility={this.props.routeLocation?.search?.visibility}
+                                          defaultMode={this.props.routeLocation?.state?.mode}
+                                          defaultVisibility={this.props.routeLocation?.state?.visibility}
                                           defaultLocale={this.props.currentUserLocale}
                                           onCancel={this._handleClose}
                                           onSubmit={this._handleTopicSubmit}

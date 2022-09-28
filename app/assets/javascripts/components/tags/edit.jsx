@@ -65,7 +65,8 @@ class TagEdit extends React.Component {
             .then((response) => {
                 if (response.tag) {
                     this.props.routeNavigate({
-                        pathname: showTagPath(response.tag.slug),
+                        pathname: showTagPath(response.tag.slug)
+                    }, {
                         state: {reloadTags: true}
                     });
                 }

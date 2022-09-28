@@ -129,13 +129,23 @@ class ArticleNew extends React.Component {
 
             article.draft = true;
 
-            const isURL = Utils.isURL(this.props.pasteContent.trim());
+            // const isURL = Utils.isURL(this.props.pasteContent.trim());
+            // if (isURL) {
+            //     article.mode = 'link';
+            //     article.reference = this.props.pasteContent.trim();
+            // } else {
+            //     article.mode = 'story';
+            //     if (this.props.currentTopic.languages?.length > 1) {
+            //         article.content_translations = {[window.locale]: this.props.pasteContent};
+            //     } else {
+            //         article.content = this.props.pasteContent;
+            //     }
+            // }
 
-            if (isURL) {
-                article.mode = 'link';
-                article.reference = this.props.pasteContent.trim();
+            article.mode = 'story';
+            if (this.props.currentTopic.languages?.length > 1) {
+                article.content_translations = {[window.locale]: this.props.pasteContent};
             } else {
-                article.mode = 'story';
                 article.content = this.props.pasteContent;
             }
         }
@@ -174,7 +184,7 @@ class ArticleNew extends React.Component {
                                     onFormChange={this.props.onFormChange}
                                     onCancel={this.props.onCancel}
                                     onSubmit={this.props.onSubmit}>
-                    {this.props.article}
+                    {article}
                 </ArticleFormDisplay>
             </div>
         );

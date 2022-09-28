@@ -56,7 +56,7 @@ class SortTopicModal extends React.Component {
     componentDidMount() {
         this.props.fetchTopics(this.props.currentUserId, {
             order: 'priority_desc',
-            visibility: this.props.routeLocation?.search?.visibility
+            visibility: this.props.routeLocation?.state?.visibility
         });
 
         if (this.state.isOpen) {

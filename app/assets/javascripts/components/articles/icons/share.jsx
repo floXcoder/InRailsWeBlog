@@ -10,6 +10,7 @@ import {
     shareArticleParam
 } from '../../../constants/routesHelper';
 
+
 function ArticleShareIcon({
                               articleId,
                               size,
@@ -20,10 +21,8 @@ function ArticleShareIcon({
               data-tooltip={I18n.t('js.article.tooltip.share')}>
             <Link to={{
                 hash: '#' + shareArticleParam,
-                state: {
-                    articleId
-                }
-            }}>
+            }}
+                  state={articleId}>
                 <ShareIcon color={color}
                            fontSize={size}/>
             </Link>
