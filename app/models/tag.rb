@@ -140,14 +140,14 @@ class Tag < ApplicationRecord
 
   validates :name,
             presence: true,
-            length:   { minimum: InRailsWeBlog.config.tag_name_min_length, maximum: InRailsWeBlog.config.tag_name_max_length }
+            length:   { minimum: InRailsWeBlog.settings.tag_name_min_length, maximum: InRailsWeBlog.settings.tag_name_max_length }
   validate :name_visibility
   validate :public_name_immutable,
            on: :update
 
   validates :description,
             allow_nil: true,
-            length:    { minimum: InRailsWeBlog.config.tag_description_min_length, maximum: InRailsWeBlog.config.tag_description_max_length }
+            length:    { minimum: InRailsWeBlog.settings.tag_description_min_length, maximum: InRailsWeBlog.settings.tag_description_max_length }
 
   validates :languages,
             presence: true,
@@ -391,7 +391,7 @@ class Tag < ApplicationRecord
   end
 
   def set_default_color
-    self.color = InRailsWeBlog.config.tag_color unless self.color
+    self.color = InRailsWeBlog.settings.tag_color unless self.color
   end
 
 end

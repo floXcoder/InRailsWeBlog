@@ -21,9 +21,13 @@ module TranslationConcern
   def write_attribute(name, value, *args, &block)
     return super(name, value, *args, &block) unless translated?(name)
 
-    value = self.auto_strip_translation_fields&.include?(name) ? strip_translation(value) : value
+    current_locale = I18n.locale.to_s
 
-    self["#{name}_translations"][I18n.locale.to_s] = value
+    value             = self.auto_strip_translation_fields&.include?(name) ? strip_translation(value) : value
+
+    self['languages'] = (self['languages'] || []).concat([current_locale]) if self['languages'].blank? || self['languages'].exclude?(current_locale)
+
+    self["#{name}_translations"][current_locale] = value
   end
 
   def translated_fields
@@ -94,13 +98,15 @@ module TranslationConcern
       define_method(field) do
         current_language = I18n.locale.to_s
 
-        if self.fallbacks_for_empty_translations
-          translation_keys = send("#{field}_translations").keys
+        current_value = send("#{field}_translations")
+
+        if current_value && self.fallbacks_for_empty_translations
+          translation_keys    = send("#{field}_translations").keys
           available_languages = send(:languages)
-          current_language = available_languages.first if !available_languages&.empty? && translation_keys.exclude?(current_language)
+          current_language    = available_languages.first if !available_languages&.empty? && translation_keys.exclude?(current_language)
         end
 
-        send("#{field}_translations")[current_language]
+        current_value ? send("#{field}_translations").with_indifferent_access[current_language] : nil
       end
     end
 
@@ -108,7 +114,7 @@ module TranslationConcern
       locale = I18n.locale.to_s
 
       define_method("#{field}_was") do
-        send("#{field}_translations_was")[locale]
+        send("#{field}_translations_was").with_indifferent_access[locale]
       end
     end
 

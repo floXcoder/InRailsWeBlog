@@ -19,6 +19,7 @@ const sortOptions = [
     'tag_asc'
 ];
 
+
 // Managed by article index to update current user preference
 export default class ArticleSortMenu extends React.Component {
     static propTypes = {
@@ -55,7 +56,7 @@ export default class ArticleSortMenu extends React.Component {
     render() {
         const options = sortOptions.map((option) => (
             <Link key={option}
-                  className="article-dropdown-buttonLink"
+                  className="article-dropdown-button-link"
                   to={{search: `order=${option}`}}
                   onClick={this.props.onOrderChange.bind(this, option)}>
                 {I18n.t(`js.article.sort.order.${option}`)}

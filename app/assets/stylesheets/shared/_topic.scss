@@ -72,7 +72,7 @@
   }
 }
 
-.topic-module-itemContent {
+.topic-module-item-content {
   color: #fff;
   display: block;
   padding: 0 .8rem;
@@ -88,7 +88,7 @@
   }
 }
 
-.topic-module-currentItem {
+.topic-module-current-item {
   font-weight: 600;
 }
 
@@ -121,7 +121,7 @@
   padding: 1rem 1rem 1.5rem;
 }
 
-.topic-summary-topicTitle {
+.topic-summary-topic-title {
   margin: 1rem 0;
   font-size: $h1-size-extract;
   text-align: center;
@@ -130,13 +130,13 @@
   letter-spacing: $h1-spacing-extract;
 }
 
-.topic-summary-topicDesc {
+.topic-summary-topic-desc {
   padding: 0 16px;
   font-size: 1.1rem;
   font-style: italic;
 }
 
-.topic-summary-topicLink {
+.topic-summary-topic-link {
   font-size: .9rem;
   margin-top: .6rem;
 }
@@ -159,12 +159,12 @@
   }
 }
 
-.topic-persistence-topicField {
+.topic-persistence-topic-field {
   width: 100%;
   margin: 12px 0.8px;
 }
 
-.topic-persistence-topicModeHelper {
+.topic-persistence-topic-mode-helper {
   border: 1px solid #ddd;
   margin: 4px 0.8px 16px;
   padding: 8px 16px;

@@ -9,7 +9,7 @@ class PagesController < ApplicationController
   def home
     track_action
 
-    user_signed_in? ? reset_cache_headers : expires_in(InRailsWeBlog.config.cache_time, public: true)
+    with_cache? ? expires_in(InRailsWeBlog.settings.cache_time, public: true) : reset_cache_headers
     respond_to do |format|
       format.html do
         set_seo_data(:home,
@@ -54,7 +54,7 @@ class PagesController < ApplicationController
   def about
     track_action
 
-    expires_in InRailsWeBlog.config.cache_time, public: true
+    expires_in(InRailsWeBlog.settings.cache_time, public: true)
     respond_to do |format|
       format.html do
         set_seo_data(:about)
@@ -67,7 +67,7 @@ class PagesController < ApplicationController
   def terms
     track_action
 
-    expires_in InRailsWeBlog.config.cache_time, public: true
+    expires_in(InRailsWeBlog.settings.cache_time, public: true)
     respond_to do |format|
       format.html do
         set_seo_data(:terms)
@@ -80,7 +80,7 @@ class PagesController < ApplicationController
   def privacy
     track_action
 
-    expires_in InRailsWeBlog.config.cache_time, public: true
+    expires_in(InRailsWeBlog.settings.cache_time, public: true)
     respond_to do |format|
       format.html do
         set_seo_data(:privacy)
@@ -101,7 +101,7 @@ class PagesController < ApplicationController
         render json: { errors: t('views.error.status.explanation.404') }, status: :not_found
       end
       format.html do
-        expires_in InRailsWeBlog.config.cache_time, public: true
+        expires_in(InRailsWeBlog.settings.cache_time, public: true)
 
         set_seo_data(:not_found)
         render_associated_page(status: :not_found)

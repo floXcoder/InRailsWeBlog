@@ -6,7 +6,7 @@ Sidekiq.configure_server do |config|
 
   config.logger.level = Logger::INFO
 
-  if InRailsWeBlog.config.cron_jobs_active
+  if InRailsWeBlog.settings.cron_jobs_active
     schedule_file = 'config/sidekiq_schedule.yml'
     if File.exist?(schedule_file) && Sidekiq.server?
       Sidekiq::Cron::Job.load_from_hash! YAML.load_file(schedule_file)

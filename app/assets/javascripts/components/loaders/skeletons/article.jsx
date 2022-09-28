@@ -10,7 +10,7 @@ function ArticleSkeleton({isConnected}) {
              my={3}>
             <Grid container={true}>
                 {
-                    isConnected &&
+                    !!isConnected &&
                     <Grid item={true}
                           xs={12}>
                         <Box marginTop={0}

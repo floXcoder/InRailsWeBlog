@@ -52,7 +52,7 @@ export default class ArticleInventoriesField extends React.Component {
             return (
                 <Field name={`inventories[${field.fieldName}]`}
                        component={TextFormField}
-                       className="article-form-inventoryField"
+                       className="article-form-inventory-field"
                        variant="outlined"
                        color="primary"
                        fullWidth={true}
@@ -64,7 +64,7 @@ export default class ArticleInventoriesField extends React.Component {
             return (
                 <Field name={`inventories[${field.fieldName}]`}
                        component={DateFormField}
-                       className="article-form-inventoryField"
+                       className="article-form-inventory-field"
                        variant="outlined"
                        color="primary"
                        fullWidth={true}
@@ -76,7 +76,7 @@ export default class ArticleInventoriesField extends React.Component {
             return (
                 <Field name={`inventories[${field.fieldName}]`}
                        component={NumberFormField}
-                       className="article-form-inventoryField"
+                       className="article-form-inventory-field"
                        variant="outlined"
                        color="primary"
                        fullWidth={true}
@@ -89,7 +89,7 @@ export default class ArticleInventoriesField extends React.Component {
                 <Field name={`inventories[${field.fieldName}]`}
                        type="checkbox"
                        component={CheckBoxFormField}
-                       className="article-form-inventoryField"
+                       className="article-form-inventory-field"
                        color="primary"
                        label={field.name}
                        required={field.required}/>
@@ -99,7 +99,7 @@ export default class ArticleInventoriesField extends React.Component {
                 <Field name={`inventories[${field.fieldName}]`}
                        component={EditorField}
                        id={field.fieldName}
-                       className="article-form-inventoryField"
+                       className="article-form-inventory-field"
                        modelName="article"
                        modelId={this.props.article.id}
                        currentUserId={this.props.currentUserId}
@@ -114,7 +114,7 @@ export default class ArticleInventoriesField extends React.Component {
 
     render() {
         return (
-            <Grid className="article-form-inventoryFields"
+            <Grid className="article-form-inventory-fields"
                   container={true}
                   spacing={0}
                   direction="row"
@@ -124,7 +124,7 @@ export default class ArticleInventoriesField extends React.Component {
                       sm={12}>
                     <Field name="title"
                            component={TextFormField}
-                           className="article-form-inventoryField"
+                           className="article-form-inventory-field"
                            id="article_title"
                            label={I18n.t('js.article.common.placeholders.title.inventory')}
                            required={true}

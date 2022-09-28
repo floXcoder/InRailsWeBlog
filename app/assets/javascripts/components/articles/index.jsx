@@ -332,7 +332,7 @@ class ArticleIndex extends React.Component {
                                         isSearchPage={false}/>
 
                     {
-                        this.props.routeParams.tagSlug &&
+                        !!this.props.routeParams.tagSlug &&
                         <ArticleRecommendationDisplay userSlug={this.props.routeParams.userSlug}
                                                       topicSlug={this.props.routeParams.topicSlug}
                                                       tagSlug={this.props.routeParams.tagSlug}
@@ -397,7 +397,7 @@ class ArticleIndex extends React.Component {
         return (
             <div ref={this._articles}>
                 {
-                    (isStoryMode && !this.props.isUserConnected) &&
+                    !!(isStoryMode && !this.props.isUserConnected) &&
                     <SummaryStoriesTopic userSlug={this.props.routeParams.userSlug}
                                          topic={this.props.storyTopic}/>
                 }

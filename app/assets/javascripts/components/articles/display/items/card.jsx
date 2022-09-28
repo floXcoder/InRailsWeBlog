@@ -121,21 +121,21 @@ class ArticleCardDisplay extends React.PureComponent {
             <Observer onChange={this._handleViewportChange}>
                 <Card component="article"
                       id={`article-${this.props.article.id}`}
-                      className={classNames('article-card-articleCard', {
-                          'article-card-cardFolded': this.state.isFolded,
-                          'article-card-cardPrivate': isPrivateInPublic,
-                          'article-card-cardOutdated': this.props.article.outdated
+                      className={classNames('article-card-article-card', {
+                          'article-card-card-folded': this.state.isFolded,
+                          'article-card-card-private': isPrivateInPublic,
+                          'article-card-card-outdated': this.props.article.outdated
                       })}
                       itemScope={true}
                       itemType="https://schema.org/BlogPosting">
                     {
-                        (this.props.hasActions && !this.state.isFolded) &&
-                        <div className="article-card-floatingButtons">
+                        !!(this.props.hasActions && !this.state.isFolded) &&
+                        <div className="article-card-floating-buttons">
                             <Sticky boundaryElement={`#article-${this.props.article.id}`}
                                     topOffset={60}
                                     bottomOffset={310}>
-                                <div className="article-card-floatingButtons">
-                                    <ArticleFloatingIcons className="article-card-floatingIcons"
+                                <div className="article-card-floating-buttons">
+                                    <ArticleFloatingIcons className="article-card-floating-icons"
                                                           display="list"
                                                           size="medium"
                                                           color="action"
@@ -157,7 +157,7 @@ class ArticleCardDisplay extends React.PureComponent {
                                 action={
                                     <IconButton
                                         className={classNames('article-card-expand', {
-                                            'article-card-expandOpen': this.state.isFolded
+                                            'article-card-expand-open': this.state.isFolded
                                         })}
                                         aria-expanded={this.state.isFolded}
                                         aria-label="Show more"
@@ -169,25 +169,26 @@ class ArticleCardDisplay extends React.PureComponent {
                                 title={
                                     <Grid container={true}
                                           classes={{
-                                              container: 'article-card-articleInfo'
+                                              container: 'article-card-article-info'
                                           }}
                                           spacing={2}
                                           direction="row"
                                           justifyContent="space-between"
                                           alignItems="center">
                                         <Grid classes={{
-                                            item: 'article-card-infoItem'
+                                            item: 'article-card-info-item'
                                         }}
                                               item={true}>
                                             <ArticleAvatarIcon user={this.props.article.user}
-                                                               articleDate={this.props.article.date}/>
+                                                               createdDate={this.props.article.date}
+                                                               updatedDate={this.props.article.updatedDate}/>
                                         </Grid>
                                     </Grid>
                                 }
                                 subheader={
                                     <h1 className="article-card-title"
                                         itemProp="name headline">
-                                        <Link className="article-card-titleLink"
+                                        <Link className="article-card-title-link"
                                               to={userArticlePath(this.props.article.user.slug, this.props.article.slug)}
                                               itemProp="mainEntityOfPage url"
                                               onClick={this._handleTitleClick}>
@@ -200,7 +201,7 @@ class ArticleCardDisplay extends React.PureComponent {
                               timeout="auto"
                               unmountOnExit={true}>
                         {
-                            this.props.article.defaultPicture?.webp &&
+                            !!this.props.article.defaultPicture?.webp &&
                             <CardMedia className="article-card-media"
                                        image={this.props.article.defaultPicture.webp}
                                        title={this.props.article.name}/>
@@ -281,7 +282,7 @@ class ArticleCardDisplay extends React.PureComponent {
                             }
 
                             {
-                                this.props.isOwner &&
+                                !!this.props.isOwner &&
                                 <ArticleActions isInline={true}
                                                 userSlug={this.props.article.user.slug}
                                                 articleId={this.props.article.id}
@@ -296,8 +297,8 @@ class ArticleCardDisplay extends React.PureComponent {
                     </Collapse>
 
                     {
-                        isPrivateInPublic &&
-                        <div className="article-card-privateMessage article-card-privateMessageTop">
+                        !!isPrivateInPublic &&
+                        <div className="article-card-private-message article-card-private-message-top">
                             {I18n.t('js.article.common.private_in_public')}
                         </div>
                     }

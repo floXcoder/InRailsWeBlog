@@ -10,7 +10,7 @@ const SearchSidebarLayout = function () {
         <Drawer anchor="left"
                 variant="permanent"
                 classes={{
-                    paper: 'search-sidebar-drawerPaper search-sidebar-drawerPaperBorderless'
+                    paper: 'search-sidebar-drawer-paper search-sidebar-drawer-paper-borderless'
                 }}
                 open={true}>
             <SearchSidebar/>

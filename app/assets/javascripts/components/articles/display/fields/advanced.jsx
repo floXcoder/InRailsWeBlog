@@ -92,9 +92,9 @@ export default class ArticleAdvancedField extends React.PureComponent {
                 }
 
                 {
-                    (this.props.inheritVisibility !== 'only_me' || this.props.currentVisibility !== 'everyone' || this.props.isEditing) &&
+                    !!(this.props.inheritVisibility !== 'only_me' || this.props.currentVisibility !== 'everyone' || this.props.isEditing) &&
                     <div className="col s12 center-align">
-                        <Divider className="article-form-advancedDivider"/>
+                        <Divider className="article-form-advanced-divider"/>
                     </div>
                 }
 
@@ -107,7 +107,7 @@ export default class ArticleAdvancedField extends React.PureComponent {
                                label={I18n.t('js.article.common.allow_comment.title')}
                                values={I18n.t('js.article.common.allow_comment')}/>
 
-                        <Divider className="article-form-advancedDivider"/>
+                        <Divider className="article-form-advanced-divider"/>
                     </div>
                 }
 
@@ -123,7 +123,7 @@ export default class ArticleAdvancedField extends React.PureComponent {
                 {
                     this.props.currentMode !== 'link' &&
                     <div className="col s12 center-align">
-                        <a className="article-form-externalReferenceButton"
+                        <a className="article-form-external-reference-button"
                            href="#"
                            onClick={this._handleExpandClick}>
                             <Typography variant="body1"
@@ -131,8 +131,8 @@ export default class ArticleAdvancedField extends React.PureComponent {
                                 {I18n.t('js.article.common.external_source')}
 
                                 <IconButton
-                                    className={classNames('article-form-externalReferenceExpand', {
-                                        'article-form-externalReferenceExpandOpen': this.state.isSourceExpanded
+                                    className={classNames('article-form-external-reference-expand', {
+                                        'article-form-external-reference-expand-open': this.state.isSourceExpanded
                                     })}
                                     aria-label="Show more"
                                     size="large">

@@ -241,7 +241,7 @@ module Articles
         elsif current_user&.articles_loader == 'all'
           self.all
         else
-          self.paginate(page: params[:page], per_page: InRailsWeBlog.config.per_page)
+          self.paginate(page: params[:page]&.to_i, per_page: InRailsWeBlog.settings.per_page)
         end
       end
     end

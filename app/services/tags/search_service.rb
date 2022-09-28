@@ -49,8 +49,8 @@ module Tags
       # boost_where = @params[:boost_where]
 
       # Page parameters
-      page     = @params[:page] || 1
-      per_page = @params[:per_page] || InRailsWeBlog.config.search_per_page
+      page     = @params[:page]&.to_i || 1
+      per_page = @params[:per_page] || InRailsWeBlog.settings.search_per_page
 
       # Order search
       order = order_search(@params[:order])

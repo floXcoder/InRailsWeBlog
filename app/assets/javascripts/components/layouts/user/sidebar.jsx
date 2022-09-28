@@ -49,7 +49,7 @@ class SidebarLayoutUser extends React.Component {
         return (
             <>
                 {
-                    (!this.props.routeProperties.noTagSidebar && isLargeEnough && isUserData) &&
+                    !!(!this.props.routeProperties.noTagSidebar && isLargeEnough && isUserData) &&
                     <ErrorBoundary errorType="text"
                                    errorTitle={I18n.t('js.helpers.errors.boundary.title')}>
                         <div className="layout-user-sidebar">
@@ -60,7 +60,7 @@ class SidebarLayoutUser extends React.Component {
                 }
 
                 {
-                    (this.props.routeProperties.searchSidebar && isLargeEnough) &&
+                    !!(this.props.routeProperties.searchSidebar && isLargeEnough) &&
                     <ErrorBoundary errorType="text"
                                    errorTitle={I18n.t('js.helpers.errors.boundary.title')}>
                         <div className="layout-user-sidebar">
@@ -70,7 +70,7 @@ class SidebarLayoutUser extends React.Component {
                 }
 
                 {
-                    (this.props.routeProperties.articleSidebar && !isGridDisplay && isLargeEnough) &&
+                    !!(this.props.routeProperties.articleSidebar && !isGridDisplay && isLargeEnough) &&
                     <ErrorBoundary errorType="text"
                                    errorTitle={I18n.t('js.helpers.errors.boundary.title')}>
                         <div className="layout-user-sidebar">

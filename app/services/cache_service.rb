@@ -4,7 +4,7 @@ module CacheService
 
   def component_cache(name, &block)
     if caching_enabled?
-      Rails.cache.fetch(component_cache_path(name), expires_in: InRailsWeBlog.config.cache_time, &block)
+      Rails.cache.fetch(component_cache_path(name), expires_in: InRailsWeBlog.settings.cache_time, &block)
     else
       yield
     end

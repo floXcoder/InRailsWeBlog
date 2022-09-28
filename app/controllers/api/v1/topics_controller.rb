@@ -21,8 +21,8 @@ module Api::V1
                  ::Topics::FindQueries.new(current_user, current_admin).all(filter_params.merge(user_id: params[:user_id]))
                end
 
-      expires_in InRailsWeBlog.config.cache_time, public: true
-      if stale?(topics, template: false, public: true)
+      with_cache? ? expires_in(InRailsWeBlog.settings.cache_time, public: true) : reset_cache_headers
+      if !with_cache? || stale?(topics, template: false, public: true)
         respond_to do |format|
           format.json do
             if complete
@@ -58,14 +58,14 @@ module Api::V1
       topic = @context_user.topics.friendly.find(params[:id])
       authorize topic
 
-      expires_in InRailsWeBlog.config.cache_time, public: true
-      if stale?(topic, template: false, public: true)
+      with_cache?(topic) ? expires_in(InRailsWeBlog.settings.cache_time, public: true) : reset_cache_headers
+      if !with_cache?(topic) || stale?(topic, template: false, public: true)
         respond_to do |format|
           format.json do
             set_seo_data(:user_topic,
                          model:         topic,
                          topic_slug:    topic,
-                         topic_content: topic.description&.summary(InRailsWeBlog.config.seo_meta_desc_length, strip_html: true, remove_links: true),
+                         topic_content: topic.description&.summary(InRailsWeBlog.settings.seo_meta_desc_length, strip_html: true, remove_links: true),
                          user_slug:     topic.user,
                          author:        topic.user.pseudo)
 

@@ -74,6 +74,9 @@ module InRailsWeBlog
     # This is needed for recyclable cache keys.
     config.active_record.cache_versioning = true
 
+    # Require to deserialize paper trail versions
+    config.active_record.use_yaml_unsafe_load = true
+
     # Use AES-256-GCM authenticated encryption for encrypted cookies.
     # Also, embed cookie expiry in signed or encrypted cookies for increased security.
     #
@@ -101,7 +104,7 @@ module InRailsWeBlog
     # Cache with Redis
     config.cache_store = :redis_cache_store, {
       url:             "redis://#{ENV['REDIS_HOST']}:#{ENV['REDIS_PORT']}",
-      expires_in:      2.weeks.to_i,
+      expires_in:      4.weeks.to_i,
       namespace:       "_#{ENV['WEBSITE_NAME']}_#{Rails.env}:cache",
       connect_timeout: 30, # Defaults to 20 seconds
       read_timeout: 0.2, # Defaults to 1 second
@@ -114,15 +117,11 @@ module InRailsWeBlog
     # config.exceptions_app = self.routes
 
     # App-specific configuration
-    config.x = config_for(:settings)
-
-    # Reload application with setting model
-    config.after_initialize do
-      InRailsWeBlog.config(force_reload: true)
-    end
+    config.settings = config_for(:settings)
   end
 
-  def self.config(force_reload: false)
-    force_reload ? @config = ApplicationSettings.all_settings(force_reload: true) : @config ||= ApplicationSettings.all_settings
+  # Declare shortcut to access to settings
+  def self.settings
+    OpenStruct.new(Rails.configuration.settings)
   end
 end

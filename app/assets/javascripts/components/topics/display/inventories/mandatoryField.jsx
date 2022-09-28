@@ -9,7 +9,7 @@ import NativeSelect from '@mui/material/NativeSelect';
 function TopicFormMandatoryFieldDisplay() {
     return (
         <div className="col s12">
-            <Grid className="topic-form-inv-fieldBorder"
+            <Grid className="topic-form-inv-field-border"
                   container={true}
                   spacing={2}
                   direction="row"
@@ -43,7 +43,7 @@ function TopicFormMandatoryFieldDisplay() {
                     </FormControl>
                 </Grid>
 
-                <Grid className="topic-form-inv-mandatoryFieldHelper"
+                <Grid className="topic-form-inv-mandatory-field-helper"
                       item={true}
                       sm={12}>
                     {I18n.t('js.topic.edit_inventories.mandatory_field')}

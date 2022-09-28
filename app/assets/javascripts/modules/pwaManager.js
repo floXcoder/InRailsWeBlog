@@ -1,6 +1,8 @@
 'use strict';
 
-// Build routes from translated routes in locales/routes.*.yml
+import AnalyticsService from './analyticsService';
+
+
 export const PWAManager = (function () {
     function PWAManagerModel() {
         this._model = {
@@ -18,6 +20,8 @@ export const PWAManager = (function () {
 
         this._logAppInstalled = function (event) {
             // MapPlanner App was installed
+
+            AnalyticsService.trackPWAInstalled();
 
             return event;
         };
@@ -43,6 +47,7 @@ export const PWAManager = (function () {
                 navigator.serviceWorker.register('/service-worker.js')
                     .then(() => {
                         // Service worker registered: registration
+                        AnalyticsService.trackPWAMode(this.getPWADisplayMode());
                     })
                     .catch(() => {
                         // Service worker registration failed: registrationError
@@ -75,6 +80,8 @@ export const PWAManager = (function () {
                 }
                 this._model.deferredInstallPrompt = null;
             });
+
+        AnalyticsService.trackPWAPrompt();
     };
 
     pwaManager.getPWADisplayMode = function () {

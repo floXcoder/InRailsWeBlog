@@ -17,6 +17,7 @@ import SearchBar from '../theme/searchBar';
 
 import Pagination from '../theme/pagination';
 
+
 export default class UserIndex extends React.Component {
     static propTypes = {
         onUserClick: PropTypes.func
@@ -113,7 +114,7 @@ export default class UserIndex extends React.Component {
                     </TransitionGroup>
 
                     {
-                        this.state.usersPagination &&
+                        !!this.state.usersPagination &&
                         <Pagination totalPages={this.state.usersPagination.total_pages}
                                     onPaginationClick={this._handlePaginationClick}/>
                     }

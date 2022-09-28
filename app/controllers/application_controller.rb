@@ -26,7 +26,7 @@ class ApplicationController < ActionController::Base
   prepend_before_action :check_seo_mode, if: -> { request.get? && request.format.html? }
 
   # Error reporting
-  before_action :set_raven_context
+  before_action :define_error_reporting
 
   # Devise
   before_action :configure_permitted_parameters, if: :devise_controller?
@@ -169,6 +169,12 @@ class ApplicationController < ActionController::Base
     else
       I18n.locale
     end
+  end
+
+  def with_cache?(model = nil)
+    current_owner = model.respond_to?(:user?) ? model.user?(current_user) : false
+
+    !user_signed_in? && !admin_signed_in? && !current_owner
   end
 
   # SEO
@@ -383,6 +389,8 @@ class ApplicationController < ActionController::Base
   def track_action(action: 'page_visit', **tracking_params, &block)
     return if @seo_mode
 
+    # Page visit are tracked in the "action" action of TrackerController
+    # Only saved parameters to transfer them to the client
     if action == 'page_visit'
       @tracking_params = {
         action:   action,
@@ -393,7 +401,7 @@ class ApplicationController < ActionController::Base
       ahoy.track action, tracking_params
     end
 
-    yield if block
+    yield(tracking_params) if block
   end
 
   def tracking_params(params = {})
@@ -443,6 +451,7 @@ class ApplicationController < ActionController::Base
     # Clear the previous response body to avoid a DoubleRenderError when redirecting or rendering another view
     self.response_body = nil
     @_response_body    = nil
+    self.response.reset_body!
 
     error_message = if exception.respond_to?(:policy) && exception.respond_to?(:query)
                       policy_name = exception.policy.class.to_s.underscore
@@ -468,8 +477,12 @@ class ApplicationController < ActionController::Base
   def not_found_error(exception = nil)
     # raise if Rails.env.development?
 
+    # Clear the previous response body to avoid a DoubleRenderError when redirecting or rendering another view
+    self.response_body = nil
+    @_response_body    = nil
+    self.response.reset_body!
+
     respond_to do |format|
-      format.json { render json: { errors: t('views.error.status.explanation.404'), details: exception&.try(:message) }, status: :not_found }
       format.html do
         set_seo_data(:not_found)
 
@@ -479,23 +492,24 @@ class ApplicationController < ActionController::Base
           render 'pages/default', locals: { status: 404 }, status: :not_found, layout: 'application'
         end
       end
+
+      format.json do
+        render json: { errors: t('views.error.status.explanation.404'), details: exception&.try(:message) }, status: :not_found
+      end
+
       format.all { render body: nil, status: :not_found }
     end
   end
 
   def not_connected_error(exception)
+    # Clear the previous response body to avoid a DoubleRenderError when redirecting or rendering another view
+    self.response_body = nil
+    @_response_body    = nil
+    self.response.reset_body!
+
     token_problem = exception.is_a?(ActionController::InvalidAuthenticityToken)
 
     respond_to do |format|
-      format.json do
-        render json:   {
-          errors:  t('views.error.not_connected'),
-          details: exception&.try(:message),
-          token:   token_problem ? form_authenticity_token : nil
-        },
-               status: token_problem ? :method_not_allowed : :unprocessable_entity
-      end
-
       format.html do
         flash.now[:error] = t('views.error.not_connected')
         if current_user
@@ -503,6 +517,15 @@ class ApplicationController < ActionController::Base
         else
           render 'pages/default', locals: { status: 500 }, status: :internal_server_error, layout: 'application'
         end
+      end
+
+      format.json do
+        render json:   {
+          errors:  t('views.error.not_connected'),
+          details: exception&.try(:message),
+          token:   token_problem ? form_authenticity_token : nil
+        },
+               status: token_problem ? :method_not_allowed : :unprocessable_entity
       end
 
       format.all do
@@ -518,8 +541,11 @@ class ApplicationController < ActionController::Base
       raise
     end
 
+    # Clear the previous response body to avoid a DoubleRenderError when redirecting or rendering another view
+    self.response_body = nil
+    @_response_body    = nil
+
     respond_to do |format|
-      format.json { render json: { errors: t('views.error.status.explanation.500'), details: exception&.try(:full_message) }, status: :internal_server_error }
       format.html do
         if current_user
           render 'pages/user', locals: { status: 500 }, status: :internal_server_error, layout: 'user'
@@ -527,13 +553,18 @@ class ApplicationController < ActionController::Base
           render 'pages/default', locals: { status: 500 }, status: :internal_server_error, layout: 'application'
         end
       end
+
+      format.json do
+        render json: { errors: t('views.error.status.explanation.500'), details: exception&.try(:full_message) }, status: :internal_server_error
+      end
+
       format.all { render body: nil, status: :internal_server_error }
     end
   end
 
   private
 
-  def set_raven_context
+  def define_error_reporting
     if Rails.env.production? && ENV['SENTRY_RAILS_KEY']
       Raven.user_context(
         id:         current_user&.id.to_s,

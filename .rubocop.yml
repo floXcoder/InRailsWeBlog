@@ -27,9 +27,6 @@ AllCops:
 Bundler/OrderedGems:
   Enabled: false
 
-Gemspec/DateAssignment:
-  Enabled: true
-
 Gemspec/DeprecatedAttributeAssignment:
   Enabled: true
 

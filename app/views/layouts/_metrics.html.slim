@@ -1,5 +1,5 @@
 javascript:
-    if (window._paq && !window.seoMode) {
+    if (window.isMetricsEnabled) {
         window._paq.push([function () {
             var self = this;
 
@@ -19,12 +19,12 @@ javascript:
 
 - if current_user
   javascript:
-      if (window._paq && !window.seoMode) {
+      if (window.isMetricsEnabled) {
           window._paq.push(['setUserId', "#{current_user.pseudo}"]);
       }
 
 javascript:
-    if (window._paq && !window.seoMode) {
+    if (window.isMetricsEnabled) {
         window._paq.push(['trackPageView']);
         window._paq.push(['enableLinkTracking']);
         window._paq.push(['trackAllContentImpressions']);

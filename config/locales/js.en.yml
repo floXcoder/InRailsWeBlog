@@ -604,6 +604,8 @@ en:
         delete: "Remove this article"
         updated_at: "Last modification"
         check_link: "Check dead links"
+        created: "Article creation"
+        updated: "Last update"
       masonry:
         add_column: "Add column"
         remove_column: "Remove column"

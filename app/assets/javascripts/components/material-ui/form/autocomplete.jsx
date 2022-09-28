@@ -9,7 +9,7 @@ const AutocompleteFormField = function ({input, label, helperText, meta: {touche
                       label={label}
                       currentSuggestion={input.value}
                       helperText={!!error ? error : helperText}
-                      error={touched && !!error}
+                      error={!!touched && !!error}
                       {...custom}/>
     );
 };

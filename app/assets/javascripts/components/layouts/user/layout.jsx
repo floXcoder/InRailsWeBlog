@@ -59,10 +59,10 @@ class LayoutUser extends React.Component {
                 <UserManager initialCurrentUser={currentUser}>
                     <div className="layout-user-root">
                         <main className={classNames('layout-user-content', {
-                            'layout-user-homeContent': isHome
+                            'layout-user-home-content': isHome
                         })}>
                             <Suspense fallback={<div/>}>
-                                <div className={isHome ? 'layout-user-homeLayout' : 'layout-user-layout'}>
+                                <div className={isHome ? 'layout-user-home-layout' : 'layout-user-layout'}>
                                     <Component initProps={this._initialRender ? initProps : undefined}
                                                staticContent={this.props.staticContent}/>
                                 </div>

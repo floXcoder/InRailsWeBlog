@@ -119,21 +119,21 @@ class TagIndex extends React.Component {
                   item={true}
                   xs={12}
                   md={4}>
-                <Card className="tag-index-tagCard">
+                <Card className="tag-index-tag-card">
                     <CardHeader classes={{
-                        root: 'tag-index-tagHeader'
+                        root: 'tag-index-tag-header'
                     }}
                                 title={
-                                    <h3 className="tag-index-tagTitle">
+                                    <h3 className="tag-index-tag-title">
                                         {tag.name}
                                     </h3>
                                 }
                                 subheader={tag.synonyms.join(', ')}/>
 
                     {
-                        tag.description &&
+                        !!tag.description &&
                         <CardContent classes={{
-                            root: 'tag-index-tagHeader'
+                            root: 'tag-index-tag-header'
                         }}>
                             <Typography component="div">
                                 <div className="normalized-content"
@@ -144,7 +144,7 @@ class TagIndex extends React.Component {
 
                     <CardActions className="tag-index-actions"
                                  disableSpacing={true}>
-                        <Typography className="tag-index-tagCount"
+                        <Typography className="tag-index-tag-count"
                                     color="textSecondary">
                             {I18n.t('js.tag.index.article_count', {count: tag.taggedArticlesCount})}
                         </Typography>
@@ -213,7 +213,7 @@ class TagIndex extends React.Component {
                     </Typography>
 
                     {
-                        (Utils.isPresent(this.props.routeParams) && this.props.currentUser) &&
+                        !!(Utils.isPresent(this.props.routeParams) && this.props.currentUser) &&
                         <div className="center-align margin-top-30">
                             <Button
                                 variant="text"
@@ -227,7 +227,7 @@ class TagIndex extends React.Component {
                 </div>
 
                 {
-                    this.props.topic?.description &&
+                    !!this.props.topic?.description &&
                     <div className="margin-top-30 margin-bottom-20">
                         <div className="normalized-content"
                              dangerouslySetInnerHTML={{__html: this.props.topic.description}}/>

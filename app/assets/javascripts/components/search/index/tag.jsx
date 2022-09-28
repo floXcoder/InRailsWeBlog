@@ -42,12 +42,12 @@ export default class SearchTagIndex extends React.PureComponent {
     render() {
         return (
             <div className={classNames('search-index-category', {
-                'search-index-categoryAutocomplete': this.props.isAutocomplete
+                'search-index-category-autocomplete': this.props.isAutocomplete
             })}
                  style={this.props.style}>
                 {
-                    this.props.isAutocomplete &&
-                    <span className="search-index-categoryHelper">
+                    !!this.props.isAutocomplete &&
+                    <span className="search-index-category-helper">
                         {I18n.t('js.search.index.tags.filter')}
                     </span>
                 }
@@ -55,9 +55,9 @@ export default class SearchTagIndex extends React.PureComponent {
                 {
                     this.props.tags.map((tag) => (
                         <Chip key={tag.id}
-                              className={classNames('search-index-articleTag', {
-                                  'search-index-tagHighlighted': this.props.highlightedTagId === tag.id,
-                                  'search-index-tagAutocomplete': this.props.isAutocomplete
+                              className={classNames('search-index-article-tag', {
+                                  'search-index-tag-highlighted': this.props.highlightedTagId === tag.id,
+                                  'search-index-tag-autocomplete': this.props.isAutocomplete
                               })}
                               icon={<LabelIcon fontSize={this.props.isAutocomplete ? 'small' : 'medium'}/>}
                               label={tag.name}

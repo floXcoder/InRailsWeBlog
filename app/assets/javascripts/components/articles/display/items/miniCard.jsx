@@ -53,11 +53,11 @@ class ArticleMiniCardDisplay extends React.Component {
 
     _renderArticleTags = () => {
         return (
-            <div className="article-mini-card-articleTags">
+            <div className="article-mini-card-article-tags">
                 {
                     this.props.article.tags.map((tag) => (
                         <Chip key={tag.id}
-                              className="article-mini-card-articleTag"
+                              className="article-mini-card-article-tag"
                               component={Link}
                               to={taggedArticlesPath(tag.slug)}
                               onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.userId, tag.name, null)}
@@ -79,8 +79,8 @@ class ArticleMiniCardDisplay extends React.Component {
         return (
             <Card id={`article-${this.props.article.id}`}
                   className={classNames('article-mini-card-card', {
-                      'article-mini-card-cardPaper': this.props.isPaper,
-                      'article-mini-card-cardPrivate': isPrivateInPublic
+                      'article-mini-card-card-paper': this.props.isPaper,
+                      'article-mini-card-card-private': isPrivateInPublic
                   })}
                   component="article"
                   itemScope={true}
@@ -89,9 +89,9 @@ class ArticleMiniCardDisplay extends React.Component {
                     root: 'article-mini-card-header'
                 }}
                             title={
-                                <h2 className="article-mini-card-extractTitle"
+                                <h2 className="article-mini-card-extract-title"
                                     itemProp="name headline">
-                                    <Link className="article-mini-card-extractTitleLink"
+                                    <Link className="article-mini-card-extract-title-link"
                                           to={userArticlePath(this.props.article.user.slug, this.props.article.slug)}
                                           itemProp="mainEntityOfPage url"
                                           onClick={spyTrackClick.bind(null, 'article', this.props.article.id, this.props.article.slug, this.props.article.userId, this.props.article.title, this.props.article.topicId)}>
@@ -99,11 +99,11 @@ class ArticleMiniCardDisplay extends React.Component {
                                     </Link>
                                 </h2>
                             }
-                            subheader={(this.props.hasTags && !this.props.isTagDown) && this._renderArticleTags()}
+                            subheader={!!(this.props.hasTags && !this.props.isTagDown) && this._renderArticleTags()}
                 />
 
                 <CardContent classes={{
-                    root: 'article-mini-card-articleContent'
+                    root: 'article-mini-card-article-content'
                 }}>
                     <meta itemProp="dateModified"
                           content={this.props.article.dateIso}/>
@@ -153,7 +153,7 @@ class ArticleMiniCardDisplay extends React.Component {
 
                     <Grid container={true}
                           classes={{
-                              container: 'article-mini-card-articleInfo'
+                              container: 'article-mini-card-article-info'
                           }}
                           spacing={2}
                           direction="row"
@@ -161,8 +161,8 @@ class ArticleMiniCardDisplay extends React.Component {
                           alignItems="center">
                         <Grid item={true}
                               xs={this.props.article.defaultPicture?.jpg ? 8 : 12}
-                              className={classNames('article-mini-card-headerItem', {
-                                  'article-mini-card-articleContentFaded': this.props.isFaded && contentLength > 120
+                              className={classNames('article-mini-card-header-item', {
+                                  'article-mini-card-article-content-faded': this.props.isFaded && contentLength > 120
                               })}
                               itemProp="articleBody">
                             <div className="normalized-content normalized-content-extract"
@@ -171,8 +171,8 @@ class ArticleMiniCardDisplay extends React.Component {
                         </Grid>
 
                         {
-                            this.props.article.defaultPicture?.webp &&
-                            <Grid className="article-mini-card-headerItem"
+                            !!this.props.article.defaultPicture?.webp &&
+                            <Grid className="article-mini-card-header-item"
                                   item={true}
                                   xs={4}>
                                 <CardMedia className="article-mini-card-media"
@@ -185,30 +185,30 @@ class ArticleMiniCardDisplay extends React.Component {
 
                     <Grid container={true}
                           classes={{
-                              container: 'article-mini-card-articleInfo'
+                              container: 'article-mini-card-article-info'
                           }}
                           spacing={2}
                           direction="row"
                           justifyContent="space-between"
                           alignItems="center">
                         <Grid item={true}
-                              className="article-mini-card-headerItem">
+                              className="article-mini-card-header-item">
                             <Grid container={true}
                                   classes={{
-                                      container: 'article-mini-card-articleInfo'
+                                      container: 'article-mini-card-article-info'
                                   }}
                                   spacing={2}
                                   direction="row"
                                   justifyContent="flex-start"
                                   alignItems="center">
                                 <Grid item={true}
-                                      className="article-mini-card-headerItem">
+                                      className="article-mini-card-header-item">
                                     <meta itemProp="author"
                                           content={this.props.article.user.pseudo}/>
                                     <meta itemProp="url"
                                           content={userArticlesPath(this.props.article.user.slug)}/>
 
-                                    <Link className="article-mini-card-userPseudo"
+                                    <Link className="article-mini-card-user-pseudo"
                                           to={userArticlesPath(this.props.article.user.slug)}
                                           onClick={spyTrackClick.bind(null, 'user', this.props.article.user.id, this.props.article.user.slug, null, this.props.article.user.pseudo, null)}>
                                         {this.props.article.user.pseudo}
@@ -216,12 +216,12 @@ class ArticleMiniCardDisplay extends React.Component {
                                 </Grid>
 
                                 <Grid item={true}
-                                      className="article-mini-card-headerItem">
+                                      className="article-mini-card-header-item">
                                     <div className="article-mini-card-separator"/>
                                 </Grid>
 
                                 <Grid item={true}
-                                      className="article-mini-card-headerItem">
+                                      className="article-mini-card-header-item">
                                     <meta itemProp="datePublished"
                                           content={this.props.article.dateIso}/>
 
@@ -233,7 +233,7 @@ class ArticleMiniCardDisplay extends React.Component {
                         </Grid>
 
                         {
-                            this.props.isTagDown &&
+                            !!this.props.isTagDown &&
                             <Grid item={true}>
                                 {this._renderArticleTags()}
                             </Grid>
@@ -241,8 +241,8 @@ class ArticleMiniCardDisplay extends React.Component {
                     </Grid>
 
                     {
-                        isPrivateInPublic &&
-                        <div className="article-mini-card-privateMessage">
+                        !!isPrivateInPublic &&
+                        <div className="article-mini-card-private-message">
                             {I18n.t('js.article.common.private_in_public')}
                         </div>
                     }

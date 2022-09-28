@@ -27,7 +27,7 @@ class UserShow extends React.Component {
         return (
             <div>
                 {
-                    this.props.user &&
+                    !!this.props.user &&
                     <UserComplete userId={this.props.user.id || this.props.routeParams.userPseudo}/>
                 }
             </div>

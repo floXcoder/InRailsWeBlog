@@ -96,13 +96,13 @@ RSpec.describe Topic, type: :model do
     end
 
     describe '#name' do
-      it { is_expected.to validate_length_of(:name).is_at_least(InRailsWeBlog.config.topic_name_min_length) }
-      it { is_expected.to validate_length_of(:name).is_at_most(InRailsWeBlog.config.topic_name_max_length) }
+      it { is_expected.to validate_length_of(:name).is_at_least(InRailsWeBlog.settings.topic_name_min_length) }
+      it { is_expected.to validate_length_of(:name).is_at_most(InRailsWeBlog.settings.topic_name_max_length) }
     end
 
     describe '#description' do
-      it { is_expected.to validate_length_of(:description).is_at_least(InRailsWeBlog.config.topic_description_min_length) }
-      it { is_expected.to validate_length_of(:description).is_at_most(InRailsWeBlog.config.topic_description_max_length) }
+      it { is_expected.to validate_length_of(:description).is_at_least(InRailsWeBlog.settings.topic_description_min_length) }
+      it { is_expected.to validate_length_of(:description).is_at_most(InRailsWeBlog.settings.topic_description_max_length) }
     end
 
     describe '#mode' do

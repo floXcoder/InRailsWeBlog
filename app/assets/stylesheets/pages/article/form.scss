@@ -37,19 +37,19 @@
   overflow: visible;
 }
 
-.article-form-titleField {
+.article-form-title-field {
   width: 100%;
   margin: .8rem 0 2.5rem;
 }
 
-.article-form-compareIcon {
+.article-form-compare-icon {
   right: 0;
   z-index: 5;
   position: absolute;
   margin-top: 12px;
 }
 
-.article-form-tagLabel {
+.article-form-tag-label {
   display: block;
   color: $text-color;
   font-size: 1.24rem;
@@ -64,30 +64,30 @@
   width: 90%;
 }
 
-.article-form-advancedDivider {
+.article-form-advanced-divider {
   margin: 2rem;
 }
 
-.article-form-externalReferenceButton {
+.article-form-external-reference-button {
   color: $text-color;
   outline: none;
 }
 
-.article-form-externalReferenceExpand {
+.article-form-external-reference-expand {
   transform: rotate(0deg);
   transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   margin-left: auto;
 }
 
-.article-form-externalReferenceExpandOpen {
+.article-form-external-reference-expand-open {
   transform: rotate(180deg);
 }
 
-.article-form-inventoryFields {
+.article-form-inventory-fields {
   margin: 0;
 }
 
-.article-form-inventoryField {
+.article-form-inventory-field {
   margin: 24px 0;
 }
 
@@ -99,7 +99,7 @@
   background-color: #fff;
 }
 
-.article-form-stepper-stepperAppBar {
+.article-form-stepper-stepper-app-bar {
   box-shadow: none;
   border-radius: 10px;
   margin-bottom: 0;

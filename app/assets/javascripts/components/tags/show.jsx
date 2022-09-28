@@ -139,8 +139,8 @@ class TagShow extends React.Component {
                                             <Chip key={tag.id}
                                                   component={Link}
                                                   classes={{
-                                                      root: 'tag-show-tagChip',
-                                                      label: 'tag-show-tagLabel'
+                                                      root: 'tag-show-tag-chip',
+                                                      label: 'tag-show-tag-label'
                                                   }}
                                                   to={showTagPath(tag.slug)}
                                                   label={tag.name}
@@ -171,8 +171,8 @@ class TagShow extends React.Component {
                                         <Chip key={tag.id}
                                               component={Link}
                                               classes={{
-                                                  root: 'tag-show-tagChip',
-                                                  label: 'tag-show-tagLabel'
+                                                  root: 'tag-show-tag-chip',
+                                                  label: 'tag-show-tag-label'
                                               }}
                                               to={showTagPath(tag.slug)}
                                               label={tag.name}
@@ -246,7 +246,7 @@ class TagShow extends React.Component {
                         </div>
 
                         {
-                            (this.props.currentUser?.id === this.props.tag.user.id && this.props.tag.visibility === 'everyone' && this.props.tag.tracker) &&
+                            !!(this.props.currentUser?.id === this.props.tag.user.id && this.props.tag.visibility === 'everyone' && this.props.tag.tracker) &&
                             <div>
                                 <Typography className="tag-show-subtitle2"
                                             variant="h3"

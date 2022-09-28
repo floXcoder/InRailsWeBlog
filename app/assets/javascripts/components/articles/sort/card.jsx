@@ -16,17 +16,17 @@ import CommentCountIcon from '../../comments/icons/count';
 
 const ArticleCardSort = function ({article}) {
     return (
-        <div className="article-sort-sortingItem">
+        <div className="article-sort-sorting-item">
             <Card component="article"
                   className="article-sort-card">
                 <CardHeader classes={{
-                    root: 'article-sort-cardHeader',
-                    title: 'article-sort-cardTitle'
+                    root: 'article-sort-card-header',
+                    title: 'article-sort-card-title'
                 }}
                             title={article.title}/>
 
                 <CardContent classes={{
-                    root: 'article-sort-cardContent'
+                    root: 'article-sort-card-content'
                 }}>
                     {
                         article.tags.length > 0 &&
@@ -40,7 +40,7 @@ const ArticleCardSort = function ({article}) {
 
                     {
                         (article.visibility === 'everyone' && article.commentsCount > 0) &&
-                        <CommentCountIcon className="article-sort-commentCount"
+                        <CommentCountIcon className="article-sort-comment-count"
                                           commentLink={userArticlePath(article.user.slug, article.slug) + `#article-comments-${article.id}`}
                                           commentsCount={article.commentsCount}
                                           hasIcon={false}/>

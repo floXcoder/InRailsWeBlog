@@ -42,12 +42,12 @@ function HeaderUserMenu(props) {
 
     return (
         <List className={classNames({
-            'layout-header-nestedMenu': props.isNested
+            'layout-header-nested-menu': props.isNested
         })}
               component="div"
               disablePadding={props.isNested}>
             {
-                props.isAdminConnected &&
+                !!props.isAdminConnected &&
                 adminContent
             }
 

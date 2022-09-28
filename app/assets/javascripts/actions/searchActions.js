@@ -6,9 +6,8 @@ import History from '../modules/history';
 
 import * as ActionTypes from '../constants/actionTypes';
 
-import {
-    spySearchResults
-} from './metricsActions';
+import AnalyticsService from '../modules/analyticsService';
+
 
 // Autocomplete
 export const loadAutocomplete = (autocompleteParams, withLocale = window.locale) => (
@@ -131,12 +130,12 @@ const performSearch = (searchParams, options = {}) => (dispatch) => {
         .then((response) => {
             if (!response || response.errors) {
                 if (response.errors) {
-                    Notification.message.error(response.errors);
+                    Notification.error(response.errors);
                 }
 
                 return dispatch(failSearch(response));
             } else {
-                spySearchResults(searchParams, response);
+                AnalyticsService.trackSearch(searchParams, response);
 
                 return dispatch(receiveSearch(searchParams, response, options));
             }

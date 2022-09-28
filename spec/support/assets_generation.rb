@@ -7,7 +7,7 @@ RSpec.configure do |config|
       puts 'Generate assets...'
 
       %x(npm run build:test)
-      %x(rails i18n:js:export)
+      %x(i18n export)
     end
   end
 end

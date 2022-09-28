@@ -25,9 +25,9 @@ class AdminCache extends React.Component {
         this.props.flushCache()
             .then((json) => {
                 if (json.success) {
-                    Notification.message.success(I18n.t('js.admin.cache.successful'));
+                    Notification.success(I18n.t('js.admin.cache.successful'));
                 } else {
-                    Notification.message.error(I18n.t('js.admin.cache.error'));
+                    Notification.error(I18n.t('js.admin.cache.error'));
                 }
             });
     };

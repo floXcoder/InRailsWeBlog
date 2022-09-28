@@ -12,6 +12,7 @@ import {
     editArticlePath
 } from '../../../constants/routesHelper';
 
+
 const _getScreenPosition = () => {
     const doc = document.documentElement;
     const left = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);

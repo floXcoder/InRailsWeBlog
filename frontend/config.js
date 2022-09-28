@@ -89,9 +89,9 @@ module.exports = {
             PropTypes: 'prop-types',
             connect: ['react-redux', 'connect'],
             classNames: 'classnames',
-            I18n: 'app/assets/javascripts/modules/i18n.js',
-            Utils: 'app/assets/javascripts/modules/utils.js',
-            Notification: 'app/assets/javascripts/components/layouts/notification.jsx'
+            I18n: ['app/assets/javascripts/modules/i18n.js', 'default'],
+            Notification: ['app/assets/javascripts/components/layouts/notification.jsx', 'message'],
+            Utils: 'app/assets/javascripts/modules/utils.js'
         },
         // replacementPlugins: [
         //     // Keep only the specified packages in the package
@@ -171,6 +171,7 @@ module.exports = {
                     options: {
                         // Use a custom cache name
                         cacheName: 'images',
+                        networkTimeoutSeconds: 3,
                         // Only cache 30 uploads
                         expiration: {
                             maxEntries: 30
@@ -183,6 +184,7 @@ module.exports = {
                     handler: 'NetworkFirst',
                     options: {
                         cacheName: 'api',
+                        networkTimeoutSeconds: 3,
                         expiration: {
                             maxEntries: 50
                         }

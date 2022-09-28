@@ -140,8 +140,8 @@ RSpec.describe Article, type: :model do
     end
 
     describe '#title' do
-      it { is_expected.to validate_length_of(:title).is_at_least(InRailsWeBlog.config.article_title_min_length) }
-      it { is_expected.to validate_length_of(:title).is_at_most(InRailsWeBlog.config.article_title_max_length) }
+      it { is_expected.to validate_length_of(:title).is_at_least(InRailsWeBlog.settings.article_title_min_length) }
+      it { is_expected.to validate_length_of(:title).is_at_most(InRailsWeBlog.settings.article_title_max_length) }
 
       it 'validates presence of title only if not a draft' do
         @article.update!(draft: false, mode: :note)
@@ -155,13 +155,13 @@ RSpec.describe Article, type: :model do
     end
 
     describe '#summary' do
-      it { is_expected.to validate_length_of(:summary).is_at_least(InRailsWeBlog.config.article_summary_min_length) }
-      it { is_expected.to validate_length_of(:summary).is_at_most(InRailsWeBlog.config.article_summary_max_length) }
+      it { is_expected.to validate_length_of(:summary).is_at_least(InRailsWeBlog.settings.article_summary_min_length) }
+      it { is_expected.to validate_length_of(:summary).is_at_most(InRailsWeBlog.settings.article_summary_max_length) }
     end
 
     describe '#content' do
-      it { is_expected.to validate_length_of(:content).is_at_least(InRailsWeBlog.config.article_content_min_length) }
-      it { is_expected.to validate_length_of(:content).is_at_most(InRailsWeBlog.config.article_content_max_length) }
+      it { is_expected.to validate_length_of(:content).is_at_least(InRailsWeBlog.settings.article_content_min_length) }
+      it { is_expected.to validate_length_of(:content).is_at_most(InRailsWeBlog.settings.article_content_max_length) }
 
       it 'validates presence of content only if no reference or not an inventory' do
         @article.update!(reference: nil)
@@ -178,7 +178,7 @@ RSpec.describe Article, type: :model do
     end
 
     describe '#notation' do
-      it { is_expected.to validate_inclusion_of(:notation).in_range(InRailsWeBlog.config.notation_min..InRailsWeBlog.config.notation_max) }
+      it { is_expected.to validate_inclusion_of(:notation).in_range(InRailsWeBlog.settings.notation_min..InRailsWeBlog.settings.notation_max) }
     end
 
     describe '#visibility' do

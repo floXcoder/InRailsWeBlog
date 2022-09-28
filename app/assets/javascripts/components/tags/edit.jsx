@@ -92,7 +92,7 @@ class TagEdit extends React.Component {
         return (
             <div className="tag-edit-root">
                 {
-                    this.props.tagErrors &&
+                    !!this.props.tagErrors &&
                     <div>
                         <TagErrorField errors={this.props.tagErrors}/>
                     </div>

@@ -10,7 +10,7 @@ function SingleTimelineItem({
         <li className="timeline-item">
             <div className={icon ? 'timeline-icon' : 'timeline-no-icon'}>
                 {
-                    icon &&
+                    !!icon &&
                     <span className="material-icons"
                           data-icon={icon}
                           aria-hidden="true"/>
@@ -18,7 +18,7 @@ function SingleTimelineItem({
             </div>
 
             {
-                date &&
+                !!date &&
                 <div className="timeline-date">
                     {date}
                 </div>
@@ -28,7 +28,7 @@ function SingleTimelineItem({
                 {title}
 
                 {
-                    children &&
+                    !!children &&
                     <div className="card-panel">
                         {children}
                     </div>

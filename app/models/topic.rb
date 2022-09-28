@@ -39,13 +39,15 @@ class Topic < ApplicationRecord
              fallbacks_for_empty_translations: true
 
   # Store settings
-  store :settings, accessors: [
-                                :article_order, # Order articles by: priority_asc, priority_desc, id_asc, id_desc, created_asc, created_desc, updated_asc, updated_desc, tag_asc, tags_desc, rank_asc, rank_desc, popularity_asc, popularity_desc, default, default: nil
-                                # :articles_loader, # Load articles by: all / paginate / infinite, default: nil
-                                # :article_display, # Display articles: summary / card / inline / grid, default: nil
+  store :settings,
+        accessors: [
+                     :article_order, # Order articles by: priority_asc, priority_desc, id_asc, id_desc, created_asc, created_desc, updated_asc, updated_desc, tag_asc, tags_desc, rank_asc, rank_desc, popularity_asc, popularity_desc, default, default: nil
+                     # :articles_loader, # Load articles by: all / paginate / infinite, default: nil
+                     # :article_display, # Display articles: summary / card / inline / grid, default: nil
 
-                                :tag_sidebar_pin # Tag sidebar pinned by default, default: nil
-                              ]
+                     :tag_sidebar_pin # Tag sidebar pinned by default, default: nil
+                   ],
+        coder:     JSON
 
   # Strip whitespaces
   auto_strip_attributes :name, :color
@@ -136,14 +138,14 @@ class Topic < ApplicationRecord
             presence: true
 
   validates :name,
-            length: { minimum: InRailsWeBlog.config.topic_name_min_length, maximum: InRailsWeBlog.config.topic_name_max_length }
+            length: { minimum: InRailsWeBlog.settings.topic_name_min_length, maximum: InRailsWeBlog.settings.topic_name_max_length }
   validates_uniqueness_of :name,
                           scope:      :user_id,
                           conditions: -> { with_deleted },
                           message:    I18n.t('activerecord.errors.models.topic.already_exist')
 
   validates :description,
-            length:    { minimum: InRailsWeBlog.config.topic_description_min_length, maximum: InRailsWeBlog.config.topic_description_max_length },
+            length:    { minimum: InRailsWeBlog.settings.topic_description_min_length, maximum: InRailsWeBlog.settings.topic_description_max_length },
             allow_nil: true
 
   validates :languages,
@@ -317,7 +319,7 @@ class Topic < ApplicationRecord
   end
 
   def set_default_color
-    self.color = InRailsWeBlog.config.topic_color unless self.color
+    self.color = InRailsWeBlog.settings.topic_color unless self.color
   end
 
   def regenerate_article_slug

@@ -1,7 +1,7 @@
 @import './common';
 
 // Header
-.layout-header-appBar {
+.layout-header-app-bar {
   display: inline-flex;
   z-index: $zindex-appbar;
   transition: width 195ms cubic-bezier(0.4, 0, 0.6, 1) 0ms, margin 195ms cubic-bezier(0.4, 0, 0.6, 1) 0ms;
@@ -31,11 +31,11 @@
   }
 }
 
-.layout-header-titleLink {
+.layout-header-title-link {
   color: rgba(0, 0, 0, 0.87);
 }
 
-.layout-header-websiteTitle {
+.layout-header-website-title {
   margin: .5rem;
   font-size: 1.6rem;
 
@@ -44,7 +44,7 @@
   }
 }
 
-.layout-header-menuButton {
+.layout-header-menu-button {
   margin-left: -12px;
   margin-right: 20px;
 
@@ -53,12 +53,12 @@
   }
 }
 
-.layout-header-headerButton {
+.layout-header-header-button {
   width: 48px;
   margin: 0 12px;
 }
 
-.layout-header-topicButton {
+.layout-header-topic-button {
   font-size: 1rem;
 
   @media (max-width: 1919.95px) {
@@ -73,7 +73,7 @@
   vertical-align: middle;
 }
 
-.layout-header-sectionDesktop {
+.layout-header-section-desktop {
   display: none;
   margin-left: 5px;
 
@@ -82,7 +82,7 @@
   }
 }
 
-.layout-header-sectionMobile {
+.layout-header-section-mobile {
   display: flex;
 
   @media (min-width: 1280px) {
@@ -90,7 +90,7 @@
   }
 }
 
-.layout-header-mobileDrawerPaper {
+.layout-header-mobile-drawer-paper {
   width: 280px;
 
   @media (min-width: 1280px) {
@@ -98,7 +98,7 @@
   }
 }
 
-.layout-header-mobileToolbar {
+.layout-header-mobile-toolbar {
   min-height: 48px !important;
   margin-top: $header-height;
   padding-top: .5rem;
@@ -113,18 +113,18 @@
   }
 }
 
-.layout-header-mobileTitle {
+.layout-header-mobile-title {
   color: rgba(0, 0, 0, 0.87);
   margin: 5px 2px;
   display: block;
   font-size: 30px;
 }
 
-.layout-header-mobileDivider {
+.layout-header-mobile-divider {
   margin: .5rem 0;
 }
 
-.layout-header-nestedMenu {
+.layout-header-nested-menu {
   padding-left: 32px;
 }
 
@@ -156,7 +156,7 @@
   min-height: 95vh;
 }
 
-.layout-user-homeContent {
+.layout-user-home-content {
   padding: 0;
 }
 
@@ -172,7 +172,7 @@
   }
 }
 
-.layout-user-homeLayout {
+.layout-user-home-layout {
   width: 100%;
   padding: 0;
 }
@@ -187,7 +187,7 @@
   }
 }
 
-.layout-user-quickAdd {
+.layout-user-quick-add {
   right: 2rem;
   bottom: 3rem;
   outline: none;
@@ -195,7 +195,7 @@
   position: fixed;
 }
 
-.layout-user-quickAddIcon {
+.layout-user-quick-add-icon {
   color: $primary-color-light;
   font-size: 38px;
 }
@@ -215,7 +215,7 @@
   background-color: #fff;
 }
 
-.layout-footer-footerContainer {
+.layout-footer-footer-container {
   width: 70%;
   text-align: center;
   margin-left: auto;
@@ -223,23 +223,23 @@
   margin-right: auto;
 }
 
-.layout-footer-footerTitle {
+.layout-footer-footer-title {
   margin: 10px 8px 0;
   display: block;
   font-size: 2rem;
 }
 
-.layout-footer-footerSubtitle {
+.layout-footer-footer-subtitle {
   color: #036603;
 }
 
-.layout-footer-footerLink {
+.layout-footer-footer-link {
   color: $text-color-secondary;
   font-size: 1rem;
   background-color: #fff;
 }
 
-.layout-footer-githubLink {
+.layout-footer-github-link {
   color: $text-color-secondary;
   font-size: .9rem;
   background-color: #fff;

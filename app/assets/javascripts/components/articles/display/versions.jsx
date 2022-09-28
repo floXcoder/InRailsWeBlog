@@ -17,6 +17,7 @@ import ReactDiffViewer, {DiffMethod} from 'react-diff-viewer';
 const stripTags = (string) => string?.replace(/(<([^>]+)>)/ig, '');
 const diffRenderStyle = {display: 'inline'};
 
+
 export default class ArticleVersionsDisplay extends React.Component {
     static propTypes = {
         currentArticle: PropTypes.object.isRequired,
@@ -151,12 +152,12 @@ export default class ArticleVersionsDisplay extends React.Component {
                                   component="article"
                                   className="article-version-card">
                                 <CardHeader classes={{
-                                    title: 'article-version-versionTitle'
+                                    title: 'article-version-version-title'
                                 }}
                                             action={
                                                 <IconButton
                                                     className={classNames('article-version-expand', {
-                                                        'article-version-expandOpen': this.state.expanded.includes(version.id)
+                                                        'article-version-expand-open': this.state.expanded.includes(version.id)
                                                     })}
                                                     aria-expanded={this.state.expanded.includes(version.id)}
                                                     aria-label="Show more"
@@ -166,7 +167,7 @@ export default class ArticleVersionsDisplay extends React.Component {
                                                 </IconButton>
                                             }
                                             title={
-                                                <div className="article-version-cardTitle"
+                                                <div className="article-version-card-title"
                                                      onClick={this._handleFoldClick.bind(this, version.id)}>
                                                     <ChangeHistoryIcon/>
                                                     {

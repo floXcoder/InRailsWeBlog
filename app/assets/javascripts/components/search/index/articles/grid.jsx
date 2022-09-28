@@ -41,14 +41,14 @@ export default class ArticleItemDisplay extends React.Component {
         const isInventoryMode = this.props.article.mode === 'inventory';
 
         return (
-            <Card className="search-index-articleCard"
+            <Card className="search-index-article-card"
                   component="article">
                 <CardHeader
                     classes={{
-                        content: 'search-index-articleCardHeader'
+                        content: 'search-index-article-card-header'
                     }}
                     title={
-                        <Link className="search-index-articleGridTitle"
+                        <Link className="search-index-article-grid-title"
                               to={userArticlePath(this.props.article.user.slug, this.props.article.slug)}
                               onClick={this._handleArticleClick}>
                             {
@@ -64,14 +64,14 @@ export default class ArticleItemDisplay extends React.Component {
                         </Link>
                     }
                     subheader={
-                        <span className="search-index-articleSubtitle">
+                        <span className="search-index-article-subtitle">
                             {`(${this.props.article.date} - ${this.props.article.user.pseudo})`}
                         </span>
                     }
                 />
 
                 <CardContent classes={{
-                    root: 'search-index-articleContent'
+                    root: 'search-index-article-content'
                 }}>
                     {
                         this.props.article.mode === 'inventory'
@@ -84,8 +84,8 @@ export default class ArticleItemDisplay extends React.Component {
                     }
 
                     {
-                        this.props.article.scrapResults &&
-                        <div className="search-index-articleLinksResults">
+                        !!this.props.article.scrapResults &&
+                        <div className="search-index-article-links-results">
                             {
                                 this.props.article.scrapResults.slice(1).map((resultsByLink, i) => (
                                     <div key={i}>
@@ -118,11 +118,11 @@ export default class ArticleItemDisplay extends React.Component {
                     this.props.article.tags.length > 0 &&
                     <CardActions className="search-index-actions"
                                  disableSpacing={true}>
-                        <div className="search-index-articleTags">
+                        <div className="search-index-article-tags">
                             {
                                 this.props.article.tags.map((tag) => (
                                     <Chip key={tag.id}
-                                          className="search-index-articleTag"
+                                          className="search-index-article-tag"
                                           component={Link}
                                           to={taggedArticlesPath(tag.slug)}
                                           label={tag.name}

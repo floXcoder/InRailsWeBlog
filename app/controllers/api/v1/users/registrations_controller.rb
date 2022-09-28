@@ -5,6 +5,7 @@ module Api::V1
     include ActionView::Helpers::TagHelper
     include ApplicationHelper
 
+    before_action :set_env
     before_action :honeypot_protection, only: [:create]
 
     respond_to :html, :js, :json
@@ -55,6 +56,17 @@ module Api::V1
     end
 
     protected
+
+    def set_env
+      user_env = ::Users::EnvironmentService.new(session,
+                                                 cookies,
+                                                 http_accept_language,
+                                                 locale:         ensure_locale_params(params[:locale]),
+                                                 force_locale:   ensure_locale_params(params[:force_locale]),
+                                                 default_locale: request.path == '/' ? 'en' : nil).perform
+
+      I18n.locale = user_env.result[:locale]
+    end
 
     def after_sign_up(resource)
       UserMailer.welcome_email(resource).deliver_now

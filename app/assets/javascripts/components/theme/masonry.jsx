@@ -186,7 +186,7 @@ const MasonryWrapper = (ComponentCard, componentCardProps, ComponentExposed, com
         return (
             <div className="masonry row">
                 {
-                    this.props.hasColumnButtons &&
+                    !!this.props.hasColumnButtons &&
                     <div className="masonry-buttons">
                         <Tooltip title={I18n.t('js.article.masonry.add_column')}>
                             <IconButton
@@ -211,7 +211,7 @@ const MasonryWrapper = (ComponentCard, componentCardProps, ComponentExposed, com
                 }
 
                 {
-                    this.state.Masonry &&
+                    !!this.state.Masonry &&
                     <this.state.Masonry className="masonry-grid"
                                         elementType="div"
                                         options={this.state.masonryOptions}

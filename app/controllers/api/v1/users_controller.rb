@@ -57,11 +57,11 @@ module Api::V1
       users    = if complete
                    users.includes(:tracker)
                  else
-                   users.paginate(page: params[:page], per_page: InRailsWeBlog.config.per_page)
+                   users.paginate(page: params[:page]&.to_i, per_page: InRailsWeBlog.settings.per_page)
                  end
 
-      expires_in InRailsWeBlog.config.cache_time, public: true
-      if stale?(users, template: false, public: true)
+      with_cache? ? expires_in(InRailsWeBlog.settings.cache_time, public: true) : reset_cache_headers
+      if !with_cache? || stale?(users, template: false, public: true)
         respond_to do |format|
           format.json do
             if complete
@@ -96,7 +96,7 @@ module Api::V1
       user = current_user&.id == params[:id]&.to_i ? current_user : User.friendly.find(params[:id])
       authorize user
 
-      (user.user?(current_user) || admin_signed_in?) ? reset_cache_headers : expires_in(InRailsWeBlog.config.cache_time, public: true)
+      with_cache?(user) ? expires_in(InRailsWeBlog.settings.cache_time, public: true) : reset_cache_headers
       respond_to do |format|
         format.json do
           if params[:complete] && (current_user&.id == user.id || current_user.admin?)
@@ -131,7 +131,7 @@ module Api::V1
                                       image: image_url('logos/favicon-192x192.png')
                                     }.compact)
 
-            if stale?(user, template: false, public: true)
+            if !with_cache?(user) || stale?(user, template: false, public: true)
               render json: user.serialized_json(meta: !params[:no_meta] && meta_attributes)
             end
           end
@@ -144,10 +144,10 @@ module Api::V1
       authorize user
 
       user_comments = user.comments.order('comments.created_at DESC')
-      user_comments = user_comments.paginate(page: params[:page], per_page: InRailsWeBlog.config.per_page) if params[:page]
+      user_comments = user_comments.paginate(page: params[:page].to_i, per_page: InRailsWeBlog.settings.per_page) if params[:page]
 
-      expires_in InRailsWeBlog.config.cache_time, public: true
-      if stale?(user_comments, template: false, public: true)
+      with_cache? ? expires_in(InRailsWeBlog.settings.cache_time, public: true) : reset_cache_headers
+      if !with_cache? || stale?(user_comments, template: false, public: true)
         respond_to do |format|
           format.json do
             render json: CommentFullSerializer.new(user_comments,
@@ -175,6 +175,7 @@ module Api::V1
         article_ids = Ahoy::Event.joins(:visit).merge(Ahoy::Visit.where(visitor_token: cookies[:ahoy_visitor])).recent_articles(params[:limit]).map { |event| event.properties['article_id'] }.uniq
       end
 
+      reset_cache_headers
       respond_to do |format|
         format.json do
           render json: {

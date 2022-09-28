@@ -93,7 +93,7 @@ module ActAsTrackedConcern
       self.tracker_metrics   = trackers
       self.tracker_callbacks = options[:callbacks]
 
-      tracker_cron_job if InRailsWeBlog.config.cron_jobs_active
+      tracker_cron_job if InRailsWeBlog.settings.cron_jobs_active
 
       track_queries
     end
@@ -146,7 +146,7 @@ module ActAsTrackedConcern
       end
     end
 
-    # Add a cron job to update database each InRailsWeBlog.config.tracker_cron minutes
+    # Add a cron job to update database each InRailsWeBlog.settings.tracker_cron minutes
     # Automatically added to cron jobs when loading application
     def tracker_cron_job
       # Get current class name
@@ -156,7 +156,7 @@ module ActAsTrackedConcern
       return false if Sidekiq::Cron::Job.find(name: cron_job_name)
 
       Sidekiq::Cron::Job.create(name:  cron_job_name,
-                                cron:  "*/#{InRailsWeBlog.config.tracker_cron} * * * *",
+                                cron:  "*/#{InRailsWeBlog.settings.tracker_cron} * * * *",
                                 class: 'UpdateTrackerWorker',
                                 args:  { tracked_class: formatted_name },
                                 queue: 'default')

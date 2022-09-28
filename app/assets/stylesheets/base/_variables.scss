@@ -9,6 +9,7 @@ $font-path: '/assets/fonts/';
 // ------------------------------------
 $text-color: rgba(0, 0, 0, .87);
 $text-color-secondary: rgba(0, 0, 0, 0.63);
+$text-color-light: rgba(0, 0, 0, 0.54);
 $background-color: #f9f9f9;
 
 $secret-color: #ffab91;
@@ -46,14 +47,14 @@ $default-shadow: 0 3px 5px -1px rgba(0, 0, 0, .2), 0 6px 10px 0 rgba(0, 0, 0, .1
 
 // Media Query Ranges
 // ------------------------------------
-$small-screen-up: 601px;
-$medium-screen-up: 901px;
-$large-screen-up: 1201px;
-$extra-large-screen-up: 1537px;
 $small-screen: 600px;
+$small-screen-up: 601px;
 $medium-screen: 900px;
+$medium-screen-up: 901px;
 $large-screen: 1200px;
+$large-screen-up: 1201px;
 $extra-large-screen: 1536px;
+$extra-large-screen-up: 1537px;
 
 $small-and-down: 'only screen and (max-width: #{$small-screen})';
 

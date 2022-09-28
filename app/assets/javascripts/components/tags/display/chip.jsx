@@ -22,8 +22,8 @@ function TagChipDisplay({
                             isLarge
                         }) {
     return (
-        <Chip className={classNames('tag-chip-tagChip', {
-            'tag-chip-tagChipLarge': isLarge
+        <Chip className={classNames('tag-chip-tag-chip', {
+            'tag-chip-tag-chip-large': isLarge
         })}
               icon={<LabelIcon/>}
               label={tag.name}

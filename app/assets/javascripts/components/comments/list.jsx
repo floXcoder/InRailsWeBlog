@@ -43,7 +43,7 @@ export default class CommentList extends React.PureComponent {
                 replyAsOwner: this.props.isOwner
             });
         } else {
-            Notification.message.error(I18n.t('js.comment.flash.creation_unpermitted'));
+            Notification.error(I18n.t('js.comment.flash.creation_unpermitted'));
         }
     };
 

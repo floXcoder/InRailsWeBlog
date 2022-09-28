@@ -99,6 +99,7 @@ test:rails:
         - vendor/bundle/
       policy: pull
   script:
+    - bundle exec i18n export
     - bundle exec rspec
   interruptible: true
   when: on_success

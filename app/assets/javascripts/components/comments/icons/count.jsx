@@ -12,7 +12,7 @@ function CommentCountIcon({
         <a className={className}
            href={commentLink}>
             {
-                hasIcon &&
+                !!hasIcon &&
                 <CommentIcon/>
             }
 

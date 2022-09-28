@@ -31,7 +31,7 @@ class TopicSerializer
 
   extend SerializerHelper
 
-  cache_options store: SerializerHelper::CacheSerializer, namespace: "_#{ENV['WEBSITE_NAME']}_#{Rails.env}:serializer", expires_in: InRailsWeBlog.config.cache_time
+  cache_options store: SerializerHelper::CacheSerializer, namespace: "_#{ENV['WEBSITE_NAME']}_#{Rails.env}:serializer", expires_in: InRailsWeBlog.settings.cache_time
 
   set_key_transform :camel_lower
 

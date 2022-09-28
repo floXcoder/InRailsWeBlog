@@ -14,7 +14,7 @@ const ArticleFormStepper = function ({tabIndex, onTabChange}) {
         <div className="article-form-stepper-stepper"
             // id="article-edit-stepper"
         >
-            <AppBar className="article-form-stepper-stepperAppBar"
+            <AppBar className="article-form-stepper-stepper-app-bar"
                     position="static"
                     color="inherit">
                 <Tabs classes={{

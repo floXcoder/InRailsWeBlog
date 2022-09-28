@@ -11,12 +11,12 @@ import Scrollbar from '../../theme/scrollbar';
 
 function TagSidebarCloud(props) {
     return (
-        <div className="tag-sidebar-cloudList">
+        <div className="tag-sidebar-cloud-list">
             <Scrollbar>
                 {
                     props.currentUserTopics.map((topic) => (
                         <div key={topic.id}>
-                            <h3 className="tag-sidebar-cloudTopic">
+                            <h3 className="tag-sidebar-cloud-topic">
                                 {topic.name}
                             </h3>
 
@@ -24,8 +24,8 @@ function TagSidebarCloud(props) {
                                 props.tags.filter((tag) => tag.topicIds.includes(topic.id))
                                     .map((tag) => (
                                         <Chip key={`${topic.id}-${tag.id}`}
-                                              className={classNames('tag-sidebar-cloudTag', {
-                                                  'tag-sidebar-selectedLabel': props.currentTagSlug === tag.slug
+                                              className={classNames('tag-sidebar-cloud-tag', {
+                                                  'tag-sidebar-selected-label': props.currentTagSlug === tag.slug
                                               })}
                                               label={tag.name}
                                               color="primary"

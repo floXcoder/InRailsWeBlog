@@ -105,13 +105,13 @@ const SignupForm = function ({onSubmit, onCancel}) {
                               direction="column"
                               justifyContent="space-between"
                               alignItems="center">
-                            <Grid classes={{item: 'user-connection-fieldItem'}}
+                            <Grid classes={{item: 'user-connection-field-item'}}
                                   item={true}>
                                 <Field name="pseudo"
                                        component={TextFormField}
                                        validate={pseudoValidation}
                                        id="user_pseudo_signup"
-                                       className="user-connection-textField"
+                                       className="user-connection-text-field"
                                        label={I18n.t('js.user.signup.pseudo')}
                                        autoFocus={true}
                                        required={true}
@@ -126,12 +126,12 @@ const SignupForm = function ({onSubmit, onCancel}) {
                                        }}/>
                             </Grid>
 
-                            <Grid classes={{item: 'user-connection-fieldItem'}}
+                            <Grid classes={{item: 'user-connection-field-item'}}
                                   item={true}>
                                 <Field name="email"
                                        component={TextFormField}
                                        id="user_pseudo_email"
-                                       className="user-connection-textField"
+                                       className="user-connection-text-field"
                                        label={I18n.t('js.user.signup.email')}
                                        required={true}
                                        type="email"
@@ -146,12 +146,12 @@ const SignupForm = function ({onSubmit, onCancel}) {
                                        }}/>
                             </Grid>
 
-                            <Grid classes={{item: 'user-connection-fieldItem'}}
+                            <Grid classes={{item: 'user-connection-field-item'}}
                                   item={true}>
                                 <Field name="password"
                                        component={TextFormField}
                                        id="user_password_signup"
-                                       className="user-connection-textField"
+                                       className="user-connection-text-field"
                                        label={I18n.t('js.user.signup.password')}
                                        required={true}
                                        autoComplete="off"
@@ -167,12 +167,12 @@ const SignupForm = function ({onSubmit, onCancel}) {
                                        }}/>
                             </Grid>
 
-                            <Grid classes={{item: 'user-connection-fieldItem'}}
+                            <Grid classes={{item: 'user-connection-field-item'}}
                                   item={true}>
                                 <Field name="password_confirmation"
                                        component={TextFormField}
                                        id="user_password_confirmation_signup"
-                                       className="user-connection-textField"
+                                       className="user-connection-text-field"
                                        label={I18n.t('js.user.signup.confirm_password')}
                                        required={true}
                                        autoComplete="off"

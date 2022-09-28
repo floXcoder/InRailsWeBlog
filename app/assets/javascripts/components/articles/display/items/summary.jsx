@@ -132,24 +132,25 @@ class ArticleSummaryDisplay extends React.Component {
                     <div className="article-summary-heading">
                         <Grid container={true}
                               classes={{
-                                  container: 'article-summary-articleInfo'
+                                  container: 'article-summary-article-info'
                               }}
                               spacing={2}
                               direction="row"
                               justifyContent="space-between"
                               alignItems="center">
                             <Grid classes={{
-                                item: 'article-summary-infoItem'
+                                item: 'article-summary-info-item'
                             }}
                                   item={true}>
                                 <ArticleAvatarIcon user={this.props.article.user}
-                                                   articleDate={this.props.article.date}/>
+                                                   createdDate={this.props.article.date}
+                                                   updatedDate={this.props.article.updatedDate}/>
                             </Grid>
                         </Grid>
 
                         <h1 className="article-summary-title"
                             itemProp="name headline">
-                            <Link className="article-summary-titleLink"
+                            <Link className="article-summary-title-link"
                                   to={userArticlePath(this.props.article.user.slug, this.props.article.slug)}
                                   itemProp="mainEntityOfPage url"
                                   onClick={this._handleTitleClick}>
@@ -158,7 +159,7 @@ class ArticleSummaryDisplay extends React.Component {
                         </h1>
                     </div>
 
-                    <div className="article-summary-summaryContent"
+                    <div className="article-summary-summary-content"
                          itemProp="articleBody">
                         <div className="normalized-content normalized-content-extract"
                              dangerouslySetInnerHTML={{__html: this.props.article.contentSummary || this.props.article.content}}/>
@@ -172,8 +173,8 @@ class ArticleSummaryDisplay extends React.Component {
                                      childTagIds={this.props.article.childTagIds}/>
                     }
 
-                    <div className="article-summary-summaryLinkContainer">
-                        <Button className="article-summary-summaryLink"
+                    <div className="article-summary-summary-link-container">
+                        <Button className="article-summary-summary-link"
                                 color="primary"
                                 variant="outlined"
                                 size="small"
@@ -186,7 +187,7 @@ class ArticleSummaryDisplay extends React.Component {
 
                     {
                         (this.props.topicVisibility === 'everyone' && this.props.article.visibility !== 'everyone') &&
-                        <div className="article-summary-privateMessage">
+                        <div className="article-summary-private-message">
                             {I18n.t('js.article.common.private_in_public')}
                         </div>
                     }

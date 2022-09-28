@@ -106,8 +106,8 @@ RSpec.describe Tag, type: :model do
     end
 
     describe '#name' do
-      it { is_expected.to validate_length_of(:name).is_at_least(InRailsWeBlog.config.tag_name_min_length) }
-      it { is_expected.to validate_length_of(:name).is_at_most(InRailsWeBlog.config.tag_name_max_length) }
+      it { is_expected.to validate_length_of(:name).is_at_least(InRailsWeBlog.settings.tag_name_min_length) }
+      it { is_expected.to validate_length_of(:name).is_at_most(InRailsWeBlog.settings.tag_name_max_length) }
 
       it 'can change name if private' do
         tag_private       = Tag.create(user: @user, name: 'tag 1', visibility: 'only_me')
@@ -144,8 +144,8 @@ RSpec.describe Tag, type: :model do
     end
 
     describe '#description' do
-      it { is_expected.to validate_length_of(:description).is_at_least(InRailsWeBlog.config.tag_description_min_length) }
-      it { is_expected.to validate_length_of(:description).is_at_most(InRailsWeBlog.config.tag_description_max_length) }
+      it { is_expected.to validate_length_of(:description).is_at_least(InRailsWeBlog.settings.tag_description_min_length) }
+      it { is_expected.to validate_length_of(:description).is_at_most(InRailsWeBlog.settings.tag_description_max_length) }
     end
 
     describe '#visibility' do

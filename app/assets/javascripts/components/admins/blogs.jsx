@@ -117,7 +117,7 @@ class AdminBlogs extends React.Component {
                     </Button>
 
                     {
-                        hasBlogs &&
+                        !!hasBlogs &&
                         <a className="right"
                            href="#"
                            onClick={this._handleExpandAll}>
@@ -128,7 +128,7 @@ class AdminBlogs extends React.Component {
                 </div>
 
                 {
-                    (this.state.isAddingBlog || this.state.editingBlog) &&
+                    !!(this.state.isAddingBlog || this.state.editingBlog) &&
                     <Paper className="margin-top-30 margin-bottom-40"
                            elevation={1}>
                         <AdminBlogForm isNew={this.state.isNew}
@@ -139,7 +139,7 @@ class AdminBlogs extends React.Component {
                 }
 
                 {
-                    hasBlogs &&
+                    !!hasBlogs &&
                     <div className="row">
                         <div className="col s12 margin-top-15">
                             {

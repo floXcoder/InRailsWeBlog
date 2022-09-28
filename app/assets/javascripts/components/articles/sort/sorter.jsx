@@ -26,7 +26,7 @@ const SortableItem = SortableElement(({article}) => (
 ));
 
 const SortableList = SortableContainer(({articles}) => (
-    <div className="article-sort-sortingItems">
+    <div className="article-sort-sorting-items">
         {
             articles.map((article, i) => (
                 <SortableItem key={i}
@@ -36,6 +36,7 @@ const SortableList = SortableContainer(({articles}) => (
         }
     </div>
 ));
+
 
 export default class ArticleSorter extends React.Component {
     static propTypes = {

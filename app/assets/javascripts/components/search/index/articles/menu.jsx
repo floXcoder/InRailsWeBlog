@@ -50,45 +50,45 @@ export default class ArticleSearchMenuDisplay extends React.PureComponent {
 
     render() {
         return (
-            <Grid className="search-index-categoryHeader"
+            <Grid className="search-index-category-header"
                   container={true}
                   spacing={4}
                   direction="row"
                   justifyContent="space-between"
                   alignItems="flex-end">
                 <Grid item={true}
-                      className="search-index-categoryItem">
-                    <h2 className="search-index-categoryTitle">
+                      className="search-index-category-item">
+                    <h2 className="search-index-category-title">
                         {I18n.t('js.search.index.articles.title')}
                     </h2>
 
-                    <span className="search-index-categoryCount">
+                    <span className="search-index-category-count">
                         {`(${I18n.t('js.search.index.results', {count: this.props.articlesCount})})`}
                     </span>
                 </Grid>
 
                 <Hidden mdDown={true}>
                     <Grid item={true}
-                          className="search-index-categoryMenu">
+                          className="search-index-category-menu">
                         <Grid container={true}
                               spacing={2}
                               direction="row"
                               justifyContent="flex-end"
                               alignItems="flex-end">
                             {
-                                this.props.currentUserId &&
+                                !!this.props.currentUserId &&
                                 <Grid item={true}
-                                      className="search-index-categoryItem">
+                                      className="search-index-category-item">
                                     <Dropdown id="search-filter"
                                               // tooltip={I18n.t('js.search.scrap.field')}
                                               button={
-                                                  <Button className="search-index-categoryFilterButton">
+                                                  <Button className="search-index-category-filter-button">
                                                       <FindInPageIcon/>
                                                   </Button>
                                               }>
                                         <form noValidate={true}
                                               onSubmit={this.props.onURLSearchSubmit}>
-                                            <ul className="search-index-categoryFilterList">
+                                            <ul className="search-index-category-filter-list">
                                                 <li>
                                                     <TextField id="search-in-urls"
                                                                name="search[query_url]"
@@ -109,7 +109,7 @@ export default class ArticleSearchMenuDisplay extends React.PureComponent {
 
                                                 <li className="margin-top-10">
                                                     <div className="center-align">
-                                                        <Button className="search-index-categoryFilterButton"
+                                                        <Button className="search-index-category-filter-button"
                                                                 color="primary"
                                                                 variant="text"
                                                                 type="submit">
@@ -124,16 +124,16 @@ export default class ArticleSearchMenuDisplay extends React.PureComponent {
                             }
 
                             <Grid item={true}
-                                  className="search-index-categoryItem">
+                                  className="search-index-category-item">
                                 <Dropdown id="search-order"
                                           button={
-                                              <Button className="search-index-categoryFilterButton">
+                                              <Button className="search-index-category-filter-button">
                                                   <SortIcon/>
                                               </Button>
                                           }>
-                                    <ul className="search-index-categoryFilterList">
+                                    <ul className="search-index-category-filter-list">
                                         <li className={classNames({
-                                            'search-index-categoryFilterSelected': this.state.order === 'popularity'
+                                            'search-index-category-filter-selected': this.state.order === 'popularity'
                                         })}>
                                             <a href="#"
                                                onClick={this._handleOrder.bind(this, 'popularity')}>
@@ -146,10 +146,10 @@ export default class ArticleSearchMenuDisplay extends React.PureComponent {
                                         </li>
 
                                         {
-                                            this.props.currentUserId &&
+                                            !!this.props.currentUserId &&
                                             <>
                                                 <li className={classNames({
-                                                    'search-index-categoryFilterSelected': this.state.order === 'priority'
+                                                    'search-index-category-filter-selected': this.state.order === 'priority'
                                                 })}>
                                                     <a href="#"
                                                        onClick={this._handleOrder.bind(this, 'priority')}>
@@ -164,7 +164,7 @@ export default class ArticleSearchMenuDisplay extends React.PureComponent {
                                         }
 
                                         <li className={classNames({
-                                            'search-index-categoryFilterSelected': this.state.order === 'date'
+                                            'search-index-category-filter-selected': this.state.order === 'date'
                                         })}>
                                             <a href="#"
                                                onClick={this._handleOrder.bind(this, 'date')}>
@@ -176,16 +176,16 @@ export default class ArticleSearchMenuDisplay extends React.PureComponent {
                             </Grid>
 
                             <Grid item={true}
-                                  className="search-index-categoryItem">
+                                  className="search-index-category-item">
                                 <Dropdown id="search-display"
                                           button={
-                                              <Button className="search-index-categoryFilterButton">
+                                              <Button className="search-index-category-filter-button">
                                                   <DashboardIcon/>
                                               </Button>
                                           }>
-                                    <ul className="search-index-categoryFilterList">
+                                    <ul className="search-index-category-filter-list">
                                         <li className={classNames({
-                                            'search-index-categoryFilterSelected': this.props.searchDisplay === 'card'
+                                            'search-index-category-filter-selected': this.props.searchDisplay === 'card'
                                         })}>
                                             <a href="#"
                                                onClick={this._handleDisplay.bind(this, 'card')}>
@@ -198,7 +198,7 @@ export default class ArticleSearchMenuDisplay extends React.PureComponent {
                                         </li>
 
                                         <li className={classNames({
-                                            'search-index-categoryFilterSelected': this.props.searchDisplay === 'grid'
+                                            'search-index-category-filter-selected': this.props.searchDisplay === 'grid'
                                         })}>
                                             <a href="#"
                                                onClick={this._handleDisplay.bind(this, 'grid')}>
@@ -210,10 +210,10 @@ export default class ArticleSearchMenuDisplay extends React.PureComponent {
                             </Grid>
 
                             {
-                                this.props.currentUserId &&
+                                !!this.props.currentUserId &&
                                 <Grid item={true}
-                                      className="search-index-categoryItem">
-                                    <Button className="search-index-categoryFilterButton"
+                                      className="search-index-category-item">
+                                    <Button className="search-index-category-filter-button"
                                             onClick={this.props.onSettingsClick.bind(this, 2)}>
                                         <SettingsIcon/>
                                     </Button>

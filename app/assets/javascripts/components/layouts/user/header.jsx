@@ -208,7 +208,7 @@ class HeaderLayoutUser extends React.PureComponent {
 
     _renderDesktopMenu = () => {
         return (
-            <div className="layout-header-sectionDesktop"
+            <div className="layout-header-section-desktop"
                  aria-label="Navigation"
                  itemScope={true}
                  itemType="https://schema.org/SiteNavigationElement">
@@ -239,7 +239,7 @@ class HeaderLayoutUser extends React.PureComponent {
             <SwipeableDrawer variant="temporary"
                              anchor="left"
                              classes={{
-                                 paper: 'layout-header-mobileDrawerPaper'
+                                 paper: 'layout-header-mobile-drawer-paper'
                              }}
                              ModalProps={{
                                  keepMounted: true
@@ -248,8 +248,8 @@ class HeaderLayoutUser extends React.PureComponent {
                              onClose={this._handleTagDrawerToggle}
                              onOpen={this._handleTagDrawerToggle}>
                 <>
-                    <div className="layout-header-mobileToolbar">
-                        <h5 className="layout-header-mobileTitle"
+                    <div className="layout-header-mobile-toolbar">
+                        <h5 className="layout-header-mobile-title"
                             itemProp="name">
                             <Link className="header-brand-logo-mobile"
                                   to={userHomePath(this.props.userSlug)}
@@ -316,7 +316,7 @@ class HeaderLayoutUser extends React.PureComponent {
                         </Collapse>
                     </List>
 
-                    <Divider className="layout-header-mobileDivider"/>
+                    <Divider className="layout-header-mobile-divider"/>
 
                     <Typography className="center-align"
                                 variant="overline"
@@ -344,7 +344,7 @@ class HeaderLayoutUser extends React.PureComponent {
             <SwipeableDrawer variant="temporary"
                              anchor="right"
                              classes={{
-                                 paper: 'layout-header-mobileDrawerPaper'
+                                 paper: 'layout-header-mobile-drawer-paper'
                              }}
                              ModalProps={{
                                  keepMounted: true
@@ -369,16 +369,16 @@ class HeaderLayoutUser extends React.PureComponent {
             <>
                 <AppBar id="header-user"
                         position="fixed"
-                        className="animate-search layout-header-appBar"
+                        className="animate-search layout-header-app-bar"
                         itemScope={true}
                         itemType="https://schema.org/Organization">
                     <LoadingBar showFastActions={true}
                                 style={loadingBarStyle}/>
 
                     <Toolbar className="layout-header-toolbar">
-                        <div className="layout-header-sectionMobile">
+                        <div className="layout-header-section-mobile">
                             <IconButton
-                                className="layout-header-menuButton"
+                                className="layout-header-menu-button"
                                 color="primary"
                                 aria-label="Open drawer"
                                 onClick={this._handleTagDrawerToggle}
@@ -387,7 +387,7 @@ class HeaderLayoutUser extends React.PureComponent {
                             </IconButton>
                         </div>
 
-                        <div className="layout-header-sectionDesktop">
+                        <div className="layout-header-section-desktop">
                             <div className="layout-header-title"
                                  itemProp="name">
                                 <Link className="header-brand-logo"
@@ -400,18 +400,18 @@ class HeaderLayoutUser extends React.PureComponent {
                         </div>
 
                         {
-                            (this.props.isUserConnected && this.props.currentTopic) &&
+                            !!(this.props.isUserConnected && this.props.currentTopic) &&
                             <>
                                 <Button ref={(ref) => this._anchorEl = ref}
-                                        className="layout-header-topicButton"
+                                        className="layout-header-topic-button"
                                         variant="contained"
                                         color="primary"
                                         onClick={this._handleTopicOpen}>
-                                    <span className="layout-header-sectionDesktop">
+                                    <span className="layout-header-section-desktop">
                                         {I18n.t('js.views.header.topic.button', {current: this.props.currentTopic.name})}
                                     </span>
 
-                                    <span className="layout-header-sectionMobile">
+                                    <span className="layout-header-section-mobile">
                                         <ClassIcon/>
                                     </span>
                                 </Button>
@@ -454,7 +454,7 @@ class HeaderLayoutUser extends React.PureComponent {
                         'is-visible': isSearchActive
                     })}>
                         {
-                            isSearchActive &&
+                            !!isSearchActive &&
                             <Suspense fallback={<div/>}>
                                 <ErrorBoundary errorType="notification">
                                     <SearchModule/>
@@ -467,7 +467,7 @@ class HeaderLayoutUser extends React.PureComponent {
                 {this._renderMobileTagDrawer()}
 
                 {
-                    this.props.routeProperties.articleSidebar &&
+                    !!this.props.routeProperties.articleSidebar &&
                     this._renderMobileArticleDrawer()
                 }
 

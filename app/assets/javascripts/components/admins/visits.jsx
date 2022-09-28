@@ -91,7 +91,7 @@ class AdminVisits extends React.Component {
         if (!listDetails) {
             return (
                 <div className="margin-top-30">
-                    <p className="admin-visits-listItem">
+                    <p className="admin-visits-list-item">
                         <em>{I18n.t('js.article.tracking.undefined')}</em>
                     </p>
                 </div>
@@ -99,12 +99,12 @@ class AdminVisits extends React.Component {
         }
 
         return (
-            <List className="admin-visits-listContainer"
+            <List className="admin-visits-list-container"
                   dense={true}>
                 {
                     Object.entries(listDetails).map(([element, count], i) => (
                         <ListItem key={i}>
-                            <ListItemText className="admin-visits-listItem"
+                            <ListItemText className="admin-visits-list-item"
                                           primary={
                                               <div>
                                                   {
@@ -135,7 +135,7 @@ class AdminVisits extends React.Component {
                                           }/>
 
                             <ListItemSecondaryAction
-                                className={classNames('admin-visits-listItem', {
+                                className={classNames('admin-visits-list-item', {
                                     'margin-top-10': (!element || element === 'internal' || element === 'others')
                                 })}>
                                 {count}
@@ -158,11 +158,11 @@ class AdminVisits extends React.Component {
                     </h2>
 
                     <TableContainer component={Paper}
-                                    className="admin-visits-tableContainer">
+                                    className="admin-visits-table-container">
                         <Table aria-label="visits by days">
                             <TableHead>
                                 <TableRow>
-                                    <TableCell className="admin-visits-tableData"
+                                    <TableCell className="admin-visits-table-data"
                                                align="left">
                                         {I18n.t('js.admin.visits.uniq.data')}
                                     </TableCell>
@@ -179,7 +179,7 @@ class AdminVisits extends React.Component {
                             </TableHead>
                             <TableBody>
                                 <TableRow>
-                                    <TableCell className="admin-visits-tableData"
+                                    <TableCell className="admin-visits-table-data"
                                                align="left">
                                         {I18n.t('js.admin.visits.uniq.day')}
                                     </TableCell>
@@ -188,7 +188,7 @@ class AdminVisits extends React.Component {
                                         Object.entries(this.props.visitsStats.dates).map(([date, count], i) => (
                                             <TableCell key={i}
                                                        align="center">
-                                                <a className="admin-visits-tableDataItem"
+                                                <a className="admin-visits-table-data-item"
                                                    href="#"
                                                    onClick={this._handleShowVisitsDate.bind(this, date)}>
                                                     {count}
@@ -228,7 +228,7 @@ class AdminVisits extends React.Component {
                     </h2>
 
                     <Grid container={true}
-                          className="admin-visits-gridContainer"
+                          className="admin-visits-grid-container"
                           spacing={2}
                           direction="row"
                           justifyContent="space-around"
@@ -250,7 +250,7 @@ class AdminVisits extends React.Component {
                     </Grid>
 
                     <Grid container={true}
-                          className="admin-visits-gridContainer"
+                          className="admin-visits-grid-container"
                           spacing={2}
                           direction="row"
                           justifyContent="space-around"
@@ -278,7 +278,7 @@ class AdminVisits extends React.Component {
                     </h2>
 
                     <Grid container={true}
-                          className="admin-visits-gridContainer"
+                          className="admin-visits-grid-container"
                           spacing={2}
                           direction="row"
                           justifyContent="space-around"
@@ -300,13 +300,13 @@ class AdminVisits extends React.Component {
                     </Grid>
 
                     <Grid container={true}
-                          className="admin-visits-gridContainer"
+                          className="admin-visits-grid-container"
                           spacing={2}
                           direction="row"
                           justifyContent="space-between"
                           alignItems="flex-start">
                         <Grid item={true}>
-                            <List className="admin-visits-listContainer">
+                            <List className="admin-visits-list-container">
                                 {
                                     this.props.visitsStats.topArticles.map((article) => (
                                         <ListItem key={article.name}>
@@ -317,12 +317,12 @@ class AdminVisits extends React.Component {
                                             </ListItemAvatar>
 
                                             <ListItemText classes={{
-                                                primary: 'admin-visits-listItem',
-                                                secondary: 'admin-visits-listItemSecondary'
+                                                primary: 'admin-visits-list-item',
+                                                secondary: 'admin-visits-list-item-secondary'
                                             }}
                                                           primary={
                                                               <span>
-                                                                  <a className="admin-visits-listItem"
+                                                                  <a className="admin-visits-list-item"
                                                                      href="#"
                                                                      onClick={this._handleShowArticleStats.bind(this, article.id)}>
                                                                       {article.name}
@@ -331,7 +331,7 @@ class AdminVisits extends React.Component {
                                                                   <a href={article.link}
                                                                      target="_blank">
                                                                       <OpenInNewIcon
-                                                                          className="admin-visits-listItemLink"/>
+                                                                          className="admin-visits-list-item-link"/>
                                                                   </a>
                                                               </span>
                                                           }
@@ -343,7 +343,7 @@ class AdminVisits extends React.Component {
                         </Grid>
 
                         <Grid item={true}>
-                            <List className="admin-visits-listContainer">
+                            <List className="admin-visits-list-container">
                                 {
                                     this.props.visitsStats.topTags.map((tag) => (
                                         <ListItem key={tag.name}>
@@ -354,11 +354,11 @@ class AdminVisits extends React.Component {
                                             </ListItemAvatar>
 
                                             <ListItemText classes={{
-                                                primary: 'admin-visits-listItemTag',
-                                                secondary: 'admin-visits-listItemSecondary'
+                                                primary: 'admin-visits-list-item-tag',
+                                                secondary: 'admin-visits-list-item-secondary'
                                             }}
                                                           primary={
-                                                              <a className="admin-visits-listItem"
+                                                              <a className="admin-visits-list-item"
                                                                  target="_blank"
                                                                  href={tag.link}>
                                                                   {tag.name}
@@ -372,7 +372,7 @@ class AdminVisits extends React.Component {
                         </Grid>
 
                         <Grid item={true}>
-                            <List className="admin-visits-listContainer">
+                            <List className="admin-visits-list-container">
                                 {
                                     this.props.visitsStats.topTopics.map((topic) => (
                                         <ListItem key={topic.name}>
@@ -383,11 +383,11 @@ class AdminVisits extends React.Component {
                                             </ListItemAvatar>
 
                                             <ListItemText classes={{
-                                                primary: 'admin-visits-listItem',
-                                                secondary: 'admin-visits-listItemSecondary'
+                                                primary: 'admin-visits-list-item',
+                                                secondary: 'admin-visits-list-item-secondary'
                                             }}
                                                           primary={
-                                                              <a className="admin-visits-listItem"
+                                                              <a className="admin-visits-list-item"
                                                                  target="_blank"
                                                                  href={topic.link}>
                                                                   {topic.name}
@@ -471,25 +471,25 @@ class AdminVisits extends React.Component {
                 </h1>
 
                 {
-                    (Object.keys(this.props.visitsStats).length === 0 && this.props.isFetching) &&
+                    !!(Object.keys(this.props.visitsStats).length === 0 && this.props.isFetching) &&
                     <div className="center">
                         <Loader size="big"/>
                     </div>
                 }
 
                 {
-                    Object.keys(this.props.visitsStats).length &&
+                    !!Object.keys(this.props.visitsStats).length &&
                     this._renderVisits()
                 }
 
                 {
-                    this.state.articleIdStats &&
+                    !!this.state.articleIdStats &&
                     <TrackingArticleModal articleId={this.state.articleIdStats}
                                           onClose={this._handleArticleModalClose}/>
                 }
 
                 {
-                    this.state.visitsDate &&
+                    !!this.state.visitsDate &&
                     <TrackingVisitModal date={this.state.visitsDate}
                                         onClose={this._handleVisitModalClose}/>
                 }

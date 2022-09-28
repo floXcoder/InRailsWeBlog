@@ -104,9 +104,9 @@ class UserHome extends React.Component {
 
         return (
             <div className="user-home-userHome">
-                <div className="user-home-userHomeTopics">
+                <div className="user-home-user-home-topics">
                     <Card component="section"
-                          className="user-home-userHomeCard"
+                          className="user-home-user-home-card"
                           elevation={6}>
                         <CardHeader classes={{
                             root: 'user-home-header',
@@ -116,7 +116,7 @@ class UserHome extends React.Component {
                                     subheader={I18n.t('js.user.home.private.subtitle')}
                                     action={
                                         <IconButton
-                                            className="user-home-sortIcon"
+                                            className="user-home-sort-icon"
                                             component={Link}
                                             aria-label="Show more"
                                             to={{
@@ -139,7 +139,7 @@ class UserHome extends React.Component {
                                 {
                                     this.props.privateTopics.map((topic) => (
                                         <Grid key={topic.id}
-                                              className="user-home-gridTheme"
+                                              className="user-home-grid-theme"
                                               item={true}
                                               xs={12}
                                               sm={6}
@@ -149,10 +149,10 @@ class UserHome extends React.Component {
                                             }}
                                                   onClick={this._handleTopicClick.bind(this, topic)}>
                                                 <Paper className={classNames('user-home-topic', {
-                                                    'user-home-storyTopic': topic.mode === 'stories'
+                                                    'user-home-story-topic': topic.mode === 'stories'
                                                 })}
                                                        elevation={1}>
-                                                    <Typography className="user-home-topicTitle"
+                                                    <Typography className="user-home-topic-title"
                                                                 variant="h5"
                                                                 component="h2">
                                                         {topic.name}
@@ -160,7 +160,7 @@ class UserHome extends React.Component {
 
                                                     {
                                                         topic.mode !== 'default' &&
-                                                        <div className="user-home-topicMode">
+                                                        <div className="user-home-topic-mode">
                                                             {I18n.t(`js.topic.enums.mode.${topic.mode}`)}
                                                         </div>
                                                     }
@@ -168,8 +168,8 @@ class UserHome extends React.Component {
                                             </Link>
 
                                             <Link to={userTopicPath(this.props.user.slug, topic.slug)}>
-                                                <Fab className={classNames('user-home-topicLink', {
-                                                    'user-home-storyTopicLink': topic.mode === 'stories'
+                                                <Fab className={classNames('user-home-topic-link', {
+                                                    'user-home-story-topic-link': topic.mode === 'stories'
                                                 })}
                                                      variant="extended"
                                                      size="small"
@@ -193,9 +193,9 @@ class UserHome extends React.Component {
                                             visibility: 'only_me'
                                         }
                                     }}>
-                                        <Paper className="user-home-topicNew"
+                                        <Paper className="user-home-topic-new"
                                                elevation={1}>
-                                            <Typography className="user-home-topicNewTitle"
+                                            <Typography className="user-home-topic-new-title"
                                                         variant="h5"
                                                         component="h2">
                                                 {I18n.t('js.user.home.add_topic')}
@@ -208,7 +208,7 @@ class UserHome extends React.Component {
                     </Card>
 
                     <Card component="section"
-                          className="user-home-userHomeCard"
+                          className="user-home-user-home-card"
                           elevation={5}>
                         <CardHeader classes={{
                             root: 'user-home-header',
@@ -218,7 +218,7 @@ class UserHome extends React.Component {
                                     subheader={I18n.t('js.user.home.public.subtitle')}
                                     action={
                                         <IconButton
-                                            className="user-home-sortIcon"
+                                            className="user-home-sort-icon"
                                             component={Link}
                                             to={{
                                                 hash: '#' + sortTopicParam,
@@ -240,7 +240,7 @@ class UserHome extends React.Component {
                                 {
                                     this.props.publicTopics.map((topic) => (
                                         <Grid key={topic.id}
-                                              className="user-home-gridTheme"
+                                              className="user-home-grid-theme"
                                               item={true}
                                               xs={12}
                                               sm={6}
@@ -251,7 +251,7 @@ class UserHome extends React.Component {
                                                   onClick={this._handleTopicClick.bind(this, topic)}>
                                                 <Paper className="user-home-topic"
                                                        elevation={1}>
-                                                    <Typography className="user-home-topicTitle"
+                                                    <Typography className="user-home-topic-title"
                                                                 variant="h5"
                                                                 component="h2">
                                                         {topic.name}
@@ -259,14 +259,14 @@ class UserHome extends React.Component {
 
                                                     {
                                                         topic.languages.length > 1 &&
-                                                        <div className="user-home-topicLanguages">
+                                                        <div className="user-home-topic-languages">
                                                             {topic.languages.join(', ')}
                                                         </div>
                                                     }
 
                                                     {
                                                         topic.mode !== 'default' &&
-                                                        <div className="user-home-topicMode">
+                                                        <div className="user-home-topic-mode">
                                                             {I18n.t(`js.topic.enums.mode.${topic.mode}`)}
                                                         </div>
                                                     }
@@ -274,7 +274,7 @@ class UserHome extends React.Component {
                                             </Link>
 
                                             <Link to={userTopicPath(this.props.user.slug, topic.slug)}>
-                                                <Fab className="user-home-topicLink"
+                                                <Fab className="user-home-topic-link"
                                                      variant="extended"
                                                      size="small"
                                                      color="primary"
@@ -297,9 +297,9 @@ class UserHome extends React.Component {
                                             visibility: 'everyone'
                                         }
                                     }}>
-                                        <Paper className="user-home-topicNew"
+                                        <Paper className="user-home-topic-new"
                                                elevation={1}>
-                                            <Typography className="user-home-topicNewTitle"
+                                            <Typography className="user-home-topic-new-title"
                                                         variant="h5"
                                                         component="h2">
                                                 {I18n.t('js.user.home.add_topic')}
@@ -317,7 +317,7 @@ class UserHome extends React.Component {
                             <Divider/>
 
                             <Card component="section"
-                                  className="user-home-userHomeCard"
+                                  className="user-home-user-home-card"
                                   elevation={5}>
                                 <CardHeader classes={{
                                     root: 'user-home-header',
@@ -335,7 +335,7 @@ class UserHome extends React.Component {
                                         {
                                             this.props.contributedTopics.map((topic) => (
                                                 <Grid key={topic.id}
-                                                      className="user-home-gridTheme"
+                                                      className="user-home-grid-theme"
                                                       item={true}
                                                       xs={12}
                                                       sm={6}
@@ -346,7 +346,7 @@ class UserHome extends React.Component {
                                                           onClick={this._handleTopicClick.bind(this, topic)}>
                                                         <Paper className="user-home-topic"
                                                                elevation={1}>
-                                                            <Typography className="user-home-topicTitle"
+                                                            <Typography className="user-home-topic-title"
                                                                         variant="h5"
                                                                         component="h2">
                                                                 {topic.name}
@@ -355,7 +355,7 @@ class UserHome extends React.Component {
                                                     </Link>
 
                                                     <Link to={userTopicPath(this.props.user.slug, topic.slug)}>
-                                                        <Fab className="user-home-topicLink"
+                                                        <Fab className="user-home-topic-link"
                                                              variant="extended"
                                                              size="small"
                                                              color="primary"
@@ -373,8 +373,8 @@ class UserHome extends React.Component {
                     }
                 </div>
 
-                <div className="user-home-userHomeArticles">
-                    <Divider className="user-home-userHomeDivider"/>
+                <div className="user-home-user-home-articles">
+                    <Divider className="user-home-user-home-divider"/>
 
                     <div>
                         <h2>
@@ -400,7 +400,7 @@ class UserHome extends React.Component {
                         </Grid>
                     </div>
 
-                    <Divider className="user-home-userHomeDivider"/>
+                    <Divider className="user-home-user-home-divider"/>
 
                     <div>
                         <h2>

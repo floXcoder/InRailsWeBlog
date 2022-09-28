@@ -14,7 +14,7 @@ guard :migrate do
   watch(%r{^db/migrate/(\d+).+\.rb})
 end
 
-guard :process, name: 'i18n-js', command: 'rails i18n:js:export' do
+guard :process, name: 'i18n-js', command: 'i18n export' do
   watch(%r{^config/i18n-js\.yml})
   watch(%r{^config/locales/js\..+\.yml})
   watch(%r{^config/locales/statics\..+\.yml})

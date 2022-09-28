@@ -11,13 +11,13 @@
   user-select: none;
 }
 
-.article-sort-sortingItems {
+.article-sort-sorting-items {
   outline: none;
   overflow: auto;
   position: relative;
 }
 
-.article-sort-sortingItem {
+.article-sort-sorting-item {
   cursor: pointer;
   padding: 8px;
   align-items: center;
@@ -28,23 +28,23 @@
   margin-bottom: 4px;
 }
 
-.article-sort-cardHeader {
+.article-sort-card-header {
   padding: 4px;
 }
 
-.article-sort-cardTitle {
+.article-sort-card-title {
   font-size: 1.6rem;
   margin-top: 12px;
   text-align: center;
   margin-bottom: 8px;
 }
 
-.article-sort-cardContent {
+.article-sort-card-content {
   padding-top: 4px;
   padding-bottom: 8px !important;
 }
 
-.article-sort-commentCount {
+.article-sort-comment-count {
   color: inherit;
   font-size: 1rem;
 }

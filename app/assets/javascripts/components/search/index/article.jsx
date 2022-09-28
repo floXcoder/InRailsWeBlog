@@ -39,7 +39,7 @@ const SearchArticleIndex = function (props) {
                             {
                                 currentTopicArticles?.length > 0 &&
                                 <>
-                                    <Typography className="search-index-categorySubtitle"
+                                    <Typography className="search-index-category-subtitle"
                                                 variant="subtitle2"
                                                 gutterBottom={true}>
                                         {I18n.t('js.search.index.topic.current')}
@@ -53,7 +53,7 @@ const SearchArticleIndex = function (props) {
                             {
                                 (otherTopicsArticles?.length > 0) &&
                                 <>
-                                    <Typography className="search-index-categorySubtitle"
+                                    <Typography className="search-index-category-subtitle"
                                                 variant="subtitle2"
                                                 gutterBottom={true}>
                                         {I18n.t('js.search.index.topic.others')}
@@ -92,7 +92,7 @@ const SearchArticleIndex = function (props) {
                             {
                                 (otherTopicsArticles?.length > 0) &&
                                 <>
-                                    <Typography className="search-index-articleOther"
+                                    <Typography className="search-index-article-other"
                                                 variant="subtitle2"
                                                 gutterBottom={true}>
                                         {I18n.t('js.search.index.topic.others')}

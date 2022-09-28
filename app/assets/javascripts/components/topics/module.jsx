@@ -67,8 +67,8 @@ class TopicModule extends React.Component {
                 <Link to={topicArticlesPath(this.props.userSlug, topic.slug)}
                       onClick={this._handleSwitchTopicClick.bind(this, topic.id, topic.slug, topic.userId, topic.name)}>
                                     <span className="topic-module-item">
-                                        <span className={classNames('topic-module-itemContent', {
-                                            'topic-module-currentItem': topic.id === this.props.currentUserTopicId
+                                        <span className={classNames('topic-module-item-content', {
+                                            'topic-module-current-item': topic.id === this.props.currentUserTopicId
                                         })}>
                                             {topic.name}
                                         </span>

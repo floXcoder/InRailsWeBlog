@@ -164,18 +164,18 @@ class HeaderLayoutDefault extends React.Component {
 
     _renderDesktopMenu = () => {
         return (
-            <div className="layout-header-sectionDesktop"
+            <div className="layout-header-section-desktop"
                  aria-label="Navigation"
                  itemScope={true}
                  itemType="https://schema.org/SiteNavigationElement">
-                <Button className="layout-header-desktopItem"
+                <Button className="layout-header-desktop-item"
                         size="small"
                         itemProp="url"
                         onClick={this._handleSignupClick}>
                     {I18n.t('js.views.header.user.sign_up')}
                 </Button>
 
-                <Button className="layout-header-desktopItem"
+                <Button className="layout-header-desktop-item"
                         itemProp="url"
                         size="small"
                         onClick={this._handleLoginClick}>
@@ -194,7 +194,7 @@ class HeaderLayoutDefault extends React.Component {
             <SwipeableDrawer variant="temporary"
                              anchor="right"
                              classes={{
-                                 paper: 'layout-header-mobileDrawerPaper'
+                                 paper: 'layout-header-mobile-drawer-paper'
                              }}
                              ModalProps={{
                                  keepMounted: true
@@ -203,8 +203,8 @@ class HeaderLayoutDefault extends React.Component {
                              onClose={this._handleDrawerToggle}
                              onOpen={this._handleDrawerToggle}>
                 <>
-                    <div className="layout-header-mobileToolbar">
-                        <h5 className="layout-header-mobileTitle"
+                    <div className="layout-header-mobile-toolbar">
+                        <h5 className="layout-header-mobile-title"
                             itemProp="name">
                             <Link className="header-brand-logo-mobile"
                                   to={rootPath()}
@@ -247,7 +247,7 @@ class HeaderLayoutDefault extends React.Component {
         return (
             <>
                 <AppBar position="fixed"
-                        className="animate-search layout-header-appBar"
+                        className="animate-search layout-header-app-bar"
                         itemScope={true}
                         itemType="https://schema.org/Organization">
                     <LoadingBar showFastActions={true}
@@ -255,7 +255,7 @@ class HeaderLayoutDefault extends React.Component {
 
                     <Toolbar className="layout-header-toolbar">
                         <div>
-                            <div className="layout-header-headerTitle"
+                            <div className="layout-header-header-title"
                                  itemProp="name">
                                 <Link className="header-brand-logo"
                                       to={rootPath()}
@@ -284,14 +284,14 @@ class HeaderLayoutDefault extends React.Component {
 
                         {this._renderDesktopMenu()}
 
-                        <div className="layout-header-sectionMobile">
+                        <div className="layout-header-section-mobile">
                             <IconButton
-                                className="layout-header-menuButton"
+                                className="layout-header-menu-button"
                                 color="primary"
                                 aria-label="Open drawer"
                                 onClick={this._handleDrawerToggle}
                                 size="large">
-                                <AccountCircleIcon className="layout-header-mobileIcon"/>
+                                <AccountCircleIcon className="layout-header-mobile-icon"/>
                             </IconButton>
                         </div>
                     </Toolbar>
@@ -300,7 +300,7 @@ class HeaderLayoutDefault extends React.Component {
                         'is-visible': isSearchActive
                     })}>
                         {
-                            isSearchActive &&
+                            !!isSearchActive &&
                             <Suspense fallback={<div/>}>
                                 <ErrorBoundary errorType="notification">
                                     <SearchModule/>
@@ -323,7 +323,7 @@ class HeaderLayoutDefault extends React.Component {
                 </div>
 
                 {
-                    this.state.isConnectLoaded &&
+                    !!this.state.isConnectLoaded &&
                     <Suspense fallback={<div/>}>
                         <ErrorBoundary errorType="notification">
                             <UserSignup isOpen={this.props.isUserSignupOpen}

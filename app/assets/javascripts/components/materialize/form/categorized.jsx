@@ -19,8 +19,8 @@ function CategorizedField({input,
             </CategorizedTag>
 
             {
-                touched && error &&
-                <ErrorForm hasIcon={custom && !!custom.icon}>
+                !!touched && error &&
+                <ErrorForm hasIcon={!!custom && !!custom.icon}>
                     {error}
                 </ErrorForm>
             }

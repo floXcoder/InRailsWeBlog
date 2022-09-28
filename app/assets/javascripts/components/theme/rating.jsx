@@ -99,7 +99,7 @@ export default class Rating extends React.PureComponent {
         return (
             <div className="star-rating">
                 {
-                    this.props.hasInput &&
+                    !!this.props.hasInput &&
                     <label htmlFor={this.props.inputId}>
                         {this.props.labelName}
                     </label>
@@ -156,7 +156,7 @@ export default class Rating extends React.PureComponent {
                     }
 
                     {
-                        this.props.hasInput &&
+                        !!this.props.hasInput &&
                         <input ref={(ratingInput) => this._ratingInput = ratingInput}
                                id={this.props.inputId}
                                name={name}

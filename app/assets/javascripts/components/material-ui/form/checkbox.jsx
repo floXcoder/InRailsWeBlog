@@ -9,7 +9,7 @@ import Checkbox from '@mui/material/Checkbox';
 
 const CheckBoxFormField = function ({input, label, meta: {touched, error}, componentContent, ...custom}) {
     return (
-        <FormControl error={touched && !!error}
+        <FormControl error={!!touched && !!error}
                      {...custom}>
             <FormGroup>
                 <FormControlLabel control={<Checkbox checked={!!input.value}

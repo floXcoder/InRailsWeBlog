@@ -123,7 +123,7 @@ class CommentBox extends React.Component {
             if (this.props.showSignup) {
                 this.props.showSignup(true);
             }
-            Notification.message.alert(I18n.t('js.comment.flash.creation_unpermitted'));
+            Notification.alert(I18n.t('js.comment.flash.creation_unpermitted'));
         }
     };
 
@@ -138,7 +138,7 @@ class CommentBox extends React.Component {
                 this.props.deleteComment(commentId, this.props.commentableType, this.props.commentableId);
             }
         } else {
-            Notification.message.alert(I18n.t('js.comment.flash.creation_unpermitted'));
+            Notification.alert(I18n.t('js.comment.flash.creation_unpermitted'));
         }
     };
 
@@ -152,7 +152,7 @@ class CommentBox extends React.Component {
                 this.props.addComment(commentData, this.props.commentableType, this.props.commentableId);
             }
         } else {
-            Notification.message.alert(I18n.t('js.comment.flash.creation_unpermitted'));
+            Notification.alert(I18n.t('js.comment.flash.creation_unpermitted'));
         }
     };
 
@@ -168,12 +168,12 @@ class CommentBox extends React.Component {
 
                 <div className="content">
                     {
-                        this.props.isLoadingComments &&
+                        !!this.props.isLoadingComments &&
                         <CircleSpinner className="center-align"/>
                     }
 
                     {
-                        (this.props.comments && this.props.comments.length === 0 && !this.state.isShowingCommentForm) &&
+                        !!(this.props.comments && this.props.comments.length === 0 && !this.state.isShowingCommentForm) &&
                         (
                             this.props.isUserOwner
                                 ?
@@ -198,7 +198,7 @@ class CommentBox extends React.Component {
                                  onSubmit={this._handleCommentSubmit}/>
 
                     {
-                        (this.state.isCommentsLoaded && !this.state.isShowingCommentForm && !this.props.isUserOwner) &&
+                        !!(this.state.isCommentsLoaded && !this.state.isShowingCommentForm && !this.props.isUserOwner) &&
                         <div className="center-align margin-top-20">
                             <Button color="primary"
                                     variant="outlined"
@@ -222,7 +222,7 @@ class CommentBox extends React.Component {
                     </CSSTransition>
 
                     {
-                        this.props.isPaginated && this.props.commentsPagination &&
+                        !!(this.props.isPaginated && this.props.commentsPagination) &&
                         <Pagination className="margin-top-30"
                                     totalPages={this.props.commentsPagination.totalPages}
                                     onPaginationClick={this._handlePaginationClick}/>

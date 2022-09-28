@@ -6,18 +6,18 @@ import CardContent from '@mui/material/CardContent';
 
 function TopicCardSort({topic}) {
     return (
-        <div className="topic-sort-sortingItem">
+        <div className="topic-sort-sorting-item">
             <Card component="article"
                   className="topic-sort-card">
                 <CardHeader classes={{
-                    title: 'topic-sort-cardTitle'
+                    title: 'topic-sort-card-title'
                 }}
                             title={topic.name}/>
 
                 {
-                    topic.description &&
+                    !!topic.description &&
                     <CardContent classes={{
-                        root: 'topic-sort-cardContent'
+                        root: 'topic-sort-card-content'
                     }}>
                         <div className="normalized-content ellipsis-content"
                              dangerouslySetInnerHTML={{__html: topic.description}}/>

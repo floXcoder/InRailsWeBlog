@@ -19,7 +19,7 @@ const MultipleSelectFormField = function ({input, label, helperText, options, me
             <Select multiple={true}
                     input={<Input {...input}/>}
                     value={input.value}
-                    error={touched && !!error}
+                    error={!!touched && !!error}
                     renderValue={(selected) => (
                         <div style={{
                             display: 'flex',

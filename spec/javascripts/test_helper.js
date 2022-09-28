@@ -41,20 +41,36 @@ require('jquery');
 
 global.Utils = utils;
 
-// Translation
-global.I18n = require('../../app/assets/javascripts/modules/i18n');
-// require('./translations/en');
-// require('./translations/fr');
-I18n.defaultLocale = 'fr';
-I18n.locale = 'fr';
+// Translations
 window.defaultLocale = 'en';
 window.locale = 'en';
 window.locales = ['en', 'fr'];
 window.localizedRoutes = {
-    en: {home: '', search: 'search'},
-    fr: {home: 'fr', search: 'recherche', locale: '/fr'}
+    en: {
+        home: '',
+        search: 'search'
+    },
+    fr: {
+        home: 'fr',
+        search: 'recherche',
+        locale: '/fr'
+    }
 };
 window.defaultMetaTags = {};
+
+const I18n = function () {
+    return {
+        store: function () {
+        },
+        t: function () {
+        }
+    };
+};
+const i18n = new I18n();
+i18n.store({en: {}});
+i18n.defaultLocale = window.defaultLocale;
+i18n.locale = window.locale;
+global.I18n = i18n;
 
 // Configure log level
 log.setLevel('info');
@@ -106,9 +122,7 @@ global.dispatch = (store, actionCreator) => {
 
 // Notifications
 global.Notification = {
-    message: {
-        alert: jest.fn(),
-        success: jest.fn(),
-        error: jest.fn()
-    }
+    alert: jest.fn(),
+    success: jest.fn(),
+    error: jest.fn()
 };

@@ -53,14 +53,14 @@ export default class TopicFormInventoryFieldDisplay extends React.Component {
         const DragHandle = this.props.dragHandle;
 
         return (
-            <Grid className="topic-form-inv-fieldBorder"
+            <Grid className="topic-form-inv-field-border"
                   container={true}
                   spacing={2}
                   direction="row"
                   justifyContent="flex-start"
                   alignItems="center">
                 {
-                    this.props.field.fieldName &&
+                    !!this.props.field.fieldName &&
                     <input name="inventory_field[fields][][field_name]"
                            defaultValue={this.props.field.fieldName}
                            type="hidden"/>
@@ -70,7 +70,7 @@ export default class TopicFormInventoryFieldDisplay extends React.Component {
                        defaultValue={this.props.field.priority || 0}
                        type="hidden"/>
 
-                <div className="topic-form-inv-fieldDrag">
+                <div className="topic-form-inv-field-drag">
                     <DragHandle/>
                 </div>
 
@@ -114,7 +114,7 @@ export default class TopicFormInventoryFieldDisplay extends React.Component {
 
                 <Grid item={true}
                       sm={12}>
-                    <a className="topic-form-inv-fieldPropsButton"
+                    <a className="topic-form-inv-field-props-button"
                        href="#"
                        onClick={this._handleExpandClick}>
                         <Typography variant="body1"
@@ -123,8 +123,8 @@ export default class TopicFormInventoryFieldDisplay extends React.Component {
 
 
                             <IconButton
-                                className={classNames('topic-form-inv-fieldPropsExpand', {
-                                    'topic-form-inv-fieldPropsExpandOpen': this.state.isSourceExpanded
+                                className={classNames('topic-form-inv-field-props-expand', {
+                                    'topic-form-inv-field-props-expandOpen': this.state.isSourceExpanded
                                 })}
                                 aria-label="Show more"
                                 size="large">

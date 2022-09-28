@@ -9,8 +9,22 @@
 .react-responsive-modal {
   max-width: 95%;
 
+  @media #{$medium-and-down} {
+    width: 90%;
+  }
+
+  @media #{$medium-only} {
+    width: 80%;
+  }
+
   @media #{$large-and-up} {
     width: 900px;
+  }
+
+  &.react-responsive-modal-modal {
+    @media #{$medium-and-down} {
+      margin: .8rem;
+    }
   }
 
   .responsive-modal-title {

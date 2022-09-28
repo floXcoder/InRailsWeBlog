@@ -33,12 +33,12 @@ function ArticleNoneDisplay({
                             marginTop: '1rem'
                         }}>
                         {
-                            isSearchPage &&
+                            !!isSearchPage &&
                             I18n.t('js.article.common.no_results.search.title')
                         }
 
                         {
-                            isTopicPage && (
+                            !!isTopicPage && (
                                 childTagSlug
                                     ?
                                     I18n.t('js.article.common.no_results.topic.title.child_tag')
@@ -55,7 +55,7 @@ function ArticleNoneDisplay({
                     </h1>
 
                     {
-                        alternativeUrl?.link &&
+                        !!alternativeUrl?.link &&
                         <p>
                             {I18n.t('js.article.common.no_results.alternative_url')}
                             <a href={alternativeUrl.link}>
@@ -65,7 +65,7 @@ function ArticleNoneDisplay({
                     }
 
                     {
-                        isSearchPage &&
+                        !!isSearchPage &&
                         <p>
 
                             {I18n.t('js.article.common.no_results.search.content')}
@@ -73,7 +73,7 @@ function ArticleNoneDisplay({
                     }
 
                     {
-                        (isConnected && isTopicPage) &&
+                        !!(isConnected && isTopicPage) &&
                         <p className="center-align">
                             <Button className="margin-top-20"
                                     color="primary"

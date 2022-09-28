@@ -24,18 +24,16 @@ body {
   text-align: center;
 }
 
-.admin-login-fieldItem {
+.admin-login-field-item {
   width: 90%;
-  margin: 8px;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 8px auto;
 
   @media #{$large-and-down} {
     width: 95%;
   }
 }
 
-.admin-login-textField {
+.admin-login-text-field {
   width: 100%;
 }
 
@@ -196,45 +194,45 @@ body {
   padding-bottom: 8px;
 }
 
-.admin-visits-tableContainer {
+.admin-visits-table-container {
   width: 92vw;
   overflow-x: auto;
 }
 
-.admin-visits-tableData {
+.admin-visits-table-data {
   word-wrap: normal;
 }
 
-.admin-visits-tableDataItem {
+.admin-visits-table-data-item {
   color: #212121;
   text-decoration: underline;
 }
 
-.admin-visits-gridContainer {
+.admin-visits-grid-container {
   width: 90%;
   margin: 24px;
 }
 
-.admin-visits-listContainer {
+.admin-visits-list-container {
   width: 90%;
   background-color: #fff;
 }
 
-.admin-visits-listItem {
+.admin-visits-list-item {
   color: #212121;
   font-size: 1.2rem;
 }
 
-.admin-visits-listItemSecondary {
+.admin-visits-list-item-secondary {
   color: #616161;
   font-size: 1rem;
 }
 
-.admin-visits-listItemTag {
+.admin-visits-list-item-tag {
   white-space: pre;
 }
 
-.admin-visits-listItemLink {
+.admin-visits-list-item-link {
   color: #212121;
   font-size: 1rem;
   margin-left: 6px;
@@ -269,19 +267,19 @@ body {
   overflow-y: auto;
 }
 
-.admin-tracking-modal-listItemVisit {
+.admin-tracking-modal-list-item-visit {
   margin-top: 1.5rem;
 }
 
-.admin-tracking-modal-listItemEvent {
+.admin-tracking-modal-list-item-event {
   padding-left: 32px;
 }
 
-.admin-tracking-modal-listItemEventPrimary {
+.admin-tracking-modal-list-item-event-primary {
   font-size: 1rem;
 }
 
-.admin-tracking-modal-listItemEventSecondary {
+.admin-tracking-modal-list-itemevent-secondary {
   font-size: .9rem;
 }
 
@@ -294,7 +292,7 @@ body {
   text-align: left;
 }
 
-.admin-seo-errorField {
+.admin-seo-error-field {
   color: $error-color;
 }
 
@@ -322,12 +320,12 @@ body {
 .admin-blog-title {
   color: #000;
   margin: inherit;
-  font-size: 2.6rem;
   margin-top: 1rem;
+  margin-bottom: 0;
+  font-size: 2.6rem;
   text-align: center;
   font-weight: 600;
   line-height: 2.5rem;
-  margin-bottom: 0;
   letter-spacing: 3.5px;
 
   @media #{$large-and-down} {
@@ -346,7 +344,7 @@ body {
   }
 }
 
-.admin-blog-expandOpen {
+.admin-blog-expand-open {
   transform: rotate(0deg);
 }
 
@@ -361,7 +359,7 @@ body {
   justify-content: space-between;
 }
 
-.admin-blog-actionButtons {
+.admin-blog-action-buttons {
   margin-left: auto;
 
   @media (min-width: 600px) {
@@ -369,7 +367,7 @@ body {
   }
 }
 
-.admin-blog-actionItem {
+.admin-blog-action-item {
   margin: 8px;
   display: inline-block;
 }

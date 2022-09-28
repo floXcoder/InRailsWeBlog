@@ -6,6 +6,8 @@ import {
     loginUser
 } from '../../actions';
 
+import AnalyticsService from '../../modules/analyticsService';
+
 import LoginForm from './form/login';
 
 import Modal from '../theme/modal';
@@ -31,13 +33,21 @@ class UserLogin extends React.PureComponent {
         super(props);
     }
 
+    componentDidMount() {
+        if (this.props.isOpen) {
+            AnalyticsService.trackLoginPage();
+        }
+    }
+
     _handleSubmit = (values) => {
         this.props.loginUser(values)
             .then((response) => {
                 if (response?.errors) {
-                    Notification.message.error(response.errors);
+                    Notification.error(response.errors);
                     // window.location.replace('/');
                 } else if (response.user) {
+                    AnalyticsService.trackLoginSuccess(response?.user?.id);
+
                     // Add timestamp to ensure page is not cached
                     const timestamp = Date.now();
                     const urlParams = window.location.search;
@@ -65,7 +75,7 @@ class UserLogin extends React.PureComponent {
 
                 <div className="responsive-modal-content">
                     {
-                        this.props.isProcessing &&
+                        !!this.props.isProcessing &&
                         <div className="center-align">
                             <h2 className="responsive-modal-subtitle">
                                 {I18n.t('js.user.login.connecting')}
@@ -75,7 +85,7 @@ class UserLogin extends React.PureComponent {
                     }
 
                     {
-                        this.props.isConnected &&
+                        !!this.props.isConnected &&
                         <div className="center-align">
                             <h2 className="responsive-modal-subtitle">
                                 {I18n.t('js.user.login.connected')}

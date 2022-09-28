@@ -52,11 +52,11 @@ class Comment < ApplicationRecord
             presence: true
 
   validates :title,
-            length: { minimum: InRailsWeBlog.config.comment_title_min_length, maximum: InRailsWeBlog.config.comment_title_max_length },
+            length: { minimum: InRailsWeBlog.settings.comment_title_min_length, maximum: InRailsWeBlog.settings.comment_title_max_length },
             if:     -> { title.present? }
   validates :body,
             presence: true,
-            length:   { minimum: InRailsWeBlog.config.comment_body_min_length, maximum: InRailsWeBlog.config.comment_body_max_length }
+            length:   { minimum: InRailsWeBlog.settings.comment_body_min_length, maximum: InRailsWeBlog.settings.comment_body_max_length }
 
   # == Scopes ===============================================================
   # Helper class method to lookup all comments assigned

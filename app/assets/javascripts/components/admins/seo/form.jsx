@@ -103,7 +103,7 @@ export default class AdminSeoDataForm extends React.Component {
                   noValidate={true}
                   onSubmit={this._handlePersistSeoData.bind(this, this.props.seoData)}>
                 {
-                    this.props.isNew &&
+                    !!this.props.isNew &&
                     <div className="row margin-top-25 margin-bottom-10">
                         <div className="col s12 center-align">
                             <h3>
@@ -149,14 +149,14 @@ export default class AdminSeoDataForm extends React.Component {
                 }
 
                 {
-                    this.state.error &&
-                    <h4 className="admin-seo-errorField">
+                    !!this.state.error &&
+                    <h4 className="admin-seo-error-field">
                         {this.state.error}
                     </h4>
                 }
 
                 {
-                    parameters &&
+                    !!parameters &&
                     <div className="row margin-top-20 margin-bottom-20">
                         <div className="col s12 center-align">
                             <h3>
@@ -165,7 +165,7 @@ export default class AdminSeoDataForm extends React.Component {
                         </div>
 
                         {
-                            this.state.url &&
+                            !!this.state.url &&
                             <div className="col s12 center-align margin-bottom-15">
                                 URL : {this.state.url}
                             </div>

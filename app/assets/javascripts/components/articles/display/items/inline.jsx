@@ -117,7 +117,7 @@ class ArticleInlineDisplay extends React.PureComponent {
                 <article id={`article-${this.props.article.id}`}
                          className={classNames('article-inline-root', {
                              'article-inline-over': this.state.isOver,
-                             'article-inline-rootPrivate': isPrivateInPublic
+                             'article-inline-root-private': isPrivateInPublic
                          })}>
                     <IconButton
                         className="article-inline-expand"
@@ -129,7 +129,7 @@ class ArticleInlineDisplay extends React.PureComponent {
                     </IconButton>
 
                     {
-                        this.props.article.title &&
+                        !!this.props.article.title &&
                         <Link to={userArticlePath(this.props.article.user.slug, this.props.article.slug)}
                               onClick={this._handleTitleClick}>
                             <h1 className="article-inline-title">
@@ -153,8 +153,8 @@ class ArticleInlineDisplay extends React.PureComponent {
 
                     {
                         !this.state.isFolded &&
-                        <div className="article-inline-floatingButtons">
-                            <div className="article-inline-floatingIcons">
+                        <div className="article-inline-floating-buttons">
+                            <div className="article-inline-floating-icons">
                                 <ArticleLinkIcon articleId={this.props.article.id}
                                                  articleSlug={this.props.article.slug}
                                                  articleTitle={this.props.article.title}
@@ -166,8 +166,8 @@ class ArticleInlineDisplay extends React.PureComponent {
                             </div>
 
                             {
-                                this.props.isOwner &&
-                                <div className="article-inline-floatingIcons">
+                                !!this.props.isOwner &&
+                                <div className="article-inline-floating-icons">
                                     <a className="flow-tooltip-bottom"
                                        href="#"
                                        onMouseEnter={this._handleOverEdit}
@@ -183,8 +183,8 @@ class ArticleInlineDisplay extends React.PureComponent {
                     }
 
                     {
-                        isPrivateInPublic &&
-                        <div className="article-inline-privateMessage">
+                        !!isPrivateInPublic &&
+                        <div className="article-inline-private-message">
                             {I18n.t('js.article.common.private_in_public')}
                         </div>
                     }

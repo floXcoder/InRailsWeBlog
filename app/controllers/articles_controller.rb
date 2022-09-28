@@ -37,7 +37,7 @@ class ArticlesController < ApplicationController
       set_seo_data(:topic_articles,
                    topic_slug:          article_params[:topic_slug],
                    user_slug:           article_params[:user_slug],
-                   topic_content:       context_topic&.description&.summary(InRailsWeBlog.config.seo_meta_desc_length, strip_html: true, remove_links: true),
+                   topic_content:       context_topic&.description&.summary(InRailsWeBlog.settings.seo_meta_desc_length, strip_html: true, remove_links: true),
                    exclude_slugs:       [:topic_content],
                    languages:           languages,
                    available_languages: available_languages)
@@ -50,8 +50,8 @@ class ArticlesController < ApplicationController
 
     track_action(article_ids: articles.map(&:id), tag_slug: article_params[:tag_slug], topic_slug: article_params[:topic_slug], user_slug: article_params[:user_slug])
 
-    user_signed_in? || admin_signed_in? ? reset_cache_headers : expires_in(InRailsWeBlog.config.cache_time, public: true)
-    if stale?(articles, template: false, public: true)
+    with_cache? ? expires_in(InRailsWeBlog.settings.cache_time, public: true) : reset_cache_headers
+    if !with_cache? || stale?(articles, template: false, public: true)
       respond_to do |format|
         format.html do
           articles = Article.serialized_json(articles,
@@ -81,7 +81,7 @@ class ArticlesController < ApplicationController
 
     set_seo_data(:user_article,
                  article_slug:    article,
-                 article_content: article.content&.summary(InRailsWeBlog.config.seo_meta_desc_length, strip_html: true, remove_links: true, remove_code: true),
+                 article_content: article.content&.summary(InRailsWeBlog.settings.seo_meta_desc_length, strip_html: true, remove_links: true, remove_code: true),
                  topic_slug:      article.topic,
                  user_slug:       article.user,
                  author:          article.user.pseudo,
@@ -92,8 +92,8 @@ class ArticlesController < ApplicationController
                                     image: article.default_picture[:jpg]
                                   }.compact)
 
-    user_signed_in? || admin_signed_in? ? reset_cache_headers : expires_in(InRailsWeBlog.config.cache_time, public: true)
-    if stale?(article, template: false, public: true) || article.user?(current_user)
+    with_cache?(article) ? expires_in(InRailsWeBlog.settings.cache_time, public: true) : reset_cache_headers
+    if !with_cache?(article) || stale?(article, template: false, public: true)
       respond_to do |format|
         format.html do
           article = if current_user && article.user?(current_user)

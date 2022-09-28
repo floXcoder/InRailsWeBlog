@@ -24,6 +24,6 @@ production:
   pool: 15
   connect_timeout: 30
   variables:
-    statement_timeout: 6000
+    statement_timeout: 15000
   username: <%= ENV['DATABASE_PROD_USERNAME'] %>
   password: <%= ENV['DATABASE_PROD_PASSWORD'] %>

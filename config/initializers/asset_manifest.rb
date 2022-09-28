@@ -37,7 +37,7 @@ class AssetManifest
       if Rails.env.development?
         url
       else
-        InRailsWeBlog.config.full_assets_url + url
+        InRailsWeBlog.settings.full_assets_url + url
       end
     elsif url.start_with?('data:')
       url

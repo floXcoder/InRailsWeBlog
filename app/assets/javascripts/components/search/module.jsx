@@ -126,7 +126,7 @@ class SearchModule extends React.Component {
                 <div className="search-module-container">
                     {
                         (this.props.query !== '' && this.props.selectedTags.length === 0) &&
-                        <div className="search-module-helpMessage center-align">
+                        <div className="search-module-help-message center-align">
                             {I18n.t('js.search.module.helpers.select_tag')}
                         </div>
                     }
@@ -136,7 +136,7 @@ class SearchModule extends React.Component {
                           direction="row"
                           justifyContent="space-between"
                           alignItems="flex-start">
-                        <Grid className="search-module-gridItem"
+                        <Grid className="search-module-grid-item"
                               item={true}
                               xs={12}
                               sm={8}
@@ -152,7 +152,7 @@ class SearchModule extends React.Component {
                                                  articles={articles}/>
                         </Grid>
 
-                        <Grid className="search-module-gridItem"
+                        <Grid className="search-module-grid-item"
                               item={true}
                               xs={12}
                               sm={4}
@@ -167,7 +167,7 @@ class SearchModule extends React.Component {
                                              hasQuery={hasQuery}
                                              tags={tags}
                                              selectedTags={this.props.selectedTags}
-                                             highlightedTagId={this.props.highlightedTag && this.props.highlightedTag.id}
+                                             highlightedTagId={this.props.highlightedTag?.id}
                                              onTagClick={this._handleTagSelection}/>
 
                             <SearchTopicModule topics={this.props.topics}/>
@@ -176,7 +176,7 @@ class SearchModule extends React.Component {
 
                     {
                         (!hasQuery && !this.props.isUserConnected) &&
-                        <div className="search-module-defaultMessage">
+                        <div className="search-module-default-message">
                             {I18n.t('js.search.module.default')}
                         </div>
                     }

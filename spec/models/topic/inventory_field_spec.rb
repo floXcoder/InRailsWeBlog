@@ -87,8 +87,8 @@ RSpec.describe Topic::InventoryField, type: :model do
     end
 
     describe '#name' do
-      it { is_expected.to validate_length_of(:name).is_at_least(InRailsWeBlog.config.topic_inventory_field_name_min_length) }
-      it { is_expected.to validate_length_of(:name).is_at_most(InRailsWeBlog.config.topic_inventory_field_name_max_length) }
+      it { is_expected.to validate_length_of(:name).is_at_least(InRailsWeBlog.settings.topic_inventory_field_name_min_length) }
+      it { is_expected.to validate_length_of(:name).is_at_most(InRailsWeBlog.settings.topic_inventory_field_name_max_length) }
     end
 
     describe '#field_name' do

@@ -288,7 +288,7 @@ class AdminLogs extends React.PureComponent {
                         </div>
 
                         {
-                            (this.state.isFetching && !this.state.isFetchingTop) &&
+                            !!(this.state.isFetching && !this.state.isFetchingTop) &&
                             <div className="file-loading">
                                 <div className="file-loading-loader">
                                     <Loader size="big"/>
@@ -300,7 +300,8 @@ class AdminLogs extends React.PureComponent {
                              className="file-content logs">
                             <ol ref={(el) => this._envLogNode = el}>
                                 {
-                                    this.state.environmentLog && this.state.environmentLog.map((line, i) => (
+                                    !!this.state.environmentLog &&
+                                    this.state.environmentLog.map((line, i) => (
                                         <LogLine key={i}
                                                  onLineElementClick={this._handleLineElementClick}>
                                             {line}

@@ -222,7 +222,7 @@ class ArticleShow extends React.Component {
                     // es: 'Ver'
                 };
 
-                Notification.message.success(message[visitorLanguage], button[visitorLanguage], () => window.location.replace(userArticlePath(this.props.routeParams.userSlug, this.props.article.slugTranslations[visitorLanguage], visitorLanguage)));
+                Notification.success(message[visitorLanguage], button[visitorLanguage], () => window.location.replace(userArticlePath(this.props.routeParams.userSlug, this.props.article.slugTranslations[visitorLanguage], visitorLanguage)));
             }
         }
     };
@@ -238,20 +238,20 @@ class ArticleShow extends React.Component {
 
         if (this.props.article.outdated) {
             this.props.unmarkArticleOutdated(this.props.article.id)
-                .then((response) => response?.errors && Notification.message.error(response.errors));
+                .then((response) => response?.errors && Notification.error(response.errors));
         } else {
             this.props.markArticleOutdated(this.props.article.id)
-                .then((response) => response?.errors && Notification.message.error(response.errors));
+                .then((response) => response?.errors && Notification.error(response.errors));
         }
     };
 
     _handleCheckLinkClick = (event) => {
         event.preventDefault();
 
-        Notification.message.warn(I18n.t('js.article.common.dead_links.checking'));
+        Notification.warn(I18n.t('js.article.common.dead_links.checking'));
 
         this.props.checkLinksArticle(this.props.article.id)
-            .then(() => Notification.message.success(I18n.t('js.article.common.dead_links.done')));
+            .then(() => Notification.success(I18n.t('js.article.common.dead_links.done')));
     };
 
     _handleDeleteClick = (event) => {
@@ -288,6 +288,8 @@ class ArticleShow extends React.Component {
 
         const isStoryMode = this.props.article.mode === 'story' && !!this.props.storyTopic && this.props.storyTopic.slug === currentTopicSlug;
 
+        const isPrivateInPublicTopic = this.props.currentTopic && this.props.article && this.props.currentTopic.id === this.props.article.topicId && this.props.currentTopic.visibility === 'everyone' && this.props.article.visibility !== 'everyone';
+
         const hasLinks = this.props.article.content?.includes('<a ');
 
         let title = this.props.article.title;
@@ -303,7 +305,7 @@ class ArticleShow extends React.Component {
         return (
             <div className="block">
                 {
-                    (this.props.routeLocation.search?.position && this.props.isFetching) &&
+                    !!(this.props.routeLocation.search?.position && this.props.isFetching) &&
                     <div className="center margin-top-20">
                         <div>
                                 <span className="transition"
@@ -325,7 +327,7 @@ class ArticleShow extends React.Component {
                              itemScope={true}
                              itemType="https://schema.org/BlogPosting">
                         {
-                            this.props.isCurrentTopicOwner &&
+                            !!this.props.isCurrentTopicOwner &&
                             <div className="article-show-breadcrumb">
                                 <ArticleBreadcrumbDisplay user={this.props.currentUser}
                                                           topic={this.props.currentTopic}
@@ -334,13 +336,13 @@ class ArticleShow extends React.Component {
                         }
 
                         {
-                            this.props.isUserConnected &&
-                            <div className="article-show-floatingButtons">
+                            !!this.props.isUserConnected &&
+                            <div className="article-show-floating-buttons">
                                 <Sticky boundaryElement={`#article-${this.props.article.id}`}
                                         topOffset={20}
                                         bottomOffset={400}>
-                                    <div className="article-show-floatingButtons">
-                                        <ArticleFloatingIcons className="article-show-floatingIcons"
+                                    <div className="article-show-floating-buttons">
+                                        <ArticleFloatingIcons className="article-show-floating-icons"
                                                               display="item"
                                                               size="medium"
                                                               color="action"
@@ -361,7 +363,7 @@ class ArticleShow extends React.Component {
                         })}>
                             <Grid container={true}>
                                 {
-                                    this.props.article.summary &&
+                                    !!this.props.article.summary &&
                                     <Grid item={true}
                                           xs={12}>
                                         <h2 itemProp="description">
@@ -380,7 +382,7 @@ class ArticleShow extends React.Component {
                                       xs={12}>
                                     <Grid container={true}
                                           classes={{
-                                              container: 'article-show-articleInfo'
+                                              container: 'article-show-article-info'
                                           }}
                                           spacing={1}
                                           direction="row"
@@ -388,7 +390,8 @@ class ArticleShow extends React.Component {
                                           alignItems="center">
                                         <Grid item={true}>
                                             <ArticleAvatarIcon user={this.props.article.user}
-                                                               articleDate={this.props.article.date}/>
+                                                               createdDate={this.props.article.date}
+                                                               updatedDate={this.props.article.updatedDate}/>
                                         </Grid>
 
                                         <Grid className="hide-on-small"
@@ -399,7 +402,7 @@ class ArticleShow extends React.Component {
                                                     <>
                                                         {
                                                             this.props.article.languages?.length > 1 &&
-                                                            <div className="article-show-editIcon">
+                                                            <div className="article-show-edit-icon">
                                                                 <ArticleLanguageIcon
                                                                     currentLocale={this.props.articleCurrentLanguage || window.locale}
                                                                     languages={this.props.article.languages}
@@ -410,8 +413,8 @@ class ArticleShow extends React.Component {
                                                             </div>
                                                         }
 
-                                                        <div className={classNames('article-show-editIcon', {
-                                                            'article-show-editIcon-private': this.props.currentTopic && this.props.currentTopic.visibility === 'everyone' && this.props.article.visibility !== 'everyone'
+                                                        <div className={classNames('article-show-edit-icon', {
+                                                            'article-show-edit-icon-private': isPrivateInPublicTopic
                                                         })}>
                                                             <ArticleEditIcon userSlug={this.props.article.user.slug}
                                                                              articleSlug={this.props.article.slug}
@@ -421,7 +424,7 @@ class ArticleShow extends React.Component {
                                                         </div>
                                                     </>
                                                     :
-                                                    <div className="article-show-editIcon">
+                                                    <div className="article-show-edit-icon">
                                                         <Button
                                                             variant="outlined"
                                                             size="small"
@@ -433,15 +436,15 @@ class ArticleShow extends React.Component {
                                             }
 
                                             {
-                                                (this.props.article.allowComment && this.props.article.visibility !== 'only_me' && this.props.article.commentsCount > 0) &&
-                                                <CommentCountIcon className="article-show-commentCount"
+                                                !!(this.props.article.allowComment && this.props.article.visibility !== 'only_me' && this.props.article.commentsCount > 0) &&
+                                                <CommentCountIcon className="article-show-comment-count"
                                                                   commentLink={`#article-comments-${this.props.article.id}`}
                                                                   commentsCount={this.props.article.commentsCount}
                                                                   hasIcon={false}/>
                                             }
 
                                             {
-                                                (this.props.currentTopic && this.props.article && this.props.currentTopic.visibility === 'everyone' && this.props.article.visibility !== 'everyone') &&
+                                                !!isPrivateInPublicTopic &&
                                                 <div className="article-show-private-message">
                                                     {I18n.t('js.article.common.private_in_public')}
                                                 </div>
@@ -451,7 +454,7 @@ class ArticleShow extends React.Component {
                                 </Grid>
                             </Grid>
 
-                            <div className="article-show-articleContent"
+                            <div className="article-show-article-content"
                                  itemProp="articleBody">
                                 {
                                     this.props.article.mode === 'inventory'
@@ -464,10 +467,10 @@ class ArticleShow extends React.Component {
                             </div>
 
                             {
-                                this.props.article.reference &&
+                                !!this.props.article.reference &&
                                 <div className="article-show-reference">
                                     <a href={this.props.article.reference}
-                                       className="article-show-referenceLink"
+                                       className="article-show-reference-link"
                                        rel="noopener noreferrer"
                                        target="_blank">
                                         {Utils.normalizeLink(this.props.article.reference)}
@@ -488,7 +491,7 @@ class ArticleShow extends React.Component {
                                 }
 
                                 {
-                                    this.props.isOwner &&
+                                    !!this.props.isOwner &&
                                     <ArticleActions size="medium"
                                                     color="primary"
                                                     userSlug={this.props.article.user.slug}
@@ -509,11 +512,11 @@ class ArticleShow extends React.Component {
 
                 {
                     (!!this.props.article && !this.props.isFetching && this.props.routeParams.userSlug !== this.props.currentUserSlug) &&
-                    <div className="article-show-recommendationsContainer">
+                    <div className="article-show-recommendations-container">
                         <Divider/>
 
                         {
-                            (isStoryMode && !this.props.isUserConnected) &&
+                            !!(isStoryMode && !this.props.isUserConnected) &&
                             <SummaryStoriesTopic userSlug={this.props.routeParams.userSlug}
                                                  topic={this.props.storyTopic}
                                                  hasLink={true}/>
@@ -521,7 +524,7 @@ class ArticleShow extends React.Component {
 
                         {
                             !isStoryMode &&
-                            <h3 className="article-show-recommendationsTitle">
+                            <h3 className="article-show-recommendations-title">
                                 {I18n.t('js.article.show.recommendations.title')}
                             </h3>
                         }
@@ -537,8 +540,8 @@ class ArticleShow extends React.Component {
                                         <Grid key={article.id}
                                               item={true}>
                                             {
-                                                isStoryMode &&
-                                                <h3 className="article-show-recommendationsTitle">
+                                                !!isStoryMode &&
+                                                <h3 className="article-show-recommendations-title">
                                                     {
                                                         i % 2 === 0
                                                             ?
@@ -549,7 +552,7 @@ class ArticleShow extends React.Component {
                                                 </h3>
                                             }
 
-                                            <div className="article-show-recommendationsArticle">
+                                            <div className="article-show-recommendations-article">
                                                 <ArticleMiniCardDisplay article={article}
                                                                         isPaper={true}
                                                                         hasTags={false}/>
@@ -562,7 +565,7 @@ class ArticleShow extends React.Component {
 
                         {
                             !isStoryMode &&
-                            <div className="article-show-recommendationsLink">
+                            <div className="article-show-recommendations-link">
                                 <Button color="primary"
                                         variant="outlined"
                                         size="small"
@@ -576,9 +579,9 @@ class ArticleShow extends React.Component {
                 }
 
                 {
-                    (this.props.article.allowComment && this.props.article.visibility !== 'only_me') &&
+                    !!(this.props.article.allowComment && this.props.article.visibility !== 'only_me') &&
                     <div id={`article-comments-${this.props.article.id}`}
-                         className="article-show-commentsContainer">
+                         className="article-show-comments-container">
                         <LazyLoader loadOnmount={window.seoMode}
                                     height={0}
                                     once={true}

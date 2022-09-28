@@ -277,7 +277,7 @@ class SearchIndex extends React.Component {
         }
 
         if (this.props.currentUserId) {
-            Notification.message.alert(I18n.t('js.search.scrap.message.fetching'));
+            Notification.alert(I18n.t('js.search.scrap.message.fetching'));
 
             let data;
             if (event) {
@@ -291,7 +291,7 @@ class SearchIndex extends React.Component {
             data.append('search[article_ids]', this.props.articles.map((article) => article.id));
 
             this.props.searchInURLs(data)
-                .then(() => Notification.message.success(I18n.t('js.search.scrap.message.result')));
+                .then(() => Notification.success(I18n.t('js.search.scrap.message.result')));
         }
     };
 
@@ -332,19 +332,19 @@ class SearchIndex extends React.Component {
                           justifyContent="center"
                           alignItems="center">
                         <Grid item={true}
-                              className="search-index-inputItem">
+                              className="search-index-input-item">
                             <FormControl classes={{
-                                root: 'search-index-inputForm'
+                                root: 'search-index-input-form'
                             }}>
-                                <div className="search-index-searchIcon">
+                                <div className="search-index-search-icon">
                                     <SearchIcon fontSize="large"/>
                                 </div>
 
                                 <Input name="search"
                                        type="search"
                                        classes={{
-                                           root: 'search-index-inputRoot',
-                                           input: 'search-index-inputSearch'
+                                           root: 'search-index-input-root',
+                                           input: 'search-index-input-search'
                                        }}
                                        autoFocus={isDesktop}
                                        placeholder={I18n.t('js.search.index.placeholder')}
@@ -354,7 +354,7 @@ class SearchIndex extends React.Component {
                                                {
                                                    this.props.selectedTags.map((tag) => (
                                                        <Chip key={tag.id}
-                                                             className="search-index-inputTag"
+                                                             className="search-index-input-tag"
                                                              tabIndex={-1}
                                                              label={tag.name}
                                                              color="primary"
@@ -384,7 +384,7 @@ class SearchIndex extends React.Component {
                 </form>
 
                 {
-                    this.props.isSearching &&
+                    !!this.props.isSearching &&
                     <div className="center margin-top-35 margin-bottom-60">
                         <Loader size="big"/>
                     </div>
@@ -432,7 +432,7 @@ class SearchIndex extends React.Component {
 
                 {
                     (!this.props.articles.length && !this.props.isSearching) &&
-                    <div className="search-index-helpMessage">
+                    <div className="search-index-help-message">
                         {I18n.t('js.search.index.no_results')}
                     </div>
                 }

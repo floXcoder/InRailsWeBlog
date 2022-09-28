@@ -61,7 +61,7 @@ function UserActivity({activities, pagination, loadActivities}) {
                 {ActivityNodes}
             </ul>
             {
-                pagination &&
+                !!pagination &&
                 <Pagination totalPages={pagination.total_pages}
                             onPaginationClick={_handlePaginationClick.bind(null, loadActivities)}
                             numOfPageShow={4}/>

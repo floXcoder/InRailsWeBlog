@@ -4,6 +4,7 @@ import Modal from '../theme/modal';
 
 import UserSettings from './settings';
 
+
 export default class UserPreference extends React.Component {
     static propTypes = {
         isOpen: PropTypes.bool.isRequired,

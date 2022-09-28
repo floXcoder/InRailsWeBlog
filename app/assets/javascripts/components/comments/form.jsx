@@ -6,6 +6,7 @@ import Button from '@mui/material/Button';
 
 import Rating from '../theme/rating';
 
+
 export default class CommentForm extends React.PureComponent {
     static propTypes = {
         onSubmit: PropTypes.func.isRequired,
@@ -96,7 +97,7 @@ export default class CommentForm extends React.PureComponent {
                                        value={this.state.title}
                                        onChange={this._handleFormChange.bind(this, 'title')}/>
                             {
-                                this.state.title && (this.state.title.length < window.settings.comment_title_min_length || this.state.title.length > window.settings.comment_title_max_length) &&
+                                !!(this.state.title && (this.state.title.length < window.settings.comment_title_min_length || this.state.title.length > window.settings.comment_title_max_length)) &&
                                 <FormHelperText id="component-error-text"
                                                 className="comment-form-error">
                                     {
@@ -125,7 +126,7 @@ export default class CommentForm extends React.PureComponent {
                                        onChange={this._handleFormChange.bind(this, 'body')}/>
 
                             {
-                                this.state.body && (this.state.body.length < window.settings.comment_body_min_length || this.state.body.length > window.settings.comment_body_max_length) &&
+                                !!(this.state.body && (this.state.body.length < window.settings.comment_body_min_length || this.state.body.length > window.settings.comment_body_max_length)) &&
                                 <FormHelperText id="component-error-text"
                                                 className="comment-form-error">
                                     {
@@ -145,7 +146,7 @@ export default class CommentForm extends React.PureComponent {
                             </span>
 
                             {
-                                this.props.isRated && !this.props.isAskingForDeletion &&
+                                !!(this.props.isRated && !this.props.isAskingForDeletion) &&
                                 <div className="margin-top-20 margin-bottom-30">
                                     <Rating initialRating={this.props.rating}
                                             isReadOnly={false}

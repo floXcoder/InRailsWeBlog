@@ -37,7 +37,11 @@ export default @connect((state) => ({
     synchronizeBookmarks,
     setCurrentTags
 })
-@withRouter({location: true, params: true, navigate: true})
+@withRouter({
+    location: true,
+    params: true,
+    navigate: true
+})
 class UserManager extends React.Component {
     static propTypes = {
         children: PropTypes.object.isRequired,
@@ -85,7 +89,9 @@ class UserManager extends React.Component {
             });
 
             this._userRequest.fetch.then((response) => {
-                this._fetchUserData(response?.user);
+                if (response?.user) {
+                    this._fetchUserData(response.user);
+                }
             });
         } else {
             // Called when route changed
@@ -139,7 +145,7 @@ class UserManager extends React.Component {
                 userId: currentUser.id
             });
 
-            if (currentUser.currentTopic) {
+            if (currentUser.currentTopic && this.props.routeParams.topicSlug) {
                 if (currentUser.currentTopic.slug !== this.props.routeParams.topicSlug) {
                     this._checkState();
                 } else {
@@ -195,7 +201,9 @@ class UserManager extends React.Component {
 
         // Extract topicSlug from article if any
         if (this.props.routeParams.articleSlug) {
-            topicSlug = this.props.routeParams.articleSlug.match(/@.*?$/)?.first()?.substr(1);
+            topicSlug = this.props.routeParams.articleSlug.match(/@.*?$/)
+                ?.first()
+                ?.substr(1);
         }
 
         if (topicSlug) {
@@ -224,7 +232,8 @@ class UserManager extends React.Component {
             this._tagRequest = this.props.fetchTags({
                 userId: this.props.currentUserId
             });
-        } else if (this.props.currentUserTopicSlug !== topicSlug && this.props.userTopics.map((topic) => topic.slug).includes(topicSlug)) {
+        } else if (this.props.currentUserTopicSlug !== topicSlug && this.props.userTopics.map((topic) => topic.slug)
+            .includes(topicSlug)) {
             this._tagRequest = this.props.fetchTags(
                 {
                     topicSlug: topicSlug

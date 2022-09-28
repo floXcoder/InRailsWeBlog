@@ -33,8 +33,8 @@ function ArticleTimelineDisplay({
                                             <SingleTimelineItem key={i + '-' + j}
                                                                 title={
                                                                     <a href={`#article-${article.id}`}
-                                                                       className={classNames('article-sidebar-articleLink', {
-                                                                           'article-sidebar-currentLink': currentArticles.includes(article.id)
+                                                                       className={classNames('article-sidebar-article-link', {
+                                                                           'article-sidebar-current-link': currentArticles.includes(article.id)
                                                                        })}>
                                                                         {article.title}
                                                                     </a>
@@ -52,8 +52,8 @@ function ArticleTimelineDisplay({
                 </SingleTimeline>
 
                 {
-                    (articlePagination && articlePagination.currentPage !== articlePagination.totalPages) &&
-                    <span className="article-sidebar-moreArticles">
+                    !!(articlePagination && articlePagination.currentPage !== articlePagination.totalPages) &&
+                    <span className="article-sidebar-more-articles">
                         {I18n.t('js.article.timeline.scroll_for_more')}
                     </span>
                 }

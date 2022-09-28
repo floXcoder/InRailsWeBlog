@@ -2,6 +2,7 @@
 
 import Tag from './tag';
 
+
 export default class Category extends React.Component {
     static propTypes = {
         items: PropTypes.array.isRequired,

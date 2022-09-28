@@ -5,13 +5,15 @@ import {
 } from 'qs';
 
 import {
-    trackAction,
     pushError
 } from '../actions';
 
+import AnalyticsService from '../modules/analyticsService';
+
+
 let retryTokenCount = 0;
 
-const getHeaders = (external = false) => {
+const _getHeaders = (external = false) => {
     if (external) {
         return {
             headers: new Headers({
@@ -34,7 +36,7 @@ const getHeaders = (external = false) => {
     }
 };
 
-const getDataHeaders = () => {
+const _getDataHeaders = () => {
     const csrfToken = document.getElementsByName('csrf-token')[0];
     const token = csrfToken?.getAttribute('content');
 
@@ -47,12 +49,78 @@ const getDataHeaders = () => {
     };
 };
 
-const manageError = (origin, error, url) => {
+
+const _processSerializeParams = (value, formData, parent) => {
+    const processedKey = parent || '';
+    const excludeNull = true;
+    const useBrackets = true;
+    const arrayIndexes = true;
+    const useDotSeparator = false;
+
+    if (value === null || value === undefined) {
+        if (!excludeNull) {
+            formData.append(processedKey, '');
+        }
+        return;
+    }
+
+    if (value instanceof File) {
+        formData.append(processedKey, value);
+        return;
+    }
+
+    if (value instanceof Blob) {
+        formData.append(processedKey, value);
+        return;
+    }
+
+    if (Array.isArray(value)) {
+        value.forEach((item, index) => {
+            let computedKey = processedKey;
+            if (useBrackets) {
+                computedKey += `[${arrayIndexes ? index : ''}]`;
+            }
+            _processSerializeParams(item, formData, computedKey);
+        });
+        return;
+    }
+
+    if (Utils.is().isObject(value)) {
+        Object.entries(value)
+            .forEach(([key, data]) => {
+                let computedKey = key;
+                if (parent) {
+                    computedKey = useDotSeparator
+                        ? `${parent}.${key}`
+                        : `${parent}[${key}]`;
+                }
+                _processSerializeParams(data, formData, computedKey);
+            });
+        return;
+    }
+
+    if (typeof value === 'boolean') {
+        formData.append(processedKey, value ? 'true' : 'false');
+        return;
+    }
+
+    formData.append(processedKey, value);
+};
+
+const _serializeParams = (params) => {
+    const formData = new FormData();
+
+    _processSerializeParams(params, formData);
+
+    return formData;
+};
+
+const _manageError = (origin, error, url) => {
     if (url === '/errors') {
         return;
     }
 
-    // Error message display by handleFlashMessage function
+    // Error message display by _handleFlashMessage function
     if (error.headers?.get('X-Flash-Messages')) {
         return;
     }
@@ -64,7 +132,7 @@ const manageError = (origin, error, url) => {
 
     if (error.statusText) {
         if (error.statusText === 'Forbidden') {
-            // Notification.message.error(I18n.t('js.helpers.errors.not_authorized'));
+            // Notification.error(I18n.t('js.helpers.errors.not_authorized'));
             // if (document.referrer === '') {
             //     window.location = '/';
             // } else {
@@ -75,15 +143,15 @@ const manageError = (origin, error, url) => {
         } else if (error.statusText === 'Cancelled') {
             return error;
         } else if (error.statusText === 'Not Found') {
-            // Notification.message.error(I18n.t('js.helpers.errors.unprocessable'));
+            // Notification.error(I18n.t('js.helpers.errors.unprocessable'));
             // } else if (error.statusText === 'Unprocessable Entity') {
-            // Managed by handleResponse
+            // Managed by _handleResponse
             // if (!error.bodyUsed) {
             //     return error.json().then((status) => (
-            //         Notification.message.error(status.error || status.errors || error.statusText)
+            //         Notification.error(status.error || status.errors || error.statusText)
             //     ));
             // } else {
-            //     Notification.message.error(I18n.t('js.helpers.errors.unprocessable'));
+            //     Notification.error(I18n.t('js.helpers.errors.unprocessable'));
             // }
 
             return error;
@@ -98,7 +166,7 @@ const manageError = (origin, error, url) => {
                                     .split('\n')
                                     .slice(0, 10));
                             } else {
-                                Notification.message.error(I18n.t('js.helpers.errors.server'));
+                                Notification.error(I18n.t('js.helpers.errors.server'));
                             }
 
                             pushError(error, {...errorInfo, ...parsedError});
@@ -112,7 +180,7 @@ const manageError = (origin, error, url) => {
                                         .slice(0, 10)
                                 );
                             } else {
-                                Notification.message.error(I18n.t('js.helpers.errors.server'));
+                                Notification.error(I18n.t('js.helpers.errors.server'));
                             }
 
                             pushError(error, {...errorInfo});
@@ -125,7 +193,7 @@ const manageError = (origin, error, url) => {
                             .slice(0, 10)
                     );
                 } else {
-                    Notification.message.error(I18n.t('js.helpers.errors.server'));
+                    Notification.error(I18n.t('js.helpers.errors.server'));
                 }
 
                 pushError(error, errorInfo);
@@ -136,7 +204,7 @@ const manageError = (origin, error, url) => {
     }
 };
 
-const handleTokenError = (response, url, params, isData) => {
+const _handleTokenError = (response, url, params, isData) => {
     if (response.status === 405) {
         return response.json()
             .then((status) => {
@@ -159,15 +227,15 @@ const handleTokenError = (response, url, params, isData) => {
     }
 };
 
-const handleResponseErrors = (response, url) => {
+const _handleResponseErrors = (response, url) => {
     if (response.status && !response.ok) {
-        manageError('server', response, url);
+        _manageError('server', response, url);
     }
 
     return response;
 };
 
-const handleParseErrors = (error, url, isGet = false) => {
+const _handleParseErrors = (error, url, isGet = false) => {
     if (error.message === 'TokenError' || error.name === 'AbortError' || error.name === 'SecurityError' || error.name === 'ChunkLoadError') {
         return {
             abort: true
@@ -177,7 +245,7 @@ const handleParseErrors = (error, url, isGet = false) => {
     // Offline mode (do not report error)
     if (error.name === 'TypeError' && error.message === 'Failed to fetch') {
         if (isGet) {
-            Notification.message.error(I18n.t('js.helpers.errors.no_network'));
+            Notification.error(I18n.t('js.helpers.errors.no_network'));
         }
 
         return {
@@ -194,50 +262,53 @@ const handleParseErrors = (error, url, isGet = false) => {
         error.message = I18n.t('js.helpers.errors.network');
     }
 
-    manageError('communication', error, url);
+    _manageError('communication', error, url);
 
     return {
         errors: error.message
     };
 };
 
-const handleFlashMessage = (response) => {
+const _handleFlashMessage = (response) => {
     if (response && response.headers) {
         let flashMessage = response.headers.get('X-Flash-Messages');
 
         if (flashMessage) {
             flashMessage = JSON.parse(decodeURIComponent(escape(flashMessage)));
 
-            if (flashMessage?.success) {
-                Notification.message.success(flashMessage.success.replace(/&amp;/g, '&')
-                    .replace(/&gt;/g, '<')
-                    .replace(/&lt;/g, '>')
-                    .replace(/&quot;/g, '"')
-                    .replace(/&#39;/g, '\''));
-            }
+            // Avoid "click away" to close notification just after appearing
+            setTimeout(() => {
+                if (flashMessage?.success) {
+                    Notification.success(flashMessage.success.replace(/&amp;/g, '&')
+                        .replace(/&gt;/g, '<')
+                        .replace(/&lt;/g, '>')
+                        .replace(/&quot;/g, '"')
+                        .replace(/&#39;/g, '\''));
+                }
 
-            if (flashMessage && (flashMessage.notice || flashMessage.alert)) {
-                Notification.message.alert((flashMessage.notice || flashMessage.alert).replace(/&amp;/g, '&')
-                    .replace(/&gt;/g, '<')
-                    .replace(/&lt;/g, '>')
-                    .replace(/&quot;/g, '"')
-                    .replace(/&#39;/g, '\''));
-            }
+                if (flashMessage && (flashMessage.notice || flashMessage.alert)) {
+                    Notification.alert((flashMessage.notice || flashMessage.alert).replace(/&amp;/g, '&')
+                        .replace(/&gt;/g, '<')
+                        .replace(/&lt;/g, '>')
+                        .replace(/&quot;/g, '"')
+                        .replace(/&#39;/g, '\''));
+                }
 
-            if (flashMessage?.error) {
-                Notification.message.error(flashMessage.error.replace(/&amp;/g, '&')
-                    .replace(/&gt;/g, '<')
-                    .replace(/&lt;/g, '>')
-                    .replace(/&quot;/g, '"')
-                    .replace(/&#39;/g, '\''));
-            }
+                if (flashMessage?.error) {
+                    Notification.error(flashMessage.error.replace(/&amp;/g, '&')
+                        .replace(/&gt;/g, '<')
+                        .replace(/&lt;/g, '>')
+                        .replace(/&quot;/g, '"')
+                        .replace(/&#39;/g, '\''));
+                }
+            }, 100);
         }
     }
 
     return response;
 };
 
-const handleResponse = (response) => {
+const _handleResponse = (response) => {
     if (!response.status) {
         return response;
     }
@@ -260,9 +331,9 @@ const handleResponse = (response) => {
     return response;
 };
 
-const handleTrackingData = (response) => {
+const _handleTrackingData = (response) => {
     if (response?.meta?.trackingData) {
-        trackAction(response.meta.trackingData, 'fetch');
+        AnalyticsService.trackAction(response.meta.trackingData, 'fetch');
     }
 
     return response;
@@ -270,7 +341,7 @@ const handleTrackingData = (response) => {
 
 const api = {
     get: (url, params, external = false) => {
-        const headers = getHeaders(external);
+        const headers = _getHeaders(external);
         const parameters = stringify(params, {arrayFormat: 'brackets'});
         let urlParams;
         if (external) {
@@ -287,11 +358,11 @@ const api = {
             method: 'GET',
             signal
         })
-            .then((response) => handleResponseErrors(response, urlParams))
-            .then((response) => handleFlashMessage(response))
-            .then((response) => handleResponse(response))
-            .then((response) => handleTrackingData(response))
-            .catch((error) => handleParseErrors(error, urlParams, true));
+            .then((response) => _handleResponseErrors(response, urlParams))
+            .then((response) => _handleFlashMessage(response))
+            .then((response) => _handleResponse(response))
+            .then((response) => _handleTrackingData(response))
+            .catch((error) => _handleParseErrors(error, urlParams, true));
 
         return {
             promise,
@@ -300,7 +371,7 @@ const api = {
     },
 
     post: (url, params, isData = false) => {
-        const headers = isData ? getDataHeaders() : getHeaders();
+        const headers = isData ? _getDataHeaders() : _getHeaders();
         const parameters = isData ? params : JSON.stringify(params);
 
         return fetch(url + '.json', {
@@ -308,15 +379,15 @@ const api = {
             method: 'POST',
             body: parameters
         })
-            .then((response) => handleTokenError(response, url, params, isData))
-            .then((response) => handleResponseErrors(response, url))
-            .then((response) => handleFlashMessage(response))
-            .then((response) => handleResponse(response))
-            .catch((error) => handleParseErrors(error, url));
+            .then((response) => _handleTokenError(response, url, params, isData))
+            .then((response) => _handleResponseErrors(response, url))
+            .then((response) => _handleFlashMessage(response))
+            .then((response) => _handleResponse(response))
+            .catch((error) => _handleParseErrors(error, url));
     },
 
     update: (url, params, isData = false) => {
-        const headers = isData ? getDataHeaders() : getHeaders();
+        const headers = isData ? _getDataHeaders() : _getHeaders();
         const parameters = isData ? params : JSON.stringify(params);
 
         return fetch(url + '.json', {
@@ -324,15 +395,15 @@ const api = {
             method: 'PUT',
             body: parameters
         })
-            .then((response) => handleTokenError(response, url, isData))
-            .then((response) => handleResponseErrors(response, url))
-            .then((response) => handleFlashMessage(response))
-            .then((response) => handleResponse(response))
-            .catch((error) => handleParseErrors(error, url));
+            .then((response) => _handleTokenError(response, url, isData))
+            .then((response) => _handleResponseErrors(response, url))
+            .then((response) => _handleFlashMessage(response))
+            .then((response) => _handleResponse(response))
+            .catch((error) => _handleParseErrors(error, url));
     },
 
     delete: (url, params) => {
-        const headers = getHeaders();
+        const headers = _getHeaders();
         const parameters = JSON.stringify(params);
 
         return fetch(url + '.json', {
@@ -340,10 +411,18 @@ const api = {
             method: 'DELETE',
             body: parameters
         })
-            .then((response) => handleResponseErrors(response, url))
-            .then((response) => handleFlashMessage(response))
-            .then((response) => handleResponse(response))
-            .catch((error) => handleParseErrors(error, url));
+            .then((response) => _handleResponseErrors(response, url))
+            .then((response) => _handleFlashMessage(response))
+            .then((response) => _handleResponse(response))
+            .catch((error) => _handleParseErrors(error, url));
+    },
+
+    sendBeacon: (url, params) => {
+        if (typeof window.navigator.sendBeacon !== 'function') {
+            return;
+        }
+
+        window.navigator.sendBeacon(url, _serializeParams(params));
     }
 };
 

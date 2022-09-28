@@ -342,7 +342,7 @@ describe 'Topic API', type: :request do
           expect(response).to be_json_response(422)
 
           topic = JSON.parse(response.body)
-          expect(topic['errors']['name'].first).to eq(I18n.t('errors.messages.too_long.other', count: InRailsWeBlog.config.topic_name_max_length))
+          expect(topic['errors']['name'].first).to eq(I18n.t('errors.messages.too_long.other', count: InRailsWeBlog.settings.topic_name_max_length))
 
           expect(@user.reload.current_topic_id).to eq(previous_topic_id)
         }.not_to change(Topic, :count)
@@ -389,7 +389,7 @@ describe 'Topic API', type: :request do
             expect(response).to be_json_response(422)
 
             topic = JSON.parse(response.body)
-            expect(topic['errors']['name'].first).to eq(I18n.t('errors.messages.too_long.other', count: InRailsWeBlog.config.topic_name_max_length))
+            expect(topic['errors']['name'].first).to eq(I18n.t('errors.messages.too_long.other', count: InRailsWeBlog.settings.topic_name_max_length))
           }.not_to change(Topic, :count)
         end
       end

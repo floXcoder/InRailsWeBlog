@@ -44,7 +44,7 @@ class Topic::InventoryField < ApplicationRecord
 
   validates :name,
             presence: true,
-            length: { minimum: InRailsWeBlog.config.topic_inventory_field_name_min_length, maximum: InRailsWeBlog.config.topic_inventory_field_name_max_length }
+            length: { minimum: InRailsWeBlog.settings.topic_inventory_field_name_min_length, maximum: InRailsWeBlog.settings.topic_inventory_field_name_max_length }
   validates_uniqueness_of :name,
                           scope:      :topic_id,
                           conditions: -> { with_deleted },

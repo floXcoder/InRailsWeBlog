@@ -24,6 +24,7 @@ const sortOptions = [
     'default'
 ];
 
+
 // Managed by article index to update current user preference
 export default class ArticleSortMenu extends React.Component {
     static propTypes = {
@@ -74,7 +75,7 @@ export default class ArticleSortMenu extends React.Component {
     render() {
         const options = sortOptions.map((orderOption) => (
             <Link key={orderOption}
-                  className="article-dropdown-buttonLink"
+                  className="article-dropdown-button-link"
                   to={orderTopicArticlesPath(this.props.currentUserSlug, this.props.currentUserTopicSlug, orderOption)}>
                 {I18n.t(`js.article.sort.order.${orderOption}`)}
             </Link>
@@ -87,7 +88,7 @@ export default class ArticleSortMenu extends React.Component {
                         onClick={this._handleClickListItem}>
                     {I18n.t('js.article.sort.title')}
 
-                    <span className="article-dropdown-buttonInfo">
+                    <span className="article-dropdown-button-info">
                         ({I18n.t(`js.article.sort.order.${this.props.currentOrder || 'updated_desc'}`)})
                     </span>
                 </Button>
@@ -114,14 +115,14 @@ export default class ArticleSortMenu extends React.Component {
                     }
 
                     {
-                        (this.props.currentUserSlug && this.props.currentUserTopicSlug) &&
+                        !!(this.props.currentUserSlug && this.props.currentUserTopicSlug) &&
                         <Divider className="margin-bottom-10"/>
                     }
 
                     {
-                        (this.props.currentUserSlug && this.props.currentUserTopicSlug) &&
+                        !!(this.props.currentUserSlug && this.props.currentUserTopicSlug) &&
                         <Link key="link"
-                              className="article-dropdown-sortLink"
+                              className="article-dropdown-sort-link"
                               to={sortTopicArticlesPath(this.props.currentUserSlug, this.props.currentUserTopicSlug)}>
                             {I18n.t('js.article.sort.link')}
                         </Link>

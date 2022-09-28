@@ -10,7 +10,7 @@ const ArticleSidebarLayout = function ({parentTagSlug}) {
         <Drawer anchor="right"
                 variant="permanent"
                 classes={{
-                    paper: 'search-sidebar-drawerPaper search-sidebar-drawerPaperBorderless search-sidebar-drawerPaperOverflow'
+                    paper: 'search-sidebar-drawer-paper search-sidebar-drawer-paper-borderless search-sidebar-drawer-paper-overflow'
                 }}
                 open={true}>
             <ArticleSidebar parentTagSlug={parentTagSlug}/>

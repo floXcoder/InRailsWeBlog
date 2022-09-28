@@ -68,7 +68,7 @@ export default class ShowMore extends React.PureComponent {
                     </div>
 
                     {
-                        this.state.isShowingLabel &&
+                        !!this.state.isShowingLabel &&
                         <label className="read-more-trigger"
                                htmlFor={this.props.id}/>
                     }

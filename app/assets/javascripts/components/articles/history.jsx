@@ -68,7 +68,7 @@ class ArticleHistory extends React.Component {
 
     componentDidUpdate(prevProps) {
         if (!this.props.articleVersions && prevProps.articleVersions && prevProps.articleVersions.length === 0) {
-            Notification.message.alert(I18n.t('js.article.history.none'));
+            Notification.alert(I18n.t('js.article.history.none'));
         }
     }
 
@@ -98,7 +98,7 @@ class ArticleHistory extends React.Component {
                                               article={this.props.article}/>
                 </div>
 
-                <div className="article-version-currentArticle">
+                <div className="article-version-current-article">
                     <ArticleCardDisplay article={this.props.article}
                                         isMinimized={true}
                                         hasActions={false}/>

@@ -42,7 +42,7 @@ class ArticleInlineEditionDisplay extends React.Component {
     constructor(props) {
         super(props);
 
-        this._isSaving = false;
+        // this._isSaving = false;
     }
 
     state = {
@@ -68,7 +68,7 @@ class ArticleInlineEditionDisplay extends React.Component {
     };
 
     _handleSaveClick = () => {
-        this._isSaving = true;
+        // this._isSaving = true;
 
         this.props.updateArticle({
             id: this.props.article.id,
@@ -85,7 +85,7 @@ class ArticleInlineEditionDisplay extends React.Component {
                 {/*        message={(location) => I18n.t('js.article.form.unsaved', {location: location.pathname})}/>*/}
 
                 {
-                    this.props.article.title &&
+                    !!this.props.article.title &&
                     <Link to={userArticlePath(this.props.article.user.slug, this.props.article.slug)}
                           onClick={this._handleTitleClick}>
                         <h1 className="article-inline-title">
@@ -94,7 +94,7 @@ class ArticleInlineEditionDisplay extends React.Component {
                     </Link>
                 }
 
-                <div className="article-inline-inlineEditor">
+                <div className="article-inline-inline-editor">
                     <Editor modelName="article"
                             modelId={this.props.article.id}
                             currentUserId={this.props.currentUserId}

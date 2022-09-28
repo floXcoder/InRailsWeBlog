@@ -73,7 +73,7 @@ module Searches
       formatted_content = ActionController::Base.helpers.strip_tags(response.body)
       formatted_content = formatted_content.squish.strip
 
-      return formatted_content.scan(/.{#{InRailsWeBlog.config.scrap_fragment_size}}\b#{query}\b.{#{InRailsWeBlog.config.scrap_fragment_size}}/i)
+      return formatted_content.scan(/.{#{InRailsWeBlog.settings.scrap_fragment_size}}\b#{query}\b.{#{InRailsWeBlog.settings.scrap_fragment_size}}/i)
     rescue StandardError
       return nil
     end
