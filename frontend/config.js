@@ -171,7 +171,6 @@ module.exports = {
                     options: {
                         // Use a custom cache name
                         cacheName: 'images',
-                        networkTimeoutSeconds: 3,
                         // Only cache 30 uploads
                         expiration: {
                             maxEntries: 30
