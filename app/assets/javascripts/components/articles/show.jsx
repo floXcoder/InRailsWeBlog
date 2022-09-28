@@ -228,8 +228,8 @@ class ArticleShow extends React.Component {
     };
 
     _highlightMatchedContent = () => {
-        if (this.props.article && this.props.routeLocation.search?.highlightContent && window.find) {
-            window.find(this.props.routeLocation.search.highlightContent);
+        if (this.props.article && this.props.routeLocation.state?.highlightContent && window.find) {
+            window.find(this.props.routeLocation.state.highlightContent);
         }
     };
 
@@ -260,6 +260,7 @@ class ArticleShow extends React.Component {
         this.props.deleteArticle(this.props.article.id)
             .then(() => this.props.routeNavigate({
                 pathname: topicArticlesPath(this.props.currentUser.slug, this.props.currentTopic.slug),
+            }, {
                 state: {reloadTags: true}
             }));
     };
@@ -305,16 +306,16 @@ class ArticleShow extends React.Component {
         return (
             <div className="block">
                 {
-                    !!(this.props.routeLocation.search?.position && this.props.isFetching) &&
+                    !!(this.props.routeLocation.state?.position && this.props.isFetching) &&
                     <div className="center margin-top-20">
                         <div>
-                                <span className="transition"
-                                      style={{
-                                          top: this.props.routeLocation.search.position.y,
-                                          left: this.props.routeLocation.search.position.x
-                                      }}>
-                                    {this.props.routeLocation.search.title}
-                                </span>
+                            <span className="transition"
+                                  style={{
+                                      top: this.props.routeLocation.state.position.y,
+                                      left: this.props.routeLocation.state.position.x
+                                  }}>
+                                {this.props.routeLocation.search.title}
+                            </span>
                         </div>
                     </div>
                 }

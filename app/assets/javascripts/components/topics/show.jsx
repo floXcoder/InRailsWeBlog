@@ -187,10 +187,10 @@ class TopicShow extends React.Component {
                                     size="small"
                                     component={Link}
                                     to={{
-                                        hash: '#' + shareTopicParam,
-                                        state: {
-                                            topicId: this.props.topic.id
-                                        }
+                                        hash: '#' + shareTopicParam
+                                    }}
+                                    state={{
+                                        topicId: this.props.topic.id
                                     }}>
                                     {I18n.t('js.topic.show.share')}
                                     <ShareIcon className="topic-show-share-button-icon"/>

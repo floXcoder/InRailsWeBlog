@@ -36,10 +36,10 @@ const HeaderArticleMenu = function (props) {
                                   component={Link}
                                   className="layout-header-link"
                                   to={{
-                                      pathname: newArticlePath(props.userSlug, props.topicSlug),
-                                      state: {
-                                          temporary: true
-                                      }
+                                      pathname: newArticlePath(props.userSlug, props.topicSlug)
+                                  }}
+                                  state={{
+                                      temporary: true
                                   }}>
                             <ListItemIcon>
                                 <EditIcon/>
@@ -58,11 +58,11 @@ const HeaderArticleMenu = function (props) {
                           component={Link}
                           className="layout-header-link"
                           to={{
-                              pathname: newArticlePath(props.userSlug, props.topicSlug),
-                              state: {
-                                  parentTagSlug: parentTagSlug,
-                                  childTagSlug: childTagSlug
-                              }
+                              pathname: newArticlePath(props.userSlug, props.topicSlug)
+                          }}
+                          state={{
+                              parentTagSlug: parentTagSlug,
+                              childTagSlug: childTagSlug
                           }}
                           onClick={props.onItemClick}>
                     <ListItemIcon>

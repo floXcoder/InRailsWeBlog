@@ -29,7 +29,8 @@ const _redirectToEdit = (userSlug, articleSlug, routeNavigate, event) => {
         event.preventDefault();
 
         routeNavigate({
-            pathname: editArticlePath(userSlug, articleSlug),
+            pathname: editArticlePath(userSlug, articleSlug)
+        }, {
             state: {
                 position: _getScreenPosition()
             }

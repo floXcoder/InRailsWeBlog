@@ -20,11 +20,9 @@ function ArticleTrackingIcon({
         <span className="flow-tooltip-bottom"
               data-tooltip={I18n.t('js.article.tooltip.tracking')}>
             <Link to={{
-                hash: '#' + trackingArticleParam,
-                state: {
-                    articleId
-                }
-            }}>
+                hash: '#' + trackingArticleParam
+            }}
+                  state={articleId}>
                 <ExploreIcon color={color}
                              fontSize={size}/>
             </Link>

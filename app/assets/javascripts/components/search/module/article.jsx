@@ -103,12 +103,12 @@ export default class SearchArticleModule extends React.PureComponent {
                             'search-module-article-highlighted': this.props.highlightedArticleId === article.id
                         })}
                               to={{
-                                  pathname: userArticlePath(article.userSlug, article.slug),
-                                  state: {
-                                      highlightContent: article.contentHighlighted?.match(/>(.*?)<\//)
-                                          ?.splice(1, 1)
-                                          ?.toString()
-                                  }
+                                  pathname: userArticlePath(article.userSlug, article.slug)
+                              }}
+                              state={{
+                                  highlightContent: article.contentHighlighted?.match(/>(.*?)<\//)
+                                      ?.splice(1, 1)
+                                      ?.toString()
                               }}
                               onClick={this._handleArticleClick.bind(this, article)}>
 

@@ -174,7 +174,8 @@ class UserManager extends React.Component {
             if (userJustSign) {
                 sessionStorage.removeItem('user-signed');
                 this.props.routeNavigate({
-                    hash: '#' + newTopicParam,
+                    hash: '#' + newTopicParam
+                }, {
                     state: {
                         topicId: currentUser.currentTopic.id,
                         signup: true
@@ -216,7 +217,7 @@ class UserManager extends React.Component {
     _fetchTags = (topicSlug) => {
         // Load tags according to the current route
         // Fetch tags only if different topic
-        if (this.props.routeLocation.search.reloadTags) {
+        if (this.props.routeLocation.state?.reloadTags) {
             this._tagRequest = this.props.fetchTags(
                 {
                     topicId: this.props.currentUserTopicId

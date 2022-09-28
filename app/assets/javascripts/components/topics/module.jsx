@@ -79,11 +79,9 @@ class TopicModule extends React.Component {
                     this.state.overTopicId === topic.id &&
                     <Link className="topic-module-edition"
                           to={{
-                              hash: '#' + newTopicParam,
-                              state: {
-                                  topicId: topic.id
-                              }
-                          }}>
+                              hash: '#' + newTopicParam
+                          }}
+                          state={{topicId: topic.id}}>
                         <EditIcon/>
                     </Link>
                 }
