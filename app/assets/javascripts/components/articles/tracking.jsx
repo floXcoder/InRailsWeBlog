@@ -110,7 +110,7 @@ class TrackingArticleModal extends React.Component {
                     </h3>
                 }
 
-                <List className="article-tracking-listContainer"
+                <List className="article-tracking-list-container"
                       dense={true}>
                     {
                         Object.entries(listDetails).map(([element, count], i) => (

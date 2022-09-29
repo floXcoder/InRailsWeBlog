@@ -49,7 +49,11 @@ class UserSignup extends React.Component {
                     Notification.error(response.errors);
                     // window.location.replace('/');
                 } else if (response.user) {
-                    AnalyticsService.trackSignupSuccess(response?.user?.id);
+                    let location = window.location;
+                    if (response?.meta?.location) {
+                        location = response.meta.location;
+                        AnalyticsService.trackSignupSuccess(response?.user?.id);
+                    }
 
                     if (sessionStorage) {
                         sessionStorage.setItem('user-signed', 'true');
@@ -58,7 +62,7 @@ class UserSignup extends React.Component {
                     // Add timestamp to ensure page is not cached
                     const timestamp = Date.now();
                     const urlParams = window.location.search;
-                    const newUrl = (response?.meta?.location ? response.meta.location : window.location.href) + (urlParams ? urlParams + '&' : '?') + `_=${timestamp}`;
+                    const newUrl = location + (urlParams ? urlParams + '&' : '?') + `_=${timestamp}`;
                     window.location.replace(newUrl);
                 }
             });

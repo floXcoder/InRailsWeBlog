@@ -1,7 +1,15 @@
 # frozen_string_literal: true
 
-if Rails.env.development?
-  SecureHeaders::Configuration.default do |config|
+SecureHeaders::Configuration.default do |config|
+  config.cookies = {
+    secure: true, # mark all cookies as "Secure"
+    httponly: SecureHeaders::OPT_OUT, # mark all cookies as "HttpOnly"
+    samesite: {
+      lax: true # mark all cookies as SameSite=lax
+    }
+  }
+
+  if Rails.env.development?
     config.csp = {
       preserve_schemes: true,
       base_uri:         ["'self'"],
@@ -17,9 +25,7 @@ if Rails.env.development?
       form_action:      ["'self'"],
       frame_ancestors:  ["'none'"]
     }
-  end
-else
-  SecureHeaders::Configuration.default do |config|
+  else
     config.csp = {
       preserve_schemes: true,
       base_uri:         ["'self'"],

@@ -36,7 +36,7 @@ module Api::V1
             pref_value = false
           end
 
-          if topic&.storext_definitions&.key?(pref_type.to_sym)
+          if topic
             if pref_value == 'default'
               topic.settings.delete(pref_type.to_s.downcase)
             else

@@ -93,13 +93,13 @@ export default class ArticleSearchMenuDisplay extends React.PureComponent {
                                                     <TextField id="search-in-urls"
                                                                name="search[query_url]"
                                                                InputLabelProps={{
-                                                                   className: 'search-index-categoryFilterInput'
+                                                                   className: 'search-index-category-filter-input'
                                                                }}
                                                                InputProps={{
-                                                                   className: 'search-index-categoryFilterInput'
+                                                                   className: 'search-index-category-filter-input'
                                                                }}
                                                                FormHelperTextProps={{
-                                                                   className: 'search-index-categoryFilterHelper'
+                                                                   className: 'search-index-category-filter-helper'
                                                                }}
                                                                autoFocus={true}
                                                                variant="outlined"

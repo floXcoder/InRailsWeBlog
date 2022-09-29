@@ -181,7 +181,7 @@ class SearchModule extends React.Component {
                         </div>
                     }
 
-                    <div className="search-module-searchButton">
+                    <div className="search-module-search-button">
                         <Button color="primary"
                                 variant="outlined"
                                 onClick={this._performSearch}>

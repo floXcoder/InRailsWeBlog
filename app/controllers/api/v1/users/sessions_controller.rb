@@ -7,9 +7,6 @@ module Api::V1
 
     prepend_before_action :check_unconfirmed_user, if: -> { request.xhr? }
 
-    # Manage JSON response
-    skip_before_action :require_no_authentication, only: [:create]
-
     before_action :honeypot_protection, only: [:create]
 
     respond_to :html, :js, :json
@@ -54,6 +51,27 @@ module Api::V1
 
     def auth_options
       { scope: resource_name, recall: "#{controller_path}#failure" }
+    end
+
+    def require_no_authentication
+      assert_is_devise_resource!
+      return unless is_navigational_format?
+
+      no_input = devise_mapping.no_input_strategies
+
+      authenticated = if no_input.present?
+                        args = no_input.dup.push scope: resource_name
+                        warden.authenticate?(*args)
+                      else
+                        warden.authenticated?(resource_name)
+                      end
+
+      if authenticated && (resource = warden.user(resource_name))
+        set_flash_message(:alert, 'already_authenticated', scope: 'devise.failure')
+
+        respond_with resource.serialized_json('complete', meta: { token: form_authenticity_token }),
+                     location: @location
+      end
     end
 
     def redirect_after_failure(error_msg)

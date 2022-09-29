@@ -171,13 +171,21 @@ class ArticleMiniCardDisplay extends React.Component {
                         </Grid>
 
                         {
-                            !!this.props.article.defaultPicture?.webp &&
+                            !!this.props.article.defaultPicture?.jpg &&
                             <Grid className="article-mini-card-header-item"
                                   item={true}
                                   xs={4}>
-                                <CardMedia className="article-mini-card-media"
-                                           image={this.props.article.defaultPicture.webp}
-                                           title={this.props.article.name}/>
+                                <CardMedia className="article-mini-card-media">
+                                    <picture>
+                                        <source srcSet={this.props.article.defaultPicture.webp}
+                                                type="image/webp"/>
+                                        <img className="article-mini-card-media-img"
+                                             srcSet={this.props.article.defaultPicture.jpg}
+                                             src={this.props.article.defaultPicture.jpg}
+                                             loading="lazy"
+                                             alt={this.props.article.name}/>
+                                    </picture>
+                                </CardMedia>
                             </Grid>
                         }
                     </Grid>

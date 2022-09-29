@@ -19,7 +19,7 @@ export const PWAManager = (function () {
         // }
 
         this._logAppInstalled = function (event) {
-            // MapPlanner App was installed
+            // App was installed
 
             AnalyticsService.trackPWAInstalled();
 
