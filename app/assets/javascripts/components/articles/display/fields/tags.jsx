@@ -56,7 +56,7 @@ export default class ArticleTagsField extends React.Component {
                            addNewPlaceholder={I18n.t('js.article.common.tags.placeholder')}
                            addNewText={I18n.t('js.article.common.tags.add')}
                            isSortingCategoriesByAlpha={false}
-                           labelClass="article-form-tagLabel"
+                           labelClass="article-form-tag-label"
                            categorizedTags={this.props.availableParentTags}
                            transformInitialTags={this._normalizeTags}
                            onTabPress={this._handleSwitchTag}
@@ -74,7 +74,7 @@ export default class ArticleTagsField extends React.Component {
                            addNewText={I18n.t('js.article.common.tags.add')}
                            hasChildTagFocus={this.state.hasChildTagFocus}
                            isSortingCategoriesByAlpha={false}
-                           labelClass="article-form-tagLabel"
+                           labelClass="article-form-tag-label"
                            categorizedTags={this.props.availableChildTags}
                            transformInitialTags={this._normalizeTags}
                            onSubmit={this.props.onSubmit}

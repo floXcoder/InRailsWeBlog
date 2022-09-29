@@ -88,6 +88,10 @@ class LazyLoader extends React.Component {
     }
 }
 
+// export const lazyImporter = (importPath) => (
+//     React.lazy(() => importPath.catch(manageImportError))
+// );
+
 // export const importPrefetch = (promise) => (
 //     promise
 //         .then((result) => result.default)

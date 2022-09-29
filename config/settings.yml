@@ -8,6 +8,9 @@ shared: &shared
   # Cache time
   cache_time: <%= 4.weeks %>
 
+  # Time the user stays logged in
+  session_duration: <%= 4.weeks %>
+
   # Default per page
   per_page: 60
 

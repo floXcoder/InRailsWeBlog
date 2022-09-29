@@ -68,6 +68,27 @@ module Api::V1
       I18n.locale = user_env.result[:locale]
     end
 
+    def require_no_authentication
+      assert_is_devise_resource!
+      return unless is_navigational_format?
+
+      no_input = devise_mapping.no_input_strategies
+
+      authenticated = if no_input.present?
+                        args = no_input.dup.push scope: resource_name
+                        warden.authenticate?(*args)
+                      else
+                        warden.authenticated?(resource_name)
+                      end
+
+      if authenticated && (resource = warden.user(resource_name))
+        set_flash_message(:alert, 'already_authenticated', scope: 'devise.failure')
+
+        respond_with resource.serialized_json('complete', meta: { token: form_authenticity_token }),
+                     location: @location
+      end
+    end
+
     def after_sign_up(resource)
       UserMailer.welcome_email(resource).deliver_now
     end

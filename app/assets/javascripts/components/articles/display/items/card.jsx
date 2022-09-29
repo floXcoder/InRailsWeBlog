@@ -201,10 +201,18 @@ class ArticleCardDisplay extends React.PureComponent {
                               timeout="auto"
                               unmountOnExit={true}>
                         {
-                            !!this.props.article.defaultPicture?.webp &&
-                            <CardMedia className="article-card-media"
-                                       image={this.props.article.defaultPicture.webp}
-                                       title={this.props.article.name}/>
+                            // !!this.props.article.defaultPicture?.jpg &&
+                            // <CardMedia className="article-card-media">
+                            //     <picture>
+                            //         <source srcSet={this.props.article.defaultPicture.webp}
+                            //                 type="image/webp"/>
+                            //         <img className="article-mini-card-media-img"
+                            //              srcSet={this.props.article.defaultPicture.jpg}
+                            //              src={this.props.article.defaultPicture.jpg}
+                            //              loading="lazy"
+                            //              alt={this.props.article.name}/>
+                            //     </picture>
+                            // </CardMedia>
                         }
 
                         <CardContent classes={{

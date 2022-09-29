@@ -160,7 +160,7 @@ class HomeSearch extends React.Component {
                                    {
                                        this.props.selectedTags.map((tag) => (
                                            <Chip key={tag.id}
-                                                 className="home-selectedTagsChip"
+                                                 className="home-selected-tags-chip"
                                                  tabIndex={-1}
                                                  label={tag.name}
                                                  color="primary"

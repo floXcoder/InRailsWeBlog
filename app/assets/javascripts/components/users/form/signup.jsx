@@ -70,20 +70,21 @@ const validate = (values) => {
     return errors;
 };
 
-let previousLoginValue;
+let previousFieldValue;
 
-const pseudoValidation = (loginValue) => {
-    if (loginValue) {
-        if (previousLoginValue === loginValue) {
+const fieldValidation = (fieldType, fieldValue) => {
+    if (fieldValue) {
+        if (previousFieldValue === fieldValue) {
             return undefined;
         }
 
-        previousLoginValue = loginValue;
-        return validateUser(loginValue).then((response) => {
-            if (response.success) {
-                return I18n.t('js.user.errors.pseudo.already_taken');
-            }
-        });
+        previousFieldValue = fieldValue;
+        return validateUser({[fieldType]: fieldValue})
+            .then((response) => {
+                if (response.success) {
+                    return I18n.t('js.user.errors.pseudo.already_taken');
+                }
+            });
     } else {
         return undefined;
     }
@@ -109,7 +110,7 @@ const SignupForm = function ({onSubmit, onCancel}) {
                                   item={true}>
                                 <Field name="pseudo"
                                        component={TextFormField}
-                                       validate={pseudoValidation}
+                                       validate={fieldValidation.bind(this, 'pseudo')}
                                        id="user_pseudo_signup"
                                        className="user-connection-text-field"
                                        label={I18n.t('js.user.signup.pseudo')}
@@ -130,6 +131,7 @@ const SignupForm = function ({onSubmit, onCancel}) {
                                   item={true}>
                                 <Field name="email"
                                        component={TextFormField}
+                                       validate={fieldValidation.bind(this, 'pseudo')}
                                        id="user_pseudo_email"
                                        className="user-connection-text-field"
                                        label={I18n.t('js.user.signup.email')}

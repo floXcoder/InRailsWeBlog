@@ -37,11 +37,9 @@ export const initUser = (userId, options = {}) => ({
     }
 });
 
-export const validateUser = (login) => (
+export const validateUser = (validationParam) => (
     api.get('/api/v1/users/validation', {
-        user: {
-            login
-        }
+        user: validationParam
     }).promise
 );
 

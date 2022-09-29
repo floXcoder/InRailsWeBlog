@@ -120,7 +120,7 @@ class TopicModule extends React.Component {
                     publicTopics.map(this._renderTopicList)
                 }
 
-                <div className="topic-module-addTopic">
+                <div className="topic-module-add-topic">
                     <Link to={{
                         hash: '#' + newTopicParam
                     }}
