@@ -91,7 +91,8 @@ export default class SearchArticleModule extends React.PureComponent {
     _renderArticleItem = (primary, article) => {
         return (
             <section key={article.id}>
-                <Grid container={true}
+                <Grid className="search-module-article-main"
+                      container={true}
                       spacing={2}
                       direction="row"
                       justifyContent="flex-start"
@@ -162,16 +163,19 @@ export default class SearchArticleModule extends React.PureComponent {
 
         return (
             <div className="search-module-category">
-                <h2 className="search-module-category-name">
-                    {I18n.t('js.search.module.articles.title')}
+                {
+                    (!!this.props.isUserConnected || !!this.props.hasQuery) &&
+                    <h2 className="search-module-category-name">
+                        {I18n.t('js.search.module.articles.title')}
 
-                    {
-                        !!(this.props.isUserConnected && !this.props.hasQuery) &&
-                        <span className="search-module-category-count">
-                            {I18n.t('js.search.module.articles.recents')}
-                        </span>
-                    }
-                </h2>
+                        {
+                            (!!this.props.isUserConnected && !this.props.hasQuery) &&
+                            <span className="search-module-category-count">
+                                {I18n.t('js.search.module.articles.recents')}
+                            </span>
+                        }
+                    </h2>
+                }
 
                 {
                     this.props.isSearching
@@ -193,7 +197,7 @@ export default class SearchArticleModule extends React.PureComponent {
 
                             {
                                 !!(this.props.hasQuery && this.props.articles.length === 0) &&
-                                <p className="search-module-article-secondary-result">
+                                <p className="search-module-article-none">
                                     <em>{I18n.t('js.search.module.articles.none')}</em>
                                 </p>
                             }

@@ -32,6 +32,7 @@ const autocompleteState = {
 export function autocompleteReducer(state = autocompleteState, action) {
     switch (action.type) {
         case ActionTypes.SEARCH_AUTOCOMPLETE_QUERY:
+            state.isFetching = true;
             state.query = action.query;
             return state;
 

@@ -12,7 +12,7 @@ ruby '3.1.2'
 gem 'rails',                    '7.0.4'
 
 # Use postgresql as the database for Active Record
-gem 'pg',                       '1.4.3'
+gem 'pg',                       '1.4.4'
 # gem 'active_record_extended',   '1.4.0'
 
 # HTTP Response
@@ -42,7 +42,7 @@ gem 'sanitize',                 '6.0.0'
 
 # Run asynschronous process
 gem 'sidekiq',                  '6.5.7'
-gem 'sidekiq-cron',             '1.7.0'
+gem 'sidekiq-cron',             '1.8.0'
 gem 'whenever',                 '1.0.0', require: false
 
 # Redis session store and cache
@@ -63,7 +63,7 @@ gem 'mini_magick',              '4.11.0'
 gem 'image_processing',         '1.12.2'
 
 # Search in database
-gem 'searchkick',               '5.0.4'
+gem 'searchkick',               '5.1.0'
 gem 'elasticsearch',            '7.13.3'
 gem 'typhoeus',                 '1.4.0'
 
@@ -97,11 +97,11 @@ gem 'capistrano-bundler',       '2.1.0',  require: false
 gem 'health_check',             '3.1.0'
 
 # SEO
-gem 'webdrivers',               '5.1.0',  require: false
-gem 'selenium-webdriver',       '4.4.0',  require: false
+gem 'webdrivers',               '5.2.0',  require: false
+gem 'selenium-webdriver',       '4.5.0',  require: false
 
 # Server
-gem 'puma',                     '5.6.5'
+gem 'puma',                     '6.0.0'
 
 group :development do
   # Debugging tool
@@ -132,7 +132,7 @@ end
 
 group :test do
   # Test tools
-  gem 'rspec-rails',                '5.1.2'
+  gem 'rspec-rails',                '6.0.1'
   gem 'webmock',                    '3.18.1'
   gem 'shoulda-matchers',           '5.2.0',  require: false
   gem 'shoulda-callback-matchers',  '1.1.4',  require: false
@@ -147,8 +147,8 @@ group :development, :test do
   gem 'bootsnap',                   '1.13.0', require: false
 
   # Check errors
-  gem 'rubocop',                    '1.36.0', require: false
-  gem 'rubocop-rails',              '2.16.1', require: false
+  gem 'rubocop',                    '1.37.0', require: false
+  gem 'rubocop-rails',              '2.17.0', require: false
   gem 'rubocop-performance',        '1.15.0', require: false
   gem 'rubocop-rspec',              '2.13.2', require: false
 
@@ -163,7 +163,7 @@ group :production do
   gem 'sentry-raven',     '3.1.2'
 
   # Check slow DB requests
-  gem 'pghero',           '3.0.0'
+  gem 'pghero',           '3.0.1'
   gem 'pg_query',         '2.1.4'
 
   # Improve log outputs

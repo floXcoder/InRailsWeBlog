@@ -23,7 +23,7 @@ module Tags
       order = order_search(@params[:order])
 
       # Set result limit
-      limit = @params[:limit] || InRailsWeBlog.settings.per_page
+      limit = @params[:limit]&.to_i || InRailsWeBlog.settings.per_page
 
       begin
         results = Tag.search(query_string,

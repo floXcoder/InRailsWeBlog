@@ -11,7 +11,7 @@ export const fetchTags = (filter = {}, options = {}, payload = {}) => ({
         locale: window.locale,
         filter,
         ...options
-    }),
+    }, false, true),
     shouldCallAPI: (state) => {
         return !state.userState.isConnected && payload.topicTags ? state.tagState.topicTags.length === 0 : true;
     },

@@ -41,7 +41,7 @@ en:
         unpin: "Unpin"
       footer:
         description: "A blog for everyone"
-        copyright: "Copyright 2021 (%{version}). All rights reserved."
+        copyright: "Copyright 2022 (%{version}). All rights reserved."
         links:
           title: "Links"
           contact: "Contact us"
@@ -302,7 +302,7 @@ en:
         no_cloud_tags: "Add an article to create tags"
         no_results: "No tags for:"
         usage:
-          zero: "No articles with this tag"
+          zero: "No articles with this tag yet"
           one: "1 tagged article"
           other: "%{count} tagged articles"
         link: "See tag details"
@@ -347,7 +347,7 @@ en:
           user: "All your tags"
           all: "All tags used on %{website}"
         article_count:
-          zero: "No articles for this tag"
+          zero: "No articles for this tag yet"
           one: "1 tagged article"
           other: "%{count} tagged articles"
         show: "See tag"
@@ -360,7 +360,7 @@ en:
         title: "Tag: %{name}"
         tagged_articles: "See all articles tagged %{name}"
         articles_count:
-          zero: "No articles with this tag"
+          zero: "No articles with this tag yet"
           one: "1 article with this tag"
           other: "%{count} articles with this tag"
         edit_link: "Edit tag"
@@ -418,7 +418,7 @@ en:
         title: "Topic: %{name}"
         topic_articles: "See all articles for the topic %{name}"
         articles_count:
-          zero: "No articles inside this topic"
+          zero: "No articles inside this topic yet"
           one: "1 article inside this topic"
           other: "%{count} articles inside this topic"
         share: "Share this topic"
@@ -532,7 +532,7 @@ en:
           alternative_url: "The articles are available in this language: "
           topic:
             title:
-              default: "No articles for this topic"
+              default: "No articles for this topic yet"
               tag: "No articles for this topic with this tag"
               child_tag: "No articles for this topic with this sub-tag"
             button: "Add an article"
@@ -750,7 +750,7 @@ en:
           result: "Results found added to articles"
       module:
         placeholder: "Search"
-        default: "Search on website"
+        default: "Type to search"
         button: "Search"
         topics:
           title: "Topics"

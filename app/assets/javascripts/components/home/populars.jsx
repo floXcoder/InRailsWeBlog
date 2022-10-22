@@ -32,6 +32,7 @@ import ArticleMiniCardDisplay from '../articles/display/items/miniCard';
 import TagChipDisplay from '../tags/display/chip';
 import MiniArticleSkeleton from '../loaders/skeletons/miniArticle';
 
+
 export default @connect((state) => ({
     isUserConnected: state.userState.isConnected,
     currentUserId: state.userState.currentId,

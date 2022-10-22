@@ -114,16 +114,19 @@ export default class SearchTagModule extends React.Component {
 
         return (
             <div className="search-module-category">
-                <h2 className="search-module-category-name">
-                    {I18n.t('js.search.module.tags.title')}
+                {
+                    (!!this.props.isUserConnected || !!this.props.hasQuery) &&
+                    <h2 className="search-module-category-name">
+                        {I18n.t('js.search.module.tags.title')}
 
-                    {
-                        !!(this.props.isUserConnected && !this.props.hasQuery) &&
-                        <span className="search-module-category-count">
-                            {I18n.t('js.search.module.tags.recents')}
-                        </span>
-                    }
-                </h2>
+                        {
+                            (!!this.props.isUserConnected && !this.props.hasQuery) &&
+                            <span className="search-module-category-count">
+                                {I18n.t('js.search.module.tags.recents')}
+                            </span>
+                        }
+                    </h2>
+                }
 
                 {
                     this.props.isSearching

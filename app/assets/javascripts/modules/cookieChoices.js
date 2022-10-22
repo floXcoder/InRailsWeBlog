@@ -245,7 +245,9 @@ const cookieChoices = (function () {
 })();
 
 if (!window.seoMode && GlobalEnvironment.NODE_ENV === 'production') {
-    setTimeout(() => {
-        cookieChoices.displayCookies(window.termsUrl);
-    }, 1000);
+    document.addEventListener('DOMContentLoaded', function () {
+        setTimeout(function () {
+            cookieChoices.displayCookies(window.termsUrl);
+        }, 10);
+    });
 }

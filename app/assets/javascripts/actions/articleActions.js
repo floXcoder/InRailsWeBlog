@@ -101,7 +101,7 @@ export const fetchArticleRecommendations = (userId, articleId) => (dispatch) => 
     api.get(`/api/v1/articles/${articleId}/recommendations`, {
         locale: window.locale,
         userId
-    })
+    }, false, true)
         .promise
         .then((response) => dispatch(receiveArticleRecommendations(convertJsonApi(response))))
 );

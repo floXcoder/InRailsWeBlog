@@ -29,7 +29,7 @@
   "plugins": [
     "react"
   ],
-  "ignorePatterns": ["**/urlParser.js", "**/*summernote*.js", "**/translations/**"],
+  "ignorePatterns": ["**/urlParser.js", "**/*summernote*.js", "**/i18n.js"],
   "rules": {
     "accessor-pairs": 0,
     "arrow-body-style": 0,

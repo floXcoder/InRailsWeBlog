@@ -52,6 +52,8 @@ import ArticleErrorField from './fields/error';
 
 import EnsureValidity from '../../modules/ensureValidity';
 
+const TabMotionDuration = 300;
+
 
 export default @connect((state, props) => ({
     availableParentTags: getCategorizedTags(state, props.inheritVisibility),
@@ -140,17 +142,13 @@ class ArticleFormDisplay extends React.Component {
     _handleTabChange = (event, index) => {
         this.setState({
             tabIndex: index
-        }, () => {
-            window.scroll({top: headerMargin, behavior: 'smooth'});
-        });
+        }, () => setTimeout(() => window.scroll({top: headerMargin, behavior: 'smooth'}), TabMotionDuration + 20));
     };
 
     _handleButtonChange = (index) => {
         this.setState({
             tabIndex: index
-        }, () => {
-            window.scroll({top: headerMargin, behavior: 'smooth'});
-        });
+        }, () => setTimeout(() => window.scroll({top: headerMargin, behavior: 'smooth'}), TabMotionDuration + 20));
     };
 
     render() {
@@ -190,7 +188,8 @@ class ArticleFormDisplay extends React.Component {
                                         <ArticleErrorField errors={this.props.articleErrors}/>
                                     }
 
-                                    <Collapse in={this.state.tabIndex === 0}>
+                                    <Collapse in={this.state.tabIndex === 0}
+                                              timeout={TabMotionDuration}>
                                         {
                                             this.props.currentTopic.mode === 'inventories'
                                                 ?
@@ -266,7 +265,8 @@ class ArticleFormDisplay extends React.Component {
                                         </div>
                                     </Collapse>
 
-                                    <Collapse in={this.state.tabIndex === 1}>
+                                    <Collapse in={this.state.tabIndex === 1}
+                                              timeout={TabMotionDuration}>
                                         <ArticleTagsField article={this.props.children}
                                                           availableParentTags={this.props.availableParentTags}
                                                           availableChildTags={this.props.availableChildTags}
@@ -284,7 +284,8 @@ class ArticleFormDisplay extends React.Component {
                                         </div>
                                     </Collapse>
 
-                                    <Collapse in={this.state.tabIndex === 2}>
+                                    <Collapse in={this.state.tabIndex === 2}
+                                              timeout={TabMotionDuration}>
                                         <ArticleAdvancedField currentMode={currentMode}
                                                               isEditing={this.props.isEditing}
                                                               inheritVisibility={this.props.inheritVisibility}

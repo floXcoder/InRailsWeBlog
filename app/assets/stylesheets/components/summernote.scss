@@ -1245,6 +1245,10 @@ html .note-fullscreen-body, body .note-fullscreen-body {
   font-weight: 700;
 }
 
+.note-editable ul li, .note-editable ol li {
+  list-style-position: inside;
+}
+
 .note-editor .note-editing-area .note-editable table {
   width: 100%;
   border-collapse: collapse;
@@ -1494,6 +1498,11 @@ html .note-fullscreen-body, body .note-fullscreen-body {
     padding-top: 10px;
     background-color: #fff;
     text-align: center;
+    white-space: nowrap;
+
+    @media #{$small-and-down} {
+      white-space: initial;
+    }
   }
 
   .note-hint-item {

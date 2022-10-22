@@ -11,15 +11,15 @@ module Api::V1
       admin_or_authorize user, :bookmarks?
 
       bookmarks = component_cache("user_bookmarks:#{user.id}") do
-        user.bookmarks.includes(bookmarked: [:user])
+        user_bookmarks = user.bookmarks.includes(bookmarked: [:user])
+        user_bookmarks = user_bookmarks.where(topic_id: params[:topic_id]) if params[:topic_id].present?
+        BookmarkSerializer.new(user_bookmarks,
+                               meta: { root: 'bookmarks' }).serializable_hash
       end
-
-      bookmarks = bookmarks.where(topic_id: params[:topic_id]) if params[:topic_id].present?
 
       respond_to do |format|
         format.json do
-          render json: BookmarkSerializer.new(bookmarks,
-                                              meta: { root: 'bookmarks' }).serializable_hash
+          render json: bookmarks
         end
       end
     end

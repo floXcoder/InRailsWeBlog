@@ -41,7 +41,7 @@ fr:
         unpin: "Unpin"
       footer:
         description: "Un blog pour tous"
-        copyright: "Copyright 2021 (%{version}). Tous droits réservés."
+        copyright: "Copyright 2022 (%{version}). Tous droits réservés."
         links:
           title: "Liens utiles"
           contact: "Nous contacter"
@@ -302,7 +302,7 @@ fr:
         no_cloud_tags: "Ajouter un article pour créer les tags"
         no_results: "Aucun label trouvé pour :"
         usage:
-          zero: "Aucun article avec ce label"
+          zero: "Pas encore d'articles avec ce label"
           one: "1 article avec ce label"
           other: "%{count} articles avec ce label"
         link: "Voir le détail du label"
@@ -347,7 +347,7 @@ fr:
           user: "Tous vos labels"
           all: "Tous les labels utilisés sur %{website}"
         article_count:
-          zero: "Pas d'articles pour ce label"
+          zero: "Pas encore d'articles pour ce label"
           one: "1 article labellisé"
           other: "%{count} articles labellisé"
         show: "Voir le label"
@@ -360,7 +360,7 @@ fr:
         title: "Label : %{name}"
         tagged_articles: "Voir tous les articles avec le label %{name}"
         articles_count:
-          zero: "Aucun article avec ce label"
+          zero: "Pas encore d'articles avec ce label"
           one: "1 article avec ce label"
           other: "%{count} articles avec ce label"
         edit_link: "Modifier ce label"
@@ -418,7 +418,7 @@ fr:
         title: "Thème : %{name}"
         topic_articles: "Voir tous les articles du thème : %{name}"
         articles_count:
-          zero: "Aucun article pour ce thème"
+          zero: "Pas encore d'articles pour ce thème"
           one: "1 article pour ce thème"
           other: "%{count} articles dans ce thème"
         share: "Partager ce thème"
@@ -750,7 +750,7 @@ fr:
           result: "Les résultats trouvés ont été ajoutés aux articles"
       module:
         placeholder: "Recherche"
-        default: "Rechercher sur le site"
+        default: "Taper pour rechercher"
         button: "Rechercher"
         topics:
           title: "Thèmes"

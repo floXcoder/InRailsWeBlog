@@ -22,9 +22,7 @@ export default class SearchTagIndex extends React.PureComponent {
         tags: PropTypes.array.isRequired,
         onTagClick: PropTypes.func.isRequired,
         highlightedTagId: PropTypes.number,
-        isAutocomplete: PropTypes.bool,
-        // From animation
-        style: PropTypes.object
+        isAutocomplete: PropTypes.bool
     };
 
     constructor(props) {
@@ -43,8 +41,7 @@ export default class SearchTagIndex extends React.PureComponent {
         return (
             <div className={classNames('search-index-category', {
                 'search-index-category-autocomplete': this.props.isAutocomplete
-            })}
-                 style={this.props.style}>
+            })}>
                 {
                     !!this.props.isAutocomplete &&
                     <span className="search-index-category-helper">

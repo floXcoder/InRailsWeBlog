@@ -1,13 +1,21 @@
 'use strict';
 
+import {
+    Suspense
+} from 'react';
+
+import {
+    lazyImporter
+} from '../../loaders/lazyLoader';
+
 import withRouter from '../../modules/router';
 import withWidth from '../../modules/mediaQuery';
 
 import ErrorBoundary from '../../errors/boundary';
 
-import TagSidebarLayout from './tagSidebar';
-import ArticleSidebarLayout from './articleSidebar';
-import SearchSidebarLayout from './searchSidebar';
+const TagSidebarLayout = lazyImporter(() => import(/* webpackChunkName: "sidebar-tag" */ './tagSidebar'));
+const ArticleSidebarLayout = lazyImporter(() => import(/* webpackChunkName: "sidebar-article" */ './articleSidebar'));
+const SearchSidebarLayout = lazyImporter(() => import(/* webpackChunkName: "sidebar-search" */ './searchSidebar'));
 
 
 export default @connect((state) => ({
@@ -50,33 +58,39 @@ class SidebarLayoutUser extends React.Component {
             <>
                 {
                     !!(!this.props.routeProperties.noTagSidebar && isLargeEnough && isUserData) &&
-                    <ErrorBoundary errorType="text"
-                                   errorTitle={I18n.t('js.helpers.errors.boundary.title')}>
-                        <div className="layout-user-sidebar">
-                            <TagSidebarLayout routeParams={this.props.routeParams}
-                                              isCloud={this.props.routeProperties.tagCloud}/>
-                        </div>
-                    </ErrorBoundary>
+                    <Suspense fallback={<div/>}>
+                        <ErrorBoundary errorType="text"
+                                       errorTitle={I18n.t('js.helpers.errors.boundary.title')}>
+                            <div className="layout-user-sidebar">
+                                <TagSidebarLayout routeParams={this.props.routeParams}
+                                                  isCloud={this.props.routeProperties.tagCloud}/>
+                            </div>
+                        </ErrorBoundary>
+                    </Suspense>
                 }
 
                 {
                     !!(this.props.routeProperties.searchSidebar && isLargeEnough) &&
-                    <ErrorBoundary errorType="text"
-                                   errorTitle={I18n.t('js.helpers.errors.boundary.title')}>
-                        <div className="layout-user-sidebar">
-                            <SearchSidebarLayout/>
-                        </div>
-                    </ErrorBoundary>
+                    <Suspense fallback={<div/>}>
+                        <ErrorBoundary errorType="text"
+                                       errorTitle={I18n.t('js.helpers.errors.boundary.title')}>
+                            <div className="layout-user-sidebar">
+                                <SearchSidebarLayout/>
+                            </div>
+                        </ErrorBoundary>
+                    </Suspense>
                 }
 
                 {
                     !!(this.props.routeProperties.articleSidebar && !isGridDisplay && isLargeEnough) &&
-                    <ErrorBoundary errorType="text"
-                                   errorTitle={I18n.t('js.helpers.errors.boundary.title')}>
-                        <div className="layout-user-sidebar">
-                            <ArticleSidebarLayout parentTagSlug={this.props.routeParams.tagSlug}/>
-                        </div>
-                    </ErrorBoundary>
+                    <Suspense fallback={<div/>}>
+                        <ErrorBoundary errorType="text"
+                                       errorTitle={I18n.t('js.helpers.errors.boundary.title')}>
+                            <div className="layout-user-sidebar">
+                                <ArticleSidebarLayout parentTagSlug={this.props.routeParams.tagSlug}/>
+                            </div>
+                        </ErrorBoundary>
+                    </Suspense>
                 }
             </>
         );

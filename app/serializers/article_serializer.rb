@@ -54,7 +54,6 @@ class ArticleSerializer
              :allow_comment,
              :draft,
              :languages,
-             :default_picture,
              :user_slug,
              :topic_slug,
              :topic_name,
@@ -120,6 +119,10 @@ class ArticleSerializer
 
   attribute :content_highlighted do |object|
     object.respond_to?(:highlight) && object.respond_to?(:highlighted_content) && object.highlight.has_key?('content.word_middle') ? object.highlighted_content&.squish&.strip : nil
+  end
+
+  attribute :default_picture do |object, params|
+    object.default_picture unless params[:without_pictures]
   end
 
   attribute :inventories do |object|

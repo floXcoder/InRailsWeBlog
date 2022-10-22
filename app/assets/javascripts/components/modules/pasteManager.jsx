@@ -6,6 +6,10 @@ import {
     newArticlePath
 } from '../../constants/routesHelper';
 
+import {
+    onPageReady
+} from '../loaders/lazyLoader';
+
 import ClipboardManager from '../../modules/clipboard';
 
 
@@ -34,7 +38,7 @@ class PasteManager extends React.Component {
     }
 
     componentDidMount() {
-        setTimeout(() => ClipboardManager.initialize(this._onPaste), 500);
+        onPageReady(() => ClipboardManager.initialize(this._onPaste));
     }
 
     _onPaste = (content) => {

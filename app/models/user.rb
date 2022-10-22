@@ -236,11 +236,12 @@ class User < ApplicationRecord
   # == Validations ==========================================================
   validates :pseudo,
             presence:   true,
-            uniqueness: { case_sensitive: false },
+            uniqueness: { case_sensitive: false, conditions: -> { with_deleted } },
             length:     { minimum: InRailsWeBlog.settings.user_pseudo_min_length, maximum: InRailsWeBlog.settings.user_pseudo_max_length }
   validates :email,
-            presence: true,
-            length:   { minimum: InRailsWeBlog.settings.user_email_min_length, maximum: InRailsWeBlog.settings.user_email_max_length }
+            presence:   true,
+            uniqueness: { conditions: -> { with_deleted } },
+            length:     { minimum: InRailsWeBlog.settings.user_email_min_length, maximum: InRailsWeBlog.settings.user_email_max_length }
 
   # == Scopes ===============================================================
   scope :bookmarked_by_user,
@@ -282,15 +283,15 @@ class User < ApplicationRecord
   end
 
   def self.pseudo?(pseudo)
-    User.exists?(['lower(pseudo) = ?', pseudo.mb_chars.downcase.to_s])
+    User.with_deleted.exists?(['lower(pseudo) = ?', pseudo.mb_chars.downcase.to_s])
   end
 
   def self.email?(email)
-    User.exists?(['lower(email) = ?', email.mb_chars.downcase.to_s])
+    User.with_deleted.exists?(['lower(email) = ?', email.mb_chars.downcase.to_s])
   end
 
   def self.login?(login)
-    User.pseudo?(login) || User.email?(login)
+    User.with_deleted.pseudo?(login) || User.with_deleted.email?(login)
   end
 
   def self.find_by_login(login)
@@ -320,7 +321,7 @@ class User < ApplicationRecord
       UserSerializer.new(data,
                          fields:  {
                            user:  %i[id current_topic topics contributed_topics pseudo email firstName lastName locale slug avatarUrl settings],
-                           topic: %i[id userId mode name description priority visibility languages slug tagIds inventoryFields settings]
+                           topic: %i[id userId mode name description priority visibility languages slug tagIds settings]
                          },
                          include: %i[current_topic topics contributed_topics],
                          **options)

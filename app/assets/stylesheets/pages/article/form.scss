@@ -128,6 +128,11 @@
   @media #{$large-and-down} {
     min-height: 36px;
   }
+
+  @media #{$small-and-down} {
+    min-height: 36px !important;
+    padding: 8px 6px;
+  }
 }
 
 .article-form-stepper-tabs-indicator {

@@ -35,7 +35,8 @@ module Api::V1
         tags = ::Tags::FindQueries.new(nil, current_admin).complete
       elsif params[:populars]
         tags = component_cache('popular_tags') do
-          ::Tags::FindQueries.new.populars(limit: params[:limit])
+          Tag.serialized_json(::Tags::FindQueries.new.populars(limit: params[:limit]&.to_i),
+                              'normal')
         end
       elsif params[:user_id] && (filter_params[:topic_slug].present? || filter_params[:topic_id].present?)
         topic_id = if filter_params[:topic_slug]
@@ -52,18 +53,22 @@ module Api::V1
         end
 
         tags = component_cache("user_tags:#{params[:user_id]}_for_#{topic_id || current_user&.current_topic_id}") do
-          ::Tags::FindQueries.new(current_user, current_admin).all(filter_params.merge(topic_id: topic_id, limit: params[:limit]))
+          Tag.serialized_json(::Tags::FindQueries.new(current_user, current_admin).all(filter_params.merge(topic_id: topic_id, limit: params[:limit]&.to_i)),
+                              'normal',
+                              params: { current_topic_id: topic_id })
         end
       elsif filter_params[:user_id] || current_user
         tags = component_cache("user_tags:#{filter_params[:user_id] || current_user.id}") do
-          ::Tags::FindQueries.new(current_user, current_admin).all(filter_params.merge(limit: params[:limit]))
+          Tag.serialized_json(::Tags::FindQueries.new(current_user, current_admin).all(filter_params.merge(limit: params[:limit]&.to_i)),
+                              'normal',
+                              params: { current_topic_id: topic_id })
         end
       else
-        tags = ::Tags::FindQueries.new.all(filter_params.merge(limit: params[:limit]))
+        tags = ::Tags::FindQueries.new.all(filter_params.merge(limit: params[:limit]&.to_i))
       end
 
       with_cache? ? expires_in(InRailsWeBlog.settings.cache_time, public: true) : reset_cache_headers
-      if !with_cache? || stale?(tags, template: false, public: true)
+      if tags.is_a?(Hash) || (!with_cache? || stale?(tags, template: false, public: true))
         respond_to do |format|
           format.json do
             if complete
@@ -72,10 +77,14 @@ module Api::V1
                                                params: { current_topic_id: topic_id, no_cache: complete },
                                                meta:   meta_attributes)
             else
-              render json: Tag.serialized_json(tags,
-                                               'normal',
-                                               params: { current_topic_id: topic_id },
-                                               meta:   meta_attributes)
+              render json: if tags.is_a?(Hash)
+                             tags
+                           else
+                             Tag.serialized_json(tags,
+                                                 'normal',
+                                                 params: { current_topic_id: topic_id },
+                                                 meta:   meta_attributes)
+                           end
             end
           end
         end

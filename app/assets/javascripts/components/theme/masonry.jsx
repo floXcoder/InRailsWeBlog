@@ -53,6 +53,8 @@ const MasonryWrapper = (ComponentCard, componentCardProps, ComponentExposed, com
         this._masonryWrapperRef = React.createRef();
         this._masonryComponentRef = React.createRef();
 
+        this._masonryTimeout = null;
+
         if (props.isActive) {
             MasonryLoader(({Masonry}) => {
                 this.setState({
@@ -81,6 +83,12 @@ const MasonryWrapper = (ComponentCard, componentCardProps, ComponentExposed, com
     componentDidMount() {
         if (this.props.isActive && this._masonryComponentRef?.current) {
             this._masonryComponentRef.current.layout();
+        }
+    }
+
+    componentWillUnmount() {
+        if (this._masonryTimeout) {
+            clearTimeout(this._masonryTimeout);
         }
     }
 
@@ -120,7 +128,7 @@ const MasonryWrapper = (ComponentCard, componentCardProps, ComponentExposed, com
         } else {
             exposedComponents[elementId] = true;
 
-            setTimeout(() => {
+            this._masonryTimeout = setTimeout(() => {
                 const {
                     pageYOffset
                 } = window;

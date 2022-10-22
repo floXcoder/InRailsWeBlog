@@ -39,9 +39,20 @@ module Api::V1
       if complete
         articles = ::Articles::FindQueries.new(nil, current_admin).complete(filter_params.merge(visibility: 'everyone'))
       elsif params[:populars]
-        articles = component_cache('popular_articles') { ::Articles::FindQueries.new.populars(limit: params[:limit], with_locale: I18n.locale) }
+        articles = component_cache('popular_articles') do
+          Article.serialized_json(::Articles::FindQueries.new.populars(limit: params[:limit]&.to_i, with_locale: I18n.locale),
+                                  params: {
+                                    current_user_id: current_user&.id
+                                  })
+
+        end
       elsif params[:home]
-        articles = component_cache('home_articles') { ::Articles::FindQueries.new.home(limit: params[:limit], with_locale: I18n.locale) }
+        articles = component_cache('home_articles') do
+          Article.serialized_json(::Articles::FindQueries.new.home(limit: params[:limit]&.to_i, with_locale: I18n.locale),
+                                  params: {
+                                    current_user_id: current_user&.id
+                                  })
+        end
       else
         articles = ::Articles::FindQueries.new(current_user, current_admin).all(filter_params.merge(page: params[:page]&.to_i, limit: params[:limit]&.to_i))
 
@@ -77,7 +88,7 @@ module Api::V1
       tracking_data = params[:home].present? || params[:populars].present? ? nil : { article_ids: articles.map(&:id), tag_slug: filter_params[:tag_slug], topic_slug: filter_params[:topic_slug], user_slug: filter_params[:user_slug] }
 
       with_cache? ? expires_in(InRailsWeBlog.settings.cache_time, public: true) : reset_cache_headers
-      if !with_cache? || stale?(articles, template: false, public: true)
+      if articles.is_a?(Hash) || (!with_cache? || stale?(articles, template: false, public: true))
         respond_to do |format|
           format.json do
             if complete
@@ -92,25 +103,33 @@ module Api::V1
                                                      **meta_attributes
                                                    })
             elsif params[:summary].present?
-              render json: Article.serialized_json(articles,
-                                                   params: {
-                                                     current_user_id: current_user&.id
-                                                   },
-                                                   meta:   {
-                                                     trackingData: tracking_data,
-                                                     storyTopic:   filter_params[:topic_slug].present? && articles.present? && articles.all?(&:story?) ? articles.first.topic.flat_serialized_json(with_model: false) : nil,
-                                                     **meta_attributes(pagination: articles)
-                                                   })
+              render json: if articles.is_a?(Hash)
+                             articles
+                           else
+                             Article.serialized_json(articles,
+                                                     params: {
+                                                       current_user_id: current_user&.id
+                                                     },
+                                                     meta:   {
+                                                       trackingData: tracking_data,
+                                                       storyTopic:   filter_params[:topic_slug].present? && articles.present? && articles.all?(&:story?) ? articles.first.topic.flat_serialized_json(with_model: false) : nil,
+                                                       **(params[:populars] || params[:home] ? {} : meta_attributes(pagination: articles))
+                                                     })
+                           end
             else
-              render json: Article.serialized_json(articles,
-                                                   'normal',
-                                                   params: {
-                                                     current_user_id: current_user&.id
-                                                   },
-                                                   meta:   {
-                                                     trackingData: tracking_data,
-                                                     **meta_attributes(pagination: articles)
-                                                   })
+              render json: if articles.is_a?(Hash)
+                             articles
+                           else
+                             Article.serialized_json(articles,
+                                                     'normal',
+                                                     params: {
+                                                       current_user_id: current_user&.id
+                                                     },
+                                                     meta:   {
+                                                       trackingData: tracking_data,
+                                                       **meta_attributes(pagination: articles)
+                                                     })
+                           end
             end
           end
         end

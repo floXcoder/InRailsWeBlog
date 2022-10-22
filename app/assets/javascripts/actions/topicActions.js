@@ -12,7 +12,7 @@ export const fetchTopics = (userId = null, filter = {}, options = {}) => ({
         userId,
         filter,
         ...options
-    })
+    }, false, true)
 });
 
 export const fetchTopic = (userId, topicId, options = {}) => ({

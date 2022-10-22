@@ -29,7 +29,7 @@ module Searches
           defer:       true,
           format:      'strict',
           highlight:   @current_user ? @current_user.search_highlight : true,
-          limit:       @params[:limit] || InRailsWeBlog.settings.per_page,
+          limit:       @params[:limit]&.to_i || InRailsWeBlog.settings.per_page,
           title_only:  @params[:title_only],
           no_fragment: @params[:no_fragment],
           where:       where_options.merge(
@@ -47,7 +47,7 @@ module Searches
           @query,
           defer:       true,
           format:      'strict',
-          limit:       @params[:limit] || InRailsWeBlog.settings.per_page,
+          limit:       @params[:limit]&.to_i || InRailsWeBlog.settings.per_page,
           where:       where_options.merge(
             topic_ids:  @params[:topic_ids].presence,
             parent_ids: @params[:tag_ids].presence
@@ -61,7 +61,7 @@ module Searches
           @query,
           defer:  true,
           format: 'strict',
-          limit:  @params[:limit] || InRailsWeBlog.settings.per_page,
+          limit:  @params[:limit]&.to_i || InRailsWeBlog.settings.per_page,
           where:  where_options
         )
       end

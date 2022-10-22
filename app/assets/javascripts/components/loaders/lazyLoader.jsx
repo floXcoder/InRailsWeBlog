@@ -9,6 +9,27 @@ import {
 } from '../../actions';
 
 
+export const lazyImporter = (factory) => {
+    // const factory = () => importPath.catch(manageImportError);
+    const Component =  React.lazy(factory);
+    Component.preload = factory;
+    return Component;
+};
+
+export const onPageReady = (callback, timeout = 300) => {
+    let timeoutReference;
+
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+        // call on next available tick
+        timeoutReference = setTimeout(callback, timeout);
+    } else {
+        document.addEventListener('DOMContentLoaded', () => timeoutReference = setTimeout(callback, timeout));
+    }
+
+    return timeoutReference;
+};
+
+
 class LazyLoader extends React.Component {
     static propTypes = {
         modules: PropTypes.object,
@@ -87,16 +108,6 @@ class LazyLoader extends React.Component {
         }
     }
 }
-
-// export const lazyImporter = (importPath) => (
-//     React.lazy(() => importPath.catch(manageImportError))
-// );
-
-// export const importPrefetch = (promise) => (
-//     promise
-//         .then((result) => result.default)
-//         .catch(manageImportError)
-// );
 
 // const LazyLoaderFactories = (Component, modules) => (props = {}) => (
 //     <LazyLoader modules={modules}>

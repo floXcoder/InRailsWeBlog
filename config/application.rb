@@ -101,6 +101,17 @@ module InRailsWeBlog
     # Use sidekiq for ActiveJob (not working with letter_opener)
     config.active_job.queue_adapter = :sidekiq
 
+    # Cache with Redis
+    config.cache_store = :redis_cache_store, {
+      url:             "redis://#{ENV['REDIS_HOST']}:#{ENV['REDIS_PORT']}",
+      expires_in:      4.weeks.to_i,
+      namespace:       "_#{ENV['WEBSITE_NAME']}_#{Rails.env}:cache",
+      connect_timeout: 30, # Defaults to 20 seconds
+      read_timeout: 0.2, # Defaults to 1 second
+      write_timeout: 0.2, # Defaults to 1 second
+      reconnect_attempts: 1 # Defaults to 0
+    }
+
     # Errors handling
     # Errors are handled by ApplicationController
     # config.exceptions_app = self.routes

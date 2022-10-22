@@ -28,6 +28,7 @@ export default class SearchSuggestionIndex extends React.PureComponent {
                     Utils.isPresent(this.props.tagSuggestions) &&
                     <div className="search-suggestion">
                         {I18n.t('js.search.index.suggestions.tags')}
+
                         {
                             this.props.tagSuggestions.map((suggestion) => (
                                 <a key={suggestion}
@@ -45,6 +46,7 @@ export default class SearchSuggestionIndex extends React.PureComponent {
                     Utils.isPresent(this.props.articleSuggestions) &&
                     <div className="search-suggestion">
                         {I18n.t('js.search.index.suggestions.articles')}
+
                         {
                             this.props.articleSuggestions.map((suggestion) => (
                                 <a key={suggestion}

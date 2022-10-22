@@ -92,7 +92,7 @@ const receiveUserRecents = (json) => ({
 export const fetchUserRecents = (userId, options = {}, payload = {}) => (dispatch, getState) => {
     if (!getState().userState.recentArticles.length || payload.forceRefresh) {
         return api
-            .get(userId ? `/api/v1/users/${userId}/recents` : '/api/v1/users/recents', options)
+            .get(userId ? `/api/v1/users/${userId}/recents` : '/api/v1/users/recents', options, false, true)
             .promise
             .then((json) => dispatch(receiveUserRecents(json)));
     } else {

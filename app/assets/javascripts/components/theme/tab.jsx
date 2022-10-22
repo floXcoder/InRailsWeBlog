@@ -2,6 +2,7 @@
 
 import '../../../stylesheets/components/tab.scss';
 
+
 export class Tabs extends React.Component {
     static propTypes = {
         children: PropTypes.oneOfType([

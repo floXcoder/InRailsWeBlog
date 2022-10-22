@@ -35,7 +35,8 @@ const HomeBanner = function ({onLoginClick, onSignupClick}) {
                                 <img className="home-banner-background-img"
                                      srcSet={`${window.settings.assets_url}/home/banner.png`}
                                      src={`${window.settings.assets_url}/home/banner.png`}
-                                     alt={`${window.settings.website_name} logo`}/>
+                                     alt={`${window.settings.website_name} logo`}
+                                     fetchpriority="high"/>
                             </picture>
                         </div>
                     </Grid>
