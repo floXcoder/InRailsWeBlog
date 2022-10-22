@@ -340,7 +340,7 @@ const _handleTrackingData = (response) => {
 };
 
 const api = {
-    get: (url, params, external = false) => {
+    get: (url, params, external = false, priorityLow = false) => {
         const headers = _getHeaders(external);
         const parameters = stringify(params, {arrayFormat: 'brackets'});
         let urlParams;
@@ -352,6 +352,10 @@ const api = {
 
         const controller = new AbortController();
         const signal = controller.signal;
+
+        if (priorityLow) {
+            headers.priority = 'low';
+        }
 
         const promise = fetch(urlParams, {
             ...headers,

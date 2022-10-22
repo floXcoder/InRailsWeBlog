@@ -22,7 +22,7 @@ module Articles
       return Article.none if (user_filter.present? && !@user_articles) || (topic_filter.present? && !@topic_articles)
 
       @relation = @relation
-                    .include_collection
+                    .include_collection(with_current_user: !!@current_user)
                     .with_adapted_visibility(@current_user, @current_admin)
                     .order_by(article_order(params)).order_by('updated_desc')
                     .filter_by(params, @current_user, @user_articles, @topic_articles)
@@ -42,7 +42,7 @@ module Articles
       return Article.none if (user_filter.present? && !@user_articles) || (topic_filter.present? && !@topic_articles)
 
       @relation = @relation
-                    .include_collection
+                    .include_collection(with_current_user: !!@current_user)
                     .with_adapted_visibility(@current_user, @current_admin)
                     .order_by(article_order(params)).order_by('updated_desc')
                     .filter_by(params, @current_user, @user_articles, @topic_articles)
@@ -53,7 +53,7 @@ module Articles
 
     def complete(params = {})
       @relation = @relation
-                    .includes(:tags, :tagged_articles, :tracker, :share, :pictures, user: [:picture], topic: [:inventory_fields])
+                    .includes(:tags, :tagged_articles, :tracker, :share, :pictures, :user, topic: [:inventory_fields])
                     .order_by(params[:order].presence || 'popularity_desc').order_by('updated_desc')
                     .with_visibility(params[:visibility] || 'everyone')
                     .with_adapted_visibility(@current_user, @current_admin)
@@ -109,7 +109,7 @@ module Articles
         @relation = @relation
                       .include_collection
                       .everyone
-                      .home(params[:limit])
+                      .home(params[:limit]&.to_i)
 
         if params[:with_locale]
           @localized_relation = @relation.with_locale(params[:with_locale])
@@ -124,7 +124,7 @@ module Articles
       @relation = @relation
                     .include_collection
                     .everyone
-                    .populars(params[:limit])
+                    .populars(params[:limit]&.to_i)
 
       if params[:with_locale]
         @localized_relation = @relation.with_locale(params[:with_locale])
@@ -135,8 +135,8 @@ module Articles
     end
 
     module Scopes
-      def include_collection
-        includes(:topic, :tags, :tagged_articles, :pictures, user: [:picture])
+      def include_collection(with_current_user: false)
+        with_current_user ? includes(:tags, :tagged_articles, :pictures, :user, topic: [:user, :inventory_fields, :tagged_articles, :tracker]) : includes(:topic, :tags, :tagged_articles, :pictures, :user)
       end
 
       def with_adapted_visibility(current_user = nil, current_admin = nil)

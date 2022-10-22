@@ -102,7 +102,11 @@ class CommentBox extends React.Component {
                 commentableType: this.props.commentableType,
                 commentableId: this.props.commentableId,
                 isPaginated: this.props.isPaginated
-            });
+            })
+                .fetch
+                .then(() => this.setState({
+                    isCommentsLoaded: true
+                }));
         }
     };
 

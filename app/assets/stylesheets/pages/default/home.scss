@@ -25,7 +25,7 @@
 
 .home-banner {
   position: relative;
-  min-height: 60vh;
+  min-height: min(60vh, 400px);
   padding: 1rem 1rem 3rem;
 }
 
@@ -51,9 +51,11 @@
 }
 
 .home-banner-buttons {
+  position: relative;
   margin-top: 2rem;
   text-align: right;
   margin-right: 3rem;
+  z-index: 20;
 
   @media #{$large-and-down} {
     margin-top: 4rem;

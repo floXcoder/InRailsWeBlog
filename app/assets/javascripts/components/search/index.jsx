@@ -8,7 +8,6 @@ import FormControl from '@mui/material/FormControl';
 import Input from '@mui/material/Input';
 import InputAdornment from '@mui/material/InputAdornment';
 import Chip from '@mui/material/Chip';
-import Grow from '@mui/material/Grow';
 
 import SearchIcon from '@mui/icons-material/Search';
 import CancelIcon from '@mui/icons-material/Cancel';
@@ -300,7 +299,8 @@ class SearchIndex extends React.Component {
 
         this._request = this.props.fetchSearch({
             query,
-            tags: this.props.selectedTags.map((tag) => tag.slug)
+            tags: this.props.selectedTags.map((tag) => tag.slug),
+            global: true
         });
     };
 
@@ -394,13 +394,13 @@ class SearchIndex extends React.Component {
                                        tagSuggestions={this.props.tagSuggestions}
                                        onSuggestionClick={this._handleSuggestionClick}/>
 
-                <Grow in={this.props.autocompleteTags.length > 0}
-                      timeout={200}>
+                {
+                    this.props.autocompleteTags.length > 0 &&
                     <SearchTagIndex isAutocomplete={true}
                                     tags={this.props.autocompleteTags}
                                     highlightedTagId={this.state.highlightedTagId}
                                     onTagClick={this._handleTagSelection}/>
-                </Grow>
+                }
 
                 {
                     // hasNoResults &&

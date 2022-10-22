@@ -39,6 +39,10 @@ import {
     articleUnsavedDataName
 } from '../../modules/constants';
 
+import {
+    onPageReady
+} from '../../loaders/lazyLoader';
+
 
 export default function articleMutationManager(mode) {
     return function articleMutation(WrappedComponent) {
@@ -94,8 +98,7 @@ export default function articleMutationManager(mode) {
                 this._hasAutoSaved = false;
 
                 this._request = null;
-
-                this._scrollTimeout = null;
+                this._mutationScrollTimeout = null;
 
                 // Check fo unsaved article before connection
                 const unsavedArticle = getLocalData(articleUnsavedDataName, true);
@@ -160,7 +163,7 @@ export default function articleMutationManager(mode) {
 
             componentDidMount() {
                 if (this.props.routeLocation.state?.position) {
-                    this._scrollTimeout = setTimeout(() => {
+                    this._mutationScrollTimeout = onPageReady(() => {
                         window.scrollTo(this.props.routeLocation.state.position.left || 0, (this.props.routeLocation.state.position.top || 0) + 100);
                     }, 600);
                 }
@@ -179,12 +182,12 @@ export default function articleMutationManager(mode) {
             componentWillUnmount() {
                 window.onbeforeunload = null;
 
-                if (this._scrollTimeout) {
-                    clearTimeout(this._scrollTimeout);
-                }
-
                 if (this._request?.signal) {
                     this._request.signal.abort();
+                }
+
+                if (this._mutationScrollTimeout) {
+                    clearTimeout(this._mutationScrollTimeout);
                 }
 
                 this._handleChange.cancel();

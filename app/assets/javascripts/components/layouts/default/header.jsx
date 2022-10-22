@@ -42,6 +42,11 @@ import {
     showUserLogin
 } from '../../../actions';
 
+import {
+    lazyImporter,
+    onPageReady
+} from '../../loaders/lazyLoader';
+
 import withWidth from '../../modules/mediaQuery';
 import withRouter from '../../modules/router';
 
@@ -49,9 +54,12 @@ import ErrorBoundary from '../../errors/boundary';
 
 import HeadLayout from '../head';
 
-import HomeSearchHeader from '../header/search';
+const HomeSearchHeader = lazyImporter(() => import(/* webpackChunkName: "header-search" */ '../header/search'));
 
-const loadingBarStyle = {backgroundColor: '#036603', height: '2px'};
+const loadingBarStyle = {
+    backgroundColor: '#036603',
+    height: '2px'
+};
 
 
 export default @connect((state) => ({
@@ -63,7 +71,11 @@ export default @connect((state) => ({
     showUserSignup,
     showUserLogin
 })
-@withRouter({location: true, params: true, navigate: true})
+@withRouter({
+    location: true,
+    params: true,
+    navigate: true
+})
 @withWidth()
 class HeaderLayoutDefault extends React.Component {
     static propTypes = {
@@ -104,7 +116,7 @@ class HeaderLayoutDefault extends React.Component {
 
         // setTimeout(() => this.setState({isSearchLoaded: true}), window.seoMode ? 20 : 200);
         if (!window.seoMode) {
-            setTimeout(() => this.setState({isConnectLoaded: true}), 1000);
+            onPageReady(() => this.setState({isConnectLoaded: true}), 1000);
         }
     }
 
@@ -271,13 +283,11 @@ class HeaderLayoutDefault extends React.Component {
 
                         {
                             !this.props.routeProperties.noHeaderSearch &&
-                            // <Suspense fallback={<div/>}>
-                            //     <ErrorBoundary errorType="notification">
-                            <HomeSearchHeader isSearchActive={isSearchActive}
-                                              onFocus={this._handleSearchOpen}
-                                              onClose={this._handleSearchClose}/>
-                            //     </ErrorBoundary>
-                            // </Suspense>
+                            <Suspense fallback={<div/>}>
+                                <HomeSearchHeader isSearchActive={isSearchActive}
+                                                  onFocus={this._handleSearchOpen}
+                                                  onClose={this._handleSearchClose}/>
+                            </Suspense>
                         }
 
                         <div className="layout-header-grow"/>

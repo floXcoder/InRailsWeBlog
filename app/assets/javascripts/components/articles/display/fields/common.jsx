@@ -44,7 +44,7 @@ export default class ArticleCommonField extends React.Component {
         super(props);
 
         this._editor = null;
-        this._pictureIds = null;
+        this._pictureIds = [];
     }
 
     state = {
@@ -60,7 +60,9 @@ export default class ArticleCommonField extends React.Component {
     };
 
     _handleImageUploaded = (image) => {
-        this.props.change('picture_ids', this._pictureIds ? this._pictureIds.split(',').concat(image.id).join(',') : image.id.toString());
+        this._pictureIds.push(image.id);
+
+        this.props.change('picture_ids', this._pictureIds.join(','));
     };
 
     _handleTitleBlur = (event) => {

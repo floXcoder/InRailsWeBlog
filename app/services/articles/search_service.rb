@@ -65,11 +65,11 @@ module Articles
       # Includes to add when retrieving data from DB
       includes = case @params[:format]
                  when 'strict'
-                   [:tags, { user: [:picture] }]
+                   [:user, :tags]
                  when 'complete'
-                   [:topic, :tags, { user: [:picture] }]
+                   [:user, :topic, :tags]
                  else
-                   [:topic, :tags, { user: [:picture] }]
+                   [:user, :tags, topic: [:user, :inventory_fields, :tagged_articles, :tracker]]
                  end
 
       begin

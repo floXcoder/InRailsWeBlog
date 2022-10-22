@@ -2,6 +2,7 @@
 
 require('../application');
 
+
 // Flash messages
 const flashes = document.querySelectorAll('.blog-flash');
 Array.prototype.forEach.call(flashes, function (element) {
@@ -16,7 +17,7 @@ Array.prototype.forEach.call(flashes, function (element) {
     }
 
     // Let's the Notification component initialize
-    setTimeout(function () {
+    document.addEventListener('DOMContentLoaded', () => {
         if (level === 'success') {
             Notification.success(element.innerHTML);
         } else if (level === 'error') {
@@ -24,7 +25,7 @@ Array.prototype.forEach.call(flashes, function (element) {
         } else {
             Notification.alert(element.innerHTML);
         }
-    }, 300);
+    });
 
     if (sessionStorage) {
         sessionStorage.setItem(`flash-message-${token}`, 'true');

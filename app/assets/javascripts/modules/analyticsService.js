@@ -14,6 +14,15 @@ const AnalyticsService = (function () {
         return window.isMetricsEnabled;
     };
 
+    const _onPageReady = function (callback) {
+        if (document.readyState === 'complete' || document.readyState === 'interactive') {
+            // call on next available tick
+            setTimeout(callback, 1);
+        } else {
+            document.addEventListener('DOMContentLoaded', () => callback());
+        }
+    };
+
     const _trackEvent = function (eventAction, eventName, eventValue, eventValueData) {
         if (!_isMetricsAvailable()) {
             return;
@@ -70,9 +79,9 @@ const AnalyticsService = (function () {
         }
 
         // Ensure components are loaded and title updated
-        setTimeout(() => {
+        _onPageReady(() => {
             piwik.track(location);
-        }, 400);
+        }, 100);
     };
 
     AnalyticsServiceModel.trackAction = function (params, actionType) {
@@ -83,10 +92,16 @@ const AnalyticsService = (function () {
         const pathname = params.pathname;
 
         // Ensure components are loaded and title updated
-        setTimeout(() => {
+        _onPageReady(() => {
             if (actionType === 'route' && (window.trackingData || trackingDatas[params.pathname])) {
-                const {action, ...trackingParams} = window.trackingData || trackingDatas[params.pathname];
-                const {metaTags, ...trackingData} = trackingParams;
+                const {
+                    action,
+                    ...trackingParams
+                } = window.trackingData || trackingDatas[params.pathname];
+                const {
+                    metaTags,
+                    ...trackingData
+                } = trackingParams;
 
                 params = {
                     action: action || 'page_visit',
@@ -122,7 +137,7 @@ const AnalyticsService = (function () {
                 .sendBeacon('/api/v1/tracker/action', {
                     tracker: params
                 });
-        }, 150);
+        }, 100);
     };
 
     /* Inscription and connection

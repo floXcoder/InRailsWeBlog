@@ -14,7 +14,7 @@
   max-height: 600px;
   min-height: 400px;
   line-height: 2rem;
-  border-radius: 0 3px 3px 0;
+  border-radius: 0 3px 12px 12px;
 
   @media #{$medium-and-down} {
     width: 90vw;
@@ -98,6 +98,13 @@
   right: 8px;
   display: inline-block;
   position: absolute;
+}
+
+.topic-module-add-topic {
+  margin-top: 1rem;
+  margin-left: 1rem;
+  font-size: 1rem;
+  font-style: italic;
 }
 
 // ***

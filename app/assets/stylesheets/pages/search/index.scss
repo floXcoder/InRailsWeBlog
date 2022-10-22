@@ -1,14 +1,10 @@
 @import 'base/variables';
 
 .search-index-root {
-  margin: 1rem auto 4rem;
+  margin: 2rem auto 4rem;
   overflow: visible;
   position: relative;
   max-width: 1180px;
-
-  @media #{$large-and-down} {
-    margin: 1rem .8rem;
-  }
 }
 
 .search-index-input-item {

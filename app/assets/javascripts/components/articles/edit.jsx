@@ -12,9 +12,19 @@ import {
 } from '../../actions';
 
 import {
+    getArticleChildTags,
+    getArticleParentTags,
     getArticleIsOwner,
     getCurrentUserTopicVisibility
 } from '../../selectors';
+
+import {
+    articleShowPreloadTime
+} from '../modules/constants';
+
+import {
+    onPageReady
+} from '../loaders/lazyLoader';
 
 import Loader from '../theme/loader';
 
@@ -30,7 +40,9 @@ export default @articleMutationManager('edit')
 @connect((state, props) => ({
     userSlug: state.userState.currentSlug,
     isOwner: getArticleIsOwner(state, props.article),
-    inheritVisibility: getCurrentUserTopicVisibility(state)
+    inheritVisibility: getCurrentUserTopicVisibility(state),
+    parentTags: getArticleParentTags(state, props.article),
+    childTags: getArticleChildTags(props.article)
 }), {
     setCurrentTags,
     switchTagSidebar
@@ -49,12 +61,16 @@ class ArticleEdit extends React.Component {
         userSlug: PropTypes.string,
         isOwner: PropTypes.bool,
         inheritVisibility: PropTypes.string,
+        parentTags: PropTypes.array,
+        childTags: PropTypes.array,
         setCurrentTags: PropTypes.func,
         switchTagSidebar: PropTypes.func
     };
 
     constructor(props) {
         super(props);
+
+        this._articleShowTimeout = null;
     }
 
     componentDidMount() {
@@ -64,7 +80,7 @@ class ArticleEdit extends React.Component {
 
         this.props.switchTagSidebar(false);
 
-        setTimeout(() => ArticleShow.preload(), 5000);
+        this._articleShowTimeout = onPageReady(() => ArticleShow.preload(), articleShowPreloadTime);
     }
 
     shouldComponentUpdate(nextProps) {
@@ -74,6 +90,12 @@ class ArticleEdit extends React.Component {
     componentDidUpdate() {
         if (this.props.article) {
             this.props.setCurrentTags(this.props.article.tags.map((tag) => tag.slug));
+        }
+    }
+
+    componentWillUnmount() {
+        if (this._articleShowTimeout) {
+            clearTimeout(this._articleShowTimeout);
         }
     }
 
@@ -131,12 +153,14 @@ class ArticleEdit extends React.Component {
                 </div>
 
                 <ArticleFormDisplay article={article}
-                                    inheritVisibility={this.props.inheritVisibility}
+                                    isEditing={true}
                                     userSlug={this.props.userSlug}
                                     currentUser={this.props.currentUser}
                                     currentTopic={this.props.currentTopic}
                                     currentMode={this.props.article.mode}
-                                    isEditing={true}
+                                    parentTags={this.props.parentTags}
+                                    childTags={this.props.childTags}
+                                    inheritVisibility={this.props.inheritVisibility}
                                     articleErrors={this.props.articleErrors}
                                     onFormChange={this.props.onFormChange}
                                     onSubmit={this.props.onSubmit}>

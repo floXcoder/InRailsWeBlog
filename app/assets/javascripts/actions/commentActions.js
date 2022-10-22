@@ -37,7 +37,7 @@ export const fetchComments = (commentParams) => {
 
     return ({
         actionType: ActionTypes.COMMENT,
-        fetchAPI: () => api.get(url, requestParam)
+        fetchAPI: () => api.get(url, requestParam, false, true)
     });
 };
 

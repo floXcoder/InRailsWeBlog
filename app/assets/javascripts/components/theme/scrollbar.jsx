@@ -4,6 +4,7 @@ import '../../../stylesheets/components/scrollbar.scss';
 
 import PerfectScrollbar from 'react-perfect-scrollbar';
 
+
 function Scrollbar({children}) {
     return (
         <PerfectScrollbar>

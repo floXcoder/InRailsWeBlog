@@ -31,7 +31,7 @@ module Api::V1
 
     def index
       comments = Comment.includes(:commentable, :user).all
-      comments = params[:limit] ? comments.limit(params[:limit]) : comments.paginate(page: params[:page]&.to_i, per_page: InRailsWeBlog.settings.per_page)
+      comments = params[:limit] ? comments.limit(params[:limit].to_i) : comments.paginate(page: params[:page]&.to_i, per_page: InRailsWeBlog.settings.per_page)
 
       comments = comments.filter_by(comments, filter_params) unless filter_params.empty?
       comments = comments.order_by(filter_params[:order]) if filter_params[:order]

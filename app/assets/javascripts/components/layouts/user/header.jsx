@@ -35,7 +35,6 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 
 import {
-    // HomeSearchHeader,
     UserPreference
 } from '../../loaders/components';
 
@@ -61,14 +60,16 @@ import {
     articleTemporaryDataName
 } from '../../modules/constants';
 
+import {
+    lazyImporter
+} from '../../loaders/lazyLoader';
+
 import withRouter from '../../modules/router';
 import withWidth from '../../modules/mediaQuery';
 
 import ErrorBoundary from '../../errors/boundary';
 
 import HeadLayout from '../head';
-
-import HomeSearchHeader from '../header/search';
 
 import TopicModule from '../../topics/module';
 
@@ -85,7 +86,12 @@ import HomeUserHeader from '../header/user';
 import HeaderUserMenu from '../header/menus/user';
 import HeaderArticleMenu from '../header/menus/article';
 
-const loadingBarStyle = {backgroundColor: '#036603', height: '2px'};
+const HomeSearchHeader = lazyImporter(() => import(/* webpackChunkName: "header-search" */ '../header/search'));
+
+const loadingBarStyle = {
+    backgroundColor: '#036603',
+    height: '2px'
+};
 
 
 export default @connect((state) => ({
@@ -102,7 +108,10 @@ export default @connect((state) => ({
     showUserPreference,
     showTopicPopup
 })
-@withRouter({location: true, params: true})
+@withRouter({
+    location: true,
+    params: true
+})
 @withWidth()
 class HeaderLayoutUser extends React.PureComponent {
     static propTypes = {
@@ -197,13 +206,14 @@ class HeaderLayoutUser extends React.PureComponent {
     };
 
     _handleLogoutClick = () => {
-        logoutUser().then((response) => {
-            // Add timestamp to ensure page is not cached
-            const timestamp = Date.now();
-            const urlParams = window.location.search;
-            const newUrl = (response?.location ? response.location : window.location.href) + (urlParams ? urlParams + '&' : '?') + `_=${timestamp}`;
-            window.location.replace(newUrl);
-        });
+        logoutUser()
+            .then((response) => {
+                // Add timestamp to ensure page is not cached
+                const timestamp = Date.now();
+                const urlParams = window.location.search;
+                const newUrl = (response?.location ? response.location : window.location.href) + (urlParams ? urlParams + '&' : '?') + `_=${timestamp}`;
+                window.location.replace(newUrl);
+            });
     };
 
     _renderDesktopMenu = () => {
@@ -438,11 +448,9 @@ class HeaderLayoutUser extends React.PureComponent {
 
                         {
                             !this.props.routeProperties.noHeaderSearch &&
-                            // <Suspense fallback={<div/>}>
-                            //     <ErrorBoundary errorType="notification">
-                            <HomeSearchHeader isSearchActive={isSearchActive}/>
-                            //     </ErrorBoundary>
-                            // </Suspense>
+                            <Suspense fallback={<div/>}>
+                                <HomeSearchHeader isSearchActive={isSearchActive}/>
+                            </Suspense>
                         }
 
                         <div className="layout-header-grow"/>

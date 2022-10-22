@@ -13,6 +13,7 @@ export const sortItemLimit = 1000;
 export const articleWaitTimeBeforeSaving = 15000;
 export const articleTemporaryDataName = 'article-temporary';
 export const articleUnsavedDataName = 'article-unsaved';
+export const articleRecommendationPreloadTime = 1500;
 export const articleIndexPreloadTime = 3000;
 export const articleShowPreloadTime = 3000;
 export const articleEditPreloadTime = 5000;

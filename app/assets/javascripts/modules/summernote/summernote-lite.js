@@ -7077,7 +7077,7 @@
           this.options = context.options;
           this.events = {
             'summernote.keyup': function summernoteKeyup(we, event) {
-              if (!e.isDefaultPrevented()) {
+              if (!event.isDefaultPrevented()) {
                 _this.handleKeyup(event);
               }
             },
@@ -7202,7 +7202,7 @@
           this.previousKeydownCode = null;
           this.events = {
             'summernote.keyup': function summernoteKeyup(we, event) {
-              if (!e.isDefaultPrevented()) {
+              if (!event.isDefaultPrevented()) {
                 _this.handleKeyup(event);
               }
             },

@@ -42,7 +42,7 @@ export default @connect((state) => ({
     params: true,
     navigate: true
 })
-class UserManager extends React.Component {
+class UserManager extends React.PureComponent {
     static propTypes = {
         children: PropTypes.object.isRequired,
         initialCurrentUser: PropTypes.object,
@@ -105,7 +105,8 @@ class UserManager extends React.Component {
     componentDidUpdate(prevProps) {
         // Called when hash route change (topic module, articles order, ...)
         // Check state only if previous current user defined (otherwise it means initialization)
-        if (prevProps.currentUser) {
+        const hasHash = this.props.routeLocation.hash || (prevProps.routeLocation.hash && !this.props.routeLocation.hash);
+        if (prevProps.currentUser && !hasHash) {
             this._checkState();
         }
     }

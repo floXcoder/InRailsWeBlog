@@ -1,34 +1,30 @@
 'use strict';
 
 import {
-    manageImportError
-} from '../../actions';
+    lazyImporter
+} from './lazyLoader';
 
-export const lazyWithPreload = (factory) => {
-    const Component = React.lazy(factory);
-    Component.preload = factory;
-    return Component;
-};
 
 // webpackChunkName cannot contain "tracking"!!!
-export const AdminDashboard = lazyWithPreload(() => import(/* webpackChunkName: "admins-dashboard" */ '../admins/dashboard').catch(manageImportError));
 
-export const AdminVisits = lazyWithPreload(() => import(/* webpackChunkName: "admins-visits" */ '../admins/visits').catch(manageImportError));
+export const AdminDashboard = lazyImporter(() => import(/* webpackChunkName: "admins-dashboard" */ '../admins/dashboard'));
 
-export const AdminUsers = lazyWithPreload(() => import(/* webpackChunkName: "admins-users" */ '../admins/users').catch(manageImportError));
+export const AdminVisits = lazyImporter(() => import(/* webpackChunkName: "admins-visits" */ '../admins/visits'));
 
-export const AdminTags = lazyWithPreload(() => import(/* webpackChunkName: "admins-tags" */ '../admins/tags').catch(manageImportError));
+export const AdminUsers = lazyImporter(() => import(/* webpackChunkName: "admins-users" */ '../admins/users'));
 
-export const AdminTopics = lazyWithPreload(() => import(/* webpackChunkName: "admins-topics" */ '../admins/topics').catch(manageImportError));
+export const AdminTags = lazyImporter(() => import(/* webpackChunkName: "admins-tags" */ '../admins/tags'));
 
-export const AdminArticles = lazyWithPreload(() => import(/* webpackChunkName: "admins-articles" */ '../admins/articles').catch(manageImportError));
+export const AdminTopics = lazyImporter(() => import(/* webpackChunkName: "admins-topics" */ '../admins/topics'));
 
-export const AdminComments = lazyWithPreload(() => import(/* webpackChunkName: "admins-comments" */ '../admins/comments').catch(manageImportError));
+export const AdminArticles = lazyImporter(() => import(/* webpackChunkName: "admins-articles" */ '../admins/articles'));
 
-export const AdminBlogs = lazyWithPreload(() => import(/* webpackChunkName: "admins-blogs" */ '../admins/blogs').catch(manageImportError));
+export const AdminComments = lazyImporter(() => import(/* webpackChunkName: "admins-comments" */ '../admins/comments'));
 
-export const AdminSeoData = lazyWithPreload(() => import(/* webpackChunkName: "admins-seo-data" */ '../admins/seoData').catch(manageImportError));
+export const AdminBlogs = lazyImporter(() => import(/* webpackChunkName: "admins-blogs" */ '../admins/blogs'));
 
-export const AdminLogs = lazyWithPreload(() => import(/* webpackChunkName: "admins-logs" */ '../admins/logs').catch(manageImportError));
+export const AdminSeoData = lazyImporter(() => import(/* webpackChunkName: "admins-seo-data" */ '../admins/seoData'));
 
-export const AdminCache = lazyWithPreload(() => import(/* webpackChunkName: "admins-cache" */ '../admins/cache').catch(manageImportError));
+export const AdminLogs = lazyImporter(() => import(/* webpackChunkName: "admins-logs" */ '../admins/logs'));
+
+export const AdminCache = lazyImporter(() => import(/* webpackChunkName: "admins-cache" */ '../admins/cache'));

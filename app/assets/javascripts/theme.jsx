@@ -224,6 +224,13 @@ const theme = createTheme({
                 }
             }
         },
+        MuiTab: {
+            styleOverrides: {
+                root: {
+                    minWidth: 120
+                }
+            }
+        },
         MuiFormHelperText: {
             styleOverrides: {
                 root: {
@@ -233,13 +240,6 @@ const theme = createTheme({
                 filled: {
                     fontSize: '.8rem',
                     color: '#9e9e9e'
-                }
-            }
-        },
-        MuiTab: {
-            styleOverrides: {
-                root: {
-                    minWidth: 120
                 }
             }
         }

@@ -42,17 +42,21 @@ import {
 } from '../../selectors';
 
 import {
+    articleRecommendationPreloadTime,
     articleIndexPreloadTime,
     articleEditPreloadTime
 } from '../modules/constants';
 
+import {
+    onPageReady,
+    lazyImporter
+} from '../loaders/lazyLoader';
+
+import LoadOnScroll from '../loaders/loadOnScroll';
+
 import withRouter from '../modules/router';
 
-import CommentBox from '../loaders/commentBox';
-
 import highlight from '../modules/highlight';
-
-import LazyLoader from '../theme/lazyLoader';
 
 import CommentCountIcon from '../comments/icons/count';
 
@@ -70,6 +74,8 @@ import ArticleBreadcrumbDisplay from './display/breadcrumb';
 import ArticleInventoryDisplay from './display/items/inventory';
 import ArticleMiniCardDisplay from './display/items/miniCard';
 import ArticleSkeleton from '../loaders/skeletons/article';
+
+const CommentBox = lazyImporter(() => import(/* webpackChunkName: "comment-box" */ '../comments/box'));
 
 
 export default @withRouter({
@@ -138,8 +144,10 @@ class ArticleShow extends React.Component {
 
         this._request = null;
 
-        this._articleLanguagesTimeout = null;
         this._recommendationTimeout = null;
+        this._articleIndexTimeout = null;
+        this._articleEditTimeout = null;
+        this._articleLanguagesTimeout = null;
     }
 
     componentDidMount() {
@@ -149,12 +157,12 @@ class ArticleShow extends React.Component {
 
         this._highlightMatchedContent();
 
-        this._recommendationTimeout = setTimeout(() => this._fetchRecommendations(), window.seoMode ? 50 : 500);
+        this._recommendationTimeout = onPageReady(() => this._fetchRecommendations(), window.seoMode ? 50 : articleRecommendationPreloadTime);
 
         if (!window.seoMode) {
-            setTimeout(() => ArticleIndex.preload(), articleIndexPreloadTime);
+            this._articleIndexTimeout = onPageReady(() => ArticleIndex.preload(), articleIndexPreloadTime);
             if (this.props.currentUserSlug && this.props.currentUserSlug === this.props.routeParams.userSlug) {
-                setTimeout(() => ArticleEdit.preload(), articleEditPreloadTime);
+                this._articleEditTimeout = onPageReady(() => ArticleEdit.preload(), articleEditPreloadTime);
             }
         }
     }
@@ -173,11 +181,8 @@ class ArticleShow extends React.Component {
             this._request = this.props.fetchArticle(this.props.routeParams.userSlug, this.props.routeParams.articleSlug);
         }
 
-        if (!this._recommendationTimeout) {
-            this._recommendationTimeout = setTimeout(() => this._fetchRecommendations(), window.seoMode ? 50 : 500);
-        }
         if (!window.seoMode) {
-            this._articleLanguagesTimeout = setTimeout(() => this._checkArticleLanguages(), 300);
+            this._articleLanguagesTimeout = onPageReady(() => this._checkArticleLanguages());
         }
     }
 
@@ -185,7 +190,12 @@ class ArticleShow extends React.Component {
         if (this._recommendationTimeout) {
             clearTimeout(this._recommendationTimeout);
         }
-
+        if (this._articleIndexTimeout) {
+            clearTimeout(this._articleIndexTimeout);
+        }
+        if (this._articleEditTimeout) {
+            clearTimeout(this._articleEditTimeout);
+        }
         if (this._articleLanguagesTimeout) {
             clearTimeout(this._articleLanguagesTimeout);
         }
@@ -583,10 +593,8 @@ class ArticleShow extends React.Component {
                     !!(this.props.article.allowComment && this.props.article.visibility !== 'only_me') &&
                     <div id={`article-comments-${this.props.article.id}`}
                          className="article-show-comments-container">
-                        <LazyLoader loadOnmount={window.seoMode}
-                                    height={0}
-                                    once={true}
-                                    offset={50}>
+                        <LoadOnScroll dynamicImport={true}
+                                      offset={100}>
                             <CommentBox commentableType="articles"
                                         commentableId={this.props.article.id}
                                         ownerId={this.props.article.user.id}
@@ -595,7 +603,7 @@ class ArticleShow extends React.Component {
                                         isPaginated={false}
                                         isRated={false}
                                         showSignup={this.props.showUserSignup}/>
-                        </LazyLoader>
+                        </LoadOnScroll>
                     </div>
                 }
             </div>

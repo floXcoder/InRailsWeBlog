@@ -132,7 +132,7 @@ end
 
 group :test do
   # Test tools
-  gem 'rspec-rails',                '6.0.0'
+  gem 'rspec-rails',                '6.0.1'
   gem 'webmock',                    '3.18.1'
   gem 'shoulda-matchers',           '5.2.0',  require: false
   gem 'shoulda-callback-matchers',  '1.1.4',  require: false
@@ -147,8 +147,8 @@ group :development, :test do
   gem 'bootsnap',                   '1.13.0', require: false
 
   # Check errors
-  gem 'rubocop',                    '1.36.0', require: false
-  gem 'rubocop-rails',              '2.16.1', require: false
+  gem 'rubocop',                    '1.37.0', require: false
+  gem 'rubocop-rails',              '2.17.0', require: false
   gem 'rubocop-performance',        '1.15.0', require: false
   gem 'rubocop-rspec',              '2.13.2', require: false
 

@@ -9,10 +9,17 @@ import {
     showUserSignup
 } from '../../actions';
 
+import {
+    lazyImporter
+} from '../loaders/lazyLoader';
+
+import LoadOnScroll from '../loaders/loadOnScroll';
+
 import HomeBanner from './banner';
 import HomeSearch from './search';
-import HomePopulars from './populars';
 import HomeFunctionalities from './functionalities';
+
+const HomePopulars = lazyImporter(() => import(/* webpackChunkName: "home-populars" */ './populars'));
 
 
 export default @connect((state) => ({
@@ -60,7 +67,10 @@ class Home extends React.Component {
 
                 <Divider className="home-home-divider"/>
 
-                <HomePopulars/>
+                <LoadOnScroll dynamicImport={true}
+                              offset={100}>
+                    <HomePopulars/>
+                </LoadOnScroll>
 
                 <Divider className="home-home-divider"/>
 

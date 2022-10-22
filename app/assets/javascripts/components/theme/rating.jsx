@@ -1,5 +1,8 @@
 'use strict';
 
+import '../../../stylesheets/components/rating.scss';
+
+
 export default class Rating extends React.PureComponent {
     static propTypes = {
         initialRating: PropTypes.number,

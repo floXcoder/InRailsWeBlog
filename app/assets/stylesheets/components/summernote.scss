@@ -1498,6 +1498,11 @@ html .note-fullscreen-body, body .note-fullscreen-body {
     padding-top: 10px;
     background-color: #fff;
     text-align: center;
+    white-space: nowrap;
+
+    @media #{$small-and-down} {
+      white-space: initial;
+    }
   }
 
   .note-hint-item {

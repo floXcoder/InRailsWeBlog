@@ -2,6 +2,7 @@
 
 import '../../../stylesheets/components/separator.scss';
 
+
 function Separator({
                        className,
                        text

@@ -89,7 +89,7 @@ module.exports = {
             PropTypes: 'prop-types',
             connect: ['react-redux', 'connect'],
             classNames: 'classnames',
-            I18n: ['app/assets/javascripts/modules/i18n.js', 'default'],
+            I18n: ['app/assets/javascripts/modules/translations.js', 'default'],
             Notification: ['app/assets/javascripts/components/layouts/notification.jsx', 'message'],
             Utils: 'app/assets/javascripts/modules/utils.js'
         },

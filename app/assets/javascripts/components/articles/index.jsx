@@ -38,6 +38,10 @@ import {
     articleShowPreloadTime
 } from '../modules/constants';
 
+import {
+    onPageReady
+} from '../loaders/lazyLoader';
+
 import RouteManager from '../../modules/routeManager';
 import withRouter from '../modules/router';
 
@@ -120,6 +124,8 @@ class ArticleIndex extends React.Component {
         super(props);
 
         this._request = null;
+        this._articleShowTimeout = null;
+
         this._articles = React.createRef();
     }
 
@@ -137,7 +143,7 @@ class ArticleIndex extends React.Component {
         }
 
         if (!window.seoMode) {
-            setTimeout(() => ArticleShow.preload(), articleShowPreloadTime);
+            this._articleShowTimeout = onPageReady(() => ArticleShow.preload(), articleShowPreloadTime);
         }
     }
 
@@ -162,6 +168,10 @@ class ArticleIndex extends React.Component {
     componentWillUnmount() {
         if (this._request?.signal) {
             this._request.signal.abort();
+        }
+
+        if (this._articleShowTimeout) {
+            clearTimeout(this._articleShowTimeout);
         }
     }
 

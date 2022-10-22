@@ -8,11 +8,12 @@
         "corejs": 3,
         "modules": false,
         "exclude": [
-          "transform-typeof-symbol"
+          "transform-typeof-symbol",
+          "@babel/plugin-transform-regenerator"
         ],
         "targets": {
           "browsers": [
-            "> 2%"
+            "defaults"
           ]
         }
       }
