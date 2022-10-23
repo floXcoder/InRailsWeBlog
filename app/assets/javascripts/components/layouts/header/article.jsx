@@ -31,7 +31,7 @@ const HomeArticleHeader = function ({
                                       <AddCircleIcon/>
                                   </Badge>
                                   :
-                                  <AddCircleIcon color="primary"/>
+                                  <AddCircleIcon color="secondary"/>
                           }
                       </IconButton>
                   }>

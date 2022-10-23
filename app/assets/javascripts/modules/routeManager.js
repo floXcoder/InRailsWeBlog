@@ -11,11 +11,24 @@ const RouteManager = (function () {
         /* Private Methods
          ******************** */
         this._buildRoute = function (locale, path) {
-            return [this._model.localizedRoutes[locale].locale].concat(path.substr(1).split('/').map((p) => this._model.localizedRoutes[locale][p] || p)).join('/').replace(/^(.+?)\/*?$/, '$1');
+            return [this._model.localizedRoutes[locale].locale].concat(path.substr(1)
+                .split('/')
+                .map((p) => this._model.localizedRoutes[locale][p] || p))
+                .join('/')
+                .replace(/^(.+?)\/*?$/, '$1');
         };
 
         this._buildRoutes = function (path) {
-            return window.locales.map((l) => [this._model.localizedRoutes[l].locale].concat(path.substr(1).split('/').map((p) => p.includes('|') ? '(' + p.substr(1).slice(0, -1).split('|').map((s) => this._model.localizedRoutes[l][s] || s).join('|') + ')' : this._model.localizedRoutes[l][p] || p)).join('/').replace(/^(.+?)\/*?$/, '$1'));
+            return window.locales.map((l) => [this._model.localizedRoutes[l].locale]
+                .concat(path.substr(1)
+                .split('/')
+                .map((p) => p.includes('|') ? '(' + p.substr(1)
+                    .slice(0, -1)
+                    .split('|')
+                    .map((s) => this._model.localizedRoutes[l][s] || s)
+                    .join('|') + ')' : this._model.localizedRoutes[l][p] || p))
+                .join('/')
+                .replace(/^(.+?)\/*?$/, '$1'));
         };
     }
 
