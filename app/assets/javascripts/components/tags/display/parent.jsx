@@ -109,9 +109,11 @@ class ParentTag extends React.PureComponent {
                             this.state.isExpanded
                                 ?
                                 <ExpandLess className="tag-sidebar-expand-icon"
+                                            color="secondary"
                                             onClick={this._handleTagIconClick}/>
                                 :
                                 <ExpandMore className="tag-sidebar-expand-icon"
+                                            color="secondary"
                                             onClick={this._handleTagIconClick}/>
                         )
                     }
