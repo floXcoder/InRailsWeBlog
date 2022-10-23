@@ -376,7 +376,7 @@
 .article-card-private-message {
   top: 5px;
   right: 5px;
-  border: 1px solid #e3c23e;
+  border: 1px solid $secondary-color-light;
   display: block;
   padding: 2px;
   position: absolute;
@@ -479,7 +479,7 @@
 
 .article-summary-private-message {
   right: 0;
-  border: 1px solid #e3c23e;
+  border: 1px solid $secondary-color-light;
   bottom: 0;
   display: block;
   padding: 2px;
@@ -623,7 +623,6 @@
       border-bottom: 15px solid transparent;
       border-left: 15px solid #e4e4e4;
       border-right: 0 solid #e4e4e4;
-      border-right-width: 0;
       border-top: 15px solid transparent;
       content: ' ';
       display: inline-block;
@@ -643,7 +642,6 @@
       border-bottom: 14px solid transparent;
       border-left: 14px solid #fff;
       border-right: 0 solid #fff;
-      border-right-width: 0;
       border-top: 14px solid transparent;
       content: ' ';
       display: inline-block;
@@ -1202,7 +1200,7 @@
 .article-mini-card-private-message {
   top: 0;
   right: 0;
-  border: 1px solid #e3c23e;
+  border: 1px solid $secondary-color-light;
   display: block;
   padding: 2px;
   position: absolute;
@@ -1342,7 +1340,7 @@
 
 .article-inline-private-message {
   right: 0;
-  border: 1px solid #e3c23e;
+  border: 1px solid $secondary-color-light;
   bottom: 0;
   display: block;
   padding: 2px;
