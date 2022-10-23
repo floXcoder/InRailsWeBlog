@@ -209,9 +209,9 @@ const theme = createTheme({
                 colorPrimary: {
                     color: '#036603',
                 },
-                colorSecondary: {
-                    color: '#bda731'
-                },
+                // colorSecondary: {
+                //     color: '#283a94'
+                // },
                 colorAction: {
                     color: 'rgba(0, 0, 0, 0.54)'
                 }
