@@ -419,7 +419,7 @@ class ArticleShow extends React.Component {
                                                                     languages={this.props.article.languages}
                                                                     onLanguageChange={this.props.changeArticleLanguage}
                                                                     size="medium"
-                                                                    color="primary"/>
+                                                                    color="secondary"/>
 
                                                             </div>
                                                         }
@@ -431,7 +431,7 @@ class ArticleShow extends React.Component {
                                                                              articleSlug={this.props.article.slug}
                                                                              isIconButton={true}
                                                                              size="medium"
-                                                                             color="primary"/>
+                                                                             color="secondary"/>
                                                         </div>
                                                     </>
                                                     :
@@ -504,7 +504,7 @@ class ArticleShow extends React.Component {
                                 {
                                     !!this.props.isOwner &&
                                     <ArticleActions size="medium"
-                                                    color="primary"
+                                                    color="secondary"
                                                     userSlug={this.props.article.user.slug}
                                                     articleId={this.props.article.id}
                                                     articleSlug={this.props.article.slug}
