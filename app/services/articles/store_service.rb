@@ -209,10 +209,17 @@ module Articles
 
         # Remove deleted pictures
         old_picture_ids    = @article.picture_ids
-        new_picture_ids    = @article.content&.scan(/\/uploads\/article\/pictures\/(\d+)/)&.flatten&.map(&:to_i) || []
+        new_picture_ids    = @article.content_translations&.values&.map { |c| c.scan(/\/uploads\/article\/pictures\/(\d+)/) }&.flatten&.map(&:to_i) || []
         remove_picture_ids = old_picture_ids - new_picture_ids
         if remove_picture_ids.present?
           @article.pictures.delete(Picture.where(id: remove_picture_ids))
+        end
+        missing_picture_ids = old_picture_ids - new_picture_ids
+        if missing_picture_ids.present?
+          missing_picture_ids.each do |picture_id|
+            picture = Picture.find_by(id: picture_id.to_i)
+            @article.pictures << picture if picture
+          end
         end
         # Ensure each picture is associated to current article
         @article.pictures.each do |picture|
