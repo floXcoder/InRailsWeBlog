@@ -365,12 +365,12 @@
 
 .search-module-article-tag {
   color: $text-color-secondary;
-  margin: 0 4px;
-  padding: 6px;
-  font-size: .8rem;
-  font-weight: 400;
   border-color: #e0e0e0;
   border-radius: 16px;
+  font-size: .75rem;
+  font-weight: 400;
+  margin: 0 3px;
+  padding: 2px 3px;
 
   @media #{$small-and-down} {
     display: none;
@@ -434,7 +434,7 @@
 }
 
 .search-highlight {
-  background-color: $secondary-color;
+  background-color: $secondary-color-light;
   color: $background-color;
   border-radius: 5px;
 }

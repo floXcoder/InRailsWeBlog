@@ -14,7 +14,9 @@ const HomeBookmarkHeader = function () {
         <Dropdown id="header-bookmark"
             buttonClassName="layout-header-headerButton"
             button={
-            <IconButton color="default" itemProp="url" size="large">
+            <IconButton color="default"
+                        itemProp="url"
+                        size="large">
                 <FavoriteIcon/>
             </IconButton>
         }>

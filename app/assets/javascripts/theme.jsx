@@ -54,9 +54,9 @@ const theme = createTheme({
             dark: '#036603'
         },
         secondary: {
-            light: '#fde15b',
-            main: '#e3c23e',
-            dark: '#958327'
+            light: '#5f64c5',
+            main: '#283a94',
+            dark: '#001565'
         },
         action: {
             active: 'rgba(0, 0, 0, 0.66)',
