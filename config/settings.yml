@@ -34,6 +34,9 @@ shared: &shared
   # Default for Tags
   tag_color: '#e5e5e5'
 
+  # Article mini card length
+  article_content_summary: 300
+
   # Comments
   comment_per_page: 60
 

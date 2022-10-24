@@ -72,7 +72,7 @@ class ArticleSerializer
     if object.user_id == params[:current_user_id]
       object.tags
     else
-      object.tags.select { |tag| tag.visibility == 'everyone' }
+      object.tags.select { |tag| object.user_id == tag.user_id || tag.visibility == 'everyone' }
     end
   end
 
@@ -110,7 +110,7 @@ class ArticleSerializer
   end
 
   attribute :content_summary do |object|
-    object.summary_content(260, strip_html: false)
+    object.summary_content(InRailsWeBlog.settings.article_content_summary, strip_html: false)
   end
 
   attribute :content_translations do |object|

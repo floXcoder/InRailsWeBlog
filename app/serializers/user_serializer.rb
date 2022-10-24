@@ -79,11 +79,11 @@ class UserSerializer
   has_one :tracker, serializer: TrackerSerializer
 
   has_many :topics, serializer: TopicSerializer do |object|
-    object.topics.includes(:tagged_articles).order('created_at asc')
+    object.topics.includes(:tagged_articles).order('priority desc, created_at asc')
   end
 
   has_many :contributed_topics, serializer: TopicSerializer do |object|
-    object.contributed_topics.includes(:tagged_articles).order('created_at asc')
+    object.contributed_topics.includes(:tagged_articles).order('priority desc, created_at asc')
   end
 
   attribute :date do |object|

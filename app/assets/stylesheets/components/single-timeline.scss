@@ -1,8 +1,8 @@
 @import 'base/variables';
 
 .single-timeline {
-  box-sizing: border-box;
   min-height: 40px;
+  margin-left: 2px;
   padding: 0 0 8px 42px;
   position: relative;
   list-style: none;
@@ -27,14 +27,14 @@
     width: 116%;
     background: #fff;
     text-align: center;
-    border: 1px solid $secondary-color-light;
+    //border: 1px solid $secondary-color-light;
     color: $text-color;
     border-radius: 8px;
     margin-bottom: 3px;
     margin-top: 4px;
     font-style: italic;
     font-size: .95rem;
-    box-shadow: 1px 1px 3px $secondary-color-dark;
+    box-shadow: 0 0 2.5px $secondary-color-light;
   }
 
   .timeline-item {

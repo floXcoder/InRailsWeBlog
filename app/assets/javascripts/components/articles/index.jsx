@@ -294,30 +294,38 @@ class ArticleIndex extends React.Component {
     };
 
     _renderTitle = () => {
-        if (this.props.tag?.name) {
+        if (this.props.routeParams.tagSlug && this.props.tag) {
             return (
-                <div className="margin-bottom-30">
+                <div className={classNames('article-index-title', {
+                    'article-index-title-connected': this.props.isUserConnected
+                })}>
                     <h1>
                         {I18n.t('js.article.index.tagged_title', {tag: this.props.tag.name})}
                     </h1>
                 </div>
             );
-        } else if (this.props.topic?.name) {
+        } else if (this.props.routeParams.topicSlug && this.props.topic) {
             return (
-                <div className="margin-bottom-30">
+                <div className={classNames('article-index-title', {
+                    'article-index-title-connected': this.props.isUserConnected
+                })}>
                     <h1>
                         {I18n.t('js.article.index.topic_title', {topic: this.props.topic.name})}
                     </h1>
                 </div>
             );
-        } else if (this.props.user?.pseudo) {
+        } else if (this.props.routeParams.userSlug && this.props.user) {
             return (
-                <div className="margin-bottom-30">
+                <div className={classNames('article-index-title', {
+                    'article-index-title-connected': this.props.isUserConnected
+                })}>
                     <h1>
                         {I18n.t('js.article.index.user_title', {user: this.props.user.pseudo})}
                     </h1>
                 </div>
             );
+        } else {
+            return null;
         }
     };
 

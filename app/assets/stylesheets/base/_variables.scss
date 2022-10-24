@@ -66,6 +66,7 @@ $large-and-down: 'only screen and (max-width: #{$large-screen})';
 $large-only: 'only screen and (min-width: #{$medium-screen}) and (max-width: #{$large-screen})';
 $large-and-up: 'only screen and (min-width: #{$medium-screen-up})';
 
+$extra-large-only: 'only screen and (min-width: #{$large-screen}) and (max-width: #{$extra-large-screen})';
 $extra-large-and-up: 'only screen and (min-width: #{$extra-large-screen})';
 
 // Grid
