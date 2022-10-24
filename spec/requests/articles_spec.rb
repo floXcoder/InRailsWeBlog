@@ -297,7 +297,7 @@ describe 'Article API', type: :request do
     end
 
     context 'when fetching public articles' do
-      it 'returns public articles without private tags' do
+      it 'returns public articles without private tags of other users' do
         get '/api/v1/articles', as: :json
 
         expect(response).to be_json_response
@@ -306,7 +306,7 @@ describe 'Article API', type: :request do
 
         expect(json_articles['meta']['root']).to eq('articles')
         tags_for_mixed_article = json_articles['data'].select { |article| article['attributes']['title'] == 'mixed_tags' }.first['relationships']['tags']['data'].map { |tag| tag['id'] }
-        expect(tags_for_mixed_article.sort).to eq([@public_tags[0].id.to_s, @public_tags[1].id.to_s].sort)
+        expect(tags_for_mixed_article.sort).to eq([@public_tags[0].id.to_s, @public_tags[1].id.to_s, @private_tags[0].id.to_s, @private_tags[1].id.to_s].sort)
       end
     end
 
@@ -421,14 +421,14 @@ describe 'Article API', type: :request do
         expect(article['meta']['metaTags']['noindex']).to be true
       end
 
-      it 'returns the article without private tags' do
+      it 'returns the article without private tags of other users' do
         get "/api/v1/articles/#{@article_with_mixed_tags.id}", params: { user_id: @article_with_mixed_tags.user.slug }, as: :json
 
         expect(response).to be_json_response
 
         article = JSON.parse(response.body)
         expect(article['data']['attributes']).not_to be_empty
-        expect(article['data']['relationships']['tags']['data'].map { |tag| tag['id'] }.sort).to eq([@public_tags[0].id.to_s, @public_tags[1].id.to_s].sort)
+        expect(article['data']['relationships']['tags']['data'].map { |tag| tag['id'] }.sort).to eq([@public_tags[0].id.to_s, @public_tags[1].id.to_s, @private_tags[0].id.to_s, @private_tags[1].id.to_s].sort)
       end
     end
   end
