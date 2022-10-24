@@ -15,6 +15,14 @@
   width: 100%;
 }
 
+.article-index-title {
+  margin-top: 30px;
+
+  &.article-index-title-connected h1 {
+    font-size: 1.5rem;
+  }
+}
+
 .article-list-tag-title {
   border-bottom: 1px solid #ddd;
   font-size: 1.2rem;
