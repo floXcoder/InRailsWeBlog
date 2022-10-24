@@ -26,7 +26,7 @@ shared: &shared
 
   # SEO
   seo_title_length: 60
-  seo_meta_desc_length: 190
+  seo_meta_desc_length: 180
 
   # Default for Topics
   topic_color: '#e5e5e5'
@@ -35,7 +35,7 @@ shared: &shared
   tag_color: '#e5e5e5'
 
   # Article mini card length
-  article_content_summary: 300
+  article_content_summary: 220
 
   # Comments
   comment_per_page: 60

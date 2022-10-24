@@ -71,6 +71,7 @@ Rails.application.routes.draw do
     get '/users/:user_slug/articles/:article_slug/edit', to: 'articles#edit', as: :edit_article, defaults: { name: 'edit_article' }
 
     get '/users/:user_slug/topics/:topic_slug/order/:order', to: 'pages#home', as: :order_topic_articles, defaults: { name: 'order_topic_articles' }
+    get '/users/:user_slug/topics/:topic_slug/:tag_slug/order/:order', to: 'pages#home', as: :order_tagged_topic_articles, defaults: { name: 'order_tagged_topic_articles' }
     get '/users/:user_slug/topics/:topic_slug/sort', to: 'pages#home', as: :sort_topic_articles, defaults: { name: 'sort_topic_articles' }
     get '/articles/shared/:article_slug/:public_link', to: 'pages#home', as: :shared_article, defaults: { name: 'shared_article' }
     get '/users/:user_slug/topics/:topic_slug/article-new', to: 'pages#home', as: :new_article, defaults: { name: 'new_article' }

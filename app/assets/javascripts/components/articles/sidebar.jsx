@@ -34,6 +34,7 @@ export default @connect((state, props) => ({
 })
 class ArticleSidebar extends React.Component {
     static propTypes = {
+        parentTagSlug: PropTypes.string,
         // from connect
         currentUserId: PropTypes.number,
         currentUserSlug: PropTypes.string,
@@ -87,6 +88,7 @@ class ArticleSidebar extends React.Component {
                                 <>
                                     <ArticleOrderDisplay currentUserSlug={this.props.currentUserSlug}
                                                          currentUserTopicSlug={this.props.currentUserTopicSlug}
+                                                         currentUserTagSlug={this.props.parentTagSlug}
                                                          articleOrderMode={this.props.articleOrderMode}
                                                          articleDisplayMode={this.props.articleDisplayMode}
                                                          onMinimized={this.props.switchArticleMinimized}

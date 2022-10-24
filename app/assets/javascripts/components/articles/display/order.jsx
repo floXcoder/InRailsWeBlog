@@ -13,6 +13,7 @@ const ArticleOrderDisplay = function ({
                                           onOrderChange,
                                           currentUserSlug,
                                           currentUserTopicSlug,
+                                          currentUserTagSlug,
                                           articleOrderMode,
                                           articleDisplayMode
                                       }) {
@@ -20,6 +21,7 @@ const ArticleOrderDisplay = function ({
         <div className="article-sidebar-order">
             <ArticleSortMenu currentUserSlug={currentUserSlug}
                              currentUserTopicSlug={currentUserTopicSlug}
+                             currentUserTagSlug={currentUserTagSlug}
                              currentOrder={articleOrderMode}
                              onOrderChange={onOrderChange}/>
 
@@ -43,6 +45,7 @@ ArticleOrderDisplay.propTypes = {
     onOrderChange: PropTypes.func.isRequired,
     currentUserSlug: PropTypes.string,
     currentUserTopicSlug: PropTypes.string,
+    currentUserTagSlug: PropTypes.string,
     articleOrderMode: PropTypes.string,
     articleDisplayMode: PropTypes.string
 };
