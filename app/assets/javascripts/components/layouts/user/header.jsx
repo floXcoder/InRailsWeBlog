@@ -362,7 +362,7 @@ class HeaderLayoutUser extends React.PureComponent {
                              open={this.state.isMobileArticleSidebarOpen}
                              onClose={this._handleArticleDrawerToggle}
                              onOpen={this._handleArticleDrawerToggle}>
-                <ArticleSidebar/>
+                <ArticleSidebar parentTagSlug={this.props.routeParams.tagSlug}/>
             </SwipeableDrawer>
         );
     };

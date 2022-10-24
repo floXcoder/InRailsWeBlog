@@ -32,6 +32,7 @@ export const taggedTopicArticlesPath = (userSlug, topicSlug, tagSlug, childTagSl
 export const taggedArticlesPath = (tagSlug, childTagSlug, locale = window.locale) => (childTagSlug ? RouteManager.routeBuilder(`/tagged/${tagSlug}/${childTagSlug}`, locale) : RouteManager.routeBuilder(`/tagged/${tagSlug}`, locale));
 
 export const orderTopicArticlesPath = (userSlug, topicSlug, order, topicType = 'topics', locale = window.locale) => RouteManager.routeBuilder(`/users/${userSlug}/${topicType}/${topicSlug}/order/${order}`, locale);
+export const orderTaggedTopicArticlesPath = (userSlug, topicSlug, tagSlug, order, topicType = 'topics', locale = window.locale) => RouteManager.routeBuilder(`/users/${userSlug}/${topicType}/${topicSlug}/${tagSlug}/order/${order}`, locale);
 export const sortTopicArticlesPath = (userSlug, topicSlug, locale = window.locale) => RouteManager.routeBuilder(`/users/${userSlug}/topics/${topicSlug}/sort`, locale);
 
 export const userArticlePath = (userSlug, articleSlug, locale = window.locale) => RouteManager.routeBuilder(`/users/${userSlug}/articles/${articleSlug}`, locale);

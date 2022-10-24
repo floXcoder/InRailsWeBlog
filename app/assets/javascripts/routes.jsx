@@ -6,6 +6,7 @@ import * as Routes from './constants/routesHelper';
 
 import NotFound from './components/layouts/notFound';
 
+
 export default {
     // Rails routes:
     // /api/v1/*
@@ -255,6 +256,16 @@ export default {
             },
             {
                 path: Routes.orderTopicArticlesPath(':userSlug', ':topicSlug', ':order', 'shared-topics', false),
+                articleSidebar: true,
+                component: () => RouteComponents.ArticleIndex
+            },
+            {
+                path: Routes.orderTaggedTopicArticlesPath(':userSlug', ':topicSlug', ':tagSlug', ':order', 'topics', false),
+                articleSidebar: true,
+                component: () => RouteComponents.ArticleIndex
+            },
+            {
+                path: Routes.orderTaggedTopicArticlesPath(':userSlug', ':topicSlug', ':tagSlug', ':order', 'shared-topics', false),
                 articleSidebar: true,
                 component: () => RouteComponents.ArticleIndex
             },

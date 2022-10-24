@@ -10,6 +10,7 @@ import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 
 import {
+    orderTaggedTopicArticlesPath,
     orderTopicArticlesPath,
     sortTopicArticlesPath
 } from '../../../constants/routesHelper';
@@ -31,7 +32,8 @@ export default class ArticleSortMenu extends React.Component {
         onOrderChange: PropTypes.func.isRequired,
         currentOrder: PropTypes.string,
         currentUserSlug: PropTypes.string,
-        currentUserTopicSlug: PropTypes.string
+        currentUserTopicSlug: PropTypes.string,
+        currentUserTagSlug: PropTypes.string
     };
 
     state = {
@@ -76,7 +78,7 @@ export default class ArticleSortMenu extends React.Component {
         const options = sortOptions.map((orderOption) => (
             <Link key={orderOption}
                   className="article-dropdown-button-link"
-                  to={orderTopicArticlesPath(this.props.currentUserSlug, this.props.currentUserTopicSlug, orderOption)}>
+                  to={this.props.currentUserTagSlug ? orderTaggedTopicArticlesPath(this.props.currentUserSlug, this.props.currentUserTopicSlug, this.props.currentUserTagSlug, orderOption) : orderTopicArticlesPath(this.props.currentUserSlug, this.props.currentUserTopicSlug, this.props.currentUserTagSlug, orderOption)}>
                 {I18n.t(`js.article.sort.order.${orderOption}`)}
             </Link>
         ));
