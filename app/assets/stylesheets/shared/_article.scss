@@ -1207,12 +1207,13 @@
 }
 
 .article-mini-card-private-message {
+  position: absolute;
   top: 0;
   right: 0;
-  border: 1px solid $secondary-color-light;
   display: block;
+  border: 1px solid $secondary-color-light;
+  color: $grey-primary-color;
   padding: 2px;
-  position: absolute;
   font-size: .85rem;
   font-style: italic;
   border-radius: 5px;

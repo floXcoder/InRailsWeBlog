@@ -247,14 +247,14 @@ class ArticleMiniCardDisplay extends React.Component {
                             </Grid>
                         }
                     </Grid>
-
-                    {
-                        !!isPrivateInPublic &&
-                        <div className="article-mini-card-private-message">
-                            {I18n.t('js.article.common.private_in_public')}
-                        </div>
-                    }
                 </CardContent>
+
+                {
+                    !!isPrivateInPublic &&
+                    <div className="article-mini-card-private-message">
+                        {I18n.t('js.article.common.private_in_public')}
+                    </div>
+                }
             </Card>
         );
     };

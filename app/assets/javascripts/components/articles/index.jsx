@@ -230,7 +230,7 @@ class ArticleIndex extends React.Component {
             ...this._formatParams(),
         }, options, payload);
 
-        if (this.props.routeParams.topicSlug && this.props.routeParams.userSlug) {
+        if (this.props.routeParams.topicSlug && this.props.routeParams.userSlug && !this.props.routeParams.tagSlug) {
             this._request.fetch.then(() => {
                 this.props.fetchTopic(this.props.routeParams.userSlug, this.props.routeParams.topicSlug, {no_meta: true});
             });
