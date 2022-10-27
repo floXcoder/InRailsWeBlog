@@ -238,7 +238,7 @@ class ApplicationController < ActionController::Base
     if model
       model.link_path(locale: locale, route_name: named_route, host: host).gsub(/\/$/, '')
     else
-      Rails.application.routes.url_helpers.send("#{named_route}_#{locale}_#{host ? 'url' : 'path'}", **(params.transform_values { |v| v.to_s.downcase.strip.tr('&', 'and').tr('_', '-').parameterize }).merge(host: host)).gsub(/(.*+)\/$/, '')
+      Rails.application.routes.url_helpers.send("#{named_route}_#{locale}_#{host ? 'url' : 'path'}", **(params.transform_values { |v| v.to_s.downcase.strip.tr('&', 'and').tr('_', '-').parameterize }).merge(host: host)).gsub(/(.*+)\/$/, '') rescue nil
     end
   end
 

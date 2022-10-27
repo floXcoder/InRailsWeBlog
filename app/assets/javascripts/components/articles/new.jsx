@@ -101,11 +101,13 @@ class ArticleNew extends React.Component {
             allowComment: this.props.inheritVisibility !== 'only_me'
         };
 
-        if (this.props.parentTags) {
+        if (Utils.isPresent(this.props.parentTags) && Utils.isPresent(this.props.childTags)) {
             article.parentTags = this.props.parentTags;
-        }
-        if (this.props.childTags) {
             article.childTags = this.props.childTags;
+        } else if (Utils.isPresent(this.props.parentTags)) {
+            article.tags = this.props.parentTags;
+        } else if (Utils.isPresent(this.props.childTags)) {
+            article.tags = this.props.childTags;
         }
 
         if (this.props.article?.temporary) {

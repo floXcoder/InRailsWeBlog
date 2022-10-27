@@ -47,7 +47,7 @@ export const formatTagArticles = (formData, articleTags = [], params = {}) => {
         formData.parent_tags = formData.parent_tags.map((parentTag) => ({
             name: parentTag.value,
             visibility: parentTag.category,
-            new: parentTag.isNew
+            // new: parentTag.isNew
         }));
     } else if (articleTags.length > 0) {
         formData.parent_tags = [];
@@ -59,7 +59,7 @@ export const formatTagArticles = (formData, articleTags = [], params = {}) => {
         formData.parent_tags = formData.parent_tags.map((tag) => ({
             name: tag.name,
             visibility: tag.visibility,
-            new: false
+            // new: false
         }));
     }
 
@@ -67,7 +67,7 @@ export const formatTagArticles = (formData, articleTags = [], params = {}) => {
         formData.child_tags = formData.child_tags.map((childTag) => ({
             name: childTag.value,
             visibility: childTag.category,
-            new: childTag.isNew
+            // new: childTag.isNew
         }));
     } else if (articleTags.length > 0) {
         formData.child_tags = [];
@@ -79,7 +79,7 @@ export const formatTagArticles = (formData, articleTags = [], params = {}) => {
         formData.child_tags = formData.child_tags.map((tag) => ({
             name: tag.name,
             visibility: tag.visibility,
-            new: false
+            // new: false
         }));
     }
 

@@ -167,7 +167,7 @@ module Articles
             end
           end.flatten
         else
-          tags = [@params.delete(:parent_tags), @params.delete(:child_tags), @params.delete(:tags)].compact.flatten
+          tags = [@params.delete(:parent_tags), @params.delete(:child_tags), @params.delete(:tags)].compact.flatten.uniq
           Tag.parse_tags(tags, owner_id).map do |tag|
             tagged_article_attributes << {
               tag:      tag,
