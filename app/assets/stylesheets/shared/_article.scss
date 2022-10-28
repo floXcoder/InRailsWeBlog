@@ -1156,17 +1156,6 @@
   padding-bottom: 4px !important;
   position: relative;
   overflow: hidden;
-
-  &::before {
-    bottom: 70px;
-    left: 0;
-    width: 100%;
-    height: 70px;
-    content: '';
-    position: absolute;
-    background: transparent linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, .55), #fff);
-    font-weight: lighter;
-  }
 }
 
 .article-mini-card-article-content-faded {
@@ -1174,7 +1163,7 @@
   padding: .5em;
   overflow: hidden;
   position: relative;
-  max-height: 200px;
+  max-height: 320px;
   text-overflow: ellipsis;
 
   &::before {

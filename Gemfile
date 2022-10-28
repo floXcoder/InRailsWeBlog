@@ -17,7 +17,7 @@ gem 'pg',                       '1.4.4'
 
 # HTTP Response
 gem 'http_accept_language',     '2.1.1'
-gem 'secure_headers',           '6.4.0'
+gem 'secure_headers',           '6.5.0'
 
 # JSON
 gem 'jsonapi-serializer',       '2.2.0'
@@ -147,10 +147,10 @@ group :development, :test do
   gem 'bootsnap',                   '1.13.0', require: false
 
   # Check errors
-  gem 'rubocop',                    '1.37.0', require: false
-  gem 'rubocop-rails',              '2.17.0', require: false
+  gem 'rubocop',                    '1.37.1', require: false
+  gem 'rubocop-rails',              '2.17.2', require: false
   gem 'rubocop-performance',        '1.15.0', require: false
-  gem 'rubocop-rspec',              '2.13.2', require: false
+  gem 'rubocop-rspec',              '2.14.2', require: false
 
   # static analyzer
   gem 'rails_best_practices',       '1.23.2', require: false

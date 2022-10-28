@@ -392,6 +392,7 @@ class UserHome extends React.Component {
                                               xs={12}
                                               sm={6}>
                                             <ArticleMiniCardDisplay article={article}
+                                                                    isFaded={true}
                                                                     isPaper={true}/>
                                         </Grid>
                                     ))
@@ -419,6 +420,7 @@ class UserHome extends React.Component {
                                               xs={12}
                                               sm={6}>
                                             <ArticleMiniCardDisplay article={article}
+                                                                    isFaded={true}
                                                                     isPaper={true}/>
                                         </Grid>
                                     ))

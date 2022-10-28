@@ -174,9 +174,17 @@ class String
 
     string = replace_tags ? string.strip : string.strip.squish
 
-    end_line = string.index(' ', length - 10)
-    if end_line && string.length > length
-      string = "#{string[0...end_line]}..."
+    if strip_html
+      end_line = string.index(' ', length - 10)
+      if end_line && string.length > length
+        string = "#{string[0...end_line]}..."
+      end
+    else
+      sanitized_string = Sanitize.fragment(self)
+      last_space_index = sanitized_string.index(' ', length)
+      last_word        = sanitized_string[0..last_space_index].split.last
+      last_word_index  = self.index(last_word, length)
+      string           = last_word_index && last_word_index + last_word.size < self.size ? self[0..(last_word_index + last_word.size)] : self
     end
 
     return string
