@@ -566,6 +566,7 @@ class ArticleShow extends React.Component {
                                             <div className="article-show-recommendations-article">
                                                 <ArticleMiniCardDisplay article={article}
                                                                         isPaper={true}
+                                                                        isFaded={true}
                                                                         hasTags={false}/>
                                             </div>
                                         </Grid>

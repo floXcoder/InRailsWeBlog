@@ -128,6 +128,7 @@ class HomePopulars extends React.Component {
                                               xs={12}
                                               sm={6}>
                                             <ArticleMiniCardDisplay article={article}
+                                                                    isFaded={true}
                                                                     isPaper={true}/>
                                         </Grid>
                                     ))
@@ -155,6 +156,7 @@ class HomePopulars extends React.Component {
                                               xs={12}
                                               sm={6}>
                                             <ArticleMiniCardDisplay article={article}
+                                                                    isFaded={true}
                                                                     isPaper={true}/>
                                         </Grid>
                                     ))
@@ -224,6 +226,7 @@ class HomePopulars extends React.Component {
                                         <div key={`popular-${article.id}`}
                                              className="home-populars-item">
                                             <ArticleMiniCardDisplay article={article}
+                                                                    isFaded={true}
                                                                     isPaper={true}/>
                                         </div>
                                     ))
