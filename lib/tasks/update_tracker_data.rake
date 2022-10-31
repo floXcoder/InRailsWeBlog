@@ -15,7 +15,7 @@ namespace :InRailsWeBlog do
 
     [User, Tag, Topic, Article].each do |model|
       # Get current class name
-      formatted_name = model.underscore
+      formatted_name = model.name.underscore
 
       UpdateTrackerWorker.new.perform(tracked_class: formatted_name)
     end
