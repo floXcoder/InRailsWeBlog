@@ -166,7 +166,12 @@ class Editor extends React.Component {
             }
         };
 
-        if (this.props.mode === EDITOR_MODE.INLINE_EDIT) {
+        let toolbarDisplayMode = this.props.mode;
+        if (this.props.width === 'xs' || this.props.width === 'sm' || this.props.width === 'md') {
+            toolbarDisplayMode = EDITOR_MODE.INLINE_EDIT;
+        }
+
+        if (toolbarDisplayMode === EDITOR_MODE.INLINE_EDIT) {
             let airToolbar = [
                 ['style', ['style', 'bold', 'italic', 'underline']],
                 ['specialStyle', ['pre', 'advice', 'secret']],
@@ -178,10 +183,8 @@ class Editor extends React.Component {
 
             if (this.props.width === 'xs' || this.props.width === 'sm') {
                 airToolbar = [
-                    ['style', ['style', 'bold', 'italic', 'underline']],
-                    ['specialStyle', ['pre', 'advice', 'secret']],
-                    ['para', ['ul', 'ol']],
-                    ['insert', ['link', 'picture', 'video']]
+                    ['style', ['style', 'bold', 'italic', 'underline', 'pre', 'ul']],
+                    ['insert', ['link', 'picture', 'clear', 'undo', 'redo']]
                 ];
             }
 
@@ -248,7 +251,7 @@ class Editor extends React.Component {
         this._noteStatusElement = $container.find('.note-status-element');
         this._noteStatusHelper = $container.find('.note-status-helper');
 
-        if (this.props.mode !== EDITOR_MODE.INLINE_EDIT && !this.props.noHelper) {
+        if (toolbarDisplayMode !== EDITOR_MODE.INLINE_EDIT && !this.props.noHelper) {
             this._noteStatusHelper.html(I18n.t('js.editor.helper.title') + ' <strong>#</strong> ' + I18n.t('js.editor.helper.article_hint'));
         }
 

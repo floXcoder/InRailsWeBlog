@@ -61,7 +61,7 @@ class TagShow extends React.Component {
     }
 
     componentDidMount() {
-        this.props.fetchTag(this.props.routeParams.tagSlug, {
+        this.props.fetchTag(this.props.routeParams.tagSlug, {}, {
             localTag: this.props.initProps?.tag
         });
     }

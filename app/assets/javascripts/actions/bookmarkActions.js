@@ -16,7 +16,9 @@ export const fetchBookmarks = (userId, options = {}, payload = {}) => ({
     fetchAPI: () => api.get(`/api/v1/users/${userId}/bookmarks`, {
         locale: window.locale,
         ...options
-    }, false, true),
+    }, {
+        priorityLow: true
+    }),
     payload
 });
 

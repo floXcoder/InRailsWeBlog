@@ -18,7 +18,6 @@ namespace :InRailsWeBlog do
     # _InRailsWeBlog_#{Rails.env}:serializer
     # _InRailsWeBlog_#{Rails.env}:session
     # _InRailsWeBlog_#{Rails.env}:geocoder
-    # _InRailsWeBlog_#{Rails.env}:cron_job
     # _InRailsWeBlog_#{Rails.env}:(sidekiq)
 
     if args.option == 'all'

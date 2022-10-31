@@ -5,26 +5,29 @@ import * as ActionTypes from '../constants/actionTypes';
 import api from '../middlewares/api';
 
 // Tags
-export const fetchTags = (filter = {}, options = {}, payload = {}) => ({
+export const fetchTags = (filter = {}, options = {}, payload = {}, requestOptions = {}) => ({
     actionType: ActionTypes.TAG,
     fetchAPI: () => api.get('/api/v1/tags', {
         locale: window.locale,
         filter,
         ...options
-    }, false, true),
+    }, {
+        ...requestOptions,
+        priorityLow: true
+    }),
     shouldCallAPI: (state) => {
         return !state.userState.isConnected && payload.topicTags ? state.tagState.topicTags.length === 0 : true;
     },
     payload
 });
 
-export const fetchTag = (tagId, options = {}) => ({
+export const fetchTag = (tagId, options = {}, requestOptions = {}) => ({
     actionType: ActionTypes.TAG,
     fetchAPI: () => api.get(options.edit ? `/api/v1/tags/${tagId}/edit` : `/api/v1/tags/${tagId}`, {
         locale: window.locale,
         ...options
-    }),
-    localData: options.localTag
+    }, requestOptions),
+    localData: requestOptions.localTag
 });
 
 export const filterTags = (filterText) => ({

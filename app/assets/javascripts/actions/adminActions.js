@@ -35,21 +35,21 @@ export const fetchMetaSearch = (query, options = {}) => (dispatch) => {
 };
 
 // Visits
-export const fetchVisits = (filter = {}, options = {}) => ({
+export const fetchVisits = (filter = {}, options = {}, requestOptions = {}) => ({
     actionType: ActionTypes.ADMIN_VISIT,
     fetchAPI: () => api.get('/admins/visits', {
         filter,
         ...options
-    })
+    }, requestOptions)
 });
 
 // Blogs
-export const fetchBlogs = (filter = {}, options = {}) => ({
+export const fetchBlogs = (filter = {}, options = {}, requestOptions = {}) => ({
     actionType: ActionTypes.ADMIN_BLOG,
     fetchAPI: () => api.get('/admins/blogs', {
         filter,
         ...options
-    })
+    }, requestOptions)
 });
 
 export const addBlog = (blogData) => ({
@@ -63,12 +63,12 @@ export const updateBlog = (blogId, blogData) => ({
 });
 
 // SEO Data
-export const fetchSeoData = (filter, options = {}) => ({
+export const fetchSeoData = (filter = {}, options = {}, requestOptions = {}) => ({
     actionType: ActionTypes.ADMIN_SEO_DATA,
     fetchAPI: () => api.get('/admins/seo', {
         filter,
         ...options
-    })
+    }, requestOptions)
 });
 
 export const retrieveParametersSeoData = (urlOrRoute) => () => (

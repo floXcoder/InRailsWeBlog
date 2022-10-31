@@ -10,6 +10,7 @@ import {
     newArticlePath
 } from '../../../../constants/routesHelper';
 
+
 function ArticleNoneDisplay({
                                 userSlug,
                                 topicSlug,
@@ -38,7 +39,8 @@ function ArticleNoneDisplay({
                         }
 
                         {
-                            !!isTopicPage && (
+                            !!isTopicPage &&
+                            (
                                 childTagSlug
                                     ?
                                     I18n.t('js.article.common.no_results.topic.title.child_tag')
@@ -51,6 +53,11 @@ function ArticleNoneDisplay({
                                             I18n.t('js.article.common.no_results.topic.title.default')
                                     )
                             )
+                        }
+
+                        {
+                            (!isTopicPage && !!tagSlug) &&
+                            I18n.t('js.article.common.no_results.tag.title.default')
                         }
                     </h1>
 

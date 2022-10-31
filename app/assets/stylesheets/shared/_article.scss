@@ -115,6 +115,7 @@
   font-size: 20px;
   list-style: none;
   line-height: 0.5;
+  color: $secondary-color-dark;
 
   @media #{$small-and-down} {
     margin-left: 2px;
@@ -134,6 +135,7 @@
 
 .article-breadcrumb-breadcrumb-tag {
   color: $text-color-secondary;
+  //border-color: $secondary-color-dark;
   cursor: pointer;
   margin: 0 6px;
   font-size: .9rem;
@@ -1212,8 +1214,8 @@
 // Tag tooltip
 // ***
 .tooltip-tag-tooltip {
-  color: $primary-color-light;
-  border: 1px solid $primary-color-light;
+  color: $primary-color-dark;
+  border: 1px solid $primary-color-dark;
   padding: 16px;
   background: #fff;
   box-shadow: none;
@@ -1221,15 +1223,15 @@
 }
 
 .tooltip-tag-arrow {
-  color: $primary-color-light;
-  border-color: $primary-color-light;
+  color: $primary-color-dark;
+  border-color: $primary-color-dark;
 }
 
 .tooltip-tag-heading {
-  color: $primary-color-light;
+  color: $primary-color-dark;
   display: block;
   font-weight: bold;
-  border-bottom: 1px solid $primary-color-light;
+  border-bottom: 1px solid $primary-color-dark;
   margin-bottom: 8px;
   padding-bottom: 8px;
 }

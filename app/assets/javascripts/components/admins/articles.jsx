@@ -32,7 +32,7 @@ class AdminArticles extends React.Component {
         this.props.fetchArticles({
             complete: true,
             order: 'visits_desc'
-        });
+        }, {}, {}, {noCache: true});
     }
 
     _updateArticle = (newData, oldData) => {

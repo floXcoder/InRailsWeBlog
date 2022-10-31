@@ -26,7 +26,7 @@ class AdminTopics extends React.Component {
     }
 
     componentDidMount() {
-        this.props.fetchTopics(null, {order: 'created_desc', complete: true});
+        this.props.fetchTopics(null, {order: 'created_desc', complete: true}, {}, {noCache: true});
     }
 
     render() {

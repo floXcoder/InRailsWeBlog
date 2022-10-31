@@ -151,7 +151,7 @@ class ArticleShow extends React.Component {
     }
 
     componentDidMount() {
-        this._request = this.props.fetchArticle(this.props.routeParams.userSlug, this.props.routeParams.articleSlug, {
+        this._request = this.props.fetchArticle(this.props.routeParams.userSlug, this.props.routeParams.articleSlug, {}, {
             localArticle: this.props.initProps?.article
         });
 

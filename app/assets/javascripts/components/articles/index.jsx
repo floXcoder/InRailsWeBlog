@@ -206,6 +206,8 @@ class ArticleIndex extends React.Component {
 
     _fetchArticles = (initParams) => {
         const options = {};
+        const requestOptions = {};
+
         if (this.props.articleDisplayMode === 'summary') {
             options.summary = true;
         }
@@ -213,7 +215,7 @@ class ArticleIndex extends React.Component {
             options.limit = 1000;
         }
         if (this.props.initProps?.articles) {
-            options.localArticles = this.props.initProps.articles;
+            requestOptions.localArticles = this.props.initProps.articles;
         }
         if (initParams?.page) {
             options.page = initParams.page;
@@ -228,7 +230,7 @@ class ArticleIndex extends React.Component {
         this._request = this.props.fetchArticles({
             userId: this.props.currentUserId,
             ...this._formatParams(),
-        }, options, payload);
+        }, options, payload, requestOptions);
 
         if (this.props.routeParams.topicSlug && this.props.routeParams.userSlug && !this.props.routeParams.tagSlug) {
             this._request.fetch.then(() => {
@@ -369,7 +371,7 @@ class ArticleIndex extends React.Component {
                                         childTagSlug={this.props.routeParams.childTagSlug}
                                         isConnected={this.props.isUserConnected}
                                         alternativeUrl={this.props.metaTags?.alternativeUrl}
-                                        isTopicPage={true}
+                                        isTopicPage={false}
                                         isSearchPage={false}/>
                 </div>
             );
