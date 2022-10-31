@@ -26,7 +26,7 @@ class AdminComments extends React.Component {
     }
 
     componentDidMount() {
-        this.props.fetchComments({order: 'created_desc', complete: true, limit: 2000});
+        this.props.fetchComments({order: 'created_desc', complete: true, limit: 2000}, {noCache: true});
     }
 
     render() {

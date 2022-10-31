@@ -14,6 +14,8 @@ export const loadAutocomplete = (autocompleteParams, withLocale = window.locale)
     api.get('/api/v1/search/autocomplete', {
         search: autocompleteParams,
         withLocale
+    }, {
+        noCache: true
     }).promise
 );
 
@@ -30,6 +32,8 @@ export const fetchAutocomplete = (autocompleteParams) => ({
     fetchAPI: () => api.get('/api/v1/search/autocomplete', {
         locale: window.locale,
         search: autocompleteParams
+    }, {
+        noCache: true
     }),
     payload: {
         query: autocompleteParams.query
@@ -125,6 +129,8 @@ const performSearch = (searchParams, options = {}) => (dispatch) => {
         .get('/api/v1/search', {
             locale: window.locale,
             search: searchParams
+        }, {
+            noCache: true
         })
         .promise
         .then((response) => {

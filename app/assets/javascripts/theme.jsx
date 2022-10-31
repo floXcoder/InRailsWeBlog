@@ -242,6 +242,13 @@ const theme = createTheme({
                     color: '#9e9e9e'
                 }
             }
+        },
+        MuiListItemAvatar: {
+            styleOverrides: {
+                root: {
+                    minWidth: 46
+                }
+            }
         }
     }
 });

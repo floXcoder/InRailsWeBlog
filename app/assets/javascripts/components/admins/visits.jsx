@@ -56,7 +56,7 @@ class AdminVisits extends React.Component {
     };
 
     componentDidMount() {
-        this.props.fetchVisits();
+        this.props.fetchVisits({}, {}, {noCache: true});
     }
 
     _handleShowArticleStats = (articleId, event) => {

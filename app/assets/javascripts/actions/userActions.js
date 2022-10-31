@@ -5,33 +5,33 @@ import * as ActionTypes from '../constants/actionTypes';
 import api from '../middlewares/api';
 
 // Users
-export const fetchUsers = (filter, options = {}) => ({
+export const fetchUsers = (filter, options = {}, requestOptions = {}) => ({
     actionType: ActionTypes.USER,
     fetchAPI: () => api.get('/api/v1/users', {
         locale: window.locale,
         filter,
         ...options
-    })
+    }, requestOptions)
 });
 
-export const fetchUser = (userId, options = {}) => ({
+export const fetchUser = (userId, options = {}, requestOptions = {}) => ({
     actionType: ActionTypes.USER,
     fetchAPI: () => api.get(`/api/v1/users/${userId}`, {
         locale: window.locale,
         ...options
-    })
+    }, requestOptions)
 });
 
-export const initUser = (userId, options = {}) => ({
+export const initUser = (userId, options = {}, requestOptions = {}) => ({
     actionType: ActionTypes.USER,
     fetchAPI: () => api.get(`/api/v1/users/${userId}`, {
         locale: window.locale,
         ...options
-    }),
+    }, requestOptions),
     shouldCallAPI: (state) => {
         return !state.userState.user;
     },
-    localData: options.localUser,
+    localData: requestOptions.localUser,
     payload: {
         connection: true
     }
@@ -92,7 +92,9 @@ const receiveUserRecents = (json) => ({
 export const fetchUserRecents = (userId, options = {}, payload = {}) => (dispatch, getState) => {
     if (!getState().userState.recentArticles.length || payload.forceRefresh) {
         return api
-            .get(userId ? `/api/v1/users/${userId}/recents` : '/api/v1/users/recents', options, false, true)
+            .get(userId ? `/api/v1/users/${userId}/recents` : '/api/v1/users/recents', options, {
+                priorityLow: true
+            })
             .promise
             .then((json) => dispatch(receiveUserRecents(json)));
     } else {

@@ -63,7 +63,7 @@
     "core-js": "3.26.0",
     "css-loader": "6.7.1",
     "css-minimizer-webpack-plugin": "4.2.2",
-    "downshift": "6.1.12",
+    "downshift": "7.0.1",
     "final-form": "4.20.7",
     "highlight.js": "11.6.0",
     "image-webpack-loader": "8.1.0",

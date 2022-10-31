@@ -42,7 +42,6 @@ gem 'sanitize',                 '6.0.0'
 
 # Run asynschronous process
 gem 'sidekiq',                  '6.5.7'
-gem 'sidekiq-cron',             '1.8.0'
 gem 'whenever',                 '1.0.0', require: false
 
 # Redis session store and cache

@@ -536,6 +536,9 @@ fr:
               tag: "Pas encore d'articles pour ce label dans ce thème"
               child_tag: "Ajouter un article à ce thème pour ce sous-label"
             button: "Ajouter nouvel article"
+          tag:
+            title:
+              default: "Aucun article avec ce label"
           search:
             title: "Pas d'articles trouvés"
             content: "Essayer autre chose :)"

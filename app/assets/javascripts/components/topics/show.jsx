@@ -64,7 +64,7 @@ class TopicShow extends React.Component {
     }
 
     componentDidMount() {
-        this.props.fetchTopic(this.props.routeParams.userSlug, this.props.routeParams.topicSlug, {
+        this.props.fetchTopic(this.props.routeParams.userSlug, this.props.routeParams.topicSlug, {}, {
             localTopic: this.props.initProps?.topic
         });
     }

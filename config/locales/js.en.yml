@@ -536,6 +536,9 @@ en:
               tag: "No articles for this topic with this tag"
               child_tag: "No articles for this topic with this sub-tag"
             button: "Add an article"
+          tag:
+            title:
+              default: "No articles with this tag"
           search:
             title: "No articles found"
             content: "Try something else :)"

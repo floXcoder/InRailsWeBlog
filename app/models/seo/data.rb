@@ -126,6 +126,8 @@ class Seo::Data < ApplicationRecord
     when :article_slug
       Article.friendly.find(model)
     end
+  rescue ActiveRecord::RecordNotFound
+    nil
   end
 
   # == Instance Methods =====================================================

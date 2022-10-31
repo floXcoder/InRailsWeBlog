@@ -18,13 +18,15 @@ Array.prototype.forEach.call(flashes, function (element) {
 
     // Let's the Notification component initialize
     document.addEventListener('DOMContentLoaded', () => {
-        if (level === 'success') {
-            Notification.success(element.innerHTML);
-        } else if (level === 'error') {
-            Notification.error(element.innerHTML);
-        } else {
-            Notification.alert(element.innerHTML);
-        }
+        setTimeout(function () {
+            if (level === 'success') {
+                Notification.success(element.innerHTML);
+            } else if (level === 'error') {
+                Notification.error(element.innerHTML);
+            } else {
+                Notification.alert(element.innerHTML);
+            }
+        }, 200);
     });
 
     if (sessionStorage) {

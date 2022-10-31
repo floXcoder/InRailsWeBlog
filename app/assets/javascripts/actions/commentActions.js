@@ -5,12 +5,12 @@ import * as ActionTypes from '../constants/actionTypes';
 import api from '../middlewares/api';
 
 // Comments
-export const fetchComments = (commentParams) => {
+export const fetchComments = (commentParams, requestOptions = {}) => {
     let url = `/api/v1/${I18n.t('js.comment.common.route')}`;
-    let requestParam = {};
+    let params = {};
 
     if (commentParams) {
-        requestParam = commentParams;
+        params = commentParams;
 
         if (commentParams.commentableType && commentParams.commentableId) {
             url = `/api/v1/${commentParams.commentableType}/${commentParams.commentableId}/comments`;
@@ -21,15 +21,15 @@ export const fetchComments = (commentParams) => {
         }
 
         if (commentParams.limit) {
-            requestParam.limit = commentParams.limit;
+            params.limit = commentParams.limit;
         } else if (commentParams.page) {
-            requestParam.page = commentParams.page;
+            params.page = commentParams.page;
         } else if (commentParams.isPaginated) {
-            requestParam.page = 1;
+            params.page = 1;
         }
 
         if (commentParams.order) {
-            requestParam.filter = {
+            params.filter = {
                 order: commentParams.order
             };
         }
@@ -37,7 +37,10 @@ export const fetchComments = (commentParams) => {
 
     return ({
         actionType: ActionTypes.COMMENT,
-        fetchAPI: () => api.get(url, requestParam, false, true)
+        fetchAPI: () => api.get(url, params, {
+            priorityLow: true,
+            ...requestOptions
+        })
     });
 };
 

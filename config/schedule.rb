@@ -3,6 +3,11 @@
 # Run by whenever: add to cron table
 set :output, "#{Whenever.path}/log/cron.log"
 
+every 15.minutes, roles: [:production] do
+  # InRailsWeBlog.settings.tracker_cron
+  rake 'InRailsWeBlog:update_tracker_data'
+end
+
 every :day, at: '1am', roles: [:production] do
   rake 'InRailsWeBlog:remove_unused_tags'
 end

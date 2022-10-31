@@ -5,24 +5,27 @@ import * as ActionTypes from '../constants/actionTypes';
 import api from '../middlewares/api';
 
 // Topics
-export const fetchTopics = (userId = null, filter = {}, options = {}) => ({
+export const fetchTopics = (userId = null, filter = {}, options = {}, requestOptions = {}) => ({
     actionType: ActionTypes.TOPIC,
     fetchAPI: () => api.get('/api/v1/topics', {
         locale: window.locale,
         userId,
         filter,
         ...options
-    }, false, true)
+    }, {
+        priorityLow: true,
+        ...requestOptions
+    })
 });
 
-export const fetchTopic = (userId, topicId, options = {}) => ({
+export const fetchTopic = (userId, topicId, options = {}, requestOptions = {}) => ({
     actionType: ActionTypes.TOPIC,
     fetchAPI: () => api.get(options.edit ? `/api/v1/topics/${topicId}/edit` : `/api/v1/topics/${topicId}`, {
         locale: window.locale,
         userId,
         ...options
-    }),
-    localData: options.localTopic
+    }, requestOptions),
+    localData: requestOptions.localTopic
 });
 
 export const switchTopic = (userId, newTopic, options = {}) => ({

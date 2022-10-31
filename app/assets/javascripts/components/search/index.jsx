@@ -317,7 +317,7 @@ class SearchIndex extends React.Component {
 
         // const hasNoResults = (this.props.query?.length > 0) && !this.props.hasResults;
 
-        const isDesktop = window.innerWidth > 1024;
+        const isDesktop = window.innerWidth > window.settings.medium_screen_up;
 
         const searchDisplay = this.state.forceDisplay || (this.props.currentUserTopicMode === 'inventories' ? 'grid' : this.props.searchDisplay) || 'card';
 

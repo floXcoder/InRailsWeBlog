@@ -26,7 +26,7 @@ class AdminUsers extends React.Component {
     }
 
     componentDidMount() {
-        this.props.fetchUsers({order: 'created_desc', complete: true});
+        this.props.fetchUsers({order: 'created_desc', complete: true}, {}, {noCache: true});
     }
 
     render() {

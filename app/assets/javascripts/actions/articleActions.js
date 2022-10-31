@@ -9,25 +9,25 @@ import {
 } from '../middlewares/json';
 
 // Articles
-export const fetchArticles = (filter = {}, options = {}, payload = {}) => ({
+export const fetchArticles = (filter = {}, options = {}, payload = {}, requestOptions = {}) => ({
     actionType: ActionTypes.ARTICLE,
     fetchAPI: () => api.get('/api/v1/articles', {
         locale: window.locale,
         filter,
         ...options
-    }),
-    localData: options.localArticles,
+    }, requestOptions),
+    localData: requestOptions.localArticles,
     payload
 });
 
-export const fetchArticle = (userId, articleId, options = {}) => ({
+export const fetchArticle = (userId, articleId, options = {}, requestOptions = {}) => ({
     actionType: ActionTypes.ARTICLE,
     fetchAPI: () => api.get(options.edit ? `/api/v1/articles/${articleId}/edit` : `/api/v1/articles/${articleId}`, {
         locale: window.locale,
         userId: userId,
         ...options
-    }),
-    localData: options.localArticle
+    }, requestOptions),
+    localData: requestOptions.localArticle
 });
 
 export const fetchSharedArticle = (articleId, publicLink, options = {}) => ({
@@ -101,7 +101,9 @@ export const fetchArticleRecommendations = (userId, articleId) => (dispatch) => 
     api.get(`/api/v1/articles/${articleId}/recommendations`, {
         locale: window.locale,
         userId
-    }, false, true)
+    }, {
+        priorityLow: true
+    })
         .promise
         .then((response) => dispatch(receiveArticleRecommendations(convertJsonApi(response))))
 );

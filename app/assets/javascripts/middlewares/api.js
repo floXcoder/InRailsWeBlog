@@ -85,7 +85,8 @@ const _processSerializeParams = (value, formData, parent) => {
         return;
     }
 
-    if (Utils.is().isObject(value)) {
+    if (Utils.is()
+        .isObject(value)) {
         Object.entries(value)
             .forEach(([key, data]) => {
                 let computedKey = key;
@@ -340,7 +341,11 @@ const _handleTrackingData = (response) => {
 };
 
 const api = {
-    get: (url, params, external = false, priorityLow = false) => {
+    get: (url, params, requestParams = {}) => {
+        const external = requestParams.external || false;
+        const priorityLow = requestParams.priorityLow || false;
+        const noCache = requestParams.noCache || false;
+
         const headers = _getHeaders(external);
         const parameters = stringify(params, {arrayFormat: 'brackets'});
         let urlParams;
@@ -355,6 +360,10 @@ const api = {
 
         if (priorityLow) {
             headers.priority = 'low';
+        }
+
+        if (noCache) {
+            headers.cache = 'no-store';
         }
 
         const promise = fetch(urlParams, {

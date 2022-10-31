@@ -84,7 +84,8 @@ class UserManager extends React.PureComponent {
             this._userRequest = this.props.initUser(this.props.currentUserId, {
                 profile: true,
                 topicSlug: this.props.routeParams.topicSlug,
-                articleSlug: this.props.routeParams.articleSlug,
+                articleSlug: this.props.routeParams.articleSlug
+            }, {
                 localUser: this.props.initialCurrentUser
             });
 

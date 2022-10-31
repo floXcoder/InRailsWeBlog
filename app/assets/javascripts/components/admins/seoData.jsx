@@ -51,7 +51,7 @@ class AdminSeoData extends React.Component {
     };
 
     componentDidMount() {
-        this.props.fetchSeoData();
+        this.props.fetchSeoData({}, {}, {noCache: true});
     }
 
     _handleAddSeoData = (isNew, event) => {
