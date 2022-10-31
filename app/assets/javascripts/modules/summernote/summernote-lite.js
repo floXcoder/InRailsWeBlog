@@ -9386,7 +9386,7 @@
 
 
       var AIRMODE_POPOVER_X_OFFSET = -5;
-      var AIRMODE_POPOVER_Y_OFFSET = 5;
+      var AIRMODE_POPOVER_Y_OFFSET = 10;
 
       var AirPopover = /*#__PURE__*/function () {
         function AirPopover(context) {
@@ -9490,8 +9490,11 @@
               rect.left -= containerOffset.left;
               this.$popover.css({
                 display: 'block',
-                left: Math.max(rect.left, 0) + AIRMODE_POPOVER_X_OFFSET,
+                left: Math.abs(AIRMODE_POPOVER_X_OFFSET),
                 top: rect.top + AIRMODE_POPOVER_Y_OFFSET
+              });
+              this.$popover.find('.note-popover-arrow').css({
+                left: Math.max(rect.left, 0) + AIRMODE_POPOVER_X_OFFSET
               });
               this.context.invoke('buttons.updateCurrentStyle', this.$popover);
             } else {
