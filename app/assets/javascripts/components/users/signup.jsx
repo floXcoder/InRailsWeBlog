@@ -48,7 +48,7 @@ class UserSignup extends React.Component {
                 if (response?.errors) {
                     Notification.error(response.errors);
                     // window.location.replace('/');
-                } else if (response.user) {
+                } else {
                     let location = window.location;
                     if (response?.meta?.location) {
                         location = response.meta.location;
