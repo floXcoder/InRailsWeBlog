@@ -183,7 +183,7 @@ class String
       sanitized_string = Sanitize.fragment(self)
       last_space_index = sanitized_string.index(' ', length)
       last_word        = sanitized_string[0..last_space_index].split.last
-      last_word_index  = self.index(last_word, length)
+      last_word_index  = last_word ? self.index(last_word, length) : nil
       string           = last_word_index && last_word_index + last_word.size < self.size ? self[0..(last_word_index + last_word.size)] : self
     end
 
