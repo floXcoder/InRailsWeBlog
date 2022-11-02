@@ -64,12 +64,16 @@ class TopicShow extends React.Component {
     }
 
     componentDidMount() {
+        this._initRequest = true;
+
         this.props.fetchTopic(this.props.routeParams.userSlug, this.props.routeParams.topicSlug, {}, {
             localTopic: this.props.initProps?.topic
         });
     }
 
     componentDidUpdate(prevProps) {
+        this._initRequest = false;
+
         if (!Object.equals(this.props.routeParams, prevProps.routeParams)) {
             this.props.fetchTopic(this.props.routeParams.userSlug, this.props.routeParams.topicSlug);
         }
@@ -87,7 +91,7 @@ class TopicShow extends React.Component {
     };
 
     render() {
-        if ((!this.props.topic && !this.props.isFetching) || this.props.initProps?.status === '404') {
+        if ((!this.props.topic && !this.props.isFetching && !this._initRequest) || this.props.initProps?.status === '404') {
             return (
                 <div className="center margin-top-20">
                     <NotFound/>
