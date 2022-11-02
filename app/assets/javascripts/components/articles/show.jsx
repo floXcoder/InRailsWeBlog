@@ -142,6 +142,7 @@ class ArticleShow extends React.Component {
     constructor(props) {
         super(props);
 
+        this._initRequest = false;
         this._request = null;
 
         this._recommendationTimeout = null;
@@ -151,6 +152,8 @@ class ArticleShow extends React.Component {
     }
 
     componentDidMount() {
+        this._initRequest = true;
+
         this._request = this.props.fetchArticle(this.props.routeParams.userSlug, this.props.routeParams.articleSlug, {}, {
             localArticle: this.props.initProps?.article
         });
@@ -168,6 +171,8 @@ class ArticleShow extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
+        this._initRequest = false;
+
         if (this.props.article) {
             this.props.setCurrentTags(this.props.article.tags.map((tag) => tag.slug));
 
@@ -276,7 +281,7 @@ class ArticleShow extends React.Component {
     };
 
     render() {
-        if (!this.props.article && !this.props.isFetching) {
+        if (!this.props.article && !this.props.isFetching && !this._initRequest) {
             return (
                 <div className="center margin-top-20">
                     <NotFound/>
