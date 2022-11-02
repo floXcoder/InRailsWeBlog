@@ -163,8 +163,8 @@ module Api::V1
       updated_articles = nil
       tag_ids          = nil
 
-      if current_user
-        user = current_user&.id == params[:id]&.to_i ? current_user : User.friendly.find(params[:id])
+      if current_user && params[:id].present?
+        user = current_user&.id == params[:id].to_i ? current_user : User.friendly.find(params[:id])
         if user
           admin_or_authorize user
 
