@@ -58,22 +58,28 @@ class TagShow extends React.Component {
 
     constructor(props) {
         super(props);
+
+        this._initRequest = false;
     }
 
     componentDidMount() {
+        this._initRequest = true;
+
         this.props.fetchTag(this.props.routeParams.tagSlug, {}, {
             localTag: this.props.initProps?.tag
         });
     }
 
     componentDidUpdate(prevProps) {
+        this._initRequest = false;
+
         if (!Object.equals(this.props.routeParams, prevProps.routeParams)) {
             this.props.fetchTag(this.props.routeParams.tagSlug);
         }
     }
 
     render() {
-        if (!this.props.tag && !this.props.isFetching) {
+        if (!this.props.tag && !this.props.isFetching && !this._initRequest) {
             return (
                 <div className="center margin-top-20">
                     <NotFound/>
