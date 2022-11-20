@@ -56,6 +56,7 @@ class Editor extends React.Component {
         onChange: PropTypes.func,
         onImageUpload: PropTypes.func,
         onSubmit: PropTypes.func,
+        onLazySubmit: PropTypes.func,
         // from withWidth
         width: PropTypes.string
     };
@@ -313,9 +314,15 @@ class Editor extends React.Component {
 
         if (this.props.onSubmit) {
             if (event.keyCode === 13 && event.ctrlKey) {
+                // CTRL+ENTER
                 event.preventDefault();
 
                 this.props.onSubmit();
+            } else if (event.keyCode === 83 && event.ctrlKey) {
+                // CTRL+S
+                event.preventDefault();
+
+                this.props.onLazySubmit();
             }
         }
     };
@@ -363,6 +370,8 @@ class Editor extends React.Component {
                 document.execCommand(insertType, false, parsedContent);
             }
         }
+
+        return parsedContent;
     };
 
     _formatContent = (content) => {

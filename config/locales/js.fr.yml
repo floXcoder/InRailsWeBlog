@@ -494,6 +494,7 @@ fr:
           title: "Autoriser les commentaires ?"
           truthy: "Oui"
           falsy: "Non"
+        lazy_saved: "Article sauvegardé"
         not_connected:
           message: "Merci de vous connecter avant de poster l'article"
         infinite:

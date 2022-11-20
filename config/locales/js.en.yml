@@ -494,6 +494,7 @@ en:
         actions: "Actions"
         private_in_public: "This article is private"
         all_stories: "See all articles of this story"
+        lazy_saved: "Article saved"
         not_connected:
           message: "Please log in, before posting article"
         infinite:

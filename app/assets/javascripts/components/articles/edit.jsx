@@ -56,6 +56,7 @@ class ArticleEdit extends React.Component {
         article: PropTypes.object,
         articleErrors: PropTypes.array,
         onFormChange: PropTypes.func,
+        onLazySubmit: PropTypes.func,
         onSubmit: PropTypes.func,
         // from connect
         userSlug: PropTypes.string,
@@ -163,6 +164,7 @@ class ArticleEdit extends React.Component {
                                     inheritVisibility={this.props.inheritVisibility}
                                     articleErrors={this.props.articleErrors}
                                     onFormChange={this.props.onFormChange}
+                                    onLazySubmit={this.props.onLazySubmit}
                                     onSubmit={this.props.onSubmit}>
                     {this.props.article}
                 </ArticleFormDisplay>

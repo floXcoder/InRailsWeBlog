@@ -67,6 +67,7 @@ class ArticleFormDisplay extends React.Component {
         article: PropTypes.object.isRequired,
         userSlug: PropTypes.string.isRequired,
         onFormChange: PropTypes.func.isRequired,
+        onLazySubmit: PropTypes.func.isRequired,
         onSubmit: PropTypes.func.isRequired,
         isPaste: PropTypes.bool,
         inheritVisibility: PropTypes.string,
@@ -206,6 +207,7 @@ class ArticleFormDisplay extends React.Component {
                                                                     isPaste={this.props.isPaste}
                                                                     article={this.props.children}
                                                                     change={change}
+                                                                    onLazySubmit={this.props.onLazySubmit.bind(this, values)}
                                                                     onSubmit={handleSubmit}/>
                                         }
 
