@@ -116,7 +116,7 @@ const _serializeParams = (params) => {
     return formData;
 };
 
-const _manageError = (origin, error, url) => {
+const _manageError = (origin, error, url, external = false) => {
     if (url === '/errors') {
         return;
     }
@@ -132,7 +132,7 @@ const _manageError = (origin, error, url) => {
     };
 
     if (error.statusText) {
-        if (error.statusText === 'Forbidden') {
+        if (error.statusText === 'Forbidden' && !external) {
             // Notification.error(I18n.t('js.helpers.errors.not_authorized'));
             // if (document.referrer === '') {
             //     window.location = '/';
@@ -143,7 +143,7 @@ const _manageError = (origin, error, url) => {
             return error;
         } else if (error.statusText === 'Cancelled') {
             return error;
-        } else if (error.statusText === 'Not Found') {
+        } else if (error.statusText === 'Not Found' && !external) {
             // Notification.error(I18n.t('js.helpers.errors.unprocessable'));
             // } else if (error.statusText === 'Unprocessable Entity') {
             // Managed by _handleResponse
@@ -156,14 +156,14 @@ const _manageError = (origin, error, url) => {
             // }
 
             return error;
-        } else if (error.statusText === 'Internal Server Error') {
+        } else if (error.statusText === 'Internal Server Error' || external) {
             if (!error.bodyUsed) {
                 const contentType = error.headers.get('content-type');
                 if (contentType && contentType.indexOf('application/json') !== -1) {
                     return error.json()
                         .then((parsedError) => {
                             if (GlobalEnvironment.NODE_ENV !== 'production') {
-                                window.log_on_screen([parsedError.errors, parsedError.details].join(' / ')
+                                window.log_on_screen([parsedError.errors, parsedError.details, parsedError.message].filter(Boolean).join(' / ')
                                     .split('\n')
                                     .slice(0, 10));
                             } else {
@@ -228,9 +228,9 @@ const _handleTokenError = (response, url, params, isData) => {
     }
 };
 
-const _handleResponseErrors = (response, url) => {
+const _handleResponseErrors = (response, url, external = false) => {
     if (response.status && !response.ok) {
-        _manageError('server', response, url);
+        _manageError('server', response, url, external);
     }
 
     return response;
@@ -361,7 +361,6 @@ const api = {
         if (priorityLow) {
             headers.priority = 'low';
         }
-
         if (noCache) {
             headers.cache = 'no-store';
         }
@@ -371,7 +370,7 @@ const api = {
             method: 'GET',
             signal
         })
-            .then((response) => _handleResponseErrors(response, urlParams))
+            .then((response) => _handleResponseErrors(response, urlParams, external))
             .then((response) => _handleFlashMessage(response))
             .then((response) => _handleResponse(response))
             .then((response) => _handleTrackingData(response))

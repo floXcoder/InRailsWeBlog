@@ -90,6 +90,10 @@ class Editor extends React.Component {
             placeholder: this.props.placeholder,
             popatmouse: false,
             useProtocol: true,
+            // 0 - No break, the new paragraph remains inside the quote.
+            // 1 - Break the first blockquote in the ancestors list.
+            // 2 - Break all blockquotes, so that the new paragraph is not quoted. (default)
+            blockquoteBreakingLevel: 2,
             codeLanguages: [{
                 value: '',
                 text: 'Auto'

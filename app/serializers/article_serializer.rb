@@ -109,8 +109,8 @@ class ArticleSerializer
     params.dig(:highlight_results, object.id, :content).presence&.gsub(/\n{3,}/, "\n\n") || object.adapted_content(params[:current_user_id])
   end
 
-  attribute :content_summary do |object|
-    object.summary_content(InRailsWeBlog.settings.article_content_summary, strip_html: false)
+  attribute :content_summary do |object, params|
+    object.summary_content(params[:current_user_id] ? InRailsWeBlog.settings.article_summary_connected_length : InRailsWeBlog.settings.article_summary_length, strip_html: false)
   end
 
   attribute :content_translations do |object|

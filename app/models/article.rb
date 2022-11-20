@@ -540,7 +540,7 @@ class Article < ApplicationRecord
     end
   end
 
-  def summary_content(size = InRailsWeBlog.settings.article_content_summary, strip_html: true, replace_tags: false, remove_links: false, current_user_id: nil)
+  def summary_content(size = InRailsWeBlog.settings.article_summary_length, strip_html: true, replace_tags: false, remove_links: false, current_user_id: nil)
     adapted_content(current_user_id)&.summary(size, strip_html: strip_html, replace_tags: replace_tags, remove_links: remove_links)
   end
 

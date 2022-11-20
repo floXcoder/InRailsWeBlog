@@ -179,6 +179,39 @@
 .layout-user-home-layout {
   width: 100%;
   padding: 0;
+
+  .home-search {
+    padding: 1rem 0 2rem;
+  }
+
+  .home-search-title {
+    font-size: 2rem;
+    margin-bottom: 1.4rem;
+  }
+
+  .home-search-button {
+    margin-top: 2rem;
+  }
+
+  .home-populars {
+    padding-top: 2rem;
+  }
+
+  .home-populars-home-button-container {
+    margin-bottom: 2rem;
+
+    .home-populars-home-button {
+      font-size: .8rem;
+    }
+  }
+
+  .home-populars-title {
+    @media #{$medium-and-down} {
+      font-size: 2.3rem;
+      margin-bottom: 0;
+    }
+  }
+
 }
 
 .layout-user-breadcrumb {

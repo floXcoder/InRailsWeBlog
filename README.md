@@ -14,7 +14,7 @@ Main functionalities of InRailsWeBlog blog:
 * Three view modes for topics: normal articles, stories (by date) and custom fields (text, date, boolean, ...) 
 * Powerful search with ElasticSearch: autocompletion for article title, inside content for full search
 * Search inside links reference in articles content
-* Translated in 5 languages
+* Translated in 2 languages
 * Administration panel integrated to manage and monitor the blog
 * SPA website to ease the navigation
 * PWA ready (you can install as an app on your smartphone)
@@ -74,15 +74,16 @@ Groups are a set of users. Every user can subscribe to a group and share specifi
 
 ## Inspiration
 
-* Trello: for the view with all notes in the current topic (clear)
+* Trello: for the view with all notes in the current topic
 * Evernote: tags and notes but too closed
 * Stack overflow: tags system but too many information and complicated
 * Medium: nice UX and SEO but too commercial
 
 ## Requirements
 
-* Rails 5.2
-* SQL Database
+* Ruby 3.2
+* Rails 7.0
+* SQL Database (configured with PostgreSQL)
 * A CSS3 / HTML5 compatible Browser (Firefox, Chrome, …)
 
 ## Installation
@@ -117,11 +118,12 @@ Install gems in the gemset of the project:
     
 ### Database dependencies
 
-Create the postgres user:
+Create the postgres user and the dev database:
 
     sudo -u postgres psql
     postgres=# create user inrailsweblog with password 'inrailsweblog';
     postgres=# alter role inrailsweblog createdb;
+    postgres=# createdb inrailsweblog_dev owner inrailsweblog;
     postgres=# \q
 
 ### Search dependencies
@@ -129,14 +131,13 @@ Create the postgres user:
 Install ElasticSearch:
 
     wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
-    echo "deb https://artifacts.elastic.co/packages/6.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-6.x.list
+    echo "deb https://artifacts.elastic.co/packages/8.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-8.x.list
     sudo apt-get update
     sudo apt-get install elasticsearch
 
-Configure ElasticSearch:
+Configure ElasticSearch and avoid exposing ES to outside:
 
     sudo nano /etc/elasticsearch/elasticsearch.yml
-    cluster.name: elasticsearch
     network.host: localhost
 
 Start ElasticSearch:
@@ -147,7 +148,7 @@ Start ElasticSearch:
 
 Install NodeJS and Yarn as package manager:
 
-    curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+    curl -sL https://deb.nodesource.com/setup_19.x | sudo -E bash -
     curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
     echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
     
@@ -163,7 +164,7 @@ Install npm packages for the project:
 
 ### Test dependencies
 
-Install tidy-html5 (check HTML file validity):
+Install tidy-html5 (check HTML file validity - optional):
 
     git clone https://github.com/w3c/tidy-html5
     cd tidy-html5
@@ -427,7 +428,7 @@ All issues are listed in:
 
 https://gitlab.l-x.fr/Flo/InRailsWeBlog/issues
 
-## Versionning
+## Versioning
 
 The project is based on git:
 
