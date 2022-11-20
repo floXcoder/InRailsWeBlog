@@ -12,7 +12,7 @@ ruby '3.1.2'
 gem 'rails',                    '7.0.4'
 
 # Use postgresql as the database for Active Record
-gem 'pg',                       '1.4.4'
+gem 'pg',                       '1.4.5'
 # gem 'active_record_extended',   '1.4.0'
 
 # HTTP Response
@@ -21,7 +21,7 @@ gem 'secure_headers',           '6.5.0'
 
 # JSON
 gem 'jsonapi-serializer',       '2.2.0'
-gem 'oj',                       '3.13.21'
+gem 'oj',                       '3.13.23'
 
 # Use slim instead of erb
 gem 'slim-rails',               '3.5.1'
@@ -34,7 +34,7 @@ gem 'geocoder',                 '1.8.1'
 gem 'paper_trail',              '13.0.0'
 
 # Marked as deleted
-gem 'paranoia',                 '2.6.0'
+gem 'paranoia',                 '2.6.1'
 
 # Format user input
 gem 'auto_strip_attributes',    '2.6.0'
@@ -70,7 +70,7 @@ gem 'typhoeus',                 '1.4.0'
 gem 'acts_as_commentable_with_threading', '2.0.1'
 
 # Email formater
-gem 'premailer-rails',          '1.11.1'
+gem 'premailer-rails',          '1.12.0'
 
 # Detect browser and bots
 gem 'browser',                  '5.3.1'
@@ -79,14 +79,14 @@ gem 'browser',                  '5.3.1'
 gem 'ahoy_matey',               '4.1.0'
 
 # SEO
-gem 'friendly_id',              '5.4.2'
+gem 'friendly_id',              '5.5.0'
 gem 'route_translator',         '13.0.0'
 gem 'meta-tags',                '2.18.0'
 gem 'sitemap_generator',        '6.3.0'
 
 # Dummy data
 gem 'factory_bot_rails',        '6.2.0',  require: false
-gem 'faker',                    '2.23.0', require: false
+gem 'faker',                    '3.0.0', require: false
 
 # Deployment
 gem 'capistrano',               '3.17.1', require: false
@@ -97,7 +97,7 @@ gem 'health_check',             '3.1.0'
 
 # SEO
 gem 'webdrivers',               '5.2.0',  require: false
-gem 'selenium-webdriver',       '4.5.0',  require: false
+gem 'selenium-webdriver',       '4.6.1',  require: false
 
 # Server
 gem 'puma',                     '6.0.0'
@@ -143,17 +143,17 @@ end
 
 group :development, :test do
   # Speed up boot
-  gem 'bootsnap',                   '1.13.0', require: false
+  gem 'bootsnap',                   '1.14.0', require: false
 
   # Check errors
-  gem 'rubocop',                    '1.37.1', require: false
-  gem 'rubocop-rails',              '2.17.2', require: false
-  gem 'rubocop-performance',        '1.15.0', require: false
-  gem 'rubocop-rspec',              '2.14.2', require: false
+  gem 'rubocop',                    '1.39.0', require: false
+  gem 'rubocop-rails',              '2.17.3', require: false
+  gem 'rubocop-performance',        '1.15.1', require: false
+  gem 'rubocop-rspec',              '2.15.0', require: false
 
   # static analyzer
   gem 'rails_best_practices',       '1.23.2', require: false
-  gem 'brakeman',                   '5.3.1',  require: false
+  gem 'brakeman',                   '5.4.0',  require: false
   gem 'i18n-tasks',                 '1.0.12', require: false
 end
 
@@ -163,7 +163,7 @@ group :production do
 
   # Check slow DB requests
   gem 'pghero',           '3.0.1'
-  gem 'pg_query',         '2.1.4'
+  gem 'pg_query',         '2.2.0'
 
   # Improve log outputs
   gem 'lograge',          '0.12.0'
