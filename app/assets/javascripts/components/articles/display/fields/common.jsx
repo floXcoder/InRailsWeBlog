@@ -29,6 +29,7 @@ export default class ArticleCommonField extends React.Component {
         currentUserId: PropTypes.number.isRequired,
         currentTopicId: PropTypes.number.isRequired,
         change: PropTypes.func.isRequired,
+        onLazySubmit: PropTypes.func.isRequired,
         onSubmit: PropTypes.func.isRequired,
         topicLanguages: PropTypes.array,
         isPaste: PropTypes.bool,
@@ -143,6 +144,7 @@ export default class ArticleCommonField extends React.Component {
                        placeholder={I18n.t(`js.article.common.placeholders.content.${this.props.currentMode}`)}
                        onLoaded={this._handleEditorLoaded}
                        onImageUpload={this._handleImageUploaded}
+                       onLazySubmit={this.props.onLazySubmit}
                        onSubmit={this.props.onSubmit}/>
             </div>
         );

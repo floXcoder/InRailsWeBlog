@@ -242,6 +242,12 @@ export default function articleMutationManager(mode) {
                 this._handleSubmit(values, true);
             }, articleWaitTimeBeforeSaving);
 
+            _handleLazySubmit = (values) => {
+                this._handleSubmit(values, true);
+
+                Notification.success(I18n.t('js.article.common.lazy_saved'));
+            };
+
             _handleSubmit = (values, autoSave) => {
                 if (!values) {
                     return;
@@ -354,6 +360,7 @@ export default function articleMutationManager(mode) {
                     currentTopic: this.props.currentTopic,
                     isFetching: this.props.isFetching,
                     onCancel: this._handleCancel,
+                    onLazySubmit: this._handleLazySubmit,
                     onSubmit: this._handleSubmit,
                     article: article,
                     currentMode: currentMode,

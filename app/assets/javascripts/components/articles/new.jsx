@@ -42,6 +42,7 @@ class ArticleNew extends React.Component {
         isTagError: PropTypes.bool,
         onCancel: PropTypes.func,
         onFormChange: PropTypes.func,
+        onLazySubmit: PropTypes.func,
         onSubmit: PropTypes.func,
         // from connect
         userSlug: PropTypes.string,
@@ -185,6 +186,7 @@ class ArticleNew extends React.Component {
                                     articleErrors={this.props.articleErrors}
                                     onFormChange={this.props.onFormChange}
                                     onCancel={this.props.onCancel}
+                                    onLazySubmit={this.props.onLazySubmit}
                                     onSubmit={this.props.onSubmit}>
                     {article}
                 </ArticleFormDisplay>

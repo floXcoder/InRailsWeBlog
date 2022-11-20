@@ -7,7 +7,7 @@
  * Copyright 2013- Alan Hong and contributors
  * Summernote may be freely distributed under the MIT license.
  *
- * Date: 2022-11-20T11:56Z
+ * Date: 2022-11-20T18:49Z
  *
  */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -2329,12 +2329,17 @@
             var namespace = lists.head(arguments);
             var args = lists.tail(lists.from(arguments));
             var callback = this.options.callbacks[func.namespaceToCamel(namespace, 'on')];
+            var callbackReturn;
 
             if (callback) {
-              callback.apply(this.$note[0], args);
+              callbackReturn = callback.apply(this.$note[0], args);
+
+              if (callbackReturn) {
+                args.push(callbackReturn);
+              }
             }
 
-            this.$note.trigger('summernote.' + namespace, args);
+            this.$note.trigger('summernote.' + namespace, args, callbackReturn);
           }
         }, {
           key: "initializeModule",
@@ -10041,7 +10046,134 @@
       }();
 
 
+      ;// CONCATENATED MODULE: ./src/js/module/PastePopover.js
+      function PastePopover_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+      function PastePopover_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+      function PastePopover_createClass(Constructor, protoProps, staticProps) { if (protoProps) PastePopover_defineProperties(Constructor.prototype, protoProps); if (staticProps) PastePopover_defineProperties(Constructor, staticProps); return Constructor; }
+
+
+
+
+      var PastePopover = /*#__PURE__*/function () {
+        function PastePopover(context) {
+          var _this = this;
+
+          PastePopover_classCallCheck(this, PastePopover);
+
+          this.context = context;
+          this.ui = (external_root_jquery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()).summernote.ui;
+          this.$editable = context.layoutInfo.editable;
+          this.options = context.options;
+          this.events = {
+            'summernote.paste': function summernotePaste(summernoteEvent, event, callbackReturn) {
+              _this.update(summernoteEvent, event, callbackReturn);
+            },
+            'summernote.disable summernote.dialog.shown': function summernoteDisableSummernoteDialogShown() {
+              _this.hide();
+            },
+            'summernote.blur': function summernoteBlur(we, e) {
+              if (e.originalEvent && e.originalEvent.relatedTarget) {
+                if (!_this.$popover[0].contains(e.originalEvent.relatedTarget)) {
+                  _this.hide();
+                }
+              } else {
+                _this.hide();
+              }
+            }
+          };
+        }
+
+        PastePopover_createClass(PastePopover, [{
+          key: "shouldInitialize",
+          value: function shouldInitialize() {
+            return !this.options.noPasteFormat;
+          }
+        }, {
+          key: "initialize",
+          value: function initialize() {
+            this.$popover = this.ui.popover({
+              className: 'note-code-popover'
+            }).render().appendTo(this.options.container);
+            this.$popover.hide();
+            this.$content = this.$popover.find('.popover-content,.note-popover-content');
+            this.$popover.on('mousedown', function (event) {
+              event.preventDefault();
+            });
+          }
+        }, {
+          key: "destroy",
+          value: function destroy() {
+            this.$popover.remove();
+          }
+        }, {
+          key: "formatPaste",
+          value: function formatPaste(pasteContent, event) {
+            event.stopImmediatePropagation();
+            this.context.invoke('editor.undo');
+            var userAgent = window.navigator.userAgent;
+            var msIE = userAgent.indexOf('MSIE ');
+            msIE = msIE > 0 || !!navigator.userAgent.match(/Trident.*rv:11\./);
+            var firefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+            pasteContent = external_root_jquery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()(pasteContent).text();
+
+            if (pasteContent) {
+              if (msIE || firefox) {
+                setTimeout(function () {
+                  document.execCommand('insertText', false, pasteContent);
+                }, 10);
+              } else {
+                document.execCommand('insertText', false, pasteContent);
+              }
+            }
+
+            this.$popover.hide();
+          }
+        }, {
+          key: "update",
+          value: function update(summernoteEvent, event, callbackReturn) {
+            // Prevent focusing on editable when invoke('code') is executed
+            if (!this.context.invoke('editor.hasFocus')) {
+              this.hide();
+              return;
+            }
+
+            var rng = this.context.invoke('editor.getLastRange');
+            var pasteBlock = dom.ancestor(rng.sc, dom.isPara);
+            this.$content.empty();
+            this.$popover.hide();
+            var $group = external_root_jquery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()('<div class="note-paste-mode"></div>');
+            var $button = external_root_jquery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()('<button type="button" class="note-btn dropdown-toggle" tabindex="-1" data-toggle="dropdown" aria-label="Paste mode">' + '<div class="note-btn-group">' + '<span class="material-icons">format_clear</span' + '</div>' + '</button>');
+            $button.on('click', this.formatPaste.bind(this, callbackReturn));
+            $group.append($button);
+            $group.appendTo(this.$content);
+            var pos = dom.posFromPlaceholder(pasteBlock);
+            var containerOffset = external_root_jquery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()(this.options.container).offset();
+            pos.top -= containerOffset.top;
+            pos.left -= containerOffset.left;
+            this.$popover.css({
+              display: 'block',
+              left: pos.left,
+              top: pos.top
+            });
+            setTimeout(function () {
+              this.$popover.hide();
+            }.bind(this), 4000);
+          }
+        }, {
+          key: "hide",
+          value: function hide() {
+            this.$popover.hide();
+          }
+        }]);
+
+        return PastePopover;
+      }();
+
+
       ;// CONCATENATED MODULE: ./src/js/settings.js
+
 
 
 
@@ -10092,6 +10224,7 @@
             //  - Script error about range when Enter key is pressed on hint popover
             'hintPopover': HintPopover,
             'codePopover': CodePopover,
+            'pastePopover': PastePopover,
             'autoLink': AutoLink,
             'autoSync': AutoSync,
             'autoReplace': AutoReplace,
@@ -10163,6 +10296,8 @@
           hintDirection: 'bottom',
           codeLanguages: [],
           codeLanguagePrefix: null,
+          // Disable past format popover
+          noPasteFormat: false,
           styleTags: ['p', 'blockquote', 'pre', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
           fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New', 'Helvetica Neue', 'Helvetica', 'Impact', 'Lucida Grande', 'Tahoma', 'Times New Roman', 'Verdana'],
           fontNamesIgnoreCheck: [],
