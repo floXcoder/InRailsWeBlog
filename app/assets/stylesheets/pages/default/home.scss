@@ -257,6 +257,35 @@
 
 .home-populars {
   padding: 3rem 0;
+
+  .article-mini-card-extract-title {
+    font-size: 1.8rem;
+  }
+
+  .article-mini-card-article-content-faded {
+    height: 224px;
+  }
+
+  .article-mini-card-separator {
+    display: none;
+  }
+
+  .article-mini-card-date {
+    display: none;
+  }
+
+  .article-mini-card-article-tag {
+    font-size: .8rem;
+
+    .MuiChip-icon {
+      font-size: 1.2rem;
+    }
+
+    .MuiChip-label {
+      padding-left: 8px;
+      padding-right: 8px;
+    }
+  }
 }
 
 .home-populars-title {

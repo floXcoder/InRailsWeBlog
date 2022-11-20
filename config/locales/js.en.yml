@@ -180,7 +180,7 @@ en:
         add_topic: "Add a topic"
         articles:
           seen: "Last articles viewed"
-          modified: "Last articles modified"
+          modified: "Last articles changed"
       index:
         link_to_user: "User details"
         search: "Find user"

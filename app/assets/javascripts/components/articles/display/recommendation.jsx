@@ -48,7 +48,7 @@ class ArticleRecommendationDisplay extends React.Component {
     }
 
     render() {
-        if (!this.props.associatedTopics) {
+        if (!this.props.associatedTopics || !this.props.associatedTopics.length) {
             return null;
         }
 
@@ -67,7 +67,7 @@ class ArticleRecommendationDisplay extends React.Component {
                     {
                         this.props.associatedTopics.map((topic) => (
                             <Grid key={topic.id}
-                                  className="article-recommendation-gridTheme"
+                                  className="article-recommendation-grid-theme"
                                   item={true}
                                   xs={12}
                                   sm={6}

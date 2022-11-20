@@ -18,6 +18,7 @@ if (window.SENTRY_JAVASCRIPT_KEY) {
             'TypeError: Load failed',
             'UnknownError: Background Sync is disabled.',
             'Error: QuotaExceededError: QuotaExceededError',
+            'script-src wasm-eval:',
             /Loading CSS chunk/,
             /webkitExitFullScreen/,
             /webkitEnterFullscreen/,
@@ -25,9 +26,9 @@ if (window.SENTRY_JAVASCRIPT_KEY) {
             /setIOSParameters/,
             /safari-web-extension/,
             /chrome-extension/,
-            /Blocked/,
-            /wasm/,
             /script-src/,
+            /manifest-src/,
+            /font-src/,
             /script-src-elem/
         ]
         // beforeSend(event, hint) {

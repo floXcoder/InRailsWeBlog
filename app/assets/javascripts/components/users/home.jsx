@@ -103,223 +103,227 @@ class UserHome extends React.Component {
         }
 
         return (
-            <div className="user-home-userHome">
-                <div className="user-home-user-home-topics">
-                    <Card component="section"
-                          className="user-home-user-home-card"
-                          elevation={6}>
-                        <CardHeader classes={{
-                            root: 'user-home-header',
-                            subheader: 'user-home-subheader'
-                        }}
-                                    title={I18n.t('js.user.home.private.title')}
-                                    subheader={I18n.t('js.user.home.private.subtitle')}
-                                    action={
-                                        <IconButton className="user-home-sort-icon"
-                                                    component={Link}
-                                                    aria-label="Show more"
-                                                    to={{
-                                                        hash: '#' + sortTopicParam
-                                                    }}
-                                                    state={{
-                                                        visibility: 'only_me'
-                                                    }}
-                                                    size="large">
-                                            <CompareArrowsIcon/>
-                                        </IconButton>
-                                    }/>
+            <div className="user-home-user-home">
+                <div className="row user-home-topics">
+                    <div className="col s12 xl6">
+                        <Card component="section"
+                              className="user-home-card"
+                              elevation={6}>
+                            <CardHeader classes={{
+                                root: 'user-home-header',
+                                title: 'user-home-header-title',
+                                subheader: 'user-home-header-subheader'
+                            }}
+                                        title={I18n.t('js.user.home.private.title')}
+                                        subheader={I18n.t('js.user.home.private.subtitle')}
+                                        action={
+                                            <IconButton className="user-home-sort-icon"
+                                                        component={Link}
+                                                        aria-label="Show more"
+                                                        to={{
+                                                            hash: '#' + sortTopicParam
+                                                        }}
+                                                        state={{
+                                                            visibility: 'only_me'
+                                                        }}
+                                                        size="large">
+                                                <CompareArrowsIcon/>
+                                            </IconButton>
+                                        }/>
 
-                        <CardContent>
-                            <Grid container={true}
-                                  spacing={4}
-                                  direction="row"
-                                  justifyContent="flex-start"
-                                  alignItems="center">
-                                {
-                                    this.props.privateTopics.map((topic) => (
-                                        <Grid key={topic.id}
-                                              className="user-home-grid-theme"
-                                              item={true}
-                                              xs={12}
-                                              sm={6}
-                                              lg={4}>
-                                            <Link to={{
-                                                pathname: topicArticlesPath(this.props.user.slug, topic.slug)
-                                            }}
-                                                  onClick={this._handleTopicClick.bind(this, topic)}>
-                                                <Paper className={classNames('user-home-topic', {
-                                                    'user-home-story-topic': topic.mode === 'stories'
-                                                })}
-                                                       elevation={1}>
-                                                    <Typography className="user-home-topic-title"
-                                                                variant="h5"
-                                                                component="h2">
-                                                        {topic.name}
-                                                    </Typography>
+                            <CardContent>
+                                <Grid container={true}
+                                      spacing={4}
+                                      direction="row"
+                                      justifyContent="flex-start"
+                                      alignItems="center">
+                                    {
+                                        this.props.privateTopics.map((topic) => (
+                                            <Grid key={topic.id}
+                                                  className="user-home-grid-theme"
+                                                  item={true}
+                                                  xs={12}
+                                                  sm={6}>
+                                                <Link to={{
+                                                    pathname: topicArticlesPath(this.props.user.slug, topic.slug)
+                                                }}
+                                                      onClick={this._handleTopicClick.bind(this, topic)}>
+                                                    <Paper className={classNames('user-home-topic', {
+                                                        'user-home-story-topic': topic.mode === 'stories'
+                                                    })}
+                                                           elevation={1}>
+                                                        <Typography className="user-home-topic-title"
+                                                                    variant="h5"
+                                                                    component="h2">
+                                                            {topic.name}
+                                                        </Typography>
 
-                                                    {
-                                                        topic.mode !== 'default' &&
-                                                        <div className="user-home-topic-mode">
-                                                            {I18n.t(`js.topic.enums.mode.${topic.mode}`)}
-                                                        </div>
-                                                    }
-                                                </Paper>
-                                            </Link>
+                                                        {
+                                                            topic.mode !== 'default' &&
+                                                            <div className="user-home-topic-mode">
+                                                                {I18n.t(`js.topic.enums.mode.${topic.mode}`)}
+                                                            </div>
+                                                        }
+                                                    </Paper>
+                                                </Link>
 
-                                            <Link to={userTopicPath(this.props.user.slug, topic.slug)}>
-                                                <Fab className={classNames('user-home-topic-link', {
-                                                    'user-home-story-topic-link': topic.mode === 'stories'
-                                                })}
-                                                     variant="extended"
-                                                     size="small"
-                                                     color="primary"
-                                                     aria-label="Share">
-                                                    <OpenInNewIcon/>
-                                                </Fab>
-                                            </Link>
-                                        </Grid>
-                                    ))
-                                }
+                                                <Link to={userTopicPath(this.props.user.slug, topic.slug)}>
+                                                    <Fab className={classNames('user-home-topic-link', {
+                                                        'user-home-story-topic-link': topic.mode === 'stories'
+                                                    })}
+                                                         variant="extended"
+                                                         size="small"
+                                                         color="primary"
+                                                         aria-label="Share">
+                                                        <OpenInNewIcon/>
+                                                    </Fab>
+                                                </Link>
+                                            </Grid>
+                                        ))
+                                    }
 
-                                <Grid item={true}
-                                      xs={12}
-                                      sm={6}
-                                      lg={4}>
-                                    <Link to={{
-                                        hash: '#' + newTopicParam
-                                    }}
-                                          state={{
-                                              mode: 'default',
-                                              visibility: 'only_me'
-                                          }}>
-                                        <Paper className="user-home-topic-new"
-                                               elevation={1}>
-                                            <Typography className="user-home-topic-new-title"
-                                                        variant="h5"
-                                                        component="h2">
-                                                {I18n.t('js.user.home.add_topic')}
-                                            </Typography>
-                                        </Paper>
-                                    </Link>
+                                    <Grid item={true}
+                                          xs={12}
+                                          sm={6}>
+                                        <Link to={{
+                                            hash: '#' + newTopicParam
+                                        }}
+                                              state={{
+                                                  mode: 'default',
+                                                  visibility: 'only_me'
+                                              }}>
+                                            <Paper className="user-home-topic-new"
+                                                   elevation={1}>
+                                                <Typography className="user-home-topic-new-title"
+                                                            variant="h5"
+                                                            component="h2">
+                                                    {I18n.t('js.user.home.add_topic')}
+                                                </Typography>
+                                            </Paper>
+                                        </Link>
+                                    </Grid>
                                 </Grid>
-                            </Grid>
-                        </CardContent>
-                    </Card>
+                            </CardContent>
+                        </Card>
+                    </div>
 
-                    <Card component="section"
-                          className="user-home-user-home-card"
-                          elevation={5}>
-                        <CardHeader classes={{
-                            root: 'user-home-header',
-                            subheader: 'user-home-subheader'
-                        }}
-                                    title={I18n.t('js.user.home.public.title')}
-                                    subheader={I18n.t('js.user.home.public.subtitle')}
-                                    action={
-                                        <IconButton className="user-home-sort-icon"
-                                                    component={Link}
-                                                    to={{
-                                                        hash: '#' + sortTopicParam
-                                                    }}
-                                                    state={{
-                                                        visibility: 'everyone'
-                                                    }}
-                                                    size="large">
-                                            <CompareArrowsIcon/>
-                                        </IconButton>
-                                    }/>
+                    <div className="col s12 xl6">
+                        <Card component="section"
+                              className="user-home-card"
+                              elevation={5}>
+                            <CardHeader classes={{
+                                root: 'user-home-header',
+                                title: 'user-home-header-title',
+                                subheader: 'user-home-header-subheader'
+                            }}
+                                        title={I18n.t('js.user.home.public.title')}
+                                        subheader={I18n.t('js.user.home.public.subtitle')}
+                                        action={
+                                            <IconButton className="user-home-sort-icon"
+                                                        component={Link}
+                                                        to={{
+                                                            hash: '#' + sortTopicParam
+                                                        }}
+                                                        state={{
+                                                            visibility: 'everyone'
+                                                        }}
+                                                        size="large">
+                                                <CompareArrowsIcon/>
+                                            </IconButton>
+                                        }/>
 
-                        <CardContent>
-                            <Grid container={true}
-                                  spacing={4}
-                                  direction="row"
-                                  justifyContent="flex-start"
-                                  alignItems="center">
-                                {
-                                    this.props.publicTopics.map((topic) => (
-                                        <Grid key={topic.id}
-                                              className="user-home-grid-theme"
-                                              item={true}
-                                              xs={12}
-                                              sm={6}
-                                              lg={4}>
-                                            <Link to={{
-                                                pathname: topicArticlesPath(this.props.user.slug, topic.slug)
-                                            }}
-                                                  onClick={this._handleTopicClick.bind(this, topic)}>
-                                                <Paper className="user-home-topic"
-                                                       elevation={1}>
-                                                    <Typography className="user-home-topic-title"
-                                                                variant="h5"
-                                                                component="h2">
-                                                        {topic.name}
-                                                    </Typography>
+                            <CardContent>
+                                <Grid container={true}
+                                      spacing={4}
+                                      direction="row"
+                                      justifyContent="flex-start"
+                                      alignItems="center">
+                                    {
+                                        this.props.publicTopics.map((topic) => (
+                                            <Grid key={topic.id}
+                                                  className="user-home-grid-theme"
+                                                  item={true}
+                                                  xs={12}
+                                                  sm={6}>
+                                                <Link to={{
+                                                    pathname: topicArticlesPath(this.props.user.slug, topic.slug)
+                                                }}
+                                                      onClick={this._handleTopicClick.bind(this, topic)}>
+                                                    <Paper className="user-home-topic"
+                                                           elevation={1}>
+                                                        <Typography className="user-home-topic-title"
+                                                                    variant="h5"
+                                                                    component="h2">
+                                                            {topic.name}
+                                                        </Typography>
 
-                                                    {
-                                                        topic.languages.length > 1 &&
-                                                        <div className="user-home-topic-languages">
-                                                            {topic.languages.join(', ')}
-                                                        </div>
-                                                    }
+                                                        {
+                                                            topic.languages.length > 1 &&
+                                                            <div className="user-home-topic-languages">
+                                                                {topic.languages.join(', ')}
+                                                            </div>
+                                                        }
 
-                                                    {
-                                                        topic.mode !== 'default' &&
-                                                        <div className="user-home-topic-mode">
-                                                            {I18n.t(`js.topic.enums.mode.${topic.mode}`)}
-                                                        </div>
-                                                    }
-                                                </Paper>
-                                            </Link>
+                                                        {
+                                                            topic.mode !== 'default' &&
+                                                            <div className="user-home-topic-mode">
+                                                                {I18n.t(`js.topic.enums.mode.${topic.mode}`)}
+                                                            </div>
+                                                        }
+                                                    </Paper>
+                                                </Link>
 
-                                            <Link to={userTopicPath(this.props.user.slug, topic.slug)}>
-                                                <Fab className="user-home-topic-link"
-                                                     variant="extended"
-                                                     size="small"
-                                                     color="primary"
-                                                     aria-label="Share">
-                                                    <OpenInNewIcon/>
-                                                </Fab>
-                                            </Link>
-                                        </Grid>
-                                    ))
-                                }
+                                                <Link to={userTopicPath(this.props.user.slug, topic.slug)}>
+                                                    <Fab className="user-home-topic-link"
+                                                         variant="extended"
+                                                         size="small"
+                                                         color="primary"
+                                                         aria-label="Share">
+                                                        <OpenInNewIcon/>
+                                                    </Fab>
+                                                </Link>
+                                            </Grid>
+                                        ))
+                                    }
 
-                                <Grid item={true}
-                                      xs={12}
-                                      sm={6}
-                                      lg={4}>
-                                    <Link to={{
-                                        hash: '#' + newTopicParam
-                                    }}
-                                          state={{
-                                              mode: 'default',
-                                              visibility: 'everyone'
-                                          }}>
-                                        <Paper className="user-home-topic-new"
-                                               elevation={1}>
-                                            <Typography className="user-home-topic-new-title"
-                                                        variant="h5"
-                                                        component="h2">
-                                                {I18n.t('js.user.home.add_topic')}
-                                            </Typography>
-                                        </Paper>
-                                    </Link>
+                                    <Grid item={true}
+                                          xs={12}
+                                          sm={6}>
+                                        <Link to={{
+                                            hash: '#' + newTopicParam
+                                        }}
+                                              state={{
+                                                  mode: 'default',
+                                                  visibility: 'everyone'
+                                              }}>
+                                            <Paper className="user-home-topic-new"
+                                                   elevation={1}>
+                                                <Typography className="user-home-topic-new-title"
+                                                            variant="h5"
+                                                            component="h2">
+                                                    {I18n.t('js.user.home.add_topic')}
+                                                </Typography>
+                                            </Paper>
+                                        </Link>
+                                    </Grid>
                                 </Grid>
-                            </Grid>
-                        </CardContent>
-                    </Card>
+                            </CardContent>
+                        </Card>
+
+                    </div>
 
                     {
                         this.props.contributedTopics.length > 0 &&
-                        <>
+                        <div className="col s12">
                             <Divider/>
 
                             <Card component="section"
-                                  className="user-home-user-home-card"
+                                  className="user-home-card"
                                   elevation={5}>
                                 <CardHeader classes={{
                                     root: 'user-home-header',
-                                    subheader: 'user-home-subheader'
+                                    title: 'user-home-header-title',
+                                    subheader: 'user-home-header-subheader'
                                 }}
                                             title={I18n.t('js.user.home.shared.title')}
                                             subheader={I18n.t('js.user.home.shared.subtitle')}/>
@@ -336,8 +340,7 @@ class UserHome extends React.Component {
                                                       className="user-home-grid-theme"
                                                       item={true}
                                                       xs={12}
-                                                      sm={6}
-                                                      lg={4}>
+                                                      sm={6}>
                                                     <Link to={{
                                                         pathname: topicArticlesPath(this.props.user.slug, topic.slug, 'shared-topics'),
                                                     }}
@@ -367,15 +370,15 @@ class UserHome extends React.Component {
                                     </Grid>
                                 </CardContent>
                             </Card>
-                        </>
+                        </div>
                     }
                 </div>
 
-                <div className="user-home-user-home-articles">
-                    <Divider className="user-home-user-home-divider"/>
+                <div className="user-home-articles">
+                    {/*<Divider className="user-home-divider"/>*/}
 
                     <div>
-                        <h2>
+                        <h2 className="user-home-articles-title">
                             {I18n.t('js.user.home.articles.seen')}
                         </h2>
 
@@ -385,12 +388,14 @@ class UserHome extends React.Component {
                               justifyContent="space-between"
                               alignItems="flex-start">
                             {
-                                this.props.recentArticles?.length > 0 && this.props.recentArticles.limit(4)
+                                this.props.recentArticles?.length > 0 &&
+                                this.props.recentArticles.limit(6)
                                     .map((article) => (
                                         <Grid key={article.id}
                                               item={true}
                                               xs={12}
-                                              sm={6}>
+                                              sm={6}
+                                              md={4}>
                                             <ArticleMiniCardDisplay article={article}
                                                                     isFaded={true}
                                                                     isPaper={true}/>
@@ -400,10 +405,10 @@ class UserHome extends React.Component {
                         </Grid>
                     </div>
 
-                    <Divider className="user-home-user-home-divider"/>
+                    {/*<Divider className="user-home-divider"/>*/}
 
                     <div>
-                        <h2>
+                        <h2 className="user-home-articles-title">
                             {I18n.t('js.user.home.articles.modified')}
                         </h2>
 
@@ -413,12 +418,14 @@ class UserHome extends React.Component {
                               justifyContent="space-between"
                               alignItems="flex-start">
                             {
-                                this.props.recentUpdatedArticles?.length > 0 && this.props.recentUpdatedArticles.limit(4)
+                                this.props.recentUpdatedArticles?.length > 0 &&
+                                this.props.recentUpdatedArticles.limit(6)
                                     .map((article) => (
                                         <Grid key={article.id}
                                               item={true}
                                               xs={12}
-                                              sm={6}>
+                                              sm={6}
+                                              md={4}>
                                             <ArticleMiniCardDisplay article={article}
                                                                     isFaded={true}
                                                                     isPaper={true}/>

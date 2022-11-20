@@ -179,7 +179,7 @@ fr:
           subtitle: "Thèmes partagés par d'autres utilisateurs avec vous"
         add_topic: "Ajouter un thème"
         articles:
-          seen: "Derniers articles consultés"
+          seen: "Derniers articles vus"
           modified: "Derniers articles modifiés"
       index:
         link_to_user: "Détails de l'utilisateur"

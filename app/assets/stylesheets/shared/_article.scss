@@ -933,12 +933,13 @@
   }
 
   code {
-    color: $primary-color-light;
-    font-size: .9rem;
+    padding: 2px 4px;
+    font-size: 90%;
     font-weight: 400;
     letter-spacing: 0.00938rem;
-    white-space: pre-wrap;
-    word-wrap: break-word;
+    color: $secondary-color-dark;
+    background-color: #5f64c518;
+    border-radius: 4px;
   }
 
   blockquote {

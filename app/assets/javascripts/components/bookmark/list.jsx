@@ -58,7 +58,7 @@ class BookmarkList extends React.Component {
                                                   to={userArticlePath(bookmark.parentSlug, bookmark.slug)}
                                                   onClick={this.props.onBookmarkClick}>
                                             <ListItemIcon>
-                                                <AssignmentIcon/>
+                                                <AssignmentIcon fontSize="small"/>
                                             </ListItemIcon>
 
                                             <ListItemText classes={{

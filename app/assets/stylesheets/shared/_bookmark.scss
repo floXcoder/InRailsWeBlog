@@ -1,10 +1,15 @@
 .bookmark-root {
   margin: 15px;
   min-width: 220px;
+
+  .MuiListItemIcon-root {
+    min-width: auto;
+    margin-right: 8px;
+  }
 }
 
 .bookmark-title {
-  margin: 8px;
+  margin: 8px 8px 0;
 
   @media #{$medium-and-down} {
     display: none;
@@ -13,7 +18,7 @@
 
 .bookmark-link {
   font-size: .9rem;
-  color: $primary-color-dark;
+  color: $secondary-color;
   line-height: 1.2rem;
 }
 
