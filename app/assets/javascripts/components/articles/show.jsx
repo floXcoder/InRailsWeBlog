@@ -237,7 +237,7 @@ class ArticleShow extends React.Component {
                     // es: 'Ver'
                 };
 
-                Notification.success(message[visitorLanguage], button[visitorLanguage], () => window.location.replace(userArticlePath(this.props.routeParams.userSlug, this.props.article.slugTranslations[visitorLanguage], visitorLanguage)));
+                Notification.success(message[visitorLanguage], 6000, button[visitorLanguage], () => window.location.replace(userArticlePath(this.props.routeParams.userSlug, this.props.article.slugTranslations[visitorLanguage], visitorLanguage)));
             }
         }
     };

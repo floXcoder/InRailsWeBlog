@@ -38,18 +38,19 @@ class NotificationComponent extends React.Component {
         this._queue = [];
 
         ['success', 'alert', 'warn', 'error'].forEach((type) => {
-            Notification[type] = (message, actionButton, actionCallback) => {
-                this._handleAdd(type, message, actionButton, actionCallback);
+            Notification[type] = (message, duration, actionButton, actionCallback) => {
+                this._handleAdd(type, message, duration, actionButton, actionCallback);
             };
         });
     }
 
     state = {
         isOpen: false,
+        notificationDuration: notificationDuration,
         messageInfo: {}
     };
 
-    _handleAdd = (level, message, actionButton, actionCallback) => {
+    _handleAdd = (level, message, duration, actionButton, actionCallback) => {
         if (Array.isArray(message)) {
             message = message.join(I18n.t('js.helpers.and'));
         } else if (Utils.is()
@@ -77,14 +78,15 @@ class NotificationComponent extends React.Component {
         //     this._processQueue();
         // }
 
-        this._processQueue();
+        this._processQueue(duration);
     };
 
-    _processQueue = () => {
+    _processQueue = (duration) => {
         if (this._queue.length > 0) {
             this.setState({
                 messageInfo: this._queue.shift(),
-                isOpen: true
+                isOpen: true,
+                notificationDuration: duration || notificationDuration
             });
         }
     };
@@ -140,7 +142,7 @@ class NotificationComponent extends React.Component {
                             horizontal: 'center',
                         }}
                         open={this.state.isOpen}
-                        autoHideDuration={notificationDuration}
+                        autoHideDuration={this.state.notificationDuration}
                         onClose={this._handleClose}
                         TransitionProps={{
                             onExited: this._handleExited
