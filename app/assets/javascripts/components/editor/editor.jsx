@@ -332,7 +332,11 @@ class Editor extends React.Component {
     };
 
     _formatPaste = (text, type, parentContext) => {
-        return SanitizePaste.parse(text, type, parentContext);
+        if (text.includes('<')) {
+            return SanitizePaste.parse(text, type, parentContext);
+        } else {
+            return text;
+        }
     };
 
     _formatContent = (content) => {
