@@ -1506,14 +1506,34 @@ html .note-fullscreen-body, body .note-fullscreen-body {
     }
   }
 
+  .note-hint-popover {
+    .note-popover-content {
+      &.note-children-container {
+        padding-top: 0;
+      }
+    }
+  }
+
   .note-hint-item {
+    padding-top: 4px;
+    padding-bottom: 4px;
     line-height: 28px;
     border-bottom: 1px solid #ccc;
     cursor: pointer;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &.active {
+      font-weight: 600;
+    }
   }
 
-  .note-btn-group.note-style {
-    margin: 0 !important;
+  .note-btn-group {
+    &.note-style {
+      margin: 0 !important;
+    }
   }
 }
 

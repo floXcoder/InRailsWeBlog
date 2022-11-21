@@ -106,6 +106,7 @@ class Editor extends React.Component {
                 text: language
             })))),
             codeLanguagePrefix: highlightedLanguagePrefix,
+            pasteSanitizer: this._formatPaste,
             callbacks: {
                 onFocus: this.props.onFocus,
                 onMousedown: this._handleMouseDown,
@@ -113,7 +114,6 @@ class Editor extends React.Component {
                 onKeyup: this.props.onKeyUp,
                 onKeydown: this._onKeyDown,
                 onChange: this._onChange,
-                onPaste: this._onPaste,
                 onImageUpload: this.onImageUpload,
                 onMediaDelete: this.onImageDelete
             },
@@ -122,24 +122,24 @@ class Editor extends React.Component {
                 match: /\B#(\w*)$/,
                 search: (keyword, callback) => {
                     loadAutocomplete({
-                        selectedTypes: ['article', 'topic'],
+                        selectedTypes: ['article'],
                         userId: this.props.currentUserId,
                         topicId: this.props.currentTopicId,
                         titleOnly: true,
                         query: keyword,
-                        limit: 5
+                        limit: 8
                     }, this.props.currentLocale)
                         .then((results) => {
                             let autocompletes = [];
 
                             if (results.articles) {
-                                autocompletes = autocompletes.concat(results.articles.map((article) => ['article', article.title, article.id, article.slug, article.userSlug])
+                                autocompletes = autocompletes.concat(results.articles.map((article) => ['article', article.title, article.topicName, article.id, article.slug, article.userSlug])
                                     .compact());
                             }
-                            if (results.topics) {
-                                autocompletes = autocompletes.concat(results.topics.map((topic) => ['topic', topic.name, topic.id, topic.slug, topic.userSlug])
-                                    .compact());
-                            }
+                            // if (results.topics) {
+                            //     autocompletes = autocompletes.concat(results.topics.map((topic) => ['topic', topic.name, topic.id, topic.slug, topic.userSlug])
+                            //         .compact());
+                            // }
 
                             if (autocompletes.length > 0) {
                                 return callback(autocompletes);
@@ -148,24 +148,24 @@ class Editor extends React.Component {
                             }
                         });
                 },
-                template: ([type, title/* id, slug, parentSlug */]) => {
+                template: ([type, title, topicName/* id, slug, parentSlug */]) => {
                     if (type === 'topic') {
                         return title + ' (' + I18n.t(`js.editor.hint.${type}`) + ')';
                     } else {
-                        return title;
+                        return `${title} (${topicName})`;
                     }
                 },
-                content: ([type, title, id, slug, parentSlug]) => {
+                content: ([type, title, topicName, id, slug, parentSlug]) => {
                     const nodeItem = document.createElement('a');
                     nodeItem.target = '_blank';
-                    if (type === 'topic') {
-                        nodeItem.href = topicArticlesPath(parentSlug, slug);
-                        nodeItem.innerHTML = `#${title}`;
-                    } else {
-                        nodeItem.href = userArticlePath(parentSlug, slug);
-                        nodeItem.setAttribute('data-article-relation-id', id);
-                        nodeItem.innerHTML = `#${title}`;
-                    }
+                    // if (type === 'topic') {
+                    //     nodeItem.href = topicArticlesPath(parentSlug, slug);
+                    //     nodeItem.innerHTML = `#${title}`;
+                    // } else {
+                    nodeItem.href = userArticlePath(parentSlug, slug);
+                    nodeItem.setAttribute('data-article-relation-id', id);
+                    nodeItem.innerHTML = `#${title}`;
+                    // }
                     return nodeItem;
                 }
             }
@@ -331,47 +331,8 @@ class Editor extends React.Component {
         this.props.onChange(content);
     };
 
-    _onPaste = (event) => {
-        event.preventDefault();
-
-        const userAgent = window.navigator.userAgent;
-        let msIE = userAgent.indexOf('MSIE ');
-        msIE = msIE > 0 || !!navigator.userAgent.match(/Trident.*rv:11\./);
-        const firefox = navigator.userAgent.toLowerCase()
-            .indexOf('firefox') > -1;
-        let text;
-        let type = 'plain';
-        if (msIE) {
-            text = window.clipboardData.getData('Text');
-        } else if (event.originalEvent.clipboardData.types.includes('text/html')) {
-            text = event.originalEvent.clipboardData.getData('text/html');
-
-            if (text) {
-                type = 'html';
-            } else {
-                text = event.originalEvent.clipboardData.getData('text/plain');
-            }
-        } else {
-            text = event.originalEvent.clipboardData.getData('text/plain');
-        }
-
-        const $context = $(event.target)
-            .parent();
-
-        const parsedContent = SanitizePaste.parse(text, type, $context);
-        const insertType = type === 'html' ? 'insertHTML' : 'insertText';
-
-        if (text) {
-            if (msIE || firefox) {
-                setTimeout(() => {
-                    document.execCommand(insertType, false, parsedContent);
-                }, 10);
-            } else {
-                document.execCommand(insertType, false, parsedContent);
-            }
-        }
-
-        return parsedContent;
+    _formatPaste = (text, type, parentContext) => {
+        return SanitizePaste.parse(text, type, parentContext);
     };
 
     _formatContent = (content) => {
