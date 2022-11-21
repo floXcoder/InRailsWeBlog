@@ -208,9 +208,9 @@ module Articles
         @article.paper_trail.save_with_version if was_auto_saved && !article_changed
 
         # Remove deleted pictures
-        old_picture_ids    = @article.picture_ids
-        new_picture_ids    = @article.content_translations&.values&.map { |c| c.scan(/\/uploads\/article\/pictures\/(\d+)/) }&.flatten&.map(&:to_i) || []
-        remove_picture_ids = old_picture_ids - new_picture_ids
+        old_picture_ids     = @article.picture_ids
+        new_picture_ids     = @article.content_translations&.values&.map { |c| c.scan(/\/uploads\/article\/pictures\/(\d+)/) }&.flatten&.map(&:to_i) || []
+        remove_picture_ids  = old_picture_ids - new_picture_ids
         if remove_picture_ids.present?
           @article.pictures.delete(Picture.where(id: remove_picture_ids))
         end
@@ -252,17 +252,17 @@ module Articles
 
     def extract_relationships(content)
       # Extract all relationship ids
-      other_ids             = []
+      extracted_article_ids = []
       article_relationships = []
       return article_relationships if content.blank?
 
-      content.scan(/data-article-relation-id="(\d+)"/) { |other_id| other_ids << other_id }
+      content.scan(/data-article-relation-id="(\d+)"/) { |article_id| extracted_article_ids << article_id }
 
-      other_ids.flatten.map do |other_id|
-        article_relationships << @article.child_relationships.find_or_initialize_by(user: @article.user, child: @article, parent_id: other_id) if Article.find_by(id: other_id)
+      extracted_article_ids.flatten.uniq.map do |article_id|
+        article_relationships << @article.child_relationships.find_or_initialize_by(user: @article.user, child: @article, parent_id: article_id) if Article.find_by(id: article_id)
       end
 
-      return article_relationships
+      return article_relationships.uniq
     end
 
     def check_redirection(previous_slugs)

@@ -165,8 +165,8 @@ export default function articleMutationManager(mode) {
             componentDidMount() {
                 if (this.props.routeLocation.state?.position) {
                     this._mutationScrollTimeout = onPageReady(() => {
-                        window.scrollTo(this.props.routeLocation.state.position.left || 0, (this.props.routeLocation.state.position.top || 0) + 100);
-                    }, 600);
+                        window.scrollTo(this.props.routeLocation.state.position.left || 0, (this.props.routeLocation.state.position.top || 0) - 150);
+                    }, 350);
                 }
             }
 

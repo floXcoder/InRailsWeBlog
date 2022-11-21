@@ -7,7 +7,7 @@
  * Copyright 2013- Alan Hong and contributors
  * Summernote may be freely distributed under the MIT license.
  *
- * Date: 2022-11-20T18:49Z
+ * Date: 2022-11-21T10:31Z
  *
  */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -2329,17 +2329,12 @@
             var namespace = lists.head(arguments);
             var args = lists.tail(lists.from(arguments));
             var callback = this.options.callbacks[func.namespaceToCamel(namespace, 'on')];
-            var callbackReturn;
 
             if (callback) {
-              callbackReturn = callback.apply(this.$note[0], args);
-
-              if (callbackReturn) {
-                args.push(callbackReturn);
-              }
+              callback.apply(this.$note[0], args);
             }
 
-            this.$note.trigger('summernote.' + namespace, args, callbackReturn);
+            this.$note.trigger('summernote.' + namespace, args);
           }
         }, {
           key: "initializeModule",
@@ -10066,9 +10061,11 @@
           this.ui = (external_root_jquery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()).summernote.ui;
           this.$editable = context.layoutInfo.editable;
           this.options = context.options;
+          this.pasteSanitizer = this.options.pasteSanitizer;
+          this.pasteContent = undefined;
           this.events = {
-            'summernote.paste': function summernotePaste(summernoteEvent, event, callbackReturn) {
-              _this.update(summernoteEvent, event, callbackReturn);
+            'summernote.paste': function summernotePaste(summernoteEvent, event) {
+              _this.update(summernoteEvent, event);
             },
             'summernote.disable summernote.dialog.shown': function summernoteDisableSummernoteDialogShown() {
               _this.hide();
@@ -10108,36 +10105,36 @@
             this.$popover.remove();
           }
         }, {
-          key: "formatPaste",
-          value: function formatPaste(pasteContent, event) {
-            event.stopImmediatePropagation();
-            this.context.invoke('editor.undo');
+          key: "insertContent",
+          value: function insertContent(insertType, content) {
             var userAgent = window.navigator.userAgent;
             var msIE = userAgent.indexOf('MSIE ');
             msIE = msIE > 0 || !!navigator.userAgent.match(/Trident.*rv:11\./);
             var firefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
-            pasteContent = external_root_jquery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()(pasteContent).text();
 
-            if (pasteContent) {
+            if (content) {
               if (msIE || firefox) {
                 setTimeout(function () {
-                  document.execCommand('insertText', false, pasteContent);
+                  document.execCommand(insertType, false, content);
                 }, 10);
               } else {
-                document.execCommand('insertText', false, pasteContent);
+                document.execCommand(insertType, false, content);
               }
             }
-
+          }
+        }, {
+          key: "formatPaste",
+          value: function formatPaste(event) {
+            event.stopImmediatePropagation();
+            this.context.invoke('editor.undo');
+            var plainContent = external_root_jquery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()(this.pasteContent).text();
+            this.insertContent('insertText', plainContent);
             this.$popover.hide();
           }
         }, {
-          key: "update",
-          value: function update(summernoteEvent, event, callbackReturn) {
-            // Prevent focusing on editable when invoke('code') is executed
-            if (!this.context.invoke('editor.hasFocus')) {
-              this.hide();
-              return;
-            }
+          key: "showPastePopup",
+          value: function showPastePopup() {
+            var _this2 = this;
 
             var rng = this.context.invoke('editor.getLastRange');
             var pasteBlock = dom.ancestor(rng.sc, dom.isPara);
@@ -10145,7 +10142,9 @@
             this.$popover.hide();
             var $group = external_root_jquery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()('<div class="note-paste-mode"></div>');
             var $button = external_root_jquery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()('<button type="button" class="note-btn dropdown-toggle" tabindex="-1" data-toggle="dropdown" aria-label="Paste mode">' + '<div class="note-btn-group">' + '<span class="material-icons">format_clear</span' + '</div>' + '</button>');
-            $button.on('click', this.formatPaste.bind(this, callbackReturn));
+            $button.on('click', function (event) {
+              return _this2.formatPaste(event);
+            });
             $group.append($button);
             $group.appendTo(this.$content);
             var pos = dom.posFromPlaceholder(pasteBlock);
@@ -10160,6 +10159,53 @@
             setTimeout(function () {
               this.$popover.hide();
             }.bind(this), 4000);
+          }
+        }, {
+          key: "update",
+          value: function update(summernoteEvent, event) {
+            // Prevent focusing on editable when invoke('code') is executed
+            if (!this.context.invoke('editor.hasFocus')) {
+              this.hide();
+              return;
+            }
+
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            var userAgent = window.navigator.userAgent;
+            var msIE = userAgent.indexOf('MSIE ');
+            msIE = msIE > 0 || !!navigator.userAgent.match(/Trident.*rv:11\./);
+            var text;
+            var type = 'plain';
+
+            if (msIE) {
+              text = window.clipboardData.getData('Text');
+            } else if (event.originalEvent.clipboardData.types.includes('text/html')) {
+              text = event.originalEvent.clipboardData.getData('text/html');
+
+              if (text) {
+                type = 'html';
+              } else {
+                text = event.originalEvent.clipboardData.getData('text/plain');
+              }
+            } else {
+              text = event.originalEvent.clipboardData.getData('text/plain');
+            }
+
+            var parsedContent;
+
+            if (this.pasteSanitizer) {
+              parsedContent = this.pasteSanitizer(text, type, external_root_jquery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()(event.target).parent());
+            } else {
+              parsedContent = text;
+            }
+
+            var insertType = type === 'html' ? 'insertHTML' : 'insertText';
+            this.pasteContent = parsedContent;
+            this.insertContent(insertType, parsedContent);
+
+            if (type === 'html' && text.includes('<')) {
+              this.showPastePopup();
+            }
           }
         }, {
           key: "hide",
@@ -10323,6 +10369,8 @@
           dialogsFade: false,
           maximumImageFileSize: null,
           acceptImageFileTypes: "image/*",
+          // Sanitize paste content
+          pasteSanitizer: undefined,
           callbacks: {
             onBeforeCommand: null,
             onBlur: null,

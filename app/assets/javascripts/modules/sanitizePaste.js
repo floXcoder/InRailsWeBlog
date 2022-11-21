@@ -93,13 +93,13 @@ const SanitizePaste = (function ($) {
 
                 let lastList = false;
                 let lastLevel = 1;
-                let listsIds = [];
+                const listsIds = [];
 
                 $div.find('p[style]')
                     .each(function () {
                         const matches = $(this)
                             .attr('style')
-                            .match(/mso\-list\:l([0-9]+)\slevel([0-9]+)/);
+                            .match(/mso-list:l([0-9]+)\slevel([0-9]+)/);
 
                         if (matches) {
                             const currentList = parseInt(matches[1]);
@@ -113,7 +113,7 @@ const SanitizePaste = (function ($) {
                                     .html());
 
                             $li.html($li.html()
-                                .replace(/^([\w\.]+)\</, '<'));
+                                .replace(/^([\w.]+)</, '<'));
                             $li.find('span:first')
                                 .remove();
 
@@ -152,7 +152,6 @@ const SanitizePaste = (function ($) {
                                         'data-list': currentList
                                     })
                                         .html($li);
-
                                 } else {
                                     $prevList = $div.find('[data-level="' + currentLevel + '"][data-list="' + currentList + '"]')
                                         .last();
@@ -178,7 +177,7 @@ const SanitizePaste = (function ($) {
                 html = html.replace(/<p class="Mso(.*?)"/gi, '<p');
 
                 // classes
-                html = html.replace(/ class=\"(mso[^\"]*)\"/gi, '');
+                html = html.replace(/ class="(mso[^"]*)"/gi, '');
                 html = html.replace(/ class=(mso\w+)/gi, '');
 
                 // remove ms word tags
@@ -216,7 +215,7 @@ const SanitizePaste = (function ($) {
             html = html.replace(/<\/p>(\s*|\t*|\n*)<\/li>/gi, '</li>');
 
             // remove space between paragraphs
-            html = html.replace(/<\/p>\s<p/gi, '<\/p><p');
+            html = html.replace(/<\/p>\s<p/gi, '</p><p');
 
             // remove safari local images
             html = html.replace(/<img src="webkit-fake-url:\/\/(.*?)"(.*?)>/gi, '');
