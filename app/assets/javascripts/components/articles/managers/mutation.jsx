@@ -245,7 +245,7 @@ export default function articleMutationManager(mode) {
             _handleLazySubmit = (values) => {
                 this._handleSubmit(values, true);
 
-                Notification.success(I18n.t('js.article.common.lazy_saved'));
+                Notification.success(I18n.t('js.article.common.lazy_saved'), 2500);
             };
 
             _handleSubmit = (values, autoSave) => {
