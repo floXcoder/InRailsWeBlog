@@ -940,6 +940,13 @@
     color: $secondary-color-dark;
     background-color: #5f64c518;
     border-radius: 4px;
+
+    code {
+      font-size: inherit;
+      padding: 0;
+      color: inherit;
+      background: none;
+    }
   }
 
   blockquote {
@@ -966,6 +973,8 @@
     code {
       background-color: inherit;
       border: 0;
+      padding: 0;
+      font-size: inherit;
     }
   }
 

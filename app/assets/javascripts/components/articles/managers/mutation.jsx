@@ -107,7 +107,8 @@ export default function articleMutationManager(mode) {
                     this._request = props.fetchArticle(props.routeParams.userSlug, props.routeParams.articleSlug, {
                         edit: true
                     }, {
-                        localArticle: props.initProps?.article
+                        localArticle: props.initProps?.article,
+                        noCache: true
                     });
                 } else if (props.routeLocation.state) {
                     this.state.article = props.routeLocation.state;

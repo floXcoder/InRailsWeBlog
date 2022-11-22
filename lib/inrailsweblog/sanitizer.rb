@@ -37,18 +37,18 @@ class Sanitizer
       html = html.gsub(/<\/h1>/i, '</h2>')
     end
 
-    # Replace "pre" by "pre > code"
-    # html = html.gsub(/<pre( ?)(.*?)>/i, '<pre\1\2><code>')
-    # html = html.gsub(/<\/pre>/i, '</code></pre>')
-
     # Replace all br tags by simple return to line
     html = html.gsub(/<pre(.*?)>(.*?)<\/pre>/mi) { |b| b.gsub(/<br(\/?)>/, "\n") }
 
     # Simplify code tags
-    # html = html.gsub(/<code(.*?)>/i, '<code>')
+    html = html.gsub(/<code(.*?)>/i, '<code>')
     # html = html.gsub(/(<code>){2,}/i, '<code>')
     # html = html.gsub(/(<\/code>){2,}/i, '</code>')
     html = html.gsub(/<code><br><\/code>/i, '')
+
+    # Replace "pre" by "pre > code" => pre only is used for code block
+    # html = html.gsub(/<pre( ?)(.*?)><code>/i, '<pre\1\2>')
+    # html = html.gsub(/<\/code><\/pre>/i, '</pre>')
 
     # Replace src by data-src for lazy-loading
     # html = html.gsub(/<img (.*?) ?src=/i, '<img \1 class="lazyload" data-src=') if lazy_image
