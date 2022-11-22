@@ -56,8 +56,7 @@ gem 'devise',                   '4.8.1'
 gem 'pundit',                   '2.2.0'
 
 # Upload pictures
-gem 'carrierwave',              '2.2.2'
-gem 'ssrf_filter',              '1.0.8' # Assigning url to an image not working with 1.1.0 or 1.1.1
+gem 'carrierwave',              '2.2.3'
 gem 'mini_magick',              '4.11.0'
 gem 'image_processing',         '1.12.2'
 
