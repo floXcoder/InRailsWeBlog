@@ -22,4 +22,4 @@ server ENV['DEPLOY_SERVER'], user: ENV['DEPLOY_USER'], roles: %w[web app db prod
 
 set :branch, 'master'
 
-set :deploy_to, "/var/www/#{fetch(:application)}/production"
+set :deploy_to, "/home/www/#{fetch(:application)}/production"
