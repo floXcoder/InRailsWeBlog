@@ -93,6 +93,9 @@ gem 'capistrano-rails',         '1.6.2',  require: false
 gem 'capistrano-rvm',           '0.1.2',  require: false
 gem 'capistrano-bundler',       '2.1.0',  require: false
 gem 'health_check',             '3.1.0'
+gem 'net-ssh',                  '7.0.0.beta1'
+gem 'ed25519',                  '1.3.0'
+gem 'bcrypt_pbkdf',             '1.1.0'
 
 # SEO
 gem 'webdrivers',               '5.2.0',  require: false
