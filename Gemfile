@@ -46,7 +46,7 @@ gem 'whenever',                 '1.0.0', require: false
 
 # Redis session store and cache
 gem 'redis-namespace',          '1.9.0'
-gem 'redis-session-store',      '0.11.4'
+gem 'redis-session-store',      '0.11.5'
 gem 'hiredis',                  '0.6.3'
 
 # Authentification
@@ -111,7 +111,7 @@ group :development do
   gem 'binding_of_caller',      '1.0.0'
 
   # N+1 database query
-  gem 'bullet',                 '7.0.3'
+  gem 'bullet',                 '7.0.4'
 
   # Guard and its minions
   gem 'guard',                  '2.18.0', require: false
@@ -142,7 +142,7 @@ end
 
 group :development, :test do
   # Speed up boot
-  gem 'bootsnap',                   '1.14.0', require: false
+  gem 'bootsnap',                   '1.15.0', require: false
 
   # Check errors
   gem 'rubocop',                    '1.39.0', require: false
