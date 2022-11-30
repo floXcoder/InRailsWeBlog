@@ -536,7 +536,7 @@ class ApplicationController < ActionController::Base
 
   def server_error(exception)
     if Rails.env.production?
-      Raven.capture_exception(exception)
+      Sentry.capture_exception(exception)
     else
       raise
     end
@@ -566,7 +566,7 @@ class ApplicationController < ActionController::Base
 
   def define_error_reporting
     if Rails.env.production? && ENV['SENTRY_RAILS_KEY']
-      Raven.user_context(
+      Sentry.set_user(
         id:         current_user&.id.to_s,
         email:      current_user&.email,
         first_name: current_user&.first_name,
@@ -575,11 +575,14 @@ class ApplicationController < ActionController::Base
         ip_address: request.ip
       )
 
-      Raven.tags_context(
+      Sentry.set_tags(
         language: I18n.locale
       )
 
-      Raven.extra_context(params: params.to_unsafe_h, url: request.url)
+      Sentry.set_extras(
+        params: params.to_unsafe_h,
+        url:    request.url
+      )
     end
   end
 

@@ -39,8 +39,7 @@ SecureHeaders::Configuration.default do |config|
       object_src:       ["'self'", ENV['WEBSITE_ASSET']].compact,
       style_src:        ["'self'", "'unsafe-inline'", ENV['WEBSITE_ASSET'], 'translate.googleapis.com'].compact,
       form_action:      ["'self'"],
-      frame_ancestors:  ["'none'"],
-      report_uri:       [ENV['SENTRY_REPORT_URI']].compact
+      frame_ancestors:  ["'none'"]
     }
   end
 end
