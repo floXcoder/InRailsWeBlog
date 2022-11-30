@@ -5,11 +5,18 @@ import {
     configureScope as SentryConfigureScope,
     // showReportDialog as SentryShowReportDialog
 } from '@sentry/browser';
+import {
+    BrowserTracing
+} from '@sentry/tracing';
 
 
 if (window.SENTRY_JAVASCRIPT_KEY) {
     SentryInit({
         dsn: window.SENTRY_JAVASCRIPT_KEY,
+        integrations: [new BrowserTracing()],
+        // Set tracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
+        // We recommend adjusting this value in production
+        tracesSampleRate: 1.0,
         ignoreErrors: [
             'TypeError: Failed to fetch',
             'TypeError: NetworkError when attempting to fetch resource.',

@@ -161,7 +161,8 @@ end
 
 group :production do
   # Errors reporting
-  gem 'sentry-raven',     '3.1.2'
+  gem 'sentry-ruby',      '5.6.0'
+  gem 'sentry-rails',     '5.6.0'
 
   # Check slow DB requests
   gem 'pghero',           '3.0.1'

@@ -17,7 +17,7 @@ class BaseService
 
   def error(message, errors = nil)
     if Rails.env.production?
-      Raven.capture_exception(errors || message) if errors.is_a?(Exception) || message.is_a?(Exception)
+      Sentry.capture_exception(errors || message) if errors.is_a?(Exception) || message.is_a?(Exception)
     elsif errors.is_a?(StandardError)
       Rails.logger.error(errors.to_s)
       errors.backtrace.each do |backtrace|
