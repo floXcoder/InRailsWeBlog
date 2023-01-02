@@ -29,6 +29,7 @@ gem 'slim-rails',               '3.5.1'
 # Internationalization
 gem 'i18n-js',                  '4.2.2'
 gem 'geocoder',                 '1.8.1'
+gem 'maxminddb',                '0.1.22'
 
 # Model versioning
 gem 'paper_trail',              '14.0.0'
