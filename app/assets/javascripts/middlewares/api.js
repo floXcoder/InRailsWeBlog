@@ -365,7 +365,7 @@ const api = {
             headers.cache = 'no-store';
         }
 
-        const promise = fetch(urlParams, {
+        const request = fetch(urlParams, {
             ...headers,
             method: 'GET',
             signal
@@ -377,7 +377,7 @@ const api = {
             .catch((error) => _handleParseErrors(error, urlParams, true));
 
         return {
-            promise,
+            request,
             signal: controller
         };
     },

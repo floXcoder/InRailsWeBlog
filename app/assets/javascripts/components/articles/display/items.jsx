@@ -87,7 +87,9 @@ class ArticleItemsDisplay extends React.Component {
                                         isUserArticlesList={this.props.isUserArticlesList}
                                         isPaper={true}
                                         isFaded={true}
-                                        isTagDown={true}/>
+                                        isTagDown={true}
+                                        onEnter={this.props.onEnter}
+                                        onExit={this.props.onExit}/>
             );
         } else if (this.props.articleDisplayMode === 'card') {
             return (

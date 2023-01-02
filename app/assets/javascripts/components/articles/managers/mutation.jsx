@@ -23,6 +23,10 @@ import {
     getIsTagError
 } from '../../../selectors';
 
+import {
+    getScreenPosition
+} from '../../../modules/screenPosition';
+
 import withRouter from '../../modules/router';
 
 import {
@@ -142,7 +146,10 @@ export default function articleMutationManager(mode) {
                                 this.props.routeNavigate({
                                     pathname: userArticlePath(response.article.user.slug, response.article.slug)
                                 }, {
-                                    state: {reloadTags: true}
+                                    state: {
+                                        reloadTags: true,
+                                        position: getScreenPosition()
+                                    }
                                 });
                             }
                         });
@@ -166,7 +173,7 @@ export default function articleMutationManager(mode) {
             componentDidMount() {
                 if (this.props.routeLocation.state?.position) {
                     this._mutationScrollTimeout = onPageReady(() => {
-                        window.scrollTo(this.props.routeLocation.state.position.left || 0, (this.props.routeLocation.state.position.top || 0) - 150);
+                        window.scrollTo(this.props.routeLocation.state.position.left || 0, (this.props.routeLocation.state.position.top || 0) - 130);
                     }, 350);
                 }
             }
@@ -282,7 +289,10 @@ export default function articleMutationManager(mode) {
                             this.props.routeNavigate({
                                 pathname: userArticlePath(response.article.user.slug, response.article.slug)
                             }, {
-                                state: {reloadTags: true}
+                                state: {
+                                    reloadTags: true,
+                                    position: getScreenPosition()
+                                }
                             });
                         });
                     }
@@ -334,7 +344,10 @@ export default function articleMutationManager(mode) {
                                     this.props.routeNavigate({
                                         pathname: userArticlePath(response.article.user.slug, response.article.slug)
                                     }, {
-                                        state: {reloadTags: true}
+                                        state: {
+                                            reloadTags: true,
+                                            position: getScreenPosition()
+                                        }
                                     });
                                 }
                             });

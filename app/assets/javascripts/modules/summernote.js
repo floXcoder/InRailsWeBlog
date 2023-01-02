@@ -125,7 +125,8 @@ $.extend(true, $.summernote.lang, {
             code: 'Code',
             h2: 'Title',
             h3: 'Subtitle',
-            h4: 'Interline'
+            h4: 'Interline',
+            h5: 'Subinterline'
         }
     }
 });
@@ -145,7 +146,8 @@ $.extend(true, $.summernote.lang, {
             code: 'Code source',
             h2: 'Titre',
             h3: 'Sous-titre',
-            h4: 'Interligne'
+            h4: 'Interligne',
+            h5: 'Sous-interligne'
         }
     }
 });
@@ -214,9 +216,9 @@ $.extend($.summernote.options.keyMap.pc, {
     'CTRL+NUM1': 'formatH2',
     'CTRL+NUM2': 'formatH3',
     'CTRL+NUM3': 'formatH4',
-    'CTRL+NUM4': 'formatH4',
-    'CTRL+NUM5': 'formatH4',
-    'CTRL+NUM6': 'formatH4',
+    'CTRL+NUM4': 'formatH5',
+    'CTRL+NUM5': 'formatH5',
+    'CTRL+NUM6': 'formatH5',
     'CTRL+L': 'insertUnorderedList',
     'CTRL+K': 'linkDialog.show',
     // 'CTRL+NUM0': 'removeFormat',
@@ -227,9 +229,9 @@ $.extend($.summernote.options.keyMap.mac, {
     'CMD+NUM1': 'formatH2',
     'CMD+NUM2': 'formatH3',
     'CMD+NUM3': 'formatH4',
-    'CMD+NUM4': 'formatH4',
-    'CMD+NUM5': 'formatH4',
-    'CMD+NUM6': 'formatH4',
+    'CMD+NUM4': 'formatH5',
+    'CMD+NUM5': 'formatH5',
+    'CMD+NUM6': 'formatH5',
     'CMD+L': 'insertUnorderedList',
     'CMD+K': 'linkDialog.show',
     // 'CMD+NUM0': 'removeFormat',

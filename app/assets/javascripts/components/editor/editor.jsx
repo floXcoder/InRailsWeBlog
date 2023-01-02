@@ -3,8 +3,7 @@
 import $ from 'jquery';
 
 import {
-    userArticlePath,
-    topicArticlesPath
+    userArticlePath
 } from '../../constants/routesHelper';
 
 import {
@@ -87,7 +86,7 @@ class Editor extends React.Component {
 
         const commonOptions = {
             lang: I18n.locale + '-' + I18n.locale.toUpperCase(),
-            styleTags: ['p', 'h2', 'h3', 'h4'],
+            styleTags: ['p', 'h2', 'h3', 'h4', 'h5'],
             placeholder: this.props.placeholder,
             popatmouse: false,
             useProtocol: true,

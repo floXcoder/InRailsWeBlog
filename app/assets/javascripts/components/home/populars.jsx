@@ -24,6 +24,7 @@ import {
 import {
     homeHomeLimit,
     homePopularsLimit,
+    recentArticlesLimit
 } from '../modules/constants';
 
 import Loader from '../theme/loader';
@@ -89,7 +90,7 @@ class HomePopulars extends React.Component {
             populars: true
         });
 
-        this.props.fetchUserRecents(this.props.isUserConnected ? this.props.currentUserId : null, {limit: 10});
+        this.props.fetchUserRecents(this.props.isUserConnected ? this.props.currentUserId : null, {limit: recentArticlesLimit});
     }
 
     render() {

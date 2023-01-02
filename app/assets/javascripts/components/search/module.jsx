@@ -21,6 +21,10 @@ import {
     getUserRecentArticles
 } from '../../selectors';
 
+import {
+    recentArticlesLimit
+} from '../modules/constants';
+
 import withRouter from '../modules/router';
 
 import SearchTopicModule from './module/topic';
@@ -79,7 +83,7 @@ class SearchModule extends React.Component {
 
     componentDidMount() {
         if (!window.seoMode && this.props.currentUserId) {
-            this.props.fetchUserRecents(this.props.currentUserId, {limit: 10}, {forceRefresh: true});
+            this.props.fetchUserRecents(this.props.currentUserId, {limit: recentArticlesLimit}, {forceRefresh: true});
         }
     }
 

@@ -130,11 +130,11 @@
 
 .user-home-topic-new {
   height: 4rem;
-  background-color: #eee;
+  background-color: rgba(238, 238, 238, 0.3);
 }
 
 .user-home-topic-new-title {
-  font-size: 1.05rem;
+  font-size: .9rem;
   font-style: italic;
   text-align: center;
   padding-top: 9%;
@@ -147,7 +147,7 @@
 .user-home-topic-link {
   top: 17px;
   right: -20px;
-  width: 28px !important;
+  width: 22px !important;
   height: 28px !important;
   margin: 8px;
   position: absolute;
@@ -159,7 +159,7 @@
   }
 
   .MuiSvgIcon-root {
-    font-size: 1rem;
+    font-size: .8rem;
   }
 }
 

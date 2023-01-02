@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = (props = {}) => ({
+module.exports = () => ({
     articlesLoader: 'infinite',
     articleDisplay: 'card',
     articleOrder: undefined,

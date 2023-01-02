@@ -33,14 +33,14 @@
     margin-bottom: 3px;
     margin-top: 4px;
     font-style: italic;
-    font-size: .95rem;
+    font-size: .85rem;
     box-shadow: 0 0 2.5px $secondary-color-light;
   }
 
   .timeline-item {
     position: relative;
-    min-height: 36px;
-    padding: 0 0 8px;
+    min-height: 30px;
+    padding: 0 0 2px;
     list-style: none;
 
     .timeline-icon {

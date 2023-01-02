@@ -9,6 +9,9 @@ export const headerMargin = 64;
 // Commons
 export const sortItemLimit = 1000;
 
+// Users
+export const recentArticlesLimit = 16;
+
 // Articles
 export const articleWaitTimeBeforeSaving = 15000;
 export const articleTemporaryDataName = 'article-temporary';
@@ -23,7 +26,7 @@ export const tagSidebarLimit = 1000;
 
 // Search
 export const autocompleteLimit = 8;
-export const maxSearchRate = 350;
+export const maxSearchRate = 200;
 export const searchGridColumns = 2;
 export const searchGridColumnsMobile = 1;
 

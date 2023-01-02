@@ -102,8 +102,8 @@ function parse(parts, parent, key, val) {
 function merge(parent, key, val) {
     if (~key.indexOf(']')) {
         let parts = key.split('[');
-        let len = parts.length;
-        let last = len - 1;
+        // let len = parts.length;
+        // let last = len - 1;
         parse(parts, parent, 'base', val);
     } else {
         if (!isInt.test(key) && isArray(parent.base)) {
