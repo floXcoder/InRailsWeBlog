@@ -4,6 +4,11 @@ stages:
   - deploy
   - check
 
+variables:
+  FF_USE_FASTZIP: "true"
+  ARTIFACT_COMPRESSION_LEVEL: "fast"
+  CACHE_COMPRESSION_LEVEL: "fast"
+
 before_script:
   - date
   - rvm gemset use InRailsWeBlog
@@ -16,12 +21,12 @@ build:
   cache:
     - key: "Gems"
       paths:
-        - .bundle/
-        - vendor/bundle/
+        - ".bundle/"
+        - "vendor/bundle/"
       policy: pull-push
     - key: "NPM"
       paths:
-        - node_modules/
+        - "node_modules/"
       policy: pull-push
   variables:
     BUNDLE_PATH: vendor/bundle
@@ -35,6 +40,7 @@ build:
     - bundle config set --local path 'vendor/bundle'
     - bundle install --quiet --jobs $(nproc) "${FLAGS[@]}"
     - yarn install --frozen-lockfile
+    - echo "BEFORE_LAST_TAG=$(git describe --abbrev=0 $(git rev-list --tags --max-count=2) | tail -1)" >> build.env
   interruptible: true
   only:
     - tags
@@ -44,13 +50,13 @@ check_code:
   cache:
     - key: "Gems"
       paths:
-        - .bundle/
-        - vendor/bundle/
+        - ".bundle/"
+        - "vendor/bundle/"
       policy: pull
   script:
     - bundle exec rails InRailsWeBlog:check_code
   interruptible: true
-  when: on_success
+  needs: ["build"]
   only:
     - tags
 
@@ -63,11 +69,7 @@ audit:
 #    - yarn audit
   interruptible: true
   allow_failure: true
-  when: on_success
-#  rules:
-#    - changes:
-#        - Gemfile.lock
-#        - yarn.lock
+  needs: ["build"]
   only:
     - tags
 
@@ -76,14 +78,14 @@ brakeman:
   cache:
     - key: "Gems"
       paths:
-        - .bundle/
-        - vendor/bundle/
+        - ".bundle/"
+        - "vendor/bundle/"
       policy: pull
   script:
     - bundle exec brakeman -q
   interruptible: true
   allow_failure: true
-  when: on_success
+  needs: ["build"]
   only:
     - tags
 
@@ -102,13 +104,7 @@ test:rails:
     - bundle exec i18n export
     - bundle exec rspec
   interruptible: true
-  when: on_success
-#  rules:
-#    - changes:
-#        - app/**.rb
-#        - config/**.rb
-#        - spec/**.rb
-#        - yarn.lock
+  needs: ["build"]
   only:
     - tags
 
@@ -129,9 +125,9 @@ test:rails:
 #  interruptible: true
 #  # Unstable tests
 #  allow_failure: true
+#  needs: ["build"]
 #  only:
 #    - tags
-#  when: on_success
 
 test:npm:
   stage: test
@@ -140,16 +136,12 @@ test:npm:
   cache:
     - key: "NPM"
       paths:
-        - node_modules/
+        - "node_modules/"
       policy: pull
   script:
     - npm run test
   interruptible: true
-  when: on_success
-#  rules:
-#    - changes:
-#        - app/assets/javascripts/*
-#        - spec/javascripts/*
+  needs: ["build"]
   only:
     - tags
 
@@ -165,12 +157,12 @@ deploy:
   cache:
     - key: "Gems"
       paths:
-        - .bundle/
-        - vendor/bundle/
+        - ".bundle/"
+        - "vendor/bundle/"
       policy: pull-push
     - key: "NPM"
       paths:
-        - node_modules/
+        - "node_modules/"
       policy: pull-push
   script:
     - bundle exec cap production deploy
