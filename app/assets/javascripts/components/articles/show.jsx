@@ -149,6 +149,7 @@ class ArticleShow extends React.Component {
         this._articleIndexTimeout = null;
         this._articleEditTimeout = null;
         this._articleLanguagesTimeout = null;
+        this._mutationScrollTimeout = null;
     }
 
     componentDidMount() {
@@ -167,6 +168,12 @@ class ArticleShow extends React.Component {
             if (this.props.currentUserSlug && this.props.currentUserSlug === this.props.routeParams.userSlug) {
                 this._articleEditTimeout = onPageReady(() => ArticleEdit.preload(), articleEditPreloadTime);
             }
+        }
+
+        if (this.props.routeLocation.state?.position) {
+            this._mutationScrollTimeout = onPageReady(() => {
+                window.scrollTo(this.props.routeLocation.state.position.left || 0, (this.props.routeLocation.state.position.top || 0) + 100);
+            }, 350);
         }
     }
 
@@ -203,6 +210,9 @@ class ArticleShow extends React.Component {
         }
         if (this._articleLanguagesTimeout) {
             clearTimeout(this._articleLanguagesTimeout);
+        }
+        if (this._mutationScrollTimeout) {
+            clearTimeout(this._mutationScrollTimeout);
         }
 
         if (this._request?.signal) {

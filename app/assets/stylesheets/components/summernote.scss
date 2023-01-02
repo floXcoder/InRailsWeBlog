@@ -1488,6 +1488,16 @@ html .note-fullscreen-body, body .note-fullscreen-body {
     margin-top: 1.4rem;
     margin-bottom: .5rem;
 
+    & + h5,
+    & + p {
+      margin-top: .8rem;
+    }
+  }
+
+  h5 {
+    margin-top: 1.4rem;
+    margin-bottom: .5rem;
+
     & + p {
       margin-top: .8rem;
     }
@@ -1524,11 +1534,19 @@ html .note-fullscreen-body, body .note-fullscreen-body {
     text-align: left;
   }
 
-  h4,
+  h4 {
+    clear: left;
+    font-size: 1.3rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.1;
+    text-align: left;
+  }
+
   h5,
   h6 {
     clear: left;
-    font-size: 1.3rem;
+    font-size: 1.15rem;
     font-style: normal;
     font-weight: 400;
     line-height: 1.1;

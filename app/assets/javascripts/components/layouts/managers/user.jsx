@@ -18,6 +18,10 @@ import {
     newTopicParam
 } from '../../../constants/routesHelper';
 
+import {
+    recentArticlesLimit
+} from '../../modules/constants';
+
 import withRouter from '../../modules/router';
 
 
@@ -184,7 +188,7 @@ class UserManager extends React.PureComponent {
                     }
                 });
             } else if (!isNewSession) {
-                this._recentRequest = this.props.fetchUserRecents(this.props.currentUserId, {limit: 10});
+                this._recentRequest = this.props.fetchUserRecents(this.props.currentUserId, {limit: recentArticlesLimit});
             }
         });
 

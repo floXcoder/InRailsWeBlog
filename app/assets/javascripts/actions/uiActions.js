@@ -15,7 +15,7 @@ export const fetchMetaTags = (routeName, options = {}, locale = undefined) => (d
         forceLocale: locale || window.locale,
         ...options
     })
-        .promise
+        .request
         .then((response) => dispatch(receiveMetaTags(response)))
 );
 

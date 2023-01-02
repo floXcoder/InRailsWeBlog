@@ -40,7 +40,7 @@ export const initUser = (userId, options = {}, requestOptions = {}) => ({
 export const validateUser = (validationParam) => (
     api.get('/api/v1/users/validation', {
         user: validationParam
-    }).promise
+    }).request
 );
 
 export const logoutUser = () => (
@@ -95,7 +95,7 @@ export const fetchUserRecents = (userId, options = {}, payload = {}) => (dispatc
             .get(userId ? `/api/v1/users/${userId}/recents` : '/api/v1/users/recents', options, {
                 priorityLow: true
             })
-            .promise
+            .request
             .then((json) => dispatch(receiveUserRecents(json)));
     } else {
         return Promise.resolve();
@@ -106,5 +106,5 @@ export const fetchUserRecents = (userId, options = {}, payload = {}) => (dispatc
 // export const exportUserData = (userId) => (
 //     api.get('/api/v1/exporter.zip', {
 //         userId
-//     }).promise
+//     }).request
 // );

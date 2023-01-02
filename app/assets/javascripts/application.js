@@ -21,4 +21,5 @@ PWAManager.initialize();
 // Configure log level
 if (GlobalEnvironment.NODE_ENV !== 'production') {
     require('./modules/debugLog');
+    require('./modules/debugHelper');
 }

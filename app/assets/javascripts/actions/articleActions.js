@@ -104,7 +104,7 @@ export const fetchArticleRecommendations = (userId, articleId) => (dispatch) => 
     }, {
         priorityLow: true
     })
-        .promise
+        .request
         .then((response) => dispatch(receiveArticleRecommendations(convertJsonApi(response))))
 );
 
@@ -119,7 +119,7 @@ export const fetchArticleTracking = (articleId, userId, options = {}) => (dispat
         userId,
         ...options
     })
-        .promise
+        .request
         .then((response) => dispatch(receiveArticleTracking(response)))
 );
 
@@ -131,7 +131,7 @@ const receiveArticleVersions = ({history, meta}) => ({
 });
 export const fetchArticleHistory = (articleId) => (dispatch) => (
     api.get(`/api/v1/articles/${articleId}/history`)
-        .promise
+        .request
         .then((response) => dispatch(receiveArticleVersions(convertJsonApi(response))))
 );
 
@@ -143,7 +143,7 @@ export const restoreArticle = (articleId, versionId) => (dispatch) => (
     api.get(`/api/v1/articles/${articleId}/restore`, {
         versionId
     })
-        .promise
+        .request
         .then((response) => dispatch(receiveArticleRestored(convertJsonApi(response))))
 );
 

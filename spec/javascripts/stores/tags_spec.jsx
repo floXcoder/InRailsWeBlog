@@ -96,7 +96,7 @@ describe('Tags actions', () => {
             const newTag = FactoryGenerator.create('tags');
             const contentError = 'too short';
 
-            mock('/api/v1/tags.json', 422, (request) => ({
+            mock('/api/v1/tags.json', 422, () => ({
                     errors: {content: [contentError]}
                 })
             );

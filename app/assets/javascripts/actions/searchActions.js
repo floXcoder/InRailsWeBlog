@@ -16,7 +16,7 @@ export const loadAutocomplete = (autocompleteParams, withLocale = window.locale)
         withLocale
     }, {
         noCache: true
-    }).promise
+    }).request
 );
 
 const autocompleteQuery = (query) => ({
@@ -132,7 +132,7 @@ const performSearch = (searchParams, options = {}) => (dispatch) => {
         }, {
             noCache: true
         })
-        .promise
+        .request
         .then((response) => {
             if (!response || response.errors) {
                 if (response.errors) {

@@ -20,13 +20,13 @@ class Sanitizer
     html = sanitize(html, tags: %w[h1 h2 h3 h4 h5 h6 blockquote p a ul ol nl li b i strong em strike code hr br table thead caption tbody tr th td pre img picture source iframe], attributes: %w[style class href name target rel src alt center align frameborder media data-src data-srcset data-article-relation-id])
 
     # Convert header tags
-    html = html.gsub(/<h6( ?)(.*?)>/i, '<h4\1\2>')
-    html = html.gsub(/<\/h6>/i, '</h4>')
-
-    html = html.gsub(/<h5( ?)(.*?)>/i, '<h4\1\2>')
-    html = html.gsub(/<\/h5>/i, '</h4>')
+    html = html.gsub(/<h6( ?)(.*?)>/i, '<h5\1\2>')
+    html = html.gsub(/<\/h6>/i, '</h5>')
 
     if html.include?('<h1')
+      html = html.gsub(/<h4( ?)(.*?)>/i, '<h5\1\2>')
+      html = html.gsub(/<\/h5>/i, '</h4>')
+
       html = html.gsub(/<h3( ?)(.*?)>/i, '<h4\1\2>')
       html = html.gsub(/<\/h3>/i, '</h4>')
 

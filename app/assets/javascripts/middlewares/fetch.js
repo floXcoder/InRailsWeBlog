@@ -72,7 +72,7 @@ export default function fetchMiddleware({dispatch, getState}) {
         } else {
             const fetcher = fetchAPI();
 
-            const fetch = fetcher.promise.then(
+            const fetch = fetcher.request.then(
                 (response) => {
                     if (response?.errors) {
                         return dispatch({

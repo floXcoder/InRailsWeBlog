@@ -27,11 +27,11 @@ gem 'oj',                       '3.13.23'
 gem 'slim-rails',               '3.5.1'
 
 # Internationalization
-gem 'i18n-js',                  '4.0.1'
+gem 'i18n-js',                  '4.2.2'
 gem 'geocoder',                 '1.8.1'
 
 # Model versioning
-gem 'paper_trail',              '13.0.0'
+gem 'paper_trail',              '14.0.0'
 
 # Marked as deleted
 gem 'paranoia',                 '2.6.1'
@@ -45,7 +45,7 @@ gem 'sidekiq',                  '6.5.7'
 gem 'whenever',                 '1.0.0', require: false
 
 # Redis session store and cache
-gem 'redis-namespace',          '1.9.0'
+gem 'redis-namespace',          '1.10.0'
 gem 'redis-session-store',      '0.11.5'
 gem 'hiredis',                  '0.6.3'
 
@@ -53,16 +53,16 @@ gem 'hiredis',                  '0.6.3'
 gem 'devise',                   '4.8.1'
 
 # Authorization mechanism
-gem 'pundit',                   '2.2.0'
+gem 'pundit',                   '2.3.0'
 
 # Upload pictures
 gem 'carrierwave',              '2.2.3'
-gem 'mini_magick',              '4.11.0'
+gem 'mini_magick',              '4.12.0'
 gem 'image_processing',         '1.12.2'
 
 # Search in database
-gem 'searchkick',               '5.1.0'
-gem 'elasticsearch',            '7.13.3'
+gem 'searchkick',               '5.1.1'
+gem 'elasticsearch',            '8.5.2'
 gem 'typhoeus',                 '1.4.0'
 
 # Comments
@@ -79,13 +79,13 @@ gem 'ahoy_matey',               '4.1.0'
 
 # SEO
 gem 'friendly_id',              '5.5.0'
-gem 'route_translator',         '13.0.0'
+gem 'route_translator',         '13.1.0'
 gem 'meta-tags',                '2.18.0'
 gem 'sitemap_generator',        '6.3.0'
 
 # Dummy data
 gem 'factory_bot_rails',        '6.2.0',  require: false
-gem 'faker',                    '3.0.0', require: false
+gem 'faker',                    '3.1.0', require: false
 
 # Deployment
 gem 'capistrano',               '3.17.1', require: false
@@ -99,10 +99,10 @@ gem 'bcrypt_pbkdf',             '1.1.0'
 
 # SEO
 gem 'webdrivers',               '5.2.0',  require: false
-gem 'selenium-webdriver',       '4.6.1',  require: false
+gem 'selenium-webdriver',       '4.7.1',  require: false
 
 # Server
-gem 'puma',                     '6.0.0'
+gem 'puma',                     '6.0.2'
 
 group :development do
   # Debugging tool
@@ -114,7 +114,7 @@ group :development do
   gem 'binding_of_caller',      '1.0.0'
 
   # N+1 database query
-  gem 'bullet',                 '7.0.4'
+  gem 'bullet',                 '7.0.5'
 
   # Guard and its minions
   gem 'guard',                  '2.18.0', require: false
@@ -135,9 +135,9 @@ group :test do
   # Test tools
   gem 'rspec-rails',                '6.0.1'
   gem 'webmock',                    '3.18.1'
-  gem 'shoulda-matchers',           '5.2.0',  require: false
+  gem 'shoulda-matchers',           '5.3.0',  require: false
   gem 'shoulda-callback-matchers',  '1.1.4',  require: false
-  gem 'simplecov',                  '0.21.2', require: false
+  gem 'simplecov',                  '0.22.0', require: false
   gem 'fuubar',                     '2.5.1'
   gem 'database_cleaner',           '2.0.1'
   gem 'db-query-matchers',          '0.11.0'
@@ -148,10 +148,10 @@ group :development, :test do
   gem 'bootsnap',                   '1.15.0', require: false
 
   # Check errors
-  gem 'rubocop',                    '1.39.0', require: false
-  gem 'rubocop-rails',              '2.17.3', require: false
-  gem 'rubocop-performance',        '1.15.1', require: false
-  gem 'rubocop-rspec',              '2.15.0', require: false
+  gem 'rubocop',                    '1.42.0', require: false
+  gem 'rubocop-rails',              '2.17.4', require: false
+  gem 'rubocop-performance',        '1.15.2', require: false
+  gem 'rubocop-rspec',              '2.16.0', require: false
 
   # static analyzer
   gem 'rails_best_practices',       '1.23.2', require: false
@@ -161,8 +161,8 @@ end
 
 group :production do
   # Errors reporting
-  gem 'sentry-ruby',      '5.6.0'
-  gem 'sentry-rails',     '5.6.0'
+  gem 'sentry-ruby',      '5.7.0'
+  gem 'sentry-rails',     '5.7.0'
 
   # Check slow DB requests
   gem 'pghero',           '3.0.1'

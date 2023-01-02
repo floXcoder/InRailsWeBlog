@@ -26,7 +26,7 @@ class ApplicationController < ActionController::Base
   prepend_before_action :check_seo_mode, if: -> { request.get? && request.format.html? }
 
   # Error reporting
-  before_action :define_error_reporting
+  before_action :define_error_reporting, if: -> { Rails.env.production? && ENV['SENTRY_RAILS_KEY'].present? }
 
   # Devise
   before_action :configure_permitted_parameters, if: :devise_controller?
@@ -41,7 +41,7 @@ class ApplicationController < ActionController::Base
   before_action :set_paper_trail_whodunnit
 
   # Set flash to headers if ajax request
-  after_action :flash_to_headers
+  after_action :flash_to_headers, if: -> { json_request? && flash.present? && response.status != 302 }
 
   def set_env
     reset_cache_headers if params['_'].present?
@@ -191,7 +191,7 @@ class ApplicationController < ActionController::Base
 
     seo_data = Rails.cache.fetch("seo-#{named_route}_#{current_locale}", expires_in: 1.week) do
       Seo::Data.find_by(
-        #locale: current_locale,
+        # locale: current_locale,
         name: "#{named_route}_#{current_locale}"
       )
     end
@@ -565,30 +565,26 @@ class ApplicationController < ActionController::Base
   private
 
   def define_error_reporting
-    if Rails.env.production? && ENV['SENTRY_RAILS_KEY']
-      Sentry.set_user(
-        id:         current_user&.id.to_s,
-        email:      current_user&.email,
-        first_name: current_user&.first_name,
-        last_name:  current_user&.last_name,
-        topic_id:   current_user&.current_topic_id,
-        ip_address: request.ip
-      )
+    Sentry.set_user(
+      id:         current_user&.id.to_s,
+      email:      current_user&.email,
+      first_name: current_user&.first_name,
+      last_name:  current_user&.last_name,
+      topic_id:   current_user&.current_topic_id,
+      ip_address: request.ip
+    )
 
-      Sentry.set_tags(
-        language: I18n.locale
-      )
+    Sentry.set_tags(
+      language: I18n.locale
+    )
 
-      Sentry.set_extras(
-        params: params.to_unsafe_h,
-        url:    request.url
-      )
-    end
+    Sentry.set_extras(
+      params: params.to_unsafe_h,
+      url:    request.url
+    )
   end
 
   def flash_to_headers
-    return if !json_request? || flash.empty? || response.status == 302
-
     # avoiding XSS injections via flash
     flash_json                           = flash.map { |k, v| [k, ERB::Util.h(v)] }.to_h.to_json
     response.headers['X-Flash-Messages'] = flash_json

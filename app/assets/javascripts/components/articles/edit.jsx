@@ -101,7 +101,7 @@ class ArticleEdit extends React.Component {
     }
 
     render() {
-        if (!this.props.article || !this.props.currentUser || !this.props.currentTopic || this.props.isFetching) {
+        if (!this.props.article || !this.props.currentUser || !this.props.currentTopic || this.props.isFetching || this.props.currentTopic.id !== this.props.article.topicId) {
             return (
                 <div className="center margin-top-20">
                     <Loader size="big"/>

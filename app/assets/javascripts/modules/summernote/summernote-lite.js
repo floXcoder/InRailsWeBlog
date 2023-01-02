@@ -7,7 +7,7 @@
  * Copyright 2013- Alan Hong and contributors
  * Summernote may be freely distributed under the MIT license.
  *
- * Date: 2022-11-21T10:31Z
+ * Date: 2023-01-02T10:17Z
  *
  */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -2038,10 +2038,17 @@
         var pos = $placeholder.offset();
         var height = $placeholder.outerHeight(true); // include margin
 
-        return {
-          left: pos.left,
-          top: pos.top + height
-        };
+        if (!pos) {
+          return {
+            left: 0,
+            top: 0
+          };
+        } else {
+          return {
+            left: pos.left,
+            top: pos.top + height
+          };
+        }
       }
 
       function attachEvents($node, events) {
@@ -10127,7 +10134,7 @@
           value: function formatPaste(event) {
             event.stopImmediatePropagation();
             this.context.invoke('editor.undo');
-            var plainContent = external_root_jquery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()(this.pasteContent).text();
+            var plainContent = external_root_jquery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()(this.pasteContent.replaceAll('</p>', '</p>\n').replaceAll('<br/>', '<br/>\n').replaceAll('</div>', '</div>\n').replaceAll('</li>', '</li>\n').replaceAll('</ol>', '</ol>\n').replaceAll('</h1>', '</h1>\n').replaceAll('</h2>', '</h2>\n').replaceAll('</h3>', '</h3>\n').replaceAll('</h4>', '</h4>\n').replaceAll('</h5>', '</h5>\n')).text();
             this.insertContent('insertText', plainContent);
             this.$popover.hide();
           }

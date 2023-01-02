@@ -12,17 +12,10 @@ import {
     editArticlePath
 } from '../../../constants/routesHelper';
 
+import {
+    getScreenPosition
+} from '../../../modules/screenPosition';
 
-const _getScreenPosition = () => {
-    const doc = document.documentElement;
-    const left = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
-    const top = (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0);
-
-    return {
-        left,
-        top
-    };
-};
 
 const _redirectToEdit = (userSlug, articleSlug, routeNavigate, event) => {
     if (routeNavigate) {
@@ -32,13 +25,20 @@ const _redirectToEdit = (userSlug, articleSlug, routeNavigate, event) => {
             pathname: editArticlePath(userSlug, articleSlug)
         }, {
             state: {
-                position: _getScreenPosition()
+                position: getScreenPosition()
             }
         });
     }
 };
 
-const ArticleEditIcon = function ({userSlug, articleSlug, isIconButton, routeNavigate, size, color}) {
+const ArticleEditIcon = function ({
+                                      userSlug,
+                                      articleSlug,
+                                      isIconButton,
+                                      routeNavigate,
+                                      size,
+                                      color
+                                  }) {
     return (
         <span className="flow-tooltip-bottom"
               data-tooltip={I18n.t('js.article.tooltip.edit')}>
