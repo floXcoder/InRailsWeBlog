@@ -11,6 +11,9 @@ shared: &shared
   # Time the user stays logged in
   session_duration: <%= 4.weeks %>
 
+  # Geocoding and elevation timeout (in secs)
+  geocoding_timeout: 5
+
   # Default per page
   per_page: 60
 
