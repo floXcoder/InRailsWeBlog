@@ -11,14 +11,9 @@ namespace :InRailsWeBlog do
     Rails.logger = ActiveRecord::Base.logger = Logger.new(STDOUT)
     Rails.logger.level = Logger::INFO
 
-    geolite_database = Rails.root.join('lib/geocoding/ip_db/GeoLite2-City.mmdb')
+    geolite_database_path = Rails.root.join('lib/geocoding/ip_db')
 
-    # old_url = 'http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.mmdb.gz'
-    db_url = "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key=#{ENV['MAXMIND_KEY']}&suffix=tar.gz"
-    puts db_url
-    Zlib::GzipReader.open(URI.parse(db_url).open) do |gz|
-      File.open(geolite_database, 'wb') { |file| file.write(gz.read) }
-    end
+    %x(/usr/bin/curl -L --silent 'https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key=#{ENV['MAXMIND_KEY']}&suffix=tar.gz' | /bin/tar -C '#{geolite_database_path}' -xvz --keep-newer-files --strip-components=1 --wildcards '*GeoLite2-City.mmdb')
 
     Rails.logger.warn("#{Time.now} : Update Geolite task DONE")
   end
