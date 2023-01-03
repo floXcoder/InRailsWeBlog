@@ -6,7 +6,7 @@ git_source(:github) do |repo_name|
 end
 
 # Specify exact Ruby version (mandatory)
-ruby '3.1.2'
+ruby '3.2.0'
 
 # Rails version
 gem 'rails',                    '7.0.4'
@@ -115,7 +115,7 @@ group :development do
   gem 'binding_of_caller',      '1.0.0'
 
   # N+1 database query
-  gem 'bullet',                 '7.0.5'
+  gem 'bullet',                 '7.0.7'
 
   # Guard and its minions
   gem 'guard',                  '2.18.0', require: false
