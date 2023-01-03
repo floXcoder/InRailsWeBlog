@@ -1658,10 +1658,10 @@
     prop-types "^15.8.1"
     react-is "^18.2.0"
 
-"@mui/core-downloads-tracker@^5.11.2":
-  version "5.11.2"
-  resolved "https://registry.yarnpkg.com/@mui/core-downloads-tracker/-/core-downloads-tracker-5.11.2.tgz#0ff8066bee7e9654fd978cb671e9c12c9d2a65b7"
-  integrity sha512-ztLQELdSSuJFXezng8g5eCzy8mogtzMM8JcfG3HIGgUJ2RlAiBXI2Qe0adKmrJlF4FMat8vTaTeoiRNBZH4t1Q==
+"@mui/core-downloads-tracker@^5.11.2", "@mui/core-downloads-tracker@^5.11.3":
+  version "5.11.3"
+  resolved "https://registry.yarnpkg.com/@mui/core-downloads-tracker/-/core-downloads-tracker-5.11.3.tgz#72c04a9f12b29186877992648d7cf1c22b95ba5c"
+  integrity sha512-Bgb6//KtxY7IC7M5Pa5RKFX1wttc213mqpKqydnz3wn4BGDXfA5c0vf5nTu5zqsJeB4T3ysAJTRJhQ/E1GsZDQ==
 
 "@mui/icons-material@5.11.0", "@mui/icons-material@>=5.10.6":
   version "5.11.0"
@@ -1684,7 +1684,7 @@
     prop-types "^15.8.1"
     react-is "^18.2.0"
 
-"@mui/material@5.11.2", "@mui/material@>=5.10.7":
+"@mui/material@5.11.2":
   version "5.11.2"
   resolved "https://registry.yarnpkg.com/@mui/material/-/material-5.11.2.tgz#8f0ce18d2cf9da9276f6f19b40a681225098ea09"
   integrity sha512-PeraRDsghnDLzejorfe9ps1syxlB8UrGs+UKwg9GGlndv5Tghm+9nwuibrP2TCDC14mlryF+u2WlAOYaPPMwGA==
@@ -1692,6 +1692,24 @@
     "@babel/runtime" "^7.20.7"
     "@mui/base" "5.0.0-alpha.112"
     "@mui/core-downloads-tracker" "^5.11.2"
+    "@mui/system" "^5.11.2"
+    "@mui/types" "^7.2.3"
+    "@mui/utils" "^5.11.2"
+    "@types/react-transition-group" "^4.4.5"
+    clsx "^1.2.1"
+    csstype "^3.1.1"
+    prop-types "^15.8.1"
+    react-is "^18.2.0"
+    react-transition-group "^4.4.5"
+
+"@mui/material@>=5.10.7":
+  version "5.11.3"
+  resolved "https://registry.yarnpkg.com/@mui/material/-/material-5.11.3.tgz#e1be6d26eecde61878280cb6792797a77696b09a"
+  integrity sha512-Oz+rMFiMtxzzDLUxKyyj4mSxF9ShmsBoJ9qvglXCYqklgSrEl1R/Z4hfPZ+2pWd5CriO8U/0CFHr4DksrlTiCw==
+  dependencies:
+    "@babel/runtime" "^7.20.7"
+    "@mui/base" "5.0.0-alpha.112"
+    "@mui/core-downloads-tracker" "^5.11.3"
     "@mui/system" "^5.11.2"
     "@mui/types" "^7.2.3"
     "@mui/utils" "^5.11.2"
@@ -2597,9 +2615,9 @@ ajv@^6.10.0, ajv@^6.12.4, ajv@^6.12.5:
     uri-js "^4.2.2"
 
 ajv@^8.0.0, ajv@^8.0.1, ajv@^8.6.0, ajv@^8.8.0:
-  version "8.11.2"
-  resolved "https://registry.yarnpkg.com/ajv/-/ajv-8.11.2.tgz#aecb20b50607acf2569b6382167b65a96008bb78"
-  integrity sha512-E4bfmKAhGiSTvMfL1Myyycaub+cUEU2/IvpylXkUu7CHBkBj1f/ikdzbD7YQ6FKUbixDxeYvB/xY4fvyroDlQg==
+  version "8.12.0"
+  resolved "https://registry.yarnpkg.com/ajv/-/ajv-8.12.0.tgz#d1a0527323e22f53562c567c00991577dfbe19d1"
+  integrity sha512-sRu1kpcO9yLtYxBKvqfTeh9KzZEwO3STyX1HT+4CaDzC6HpTGYhIhPIzj9XuKU7KYDwnaeh5hcOwjy1QuJzBPA==
   dependencies:
     fast-deep-equal "^3.1.1"
     json-schema-traverse "^1.0.0"
@@ -3283,9 +3301,9 @@ chrome-trace-event@^1.0.2:
   integrity sha512-p3KULyQg4S7NIHixdwbGX+nFHkoBiA4YQmyWtjb8XngSKV124nJmRysgAeujbUVb15vh+RvFUfCPqU7rXk+hZg==
 
 ci-info@^3.2.0:
-  version "3.7.0"
-  resolved "https://registry.yarnpkg.com/ci-info/-/ci-info-3.7.0.tgz#6d01b3696c59915b6ce057e4aa4adfc2fa25f5ef"
-  integrity sha512-2CpRNYmImPx+RXKLq6jko/L07phmS9I02TyqkcNU20GCF/GgaWvc58hPtjxDX8lPpkdwc9sNh72V9k00S7ezog==
+  version "3.7.1"
+  resolved "https://registry.yarnpkg.com/ci-info/-/ci-info-3.7.1.tgz#708a6cdae38915d597afdf3b145f2f8e1ff55f3f"
+  integrity sha512-4jYS4MOAaCIStSRwiuxc4B8MYhIe676yO1sYGzARnjXkWpmzZMMYxY6zu8WYWDhSuth5zhrQ1rhNSibyyvv4/w==
 
 cjs-module-lexer@^1.0.0:
   version "1.2.2"
