@@ -6,3 +6,6 @@ MALLOC_ARENA_MAX=2
 
 # Frozen strings: not working with all gems
 # RUBYOPT="--enable-frozen-string-literal"
+
+# Activate YJIT
+RUBYOPT="--yjit"
