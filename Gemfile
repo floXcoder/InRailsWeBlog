@@ -9,7 +9,7 @@ end
 ruby '3.2.0'
 
 # Rails version
-gem 'rails',                    '7.0.4'
+gem 'rails',                    '7.0.4.2'
 
 # Use postgresql as the database for Active Record
 gem 'pg',                       '1.4.5'
@@ -21,7 +21,7 @@ gem 'secure_headers',           '6.5.0'
 
 # JSON
 gem 'jsonapi-serializer',       '2.2.0'
-gem 'oj',                       '3.13.23'
+gem 'oj',                       '3.14.1'
 
 # Use slim instead of erb
 gem 'slim-rails',               '3.5.1'
@@ -39,16 +39,17 @@ gem 'paranoia',                 '2.6.1'
 
 # Format user input
 gem 'auto_strip_attributes',    '2.6.0'
-gem 'sanitize',                 '6.0.0'
+gem 'sanitize',                 '6.0.1'
 
 # Run asynschronous process
-gem 'sidekiq',                  '6.5.7'
+gem 'sidekiq',                  '7.0.3'
 gem 'whenever',                 '1.0.0', require: false
 
 # Redis session store and cache
 gem 'redis-namespace',          '1.10.0'
 gem 'redis-session-store',      '0.11.5'
 gem 'hiredis',                  '0.6.3'
+gem 'connection_pool',          '2.3.0'
 
 # Authentification
 gem 'devise',                   '4.8.1'
@@ -62,8 +63,8 @@ gem 'mini_magick',              '4.12.0'
 gem 'image_processing',         '1.12.2'
 
 # Search in database
-gem 'searchkick',               '5.1.1'
-gem 'elasticsearch',            '8.5.2'
+gem 'searchkick',               '5.1.2'
+gem 'elasticsearch',            '8.6.0'
 gem 'typhoeus',                 '1.4.0'
 
 # Comments
@@ -100,7 +101,7 @@ gem 'bcrypt_pbkdf',             '1.1.0'
 
 # SEO
 gem 'webdrivers',               '5.2.0',  require: false
-gem 'selenium-webdriver',       '4.7.1',  require: false
+gem 'selenium-webdriver',       '4.8.0',  require: false
 
 # Server
 gem 'puma',                     '6.0.2'
@@ -120,7 +121,7 @@ group :development do
   # Guard and its minions
   gem 'guard',                  '2.18.0', require: false
   gem 'guard-rails',            '0.8.1',  require: false
-  gem 'guard-bundler',          '3.0.0',  require: false
+  gem 'guard-bundler',          '3.0.1',  require: false
   gem 'guard-migrate',          '2.0.0',  require: false
   gem 'guard-sidekiq',          '0.1.0',  require: false
   gem 'guard-process',          '1.2.1',  require: false
@@ -146,13 +147,13 @@ end
 
 group :development, :test do
   # Speed up boot
-  gem 'bootsnap',                   '1.15.0', require: false
+  gem 'bootsnap',                   '1.16.0', require: false
 
   # Check errors
-  gem 'rubocop',                    '1.42.0', require: false
+  gem 'rubocop',                    '1.44.1', require: false
   gem 'rubocop-rails',              '2.17.4', require: false
   gem 'rubocop-performance',        '1.15.2', require: false
-  gem 'rubocop-rspec',              '2.16.0', require: false
+  gem 'rubocop-rspec',              '2.18.1', require: false
 
   # static analyzer
   gem 'rails_best_practices',       '1.23.2', require: false
@@ -166,12 +167,12 @@ group :production do
   gem 'sentry-rails',     '5.7.0'
 
   # Check slow DB requests
-  gem 'pghero',           '3.0.1'
-  gem 'pg_query',         '2.2.0'
+  gem 'pghero',           '3.1.0'
+  gem 'pg_query',         '2.2.1'
 
   # Improve log outputs
   gem 'lograge',          '0.12.0'
 
   # Prerender html pages for SEO
-  gem 'seo_cache',        '1.2.2',   require: false
+  gem 'seo_cache',        '1.3.0',   require: false
 end
