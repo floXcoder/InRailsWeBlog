@@ -6,6 +6,8 @@ class ApplicationController < ActionController::Base
   # Security
   protect_from_forgery with: :exception, except: [:not_found, :not_found_error, :server_error]
 
+  etag { current_user.try(:id) }
+
   # Handle exceptions
   rescue_from StandardError, with: :server_error
   rescue_from NameError, with: :server_error
