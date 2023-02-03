@@ -12,7 +12,7 @@
   z-index: 1000;
 
   @media #{$medium-and-down} {
-    padding: 15px;
+    padding: 3px 15px;
   }
 }
 
@@ -47,7 +47,7 @@
 }
 
 .cookies-content {
-  font-size: 13px;
+  font-size: .75rem;
 }
 
 .cookies-button {
@@ -88,10 +88,9 @@
 }
 
 .cookies-details {
-  margin-top: 15px;
-  margin-bottom: 15px;
-  line-height: 20px;
-  white-space: pre;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  font-size: .65rem;
 }
 
 .cookies-list {
@@ -159,6 +158,10 @@
   background: #fff;
   border-radius: 100px;
   transition: right .3s ease;
+}
+
+.cookies-element-content {
+  font-size: .65rem;
 }
 
 .cookies-list [type=checkbox]:not(:checked) + label::before {
