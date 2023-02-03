@@ -16,11 +16,11 @@ port Integer(ENV.fetch('PUMA_PORT', 3000))
 
 # Specifies the `environment` that Puma will run in.
 #
-environment ENV.fetch('RAILS_ENV', 'development')
+environment ENV.fetch('RAILS_ENV') { 'development' }
 
 # Store the pid of the server in the file at "path".
 #
-pidfile 'tmp/pids/puma.pid'
+pidfile ENV.fetch('PIDFILE') { 'tmp/pids/puma.pid' }
 
 # Specifies the number of `workers` to boot in clustered mode.
 # Workers are forked webserver processes. If using threads and workers together
@@ -38,7 +38,11 @@ threads nb_threads, nb_threads
 # you need to make sure to reconnect any threads in the `on_worker_boot`
 # block.
 
-preload_app!
+# Disable for phased restart
+# preload_app!
+
+# Required for phased restart
+prune_bundler
 
 # If you are preloading your application and using Active Record, it's
 # recommended that you close any connections to the database before workers

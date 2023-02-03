@@ -65,7 +65,7 @@ namespace :assets do
     on roles(:web), in: :sequence, wait: 5 do
       within release_path do
         with rails_env: fetch(:rails_env) do
-          execute :yarn, :install, '--production'
+          execute :yarn, 'workspaces focus --production'
         end
       end
     end
@@ -109,10 +109,10 @@ namespace :deploy do
     end
   end
 
-  desc 'Restart web application'
+  desc 'Reload web application'
   task :restart_web do
     on roles(:web), in: :sequence, wait: 5 do
-      execute :sudo, 'service inrailsweblog-puma restart'
+      execute :sudo, 'service inrailsweblog-puma reload'
     end
   end
 

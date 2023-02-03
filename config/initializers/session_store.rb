@@ -3,7 +3,7 @@
 InRailsWeBlog::Application.config.session_store :redis_session_store,
                                                 key:        "_#{ENV['WEBSITE_NAME']}_session",
                                                 redis:      {
-                                                  # db:           0,
+                                                  db:           ENV['REDIS_DB'].to_i,
                                                   expire_after: InRailsWeBlog.settings.session_duration,
                                                   host:         ENV['REDIS_HOST'],
                                                   port:         ENV['REDIS_PORT'],

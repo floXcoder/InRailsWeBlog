@@ -14,6 +14,7 @@ if ENV['SEO_CACHE_ACTIVATED'].to_s == 'true'
 
   SeoCache.redis_url       = "redis://#{ENV['REDIS_HOST']}:#{ENV['REDIS_PORT']}"
   SeoCache.redis_namespace = "_#{ENV['WEBSITE_NAME']}_#{Rails.env}:seo_cache"
+  SeoCache.redis_db_index  = ENV['REDIS_DB'].to_i
 
   SeoCache.blacklist_urls   = %w[^/admin.* \.html$ \.htm$ \.php$ \.gz$ \.xml$]
   SeoCache.blacklist_params = %w[page locale force_locale]

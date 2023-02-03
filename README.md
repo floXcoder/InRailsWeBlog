@@ -103,10 +103,12 @@ Configure git:
 
 ### Ruby dependencies
 
-Then install rvm:
+Then install rvm and ruby with yjit:
 
-    gpg2 --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
-    curl -sSL https://get.rvm.io | bash -s stable --ruby
+    gpg2 --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
+    \curl -sSL https://get.rvm.io | bash -s stable
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+    rvm install <ruby version> -C --with-jemalloc --enable-yjit
     
 Exit the terminal and launch a new terminal in the root directory of the project. The gemset is automatically created.
 
@@ -130,19 +132,23 @@ Create the postgres user and the dev database:
 
 Install ElasticSearch:
 
-    wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
-    echo "deb https://artifacts.elastic.co/packages/8.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-8.x.list
+    wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo gpg --dearmor -o /usr/share/keyrings/elasticsearch-keyring.gpg
+    sudo apt-get install apt-transport-https
+    echo "deb [signed-by=/usr/share/keyrings/elasticsearch-keyring.gpg] https://artifacts.elastic.co/packages/8.x/apt stable main" | sudo tee /etc/apt/sources.list.d/elastic-8.x.list
     sudo apt-get update
-    sudo apt-get install elasticsearch
 
 Configure ElasticSearch and avoid exposing ES to outside:
 
     sudo nano /etc/elasticsearch/elasticsearch.yml
-    network.host: localhost
+
+    http.host: localhost
+    xpack.security.enabled: false
+    xpack.security.enrollment.enabled: false
 
 Start ElasticSearch:
     
     sudo systemctl enable elasticsearch
+    sudo systemctl start elasticsearch
 
 ### Node dependencies
 
@@ -158,22 +164,9 @@ Install NodeJS and Yarn as package manager:
 
     sudo npm i -g webpack eslint
 
-Install npm packages for the project:
+Install npm packages for the project (Yarn v3 is used for this project):
 
     yarn
-
-### Test dependencies
-
-Install tidy-html5 (check HTML file validity - optional):
-
-    git clone https://github.com/w3c/tidy-html5
-    cd tidy-html5
-    cd build/cmake
-    cmake ../..
-    make
-    sudo make install
-    cd ../../..
-    rm -rf tidy-html5/
 
 ### Populate database
 
@@ -189,7 +182,7 @@ To run development environment run command:
 
     bundle exec guard
     
-http://localhost:3000
+=> http://localhost:3000
 
 ### Project task list
 
@@ -216,11 +209,11 @@ List all available tasks for Rails project :
 
 Check outdated gems:
 
-    bundle outdated --groups
+    bundle outdated --only-explicit --groups
 
 Check outdated npm packages:
 
-    yarn outdated
+    yarn upgrade-interactive
 
 ### Database
 
@@ -287,6 +280,14 @@ Run Sidekiq:
 
 Key-value storing tool.
 
+Used to store:
+- Sessions
+- Cache
+- Serializer
+- Sidekiq
+- Sidekiq status
+- Geocoder
+
 ### Coding rules
 
 - CSS: https://github.com/bendc/frontend-guidelines
@@ -351,8 +352,6 @@ All results are generated in:
 ## Production
 
 ### Deployment
-
-Two productions environment are available:
 
 #### Production
 
@@ -447,5 +446,4 @@ To create a new major version, start manually a new Gitflow release named "0.Y.0
     git push --tags
 
 
-©FloXcoder - 2022
-
+©FloXcoder - 2023

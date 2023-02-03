@@ -109,6 +109,7 @@ const cookieChoices = (function () {
         _setElementText(elementLabel, title);
 
         var elementDetails = document.createElement('div');
+        elementDetails.className = 'cookies-element-content';
         _setElementText(elementDetails, detail);
 
         if (!disabled) {

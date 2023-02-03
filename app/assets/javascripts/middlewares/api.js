@@ -237,7 +237,7 @@ const _handleResponseErrors = (response, url, external = false) => {
 };
 
 const _handleParseErrors = (error, url, isGet = false) => {
-    if (error.message === 'TokenError' || error.name === 'AbortError' || error.name === 'SecurityError' || error.name === 'ChunkLoadError') {
+    if (error.message === 'TokenError' || error.name === 'AbortError' || error.name === 'ChunkLoadError') {
         return {
             abort: true
         };
