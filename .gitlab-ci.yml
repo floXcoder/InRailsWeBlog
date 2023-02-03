@@ -39,7 +39,7 @@ build:
     - gem install bundler
     - bundle config set --local path 'vendor/bundle'
     - bundle install --quiet --jobs $(nproc) "${FLAGS[@]}"
-    - yarn install --frozen-lockfile
+    - yarn install --immutable
     - echo "BEFORE_LAST_TAG=$(git describe --abbrev=0 $(git rev-list --tags --max-count=2) | tail -1)" >> build.env
   interruptible: true
   only:
