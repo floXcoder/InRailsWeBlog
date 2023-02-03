@@ -17,11 +17,14 @@ class Admins::CachesController < AdminsController
   end
 
   def flush_cache
-    app            = Redis::Namespace.new("_#{ENV['WEBSITE_NAME']}_#{Rails.env}:cache", redis: Redis.new)
-    _cache_flushed = app.keys.each { |key| app.del(key) }
+    app            = Redis::Namespace.new("_#{ENV['WEBSITE_NAME']}_#{Rails.env}:cache", redis: Redis.new(host: ENV['REDIS_HOST'], port: ENV['REDIS_PORT'], db: ENV['REDIS_DB'].to_i))
+    app.keys.each { |key| app.del(key) }
 
-    app            = Redis::Namespace.new("_#{ENV['WEBSITE_NAME']}_#{Rails.env}:serializer", redis: Redis.new)
-    _cache_flushed = app.keys.each { |key| app.del(key) }
+    app            = Redis::Namespace.new("_#{ENV['WEBSITE_NAME']}_#{Rails.env}:serializer", redis: Redis.new(host: ENV['REDIS_HOST'], port: ENV['REDIS_PORT'], db: ENV['REDIS_DB'].to_i))
+    app.keys.each { |key| app.del(key) }
+
+    app = Redis::Namespace.new("_#{ENV['WEBSITE_NAME']}_#{Rails.env}:serializer-options", redis: Redis.new(host: ENV['REDIS_HOST'], port: ENV['REDIS_PORT'], db: ENV['REDIS_DB'].to_i))
+    app.keys.each { |key| app.del(key) }
 
     respond_to do |format|
       format.json { render json: { success: true } }

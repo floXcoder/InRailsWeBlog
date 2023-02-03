@@ -23,16 +23,16 @@ namespace :InRailsWeBlog do
     if args.option == 'all'
       Rails.logger.warn("#{Time.zone.now} : Flush ALL redis keys")
 
-      app = Redis::Namespace.new("_#{ENV['WEBSITE_NAME']}_#{Rails.env}", redis: Redis.new)
+      app = Redis::Namespace.new("_#{ENV['WEBSITE_NAME']}_#{Rails.env}", redis: Redis.new(host: ENV['REDIS_HOST'], port: ENV['REDIS_PORT'], db: ENV['REDIS_DB'].to_i))
       app.keys.each { |key| app.del(key) }
     else
-      app_cache = Redis::Namespace.new("_#{ENV['WEBSITE_NAME']}_#{Rails.env}:cache", redis: Redis.new)
+      app_cache = Redis::Namespace.new("_#{ENV['WEBSITE_NAME']}_#{Rails.env}:cache", redis: Redis.new(host: ENV['REDIS_HOST'], port: ENV['REDIS_PORT'], db: ENV['REDIS_DB'].to_i))
       app_cache.keys.each { |key| app_cache.del(key) }
 
-      app_serializer = Redis::Namespace.new("_#{ENV['WEBSITE_NAME']}_#{Rails.env}:serializer", redis: Redis.new)
+      app_serializer = Redis::Namespace.new("_#{ENV['WEBSITE_NAME']}_#{Rails.env}:serializer", redis: Redis.new(host: ENV['REDIS_HOST'], port: ENV['REDIS_PORT'], db: ENV['REDIS_DB'].to_i))
       app_serializer.keys.each { |key| app_serializer.del(key) }
 
-      app_serializer = Redis::Namespace.new("_#{ENV['WEBSITE_NAME']}_#{Rails.env}:serializer-options", redis: Redis.new)
+      app_serializer = Redis::Namespace.new("_#{ENV['WEBSITE_NAME']}_#{Rails.env}:serializer-options", redis: Redis.new(host: ENV['REDIS_HOST'], port: ENV['REDIS_PORT'], db: ENV['REDIS_DB'].to_i))
       app_serializer.keys.each { |key| app_serializer.del(key) }
     end
 

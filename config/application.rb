@@ -111,12 +111,19 @@ module InRailsWeBlog
     # Cache with Redis
     config.cache_store = :redis_cache_store, {
       url:             "redis://#{ENV['REDIS_HOST']}:#{ENV['REDIS_PORT']}",
-      expires_in:      config.settings.session_duration.to_i,
       namespace:       "_#{ENV['WEBSITE_NAME']}_#{Rails.env}:cache",
+      db:              ENV['REDIS_DB'].to_i,
+      expires_in:      config.settings.session_duration.to_i,
       connect_timeout: 30, # Defaults to 20 seconds
       read_timeout: 0.2, # Defaults to 1 second
       write_timeout: 0.2, # Defaults to 1 second
-      reconnect_attempts: 1 # Defaults to 0
+      reconnect_attempts: 1, # Defaults to 0
+      # Compression is enabled by default with a 1kB threshold, so cached values larger than 1kB are automatically compressed.
+      compress: true,
+      compress_threshold: 1.kilobytes,
+      # Increase the number of available connections you can enable connection pooling for multi-threaded server like Puma.
+      pool_size: 5,
+      pool_timeout: 5
     }
   end
 

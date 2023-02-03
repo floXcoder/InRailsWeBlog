@@ -7,7 +7,7 @@ class UploadSerializer
 
   set_key_transform :camel_lower
 
-  # cache_options store: SerializerHelper::CacheSerializer, namespace: "_#{ENV['WEBSITE_NAME']}_#{Rails.env}:serializer", expires_in: InRailsWeBlog.settings.cache_time
+  # cache_options store: SerializerHelper::CacheSerializer, expires_in: InRailsWeBlog.settings.cache_time
 
   attributes :id,
              :user_id,
