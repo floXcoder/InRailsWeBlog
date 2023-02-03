@@ -27,7 +27,25 @@ AllCops:
 Bundler/OrderedGems:
   Enabled: false
 
+Capybara/MatchStyle:
+  Enabled: true
+
+Capybara/NegationMatcher:
+  Enabled: true
+
+Capybara/SpecificActions:
+  Enabled: true
+
+Capybara/SpecificFinders:
+  Enabled: true
+
+Capybara/SpecificMatcher:
+  Enabled: true
+
 Gemspec/DeprecatedAttributeAssignment:
+  Enabled: true
+
+Gemspec/DevelopmentDependencies:
   Enabled: true
 
 Gemspec/RequireMFA:
@@ -66,6 +84,12 @@ Layout/HashAlignment:
 
 Layout/LeadingCommentSpace:
   Enabled: false
+
+Layout/LineContinuationLeadingSpace:
+  Enabled: true
+
+Layout/LineContinuationSpacing:
+  Enabled: true
 
 Layout/LineEndStringConcatenationIndentation:
   Enabled: true
@@ -112,10 +136,16 @@ Lint/AmbiguousOperatorPrecedence:
 Lint/AmbiguousRange:
   Enabled: true
 
+Lint/ConstantOverwrittenInRescue:
+  Enabled: true
+
 Lint/DeprecatedConstants:
   Enabled: true
 
 Lint/DuplicateBranch:
+  Enabled: true
+
+Lint/DuplicateMagicComment:
   Enabled: true
 
 Lint/DuplicateRegexpCharacterClassElement:
@@ -136,6 +166,9 @@ Lint/IncompatibleIoSelectWithFiberScheduler:
 Lint/LambdaWithoutLiteralBlock:
   Enabled: true
 
+Lint/NonAtomicFileOperation:
+  Enabled: true
+
 Lint/NoReturnInBeginEndBlocks:
   Enabled: true
 
@@ -146,6 +179,9 @@ Lint/OrAssignmentToConstant:
   Enabled: true
 
 Lint/RefinementImportMethods:
+  Enabled: true
+
+Lint/RequireRangeParentheses:
   Enabled: true
 
 Lint/RequireRelativeSelfPath:
@@ -167,6 +203,9 @@ Lint/UnexpectedBlockArity:
   Enabled: true
 
 Lint/UnmodifiedReduceAccumulator:
+  Enabled: true
+
+Lint/UselessRescue:
   Enabled: true
 
 Lint/UselessRuby2Keywords:
@@ -196,7 +235,7 @@ Metrics/PerceivedComplexity:
   Enabled: false
 
 Naming/BlockForwarding:
-  Enabled: true
+  Enabled: false
 
 Naming/RescuedExceptionsVariableName:
   Enabled: false
@@ -255,10 +294,19 @@ Performance/StringIdentifierArgument:
 Performance/Sum:
   Enabled: true
 
+Rails/ActionControllerFlashBeforeRender:
+  Enabled: true
+
 Rails/ActionControllerTestCase:
   Enabled: true
 
+Rails/ActionOrder:
+  Enabled: true
+
 Rails/ActiveRecordCallbacksOrder:
+  Enabled: true
+
+Rails/ActiveSupportOnLoad:
   Enabled: true
 
 Rails/AddColumnIndex:
@@ -274,6 +322,9 @@ Rails/CompactBlank:
   Enabled: true
 
 Rails/DeprecatedActiveModelErrorsMethods:
+  Enabled: true
+
+Rails/DotSeparatedKeys:
   Enabled: true
 
 Rails/DuplicateAssociation:
@@ -303,6 +354,9 @@ Rails/FindBy:
 Rails/FindById:
   Enabled: true
 
+Rails/FreezeTime:
+  Enabled: true
+
 Rails/HasManyOrHasOneDependent:
   Enabled: false
 
@@ -313,6 +367,9 @@ Rails/I18nLocaleAssignment:
   Enabled: true
 
 Rails/I18nLocaleTexts:
+  Enabled: true
+
+Rails/IgnoredColumnsAssignment:
   Enabled: true
 
 Rails/Inquiry:
@@ -343,7 +400,7 @@ Rails/PluckInWhere:
   Enabled: true
 
 Rails/RedundantPresenceValidationOnBelongsTo:
-  Enabled: true
+  Enabled: false
 
 Rails/RedundantTravelBack:
   Enabled: true
@@ -357,6 +414,12 @@ Rails/RenderPlainText:
 Rails/RootJoinChain:
   Enabled: true
 
+Rails/RootPathnameMethods:
+  Enabled: true
+
+Rails/RootPublicPath:
+  Enabled: true
+
 Rails/ShortI18n:
   Enabled: true
 
@@ -366,7 +429,19 @@ Rails/SkipsModelValidations:
 Rails/SquishedSQLHeredocs:
   Enabled: true
 
+Rails/StripHeredoc:
+  Enabled: true
+
 Rails/TimeZoneAssignment:
+  Enabled: true
+
+Rails/ToFormattedS:
+  Enabled: true
+
+Rails/ToSWithArgument:
+  Enabled: true
+
+Rails/TopLevelHashWithIndifferentAccess:
   Enabled: true
 
 Rails/TransactionExitStatement:
@@ -387,7 +462,13 @@ Rails/WhereEquals:
 Rails/WhereExists:
   Enabled: true
 
+Rails/WhereMissing:
+  Enabled: true
+
 Rails/WhereNot:
+  Enabled: true
+
+Rails/WhereNotWithMultipleConditions:
   Enabled: true
 
 RSpec/BeEq:
@@ -407,6 +488,9 @@ RSpec/ContextWording:
 
 RSpec/DescribedClass:
   Enabled: false
+
+RSpec/DuplicatedMetadata:
+  Enabled: true
 
 RSpec/ExampleLength:
   Max: 20
@@ -444,7 +528,31 @@ RSpec/MultipleMemoizedHelpers:
 RSpec/NestedGroups:
   Max: 4
 
+RSpec/NoExpectationExample:
+  Enabled: true
+
+RSpec/PendingWithoutReason:
+  Enabled: true
+
+RSpec/SortMetadata:
+  Enabled: true
+
+RSpec/FactoryBot/ConsistentParenthesesStyle:
+  Enabled: true
+
+RSpec/FactoryBot/FactoryNameStyle:
+  Enabled: true
+
 RSpec/Rails/AvoidSetupHook:
+  Enabled: true
+
+RSpec/Rails/HaveHttpStatus:
+  Enabled: true
+
+RSpec/Rails/InferredSpecType:
+  Enabled: true
+
+RSpec/Rails/MinitestAssertions:
   Enabled: true
 
 RSpec/SubjectDeclaration:
@@ -460,6 +568,9 @@ Security/IoMethods:
   Enabled: true
 
 Style/ArgumentsForwarding:
+  Enabled: true
+
+Style/ArrayIntersect:
   Enabled: true
 
 Style/AsciiComments:
@@ -480,6 +591,12 @@ Style/ColonMethodCall:
 Style/CommandLiteral:
   Enabled: false
 
+Style/ComparableClamp:
+  Enabled: true
+
+Style/ConcatArrayLiterals:
+  Enabled: true
+
 Style/Documentation:
   Enabled: false
 
@@ -488,6 +605,9 @@ Style/DocumentDynamicEvalDefinition:
 
 Style/DoubleNegation:
   Enabled: false
+
+Style/EmptyHeredoc:
+  Enabled: true
 
 Style/EndlessMethod:
   Enabled: true
@@ -505,6 +625,9 @@ Style/FileWrite:
   Enabled: true
 
 Style/GlobalVars:
+  Enabled: false
+
+Style/GuardClause:
   Enabled: false
 
 Style/HashConversion:
@@ -540,10 +663,19 @@ Style/InPatternThen:
 Style/Lambda:
   Enabled: false
 
+Style/MagicCommentFormat: # new in 1.35
+  Enabled: true
+
 Style/MapCompactWithConditionalBlock:
   Enabled: true
 
 Style/MapToHash:
+  Enabled: true
+
+Style/MapToSet: # new in 1.42
+  Enabled: true
+
+Style/MinMaxComparison: # new in 1.42
   Enabled: true
 
 Style/MultilineIfModifier:
@@ -574,19 +706,34 @@ Style/ObjectThen:
   Enabled: true
 
 Style/OpenStructUse:
+  Enabled: false
+
+Style/OperatorMethodCall:
   Enabled: true
 
 Style/QuotedSymbols:
   Enabled: true
 
+Style/RedundantArgument:
+  Enabled: true
+
+Style/RedundantConstantBase:
+  Enabled: true
+
 Style/RedundantInitialize:
+  Enabled: true
+
+Style/RedundantDoubleSplatHashBraces:
+  Enabled: true
+
+Style/RedundantEach:
   Enabled: true
 
 Style/RedundantReturn:
   Enabled: false
   AllowMultipleReturnValues: true
 
-Style/RedundantArgument:
+Style/RedundantStringEscape:
   Enabled: true
 
 Style/RedundantSelf:
