@@ -9,6 +9,7 @@ module.exports = {
     webpack: {
         context: './app/assets',
         entries: {
+            polyfills: ['./javascripts/polyfills.js'],
             default: ['./javascripts/pages/default.jsx'],
             user: ['./javascripts/pages/user.jsx'],
             admins: ['./javascripts/pages/admins.jsx'],

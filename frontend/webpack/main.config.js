@@ -5,7 +5,20 @@ const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
+const threadLoader = require('thread-loader');
+
 const config = require('../config').webpack;
+
+const threadLoaderOptions = {
+    workers: 10,
+    workerParallelJobs: 60,
+    poolParallelJobs: 500,
+    poolTimeout: 2000,
+};
+
+threadLoader.warmup(threadLoaderOptions, [
+    'babel-loader'
+]);
 
 const webPackConfig = module.exports = {
     // the base path which will be used to resolve entry points
@@ -47,8 +60,16 @@ webPackConfig.module = {
         {
             test: /\.(js|jsx)$/i,
             include: path.resolve(config.rules.javascript.include),
-            loader: 'babel-loader',
-            options: config.rules.javascript.options
+            use: [
+                {
+                    loader: 'thread-loader',
+                    options: threadLoaderOptions
+                },
+                {
+                    loader: 'babel-loader',
+                    options: config.rules.javascript.options
+                }
+            ]
         },
         {
             test: /\.s?[ac]ss$/i,

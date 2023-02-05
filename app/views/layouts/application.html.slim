@@ -5,6 +5,7 @@ html lang="#{I18n.locale}"
 
   - stylesheet 'default'
   - translations "default-#{I18n.locale}"
+  - javascript_nomodule 'polyfill'
   - javascript_defer 'commons', 'default'
 
   body class="lang-#{I18n.locale}"

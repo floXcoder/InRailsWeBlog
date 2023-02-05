@@ -23,10 +23,10 @@ webPackConfig.optimization = {
     splitChunks: {
         chunks: 'initial',
         minRemainingSize: 0,
-        minSize: 100_000,
+        minSize: 50_000,
         minChunks: 2,
-        maxInitialRequests: 12,
-        maxAsyncRequests: 12
+        maxInitialRequests: 20,
+        maxAsyncRequests: 20
     }
 };
 

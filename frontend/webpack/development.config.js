@@ -26,13 +26,17 @@ webPackConfig = _.merge(webPackConfig, {
         chunkFilename: config.development.chunkFilename + '.js'
     },
 
-    cache: true,
+    cache: {
+        type: 'memory',
+    },
 
     devtool: 'cheap-module-source-map',
     // devtool: 'eval',
 
     experiments: {
+        backCompat: true,
         asyncWebAssembly: true,
+        futureDefaults: false,
         layers: true,
         lazyCompilation: false,
         outputModule: true,
@@ -90,7 +94,11 @@ webPackConfig = _.merge(webPackConfig, {
         port: 8080,
         https: false,
         headers: {
-            'Access-Control-Allow-Origin': '*'
+            'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+            'Access-Control-Allow-Origin': '*',
+            'Cache-Control': 'public max-age=2592000',
+            'access-control-allow-credentials': true,
+            'access-control-allow-headers': 'X-Requested-With, Content-Type, Origin, Authorization, Accept, Client-Security-Token, Accept-Encoding'
         },
         hot: true,
         compress: true,
@@ -138,19 +146,20 @@ webPackConfig.optimization = {
     splitChunks: {
         chunks: 'async',
         minRemainingSize: 0,
-        minSize: 100_000,
+        minSize: 50_000,
         minChunks: 2,
-        maxInitialRequests: 12,
-        maxAsyncRequests: 12,
+        maxInitialRequests: 20,
+        maxAsyncRequests: 20,
         cacheGroups: {
             commons: {
                 name: 'commons',
                 chunks: 'initial',
-                minChunks: 2,
+                priority: -10,
+                minChunks: 4,
                 reuseExistingChunk: true,
                 test(module) {
                     if (module.resource) {
-                        return !module.resource.includes('/admin/') && !module.resource.includes('admin-');
+                        return !module.resource.includes('/admin/') && !module.resource.includes('/admins/') && !module.resource.includes('admins-');
                     }
                 }
             }
