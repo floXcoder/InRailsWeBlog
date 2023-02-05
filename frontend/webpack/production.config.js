@@ -17,8 +17,8 @@ webPackConfig.mode = 'production';
 webPackConfig.target = ['web', 'es5'];
 
 // Add new options to babel loader
-webPackConfig.module.rules[0].options.cacheCompression = true;
-webPackConfig.module.rules[0].options.compact = true;
+webPackConfig.module.rules[0].use[1].options.cacheCompression = true;
+webPackConfig.module.rules[0].use[1].options.compact = true;
 
 webPackConfig.output = _.merge(webPackConfig.output, {
     filename: config.production.filename + '.js'
