@@ -3,7 +3,7 @@
 import AnalyticsService from './analyticsService';
 
 
-export const PWAManager = (function () {
+const PWAManager = (function () {
     function PWAManagerModel() {
         this._model = {
             // Install prompt

@@ -10,13 +10,15 @@
 nb_workers = Integer(ENV.fetch('PUMA_WORKERS', 8))
 nb_threads = Integer(ENV.fetch('PUMA_THREADS', 4))
 
+current_environment = ENV.fetch('RAILS_ENV') { 'development' }
+
 # Specifies the `port` that Puma will listen on to receive requests; default is 3000.
 #
 port Integer(ENV.fetch('PUMA_PORT', 3000))
 
 # Specifies the `environment` that Puma will run in.
 #
-environment ENV.fetch('RAILS_ENV') { 'development' }
+environment current_environment
 
 # Store the pid of the server in the file at "path".
 #
@@ -38,11 +40,13 @@ threads nb_threads, nb_threads
 # you need to make sure to reconnect any threads in the `on_worker_boot`
 # block.
 
-# Disable for phased restart
-# preload_app!
-
-# Required for phased restart
-prune_bundler
+if current_environment == 'development'
+  # Disable for phased restart
+  preload_app!
+else
+  # Required for phased restart
+  prune_bundler
+end
 
 # If you are preloading your application and using Active Record, it's
 # recommended that you close any connections to the database before workers

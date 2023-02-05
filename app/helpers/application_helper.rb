@@ -39,6 +39,12 @@ module ApplicationHelper
     end
   end
 
+  def javascript_nomodule(*files)
+    files.each do |file|
+      content_for(:javascript) { javascript_include_tag(file, nomodule: true) }
+    end
+  end
+
   def stylesheet(*files)
     files.each do |file|
       content_for(:stylesheet) { stylesheet_link_tag(file) }

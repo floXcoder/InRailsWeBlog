@@ -79,19 +79,20 @@ webPackConfig.optimization = {
         hidePathInfo: true,
         chunks: 'async',
         minRemainingSize: 0,
-        minSize: 100_000,
+        minSize: 50_000,
         minChunks: 2,
-        maxInitialRequests: 12,
-        maxAsyncRequests: 12,
+        maxInitialRequests: 20,
+        maxAsyncRequests: 20,
         cacheGroups: {
             commons: {
                 name: 'commons',
                 chunks: 'initial',
-                minChunks: 2,
+                priority: -10,
+                minChunks: 4,
                 reuseExistingChunk: true,
                 test(module) {
                     if (module.resource) {
-                        return !module.resource.includes('/admin/') && !module.resource.includes('admin-');
+                        return !module.resource.includes('/admin/') && !module.resource.includes('/admins/') && !module.resource.includes('admins-');
                     }
                 }
             }
