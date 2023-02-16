@@ -20,9 +20,17 @@ port Integer(ENV.fetch('PUMA_PORT', 3000))
 #
 environment current_environment
 
-# Store the pid of the server in the file at "path".
+# Specifies the `directory` that Puma will use to evaluate path on phased restart.
+#
+directory ENV.fetch('RAILS_DIRECTORY') { File.expand_path('..', __dir__) }
+
+# Specifies the `pidfile` that Puma will use.
 #
 pidfile ENV.fetch('PIDFILE') { 'tmp/pids/puma.pid' }
+
+# # Used by `pumactl` to query and control the server.
+# #
+# state_path ENV.fetch('STATE_FILE') { 'tmp/pids/puma.state' }
 
 # Specifies the number of `workers` to boot in clustered mode.
 # Workers are forked webserver processes. If using threads and workers together
