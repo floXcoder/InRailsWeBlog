@@ -21,10 +21,10 @@ gem 'secure_headers',           '6.5.0'
 
 # JSON
 gem 'jsonapi-serializer',       '2.2.0'
-gem 'oj',                       '3.14.1'
+gem 'oj',                       '3.14.2'
 
 # Use slim instead of erb
-gem 'slim-rails',               '3.5.1'
+gem 'slim-rails',               '3.6.1'
 
 # Internationalization
 gem 'i18n-js',                  '4.2.2'
@@ -42,7 +42,7 @@ gem 'auto_strip_attributes',    '2.6.0'
 gem 'sanitize',                 '6.0.1'
 
 # Run asynschronous process
-gem 'sidekiq',                  '7.0.3'
+gem 'sidekiq',                  '7.0.5'
 gem 'whenever',                 '1.0.0', require: false
 
 # Redis session store and cache
@@ -63,7 +63,7 @@ gem 'mini_magick',              '4.12.0'
 gem 'image_processing',         '1.12.2'
 
 # Search in database
-gem 'searchkick',               '5.1.2'
+gem 'searchkick',               '5.2.0'
 gem 'elasticsearch',            '8.6.0'
 gem 'typhoeus',                 '1.4.0'
 
@@ -77,7 +77,7 @@ gem 'premailer-rails',          '1.12.0'
 gem 'browser',                  '5.3.1'
 
 # Tracking
-gem 'ahoy_matey',               '4.1.0'
+gem 'ahoy_matey',               '4.2.0'
 
 # SEO
 gem 'friendly_id',              '5.5.0'
@@ -87,7 +87,7 @@ gem 'sitemap_generator',        '6.3.0'
 
 # Dummy data
 gem 'factory_bot_rails',        '6.2.0',  require: false
-gem 'faker',                    '3.1.0', require: false
+gem 'faker',                    '3.1.1', require: false
 
 # Deployment
 gem 'capistrano',               '3.17.1', require: false
@@ -104,7 +104,7 @@ gem 'webdrivers',               '5.2.0',  require: false
 gem 'selenium-webdriver',       '4.8.0',  require: false
 
 # Server
-gem 'puma',                     '6.0.2'
+gem 'puma',                     '6.1.0'
 
 group :development do
   # Debugging tool
@@ -150,9 +150,9 @@ group :development, :test do
   gem 'bootsnap',                   '1.16.0', require: false
 
   # Check errors
-  gem 'rubocop',                    '1.44.1', require: false
+  gem 'rubocop',                    '1.45.1', require: false
   gem 'rubocop-rails',              '2.17.4', require: false
-  gem 'rubocop-performance',        '1.15.2', require: false
+  gem 'rubocop-performance',        '1.16.0', require: false
   gem 'rubocop-rspec',              '2.18.1', require: false
 
   # static analyzer
@@ -163,8 +163,8 @@ end
 
 group :production do
   # Errors reporting
-  gem 'sentry-ruby',      '5.7.0'
-  gem 'sentry-rails',     '5.7.0'
+  gem 'sentry-ruby',      '5.8.0'
+  gem 'sentry-rails',     '5.8.0'
 
   # Check slow DB requests
   gem 'pghero',           '3.1.0'
