@@ -45,7 +45,7 @@
 # Ignore geocoding files
 /lib/geocoding/ip_db/*
 
-# Ignore generated trasnaltion files
+# Ignore generated translation files
 /app/assets/javascripts/translations
 /spec/javascripts/translations
 
