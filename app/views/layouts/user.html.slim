@@ -5,7 +5,7 @@ html lang="#{I18n.locale}"
 
   - stylesheet 'user'
   - translations "user-#{I18n.locale}"
-  - javascript_nomodule 'polyfill'
+  - javascript_nomodule 'polyfills'
   - javascript_defer 'commons', 'user'
 
   body class="lang-#{I18n.locale}"
