@@ -43,7 +43,6 @@ gem 'sanitize',                 '6.0.1'
 
 # Run asynschronous process
 gem 'sidekiq',                  '7.0.5'
-gem 'whenever',                 '1.0.0', require: false
 
 # Redis session store and cache
 gem 'redis-namespace',          '1.10.0'
@@ -162,6 +161,9 @@ group :development, :test do
 end
 
 group :production do
+  # Scheduler
+  gem 'whenever',         '1.0.0', require: false
+
   # Errors reporting
   gem 'sentry-ruby',      '5.8.0'
   gem 'sentry-rails',     '5.8.0'
