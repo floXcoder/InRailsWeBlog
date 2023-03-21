@@ -106,7 +106,7 @@
     &.is-visible {
       opacity: 1;
       visibility: visible;
-      z-index: 1260;
+      z-index: $zindex-search-module;
 
       .search-header-close {
         transform: translateY(-50%) scale(1);
@@ -145,7 +145,7 @@
     transition: opacity .3s, visibility .3s;
     visibility: hidden;
     width: 100%;
-    z-index: 1200;
+    z-index: $zindex-drawer;
 
     &.search-form-visible {
       opacity: 1;

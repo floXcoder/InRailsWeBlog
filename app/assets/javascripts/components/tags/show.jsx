@@ -73,7 +73,7 @@ class TagShow extends React.Component {
     componentDidUpdate(prevProps) {
         this._initRequest = false;
 
-        if (!Object.equals(this.props.routeParams, prevProps.routeParams)) {
+        if (!Object.equals(this.props.routeParams, prevProps.routeParams) || this.props.tag.slug !== this.props.routeParams.tagSlug) {
             this.props.fetchTag(this.props.routeParams.tagSlug);
         }
     }

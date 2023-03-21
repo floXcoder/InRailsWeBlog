@@ -131,77 +131,78 @@ const _manageError = (origin, error, url, external = false) => {
         url
     };
 
-    console.warn(origin, error, url)
-    console.warn(error.statusText)
+    if (error.status === 403 && !external) {
+        // Forbidden
 
-    if (error.statusText) {
-        if (error.statusText === 'Forbidden' && !external) {
-            // Notification.error(I18n.t('js.helpers.errors.not_authorized'));
-            // if (document.referrer === '') {
-            //     window.location = '/';
-            // } else {
-            //     history.back();
-            // }
+        // Notification.error(I18n.t('js.helpers.errors.not_authorized'));
+        // if (document.referrer === '') {
+        //     window.location = '/';
+        // } else {
+        //     history.back();
+        // }
 
-            return error;
-        } else if (error.statusText === 'Cancelled') {
-            return error;
-        } else if (error.statusText === 'Not Found' && !external) {
-            // Notification.error(I18n.t('js.helpers.errors.unprocessable'));
-            // } else if (error.statusText === 'Unprocessable Entity') {
-            // Managed by _handleResponse
-            // if (!error.bodyUsed) {
-            //     return error.json().then((status) => (
-            //         Notification.error(status.error || status.errors || error.statusText)
-            //     ));
-            // } else {
-            //     Notification.error(I18n.t('js.helpers.errors.unprocessable'));
-            // }
+        return error;
+    } else if (error.statusText === 'Canceled' || error.statusText === 'Cancelled') {
+        return error;
+    } else if (error.status === 404 && !external) {
+        // Not Found
 
-            return error;
-        } else if (error.statusText === 'Internal Server Error' || external) {
-            if (!error.bodyUsed) {
-                const contentType = error.headers.get('content-type');
-                if (contentType && contentType.indexOf('application/json') !== -1) {
-                    return error.json()
-                        .then((parsedError) => {
-                            if (GlobalEnvironment.NODE_ENV !== 'production') {
-                                window.log_on_screen([parsedError.errors, parsedError.details, parsedError.message].filter(Boolean).join(' / ')
-                                    .split('\n')
-                                    .slice(0, 10));
-                            } else {
-                                Notification.error(I18n.t('js.helpers.errors.server'));
-                            }
+        // Notification.error(I18n.t('js.helpers.errors.unprocessable'));
+        // } else if (error.statusText === 'Unprocessable Entity') {
+        // Managed by _handleResponse
+        // if (!error.bodyUsed) {
+        //     return error.json().then((status) => (
+        //         Notification.error(status.error || status.errors || error.statusText)
+        //     ));
+        // } else {
+        //     Notification.error(I18n.t('js.helpers.errors.unprocessable'));
+        // }
 
-                            pushError(error, {...errorInfo, ...parsedError});
-                        });
-                } else {
-                    return error.text()
-                        .then((text) => {
-                            if (GlobalEnvironment.NODE_ENV !== 'production') {
-                                window.log_on_screen(
-                                    text.split('\n')
-                                        .slice(0, 10)
-                                );
-                            } else {
-                                Notification.error(I18n.t('js.helpers.errors.server'));
-                            }
+        return error;
+    } else if (error.status === 500 || external) {
+        // Internal Server Error
 
-                            pushError(error, {...errorInfo});
-                        });
-                }
+        if (!error.bodyUsed) {
+            const contentType = error.headers.get('content-type');
+            if (contentType && contentType.indexOf('application/json') !== -1) {
+                return error.json()
+                    .then((parsedError) => {
+                        if (GlobalEnvironment.NODE_ENV !== 'production') {
+                            window.log_on_screen([parsedError.errors, parsedError.details, parsedError.message].filter(Boolean).join(' / ')
+                                .split('\n')
+                                .slice(0, 10));
+                        } else {
+                            Notification.error(I18n.t('js.helpers.errors.server'));
+                        }
+
+                        pushError(error, {...errorInfo, ...parsedError});
+                    });
             } else {
-                if (GlobalEnvironment.NODE_ENV !== 'production') {
-                    window.log_on_screen(
-                        error.split('\n')
-                            .slice(0, 10)
-                    );
-                } else {
-                    Notification.error(I18n.t('js.helpers.errors.server'));
-                }
+                return error.text()
+                    .then((text) => {
+                        if (GlobalEnvironment.NODE_ENV !== 'production') {
+                            window.log_on_screen(
+                                text.split('\n')
+                                    .slice(0, 10)
+                            );
+                        } else {
+                            Notification.error(I18n.t('js.helpers.errors.server'));
+                        }
 
-                pushError(error, errorInfo);
+                        pushError(error, {...errorInfo});
+                    });
             }
+        } else {
+            if (GlobalEnvironment.NODE_ENV !== 'production') {
+                window.log_on_screen(
+                    error.split('\n')
+                        .slice(0, 10)
+                );
+            } else {
+                Notification.error(I18n.t('js.helpers.errors.server'));
+            }
+
+            pushError(error, errorInfo);
         }
     } else {
         pushError(error, errorInfo);

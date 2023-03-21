@@ -217,6 +217,11 @@ class ApplicationController < ActionController::Base
       link:     canonical_url(named_route, nil, available_languages.first, **slug_parameters)
     } if available_languages.present?
 
+    if og.present?
+      og[:title]       = og[:title] || page_title
+      og[:description] = og[:description] || meta_desc
+    end
+
     set_meta_tags(title:          titleize(page_title),
                   description:    meta_desc,
                   canonical:      canonical,

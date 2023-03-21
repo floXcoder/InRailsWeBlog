@@ -83,7 +83,7 @@ module Popen
 end
 
 class Logging
-  def self.grep_for(filename, search, max_size = 2_000)
+  def self.grep_for(filename, search, max_size: 2_000)
     path = Rails.root.join('log', filename)
     return [] unless File.exist?(path)
 
@@ -91,7 +91,7 @@ class Logging
     tail_output.split("\n")
   end
 
-  def self.grep_date_for(filename, date, max_size = 2_000)
+  def self.grep_date_for(filename, date, max_size: 2_000)
     path = Rails.root.join('log', filename)
     return [] unless File.exist?(path)
 
@@ -99,15 +99,17 @@ class Logging
     tail_output.split("\n")
   end
 
-  def self.multi_grep_for(filename, searches, max_size = 2_000)
+  def self.multi_grep_for(filename, searches, max_size: 2_000, regex: false)
     path = Rails.root.join('log', filename)
     return [] unless File.exist?(path)
 
-    tail_output, = Popen.pipeline([%W[tail -n #{max_size} #{path}], *searches.map { |s| %W[fgrep -e #{s}] }])
+    search_operator = regex ? 'grep' : 'fgrep'
+
+    tail_output, = Popen.pipeline([%W[tail -n #{max_size} #{path}], *searches.map { |s| %W[#{search_operator} #{regex ? '-P' : ''} -e #{s}] }])
     tail_output.split("\n")
   end
 
-  def self.read_latest_for(filename, size = 4_000)
+  def self.read_latest_for(filename, size: 4_000)
     path = Rails.root.join('log', filename)
     return [] unless File.exist?(path)
 

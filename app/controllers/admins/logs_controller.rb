@@ -20,20 +20,20 @@ class Admins::LogsController < AdminsController
                           }
                         end
 
-                        Logging.multi_grep_for(log_filename, format_tags_search(h_tags), SEARCH_LOG_SIZE)
+                        Logging.multi_grep_for(log_filename, format_tags_search(h_tags), size: SEARCH_LOG_SIZE)
                       else
-                        Logging.read_latest_for(log_filename, DEFAULT_LOG_SIZE)
+                        Logging.read_latest_for(log_filename, size: DEFAULT_LOG_SIZE)
                       end
 
-    job_log = Logging.read_latest_for('jobs.log', DEFAULT_LOG_SIZE)
+    job_log = Logging.read_latest_for('jobs.log', size: DEFAULT_LOG_SIZE)
 
-    cron_log = Logging.read_latest_for('cron.log', DEFAULT_LOG_SIZE)
+    cron_log = Logging.read_latest_for('cron.log', size: DEFAULT_LOG_SIZE)
 
-    ahoy_log = Logging.read_latest_for('ahoy.log', DEFAULT_LOG_SIZE)
+    ahoy_log = Logging.read_latest_for('ahoy.log', size: DEFAULT_LOG_SIZE)
 
-    sentry_log = Logging.read_latest_for('sentry.log', DEFAULT_LOG_SIZE)
+    sentry_log = Logging.read_latest_for('sentry.log', size: DEFAULT_LOG_SIZE)
 
-    seo_cache_log = Logging.read_latest_for('seo_cache.log', DEFAULT_LOG_SIZE)
+    seo_cache_log = Logging.read_latest_for('seo_cache.log', size: DEFAULT_LOG_SIZE)
 
     respond_to do |format|
       format.html do
@@ -58,18 +58,18 @@ class Admins::LogsController < AdminsController
 
     log_data = if log_params[:element].present?
                  if log_params[:element] == 'top'
-                   Logging.read_latest_for(log_filename, log_params[:value].to_i + DEFAULT_LOG_SIZE)
+                   Logging.read_latest_for(log_filename, size: log_params[:value].to_i + DEFAULT_LOG_SIZE)
                  elsif log_params[:element] == 'refresh'
-                   Logging.read_latest_for(log_filename, DEFAULT_LOG_SIZE)
+                   Logging.read_latest_for(log_filename, size: DEFAULT_LOG_SIZE)
                  elsif log_params[:element] == 'date'
-                   Logging.grep_date_for(log_filename, log_params[:value], DEFAULT_LOG_SIZE)
+                   Logging.grep_date_for(log_filename, log_params[:value], max_size: DEFAULT_LOG_SIZE)
                  elsif log_params[:value].present?
-                   Logging.grep_for(log_filename, format_search(log_params[:element], log_params[:value]), SEARCH_LOG_SIZE)
+                   Logging.grep_for(log_filename, format_search(log_params[:element], log_params[:value]), max_size: SEARCH_LOG_SIZE)
                  end
                elsif log_params[:tags].present?
-                 Logging.multi_grep_for(log_filename, format_tags_search(log_params[:tags]&.map(&:to_unsafe_h)), SEARCH_LOG_SIZE)
+                 Logging.multi_grep_for(log_filename, format_tags_search(log_params[:tags]&.map(&:to_unsafe_h)), max_size: SEARCH_LOG_SIZE)
                else
-                 Logging.read_latest_for(log_filename, DEFAULT_LOG_SIZE)
+                 Logging.read_latest_for(log_filename, size: DEFAULT_LOG_SIZE)
                end
 
     respond_to do |format|
