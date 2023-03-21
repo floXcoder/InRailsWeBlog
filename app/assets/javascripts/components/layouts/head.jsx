@@ -25,11 +25,11 @@ function HeadLayout({children}) {
                 {title}
             </title>
 
-            <meta itemProp="mainEntityOfPage"
-                  content={window.location.origin + window.location.pathname}/>
-
             <meta name="description"
                   content={description}/>
+
+            <meta itemProp="mainEntityOfPage"
+                  content={window.location.origin + window.location.pathname}/>
 
             {
                 !!noindex &&
@@ -61,9 +61,15 @@ function HeadLayout({children}) {
             }
 
             {
-                !!title &&
+                !!(og?.title) &&
                 <meta property="og:title"
-                      content={title}/>
+                      content={og.title}/>
+            }
+
+            {
+                !!(og?.description) &&
+                <meta property="og:description"
+                      content={og.description}/>
             }
 
             {
