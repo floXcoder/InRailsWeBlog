@@ -189,7 +189,7 @@ class ArticleShow extends React.Component {
             this._highlightMatchedContent();
         }
 
-        if (!Object.equals(this.props.routeParams, prevProps.routeParams)) {
+        if (!Object.equals(this.props.routeParams, prevProps.routeParams) || this.props.article.slug !== this.props.routeParams.articleSlug) {
             this._request = this.props.fetchArticle(this.props.routeParams.userSlug, this.props.routeParams.articleSlug);
         }
 
