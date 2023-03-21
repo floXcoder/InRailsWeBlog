@@ -2,6 +2,9 @@
 
 
 export const pushError = (error, errorInfo = null) => {
+
+    console.error(error, errorInfo)
+
     if (!error) {
         return;
     }
