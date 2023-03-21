@@ -2,7 +2,7 @@
 
 class Admins::LogsController < AdminsController
   DEFAULT_LOG_SIZE = 3_000
-  SEARCH_LOG_SIZE  = 30_000
+  SEARCH_LOG_SIZE  = 100_000
 
   before_action :verify_requested_format!
 
@@ -20,7 +20,7 @@ class Admins::LogsController < AdminsController
                           }
                         end
 
-                        Logging.multi_grep_for(log_filename, format_tags_search(h_tags), size: SEARCH_LOG_SIZE)
+                        Logging.multi_grep_for(log_filename, format_tags_search(h_tags), max_size: SEARCH_LOG_SIZE)
                       else
                         Logging.read_latest_for(log_filename, size: DEFAULT_LOG_SIZE)
                       end
@@ -67,7 +67,7 @@ class Admins::LogsController < AdminsController
                    Logging.grep_for(log_filename, format_search(log_params[:element], log_params[:value]), max_size: SEARCH_LOG_SIZE)
                  end
                elsif log_params[:tags].present?
-                 Logging.multi_grep_for(log_filename, format_tags_search(log_params[:tags]&.map(&:to_unsafe_h)), max_size: SEARCH_LOG_SIZE)
+                 Logging.multi_grep_for(log_filename, format_tags_search(log_params[:tags].map(&:to_unsafe_h)), max_size: SEARCH_LOG_SIZE, regex: true)
                else
                  Logging.read_latest_for(log_filename, size: DEFAULT_LOG_SIZE)
                end
@@ -103,6 +103,8 @@ class Admins::LogsController < AdminsController
       "format=#{value}"
     when 'search'
       value
+    else
+      nil
     end
   end
 
