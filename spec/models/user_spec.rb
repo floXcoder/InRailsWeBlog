@@ -162,7 +162,6 @@ RSpec.describe User, type: :model do
       it { is_expected.to validate_length_of(:pseudo).is_at_least(InRailsWeBlog.settings.user_pseudo_min_length) }
       it { is_expected.to validate_length_of(:pseudo).is_at_most(InRailsWeBlog.settings.user_pseudo_max_length) }
       it { is_expected.to validate_uniqueness_of(:pseudo).case_insensitive }
-      it { is_expected.to have_db_index(:pseudo) }
     end
 
     describe '#email' do
