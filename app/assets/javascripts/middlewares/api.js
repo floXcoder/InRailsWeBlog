@@ -131,6 +131,9 @@ const _manageError = (origin, error, url, external = false) => {
         url
     };
 
+    console.warn(origin, error, url)
+    console.warn(error.statusText)
+
     if (error.statusText) {
         if (error.statusText === 'Forbidden' && !external) {
             // Notification.error(I18n.t('js.helpers.errors.not_authorized'));

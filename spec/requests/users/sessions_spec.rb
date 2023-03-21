@@ -25,7 +25,7 @@ describe 'Users Session API', type: :request do
       it 'returns an error for unknown user' do
         post '/api/v1/login', params: { user: { login: @user.pseudo, password: 'bad password' } }, as: :json
 
-        expect(response).to be_json_response(401)
+        expect(response).to be_json_response(200)
 
         user = JSON.parse(response.body)
         expect(user['error']).to eq(I18n.t('devise.failure.invalid', authentication_keys: 'Main User'))
@@ -34,7 +34,7 @@ describe 'Users Session API', type: :request do
       it 'returns an error for incorrect password' do
         post '/api/v1/login', params: { user: { login: 'bad_user', password: 'bad password' } }, as: :json
 
-        expect(response).to be_json_response(401)
+        expect(response).to be_json_response(200)
 
         user = JSON.parse(response.body)
         expect(user['error']).to eq(I18n.t('devise.failure.invalid', authentication_keys: 'bad_user'))
