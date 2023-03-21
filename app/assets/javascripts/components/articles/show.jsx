@@ -32,7 +32,8 @@ import {
     checkLinksArticle,
     deleteArticle,
     setCurrentTags,
-    showUserSignup
+    showUserSignup,
+    switchTopic
 } from '../../actions';
 
 import {
@@ -104,7 +105,8 @@ export default @withRouter({
     checkLinksArticle,
     deleteArticle,
     setCurrentTags,
-    showUserSignup
+    showUserSignup,
+    switchTopic
 })
 @highlight(false)
 class ArticleShow extends React.Component {
@@ -135,6 +137,7 @@ class ArticleShow extends React.Component {
         deleteArticle: PropTypes.func,
         setCurrentTags: PropTypes.func,
         showUserSignup: PropTypes.func,
+        switchTopic: PropTypes.func,
         // from highlight
         onShow: PropTypes.func
     };
@@ -189,8 +192,14 @@ class ArticleShow extends React.Component {
             this._highlightMatchedContent();
         }
 
-        if (!Object.equals(this.props.routeParams, prevProps.routeParams) || this.props.article.slug !== this.props.routeParams.articleSlug) {
+        if (!this.props.isFetching && (!Object.equals(this.props.routeParams, prevProps.routeParams) || this.props.article.slug !== this.props.routeParams.articleSlug)) {
             this._request = this.props.fetchArticle(this.props.routeParams.userSlug, this.props.routeParams.articleSlug);
+
+            if (this.props.isUserConnected) {
+                this._request.fetch.then(() => {
+                    this.props.switchTopic(this.props.article.userSlug, this.props.article.topicSlug, {no_meta: true});
+                });
+            }
         }
 
         if (!window.seoMode) {
