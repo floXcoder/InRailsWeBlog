@@ -8,7 +8,7 @@ module FastJsonapi
         flat_data[relation_name] = if relation_data[:data].is_a?(Array)
                                      relation_data[:data]&.map { |d| included&.find { |i| i[:id].to_s == d[:id].to_s && i[:type].to_s == d[:type].to_s }&.dig(:attributes) }
                                    else
-                                     included&.find { |i| i[:id].to_s == relation_data[:data][:id].to_s && i[:type].to_s == relation_data[:data][:type].to_s }&.dig(:attributes)
+                                     included&.find { |i| i[:id].to_s == relation_data.dig(:data, :id).to_s && i[:type].to_s == relation_data.dig(:data, :type).to_s }&.dig(:attributes)
                                    end
       end
     end
