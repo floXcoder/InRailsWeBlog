@@ -13,6 +13,7 @@ import LoginForm from './form/login';
 import Modal from '../theme/modal';
 import BounceSpinner from '../theme/spinner/bounce';
 
+
 export default @connect((state) => ({
     isProcessing: state.userState.isProcessing,
     isConnected: state.userState.isConnected
@@ -42,8 +43,8 @@ class UserLogin extends React.PureComponent {
     _handleSubmit = (values) => {
         this.props.loginUser(values)
             .then((response) => {
-                if (response?.errors) {
-                    Notification.error(response.errors);
+                if (response?.errors || response?.error) {
+                    Notification.error(response.errors || response.error);
                     // window.location.replace('/');
                 } else {
                     let location = window.location;
