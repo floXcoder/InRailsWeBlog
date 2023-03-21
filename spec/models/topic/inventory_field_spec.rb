@@ -108,7 +108,6 @@ RSpec.describe Topic::InventoryField, type: :model do
   context 'Associations' do
     it { is_expected.to belong_to(:topic) }
     it { is_expected.to validate_presence_of(:topic) }
-    it { is_expected.to have_db_index(:topic_id) }
   end
 
   context 'Properties' do

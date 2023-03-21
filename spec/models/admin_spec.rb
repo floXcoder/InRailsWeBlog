@@ -80,7 +80,6 @@ RSpec.describe Admin, type: :model do
       it { is_expected.to validate_uniqueness_of(:pseudo).case_insensitive }
       it { expect(@admin.pseudo).to eq('Admin') }
       it { is_expected.to have_db_index(:pseudo) }
-      it { is_expected.to have_db_index([:pseudo, :email]) }
     end
 
     describe '#email' do

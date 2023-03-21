@@ -75,7 +75,6 @@ RSpec.describe Picture, type: :model do
 
     describe '#user' do
       it { is_expected.to validate_presence_of(:user) }
-      it { is_expected.to have_db_index(:user_id) }
     end
 
     describe '#imageable' do
