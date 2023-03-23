@@ -197,7 +197,9 @@ class ArticleShow extends React.Component {
 
             if (this.props.isUserConnected) {
                 this._request.fetch.then(() => {
-                    this.props.switchTopic(this.props.article.userSlug, this.props.article.topicSlug, {no_meta: true});
+                    if (this.props.currentTopic.slug !== this.props.article.topicSlug) {
+                        this.props.switchTopic(this.props.article.userSlug, this.props.article.topicSlug, {no_meta: true});
+                    }
                 });
             }
         }
