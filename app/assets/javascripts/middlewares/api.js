@@ -116,6 +116,52 @@ const _serializeParams = (params) => {
     return formData;
 };
 
+const _reportError = (error, errorInfo) => {
+    if (!error.bodyUsed) {
+        const contentType = error.headers.get('content-type');
+        if (contentType && contentType.indexOf('application/json') !== -1) {
+            return error.json()
+                .then((parsedError) => {
+                    if (GlobalEnvironment.NODE_ENV !== 'production') {
+                        window.log_on_screen([parsedError.errors, parsedError.details, parsedError.message].filter(Boolean)
+                            .join(' / ')
+                            .split('\n')
+                            .slice(0, 10));
+                    } else {
+                        Notification.error(I18n.t('js.helpers.errors.server'));
+                    }
+
+                    pushError(error, {...errorInfo, ...parsedError});
+                });
+        } else {
+            return error.text()
+                .then((text) => {
+                    if (GlobalEnvironment.NODE_ENV !== 'production') {
+                        window.log_on_screen(
+                            text.split('\n')
+                                .slice(0, 10)
+                        );
+                    } else {
+                        Notification.error(I18n.t('js.helpers.errors.server'));
+                    }
+
+                    pushError(error, {...errorInfo});
+                });
+        }
+    } else {
+        if (GlobalEnvironment.NODE_ENV !== 'production') {
+            window.log_on_screen(
+                error.split('\n')
+                    .slice(0, 10)
+            );
+        } else {
+            Notification.error(I18n.t('js.helpers.errors.server'));
+        }
+
+        pushError(error, errorInfo);
+    }
+};
+
 const _manageError = (origin, error, url, external = false) => {
     if (url === '/errors') {
         return;
@@ -131,7 +177,15 @@ const _manageError = (origin, error, url, external = false) => {
         url
     };
 
-    if (error.status === 403 && !external) {
+    if (error.statusText === 'Canceled' || error.statusText === 'Cancelled') {
+        return error;
+    } else if (external) {
+        if (error.status === 400) {
+            return error;
+        }
+
+        _reportError(error, errorInfo);
+    } else if (error.status === 403 && !external) {
         // Forbidden
 
         // Notification.error(I18n.t('js.helpers.errors.not_authorized'));
@@ -141,8 +195,6 @@ const _manageError = (origin, error, url, external = false) => {
         //     history.back();
         // }
 
-        return error;
-    } else if (error.statusText === 'Canceled' || error.statusText === 'Cancelled') {
         return error;
     } else if (error.status === 404 && !external) {
         // Not Found
@@ -159,51 +211,10 @@ const _manageError = (origin, error, url, external = false) => {
         // }
 
         return error;
-    } else if (error.status === 500 || external) {
+    } else if (error.status === 500) {
         // Internal Server Error
 
-        if (!error.bodyUsed) {
-            const contentType = error.headers.get('content-type');
-            if (contentType && contentType.indexOf('application/json') !== -1) {
-                return error.json()
-                    .then((parsedError) => {
-                        if (GlobalEnvironment.NODE_ENV !== 'production') {
-                            window.log_on_screen([parsedError.errors, parsedError.details, parsedError.message].filter(Boolean).join(' / ')
-                                .split('\n')
-                                .slice(0, 10));
-                        } else {
-                            Notification.error(I18n.t('js.helpers.errors.server'));
-                        }
-
-                        pushError(error, {...errorInfo, ...parsedError});
-                    });
-            } else {
-                return error.text()
-                    .then((text) => {
-                        if (GlobalEnvironment.NODE_ENV !== 'production') {
-                            window.log_on_screen(
-                                text.split('\n')
-                                    .slice(0, 10)
-                            );
-                        } else {
-                            Notification.error(I18n.t('js.helpers.errors.server'));
-                        }
-
-                        pushError(error, {...errorInfo});
-                    });
-            }
-        } else {
-            if (GlobalEnvironment.NODE_ENV !== 'production') {
-                window.log_on_screen(
-                    error.split('\n')
-                        .slice(0, 10)
-                );
-            } else {
-                Notification.error(I18n.t('js.helpers.errors.server'));
-            }
-
-            pushError(error, errorInfo);
-        }
+        _reportError(error, errorInfo);
     } else {
         pushError(error, errorInfo);
     }
@@ -325,10 +336,18 @@ const _handleResponse = (response) => {
     } else if (response.status === 422) { // Response must have a primary "errors" key to be processed
         return response.json();
     } else if (!response.ok) {
-        return response.json()
-            .then((status) => ({
-                errors: status.error || status.errors || response.statusText
-            }));
+        const contentType = response.headers.get('content-type');
+        if (contentType && contentType.indexOf('application/json') !== -1) {
+            return response.json()
+                .then((status) => ({
+                    errors: status.error || status.errors || response.statusText
+                }));
+        } else {
+            return response.text()
+                .then((text) => ({
+                    errors: text
+                }));
+        }
     } else if (response.status !== 204) { // No content response
         return response.json();
     }
