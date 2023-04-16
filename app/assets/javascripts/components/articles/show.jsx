@@ -192,7 +192,7 @@ class ArticleShow extends React.Component {
             this._highlightMatchedContent();
         }
 
-        if (!this.props.isFetching && (!Object.equals(this.props.routeParams, prevProps.routeParams) || this.props.article.slug !== this.props.routeParams.articleSlug)) {
+        if (this.props.article && !this.props.isFetching && (!Object.equals(this.props.routeParams, prevProps.routeParams) || this.props.article.slug !== this.props.routeParams.articleSlug)) {
             this._request = this.props.fetchArticle(this.props.routeParams.userSlug, this.props.routeParams.articleSlug);
 
             if (this.props.isUserConnected) {

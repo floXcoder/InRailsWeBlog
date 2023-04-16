@@ -53,8 +53,11 @@ Rails.application.configure do
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
 
-  # "Pretty" HTML format output
-  Slim::Engine.set_options pretty: true
+  config.action_controller.asset_host          = ENV['WEBSITE_ASSET']
+  config.action_controller.default_url_options = {
+    host: ENV['WEBSITE_ADDRESS'],
+    port: ENV['WEBSITE_PORT']
+  }
 
   # Raises error for missing translations
   config.i18n.raise_on_missing_translations = true
@@ -66,4 +69,7 @@ Rails.application.configure do
     config.logger = Logger.new(nil)
     config.log_level = :error
   end
+
+  # "Pretty" HTML format output
+  Slim::Engine.set_options pretty: true
 end

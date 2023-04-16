@@ -19,6 +19,9 @@ RSpec.configure do |config|
 
   config.before(:all) do
     DatabaseCleaner.start
+
+    # Clear all pending jobs
+    Sidekiq::Worker.clear_all
   end
 
   config.around(:each, search: true) do |example|

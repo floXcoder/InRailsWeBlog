@@ -13,7 +13,7 @@ Geocoder.configure(
   },
 
   # Caching
-  cache: Redis.new(host: ENV['REDIS_HOST'], port: ENV['REDIS_PORT'], db: ENV['REDIS_DB'].to_i), # cache object (must respond to #[], #[]=, and #keys)
+  cache: Rails.env.test? ? nil : Redis.new(host: ENV['REDIS_HOST'], port: ENV['REDIS_PORT'], db: ENV['REDIS_DB'].to_i), # cache object (must respond to #[], #[]=, and #keys)
   cache_options: {
     expiration: InRailsWeBlog.settings.cache_time, # Redis ttl
     prefix: "_#{ENV['WEBSITE_NAME']}_#{Rails.env}:geocoder:" # prefix (string) to use for all cache keys

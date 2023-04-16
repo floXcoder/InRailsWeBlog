@@ -203,7 +203,13 @@ module Kernel
       src = caller.first.gsub("#{Rails.root}/", '')
       p src
       messages.each do |message|
-        message.respond_to?(:to_unsafe_h) ? p(message.to_unsafe_h) : p(message)
+        if message.respond_to?(:to_unsafe_h)
+          ap(message.to_unsafe_h)
+        elsif message.is_a? ActiveModel::Errors
+          ap message.errors
+        else
+          ap(message)
+        end
       end
       p '*** END ***'
     else
@@ -212,7 +218,13 @@ module Kernel
       src = caller.first.gsub("#{Rails.root}/", '')
       ap src, color: { string: :purpleish }
       messages.each do |message|
-        message.respond_to?(:to_unsafe_h) ? ap(message.to_unsafe_h) : ap(message)
+        if message.respond_to?(:to_unsafe_h)
+          ap(message.to_unsafe_h)
+        elsif message.is_a? ActiveModel::Errors
+          ap message.errors
+        else
+          ap(message)
+        end
       end
       ap '*** END ***', color: { string: :green }
     end

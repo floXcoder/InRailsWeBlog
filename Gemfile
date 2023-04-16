@@ -21,13 +21,13 @@ gem 'secure_headers',           '6.5.0'
 
 # JSON
 gem 'jsonapi-serializer',       '2.2.0'
-gem 'oj',                       '3.14.2'
+gem 'oj',                       '3.14.3'
 
 # Use slim instead of erb
 gem 'slim-rails',               '3.6.2'
 
 # Internationalization
-gem 'i18n-js',                  '4.2.2'
+gem 'i18n-js',                  '4.2.3'
 gem 'geocoder',                 '1.8.1'
 gem 'maxminddb',                '0.1.22'
 
@@ -42,15 +42,15 @@ gem 'auto_strip_attributes',    '2.6.0'
 gem 'sanitize',                 '6.0.1'
 
 # Run asynschronous process
-gem 'sidekiq',                  '7.0.7'
+gem 'sidekiq',                  '7.0.8'
 
 # Redis session store and cache
 gem 'redis-namespace',          '1.10.0'
 gem 'redis-session-store',      '0.11.5'
-gem 'connection_pool',          '2.3.0'
+gem 'connection_pool',          '2.4.0'
 
 # Authentification
-gem 'devise',                   '4.9.0'
+gem 'devise',                   '4.9.2'
 
 # Authorization mechanism
 gem 'pundit',                   '2.3.0'
@@ -61,8 +61,8 @@ gem 'mini_magick',              '4.12.0'
 gem 'image_processing',         '1.12.2'
 
 # Search in database
-gem 'searchkick',               '5.2.1'
-gem 'elasticsearch',            '8.6.0'
+gem 'searchkick',               '5.2.3'
+gem 'elasticsearch',            '8.7.0'
 gem 'typhoeus',                 '1.4.0'
 
 # Comments
@@ -85,7 +85,7 @@ gem 'sitemap_generator',        '6.3.0'
 
 # Dummy data
 gem 'factory_bot_rails',        '6.2.0',  require: false
-gem 'faker',                    '3.1.1', require: false
+gem 'faker',                    '3.2.0', require: false
 
 # Deployment
 gem 'capistrano',               '3.17.2', require: false
@@ -99,10 +99,10 @@ gem 'bcrypt_pbkdf',             '1.1.0'
 
 # SEO
 gem 'webdrivers',               '5.2.0',  require: false
-gem 'selenium-webdriver',       '4.8.1',  require: false
+gem 'selenium-webdriver',       '4.8.6',  require: false
 
 # Server
-gem 'puma',                     '6.1.1'
+gem 'puma',                     '6.2.1'
 
 group :development do
   # Debugging tool
@@ -148,9 +148,9 @@ group :development, :test do
   gem 'bootsnap',                   '1.16.0', require: false
 
   # Check errors
-  gem 'rubocop',                    '1.48.1', require: false
-  gem 'rubocop-rails',              '2.18.0', require: false
-  gem 'rubocop-performance',        '1.16.0', require: false
+  gem 'rubocop',                    '1.50.1', require: false
+  gem 'rubocop-rails',              '2.19.1', require: false
+  gem 'rubocop-performance',        '1.17.1', require: false
   gem 'rubocop-rspec',              '2.19.0', require: false
 
   # static analyzer
@@ -168,7 +168,7 @@ group :production do
   gem 'sentry-rails',     '5.8.0'
 
   # Check slow DB requests
-  gem 'pghero',           '3.3.1'
+  gem 'pghero',           '3.3.2'
   gem 'pg_query',         '4.2.0'
 
   # Improve log outputs
