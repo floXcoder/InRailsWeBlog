@@ -25,8 +25,14 @@ module Users
         @current_user&.locale ||
         @params[:default_locale] ||
         locale_session ||
-        # locale_from_browser ||
+        locale_from_browser ||
         I18n.default_locale
+
+      # Format locale param: ensure unit are inside available locales
+      if I18n.available_locales.exclude?(new_locale.to_sym)
+        matching_locale = I18n.available_locales.find { |reference_locale| new_locale.to_s.include?(reference_locale.to_s) }
+        new_locale      = matching_locale || I18n.default_locale
+      end
 
       if @current_user && (@params[:force_locale].presence || @params[:locale].presence)
         # new_locale = current_customer.locale if request.referrer && !request.referrer&.include?(request.host)
@@ -43,7 +49,7 @@ module Users
       #   @current_admin.update_attribute(:locale, new_locale.to_s) if @current_admin.locale != new_locale
       # end
 
-      return new_locale
+      return new_locale.to_sym
     end
 
     def locale_from_browser

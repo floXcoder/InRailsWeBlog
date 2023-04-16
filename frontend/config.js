@@ -141,11 +141,11 @@ module.exports = {
             additionalFiles: [
                 {
                     url: 'offline.html',
-                    revision: '1'
+                    revision: null
                 },
                 {
                     url: 'favicon.ico',
-                    revision: '1'
+                    revision: null
                 }
             ],
             runtimeCaching: [

@@ -480,6 +480,9 @@ RSpec/BeforeAfterAll:
 RSpec/BeNil:
   Enabled: true
 
+RSpec/Capybara:
+  Enabled: false
+
 RSpec/ChangeByZero:
   Enabled: true
 
@@ -493,13 +496,10 @@ RSpec/DuplicatedMetadata:
   Enabled: true
 
 RSpec/ExampleLength:
-  Max: 20
+  Max: 30
 
 RSpec/FactoryBot/SyntaxMethods:
   Enabled: true
-
-RSpec/Capybara:
-  Enabled: false
 
 RSpec/ExcessiveDocstringSpacing:
   Enabled: true
@@ -520,7 +520,7 @@ RSpec/LeadingSubject:
   Enabled: false
 
 RSpec/MultipleExpectations:
-  Max: 10
+  Max: 20
 
 RSpec/MultipleMemoizedHelpers:
   Max: 8
@@ -550,7 +550,7 @@ RSpec/Rails/HaveHttpStatus:
   Enabled: true
 
 RSpec/Rails/InferredSpecType:
-  Enabled: true
+  Enabled: false
 
 RSpec/Rails/MinitestAssertions:
   Enabled: true

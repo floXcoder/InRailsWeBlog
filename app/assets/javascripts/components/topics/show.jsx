@@ -74,7 +74,7 @@ class TopicShow extends React.Component {
     componentDidUpdate(prevProps) {
         this._initRequest = false;
 
-        if (!Object.equals(this.props.routeParams, prevProps.routeParams) || this.props.topic.slug !== this.props.routeParams.topicSlug) {
+        if (this.props.topic && (!Object.equals(this.props.routeParams, prevProps.routeParams) || this.props.topic.slug !== this.props.routeParams.topicSlug)) {
             this.props.fetchTopic(this.props.routeParams.userSlug, this.props.routeParams.topicSlug);
         }
     }

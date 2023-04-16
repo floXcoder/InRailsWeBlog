@@ -60,7 +60,7 @@ class ArticleShared extends React.Component {
 
         this._checkArticleOwner();
 
-        if (!Object.equals(this.props.routeParams, prevProps.routeParams) || this.props.article.slug !== this.props.routeParams.articleSlug) {
+        if (this.props.article && (!Object.equals(this.props.routeParams, prevProps.routeParams) || this.props.article.slug !== this.props.routeParams.articleSlug)) {
             this._request = this.props.fetchSharedArticle(this.props.routeParams.articleSlug, this.props.routeParams.publicLink);
         }
     }
