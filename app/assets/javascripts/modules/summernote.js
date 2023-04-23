@@ -235,7 +235,7 @@ $.extend($.summernote.options.keyMap.mac, {
     'CMD+L': 'insertUnorderedList',
     'CMD+K': 'linkDialog.show',
     // 'CMD+NUM0': 'removeFormat',
-    'CMD+ENTER': 'Save',
+    'CMD+ENTER': 'Save'
 });
 
 jQuery.fn.removeAttributes = function () {
@@ -397,14 +397,17 @@ $.extend($.summernote.plugins, {
                         $.each(range.nodes(null, {
                             includeAncestor: true,
                         }), (idx, element) => {
-                            $(element).removeAttributes();
+                            $(element)
+                                .removeAttributes();
                             if (element.parentElement.className !== 'note-editable') {
-                                $(element.parentElement).removeAttributes();
+                                $(element.parentElement)
+                                    .removeAttributes();
                             }
 
                             if (element.children) {
                                 $.each(element.children, (id, child) => {
-                                    $(child).removeAttributes();
+                                    $(child)
+                                        .removeAttributes();
                                 });
                             }
                         });
@@ -467,8 +470,8 @@ $.extend($.summernote.plugins, {
 
         this.events = {
             'summernote.keydown': function (we, event) {
-                // CTRL+Y for simple code
-                if (event.keyCode === 89 && event.ctrlKey) {
+                // CTRL+MAJ+E for simple code
+                if (event.keyCode === 69 && event.ctrlKey && event.shiftKey) {
                     event.preventDefault();
                     applyTag(context, 'code');
                     context.triggerEvent('change', $note.summernote('code'));
@@ -494,6 +497,8 @@ $.extend($.summernote.plugins, {
                     formatCodeBlock();
                     document.execCommand('FormatBlock', false, 'pre');
                     context.triggerEvent('change', $note.summernote('code'));
+
+                    [...document.getElementsByTagName('pre')].forEach((preElement) => preElement.setAttribute('spellcheck', 'false'));
                 }
             });
 
@@ -503,11 +508,13 @@ $.extend($.summernote.plugins, {
         this.events = {
             'summernote.keydown': function (we, event) {
                 // CTRL+E for pre
-                if (event.keyCode === 69 && event.ctrlKey) {
+                if (event.keyCode === 69 && event.ctrlKey && !event.shiftKey) {
                     event.preventDefault();
                     formatCodeBlock();
                     document.execCommand('FormatBlock', false, 'pre');
                     context.triggerEvent('change', $note.summernote('code'));
+
+                    [...document.getElementsByTagName('pre')].forEach((preElement) => preElement.setAttribute('spellcheck', 'false'));
                 }
             }
         };

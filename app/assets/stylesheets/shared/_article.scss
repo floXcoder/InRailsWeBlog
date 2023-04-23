@@ -72,11 +72,11 @@
 
 .article-sidebar-article-link {
   color: $text-color-secondary;
-  font-size: .8rem;
+  font-size: .75rem;
 }
 
 .article-sidebar-current-link {
-  font-size: .9rem;
+  font-size: .85rem;
   font-weight: 600;
 }
 
@@ -997,8 +997,9 @@
   }
 
   table {
-    border-collapse: collapse;
     width: 100%;
+    margin-top: 1.2rem;
+    border-collapse: collapse;
 
     td,
     th {

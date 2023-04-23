@@ -6,7 +6,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const config = require('../config').webpack;
-const webPackConfig = module.exports = require('./main.config');
+let webPackConfig = module.exports = require('./main.config');
 
 webPackConfig.mode = 'development';
 
@@ -14,21 +14,28 @@ webPackConfig.output = _.merge(webPackConfig.output, {
     filename: config.test.filename + '.js'
 });
 
-webPackConfig.optimization = {
-    emitOnErrors: true,
-    concatenateModules: false,
-    removeAvailableModules: false,
-    removeEmptyChunks: false,
+webPackConfig = _.merge(webPackConfig, {
+    output: {
+        publicPath: config.test.assetPath,
+        pathinfo: false, // Increase garbage collection used
+        chunkFilename: config.test.chunkFilename + '.js'
+    },
 
-    splitChunks: {
-        chunks: 'initial',
-        minRemainingSize: 0,
-        minSize: 50_000,
-        minChunks: 2,
-        maxInitialRequests: 20,
-        maxAsyncRequests: 20
+    cache: false,
+
+    devtool: false,
+
+    experiments: {
+        backCompat: true,
+        asyncWebAssembly: true,
+        futureDefaults: false,
+        layers: true,
+        lazyCompilation: false,
+        outputModule: true,
+        syncWebAssembly: true,
+        topLevelAwait: true
     }
-};
+});
 
 webPackConfig.plugins.push(
     new webpack.DefinePlugin({
@@ -44,7 +51,7 @@ webPackConfig.plugins.push(
     new CopyWebpackPlugin({
         patterns: [{
             from: config.translations,
-            to: 'translations/[path]/' + config.development.filename + '[ext]', // keep directory tree
+            to: 'translations/[path]' + config.test.filename + '[ext]', // keep directory tree
             toType: 'template'
         }]
     }),

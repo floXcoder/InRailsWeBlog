@@ -42,7 +42,7 @@ gem 'auto_strip_attributes',    '2.6.0'
 gem 'sanitize',                 '6.0.1'
 
 # Run asynschronous process
-gem 'sidekiq',                  '7.0.8'
+gem 'sidekiq',                  '7.0.9'
 
 # Redis session store and cache
 gem 'redis-namespace',          '1.10.0'
@@ -99,10 +99,10 @@ gem 'bcrypt_pbkdf',             '1.1.0'
 
 # SEO
 gem 'webdrivers',               '5.2.0',  require: false
-gem 'selenium-webdriver',       '4.8.6',  require: false
+gem 'selenium-webdriver',       '4.9.0',  require: false
 
 # Server
-gem 'puma',                     '6.2.1'
+gem 'puma',                     '6.2.2'
 
 group :development do
   # Debugging tool
@@ -148,10 +148,10 @@ group :development, :test do
   gem 'bootsnap',                   '1.16.0', require: false
 
   # Check errors
-  gem 'rubocop',                    '1.50.1', require: false
+  gem 'rubocop',                    '1.50.2', require: false
   gem 'rubocop-rails',              '2.19.1', require: false
   gem 'rubocop-performance',        '1.17.1', require: false
-  gem 'rubocop-rspec',              '2.19.0', require: false
+  gem 'rubocop-rspec',              '2.20.0', require: false
 
   # static analyzer
   gem 'rails_best_practices',       '1.23.2', require: false
@@ -164,11 +164,11 @@ group :production do
   gem 'whenever',         '1.0.0', require: false
 
   # Errors reporting
-  gem 'sentry-ruby',      '5.8.0'
-  gem 'sentry-rails',     '5.8.0'
+  gem 'sentry-ruby',      '5.9.0'
+  gem 'sentry-rails',     '5.9.0'
 
   # Check slow DB requests
-  gem 'pghero',           '3.3.2'
+  gem 'pghero',           '3.3.3'
   gem 'pg_query',         '4.2.0'
 
   # Improve log outputs

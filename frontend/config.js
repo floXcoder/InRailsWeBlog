@@ -3,7 +3,12 @@ const yenv = require('yenv');
 const assetDir = './app/assets';
 // const frontendDir = './node_modules';
 
-const appEnv = yenv('./config/application.yml');
+let appEnv;
+if (process.env.CI_SERVER) {
+    appEnv = process.env;
+} else {
+    appEnv = yenv('./config/application.yml');
+}
 
 module.exports = {
     webpack: {

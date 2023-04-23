@@ -4,12 +4,6 @@ RSpec.configure do |config|
   config.before(:suite) do
     DatabaseCleaner.clean_with(:truncation)
 
-    # Reindex models
-    User.reindex
-    Article.reindex
-    Tag.reindex
-    Topic.reindex
-
     Searchkick.disable_callbacks
   end
 

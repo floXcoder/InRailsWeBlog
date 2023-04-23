@@ -8,6 +8,7 @@ import Scrollbar from '../../theme/scrollbar';
 import SingleTimeline from '../../theme/timeline/single';
 import SingleTimelineItem from '../../theme/timeline/singleItem';
 
+
 function ArticleTimelineDisplay({
                                     categorizedArticles,
                                     articlePagination,
