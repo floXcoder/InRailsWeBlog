@@ -14,7 +14,7 @@ let webPackConfig = module.exports = require('./main.config');
 
 webPackConfig.mode = 'production';
 
-webPackConfig.target = ['web', 'es5'];
+webPackConfig.target = ['web'];
 
 // Add new options to babel loader
 webPackConfig.module.rules[0].options.cacheCompression = true;
@@ -101,24 +101,15 @@ webPackConfig.optimization = {
     minimizer: [
         new TerserPlugin({
             parallel: true,
+            extractComments: false,
             terserOptions: {
-                parse: {
-                    // Let terser parse ecma 8 code but always output
-                    // ES5 compliant code for older browsers
-                    ecma: 8
-                },
-                compress: {
-                    ecma: 5,
-                    warnings: false,
-                    comparisons: false
-                },
-                mangle: { safari10: true },
-                output: {
-                    ecma: 5,
+                compress: true,
+                ecma: 2015,
+                ie8: false,
+                module: false,
+                format: {
                     comments: false,
-                    ascii_only: true
-                },
-                module: false
+                }
             }
         }),
         new CssMinimizerPlugin({
