@@ -18,6 +18,7 @@ Rails.application.configure do
   # Configure public file server for tests with Cache-Control for performance.
   config.public_file_server.enabled = true
   config.public_file_server.headers = {
+    'Access-Control-Allow-Origin' => '*',
     'Cache-Control' => "public, max-age=#{1.hour.to_i}"
   }
 
