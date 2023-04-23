@@ -9449,9 +9449,11 @@
                   var range = _this.context.invoke('editor.getLastRange');
 
                   var wordRange = range.getWordRange();
-                  var bnd = func.rect2bnd(lists.last(wordRange.getClientRects()));
-                  _this.pageX = bnd.left;
-                  _this.pageY = bnd.top;
+                  if (lists.last(wordRange.getClientRects())) {
+                    var bnd = func.rect2bnd(lists.last(wordRange.getClientRects()));
+                    _this.pageX = bnd.left;
+                    _this.pageY = bnd.top;
+                  }
                 } else {
                   _this.pageX = event.pageX;
                   _this.pageY = event.pageY;

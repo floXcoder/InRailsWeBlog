@@ -1175,7 +1175,7 @@ fr:
         title: "Aide : "
         article_hint: "pour lier articles"
       buttons:
-        code: "Code simple"
+        code: "Code simple (CTRL+MAJ+E)"
         pre: "Code multi-line (CTRL+E)"
         advice: "Conseil"
         secret: "Secret"

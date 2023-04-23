@@ -74,7 +74,8 @@ class ArticleSummaryDisplay extends React.Component {
 
     render() {
         return (
-            <Observer onChange={this._handleViewportChange}>
+            <Observer threshold={0.2}
+                      onChange={this._handleViewportChange}>
                 <div id={`article-${this.props.article.id}`}
                      className={classNames(this.props.className, {
                          'is-hidden': !this.state.isVisible && !window.seoMode,

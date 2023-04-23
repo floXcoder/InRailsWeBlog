@@ -108,7 +108,8 @@ class ArticleGridDisplay extends React.PureComponent {
         const isInventoryMode = this.props.article.mode === 'inventory';
 
         return (
-            <Observer onChange={this._handleViewportChange}>
+            <Observer threshold={0.2}
+                      onChange={this._handleViewportChange}>
                 <Card component="article"
                       id={`article-${this.props.article.id}`}
                       className={classNames('article-card-card', {

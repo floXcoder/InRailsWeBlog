@@ -1,7 +1,7 @@
 'use strict';
 
-import produce, {
-    enableES5
+import {
+    produce
 } from 'immer';
 
 import {
@@ -22,8 +22,6 @@ import {
     searchReducer
 } from './searchReducer';
 import commentReducer from './commentReducer';
-
-enableES5();
 
 export default combineReducers(produce, {
     adminState: adminReducer,

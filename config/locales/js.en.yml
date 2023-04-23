@@ -1175,7 +1175,7 @@ en:
         title: "Help: "
         article_hint: "to link articles"
       buttons:
-        code: "Simple code"
+        code: "Simple code (CTRL+MAJ+E)"
         pre: "Multi-line code (CTRL+E)"
         advice: "Advice"
         secret: "Secret"
