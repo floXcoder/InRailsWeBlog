@@ -239,7 +239,7 @@
 .article-card-title {
   font-size: $h1-size-grid;
   font-weight: $h1-weight;
-  line-height: $h1-line-height;
+  line-height: $h1-line-height-grid;
   margin: 1rem auto 0;
   letter-spacing: $h1-spacing;
 
@@ -809,7 +809,7 @@
   // h1 should not appear inside content (replaced by h2)
   h1 {
     clear: left;
-    font-size: 2.6rem;
+    font-size: 2.2rem;
     font-style: normal;
     font-weight: 700;
     letter-spacing: 1px;
@@ -819,7 +819,7 @@
 
   h2 {
     clear: left;
-    font-size: 2rem;
+    font-size: 1.8rem;
     font-style: normal;
     font-weight: 500;
     letter-spacing: 1px;
@@ -829,7 +829,7 @@
 
   h3 {
     clear: left;
-    font-size: 1.6rem;
+    font-size: 1.5rem;
     font-style: normal;
     font-weight: 500;
     letter-spacing: 1.2px;
