@@ -146,3 +146,28 @@
 //  font-style: italic;
 //  font-display: swap;
 //}
+
+// USed to display code
+@font-face {
+  font-family: 'Source Code Pro';
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  src: local('SourceCodePro-Regular'), url('#{$font-path}SourceCodePro-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Source Code Pro';
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+  src: local('SourceCodePro-Bold'), url('#{$font-path}SourceCodePro-Bold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Source Code Pro';
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  src: local('SourceCodePro-Bold'), url('#{$font-path}SourceCodePro-Bold.ttf') format('truetype');
+}

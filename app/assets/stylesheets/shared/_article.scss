@@ -89,7 +89,7 @@
   display: flex;
   padding: 0;
   //flex-wrap: wrap;
-  font-size: 1rem;
+  font-size: .9rem;
   align-items: center;
   list-style-type: none;
 
@@ -237,7 +237,7 @@
 }
 
 .article-card-title {
-  font-size: $h1-size;
+  font-size: $h1-size-grid;
   font-weight: $h1-weight;
   line-height: $h1-line-height;
   margin: 1rem auto 0;
@@ -950,23 +950,6 @@
     }
   }
 
-  code {
-    padding: 2px 4px;
-    font-size: 90%;
-    font-weight: 400;
-    letter-spacing: 0.00938rem;
-    color: $secondary-color-dark;
-    background-color: #5f64c518;
-    border-radius: 4px;
-
-    code {
-      font-size: inherit;
-      padding: 0;
-      color: inherit;
-      background: none;
-    }
-  }
-
   blockquote {
     border-left: 3px solid $border-dark-color;
     font-style: italic;
@@ -976,13 +959,27 @@
     padding-left: 2.5rem;
   }
 
+  code {
+    padding: 0 1px;
+    font-size: 90%;
+    font-weight: 600;
+    color: $secondary-color;
+
+    code {
+      font-size: inherit;
+      padding: 0;
+      color: inherit;
+      background: none;
+    }
+  }
+
   pre {
     display: block;
     width: 100%;
     margin: .6rem 0;
     padding: .5rem;
-    font-size: .85rem;
-    //background-color: #fff;
+    color: #cfd1d5;
+    background: #282c34;
     border: 2px solid $border-color;
     border-radius: .4rem;
     white-space: pre-wrap;

@@ -2,7 +2,8 @@
 
 const ArticleErrorField = function ({errors}) {
     return (
-        <div className="article-errors">
+        <div id="article-errors"
+             className="article-errors">
             {
                 errors.map((error, i) => (
                     <p key={i}

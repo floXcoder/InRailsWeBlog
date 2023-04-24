@@ -46,6 +46,7 @@ import {
 import {
     onPageReady
 } from '../../loaders/lazyLoader';
+import {scrollTo} from '../../../modules/utils';
 
 
 export default function articleMutationManager(mode) {
@@ -183,6 +184,8 @@ export default function articleMutationManager(mode) {
                     if (this.props.isTagError) {
                         Notification.warn(this.props.articleErrors);
                     } else {
+                        Utils.scrollTo('article-errors', 135);
+
                         Notification.error(this.props.articleErrors);
                     }
                 }
@@ -306,12 +309,12 @@ export default function articleMutationManager(mode) {
                         };
                     }
 
-                    formatTagArticles(formData, this.state.article?.tags, tagParams);
-
                     // Merge previous data if any
                     if (this.state.article) {
                         formData = {...this.state.article, ...formData};
                     }
+
+                    formatTagArticles(formData, this.state.article?.tags, tagParams);
 
                     if (!formData.visibility && this.props.currentTopic && this.props.currentTopic.visibility === 'only_me') {
                         formData.visibility = 'only_me';

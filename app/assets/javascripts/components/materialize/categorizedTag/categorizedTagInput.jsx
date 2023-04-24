@@ -258,7 +258,8 @@ export default class CategorizedTagInput extends React.Component {
                 isPanelOpen: true
             });
 
-            this._input.focusInput();
+            // this._input.focusInput();
+
             if (this.props.onChange) {
                 this.props.onChange(newTags);
             }

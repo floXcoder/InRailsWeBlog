@@ -92,4 +92,9 @@ export const formatTagArticles = (formData, articleTags = [], params = {}) => {
         delete formData.parent_tags;
         delete formData.child_tags;
     }
+
+    delete formData.parentTagSlugs;
+    delete formData.parentTagSlug;
+    delete formData.childTagSlugs;
+    delete formData.childTagSlug;
 };
