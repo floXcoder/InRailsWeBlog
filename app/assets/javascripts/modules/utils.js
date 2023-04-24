@@ -690,14 +690,14 @@ export const supportScroll = () => ('onscroll' in window) && !(/glebot/.test(nav
 //     }
 // }
 
-// export const scrollTo = (elementId, margin = 40, behavior = 'smooth') => {
-//     const element = document.getElementById(elementId);
-//     if (!element) {
-//         return;
-//     }
-//
-//     window.scroll({
-//         top: element.getBoundingClientRect().top + window.scrollY - margin,
-//         behavior: behavior
-//     });
-// };
+export const scrollTo = (elementId, margin = 40, behavior = 'smooth') => {
+    const element = document.getElementById(elementId);
+    if (!element) {
+        return;
+    }
+
+    window.scroll({
+        top: element.getBoundingClientRect().top + window.scrollY - margin,
+        behavior: behavior
+    });
+};

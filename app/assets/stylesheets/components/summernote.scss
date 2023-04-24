@@ -1604,13 +1604,10 @@ html .note-fullscreen-body, body .note-fullscreen-body {
   }
 
   code {
-    padding: 2px 4px;
+    padding: 0 1px;
     font-size: 90%;
     font-weight: 600;
-    letter-spacing: 0.00938rem;
-    color: $secondary-color-dark;
-    //background-color: #5f64c518;
-    border-radius: 4px;
+    color: $secondary-color;
 
     code {
       padding: 0;
@@ -1624,11 +1621,10 @@ html .note-fullscreen-body, body .note-fullscreen-body {
   pre {
     display: block;
     width: 100%;
-    margin: 1.2rem 0 .6rem;
-    font-size: 85%;
-    color: #cfd1d5;
-    background: #282c34;
+    margin: 1rem 0 .6rem;
     padding: .5rem;
+    color: #d5d5d9;
+    background: #282c34;
     border: 2px solid $border-color;
     border-radius: .4rem;
     white-space: pre-wrap;
