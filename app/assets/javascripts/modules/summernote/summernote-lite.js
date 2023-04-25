@@ -7,7 +7,7 @@
  * Copyright 2013- Alan Hong and contributors
  * Summernote may be freely distributed under the MIT license.
  *
- * Date: 2023-01-02T10:17Z
+ * Date: 2023-04-25T08:12Z
  *
  */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -19,7 +19,7 @@
     var a = typeof exports === 'object' ? factory(require("jquery")) : factory(root["jquery"]);
     for(var i in a) (typeof exports === 'object' ? exports : root)[i] = a[i];
   }
-})(self, function(__WEBPACK_EXTERNAL_MODULE__4886__) {
+})(self, (__WEBPACK_EXTERNAL_MODULE__4886__) => {
   return /******/ (() => { // webpackBootstrap
     /******/ 	"use strict";
     /******/ 	var __webpack_modules__ = ({
@@ -5396,7 +5396,7 @@
 
             if (isTextChanged) {
               rng = rng.deleteContents();
-              var anchor = rng.insertNode(external_root_jquery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()('<A>' + linkText + '</A>')[0]);
+              var anchor = rng.insertNode(external_root_jquery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()('<A></A>').text(linkText)[0]);
               anchors.push(anchor);
             } else {
               anchors = _this.style.styleNodes(rng, {
@@ -5487,6 +5487,8 @@
             } else {
               $target = external_root_jquery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()(_this.restoreTarget()).detach();
             }
+
+            _this.setLastRange(range.createFromSelection($target).select());
 
             _this.context.triggerEvent('media.delete', $target, _this.$editable);
           });
@@ -6382,17 +6384,17 @@
             var clipboardData = event.originalEvent.clipboardData;
 
             if (clipboardData && clipboardData.items && clipboardData.items.length) {
-              var item = clipboardData.items.length > 1 ? clipboardData.items[1] : lists.head(clipboardData.items);
+              var clipboardFiles = clipboardData.files;
+              var clipboardText = clipboardData.getData('Text'); // paste img file
 
-              if (item.kind === 'file' && item.type.indexOf('image/') !== -1) {
-                // paste img file
-                this.context.invoke('editor.insertImagesOrCallback', [item.getAsFile()]);
+              if (clipboardFiles.length > 0) {
+                this.context.invoke('editor.insertImagesOrCallback', clipboardFiles);
                 event.preventDefault();
-              } else if (item.kind === 'string') {
-                // paste text with maxTextLength check
-                if (this.context.invoke('editor.isLimited', clipboardData.getData('Text').length)) {
-                  event.preventDefault();
-                }
+              } // paste text with maxTextLength check
+
+
+              if (clipboardText.length > 0 && this.context.invoke('editor.isLimited', clipboardText.length)) {
+                event.preventDefault();
               }
             } else if (window.clipboardData) {
               // for IE
@@ -6457,6 +6459,13 @@
               this.attachDragAndDropEvent();
             }
           }
+        }, {
+          key: "isTextContent",
+          value: function isTextContent(event) {
+            return event.originalEvent.dataTransfer.types.some(function (type) {
+              return type === 'text/html' || type === 'text/plain';
+            });
+          }
           /**
            * attach Drag and Drop Events
            */
@@ -6470,6 +6479,10 @@
             var $dropzoneMessage = this.$dropzone.find('.note-dropzone-message');
 
             this.documentEventHandlers.onDragenter = function (e) {
+              if (_this.isTextContent(e)) {
+                return;
+              }
+
               var isCodeview = _this.context.invoke('codeview.isActivated');
 
               var hasEditorSize = _this.$editor.width() > 0 && _this.$editor.height() > 0;
@@ -6507,17 +6520,29 @@
 
             this.$eventListener.on('dragenter', this.documentEventHandlers.onDragenter).on('dragleave', this.documentEventHandlers.onDragleave).on('drop', this.documentEventHandlers.onDrop); // change dropzone's message on hover.
 
-            this.$dropzone.on('dragenter', function () {
+            this.$dropzone.on('dragenter', function (event) {
+              if (_this.isTextContent(event)) {
+                return;
+              }
+
               _this.$dropzone.addClass('hover');
 
               $dropzoneMessage.text(_this.lang.image.dropImage);
             }).on('dragleave', function () {
+              if (_this.isTextContent(event)) {
+                return;
+              }
+
               _this.$dropzone.removeClass('hover');
 
               $dropzoneMessage.text(_this.lang.image.dragImageHere);
             }); // attach dropImage
 
             this.$dropzone.on('drop', function (event) {
+              if (_this.isTextContent(event)) {
+                return;
+              }
+
               var dataTransfer = event.originalEvent.dataTransfer; // stop the browser from opening the dropped content
 
               event.preventDefault();
@@ -9449,8 +9474,10 @@
                   var range = _this.context.invoke('editor.getLastRange');
 
                   var wordRange = range.getWordRange();
-                  if (lists.last(wordRange.getClientRects())) {
-                    var bnd = func.rect2bnd(lists.last(wordRange.getClientRects()));
+                  var lastWordRect = lists.last(wordRange.getClientRects());
+
+                  if (lastWordRect) {
+                    var bnd = func.rect2bnd(lastWordRect);
                     _this.pageX = bnd.left;
                     _this.pageY = bnd.top;
                   }
@@ -10135,7 +10162,8 @@
           key: "formatPaste",
           value: function formatPaste(event) {
             event.stopImmediatePropagation();
-            this.context.invoke('editor.undo');
+            this.context.invoke('editor.undo'); // Keep return to line
+
             var plainContent = external_root_jquery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()(this.pasteContent.replaceAll('</p>', '</p>\n').replaceAll('<br/>', '<br/>\n').replaceAll('</div>', '</div>\n').replaceAll('</li>', '</li>\n').replaceAll('</ol>', '</ol>\n').replaceAll('</h1>', '</h1>\n').replaceAll('</h2>', '</h2>\n').replaceAll('</h3>', '</h3>\n').replaceAll('</h4>', '</h4>\n').replaceAll('</h5>', '</h5>\n')).text();
             this.insertContent('insertText', plainContent);
             this.$popover.hide();
@@ -10351,7 +10379,7 @@
           hintDirection: 'bottom',
           codeLanguages: [],
           codeLanguagePrefix: null,
-          // Disable past format popover
+          // Disable paste format popover
           noPasteFormat: false,
           styleTags: ['p', 'blockquote', 'pre', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
           fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New', 'Helvetica Neue', 'Helvetica', 'Impact', 'Lucida Grande', 'Tahoma', 'Times New Roman', 'Verdana'],
