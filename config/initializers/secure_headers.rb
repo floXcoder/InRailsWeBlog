@@ -31,7 +31,7 @@ SecureHeaders::Configuration.default do |config|
       base_uri:         ["'self'"],
       default_src:      ["'self'", 'ws:', 'wss:', ENV['WEBSITE_ASSET'], 'www.youtube.com', 'vimeo.com', 'vine.com', 'www.instagram.com', 'www.dailymotion.com', 'v.youku.com'].compact,
       connect_src:      ["'self'", 'ws:', 'wss:', ENV['WEBSITE_ASSET'], ENV['SENTRY_ADDRESS'], ENV['METRICS_ADDRESS']].compact,
-      worker_src:       ["'self'"],
+      worker_src:       ["'self'", 'blob:'],
       script_src:       ["'self'", "'unsafe-inline'", ENV['WEBSITE_ASSET'], ENV['METRICS_ADDRESS'], ENV['SENTRY_ADDRESS']].compact,
       img_src:          ['*', 'data:', 'blob:'],
       font_src:         ["'self'", 'data:', ENV['WEBSITE_ASSET'], 'fonts.gstatic.com', 'github.com', 'chrome-extension'].compact,

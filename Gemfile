@@ -12,7 +12,7 @@ ruby '3.2.0'
 gem 'rails',                    '7.0.4.3'
 
 # Use postgresql as the database for Active Record
-gem 'pg',                       '1.4.6'
+gem 'pg',                       '1.5.2'
 # gem 'active_record_extended',   '1.4.0'
 
 # HTTP Response
@@ -102,7 +102,7 @@ gem 'webdrivers',               '5.2.0',  require: false
 gem 'selenium-webdriver',       '4.9.0',  require: false
 
 # Server
-gem 'puma',                     '6.2.2'
+gem 'puma',                     '6.2.1'
 
 group :development do
   # Debugging tool

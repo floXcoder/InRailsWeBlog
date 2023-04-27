@@ -11,23 +11,25 @@ import {
 } from '../../selectors';
 
 import Loader from '../theme/loader';
+import Scrollbar from '../theme/scrollbar';
 
 import ArticleOrderDisplay from './display/order';
 import ArticleTimelineDisplay from './display/timeline';
 
 
 export default @connect((state, props) => ({
+    articleOrderMode: state.uiState.articleOrderMode,
+    articleDisplayMode: state.uiState.articleDisplayMode,
+    currentArticles: state.uiState.currentArticles,
     currentUserId: state.userState.currentId,
     currentUserSlug: state.userState.currentSlug,
     currentUserTopicId: state.topicState.currentUserTopicId,
     currentUserTopicSlug: state.topicState.currentUserTopicSlug,
     currentArticleState: state.articleState.currentState.value,
-    articleOrderMode: state.uiState.articleOrderMode,
-    articleDisplayMode: state.uiState.articleDisplayMode,
+    articlePagination: state.articleState.pagination,
     articlesCount: getArticlesCount(state),
     categorizedArticles: getCategorizedArticles(state, props),
-    articlePagination: state.articleState.pagination,
-    currentArticles: state.uiState.currentArticles
+    articleTitleContent: state.articleState.articleTitleContent
 }), {
     switchArticleMinimized,
     updateUserSettings
@@ -35,20 +37,26 @@ export default @connect((state, props) => ({
 class ArticleSidebar extends React.Component {
     static propTypes = {
         parentTagSlug: PropTypes.string,
+        isArticle: PropTypes.bool,
         // from connect
+        articleOrderMode: PropTypes.string,
+        articleDisplayMode: PropTypes.string,
+        currentArticles: PropTypes.array,
         currentUserId: PropTypes.number,
         currentUserSlug: PropTypes.string,
         currentUserTopicId: PropTypes.number,
         currentUserTopicSlug: PropTypes.string,
         currentArticleState: PropTypes.string,
-        articleOrderMode: PropTypes.string,
-        articleDisplayMode: PropTypes.string,
+        articlePagination: PropTypes.object,
         articlesCount: PropTypes.number,
         categorizedArticles: PropTypes.object,
-        articlePagination: PropTypes.object,
-        currentArticles: PropTypes.array,
+        articleTitleContent: PropTypes.array,
         switchArticleMinimized: PropTypes.func,
         updateUserSettings: PropTypes.func
+    };
+
+    static defaultProps = {
+        isArticle: false
     };
 
     constructor(props) {
@@ -64,7 +72,63 @@ class ArticleSidebar extends React.Component {
         });
     };
 
+    _renderArticleList = () => {
+        if (this.props.currentArticleState === 'fetching') {
+            return (
+                <div className="center margin-top-25">
+                    <Loader size="big"/>
+                </div>
+            );
+        } else if (this.props.articlesCount === 0) {
+            return (
+                <span className="article-sidebar-none">
+                    {I18n.t('js.article.toc.no_articles')}
+                </span>
+            );
+        } else {
+            return (
+                <>
+                    <ArticleOrderDisplay currentUserSlug={this.props.currentUserSlug}
+                                         currentUserTopicSlug={this.props.currentUserTopicSlug}
+                                         currentUserTagSlug={this.props.parentTagSlug}
+                                         articleOrderMode={this.props.articleOrderMode}
+                                         articleDisplayMode={this.props.articleDisplayMode}
+                                         onMinimized={this.props.switchArticleMinimized}
+                                         onOrderChange={this._handleOrderChange}/>
+
+                    <ArticleTimelineDisplay categorizedArticles={this.props.categorizedArticles}
+                                            articlePagination={this.props.articlePagination}
+                                            currentArticles={this.props.currentArticles}/>
+                </>
+            );
+        }
+    };
+
+    _renderArticleContent = () => {
+        return (
+            <div className="article-sidebar-titles">
+                <Scrollbar>
+                    {
+                        this.props.articleTitleContent.map((title, i) => (
+                            <div className={`article-sidebar-title-${title.level.toLowerCase()}`}
+                                 key={i}>
+                                <a className="article-sidebar-title-link"
+                                   href={`#${title.id}`}>
+                                    {title.content}
+                                </a>
+                            </div>
+                        ))
+                    }
+                </Scrollbar>
+            </div>
+        );
+    };
+
     render() {
+        if (this.props.isArticle && !this.props.articleTitleContent) {
+            return null;
+        }
+
         return (
             <div className="article-sidebar-root">
                 <h2 className="article-sidebar-title">
@@ -72,33 +136,11 @@ class ArticleSidebar extends React.Component {
                 </h2>
 
                 {
-                    this.props.currentArticleState === 'fetching'
+                    this.props.isArticle
                         ?
-                        <div className="center margin-top-25">
-                            <Loader size="big"/>
-                        </div>
+                        this._renderArticleContent()
                         :
-                        (
-                            this.props.articlesCount === 0
-                                ?
-                                <span className="article-sidebar-none">
-                                    {I18n.t('js.article.toc.no_articles')}
-                                </span>
-                                :
-                                <>
-                                    <ArticleOrderDisplay currentUserSlug={this.props.currentUserSlug}
-                                                         currentUserTopicSlug={this.props.currentUserTopicSlug}
-                                                         currentUserTagSlug={this.props.parentTagSlug}
-                                                         articleOrderMode={this.props.articleOrderMode}
-                                                         articleDisplayMode={this.props.articleDisplayMode}
-                                                         onMinimized={this.props.switchArticleMinimized}
-                                                         onOrderChange={this._handleOrderChange}/>
-
-                                    <ArticleTimelineDisplay categorizedArticles={this.props.categorizedArticles}
-                                                            articlePagination={this.props.articlePagination}
-                                                            currentArticles={this.props.currentArticles}/>
-                                </>
-                        )
+                        this._renderArticleList()
                 }
             </div>
         );

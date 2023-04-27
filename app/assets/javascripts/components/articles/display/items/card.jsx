@@ -118,7 +118,7 @@ class ArticleCardDisplay extends React.PureComponent {
         const isPrivateInPublic = (this.props.isUserArticlesList || (this.props.currentUserTopicId === this.props.article.topicId && this.props.currentUserTopicVisibility === 'everyone')) && this.props.article.visibility !== 'everyone';
 
         return (
-            <Observer threshold={0.2}
+            <Observer rootMargin="-50px"
                       onChange={this._handleViewportChange}>
                 <Card component="article"
                       id={`article-${this.props.article.id}`}

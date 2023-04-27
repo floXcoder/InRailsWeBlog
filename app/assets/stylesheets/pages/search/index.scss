@@ -146,7 +146,12 @@
 }
 
 .search-index-tag-highlighted {
-  background-color: $secondary-color;
+  background-color: $secondary-color-light;
+  color: #fff;
+
+  &.search-index-article-tag {
+    color: #fff;
+  }
 }
 
 .search-index-article-card {

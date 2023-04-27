@@ -8,6 +8,7 @@ import {
     convertJsonApi
 } from '../middlewares/json';
 
+
 // Articles
 export const fetchArticles = (filter = {}, options = {}, payload = {}, requestOptions = {}) => ({
     actionType: ActionTypes.ARTICLE,
@@ -51,6 +52,11 @@ export const checkLinksArticle = (articleId, options = {}) => ({
 export const changeArticleLanguage = (language) => ({
     type: ActionTypes.ARTICLE_LANGUAGE,
     language
+});
+
+export const showArticleContent = (articleContent) => ({
+    type: ActionTypes.ARTICLE_TITLE_CONTENT,
+    articleContent
 });
 
 // Article mutations
