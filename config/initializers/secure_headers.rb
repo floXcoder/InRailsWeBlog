@@ -17,7 +17,7 @@ SecureHeaders::Configuration.default do |config|
       connect_src:      ['localhost:8080', "'self'", 'ws:', 'wss:'],
       worker_src:       ["'self'"],
       script_src:       ['localhost:8080', "'self'", "'unsafe-inline'", "'unsafe-eval'", 'data:'],
-      img_src:          ['*', 'data:', 'blob:'],
+      img_src:          %w[* data: blob:],
       font_src:         ['localhost:8080', "'self'", 'data:'],
       media_src:        ['localhost:8080', "'self'"],
       object_src:       ['localhost:8080', "'self'"],
@@ -33,11 +33,12 @@ SecureHeaders::Configuration.default do |config|
       connect_src:      ["'self'", 'ws:', 'wss:', ENV['WEBSITE_ASSET'], ENV['SENTRY_ADDRESS'], ENV['METRICS_ADDRESS']].compact,
       worker_src:       ["'self'", 'blob:'],
       script_src:       ["'self'", "'unsafe-inline'", ENV['WEBSITE_ASSET'], ENV['METRICS_ADDRESS'], ENV['SENTRY_ADDRESS']].compact,
-      img_src:          ['*', 'data:', 'blob:'],
+      img_src:          %w[* data: blob:],
       font_src:         ["'self'", 'data:', ENV['WEBSITE_ASSET'], 'fonts.gstatic.com', 'github.com', 'chrome-extension'].compact,
       media_src:        ["'self'", ENV['WEBSITE_ASSET'], 'data:'].compact,
       object_src:       ["'self'", ENV['WEBSITE_ASSET']].compact,
       style_src:        ["'self'", "'unsafe-inline'", ENV['WEBSITE_ASSET'], 'translate.googleapis.com'].compact,
+      child_src:        %w['self' blob:],
       form_action:      ["'self'"],
       frame_ancestors:  ["'none'"]
     }
