@@ -172,27 +172,31 @@ class SearchIndex extends React.Component {
                         this.props.setAutocompleteSelectedTag(this.props.autocompleteTags[tagIndex]);
                     }
                 } else if (Utils.NAVIGATION_KEYMAP[event.which] === 'up') {
-                    let newTagId;
-                    if (!this.state.highlightedTagId || this.state.highlightedTagId === this.props.tags.first().id) {
-                        newTagId = this.props.tags[this.props.tags.length - 1].id;
-                    } else {
-                        newTagId = this.props.tags[this.props.tags.findIndex((tag) => tag.id === this.state.highlightedTagId) - 1].id;
-                    }
+                    if (this.props.tags.length > 0) {
+                        let newTagId;
+                        if (!this.state.highlightedTagId || this.state.highlightedTagId === this.props.tags.first().id) {
+                            newTagId = this.props.tags[this.props.tags.length - 1].id;
+                        } else {
+                            newTagId = this.props.tags[this.props.tags.findIndex((tag) => tag.id === this.state.highlightedTagId) - 1].id;
+                        }
 
-                    this.setState({
-                        highlightedTagId: newTagId
-                    });
+                        this.setState({
+                            highlightedTagId: newTagId
+                        });
+                    }
                 } else if (Utils.NAVIGATION_KEYMAP[event.which] === 'down') {
-                    let newTagId;
-                    if (!this.state.highlightedTagId || this.state.highlightedTagId === this.props.tags[this.props.tags.length - 1].id) {
-                        newTagId = this.props.tags[0].id;
-                    } else {
-                        newTagId = this.props.tags[this.props.tags.findIndex((tag) => tag.id === this.state.highlightedTagId) + 1].id;
-                    }
+                    if (this.props.tags.length > 0) {
+                        let newTagId;
+                        if (!this.state.highlightedTagId || this.state.highlightedTagId === this.props.tags[this.props.tags.length - 1].id) {
+                            newTagId = this.props.tags[0].id;
+                        } else {
+                            newTagId = this.props.tags[this.props.tags.findIndex((tag) => tag.id === this.state.highlightedTagId) + 1].id;
+                        }
 
-                    this.setState({
-                        highlightedTagId: newTagId
-                    });
+                        this.setState({
+                            highlightedTagId: newTagId
+                        });
+                    }
                 }
             } else if (this.props.query.length === 0 && this.props.selectedTags.length > 0) {
                 if (Utils.NAVIGATION_KEYMAP[event.which] === 'backspace') {
