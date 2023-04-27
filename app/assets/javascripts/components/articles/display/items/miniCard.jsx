@@ -95,7 +95,7 @@ class ArticleMiniCardDisplay extends React.Component {
         const contentLength = (this.props.article.contentSummary || this.props.article.content).length;
 
         return (
-            <Observer threshold={0.2}
+            <Observer rootMargin="-50px"
                       onChange={this._handleViewportChange}>
                 <Card id={`article-${this.props.article.id}`}
                       className={classNames('article-mini-card-card', {

@@ -292,6 +292,11 @@ export default {
                 component: () => RouteComponents.ArticleIndex
             },
             {
+                path: Routes.userArticlePath(':userSlug', ':articleSlug', false),
+                articleSidebar: true,
+                component: () => RouteComponents.ArticleShow
+            },
+            {
                 path: Routes.sortTopicArticlesPath(':userSlug', ':topicSlug', false),
                 component: () => RouteComponents.ArticleSort
             },
@@ -312,10 +317,6 @@ export default {
             {
                 path: Routes.historyArticlePath(':userSlug', ':articleSlug', false),
                 component: () => RouteComponents.ArticleHistory
-            },
-            {
-                path: Routes.userArticlePath(':userSlug', ':articleSlug', false),
-                component: () => RouteComponents.ArticleShow
             },
             // articles: shared
             {

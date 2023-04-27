@@ -53,6 +53,7 @@ class SidebarLayoutUser extends React.Component {
         const isGridDisplay = this.props.articleDisplayMode === 'grid';
         const isLargeEnough = this.props.width !== 'xs' && this.props.width !== 'sm' && this.props.width !== 'md';
         const isUserData = this.props.routeParams?.userSlug ? this.props.routeParams.userSlug === this.props.currentUserSlug : true;
+        const isArticle = !!(this.props.routeParams?.userSlug && this.props.routeParams?.articleSlug);
 
         return (
             <>
@@ -87,7 +88,8 @@ class SidebarLayoutUser extends React.Component {
                         <ErrorBoundary errorType="text"
                                        errorTitle={I18n.t('js.helpers.errors.boundary.title')}>
                             <div className="layout-user-sidebar">
-                                <ArticleSidebarLayout parentTagSlug={this.props.routeParams.tagSlug}/>
+                                <ArticleSidebarLayout parentTagSlug={this.props.routeParams.tagSlug}
+                                                      isArticle={isArticle}/>
                             </div>
                         </ErrorBoundary>
                     </Suspense>

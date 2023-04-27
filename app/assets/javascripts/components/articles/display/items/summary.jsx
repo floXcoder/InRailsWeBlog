@@ -74,7 +74,7 @@ class ArticleSummaryDisplay extends React.Component {
 
     render() {
         return (
-            <Observer threshold={0.2}
+            <Observer rootMargin="-50px"
                       onChange={this._handleViewportChange}>
                 <div id={`article-${this.props.article.id}`}
                      className={classNames(this.props.className, {

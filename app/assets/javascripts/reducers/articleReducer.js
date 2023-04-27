@@ -13,6 +13,7 @@ import {
     removeIn
 } from './mutators';
 
+
 const articleMachine = createMachine({
     id: 'articles',
     initial: 'idle',
@@ -82,6 +83,8 @@ const initState = {
 
     articleVersions: undefined,
 
+    articleTitleContent: undefined,
+
     currentState: articleMachine.initialState
 };
 
@@ -108,6 +111,7 @@ export default function articleReducer(state = initState, action) {
                     state.article = action.article;
                     state.articleCurrentLanguage = undefined;
                     state.articleRecommendations = undefined;
+                    state.articleTitleContent = undefined;
                 } else if (action.infinite) {
                     state.articles.push(...action.articles);
                 } else if (action.home) {
@@ -119,8 +123,8 @@ export default function articleReducer(state = initState, action) {
                 }
             });
 
-        case ActionTypes.ARTICLE_LANGUAGE:
-            state.articleCurrentLanguage = action.language;
+        case ActionTypes.ARTICLE_TITLE_CONTENT:
+            state.articleTitleContent = action.articleContent;
             return state;
 
         case ActionTypes.ARTICLE_EDITION:

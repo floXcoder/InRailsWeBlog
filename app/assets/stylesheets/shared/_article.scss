@@ -80,6 +80,56 @@
   font-weight: 600;
 }
 
+// Article titles
+// Leave a margin when scrolling to the article titles
+.article-show-root {
+  h2,
+  h3,
+  h4 {
+    scroll-margin-top: $top-header-scroll-margin;
+  }
+}
+
+.article-sidebar-titles {
+  height: 80vh;
+  padding-top: .5rem;
+  font-size: .85rem;
+  font-style: italic;
+
+  .article-sidebar-title-h2 {
+    margin-top: .8rem;
+    padding-right: 8px;
+    text-decoration: underline;
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
+  .article-sidebar-title-h3,
+  .article-sidebar-title-h4 {
+    margin-top: .5rem;
+    padding-right: 8px;
+    font-size: .8rem;
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
+  .article-sidebar-title-h3 {
+    padding-left: .4rem;
+  }
+
+  .article-sidebar-title-h4 {
+    padding-left: .8rem;
+  }
+
+  .article-sidebar-title-link {
+    color: rgba(0, 0, 0, 0.63);
+  }
+}
+
 // ***
 // Article breadcrumb
 // ***

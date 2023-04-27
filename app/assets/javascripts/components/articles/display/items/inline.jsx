@@ -113,7 +113,7 @@ class ArticleInlineDisplay extends React.PureComponent {
         const isPrivateInPublic = this.props.currentUserTopicId === this.props.article.topicId && this.props.currentUserTopicVisibility === 'everyone' && this.props.article.visibility !== 'everyone';
 
         return (
-            <Observer threshold={0.2}
+            <Observer rootMargin="-50px"
                       onChange={this._handleViewportChange}>
                 <article id={`article-${this.props.article.id}`}
                          className={classNames('article-inline-root', {

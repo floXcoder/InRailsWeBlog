@@ -2,7 +2,8 @@
 
 /** STRING **/
 String.prototype.capitalize = function () {
-    return this.charAt(0).toUpperCase() + this.slice(1);
+    return this.charAt(0)
+        .toUpperCase() + this.slice(1);
 };
 
 // Not used
@@ -53,7 +54,7 @@ Object.equals = function (x, y) {
         if (x[p] === y[p]) continue;
         // if they have the same strict value or identity then they are equal
 
-        if (typeof (x[p]) !== "object") return false;
+        if (typeof (x[p]) !== 'object') return false;
         // Numbers, Strings, Functions, Booleans must be strictly equal
 
         if (!Object.equals(x[p], y[p])) return false;
@@ -113,7 +114,8 @@ Array.prototype.removeIndex = function (index) {
         } else if (index === this.length - 1) {
             return this.slice(0, this.length - 1);
         } else {
-            return this.slice(0, index).concat(this.slice(index + 1, this.length));
+            return this.slice(0, index)
+                .concat(this.slice(index + 1, this.length));
         }
     }
 };
@@ -326,11 +328,13 @@ if (!Array.prototype.flat) {
 
 /** UTILS **/
 export const uuid = () => 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
-    let r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+    let r = Math.random() * 16 | 0,
+        v = c === 'x' ? r : (r & 0x3 | 0x8);
     return v.toString(16);
 });
 
-export const normalizeLink = (link) => link ? link.replace(/^(https?):\/\//, '').replace(/\/$/, '') : null;
+export const normalizeLink = (link) => link ? link.replace(/^(https?):\/\//, '')
+    .replace(/\/$/, '') : null;
 
 export const isNumber = (number) => !isNaN(parseFloat(number)) && isFinite(number);
 
@@ -361,7 +365,8 @@ export const decodeObject = (object) => {
         return object;
     }
 
-    const data = decodeURIComponent(JSON.stringify(object).replace(/(%2E)/ig, "%20"));
+    const data = decodeURIComponent(JSON.stringify(object)
+        .replace(/(%2E)/ig, '%20'));
     return JSON.parse(data);
 };
 
@@ -403,21 +408,23 @@ export const mapValues = (object, callback) => {
     object = Object(object);
     const result = {};
 
-    Object.keys(object).forEach((key) => {
-        result[key] = callback(object[key], key, object)
-    });
+    Object.keys(object)
+        .forEach((key) => {
+            result[key] = callback(object[key], key, object);
+        });
 
     return result;
 };
 
 export const compact = (object) => {
     let newObject = {};
-    Object.keys(object).forEach((key) => {
-        const value = object[key];
-        if (Utils.isPresent(key) && Utils.isPresent(value)) {
-            newObject[key] = value;
-        }
-    });
+    Object.keys(object)
+        .forEach((key) => {
+            const value = object[key];
+            if (Utils.isPresent(key) && Utils.isPresent(value)) {
+                newObject[key] = value;
+            }
+        });
     return newObject;
 };
 
@@ -431,7 +438,8 @@ export const uniqValues = (arrayObjects, predicate) => {
         map.has(key) || map.set(key, item);
 
         return map;
-    }, new Map()).values()];
+    }, new Map())
+        .values()];
 };
 
 // export const omit = (obj, props, fn) => {
@@ -619,7 +627,8 @@ export const is = () => {
     const types = 'Array Object String Date RegExp Function Boolean Null Undefined'.split(' ');
 
     const type = function () {
-        return Object.prototype.toString.call(this).slice(8, -1);
+        return Object.prototype.toString.call(this)
+            .slice(8, -1);
     };
 
     for (let i = types.length; i--;) {
@@ -666,7 +675,8 @@ export const debounce = (func, wait, immediate) => {
     }
 
     function debounced() {
-        var context = this, args = arguments;
+        var context = this;
+        var args = arguments;
         clearTimeout(timerId);
         timerId = setTimeout(function () {
             timerId = null;
@@ -701,3 +711,9 @@ export const scrollTo = (elementId, margin = 40, behavior = 'smooth') => {
         behavior: behavior
     });
 };
+
+export const normalizeString = (string) => string.trim()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]/gi, '-')
+    .toLowerCase();

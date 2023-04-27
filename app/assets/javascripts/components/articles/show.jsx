@@ -33,7 +33,8 @@ import {
     deleteArticle,
     setCurrentTags,
     showUserSignup,
-    switchTopic
+    switchTopic,
+    showArticleContent
 } from '../../actions';
 
 import {
@@ -106,7 +107,8 @@ export default @withRouter({
     deleteArticle,
     setCurrentTags,
     showUserSignup,
-    switchTopic
+    switchTopic,
+    showArticleContent
 })
 @highlight(false)
 class ArticleShow extends React.Component {
@@ -138,12 +140,15 @@ class ArticleShow extends React.Component {
         setCurrentTags: PropTypes.func,
         showUserSignup: PropTypes.func,
         switchTopic: PropTypes.func,
+        showArticleContent: PropTypes.func,
         // from highlight
         onShow: PropTypes.func
     };
 
     constructor(props) {
         super(props);
+
+        this._articleRef = React.createRef();
 
         this._initRequest = false;
         this._request = null;
@@ -163,6 +168,8 @@ class ArticleShow extends React.Component {
         });
 
         this._highlightMatchedContent();
+
+        this._buildContentTable();
 
         this._recommendationTimeout = onPageReady(() => this._fetchRecommendations(), window.seoMode ? 50 : articleRecommendationPreloadTime);
 
@@ -190,6 +197,8 @@ class ArticleShow extends React.Component {
             this.props.onShow(this.props.article.id, true);
 
             this._highlightMatchedContent();
+
+            this._buildContentTable();
         }
 
         if (this.props.article && !this.props.isFetching && (!Object.equals(this.props.routeParams, prevProps.routeParams) || this.props.article.slug !== this.props.routeParams.articleSlug)) {
@@ -266,6 +275,39 @@ class ArticleShow extends React.Component {
     _highlightMatchedContent = () => {
         if (this.props.article && this.props.routeLocation.state?.highlightContent && window.find) {
             window.find(this.props.routeLocation.state.highlightContent);
+        }
+    };
+
+    _buildContentTable = () => {
+        if (this._articleRef && this._articleRef.current) {
+            const articleContent = [];
+
+            const headerElements = this._articleRef.current.querySelectorAll('h2, h3, h4, h5');
+            for (const header in headerElements) {
+                if (headerElements[header] instanceof Element) {
+                    const headerContent = headerElements[header].textContent.trim();
+                    const normalizedTitles = Utils.normalizeString(headerContent);
+                    const titleLevel = headerElements[header].nodeName;
+                    if (titleLevel === 'H5') {
+                        continue;
+                    }
+
+                    let headerId = headerElements[header].id;
+                    if (!headerId) {
+                        headerId = normalizedTitles;
+                        headerElements[header].id = headerId;
+                    }
+                    articleContent.push({
+                        level: headerElements[header].nodeName,
+                        id: headerId,
+                        content: headerContent
+                    });
+                }
+            }
+
+            this.props.showArticleContent(articleContent.length ? articleContent : undefined);
+        } else {
+            this.props.showArticleContent(undefined);
         }
     };
 
@@ -358,7 +400,8 @@ class ArticleShow extends React.Component {
 
                 {
                     !this.props.isFetching &&
-                    <article id={`article-${this.props.article.id}`}
+                    <article ref={this._articleRef}
+                             id={`article-${this.props.article.id}`}
                              className="article-show-root scroll-area"
                              itemProp="blogPost"
                              itemScope={true}
