@@ -37,6 +37,7 @@ export default @connect((state, props) => ({
 class ArticleSidebar extends React.Component {
     static propTypes = {
         parentTagSlug: PropTypes.string,
+        isOpen: PropTypes.bool,
         isArticle: PropTypes.bool,
         // from connect
         articleOrderMode: PropTypes.string,
@@ -130,7 +131,13 @@ class ArticleSidebar extends React.Component {
         }
 
         return (
-            <div className="article-sidebar-root">
+            <div className={classNames(
+                'article-sidebar-root',
+                {
+                    'article-sidebar-root-expandable': this.props.isArticle,
+                    'article-sidebar-root-open': this.props.isOpen
+                }
+            )}>
                 <h2 className="article-sidebar-title">
                     {I18n.t('js.article.toc.title')}
                 </h2>

@@ -109,13 +109,14 @@ class TagSidebarLayout extends React.PureComponent {
                     classes={{
                         paper: classNames('search-sidebar-drawer-paper', 'search-sidebar-drawer-paper-overflow', {
                             'search-sidebar-drawer-paper-close': !this.state.isExpanded
-                        }),
+                        })
                     }}
                     open={this.state.isExpanded}
                     onMouseOver={this._handleDrawerOver}
                     onMouseLeave={this._handleDrawerOut}>
                 <div>
-                    <IconButton onClick={this._handleExpandSwitch} size="large">
+                    <IconButton onClick={this._handleExpandSwitch}
+                                size="large">
                         {
                             this.props.isTagSidebarOpen
                                 ?

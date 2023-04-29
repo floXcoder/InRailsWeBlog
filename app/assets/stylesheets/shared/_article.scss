@@ -25,6 +25,19 @@
   padding-bottom: 1.5rem;
 }
 
+.article-sidebar-root-expandable {
+  height: 90vh;
+  opacity: 0;
+  margin-top: -58px;
+  transition: visibility .35s, opacity .35s ease-in-out;
+  visibility: hidden;
+}
+
+.article-sidebar-root-open {
+  opacity: 1;
+  visibility: visible;
+}
+
 .article-sidebar-title {
   font-size: 1.1rem;
   margin-top: .3rem;
