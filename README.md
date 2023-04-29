@@ -200,10 +200,6 @@ List all available tasks for Rails project :
 
     rails InRailsWeBlog:seo
 
-- Update counter cache:
-
-
-    rails InRailsWeBlog:update_counter_cache
 
 ### Update environment
 
