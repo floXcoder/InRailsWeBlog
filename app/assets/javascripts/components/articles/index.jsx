@@ -296,6 +296,10 @@ class ArticleIndex extends React.Component {
     };
 
     _renderTitle = () => {
+        if (this.props.currentState === 'fetching') {
+            return null;
+        }
+
         if (this.props.routeParams.tagSlug && this.props.tag) {
             return (
                 <div className={classNames('article-index-title', {

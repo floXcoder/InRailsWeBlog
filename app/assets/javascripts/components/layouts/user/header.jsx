@@ -350,6 +350,8 @@ class HeaderLayoutUser extends React.PureComponent {
             return null;
         }
 
+        const isArticle = !!(this.props.routeParams?.userSlug && this.props.routeParams?.articleSlug);
+
         return (
             <SwipeableDrawer variant="temporary"
                              anchor="right"
@@ -362,7 +364,8 @@ class HeaderLayoutUser extends React.PureComponent {
                              open={this.state.isMobileArticleSidebarOpen}
                              onClose={this._handleArticleDrawerToggle}
                              onOpen={this._handleArticleDrawerToggle}>
-                <ArticleSidebar parentTagSlug={this.props.routeParams.tagSlug}/>
+                <ArticleSidebar parentTagSlug={this.props.routeParams.tagSlug}
+                                isArticle={isArticle}/>
             </SwipeableDrawer>
         );
     };
