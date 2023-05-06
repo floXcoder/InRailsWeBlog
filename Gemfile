@@ -166,6 +166,7 @@ group :production do
   # Errors reporting
   gem 'sentry-ruby',      '5.9.0'
   gem 'sentry-rails',     '5.9.0'
+  gem 'sentry-sidekiq',   '5.9.0'
 
   # Check slow DB requests
   gem 'pghero',           '3.3.3'

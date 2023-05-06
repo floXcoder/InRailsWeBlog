@@ -266,6 +266,7 @@
     <orderEntry type="library" scope="PROVIDED" name="selenium-webdriver (v4.9.0, RVM: ruby-3.2.0 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sentry-rails (v5.9.0, RVM: ruby-3.2.0 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sentry-ruby (v5.9.0, RVM: ruby-3.2.0 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="sentry-sidekiq (v5.9.0, RVM: ruby-3.2.0 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="seo_cache (v1.4.0, RVM: ruby-3.2.0 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sexp_processor (v4.16.1, RVM: ruby-3.2.0 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="shellany (v0.0.1, RVM: ruby-3.2.0 [InRailsWeBlog]) [gem]" level="application" />
