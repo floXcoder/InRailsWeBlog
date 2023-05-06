@@ -20,7 +20,8 @@ const SearchSidebarLayout = lazyImporter(() => import(/* webpackChunkName: "side
 
 export default @connect((state) => ({
     currentUserSlug: state.userState.currentSlug,
-    articleDisplayMode: state.uiState.articleDisplayMode
+    articleDisplayMode: state.uiState.articleDisplayMode,
+    articleTitleContent: state.articleState.articleTitleContent
 }))
 @withRouter({params: true})
 @withWidth()
@@ -33,6 +34,7 @@ class SidebarLayoutUser extends React.Component {
         // from connect
         currentUserSlug: PropTypes.string,
         articleDisplayMode: PropTypes.string,
+        articleTitleContent: PropTypes.array,
         // from withWidth
         width: PropTypes.string
     };
@@ -45,6 +47,7 @@ class SidebarLayoutUser extends React.Component {
         return this.props.width !== nextProps.width ||
             this.props.articleDisplayMode !== nextProps.articleDisplayMode ||
             this.props.currentUserSlug !== nextProps.currentUserSlug ||
+            this.props.articleTitleContent !== nextProps.articleTitleContent ||
             JSON.stringify(this.props.routeParams) !== JSON.stringify(nextProps.routeParams) ||
             JSON.stringify(this.props.routeProperties) !== JSON.stringify(nextProps.routeProperties);
     }
@@ -54,6 +57,7 @@ class SidebarLayoutUser extends React.Component {
         const isLargeEnough = this.props.width !== 'xs' && this.props.width !== 'sm' && this.props.width !== 'md';
         const isUserData = this.props.routeParams?.userSlug ? this.props.routeParams.userSlug === this.props.currentUserSlug : true;
         const isArticle = !!(this.props.routeParams?.userSlug && this.props.routeParams?.articleSlug);
+        const hasArticleContent = isArticle ? Utils.isPresent(this.props.articleTitleContent) && this.props.articleTitleContent.length > 1 : true;
 
         return (
             <>
@@ -83,12 +87,13 @@ class SidebarLayoutUser extends React.Component {
                 }
 
                 {
-                    !!(this.props.routeProperties.articleSidebar && !isGridDisplay && isLargeEnough) &&
+                    !!(this.props.routeProperties.articleSidebar && !isGridDisplay && isLargeEnough && hasArticleContent) &&
                     <Suspense fallback={<div/>}>
                         <ErrorBoundary errorType="text"
                                        errorTitle={I18n.t('js.helpers.errors.boundary.title')}>
                             <div className="layout-user-sidebar">
-                                <ArticleSidebarLayout parentTagSlug={this.props.routeParams.tagSlug}
+                                <ArticleSidebarLayout key={isArticle ? 'article' : 'list'}
+                                                      parentTagSlug={this.props.routeParams.tagSlug}
                                                       isArticle={isArticle}/>
                             </div>
                         </ErrorBoundary>
