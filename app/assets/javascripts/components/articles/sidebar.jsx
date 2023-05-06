@@ -126,7 +126,7 @@ class ArticleSidebar extends React.Component {
     };
 
     render() {
-        if (this.props.isArticle && !this.props.articleTitleContent) {
+        if (this.props.isArticle && Utils.isEmpty(this.props.articleTitleContent)) {
             return null;
         }
 
