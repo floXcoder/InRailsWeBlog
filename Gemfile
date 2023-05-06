@@ -12,7 +12,7 @@ ruby '3.2.0'
 gem 'rails',                    '7.0.4.3'
 
 # Use postgresql as the database for Active Record
-gem 'pg',                       '1.5.2'
+gem 'pg',                       '1.5.3'
 # gem 'active_record_extended',   '1.4.0'
 
 # HTTP Response
@@ -42,7 +42,7 @@ gem 'auto_strip_attributes',    '2.6.0'
 gem 'sanitize',                 '6.0.1'
 
 # Run asynschronous process
-gem 'sidekiq',                  '7.0.9'
+gem 'sidekiq',                  '7.1.0'
 
 # Redis session store and cache
 gem 'redis-namespace',          '1.10.0'
@@ -62,7 +62,7 @@ gem 'image_processing',         '1.12.2'
 
 # Search in database
 gem 'searchkick',               '5.2.3'
-gem 'elasticsearch',            '8.7.0'
+gem 'elasticsearch',            '8.7.1'
 gem 'typhoeus',                 '1.4.0'
 
 # Comments
@@ -102,7 +102,7 @@ gem 'webdrivers',               '5.2.0',  require: false
 gem 'selenium-webdriver',       '4.9.0',  require: false
 
 # Server
-gem 'puma',                     '6.2.1'
+gem 'puma',                     '6.2.2'
 
 group :development do
   # Debugging tool
@@ -133,7 +133,7 @@ end
 
 group :test do
   # Test tools
-  gem 'rspec-rails',                '6.0.1'
+  gem 'rspec-rails',                '6.0.2'
   gem 'webmock',                    '3.18.1'
   gem 'shoulda-matchers',           '5.3.0',  require: false
   gem 'shoulda-callback-matchers',  '1.1.4',  require: false
@@ -151,7 +151,7 @@ group :development, :test do
   gem 'rubocop',                    '1.50.2', require: false
   gem 'rubocop-rails',              '2.19.1', require: false
   gem 'rubocop-performance',        '1.17.1', require: false
-  gem 'rubocop-rspec',              '2.20.0', require: false
+  gem 'rubocop-rspec',              '2.22.0', require: false
 
   # static analyzer
   gem 'rails_best_practices',       '1.23.2', require: false
@@ -166,6 +166,7 @@ group :production do
   # Errors reporting
   gem 'sentry-ruby',      '5.9.0'
   gem 'sentry-rails',     '5.9.0'
+  gem 'sentry-sidekiq',   '5.9.0'
 
   # Check slow DB requests
   gem 'pghero',           '3.3.3'
