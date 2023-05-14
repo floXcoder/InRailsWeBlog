@@ -61,7 +61,7 @@ gem 'mini_magick',              '4.12.0'
 gem 'image_processing',         '1.12.2'
 
 # Search in database
-gem 'searchkick',               '5.2.3'
+gem 'searchkick',               '5.2.4'
 gem 'elasticsearch',            '8.7.1'
 gem 'typhoeus',                 '1.4.0'
 
@@ -99,7 +99,7 @@ gem 'bcrypt_pbkdf',             '1.1.0'
 
 # SEO
 gem 'webdrivers',               '5.2.0',  require: false
-gem 'selenium-webdriver',       '4.9.0',  require: false
+gem 'selenium-webdriver',       '4.9.1',  require: false
 
 # Server
 gem 'puma',                     '6.2.2'
@@ -148,7 +148,7 @@ group :development, :test do
   gem 'bootsnap',                   '1.16.0', require: false
 
   # Check errors
-  gem 'rubocop',                    '1.50.2', require: false
+  gem 'rubocop',                    '1.51.0', require: false
   gem 'rubocop-rails',              '2.19.1', require: false
   gem 'rubocop-performance',        '1.17.1', require: false
   gem 'rubocop-rspec',              '2.22.0', require: false
