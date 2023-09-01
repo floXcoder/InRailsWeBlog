@@ -7,7 +7,7 @@
  * Copyright 2013- Alan Hong and contributors
  * Summernote may be freely distributed under the MIT license.
  *
- * Date: 2023-04-25T08:12Z
+ * Date: 2023-09-01T13:05Z
  *
  */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -1484,6 +1484,7 @@
         };
       }
       /**
+       * Find next boundaryPoint for preorder / depth first traversal of the DOM
        * returns next boundaryPoint with empty node
        *
        * @param {BoundaryPoint} point
@@ -1494,20 +1495,7 @@
 
       function nextPointWithEmptyNode(point, isSkipInnerOffset) {
         var node,
-            offset = 0; // if node is empty string node, return current node's sibling.
-
-        if (dom_isEmpty(point.node)) {
-          if (point.node === null) {
-            return null;
-          }
-
-          node = point.node.nextSibling;
-          offset = 0;
-          return {
-            node: node,
-            offset: offset
-          };
-        }
+            offset = 0;
 
         if (nodeLength(point.node) === point.offset) {
           if (isEditable(point.node)) {
@@ -1515,7 +1503,7 @@
           }
 
           node = point.node.parentNode;
-          offset = position(point.node) + 1; // if next node is editable ,  return current node's sibling node.
+          offset = position(point.node) + 1; // if parent node is editable,  return current node's sibling node.
 
           if (isEditable(node)) {
             node = point.node.nextSibling;
@@ -1524,24 +1512,9 @@
         } else if (hasChildren(point.node)) {
           node = point.node.childNodes[point.offset];
           offset = 0;
-
-          if (dom_isEmpty(node)) {
-            if (!dom_isEmpty(point.node.nextSibling)) {
-              return {
-                node: point.node.nextSibling,
-                offset: offset
-              };
-            }
-
-            return null;
-          }
         } else {
           node = point.node;
           offset = isSkipInnerOffset ? nodeLength(point.node) : point.offset + 1;
-
-          if (dom_isEmpty(node)) {
-            return null;
-          }
         }
 
         return {
@@ -1666,7 +1639,7 @@
         return ch === ' ' || ch === NBSP_CHAR;
       }
       /**
-       * @method walkPoint
+       * @method walkPoint - preorder / depth first traversal of the DOM
        *
        * @param {BoundaryPoint} startPoint
        * @param {BoundaryPoint} endPoint
@@ -5679,6 +5652,11 @@
               if (this.context.invoke(eventName) !== false) {
                 event.preventDefault(); // if keyMap action was invoked
 
+                if (keyName != 'ENTER') {
+                  // <--- Without this check, we get double Empty Paragraph insertion.
+                  this.context.invoke(eventName);
+                }
+
                 return true;
               }
             } else if (key.isEdit(event.keyCode)) {
@@ -7128,6 +7106,7 @@
 
           this.context = context;
           this.options = context.options;
+          this.$editable = context.layoutInfo.editable;
           this.events = {
             'summernote.keyup': function summernoteKeyup(we, event) {
               if (!event.isDefaultPrevented()) {
@@ -7172,6 +7151,7 @@
               this.lastWordRange.insertNode(node);
               this.lastWordRange = null;
               this.context.invoke('editor.focus');
+              this.context.triggerEvent('change', this.$editable.html(), this.$editable);
             }
           }
         }, {

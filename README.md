@@ -168,6 +168,23 @@ Install npm packages for the project (Yarn v3 is used for this project):
 
     yarn
 
+### WYSIWYG editor
+
+Summernote is used for article creation and edition. It's an advanced WYSIWYG editor.
+
+A custom version of Summernote is used for this project.
+
+Here is the procedure to update Summernote:
+
+`cd summernote`
+`git fetch && git pull`
+`yarn`
+`npm run build`
+
+Copy `dist/summernote-lite.js` to `app/assets/javascripts/modules/summernote/summernote-lite.js`. And remove last line (`sourceMappingURL`).
+
+If needed, copy also CSS file: `dist/summernote.css` to `app/assets/stylesheets/components/summernote.scss`. And remove all code related to icons.
+
 ### Populate database
 
 Populate database with dummy data:
