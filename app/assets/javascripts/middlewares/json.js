@@ -93,6 +93,7 @@ export const extractDataFromElement = (elementId, extractAndRemove = true) => {
 
     if (extractAndRemove) {
         Object.keys(componentData)
+            .filter((componentKey) => componentKey !== 'component')
             .forEach((componentKey) => delete componentElement.dataset[componentKey]);
     }
 
