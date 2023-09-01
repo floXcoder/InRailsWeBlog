@@ -232,7 +232,7 @@ export default class SearchArticleModule extends React.PureComponent {
                                 Utils.isPresent(otherUserArticles) &&
                                 <>
                                     {
-                                        (Utils.isPresent(currentTopicArticles) || Utils.isPresent(otherTopicArticles)) &&
+                                        (Utils.isPresent(currentTopicArticles) || Utils.isPresent(otherUserArticles)) &&
                                         <Divider className="search-module-category-divider"
                                                  variant="fullWidth"/>
                                     }

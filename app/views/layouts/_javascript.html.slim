@@ -34,7 +34,7 @@ javascript:
 
       window._paq = window._paq || [];
     
-- if Rails.env.production? && !current_admin && !@seo_mode
+- if Rails.env.production? && !current_admin && !@seo_mode && current_user&.id != 1 && current_user&.id != 2
   javascript:
       window.isMetricsEnabled = !!window._paq && !window.seoMode;
 

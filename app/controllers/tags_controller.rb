@@ -93,7 +93,7 @@ class TagsController < ApplicationController
                                      :user_id,
                                      :user_slug,
                                      :topic_id,
-                                     :topic_slug).reject { |_, v| v.blank? }
+                                     :topic_slug).compact_blank
     else
       {}
     end

@@ -249,7 +249,7 @@ module Api::V1
                                        :bookmarked,
                                        :order,
                                        :complete,
-                                       user_ids: []).reject { |_, v| v.blank? }
+                                       user_ids: []).compact_blank
       else
         {}
       end

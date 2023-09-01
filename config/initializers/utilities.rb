@@ -204,11 +204,11 @@ module Kernel
       p src
       messages.each do |message|
         if message.respond_to?(:to_unsafe_h)
-          ap(message.to_unsafe_h)
+          p message.to_unsafe_h
         elsif message.is_a? ActiveModel::Errors
-          ap message.errors
+          p message.errors
         else
-          ap(message)
+          p message
         end
       end
       p '*** END ***'

@@ -25,7 +25,9 @@ webPackConfig.output = {
     publicPath: config.output.publicPath
 };
 
-// webPackConfig.externals = config.externals;
+webPackConfig.target = ['web'];
+
+webPackConfig.externals = config.externals;
 
 webPackConfig.resolve = {
     // tell webpack which extensions to auto search when it resolves modules. With this,

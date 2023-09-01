@@ -59,7 +59,7 @@ export default class ApplicationLayoutDefault extends React.Component {
     _componentProps = () => {
         return {
             staticContent: this.props.staticContent,
-            ...extractDataFromElement(this.props.componentId)
+            ...extractDataFromElement(this.props.componentId, !window.currentAdminId)
         };
     };
 

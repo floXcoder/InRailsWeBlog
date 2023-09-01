@@ -64,7 +64,7 @@ module Api::V1
                                        :user_id,
                                        :ask_for_deletion,
                                        user_ids:     [],
-                                       comments_ids: []).reject { |_, v| v.blank? }
+                                       comments_ids: []).compact_blank
       else
         {}
       end

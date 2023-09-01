@@ -10,7 +10,7 @@ module TrackerConcern
     # For devise, skip user authentification
     skip_before_action :authenticate_user!, only: [:clicked, :viewed]
     # Skip locale env up
-    skip_before_action :set_env, only: [:clicked, :viewed]
+    skip_before_action :define_environment, only: [:clicked, :viewed]
     # Do not set current user
     skip_before_action :set_context_user, only: [:clicked, :viewed]
     # For pundit, skip authorization

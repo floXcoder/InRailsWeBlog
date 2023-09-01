@@ -46,7 +46,6 @@ import {
 import {
     onPageReady
 } from '../../loaders/lazyLoader';
-import {scrollTo} from '../../../modules/utils';
 
 
 export default function articleMutationManager(mode) {

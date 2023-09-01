@@ -14,6 +14,7 @@ class PictureUploader < CarrierWave::Uploader::Base
 
   version :webp do
     convert(:webp)
+    force_extension false
   end
 
   version :medium do
@@ -22,6 +23,7 @@ class PictureUploader < CarrierWave::Uploader::Base
 
     version :webp do
       convert(:webp)
+      force_extension false
     end
   end
 
@@ -31,6 +33,7 @@ class PictureUploader < CarrierWave::Uploader::Base
 
     version :webp do
       convert(:webp)
+      force_extension false
     end
   end
 

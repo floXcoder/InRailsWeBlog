@@ -42,6 +42,24 @@ Capybara/SpecificFinders:
 Capybara/SpecificMatcher:
   Enabled: true
 
+FactoryBot/AssociationStyle:
+  Enabled: true
+
+FactoryBot/ConsistentParenthesesStyle:
+  Enabled: true
+
+FactoryBot/FactoryAssociationWithStrategy:
+  Enabled: true
+
+FactoryBot/FactoryNameStyle:
+  Enabled: true
+
+FactoryBot/RedundantFactoryOption:
+  Enabled: true
+
+FactoryBot/SyntaxMethods:
+  Enabled: true
+
 Gemspec/DeprecatedAttributeAssignment:
   Enabled: true
 
@@ -148,6 +166,9 @@ Lint/DuplicateBranch:
 Lint/DuplicateMagicComment:
   Enabled: true
 
+Lint/DuplicateMatchPattern:
+  Enabled: true
+
 Lint/DuplicateRegexpCharacterClassElement:
   Enabled: true
 
@@ -166,6 +187,9 @@ Lint/IncompatibleIoSelectWithFiberScheduler:
 Lint/LambdaWithoutLiteralBlock:
   Enabled: true
 
+Lint/MixedCaseRange:
+  Enabled: true
+
 Lint/NonAtomicFileOperation:
   Enabled: true
 
@@ -182,6 +206,9 @@ Lint/RefinementImportMethods:
   Enabled: true
 
 Lint/RequireRangeParentheses:
+  Enabled: true
+
+Lint/RedundantRegexpQuantifiers:
   Enabled: true
 
 Lint/RequireRelativeSelfPath:
@@ -223,6 +250,9 @@ Metrics/BlockNesting:
 Metrics/ClassLength:
   CountComments: false
   Max: 600
+
+Metrics/CollectionLiteralLength:
+  Enabled: true
 
 Metrics/CyclomaticComplexity:
   Enabled: false
@@ -357,6 +387,9 @@ Rails/FindById:
 Rails/FreezeTime:
   Enabled: true
 
+Rails/HasAndBelongsToMany:
+  Enabled: false
+
 Rails/HasManyOrHasOneDependent:
   Enabled: false
 
@@ -411,6 +444,9 @@ Rails/RenderInline:
 Rails/RenderPlainText:
   Enabled: true
 
+Rails/ResponseParsedBody:
+  Enabled: true
+
 Rails/RootJoinChain:
   Enabled: true
 
@@ -430,6 +466,9 @@ Rails/SquishedSQLHeredocs:
   Enabled: true
 
 Rails/StripHeredoc:
+  Enabled: true
+
+Rails/ThreeStateBooleanColumn:
   Enabled: true
 
 Rails/TimeZoneAssignment:
@@ -471,6 +510,9 @@ Rails/WhereNot:
 Rails/WhereNotWithMultipleConditions:
   Enabled: true
 
+RSpec/BeEmpty:
+  Enabled: true
+
 RSpec/BeEq:
   Enabled: true
 
@@ -486,6 +528,9 @@ RSpec/Capybara:
 RSpec/ChangeByZero:
   Enabled: true
 
+RSpec/ContainExactly:
+  Enabled: true
+
 RSpec/ContextWording:
   Enabled: false
 
@@ -496,10 +541,7 @@ RSpec/DuplicatedMetadata:
   Enabled: true
 
 RSpec/ExampleLength:
-  Max: 30
-
-RSpec/FactoryBot/SyntaxMethods:
-  Enabled: true
+  Max: 50
 
 RSpec/ExcessiveDocstringSpacing:
   Enabled: true
@@ -513,11 +555,17 @@ RSpec/ImplicitExpect:
 RSpec/ImplicitSubject:
   Enabled: false
 
+RSpec/IndexedLet:
+  Enabled: true
+
 RSpec/InstanceVariable:
   Enabled: false
 
 RSpec/LeadingSubject:
   Enabled: false
+
+RSpec/MatchArray:
+  Enabled: true
 
 RSpec/MultipleExpectations:
   Max: 20
@@ -534,13 +582,13 @@ RSpec/NoExpectationExample:
 RSpec/PendingWithoutReason:
   Enabled: true
 
+RSpec/RedundantAround:
+  Enabled: true
+
+RSpec/SkipBlockInsideExample:
+  Enabled: true
+
 RSpec/SortMetadata:
-  Enabled: true
-
-RSpec/FactoryBot/ConsistentParenthesesStyle:
-  Enabled: true
-
-RSpec/FactoryBot/FactoryNameStyle:
   Enabled: true
 
 RSpec/Rails/AvoidSetupHook:
@@ -553,6 +601,15 @@ RSpec/Rails/InferredSpecType:
   Enabled: false
 
 RSpec/Rails/MinitestAssertions:
+  Enabled: true
+
+RSpec/Rails/NegationBeValid:
+  Enabled: true
+
+RSpec/Rails/TravelAround:
+  Enabled: true
+
+RSpec/ReceiveMessages:
   Enabled: true
 
 RSpec/SubjectDeclaration:
@@ -597,6 +654,12 @@ Style/ComparableClamp:
 Style/ConcatArrayLiterals:
   Enabled: true
 
+Style/DataInheritance:
+  Enabled: true
+
+Style/DirEmpty:
+  Enabled: true
+
 Style/Documentation:
   Enabled: false
 
@@ -615,8 +678,14 @@ Style/EndlessMethod:
 Style/EnvHome:
   Enabled: true
 
+Style/ExactRegexpMatch:
+  Enabled: true
+
 Style/FetchEnvVar:
   Enabled: false
+
+Style/FileEmpty:
+  Enabled: true
 
 Style/FileRead:
   Enabled: true
@@ -663,7 +732,7 @@ Style/InPatternThen:
 Style/Lambda:
   Enabled: false
 
-Style/MagicCommentFormat: # new in 1.35
+Style/MagicCommentFormat:
   Enabled: true
 
 Style/MapCompactWithConditionalBlock:
@@ -672,10 +741,10 @@ Style/MapCompactWithConditionalBlock:
 Style/MapToHash:
   Enabled: true
 
-Style/MapToSet: # new in 1.42
+Style/MapToSet:
   Enabled: true
 
-Style/MinMaxComparison: # new in 1.42
+Style/MinMaxComparison:
   Enabled: true
 
 Style/MultilineIfModifier:
@@ -717,10 +786,13 @@ Style/QuotedSymbols:
 Style/RedundantArgument:
   Enabled: true
 
+Style/RedundantArrayConstructor:
+  Enabled: true
+
 Style/RedundantConstantBase:
   Enabled: true
 
-Style/RedundantInitialize:
+Style/RedundantCurrentDirectoryInPath:
   Enabled: true
 
 Style/RedundantDoubleSplatHashBraces:
@@ -729,15 +801,33 @@ Style/RedundantDoubleSplatHashBraces:
 Style/RedundantEach:
   Enabled: true
 
+Style/RedundantFilterChain:
+  Enabled: true
+
+Style/RedundantHeredocDelimiterQuotes:
+  Enabled: true
+
+Style/RedundantInitialize:
+  Enabled: true
+
+Style/RedundantLineContinuation:
+  Enabled: true
+
+Style/RedundantRegexpArgument:
+  Enabled: true
+
+Style/RedundantRegexpConstructor:
+  Enabled: true
+
 Style/RedundantReturn:
   Enabled: false
   AllowMultipleReturnValues: true
 
-Style/RedundantStringEscape:
-  Enabled: true
-
 Style/RedundantSelf:
   Enabled: false
+
+Style/RedundantStringEscape:
+  Enabled: true
 
 Style/RedundantSelfAssignmentBranch:
   Enabled: true
@@ -747,6 +837,9 @@ Style/RegexpLiteral:
 
 Style/RescueModifier:
   Enabled: false
+
+Style/ReturnNilInPredicateMethodDefinition:
+  Enabled: true
 
 Style/SelectByRegexp:
   Enabled: true
@@ -759,3 +852,6 @@ Style/SwapValues:
 
 Style/SymbolArray:
   Enabled: false
+
+Style/YAMLFileRead:
+  Enabled: true

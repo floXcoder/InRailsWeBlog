@@ -5,7 +5,7 @@ module Api::V1
     include ActionView::Helpers::TagHelper
     include ApplicationHelper
 
-    before_action :set_env
+    before_action :define_environment
     before_action :honeypot_protection, only: [:create]
 
     respond_to :html, :js, :json
@@ -57,7 +57,7 @@ module Api::V1
 
     protected
 
-    def set_env
+    def define_environment
       user_env = ::Users::EnvironmentService.new(session,
                                                  cookies,
                                                  http_accept_language,

@@ -39,7 +39,7 @@
 module Api::V1
   class UsersController < ApiController
     skip_before_action :authenticate_user!, only: [:index, :show, :validation, :recents]
-    skip_before_action :set_env, only: [:validation]
+    skip_before_action :define_environment, only: [:validation]
 
     # Require for tracker concern
     before_action :set_context_user, only: []
@@ -223,7 +223,7 @@ module Api::V1
 
     def filter_params
       if params[:filter]
-        params.require(:filter).permit(:complete).reject { |_, v| v.blank? }
+        params.require(:filter).permit(:complete).compact_blank
       else
         {}
       end
