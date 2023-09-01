@@ -108,7 +108,7 @@ class Admins::VisitsController < AdminsController
     if params[:filter].present?
       params.require(:filter).permit(
         :date
-      ).reject { |_, v| v.blank? }
+      ).compact_blank
     else
       {}
     end

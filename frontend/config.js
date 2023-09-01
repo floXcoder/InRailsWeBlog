@@ -172,26 +172,45 @@ module.exports = {
                 {
                     // Match any request that ends with .png, .jpg, .jpeg or .svg
                     // urlPattern: /\.(?:png|jpg|jpeg|svg)$/,
-                    urlPattern: /uploads\//,
+                    urlPattern: new RegExp(`^${appEnv.WEBSITE_FULL_ASSET}/uploads/`),
                     handler: 'CacheFirst',
                     options: {
-                        // Use a custom cache name
                         cacheName: 'images',
-                        // Only cache 30 uploads
+                        cacheableResponse: {
+                            statuses: [0, 200]
+                        },
                         expiration: {
-                            maxEntries: 30
+                            maxEntries: 50
                         }
                     }
                 },
                 {
                     // Match any API requests
-                    urlPattern: /\.json/,
+                    urlPattern: /\/api\/v1\/(?!orders|baskets|uploader|exporter)/,
                     handler: 'NetworkFirst',
                     options: {
                         cacheName: 'api',
                         networkTimeoutSeconds: 3,
                         expiration: {
                             maxEntries: 50
+                        }
+                    }
+                },
+                {
+                    // Match all other content (HTML, other map providers, ...)
+                    urlPattern: /^((?!.*admins.*).)*$/,
+                    handler: 'CacheFirst',
+                    options: {
+                        cacheName: 'others',
+                        cacheableResponse: {
+                            statuses: [0, 200]
+                            // Cache only HTML pages:
+                            // headers: {
+                            //     'Content-Type': 'text/html; charset=utf-8'
+                            // }
+                        },
+                        expiration: {
+                            maxEntries: 500
                         }
                     }
                 },

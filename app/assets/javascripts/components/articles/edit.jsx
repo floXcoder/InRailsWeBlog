@@ -8,7 +8,8 @@ import {
 
 import {
     setCurrentTags,
-    switchTagSidebar
+    switchTagSidebar,
+    switchTopic
 } from '../../actions';
 
 import {
@@ -39,13 +40,15 @@ import ArticleFormDisplay from './display/form';
 export default @articleMutationManager('edit')
 @connect((state, props) => ({
     userSlug: state.userState.currentSlug,
+    currentTagSlugs: state.tagState.currentTagSlugs,
     isOwner: getArticleIsOwner(state, props.article),
     inheritVisibility: getCurrentUserTopicVisibility(state),
     parentTags: getArticleParentTags(state, props.article),
     childTags: getArticleChildTags(props.article)
 }), {
     setCurrentTags,
-    switchTagSidebar
+    switchTagSidebar,
+    switchTopic,
 })
 class ArticleEdit extends React.Component {
     static propTypes = {
@@ -60,12 +63,14 @@ class ArticleEdit extends React.Component {
         onSubmit: PropTypes.func,
         // from connect
         userSlug: PropTypes.string,
+        currentTagSlugs: PropTypes.array,
         isOwner: PropTypes.bool,
         inheritVisibility: PropTypes.string,
         parentTags: PropTypes.array,
         childTags: PropTypes.array,
         setCurrentTags: PropTypes.func,
-        switchTagSidebar: PropTypes.func
+        switchTagSidebar: PropTypes.func,
+        switchTopic: PropTypes.func
     };
 
     constructor(props) {
@@ -76,7 +81,9 @@ class ArticleEdit extends React.Component {
 
     componentDidMount() {
         if (this.props.article) {
-            this.props.setCurrentTags(this.props.article.tags.map((tag) => tag.slug));
+            this._updateCurrentTags();
+
+            this._ensureCurrentTopic();
         }
 
         this.props.switchTagSidebar(false);
@@ -84,13 +91,15 @@ class ArticleEdit extends React.Component {
         this._articleShowTimeout = onPageReady(() => ArticleShow.preload(), articleShowPreloadTime);
     }
 
-    shouldComponentUpdate(nextProps) {
-        return this.props.article !== nextProps.article || this.props.articleErrors !== nextProps.articleErrors || this.props.isFetching !== nextProps.isFetching || this.props.inheritVisibility !== nextProps.inheritVisibility;
-    }
+    // shouldComponentUpdate(nextProps) {
+    //     return this.props.article !== nextProps.article || this.props.articleErrors !== nextProps.articleErrors || this.props.isFetching !== nextProps.isFetching || this.props.inheritVisibility !== nextProps.inheritVisibility;
+    // }
 
     componentDidUpdate() {
         if (this.props.article) {
-            this.props.setCurrentTags(this.props.article.tags.map((tag) => tag.slug));
+            this._updateCurrentTags();
+
+            this._ensureCurrentTopic();
         }
     }
 
@@ -100,8 +109,20 @@ class ArticleEdit extends React.Component {
         }
     }
 
+    _ensureCurrentTopic = () => {
+        if (this.props.currentTopic.slug !== this.props.article.topicSlug) {
+            this.props.switchTopic(this.props.article.userSlug, this.props.article.topicSlug, {no_meta: true});
+        }
+    };
+
+    _updateCurrentTags = () => {
+        if (!this.props.currentTagSlugs.length) {
+            this.props.setCurrentTags(this.props.article.tags.map((tag) => tag.slug));
+        }
+    };
+
     render() {
-        if (!this.props.article || !this.props.currentUser || !this.props.currentTopic || this.props.isFetching || this.props.currentTopic.id !== this.props.article.topicId) {
+        if (!this.props.article || !this.props.currentUser || !this.props.currentTopic || this.props.isFetching) {
             return (
                 <div className="center margin-top-20">
                     <Loader size="big"/>

@@ -518,7 +518,7 @@ module Api::V1
                                        :order,
                                        :complete,
                                        user_ids:  [],
-                                       topic_ids: []).reject { |_, v| v.blank? }
+                                       topic_ids: []).compact_blank
       else
         {}
       end

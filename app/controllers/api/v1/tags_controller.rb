@@ -250,7 +250,7 @@ module Api::V1
                                        :complete,
                                        tag_ids:   [],
                                        user_ids:  [],
-                                       topic_ids: []).reject { |_, v| v.blank? }
+                                       topic_ids: []).compact_blank
       else
         {}
       end

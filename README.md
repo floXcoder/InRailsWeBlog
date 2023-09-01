@@ -92,7 +92,7 @@ Groups are a set of users. Every user can subscribe to a group and share specifi
 
 First install required packages:
 
-    sudo apt-get install -y curl git redis-server postgresql postgresql-contrib libpq-dev zlib1g-dev libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev software-properties-common libgdbm-dev libncurses5-dev automake libtool bison libffi-dev libnotify-bin cmake git-flow gawk libgmp-dev libreadline6-dev cmake libpng-dev optipng jpegoptim chromedriver
+    sudo apt-get install -y curl git redis-server postgresql postgresql-contrib libpq-dev zlib1g-dev libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev software-properties-common libgdbm-dev libncurses5-dev automake libtool bison libffi-dev libnotify-bin cmake git-flow gawk libgmp-dev libreadline6-dev cmake libpng-dev optipng jpegoptim chromium-driver
 
 Configure git:
 
@@ -167,6 +167,23 @@ Install NodeJS and Yarn as package manager:
 Install npm packages for the project (Yarn v3 is used for this project):
 
     yarn
+
+### WYSIWYG editor
+
+Summernote is used for article creation and edition. It's an advanced WYSIWYG editor.
+
+A custom version of Summernote is used for this project.
+
+Here is the procedure to update Summernote:
+
+`cd summernote`
+`git fetch && git pull`
+`yarn`
+`npm run build`
+
+Copy `dist/summernote-lite.js` to `app/assets/javascripts/modules/summernote/summernote-lite.js`. And remove last line (`sourceMappingURL`).
+
+If needed, copy also CSS file: `dist/summernote.css` to `app/assets/stylesheets/components/summernote.scss`. And remove all code related to icons.
 
 ### Populate database
 
@@ -401,6 +418,18 @@ Run in production:
 Run in production:
 
     RAILS_ENV=production bundle exec sidekiq -d
+
+### Sitemap
+
+In local, run:
+
+    rails InRailsWeBlog:generate_sitemap
+
+For production, run:
+
+    cap production deploy:generate_sitemap
+
+It will generate a new sitemap for each locale inside `./public/sitemaps/` and ping Google in production mode.
 
 ## PWA
 

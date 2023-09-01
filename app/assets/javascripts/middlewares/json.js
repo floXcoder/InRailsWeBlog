@@ -70,25 +70,31 @@ export function convertJsonApi(response) {
     return formattedResponse;
 }
 
-export function extractDataFromElement(elementId) {
-    const element = document.getElementById(elementId);
-    const data = {};
+export const extractDataFromElement = (elementId, extractAndRemove = true) => {
+    const componentElement = document.getElementById(elementId);
+    const componentData = {};
 
-    if (!element || !element.attributes) {
-        return data;
+    if (!componentElement || !componentElement.attributes) {
+        return componentData;
     }
 
-    [].forEach.call(element.attributes, function (attr) {
-        if (/^data-/.test(attr.name)) {
-            const camelCaseName = attr.name.substr(5).replace(/-(.)/g, function ($0, $1) {
-                return $1.toUpperCase();
-            });
-            data[camelCaseName] = attr.value.startsWith('{') || attr.value.startsWith('[') ? JSON.parse(attr.value) : attr.value;
-            if (Array.isArray(data[camelCaseName]) || typeof data[camelCaseName] === 'object') {
-                data[camelCaseName] = convertJsonApi(data[camelCaseName]);
+    [].forEach.call(componentElement.attributes, function (componentAttribute) {
+        if (/^data-/.test(componentAttribute.name)) {
+            const dataName = componentAttribute.name.substr(5)
+                .replace(/-(.)/g, function ($0, $1) {
+                    return $1.toUpperCase();
+                });
+            componentData[dataName] = componentAttribute.value.startsWith('{') || componentAttribute.value.startsWith('[') ? JSON.parse(componentAttribute.value) : componentAttribute.value;
+            if (Array.isArray(componentData[dataName]) || typeof componentData[dataName] === 'object') {
+                componentData[dataName] = convertJsonApi(componentData[dataName]);
             }
         }
     });
 
-    return data;
-}
+    if (extractAndRemove) {
+        Object.keys(componentData)
+            .forEach((componentKey) => delete componentElement.dataset[componentKey]);
+    }
+
+    return componentData;
+};

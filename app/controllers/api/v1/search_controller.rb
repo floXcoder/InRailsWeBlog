@@ -121,7 +121,7 @@ module Api::V1
           topic_ids:      [],
           topics:         [],
           filters:        {}
-        ).reject { |_, v| v.blank? }
+        ).compact_blank
       else
         {}
       end

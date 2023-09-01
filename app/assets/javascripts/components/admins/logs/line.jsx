@@ -25,14 +25,16 @@ const formatDate = (stringDate, onLineElementClick) => {
 };
 
 const logClass = (level) => {
-    let logClass;
-    if (level === 'W') {
-        logClass = 'file-line-warn';
-    } else if (level === 'E' || level === 'F') {
-        logClass = 'file-line-error';
+    level = level.toUpperCase();
+
+    let logClassElement;
+    if (level === 'W' || level === 'WARN') {
+        logClassElement = 'file-line-warn';
+    } else if (level === 'E' || level === 'ERROR' || level === 'F' || level === 'FATAL') {
+        logClassElement = 'file-line-error';
     }
 
-    return logClass;
+    return logClassElement;
 };
 
 const LogLine = ({children, onLineElementClick}) => {

@@ -39,7 +39,7 @@ webPackConfig = _.merge(webPackConfig, {
         futureDefaults: false,
         layers: true,
         lazyCompilation: false,
-        outputModule: true,
+        outputModule: false,
         syncWebAssembly: true,
         topLevelAwait: true
     },

@@ -128,15 +128,22 @@ const cookieChoices = (function () {
     function _parametersLinkClick() {
         var cookieContent = document.querySelector('.cookies-content');
         if (cookieContent.dataset.parameters) {
+            delete cookieContent.dataset.parameters;
+            document.getElementById('cookies-details').remove();
+            document.getElementById('cookies-list').remove();
+
             return;
         }
+
         cookieContent.dataset.parameters = 'true';
         var consentDetails = document.createElement('div');
+        consentDetails.id = 'cookies-details';
         consentDetails.className = 'cookies-details';
         _setElementText(consentDetails, I18n.t('js.cookies.details'));
         cookieContent.appendChild(consentDetails);
 
         var cookiesConsentList = document.createElement('ul');
+        cookiesConsentList.id = 'cookies-list';
         cookiesConsentList.className = 'cookies-list';
         cookiesConsentList.appendChild(_createConsentCheckbox('website', I18n.t('js.cookies.website.title'), I18n.t('js.cookies.website.details'), true, true));
         cookiesConsentList.appendChild(_createConsentCheckbox('analytics', I18n.t('js.cookies.analytics.title'), I18n.t('js.cookies.analytics.details'), _shouldDisabledGTM(), false));

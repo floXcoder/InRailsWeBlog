@@ -90,11 +90,11 @@ class Admins::LogsController < AdminsController
   def format_search(element, value)
     case element
     when 'bot'
-      "[bot:#{value}]"
+      "bot:#{value}"
     when 'level'
       " #{value.upcase} --"
     when 'host', 'ip', 'sessionId'
-      "[#{value}]"
+      value.to_s
     when 'status'
       "status=#{value}"
     when 'method'

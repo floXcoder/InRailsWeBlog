@@ -4,7 +4,7 @@ module Api::V1
   class TrackerController < ApiController
     skip_before_action :authenticate_user!
     skip_before_action :verify_authenticity_token
-    skip_before_action :set_env
+    skip_before_action :define_environment
 
     respond_to :json
 
@@ -40,7 +40,7 @@ module Api::V1
           :tag_slug,
           :topic_slug,
           :user_slug
-        ).reject { |_, v| v.blank? }
+        ).compact_blank
       else
         {}
       end

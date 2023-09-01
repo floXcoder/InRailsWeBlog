@@ -9,10 +9,10 @@ end
 ruby '3.2.0'
 
 # Rails version
-gem 'rails',                    '7.0.4.3'
+gem 'rails',                    '7.0.7.2'
 
 # Use postgresql as the database for Active Record
-gem 'pg',                       '1.5.3'
+gem 'pg',                       '1.5.4'
 # gem 'active_record_extended',   '1.4.0'
 
 # HTTP Response
@@ -21,48 +21,48 @@ gem 'secure_headers',           '6.5.0'
 
 # JSON
 gem 'jsonapi-serializer',       '2.2.0'
-gem 'oj',                       '3.14.3'
+gem 'oj',                       '3.16.1'
 
 # Use slim instead of erb
 gem 'slim-rails',               '3.6.2'
 
 # Internationalization
 gem 'i18n-js',                  '4.2.3'
-gem 'geocoder',                 '1.8.1'
+gem 'geocoder',                 '1.8.2'
 gem 'maxminddb',                '0.1.22'
 
 # Model versioning
-gem 'paper_trail',              '14.0.0'
+gem 'paper_trail',              '15.0.0'
 
 # Marked as deleted
-gem 'paranoia',                 '2.6.1'
+gem 'paranoia',                 '2.6.2'
 
 # Format user input
 gem 'auto_strip_attributes',    '2.6.0'
-gem 'sanitize',                 '6.0.1'
+gem 'sanitize',                 '6.0.2'
 
 # Run asynschronous process
-gem 'sidekiq',                  '7.1.0'
+gem 'sidekiq',                  '7.1.2'
 
 # Redis session store and cache
-gem 'redis-namespace',          '1.10.0'
+gem 'redis-namespace',          '1.11.0'
 gem 'redis-session-store',      '0.11.5'
-gem 'connection_pool',          '2.4.0'
+gem 'connection_pool',          '2.4.1'
 
 # Authentification
 gem 'devise',                   '4.9.2'
 
 # Authorization mechanism
-gem 'pundit',                   '2.3.0'
+gem 'pundit',                   '2.3.1'
 
 # Upload pictures
-gem 'carrierwave',              '2.2.3'
+gem 'carrierwave',              '3.0.3'
 gem 'mini_magick',              '4.12.0'
 gem 'image_processing',         '1.12.2'
 
 # Search in database
-gem 'searchkick',               '5.2.4'
-gem 'elasticsearch',            '8.7.1'
+gem 'searchkick',               '5.3.0'
+gem 'elasticsearch',            '8.9.0'
 gem 'typhoeus',                 '1.4.0'
 
 # Comments
@@ -85,24 +85,23 @@ gem 'sitemap_generator',        '6.3.0'
 
 # Dummy data
 gem 'factory_bot_rails',        '6.2.0',  require: false
-gem 'faker',                    '3.2.0', require: false
+gem 'faker',                    '3.2.1', require: false
 
 # Deployment
-gem 'capistrano',               '3.17.2', require: false
-gem 'capistrano-rails',         '1.6.2',  require: false
+gem 'capistrano',               '3.17.3', require: false
+gem 'capistrano-rails',         '1.6.3',  require: false
 gem 'capistrano-rvm',           '0.1.2',  require: false
 gem 'capistrano-bundler',       '2.1.0',  require: false
 gem 'health_check',             '3.1.0'
-gem 'net-ssh',                  '7.1.0'
+gem 'net-ssh',                  '7.2.0'
 gem 'ed25519',                  '1.3.0'
 gem 'bcrypt_pbkdf',             '1.1.0'
 
 # SEO
-gem 'webdrivers',               '5.2.0',  require: false
-gem 'selenium-webdriver',       '4.9.1',  require: false
+gem 'selenium-webdriver',       '4.12.0', require: false
 
 # Server
-gem 'puma',                     '6.2.2'
+gem 'puma',                     '6.3.1'
 
 group :development do
   # Debugging tool
@@ -110,7 +109,7 @@ group :development do
   gem 'awesome_print',          '1.9.2'
 
   # Improve errors
-  gem 'better_errors',          '2.9.1'
+  gem 'better_errors',          '2.10.1'
   gem 'binding_of_caller',      '1.0.0'
 
   # N+1 database query
@@ -133,8 +132,8 @@ end
 
 group :test do
   # Test tools
-  gem 'rspec-rails',                '6.0.2'
-  gem 'webmock',                    '3.18.1'
+  gem 'rspec-rails',                '6.0.3'
+  gem 'webmock',                    '3.19.1'
   gem 'shoulda-matchers',           '5.3.0',  require: false
   gem 'shoulda-callback-matchers',  '1.1.4',  require: false
   gem 'simplecov',                  '0.22.0', require: false
@@ -148,14 +147,16 @@ group :development, :test do
   gem 'bootsnap',                   '1.16.0', require: false
 
   # Check errors
-  gem 'rubocop',                    '1.51.0', require: false
-  gem 'rubocop-rails',              '2.19.1', require: false
-  gem 'rubocop-performance',        '1.17.1', require: false
-  gem 'rubocop-rspec',              '2.22.0', require: false
+  gem 'rubocop',                    '1.56.2', require: false
+  gem 'rubocop-rails',              '2.20.2', require: false
+  gem 'rubocop-performance',        '1.19.0', require: false
+  gem 'rubocop-rspec',              '2.23.2', require: false
+  gem 'rubocop-capybara',           '2.18.0',  require: false
+  gem 'rubocop-factory_bot',        '2.23.1',  require: false
 
   # static analyzer
   gem 'rails_best_practices',       '1.23.2', require: false
-  gem 'brakeman',                   '5.4.1',  require: false
+  gem 'brakeman',                   '6.0.1',  require: false
   gem 'i18n-tasks',                 '1.0.12', require: false
 end
 
@@ -164,17 +165,17 @@ group :production do
   gem 'whenever',         '1.0.0', require: false
 
   # Errors reporting
-  gem 'sentry-ruby',      '5.9.0'
-  gem 'sentry-rails',     '5.9.0'
-  gem 'sentry-sidekiq',   '5.9.0'
+  gem 'sentry-ruby',      '5.10.0'
+  gem 'sentry-rails',     '5.10.0'
+  gem 'sentry-sidekiq',   '5.10.0'
 
   # Check slow DB requests
   gem 'pghero',           '3.3.3'
-  gem 'pg_query',         '4.2.0'
+  gem 'pg_query',         '4.2.3'
 
   # Improve log outputs
-  gem 'lograge',          '0.12.0'
+  gem 'lograge',          '0.13.0'
 
   # Prerender html pages for SEO
-  gem 'seo_cache',        '1.4.0',   require: false
+  gem 'seo_cache',        '2.0.0',   require: false
 end
