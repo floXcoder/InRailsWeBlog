@@ -79,7 +79,7 @@ gem 'ahoy_matey',               '4.2.1'
 
 # SEO
 gem 'friendly_id',              '5.5.0'
-gem 'route_translator',         '13.1.0'
+gem 'route_translator',         '14.0.1'
 gem 'meta-tags',                '2.18.0'
 gem 'sitemap_generator',        '6.3.0'
 
@@ -148,9 +148,9 @@ group :development, :test do
 
   # Check errors
   gem 'rubocop',                    '1.56.2', require: false
-  gem 'rubocop-rails',              '2.20.2', require: false
+  gem 'rubocop-rails',              '2.21.0', require: false
   gem 'rubocop-performance',        '1.19.0', require: false
-  gem 'rubocop-rspec',              '2.23.2', require: false
+  gem 'rubocop-rspec',              '2.24.0', require: false
   gem 'rubocop-capybara',           '2.18.0',  require: false
   gem 'rubocop-factory_bot',        '2.23.1',  require: false
 
@@ -165,12 +165,12 @@ group :production do
   gem 'whenever',         '1.0.0', require: false
 
   # Errors reporting
-  gem 'sentry-ruby',      '5.10.0'
-  gem 'sentry-rails',     '5.10.0'
-  gem 'sentry-sidekiq',   '5.10.0'
+  gem 'sentry-ruby',      '5.11.0'
+  gem 'sentry-rails',     '5.11.0'
+  gem 'sentry-sidekiq',   '5.11.0'
 
   # Check slow DB requests
-  gem 'pghero',           '3.3.3'
+  gem 'pghero',           '3.3.4'
   gem 'pg_query',         '4.2.3'
 
   # Improve log outputs
