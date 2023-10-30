@@ -3,7 +3,7 @@
 const { faker } = require('@faker-js/faker');
 
 module.exports = (props = {}) => ({
-    title: props.defined ? 'comment title' : faker.name.firstName(),
+    title: props.defined ? 'comment title' : faker.person.firstName(),
     subject: props.defined ? 'comment subject' : faker.lorem.words(5),
     body: props.defined ? 'comment body' : faker.lorem.paragraphs(4),
     rating: props.defined ? 4 : Math.random() * 5 | 0,

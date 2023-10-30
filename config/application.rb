@@ -25,13 +25,13 @@ end
 module InRailsWeBlog
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 7.0
+    config.load_defaults 7.1
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
-
+    #
     config.generators do |generator|
       generator.test_framework :rspec,
                                fixtures:         true,
@@ -44,11 +44,33 @@ module InRailsWeBlog
       generator.assets false
     end
 
-    # Load files from lib directory
-    config.enable_dependency_loading = true
+    # Don't generate system test files.
+    config.generators.system_tests = nil
+
+    # No longer add autoloaded paths into `$LOAD_PATH`. This means that you won't be able
+    # to manually require files that are managed by the autoloader, which you shouldn't do anyway.
+    # This will reduce the size of the load path, making `require` faster if you don't use bootsnap, or reduce the size
+    # of the bootsnap cache if you use it.
+    config.add_autoload_paths_to_load_path = true
+
+    # Please, add to the `ignore` list any other `lib` subdirectories that do
+    # not contain `.rb` files, or that should not be reloaded or eager loaded.
+    # Common ones are `templates`, `generators`, or `middleware`, for example.
+    config.autoload_lib(ignore: %w[geocoding tasks])
+
+    # Configuration for the application, engines, and railties goes here.
+    #
+    # These settings can be overridden in specific environments using the files
+    # in config/environments, which are processed later.
+    #
+    # config.time_zone = "Central Time (US & Canada)"
     config.eager_load_paths << "#{config.root}/app/services"
     config.eager_load_paths << "#{config.root}/lib/inrailsweblog"
+    config.eager_load_paths << "#{config.root}/lib/populate"
     config.eager_load_paths << "#{config.root}/spec/mailers/previews"
+
+    # belongs_to is not always required
+    config.active_record.belongs_to_required_by_default = false
 
     # Database time zone
     config.time_zone                      = 'Paris'
@@ -65,7 +87,7 @@ module InRailsWeBlog
     config.i18n.fallbacks      = [:en, :fr]
 
     # Enable per-form CSRF tokens. Previous versions had false.
-    config.action_controller.per_form_csrf_tokens = false
+    config.action_controller.per_form_csrf_tokens = true
 
     # Enable origin-checking CSRF mitigation. Previous versions had false.
     config.action_controller.forgery_protection_origin_check = true
@@ -108,7 +130,6 @@ module InRailsWeBlog
     # App-specific configuration
     config.settings = config_for(:settings)
 
-    # Cache with Redis
     config.cache_store = :redis_cache_store, {
       url:             "redis://#{ENV['REDIS_HOST']}:#{ENV['REDIS_PORT']}",
       namespace:       "_#{ENV['WEBSITE_NAME']}_#{Rails.env}:cache",
@@ -117,13 +138,12 @@ module InRailsWeBlog
       connect_timeout: 30, # Defaults to 20 seconds
       read_timeout: 0.2, # Defaults to 1 second
       write_timeout: 0.2, # Defaults to 1 second
-      reconnect_attempts: 1, # Defaults to 0
+      reconnect_attempts: 3, # Defaults to 0
       # Compression is enabled by default with a 1kB threshold, so cached values larger than 1kB are automatically compressed.
-      compress: true,
+      compress:           true,
       compress_threshold: 1.kilobytes,
       # Increase the number of available connections you can enable connection pooling for multi-threaded server like Puma.
-      pool_size: 5,
-      pool_timeout: 5
+      pool:      { size: 5, timeout: 5 }
     }
   end
 

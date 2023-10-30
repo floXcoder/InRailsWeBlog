@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   include CacheService
 
   # Security
-  protect_from_forgery with: :exception, except: [:not_found, :not_found_error, :server_error]
+  protect_from_forgery with: :exception
 
   etag { current_user.try(:id) }
 
@@ -482,7 +482,7 @@ class ApplicationController < ActionController::Base
   end
 
   def not_found_error(exception = nil)
-    # raise if Rails.env.development?
+    raise if Rails.env.development?
 
     # Clear the previous response body to avoid a DoubleRenderError when redirecting or rendering another view
     self.response_body = nil

@@ -140,6 +140,8 @@ module Api::V1
       article = @context_user.articles.friendly.find(params[:id])
       admin_or_authorize article
 
+      track_action(article_id: article.id, topic_id: article.topic_id) { track_visit(Article, article.id, current_user&.id, article.topic_id) }
+
       with_cache?(article) ? expires_in(InRailsWeBlog.settings.cache_time, public: true) : reset_cache_headers
       if !with_cache?(article) || stale?(article, template: false, public: true)
         respond_to do |format|
@@ -160,7 +162,8 @@ module Api::V1
             if current_user && article.user?(current_user)
               render json: article.serialized_json('complete',
                                                    params: {
-                                                     current_user_id: current_user&.id
+                                                     current_user_id: current_user&.id,
+                                                     no_cache:        true
                                                    },
                                                    meta:   {
                                                      trackingData: { article_id: article.id, topic_id: article.topic_id },
@@ -329,6 +332,8 @@ module Api::V1
     def edit
       article = Article.include_element.friendly.find(params[:id])
       admin_or_authorize article
+
+      track_action(action: 'article_edit', article_id: article.id, topic_id: article.topic_id)
 
       respond_to do |format|
         format.json do

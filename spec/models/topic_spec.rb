@@ -164,9 +164,8 @@ RSpec.describe Topic, type: :model do
     it { is_expected.to act_as_paranoid(Topic) }
 
     it 'uses counter cache for articles' do
-      article = create(:article, user: @user, topic: @topic)
       expect {
-        @topic.articles << article
+        @topic.articles << create(:article, user: @user, topic: @topic)
       }.to change(@topic.reload, :articles_count).by(1)
     end
 

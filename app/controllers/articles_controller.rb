@@ -122,7 +122,7 @@ class ArticlesController < ApplicationController
     article = Article.include_element.friendly.find(article_params[:article_slug])
     admin_or_authorize article
 
-    track_action(article_id: article.id, topic_id: article.topic_id)
+    track_action(action: 'article_edit', article_id: article.id, topic_id: article.topic_id)
 
     respond_to do |format|
       format.html do
