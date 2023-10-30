@@ -270,16 +270,14 @@ RSpec.describe User, type: :model do
     it { is_expected.to act_as_paranoid(User) }
 
     it 'uses counter cache for pictures' do
-      picture = create(:picture, user: @user, imageable_type: 'User', imageable_id: @user.id)
       expect {
-        @user.pictures << picture
+        @user.pictures << create(:picture, user: @user, imageable_type: 'User', imageable_id: @user.id)
       }.to change(@user.reload, :pictures_count).by(1)
     end
 
     it 'uses counter cache for bookmarks' do
-      bookmark = create(:bookmark, user: @user, bookmarked: @user)
       expect {
-        @user.bookmarks << bookmark
+        @user.bookmarks << create(:bookmark, user: @user, bookmarked: @user)
       }.to change(@user.reload, :bookmarks_count).by(1)
     end
 

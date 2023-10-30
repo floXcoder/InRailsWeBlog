@@ -181,7 +181,8 @@ Here is the procedure to update Summernote:
 `yarn`
 `npm run build`
 
-Copy `dist/summernote-lite.js` to `app/assets/javascripts/modules/summernote/summernote-lite.js`. And remove last line (`sourceMappingURL`).
+Copy `dist/summernote-lite.js` to `app/assets/javascripts/modules/summernote/summernote-lite.js`.
+Then remove last line containing `sourceMappingURL`.
 
 If needed, copy also CSS file: `dist/summernote.css` to `app/assets/stylesheets/components/summernote.scss`. And remove all code related to icons.
 

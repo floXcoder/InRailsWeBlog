@@ -49,21 +49,25 @@ class HotkeyManager extends React.Component {
     _setHotkeys = () => {
         Mousetrap.bind('alt+a', (event) => {
             event.preventDefault();
+
             this.props.routeNavigate(newArticlePath(this.props.currentUserSlug, this.props.currentUserTopicSlug));
         }, 'keydown');
 
         Mousetrap.bind('alt+l', (event) => {
             event.preventDefault();
+
             this.props.showUserLogin();
         }, 'keydown');
 
         Mousetrap.bind('alt+t', (event) => {
             event.preventDefault();
+
             this.props.showTopicPopup();
         }, 'keydown');
 
         Mousetrap.bind('alt+s', (event) => {
             event.preventDefault();
+
             this.props.routeNavigate({
                 hash: searchParam
             });
@@ -71,6 +75,7 @@ class HotkeyManager extends React.Component {
 
         Mousetrap.bind('alt+p', (event) => {
             event.preventDefault();
+
             this.props.showUserPreference();
         }, 'keydown');
     };

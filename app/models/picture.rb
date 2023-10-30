@@ -34,7 +34,8 @@ class Picture < ApplicationRecord
   translation_class.send :acts_as_paranoid rescue nil
 
   # == Relationships ========================================================
-  belongs_to :user
+  belongs_to :user,
+             counter_cache: true
 
   belongs_to :imageable,
              polymorphic: true,

@@ -70,7 +70,7 @@ export default function highlight(highlightOnShow = true) {
                         ignoreUnescapedHTML: true
                     });
 
-                    if (highlightOnShow || !this._isHighlighted) {
+                    if (highlightOnShow) {
                         this._highlightTimeout = setTimeout(() => this._highlightCode(), 5);
                     }
                 });
@@ -97,11 +97,9 @@ export default function highlight(highlightOnShow = true) {
             };
 
             _highlightCode = () => {
-                if (!this._highlighter || this._unmounted) {
+                if (!this._highlighter || this._unmounted || this._isHighlighted) {
                     return;
                 }
-
-                this._isHighlighted = true;
 
                 const wrapperNode = this._wrapperRef.current;
                 const nodes = wrapperNode.querySelectorAll('pre');
@@ -109,6 +107,8 @@ export default function highlight(highlightOnShow = true) {
                     for (let i = 0; i < nodes.length; i += 1) {
                         this._highlighter.highlightElement(nodes[i]);
                     }
+
+                    this._isHighlighted = true;
                 }
             };
 

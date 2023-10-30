@@ -13,6 +13,9 @@ import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 
+// Keyboard inputs
+import Mousetrap from 'mousetrap';
+
 import {
     ArticleIndex,
     ArticleEdit
@@ -20,7 +23,8 @@ import {
 
 import {
     userArticlePath,
-    topicArticlesPath
+    topicArticlesPath,
+    editArticlePath
 } from '../../constants/routesHelper';
 
 import {
@@ -185,6 +189,8 @@ class ArticleShow extends React.Component {
                 window.scrollTo(this.props.routeLocation.state.position.left || 0, (this.props.routeLocation.state.position.top || 0) + 100);
             }, 350);
         }
+
+        this._setHotkeys();
     }
 
     componentDidUpdate(prevProps) {
@@ -239,6 +245,14 @@ class ArticleShow extends React.Component {
             this._request.signal.abort();
         }
     }
+
+    _setHotkeys = () => {
+        Mousetrap.bind('ctrl+e', (event) => {
+            event.preventDefault();
+
+            this.props.routeNavigate(editArticlePath(this.props.currentUserSlug, this.props.article.slug));
+        }, 'keyup');
+    };
 
     _fetchRecommendations = () => {
         if (!this.props.articleRecommendations && this.props.article && this.props.routeParams.userSlug !== this.props.currentUserSlug) {

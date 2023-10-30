@@ -30,8 +30,21 @@ module Api::V1
 
         track_successful_registration
 
-        respond_with resource.serialized_json('profile', meta: { location: @location }),
-                     location: @location
+        respond_to do |format|
+          # Ensure to use the first format if format is */*
+          format.json do
+            render json: resource.serialized_json('profile', meta: { location: @location, token: form_authenticity_token }),
+                   location: @location
+          end
+
+          format.html do
+            respond_with resource, location: @location
+          end
+
+          format.js do
+            respond_with resource, location: @location
+          end
+        end
       else
         respond_to do |format|
           # Ensure to use the first format if format is */*
@@ -84,8 +97,17 @@ module Api::V1
       if authenticated && (resource = warden.user(resource_name))
         set_flash_message(:alert, 'already_authenticated', scope: 'devise.failure')
 
-        respond_with resource.serialized_json('complete', meta: { token: form_authenticity_token }),
-                     location: @location
+        respond_to do |format|
+          format.html do
+            redirect_to root_path, location: @location
+          end
+
+          format.json do
+            render json: resource.serialized_json('complete', meta: { token: form_authenticity_token })
+          end
+
+          format.js
+        end
       end
     end
 

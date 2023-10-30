@@ -14,7 +14,7 @@ describe 'Users Registration API', type: :request do
         expect {
           post '/api/v1/signup', params: { user: { pseudo: 'pseudo', email: 'test@test.com', password: 'password', password_confirmation: 'password' } }, as: :json
 
-          expect(response).to be_json_response(201)
+          expect(response).to be_json_response(200)
 
           user = JSON.parse(response.body)
           expect(user['data']['attributes']).not_to be_empty

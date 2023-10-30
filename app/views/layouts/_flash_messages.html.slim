@@ -4,5 +4,5 @@
   div style="display: none"
     - flash.each do |message_type, message|
       - if message
-        .blog-flash data-level="#{message_type}" data-flash-token="#{Time.current.to_s(:number)}"
+        .blog-flash data-level="#{message_type}" data-flash-token="#{Time.current.to_fs(:number)}"
           = message.html_safe

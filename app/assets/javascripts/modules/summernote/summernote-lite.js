@@ -7,7 +7,7 @@
  * Copyright 2013- Alan Hong and contributors
  * Summernote may be freely distributed under the MIT license.
  *
- * Date: 2023-09-01T13:05Z
+ * Date: 2023-10-30T14:54Z
  *
  */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -4025,18 +4025,22 @@
               var head = lists.head(paras);
 
               if (dom.isLi(head)) {
-                var previousList = _this.findList(head.previousSibling);
+                var previousList = _this.findList(head.previousElementSibling);
 
                 if (previousList) {
                   paras.map(function (para) {
                     return previousList.appendChild(para);
                   });
                 } else {
-                  _this.wrapList(paras, head.parentNode.nodeName);
+                  _this.wrapList(paras, head.parentNode.nodeName); // move ul element to parent li element
+
 
                   paras.map(function (para) {
                     return para.parentNode;
-                  }).map(function (para) {
+                  }) // distinct
+                      .filter(function (elem, index, self) {
+                        return index === self.indexOf(elem);
+                      }).map(function (para) {
                     return _this.appendToPrevious(para);
                   });
                 }
@@ -4133,8 +4137,8 @@
           value: function wrapList(paras, listName) {
             var head = lists.head(paras);
             var last = lists.last(paras);
-            var prevList = dom.isList(head.previousSibling) && head.previousSibling;
-            var nextList = dom.isList(last.nextSibling) && last.nextSibling;
+            var prevList = dom.isList(head.previousElementSibling) && head.previousElementSibling;
+            var nextList = dom.isList(last.nextElementSibling) && last.nextElementSibling;
             var listNode = prevList || dom.insertAfter(dom.create(listName || 'UL'), last); // P to LI
 
             paras = paras.map(function (para) {
@@ -4174,8 +4178,8 @@
                 paras.map(function (para) {
                   var newList = _this4.findNextSiblings(para);
 
-                  if (parentItem.nextSibling) {
-                    parentItem.parentNode.insertBefore(para, parentItem.nextSibling);
+                  if (parentItem.nextElementSibling) {
+                    parentItem.parentNode.insertBefore(para, parentItem.nextElementSibling);
                   } else {
                     parentItem.parentNode.appendChild(para);
                   }
@@ -4189,9 +4193,10 @@
 
                 if (headList.children.length === 0) {
                   parentItem.removeChild(headList);
-                }
+                } // remove left-over ul or ul with only whitespace node
 
-                if (parentItem.childNodes.length === 0) {
+
+                if (parentItem.childNodes.length === 0 || parentItem.childNodes.length === 1 && parentItem.childNodes[0].textContent.trim() === '') {
                   parentItem.parentNode.removeChild(parentItem);
                 }
               } else {
@@ -4247,7 +4252,7 @@
         }, {
           key: "appendToPrevious",
           value: function appendToPrevious(node) {
-            return node.previousSibling ? dom.appendChildNodes(node.previousSibling, [node]) : this.wrapList([node], 'LI');
+            return node.previousElementSibling ? dom.appendChildNodes(node.previousElementSibling, [node]) : this.wrapList([node], 'LI');
           }
           /**
            * @method findList
@@ -4261,7 +4266,7 @@
         }, {
           key: "findList",
           value: function findList(node) {
-            return node ? lists.find(node.children, function (child) {
+            return node ? node.children && lists.find(node.children, function (child) {
               return ['OL', 'UL'].indexOf(child.nodeName) > -1;
             }) : null;
           }
@@ -5562,6 +5567,8 @@
               _this2.setLastRange();
 
               _this2.context.triggerEvent('paste', event);
+            }).on('copy', function (event) {
+              _this2.context.triggerEvent('copy', event);
             }).on('input', function () {
               // To limit composition characters (e.g. Korean)
               if (_this2.isLimited(0) && _this2.snapshot) {
@@ -5652,7 +5659,7 @@
               if (this.context.invoke(eventName) !== false) {
                 event.preventDefault(); // if keyMap action was invoked
 
-                if (keyName != 'ENTER') {
+                if (keyName !== 'ENTER' && !event.ctrlKey) {
                   // <--- Without this check, we get double Empty Paragraph insertion.
                   this.context.invoke(eventName);
                 }
@@ -6329,13 +6336,12 @@
 
       function Clipboard_createClass(Constructor, protoProps, staticProps) { if (protoProps) Clipboard_defineProperties(Constructor.prototype, protoProps); if (staticProps) Clipboard_defineProperties(Constructor, staticProps); return Constructor; }
 
-
-
       var Clipboard = /*#__PURE__*/function () {
         function Clipboard(context) {
           Clipboard_classCallCheck(this, Clipboard);
 
           this.context = context;
+          this.options = context.options;
           this.$editable = context.layoutInfo.editable;
         }
 
@@ -6365,7 +6371,7 @@
               var clipboardFiles = clipboardData.files;
               var clipboardText = clipboardData.getData('Text'); // paste img file
 
-              if (clipboardFiles.length > 0) {
+              if (clipboardFiles.length > 0 && this.options.allowClipboardImagePasting) {
                 this.context.invoke('editor.insertImagesOrCallback', clipboardFiles);
                 event.preventDefault();
               } // paste text with maxTextLength check
@@ -8639,6 +8645,7 @@
 
 
 
+
       var LinkPopover = /*#__PURE__*/function () {
         function LinkPopover(context) {
           var _this = this;
@@ -8647,6 +8654,7 @@
 
           this.context = context;
           this.ui = (external_root_jquery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()).summernote.ui;
+          this.$editor = context.layoutInfo.editor;
           this.options = context.options;
           this.events = {
             'summernote.keyup summernote.mouseup summernote.change summernote.scroll': function summernoteKeyupSummernoteMouseupSummernoteChangeSummernoteScroll() {
@@ -8675,6 +8683,8 @@
         }, {
           key: "initialize",
           value: function initialize() {
+            var _this2 = this;
+
             this.$popover = this.ui.popover({
               className: 'note-link-popover',
               callback: function callback($node) {
@@ -8686,6 +8696,11 @@
             this.context.invoke('buttons.build', $content, this.options.popover.link);
             this.$popover.on('mousedown', function (event) {
               event.preventDefault();
+            });
+            this.$editor.on('keyup', function (event) {
+              if (event.keyCode === key.code.ESCAPE) {
+                _this2.$popover.hide();
+              }
             });
           }
         }, {
@@ -9146,8 +9161,7 @@
           key: "createVideoNode",
           value: function createVideoNode(url) {
             // video url patterns(youtube, instagram, vimeo, dailymotion, youku, peertube, mp4, ogg, webm)
-            var ytRegExp = /\/\/(?:(?:www|m)\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w|-]{11})(?:(?:[\?&]t=)(\S+))?$/;
-            var ytRegExpForStart = /^(?:(\d+)h)?(?:(\d+)m)?(?:(\d+)s)?$/;
+            var ytRegExp = /(?:youtu\.be\/|youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=))([^&\n?]+)(?:.*[?&]t=(\d+))?.*/;
             var ytMatch = url.match(ytRegExp);
             var gdRegExp = /(?:\.|\/\/)drive\.google\.com\/file\/d\/(.[a-zA-Z0-9_-]*)\/view/;
             var gdMatch = url.match(gdRegExp);
@@ -9182,13 +9196,7 @@
               var start = 0;
 
               if (typeof ytMatch[2] !== 'undefined') {
-                var ytMatchForStart = ytMatch[2].match(ytRegExpForStart);
-
-                if (ytMatchForStart) {
-                  for (var n = [3600, 60, 1], i = 0, r = n.length; i < r; i++) {
-                    start += typeof ytMatchForStart[i + 1] !== 'undefined' ? n[i] * parseInt(ytMatchForStart[i + 1], 10) : 0;
-                  }
-                }
+                start = parseInt(ytMatch[2], 10);
               }
 
               $video = external_root_jquery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()('<iframe>').attr('frameborder', 0).attr('src', '//www.youtube.com/embed/' + youtubeId + (start > 0 ? '?start=' + start : '')).attr('width', '640').attr('height', '360');
@@ -10388,6 +10396,7 @@
           acceptImageFileTypes: "image/*",
           // Sanitize paste content
           pasteSanitizer: undefined,
+          allowClipboardImagePasting: true,
           callbacks: {
             onBeforeCommand: null,
             onBlur: null,

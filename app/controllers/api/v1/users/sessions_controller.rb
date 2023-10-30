@@ -69,8 +69,17 @@ module Api::V1
       if authenticated && (resource = warden.user(resource_name))
         set_flash_message(:alert, 'already_authenticated', scope: 'devise.failure')
 
-        respond_with resource.serialized_json('complete', meta: { token: form_authenticity_token }),
-                     location: @location
+        respond_to do |format|
+          format.html do
+            redirect_to root_path, location: @location
+          end
+
+          format.json do
+            render json: resource.serialized_json('profile', meta: { token: form_authenticity_token })
+          end
+
+          format.js
+        end
       end
     end
 
