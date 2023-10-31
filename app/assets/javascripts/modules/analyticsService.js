@@ -85,9 +85,9 @@ const AnalyticsService = (function () {
     };
 
     AnalyticsServiceModel.trackAction = function (params, actionType) {
-        if (!_isMetricsAvailable() || !piwik) {
-            return;
-        }
+        // if (!_isMetricsAvailable() || !piwik) {
+        //     return;
+        // }
 
         const pathname = params.pathname;
 

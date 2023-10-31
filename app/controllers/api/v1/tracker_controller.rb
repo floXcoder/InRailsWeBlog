@@ -5,6 +5,7 @@ module Api::V1
     skip_before_action :authenticate_user!
     skip_before_action :verify_authenticity_token
     skip_before_action :define_environment
+    skip_before_action :track_ahoy_visit
 
     respond_to :json
 

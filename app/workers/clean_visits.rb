@@ -65,8 +65,8 @@ class CleanVisits
     bots_ip.concat(visits.where('landing_page ~* ?', '\.abe').pluck(:ip))
     bots_ip.concat(visits.where('landing_page ~* ?', '\.start').pluck(:ip))
     bots_ip.concat(visits.where('landing_page ~* ?', 'var_dump').pluck(:ip))
-    bots_ip.concat(visits.where('landing_page ~* ?', 'wordpress').pluck(:ip))
-    bots_ip.concat(visits.where('landing_page ~* ?', 'wp').pluck(:ip))
+    bots_ip.concat(visits.where('landing_page ~* ?', 'wp-json').pluck(:ip))
+    bots_ip.concat(visits.where('landing_page ~* ?', '\.env').pluck(:ip))
     bots_ip.concat(visits.where('landing_page ~* ?', '\.\.\/\.\.').pluck(:ip))
 
     bots_ip.concat(visits.where('user_agent ~* ?', 'OkHttp').pluck(:ip))

@@ -40,6 +40,7 @@ module Api::V1
   class UsersController < ApiController
     skip_before_action :authenticate_user!, only: [:index, :show, :validation, :recents]
     skip_before_action :define_environment, only: [:validation]
+    skip_before_action :track_ahoy_visit, only: [:validation, :recents]
 
     # Require for tracker concern
     before_action :set_context_user, only: []
