@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class PagesController < ApplicationController
+  skip_before_action :track_ahoy_visit, only: [:meta_tag, :feed, :open_search, :robots]
 
   before_action :authenticate_user!, only: [:user_home]
 

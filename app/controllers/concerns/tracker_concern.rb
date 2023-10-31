@@ -17,6 +17,8 @@ module TrackerConcern
     skip_after_action :verify_authorized, only: [:clicked, :viewed]
     # For Rails, skip token verification
     skip_before_action :verify_authenticity_token, only: [:clicked, :viewed]
+
+    skip_before_action :track_ahoy_visit
   end
 
   # Tracker action method to get views from clients

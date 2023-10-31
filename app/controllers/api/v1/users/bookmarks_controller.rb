@@ -2,6 +2,8 @@
 
 module Api::V1
   class Users::BookmarksController < ApiController
+    skip_before_action :track_ahoy_visit, only: [:index]
+
     after_action :verify_authorized
 
     respond_to :json

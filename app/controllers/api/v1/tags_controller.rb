@@ -15,6 +15,7 @@
 module Api::V1
   class TagsController < ApiController
     skip_before_action :authenticate_user!, only: [:index, :show]
+    skip_before_action :track_ahoy_visit, only: [:index]
 
     # Require for tracker concern
     before_action :set_context_user, only: []
