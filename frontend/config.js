@@ -197,11 +197,22 @@ module.exports = {
                     }
                 },
                 {
-                    // Match all other content (HTML, other map providers, ...)
+                    // Match all other content but not admin and not force page refresh argument (HTML, ...)
+                    urlPattern: /^((?!.*admins.*|_=).)*$/,
+                    handler: 'NetworkFirst',
+                    options: {
+                        cacheName: 'others',
+                        expiration: {
+                            maxEntries: 500
+                        }
+                    }
+                },
+                {
+                    // Match all other external content
                     urlPattern: /^((?!.*admins.*).)*$/,
                     handler: 'CacheFirst',
                     options: {
-                        cacheName: 'others',
+                        cacheName: 'external',
                         cacheableResponse: {
                             statuses: [0, 200]
                             // Cache only HTML pages:
