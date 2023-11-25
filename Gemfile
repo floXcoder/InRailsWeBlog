@@ -9,7 +9,7 @@ end
 ruby '3.2.0'
 
 # Rails version
-gem 'rails',                    '7.1.1'
+gem 'rails',                    '7.1.2'
 
 # Use postgresql as the database for Active Record
 gem 'pg',                       '1.5.4'
@@ -42,7 +42,7 @@ gem 'auto_strip_attributes',    '2.6.0'
 gem 'sanitize',                 '6.1.0'
 
 # Run asynschronous process
-gem 'sidekiq',                  '7.1.6'
+gem 'sidekiq',                  '7.2.0'
 
 # Redis session store and cache
 gem 'redis-namespace',          '1.11.0'
@@ -62,8 +62,8 @@ gem 'image_processing',         '1.12.2'
 
 # Search in database
 gem 'searchkick',               '5.3.0'
-gem 'elasticsearch',            '8.10.0'
-gem 'typhoeus',                 '1.4.0'
+gem 'elasticsearch',            '8.11.0'
+gem 'typhoeus',                 '1.4.1'
 
 # Comments
 gem 'acts_as_commentable_with_threading', '2.0.1'
@@ -78,14 +78,14 @@ gem 'browser',                  '5.3.1'
 gem 'ahoy_matey',               '5.0.2'
 
 # SEO
-gem 'friendly_id',              '5.5.0'
+gem 'friendly_id',              '5.5.1'
 gem 'route_translator',         '14.1.0'
 gem 'meta-tags',                '2.19.0'
 gem 'sitemap_generator',        '6.3.0'
 
 # Dummy data
 gem 'factory_bot_rails',        '6.2.0',  require: false
-gem 'faker',                    '3.2.1',  require: false
+gem 'faker',                    '3.2.2',  require: false
 
 # Deployment
 gem 'capistrano',               '3.18.0', require: false
@@ -98,7 +98,7 @@ gem 'ed25519',                  '1.3.0'
 gem 'bcrypt_pbkdf',             '1.1.0'
 
 # SEO
-gem 'selenium-webdriver',       '4.14.0', require: false
+gem 'selenium-webdriver',       '4.15.0', require: false
 
 # Server
 gem 'puma',                     '6.4.0'
@@ -113,7 +113,7 @@ group :development do
   gem 'binding_of_caller',      '1.0.0'
 
   # N+1 database query
-  gem 'bullet',                 '7.1.2'
+  gem 'bullet',                 '7.1.4'
 
   # Guard and its minions
   gem 'guard',                  '2.18.1', require: false
@@ -132,7 +132,7 @@ end
 
 group :test do
   # Test tools
-  gem 'rspec-rails',                '6.0.3'
+  gem 'rspec-rails',                '6.1.0'
   gem 'webmock',                    '3.19.1'
   gem 'shoulda-matchers',           '5.3.0',  require: false
   gem 'shoulda-callback-matchers',  '1.1.4',  require: false
@@ -148,7 +148,7 @@ group :development, :test do
 
   # Check errors
   gem 'rubocop',                    '1.57.2', require: false
-  gem 'rubocop-rails',              '2.22.1', require: false
+  gem 'rubocop-rails',              '2.22.2', require: false
   gem 'rubocop-performance',        '1.19.1', require: false
   gem 'rubocop-rspec',              '2.25.0', require: false
   gem 'rubocop-capybara',           '2.19.0', require: false
@@ -165,9 +165,9 @@ group :production do
   gem 'whenever',         '1.0.0', require: false
 
   # Errors reporting
-  gem 'sentry-ruby',      '5.12.0'
-  gem 'sentry-rails',     '5.12.0'
-  gem 'sentry-sidekiq',   '5.12.0'
+  gem 'sentry-ruby',      '5.13.0'
+  gem 'sentry-rails',     '5.13.0'
+  gem 'sentry-sidekiq',   '5.13.0'
 
   # Check slow DB requests
   gem 'pghero',           '3.3.4'
