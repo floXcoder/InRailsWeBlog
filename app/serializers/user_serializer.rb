@@ -53,7 +53,6 @@
 
 class UserSerializer
   include FastJsonapi::ObjectSerializer
-  include NullAttributesRemover
 
   extend SerializerHelper
 

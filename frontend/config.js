@@ -259,7 +259,7 @@ module.exports = {
             chunkFilename: '[name]'
         },
         production: {
-            assetPath: `${appEnv.WEBSITE_FULL_ASSET}/assets/`,
+            assetPath: '/assets/',
             filename: '[name].[contenthash]',
             filenameImage: '[name]',
             filenameFont: '[name]',

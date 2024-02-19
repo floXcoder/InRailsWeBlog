@@ -29,7 +29,6 @@
 
 class TagSerializer
   include FastJsonapi::ObjectSerializer
-  include NullAttributesRemover
 
   extend SerializerHelper
 

@@ -8,7 +8,7 @@ require:
   - rubocop-performance
 
 AllCops:
-  TargetRubyVersion: 3.1
+  TargetRubyVersion: 3.3
   Exclude:
     - 'Capfile'
     - 'Gemfile'
@@ -27,10 +27,21 @@ AllCops:
 Bundler/OrderedGems:
   Enabled: false
 
+Capybara/ClickLinkOrButtonStyle:
+  Enabled: true
+
 Capybara/MatchStyle:
   Enabled: true
 
 Capybara/NegationMatcher:
+  Enabled: true
+
+Capybara/RedundantWithinFind:
+  Enabled: true
+
+Capybara/RSpec/HaveSelector:
+  Enabled: true
+Capybara/RSpec/PredicateMatcher:
   Enabled: true
 
 Capybara/SpecificActions:
@@ -48,10 +59,16 @@ FactoryBot/AssociationStyle:
 FactoryBot/ConsistentParenthesesStyle:
   Enabled: true
 
+FactoryBot/ExcessiveCreateList:
+  Enabled: true
+
 FactoryBot/FactoryAssociationWithStrategy:
   Enabled: true
 
 FactoryBot/FactoryNameStyle:
+  Enabled: true
+
+FactoryBot/IdSequence:
   Enabled: true
 
 FactoryBot/RedundantFactoryOption:
@@ -181,10 +198,16 @@ Lint/EmptyClass:
 Lint/EmptyInPattern:
   Enabled: true
 
+Lint/ItWithoutArgumentsInBlock:
+  Enabled: true
+
 Lint/IncompatibleIoSelectWithFiberScheduler:
   Enabled: true
 
 Lint/LambdaWithoutLiteralBlock:
+  Enabled: true
+
+Lint/LiteralAssignmentInCondition:
   Enabled: true
 
 Lint/MixedCaseRange:
@@ -291,6 +314,9 @@ Performance/ConstantRegexp:
 Performance/MapCompact:
   Enabled: true
 
+Performance/MapMethodChain:
+  Enabled: true
+
 Performance/MethodObjectAsBlock:
   Enabled: true
 
@@ -351,6 +377,9 @@ Rails/AttributeDefaultBlockValue:
 Rails/CompactBlank:
   Enabled: true
 
+Rails/DangerousColumnNames:
+  Enabled: true
+
 Rails/DeprecatedActiveModelErrorsMethods:
   Enabled: true
 
@@ -374,6 +403,9 @@ Rails/EagerEvaluationLogMessage:
 
 Rails/EnvironmentVariableAccess:
   Enabled: false
+
+Rails/EnvLocal:
+  Enabled: true
 
 Rails/ExpandedDateRange:
   Enabled: true
@@ -432,6 +464,9 @@ Rails/OutputSafety:
 Rails/PluckInWhere:
   Enabled: true
 
+Rails/RedundantActiveRecordAllMethod:
+  Enabled: true
+
 Rails/RedundantPresenceValidationOnBelongsTo:
   Enabled: false
 
@@ -454,6 +489,9 @@ Rails/RootPathnameMethods:
   Enabled: true
 
 Rails/RootPublicPath:
+  Enabled: true
+
+Rails/SelectMap:
   Enabled: true
 
 Rails/ShortI18n:
@@ -490,6 +528,9 @@ Rails/UnknownEnv:
   Enabled: false
 
 Rails/UnusedIgnoredColumns:
+  Enabled: true
+
+Rails/UnusedRenderContent:
   Enabled: true
 
 Rails/Validation:
@@ -540,6 +581,12 @@ RSpec/DescribedClass:
 RSpec/DuplicatedMetadata:
   Enabled: true
 
+RSpec/EmptyMetadata:
+  Enabled: true
+
+RSpec/Eq:
+  Enabled: true
+
 RSpec/ExampleLength:
   Max: 50
 
@@ -565,6 +612,9 @@ RSpec/LeadingSubject:
   Enabled: false
 
 RSpec/MatchArray:
+  Enabled: true
+
+RSpec/MetadataStyle:
   Enabled: true
 
 RSpec/MultipleExpectations:
@@ -610,6 +660,18 @@ RSpec/Rails/TravelAround:
   Enabled: true
 
 RSpec/ReceiveMessages:
+  Enabled: true
+
+RSpec/RedundantPredicateMatcher:
+  Enabled: true
+
+RSpec/RemoveConst:
+  Enabled: true
+
+RSpec/SpecFilePathFormat:
+  Enabled: true
+
+RSpec/SpecFilePathSuffix:
   Enabled: true
 
 RSpec/SubjectDeclaration:
@@ -844,7 +906,13 @@ Style/ReturnNilInPredicateMethodDefinition:
 Style/SelectByRegexp:
   Enabled: true
 
+Style/SingleLineDoEndBlock:
+  Enabled: true
+
 Style/StringChars:
+  Enabled: true
+
+Style/SuperWithArgsParentheses:
   Enabled: true
 
 Style/SwapValues:

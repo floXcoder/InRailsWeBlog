@@ -29,26 +29,30 @@ module ApplicationHelper
 
   def javascript(*files)
     files.each do |file|
-      content_for(:javascript) { javascript_include_tag(file) }
+      content_for(:javascript) { javascript_include_tag(AssetManifest.javascript_path(file)) }
     end
   end
 
   def javascript_defer(*files)
     files.each do |file|
-      content_for(:javascript) { javascript_include_tag(file, defer: true) }
+      content_for(:javascript) { javascript_include_tag(AssetManifest.javascript_path(file), defer: Rails.env.production?) }
     end
   end
 
   def javascript_nomodule(*files)
     files.each do |file|
-      content_for(:javascript) { javascript_include_tag(file, nomodule: true) }
+      content_for(:javascript) { javascript_include_tag(AssetManifest.javascript_path(file), nomodule: true) }
     end
   end
 
   def stylesheet(*files)
     files.each do |file|
-      content_for(:stylesheet) { stylesheet_link_tag(file) }
+      content_for(:stylesheet) { stylesheet_link_tag(AssetManifest.stylesheet_path(file), media: 'all') }
     end
+  end
+
+  def favicon(file, **options)
+    favicon_link_tag(AssetManifest.image_path(file), options)
   end
 
   def translations(file)

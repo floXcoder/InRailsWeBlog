@@ -2,7 +2,6 @@
 
 class UserSettingSerializer
   include FastJsonapi::ObjectSerializer
-  include NullAttributesRemover
 
   set_type :settings
 

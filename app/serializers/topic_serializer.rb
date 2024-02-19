@@ -27,7 +27,6 @@
 
 class TopicSerializer
   include FastJsonapi::ObjectSerializer
-  include NullAttributesRemover
 
   extend SerializerHelper
 

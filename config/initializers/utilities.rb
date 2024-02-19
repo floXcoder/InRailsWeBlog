@@ -151,6 +151,7 @@ class String
                 self
               end
 
+    content = content.gsub(/\n\s*\n/, "\n\n")
     content = content.gsub(/\n{3,}/, "\n\n")
 
     # ActionController::Base.helpers.strip_tags(content)

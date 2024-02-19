@@ -1,23 +1,20 @@
-const _ = require('lodash');
 const webpack = require('webpack');
+const {merge} = require('webpack-merge');
 
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const config = require('../config').webpack;
-let webPackConfig = module.exports = require('./main.config');
+let mainConfig = require('./main.config');
 
-webPackConfig.mode = 'development';
+const testConfig = {
+    mode: 'development',
 
-webPackConfig.output = _.merge(webPackConfig.output, {
-    filename: config.test.filename + '.js'
-});
-
-webPackConfig = _.merge(webPackConfig, {
     output: {
         publicPath: config.test.assetPath,
         pathinfo: false, // Increase garbage collection used
+        filename: config.test.filename + '.js',
         chunkFilename: config.test.chunkFilename + '.js'
     },
 
@@ -34,14 +31,50 @@ webPackConfig = _.merge(webPackConfig, {
         outputModule: false,
         syncWebAssembly: true,
         topLevelAwait: true
-    }
-});
+    },
 
-webPackConfig.plugins.push(
+    optimization: {
+        // Active tree shaking
+        sideEffects: true,
+
+        emitOnErrors: true,
+        noEmitOnErrors: false,
+        concatenateModules: false,
+        removeAvailableModules: false,
+        removeEmptyChunks: false,
+
+        splitChunks: {
+            chunks: 'async',
+            minRemainingSize: 0,
+            minSize: 50_000,
+            minChunks: 2,
+            maxInitialRequests: 20,
+            maxAsyncRequests: 20,
+            cacheGroups: {
+                commons: {
+                    name: 'commons',
+                    chunks: 'initial',
+                    priority: -10,
+                    minChunks: 4,
+                    reuseExistingChunk: true,
+                    test(module) {
+                        if (module.resource) {
+                            return !module.resource.includes('/admin/') && !module.resource.includes('/admins/') && !module.resource.includes('admins-');
+                        }
+                    }
+                }
+            }
+        }
+    }
+};
+
+mainConfig = merge(mainConfig, testConfig);
+
+mainConfig.plugins.push(
     new webpack.DefinePlugin({
         GlobalEnvironment: {
             NODE_ENV: JSON.stringify('test'),
-            ASSET_PATH: JSON.stringify(config.test.assetPath)
+            // ASSET_PATH: JSON.stringify(config.test.assetPath)
         }
     }),
     new CleanWebpackPlugin(),
@@ -56,28 +89,28 @@ webPackConfig.plugins.push(
         }]
     }),
     new CopyWebpackPlugin({
-        patterns: _.map(config.fonts, (font) => ({
+        patterns: config.fonts.map(config.fonts, (font) => ({
             from: font.from,
             to: font.to + config.test.filename + '[ext]',
             toType: 'template'
         }))
     }),
     new CopyWebpackPlugin({
-        patterns: _.map(config.fonts, (font) => ({
+        patterns: config.fonts.map((font) => ({
             from: font.from,
             to: font.to + config.test.filename + '[ext]',
             toType: 'template'
         }))
     }),
     new CopyWebpackPlugin({
-        patterns: _.map(config.images, (image) => ({
+        patterns: config.images.map((image) => ({
             from: image.from,
             to: image.to + '/' + config.test.filename + '[ext]',
             toType: 'template'
         }))
     }),
     new CopyWebpackPlugin({
-        patterns: _.map(config.datas, (data) => ({
+        patterns: config.datas.map((data) => ({
             from: data.from,
             to: data.to + config.test.filename + '[ext]',
             toType: 'template'
@@ -90,3 +123,5 @@ webPackConfig.plugins.push(
         chunkFilename: config.test.chunkFilename + '.css'
     })
 );
+
+module.exports = mainConfig;

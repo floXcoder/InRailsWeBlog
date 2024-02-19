@@ -7,10 +7,10 @@
 # and maximum; this matches the default thread size of Active Record.
 #
 # !!! In production, they are defined in /etc/systemd/system/inrailsweblog-puma.service
-nb_workers = Integer(ENV.fetch('PUMA_WORKERS', 8))
-nb_threads = Integer(ENV.fetch('PUMA_THREADS', 4))
+nb_workers = Integer(ENV.fetch('PUMA_WORKERS', 4))
+nb_threads = Integer(ENV.fetch('PUMA_THREADS', 3))
 
-current_environment = ENV.fetch('RAILS_ENV') { 'development' }
+current_environment = ENV.fetch('RAILS_ENV', 'development')
 
 # Specifies the `port` that Puma will listen on to receive requests; default is 3000.
 #
@@ -26,11 +26,11 @@ directory ENV.fetch('RAILS_DIRECTORY') { File.expand_path('..', __dir__) }
 
 # Specifies the `pidfile` that Puma will use.
 #
-pidfile ENV.fetch('PIDFILE') { 'tmp/pids/puma.pid' }
+pidfile ENV.fetch('PIDFILE', 'tmp/pids/puma.pid')
 
 # # Used by `pumactl` to query and control the server.
-# #
-# state_path ENV.fetch('STATE_FILE') { 'tmp/pids/puma.state' }
+# Required if activate_control_app is used
+state_path ENV.fetch('STATE_FILE', 'tmp/pids/puma.state')
 
 # Specifies the number of `workers` to boot in clustered mode.
 # Workers are forked webserver processes. If using threads and workers together

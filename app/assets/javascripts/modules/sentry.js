@@ -54,7 +54,9 @@ if (window.SENTRY_JAVASCRIPT_KEY) {
             /script-src/,
             /manifest-src/,
             /font-src/,
-            /script-src-elem/
+            /script-src-elem/,
+            /@webkit/,
+            /no-response/
         ]
         // beforeSend(event, hint) {
         //     // Check if it is an exception, and if so, show the report dialog
