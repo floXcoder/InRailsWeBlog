@@ -1,7 +1,7 @@
-const _ = require('lodash');
 const path = require('path');
 const webpack = require('webpack');
 const sane = require('sane');
+const {merge} = require('webpack-merge');
 
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -11,18 +11,15 @@ const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin'
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const config = require('../config').webpack;
-let webPackConfig = module.exports = require('./main.config');
+let mainConfig = require('./main.config');
 
-webPackConfig.mode = 'development';
+const devConfig = {
+    mode: 'development',
 
-webPackConfig.output = _.merge(webPackConfig.output, {
-    filename: config.development.filename + '.js'
-});
-
-webPackConfig = _.merge(webPackConfig, {
     output: {
         publicPath: config.development.assetPath,
         pathinfo: false, // Increase garbage collection used
+        filename: config.development.filename + '.js',
         chunkFilename: config.development.chunkFilename + '.js'
     },
 
@@ -62,6 +59,39 @@ webPackConfig = _.merge(webPackConfig, {
         publicPath: false
     },
 
+    optimization: {
+        // Active tree shaking
+        sideEffects: true,
+
+        emitOnErrors: true,
+        concatenateModules: false,
+        removeAvailableModules: false,
+        removeEmptyChunks: false,
+
+        splitChunks: {
+            chunks: 'async',
+            minRemainingSize: 0,
+            minSize: 50_000,
+            minChunks: 2,
+            maxInitialRequests: 20,
+            maxAsyncRequests: 20,
+            cacheGroups: {
+                commons: {
+                    name: 'commons',
+                    chunks: 'initial',
+                    priority: -10,
+                    minChunks: 4,
+                    reuseExistingChunk: true,
+                    test(module) {
+                        if (module.resource) {
+                            return !module.resource.includes('/admin/') && !module.resource.includes('/admins/') && !module.resource.includes('admins-');
+                        }
+                    }
+                }
+            }
+        }
+    },
+
     devServer: {
         devMiddleware: {
             publicPath: config.development.assetPath,
@@ -92,7 +122,6 @@ webPackConfig = _.merge(webPackConfig, {
             }
         },
         port: 8080,
-        https: false,
         headers: {
             'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
             'Access-Control-Allow-Origin': '*',
@@ -104,6 +133,9 @@ webPackConfig = _.merge(webPackConfig, {
         compress: true,
         historyApiFallback: {
             disableDotRule: true
+        },
+        server: {
+            type: 'http'
         },
         client: {
             logging: 'warn',
@@ -126,52 +158,21 @@ webPackConfig = _.merge(webPackConfig, {
             });
             watcher.on('change', function (/* filePath */) {
                 // console.log('  File modified:', filePath);
-                devServer.sendMessage(devServer.webSocketServer.clients, 'content-changed');
+                devServer.sendMessage(devServer.webSocketServer.clients, 'static-changed');
             });
 
             return middlewares;
         }
     }
-});
-
-webPackConfig.optimization = {
-    // Active tree shaking
-    sideEffects: true,
-
-    emitOnErrors: true,
-    concatenateModules: false,
-    removeAvailableModules: false,
-    removeEmptyChunks: false,
-
-    splitChunks: {
-        chunks: 'async',
-        minRemainingSize: 0,
-        minSize: 50_000,
-        minChunks: 2,
-        maxInitialRequests: 20,
-        maxAsyncRequests: 20,
-        cacheGroups: {
-            commons: {
-                name: 'commons',
-                chunks: 'initial',
-                priority: -10,
-                minChunks: 4,
-                reuseExistingChunk: true,
-                test(module) {
-                    if (module.resource) {
-                        return !module.resource.includes('/admin/') && !module.resource.includes('/admins/') && !module.resource.includes('admins-');
-                    }
-                }
-            }
-        }
-    }
 };
 
-webPackConfig.plugins.push(
+mainConfig = merge(mainConfig, devConfig);
+
+mainConfig.plugins.push(
     new webpack.DefinePlugin({
         GlobalEnvironment: {
             NODE_ENV: JSON.stringify('development'),
-            ASSET_PATH: JSON.stringify(config.development.assetPath)
+            // ASSET_PATH: JSON.stringify(config.development.assetPath)
         }
     }),
     new CleanWebpackPlugin(),
@@ -186,21 +187,21 @@ webPackConfig.plugins.push(
         }]
     }),
     new CopyWebpackPlugin({
-        patterns: _.map(config.fonts, (font) => ({
+        patterns: config.fonts.map((font) => ({
             from: font.from,
             to: font.to + config.development.filename + '[ext]',
             toType: 'template'
         }))
     }),
     new CopyWebpackPlugin({
-        patterns: _.map(config.images, (image) => ({
+        patterns: config.images.map((image) => ({
             from: image.from,
             to: image.to + '/' + config.development.filename + '[ext]',
             toType: 'template'
         }))
     }),
     new CopyWebpackPlugin({
-        patterns: _.map(config.datas, (data) => ({
+        patterns: config.datas.map((data) => ({
             from: data.from,
             to: data.to + config.development.filename + '[ext]',
             toType: 'template'
@@ -258,3 +259,5 @@ webPackConfig.plugins.push(
     //     logLevel: 'info'
     // })
 );
+
+module.exports = mainConfig;

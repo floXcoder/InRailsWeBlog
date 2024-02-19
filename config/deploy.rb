@@ -148,9 +148,8 @@ namespace :deploy do
   after :finishing, :update_revision_file
   after :finishing, :restart_web
   after :finishing, :restart_sidekiq
-  after :publishing, :elastic_search
-  after :publishing, :update_revision_file
-  after :publishing, :generate_sitemap
+  # after :publishing, :elastic_search
+  # after :publishing, :generate_sitemap
 
   after :finishing, :cleanup
 end

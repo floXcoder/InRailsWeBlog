@@ -17,7 +17,9 @@ import {
     applyMiddleware
 } from 'redux';
 
-import thunk from 'redux-thunk';
+import {
+    thunk
+} from 'redux-thunk';
 import * as utils from '../../app/assets/javascripts/modules/utils';
 
 import fetchMiddleware from '../../app/assets/javascripts/middlewares/fetch';

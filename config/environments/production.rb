@@ -24,6 +24,15 @@ Rails.application.configure do
 
   # Enable static file serving from the `/public` folder (turn off if using NGINX/Apache for it).
   config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present?
+  if ENV['RAILS_SERVE_STATIC_FILES'].present?
+    config.public_file_server.headers = {
+      'Access-Control-Allow-Origin'  => '*',
+      'Access-Control-Allow-Methods' => 'GET',
+      'X-Content-Type-Options'       => '"nosniff" always',
+      'X-XSS-Protection'             => '"1; mode=block"',
+      'Cache-Control'                => "public, immutable, max-age=#{1.day.to_i}"
+    }
+  end
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   config.action_controller.asset_host          = ENV['WEBSITE_ASSET']

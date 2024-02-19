@@ -16,7 +16,7 @@ class AssetManifest
     if AssetManifest.manifest && url
       AssetManifest.manifest[url.split('?')[0]] || url
     else
-      "#{AssetManifest.root_url}assets/#{url}"
+      "#{AssetManifest.root_url}/assets/#{url}"
     end
   end
 
@@ -27,7 +27,7 @@ class AssetManifest
     if AssetManifest.manifest && url
       AssetManifest.manifest[url.split('?')[0]] || url
     else
-      "#{AssetManifest.root_url}assets/#{url}"
+      "#{AssetManifest.root_url}/assets/#{url}"
     end
   end
 
@@ -42,12 +42,10 @@ class AssetManifest
       end
     elsif url.start_with?('data:')
       url
+    elsif AssetManifest.manifest && url
+      AssetManifest.manifest[url.split('?')[0]] || url
     else
-      if AssetManifest.manifest && url
-        AssetManifest.manifest[url.split('?')[0]] || url
-      else
-        "#{AssetManifest.root_url}assets/#{url}"
-      end
+      "#{AssetManifest.root_url}/assets/#{url}"
     end
   end
 
@@ -57,17 +55,17 @@ class AssetManifest
     if AssetManifest.manifest && url
       AssetManifest.manifest[url.split('?')[0]] || url
     else
-      "#{AssetManifest.root_url}assets/#{url}"
+      "#{AssetManifest.root_url}/assets/#{url}"
     end
   end
 
   def self.root_url
     if Rails.env.production?
-      "https://#{ENV['WEBSITE_ASSET']}"
+      "#{Rails.env.production? ? 'https' : 'http'}://#{ENV['WEBSITE_ASSET']}"
     elsif Rails.env.test?
-      "http://localhost:#{ENV['TEST_PORT']}"
+      "http://localhost:#{ENV['TEST_PORT']}/"
     else
-      Rails.application.routes.url_helpers.root_url(host: ENV['WEBSITE_ASSET'])
+      Rails.application.routes.url_helpers.root_url(host: ENV['WEBSITE_ASSET'], protocol: Rails.env.production? ? 'https' : 'http').chomp('/')
     end
   end
 end

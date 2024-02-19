@@ -6,7 +6,8 @@ import ApplicationLayoutDefault from '../components/layouts/default/application'
 
 require('./common');
 
-require('../modules/cookieChoices');
+// For the website use (no external tracking, no ads), cookies consent are useless
+// require('../modules/cookieChoices');
 
 const root = ReactCreateRoot(document.getElementById('react-component'));
 root.render(

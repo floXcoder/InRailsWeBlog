@@ -2,38 +2,45 @@
 
 import {
     init as SentryInit,
-    configureScope as SentryConfigureScope,
+    getCurrentScope as SentryGetCurrentScope,
     withScope as SentryWithScope,
     captureException as SentryCaptureException,
-    captureMessage as SentryCaptureMessage
+    captureMessage as SentryCaptureMessage,
+    browserTracingIntegration
     // showReportDialog as SentryShowReportDialog
 } from '@sentry/browser';
 
-// import {
-//     BrowserTracing
-// } from '@sentry/tracing';
-
-// import {
-//     Replay
-// } from '@sentry/replay';
+import {
+    replayIntegration
+    // replayCanvasIntegration
+} from '@sentry/replay';
 
 
 if (window.SENTRY_JAVASCRIPT_KEY) {
     SentryInit({
         dsn: window.SENTRY_JAVASCRIPT_KEY,
 
-        integrations: [],
-        // integrations: [new BrowserTracing()],
-        // integrations: [new Replay()],
+        integrations: [
+            browserTracingIntegration(),
+            replayIntegration({
+                maskAllText: false,
+                blockAllMedia: true
+            }),
+            // // For recording canvas elements
+            // replayCanvasIntegration()
+        ],
 
         // Set tracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
-        // We recommend adjusting this value in production
-        // tracesSampleRate: 1.0,
+        tracesSampleRate: 1.0,
+        tracePropagationTargets: [
+            'localhost',
+            /^https:\/\/www\.ginkonote\.com\/api/,
+        ],
 
-        // This sets the sample rate to be 10%. You may want this to be 100% while in development and sample at a lower rate in production
-        replaysSessionSampleRate: 0.1,
-        // If the entire session is not sampled, use the below sample rate to sample sessions when an error occurs.
-        replaysOnErrorSampleRate: 1.0,
+        // Replays will be captured for 0% of all normal sessions
+        replaysSessionSampleRate: 0,
+        // Replays will be captured 100% of all sessions with an error
+        replaysOnErrorSampleRate: 1,
 
         ignoreErrors: [
             'TypeError: Failed to fetch',
@@ -54,7 +61,9 @@ if (window.SENTRY_JAVASCRIPT_KEY) {
             /script-src/,
             /manifest-src/,
             /font-src/,
-            /script-src-elem/
+            /script-src-elem/,
+            /@webkit/,
+            /no-response/
         ]
         // beforeSend(event, hint) {
         //     // Check if it is an exception, and if so, show the report dialog
@@ -65,18 +74,17 @@ if (window.SENTRY_JAVASCRIPT_KEY) {
         // }
     });
 
-    SentryConfigureScope((scope) => {
-        scope.setLevel('warning');
+    const scope = SentryGetCurrentScope();
+    scope.setLevel('warning');
 
-        if (window.currentUserId || window.currentUserSlug) {
-            scope.setUser({
-                id: window.currentUserId,
-                username: window.currentUserSlug
-            });
-        }
+    if (window.currentUserId || window.currentUserSlug) {
+        scope.setUser({
+            id: window.currentUserId,
+            username: window.currentUserSlug
+        });
+    }
 
-        scope.setTag('locale', window.locale);
-    });
+    scope.setTag('locale', window.locale);
 
     window.SentryWithScope = SentryWithScope;
     window.SentryCaptureException = SentryCaptureException;

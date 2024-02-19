@@ -19,7 +19,7 @@ function convertRelationships(object, relationships, included) {
                         return relation.attributes;
                     } else {
                         pushError({
-                            statusText: `${relationName} relation not found in ${included.map((include) => include.type).join(', ')}`
+                            statusText: `${JSON.stringify(relationData.data)} relation not found for ${JSON.stringify(object)}`
                         });
 
                         return undefined;
@@ -31,7 +31,7 @@ function convertRelationships(object, relationships, included) {
                     object[relationName] = relation.attributes;
                 } else {
                     pushError({
-                        statusText: `${relationName} relation not found in ${included.map((include) => include.type).join(', ')}`
+                        statusText: `${JSON.stringify(relationData.data)} relation not found for ${JSON.stringify(object)}`
                     });
                 }
             }

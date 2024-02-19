@@ -1,7 +1,8 @@
-const _ = require('lodash');
 const webpack = require('webpack');
+const {merge} = require('webpack-merge');
 
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const {sentryWebpackPlugin} = require('@sentry/webpack-plugin');
 const {WebpackManifestPlugin} = require('webpack-manifest-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
@@ -10,24 +11,17 @@ const WorkboxPlugin = require('workbox-webpack-plugin');
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const config = require('../config').webpack;
-let webPackConfig = module.exports = require('./main.config');
+let mainConfig = require('./main.config');
 
-webPackConfig.mode = 'production';
+const prodConfig = {
+    mode: 'production',
 
-webPackConfig.target = ['web'];
+    target: ['web'],
 
-// Add new options to babel loader
-webPackConfig.module.rules[0].options.cacheCompression = true;
-webPackConfig.module.rules[0].options.compact = true;
-
-webPackConfig.output = _.merge(webPackConfig.output, {
-    filename: config.production.filename + '.js'
-});
-
-webPackConfig = _.merge(webPackConfig, {
     output: {
         publicPath: config.production.assetPath, // Used this url for fetching chunks or prefetch
         pathinfo: false,
+        filename: config.production.filename + '.js',
         chunkFilename: config.production.chunkFilename + '.js'
     },
 
@@ -51,93 +45,109 @@ webPackConfig = _.merge(webPackConfig, {
 
     bail: true,
 
-    devtool: 'source-map'
-});
+    devtool: 'source-map',
 
-// Configuration options: https://github.com/webpack/webpack/blob/master/schemas/WebpackOptions.json
-webPackConfig.performance = {
-    hints: 'warning',
-    maxAssetSize: 1200000,
-    maxEntrypointSize: 1200000
-};
-
-webPackConfig.optimization = {
-    nodeEnv: 'production',
-    flagIncludedChunks: true,
-    providedExports: true,
-    sideEffects: true,
-    usedExports: true,
-    concatenateModules: true,
-    minimize: true,
-    emitOnErrors: false,
-    checkWasmTypes: true,
-    mangleWasmImports: true,
-    removeAvailableModules: true,
-    removeEmptyChunks: true,
-    mergeDuplicateChunks: true,
-    splitChunks: {
-        hidePathInfo: true,
-        chunks: 'async',
-        minRemainingSize: 0,
-        minSize: 50_000,
-        minChunks: 2,
-        maxInitialRequests: 20,
-        maxAsyncRequests: 20,
-        cacheGroups: {
-            commons: {
-                name: 'commons',
-                chunks: 'initial',
-                priority: -10,
-                minChunks: 4,
-                reuseExistingChunk: true,
-                test(module) {
-                    if (module.resource) {
-                        return !module.resource.includes('/admin/') && !module.resource.includes('/admins/') && !module.resource.includes('admins-');
-                    }
-                }
-            }
-        }
+    // Configuration options: https://github.com/webpack/webpack/blob/master/schemas/WebpackOptions.json
+    performance: {
+        hints: 'warning',
+        maxAssetSize: 1200000,
+        maxEntrypointSize: 1200000
     },
-    minimizer: [
-        new TerserPlugin({
-            parallel: true,
-            extractComments: false,
-            terserOptions: {
-                compress: true,
-                ecma: 2015,
-                ie8: false,
-                module: false,
-                format: {
-                    comments: false,
+
+    optimization: {
+        nodeEnv: 'production',
+        flagIncludedChunks: true,
+        providedExports: true,
+        sideEffects: true,
+        usedExports: true,
+        concatenateModules: true,
+        minimize: true,
+        emitOnErrors: false,
+        checkWasmTypes: true,
+        mangleWasmImports: true,
+        removeAvailableModules: true,
+        removeEmptyChunks: true,
+        mergeDuplicateChunks: true,
+        splitChunks: {
+            hidePathInfo: true,
+            chunks: 'async',
+            minRemainingSize: 0,
+            minSize: 50_000,
+            minChunks: 2,
+            maxInitialRequests: 20,
+            maxAsyncRequests: 20,
+            cacheGroups: {
+                commons: {
+                    name: 'commons',
+                    chunks: 'initial',
+                    priority: -10,
+                    minChunks: 4,
+                    reuseExistingChunk: true,
+                    test(module) {
+                        if (module.resource) {
+                            return !module.resource.includes('/admin/') && !module.resource.includes('/admins/') && !module.resource.includes('admins-');
+                        }
+                    }
                 }
             }
-        }),
-        new CssMinimizerPlugin({
-            parallel: true,
-            minimizerOptions: {
-                preset: [
-                    'default',
-                    {
-                        discardComments: {removeAll: true}
+        },
+        minimizer: [
+            new TerserPlugin({
+                parallel: true,
+                extractComments: false,
+                terserOptions: {
+                    compress: true,
+                    ecma: 2015,
+                    ie8: false,
+                    module: false,
+                    format: {
+                        comments: false,
                     }
-                ]
-            }
-        })
-    ]
+                }
+            }),
+            new CssMinimizerPlugin({
+                parallel: true,
+                minimizerOptions: {
+                    preset: [
+                        'default',
+                        {
+                            discardComments: {removeAll: true}
+                        }
+                    ]
+                }
+            })
+        ]
+    }
 };
 
-webPackConfig.plugins.push(
+mainConfig = merge(mainConfig, prodConfig);
+
+// Add new options to babel loader
+mainConfig.module.rules[0].options.cacheCompression = true;
+mainConfig.module.rules[0].options.compact = true;
+
+mainConfig.plugins.push(
     new webpack.DefinePlugin({
         'global.WEBPACK': JSON.stringify(true),
         GlobalEnvironment: {
             NODE_ENV: JSON.stringify('production'),
-            ASSET_PATH: JSON.stringify(config.production.assetPath)
+            // ASSET_PATH: JSON.stringify(config.production.assetPath)
         },
         NODE_ENV: JSON.stringify('production')
     }),
     new webpack.LoaderOptionsPlugin({
         minimize: true,
         debug: false
+    }),
+    sentryWebpackPlugin({
+        telemetry: false,
+        bundleSizeOptimizations: {
+            excludeDebugStatements: true,
+            excludePerformanceMonitoring: true,
+            excludeReplayCanvas: true,
+            excludeReplayIframe: true,
+            excludeReplayShadowDom: true
+        }
     }),
     new CopyWebpackPlugin({
         patterns: [{
@@ -147,21 +157,21 @@ webPackConfig.plugins.push(
         }]
     }),
     new CopyWebpackPlugin({
-        patterns: _.map(config.fonts, (font) => ({
+        patterns: config.fonts.map((font) => ({
             from: font.from,
             to: font.to + config.production.filenameFont + '[ext]',
             toType: 'template'
         }))
     }),
     new CopyWebpackPlugin({
-        patterns: _.map(config.images, (image) => ({
+        patterns: config.images.map((image) => ({
             from: image.from,
             to: image.to + '/' + config.production.filenameImage + '[ext]',
             toType: 'template'
         }))
     }),
     new CopyWebpackPlugin({
-        patterns: _.map(config.datas, (data) => ({
+        patterns: config.datas.map((data) => ({
             from: data.from,
             to: data.to + config.production.filenameData + '[ext]',
             toType: 'template'
@@ -230,3 +240,5 @@ webPackConfig.plugins.push(
     //     logLevel: 'info'
     // })
 );
+
+module.exports = mainConfig;
