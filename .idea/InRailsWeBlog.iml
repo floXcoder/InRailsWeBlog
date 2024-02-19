@@ -128,6 +128,7 @@
     <orderEntry type="library" scope="PROVIDED" name="crack (v1.0.0, RVM: ruby-3.3.0 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="crass (v1.0.6, RVM: ruby-3.3.0 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="css_parser (v1.16.0, RVM: ruby-3.3.0 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="csv (v3.2.8, RVM: ruby-3.3.0 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="database_cleaner (v2.0.2, RVM: ruby-3.3.0 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="database_cleaner-active_record (v2.1.0, RVM: ruby-3.3.0 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="database_cleaner-core (v2.0.1, RVM: ruby-3.3.0 [InRailsWeBlog]) [gem]" level="application" />

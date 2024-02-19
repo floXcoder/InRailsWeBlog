@@ -65,6 +65,9 @@ gem 'searchkick',               '5.3.1'
 gem 'elasticsearch',            '8.12.2'
 gem 'typhoeus',                 '1.4.1'
 
+# CSV
+gem 'csv',                      '3.2.8',    require: false
+
 # Comments
 gem 'acts_as_commentable_with_threading', '2.0.1'
 
