@@ -212,11 +212,6 @@ GEM
     glob (0.4.1)
     globalid (1.2.1)
       activesupport (>= 6.1)
-    google-protobuf (3.25.3)
-    google-protobuf (3.25.3-aarch64-linux)
-    google-protobuf (3.25.3-arm64-darwin)
-    google-protobuf (3.25.3-x86-linux)
-    google-protobuf (3.25.3-x86_64-darwin)
     google-protobuf (3.25.3-x86_64-linux)
     guard (2.18.1)
       formatador (>= 0.2.4)
@@ -325,16 +320,6 @@ GEM
     net-ssh (7.2.1)
     netrc (0.11.0)
     nio4r (2.7.0)
-    nokogiri (1.16.2-aarch64-linux)
-      racc (~> 1.4)
-    nokogiri (1.16.2-arm-linux)
-      racc (~> 1.4)
-    nokogiri (1.16.2-arm64-darwin)
-      racc (~> 1.4)
-    nokogiri (1.16.2-x86-linux)
-      racc (~> 1.4)
-    nokogiri (1.16.2-x86_64-darwin)
-      racc (~> 1.4)
     nokogiri (1.16.2-x86_64-linux)
       racc (~> 1.4)
     notiffany (0.1.3)
@@ -579,6 +564,7 @@ GEM
       net-sftp (>= 2.1.2)
       net-ssh (>= 2.8.0)
     ssrf_filter (1.1.2)
+    stackprof (0.2.26)
     stringio (3.1.0)
     temple (0.10.3)
     terminal-table (3.0.2)
@@ -609,11 +595,6 @@ GEM
     zeitwerk (2.6.13)
 
 PLATFORMS
-  aarch64-linux
-  arm-linux
-  arm64-darwin
-  x86-linux
-  x86_64-darwin
   x86_64-linux
 
 DEPENDENCIES
@@ -696,6 +677,7 @@ DEPENDENCIES
   simplecov (= 0.22.0)
   sitemap_generator (= 6.3.0)
   slim-rails (= 3.6.3)
+  stackprof (= 0.2.26)
   typhoeus (= 1.4.1)
   webmock (= 3.20.0)
   whenever (= 1.0.0)
