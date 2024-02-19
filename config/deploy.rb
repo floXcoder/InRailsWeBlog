@@ -112,14 +112,14 @@ namespace :deploy do
   desc 'Reload web application'
   task :restart_web do
     on roles(:web), in: :sequence, wait: 5 do
-      execute :sudo, 'service inrailsweblog-puma reload'
+      execute :sudo, 'service ginkonote-puma reload'
     end
   end
 
   desc 'Restart sidekiq application'
   task :restart_sidekiq do
     on roles(:web), in: :sequence, wait: 5 do
-      execute :sudo, 'service inrailsweblog-sidekiq restart'
+      execute :sudo, 'service ginkonote-sidekiq restart'
     end
   end
 
