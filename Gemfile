@@ -9,7 +9,7 @@ end
 ruby file: '.ruby-version'
 
 # Rails version
-gem 'rails',                    '7.1.3'
+gem 'rails',                    '7.1.3.2'
 
 # Use postgresql as the database for Active Record
 gem 'pg',                       '1.5.5'
@@ -101,7 +101,7 @@ gem 'ed25519',                  '1.3.0'
 gem 'bcrypt_pbkdf',             '1.1.0'
 
 # SEO
-gem 'selenium-webdriver',       '4.17.0', require: false
+gem 'selenium-webdriver',       '4.18.1', require: false
 
 # Server
 gem 'puma',                     '6.4.2'
@@ -133,7 +133,7 @@ end
 group :test do
   # Test tools
   gem 'rspec-rails',                '6.1.1'
-  gem 'webmock',                    '3.20.0'
+  gem 'webmock',                    '3.23.0'
   gem 'shoulda-matchers',           '6.1.0',  require: false
   gem 'shoulda-callback-matchers',  '1.1.4',  require: false
   gem 'simplecov',                  '0.22.0', require: false
