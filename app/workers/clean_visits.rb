@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class CleanVisits
-  include Sidekiq::Worker
+  include Sidekiq::Job
 
   sidekiq_options queue: :default
 
@@ -22,7 +22,7 @@ class CleanVisits
     new_excluded_ips = remove_bots_visits
 
     # Combine with previous IPs
-    excluded_ips = File.open(Rails.root.join('lib/tracking/excluded_ips.txt')) { |file| file.readlines.map(&:chomp) }
+    excluded_ips = Rails.root.join('lib/tracking/excluded_ips.txt').open { |file| file.readlines.map(&:chomp) }
     excluded_ips.concat(new_excluded_ips)
 
     # Do not exclude my IPs
@@ -31,19 +31,19 @@ class CleanVisits
     end
 
     # Detect patterns
-    excluded_pattern_ips     = File.open(Rails.root.join('lib/tracking/excluded_pattern_ips.txt')) { |file| file.readlines.map(&:chomp) }
+    excluded_pattern_ips     = Rails.root.join('lib/tracking/excluded_pattern_ips.txt').open { |file| file.readlines.map(&:chomp) }
     pattern_ips              = excluded_ips.map { |ip| ip.split('.')[0..2].join('.') }
     count_pattern            = pattern_ips.inject(Hash.new(0)) { |h, e| h[e] += 1; h }
     patterns                 = count_pattern.select { |_, v| v > 5 }
     new_excluded_pattern_ips = patterns.keys
     excluded_pattern_ips.concat(new_excluded_pattern_ips)
     excluded_pattern_ips.uniq!
-    File.open(Rails.root.join('lib/tracking/excluded_pattern_ips.txt'), 'w') { |file| file.puts(excluded_pattern_ips) }
+    Rails.root.join('lib/tracking/excluded_pattern_ips.txt').open('w') { |file| file.puts(excluded_pattern_ips) }
 
     # Remove unique IPs included in patterns
     excluded_ips = excluded_ips.reject { |ip| excluded_pattern_ips.include?(ip.split('.')[0..2].join('.')) }
     excluded_ips.uniq!
-    File.open(Rails.root.join('lib/tracking/excluded_ips.txt'), 'w') { |file| file.puts(excluded_ips) }
+    Rails.root.join('lib/tracking/excluded_ips.txt').open('w') { |file| file.puts(excluded_ips) }
   end
 
   def remove_bots_visits
