@@ -16,6 +16,8 @@ export default function highlight(highlightOnShow = true) {
         return class HighlightComponent extends React.Component {
             static displayName = `HighlightComponent(${getDisplayName(WrappedComponent)})`;
 
+            static HIGHLIGHT_TIMEOUT = 50;
+
             constructor(props) {
                 super(props);
 
@@ -48,7 +50,7 @@ export default function highlight(highlightOnShow = true) {
                 }
 
                 if (highlightOnShow) {
-                    this._highlightTimeout = setTimeout(() => this._highlightCode(), 5);
+                    this._highlightTimeout = setTimeout(() => this._highlightCode(), HighlightComponent.HIGHLIGHT_TIMEOUT);
                 }
             }
 
@@ -71,7 +73,7 @@ export default function highlight(highlightOnShow = true) {
                     });
 
                     if (highlightOnShow) {
-                        this._highlightTimeout = setTimeout(() => this._highlightCode(), 5);
+                        this._highlightTimeout = setTimeout(() => this._highlightCode(), HighlightComponent.HIGHLIGHT_TIMEOUT);
                     }
                 });
             };
@@ -92,12 +94,12 @@ export default function highlight(highlightOnShow = true) {
 
                 if (!this._highlightedElements.includes(elementId) || force) {
                     this._highlightedElements.push(elementId);
-                    this._highlightTimeout = setTimeout(() => this._highlightCode(), 5);
+                    this._highlightTimeout = setTimeout(() => this._highlightCode(), HighlightComponent.HIGHLIGHT_TIMEOUT);
                 }
             };
 
             _highlightCode = () => {
-                if (!this._highlighter || this._unmounted || this._isHighlighted) {
+                if (!this._highlighter || this._isHighlighted || this._unmounted) {
                     return;
                 }
 
