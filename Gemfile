@@ -12,7 +12,7 @@ ruby file: '.ruby-version'
 gem 'rails',                    '7.1.3.2'
 
 # Use postgresql as the database for Active Record
-gem 'pg',                       '1.5.5'
+gem 'pg',                       '1.5.6'
 # gem 'active_record_extended',   '1.4.0'
 
 # HTTP Response
@@ -56,7 +56,7 @@ gem 'devise',                   '4.9.3'
 gem 'pundit',                   '2.3.1'
 
 # Upload pictures
-gem 'carrierwave',              '3.0.5'
+gem 'carrierwave',              '3.0.7'
 gem 'mini_magick',              '4.12.0'
 gem 'image_processing',         '1.12.2'
 
@@ -66,7 +66,7 @@ gem 'elasticsearch',            '8.12.2'
 gem 'typhoeus',                 '1.4.1'
 
 # CSV
-gem 'csv',                      '3.2.8',    require: false
+gem 'csv',                      '3.3.0',    require: false
 
 # Comments
 gem 'acts_as_commentable_with_threading', '2.0.1'
@@ -78,7 +78,7 @@ gem 'premailer-rails',          '1.12.0'
 gem 'browser',                  '5.3.1'
 
 # Tracking
-gem 'ahoy_matey',               '5.0.2'
+gem 'ahoy_matey',               '5.1.0'
 
 # SEO
 gem 'friendly_id',              '5.5.1'
@@ -88,10 +88,10 @@ gem 'sitemap_generator',        '6.3.0'
 
 # Dummy data
 gem 'factory_bot_rails',        '6.4.3',  require: false
-gem 'faker',                    '3.2.3',  require: false
+gem 'faker',                    '3.3.0',  require: false
 
 # Deployment
-gem 'capistrano',               '3.18.0', require: false
+gem 'capistrano',               '3.18.1', require: false
 gem 'capistrano-rails',         '1.6.3',  require: false
 gem 'capistrano-rvm',           '0.1.2',  require: false
 gem 'capistrano-bundler',       '2.1.0',  require: false
@@ -101,7 +101,7 @@ gem 'ed25519',                  '1.3.0'
 gem 'bcrypt_pbkdf',             '1.1.0'
 
 # SEO
-gem 'selenium-webdriver',       '4.18.1', require: false
+gem 'selenium-webdriver',       '4.19.0', require: false
 
 # Server
 gem 'puma',                     '6.4.2'
@@ -112,7 +112,7 @@ group :development do
 
   # Improve errors
   gem 'better_errors',          '2.10.1'
-  gem 'binding_of_caller',      '1.0.0'
+  gem 'binding_of_caller',      '1.0.1'
 
   # N+1 database query
   gem 'bullet',                 '7.1.6'
@@ -132,9 +132,9 @@ end
 
 group :test do
   # Test tools
-  gem 'rspec-rails',                '6.1.1'
+  gem 'rspec-rails',                '6.1.2'
   gem 'webmock',                    '3.23.0'
-  gem 'shoulda-matchers',           '6.1.0',  require: false
+  gem 'shoulda-matchers',           '6.2.0',  require: false
   gem 'shoulda-callback-matchers',  '1.1.4',  require: false
   gem 'simplecov',                  '0.22.0', require: false
   gem 'fuubar',                     '2.5.1'
@@ -147,10 +147,10 @@ group :development, :test do
   gem 'bootsnap',                   '1.18.3', require: false
 
   # Check errors
-  gem 'rubocop',                    '1.60.2', require: false
-  gem 'rubocop-rails',              '2.23.1', require: false
+  gem 'rubocop',                    '1.62.1', require: false
+  gem 'rubocop-rails',              '2.24.1', require: false
   gem 'rubocop-performance',        '1.20.2', require: false
-  gem 'rubocop-rspec',              '2.26.1', require: false
+  gem 'rubocop-rspec',              '2.27.1', require: false
   gem 'rubocop-capybara',           '2.20.0', require: false
   gem 'rubocop-factory_bot',        '2.25.1', require: false
 
@@ -165,9 +165,9 @@ group :production do
   gem 'whenever',         '1.0.0', require: false
 
   # Errors reporting
-  gem 'sentry-ruby',      '5.16.1'
-  gem 'sentry-rails',     '5.16.1'
-  gem 'sentry-sidekiq',   '5.16.1'
+  gem 'sentry-ruby',      '5.17.1'
+  gem 'sentry-rails',     '5.17.1'
+  gem 'sentry-sidekiq',   '5.17.1'
   gem 'stackprof',        '0.2.26'
 
   # Check slow DB requests

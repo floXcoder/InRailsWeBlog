@@ -1618,7 +1618,8 @@ html .note-fullscreen-body, body .note-fullscreen-body {
     }
   }
 
-  pre {
+  pre,
+  code pre {
     display: block;
     width: 100%;
     margin: 1rem 0 .6rem;

@@ -114,7 +114,7 @@ export default @withRouter({
     switchTopic,
     showArticleContent
 })
-@highlight(false)
+@highlight()
 class ArticleShow extends React.Component {
     static propTypes = {
         initProps: PropTypes.object,
