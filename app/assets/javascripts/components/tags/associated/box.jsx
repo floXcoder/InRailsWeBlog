@@ -5,7 +5,7 @@
 import Loader from '../../theme/loader';
 
 function AssociatedTagBox({
-                              hasMore
+                              hasMore = false
                           }) {
     return (
         <div className="center-align">
@@ -27,10 +27,6 @@ function AssociatedTagBox({
 
 AssociatedTagBox.propTypes = {
     hasMore: PropTypes.bool
-};
-
-AssociatedTagBox.defaultProps = {
-    hasMore: false
 };
 
 export default AssociatedTagBox;

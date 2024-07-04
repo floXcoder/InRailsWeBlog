@@ -6,8 +6,8 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOffOutlined';
 function ArticleOutdatedIcon({
                                  isOutdated,
                                  onOutdatedClick,
-                                 size,
-                                 color
+                                 size = 'medium',
+                                 color = 'primary'
                              }) {
     return (
         <span className="flow-tooltip-bottom"
@@ -33,11 +33,6 @@ ArticleOutdatedIcon.propTypes = {
     onOutdatedClick: PropTypes.func.isRequired,
     size: PropTypes.oneOf(['small', 'medium', 'large']),
     color: PropTypes.oneOf(['primary', 'secondary', 'action', 'disabled']),
-};
-
-ArticleOutdatedIcon.defaultProps = {
-    size: 'medium',
-    color: 'primary'
 };
 
 export default React.memo(ArticleOutdatedIcon);

@@ -3,7 +3,12 @@
 import VisibilityIcon from '@mui/icons-material/VisibilityOutlined';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOffOutlined';
 
-function ArticleVisibilityIcon({articleVisibility, onVisibilityClick, size, color}) {
+function ArticleVisibilityIcon({
+                                   articleVisibility,
+                                   onVisibilityClick,
+                                   size = 'medium',
+                                   color = 'primary'
+                               }) {
     const isVisible = articleVisibility === 'everyone';
 
     const visibilityName = I18n.t(`js.article.enums.visibility.${articleVisibility}`);
@@ -33,11 +38,6 @@ ArticleVisibilityIcon.propTypes = {
     onVisibilityClick: PropTypes.func,
     size: PropTypes.oneOf(['small', 'medium', 'large']),
     color: PropTypes.oneOf(['primary', 'secondary', 'action', 'disabled']),
-};
-
-ArticleVisibilityIcon.defaultProps = {
-    size: 'medium',
-    color: 'primary'
 };
 
 export default React.memo(ArticleVisibilityIcon);

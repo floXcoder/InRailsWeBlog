@@ -4,8 +4,8 @@ import LinkOffIcon from '@mui/icons-material/LinkOff';
 
 function CheckLinkIcon({
                            onCheckLinkClick,
-                           size,
-                           color
+                           size = 'medium',
+                           color = 'primary'
                        }) {
     return (
         <span className="flow-tooltip-bottom"
@@ -24,11 +24,6 @@ CheckLinkIcon.propTypes = {
     onCheckLinkClick: PropTypes.func.isRequired,
     size: PropTypes.oneOf(['small', 'medium', 'large']),
     color: PropTypes.oneOf(['primary', 'secondary', 'action', 'disabled']),
-};
-
-CheckLinkIcon.defaultProps = {
-    size: 'medium',
-    color: 'primary'
 };
 
 export default React.memo(CheckLinkIcon);

@@ -5,12 +5,12 @@ class PagesController < ApplicationController
 
   before_action :authenticate_user!, only: [:user_home]
 
-  respond_to :html
+  respond_to :html, :json, :rss, :text, :xml
 
   def home
     track_action
 
-    with_cache? ? expires_in(InRailsWeBlog.settings.cache_time, public: true) : reset_cache_headers
+    reset_cache_headers
     respond_to do |format|
       format.html do
         set_seo_data(:home,
@@ -36,7 +36,7 @@ class PagesController < ApplicationController
     respond_to do |format|
       format.html do
         if request.path == '/' && user.locale != 'en'
-          redirect_to send("user_home_#{user.locale}_path", user_slug: user.slug)
+          redirect_to send(:"user_home_#{user.locale}_path", user_slug: user.slug)
         end
 
         set_seo_data(:user_home,
@@ -130,6 +130,12 @@ class PagesController < ApplicationController
     respond_to do |format|
       format.rss { render layout: false, locals: { locale: locale, home_data: home_data, articles: articles } }
     end
+  end
+
+  def manifest
+    @start_path = current_user ? send(:"user_home_#{current_user.locale}_path", user_slug: current_user.slug) : '/'
+
+    respond_to :json
   end
 
   def open_search

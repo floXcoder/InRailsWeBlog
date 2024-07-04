@@ -4,17 +4,23 @@ import List from '@mui/material/List';
 
 import ParentTag from './parent';
 
-function TagRelationshipDisplay(props) {
+function TagRelationshipDisplay({
+                                    tags,
+                                    onTagClick,
+                                    currentTagSlug,
+                                    currentChildTagSlug,
+                                    isFiltering = false
+                                }) {
     return (
         <List dense={true}>
             {
-                props.tags.map((tag, i) => (
+                tags.map((tag, i) => (
                     <ParentTag key={i}
                                tag={tag}
-                               currentTagSlug={props.currentTagSlug}
-                               currentChildTagSlug={props.currentChildTagSlug}
-                               isFiltering={props.isFiltering}
-                               onTagClick={props.onTagClick}/>
+                               currentTagSlug={currentTagSlug}
+                               currentChildTagSlug={currentChildTagSlug}
+                               isFiltering={isFiltering}
+                               onTagClick={onTagClick}/>
                 ))
             }
         </List>
@@ -27,10 +33,6 @@ TagRelationshipDisplay.propTypes = {
     currentTagSlug: PropTypes.string,
     currentChildTagSlug: PropTypes.string,
     isFiltering: PropTypes.bool
-};
-
-TagRelationshipDisplay.defaultProps = {
-    isFiltering: false
 };
 
 export default TagRelationshipDisplay;

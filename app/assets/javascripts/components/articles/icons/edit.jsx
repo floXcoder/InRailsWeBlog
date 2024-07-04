@@ -34,10 +34,10 @@ const _redirectToEdit = (userSlug, articleSlug, routeNavigate, event) => {
 const ArticleEditIcon = function ({
                                       userSlug,
                                       articleSlug,
-                                      isIconButton,
+                                      isIconButton = false,
                                       routeNavigate,
-                                      size,
-                                      color
+                                      size = 'medium',
+                                      color = 'primary'
                                   }) {
     return (
         <span className="flow-tooltip-bottom"
@@ -74,12 +74,6 @@ ArticleEditIcon.propTypes = {
     isIconButton: PropTypes.bool,
     size: PropTypes.oneOf(['small', 'medium', 'large']),
     color: PropTypes.oneOf(['primary', 'secondary', 'action', 'disabled'])
-};
-
-ArticleEditIcon.defaultProps = {
-    isIconButton: false,
-    size: 'medium',
-    color: 'primary'
 };
 
 export default React.memo(ArticleEditIcon);

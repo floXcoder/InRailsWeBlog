@@ -13,8 +13,8 @@ import {
 function ArticleTopicLinkIcon({
                                   userSlug,
                                   topicSlug,
-                                  size,
-                                  color
+                                  size = 'medium',
+                                  color = 'primary'
                               }) {
     return (
         <span className="flow-tooltip-bottom"
@@ -32,11 +32,6 @@ ArticleTopicLinkIcon.propTypes = {
     topicSlug: PropTypes.string.isRequired,
     size: PropTypes.oneOf(['small', 'medium', 'large']),
     color: PropTypes.oneOf(['primary', 'secondary', 'action', 'disabled']),
-};
-
-ArticleTopicLinkIcon.defaultProps = {
-    size: 'medium',
-    color: 'primary'
 };
 
 export default React.memo(ArticleTopicLinkIcon);

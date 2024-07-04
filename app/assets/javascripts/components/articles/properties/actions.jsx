@@ -18,7 +18,7 @@ const deleteIconStyle = {
 };
 
 const ArticleActions = function ({
-                                     isInline,
+                                     isInline = false,
                                      userSlug,
                                      articleId,
                                      articleSlug,
@@ -29,8 +29,8 @@ const ArticleActions = function ({
                                      hasLinks,
                                      onCheckLinkClick,
                                      onDeleteClick,
-                                     size,
-                                     color
+                                     size = 'medium',
+                                     color = 'action'
                                  }) {
     return (
         <ul className="article-card-action-buttons">
@@ -150,13 +150,6 @@ ArticleActions.propTypes = {
     hasLinks: PropTypes.bool,
     size: PropTypes.oneOf(['small', 'medium', 'large']),
     color: PropTypes.oneOf(['primary', 'secondary', 'action'])
-};
-
-ArticleActions.defaultProps = {
-    isInline: false,
-    // isOutdated: false,
-    size: 'medium',
-    color: 'action'
 };
 
 export default React.memo(ArticleActions);

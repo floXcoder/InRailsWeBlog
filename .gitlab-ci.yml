@@ -107,6 +107,7 @@ test:rails:
   needs: ["build"]
   only:
     - tags
+  retry: 1
 
 ## Inconsistent tests
 #test:browser:

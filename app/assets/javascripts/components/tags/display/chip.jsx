@@ -19,7 +19,7 @@ import {
 
 function TagChipDisplay({
                             tag,
-                            isLarge
+                            isLarge = false
                         }) {
     return (
         <Chip className={classNames('tag-chip-tag-chip', {
@@ -38,10 +38,6 @@ function TagChipDisplay({
 TagChipDisplay.propTypes = {
     tag: PropTypes.object.isRequired,
     isLarge: PropTypes.bool
-};
-
-TagChipDisplay.defaultProps = {
-    isLarge: false
 };
 
 export default TagChipDisplay;

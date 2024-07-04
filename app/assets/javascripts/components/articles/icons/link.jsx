@@ -21,8 +21,8 @@ function ArticleLinkIcon({
                              articleUserId,
                              articleTitle,
                              articleTopicId,
-                             size,
-                             color
+                             size = 'medium',
+                             color = 'primary'
                          }) {
     return (
         <span className="flow-tooltip-bottom"
@@ -45,11 +45,6 @@ ArticleLinkIcon.propTypes = {
     articleTitle: PropTypes.string,
     size: PropTypes.oneOf(['small', 'medium', 'large']),
     color: PropTypes.oneOf(['primary', 'secondary', 'action', 'disabled']),
-};
-
-ArticleLinkIcon.defaultProps = {
-    size: 'medium',
-    color: 'primary'
 };
 
 export default React.memo(ArticleLinkIcon);

@@ -12,7 +12,7 @@ const CheckBoxFormField = function ({input, label, meta: {touched, error}, compo
         <FormControl error={!!touched && !!error}
                      {...custom}>
             <FormGroup>
-                <FormControlLabel control={<Checkbox checked={!!input.value}
+                <FormControlLabel control={<Checkbox checked={!!input.checked}
                                                      required={custom.required}
                                                      {...input}/>}
                                   label={label}

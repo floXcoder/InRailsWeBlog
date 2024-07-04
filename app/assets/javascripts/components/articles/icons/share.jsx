@@ -13,8 +13,8 @@ import {
 
 function ArticleShareIcon({
                               articleId,
-                              size,
-                              color
+                              size = 'medium',
+                              color = 'primary'
                           }) {
     return (
         <span className="flow-tooltip-bottom"
@@ -35,11 +35,6 @@ ArticleShareIcon.propTypes = {
     articleId: PropTypes.number.isRequired,
     size: PropTypes.oneOf(['small', 'medium', 'large']),
     color: PropTypes.oneOf(['primary', 'secondary', 'action', 'disabled']),
-};
-
-ArticleShareIcon.defaultProps = {
-    size: 'medium',
-    color: 'primary'
 };
 
 export default React.memo(ArticleShareIcon);

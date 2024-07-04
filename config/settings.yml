@@ -6,10 +6,10 @@ shared: &shared
   full_assets_url: <%= ENV['WEBSITE_FULL_ASSET'] %>
 
   # Cache time
-  cache_time: <%= 4.weeks %>
+  cache_time: <%= 7.days %>
 
   # Time the user stays logged in
-  session_duration: <%= 4.weeks %>
+  session_duration: <%= 8.weeks %>
 
   # Geocoding and elevation timeout (in secs)
   geocoding_timeout: 5

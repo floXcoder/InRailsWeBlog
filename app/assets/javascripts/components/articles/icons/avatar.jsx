@@ -50,16 +50,19 @@ const ArticleAvatarIcon = function ({
                                           {createdDate}
                                       </time>
 
-                                      <span className="article-card-avatar-date-secondary">
-                                          (
-                                          <time className="flow-tooltip-bottom"
-                                                dateTime={updatedDate}
-                                                itemProp="dateCreated"
-                                                data-tooltip={I18n.t('js.article.tooltip.updated')}>
-                                              {updatedDate}
-                                          </time>
-                                          )
-                                      </span>
+                                      {
+                                          createdDate !== updatedDate &&
+                                          <span className="article-card-avatar-date-secondary">
+                                              (
+                                              <time className="flow-tooltip-bottom"
+                                                    dateTime={updatedDate}
+                                                    itemProp="dateCreated"
+                                                    data-tooltip={I18n.t('js.article.tooltip.updated')}>
+                                                  {updatedDate}
+                                              </time>
+                                              )
+                                          </span>
+                                      }
                                   </>
                               }>
                     <Link className="article-card-avatar-user"

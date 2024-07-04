@@ -4,8 +4,8 @@ import DeleteIcon from '@mui/icons-material/DeleteOutline';
 
 function ArticleDeleteIcon({
                                onDeleteClick,
-                               size,
-                               color
+                               size = 'medium',
+                               color = 'primary'
                            }) {
     return (
         <span className="flow-tooltip-bottom"
@@ -24,11 +24,6 @@ ArticleDeleteIcon.propTypes = {
     onDeleteClick: PropTypes.func.isRequired,
     size: PropTypes.oneOf(['small', 'medium', 'large']),
     color: PropTypes.oneOf(['primary', 'secondary', 'action', 'disabled']),
-};
-
-ArticleDeleteIcon.defaultProps = {
-    size: 'medium',
-    color: 'primary'
 };
 
 export default React.memo(ArticleDeleteIcon);

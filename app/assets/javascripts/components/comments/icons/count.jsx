@@ -6,7 +6,7 @@ function CommentCountIcon({
                               className,
                               commentsCount,
                               commentLink,
-                              hasIcon
+                              hasIcon = true
                           }) {
     return (
         <a className={className}
@@ -28,10 +28,6 @@ CommentCountIcon.propTypes = {
     commentsCount: PropTypes.number.isRequired,
     commentLink: PropTypes.string.isRequired,
     hasIcon: PropTypes.bool
-};
-
-CommentCountIcon.defaultProps = {
-    hasIcon: true
 };
 
 export default React.memo(CommentCountIcon);
