@@ -6,7 +6,7 @@ function ArticleInfiniteMode({
                                  fetchArticles,
                                  articlesCount,
                                  children,
-                                 hasMoreArticles
+                                 hasMoreArticles = false
                              }) {
     const LoadingArticles = (
         <div className="article-infinite-text">
@@ -29,10 +29,6 @@ ArticleInfiniteMode.propTypes = {
     articlesCount: PropTypes.number.isRequired,
     children: PropTypes.object.isRequired,
     hasMoreArticles: PropTypes.bool
-};
-
-ArticleInfiniteMode.defaultProps = {
-    hasMoreArticles: false
 };
 
 export default ArticleInfiniteMode;

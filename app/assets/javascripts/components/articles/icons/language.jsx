@@ -10,8 +10,8 @@ function ArticleLanguageIcon({
                                  currentLocale,
                                  languages,
                                  onLanguageChange,
-                                 size,
-                                 color
+                                 size = 'medium',
+                                 color = 'primary'
                              }) {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
@@ -64,11 +64,6 @@ ArticleLanguageIcon.propTypes = {
     onLanguageChange: PropTypes.func.isRequired,
     size: PropTypes.oneOf(['small', 'medium', 'large']),
     color: PropTypes.oneOf(['primary', 'secondary', 'action', 'disabled'])
-};
-
-ArticleLanguageIcon.defaultProps = {
-    size: 'medium',
-    color: 'primary'
 };
 
 export default React.memo(ArticleLanguageIcon);

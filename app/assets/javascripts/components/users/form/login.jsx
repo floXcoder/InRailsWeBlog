@@ -111,6 +111,7 @@ const LoginForm = function ({onSubmit, onCancel}) {
                                        type="checkbox"
                                        component={CheckBoxFormField}
                                        id="user_remember_me"
+                                       defaultValue={true}
                                        label={I18n.t('js.user.login.remember_me')}
                                        color="primary"/>
                             </Grid>

@@ -20,7 +20,13 @@ import {
 } from '../../../../constants/routesHelper';
 
 
-function HeaderUserMenu(props) {
+function HeaderUserMenu({
+                            userSlug,
+                            isNested = false,
+                            isAdminConnected = false,
+                            onPreferenceClick,
+                            onLogoutClick
+                        }) {
     const adminContent = (
         <>
             <ListItem button={true}
@@ -42,19 +48,19 @@ function HeaderUserMenu(props) {
 
     return (
         <List className={classNames({
-            'layout-header-nested-menu': props.isNested
+            'layout-header-nested-menu': isNested
         })}
               component="div"
-              disablePadding={props.isNested}>
+              disablePadding={isNested}>
             {
-                !!props.isAdminConnected &&
+                !!isAdminConnected &&
                 adminContent
             }
 
             <ListItem button={true}
                       component={Link}
                       className="layout-header-link"
-                      to={userHomePath(props.userSlug)}>
+                      to={userHomePath(userSlug)}>
                 <ListItemIcon>
                     <PortraitIcon/>
                 </ListItemIcon>
@@ -65,7 +71,7 @@ function HeaderUserMenu(props) {
             </ListItem>
 
             <ListItem button={true}
-                      onClick={props.onPreferenceClick}>
+                      onClick={onPreferenceClick}>
                 <ListItemIcon>
                     <SettingsIcon/>
                 </ListItemIcon>
@@ -76,7 +82,7 @@ function HeaderUserMenu(props) {
             </ListItem>
 
             <ListItem button={true}
-                      onClick={props.onLogoutClick}
+                      onClick={onLogoutClick}
                       rel="nofollow">
                 <ListItemIcon>
                     <CancelIcon/>
@@ -96,11 +102,6 @@ HeaderUserMenu.propTypes = {
     onLogoutClick: PropTypes.func.isRequired,
     isNested: PropTypes.bool,
     isAdminConnected: PropTypes.bool
-};
-
-HeaderUserMenu.defaultProps = {
-    isNested: false,
-    isAdminConnected: false
 };
 
 export default HeaderUserMenu;

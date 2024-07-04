@@ -1,6 +1,6 @@
 {
-  "name": "GinkoNote",
-  "short_name": "GinkoNote",
+  "name": "<%= ENV['WEBSITE_NAME'] %>",
+  "short_name": "<%= ENV['WEBSITE_NAME'] %>",
   "icons": [
     {
       "src": "/assets/logos/icon-128x128.png",
@@ -39,7 +39,9 @@
       "purpose": "any maskable"
     }
   ],
-  "start_url": "/",
+  "start_url": "<%= @start_path + '?version=' + ENV['PWA_API_VERSION'] %>",
+  "id": "<%= @start_path + '?version=' + ENV['PWA_API_VERSION'] %>",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#199332"

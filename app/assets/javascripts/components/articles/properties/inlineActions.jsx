@@ -5,7 +5,13 @@ import ClearIcon from '@mui/icons-material/Clear';
 import DeleteIcon from '@mui/icons-material/DeleteOutline';
 
 
-const ArticleInlineActions = function ({onSaveClick, onCancelClick, onDeleteClick, color, size}) {
+const ArticleInlineActions = function ({
+                                           onSaveClick,
+                                           onCancelClick,
+                                           onDeleteClick,
+                                           size = 'medium',
+                                           color = 'action'
+                                       }) {
     return (
         <ul className="article-inline-action-buttons">
             <li className="flow-tooltip-bottom article-inline-action-item"
@@ -44,11 +50,6 @@ ArticleInlineActions.propTypes = {
     onDeleteClick: PropTypes.func.isRequired,
     size: PropTypes.oneOf(['small', 'medium', 'large']),
     color: PropTypes.oneOf(['primary', 'secondary', 'action'])
-};
-
-ArticleInlineActions.defaultProps = {
-    size: 'medium',
-    color: 'action'
 };
 
 export default React.memo(ArticleInlineActions);

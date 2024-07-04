@@ -4,7 +4,9 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Skeleton from '@mui/material/Skeleton';
 
-function ArticleSkeleton({isConnected}) {
+function ArticleSkeleton({
+                             isConnected = false
+}) {
     return (
         <Box width="100%"
              my={3}>
@@ -91,10 +93,6 @@ function ArticleSkeleton({isConnected}) {
 
 ArticleSkeleton.propTypes = {
     isConnected: PropTypes.bool
-};
-
-ArticleSkeleton.defaultProps = {
-    isConnected: false
 };
 
 export default React.memo(ArticleSkeleton);

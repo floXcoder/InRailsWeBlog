@@ -16,7 +16,7 @@ const HomeArticleHeader = function ({
                                         currentTagSlugs,
                                         currentTopicMode,
                                         topicSlug,
-                                        hasTemporaryArticle
+                                        hasTemporaryArticle = false
                                     }) {
     return (
         <Dropdown id="header-article"
@@ -52,10 +52,6 @@ HomeArticleHeader.propTypes = {
     currentTopicMode: PropTypes.string,
     topicSlug: PropTypes.string,
     hasTemporaryArticle: PropTypes.bool
-};
-
-HomeArticleHeader.defaultProps = {
-    hasTemporaryArticle: false
 };
 
 export default React.memo(HomeArticleHeader);

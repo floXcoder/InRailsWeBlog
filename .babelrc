@@ -45,8 +45,7 @@
       {
         "async": false
       }
-    ],
-    "@emotion"
+    ]
   ],
   "env": {
     "development": {

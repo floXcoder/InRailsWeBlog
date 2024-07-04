@@ -17,9 +17,9 @@ function ArticleNoneDisplay({
                                 tagSlug,
                                 childTagSlug,
                                 alternativeUrl,
-                                isConnected,
-                                isTopicPage,
-                                isSearchPage
+                                isSearchPage = true,
+                                isConnected = false,
+                                isTopicPage = false
                             }) {
     return (
         <div className="row margin-top-30">
@@ -107,12 +107,6 @@ ArticleNoneDisplay.propTypes = {
     isSearchPage: PropTypes.bool,
     isConnected: PropTypes.bool,
     isTopicPage: PropTypes.bool
-};
-
-ArticleNoneDisplay.defaultProps = {
-    isSearchPage: true,
-    isConnected: false,
-    isTopicPage: false
 };
 
 export default React.memo(ArticleNoneDisplay);

@@ -13,8 +13,8 @@ import {
 
 function ArticleTrackingIcon({
                                  articleId,
-                                 size,
-                                 color
+                                 size = 'medium',
+                                 color = 'primary'
                              }) {
     return (
         <span className="flow-tooltip-bottom"
@@ -35,11 +35,6 @@ ArticleTrackingIcon.propTypes = {
     articleId: PropTypes.number.isRequired,
     size: PropTypes.oneOf(['small', 'medium', 'large']),
     color: PropTypes.oneOf(['primary', 'secondary', 'action', 'disabled']),
-};
-
-ArticleTrackingIcon.defaultProps = {
-    size: 'medium',
-    color: 'primary'
 };
 
 export default React.memo(ArticleTrackingIcon);

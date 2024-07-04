@@ -18,25 +18,34 @@ import {
 } from '../../../../constants/routesHelper';
 
 
-const HeaderArticleMenu = function (props) {
-    const parentTagSlug = props.routeParams.parentTagSlug || props.routeParams.tagSlug || props.currentTagSlugs[0];
-    const childTagSlug = props.routeParams.childTagSlug || props.currentTagSlugs[1];
+const HeaderArticleMenu = function ({
+                                        routeParams,
+                                        currentTagSlugs,
+                                        hasTemporaryArticle,
+                                        userSlug,
+                                        topicSlug,
+                                        currentTopicMode,
+                                        isNested = false,
+                                        onItemClick
+                                    }) {
+    const parentTagSlug = routeParams.parentTagSlug || routeParams.tagSlug || currentTagSlugs[0];
+    const childTagSlug = routeParams.childTagSlug || currentTagSlugs[1];
 
     return (
         <List className={classNames({
-            'layout-header-nested-menu': props.isNested
+            'layout-header-nested-menu': isNested
         })}
               component="div"
-              disablePadding={props.isNested}>
+              disablePadding={isNested}>
             <List component="div">
                 {
-                    !!props.hasTemporaryArticle &&
+                    !!hasTemporaryArticle &&
                     <>
                         <ListItem button={true}
                                   component={Link}
                                   className="layout-header-link"
                                   to={{
-                                      pathname: newArticlePath(props.userSlug, props.topicSlug)
+                                      pathname: newArticlePath(userSlug, topicSlug)
                                   }}
                                   state={{
                                       temporary: true
@@ -58,19 +67,19 @@ const HeaderArticleMenu = function (props) {
                           component={Link}
                           className="layout-header-link"
                           to={{
-                              pathname: newArticlePath(props.userSlug, props.topicSlug)
+                              pathname: newArticlePath(userSlug, topicSlug)
                           }}
                           state={{
                               parentTagSlug: parentTagSlug,
                               childTagSlug: childTagSlug
                           }}
-                          onClick={props.onItemClick}>
+                          onClick={onItemClick}>
                     <ListItemIcon>
                         <AssignmentIcon/>
                     </ListItemIcon>
 
                     <ListItemText classes={{primary: 'layout-header-link'}}>
-                        {I18n.t(`js.views.header.article.menu.add.${props.currentTopicMode}`)}
+                        {I18n.t(`js.views.header.article.menu.add.${currentTopicMode}`)}
                     </ListItemText>
                 </ListItem>
             </List>
@@ -87,10 +96,6 @@ HeaderArticleMenu.propTypes = {
     topicSlug: PropTypes.string,
     isNested: PropTypes.bool,
     onItemClick: PropTypes.func
-};
-
-HeaderArticleMenu.defaultProps = {
-    isNested: false
 };
 
 export default HeaderArticleMenu;

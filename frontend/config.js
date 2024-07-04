@@ -142,7 +142,9 @@ module.exports = {
         ],
         serviceWorker: {
             dest: '../service-worker.js',
-            exclude: [/admin/, /about/, /privacy/, /terms/, /comment\./, /comment-box\./, /compare\./, /history\./, /tracker\./, /edit\./, /edition\./, /editor\./, /sort\./, /persistence\./, /share\./, /login\./, /signup\./, /password\./, /user-confirmation\./, /preference\./, /\.ttf$/, /\.eot$/, /\.woff$/, /\.map$/, /apple-touch/, /LICENSE/, /statics-/, /pghero/],
+            exclude: [
+                /about/, /privacy/, /terms/, /processing/, /validation/, /exporter/, /admin/, /performance/, /new\./, /new-\./, /edit\./, /edit-\./, /edition\./, /editor\./, /login\./, /signup\./, /password\./, /user-confirmation\./, /tinymce\./, /\.ttf$/, /\.eot$/, /\.woff$/, /\.geojson$/, /\.map$/, /komoot/, /LICENSE/, /pghero/, /metrics/, /webmanifest/, /comment\./, /comment-box\./, /compare\./, /history\./, /tracker\./, /sort\./, /persistence\./, /share\./
+            ],
             additionalFiles: [
                 {
                     url: 'offline.html',
@@ -156,60 +158,69 @@ module.exports = {
             runtimeCaching: [
                 {
                     // Match all assets
-                    urlPattern: new RegExp(`^${appEnv.WEBSITE_FULL_ASSET}/assets/`),
-                    handler: 'CacheFirst',
-                    // handler: 'StaleWhileRevalidate',
+                    urlPattern: new RegExp(`^${appEnv.WEBSITE_FULL_ASSET}(\/vite)?\/assets\/`),
+                    // handler: 'CacheFirst',
+                    // Workbox will also hit the network in parallel and check if there are updates to that resource
+                    handler: 'StaleWhileRevalidate',
                     options: {
-                        cacheName: 'assets',
+                        cacheName: `assets-v${appEnv.PWA_ASSETS_VERSION || 0}`,
                         cacheableResponse: {
                             statuses: [0, 200]
                         },
                         expiration: {
-                            maxEntries: 80
+                            maxEntries: 120
+                            // maxAgeSeconds: 24 * 60 * 60,
+                        }
+                    }
+                },
+                {
+                    // Match any API requests
+                    urlPattern: new RegExp(`^${appEnv.WEBSITE_FULL_ADDRESS}\/(?!.*(orders|baskets|uploader|exporter|processing|validation|manifest).*).*/`),
+                    handler: 'NetworkFirst',
+                    options: {
+                        cacheName: `api-v${appEnv.PWA_API_VERSION || 0}`,
+                        networkTimeoutSeconds: 3,
+                        expiration: {
+                            maxEntries: 100
                         }
                     }
                 },
                 {
                     // Match any request that ends with .png, .jpg, .jpeg or .svg
                     // urlPattern: /\.(?:png|jpg|jpeg|svg)$/,
-                    urlPattern: new RegExp(`^${appEnv.WEBSITE_FULL_ASSET}/uploads/`),
+                    urlPattern: new RegExp(`^${appEnv.WEBSITE_FULL_ASSET}\/uploads\/`),
                     handler: 'CacheFirst',
                     options: {
-                        cacheName: 'images',
+                        cacheName: `images-v${appEnv.PWA_ASSETS_VERSION || 0}`,
                         cacheableResponse: {
                             statuses: [0, 200]
                         },
                         expiration: {
-                            maxEntries: 50
+                            maxEntries: 100
                         }
                     }
                 },
                 {
-                    // Match any API requests
-                    urlPattern: /\/api\/v1\/(?!orders|baskets|uploader|exporter)/,
-                    handler: 'NetworkFirst',
+                    // Match all website content (HTML, ...)
+                    urlPattern: new RegExp(`^${appEnv.WEBSITE_FULL_ADDRESS}\/(?!.*(api|admins|manifest).*).*/`),
+                    handler: 'StaleWhileRevalidate',
                     options: {
-                        cacheName: 'api',
-                        networkTimeoutSeconds: 3,
+                        cacheName: `others-v${appEnv.PWA_OTHERS_VERSION || 0}`,
+                        cacheableResponse: {
+                            statuses: [0, 200]
+                            // Cache only HTML pages:
+                            // headers: {
+                            //     'Content-Type': 'text/html; charset=utf-8'
+                            // }
+                        },
                         expiration: {
-                            maxEntries: 50
-                        }
-                    }
-                },
-                {
-                    // Match all other content but not admin and not force page refresh argument (HTML, ...)
-                    urlPattern: /^((?!.*admins.*|_=).)*$/,
-                    handler: 'NetworkFirst',
-                    options: {
-                        cacheName: 'others',
-                        expiration: {
-                            maxEntries: 500
+                            maxEntries: 200
                         }
                     }
                 },
                 {
                     // Match all other external content
-                    urlPattern: /^((?!.*admins.*).)*$/,
+                    urlPattern: /^(?!.*(admins).*).*$/,
                     handler: 'CacheFirst',
                     options: {
                         cacheName: 'external',

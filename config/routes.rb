@@ -312,6 +312,9 @@ Rails.application.routes.draw do
     end
   end
 
+  # PWA
+  get '/manifest.:format' => 'pages#manifest'
+
   # Open Search
   get '/opensearch.:format' => 'pages#open_search'
 

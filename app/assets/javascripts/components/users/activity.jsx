@@ -6,7 +6,11 @@ const _handlePaginationClick = (paginate, loadActivities) => {
     loadActivities({page: paginate.selected + 1});
 };
 
-function UserActivity({activities, pagination, loadActivities}) {
+function UserActivity({
+                          activities = [],
+                          pagination,
+                          loadActivities
+                      }) {
     let ActivityNodes = activities.map((activity) => {
         const [model, action] = activity.key.split('.');
 
@@ -74,10 +78,6 @@ UserActivity.propTypes = {
     activities: PropTypes.array,
     pagination: PropTypes.object,
     loadActivities: PropTypes.func
-};
-
-UserActivity.defaultProps = {
-    activities: []
 };
 
 export default UserActivity;

@@ -86,6 +86,7 @@ function AdminLogin() {
                                               control={
                                                   <Checkbox id="admin_remember_me"
                                                             name="admin[remember_me]"
+                                                            defaultChecked={true}
                                                             type="checkbox"
                                                             color="primary"/>
                                               }/>

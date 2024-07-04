@@ -6,14 +6,10 @@ import {
     withScope as SentryWithScope,
     captureException as SentryCaptureException,
     captureMessage as SentryCaptureMessage,
-    browserTracingIntegration
+    browserTracingIntegration as SentryBrowser,
+    // replayIntegration as SentryReplay
     // showReportDialog as SentryShowReportDialog
 } from '@sentry/browser';
-
-import {
-    replayIntegration
-    // replayCanvasIntegration
-} from '@sentry/replay';
 
 
 if (window.SENTRY_JAVASCRIPT_KEY) {
@@ -21,11 +17,11 @@ if (window.SENTRY_JAVASCRIPT_KEY) {
         dsn: window.SENTRY_JAVASCRIPT_KEY,
 
         integrations: [
-            browserTracingIntegration(),
-            replayIntegration({
-                maskAllText: false,
-                blockAllMedia: true
-            }),
+            SentryBrowser(),
+            // SentryReplay({
+            //     maskAllText: false,
+            //     blockAllMedia: true
+            // }),
             // // For recording canvas elements
             // replayCanvasIntegration()
         ],

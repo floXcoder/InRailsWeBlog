@@ -6,6 +6,8 @@ require:
   - rubocop-rails
   - rubocop-rspec
   - rubocop-performance
+  - rubocop-capybara
+  - rubocop-factory_bot
 
 AllCops:
   TargetRubyVersion: 3.3
@@ -40,8 +42,6 @@ Capybara/RedundantWithinFind:
   Enabled: true
 
 Capybara/RSpec/HaveSelector:
-  Enabled: true
-Capybara/RSpec/PredicateMatcher:
   Enabled: true
 
 Capybara/SpecificActions:
@@ -302,6 +302,9 @@ Performance/BigDecimalWithNumericArgument:
 Performance/BlockGivenWithExplicitBlock:
   Enabled: true
 
+Performance/Casecmp:
+  Enabled: false
+
 Performance/CollectionLiteralInLoop:
   Enabled: true
 
@@ -551,6 +554,9 @@ Rails/WhereNot:
 Rails/WhereNotWithMultipleConditions:
   Enabled: true
 
+Rails/WhereRange:
+  Enabled: true
+
 RSpec/BeEmpty:
   Enabled: true
 
@@ -562,9 +568,6 @@ RSpec/BeforeAfterAll:
 
 RSpec/BeNil:
   Enabled: true
-
-RSpec/Capybara:
-  Enabled: false
 
 RSpec/ChangeByZero:
   Enabled: true
@@ -632,6 +635,9 @@ RSpec/NoExpectationExample:
 RSpec/PendingWithoutReason:
   Enabled: true
 
+RSpec/PredicateMatcher:
+  Enabled: true
+
 RSpec/RedundantAround:
   Enabled: true
 
@@ -639,24 +645,6 @@ RSpec/SkipBlockInsideExample:
   Enabled: true
 
 RSpec/SortMetadata:
-  Enabled: true
-
-RSpec/Rails/AvoidSetupHook:
-  Enabled: true
-
-RSpec/Rails/HaveHttpStatus:
-  Enabled: true
-
-RSpec/Rails/InferredSpecType:
-  Enabled: false
-
-RSpec/Rails/MinitestAssertions:
-  Enabled: true
-
-RSpec/Rails/NegationBeValid:
-  Enabled: true
-
-RSpec/Rails/TravelAround:
   Enabled: true
 
 RSpec/ReceiveMessages:
@@ -800,6 +788,9 @@ Style/MagicCommentFormat:
 Style/MapCompactWithConditionalBlock:
   Enabled: true
 
+Style/MapIntoArray:
+  Enabled: true
+
 Style/MapToHash:
   Enabled: true
 
@@ -906,6 +897,9 @@ Style/ReturnNilInPredicateMethodDefinition:
 Style/SelectByRegexp:
   Enabled: true
 
+Style/SendWithLiteralMethodName:
+  Enabled: true
+
 Style/SingleLineDoEndBlock:
   Enabled: true
 
@@ -913,6 +907,9 @@ Style/StringChars:
   Enabled: true
 
 Style/SuperWithArgsParentheses:
+  Enabled: true
+
+Style/SuperArguments:
   Enabled: true
 
 Style/SwapValues:

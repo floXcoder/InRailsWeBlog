@@ -4,8 +4,8 @@ import BookmarkIcon from '../../bookmark/icon';
 
 function ArticleBookmarkIcon({
                                  articleId,
-                                 size,
-                                 color
+                                 size = 'medium',
+                                 color = 'primary'
                              }) {
     return (
         <BookmarkIcon bookmarkedType="article"
@@ -21,11 +21,6 @@ ArticleBookmarkIcon.propTypes = {
     articleId: PropTypes.number.isRequired,
     size: PropTypes.oneOf(['small', 'medium', 'large']),
     color: PropTypes.oneOf(['primary', 'secondary', 'action', 'disabled']),
-};
-
-ArticleBookmarkIcon.defaultProps = {
-    size: 'medium',
-    color: 'primary'
 };
 
 export default React.memo(ArticleBookmarkIcon);
