@@ -2,7 +2,6 @@ const webpack = require('webpack');
 const {merge} = require('webpack-merge');
 
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const {sentryWebpackPlugin} = require('@sentry/webpack-plugidn');
 const {WebpackManifestPlugin} = require('webpack-manifest-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
