@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# lock '3.14.1'
+# lock '3.18.0'
 
 set :application, 'InRailsWeBlog'
 set :repo_url, ENV['GIT_REPO_ADDRESS']
@@ -39,7 +39,7 @@ set :log_level, :debug
 set :linked_files, %w[config/application.yml]
 
 # dirs we want symlinking to shared
-set :linked_dirs, %w[lib/geocoding/ip_db lib/tracking log node_modules public/assets public/sitemaps public/seo_cache public/uploads tmp/pids tmp/cache tmp/sockets vendor/bundle]
+set :linked_dirs, %w[lib/geocoding/ip_db lib/tracking log node_modules public/assets public/seo_cache public/sitemaps public/uploads tmp/pids tmp/cache tmp/sockets vendor/bundle]
 
 # Compile assets
 set :assets_roles, [:app]
@@ -82,7 +82,7 @@ namespace :assets do
     end
   end
 
-  desc 'Publish assets'
+  desc 'Publish webpack assets'
   task :production do
     on roles(:web), in: :sequence, wait: 5 do
       within release_path do
@@ -123,32 +123,32 @@ namespace :deploy do
     end
   end
 
-  desc 'Index elastic search'
-  task :elastic_search do
-    on roles(:app), in: :sequence, wait: 5 do
-      within release_path do
-        with rails_env: fetch(:rails_env) do
-          execute :rake, 'InRailsWeBlog:search_reindex'
-        end
-      end
-    end
-  end
+  # desc 'Index elastic search'
+  # task :elastic_search do
+  #   on roles(:app), in: :sequence, wait: 5 do
+  #     within release_path do
+  #       with rails_env: fetch(:rails_env) do
+  #         execute :rake, 'InRailsWeBlog:search_reindex'
+  #       end
+  #     end
+  #   end
+  # end
 
-  desc 'Regenerate sitemap file'
-  task :generate_sitemap do
-    on roles(:production), in: :sequence, wait: 5 do
-      within release_path do
-        with rails_env: 'production' do
-          execute :rake, 'InRailsWeBlog:generate_sitemap'
-        end
-      end
-    end
-  end
+  # desc 'Regenerate sitemap file'
+  # task :generate_sitemap do
+  #   on roles(:production), in: :sequence, wait: 5 do
+  #     within release_path do
+  #       with rails_env: 'production' do
+  #         execute :rake, 'InRailsWeBlog:generate_sitemap'
+  #       end
+  #     end
+  #   end
+  # end
 
   after :finishing, :update_revision_file
   after :finishing, :restart_web
   after :finishing, :restart_sidekiq
-  after :publishing, :elastic_search
+  # after :publishing, :elastic_search
   # after :publishing, :generate_sitemap
 
   after :finishing, :cleanup
