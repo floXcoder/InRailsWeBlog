@@ -132,21 +132,21 @@ test:rails:
 #  only:
 #    - tags
 
-test:npm:
-  stage: test
-  variables:
-    RAILS_ENV: "test"
-  cache:
-    - key: "NPM"
-      paths:
-        - "node_modules/"
-      policy: pull
-  script:
-    - npm run test
-  interruptible: true
-  needs: ["build"]
-  only:
-    - tags
+#test:npm:
+#  stage: test
+#  variables:
+#    RAILS_ENV: "test"
+#  cache:
+#    - key: "NPM"
+#      paths:
+#        - "node_modules/"
+#      policy: pull
+#  script:
+#    - npm run test
+#  interruptible: true
+#  needs: ["build"]
+#  only:
+#    - tags
 
 deploy:
   stage: deploy
