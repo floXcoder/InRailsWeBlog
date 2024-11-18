@@ -1,4 +1,4 @@
-@import 'base/variables';
+@use 'base/variables' as *;
 
 .tag-form-category-title {
   font-size: 1.4rem;

@@ -1,15 +1,31 @@
 {
-  "extends": [
-    "stylelint-config-sass-guidelines"
-  ],
+  "extends": "stylelint-config-sass-guidelines",
   "plugins": [
     "stylelint-scss"
   ],
   "rules": {
-    "at-rule-no-unknown": null,
+    "@stylistic/number-leading-zero":  null,
+    "at-rule-no-unknown": [
+      true,
+      {
+        "ignoreAtRules": [
+          "use",
+          "tailwind",
+          "apply",
+          "variants",
+          "responsive",
+          "screen",
+          "mixin",
+          "while",
+          "include",
+          "for"
+        ]
+      }
+    ],
+    "comment-no-empty": null,
     "max-nesting-depth": 5,
+    "no-descending-specificity": null,
     "selector-max-compound-selectors": 5,
-    "selector-max-id": 3,
-    "scss/at-rule-no-unknown": true
+    "selector-max-id": 3
   }
 }

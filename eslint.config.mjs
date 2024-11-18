@@ -1,6 +1,7 @@
 import globals from 'globals';
 import js from '@eslint/js';
 import babelParser from '@babel/eslint-parser';
+import eslintPluginUnicorn from 'eslint-plugin-unicorn';
 import reactRecommended from 'eslint-plugin-react/configs/recommended.js';
 
 export default [
@@ -8,14 +9,13 @@ export default [
     {
         ignores: [
             '**/urlParser.js',
-            '**/summernote-lite.js',
-            '**/sanitizePaste.js',
             'app/assets/stylesheets/**/*',
             'app/javascript/stylesheets/**/*',
             'node_modules/*'
         ]
     },
     {
+        name: 'project-common',
         languageOptions: {
             globals: {
                 ...globals.serviceworker,
@@ -33,6 +33,9 @@ export default [
                 classNames: true,
                 log: true
             }
+        },
+        plugins: {
+            unicorn: eslintPluginUnicorn,
         },
         rules: {
             'accessor-pairs': 0,
@@ -65,6 +68,8 @@ export default [
             'guard-for-in': 0,
             'id-length': 0,
             'indent': 0,
+            'init-declarations': 0,
+            'max-depth': 0,
             'max-len': 0,
             'max-lines': 0,
             'max-lines-per-function': 0,
@@ -99,6 +104,7 @@ export default [
             'no-multi-str': 0,
             'no-multiple-empty-lines': 0,
             'no-native-reassign': 0,
+            'no-negated-condition': 0,
             'no-nested-ternary': 0,
             'no-new': 0,
             'no-new-func': 0,
@@ -157,11 +163,13 @@ export default [
         }
     },
     {
+        name: 'project-react',
         files: ['**/*.{js,mjs,cjs,jsx}'],
         ...reactRecommended,
         languageOptions: {
             parser: babelParser,
             parserOptions: {
+                sourceType: 'module',
                 ecmaFeatures: {
                     jsx: true
                 }

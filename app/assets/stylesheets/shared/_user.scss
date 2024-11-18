@@ -1,6 +1,6 @@
-@import 'base/variables';
+@use 'base/variables' as *;
 
-@import 'shared/animation/user';
+@use 'shared/animation/user';
 
 // ***
 // User breadcrumb

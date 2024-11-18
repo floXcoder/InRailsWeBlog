@@ -1,4 +1,4 @@
-@import 'base/variables';
+@use 'base/variables' as *;
 
 .single-timeline {
   min-height: 40px;

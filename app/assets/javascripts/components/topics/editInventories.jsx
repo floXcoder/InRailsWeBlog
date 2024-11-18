@@ -12,7 +12,6 @@ import {
 } from '../../actions';
 
 import {
-    getCurrentUser,
     getTopicErrors
 } from '../../selectors';
 
@@ -27,7 +26,7 @@ import NotAuthorized from '../layouts/notAuthorized';
 
 export default @connect((state) => ({
     topic: state.topicState.topic,
-    currentUser: getCurrentUser(state),
+    currentUser: state.userState.user,
     topicErrors: getTopicErrors(state)
 }), {
     fetchTopic,

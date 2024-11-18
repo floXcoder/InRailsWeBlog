@@ -1,6 +1,6 @@
 'use strict';
 
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Grid2';
 import TextField from '@mui/material/TextField';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -74,9 +74,7 @@ export default class TopicFormInventoryFieldDisplay extends React.Component {
                     <DragHandle/>
                 </div>
 
-                <Grid item={true}
-                      sm={12}
-                      lg={6}>
+                <Grid size={{sm: 12, lg: 6}}>
                     <TextField className="topic-form-inv-field"
                                fullWidth={true}
                                variant="outlined"
@@ -86,9 +84,7 @@ export default class TopicFormInventoryFieldDisplay extends React.Component {
                                defaultValue={this.props.field.name}/>
                 </Grid>
 
-                <Grid item={true}
-                      sm={12}
-                      lg={6}>
+                <Grid size={{sm: 12, lg: 6}}>
                     <FormControl className="topic-form-inv-field"
                                  required={true}>
                         <InputLabel htmlFor="inventory_fields-value_type">
@@ -112,8 +108,7 @@ export default class TopicFormInventoryFieldDisplay extends React.Component {
                     </FormControl>
                 </Grid>
 
-                <Grid item={true}
-                      sm={12}>
+                <Grid size={{sm: 12}}>
                     <a className="topic-form-inv-field-props-button"
                        href="#"
                        onClick={this._handleExpandClick}>
@@ -142,8 +137,7 @@ export default class TopicFormInventoryFieldDisplay extends React.Component {
                           direction="row"
                           justifyContent="center"
                           alignItems="center">
-                        <Grid item={true}
-                              xs={12}>
+                        <Grid size={{xs: 12}}>
                             <FormControlLabel className="topic-form-inv-field"
                                               label={I18n.t('js.inventory_fields.model.required')}
                                               control={
@@ -158,9 +152,7 @@ export default class TopicFormInventoryFieldDisplay extends React.Component {
                                    type="hidden"/>
                         </Grid>
 
-                        <Grid item={true}
-                              sm={12}
-                              lg={6}>
+                        <Grid size={{sm: 12, lg: 6}}>
                             <FormControlLabel className="topic-form-inv-field"
                                               label={I18n.t('js.inventory_fields.model.searchable')}
                                               control={
@@ -175,9 +167,7 @@ export default class TopicFormInventoryFieldDisplay extends React.Component {
                                    type="hidden"/>
                         </Grid>
 
-                        <Grid item={true}
-                              sm={12}
-                              lg={6}>
+                        <Grid size={{sm: 12, lg: 6}}>
                             <FormControlLabel className="topic-form-inv-field"
                                               label={I18n.t('js.inventory_fields.model.filterable')}
                                               control={
@@ -193,8 +183,7 @@ export default class TopicFormInventoryFieldDisplay extends React.Component {
                         </Grid>
 
                         <Grid className="center-align"
-                              item={true}
-                              sm={12}>
+                              size={{sm: 12}}>
                             <Button
                                 variant="text"
                                 size="small"

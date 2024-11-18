@@ -19,7 +19,7 @@ class Share < ApplicationRecord
 
   # == Attributes ===========================================================
   include EnumsConcern
-  enum mode: SHARE_MODE
+  enum :mode, SHARE_MODE
   enums_to_tr('share', [:mode])
 
   # == Extensions ===========================================================

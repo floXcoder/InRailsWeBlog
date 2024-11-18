@@ -3,7 +3,7 @@
 import '../../../stylesheets/pages/search/index.scss';
 
 import Button from '@mui/material/Button';
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Grid2';
 import FormControl from '@mui/material/FormControl';
 import Input from '@mui/material/Input';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -335,7 +335,7 @@ class SearchIndex extends React.Component {
                           direction="row"
                           justifyContent="center"
                           alignItems="center">
-                        <Grid item={true}
+                        <Grid 
                               className="search-index-input-item">
                             <FormControl classes={{
                                 root: 'search-index-input-form'
@@ -376,7 +376,7 @@ class SearchIndex extends React.Component {
                             </FormControl>
                         </Grid>
 
-                        <Grid item={true}
+                        <Grid 
                               className="search-index-searchButton">
                             <Button color="primary"
                                     variant="outlined"

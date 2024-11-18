@@ -91,15 +91,4 @@ Rails.application.configure do
 
   # Log level: :debug, :info, :warn, :error, :fatal and :unknown
   config.log_level = :info
-
-  # N 1 Queries
-  config.after_initialize do
-    Bullet.enable               = false
-    Bullet.alert                = false
-    Bullet.bullet_logger        = false
-    Bullet.console              = false
-    Bullet.rails_logger         = true
-    Bullet.add_footer           = false
-    Bullet.counter_cache_enable = true
-  end
 end

@@ -1,6 +1,6 @@
 'use strict';
 
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Grid2';
 
 import {
     about,
@@ -62,8 +62,7 @@ class FooterLayoutDefault extends React.PureComponent {
                           direction="row"
                           justifyContent="space-around"
                           alignItems="stretch">
-                        {/*<Grid item={true}*/}
-                        {/*      xs={12}>*/}
+                        {/*<Grid size={{xs: 12}}>*/}
                         {/*    <h2 className={layout-footer-footerTitle}>*/}
                         {/*        <Link className="header-brand-logo"*/}
                         {/*              to={rootPath()}*/}
@@ -76,8 +75,7 @@ class FooterLayoutDefault extends React.PureComponent {
 
                         {
                             !!Object.keys(alternates).length &&
-                            <Grid item={true}
-                                  md={6}>
+                            <Grid size={{md: 6}}>
                                 <h3 className="layout-footer-footer-subtitle">
                                     {I18n.t('js.views.footer.languages')}
                                 </h3>
@@ -96,8 +94,7 @@ class FooterLayoutDefault extends React.PureComponent {
                             </Grid>
                         }
 
-                        <Grid item={true}
-                              md={6}>
+                        <Grid size={{md: 6}}>
                             <h3 className="layout-footer-footer-subtitle">
                                 {I18n.t('js.views.footer.links.title')}
                             </h3>
@@ -131,8 +128,7 @@ class FooterLayoutDefault extends React.PureComponent {
                             </p>
                         </Grid>
 
-                        <Grid item={true}
-                              xs={12}>
+                        <Grid size={{xs: 12}}>
                             <div className="margin-top-30">
                                 <a className="layout-footer-github-link"
                                    target="_blank"

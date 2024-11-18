@@ -23,10 +23,6 @@ import {
     spyTrackClick
 } from '../../actions';
 
-import {
-    getCurrentUser
-} from '../../selectors';
-
 import withRouter from '../modules/router';
 
 import Loader from '../theme/loader';
@@ -37,7 +33,7 @@ import UserAvatarIcon from '../users/icons/avatar';
 
 
 export default @connect((state) => ({
-    currentUser: getCurrentUser(state),
+    currentUser: state.userState.user,
     isFetching: state.tagState.isFetching,
     tag: state.tagState.tag
 }), {

@@ -1,6 +1,6 @@
 'use strict';
 
-import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
@@ -24,13 +24,16 @@ import ListAltIcon from '@mui/icons-material/ListAlt';
 
 const ListItemLink = function (props) {
     return (
-        <ListItem button={true}
-                  component="a"
-                  {...props}/>
+        <ListItemButton component="a"
+                        {...props}/>
     );
 };
 
-const Item = function ({href, text, icon}) {
+const Item = function ({
+                           href,
+                           text,
+                           icon
+                       }) {
     return (
         <ListItemLink button={true}
                       href={href}>

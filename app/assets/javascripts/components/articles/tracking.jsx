@@ -6,7 +6,6 @@ import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
-import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Tabs from '@mui/material/Tabs';
@@ -34,7 +33,8 @@ const TRACKING_VIEWS = {
 };
 
 
-export default @connect((state) => ({
+export default
+@connect((state) => ({
     article: state.articleState.article,
     articleTracking: state.articleState.articleTracking
 }), {
@@ -113,46 +113,47 @@ class TrackingArticleModal extends React.Component {
                 <List className="article-tracking-list-container"
                       dense={true}>
                     {
-                        Object.entries(listDetails).map(([element, count], i) => (
-                            <ListItem key={i}>
-                                <ListItemText className="article-tracking-list-item"
-                                              primary={
-                                                  <div>
-                                                      {
-                                                          (!element || element === 'internal' || element === 'others') &&
-                                                          <Divider className="margin-top-5 margin-bottom-20"/>
-                                                      }
+                        Object.entries(listDetails)
+                            .map(([element, count], i) => (
+                                <ListItem key={i}>
+                                    <ListItemText className="article-tracking-list-item"
+                                                  primary={
+                                                      <div>
+                                                          {
+                                                              (!element || element === 'internal' || element === 'others') &&
+                                                              <Divider className="margin-top-5 margin-bottom-20"/>
+                                                          }
 
-                                                      {
-                                                          !element &&
-                                                          <em>{I18n.t('js.article.tracking.undefined')}</em>
-                                                      }
+                                                          {
+                                                              !element &&
+                                                              <em>{I18n.t('js.article.tracking.undefined')}</em>
+                                                          }
 
-                                                      {
-                                                          element === 'others' &&
-                                                          <em>{I18n.t('js.article.tracking.others')}</em>
-                                                      }
+                                                          {
+                                                              element === 'others' &&
+                                                              <em>{I18n.t('js.article.tracking.others')}</em>
+                                                          }
 
-                                                      {
-                                                          element === 'internal' &&
-                                                          <em>{I18n.t('js.article.tracking.internal')}</em>
-                                                      }
+                                                          {
+                                                              element === 'internal' &&
+                                                              <em>{I18n.t('js.article.tracking.internal')}</em>
+                                                          }
 
-                                                      {
-                                                          (element !== 'others' && element !== 'internal') &&
-                                                          element
-                                                      }
-                                                  </div>
-                                              }/>
-
-                                <ListItemSecondaryAction
-                                    className={classNames('article-tracking-list-item', {
-                                        'margin-top-10': (!element || element === 'internal' || element === 'others')
-                                    })}>
-                                    {count}
-                                </ListItemSecondaryAction>
-                            </ListItem>
-                        ))
+                                                          {
+                                                              (element !== 'others' && element !== 'internal') &&
+                                                              element
+                                                          }
+                                                      </div>
+                                                  }
+                                                  secondaryAction={
+                                                      <div className={classNames('admin-visits-list-item', {
+                                                          'margin-top-10': (!element || element === 'internal' || element === 'others')
+                                                      })}>
+                                                          {count}
+                                                      </div>
+                                                  }/>
+                                </ListItem>
+                            ))
                     }
                 </List>
             </div>
@@ -169,11 +170,12 @@ class TrackingArticleModal extends React.Component {
                         </ListItemIcon>
 
                         <ListItemText className="article-tracking-list-item"
-                                      primary={I18n.t('js.article.tracking.stats.visits')}/>
-
-                        <ListItemSecondaryAction className="article-tracking-list-item">
-                            {tracker.visitsCount}
-                        </ListItemSecondaryAction>
+                                      primary={I18n.t('js.article.tracking.stats.visits')}
+                                      secondary={
+                                          <div className="article-tracking-list-item">
+                                              {tracker.visitsCount}
+                                          </div>
+                                      }/>
                     </ListItem>
 
                     <ListItem>
@@ -182,11 +184,12 @@ class TrackingArticleModal extends React.Component {
                         </ListItemIcon>
 
                         <ListItemText className="article-tracking-list-item"
-                                      primary={I18n.t('js.article.tracking.stats.views')}/>
-
-                        <ListItemSecondaryAction className="article-tracking-list-item">
-                            {tracker.viewsCount}
-                        </ListItemSecondaryAction>
+                                      primary={I18n.t('js.article.tracking.stats.views')}
+                                      secondary={
+                                          <div className="article-tracking-list-item">
+                                              {tracker.viewsCount}
+                                          </div>
+                                      }/>
                     </ListItem>
 
                     <ListItem>
@@ -195,11 +198,12 @@ class TrackingArticleModal extends React.Component {
                         </ListItemIcon>
 
                         <ListItemText className="article-tracking-list-item"
-                                      primary={I18n.t('js.article.tracking.stats.clicks')}/>
-
-                        <ListItemSecondaryAction className="article-tracking-list-item">
-                            {tracker.clicksCount}
-                        </ListItemSecondaryAction>
+                                      primary={I18n.t('js.article.tracking.stats.clicks')}
+                                      secondary={
+                                          <div className="article-tracking-list-item">
+                                              {tracker.clicksCount}
+                                          </div>
+                                      }/>
                     </ListItem>
 
                     <ListItem>
@@ -208,11 +212,12 @@ class TrackingArticleModal extends React.Component {
                         </ListItemIcon>
 
                         <ListItemText className="article-tracking-list-item"
-                                      primary={I18n.t('js.article.tracking.stats.searches')}/>
-
-                        <ListItemSecondaryAction className="article-tracking-list-item">
-                            {tracker.searchesCount}
-                        </ListItemSecondaryAction>
+                                      primary={I18n.t('js.article.tracking.stats.searches')}
+                                      secondary={
+                                          <div className="article-tracking-list-item">
+                                              {tracker.searchesCount}
+                                          </div>
+                                      }/>
                     </ListItem>
 
                     <ListItem>
@@ -221,11 +226,12 @@ class TrackingArticleModal extends React.Component {
                         </ListItemIcon>
 
                         <ListItemText className="article-tracking-list-item"
-                                      primary={I18n.t('js.article.tracking.stats.bookmarks')}/>
-
-                        <ListItemSecondaryAction className="article-tracking-list-item">
-                            {this.props.article.bookmarksCount}
-                        </ListItemSecondaryAction>
+                                      primary={I18n.t('js.article.tracking.stats.bookmarks')}
+                                      secondary={
+                                          <div className="article-tracking-list-item">
+                                              {this.props.article.bookmarksCount}
+                                          </div>
+                                      }/>
                     </ListItem>
 
                     <ListItem>
@@ -234,11 +240,12 @@ class TrackingArticleModal extends React.Component {
                         </ListItemIcon>
 
                         <ListItemText className="article-tracking-list-item"
-                                      primary={I18n.t('js.article.tracking.stats.comments')}/>
-
-                        <ListItemSecondaryAction className="article-tracking-list-item">
-                            {this.props.article.commentsCount}
-                        </ListItemSecondaryAction>
+                                      primary={I18n.t('js.article.tracking.stats.comments')}
+                                      secondary={
+                                          <div className="article-tracking-list-item">
+                                              {this.props.article.commentsCount}
+                                          </div>
+                                      }/>
                     </ListItem>
                 </List>
             </div>
@@ -260,16 +267,18 @@ class TrackingArticleModal extends React.Component {
             <div className="margin-top-20">
                 <List dense={true}>
                     {
-                        Object.entries(this.props.articleTracking.datesCount).map(([date, count], i) => (
-                            <ListItem key={i}>
-                                <ListItemText className="article-tracking-list-item"
-                                              primary={date}/>
-
-                                <ListItemSecondaryAction className="article-tracking-list-item">
-                                    {count}
-                                </ListItemSecondaryAction>
-                            </ListItem>
-                        ))
+                        Object.entries(this.props.articleTracking.datesCount)
+                            .map(([date, count], i) => (
+                                <ListItem key={i}>
+                                    <ListItemText className="article-tracking-list-item"
+                                                  primary={date}
+                                                  secondary={
+                                                      <div className="article-tracking-list-item">
+                                                          {count}
+                                                      </div>
+                                                  }/>
+                                </ListItem>
+                            ))
                     }
                 </List>
             </div>

@@ -24,9 +24,9 @@
 class PictureSerializer
   include FastJsonapi::ObjectSerializer
 
-  extend SerializerHelper
+  # extend SerializerHelper
 
-  cache_options store: SerializerHelper::CacheSerializer, expires_in: InRailsWeBlog.settings.cache_time
+  # cache_options store: SerializerHelper::CacheSerializer, expires_in: InRailsWeBlog.settings.cache_time
 
   set_key_transform :camel_lower
 

@@ -22,7 +22,9 @@ const HomeArticleHeader = function ({
         <Dropdown id="header-article"
                   buttonClassName="layout-header-headerButton"
                   button={
-                      <IconButton color="default" itemProp="url" size="large">
+                      <IconButton color="default"
+                                  itemProp="url"
+                                  size="large">
                           {
                               hasTemporaryArticle
                                   ?

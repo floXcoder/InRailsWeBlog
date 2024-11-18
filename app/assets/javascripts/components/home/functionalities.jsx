@@ -1,6 +1,6 @@
 'use strict';
 
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Grid2';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 
@@ -26,11 +26,7 @@ const _renderListItem = function (title, details, Icon, reverse = false) {
               direction={reverse ? 'row-reverse' : 'row'}
               justifyContent="space-evenly"
               alignItems="center">
-            <Grid item={true}
-                  xs={12}
-                  sm={12}
-                  md={9}
-                  lg={9}>
+            <Grid size={{xs: 12, sm: 9}}>
                 <h3 className="home-functionalities-subtitle">
                     {title}
                 </h3>
@@ -41,11 +37,7 @@ const _renderListItem = function (title, details, Icon, reverse = false) {
             </Grid>
 
             <Grid className="home-functionalities-icon-item"
-                  item={true}
-                  xs={false}
-                  sm={false}
-                  md={3}
-                  lg={3}>
+                  size={{md: 3, lg: 3}}>
                 <Avatar className="home-functionalities-icon-container">
                     <Icon className="home-functionalities-icon"
                           variant="rounded"/>

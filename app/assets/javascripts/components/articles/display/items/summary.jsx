@@ -4,11 +4,9 @@ import {
     Link
 } from 'react-router-dom';
 
-// Polyfill observer
-import 'intersection-observer';
-import Observer from '@researchgate/react-intersection-observer';
+import {InView} from 'react-intersection-observer';
 
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Grid2';
 import Button from '@mui/material/Button';
 
 import {
@@ -46,8 +44,8 @@ class ArticleSummaryDisplay extends React.Component {
         isVisible: false
     };
 
-    _handleViewportChange = (event) => {
-        if (event.isIntersecting) {
+    _handleViewportChange = (inView, intersectionObserverEntry) => {
+        if (intersectionObserverEntry.isIntersecting) {
             spyTrackView('article', this.props.article.id);
 
             if (!this.state.isVisible) {
@@ -74,8 +72,8 @@ class ArticleSummaryDisplay extends React.Component {
 
     render() {
         return (
-            <Observer rootMargin="-50px"
-                      onChange={this._handleViewportChange}>
+            <InView onChange={this._handleViewportChange}
+                    rootMargin="-50px">
                 <div id={`article-${this.props.article.id}`}
                      className={classNames(this.props.className, {
                          'is-hidden': !this.state.isVisible && !window.seoMode,
@@ -142,7 +140,7 @@ class ArticleSummaryDisplay extends React.Component {
                             <Grid classes={{
                                 item: 'article-summary-info-item'
                             }}
-                                  item={true}>
+                                  >
                                 <ArticleAvatarIcon user={this.props.article.user}
                                                    createdDate={this.props.article.date}
                                                    updatedDate={this.props.article.updatedDate}/>
@@ -193,7 +191,7 @@ class ArticleSummaryDisplay extends React.Component {
                         </div>
                     }
                 </div>
-            </Observer>
+            </InView>
         );
     }
 }

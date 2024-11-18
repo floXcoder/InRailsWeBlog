@@ -37,7 +37,8 @@ import ArticleBreadcrumbDisplay from './display/breadcrumb';
 import ArticleFormDisplay from './display/form';
 
 
-export default @articleMutationManager('edit')
+export default
+@articleMutationManager('edit')
 @connect((state, props) => ({
     userSlug: state.userState.currentSlug,
     currentTagSlugs: state.tagState.currentTagSlugs,
@@ -100,6 +101,8 @@ class ArticleEdit extends React.Component {
             this._updateCurrentTags();
 
             this._ensureCurrentTopic();
+        } else if (Utils.isEmpty(this.props.article) || Utils.isEmpty(this.props.article.title)) {
+            window.location.reload();
         }
     }
 

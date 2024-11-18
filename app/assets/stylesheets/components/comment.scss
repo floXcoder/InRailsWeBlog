@@ -1,6 +1,6 @@
-@import 'base/variables';
+@use 'base/variables' as *;
 
-@import 'shared/animation/comment';
+@use 'shared/animation/comment';
 
 .comments {
   margin-top: 2rem;

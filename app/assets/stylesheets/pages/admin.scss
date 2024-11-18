@@ -1,4 +1,6 @@
-@import './common';
+@use 'base/variables' as *;
+
+@use './common';
 
 // GLOBAL
 html {

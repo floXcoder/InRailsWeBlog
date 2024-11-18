@@ -105,14 +105,19 @@ export default class TagFormDisplay extends React.Component {
                                         <Field name="name"
                                                component={TextFormField}
                                                className="tag-form-name"
-                                               InputLabelProps={{
-                                                   classes: {
-                                                       root: 'tag-form-nameLabel'
-                                                   }
-                                               }}
-                                               InputProps={{
-                                                   classes: {
-                                                       underline: !this.props.children.name && 'tag-form-nameUnderline'
+                                               slotProps={{
+                                                   input: {
+                                                       classes: {
+                                                           underline: !this.props.children.name && 'tag-form-nameUnderline'
+                                                       }
+                                                   },
+                                                   inputLabel: {
+                                                       classes: {
+                                                           root: 'tag-form-nameLabel'
+                                                       }
+                                                   },
+                                                   formHelperText: {
+                                                       className: 'search-index-category-filter-helper'
                                                    }
                                                }}
                                                id="tag_name"

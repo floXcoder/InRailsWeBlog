@@ -1,7 +1,7 @@
 'use strict';
 
 import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Grid2';
 
 import {
     fetchSharedArticle
@@ -101,8 +101,7 @@ class ArticleShared extends React.Component {
                 <Grid container={true}>
                     {
                         !!this.props.article.summary &&
-                        <Grid item={true}
-                              xs={12}>
+                        <Grid size={{xs: 12}}>
                             <h2>
                                 {this.props.article.summary}
                             </h2>

@@ -1,3 +1,5 @@
+@use 'base/variables' as *;
+
 .cookies-message {
   background-color: $background-color;
   border-top: 1px solid $border-color;

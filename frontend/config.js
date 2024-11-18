@@ -47,11 +47,11 @@ module.exports = {
             },
             sass: {
                 options: {
-                    includePaths: [
+                    loadPaths: [
                         assetDir + '/stylesheets',
                         // frontendDir
                     ],
-                    indentedSyntax: false // Use cscc syntax and not sass
+                    // indentedSyntax: false // Use cscc syntax and not sass
                 }
             },
             file: {

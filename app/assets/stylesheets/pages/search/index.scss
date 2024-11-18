@@ -1,4 +1,4 @@
-@import 'base/variables';
+@use 'base/variables' as *;
 
 .search-index-root {
   margin: 2rem auto 4rem;

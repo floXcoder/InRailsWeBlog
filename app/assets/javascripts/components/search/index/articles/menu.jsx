@@ -1,6 +1,6 @@
 'use strict';
 
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Grid2';
 import Button from '@mui/material/Button';
 import Hidden from '@mui/material/Hidden';
 import TextField from '@mui/material/TextField';
@@ -56,8 +56,8 @@ export default class ArticleSearchMenuDisplay extends React.PureComponent {
                   direction="row"
                   justifyContent="space-between"
                   alignItems="flex-end">
-                <Grid item={true}
-                      className="search-index-category-item">
+                <Grid
+                    className="search-index-category-item">
                     <h2 className="search-index-category-title">
                         {I18n.t('js.search.index.articles.title')}
                     </h2>
@@ -68,8 +68,8 @@ export default class ArticleSearchMenuDisplay extends React.PureComponent {
                 </Grid>
 
                 <Hidden mdDown={true}>
-                    <Grid item={true}
-                          className="search-index-category-menu">
+                    <Grid
+                        className="search-index-category-menu">
                         <Grid container={true}
                               spacing={2}
                               direction="row"
@@ -77,10 +77,10 @@ export default class ArticleSearchMenuDisplay extends React.PureComponent {
                               alignItems="flex-end">
                             {
                                 !!this.props.currentUserId &&
-                                <Grid item={true}
-                                      className="search-index-category-item">
+                                <Grid
+                                    className="search-index-category-item">
                                     <Dropdown id="search-filter"
-                                              // tooltip={I18n.t('js.search.scrap.field')}
+                                        // tooltip={I18n.t('js.search.scrap.field')}
                                               button={
                                                   <Button className="search-index-category-filter-button">
                                                       <FindInPageIcon/>
@@ -92,14 +92,16 @@ export default class ArticleSearchMenuDisplay extends React.PureComponent {
                                                 <li>
                                                     <TextField id="search-in-urls"
                                                                name="search[query_url]"
-                                                               InputLabelProps={{
-                                                                   className: 'search-index-category-filter-input'
-                                                               }}
-                                                               InputProps={{
-                                                                   className: 'search-index-category-filter-input'
-                                                               }}
-                                                               FormHelperTextProps={{
-                                                                   className: 'search-index-category-filter-helper'
+                                                               slotProps={{
+                                                                   input: {
+                                                                       className: 'search-index-category-filter-input'
+                                                                   },
+                                                                   inputLabel: {
+                                                                       className: 'search-index-category-filter-input'
+                                                                   },
+                                                                   formHelperText: {
+                                                                       className: 'search-index-category-filter-helper'
+                                                                   }
                                                                }}
                                                                autoFocus={true}
                                                                variant="outlined"
@@ -123,8 +125,8 @@ export default class ArticleSearchMenuDisplay extends React.PureComponent {
                                 </Grid>
                             }
 
-                            <Grid item={true}
-                                  className="search-index-category-item">
+                            <Grid
+                                className="search-index-category-item">
                                 <Dropdown id="search-order"
                                           button={
                                               <Button className="search-index-category-filter-button">
@@ -175,8 +177,8 @@ export default class ArticleSearchMenuDisplay extends React.PureComponent {
                                 </Dropdown>
                             </Grid>
 
-                            <Grid item={true}
-                                  className="search-index-category-item">
+                            <Grid
+                                className="search-index-category-item">
                                 <Dropdown id="search-display"
                                           button={
                                               <Button className="search-index-category-filter-button">
@@ -211,8 +213,8 @@ export default class ArticleSearchMenuDisplay extends React.PureComponent {
 
                             {
                                 !!this.props.currentUserId &&
-                                <Grid item={true}
-                                      className="search-index-category-item">
+                                <Grid
+                                    className="search-index-category-item">
                                     <Button className="search-index-category-filter-button"
                                             onClick={this.props.onSettingsClick.bind(this, 2)}>
                                         <SettingsIcon/>

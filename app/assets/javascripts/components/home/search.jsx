@@ -5,7 +5,7 @@ import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
 import Chip from '@mui/material/Chip';
 import Button from '@mui/material/Button';
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Grid2';
 
 import SearchIcon from '@mui/icons-material/Search';
 import CancelIcon from '@mui/icons-material/Cancel';
@@ -191,11 +191,7 @@ class HomeSearch extends React.Component {
                       direction="row"
                       justifyContent="space-between"
                       alignItems="flex-start">
-                    <Grid item={true}
-                          xs={12}
-                          sm={8}
-                          md={9}
-                          lg={9}>
+                    <Grid size={{xs: 12, sm: 8, md: 9}}>
                         <SearchArticleModule isSearching={this.props.isSearching}
                                              isUserConnected={this.props.isUserConnected}
                                              currentUserId={this.props.currentUserId}
@@ -207,11 +203,7 @@ class HomeSearch extends React.Component {
                                              articles={this.props.articles}/>
                     </Grid>
 
-                    <Grid item={true}
-                          xs={12}
-                          sm={4}
-                          md={3}
-                          lg={3}>
+                    <Grid size={{xs: 12, sm: 4, md: 3}}>
                         <SearchTagModule isSearching={this.props.isSearching}
                                          isUserConnected={this.props.isUserConnected}
                                          currentUserId={this.props.currentUserId}

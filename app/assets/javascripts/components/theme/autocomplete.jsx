@@ -211,27 +211,32 @@ export default class Autocomplete extends React.Component {
                                    fullWidth={this.props.fullWidth}
                                    name={this.props.isMultiple ? undefined : this.props.name}
                                    label={this.props.label}
-                                   placeholder={this.props.placeholder}
                                    helperText={this.props.helperText}
                                    required={!this.props.isMultiple && this.props.required}
                                    value={this.props.currentSuggestion}
-                                   InputProps={{
-                                       ...getInputProps({
-                                           classes: this.props.classes,
-                                           style: this.props.isMultiple ? {flexWrap: 'wrap'} : undefined,
-                                           disableUnderline: this.props.disableUnderline,
-                                           startAdornment: this.props.isMultiple ? this.props.currentSuggestion.map((key, i) => (
-                                               <Chip key={key + '-' + i}
-                                                     style={{
-                                                         margin: '8px 4px'
-                                                     }}
-                                                     tabIndex={-1}
-                                                     label={this._getValueFromKey(key)}
-                                                     onDelete={this._handleDelete(key)}/>
-                                           )) : undefined,
-                                           onKeyDown: this.props.isMultiple ? this._handleKeyDown.bind(this, highlightedIndex) : undefined,
-                                           onChange: this._handleInputChange
-                                       })
+                                   slotProps={{
+                                       htmlInput: {
+                                           title: this.props.placeholder,
+                                           'aria-label': this.props.placeholder
+                                       },
+                                       input: {
+                                           ...getInputProps({
+                                               classes: this.props.classes,
+                                               style: this.props.isMultiple ? {flexWrap: 'wrap'} : undefined,
+                                               disableUnderline: this.props.disableUnderline,
+                                               startAdornment: this.props.isMultiple ? this.props.currentSuggestion.map((key, i) => (
+                                                   <Chip key={key + '-' + i}
+                                                         style={{
+                                                             margin: '8px 4px'
+                                                         }}
+                                                         tabIndex={-1}
+                                                         label={this._getValueFromKey(key)}
+                                                         onDelete={this._handleDelete(key)}/>
+                                               )) : undefined,
+                                               onKeyDown: this.props.isMultiple ? this._handleKeyDown.bind(this, highlightedIndex) : undefined,
+                                               onChange: this._handleInputChange
+                                           })
+                                       }
                                    }}/>
                         <div {...getMenuProps()}>
                             {

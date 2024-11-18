@@ -29,8 +29,8 @@ class Topic < ApplicationRecord
 
   # == Attributes ===========================================================
   include EnumsConcern
-  enum mode: TOPIC_MODE
-  enum visibility: VISIBILITY
+  enum :mode, TOPIC_MODE
+  enum :visibility, VISIBILITY
   enums_to_tr('topic', [:mode, :visibility])
 
   include TranslationConcern

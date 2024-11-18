@@ -4,6 +4,7 @@ import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Button from '@mui/material/Button';
@@ -20,7 +21,8 @@ import {
 import Loader from '../theme/loader';
 
 
-export default @connect((state) => ({
+export default
+@connect((state) => ({
     visitsDetails: state.adminState.visitsDetails
 }), {
     fetchVisits
@@ -61,7 +63,10 @@ class TrackingVisitModal extends React.Component {
         event.preventDefault();
 
         this.setState({
-            areVisitOpen: {...this.state.areVisitOpen, [visitId]: !this.state.areVisitOpen[visitId]},
+            areVisitOpen: {
+                ...this.state.areVisitOpen,
+                [visitId]: !this.state.areVisitOpen[visitId]
+            },
         });
     };
 
@@ -71,12 +76,12 @@ class TrackingVisitModal extends React.Component {
                 {
                     visits.map((visit) => (
                         <React.Fragment key={visit.id}>
-                            <ListItem className="admin-tracking-modal-list-item-visit"
-                                      button={true}
-                                      onClick={this._handleVisitClick.bind(this, visit.id)}>
+                            <ListItemButton className="admin-tracking-modal-list-item-visit"
+                                            onClick={this._handleVisitClick.bind(this, visit.id)}>
                                 <ListItemText primary={
                                     <span>
-                                        {visit.startedAt} -> {visit.endedAt} : {[visit.country, visit.referrer].compact().join(' - ')}
+                                        {visit.startedAt} -> {visit.endedAt} : {[visit.country, visit.referrer].compact()
+                                        .join(' - ')}
                                     </span>
                                 }
                                               secondary={
@@ -92,7 +97,7 @@ class TrackingVisitModal extends React.Component {
                                         :
                                         <ExpandMoreIcon/>
                                 }
-                            </ListItem>
+                            </ListItemButton>
 
                             <Collapse in={this.state.areVisitOpen[visit.id]}
                                       timeout="auto"
@@ -103,8 +108,7 @@ class TrackingVisitModal extends React.Component {
                                     {
                                         visit.events.map((event) => (
                                             <ListItem key={event.id}
-                                                      className="admin-tracking-modal-list-item-event"
-                                                      button={false}>
+                                                      className="admin-tracking-modal-list-item-event">
                                                 <ListItemIcon>
                                                     <SubdirectoryArrowRightIcon/>
                                                 </ListItemIcon>

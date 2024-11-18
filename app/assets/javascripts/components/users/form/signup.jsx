@@ -5,7 +5,7 @@ import {
     Form
 } from 'react-final-form';
 
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Grid2';
 import InputAdornment from '@mui/material/InputAdornment';
 import Button from '@mui/material/Button';
 
@@ -107,7 +107,7 @@ const SignupForm = function ({onSubmit, onCancel}) {
                               justifyContent="space-between"
                               alignItems="center">
                             <Grid classes={{item: 'user-connection-field-item'}}
-                                  item={true}>
+                                  >
                                 <Field name="pseudo"
                                        component={TextFormField}
                                        validate={fieldValidation.bind(this, 'pseudo')}
@@ -118,17 +118,19 @@ const SignupForm = function ({onSubmit, onCancel}) {
                                        required={true}
                                        variant="standard"
                                        color="primary"
-                                       InputProps={{
-                                           startAdornment: (
-                                               <InputAdornment position="start">
-                                                   <AccountCircleIcon/>
-                                               </InputAdornment>
-                                           )
+                                       slotProps={{
+                                           input: {
+                                               startAdornment: (
+                                                   <InputAdornment position="start">
+                                                       <AccountCircleIcon/>
+                                                   </InputAdornment>
+                                               )
+                                           }
                                        }}/>
                             </Grid>
 
                             <Grid classes={{item: 'user-connection-field-item'}}
-                                  item={true}>
+                                  >
                                 <Field name="email"
                                        component={TextFormField}
                                        validate={fieldValidation.bind(this, 'pseudo')}
@@ -139,17 +141,19 @@ const SignupForm = function ({onSubmit, onCancel}) {
                                        type="email"
                                        variant="standard"
                                        color="primary"
-                                       InputProps={{
-                                           startAdornment: (
-                                               <InputAdornment position="start">
-                                                   <EmailIcon/>
-                                               </InputAdornment>
-                                           )
+                                       slotProps={{
+                                           input: {
+                                               startAdornment: (
+                                                   <InputAdornment position="start">
+                                                       <EmailIcon/>
+                                                   </InputAdornment>
+                                               )
+                                           }
                                        }}/>
                             </Grid>
 
                             <Grid classes={{item: 'user-connection-field-item'}}
-                                  item={true}>
+                                  >
                                 <Field name="password"
                                        component={TextFormField}
                                        id="user_password_signup"
@@ -160,17 +164,19 @@ const SignupForm = function ({onSubmit, onCancel}) {
                                        variant="standard"
                                        color="primary"
                                        type="password"
-                                       InputProps={{
-                                           startAdornment: (
-                                               <InputAdornment position="start">
-                                                   <LockIcon/>
-                                               </InputAdornment>
-                                           )
+                                       slotProps={{
+                                           input: {
+                                               startAdornment: (
+                                                   <InputAdornment position="start">
+                                                       <LockIcon/>
+                                                   </InputAdornment>
+                                               )
+                                           }
                                        }}/>
                             </Grid>
 
                             <Grid classes={{item: 'user-connection-field-item'}}
-                                  item={true}>
+                                  >
                                 <Field name="password_confirmation"
                                        component={TextFormField}
                                        id="user_password_confirmation_signup"
@@ -181,16 +187,18 @@ const SignupForm = function ({onSubmit, onCancel}) {
                                        variant="standard"
                                        color="primary"
                                        type="password"
-                                       InputProps={{
-                                           startAdornment: (
-                                               <InputAdornment position="start">
-                                                   <LockIcon/>
-                                               </InputAdornment>
-                                           )
+                                       slotProps={{
+                                           input: {
+                                               startAdornment: (
+                                                   <InputAdornment position="start">
+                                                       <LockIcon/>
+                                                   </InputAdornment>
+                                               )
+                                           }
                                        }}/>
                             </Grid>
 
-                            <Grid item={true}>
+                            <Grid >
                                 <Field name="terms"
                                        type="checkbox"
                                        component={CheckBoxFormField}
@@ -216,7 +224,7 @@ const SignupForm = function ({onSubmit, onCancel}) {
                               direction="row-reverse"
                               justifyContent="space-between"
                               alignItems="center">
-                            <Grid item={true}>
+                            <Grid >
                                 <Button type="submit"
                                         id="signup-submit"
                                         variant="contained"
@@ -226,7 +234,7 @@ const SignupForm = function ({onSubmit, onCancel}) {
                                 </Button>
                             </Grid>
 
-                            <Grid item={true}>
+                            <Grid >
                                 <Button onClick={onCancel}>
                                     {I18n.t('js.user.signup.cancel')}
                                 </Button>

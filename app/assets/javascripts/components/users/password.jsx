@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom';
 
 import Container from '@mui/material/Container';
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Grid2';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -98,7 +98,7 @@ class UserPassword extends React.Component {
                                   justifyContent="space-between"
                                   alignItems="center">
                                 <Grid classes={{item: 'user-password-field-item'}}
-                                      item={true}>
+                                      >
                                     <TextField id="user_password"
                                                name="user[password]"
                                                className="user-password-text-field"
@@ -107,12 +107,14 @@ class UserPassword extends React.Component {
                                                autoFocus={true}
                                                color="primary"
                                                type="password"
-                                               InputProps={{
-                                                   startAdornment: (
-                                                       <InputAdornment position="start">
-                                                           <LockIcon/>
-                                                       </InputAdornment>
-                                                   )
+                                               slotProps={{
+                                                   input: {
+                                                       startAdornment: (
+                                                           <InputAdornment position="start">
+                                                               <LockIcon/>
+                                                           </InputAdornment>
+                                                       )
+                                                   }
                                                }}/>
 
                                     <TextField id="user_password_confirmation"
@@ -122,12 +124,14 @@ class UserPassword extends React.Component {
                                                required={true}
                                                color="primary"
                                                type="password"
-                                               InputProps={{
-                                                   startAdornment: (
-                                                       <InputAdornment position="start">
-                                                           <LockIcon/>
-                                                       </InputAdornment>
-                                                   )
+                                               slotProps={{
+                                                   input: {
+                                                       startAdornment: (
+                                                           <InputAdornment position="start">
+                                                               <LockIcon/>
+                                                           </InputAdornment>
+                                                       )
+                                                   }
                                                }}/>
                                 </Grid>
                             </Grid>
@@ -138,7 +142,7 @@ class UserPassword extends React.Component {
                                   justifyContent="space-between"
                                   alignItems="center">
                                 <Grid classes={{item: 'user-password-field-item'}}
-                                      item={true}>
+                                      >
                                     <TextField id="user_email"
                                                name="user[email]"
                                                className="user-password-text-field"
@@ -146,12 +150,14 @@ class UserPassword extends React.Component {
                                                required={true}
                                                autoFocus={true}
                                                color="primary"
-                                               InputProps={{
-                                                   startAdornment: (
-                                                       <InputAdornment position="start">
-                                                           <EmailIcon/>
-                                                       </InputAdornment>
-                                                   )
+                                               slotProps={{
+                                                   input: {
+                                                       startAdornment: (
+                                                           <InputAdornment position="start">
+                                                               <EmailIcon/>
+                                                           </InputAdornment>
+                                                       )
+                                                   }
                                                }}/>
                                 </Grid>
                             </Grid>

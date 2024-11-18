@@ -31,7 +31,7 @@ class Tag < ApplicationRecord
 
   # == Attributes ===========================================================
   include EnumsConcern
-  enum visibility: VISIBILITY
+  enum :visibility, VISIBILITY
   enums_to_tr('tag', [:visibility])
 
   include TranslationConcern

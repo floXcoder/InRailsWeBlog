@@ -9,7 +9,7 @@ import {
 } from 'react-router-dom';
 
 import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 
@@ -19,13 +19,10 @@ import {
     userArticlePath
 } from '../../constants/routesHelper';
 
-import {
-    getBookmarks
-} from '../../selectors';
 
-
-export default @connect((state) => ({
-    bookmarks: getBookmarks(state)
+export default
+@connect((state) => ({
+    bookmarks: state.bookmarkState.bookmarks
 }))
 class BookmarkList extends React.Component {
     static propTypes = {
@@ -53,10 +50,9 @@ class BookmarkList extends React.Component {
                             {
                                 this.props.bookmarks.map((bookmark, i) => (
                                     <Fragment key={i}>
-                                        <ListItem button={true}
-                                                  component={Link}
-                                                  to={userArticlePath(bookmark.parentSlug, bookmark.slug)}
-                                                  onClick={this.props.onBookmarkClick}>
+                                        <ListItemButton component={Link}
+                                                        to={userArticlePath(bookmark.parentSlug, bookmark.slug)}
+                                                        onClick={this.props.onBookmarkClick}>
                                             <ListItemIcon>
                                                 <AssignmentIcon fontSize="small"/>
                                             </ListItemIcon>
@@ -66,7 +62,7 @@ class BookmarkList extends React.Component {
                                             }}>
                                                 {bookmark.name || bookmark.slug}
                                             </ListItemText>
-                                        </ListItem>
+                                        </ListItemButton>
                                     </Fragment>
                                 ))
                             }

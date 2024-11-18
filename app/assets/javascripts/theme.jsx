@@ -121,48 +121,56 @@ const theme = createTheme({
     components: {
         MuiButton: {
             styleOverrides: {
-                // root: {
-                //     color: theme.palette.text.primary
-                // },
+                root: {
+                    // color: theme.palette.text.primary
+                    fontWeight: 600,
+                    variants: [
+                        {
+                            props: {
+                                variant: 'contained',
+                                color: 'default'
+                            },
+                            style: {
+                                color: 'rgba(0, 0, 0, 0.87)'
+                            }
+                        },
+                        {
+                            props: {
+                                variant: 'outlined',
+                                color: 'default'
+                            },
+                            style: {
+                                color: 'rgba(0, 0, 0, 0.87)'
+                            }
+                        },
+                        {
+                            props: {
+                                variant: 'text',
+                                color: 'default'
+                            },
+                            style: {
+                                color: 'rgba(0, 0, 0, 0.87)'
+                            }
+                        },
+                    ]
+                },
                 // textPrimary: {
                 //     color: theme.palette.primary.main
                 // },
                 // textSecondary: {
                 //     color: theme.palette.secondary.main
                 // },
+                containedSecondary: {
+                    color: '#fff'
+                },
+                containedSizeSmall: {
+                    padding: '6px 12px'
+                },
                 sizeSmall: {
-                    fontSize: '0.95rem'
-                }
-            },
-            variants: [
-                {
-                    props: {
-                        variant: 'contained',
-                        color: 'default'
-                    },
-                    style: {
-                        color: 'rgba(0, 0, 0, 0.87)'
-                    }
+                    fontSize: '0.85rem'
                 },
-                {
-                    props: {
-                        variant: 'outlined',
-                        color: 'default'
-                    },
-                    style: {
-                        color: 'rgba(0, 0, 0, 0.87)'
-                    }
-                },
-                {
-                    props: {
-                        variant: 'text',
-                        color: 'default'
-                    },
-                    style: {
-                        color: 'rgba(0, 0, 0, 0.87)'
-                    }
-                },
-            ]
+                // sizeLarge: {}
+            }
         },
         MuiIcon: {
             styleOverrides: {
@@ -228,6 +236,13 @@ const theme = createTheme({
             styleOverrides: {
                 root: {
                     minWidth: 120
+                }
+            }
+        },
+        MuiListItemButton: {
+            styleOverrides: {
+                root: {
+                    flexGrow: 0
                 }
             }
         },

@@ -18,7 +18,6 @@ import {
 } from '../../../actions';
 
 import {
-    getCurrentUser,
     getArticleErrors,
     getIsTagError
 } from '../../../selectors';
@@ -52,7 +51,7 @@ export default function articleMutationManager(mode) {
     return function articleMutation(WrappedComponent) {
         @connect((state) => ({
             isUserConnected: state.userState.isConnected,
-            currentUser: getCurrentUser(state),
+            currentUser: state.userState.user,
             currentTopic: state.topicState.currentTopic,
             tags: state.tagState.topicTags,
             isFetching: state.articleState.isFetching,
