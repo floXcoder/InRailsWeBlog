@@ -22,6 +22,10 @@ unless ENV['CI_SERVER']
   end
 end
 
+p ENV['CI_SERVER']
+p ENV['SECRET_TOKEN']
+p ENV
+
 module InRailsWeBlog
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
