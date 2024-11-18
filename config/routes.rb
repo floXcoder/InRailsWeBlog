@@ -322,7 +322,7 @@ Rails.application.routes.draw do
   get '/robots.:format' => 'pages#robots'
 
   # Health check
-  health_check_routes
+  health_check_routes if Rails.env.production?
 
   # All other pages
   match '*path', to: 'pages#not_found', via: :all

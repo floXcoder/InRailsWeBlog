@@ -4,7 +4,7 @@ import {
     Link
 } from 'react-router-dom';
 
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Grid2';
 import Divider from '@mui/material/Divider';
 import Chip from '@mui/material/Chip';
 
@@ -98,7 +98,7 @@ export default class SearchArticleModule extends React.PureComponent {
                       justifyContent="flex-start"
                       alignItems="center">
                     <Grid className="search-module-article-main-item"
-                          item={true}>
+                          >
                         <Link className={classNames('search-module-article-main-result', {
                             'search-module-article-secondary-result': !primary,
                             'search-module-article-highlighted': this.props.highlightedArticleId === article.id
@@ -146,7 +146,7 @@ export default class SearchArticleModule extends React.PureComponent {
                         }
                     </Grid>
 
-                    {/*<Grid item={true}>*/}
+                    {/*<Grid >*/}
                     {/*    <Link to={editArticlePath(article.userSlug, article.slug)}>*/}
                     {/*        <EditIcon className={search-module-articleEdit}/>*/}
                     {/*    </Link>*/}

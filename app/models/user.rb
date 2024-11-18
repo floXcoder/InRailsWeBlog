@@ -67,7 +67,7 @@ class User < ApplicationRecord
          authentication_keys: [:login]
 
   include EnumsConcern
-  enum visibility: VISIBILITY
+  enum :visibility, VISIBILITY
   enums_to_tr('user', [:visibility])
 
   # Store settings

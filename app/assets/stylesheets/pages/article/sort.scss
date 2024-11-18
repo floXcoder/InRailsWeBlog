@@ -1,4 +1,4 @@
-@import 'base/variables';
+@use 'base/variables' as *;
 
 .article-sort-root {
   margin: 1rem auto 4rem;

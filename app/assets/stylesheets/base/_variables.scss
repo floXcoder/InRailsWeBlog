@@ -1,4 +1,5 @@
 @use 'sass:math';
+@use 'sass:color';
 
 // Path
 // ------------------------------------
@@ -139,10 +140,10 @@ $top-header-scroll-margin: 75px;
 // Special style
 // ------------------------------------
 @mixin special-style($color) {
-  background-color: lighten($color, 10%);
+  background-color: color.adjust($color, $lightness: 10%);
   //box-shadow: 0 0 4px $color;
   padding: .8rem 1rem;
-  border-left: 6px solid darken($color, 20%);
+  border-left: 6px solid color.adjust($color, $saturation: 20%);
   margin: .6rem 0 !important;
   border-radius: 3px;
 }

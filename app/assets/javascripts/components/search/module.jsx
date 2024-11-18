@@ -3,7 +3,7 @@
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Grid2';
 
 import CloseIcon from '@mui/icons-material/Close';
 
@@ -141,11 +141,7 @@ class SearchModule extends React.Component {
                           justifyContent="space-between"
                           alignItems="flex-start">
                         <Grid className="search-module-grid-item"
-                              item={true}
-                              xs={12}
-                              sm={8}
-                              md={9}
-                              lg={9}>
+                              size={{xs: 12, sm: 8, md: 9}}>
                             <SearchArticleModule isSearching={this.props.isSearching}
                                                  isUserConnected={this.props.isUserConnected}
                                                  currentUserId={this.props.currentUserId}
@@ -157,11 +153,7 @@ class SearchModule extends React.Component {
                         </Grid>
 
                         <Grid className="search-module-grid-item"
-                              item={true}
-                              xs={12}
-                              sm={4}
-                              md={3}
-                              lg={3}>
+                              size={{xs: 12, sm: 4, md: 3}}>
                             <SearchTagModule isSearching={this.props.isSearching}
                                              isUserConnected={this.props.isUserConnected}
                                              currentUserId={this.props.currentUserId}

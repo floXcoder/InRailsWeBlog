@@ -35,11 +35,11 @@
 class ArticleSerializer
   include FastJsonapi::ObjectSerializer
 
-  extend SerializerHelper
+  # extend SerializerHelper
 
   set_type :article
 
-  cache_options store: SerializerHelper::CacheSerializer, expires_in: InRailsWeBlog.settings.cache_time
+  # cache_options store: SerializerHelper::CacheSerializer, expires_in: InRailsWeBlog.settings.cache_time
 
   set_key_transform :camel_lower
 

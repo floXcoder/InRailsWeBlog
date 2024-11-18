@@ -12,10 +12,6 @@ import {
     restoreArticle
 } from '../../actions';
 
-import {
-    getCurrentUser
-} from '../../selectors';
-
 import withRouter from '../modules/router';
 
 import highlight from '../modules/highlight';
@@ -28,7 +24,7 @@ import ArticleVersionsDisplay from './display/versions';
 
 
 export default @connect((state) => ({
-    currentUser: getCurrentUser(state),
+    currentUser: state.userState.user,
     currentTopic: state.topicState.currentTopic,
     article: state.articleState.article,
     articleVersions: state.articleState.articleVersions

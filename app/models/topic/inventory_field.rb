@@ -24,8 +24,8 @@ class Topic::InventoryField < ApplicationRecord
 
   # == Attributes ===========================================================
   include EnumsConcern
-  enum value_type: VALUE_TYPE
-  enum visibility: VISIBILITY
+  enum :value_type, VALUE_TYPE
+  enum :visibility, VISIBILITY
   enums_to_tr('inventory', [:value_type, :visibility])
 
   # Strip whitespaces

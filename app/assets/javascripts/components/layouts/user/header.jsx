@@ -17,7 +17,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
-import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import List from '@mui/material/List';
@@ -94,7 +94,8 @@ const loadingBarStyle = {
 };
 
 
-export default @connect((state) => ({
+export default
+@connect((state) => ({
     metaTags: state.uiState.metaTags,
     isUserPreferenceOpen: state.uiState.isUserPreferenceOpen,
     isTopicPopupOpen: state.uiState.isTopicPopupOpen,
@@ -272,14 +273,13 @@ class HeaderLayoutUser extends React.PureComponent {
                     </div>
 
                     <List>
-                        <ListItem button={true}
-                                  onClick={this._handleMobileArticleClick}>
+                        <ListItemButton onClick={this._handleMobileArticleClick}>
                             <ListItemIcon>
                                 <AssignmentIcon/>
                             </ListItemIcon>
                             <ListItemText primary={I18n.t('js.views.header.user.articles')}/>
                             {this.state.isMobileArticleOpen ? <ExpandLess/> : <ExpandMore/>}
-                        </ListItem>
+                        </ListItemButton>
                         <Collapse in={this.state.isMobileArticleOpen}
                                   timeout="auto"
                                   unmountOnExit={true}>
@@ -293,28 +293,26 @@ class HeaderLayoutUser extends React.PureComponent {
                                                onItemClick={this._handleTagDrawerToggle}/>
                         </Collapse>
 
-                        <ListItem button={true}
-                                  onClick={this._handleMobileBookmarkClick}>
+                        <ListItemButton onClick={this._handleMobileBookmarkClick}>
                             <ListItemIcon>
                                 <FavoriteIcon/>
                             </ListItemIcon>
                             <ListItemText primary={I18n.t('js.views.header.user.bookmarks')}/>
                             {this.state.isMobileBookmarkOpen ? <ExpandLess/> : <ExpandMore/>}
-                        </ListItem>
+                        </ListItemButton>
                         <Collapse in={this.state.isMobileBookmarkOpen}
                                   timeout="auto"
                                   unmountOnExit={true}>
                             <BookmarkList onBookmarkClick={this._handleTagDrawerToggle}/>
                         </Collapse>
 
-                        <ListItem button={true}
-                                  onClick={this._handleMobileUserClick}>
+                        <ListItemButton onClick={this._handleMobileUserClick}>
                             <ListItemIcon>
                                 <AccountCircleIcon/>
                             </ListItemIcon>
                             <ListItemText primary={I18n.t('js.views.header.user.profile')}/>
                             {this.state.isMobileUserOpen ? <ExpandLess/> : <ExpandMore/>}
-                        </ListItem>
+                        </ListItemButton>
                         <Collapse in={this.state.isMobileUserOpen}
                                   timeout="auto"
                                   unmountOnExit={true}>

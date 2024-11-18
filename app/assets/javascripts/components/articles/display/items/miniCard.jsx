@@ -1,14 +1,12 @@
 'use strict';
 
-// Polyfill observer
-import 'intersection-observer';
-import Observer from '@researchgate/react-intersection-observer';
+import {InView} from 'react-intersection-observer';
 
 import {
     Link
 } from 'react-router-dom';
 
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Grid2';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
@@ -57,8 +55,8 @@ class ArticleMiniCardDisplay extends React.Component {
         super(props);
     }
 
-    _handleViewportChange = (event) => {
-        if (event.isIntersecting) {
+    _handleViewportChange = (inView, intersectionObserverEntry) => {
+        if (intersectionObserverEntry.isIntersecting) {
             spyTrackView('article', this.props.article.id);
 
             if (this.props.onEnter) {
@@ -95,8 +93,8 @@ class ArticleMiniCardDisplay extends React.Component {
         const contentLength = (this.props.article.contentSummary || this.props.article.content).length;
 
         return (
-            <Observer rootMargin="-50px"
-                      onChange={this._handleViewportChange}>
+            <InView onChange={this._handleViewportChange}
+                    rootMargin="-50px">
                 <Card id={`article-${this.props.article.id}`}
                       className={classNames('article-mini-card-card', {
                           'article-mini-card-card-paper': this.props.isPaper,
@@ -179,8 +177,7 @@ class ArticleMiniCardDisplay extends React.Component {
                               direction="row"
                               justifyContent="flex-start"
                               alignItems="center">
-                            <Grid item={true}
-                                  xs={this.props.article.defaultPicture?.jpg ? 8 : 12}
+                            <Grid size={{xs: this.props.article.defaultPicture?.jpg ? 8 : 12}}
                                   className={classNames('article-mini-card-header-item', {
                                       'article-mini-card-article-content-faded': this.props.isFaded && contentLength > 120
                                   })}
@@ -193,8 +190,7 @@ class ArticleMiniCardDisplay extends React.Component {
                             {
                                 !!this.props.article.defaultPicture?.jpg &&
                                 <Grid className="article-mini-card-header-item"
-                                      item={true}
-                                      xs={4}>
+                                      size={{xs: 4}}>
                                     <CardMedia className="article-mini-card-media">
                                         <picture>
                                             <source srcSet={this.props.article.defaultPicture.webp}
@@ -219,8 +215,7 @@ class ArticleMiniCardDisplay extends React.Component {
                               direction="row"
                               justifyContent="space-between"
                               alignItems="center">
-                            <Grid item={true}
-                                  className="article-mini-card-header-item">
+                            <Grid className="article-mini-card-header-item">
                                 <Grid container={true}
                                       classes={{
                                           container: 'article-mini-card-article-info'
@@ -229,8 +224,7 @@ class ArticleMiniCardDisplay extends React.Component {
                                       direction="row"
                                       justifyContent="flex-start"
                                       alignItems="center">
-                                    <Grid item={true}
-                                          className="article-mini-card-header-item">
+                                    <Grid className="article-mini-card-header-item">
                                         <meta itemProp="author"
                                               content={this.props.article.user.pseudo}/>
                                         <meta itemProp="url"
@@ -243,13 +237,11 @@ class ArticleMiniCardDisplay extends React.Component {
                                         </Link>
                                     </Grid>
 
-                                    <Grid item={true}
-                                          className="article-mini-card-header-item">
+                                    <Grid className="article-mini-card-header-item">
                                         <div className="article-mini-card-separator"/>
                                     </Grid>
 
-                                    <Grid item={true}
-                                          className="article-mini-card-header-item">
+                                    <Grid className="article-mini-card-header-item">
                                         <meta itemProp="datePublished"
                                               content={this.props.article.dateIso}/>
 
@@ -262,7 +254,7 @@ class ArticleMiniCardDisplay extends React.Component {
 
                             {
                                 !!this.props.isTagDown &&
-                                <Grid item={true}>
+                                <Grid >
                                     {this._renderArticleTags()}
                                 </Grid>
                             }
@@ -276,7 +268,7 @@ class ArticleMiniCardDisplay extends React.Component {
                         </div>
                     }
                 </Card>
-            </Observer>
+            </InView>
         );
     };
 

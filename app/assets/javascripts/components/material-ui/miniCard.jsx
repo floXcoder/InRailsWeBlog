@@ -1,7 +1,7 @@
 'use strict';
 
 import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Grid2';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Avatar from '@mui/material/Avatar';
@@ -16,8 +16,7 @@ const MiniCard = function ({title, number, icon, color}) {
             <CardContent>
                 <Grid container={true}
                       spacing={2}>
-                    <Grid item={true}
-                          xs={true}>
+                    <Grid size={{xs: 12}}>
                         <Typography gutterBottom={true}
                                     variant="h5"
                                     component="h2">
@@ -33,8 +32,7 @@ const MiniCard = function ({title, number, icon, color}) {
 
                     {
                         !!icon &&
-                        <Grid item={true}
-                              xs={3}>
+                        <Grid size={{xs: 3}}>
                             <Avatar style={{
                                 margin: 5,
                                 color: '#fff',

@@ -4,7 +4,7 @@ import {
     Field
 } from 'react-final-form';
 
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Grid2';
 
 import EditorField from '../../../editor/form/editor';
 
@@ -120,8 +120,7 @@ export default class ArticleInventoriesField extends React.Component {
                   direction="row"
                   justifyContent="flex-start"
                   alignItems="center">
-                <Grid item={true}
-                      sm={12}>
+                <Grid size={{sm: 12}}>
                     <Field name="title"
                            component={TextFormField}
                            className="article-form-inventory-field"
@@ -136,8 +135,7 @@ export default class ArticleInventoriesField extends React.Component {
                 {
                     this.props.inventoryFields.map((field, i) => (
                         <Grid key={`${this.props.article.id}-${field.fieldName}-${i}`}
-                              item={true}
-                              sm={12}>
+                              size={{sm: 12}}>
                             {this._renderFieldByType(field)}
                         </Grid>
                     ))

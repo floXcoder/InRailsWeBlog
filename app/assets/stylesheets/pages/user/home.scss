@@ -1,4 +1,4 @@
-@import 'base/variables';
+@use 'base/variables' as *;
 
 .user-home-user-home {
   margin: 1rem auto 4rem;
@@ -145,7 +145,7 @@
 }
 
 .user-home-topic-link {
-  top: 17px;
+  top: -17px;
   right: -20px;
   width: 22px !important;
   height: 28px !important;

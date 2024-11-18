@@ -7,14 +7,13 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Grid2';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import Divider from '@mui/material/Divider';
-import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 
 import LabelIcon from '@mui/icons-material/Label';
 import ClassIcon from '@mui/icons-material/Class';
@@ -32,7 +31,8 @@ import TrackingArticleModal from '../articles/tracking';
 import TrackingVisitModal from '../visits/tracking';
 
 
-export default @connect((state) => ({
+export default
+@connect((state) => ({
     visitsStats: state.adminState.visitsStats,
     isFetching: state.adminState.isFetching
 }), {
@@ -102,46 +102,47 @@ class AdminVisits extends React.Component {
             <List className="admin-visits-list-container"
                   dense={true}>
                 {
-                    Object.entries(listDetails).map(([element, count], i) => (
-                        <ListItem key={i}>
-                            <ListItemText className="admin-visits-list-item"
-                                          primary={
-                                              <div>
-                                                  {
-                                                      (!element || element === 'internal' || element === 'others') &&
-                                                      <Divider className="margin-top-5 margin-bottom-20"/>
-                                                  }
+                    Object.entries(listDetails)
+                        .map(([element, count], i) => (
+                            <ListItem key={i}>
+                                <ListItemText className="admin-visits-list-item"
+                                              primary={
+                                                  <div>
+                                                      {
+                                                          (!element || element === 'internal' || element === 'others') &&
+                                                          <Divider className="margin-top-5 margin-bottom-20"/>
+                                                      }
 
-                                                  {
-                                                      !element &&
-                                                      <em>{I18n.t('js.article.tracking.undefined')}</em>
-                                                  }
+                                                      {
+                                                          !element &&
+                                                          <em>{I18n.t('js.article.tracking.undefined')}</em>
+                                                      }
 
-                                                  {
-                                                      element === 'others' &&
-                                                      <em>{I18n.t('js.article.tracking.others')}</em>
-                                                  }
+                                                      {
+                                                          element === 'others' &&
+                                                          <em>{I18n.t('js.article.tracking.others')}</em>
+                                                      }
 
-                                                  {
-                                                      element === 'internal' &&
-                                                      <em>{I18n.t('js.article.tracking.internal')}</em>
-                                                  }
+                                                      {
+                                                          element === 'internal' &&
+                                                          <em>{I18n.t('js.article.tracking.internal')}</em>
+                                                      }
 
-                                                  {
-                                                      (element !== 'others' && element !== 'internal') &&
-                                                      element
-                                                  }
-                                              </div>
-                                          }/>
-
-                            <ListItemSecondaryAction
-                                className={classNames('admin-visits-list-item', {
-                                    'margin-top-10': (!element || element === 'internal' || element === 'others')
-                                })}>
-                                {count}
-                            </ListItemSecondaryAction>
-                        </ListItem>
-                    ))
+                                                      {
+                                                          (element !== 'others' && element !== 'internal') &&
+                                                          element
+                                                      }
+                                                  </div>
+                                              }
+                                              secondaryAction={
+                                                  <div className={classNames('admin-visits-list-item', {
+                                                      'margin-top-10': (!element || element === 'internal' || element === 'others')
+                                                  })}>
+                                                      {count}
+                                                  </div>
+                                              }/>
+                            </ListItem>
+                        ))
                 }
             </List>
         );
@@ -168,12 +169,13 @@ class AdminVisits extends React.Component {
                                     </TableCell>
 
                                     {
-                                        Object.keys(this.props.visitsStats.dates).map((date) => (
-                                            <TableCell key={date}
-                                                       align="center">
-                                                {date}
-                                            </TableCell>
-                                        ))
+                                        Object.keys(this.props.visitsStats.dates)
+                                            .map((date) => (
+                                                <TableCell key={date}
+                                                           align="center">
+                                                    {date}
+                                                </TableCell>
+                                            ))
                                     }
                                 </TableRow>
                             </TableHead>
@@ -185,16 +187,17 @@ class AdminVisits extends React.Component {
                                     </TableCell>
 
                                     {
-                                        Object.entries(this.props.visitsStats.dates).map(([date, count], i) => (
-                                            <TableCell key={i}
-                                                       align="center">
-                                                <a className="admin-visits-table-data-item"
-                                                   href="#"
-                                                   onClick={this._handleShowVisitsDate.bind(this, date)}>
-                                                    {count}
-                                                </a>
-                                            </TableCell>
-                                        ))
+                                        Object.entries(this.props.visitsStats.dates)
+                                            .map(([date, count], i) => (
+                                                <TableCell key={i}
+                                                           align="center">
+                                                    <a className="admin-visits-table-data-item"
+                                                       href="#"
+                                                       onClick={this._handleShowVisitsDate.bind(this, date)}>
+                                                        {count}
+                                                    </a>
+                                                </TableCell>
+                                            ))
                                     }
                                 </TableRow>
 
@@ -233,17 +236,17 @@ class AdminVisits extends React.Component {
                           direction="row"
                           justifyContent="space-around"
                           alignItems="center">
-                        <Grid item={true}>
+                        <Grid >
                             <MiniCard title={I18n.t('js.admin.visits.stats.visits')}
                                       number={this.props.visitsStats.totalUniqVisits}/>
                         </Grid>
 
-                        <Grid item={true}>
+                        <Grid >
                             <MiniCard title={I18n.t('js.admin.visits.stats.article_visits')}
                                       number={this.props.visitsStats.totalArticleVisits}/>
                         </Grid>
 
-                        <Grid item={true}>
+                        <Grid >
                             <MiniCard title={I18n.t('js.admin.visits.stats.clicks')}
                                       number={this.props.visitsStats.totalClicks}/>
                         </Grid>
@@ -255,17 +258,17 @@ class AdminVisits extends React.Component {
                           direction="row"
                           justifyContent="space-around"
                           alignItems="center">
-                        <Grid item={true}>
+                        <Grid >
                             <MiniCard title={I18n.t('js.admin.visits.stats.pages')}
                                       number={this.props.visitsStats.averagePages}/>
                         </Grid>
 
-                        <Grid item={true}>
+                        <Grid >
                             <MiniCard title={I18n.t('js.admin.visits.stats.bounce')}
                                       number={this.props.visitsStats.bounceRate + '%'}/>
                         </Grid>
 
-                        <Grid item={true}>
+                        <Grid >
                             <MiniCard title={I18n.t('js.admin.visits.stats.duration')}
                                       number={this.props.visitsStats.duration}/>
                         </Grid>
@@ -283,17 +286,17 @@ class AdminVisits extends React.Component {
                           direction="row"
                           justifyContent="space-around"
                           alignItems="center">
-                        <Grid item={true}>
+                        <Grid >
                             <MiniCard title={I18n.t('js.admin.visits.tops.total_articles')}
                                       number={this.props.visitsStats.totalArticles}/>
                         </Grid>
 
-                        <Grid item={true}>
+                        <Grid >
                             <MiniCard title={I18n.t('js.admin.visits.tops.total_tags')}
                                       number={this.props.visitsStats.totalTags}/>
                         </Grid>
 
-                        <Grid item={true}>
+                        <Grid >
                             <MiniCard title={I18n.t('js.admin.visits.tops.total_topics')}
                                       number={this.props.visitsStats.totalTopics}/>
                         </Grid>
@@ -305,7 +308,7 @@ class AdminVisits extends React.Component {
                           direction="row"
                           justifyContent="space-between"
                           alignItems="flex-start">
-                        <Grid item={true}>
+                        <Grid >
                             <List className="admin-visits-list-container">
                                 {
                                     this.props.visitsStats.topArticles.map((article) => (
@@ -342,7 +345,7 @@ class AdminVisits extends React.Component {
                             </List>
                         </Grid>
 
-                        <Grid item={true}>
+                        <Grid >
                             <List className="admin-visits-list-container">
                                 {
                                     this.props.visitsStats.topTags.map((tag) => (
@@ -371,7 +374,7 @@ class AdminVisits extends React.Component {
                             </List>
                         </Grid>
 
-                        <Grid item={true}>
+                        <Grid >
                             <List className="admin-visits-list-container">
                                 {
                                     this.props.visitsStats.topTopics.map((topic) => (

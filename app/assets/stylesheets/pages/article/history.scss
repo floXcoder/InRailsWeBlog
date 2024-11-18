@@ -1,4 +1,4 @@
-@import 'base/variables';
+@use 'base/variables' as *;
 
 .article-version-history {
   margin: .5rem auto 4rem;

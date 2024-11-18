@@ -12,7 +12,6 @@ import {
 } from '../../actions';
 
 import {
-    getCurrentUser,
     getTagErrors
 } from '../../selectors';
 
@@ -27,7 +26,7 @@ import TagErrorField from './display/fields/error';
 
 
 export default @connect((state) => ({
-    currentUser: getCurrentUser(state),
+    currentUser: state.userState.user,
     isFetching: state.tagState.isFetching,
     tag: state.tagState.tag,
     tagErrors: getTagErrors(state)

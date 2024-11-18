@@ -4,9 +4,7 @@ import {
     Link
 } from 'react-router-dom';
 
-// Polyfill observer
-import 'intersection-observer';
-import Observer from '@researchgate/react-intersection-observer';
+import {InView} from 'react-intersection-observer';
 
 import Sticky from 'react-sticky-el';
 
@@ -17,7 +15,7 @@ import CardActions from '@mui/material/CardActions';
 // import CardMedia from '@mui/material/CardMedia';
 import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Grid2';
 
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
@@ -39,7 +37,8 @@ import ArticleActions from '../../properties/actions';
 import ArticleAvatarIcon from '../../icons/avatar';
 
 
-export default @highlight()
+export default
+@highlight()
 class ArticleCardDisplay extends React.PureComponent {
     static propTypes = {
         article: PropTypes.object.isRequired,
@@ -86,8 +85,8 @@ class ArticleCardDisplay extends React.PureComponent {
         return null;
     }
 
-    _handleViewportChange = (event) => {
-        if (event.isIntersecting) {
+    _handleViewportChange = (inView, intersectionObserverEntry) => {
+        if (intersectionObserverEntry.isIntersecting) {
             spyTrackView('article', this.props.article.id);
 
             if (this.props.onShow) {
@@ -118,8 +117,8 @@ class ArticleCardDisplay extends React.PureComponent {
         const isPrivateInPublic = (this.props.isUserArticlesList || (this.props.currentUserTopicId === this.props.article.topicId && this.props.currentUserTopicVisibility === 'everyone')) && this.props.article.visibility !== 'everyone';
 
         return (
-            <Observer rootMargin="-50px"
-                      onChange={this._handleViewportChange}>
+            <InView onChange={this._handleViewportChange}
+                    rootMargin="-50px">
                 <Card component="article"
                       id={`article-${this.props.article.id}`}
                       className={classNames('article-card-article-card', {
@@ -179,7 +178,7 @@ class ArticleCardDisplay extends React.PureComponent {
                                         <Grid classes={{
                                             item: 'article-card-info-item'
                                         }}
-                                              item={true}>
+                                        >
                                             <ArticleAvatarIcon user={this.props.article.user}
                                                                createdDate={this.props.article.date}
                                                                updatedDate={this.props.article.updatedDate}/>
@@ -312,7 +311,7 @@ class ArticleCardDisplay extends React.PureComponent {
                         </div>
                     }
                 </Card>
-            </Observer>
+            </InView>
         );
     }
 }

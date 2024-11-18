@@ -17,7 +17,7 @@ class Admin::Blog < ApplicationRecord
 
   # == Attributes ===========================================================
   include EnumsConcern
-  enum visibility: VISIBILITY
+  enum :visibility, VISIBILITY
   enums_to_tr('blog', [:visibility])
 
   auto_strip_attributes :title

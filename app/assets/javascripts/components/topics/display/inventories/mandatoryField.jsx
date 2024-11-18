@@ -1,6 +1,6 @@
 'use strict';
 
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Grid2';
 import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
@@ -15,9 +15,7 @@ function TopicFormMandatoryFieldDisplay() {
                   direction="row"
                   justifyContent="flex-start"
                   alignItems="center">
-                <Grid item={true}
-                      sm={12}
-                      lg={6}>
+                <Grid size={{sm: 12, lg: 6}}>
                     <TextField className="topic-form-inv-field"
                                fullWidth={true}
                                variant="outlined"
@@ -26,9 +24,7 @@ function TopicFormMandatoryFieldDisplay() {
                                defaultValue="Titre"/>
                 </Grid>
 
-                <Grid item={true}
-                      sm={12}
-                      lg={6}>
+                <Grid size={{sm: 12, lg: 6}}>
                     <FormControl className="topic-form-inv-field"
                                  disabled={true}>
                         <InputLabel htmlFor="inventory_fields-value_type">
@@ -44,8 +40,7 @@ function TopicFormMandatoryFieldDisplay() {
                 </Grid>
 
                 <Grid className="topic-form-inv-mandatory-field-helper"
-                      item={true}
-                      sm={12}>
+                      size={{sm: 12}}>
                     {I18n.t('js.topic.edit_inventories.mandatory_field')}
                 </Grid>
             </Grid>

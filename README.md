@@ -179,7 +179,7 @@ Here is the procedure to update Summernote:
 `cd summernote`
 `git fetch && git pull`
 `yarn`
-`npm run build`
+`npm run buildall`
 
 Copy `dist/summernote-lite.js` to `app/assets/javascripts/modules/summernote/summernote-lite.js`.
 Then remove last line containing `sourceMappingURL`.

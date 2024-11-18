@@ -1,7 +1,7 @@
 'use strict';
 
 import Button from '@mui/material/Button';
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Grid2';
 
 
 const HomeBanner = function ({onLoginClick, onSignupClick}) {
@@ -23,11 +23,7 @@ const HomeBanner = function ({onLoginClick, onSignupClick}) {
                       direction="row"
                       justifyContent="space-around"
                       alignItems="center">
-                    <Grid item={true}
-                          xs={12}
-                          sm={12}
-                          md={6}
-                          lg={6}>
+                    <Grid size={{xs: 12, sm: 6, lg: 4}}>
                         <div className="home-banner-background">
                             <picture>
                                 <source srcSet={`${window.settings.assets_url}/home/banner.webp`}
@@ -41,11 +37,7 @@ const HomeBanner = function ({onLoginClick, onSignupClick}) {
                         </div>
                     </Grid>
 
-                    <Grid item={true}
-                          xs={12}
-                          sm={12}
-                          md={6}
-                          lg={6}>
+                    <Grid size={{xs: 12, sm: 6}}>
                         <div className="home-banner-buttons">
                             <Button className="home-banner-button"
                                     color="primary"

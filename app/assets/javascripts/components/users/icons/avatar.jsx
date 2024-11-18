@@ -5,7 +5,7 @@ import {
 } from 'react-router-dom';
 
 import Avatar from '@mui/material/Avatar';
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Grid2';
 
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
@@ -32,7 +32,7 @@ function UserAvatarIcon({
                   direction="row"
                   justifyContent="flex-start"
                   alignItems="center">
-                <Grid item={true}>
+                <Grid >
                     {
                         user.avatar
                             ?
@@ -45,7 +45,7 @@ function UserAvatarIcon({
                     }
                 </Grid>
 
-                <Grid item={true}>
+                <Grid >
                     <span style={{display: 'block'}}>
                         {user.pseudo}
                     </span>

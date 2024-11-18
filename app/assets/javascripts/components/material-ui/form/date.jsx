@@ -10,9 +10,11 @@ const DateFormField = function ({input, label, helperText, meta: {touched, error
                    label={label}
                    value={input.value}
                    error={!!touched && !!error}
-                   helperText={!!error ? error : helperText}
-                   InputLabelProps={{
-                       shrink: true
+                   helperText={error ?? helperText}
+                   slotProps={{
+                       inputLabel: {
+                           shrink: true
+                       }
                    }}
                    {...custom}/>
     );

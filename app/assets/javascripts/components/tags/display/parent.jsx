@@ -5,7 +5,7 @@ import {
 } from 'react-router-dom';
 
 import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import Collapse from '@mui/material/Collapse';
 import ExpandLess from '@mui/icons-material/ExpandLess';
@@ -23,7 +23,8 @@ import {
 import ChildTag from './child';
 
 
-export default @connect((state) => ({
+export default
+@connect((state) => ({
     currentTagSlugs: getCurrentTagSlugs(state),
     currentUserSlug: state.userState.currentSlug,
     currentUserTopicSlug: state.topicState.currentUserTopicSlug
@@ -86,16 +87,15 @@ class ParentTag extends React.PureComponent {
 
         return (
             <>
-                <ListItem button={true}
-                          component={Link}
-                          to={
-                              this.props.currentUserSlug && this.props.currentUserTopicSlug
-                                  ?
-                                  taggedTopicArticlesPath(this.props.currentUserSlug, this.props.currentUserTopicSlug, this.props.tag.slug)
-                                  :
-                                  taggedArticlesPath(this.props.tag.slug)
-                          }
-                          onClick={this._handleTagClick.bind(this, this.props.tag.id, this.props.tag.slug, this.props.tag.userId, this.props.tag.name, true)}>
+                <ListItemButton component={Link}
+                                to={
+                                    this.props.currentUserSlug && this.props.currentUserTopicSlug
+                                        ?
+                                        taggedTopicArticlesPath(this.props.currentUserSlug, this.props.currentUserTopicSlug, this.props.tag.slug)
+                                        :
+                                        taggedArticlesPath(this.props.tag.slug)
+                                }
+                                onClick={this._handleTagClick.bind(this, this.props.tag.id, this.props.tag.slug, this.props.tag.userId, this.props.tag.name, true)}>
                     <ListItemText classes={{
                         primary: classNames('tag-sidebar-label', {
                             'tag-sidebar-selected-label': this.props.currentTagSlug ? this.props.currentTagSlug === this.props.tag.slug : this.props.currentTagSlugs.includes(this.props.tag.slug)
@@ -117,7 +117,7 @@ class ParentTag extends React.PureComponent {
                                             onClick={this._handleTagIconClick}/>
                         )
                     }
-                </ListItem>
+                </ListItemButton>
 
                 {
                     !!hasChild &&

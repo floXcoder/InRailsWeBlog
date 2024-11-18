@@ -9,7 +9,7 @@ import {
 import Sticky from 'react-sticky-el';
 
 import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Grid2';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 
@@ -42,7 +42,6 @@ import {
 } from '../../actions';
 
 import {
-    getCurrentUser,
     getIsCurrentTopicOwner,
     getArticleIsOwner
 } from '../../selectors';
@@ -91,7 +90,7 @@ export default @withRouter({
 })
 @connect((state, props) => ({
     currentUserSlug: state.userState.currentSlug,
-    currentUser: getCurrentUser(state),
+    currentUser: state.userState.user,
     currentTopic: state.topicState.currentTopic,
     isUserConnected: state.userState.isConnected,
     isCurrentTopicOwner: getIsCurrentTopicOwner(state, props.routeParams),
@@ -458,8 +457,7 @@ class ArticleShow extends React.Component {
                             <Grid container={true}>
                                 {
                                     !!this.props.article.summary &&
-                                    <Grid item={true}
-                                          xs={12}>
+                                    <Grid size={{xs: 12}}>
                                         <h2 itemProp="description">
                                             {this.props.article.summary}
                                         </h2>
@@ -472,8 +470,7 @@ class ArticleShow extends React.Component {
                                     {title}
                                 </Typography>
 
-                                <Grid item={true}
-                                      xs={12}>
+                                <Grid size={{xs: 12}}>
                                     <Grid container={true}
                                           classes={{
                                               container: 'article-show-article-info'
@@ -482,14 +479,14 @@ class ArticleShow extends React.Component {
                                           direction="row"
                                           justifyContent="space-between"
                                           alignItems="center">
-                                        <Grid item={true}>
+                                        <Grid >
                                             <ArticleAvatarIcon user={this.props.article.user}
                                                                createdDate={this.props.article.date}
                                                                updatedDate={this.props.article.updatedDate}/>
                                         </Grid>
 
                                         <Grid className="hide-on-small"
-                                              item={true}>
+                                              >
                                             {
                                                 this.props.isOwner
                                                     ?
@@ -632,7 +629,7 @@ class ArticleShow extends React.Component {
                                 {
                                     this.props.articleRecommendations.map((article, i) => (
                                         <Grid key={article.id}
-                                              item={true}>
+                                              >
                                             {
                                                 !!isStoryMode &&
                                                 <h3 className="article-show-recommendations-title">

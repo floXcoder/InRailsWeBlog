@@ -153,12 +153,14 @@ export default class ArticleAdvancedField extends React.PureComponent {
                                className="article-form-select"
                                icon="open_in_new"
                                label={I18n.t(`js.article.common.placeholders.reference.${this.props.currentMode}`)}
-                               InputProps={{
-                                   startAdornment: (
-                                       <InputAdornment position="start">
-                                           <OpenInNewIcon/>
-                                       </InputAdornment>
-                                   )
+                               slotProps={{
+                                   input: {
+                                       startAdornment: (
+                                           <InputAdornment position="start">
+                                               <OpenInNewIcon/>
+                                           </InputAdornment>
+                                       )
+                                   }    
                                }}/>
                     </Collapse>
                 </div>

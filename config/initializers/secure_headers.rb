@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'secure_headers'
+
 SecureHeaders::Configuration.default do |config|
   config.cookies = {
     secure: true, # mark all cookies as "Secure"

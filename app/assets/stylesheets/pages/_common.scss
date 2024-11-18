@@ -1,21 +1,21 @@
-@import 'base/variables';
-@import 'base/global';
-@import 'base/utilities';
-@import 'base/typography';
-@import 'base/fonts';
-@import 'shared/images';
-@import 'shared/article';
-@import 'shared/tag';
-@import 'shared/topic';
-@import 'shared/user';
-@import 'shared/connection';
-@import 'shared/search';
-@import 'shared/tooltip';
-@import 'shared/notification';
-@import 'shared/bookmark';
-@import 'shared/cookies';
-@import 'shared/animation/loader';
-@import 'shared/animation/dialog';
+@use 'base/variables' as *;
+@use 'base/global';
+@use 'base/utilities';
+@use 'base/typography';
+@use 'base/fonts';
+@use 'shared/images';
+@use 'shared/article';
+@use 'shared/tag';
+@use 'shared/topic';
+@use 'shared/user';
+@use 'shared/connection';
+@use 'shared/search';
+@use 'shared/tooltip';
+@use 'shared/notification';
+@use 'shared/bookmark';
+@use 'shared/cookies';
+@use 'shared/animation/loader';
+@use 'shared/animation/dialog';
 
 // Infinite component
 .infinite-scroll-component {

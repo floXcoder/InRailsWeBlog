@@ -4,11 +4,6 @@ import {
     createSelector
 } from 'reselect';
 
-export const getBookmarks = createSelector(
-    (state) => state.bookmarkState.bookmarks,
-    (bookmarks) => bookmarks
-);
-
 export const getBookmark = createSelector(
     (state) => state.bookmarkState.bookmarks,
     (state) => state.bookmarkState.unbookmarks,

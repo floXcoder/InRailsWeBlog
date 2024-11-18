@@ -31,7 +31,13 @@ namespace :InRailsWeBlog do
     desc 'Javascript ESLint'
     task eslint: :environment do
       output_file = Rails.root.join('static_analysis', 'eslint.html')
-      %x(node #{Rails.root}/node_modules/eslint/bin/eslint.js -o #{output_file} -f html -c #{Rails.root}/eslint.config.cjs app/assets/javascripts/**)
+      %x(node #{Rails.root}/node_modules/eslint/bin/eslint.js -o #{output_file} -f html -c #{Rails.root}/eslint.config.mjs app/assets/javascripts)
+    end
+
+    desc 'Stylelint'
+    task stylelint: :environment do
+      output_file = Rails.root.join('static_analysis', 'stylelint.txt')
+      %x(npx stylelint -c .stylelintrc.json -o #{output_file} "**/*.scss")
     end
 
     desc 'Code coverage for Rails tests'
@@ -66,6 +72,6 @@ namespace :InRailsWeBlog do
     # end
 
     desc 'Generate all reports'
-    task all: [:best_practices, :rubocop, :eslint, :rspec_coverage]
+    task all: [:best_practices, :rubocop, :eslint, :stylelint, :rspec_coverage]
   end
 end

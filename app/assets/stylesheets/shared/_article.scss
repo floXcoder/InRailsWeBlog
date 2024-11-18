@@ -1,6 +1,8 @@
-@import 'base/variables';
+@use 'sass:color';
 
-@import 'shared/animation/article';
+@use 'base/variables' as *;
+
+@use 'shared/animation/article';
 
 // ***
 // Article common
@@ -1090,7 +1092,7 @@
   }
 
   .dead-link {
-    color: lighten($error-color, 12%) !important;
+    color: color.adjust($error-color, $lightness: 12%) !important;
     text-decoration: line-through;
   }
 }
@@ -1502,7 +1504,7 @@
 //  }
 //
 //  &.article-mode-selected {
-//    background-color: lighten($primary-color, 20%);
+//    background-color: color.adjust($primary-color, $lightness: 20%);
 //    color: $background-color;
 //  }
 //}

@@ -1,4 +1,6 @@
-@import 'base/variables';
+@use 'sass:color';
+
+@use 'base/variables' as *;
 
 .pagination {
   list-style-type: none;
@@ -31,7 +33,7 @@
     }
 
     &:hover {
-      background-color: lighten($primary-color-light, 40%);
+      background-color: color.adjust($primary-color-light, $lightness: 40%);
     }
 
     a {

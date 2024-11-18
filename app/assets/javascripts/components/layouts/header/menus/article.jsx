@@ -5,7 +5,7 @@ import {
 } from 'react-router-dom';
 
 import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
@@ -41,15 +41,14 @@ const HeaderArticleMenu = function ({
                 {
                     !!hasTemporaryArticle &&
                     <>
-                        <ListItem button={true}
-                                  component={Link}
-                                  className="layout-header-link"
-                                  to={{
-                                      pathname: newArticlePath(userSlug, topicSlug)
-                                  }}
-                                  state={{
-                                      temporary: true
-                                  }}>
+                        <ListItemButton component={Link}
+                                        className="layout-header-link"
+                                        to={{
+                                            pathname: newArticlePath(userSlug, topicSlug)
+                                        }}
+                                        state={{
+                                            temporary: true
+                                        }}>
                             <ListItemIcon>
                                 <EditIcon/>
                             </ListItemIcon>
@@ -57,23 +56,22 @@ const HeaderArticleMenu = function ({
                             <ListItemText classes={{primary: 'layout-header-link'}}>
                                 {I18n.t('js.views.header.article.menu.temporary')}
                             </ListItemText>
-                        </ListItem>
+                        </ListItemButton>
 
                         <Divider/>
                     </>
                 }
 
-                <ListItem button={true}
-                          component={Link}
-                          className="layout-header-link"
-                          to={{
-                              pathname: newArticlePath(userSlug, topicSlug)
-                          }}
-                          state={{
-                              parentTagSlug: parentTagSlug,
-                              childTagSlug: childTagSlug
-                          }}
-                          onClick={onItemClick}>
+                <ListItemButton component={Link}
+                                className="layout-header-link"
+                                to={{
+                                    pathname: newArticlePath(userSlug, topicSlug)
+                                }}
+                                state={{
+                                    parentTagSlug: parentTagSlug,
+                                    childTagSlug: childTagSlug
+                                }}
+                                onClick={onItemClick}>
                     <ListItemIcon>
                         <AssignmentIcon/>
                     </ListItemIcon>
@@ -81,7 +79,7 @@ const HeaderArticleMenu = function ({
                     <ListItemText classes={{primary: 'layout-header-link'}}>
                         {I18n.t(`js.views.header.article.menu.add.${currentTopicMode}`)}
                     </ListItemText>
-                </ListItem>
+                </ListItemButton>
             </List>
         </List>
     );

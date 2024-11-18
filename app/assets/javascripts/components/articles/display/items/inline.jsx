@@ -4,9 +4,7 @@ import {
     Link
 } from 'react-router-dom';
 
-// Polyfill observer
-import 'intersection-observer';
-import Observer from '@researchgate/react-intersection-observer';
+import {InView} from 'react-intersection-observer';
 
 import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
@@ -71,8 +69,8 @@ class ArticleInlineDisplay extends React.PureComponent {
         return null;
     }
 
-    _handleViewportChange = (event) => {
-        if (event.isIntersecting) {
+    _handleViewportChange = (inView, intersectionObserverEntry) => {
+        if (intersectionObserverEntry.isIntersecting) {
             spyTrackView('article', this.props.article.id);
 
             if (this.props.onShow) {
@@ -113,8 +111,8 @@ class ArticleInlineDisplay extends React.PureComponent {
         const isPrivateInPublic = this.props.currentUserTopicId === this.props.article.topicId && this.props.currentUserTopicVisibility === 'everyone' && this.props.article.visibility !== 'everyone';
 
         return (
-            <Observer rootMargin="-50px"
-                      onChange={this._handleViewportChange}>
+            <InView onChange={this._handleViewportChange}
+                    rootMargin="-50px">
                 <article id={`article-${this.props.article.id}`}
                          className={classNames('article-inline-root', {
                              'article-inline-over': this.state.isOver,
@@ -190,7 +188,7 @@ class ArticleInlineDisplay extends React.PureComponent {
                         </div>
                     }
                 </article>
-            </Observer>
+            </InView>
         );
     }
 }

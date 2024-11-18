@@ -4,7 +4,7 @@ import {
     Link
 } from 'react-router-dom';
 
-import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import List from '@mui/material/List';
@@ -29,10 +29,9 @@ function HeaderUserMenu({
                         }) {
     const adminContent = (
         <>
-            <ListItem button={true}
-                      component="a"
-                      className="layout-header-link"
-                      href="/admins">
+            <ListItemButton component="a"
+                            className="layout-header-link"
+                            href="/admins">
                 <ListItemIcon>
                     <DashboardIcon/>
                 </ListItemIcon>
@@ -40,7 +39,7 @@ function HeaderUserMenu({
                 <ListItemText classes={{primary: 'layout-header-link'}}>
                     {I18n.t('js.views.header.user.administration')}
                 </ListItemText>
-            </ListItem>
+            </ListItemButton>
 
             <Divider/>
         </>
@@ -57,10 +56,9 @@ function HeaderUserMenu({
                 adminContent
             }
 
-            <ListItem button={true}
-                      component={Link}
-                      className="layout-header-link"
-                      to={userHomePath(userSlug)}>
+            <ListItemButton component={Link}
+                            className="layout-header-link"
+                            to={userHomePath(userSlug)}>
                 <ListItemIcon>
                     <PortraitIcon/>
                 </ListItemIcon>
@@ -68,10 +66,9 @@ function HeaderUserMenu({
                 <ListItemText classes={{primary: 'layout-header-link'}}>
                     {I18n.t('js.views.header.user.profile')}
                 </ListItemText>
-            </ListItem>
+            </ListItemButton>
 
-            <ListItem button={true}
-                      onClick={onPreferenceClick}>
+            <ListItemButton onClick={onPreferenceClick}>
                 <ListItemIcon>
                     <SettingsIcon/>
                 </ListItemIcon>
@@ -79,11 +76,10 @@ function HeaderUserMenu({
                 <ListItemText classes={{primary: 'layout-header-link'}}>
                     {I18n.t('js.views.header.user.settings')}
                 </ListItemText>
-            </ListItem>
+            </ListItemButton>
 
-            <ListItem button={true}
-                      onClick={onLogoutClick}
-                      rel="nofollow">
+            <ListItemButton onClick={onLogoutClick}
+                            rel="nofollow">
                 <ListItemIcon>
                     <CancelIcon/>
                 </ListItemIcon>
@@ -91,7 +87,7 @@ function HeaderUserMenu({
                 <ListItemText classes={{primary: 'layout-header-link'}}>
                     {I18n.t('js.views.header.user.log_out')}
                 </ListItemText>
-            </ListItem>
+            </ListItemButton>
         </List>
     );
 }

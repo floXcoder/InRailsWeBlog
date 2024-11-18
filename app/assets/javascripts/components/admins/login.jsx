@@ -2,7 +2,7 @@
 
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Grid2';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -44,7 +44,7 @@ function AdminLogin() {
                           justifyContent="space-between"
                           alignItems="center">
                         <Grid classes={{item: 'admin-login-field-item'}}
-                              item={true}>
+                              >
                             <TextField id="admin_login"
                                        name="admin[login]"
                                        className="admin-login-text-field"
@@ -52,17 +52,19 @@ function AdminLogin() {
                                        autoFocus={true}
                                        required={true}
                                        color="primary"
-                                       InputProps={{
-                                           startAdornment: (
-                                               <InputAdornment position="start">
-                                                   <AccountCircleIcon/>
-                                               </InputAdornment>
-                                           )
+                                       slotProps={{
+                                           input: {
+                                               startAdornment: (
+                                                   <InputAdornment position="start">
+                                                       <AccountCircleIcon/>
+                                                   </InputAdornment>
+                                               )
+                                           }
                                        }}/>
                         </Grid>
 
                         <Grid classes={{item: 'admin-login-field-item'}}
-                              item={true}>
+                              >
                             <TextField id="admin_password"
                                        name="admin[password]"
                                        className="admin-login-text-field"
@@ -71,16 +73,18 @@ function AdminLogin() {
                                        autoComplete="off"
                                        color="primary"
                                        type="password"
-                                       InputProps={{
-                                           startAdornment: (
-                                               <InputAdornment position="start">
-                                                   <LockIcon/>
-                                               </InputAdornment>
-                                           )
+                                       slotProps={{
+                                           input: {
+                                               startAdornment: (
+                                                   <InputAdornment position="start">
+                                                       <LockIcon/>
+                                                   </InputAdornment>
+                                               )
+                                           }
                                        }}/>
                         </Grid>
 
-                        <Grid item={true}>
+                        <Grid >
                             <FormControlLabel label={I18n.t('js.user.login.remember_me')}
                                               labelPlacement="end"
                                               control={
@@ -99,7 +103,7 @@ function AdminLogin() {
                           direction="row-reverse"
                           justifyContent="space-between"
                           alignItems="center">
-                        <Grid item={true}>
+                        <Grid >
                             <Button type="submit"
                                     id="login-submit"
                                     variant="contained"
@@ -108,7 +112,7 @@ function AdminLogin() {
                             </Button>
                         </Grid>
 
-                        <Grid item={true}>
+                        <Grid >
                             <Button href="/">
                                 {I18n.t('js.user.login.cancel')}
                             </Button>

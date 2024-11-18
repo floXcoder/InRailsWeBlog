@@ -4,7 +4,7 @@ import {
     Link
 } from 'react-router-dom';
 
-import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 
 import {
@@ -21,16 +21,15 @@ function ChildTag({
                       onTagClick
                   }) {
     return (
-        <ListItem button={true}
-                  component={Link}
-                  to={
-                      currentUserSlug && currentUserTopicSlug
-                          ?
-                          taggedTopicArticlesPath(currentUserSlug, currentUserTopicSlug, parentTagSlug, tag.slug)
-                          :
-                          taggedArticlesPath(parentTagSlug, tag.slug)
-                  }
-                  onClick={onTagClick}>
+        <ListItemButton component={Link}
+                        to={
+                            currentUserSlug && currentUserTopicSlug
+                                ?
+                                taggedTopicArticlesPath(currentUserSlug, currentUserTopicSlug, parentTagSlug, tag.slug)
+                                :
+                                taggedArticlesPath(parentTagSlug, tag.slug)
+                        }
+                        onClick={onTagClick}>
             <ListItemText classes={{
                 root: 'tag-sidebar-nested-label-root',
                 primary: classNames('tag-sidebar-nested-label', {
@@ -40,7 +39,7 @@ function ChildTag({
                           inset={true}>
                 {tag.name}
             </ListItemText>
-        </ListItem>
+        </ListItemButton>
     );
 }
 

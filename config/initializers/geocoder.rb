@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'geocoder'
+
 Geocoder.configure(
   # Geocoding options
   timeout: InRailsWeBlog.settings.geocoding_timeout, # geocoding service timeout (secs)

@@ -77,6 +77,9 @@ FactoryBot/RedundantFactoryOption:
 FactoryBot/SyntaxMethods:
   Enabled: true
 
+Gemspec/AddRuntimeDependency:
+  Enabled: true
+
 Gemspec/DeprecatedAttributeAssignment:
   Enabled: true
 
@@ -189,6 +192,9 @@ Lint/DuplicateMatchPattern:
 Lint/DuplicateRegexpCharacterClassElement:
   Enabled: true
 
+Lint/DuplicateSetElement:
+  Enabled: true
+
 Lint/EmptyBlock:
   Enabled: true
 
@@ -252,7 +258,13 @@ Lint/TripleQuotes:
 Lint/UnexpectedBlockArity:
   Enabled: true
 
+Lint/UnescapedBracketInRegexp:
+  Enabled: true
+
 Lint/UnmodifiedReduceAccumulator:
+  Enabled: true
+
+Lint/UselessNumericOperation:
   Enabled: true
 
 Lint/UselessRescue:
@@ -344,6 +356,9 @@ Performance/SortReverse:
 Performance/Squeeze:
   Enabled: true
 
+Performance/StringBytesize:
+  Enabled: true
+
 Performance/StringInclude:
   Enabled: true
 
@@ -402,6 +417,9 @@ Rails/DynamicFindBy:
   Enabled: false
 
 Rails/EagerEvaluationLogMessage:
+  Enabled: true
+
+Rails/EnumSyntax:
   Enabled: true
 
 Rails/EnvironmentVariableAccess:
@@ -662,6 +680,9 @@ RSpec/SpecFilePathFormat:
 RSpec/SpecFilePathSuffix:
   Enabled: true
 
+RSpec/StringAsInstanceDoubleConstant:
+  Enabled: true
+
 RSpec/SubjectDeclaration:
   Enabled: true
 
@@ -674,6 +695,9 @@ Security/CompoundHash:
 Security/IoMethods:
   Enabled: true
 
+Style/AmbiguousEndlessMethodDefinition:
+  Enabled: true
+
 Style/ArgumentsForwarding:
   Enabled: true
 
@@ -682,6 +706,9 @@ Style/ArrayIntersect:
 
 Style/AsciiComments:
   Enabled: false
+
+Style/BitwisePredicate:
+  Enabled: true
 
 Style/BlockDelimiters:
   Enabled: false
@@ -694,6 +721,9 @@ Style/CollectionCompact:
 
 Style/ColonMethodCall:
   Enabled: false
+
+Style/CombinableDefined:
+  Enabled: true
 
 Style/CommandLiteral:
   Enabled: false
@@ -777,6 +807,9 @@ Style/IfWithBooleanLiteralBranches:
   Enabled: true
 
 Style/InPatternThen:
+  Enabled: true
+
+Style/KeywordArgumentsMerging:
   Enabled: true
 
 Style/Lambda:
@@ -863,6 +896,9 @@ Style/RedundantHeredocDelimiterQuotes:
 Style/RedundantInitialize:
   Enabled: true
 
+Style/RedundantInterpolationUnfreeze:
+  Enabled: true
+
 Style/RedundantLineContinuation:
   Enabled: true
 
@@ -892,6 +928,9 @@ Style/RescueModifier:
   Enabled: false
 
 Style/ReturnNilInPredicateMethodDefinition:
+  Enabled: true
+
+Style/SafeNavigationChainLength:
   Enabled: true
 
 Style/SelectByRegexp:

@@ -5,7 +5,7 @@ import {
 } from 'react-router-dom';
 
 import Paper from '@mui/material/Paper';
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Grid2';
 import Typography from '@mui/material/Typography';
 
 import {
@@ -68,10 +68,7 @@ class ArticleRecommendationDisplay extends React.Component {
                         this.props.associatedTopics.map((topic) => (
                             <Grid key={topic.id}
                                   className="article-recommendation-grid-theme"
-                                  item={true}
-                                  xs={12}
-                                  sm={6}
-                                  lg={4}>
+                                  size={{xs: 12, sm: 6, lg: 4}}>
                                 <Link to={{
                                     pathname: taggedTopicArticlesPath(this.props.userSlug, topic.slug, this.props.tagSlug)
                                 }}>

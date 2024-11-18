@@ -12,7 +12,7 @@ import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Grid2';
 import Paper from '@mui/material/Paper';
 
 import {
@@ -116,9 +116,7 @@ class TagIndex extends React.Component {
     _renderTagItem = (tag) => {
         return (
             <Grid key={tag.id}
-                  item={true}
-                  xs={12}
-                  md={4}>
+                  size={{xs: 12, md: 4}}>
                 <Card className="tag-index-tag-card">
                     <CardHeader classes={{
                         root: 'tag-index-tag-header'

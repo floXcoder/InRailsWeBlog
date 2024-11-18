@@ -6,7 +6,7 @@ namespace :InRailsWeBlog do
   # rails InRailsWeBlog:search_reindex
   desc 'Reindex all models for each locale'
   task :search_reindex, [] => :environment do |_task, _args|
-    Rails.logger = ActiveRecord::Base.logger = Logger.new(STDOUT)
+    Rails.logger = ActiveRecord::Base.logger = Logger.new($stdout)
     Rails.logger.level = Logger::INFO
 
     # Search index is by locale

@@ -93,7 +93,12 @@ export default class TopicFormDisplay extends React.Component {
                   validate={validateTopic}
                   onSubmit={this.props.onSubmit}>
                 {
-                    ({handleSubmit, dirty, submitting, values}) => (
+                    ({
+                         handleSubmit,
+                         dirty,
+                         submitting,
+                         values
+                     }) => (
                         <form id={`topic-form-${this.props.children.id || 'new'}`}
                               onSubmit={handleSubmit}>
                             {/*<Prompt when={dirty && !submitting}*/}
@@ -104,14 +109,16 @@ export default class TopicFormDisplay extends React.Component {
                                     <Field name="name"
                                            component={TextFormField}
                                            className="topic-form-name"
-                                           InputLabelProps={{
-                                               classes: {
-                                                   root: 'topic-form-nameLabel'
-                                               }
-                                           }}
-                                           InputProps={{
-                                               classes: {
-                                                   underline: !this.props.children.name && 'topic-form-nameUnderline'
+                                           slotProps={{
+                                               input: {
+                                                   classes: {
+                                                       underline: !this.props.children.name && 'topic-form-nameUnderline'
+                                                   }
+                                               },
+                                               inputLabel: {
+                                                   classes: {
+                                                       root: 'topic-form-nameLabel'
+                                                   }
                                                }
                                            }}
                                            id="topic_name"

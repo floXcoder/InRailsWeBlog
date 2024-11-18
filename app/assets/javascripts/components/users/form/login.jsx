@@ -9,7 +9,7 @@ import {
     Form
 } from 'react-final-form';
 
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Grid2';
 import InputAdornment from '@mui/material/InputAdornment';
 import Button from '@mui/material/Button';
 
@@ -66,7 +66,7 @@ const LoginForm = function ({onSubmit, onCancel}) {
                               justifyContent="space-between"
                               alignItems="center">
                             <Grid classes={{item: 'user-connection-field-item'}}
-                                  item={true}>
+                                  >
                                 <Field name="login"
                                        component={TextFormField}
                                        id="user_login_login"
@@ -76,17 +76,19 @@ const LoginForm = function ({onSubmit, onCancel}) {
                                        required={true}
                                        variant="standard"
                                        color="primary"
-                                       InputProps={{
-                                           startAdornment: (
-                                               <InputAdornment position="start">
-                                                   <AccountCircleIcon/>
-                                               </InputAdornment>
-                                           )
+                                       slotProps={{
+                                           input: {
+                                               startAdornment: (
+                                                   <InputAdornment position="start">
+                                                       <AccountCircleIcon/>
+                                                   </InputAdornment>
+                                               )
+                                           }
                                        }}/>
                             </Grid>
 
                             <Grid classes={{item: 'user-connection-field-item'}}
-                                  item={true}>
+                                  >
                                 <Field name="password"
                                        component={TextFormField}
                                        id="user_password_login"
@@ -97,16 +99,18 @@ const LoginForm = function ({onSubmit, onCancel}) {
                                        variant="standard"
                                        color="primary"
                                        type="password"
-                                       InputProps={{
-                                           startAdornment: (
-                                               <InputAdornment position="start">
-                                                   <LockIcon/>
-                                               </InputAdornment>
-                                           )
+                                       slotProps={{
+                                           input: {
+                                               startAdornment: (
+                                                   <InputAdornment position="start">
+                                                       <LockIcon/>
+                                                   </InputAdornment>
+                                               )
+                                           }
                                        }}/>
                             </Grid>
 
-                            <Grid item={true}>
+                            <Grid >
                                 <Field name="remember_me"
                                        type="checkbox"
                                        component={CheckBoxFormField}
@@ -131,7 +135,7 @@ const LoginForm = function ({onSubmit, onCancel}) {
                               direction="row-reverse"
                               justifyContent="space-between"
                               alignItems="center">
-                            <Grid item={true}>
+                            <Grid >
                                 <Button type="submit"
                                         id="login-submit"
                                         variant="contained"
@@ -141,7 +145,7 @@ const LoginForm = function ({onSubmit, onCancel}) {
                                 </Button>
                             </Grid>
 
-                            <Grid item={true}>
+                            <Grid >
                                 <Button onClick={onCancel}>
                                     {I18n.t('js.user.login.cancel')}
                                 </Button>

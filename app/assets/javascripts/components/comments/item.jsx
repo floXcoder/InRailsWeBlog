@@ -5,7 +5,7 @@ import {
 } from 'marked';
 
 import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
 
@@ -139,7 +139,7 @@ export default class CommentItem extends React.Component {
                         <div className="header-action">
                             <Dropdown id="comment-actions"
                                       hasArrow={true}
-                                      // tooltip={I18n.t('js.comment.common.actions')}
+                                // tooltip={I18n.t('js.comment.common.actions')}
                                       button={
                                           <ReplyIcon color="primary"/>
                                       }>
@@ -150,47 +150,43 @@ export default class CommentItem extends React.Component {
                                               disablePadding={true}>
                                             {
                                                 this.props.comment.nestedLevel < 4 &&
-                                                <ListItem button={true}
-                                                          component="a"
-                                                          onClick={this._handleReplyClick}>
+                                                <ListItemButton component="a"
+                                                                onClick={this._handleReplyClick}>
                                                     <ListItemText>
                                                         {I18n.t(`js.comment.reply.${(this.props.isOwner ? 'owner_button' : 'button')}`)}
                                                     </ListItemText>
-                                                </ListItem>
+                                                </ListItemButton>
                                             }
 
                                             <Divider/>
 
-                                            <ListItem button={true}
-                                                      component="a"
-                                                      onClick={this._handleModifyClick}>
+                                            <ListItemButton component="a"
+                                                            onClick={this._handleModifyClick}>
                                                 <ListItemText>
                                                     {I18n.t('js.comment.edit.button')}
                                                 </ListItemText>
-                                            </ListItem>
+                                            </ListItemButton>
 
                                             <Divider/>
 
-                                            <ListItem button={true}
-                                                      component="a"
-                                                      onClick={this._handleDeleteClick}>
+                                            <ListItemButton component="a"
+                                                            onClick={this._handleDeleteClick}>
                                                 <ListItemText>
                                                     {I18n.t('js.comment.delete.button')}
                                                 </ListItemText>
-                                            </ListItem>
+                                            </ListItemButton>
                                         </List>
                                         :
                                         <List component="div"
                                               disablePadding={true}>
                                             {
                                                 this.props.comment.nestedLevel < 4 &&
-                                                <ListItem button={true}
-                                                          component="a"
-                                                          onClick={this._handleReplyClick}>
+                                                <ListItemButton component="a"
+                                                                onClick={this._handleReplyClick}>
                                                     <ListItemText>
                                                         {I18n.t(`js.comment.reply.${(this.props.isOwner ? 'owner_button' : 'button')}`)}
                                                     </ListItemText>
-                                                </ListItem>
+                                                </ListItemButton>
                                             }
 
                                             {
@@ -198,13 +194,12 @@ export default class CommentItem extends React.Component {
                                                 <>
                                                     <Divider/>
 
-                                                    <ListItem button={true}
-                                                              component="a"
-                                                              onClick={this._handleAskForDeletionClick}>
+                                                    <ListItemButton component="a"
+                                                                    onClick={this._handleAskForDeletionClick}>
                                                         <ListItemText>
                                                             {I18n.t('js.comment.ask_for_deletion.button')}
                                                         </ListItemText>
-                                                    </ListItem>
+                                                    </ListItemButton>
                                                 </>
                                             }
                                         </List>

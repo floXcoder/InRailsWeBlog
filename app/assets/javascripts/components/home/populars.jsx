@@ -1,6 +1,6 @@
 'use strict';
 
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Grid2';
 import Divider from '@mui/material/Divider';
 import Button from '@mui/material/Button';
 
@@ -125,9 +125,7 @@ class HomePopulars extends React.Component {
                                 {
                                     this.props.recentArticles.limit(4).map((article) => (
                                         <Grid key={`recents-${article.id}`}
-                                              item={true}
-                                              xs={12}
-                                              sm={6}>
+                                              size={{xs: 12, sm: 6}}>
                                             <ArticleMiniCardDisplay article={article}
                                                                     isFaded={true}
                                                                     isPaper={true}/>
@@ -153,9 +151,7 @@ class HomePopulars extends React.Component {
                                     ?
                                     this.props.homeArticles.map((article) => (
                                         <Grid key={`home-${article.id}`}
-                                              item={true}
-                                              xs={12}
-                                              sm={6}>
+                                              size={{xs: 12, sm: 6}}>
                                             <ArticleMiniCardDisplay article={article}
                                                                     isFaded={true}
                                                                     isPaper={true}/>
@@ -163,14 +159,10 @@ class HomePopulars extends React.Component {
                                     ))
                                     :
                                     <>
-                                        <Grid item={true}
-                                              xs={12}
-                                              sm={6}>
+                                        <Grid size={{xs: 12, sm: 6}}>
                                             <MiniArticleSkeleton/>
                                         </Grid>
-                                        <Grid item={true}
-                                              xs={12}
-                                              sm={6}>
+                                        <Grid size={{xs: 12, sm: 6}}>
                                             <MiniArticleSkeleton/>
                                         </Grid>
                                     </>

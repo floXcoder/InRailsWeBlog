@@ -16,7 +16,7 @@ class Setting < ApplicationRecord
 
   # == Attributes ===========================================================
   include EnumsConcern
-  enum value_type: VALUE_TYPE
+  enum :value_type, VALUE_TYPE
 
   # == Extensions ===========================================================
 

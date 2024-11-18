@@ -41,8 +41,8 @@ class Article < ApplicationRecord
 
   # == Attributes ===========================================================
   include EnumsConcern
-  enum mode: ARTICLE_MODE
-  enum visibility: VISIBILITY
+  enum :mode, ARTICLE_MODE
+  enum :visibility, VISIBILITY
   enums_to_tr('article', [:mode, :visibility])
 
   include TranslationConcern
@@ -541,7 +541,7 @@ class Article < ApplicationRecord
   end
 
   def summary_content(size = InRailsWeBlog.settings.article_summary_length, strip_html: true, replace_tags: false, remove_links: false, current_user_id: nil)
-    adapted_content(current_user_id)&.summary(size, strip_html: strip_html, replace_tags: replace_tags, remove_links: remove_links)
+    Nokogiri::HTML.fragment(adapted_content(current_user_id)&.summary(size, strip_html: strip_html, replace_tags: replace_tags, remove_links: remove_links)).to_s
   end
 
   def tag_names

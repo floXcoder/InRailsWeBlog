@@ -8,12 +8,6 @@ export const getIsPrimaryUser = () => (
     window.currentUserId === '1'
 );
 
-// Current user
-export const getCurrentUser = createSelector(
-    (state) => state.userState.user,
-    (user) => user
-);
-
 // User recents
 export const getUserRecentTags = createSelector(
     (state) => state.userState.recentTags,
