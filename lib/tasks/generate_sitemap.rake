@@ -8,6 +8,8 @@ namespace :InRailsWeBlog do
     Rails.logger = ActiveRecord::Base.logger = Logger.new($stdout)
     Rails.logger.level = Logger::INFO
 
+    require 'sitemap_generator/tasks'
+
     Rake.application.invoke_task('sitemap:refresh:no_ping')
 
     # Rake::Task['sitemap:refresh:no_ping'].reenable
