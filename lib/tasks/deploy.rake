@@ -12,7 +12,7 @@ namespace :InRailsWeBlog do
     fail 'Files not committed in repo, run git status' if %x(git diff --exit-code) != ''
 
     # Check current branch is develop
-    fail 'Current branch is not develop' if %x(git name-rev --name-only HEAD).strip != 'develop'
+    fail 'Current branch is not develop' if %x(git rev-parse --abbrev-ref HEAD).strip != 'develop'
 
     if ENV['SKIP_CI']
       # Deploy with capistrano from develop branch
