@@ -60,6 +60,17 @@ if (window.SENTRY_JAVASCRIPT_KEY) {
             /script-src-elem/,
             /@webkit/,
             /no-response/
+        ],
+        denyUrls: [
+            /pagead\/js/i,
+            /graph\.facebook\.com/i,
+            /connect\.facebook\.net\/en_US\/all\.js/i,
+            /extensions\//i,
+            /^chrome:\/\//i,
+            /^chrome-extension:\/\//i,
+            /^webkit-masked-url:\/\//i,
+            /s\.pinimg\.com/i,
+            /translate\.googleapis\.com/i
         ]
         // beforeSend(event, hint) {
         //     // Check if it is an exception, and if so, show the report dialog
