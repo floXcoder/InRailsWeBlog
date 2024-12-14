@@ -2,6 +2,12 @@ import {defineConfig} from '@rsbuild/core';
 import {pluginReact} from '@rsbuild/plugin-react';
 import {pluginSass} from '@rsbuild/plugin-sass';
 
+let RsdoctorPlugin;
+if (process.env.RSDOCTOR) {
+    const {RsdoctorRspackPlugin} = require('@rsdoctor/rspack-plugin');
+    RsdoctorPlugin = RsdoctorRspackPlugin;
+}
+
 export default defineConfig({
     root: './',
     publicDir: './public/assets',
@@ -70,7 +76,20 @@ export default defineConfig({
         }
     },
     tools: {
-        htmlPlugin: false
+        htmlPlugin: false,
+        rspack(config, {appendPlugins}) {
+            // Only register the plugin when RSDOCTOR is true, as the plugin will increase the build time.
+            if (process.env.RSDOCTOR) {
+                appendPlugins(
+                    new RsdoctorPlugin({
+                        port: 8042,
+                        supports: {
+                            generateTileGraph: true
+                        }
+                    })
+                );
+            }
+        }
     },
     // performance: {
     //     chunkSplit: {

@@ -204,7 +204,7 @@ export default [
             'react/no-unused-prop-types': 1,
             'react/no-unused-state': 1,
             'react/prefer-es6-class': 0,
-            'react/prop-types': 1,
+            'react/prop-types': 0,
             'react/react-in-jsx-scope': 0,
             'react/require-default-props': 0,
             'react/require-extension': 'off',
