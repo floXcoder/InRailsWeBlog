@@ -52,6 +52,6 @@ module ApplicationHelper
   end
 
   def translations(file)
-    content_for(:translations) { raw Rails.root.join("app/assets/javascripts/translations/#{file}.json").read }
+    content_for(:translations) { raw Rails.root.join("public/assets/translations/#{file}.json").read }
   end
 end
