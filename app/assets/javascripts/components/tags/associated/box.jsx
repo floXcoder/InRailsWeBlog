@@ -1,8 +1,10 @@
-'use strict';
+import PropTypes from 'prop-types';
 
-// import AssociatedTagList from './list';
+import classNames from 'classnames';
 
-import Loader from '../../theme/loader';
+// import AssociatedTagList from '@js/components/tags/list';
+
+import Loader from '@js/components/theme/loader';
 
 function AssociatedTagBox({
                               hasMore = false

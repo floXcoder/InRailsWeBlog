@@ -1,4 +1,7 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import {connect} from 'react-redux';
 
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -10,9 +13,11 @@ import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import Button from '@mui/material/Button';
 
+import I18n from '@js/modules/translations';
+
 import {
     updateUserSettings
-} from '../../actions';
+} from '@js/actions/userActions';
 
 const PREFERENCE_VIEWS = {
     ARTICLES: 0,
@@ -21,23 +26,6 @@ const PREFERENCE_VIEWS = {
 };
 
 
-export default @connect((state) => ({
-    currentUserId: state.userState.currentId,
-    userPreferenceView: state.uiState.userPreferenceView,
-    articlesLoader: state.userState.user?.settings?.articlesLoader,
-    articleOrder: state.userState.user?.settings?.articleOrder,
-    articleDisplay: state.userState.user?.settings?.articleDisplay,
-    articleMultilanguage: state.userState.user?.settings?.articleMultilanguage,
-    tagParentAndChild: state.userState.user?.settings?.tagParentAndChild,
-    tagSidebarPin: state.userState.user?.settings?.tagSidebarPin,
-    tagSidebarWithChild: state.userState.user?.settings?.tagSidebarWithChild,
-    tagOrder: state.userState.user?.settings?.tagOrder,
-    searchHighlight: state.userState.user?.settings?.searchHighlight,
-    searchOperator: state.userState.user?.settings?.searchOperator,
-    searchExact: state.userState.user?.settings?.searchExact
-}), {
-    updateUserSettings
-})
 class UserSettings extends React.Component {
     static propTypes = {
         // from connect
@@ -336,3 +324,21 @@ class UserSettings extends React.Component {
         );
     }
 }
+
+export default connect((state) => ({
+    currentUserId: state.userState.currentId,
+    userPreferenceView: state.uiState.userPreferenceView,
+    articlesLoader: state.userState.user?.settings?.articlesLoader,
+    articleOrder: state.userState.user?.settings?.articleOrder,
+    articleDisplay: state.userState.user?.settings?.articleDisplay,
+    articleMultilanguage: state.userState.user?.settings?.articleMultilanguage,
+    tagParentAndChild: state.userState.user?.settings?.tagParentAndChild,
+    tagSidebarPin: state.userState.user?.settings?.tagSidebarPin,
+    tagSidebarWithChild: state.userState.user?.settings?.tagSidebarWithChild,
+    tagOrder: state.userState.user?.settings?.tagOrder,
+    searchHighlight: state.userState.user?.settings?.searchHighlight,
+    searchOperator: state.userState.user?.settings?.searchOperator,
+    searchExact: state.userState.user?.settings?.searchExact
+}), {
+    updateUserSettings
+})(UserSettings);

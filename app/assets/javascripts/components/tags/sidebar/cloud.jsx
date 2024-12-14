@@ -1,12 +1,14 @@
-'use strict';
+import PropTypes from 'prop-types';
 
-import {Link} from 'react-router-dom';
+import {Link} from 'react-router';
+
+import classNames from 'classnames';
 
 import Chip from '@mui/material/Chip';
 
-import {taggedTopicArticlesPath} from '../../../constants/routesHelper';
+import {taggedTopicArticlesPath} from '@js/constants/routesHelper';
 
-import Scrollbar from '../../theme/scrollbar';
+import Scrollbar from '@js/components/theme/scrollbar';
 
 
 function TagSidebarCloud(props) {

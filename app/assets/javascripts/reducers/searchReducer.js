@@ -1,6 +1,6 @@
-'use strict';
+import * as Utils from '@js/modules/utils';
 
-import * as ActionTypes from '../constants/actionTypes';
+import * as ActionTypes from '@js/constants/actionTypes';
 
 import {
     fetchReducer,
@@ -8,7 +8,7 @@ import {
     addOrRemoveIn,
     removeIn,
     addOrReplaceIn
-} from './mutators';
+} from '@js/reducers/mutators';
 
 // Autocomplete
 const autocompleteState = {

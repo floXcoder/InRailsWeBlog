@@ -1,4 +1,4 @@
-'use strict';
+import * as Utils from '@js/modules/utils';
 
 // Clipboard event
 const ClipboardManager = (function () {

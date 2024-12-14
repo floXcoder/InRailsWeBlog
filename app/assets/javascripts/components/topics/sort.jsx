@@ -1,36 +1,30 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import '../../../stylesheets/pages/topic/sort.scss';
+import {connect} from 'react-redux';
 
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 
+import I18n from '@js/modules/translations';
+import * as Utils from '@js/modules/utils';
+
 import {
     fetchTopics,
     updateTopicPriority
-} from '../../actions';
+} from '@js/actions/topicActions';
 
-import AnalyticsService from '../../modules/analyticsService';
+import AnalyticsService from '@js/modules/analyticsService';
 
-import withRouter from '../modules/router';
+import withRouter from '@js/components/modules/router';
 
-import Loader from '../theme/loader';
+import Loader from '@js/components/theme/loader';
 
-import TopicSorter from './sort/sorter';
+import TopicSorter from '@js/components/topics/sort/sorter';
+
+import '@css/pages/topic/sort.scss';
 
 
-export default @connect((state) => ({
-    currentUserId: state.userState.currentId,
-    currentUserSlug: state.userState.currentSlug,
-    currentUserTopicId: state.topicState.currentUserTopicId,
-    currentUserTopicSlug: state.topicState.currentUserTopicSlug,
-    isFetching: state.topicState.isFetching,
-    topics: state.topicState.topics
-}), {
-    fetchTopics,
-    updateTopicPriority
-})
-@withRouter({location: true, navigate: true})
 class SortTopicModal extends React.Component {
     static propTypes = {
         // from router
@@ -111,3 +105,18 @@ class SortTopicModal extends React.Component {
         );
     }
 }
+
+export default connect((state) => ({
+    currentUserId: state.userState.currentId,
+    currentUserSlug: state.userState.currentSlug,
+    currentUserTopicId: state.topicState.currentUserTopicId,
+    currentUserTopicSlug: state.topicState.currentUserTopicSlug,
+    isFetching: state.topicState.isFetching,
+    topics: state.topicState.topics
+}), {
+    fetchTopics,
+    updateTopicPriority
+})(withRouter({
+    location: true,
+    navigate: true
+})(SortTopicModal));

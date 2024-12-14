@@ -1,8 +1,8 @@
 import globals from 'globals';
 import js from '@eslint/js';
-import babelParser from '@babel/eslint-parser';
+import pluginReact from 'eslint-plugin-react';
+import pluginReactHooks from 'eslint-plugin-react-hooks';
 import eslintPluginUnicorn from 'eslint-plugin-unicorn';
-import reactRecommended from 'eslint-plugin-react/configs/recommended.js';
 
 export default [
     js.configs.all, // Recommended config applied to all files
@@ -15,23 +15,12 @@ export default [
         ]
     },
     {
-        name: 'project-common',
         languageOptions: {
             globals: {
-                ...globals.serviceworker,
                 ...globals.browser,
-                require: true,
-                GlobalEnvironment: true,
-                Promise: true,
+                __dirname: true,
                 jQuery: true,
-                React: true,
-                ReactCreateRoot: true,
-                connect: true,
-                PropTypes: true,
-                I18n: true,
-                Utils: true,
-                classNames: true,
-                log: true
+                $: true
             }
         },
         plugins: {
@@ -163,23 +152,16 @@ export default [
         }
     },
     {
-        name: 'project-react',
         files: ['**/*.{js,mjs,cjs,jsx}'],
-        ...reactRecommended,
+        ...pluginReact.configs.flat.recommended,
         languageOptions: {
-            parser: babelParser,
-            parserOptions: {
-                sourceType: 'module',
-                ecmaFeatures: {
-                    jsx: true
-                }
+            ...pluginReact.configs.flat.recommended.languageOptions
+        },
+        settings: {
+            react: {
+                version: 'detect'
             }
         },
-        // settings: {
-        //     react: {
-        //         version: 'detect'
-        //     }
-        // },
         rules: {
             'react/boolean-prop-naming': 0,
             'react/default-props-match-prop-types': 1,
@@ -231,6 +213,17 @@ export default [
             'react/sort-comp': 1,
             'react/state-in-constructor': 0,
             'react/static-property-placement': 0
+        }
+    },
+    {
+        files: ['**/**/*.{jsx}'],
+        plugins: {
+            'react-hooks': pluginReactHooks
+        },
+        rules: {
+            'react/react-in-jsx-scope': 0,
+            'react/prop-types': 0,
+            ...pluginReactHooks.configs.recommended.rules
         }
     }
 ];

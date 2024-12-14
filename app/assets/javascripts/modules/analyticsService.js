@@ -1,8 +1,7 @@
-'use strict';
 
 import ReactPiwik from 'react-piwik';
 
-import api from '../middlewares/api';
+import api from '@js/middlewares/api';
 
 
 const AnalyticsService = (function () {

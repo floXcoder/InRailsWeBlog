@@ -1,6 +1,9 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-// import '../../../../../stylesheets/components/spinners.scss';
+import classNames from 'classnames';
+
+// import '@css/components/spinners.scss';
 
 function BounceSpinner({className}) {
     return (

@@ -1,13 +1,15 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import {connect} from 'react-redux';
+
+import classNames from 'classnames';
 
 import AssignmentIcon from '@mui/icons-material/Assignment';
 
-import ArticleSummaryDisplay from '../items/summary';
+import ArticleSummaryDisplay from '@js/components/articles/display/items/summary';
 
-export default @connect((state) => ({
-    articles: state.articleState.articles,
-    articleDisplayMode: state.uiState.articleDisplayMode
-}))
+
 class ArticleTimelineMode extends React.Component {
     static propTypes = {
         topicVisibility: PropTypes.string,
@@ -48,3 +50,8 @@ class ArticleTimelineMode extends React.Component {
         );
     }
 }
+
+export default connect((state) => ({
+    articles: state.articleState.articles,
+    articleDisplayMode: state.uiState.articleDisplayMode
+}))(ArticleTimelineMode)

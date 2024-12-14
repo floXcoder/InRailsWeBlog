@@ -1,15 +1,15 @@
-'use strict';
+import React from 'react';
 
 import {
     getDisplayName
-} from './common';
+} from '@js/components/modules/common';
 
 import {
     // highlightedLanguagePrefix,
     highlightedLanguages
-} from './constants';
+} from '@js/components/modules/constants';
 
-import HighlightLoader from '../loaders/highlight';
+import HighlightLoader from '@js/components/loaders/highlight';
 
 export default function highlight(highlightOnShow = true) {
     return function highlighter(WrappedComponent) {

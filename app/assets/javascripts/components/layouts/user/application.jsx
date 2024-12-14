@@ -1,4 +1,5 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import {
     ThemeProvider,
@@ -13,7 +14,7 @@ import {
 
 import {
     BrowserRouter
-} from 'react-router-dom';
+} from 'react-router';
 
 import {
     HelmetProvider
@@ -21,22 +22,22 @@ import {
 
 import {
     configureStore
-} from '../../../stores';
+} from '@js/stores';
 
 import {
     extractDataFromElement
-} from '../../../middlewares/json';
+} from '@js/middlewares/json';
 
-import theme from '../../../theme';
+import theme from '@js/theme';
 
-import routes from '../../../routes';
+import routes from '@js/routes';
 
-import PasteManager from '../../modules/pasteManager';
-import ScrollBackManager from '../../modules/scrollBackManager';
+import PasteManager from '@js/components/modules/pasteManager';
+import ScrollBackManager from '@js/components/modules/scrollBackManager';
 
-import HotkeyManager from '../managers/hotkey';
+import HotkeyManager from '@js/components/layouts/managers/hotkey';
 
-import LayoutUser from './layout';
+import LayoutUser from '@js/components/layouts/user/layout';
 
 
 export default class ApplicationLayoutUser extends React.Component {

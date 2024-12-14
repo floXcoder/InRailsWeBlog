@@ -1,7 +1,7 @@
-import {isSet} from './isSet';
-import {getFullScope} from './getFullScope';
-import {inferType} from './inferType';
-import {get} from './get';
+import {isSet} from '@js/modules/i18n/helpers/isSet';
+import {getFullScope} from '@js/modules/i18n/helpers/getFullScope';
+import {inferType} from '@js/modules/i18n/helpers/inferType';
+import {get} from '@js/modules/i18n/helpers/get';
 
 export function lookup(i18n, scope, options = {}) {
     options = {...options};

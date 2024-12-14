@@ -1,18 +1,18 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import {connect} from 'react-redux';
+
+import I18n from '@js/modules/translations';
 
 import {
     fetchUsers
-} from '../../actions';
+} from '@js/actions/userActions';
 
-import Loader from '../theme/loader';
-import Table from '../theme/table';
+import Loader from '@js/components/theme/loader';
+import Table from '@js/components/theme/table';
 
-export default @connect((state) => ({
-    users: state.userState.users,
-    isFetching: state.userState.isFetching
-}), {
-    fetchUsers
-})
+
 class AdminUsers extends React.Component {
     static propTypes = {
         // from connect
@@ -116,3 +116,9 @@ class AdminUsers extends React.Component {
     }
 }
 
+export default connect((state) => ({
+    users: state.userState.users,
+    isFetching: state.userState.isFetching
+}), {
+    fetchUsers
+})(AdminUsers);

@@ -1,7 +1,6 @@
-'use strict';
+import log from 'loglevel';
 
-const log = require('loglevel');
-const screenLog = require('./screenLog').default;
+import screenLog from '@js/modules/screenLog';
 
 log.setLevel('info');
 
@@ -20,3 +19,5 @@ log.now = (data, colorStyle) => {
 
 window.w = log.info;
 window.log_on_screen = log.now;
+
+export default window.w;

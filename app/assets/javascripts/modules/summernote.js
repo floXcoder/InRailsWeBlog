@@ -1,15 +1,14 @@
-'use strict';
+import I18n from '@js/modules/translations';
 
-import $ from 'jquery';
+import '@js/modules/summernote/summernote-lite';
 
-import './summernote/summernote-lite';
+import '@css/components/summernote.scss';
 
+// Must be dynamically imported for jquery
 import 'summernote/dist/lang/summernote-fr-FR';
 // import 'summernote/dist/lang/summernote-de-DE';
 // import 'summernote/dist/lang/summernote-it-IT';
 // import 'summernote/dist/lang/summernote-es-ES';
-
-import '../../stylesheets/components/summernote.scss';
 
 import '@dsvllc/summernote-image-attributes';
 import '@dsvllc/summernote-image-attributes/lang/fr-FR';

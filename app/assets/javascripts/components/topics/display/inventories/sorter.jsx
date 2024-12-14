@@ -1,4 +1,5 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import Button from '@mui/material/Button';
 
@@ -14,7 +15,9 @@ import {
     sortableHandle
 } from 'react-sortable-hoc';
 
-import TopicFormInventoryFieldDisplay from './field';
+import I18n from '@js/modules/translations';
+
+import TopicFormInventoryFieldDisplay from '@js/components/topics/display/inventories/field';
 
 const DragHandle = sortableHandle(() => <DragIndicatorIcon/>);
 

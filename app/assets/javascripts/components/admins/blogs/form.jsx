@@ -1,15 +1,16 @@
-'use strict';
-
-import {
+import React, {
     Suspense
 } from 'react';
+import PropTypes from 'prop-types';
 
 import Button from '@mui/material/Button/Button';
 import TextField from '@mui/material/TextField/TextField';
 
+import I18n from '@js/modules/translations';
+
 import {
     Editor
-} from '../../loaders/components';
+} from '@js/components/loaders/components';
 
 
 export default class AdminBlogForm extends React.Component {

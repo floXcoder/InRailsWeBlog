@@ -1,25 +1,24 @@
-'use strict';
-
-import {
+import React, {
     Fragment
 } from 'react';
+import PropTypes from 'prop-types';
+
+import {connect} from 'react-redux';
 
 import {
     TransitionGroup,
     CSSTransition
 } from 'react-transition-group';
 
+import I18n from '@js/modules/translations';
+
 import {
     getOrderedArticles
-} from '../../../../selectors';
+} from '@js/selectors/articleSelectors';
 
-import ArticleItemsDisplay from '../items';
+import ArticleItemsDisplay from '@js/components/articles/display/items';
 
 
-export default @connect((state, props) => ({
-    orderedArticles: getOrderedArticles(state, props),
-    articleDisplayMode: state.uiState.articleDisplayMode
-}))
 class ArticleListMode extends React.Component {
     static propTypes = {
         isMinimized: PropTypes.bool,
@@ -91,3 +90,8 @@ class ArticleListMode extends React.Component {
         }
     }
 }
+
+export default connect((state, props) => ({
+    orderedArticles: getOrderedArticles(state, props),
+    articleDisplayMode: state.uiState.articleDisplayMode
+}))(ArticleListMode)

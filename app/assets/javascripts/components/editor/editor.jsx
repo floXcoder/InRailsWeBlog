@@ -1,26 +1,40 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import classNames from 'classnames';
 
 import $ from 'jquery';
 
+import I18n from '@js/modules/translations';
+import * as Utils from '@js/modules/utils';
+
 import {
     userArticlePath
-} from '../../constants/routesHelper';
+} from '@js/constants/routesHelper';
 
 import {
     uploadImages,
-    deleteImage,
+    deleteImage
+} from '@js/actions/uploadActions';
+
+import {
     loadAutocomplete
-} from '../../actions';
+} from '@js/actions/searchActions';
 
 import {
     highlightedLanguagePrefix,
     highlightedLanguages
-} from '../modules/constants';
+} from '@js/components/modules/constants';
 
-import withWidth from '../modules/mediaQuery';
+import withWidth from '@js/components/modules/mediaQuery';
 
-import '../../modules/summernote';
-import SanitizePaste from '../../modules/sanitizePaste';
+import SanitizePaste from '@js/modules/sanitizePaste';
+
+const SummernoteModule = () => import(/* webpackChunkName: "summernote-editor" */ '@js/modules/summernote');
+
+// Required for importing Summernote
+window.$ = $;
+window.jQuery = $;
 
 export const EDITOR_MODE = {
     EDIT: 1,
@@ -28,7 +42,6 @@ export const EDITOR_MODE = {
 };
 
 
-export default @withWidth()
 class Editor extends React.Component {
     static propTypes = {
         modelName: PropTypes.string.isRequired,
@@ -81,192 +94,193 @@ class Editor extends React.Component {
     }
 
     componentDidMount() {
-        // EditorLoader(() => {
-        const $editor = $(this._editorRef.current);
+        SummernoteModule()
+            .then(() => {
+                const $editor = $(this._editorRef.current);
 
-        const commonOptions = {
-            lang: I18n.locale + '-' + I18n.locale.toUpperCase(),
-            styleTags: ['p', 'h2', 'h3', 'h4', 'h5'],
-            placeholder: this.props.placeholder,
-            popatmouse: false,
-            useProtocol: true,
-            // 0 - No break, the new paragraph remains inside the quote.
-            // 1 - Break the first blockquote in the ancestors list.
-            // 2 - Break all blockquotes, so that the new paragraph is not quoted. (default)
-            blockquoteBreakingLevel: 2,
-            codeLanguages: [{
-                value: '',
-                text: 'Auto'
-            }].concat(highlightedLanguages.map((language) => (Array.isArray(language) ? language.map((l) => ({
-                value: l,
-                text: l
-            })) : ({
-                value: language,
-                text: language
-            })))),
-            codeLanguagePrefix: highlightedLanguagePrefix,
-            pasteSanitizer: this._formatPaste,
-            callbacks: {
-                onFocus: this.props.onFocus,
-                onMousedown: this._handleMouseDown,
-                // onBlur: this.props.onBlur,
-                onKeyup: this.props.onKeyUp,
-                onKeydown: this._onKeyDown,
-                onChange: this._onChange,
-                onImageUpload: this.onImageUpload,
-                onMediaDelete: this.onImageDelete
-            },
-            hint: {
-                mentions: [I18n.t('js.editor.hint.input')],
-                match: /\B#(\w*)$/,
-                search: (keyword, callback) => {
-                    loadAutocomplete({
-                        selectedTypes: ['article'],
-                        userId: this.props.currentUserId,
-                        topicId: this.props.currentTopicId,
-                        titleOnly: true,
-                        query: keyword,
-                        limit: 8
-                    }, this.props.currentLocale)
-                        .then((results) => {
-                            let autocompletes = [];
+                const commonOptions = {
+                    lang: I18n.locale + '-' + I18n.locale.toUpperCase(),
+                    styleTags: ['p', 'h2', 'h3', 'h4', 'h5'],
+                    placeholder: this.props.placeholder,
+                    popatmouse: false,
+                    useProtocol: true,
+                    // 0 - No break, the new paragraph remains inside the quote.
+                    // 1 - Break the first blockquote in the ancestors list.
+                    // 2 - Break all blockquotes, so that the new paragraph is not quoted. (default)
+                    blockquoteBreakingLevel: 2,
+                    codeLanguages: [{
+                        value: '',
+                        text: 'Auto'
+                    }].concat(highlightedLanguages.map((language) => (Array.isArray(language) ? language.map((l) => ({
+                        value: l,
+                        text: l
+                    })) : ({
+                        value: language,
+                        text: language
+                    })))),
+                    codeLanguagePrefix: highlightedLanguagePrefix,
+                    pasteSanitizer: this._formatPaste,
+                    callbacks: {
+                        onFocus: this.props.onFocus,
+                        onMousedown: this._handleMouseDown,
+                        // onBlur: this.props.onBlur,
+                        onKeyup: this.props.onKeyUp,
+                        onKeydown: this._onKeyDown,
+                        onChange: this._onChange,
+                        onImageUpload: this.onImageUpload,
+                        onMediaDelete: this.onImageDelete
+                    },
+                    hint: {
+                        mentions: [I18n.t('js.editor.hint.input')],
+                        match: /\B#(\w*)$/,
+                        search: (keyword, callback) => {
+                            loadAutocomplete({
+                                selectedTypes: ['article'],
+                                userId: this.props.currentUserId,
+                                topicId: this.props.currentTopicId,
+                                titleOnly: true,
+                                query: keyword,
+                                limit: 8
+                            }, this.props.currentLocale)
+                                .then((results) => {
+                                    let autocompletes = [];
 
-                            if (results.articles) {
-                                autocompletes = autocompletes.concat(results.articles.map((article) => ['article', article.title, article.topicName, article.id, article.slug, article.userSlug])
-                                    .compact());
-                            }
-                            // if (results.topics) {
-                            //     autocompletes = autocompletes.concat(results.topics.map((topic) => ['topic', topic.name, topic.id, topic.slug, topic.userSlug])
-                            //         .compact());
-                            // }
+                                    if (results.articles) {
+                                        autocompletes = autocompletes.concat(results.articles.map((article) => ['article', article.title, article.topicName, article.id, article.slug, article.userSlug])
+                                            .compact());
+                                    }
+                                    // if (results.topics) {
+                                    //     autocompletes = autocompletes.concat(results.topics.map((topic) => ['topic', topic.name, topic.id, topic.slug, topic.userSlug])
+                                    //         .compact());
+                                    // }
 
-                            if (autocompletes.length > 0) {
-                                return callback(autocompletes);
+                                    if (autocompletes.length > 0) {
+                                        return callback(autocompletes);
+                                    } else {
+                                        return [];
+                                    }
+                                });
+                        },
+                        template: ([type, title, topicName/* id, slug, parentSlug */]) => {
+                            if (type === 'topic') {
+                                return title + ' (' + I18n.t(`js.editor.hint.${type}`) + ')';
                             } else {
-                                return [];
+                                return `${title} (${topicName})`;
                             }
-                        });
-                },
-                template: ([type, title, topicName/* id, slug, parentSlug */]) => {
-                    if (type === 'topic') {
-                        return title + ' (' + I18n.t(`js.editor.hint.${type}`) + ')';
-                    } else {
-                        return `${title} (${topicName})`;
+                        },
+                        content: ([type, title, topicName, id, slug, parentSlug]) => {
+                            const nodeItem = document.createElement('a');
+                            nodeItem.target = '_blank';
+                            // if (type === 'topic') {
+                            //     nodeItem.href = topicArticlesPath(parentSlug, slug);
+                            //     nodeItem.innerHTML = `#${title}`;
+                            // } else {
+                            nodeItem.href = userArticlePath(parentSlug, slug);
+                            nodeItem.setAttribute('data-article-relation-id', id);
+                            nodeItem.innerHTML = `#${title}`;
+                            // }
+                            return nodeItem;
+                        }
                     }
-                },
-                content: ([type, title, topicName, id, slug, parentSlug]) => {
-                    const nodeItem = document.createElement('a');
-                    nodeItem.target = '_blank';
-                    // if (type === 'topic') {
-                    //     nodeItem.href = topicArticlesPath(parentSlug, slug);
-                    //     nodeItem.innerHTML = `#${title}`;
-                    // } else {
-                    nodeItem.href = userArticlePath(parentSlug, slug);
-                    nodeItem.setAttribute('data-article-relation-id', id);
-                    nodeItem.innerHTML = `#${title}`;
+                };
+
+                let toolbarDisplayMode = this.props.mode;
+                if (this.props.width === 'xs' || this.props.width === 'sm' || this.props.width === 'md') {
+                    toolbarDisplayMode = EDITOR_MODE.INLINE_EDIT;
+                }
+
+                if (toolbarDisplayMode === EDITOR_MODE.INLINE_EDIT) {
+                    let airToolbar = [
+                        ['style', ['style', 'bold', 'italic', 'underline']],
+                        ['specialStyle', ['pre', 'advice', 'secret']],
+                        ['para', ['ul', 'ol']],
+                        ['insert', ['link', 'picture', 'video']],
+                        ['clear', ['clear']],
+                        ['undo', ['undo', 'redo']]
+                    ];
+
+                    if (this.props.width === 'xs' || this.props.width === 'sm') {
+                        airToolbar = [
+                            ['style', ['style', 'bold', 'italic', 'underline', 'pre', 'ul']],
+                            ['insert', ['link', 'picture', 'clear', 'undo', 'redo']]
+                        ];
+                    }
+
+                    this._editor = $editor.summernote({
+                        ...commonOptions,
+                        airMode: true,
+                        popover: {
+                            air: airToolbar
+                        }
+                    });
+                } else {
+                    let toolbar = [
+                        ['style', ['style', 'bold', 'italic', 'underline']],
+                        ['para', ['ul', 'ol']],
+                        ['specialStyle', ['code', 'pre', 'advice', 'secret']],
+                        ['table', ['table']],
+                        ['insert', ['link', 'picture', 'video']],
+                        ['clear', ['cleaner']],
+                        ['undo', ['undo', 'redo']],
+                        // ['view', ['fullscreen']],
+                        // ['help', ['codeview', 'help']]
+                    ];
+
+                    if (this.props.width === 'xs' || this.props.width === 'sm') {
+                        toolbar = [
+                            ['style', ['style', 'bold', 'italic', 'underline']],
+                            ['para', ['ul', 'ol']],
+                            ['specialStyle', ['code', 'pre', 'advice', 'secret']],
+                            ['insert', ['link', 'picture', 'video']]
+                        ];
+                    }
+
+                    const toolbarOptions = {
+                        toolbar: toolbar,
+                        followingToolbar: true,
+                        // otherStaticBar: '#article-edit-stepper',
+                    };
+
+                    if (this.props.otherStaticBar) {
+                        toolbarOptions.otherStaticBar = this.props.otherStaticBar;
+                    } else if (this.props.hasOuterHeight) {
+                        toolbarOptions.otherStaticBarHeight = this.props.width === 'xs' ? 111 : (this.props.width === 'md' ? 128 : 126);
+                    }
+
+                    this._editor = $editor.summernote({
+                        ...commonOptions,
+                        ...toolbarOptions
+                    });
+
+                    // if (this.props.isCodeView) {
+                    //     this._editor.summernote('codeview.activate');
                     // }
-                    return nodeItem;
                 }
-            }
-        };
 
-        let toolbarDisplayMode = this.props.mode;
-        if (this.props.width === 'xs' || this.props.width === 'sm' || this.props.width === 'md') {
-            toolbarDisplayMode = EDITOR_MODE.INLINE_EDIT;
-        }
+                const $container = this._editor.parent();
+                this._noteEditable = $container.find('.note-editable');
+                this._notePlaceholder = $container.find('.note-placeholder');
 
-        if (toolbarDisplayMode === EDITOR_MODE.INLINE_EDIT) {
-            let airToolbar = [
-                ['style', ['style', 'bold', 'italic', 'underline']],
-                ['specialStyle', ['pre', 'advice', 'secret']],
-                ['para', ['ul', 'ol']],
-                ['insert', ['link', 'picture', 'video']],
-                ['clear', ['clear']],
-                ['undo', ['undo', 'redo']]
-            ];
+                const $statusBar = $container.find('.note-status-output');
+                $statusBar.html(
+                    '<div class="note-status-element"></div><div class="note-status-helper"></div>'
+                );
 
-            if (this.props.width === 'xs' || this.props.width === 'sm') {
-                airToolbar = [
-                    ['style', ['style', 'bold', 'italic', 'underline', 'pre', 'ul']],
-                    ['insert', ['link', 'picture', 'clear', 'undo', 'redo']]
-                ];
-            }
+                this._noteStatusElement = $container.find('.note-status-element');
+                this._noteStatusHelper = $container.find('.note-status-helper');
 
-            this._editor = $editor.summernote({
-                ...commonOptions,
-                airMode: true,
-                popover: {
-                    air: airToolbar
+                if (toolbarDisplayMode !== EDITOR_MODE.INLINE_EDIT && !this.props.noHelper) {
+                    this._noteStatusHelper.html(I18n.t('js.editor.helper.title') + ' <strong>#</strong> ' + I18n.t('js.editor.helper.article_hint'));
+                }
+
+                if (typeof this.props.isDisabled === 'boolean') {
+                    this.toggleState(this.props.isDisabled);
+                }
+
+                if (this.props.onLoaded) {
+                    this.props.onLoaded(this);
                 }
             });
-        } else {
-            let toolbar = [
-                ['style', ['style', 'bold', 'italic', 'underline']],
-                ['para', ['ul', 'ol']],
-                ['specialStyle', ['code', 'pre', 'advice', 'secret']],
-                ['table', ['table']],
-                ['insert', ['link', 'picture', 'video']],
-                ['clear', ['cleaner']],
-                ['undo', ['undo', 'redo']],
-                // ['view', ['fullscreen']],
-                // ['help', ['codeview', 'help']]
-            ];
-
-            if (this.props.width === 'xs' || this.props.width === 'sm') {
-                toolbar = [
-                    ['style', ['style', 'bold', 'italic', 'underline']],
-                    ['para', ['ul', 'ol']],
-                    ['specialStyle', ['code', 'pre', 'advice', 'secret']],
-                    ['insert', ['link', 'picture', 'video']]
-                ];
-            }
-
-            const toolbarOptions = {
-                toolbar: toolbar,
-                followingToolbar: true,
-                // otherStaticBar: '#article-edit-stepper',
-            };
-
-            if (this.props.otherStaticBar) {
-                toolbarOptions.otherStaticBar = this.props.otherStaticBar;
-            } else if (this.props.hasOuterHeight) {
-                toolbarOptions.otherStaticBarHeight = this.props.width === 'xs' ? 111 : (this.props.width === 'md' ? 128 : 126);
-            }
-
-            this._editor = $editor.summernote({
-                ...commonOptions,
-                ...toolbarOptions
-            });
-
-            // if (this.props.isCodeView) {
-            //     this._editor.summernote('codeview.activate');
-            // }
-        }
-
-        const $container = this._editor.parent();
-        this._noteEditable = $container.find('.note-editable');
-        this._notePlaceholder = $container.find('.note-placeholder');
-
-        const $statusBar = $container.find('.note-status-output');
-        $statusBar.html(
-            '<div class="note-status-element"></div><div class="note-status-helper"></div>'
-        );
-
-        this._noteStatusElement = $container.find('.note-status-element');
-        this._noteStatusHelper = $container.find('.note-status-helper');
-
-        if (toolbarDisplayMode !== EDITOR_MODE.INLINE_EDIT && !this.props.noHelper) {
-            this._noteStatusHelper.html(I18n.t('js.editor.helper.title') + ' <strong>#</strong> ' + I18n.t('js.editor.helper.article_hint'));
-        }
-
-        if (typeof this.props.isDisabled === 'boolean') {
-            this.toggleState(this.props.isDisabled);
-        }
-
-        if (this.props.onLoaded) {
-            this.props.onLoaded(this);
-        }
-        // });
     }
 
     shouldComponentUpdate(nextProps) {
@@ -526,3 +540,5 @@ class Editor extends React.Component {
         );
     }
 }
+
+export default withWidth()(Editor);

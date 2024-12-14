@@ -1,51 +1,44 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import {connect} from 'react-redux';
+
+import * as Utils from '@js/modules/utils';
 
 import {
     initUser,
+    fetchUserRecents
+} from '@js/actions/userActions';
+
+import {
+    switchTopic
+} from '@js/actions/topicActions';
+
+import {
     fetchTags,
-    switchTopic,
-    fetchUserRecents,
-    fetchBookmarks,
-    synchronizeBookmarks,
     setCurrentTags
-} from '../../../actions';
+} from '@js/actions/tagActions';
+
+import {
+    fetchBookmarks,
+    synchronizeBookmarks
+} from '@js/actions/bookmarkActions';
 
 import {
     getHasTopicTags
-} from '../../../selectors';
+} from '@js/selectors/tagSelectors';
 
 import {
     newTopicParam
-} from '../../../constants/routesHelper';
+} from '@js/constants/routesHelper';
 
 import {
     recentArticlesLimit
-} from '../../modules/constants';
+} from '@js/components/modules/constants';
 
-import withRouter from '../../modules/router';
+import withRouter from '@js/components/modules/router';
 
 
-export default @connect((state) => ({
-    currentUserId: state.userState.currentId,
-    currentUser: state.userState.user,
-    currentUserTopicId: state.topicState.currentUserTopicId,
-    currentUserTopicSlug: state.topicState.currentUserTopicSlug,
-    userTopics: state.topicState.userTopics,
-    hasTopicTags: getHasTopicTags(state)
-}), {
-    initUser,
-    fetchTags,
-    switchTopic,
-    fetchUserRecents,
-    fetchBookmarks,
-    synchronizeBookmarks,
-    setCurrentTags
-})
-@withRouter({
-    location: true,
-    params: true,
-    navigate: true
-})
 class UserManager extends React.PureComponent {
     static propTypes = {
         children: PropTypes.object.isRequired,
@@ -282,3 +275,24 @@ class UserManager extends React.PureComponent {
         return React.Children.only(this.props.children);
     }
 }
+
+export default connect((state) => ({
+    currentUserId: state.userState.currentId,
+    currentUser: state.userState.user,
+    currentUserTopicId: state.topicState.currentUserTopicId,
+    currentUserTopicSlug: state.topicState.currentUserTopicSlug,
+    userTopics: state.topicState.userTopics,
+    hasTopicTags: getHasTopicTags(state)
+}), {
+    initUser,
+    fetchTags,
+    switchTopic,
+    fetchUserRecents,
+    fetchBookmarks,
+    synchronizeBookmarks,
+    setCurrentTags
+})(withRouter({
+    location: true,
+    params: true,
+    navigate: true
+})(UserManager));

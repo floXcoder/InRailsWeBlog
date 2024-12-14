@@ -1,39 +1,33 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import {connect} from 'react-redux';
+
+import classNames from 'classnames';
+
+import I18n from '@js/modules/translations';
+import * as Utils from '@js/modules/utils';
 
 import {
-    switchArticleMinimized,
+    switchArticleMinimized
+} from '@js/actions/uiActions';
+
+import {
     updateUserSettings
-} from '../../actions';
+} from '@js/actions/userActions';
 
 import {
     getArticlesCount,
     getCategorizedArticles
-} from '../../selectors';
+} from '@js/selectors/articleSelectors';
 
-import Loader from '../theme/loader';
-import Scrollbar from '../theme/scrollbar';
+import Loader from '@js/components/theme/loader';
+import Scrollbar from '@js/components/theme/scrollbar';
 
-import ArticleOrderDisplay from './display/order';
-import ArticleTimelineDisplay from './display/timeline';
+import ArticleOrderDisplay from '@js/components/articles/display/order';
+import ArticleTimelineDisplay from '@js/components/articles/display/timeline';
 
 
-export default @connect((state, props) => ({
-    articleOrderMode: state.uiState.articleOrderMode,
-    articleDisplayMode: state.uiState.articleDisplayMode,
-    currentArticles: state.uiState.currentArticles,
-    currentUserId: state.userState.currentId,
-    currentUserSlug: state.userState.currentSlug,
-    currentUserTopicId: state.topicState.currentUserTopicId,
-    currentUserTopicSlug: state.topicState.currentUserTopicSlug,
-    currentArticleState: state.articleState.currentState.value,
-    articlePagination: state.articleState.pagination,
-    articlesCount: getArticlesCount(state),
-    categorizedArticles: getCategorizedArticles(state, props),
-    articleTitleContent: state.articleState.articleTitleContent
-}), {
-    switchArticleMinimized,
-    updateUserSettings
-})
 class ArticleSidebar extends React.Component {
     static propTypes = {
         parentTagSlug: PropTypes.string,
@@ -153,3 +147,21 @@ class ArticleSidebar extends React.Component {
         );
     }
 }
+
+export default connect((state, props) => ({
+    articleOrderMode: state.uiState.articleOrderMode,
+    articleDisplayMode: state.uiState.articleDisplayMode,
+    currentArticles: state.uiState.currentArticles,
+    currentUserId: state.userState.currentId,
+    currentUserSlug: state.userState.currentSlug,
+    currentUserTopicId: state.topicState.currentUserTopicId,
+    currentUserTopicSlug: state.topicState.currentUserTopicSlug,
+    currentArticleState: state.articleState.currentState.value,
+    articlePagination: state.articleState.pagination,
+    articlesCount: getArticlesCount(state),
+    categorizedArticles: getCategorizedArticles(state, props),
+    articleTitleContent: state.articleState.articleTitleContent
+}), {
+    switchArticleMinimized,
+    updateUserSettings
+})(ArticleSidebar)

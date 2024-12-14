@@ -1,16 +1,20 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import {connect} from 'react-redux';
 
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button/Button';
 import Paper from '@mui/material/Paper';
 
+import I18n from '@js/modules/translations';
+import Notification from '@js/modules/notification';
+
 import {
     flushCache
-} from '../../actions/admin';
+} from '@js/actions/admin';
 
-export default @connect(null, {
-    flushCache
-})
+
 class AdminCache extends React.Component {
     static propTypes = {
         // from connect
@@ -55,3 +59,6 @@ class AdminCache extends React.Component {
     }
 }
 
+export default connect(null, {
+    flushCache
+})(AdminCache);

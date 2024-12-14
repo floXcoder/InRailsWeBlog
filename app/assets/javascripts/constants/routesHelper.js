@@ -1,6 +1,5 @@
-'use strict';
 
-import RouteManager from '../modules/routeManager';
+import RouteManager from '@js/modules/routeManager';
 
 // Initialize routes
 RouteManager.initialize();

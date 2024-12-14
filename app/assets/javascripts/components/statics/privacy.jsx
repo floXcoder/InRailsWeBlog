@@ -1,6 +1,6 @@
-'use strict';
+import PropTypes from 'prop-types';
 
-import '../../../stylesheets/pages/statics.scss';
+import '@/entrypoints/stylesheets/statics.scss';
 
 function Privacy({
                      staticContent

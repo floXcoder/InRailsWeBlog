@@ -1,14 +1,18 @@
-'use strict';
+import I18n from '@js/modules/translations';
+import * as Utils from '@js/modules/utils';
 
-import * as ActionTypes from '../constants/actionTypes';
+import * as ActionTypes from '@js/constants/actionTypes';
 
-import api from '../middlewares/api';
+import api from '@js/middlewares/api';
 
 import {
     hasLocalStorage,
     saveLocalArray,
     getAllData
-} from '../middlewares/localStorage';
+} from '@js/middlewares/localStorage';
+
+import Notification from '@js/modules/notification';
+
 
 // Bookmarks
 export const fetchBookmarks = (userId, options = {}, payload = {}) => ({
@@ -34,7 +38,7 @@ const deleteBookmark = (bookmark) => ({
 });
 
 export const bookmark = (bookmarkedType, bookmarkedId, bookmarkData, currentUserId = null) => (dispatch, getState) => {
-    currentUserId = currentUserId || getState().userState.currentId;
+    currentUserId ||= getState().userState.currentId;
     const currentUserTopicId = getState().topicState.currentUserTopicId;
 
     const bookmarkParams = {

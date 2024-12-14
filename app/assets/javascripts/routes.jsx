@@ -1,10 +1,8 @@
-'use strict';
+import * as RouteComponents from '@js/components/loaders/components';
 
-import * as RouteComponents from './components/loaders/components';
+import * as Routes from '@js/constants/routesHelper';
 
-import * as Routes from './constants/routesHelper';
-
-import NotFound from './components/layouts/notFound';
+import NotFound from '@js/components/layouts/notFound';
 
 
 export default {
@@ -59,6 +57,7 @@ export default {
         home: [
             {
                 path: Routes.rootPath(false),
+                index: true,
                 name: 'Home',
                 component: () => RouteComponents.Home
             },
@@ -159,6 +158,7 @@ export default {
         user: [
             {
                 path: Routes.rootPath(false),
+                index: true,
                 name: 'UserHome',
                 noTagSidebar: true,
                 component: () => RouteComponents.Home

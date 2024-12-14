@@ -1,6 +1,7 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import '../../../stylesheets/components/comment.scss';
+import {connect} from 'react-redux';
 
 import {
     CSSTransition
@@ -10,37 +11,30 @@ import Button from '@mui/material/Button';
 
 import CommentIcon from '@mui/icons-material/Comment';
 
+import I18n from '@js/modules/translations';
+import * as Utils from '@js/modules/utils';
+import Notification from '@js/modules/notification';
+
 import {
     fetchComments,
     addComment,
     updateComment,
     deleteComment
-} from '../../actions';
+} from '@js/actions/commentActions';
 
 import {
-    getIsPrimaryUser,
-} from '../../selectors';
+    getIsPrimaryUser
+} from '@js/selectors/userSelectors';
 
-import Pagination from '../theme/pagination';
-import CircleSpinner from '../theme/spinner/circle';
+import Pagination from '@js/components/theme/pagination';
+import CircleSpinner from '@js/components/theme/spinner/circle';
 
-import CommentList from './list';
-import CommentForm from './form';
+import CommentList from '@js/components/comments/list';
+import CommentForm from '@js/components/comments/form';
+
+import '@css/components/comment.scss';
 
 
-export default @connect((state) => ({
-    isUserConnected: state.userState.isConnected,
-    currentUserId: state.userState.currentId,
-    isSuperUserConnected: getIsPrimaryUser(state),
-    comments: state.commentState.comments,
-    commentsPagination: state.commentState.pagination,
-    isLoadingComments: state.commentState.isFetching
-}), {
-    fetchComments,
-    addComment,
-    updateComment,
-    deleteComment
-})
 class CommentBox extends React.Component {
     static propTypes = {
         commentableId: PropTypes.number.isRequired,
@@ -237,3 +231,16 @@ class CommentBox extends React.Component {
     }
 }
 
+export default connect((state) => ({
+    isUserConnected: state.userState.isConnected,
+    currentUserId: state.userState.currentId,
+    isSuperUserConnected: getIsPrimaryUser(state),
+    comments: state.commentState.comments,
+    commentsPagination: state.commentState.pagination,
+    isLoadingComments: state.commentState.isFetching
+}), {
+    fetchComments,
+    addComment,
+    updateComment,
+    deleteComment
+})(CommentBox)

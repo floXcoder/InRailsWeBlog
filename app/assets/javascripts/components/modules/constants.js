@@ -1,4 +1,3 @@
-'use strict';
 
 // UI
 export const notificationDuration = 6000;

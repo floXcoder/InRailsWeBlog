@@ -1,12 +1,11 @@
-'use strict';
 
-import * as ActionTypes from '../constants/actionTypes';
+import * as ActionTypes from '@js/constants/actionTypes';
 
-import api from '../middlewares/api';
+import api from '@js/middlewares/api';
 
 import {
     convertJsonApi
-} from '../middlewares/json';
+} from '@js/middlewares/json';
 
 
 // Articles

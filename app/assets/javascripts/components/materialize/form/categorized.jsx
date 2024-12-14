@@ -1,7 +1,7 @@
-'use strict';
+import PropTypes from 'prop-types';
 
-import CategorizedTag from '../categorizedTag';
-import ErrorForm from './error';
+import CategorizedTag from '@js/components/materialize/categorizedTag';
+import ErrorForm from '@js/components/materialize/form/error';
 
 function CategorizedField({input,
                               meta: {

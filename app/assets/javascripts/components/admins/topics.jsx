@@ -1,18 +1,18 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import {connect} from 'react-redux';
+
+import I18n from '@js/modules/translations';
 
 import {
     fetchTopics
-} from '../../actions';
+} from '@js/actions/topicActions';
 
-import Loader from '../theme/loader';
-import Table from '../theme/table';
+import Loader from '@js/components/theme/loader';
+import Table from '@js/components/theme/table';
 
-export default @connect((state) => ({
-    topics: state.topicState.topics,
-    isFetching: state.topicState.isFetching
-}), {
-    fetchTopics
-})
+
 class AdminTopics extends React.Component {
     static propTypes = {
         // from connect
@@ -144,3 +144,9 @@ class AdminTopics extends React.Component {
     }
 }
 
+export default connect((state) => ({
+    topics: state.topicState.topics,
+    isFetching: state.topicState.isFetching
+}), {
+    fetchTopics
+})(AdminTopics)

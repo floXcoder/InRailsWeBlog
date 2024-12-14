@@ -1,4 +1,5 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import Button from '@mui/material/Button/Button';
 import TextField from '@mui/material/TextField/TextField';
@@ -7,7 +8,9 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
-import Separator from '../../theme/separator';
+import I18n from '@js/modules/translations';
+
+import Separator from '@js/components/theme/separator';
 
 
 export default class AdminSeoDataForm extends React.Component {

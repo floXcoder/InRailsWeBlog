@@ -1,15 +1,18 @@
-'use strict';
-
-import '../../../stylesheets/components/pagination.scss';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import ReactPaginate from 'react-paginate';
 
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
-import history from '../modules/history';
+import * as Utils from '@js/modules/utils';
 
-export default @history
+import history from '@js/components/modules/history';
+
+import '@css/components/pagination.scss';
+
+
 class Pagination extends React.PureComponent {
     static propTypes = {
         totalPages: PropTypes.number,
@@ -56,7 +59,7 @@ class Pagination extends React.PureComponent {
     };
 
     _handleHistory = (pagination) => {
-        pagination = pagination || {selected: 0};
+        pagination ||= {selected: 0};
 
         this._handlePaginationClick(pagination, false);
 
@@ -117,3 +120,5 @@ class Pagination extends React.PureComponent {
         );
     }
 }
+
+export default history(Pagination);

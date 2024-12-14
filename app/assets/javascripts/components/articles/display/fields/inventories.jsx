@@ -1,4 +1,5 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import {
     Field
@@ -6,12 +7,14 @@ import {
 
 import Grid from '@mui/material/Grid2';
 
-import EditorField from '../../../editor/form/editor';
+import I18n from '@js/modules/translations';
 
-import TextFormField from '../../../material-ui/form/text';
-import NumberFormField from '../../../material-ui/form/number';
-import DateFormField from '../../../material-ui/form/date';
-import CheckBoxFormField from '../../../material-ui/form/checkbox';
+import EditorField from '@js/components/editor/form/editor';
+
+import TextFormField from '@js/components/material-ui/form/text';
+import NumberFormField from '@js/components/material-ui/form/number';
+import DateFormField from '@js/components/material-ui/form/date';
+import CheckBoxFormField from '@js/components/material-ui/form/checkbox';
 
 
 export default class ArticleInventoriesField extends React.Component {

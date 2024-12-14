@@ -1,7 +1,8 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import CategorizedInput from './categorizedInput';
-import Panel from './panel';
+import CategorizedInput from '@js/components/materialize/categorizedTag/categorizedInput';
+import Panel from '@js/components/materialize/categorizedTag/panel';
 
 const key = {
     TAB: 9,
@@ -402,7 +403,7 @@ export default class CategorizedTagInput extends React.Component {
                                   onBlur={this.props.onBlur}/>
 
                 {
-                    this.state.isPanelOpen &&
+                    !!this.state.isPanelOpen &&
                     <Panel categories={this.state.categories}
                            selection={this.state.selection}
                            onAdd={this.onAdd}

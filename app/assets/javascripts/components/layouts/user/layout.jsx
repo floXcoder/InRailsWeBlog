@@ -1,28 +1,30 @@
-'use strict';
-
-import {
+import React, {
     Suspense
 } from 'react';
+import PropTypes from 'prop-types';
+
+import classNames from 'classnames';
 
 import {
     Routes,
     Route,
     Outlet
-} from 'react-router-dom';
+} from 'react-router';
 
-import withRouter from '../../modules/router';
+import withRouter from '@js/components/modules/router';
 
-import ErrorBoundary from '../../errors/boundary';
+import ErrorBoundary from '@js/components/errors/boundary';
 
-import RouteManager from '../managers/route';
-import UserManager from '../managers/user';
+import RouteManager from '@js/components/layouts/managers/route';
+import UserManager from '@js/components/layouts/managers/user';
 
-import HeaderLayoutUser from './header';
-import SidebarLayoutUser from './sidebar';
-import FooterLayoutUser from './footer';
+import HeaderLayoutUser from '@js/components/layouts/user/header';
+import SidebarLayoutUser from '@js/components/layouts/user/sidebar';
+import FooterLayoutUser from '@js/components/layouts/user/footer';
+
+import I18n from '@js/modules/translations';
 
 
-export default @withRouter({location: true})
 class LayoutUser extends React.Component {
     static propTypes = {
         routes: PropTypes.array.isRequired,
@@ -74,17 +76,18 @@ class LayoutUser extends React.Component {
         );
     };
 
-    _renderRoute = (route, path, index) => {
+    _renderRoute = (route, path, i) => {
         if (!path) {
             throw new Error(`Path to render is null: ${JSON.stringify(route)}`);
         }
 
-        const {component, ...routeProperties} = route;
+        const {component, index, ...routeProperties} = route;
 
         return (
-            <Route key={path || index}
+            <Route key={path || i}
                    element={this._renderLayout(routeProperties)}>
                 <Route path={path}
+                       index={index}
                        element={this._renderRouteChildren(route, component, routeProperties)}/>
             </Route>
         );
@@ -153,3 +156,5 @@ class LayoutUser extends React.Component {
         );
     }
 }
+
+export default withRouter({location: true})(LayoutUser);

@@ -1,5 +1,3 @@
-'use strict';
-
 const AdminFooterLayout = function () {
     return (
         <footer className="admin-footer">

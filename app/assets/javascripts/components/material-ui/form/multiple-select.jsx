@@ -1,4 +1,4 @@
-'use strict';
+import PropTypes from 'prop-types';
 
 import Input from '@mui/material/Input';
 import InputLabel from '@mui/material/InputLabel';

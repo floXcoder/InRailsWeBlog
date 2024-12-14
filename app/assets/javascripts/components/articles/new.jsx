@@ -1,35 +1,33 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import '../../../stylesheets/pages/article/form.scss';
+import {connect} from 'react-redux';
+
+import * as Utils from '@js/modules/utils';
 
 import {
     fetchMetaTags,
     switchTagSidebar
-} from '../../actions';
+} from '@js/actions/uiActions';
 
 import {
     getArticleChildTags,
-    getArticleParentTags,
+    getArticleParentTags
+} from '@js/selectors/articleSelectors';
+
+import {
     getCurrentUserTopicVisibility
-} from '../../selectors';
+} from '@js/selectors/topicSelectors';
 
-import Loader from '../theme/loader';
+import Loader from '@js/components/theme/loader';
 
-import articleMutationManager from './managers/mutation';
-import ArticleBreadcrumbDisplay from './display/breadcrumb';
-import ArticleFormDisplay from './display/form';
+import articleMutationManager from '@js/components/articles/managers/mutation';
+import ArticleBreadcrumbDisplay from '@js/components/articles/display/breadcrumb';
+import ArticleFormDisplay from '@js/components/articles/display/form';
+
+import '@css/pages/article/form.scss';
 
 
-export default @articleMutationManager('new')
-@connect((state, props) => ({
-    userSlug: state.userState.currentSlug,
-    inheritVisibility: getCurrentUserTopicVisibility(state),
-    parentTags: getArticleParentTags(state, props.children),
-    childTags: getArticleChildTags(props.children)
-}), {
-    fetchMetaTags,
-    switchTagSidebar
-})
 class ArticleNew extends React.Component {
     static propTypes = {
         // from articleMutationManager
@@ -194,3 +192,13 @@ class ArticleNew extends React.Component {
         );
     }
 }
+
+export default articleMutationManager('new')(connect((state, props) => ({
+    userSlug: state.userState.currentSlug,
+    inheritVisibility: getCurrentUserTopicVisibility(state),
+    parentTags: getArticleParentTags(state, props.children),
+    childTags: getArticleChildTags(props.children)
+}), {
+    fetchMetaTags,
+    switchTagSidebar
+})(ArticleNew));

@@ -1,6 +1,9 @@
-'use strict';
+import PropTypes from 'prop-types';
 
 import InfiniteScroll from 'react-infinite-scroll-component';
+
+import I18n from '@js/modules/translations';
+
 
 function ArticleInfiniteMode({
                                  fetchArticles,

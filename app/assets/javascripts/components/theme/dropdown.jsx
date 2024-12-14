@@ -1,4 +1,5 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import Menu from '@mui/material/Menu';
 

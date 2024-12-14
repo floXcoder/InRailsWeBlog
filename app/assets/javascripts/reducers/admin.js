@@ -1,4 +1,3 @@
-'use strict';
 
 import {
     produce
@@ -12,16 +11,16 @@ import {
     loadingBarReducer
 } from 'react-redux-loading-bar';
 
-import adminReducer from './adminReducer';
-import userReducer from './userReducer';
-import topicReducer from './topicReducer';
-import tagReducer from './tagReducer';
-import articleReducer from './articleReducer';
+import adminReducer from '@js/reducers/adminReducer';
+import userReducer from '@js/reducers/userReducer';
+import topicReducer from '@js/reducers/topicReducer';
+import tagReducer from '@js/reducers/tagReducer';
+import articleReducer from '@js/reducers/articleReducer';
 import {
     autocompleteReducer,
     searchReducer
-} from './searchReducer';
-import commentReducer from './commentReducer';
+} from '@js/reducers/searchReducer';
+import commentReducer from '@js/reducers/commentReducer';
 
 export default combineReducers(produce, {
     adminState: adminReducer,

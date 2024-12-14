@@ -1,8 +1,13 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import {connect} from 'react-redux';
 
 import {
     Link
-} from 'react-router-dom';
+} from 'react-router';
+
+import classNames from 'classnames';
 
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -11,24 +16,20 @@ import Collapse from '@mui/material/Collapse';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 
+import * as Utils from '@js/modules/utils';
+
 import {
     taggedArticlesPath,
     taggedTopicArticlesPath
-} from '../../../constants/routesHelper';
+} from '@js/constants/routesHelper';
 
 import {
     getCurrentTagSlugs
-} from '../../../selectors';
+} from '@js/selectors/tagSelectors';
 
-import ChildTag from './child';
+import ChildTag from '@js/components/tags/display/child';
 
 
-export default
-@connect((state) => ({
-    currentTagSlugs: getCurrentTagSlugs(state),
-    currentUserSlug: state.userState.currentSlug,
-    currentUserTopicSlug: state.topicState.currentUserTopicSlug
-}))
 class ParentTag extends React.PureComponent {
     static propTypes = {
         tag: PropTypes.object.isRequired,
@@ -146,3 +147,9 @@ class ParentTag extends React.PureComponent {
         );
     }
 }
+
+export default connect((state) => ({
+    currentTagSlugs: getCurrentTagSlugs(state),
+    currentUserSlug: state.userState.currentSlug,
+    currentUserTopicSlug: state.topicState.currentUserTopicSlug
+}))(ParentTag);

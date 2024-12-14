@@ -1,12 +1,12 @@
-'use strict';
+import React from 'react';
 
 import IconButton from '@mui/material/IconButton';
 
 import FavoriteIcon from '@mui/icons-material/Favorite';
 
-import Dropdown from '../../theme/dropdown';
+import Dropdown from '@js/components/theme/dropdown';
 
-import BookmarkList from '../../bookmark/list';
+import BookmarkList from '@js/components/bookmark/list';
 
 
 const HomeBookmarkHeader = function () {

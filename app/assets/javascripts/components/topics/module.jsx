@@ -1,8 +1,13 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import {connect} from 'react-redux';
 
 import {
     Link
-} from 'react-router-dom';
+} from 'react-router';
+
+import classNames from 'classnames';
 
 import IconButton from '@mui/material/IconButton';
 import Divider from '@mui/material/Divider';
@@ -10,24 +15,22 @@ import Divider from '@mui/material/Divider';
 import EditIcon from '@mui/icons-material/Edit';
 import CloseIcon from '@mui/icons-material/Close';
 
+import I18n from '@js/modules/translations';
+
 import {
     topicArticlesPath,
     newTopicParam
-} from '../../constants/routesHelper';
+} from '@js/constants/routesHelper';
 
 import {
-    showTopicPopup,
-    spyTrackClick
-} from '../../actions';
-
-
-export default @connect((state) => ({
-    userSlug: state.userState.currentSlug,
-    currentUserTopicId: state.topicState.currentUserTopicId,
-    topics: state.topicState.userTopics
-}), {
     showTopicPopup
-})
+} from '@js/actions/uiActions';
+
+import {
+    spyTrackClick
+} from '@js/actions/metricsActions';
+
+
 class TopicModule extends React.Component {
     static propTypes = {
         onClose: PropTypes.func,
@@ -132,3 +135,11 @@ class TopicModule extends React.Component {
         );
     }
 }
+
+export default connect((state) => ({
+    userSlug: state.userState.currentSlug,
+    currentUserTopicId: state.topicState.currentUserTopicId,
+    topics: state.topicState.userTopics
+}), {
+    showTopicPopup
+})(TopicModule)

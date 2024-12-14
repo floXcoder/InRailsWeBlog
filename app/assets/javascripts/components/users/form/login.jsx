@@ -1,8 +1,9 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import {
     Link
-} from 'react-router-dom';
+} from 'react-router';
 
 import {
     Field,
@@ -16,17 +17,19 @@ import Button from '@mui/material/Button';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LockIcon from '@mui/icons-material/Lock';
 
+import I18n from '@js/modules/translations';
+
 import {
     newPasswordPath
-} from '../../../constants/routesHelper';
+} from '@js/constants/routesHelper';
 
 // import {
 //     validateUser
-// } from '../../../actions/userActions';
-import EnsureValidity from '../../modules/ensureValidity';
+// } from '@js/actions/userActions';
+import EnsureValidity from '@js/components/modules/ensureValidity';
 
-import TextFormField from '../../material-ui/form/text';
-import CheckBoxFormField from '../../material-ui/form/checkbox';
+import TextFormField from '@js/components/material-ui/form/text';
+import CheckBoxFormField from '@js/components/material-ui/form/checkbox';
 
 // let previousLoginValue;
 // const loginValidation = (loginValue) => {

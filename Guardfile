@@ -30,9 +30,8 @@ guard :process, name: 'rails', command: 'rails server -p 3000' do
   watch(%r{^lib/.+(?<!tasks)/.*})
 end
 
-guard :process, name: 'Webpack', command: 'npm run development' do
+guard :process, name: 'rsbuild', command: 'npx rsbuild dev --port 8080', env: { 'NODE_ENV' => 'development' } do
   watch('yarn.lock')
-  watch(%r{^frontend/.+\.cjs$})
 end
 
 guard :sidekiq, environment: 'development' do

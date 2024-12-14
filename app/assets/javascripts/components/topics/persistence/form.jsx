@@ -1,4 +1,5 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
@@ -10,6 +11,8 @@ import Select from '@mui/material/Select';
 import Checkbox from '@mui/material/Checkbox';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
+
+import I18n from '@js/modules/translations';
 
 
 export default class PersistenceFormTopic extends React.Component {

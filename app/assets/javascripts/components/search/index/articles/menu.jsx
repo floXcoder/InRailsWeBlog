@@ -1,4 +1,7 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import classNames from 'classnames';
 
 import Grid from '@mui/material/Grid2';
 import Button from '@mui/material/Button';
@@ -10,7 +13,9 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import SortIcon from '@mui/icons-material/Sort';
 import FindInPageIcon from '@mui/icons-material/FindInPage';
 
-import Dropdown from '../../../theme/dropdown';
+import I18n from '@js/modules/translations';
+
+import Dropdown from '@js/components/theme/dropdown';
 
 
 export default class ArticleSearchMenuDisplay extends React.PureComponent {

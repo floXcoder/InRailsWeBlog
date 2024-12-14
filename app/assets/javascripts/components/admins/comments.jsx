@@ -1,18 +1,18 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import {connect} from 'react-redux';
+
+import I18n from '@js/modules/translations';
 
 import {
     fetchComments
-} from '../../actions';
+} from '@js/actions/commentActions';
 
-import Loader from '../theme/loader';
-import Table from '../theme/table';
+import Loader from '@js/components/theme/loader';
+import Table from '@js/components/theme/table';
 
-export default @connect((state) => ({
-    comments: state.commentState.comments,
-    isFetching: state.commentState.isFetching
-}), {
-    fetchComments
-})
+
 class AdminComments extends React.Component {
     static propTypes = {
         // from connect
@@ -26,7 +26,11 @@ class AdminComments extends React.Component {
     }
 
     componentDidMount() {
-        this.props.fetchComments({order: 'created_desc', complete: true, limit: 2000}, {noCache: true});
+        this.props.fetchComments({
+            order: 'created_desc',
+            complete: true,
+            limit: 2000
+        }, {noCache: true});
     }
 
     render() {
@@ -81,3 +85,9 @@ class AdminComments extends React.Component {
     }
 }
 
+export default connect((state) => ({
+    comments: state.commentState.comments,
+    isFetching: state.commentState.isFetching
+}), {
+    fetchComments
+})(AdminComments)

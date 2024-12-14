@@ -1,4 +1,5 @@
-'use strict';
+import I18n from '@js/modules/translations';
+
 
 function NotAuthorized() {
     return (

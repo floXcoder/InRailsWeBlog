@@ -1,8 +1,10 @@
-'use strict';
+import PropTypes from 'prop-types';
 
 import {
     Link
-} from 'react-router-dom';
+} from 'react-router';
+
+import classNames from 'classnames';
 
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -13,9 +15,11 @@ import Divider from '@mui/material/Divider';
 import EditIcon from '@mui/icons-material/Edit';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 
+import I18n from '@js/modules/translations';
+
 import {
     newArticlePath
-} from '../../../../constants/routesHelper';
+} from '@js/constants/routesHelper';
 
 
 const HeaderArticleMenu = function ({

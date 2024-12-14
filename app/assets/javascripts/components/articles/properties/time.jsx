@@ -1,4 +1,8 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import I18n from '@js/modules/translations';
+
 
 function ArticleTime({articleDate}) {
     return (

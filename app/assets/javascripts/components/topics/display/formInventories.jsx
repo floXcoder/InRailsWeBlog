@@ -1,18 +1,20 @@
-'use strict';
+import PropTypes from 'prop-types';
 
 import {
     Link
-} from 'react-router-dom';
+} from 'react-router';
 
 import Button from '@mui/material/Button';
 
+import I18n from '@js/modules/translations';
+
 import {
     editTopicPath
-} from '../../../constants/routesHelper';
+} from '@js/constants/routesHelper';
 
-import TopicFormMandatoryFieldDisplay from './inventories/mandatoryField';
-import TopicInventoryFieldSorter from './inventories/sorter';
-import TopicErrorField from './fields/error';
+import TopicFormMandatoryFieldDisplay from '@js/components/topics/display/inventories/mandatoryField';
+import TopicInventoryFieldSorter from '@js/components/topics/display/inventories/sorter';
+import TopicErrorField from '@js/components/topics/display/fields/error';
 
 
 function TopicFormInventoriesDisplay({

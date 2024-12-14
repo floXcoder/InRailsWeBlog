@@ -1,4 +1,5 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -21,6 +22,8 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import AllInboxIcon from '@mui/icons-material/AllInbox';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 
+import I18n from '@js/modules/translations';
+
 
 const ListItemLink = function (props) {
     return (
@@ -35,8 +38,7 @@ const Item = function ({
                            icon
                        }) {
     return (
-        <ListItemLink button={true}
-                      href={href}>
+        <ListItemLink href={href}>
             <ListItemIcon>
                 {icon}
             </ListItemIcon>
@@ -125,8 +127,7 @@ const MenuLayout = function ({onLogout}) {
                   text={I18n.t('js.admin.menu.back_home')}
                   icon={<HomeIcon/>}/>
 
-            <ListItemLink button={true}
-                          onClick={onLogout}>
+            <ListItemLink onClick={onLogout}>
                 <ListItemIcon>
                     <CancelIcon/>
                 </ListItemIcon>

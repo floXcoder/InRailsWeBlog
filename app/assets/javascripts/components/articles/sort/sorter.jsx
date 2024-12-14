@@ -1,8 +1,9 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import {
     Link
-} from 'react-router-dom';
+} from 'react-router';
 
 import Button from '@mui/material/Button';
 
@@ -15,11 +16,13 @@ import {
     SortableElement
 } from 'react-sortable-hoc';
 
+import I18n from '@js/modules/translations';
+
 import {
     userHomePath
-} from '../../../constants/routesHelper';
+} from '@js/constants/routesHelper';
 
-import ArticleCardSort from './card';
+import ArticleCardSort from '@js/components/articles/sort/card';
 
 const SortableItem = SortableElement(({article}) => (
     <ArticleCardSort article={article}/>

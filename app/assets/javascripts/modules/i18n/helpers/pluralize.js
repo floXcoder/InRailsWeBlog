@@ -1,5 +1,5 @@
-import {isSet} from './isSet';
-import {lookup} from './lookup';
+import {isSet} from '@js/modules/i18n/helpers/isSet';
+import {lookup} from '@js/modules/i18n/helpers/lookup';
 
 export function pluralize({
                               i18n,

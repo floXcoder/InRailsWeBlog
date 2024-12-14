@@ -1,4 +1,5 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -6,12 +7,12 @@ import CardContent from '@mui/material/CardContent';
 
 import {
     userArticlePath
-} from '../../../constants/routesHelper';
+} from '@js/constants/routesHelper';
 
-import ArticleInventoryDisplay from '../display/items/inventory';
-import ArticleTags from '../properties/tags';
+import ArticleInventoryDisplay from '@js/components/articles/display/items/inventory';
+import ArticleTags from '@js/components/articles/properties/tags';
 
-import CommentCountIcon from '../../comments/icons/count';
+import CommentCountIcon from '@js/components/comments/icons/count';
 
 
 const ArticleCardSort = function ({article}) {

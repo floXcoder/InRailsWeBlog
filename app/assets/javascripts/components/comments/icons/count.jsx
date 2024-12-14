@@ -1,6 +1,10 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import CommentIcon from '@mui/icons-material/Comment';
+
+import I18n from '@js/modules/translations';
+
 
 function CommentCountIcon({
                               className,

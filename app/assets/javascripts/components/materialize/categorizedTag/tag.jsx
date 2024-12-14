@@ -1,4 +1,7 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import classNames from 'classnames';
 
 export default class Tag extends React.PureComponent {
     static propTypes = {

@@ -1,4 +1,4 @@
-'use strict';
+import I18n from '@js/modules/translations';
 
 var document = window.document;
 
@@ -252,7 +252,7 @@ const cookieChoices = (function () {
     };
 })();
 
-if (!window.seoMode && GlobalEnvironment.NODE_ENV === 'production') {
+if (!window.seoMode && import.meta.env?.PROD) {
     document.addEventListener('DOMContentLoaded', function () {
         setTimeout(function () {
             cookieChoices.displayCookies(window.termsUrl);

@@ -1,6 +1,10 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import DeleteIcon from '@mui/icons-material/DeleteOutline';
+
+import I18n from '@js/modules/translations';
+
 
 function ArticleDeleteIcon({
                                onDeleteClick,

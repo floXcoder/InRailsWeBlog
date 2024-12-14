@@ -1,11 +1,10 @@
-'use strict';
 
 import {
     maxWidthUpload,
     maxHeightUpload
-} from '../components/modules/constants';
+} from '@js/components/modules/constants';
 
-import api from '../middlewares/api';
+import api from '@js/middlewares/api';
 
 const compress = (originalFile, callback) => {
     let maxWidth = maxWidthUpload;

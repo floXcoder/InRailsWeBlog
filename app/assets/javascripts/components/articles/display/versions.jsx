@@ -1,4 +1,7 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import classNames from 'classnames';
 
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -12,6 +15,8 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ChangeHistoryIcon from '@mui/icons-material/ChangeHistory';
 
 import ReactDiffViewer, {DiffMethod} from 'react-diff-viewer';
+
+import I18n from '@js/modules/translations';
 
 
 const stripTags = (string) => string?.replace(/(<([^>]+)>)/ig, '');

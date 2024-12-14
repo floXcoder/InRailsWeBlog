@@ -1,8 +1,11 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import classNames from 'classnames';
 
 import {
     Link
-} from 'react-router-dom';
+} from 'react-router';
 
 import {InView} from 'react-intersection-observer';
 
@@ -19,26 +22,26 @@ import Grid from '@mui/material/Grid2';
 
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
+import I18n from '@js/modules/translations';
+
 import {
     userArticlePath
-} from '../../../../constants/routesHelper';
+} from '@js/constants/routesHelper';
 
 import {
     spyTrackClick,
     spyTrackView
-} from '../../../../actions';
+} from '@js/actions/metricsActions';
 
-import highlight from '../../../modules/highlight';
+import highlight from '@js/components/modules/highlight';
 
-import ArticleInventoryDisplay from './inventory';
-import ArticleTags from '../../properties/tags';
-import ArticleFloatingIcons from '../../properties/floatingIcons';
-import ArticleActions from '../../properties/actions';
-import ArticleAvatarIcon from '../../icons/avatar';
+import ArticleInventoryDisplay from '@js/components/articles/display/items/inventory';
+import ArticleTags from '@js/components/articles/properties/tags';
+import ArticleFloatingIcons from '@js/components/articles/properties/floatingIcons';
+import ArticleActions from '@js/components/articles/properties/actions';
+import ArticleAvatarIcon from '@js/components/articles/icons/avatar';
 
 
-export default
-@highlight()
 class ArticleCardDisplay extends React.PureComponent {
     static propTypes = {
         article: PropTypes.object.isRequired,
@@ -315,3 +318,5 @@ class ArticleCardDisplay extends React.PureComponent {
         );
     }
 }
+
+export default highlight()(ArticleCardDisplay)

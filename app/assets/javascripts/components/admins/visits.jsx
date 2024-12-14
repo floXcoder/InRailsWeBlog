@@ -1,4 +1,9 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import {connect} from 'react-redux';
+
+import classNames from 'classnames';
 
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
@@ -20,24 +25,19 @@ import ClassIcon from '@mui/icons-material/Class';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 
+import I18n from '@js/modules/translations';
+
 import {
     fetchVisits
-} from '../../actions/admin';
+} from '@js/actions/admin';
 
-import Loader from '../theme/loader';
-import MiniCard from '../material-ui/miniCard';
+import Loader from '@js/components/theme/loader';
+import MiniCard from '@js/components/material-ui/miniCard';
 
-import TrackingArticleModal from '../articles/tracking';
-import TrackingVisitModal from '../visits/tracking';
+import TrackingArticleModal from '@js/components/articles/tracking';
+import TrackingVisitModal from '@js/components/visits/tracking';
 
 
-export default
-@connect((state) => ({
-    visitsStats: state.adminState.visitsStats,
-    isFetching: state.adminState.isFetching
-}), {
-    fetchVisits
-})
 class AdminVisits extends React.Component {
     static propTypes = {
         // from connect
@@ -500,3 +500,10 @@ class AdminVisits extends React.Component {
         );
     }
 }
+
+export default connect((state) => ({
+    visitsStats: state.adminState.visitsStats,
+    isFetching: state.adminState.isFetching
+}), {
+    fetchVisits
+})(AdminVisits);

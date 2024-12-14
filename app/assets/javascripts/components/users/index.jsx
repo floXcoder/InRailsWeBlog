@@ -1,21 +1,24 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import {
     TransitionGroup,
     CSSTransition
 } from 'react-transition-group';
 
+import I18n from '@js/modules/translations';
+
 import {
     headerMargin
-} from '../modules/constants';
+} from '@js/components/modules/constants';
 
-import UserCardDisplay from './display/card';
+import UserCardDisplay from '@js/components/users/display/card';
 
-import SearchBar from '../theme/searchBar';
+import SearchBar from '@js/components/theme/searchBar';
 
-// import Filtering from '../../modules/filter';
+// import Filtering from '@js/modules/filter';
 
-import Pagination from '../theme/pagination';
+import Pagination from '@js/components/theme/pagination';
 
 
 export default class UserIndex extends React.Component {

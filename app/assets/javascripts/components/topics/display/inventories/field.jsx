@@ -1,4 +1,7 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import classNames from 'classnames';
 
 import Grid from '@mui/material/Grid2';
 import TextField from '@mui/material/TextField';
@@ -14,6 +17,8 @@ import IconButton from '@mui/material/IconButton';
 import Collapse from '@mui/material/Collapse';
 
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+
+import I18n from '@js/modules/translations';
 
 
 export default class TopicFormInventoryFieldDisplay extends React.Component {

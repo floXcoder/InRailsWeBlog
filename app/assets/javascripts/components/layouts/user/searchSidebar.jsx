@@ -1,8 +1,8 @@
-'use strict';
+import React from 'react';
 
 import Drawer from '@mui/material/Drawer';
 
-import SearchSidebar from '../../search/sidebar';
+import SearchSidebar from '@js/components/search/sidebar';
 
 
 const SearchSidebarLayout = function () {

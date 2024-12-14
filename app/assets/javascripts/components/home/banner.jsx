@@ -1,7 +1,13 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid2';
+
+import I18n from '@js/modules/translations';
+
+import bannerWebp from '@/images/home/banner.webp';
+import bannerPng from '@/images/home/banner.png';
 
 
 const HomeBanner = function ({onLoginClick, onSignupClick}) {
@@ -26,11 +32,11 @@ const HomeBanner = function ({onLoginClick, onSignupClick}) {
                     <Grid size={{xs: 12, sm: 6, lg: 4}}>
                         <div className="home-banner-background">
                             <picture>
-                                <source srcSet={`${window.settings.assets_url}/home/banner.webp`}
+                                <source srcSet={bannerWebp}
                                         type="image/webp"/>
                                 <img className="home-banner-background-img"
-                                     srcSet={`${window.settings.assets_url}/home/banner.png`}
-                                     src={`${window.settings.assets_url}/home/banner.png`}
+                                     srcSet={bannerPng}
+                                     src={bannerPng}
                                      alt={`${window.settings.website_name} logo`}
                                      fetchpriority="high"/>
                             </picture>

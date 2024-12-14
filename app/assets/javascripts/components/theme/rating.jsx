@@ -1,6 +1,11 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import '../../../stylesheets/components/rating.scss';
+import classNames from 'classnames';
+
+import I18n from '@js/modules/translations';
+
+import '@css/components/rating.scss';
 
 
 export default class Rating extends React.PureComponent {

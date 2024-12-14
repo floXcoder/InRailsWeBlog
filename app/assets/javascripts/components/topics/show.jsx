@@ -1,10 +1,11 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import '../../../stylesheets/pages/topic/show.scss';
+import {connect} from 'react-redux';
 
 import {
     Link
-} from 'react-router-dom';
+} from 'react-router';
 
 import Typography from '@mui/material/Typography';
 import Chip from '@mui/material/Chip';
@@ -13,38 +14,35 @@ import Button from '@mui/material/Button';
 import LabelIcon from '@mui/icons-material/Label';
 import ShareIcon from '@mui/icons-material/Share';
 
+import I18n from '@js/modules/translations';
+
 import {
     taggedTopicArticlesPath,
     editTopicPath,
     shareTopicParam,
     topicArticlesPath
-} from '../../constants/routesHelper';
+} from '@js/constants/routesHelper';
 
 import {
     fetchTopic,
-    deleteTopic,
-    spyTrackClick
-} from '../../actions';
-
-import withRouter from '../modules/router';
-
-import Loader from '../theme/loader';
-
-import NotFound from '../layouts/notFound';
-
-import UserAvatarIcon from '../users/icons/avatar';
-
-
-export default @connect((state) => ({
-    currentUserId: state.userState.currentId,
-    isFetching: state.topicState.isFetching,
-    topic: state.topicState.topic,
-    isOwner: state.userState.currentId === state.topicState.topic?.user?.id
-}), {
-    fetchTopic,
     deleteTopic
-})
-@withRouter({params: true})
+} from '@js/actions/topicActions';
+
+import {
+    spyTrackClick
+} from '@js/actions/metricsActions';
+
+import withRouter from '@js/components/modules/router';
+
+import Loader from '@js/components/theme/loader';
+
+import NotFound from '@js/components/layouts/notFound';
+
+import UserAvatarIcon from '@js/components/users/icons/avatar';
+
+import '@css/pages/topic/show.scss';
+
+
 class TopicShow extends React.Component {
     static propTypes = {
         initProps: PropTypes.object,
@@ -222,7 +220,8 @@ class TopicShow extends React.Component {
                             </Typography>
 
                             <p>
-                                {this.props.topic.languages?.map((language) => I18n.t(`js.languages.${language}`)).join(', ')}
+                                {this.props.topic.languages?.map((language) => I18n.t(`js.languages.${language}`))
+                                    .join(', ')}
                             </p>
                         </div>
 
@@ -282,3 +281,13 @@ class TopicShow extends React.Component {
         );
     }
 }
+
+export default connect((state) => ({
+    currentUserId: state.userState.currentId,
+    isFetching: state.topicState.isFetching,
+    topic: state.topicState.topic,
+    isOwner: state.userState.currentId === state.topicState.topic?.user?.id
+}), {
+    fetchTopic,
+    deleteTopic
+})(withRouter({params: true})(TopicShow));

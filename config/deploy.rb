@@ -82,7 +82,7 @@ namespace :assets do
     end
   end
 
-  desc 'Publish webpack assets'
+  desc 'Publish assets'
   task :production do
     on roles(:web), in: :sequence, wait: 5 do
       within release_path do

@@ -1,4 +1,6 @@
-'use strict';
+import PropTypes from 'prop-types';
+
+import classNames from 'classnames';
 
 function ErrorForm({
                        children,

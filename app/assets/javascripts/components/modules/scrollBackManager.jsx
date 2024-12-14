@@ -1,8 +1,9 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import withRouter from './router';
+import withRouter from '@js/components/modules/router';
 
-export default @withRouter({location: true})
+
 class ScrollBackManager extends React.Component {
     static propTypes = {
         children: PropTypes.element.isRequired,
@@ -63,3 +64,5 @@ class ScrollBackManager extends React.Component {
         return React.Children.only(this.props.children);
     }
 }
+
+export default withRouter({location: true})(ScrollBackManager);

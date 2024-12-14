@@ -1,46 +1,44 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import {connect} from 'react-redux';
 
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 
+import I18n from '@js/modules/translations';
+import Notification from '@js/modules/notification';
+
 import {
     topicArticlesPath,
     editInventoriesTopicPath
-} from '../../constants/routesHelper';
+} from '@js/constants/routesHelper';
 
 import {
     addTopic,
     updateTopic,
-    deleteTopic,
-    showTopicPopup,
+    deleteTopic
+} from '@js/actions/topicActions';
+
+import {
+    showTopicPopup
+} from '@js/actions/uiActions';
+
+import {
     fetchTags
-} from '../../actions';
+} from '@js/actions/tagActions';
 
 import {
     getEditingTopic
-} from '../../selectors';
+} from '@js/selectors/topicSelectors';
 
-import AnalyticsService from '../../modules/analyticsService';
+import AnalyticsService from '@js/modules/analyticsService';
 
-import PersistenceFormTopic from './persistence/form';
+import PersistenceFormTopic from '@js/components/topics/persistence/form';
 
-import withRouter from '../modules/router';
+import withRouter from '@js/components/modules/router';
 
 
-export default @withRouter({location: true, navigate: true})
-@connect((state, props) => ({
-    currentUserId: state.userState.currentId,
-    currentUserLocale: state.userState.user?.locale,
-    articleMultilanguage: state.uiState.articleMultilanguage,
-    userSlug: state.userState.currentSlug,
-    editingTopic: getEditingTopic(state, props.routeLocation.state)
-}), {
-    addTopic,
-    updateTopic,
-    deleteTopic,
-    showTopicPopup,
-    fetchTags,
-})
 class TopicPersistence extends React.Component {
     static propTypes = {
         // from router
@@ -187,3 +185,20 @@ class TopicPersistence extends React.Component {
         );
     }
 }
+
+export default withRouter({
+    location: true,
+    navigate: true
+})(connect((state, props) => ({
+    currentUserId: state.userState.currentId,
+    currentUserLocale: state.userState.user?.locale,
+    articleMultilanguage: state.uiState.articleMultilanguage,
+    userSlug: state.userState.currentSlug,
+    editingTopic: getEditingTopic(state, props.routeLocation.state)
+}), {
+    addTopic,
+    updateTopic,
+    deleteTopic,
+    showTopicPopup,
+    fetchTags,
+})(TopicPersistence));

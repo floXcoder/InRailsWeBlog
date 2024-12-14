@@ -1,4 +1,7 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import classNames from 'classnames';
 
 import Input from '@mui/material/Input';
 import InputLabel from '@mui/material/InputLabel';
@@ -9,6 +12,9 @@ import SearchIcon from '@mui/icons-material/Search';
 import CancelIcon from '@mui/icons-material/Cancel';
 import HelpIcon from '@mui/icons-material/Help';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
+
+import I18n from '@js/modules/translations';
+import * as Utils from '@js/modules/utils';
 
 
 export default class LogInput extends React.Component {

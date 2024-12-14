@@ -17,7 +17,7 @@ javascript:
     window.defaultMetaTags = #{meta_tags&.meta_tags.to_json.html_safe};
 
     window.websiteUrl = "#{ENV['WEBSITE_FULL_ADDRESS']}";
-    window.logoUrl = "#{AssetManifest.image_path('logos/favicon-192x192.png')}";
+    window.logoUrl = "#{image_path('logos/favicon-192x192.png')}";
     window.termsUrl = "#{terms_path}";
 
     window.revision = "#{REVISION}";
@@ -58,4 +58,5 @@ javascript:
     javascript:
         window.trackingData["#{var}"] = #{raw value.to_json};
 
+= yield(:javascript_initial)
 = yield(:javascript)

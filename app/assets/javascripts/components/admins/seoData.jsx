@@ -1,7 +1,12 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import {connect} from 'react-redux';
 
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
+
+import I18n from '@js/modules/translations';
 
 import {
     fetchSeoData,
@@ -9,24 +14,14 @@ import {
     addSeoData,
     updateSeoData,
     deleteSeoData
-} from '../../actions/admin';
+} from '@js/actions/admin';
 
-import Table from '../theme/table';
-import Loader from '../theme/loader';
+import Table from '@js/components/theme/table';
+import Loader from '@js/components/theme/loader';
 
-import AdminSeoDataForm from './seo/form';
+import AdminSeoDataForm from '@js/components/admins/seo/form';
 
 
-export default @connect((state) => ({
-    seoData: state.adminState.seoData,
-    isFetching: state.adminState.isFetching
-}), {
-    fetchSeoData,
-    retrieveParametersSeoData,
-    addSeoData,
-    updateSeoData,
-    deleteSeoData
-})
 class AdminSeoData extends React.Component {
     static propTypes = {
         seoPages: PropTypes.array.isRequired,
@@ -227,3 +222,14 @@ class AdminSeoData extends React.Component {
         );
     }
 }
+
+export default connect((state) => ({
+    seoData: state.adminState.seoData,
+    isFetching: state.adminState.isFetching
+}), {
+    fetchSeoData,
+    retrieveParametersSeoData,
+    addSeoData,
+    updateSeoData,
+    deleteSeoData
+})(AdminSeoData);

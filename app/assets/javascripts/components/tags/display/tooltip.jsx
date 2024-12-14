@@ -1,14 +1,19 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import Tooltip from '@mui/material/Tooltip';
 
+import I18n from '@js/modules/translations';
+
+import * as Utils from '@js/modules/utils';
+
 import {
     spyTrackClick
-} from '../../../actions';
+} from '@js/actions/metricsActions';
 
 import {
     showTagPath
-} from '../../../constants/routesHelper';
+} from '@js/constants/routesHelper';
 
 
 const TooltipTag = function TooltipTag({tag, children}) {

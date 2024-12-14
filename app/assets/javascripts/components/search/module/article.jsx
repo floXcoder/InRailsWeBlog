@@ -1,8 +1,11 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import {
     Link
-} from 'react-router-dom';
+} from 'react-router';
+
+import classNames from 'classnames';
 
 import Grid from '@mui/material/Grid2';
 import Divider from '@mui/material/Divider';
@@ -11,15 +14,18 @@ import Chip from '@mui/material/Chip';
 import LabelIcon from '@mui/icons-material/Label';
 // import EditIcon from '@mui/icons-material/Edit';
 
+import I18n from '@js/modules/translations';
+import * as Utils from '@js/modules/utils';
+
 import {
     userArticlePath
-} from '../../../constants/routesHelper';
+} from '@js/constants/routesHelper';
 
 import {
     spyTrackClick
-} from '../../../actions';
+} from '@js/actions/metricsActions';
 
-import Loader from '../../theme/loader';
+import Loader from '@js/components/theme/loader';
 
 
 export default class SearchArticleModule extends React.PureComponent {

@@ -1,8 +1,8 @@
-'use strict';
+import PropTypes from 'prop-types';
 
-import MasonryWrapper from '../../../theme/masonry';
+import MasonryWrapper from '@js/components/theme/masonry';
 
-import ArticleGridDisplay from '../articles/grid';
+import ArticleGridDisplay from '@js/components/search/index/articles/grid';
 
 const ArticleMasonry = MasonryWrapper(ArticleGridDisplay);
 

@@ -1,20 +1,23 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import {connect} from 'react-redux';
+
+import classNames from 'classnames';
 
 import Grid from '@mui/material/Grid2';
+
+import I18n from '@js/modules/translations';
 
 import {
     about,
     terms,
     privacy
-} from '../../../constants/routesHelper';
+} from '@js/constants/routesHelper';
 
-import withRouter from '../../modules/router';
+import withRouter from '@js/components/modules/router';
 
 
-export default @connect((state) => ({
-    metaTags: state.uiState.metaTags
-}))
-@withRouter({location: true, navigate: true})
 class FooterLayoutUser extends React.Component {
     static propTypes = {
         // from router
@@ -47,7 +50,10 @@ class FooterLayoutUser extends React.Component {
     render() {
         const isSearchActive = this.props.routeLocation.hash === '#search';
 
-        const {'x-default': xDefault, ...alternates} = this.props.metaTags.alternate || {};
+        const {
+            'x-default': xDefault,
+            ...alternates
+        } = this.props.metaTags.alternate || {};
 
         return (
             <>
@@ -81,15 +87,16 @@ class FooterLayoutUser extends React.Component {
                                 </h3>
 
                                 {
-                                    Object.keys(alternates).map((locale) => (
-                                        <p key={locale}>
-                                            <a className="layout-footer-footer-link"
-                                               href={alternates[locale]}
-                                               onClick={this._handleAlternateClick.bind(this, alternates[locale], locale)}>
-                                                {I18n.t(`js.views.footer.locales.${locale}`)}
-                                            </a>
-                                        </p>
-                                    ))
+                                    Object.keys(alternates)
+                                        .map((locale) => (
+                                            <p key={locale}>
+                                                <a className="layout-footer-footer-link"
+                                                   href={alternates[locale]}
+                                                   onClick={this._handleAlternateClick.bind(this, alternates[locale], locale)}>
+                                                    {I18n.t(`js.views.footer.locales.${locale}`)}
+                                                </a>
+                                            </p>
+                                        ))
                                 }
                             </Grid>
                         }
@@ -138,7 +145,10 @@ class FooterLayoutUser extends React.Component {
                                 </a>
 
                                 <div className="container center-align margin-top-15"
-                                     style={{marginTop: '2rem', fontSize: '1rem'}}>
+                                     style={{
+                                         marginTop: '2rem',
+                                         fontSize: '1rem'
+                                     }}>
                                     &copy; {I18n.t('js.views.footer.copyright', {version: window.revision})}
                                 </div>
                             </div>
@@ -149,3 +159,10 @@ class FooterLayoutUser extends React.Component {
         );
     }
 }
+
+export default connect((state) => ({
+    metaTags: state.uiState.metaTags
+}))(withRouter({
+    location: true,
+    navigate: true
+})(FooterLayoutUser));

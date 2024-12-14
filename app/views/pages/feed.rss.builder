@@ -17,7 +17,7 @@ xml.rss version: '2.0' do
         xml.author_name article.user.pseudo
         xml.link article.link_path(host: true, locale: locale)
         xml.guid article.link_path(host: true, locale: locale)
-        xml.icon AssetManifest.image_path('favicon.ico')
+        xml.icon image_path('favicon.ico')
       end
     end
   end

@@ -1,6 +1,6 @@
-@use '~react-responsive-modal/styles';
-
 @use 'base/variables' as *;
+
+@import 'react-responsive-modal/styles.css';
 
 .react-responsive-modal-root {
   z-index: 1300; // Defined in theme.jsx

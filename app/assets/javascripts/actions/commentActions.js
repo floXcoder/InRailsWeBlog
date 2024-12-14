@@ -1,8 +1,8 @@
-'use strict';
+import I18n from '@js/modules/translations';
 
-import * as ActionTypes from '../constants/actionTypes';
+import * as ActionTypes from '@js/constants/actionTypes';
 
-import api from '../middlewares/api';
+import api from '@js/middlewares/api';
 
 // Comments
 export const fetchComments = (commentParams, requestOptions = {}) => {

@@ -1,4 +1,5 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
@@ -15,6 +16,8 @@ import SettingsApplicationsIcon from '@mui/icons-material/SettingsApplications';
 import ListIcon from '@mui/icons-material/List';
 import CachedIcon from '@mui/icons-material/Cached';
 import ListAltIcon from '@mui/icons-material/ListAlt';
+
+import I18n from '@js/modules/translations';
 
 function Item({
                   col,

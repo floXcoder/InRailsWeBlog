@@ -1,5 +1,5 @@
-import {getFullScope} from './helpers/getFullScope';
-import {inferType} from './helpers/inferType';
+import {getFullScope} from '@js/modules/i18n/helpers/getFullScope';
+import {inferType} from '@js/modules/i18n/helpers/inferType';
 
 export const guessStrategy = function (i18n, scope) {
     if (scope instanceof Array) {

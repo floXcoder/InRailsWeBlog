@@ -1,8 +1,9 @@
-'use strict';
-
-import '../../../stylesheets/components/scrollbar.scss';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import PerfectScrollbar from 'react-perfect-scrollbar';
+
+import '@css/components/scrollbar.scss';
 
 
 function Scrollbar({children}) {

@@ -1,4 +1,5 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import AppBar from '@mui/material/AppBar';
 import Tabs from '@mui/material/Tabs';
@@ -7,6 +8,8 @@ import Tab from '@mui/material/Tab';
 import EditIcon from '@mui/icons-material/Edit';
 import LabelIcon from '@mui/icons-material/Label';
 import SendIcon from '@mui/icons-material/Send';
+
+import I18n from '@js/modules/translations';
 
 
 const ArticleFormStepper = function ({tabIndex, onTabChange}) {

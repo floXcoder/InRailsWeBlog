@@ -1,6 +1,9 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import '../../../stylesheets/pages/article/tracking.scss';
+import {connect} from 'react-redux';
+
+import classNames from 'classnames';
 
 import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
@@ -19,11 +22,15 @@ import SearchIcon from '@mui/icons-material/Search';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import CommentIcon from '@mui/icons-material/Comment';
 
+import I18n from '@js/modules/translations';
+
 import {
     fetchArticleTracking
-} from '../../actions';
+} from '@js/actions/articleActions';
 
-import Loader from '../theme/loader';
+import Loader from '@js/components/theme/loader';
+
+import '@css/pages/article/tracking.scss';
 
 const TRACKING_VIEWS = {
     STATS: 0,
@@ -33,13 +40,6 @@ const TRACKING_VIEWS = {
 };
 
 
-export default
-@connect((state) => ({
-    article: state.articleState.article,
-    articleTracking: state.articleState.articleTracking
-}), {
-    fetchArticleTracking
-})
 class TrackingArticleModal extends React.Component {
     static propTypes = {
         trackingView: PropTypes.number,
@@ -385,7 +385,10 @@ class TrackingArticleModal extends React.Component {
                     </div>
 
                     <div className="center-align margin-top-45">
-                        <Button variant="outlined" size="small" href="#" onClick={this._handleClose}>
+                        <Button variant="outlined"
+                                size="small"
+                                href="#"
+                                onClick={this._handleClose}>
                             {I18n.t('js.article.tracking.cancel')}
                         </Button>
                     </div>
@@ -394,3 +397,10 @@ class TrackingArticleModal extends React.Component {
         );
     }
 }
+
+export default connect((state) => ({
+    article: state.articleState.article,
+    articleTracking: state.articleState.articleTracking
+}), {
+    fetchArticleTracking
+})(TrackingArticleModal);

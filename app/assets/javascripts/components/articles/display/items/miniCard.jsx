@@ -1,10 +1,13 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import classNames from 'classnames';
 
 import {InView} from 'react-intersection-observer';
 
 import {
     Link
-} from 'react-router-dom';
+} from 'react-router';
 
 import Grid from '@mui/material/Grid2';
 import Card from '@mui/material/Card';
@@ -16,20 +19,22 @@ import Paper from '@mui/material/Paper';
 
 import LabelIcon from '@mui/icons-material/Label';
 
+import I18n from '@js/modules/translations';
+
 import {
     userArticlePath,
     userArticlesPath,
     taggedArticlesPath
-} from '../../../../constants/routesHelper';
+} from '@js/constants/routesHelper';
 
 import {
-    spyTrackClick, spyTrackView
-} from '../../../../actions';
+    spyTrackClick,
+    spyTrackView
+} from '@js/actions/metricsActions';
 
-import highlight from '../../../modules/highlight';
+import highlight from '@js/components/modules/highlight';
 
 
-export default @highlight()
 class ArticleMiniCardDisplay extends React.Component {
     static propTypes = {
         article: PropTypes.object.isRequired,
@@ -254,7 +259,7 @@ class ArticleMiniCardDisplay extends React.Component {
 
                             {
                                 !!this.props.isTagDown &&
-                                <Grid >
+                                <Grid>
                                     {this._renderArticleTags()}
                                 </Grid>
                             }
@@ -285,3 +290,5 @@ class ArticleMiniCardDisplay extends React.Component {
         }
     }
 }
+
+export default highlight()(ArticleMiniCardDisplay);

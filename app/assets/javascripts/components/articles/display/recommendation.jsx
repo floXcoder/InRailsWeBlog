@@ -1,32 +1,31 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import {connect} from 'react-redux';
 
 import {
     Link
-} from 'react-router-dom';
+} from 'react-router';
 
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid2';
 import Typography from '@mui/material/Typography';
 
-import {
-    fetchTag,
-} from '../../../actions';
+import I18n from '@js/modules/translations';
 
 import {
-    getAssociatedTopics,
-} from '../../../selectors';
+    fetchTag
+} from '@js/actions/tagActions';
+
+import {
+    getAssociatedTopics
+} from '@js/selectors/tagSelectors';
 
 import {
     taggedTopicArticlesPath
-} from '../../../constants/routesHelper';
+} from '@js/constants/routesHelper';
 
 
-export default @connect((state) => ({
-    tag: state.tagState.tag,
-    associatedTopics: getAssociatedTopics(state)
-}), {
-    fetchTag
-})
 class ArticleRecommendationDisplay extends React.Component {
     static propTypes = {
         userSlug: PropTypes.string.isRequired,
@@ -68,7 +67,11 @@ class ArticleRecommendationDisplay extends React.Component {
                         this.props.associatedTopics.map((topic) => (
                             <Grid key={topic.id}
                                   className="article-recommendation-grid-theme"
-                                  size={{xs: 12, sm: 6, lg: 4}}>
+                                  size={{
+                                      xs: 12,
+                                      sm: 6,
+                                      lg: 4
+                                  }}>
                                 <Link to={{
                                     pathname: taggedTopicArticlesPath(this.props.userSlug, topic.slug, this.props.tagSlug)
                                 }}>
@@ -89,3 +92,10 @@ class ArticleRecommendationDisplay extends React.Component {
         );
     }
 }
+
+export default connect((state) => ({
+    tag: state.tagState.tag,
+    associatedTopics: getAssociatedTopics(state)
+}), {
+    fetchTag
+})(ArticleRecommendationDisplay);

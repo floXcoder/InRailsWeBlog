@@ -1,30 +1,34 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import {
     Link
-} from 'react-router-dom';
+} from 'react-router';
+
+import classNames from 'classnames';
 
 import {InView} from 'react-intersection-observer';
 
 import Grid from '@mui/material/Grid2';
 import Button from '@mui/material/Button';
 
+import I18n from '@js/modules/translations';
+
 import {
     userArticlePath
-} from '../../../../constants/routesHelper';
+} from '@js/constants/routesHelper';
 
 import {
     spyTrackClick,
     spyTrackView
-} from '../../../../actions';
+} from '@js/actions/metricsActions';
 
-import highlight from '../../../modules/highlight';
+import highlight from '@js/components/modules/highlight';
 
-import ArticleTags from '../../properties/tags';
-import ArticleAvatarIcon from '../../icons/avatar';
+import ArticleTags from '@js/components/articles/properties/tags';
+import ArticleAvatarIcon from '@js/components/articles/icons/avatar';
 
 
-export default @highlight()
 class ArticleSummaryDisplay extends React.Component {
     static propTypes = {
         article: PropTypes.object.isRequired,
@@ -140,7 +144,7 @@ class ArticleSummaryDisplay extends React.Component {
                             <Grid classes={{
                                 item: 'article-summary-info-item'
                             }}
-                                  >
+                            >
                                 <ArticleAvatarIcon user={this.props.article.user}
                                                    createdDate={this.props.article.date}
                                                    updatedDate={this.props.article.updatedDate}/>
@@ -195,3 +199,5 @@ class ArticleSummaryDisplay extends React.Component {
         );
     }
 }
+
+export default highlight()(ArticleSummaryDisplay);

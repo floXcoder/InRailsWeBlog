@@ -1,12 +1,13 @@
-'use strict';
-
 import {
     createSelector
 } from 'reselect';
 
+import I18n from '@js/modules/translations';
+import * as Utils from '@js/modules/utils';
+
 import {
     getSortedTopicTags
-} from './tagSelectors';
+} from '@js/selectors/tagSelectors';
 
 const articlesByTag = (articles, sortedTags, parentTagSlug) => {
     const orderedArticles = {};
@@ -26,7 +27,7 @@ const articlesByTag = (articles, sortedTags, parentTagSlug) => {
                 .map((tag) => tag.name)
                 .sort()
                 .first();
-            firstArticleTag = firstArticleTag || 'undefined';
+            firstArticleTag ||= 'undefined';
             orderedArticles[firstArticleTag] = orderedArticles[firstArticleTag] ? orderedArticles[firstArticleTag].concat(article) : [article];
         } else {
             // Topic or user articles view

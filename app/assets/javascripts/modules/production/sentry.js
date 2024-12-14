@@ -1,23 +1,21 @@
-'use strict';
-
 import {
     init as SentryInit,
     getCurrentScope as SentryGetCurrentScope,
     withScope as SentryWithScope,
     captureException as SentryCaptureException,
     captureMessage as SentryCaptureMessage,
-    browserTracingIntegration as SentryBrowser,
+    browserTracingIntegration as SentryBrowserTracing,
     // replayIntegration as SentryReplay
     // showReportDialog as SentryShowReportDialog
 } from '@sentry/browser';
 
 
-if (window.SENTRY_JAVASCRIPT_KEY) {
+export function initializeSentry() {
     SentryInit({
         dsn: window.SENTRY_JAVASCRIPT_KEY,
 
         integrations: [
-            SentryBrowser(),
+            SentryBrowserTracing(),
             // SentryReplay({
             //     maskAllText: false,
             //     blockAllMedia: true
@@ -44,10 +42,14 @@ if (window.SENTRY_JAVASCRIPT_KEY) {
             'TypeError: cancelled',
             'TypeError: annulé',
             'TypeError: Load failed',
+            'TypeError: AbortError: Fetch is aborted',
+            'AbortError: Fetch is aborted',
             'UnknownError: Background Sync is disabled.',
             'Error: QuotaExceededError: QuotaExceededError',
+            /ChunkLoadError/,
             'script-src wasm-eval:',
             /Loading CSS chunk/,
+            /Unable to preload CSS/,
             /webkitExitFullScreen/,
             /webkitEnterFullscreen/,
             /fullscreen error/,
@@ -92,8 +94,10 @@ if (window.SENTRY_JAVASCRIPT_KEY) {
     }
 
     scope.setTag('locale', window.locale);
-
-    window.SentryWithScope = SentryWithScope;
-    window.SentryCaptureException = SentryCaptureException;
-    window.SentryCaptureMessage = SentryCaptureMessage;
 }
+
+window.SentryWithScope = SentryWithScope;
+window.SentryCaptureException = SentryCaptureException;
+window.SentryCaptureMessage = SentryCaptureMessage;
+
+export {SentryWithScope, SentryCaptureException, SentryCaptureMessage};

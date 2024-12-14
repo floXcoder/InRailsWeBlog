@@ -1,10 +1,9 @@
-'use strict';
-
-import {
+import React, {
     Suspense
 } from 'react';
+import PropTypes from 'prop-types';
 
-import * as RouteAdminComponents from '../../loaders/adminComponents';
+import * as RouteAdminComponents from '@js/components/loaders/adminComponents';
 
 
 export default class AdminMainLayout extends React.Component {

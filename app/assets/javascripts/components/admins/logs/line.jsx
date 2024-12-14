@@ -1,4 +1,4 @@
-'use strict';
+import PropTypes from 'prop-types';
 
 const LOG_REGEX = /(\w+),\s*\[(.*?) (#\w+)\]\s*(\w+)\s*--\s*:\s*\[(\S+?)\]\s*\[(\S+?)\]\s*\[(\S+)\]\s*method=(\w+) \s*path=(.*?) \s*format=(.*?) \s*(.*?)status=(\d+) \s*(.*?)referer=(.*?) \s*(.*)/;
 const BOT_LOG_REGEX = /(\w+),\s*\[(.*?) (#\w+)\]\s*(\w+)\s*--\s*:\s*\[(\S+?)\]\s*\[(\S+?)\]\s*\[(\S+)\]\s*\[bot:(\w+)\]\s*method=(\w+)\s*path=(.*?)\s*format=(.*?) \s*(.*?)status=(\d+) \s*(.*)/;

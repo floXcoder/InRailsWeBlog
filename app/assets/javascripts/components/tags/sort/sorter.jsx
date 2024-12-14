@@ -1,8 +1,9 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import {
     Link
-} from 'react-router-dom';
+} from 'react-router';
 
 import Button from '@mui/material/Button';
 
@@ -13,9 +14,11 @@ import {
     SortableElement
 } from 'react-sortable-hoc';
 
+import I18n from '@js/modules/translations';
+
 import {
     showTagPath
-} from '../../../constants/routesHelper';
+} from '@js/constants/routesHelper';
 
 const SortableItem = SortableElement(({tag}) => (
     <div key={tag.id}

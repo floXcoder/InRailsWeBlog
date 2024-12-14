@@ -1,4 +1,5 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 const DoubleTimelineItem = function ({date, content, children, icon, title}) {
     return (

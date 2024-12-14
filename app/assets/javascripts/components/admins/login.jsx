@@ -1,5 +1,3 @@
-'use strict';
-
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid2';
@@ -12,6 +10,8 @@ import Typography from '@mui/material/Typography';
 
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LockIcon from '@mui/icons-material/Lock';
+
+import I18n from '@js/modules/translations';
 
 
 function AdminLogin() {

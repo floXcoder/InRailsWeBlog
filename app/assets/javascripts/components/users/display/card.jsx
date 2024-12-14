@@ -1,8 +1,11 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import I18n from '@js/modules/translations';
 
 import {
     userArticlesPath
-} from '../../../constants/routesHelper';
+} from '@js/constants/routesHelper';
 
 const _handleClick = (userId, onUserClick, event) => {
     onUserClick(userId, event);

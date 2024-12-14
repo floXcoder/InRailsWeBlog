@@ -1,5 +1,3 @@
-'use strict';
-
 let withTrace = false;
 
 const elementChangeHandler = {
@@ -36,3 +34,5 @@ const monitorArray = function (arrayOrObject, enableTrace = false) {
 // Usage:
 // array = monitor(array)
 window.monitor = monitorArray;
+
+export default monitorArray;

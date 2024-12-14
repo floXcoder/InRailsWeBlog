@@ -1,18 +1,21 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import {
     Link
-} from 'react-router-dom';
+} from 'react-router';
 
 import Chip from '@mui/material/Chip';
 
+import I18n from '@js/modules/translations';
+
 import {
     topicArticlesPath
-} from '../../../constants/routesHelper';
+} from '@js/constants/routesHelper';
 
 import {
     spyTrackClick
-} from '../../../actions';
+} from '@js/actions/metricsActions';
 
 
 export default class SearchTopicModule extends React.Component {

@@ -1,4 +1,3 @@
-'use strict';
 
 /** STRING **/
 String.prototype.capitalize = function () {
@@ -267,7 +266,7 @@ if (!Array.prototype.includes) {
 }
 
 Array.prototype.compact = function () {
-    return this.filter((val) => Utils.isPresent(val));
+    return this.filter((val) => isPresent(val));
 };
 
 if (!Array.prototype.filter) {
@@ -336,7 +335,7 @@ export const uuid = () => 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g
 export const normalizeLink = (link) => link ? link.replace(/^(https?):\/\//, '')
     .replace(/\/$/, '') : null;
 
-export const isNumber = (number) => !isNaN(parseFloat(number)) && isFinite(number);
+// export const isNumber = (number) => !isNaN(parseFloat(number)) && isFinite(number);
 
 export const isURL = (url) => /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})).?)(?::\d{2,5})?(?:[/?#]\S*)?$/i.test(url);
 
@@ -404,43 +403,43 @@ export const decodeObject = (object) => {
 //         || navigator.userAgent.toLowerCase().indexOf('trident') !== -1;
 
 /** OBJECT **/
-export const mapValues = (object, callback) => {
-    object = Object(object);
-    const result = {};
-
-    Object.keys(object)
-        .forEach((key) => {
-            result[key] = callback(object[key], key, object);
-        });
-
-    return result;
-};
+// export const mapValues = (object, callback) => {
+//     object = Object(object);
+//     const result = {};
+//
+//     Object.keys(object)
+//         .forEach((key) => {
+//             result[key] = callback(object[key], key, object);
+//         });
+//
+//     return result;
+// };
 
 export const compact = (object) => {
     let newObject = {};
     Object.keys(object)
         .forEach((key) => {
             const value = object[key];
-            if (Utils.isPresent(key) && Utils.isPresent(value)) {
+            if (isPresent(key) && isPresent(value)) {
                 newObject[key] = value;
             }
         });
     return newObject;
 };
 
-export const uniqValues = (arrayObjects, predicate) => {
-    const cb = typeof predicate === 'function' ? predicate : (o) => o[predicate];
-
-    return [...arrayObjects.reduce((map, item) => {
-        const key = (item === null || item === undefined) ?
-            item : cb(item);
-
-        map.has(key) || map.set(key, item);
-
-        return map;
-    }, new Map())
-        .values()];
-};
+// export const uniqValues = (arrayObjects, predicate) => {
+//     const cb = typeof predicate === 'function' ? predicate : (o) => o[predicate];
+//
+//     return [...arrayObjects.reduce((map, item) => {
+//         const key = (item === null || item === undefined) ?
+//             item : cb(item);
+//
+//         map.has(key) || map.set(key, item);
+//
+//         return map;
+//     }, new Map())
+//         .values()];
+// };
 
 // export const omit = (obj, props, fn) => {
 //     if (typeof obj !== 'object') return {};
@@ -622,7 +621,7 @@ export const isPresent = (obj) => {
 // isArray, isObject, isString, isDate, isRegExp, isFunction, isBoolean, isNull, isUndefined
 // USage : Utils.is().isArray(myArray);
 export const is = () => {
-    let exports = {};
+    const exports = {};
 
     const types = 'Array Object String Date RegExp Function Boolean Null Undefined'.split(' ');
 
@@ -666,7 +665,7 @@ export const NAVIGATION_KEYMAP = {
 export const defer = Promise.resolve();
 
 export const debounce = (func, wait, immediate) => {
-    var timerId;
+    let timerId;
 
     function cancel() {
         if (timerId !== undefined) {
@@ -675,8 +674,8 @@ export const debounce = (func, wait, immediate) => {
     }
 
     function debounced() {
-        var context = this;
-        var args = arguments;
+        let context = this;
+        let args = arguments;
         clearTimeout(timerId);
         timerId = setTimeout(function () {
             timerId = null;
@@ -692,13 +691,15 @@ export const debounce = (func, wait, immediate) => {
 
 export const supportScroll = () => ('onscroll' in window) && !(/glebot/.test(navigator.userAgent));
 
-// export const getCookie = (name) => {
-//     var value = '; ' + document.cookie;
-//     var parts = value.split('; ' + name + '=');
-//     if (parts.length === 2) {
-//         return parts.pop().split(';').shift();
-//     }
-// }
+export const getCookie = (name) => {
+    const value = '; ' + document.cookie;
+    const parts = value.split('; ' + name + '=');
+    if (parts.length === 2) {
+        return parts.pop()
+            .split(';')
+            .shift();
+    }
+};
 
 export const scrollTo = (elementId, margin = 40, behavior = 'smooth') => {
     const element = document.getElementById(elementId);

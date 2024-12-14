@@ -9,11 +9,10 @@ end
 ruby file: '.ruby-version'
 
 # Rails version
-gem 'rails',                    '7.2.1.1'
+gem 'rails',                    '7.2.2'
 
 # Use postgresql as the database for Active Record
 gem 'pg',                       '1.5.9'
-# gem 'active_record_extended',   '1.4.0'
 
 # HTTP Response
 gem 'http_accept_language',     '2.1.1'
@@ -28,7 +27,7 @@ gem 'slim-rails',               '3.6.3'
 
 # Internationalization
 gem 'i18n-js',                  '4.2.3'
-gem 'geocoder',                 '1.8.3', require: false
+gem 'geocoder',                 '1.8.4', require: false
 gem 'maxminddb',                '0.1.22', require: false
 
 # Model versioning
@@ -42,7 +41,7 @@ gem 'auto_strip_attributes',    '2.6.0'
 gem 'sanitize',                 '6.1.3'
 
 # Run asynschronous process
-gem 'sidekiq',                  '7.3.5'
+gem 'sidekiq',                  '7.3.6'
 
 # Redis session store and cache
 gem 'redis-namespace',          '1.11.0'
@@ -75,7 +74,7 @@ gem 'acts_as_commentable_with_threading', '2.0.1'
 gem 'premailer-rails',          '1.12.0', require: false
 
 # Detect browser and bots
-gem 'browser',                  '6.1.0'
+gem 'browser',                  '6.2.0'
 
 # Tracking
 gem 'ahoy_matey',               '5.2.1'
@@ -87,10 +86,10 @@ gem 'meta-tags',                '2.22.1'
 gem 'sitemap_generator',        '6.3.0', require: false
 
 # SEO
-gem 'selenium-webdriver',       '4.26.0', require: false
+gem 'selenium-webdriver',       '4.27.0', require: false
 
 # Server
-gem 'puma',                     '6.4.3'
+gem 'puma',                     '6.5.0'
 
 group :development do
   # Debugging tool
@@ -146,7 +145,7 @@ group :development, :test do
   gem 'bootsnap',                   '1.18.4', require: false
 
   # Check errors
-  gem 'rubocop',                    '1.68.0',  require: false
+  gem 'rubocop',                    '1.69.1',  require: false
   gem 'rubocop-rails',              '2.27.0',  require: false
   gem 'rubocop-rspec',              '3.2.0',   require: false
   gem 'rubocop-performance',        '1.23.0',  require: false
@@ -164,9 +163,9 @@ group :production do
   gem 'whenever',         '1.0.0', require: false
 
   # Errors reporting
-  gem 'sentry-ruby',      '5.21.0'
-  gem 'sentry-rails',     '5.21.0'
-  gem 'sentry-sidekiq',   '5.21.0'
+  gem 'sentry-ruby',      '5.22.0'
+  gem 'sentry-rails',     '5.22.0'
+  gem 'sentry-sidekiq',   '5.22.0'
   gem 'stackprof',        '0.2.26'
 
   # Check slow DB requests

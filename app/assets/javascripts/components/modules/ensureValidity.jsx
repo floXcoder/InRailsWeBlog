@@ -1,4 +1,8 @@
-'use strict';
+import React from 'react';
+
+import I18n from '@js/modules/translations';
+import * as Utils from '@js/modules/utils';
+
 
 function EnsureValidity() {
     const id = `ensure_validity_${Utils.uuid()}`;

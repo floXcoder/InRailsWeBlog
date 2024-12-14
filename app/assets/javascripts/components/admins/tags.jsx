@@ -1,18 +1,18 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import {connect} from 'react-redux';
+
+import I18n from '@js/modules/translations';
 
 import {
     fetchTags
-} from '../../actions';
+} from '@js/actions/tagActions';
 
-import Loader from '../theme/loader';
-import Table from '../theme/table';
+import Loader from '@js/components/theme/loader';
+import Table from '@js/components/theme/table';
 
-export default @connect((state) => ({
-    tags: state.tagState.tags,
-    isFetching: state.tagState.isFetching
-}), {
-    fetchTags
-})
+
 class AdminTags extends React.Component {
     static propTypes = {
         // from connect
@@ -134,3 +134,9 @@ class AdminTags extends React.Component {
     }
 }
 
+export default connect((state) => ({
+    tags: state.tagState.tags,
+    isFetching: state.tagState.isFetching
+}), {
+    fetchTags
+})(AdminTags)

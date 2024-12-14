@@ -1,14 +1,17 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import {
     Link
-} from 'react-router-dom';
+} from 'react-router';
 
 import HistoryIcon from '@mui/icons-material/HistoryOutlined';
 
+import I18n from '@js/modules/translations';
+
 import {
     historyArticlePath
-} from '../../../constants/routesHelper';
+} from '@js/constants/routesHelper';
 
 function ArticleHistoryIcon({
                                 userSlug,

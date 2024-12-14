@@ -1,5 +1,3 @@
-'use strict';
-
 // Avoid React warning about requestAnimationFrame
 global.requestAnimationFrame = (callback) => {
     setTimeout(callback, 0);

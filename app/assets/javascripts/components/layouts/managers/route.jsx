@@ -1,11 +1,11 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import AnalyticsService from '../../../modules/analyticsService';
+import AnalyticsService from '@js/modules/analyticsService';
 
-import withRouter from '../../modules/router';
+import withRouter from '@js/components/modules/router';
 
 
-export default @withRouter({location: true, params: true})
 class RouteManager extends React.Component {
     static propTypes = {
         routeProperties: PropTypes.object.isRequired,
@@ -43,3 +43,5 @@ class RouteManager extends React.Component {
         return React.Children.only(this.props.children);
     }
 }
+
+export default withRouter({location: true, params: true})(RouteManager);

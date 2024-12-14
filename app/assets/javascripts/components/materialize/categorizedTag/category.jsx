@@ -1,6 +1,11 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import Tag from './tag';
+import classNames from 'classnames';
+
+import I18n from '@js/modules/translations';
+
+import Tag from '@js/components/materialize/categorizedTag/tag';
 
 
 export default class Category extends React.Component {

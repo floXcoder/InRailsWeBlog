@@ -1,7 +1,3 @@
-'use strict';
-
-import '../../../stylesheets/components/highlight.scss';
-
 import HighlightCode from 'highlight.js/lib/core';
 
 import apache from 'highlight.js/lib/languages/apache';
@@ -50,6 +46,9 @@ import sql from 'highlight.js/lib/languages/sql';
 // import tex from 'highlight.js/lib/languages/tex';
 import typescript from 'highlight.js/lib/languages/typescript';
 import yaml from 'highlight.js/lib/languages/yaml';
+
+import '@css/components/highlight.scss';
+
 
 HighlightCode.registerLanguage('apache', apache);
 HighlightCode.registerLanguage('c', c);

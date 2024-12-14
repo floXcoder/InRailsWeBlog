@@ -1,14 +1,16 @@
-'use strict';
-
 import {
     stringify
 } from 'qs';
 
+import I18n from '@js/modules/translations';
+import * as Utils from '@js/modules/utils';
+import Notification from '@js/modules/notification';
+
 import {
     pushError
-} from '../actions';
+} from '@js/actions/errorActions';
 
-import AnalyticsService from '../modules/analyticsService';
+import AnalyticsService from '@js/modules/analyticsService';
 
 
 let retryTokenCount = 0;
@@ -122,7 +124,7 @@ const _reportError = (error, errorInfo) => {
         if (contentType && contentType.indexOf('application/json') !== -1) {
             return error.json()
                 .then((parsedError) => {
-                    if (GlobalEnvironment.NODE_ENV !== 'production') {
+                    if (import.meta.env?.DEV) {
                         window.log_on_screen([parsedError.errors, parsedError.details, parsedError.message].filter(Boolean)
                             .join(' / ')
                             .split('\n')
@@ -136,7 +138,7 @@ const _reportError = (error, errorInfo) => {
         } else {
             return error.text()
                 .then((text) => {
-                    if (GlobalEnvironment.NODE_ENV !== 'production') {
+                    if (import.meta.env?.DEV) {
                         window.log_on_screen(
                             text.split('\n')
                                 .slice(0, 10)
@@ -149,7 +151,7 @@ const _reportError = (error, errorInfo) => {
                 });
         }
     } else {
-        if (GlobalEnvironment.NODE_ENV !== 'production') {
+        if (import.meta.env?.DEV) {
             window.log_on_screen(
                 error.split('\n')
                     .slice(0, 10)

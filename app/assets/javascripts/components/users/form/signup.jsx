@@ -1,4 +1,5 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import {
     Field,
@@ -13,18 +14,20 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LockIcon from '@mui/icons-material/Lock';
 import EmailIcon from '@mui/icons-material/Email';
 
+import I18n from '@js/modules/translations';
+
 import {
     validateUser
-} from '../../../actions';
+} from '@js/actions/userActions';
 
 import {
     terms
-} from '../../../constants/routesHelper';
+} from '@js/constants/routesHelper';
 
-import EnsureValidity from '../../modules/ensureValidity';
+import EnsureValidity from '@js/components/modules/ensureValidity';
 
-import TextFormField from '../../material-ui/form/text';
-import CheckBoxFormField from '../../material-ui/form/checkbox';
+import TextFormField from '@js/components/material-ui/form/text';
+import CheckBoxFormField from '@js/components/material-ui/form/checkbox';
 
 const validate = (values) => {
     const errors = {};

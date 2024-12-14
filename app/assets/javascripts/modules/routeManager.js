@@ -1,4 +1,3 @@
-'use strict';
 
 // Build routes from translated routes in locales/routes.*.yml
 

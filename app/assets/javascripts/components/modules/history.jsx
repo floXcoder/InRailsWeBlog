@@ -1,10 +1,10 @@
-'use strict';
+import React from 'react';
 
 import {
     getDisplayName
-} from './common';
+} from '@js/components/modules/common';
 
-import History from '../../modules/history';
+import History from '@js/modules/history';
 
 export default function history(WrappedComponent) {
     return class HistoryComponent extends React.Component {

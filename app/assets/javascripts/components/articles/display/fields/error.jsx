@@ -1,4 +1,5 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 const ArticleErrorField = function ({errors}) {
     return (

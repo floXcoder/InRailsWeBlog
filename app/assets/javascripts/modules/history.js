@@ -1,11 +1,11 @@
-'use strict';
-
 import {
     parse,
     stringify
 } from 'qs';
 
-import urlParser from './urlParser';
+import * as Utils from '@js/modules/utils';
+
+import urlParser from '@js/modules/urlParser';
 
 
 const History = (function () {

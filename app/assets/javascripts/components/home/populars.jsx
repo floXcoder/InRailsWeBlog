@@ -1,4 +1,7 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import {connect} from 'react-redux';
 
 import Grid from '@mui/material/Grid2';
 import Divider from '@mui/material/Divider';
@@ -6,47 +9,42 @@ import Button from '@mui/material/Button';
 
 import ClassIcon from '@mui/icons-material/Class';
 
+import I18n from '@js/modules/translations';
+
 import {
-    fetchArticles,
-    fetchTags,
+    fetchArticles
+} from '@js/actions/articleActions';
+
+import {
+    fetchTags
+} from '@js/actions/tagActions';
+
+import {
     fetchUserRecents
-} from '../../actions';
+} from '@js/actions/userActions';
 
 import {
     getUserRecentArticles
-} from '../../selectors';
+} from '@js/selectors/userSelectors';
 
 import {
     tagsPath,
     userHomePath
-} from '../../constants/routesHelper';
+} from '@js/constants/routesHelper';
 
 import {
     homeHomeLimit,
     homePopularsLimit,
     recentArticlesLimit
-} from '../modules/constants';
+} from '@js/components/modules/constants';
 
-import Loader from '../theme/loader';
+import Loader from '@js/components/theme/loader';
 
-import ArticleMiniCardDisplay from '../articles/display/items/miniCard';
-import TagChipDisplay from '../tags/display/chip';
-import MiniArticleSkeleton from '../loaders/skeletons/miniArticle';
+import ArticleMiniCardDisplay from '@js/components/articles/display/items/miniCard';
+import TagChipDisplay from '@js/components/tags/display/chip';
+import MiniArticleSkeleton from '@js/components/loaders/skeletons/miniArticle';
 
 
-export default @connect((state) => ({
-    isUserConnected: state.userState.isConnected,
-    currentUserId: state.userState.currentId,
-    homeArticles: state.articleState.homeArticles,
-    popularArticles: state.articleState.popularArticles,
-    popularTags: state.tagState.popularTags,
-    currentUserSlug: state.userState.currentSlug,
-    recentArticles: getUserRecentArticles(state)
-}), {
-    fetchArticles,
-    fetchTags,
-    fetchUserRecents
-})
 class HomePopulars extends React.Component {
     static propTypes = {
         // from connect
@@ -123,14 +121,18 @@ class HomePopulars extends React.Component {
                                   justifyContent="space-between"
                                   alignItems="flex-start">
                                 {
-                                    this.props.recentArticles.limit(4).map((article) => (
-                                        <Grid key={`recents-${article.id}`}
-                                              size={{xs: 12, sm: 6}}>
-                                            <ArticleMiniCardDisplay article={article}
-                                                                    isFaded={true}
-                                                                    isPaper={true}/>
-                                        </Grid>
-                                    ))
+                                    this.props.recentArticles.limit(4)
+                                        .map((article) => (
+                                            <Grid key={`recents-${article.id}`}
+                                                  size={{
+                                                      xs: 12,
+                                                      sm: 6
+                                                  }}>
+                                                <ArticleMiniCardDisplay article={article}
+                                                                        isFaded={true}
+                                                                        isPaper={true}/>
+                                            </Grid>
+                                        ))
                                 }
                             </Grid>
                         </div>
@@ -151,7 +153,10 @@ class HomePopulars extends React.Component {
                                     ?
                                     this.props.homeArticles.map((article) => (
                                         <Grid key={`home-${article.id}`}
-                                              size={{xs: 12, sm: 6}}>
+                                              size={{
+                                                  xs: 12,
+                                                  sm: 6
+                                              }}>
                                             <ArticleMiniCardDisplay article={article}
                                                                     isFaded={true}
                                                                     isPaper={true}/>
@@ -159,10 +164,16 @@ class HomePopulars extends React.Component {
                                     ))
                                     :
                                     <>
-                                        <Grid size={{xs: 12, sm: 6}}>
+                                        <Grid size={{
+                                            xs: 12,
+                                            sm: 6
+                                        }}>
                                             <MiniArticleSkeleton/>
                                         </Grid>
-                                        <Grid size={{xs: 12, sm: 6}}>
+                                        <Grid size={{
+                                            xs: 12,
+                                            sm: 6
+                                        }}>
                                             <MiniArticleSkeleton/>
                                         </Grid>
                                     </>
@@ -215,14 +226,16 @@ class HomePopulars extends React.Component {
                             {
                                 this.props.popularArticles?.length > 0
                                     ?
-                                    this.props.popularArticles.filter((article) => !this.props.homeArticles.map((homeArticle) => homeArticle.id).includes(article.id)).map((article) => (
-                                        <div key={`popular-${article.id}`}
-                                             className="home-populars-item">
-                                            <ArticleMiniCardDisplay article={article}
-                                                                    isFaded={true}
-                                                                    isPaper={true}/>
-                                        </div>
-                                    ))
+                                    this.props.popularArticles.filter((article) => !this.props.homeArticles.map((homeArticle) => homeArticle.id)
+                                        .includes(article.id))
+                                        .map((article) => (
+                                            <div key={`popular-${article.id}`}
+                                                 className="home-populars-item">
+                                                <ArticleMiniCardDisplay article={article}
+                                                                        isFaded={true}
+                                                                        isPaper={true}/>
+                                            </div>
+                                        ))
                                     :
                                     <div>
                                         <MiniArticleSkeleton/>
@@ -237,3 +250,17 @@ class HomePopulars extends React.Component {
         );
     }
 }
+
+export default connect((state) => ({
+    isUserConnected: state.userState.isConnected,
+    currentUserId: state.userState.currentId,
+    homeArticles: state.articleState.homeArticles,
+    popularArticles: state.articleState.popularArticles,
+    popularTags: state.tagState.popularTags,
+    currentUserSlug: state.userState.currentSlug,
+    recentArticles: getUserRecentArticles(state)
+}), {
+    fetchArticles,
+    fetchTags,
+    fetchUserRecents
+})(HomePopulars);

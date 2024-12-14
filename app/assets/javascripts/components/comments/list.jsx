@@ -1,12 +1,19 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import classNames from 'classnames';
 
 import {
     TransitionGroup,
     CSSTransition
 } from 'react-transition-group';
 
-import CommentItem from './item';
-import CommentForm from './form';
+import I18n from '@js/modules/translations';
+import * as Utils from '@js/modules/utils';
+import Notification from '@js/modules/notification';
+
+import CommentItem from '@js/components/comments/item';
+import CommentForm from '@js/components/comments/form';
 
 
 export default class CommentList extends React.PureComponent {

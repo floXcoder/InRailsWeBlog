@@ -1,4 +1,7 @@
-'use strict';
+import React from 'react';
+import {createRoot} from 'react-dom/client';
+
+import classNames from 'classnames';
 
 import {
     ThemeProvider,
@@ -15,11 +18,14 @@ import InfoIcon from '@mui/icons-material/Info';
 import WarningIcon from '@mui/icons-material/Warning';
 import CloseIcon from '@mui/icons-material/Close';
 
-import theme from '../../theme';
+import I18n from '@js/modules/translations.js';
+import * as Utils from '@js/modules/utils.js';
+
+import theme from '@js/theme.jsx';
 
 import {
     notificationDuration
-} from '../modules/constants';
+} from '@js/components/modules/constants.js';
 
 const variantIcon = {
     success: CheckCircleIcon,
@@ -42,12 +48,47 @@ class NotificationComponent extends React.Component {
                 this._handleAdd(type, message, duration, actionButton, actionCallback);
             };
         });
+
+        Notification.initialize = this._checkInitialNotification;
     }
 
     state = {
         isOpen: false,
         notificationDuration: notificationDuration,
         messageInfo: {}
+    };
+
+    _checkInitialNotification = () => {
+        const flashes = document.querySelectorAll('.blog-flash');
+
+        Array.prototype.forEach.call(flashes, function (element) {
+            const level = element.getAttribute('data-level');
+            const token = element.getAttribute('data-flash-token');
+
+            if (sessionStorage) {
+                // Do not display same flash message twice
+                if (sessionStorage.getItem(`flash-message-${token}`)) {
+                    return;
+                }
+            }
+
+            // Let's the Notification component initialize
+            document.addEventListener('DOMContentLoaded', function () {
+                setTimeout(function () {
+                    if (level === 'success') {
+                        Notification.success(element.innerHTML);
+                    } else if (level === 'error') {
+                        Notification.error(element.innerHTML);
+                    } else {
+                        Notification.info(element.innerHTML);
+                    }
+                }, 200);
+            });
+
+            if (sessionStorage) {
+                sessionStorage.setItem(`flash-message-${token}`, 'true');
+            }
+        });
     };
 
     _handleAdd = (level, message, duration, actionButton, actionCallback) => {
@@ -164,9 +205,9 @@ class NotificationComponent extends React.Component {
     }
 }
 
-const root = ReactCreateRoot(document.getElementById('notification-component'));
+const root = createRoot(document.getElementById('notification-component'));
 root.render(
     <NotificationComponent/>
 );
 
-export const message = Notification;
+export default Notification;

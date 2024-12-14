@@ -1,10 +1,9 @@
-'use strict';
 
-import * as ActionTypes from '../constants/actionTypes';
+import * as ActionTypes from '@js/constants/actionTypes';
 
 import {
     convertJsonApi
-} from './json';
+} from '@js/middlewares/json';
 
 export default function mutationMiddleware({dispatch}) {
     // const initialState = getState();

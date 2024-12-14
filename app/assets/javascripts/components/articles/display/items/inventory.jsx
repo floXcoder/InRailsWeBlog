@@ -1,8 +1,9 @@
-'use strict';
-
-import {
+import React, {
     Fragment
 } from 'react';
+import PropTypes from 'prop-types';
+
+import classNames from 'classnames';
 
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -13,6 +14,8 @@ import Typography from '@mui/material/Typography';
 
 import DoneIcon from '@mui/icons-material/Done';
 import CancelIcon from '@mui/icons-material/Cancel';
+
+import * as Utils from '@js/modules/utils';
 
 
 export default class ArticleInventoryDisplay extends React.PureComponent {

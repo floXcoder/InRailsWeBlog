@@ -1,21 +1,26 @@
-'use strict';
+import PropTypes from 'prop-types';
 
 import {
     Link
-} from 'react-router-dom';
+} from 'react-router';
+
+import classNames from 'classnames';
 
 import List from '@mui/material/List';
 import Zoom from '@mui/material/Zoom';
 
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 
+import I18n from '@js/modules/translations';
+import * as Utils from '@js/modules/utils';
+
 import {
     topicTagsPath
-} from '../../../constants/routesHelper';
+} from '@js/constants/routesHelper';
 
-import Scrollbar from '../../theme/scrollbar';
+import Scrollbar from '@js/components/theme/scrollbar';
 
-import TagRelationshipDisplay from '../display/relationship';
+import TagRelationshipDisplay from '@js/components/tags/display/relationship';
 
 
 const TagSidebarList = function (props) {

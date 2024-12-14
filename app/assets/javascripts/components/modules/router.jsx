@@ -1,11 +1,9 @@
-'use strict';
-
 import {
     useLocation,
     useNavigate,
     useParams,
     useSearchParams
-} from 'react-router-dom';
+} from 'react-router';
 
 
 export default function withRouter(options = {}) {

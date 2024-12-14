@@ -1,5 +1,3 @@
-'use strict';
-
 let logEl;
 let isInitialized = false;
 
@@ -13,10 +11,10 @@ const createPanel = (options) => {
     if (!isInitialized) {
         throw 'You need to call `screenLog.init()` first.';
     }
-    options = options || {};
-    options.bgColor = options.bgColor || 'black';
-    options.color = options.color || 'lightgreen';
-    options.css = options.css || '';
+    options ||= {};
+    options.bgColor ||= 'black';
+    options.color ||= 'lightgreen';
+    options.css ||= '';
 
     return createElement(
         'div',
@@ -59,7 +57,7 @@ const clear = () => {
 
 const init = (options) => {
     isInitialized = true;
-    options = options || {};
+    options ||= {};
     logEl = createPanel(options);
     document.body.appendChild(logEl);
 

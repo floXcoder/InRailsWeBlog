@@ -1,19 +1,16 @@
-'use strict';
-
-import '../../../stylesheets/pages/admin.scss';
+import {createRoot} from 'react-dom/client';
 
 import {
     ThemeProvider,
     StyledEngineProvider
 } from '@mui/material/styles';
 
-import theme from '../../theme';
+import theme from '@js/theme';
 
-import AdminLogin from '../../components/admins/login';
+import AdminLogin from '@js/components/admins/login';
 
-require('../common');
 
-const root = ReactCreateRoot(document.getElementById('admins-login-component'));
+const root = createRoot(document.getElementById('admins-login-component'));
 root.render(
     <StyledEngineProvider injectFirst={true}>
         <ThemeProvider theme={theme}>

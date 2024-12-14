@@ -1,6 +1,5 @@
-'use strict';
 
-import api from '../middlewares/api';
+import api from '@js/middlewares/api';
 
 
 export const spyTrackView = (elementName, elementId) => {

@@ -1,8 +1,11 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import SendIcon from '@mui/icons-material/Send';
 import ClearIcon from '@mui/icons-material/Clear';
 import DeleteIcon from '@mui/icons-material/DeleteOutline';
+
+import I18n from '@js/modules/translations';
 
 
 const ArticleInlineActions = function ({

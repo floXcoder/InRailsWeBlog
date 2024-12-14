@@ -1,8 +1,11 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import {
     Link
-} from 'react-router-dom';
+} from 'react-router';
+
+import classNames from 'classnames';
 
 import Chip from '@mui/material/Chip';
 import Divider from '@mui/material/Divider';
@@ -10,16 +13,19 @@ import Divider from '@mui/material/Divider';
 import LabelIcon from '@mui/icons-material/Label';
 import ZoomInIcon from '@mui/icons-material/ZoomIn';
 
+import I18n from '@js/modules/translations';
+import * as Utils from '@js/modules/utils';
+
 import {
     taggedArticlesPath,
     taggedTopicArticlesPath
-} from '../../../constants/routesHelper';
+} from '@js/constants/routesHelper';
 
 import {
     spyTrackClick
-} from '../../../actions';
+} from '@js/actions/metricsActions';
 
-import Loader from '../../theme/loader';
+import Loader from '@js/components/theme/loader';
 
 
 export default class SearchTagModule extends React.Component {

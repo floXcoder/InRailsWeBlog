@@ -1,9 +1,10 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import {
     Link,
     // Prompt,
-} from 'react-router-dom';
+} from 'react-router';
 
 import {
     Form,
@@ -14,21 +15,23 @@ import Button from '@mui/material/Button';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 
+import I18n from '@js/modules/translations';
+
 import {
     editInventoriesTopicPath,
     userTopicPath,
     rootPath
-} from '../../../constants/routesHelper';
+} from '@js/constants/routesHelper';
 
 import {
     validateTopic
-} from '../../../forms/topic';
+} from '@js/forms/topic';
 
-import EditorField from '../../editor/form/editor';
+import EditorField from '@js/components/editor/form/editor';
 
-import TabContainer from '../../material-ui/tabContainer';
-import TextFormField from '../../material-ui/form/text';
-import MultipleSelectFormField from '../../material-ui/form/multiple-select';
+import TabContainer from '@js/components/material-ui/tabContainer';
+import TextFormField from '@js/components/material-ui/form/text';
+import MultipleSelectFormField from '@js/components/material-ui/form/multiple-select';
 
 
 export default class TopicFormDisplay extends React.Component {

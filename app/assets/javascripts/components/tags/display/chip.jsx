@@ -1,8 +1,10 @@
-'use strict';
+import PropTypes from 'prop-types';
 
 import {
     Link
-} from 'react-router-dom';
+} from 'react-router';
+
+import classNames from 'classnames';
 
 import Chip from '@mui/material/Chip';
 
@@ -10,11 +12,11 @@ import LabelIcon from '@mui/icons-material/Label';
 
 import {
     taggedArticlesPath
-} from '../../../constants/routesHelper';
+} from '@js/constants/routesHelper';
 
 import {
     spyTrackClick
-} from '../../../actions';
+} from '@js/actions/metricsActions';
 
 
 function TagChipDisplay({

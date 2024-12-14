@@ -1,17 +1,18 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import Hidden from '@mui/material/Hidden';
 
-import ArticleDeleteIcon from '../icons/delete';
-import ArticleTrackingIcon from '../icons/tracking';
-import CheckLinkIcon from '../icons/checkLink';
-import ArticleShareIcon from '../icons/share';
-import ArticleBookmarkIcon from '../icons/bookmark';
-import ArticleHistoryIcon from '../icons/history';
-import ArticleEditIcon from '../icons/edit';
-import ArticleLinkIcon from '../icons/link';
+import ArticleDeleteIcon from '@js/components/articles/icons/delete';
+import ArticleTrackingIcon from '@js/components/articles/icons/tracking';
+import CheckLinkIcon from '@js/components/articles/icons/checkLink';
+import ArticleShareIcon from '@js/components/articles/icons/share';
+import ArticleBookmarkIcon from '@js/components/articles/icons/bookmark';
+import ArticleHistoryIcon from '@js/components/articles/icons/history';
+import ArticleEditIcon from '@js/components/articles/icons/edit';
+import ArticleLinkIcon from '@js/components/articles/icons/link';
 
-// import ArticleOutdatedIcon from '../icons/outdated';
+// import ArticleOutdatedIcon from '@js/components/articles/icons/outdated';
 
 const deleteIconStyle = {
     marginRight: 30
