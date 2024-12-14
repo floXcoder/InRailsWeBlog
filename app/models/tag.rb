@@ -279,7 +279,7 @@ class Tag < ApplicationRecord
 
     params        = { tag_slug: self.slug }
 
-    params[:host] = ENV['WEBSITE_FULL_ADDRESS'] if options[:host]
+    params[:host] = ENV['WEBSITE_URL'] if options[:host]
 
     Rails.application.routes.url_helpers.send("#{route_name}_#{locale}_#{options[:host] ? 'url' : 'path'}", **params)
   end

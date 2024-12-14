@@ -128,7 +128,7 @@ module Api::V1
                          model:     user,
                          og:        {
                                       type:  "#{ENV['WEBSITE_NAME']}:article",
-                                      url:   user.link_path(host: ENV['WEBSITE_FULL_ADDRESS']),
+                                      url:   user.link_path(host: ENV['WEBSITE_URL']),
                                       image: image_url('logos/favicon-192x192.png')
                                     }.compact)
 

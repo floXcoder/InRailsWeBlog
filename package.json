@@ -20,7 +20,7 @@
   },
   "scripts": {
     "start": "bundle exec guard",
-    "development": "node node_modules/@rsbuild/core/bin/rsbuild build",
+    "dev": "NODE_ENV=development node node_modules/@rsbuild/core/bin/rsbuild build",
     "test": "BABEL_ENV=test NODE_ENV=test node node_modules/@rsbuild/core/bin/rsbuild build",
     "production": "BABEL_ENV=production NODE_ENV=production node node_modules/@rsbuild/core/bin/rsbuild build"
   },

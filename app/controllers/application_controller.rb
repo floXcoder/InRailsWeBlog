@@ -240,7 +240,7 @@ class ApplicationController < ActionController::Base
 
   def canonical_url(named_route, model, locale = I18n.locale, **params)
     locale = ensure_locale_params(locale) || 'en'
-    host   = Rails.env.development? ? nil : ENV['WEBSITE_FULL_ADDRESS']
+    host   = Rails.env.development? ? nil : ENV['WEBSITE_URL']
 
     if model
       model.link_path(locale: locale, route_name: named_route, host: host).gsub(/\/$/, '')
@@ -263,7 +263,7 @@ class ApplicationController < ActionController::Base
   end
 
   def image_url(url)
-    "#{Rails.env.production? ? 'https' : 'http'}://#{ENV['WEBSITE_ASSET']}/assets/#{url}"
+    "#{Rails.env.production? ? 'https' : 'http'}://#{ENV['ASSETS_HOST']}/assets/#{url}"
   end
 
   def titleize(page_title)
@@ -426,7 +426,7 @@ class ApplicationController < ActionController::Base
     if formatted_data.empty? || (formatted_data.size == 1 && formatted_data[0][0].nil?)
       nil
     else
-      internal_indexes = formatted_data.each_index.select { |i| formatted_data[i][0]&.downcase&.include?(ENV['WEBSITE_ADDRESS'].sub('www.', '')) }
+      internal_indexes = formatted_data.each_index.select { |i| formatted_data[i][0]&.downcase&.include?(ENV['WEBSITE_HOST'].sub('www.', '')) }
       if internal_indexes.present?
         internal_data    = ['internal', 0]
         internal_data[1] = internal_indexes.reduce(0) { |sr, i| sr + formatted_data[i][1] }

@@ -24,7 +24,7 @@ class AssetManifest
       next if file.end_with?('.map')
 
       original_file = file
-      original_file = original_file.delete_prefix("http://#{ENV['WEBSITE_ASSET']}")
+      original_file = original_file.delete_prefix("http://#{ENV['ASSETS_HOST']}")
       original_file = original_file.delete_prefix(assets_prefix) if assets_prefix
       original_file = original_file.delete_prefix('/javascripts/async/')
       original_file = original_file.delete_prefix('/javascripts/')
@@ -67,7 +67,7 @@ class AssetManifest
       end
 
       js_files[:original] << if absolute_url
-                               "http://#{ENV['WEBSITE_ASSET']}/javascripts/#{file}.js"
+                               "http://#{ENV['ASSETS_HOST']}/javascripts/#{file}.js"
                              else
                                javascript_path(file)
                              end
@@ -117,11 +117,11 @@ class AssetManifest
       if Rails.env.development?
         if exists
           url
-        else
-          ENV['WEBSITE_ASSET_DISTANT'] + url
+        elsif ENV['ASSETS_URL_REMOTE'].present?
+          ENV['ASSETS_URL_REMOTE'] + url
         end
       else
-        ENV['WEBSITE_FULL_ASSET'] + url
+        root_url
       end
     elsif url.start_with?('data:')
       url
@@ -143,12 +143,10 @@ class AssetManifest
   end
 
   def self.root_url
-    if Rails.env.production?
-      ENV['WEBSITE_ASSET']
-    elsif Rails.env.test?
+    if Rails.env.test?
       "http://localhost:#{ENV['TEST_PORT']}/"
     else
-      Rails.application.routes.url_helpers.root_url(host: ENV['WEBSITE_ASSET'], protocol: Rails.env.production? ? 'https' : 'http').chomp('/')
+      Rails.application.routes.url_helpers.root_url(host: ENV['ASSETS_HOST'], protocol: Rails.env.production? ? 'https' : 'http').chomp('/')
     end
   end
 end

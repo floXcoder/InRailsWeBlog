@@ -35,8 +35,8 @@ Rails.application.configure do
   end
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
-  config.action_controller.asset_host          = ENV['WEBSITE_ASSET']
-  config.action_controller.default_url_options = { host: ENV['WEBSITE_ADDRESS'] }
+  config.action_controller.asset_host          = ENV['ASSETS_HOST']
+  config.action_controller.default_url_options = { host: ENV['WEBSITE_HOST'] }
 
   # Specifies the header that your server uses for sending files.
   # config.action_dispatch.x_sendfile_header = "X-Sendfile" # for Apache
@@ -107,7 +107,7 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   # Mails
-  config.action_mailer.default_url_options   = { host: ENV['WEBSITE_ADDRESS'] }
+  config.action_mailer.default_url_options   = { host: ENV['WEBSITE_HOST'] }
   config.action_mailer.delivery_method       = :smtp
   config.action_mailer.perform_deliveries    = true
   config.action_mailer.raise_delivery_errors = true
@@ -116,7 +116,7 @@ Rails.application.configure do
     ssl:                 true,
     address:             ENV['SMTP_HOST'],
     port:                ENV['SMTP_PORT'],
-    domain:              ENV['WEBSITE_ADDRESS'],
+    domain:              ENV['WEBSITE_HOST'],
     authentication:      'login',
     user_name:           ENV['WEBSITE_EMAIL'],
     password:            ENV['WEBSITE_EMAIL_PASSWORD'],
@@ -124,19 +124,6 @@ Rails.application.configure do
     open_timeout:        3,
     read_timeout:        3
   }
-  # Direct
-  # config.action_mailer.smtp_settings = {
-  #   ssl:            true,
-  #   address:        ENV['SMTP_HOST'],
-  #   port:           ENV['SMTP_PORT'],
-  #   domain:         ENV['WEBSITE_ADDRESS_EN'],
-  #   authentication: 'login',
-  #   user_name:      ENV['EMAIL_USER'],
-  #   password:       ENV['EMAIL_PASSWORD'],
-  #   open_timeout:   3,
-  #   read_timeout:   3
-  #   # openssl_verify_mode: 'none'
-  # }
 
   # Inserts middleware to perform automatic connection switching.
   # The `database_selector` hash is used to pass options to the DatabaseSelector

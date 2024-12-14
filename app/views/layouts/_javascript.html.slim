@@ -16,7 +16,7 @@ javascript:
     window.locales = #{I18n.available_locales.to_json.html_safe};
     window.defaultMetaTags = #{meta_tags&.meta_tags.to_json.html_safe};
 
-    window.websiteUrl = "#{ENV['WEBSITE_FULL_ADDRESS']}";
+    window.websiteUrl = "#{ENV['WEBSITE_URL']}";
     window.logoUrl = "#{image_path('logos/favicon-192x192.png')}";
     window.termsUrl = "#{terms_path}";
 

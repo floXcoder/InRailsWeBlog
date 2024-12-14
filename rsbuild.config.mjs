@@ -2,6 +2,15 @@ import {defineConfig} from '@rsbuild/core';
 import {pluginReact} from '@rsbuild/plugin-react';
 import {pluginSass} from '@rsbuild/plugin-sass';
 
+const yenv = require('yenv');
+
+let appEnv;
+if (process.env.CI_SERVER) {
+    appEnv = process.env;
+} else {
+    appEnv = yenv('./config/application.yml', {env: process.env.NODE_ENV || 'development'});
+}
+
 let RsdoctorPlugin;
 if (process.env.RSDOCTOR) {
     const {RsdoctorRspackPlugin} = require('@rsdoctor/rspack-plugin');
@@ -23,6 +32,7 @@ export default defineConfig({
             font: './fonts',
             assets: './assets'
         },
+        assetPrefix: '/assets/',
         copy: [
             {
                 from: './app/assets/images/logos/*',
@@ -82,7 +92,7 @@ export default defineConfig({
             if (process.env.RSDOCTOR) {
                 appendPlugins(
                     new RsdoctorPlugin({
-                        port: 8042,
+                        port: appEnv.ASSETS_ANALYZER_PORT,
                         supports: {
                             generateTileGraph: true
                         }
@@ -101,7 +111,7 @@ export default defineConfig({
         hmr: true,
         liveReload: false,
         // writeToDisk: true,
-        assetPrefix: 'http://localhost:8080/',
+        assetPrefix: `http://${appEnv.ASSETS_HOST}`,
         client: {
             protocol: 'ws',
             host: 'localhost',

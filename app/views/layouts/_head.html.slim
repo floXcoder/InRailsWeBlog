@@ -8,7 +8,7 @@ head itemscope="" itemtype="http://schema.org/WebSite"
   = csrf_meta_tags
   
   - if Rails.env.production?
-    link rel="dns-prefetch" href="#{ENV['WEBSITE_FULL_ASSET']}"
+    link rel="dns-prefetch" href="#{ENV['ASSETS_HOST']}"
     link rel="dns-prefetch" href="https://#{ENV['METRICS_ADDRESS']}"
 
   = favicon_link_tag '/favicon.ico', rel: 'shortcut icon'
@@ -36,7 +36,7 @@ head itemscope="" itemtype="http://schema.org/WebSite"
   = auto_discovery_link_tag :rss, feed_url(format: :rss, locale: I18n.locale)
 
   / Open search
-  link rel="search" type="application/opensearchdescription+xml" href="#{ENV['WEBSITE_FULL_ADDRESS']}/opensearch.xml?locale=#{I18n.locale}" title="#{ENV['WEBSITE_NAME']}"
+  link rel="search" type="application/opensearchdescription+xml" href="#{ENV['WEBSITE_URL']}/opensearch.xml?locale=#{I18n.locale}" title="#{ENV['WEBSITE_NAME']}"
 
   - if Rails.env.production?
     link rel="preload" href="#{AssetManifest.asset_path('Roboto-Regular.woff2')}" as="font" type="font/woff2" crossorigin="anonymous"

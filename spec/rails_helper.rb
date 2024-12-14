@@ -77,4 +77,4 @@ Shoulda::Matchers.configure do |config|
 end
 
 # Define default URL for tests
-Rails.application.routes.default_url_options[:host] = [ENV['WEBSITE_ADDRESS'], ENV['WEBSITE_PORT']].compact.join(':')
+Rails.application.routes.default_url_options[:host] = ENV['WEBSITE_HOST']

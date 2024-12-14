@@ -19,6 +19,8 @@ export default [
             globals: {
                 ...globals.browser,
                 __dirname: true,
+                require: true,
+                process: true,
                 jQuery: true,
                 $: true
             }

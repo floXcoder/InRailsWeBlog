@@ -23,7 +23,7 @@ namespace :InRailsWeBlog do
               GenerateCacheUrls.new.last_modified_urls
             end
 
-    SeoCache::PopulateCache.new(Rails.env.production? ? ENV['WEBSITE_FULL_ADDRESS'] : 'http://localhost:3000', paths, force_cache: true).perform
+    SeoCache::PopulateCache.new(Rails.env.production? ? ENV['WEBSITE_URL'] : 'http://localhost:3000', paths, force_cache: true).perform
 
     Rails.logger.warn("#{Time.zone.now} : Cache pages with prerender for SEO task DONE")
   end

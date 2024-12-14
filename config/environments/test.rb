@@ -49,7 +49,7 @@ Rails.application.configure do
   config.action_mailer.delivery_method       = :test
   host                                       = "localhost:#{ENV['TEST_PORT']}"
   config.action_mailer.default_url_options   = { host: host }
-  config.action_mailer.preview_paths         << Rails.root.join('spec/mailers/previews')
+  config.action_mailer.preview_paths << Rails.root.join('spec/mailers/previews')
 
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
@@ -69,11 +69,8 @@ Rails.application.configure do
   # Raise error when a before_action's only/except options reference missing actions
   config.action_controller.raise_on_missing_callback_actions = true
 
-  config.action_controller.asset_host          = ENV['WEBSITE_ASSET']
-  config.action_controller.default_url_options = {
-    host: ENV['WEBSITE_ADDRESS'],
-    port: ENV['WEBSITE_PORT']
-  }
+  config.action_controller.asset_host          = ENV['ASSETS_HOST']
+  config.action_controller.default_url_options = { host: ENV['WEBSITE_HOST'] }
 
   # Logs
   #  config.log_level = :debug

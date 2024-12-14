@@ -381,7 +381,7 @@ class Article < ApplicationRecord
       article_slug: self[friendly_id_config.slug_column][locale.to_s].presence || (options[:force_locale] ? nil : self.slug)
     }
 
-    params[:host] = ENV['WEBSITE_FULL_ADDRESS'] if options[:host]
+    params[:host] = ENV['WEBSITE_URL'] if options[:host]
 
     Rails.application.routes.url_helpers.send("#{route_name}_#{locale}_#{options[:host] ? 'url' : 'path'}", **params)
   end
