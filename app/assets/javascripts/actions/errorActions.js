@@ -24,7 +24,7 @@ export const pushError = (error, errorInfo = null) => {
                 window.SentryCaptureMessage(errorMessage.join(', '));
             }
         });
-    } else if (import.meta.env?.DEV) {
+    } else if (process.env.NODE_ENV === 'development') {
         console.error(error, errorInfo);
     }
 };

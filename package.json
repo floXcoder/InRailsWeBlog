@@ -25,6 +25,7 @@
     "production": "BABEL_ENV=production NODE_ENV=production node node_modules/@rsbuild/core/bin/rsbuild build"
   },
   "dependencies": {
+    "@aaroon/workbox-rspack-plugin": "0.3.2",
     "@dsvllc/summernote-image-attributes": "1.0.0",
     "@emotion/react": "11.14.0",
     "@emotion/styled": "11.14.0",
@@ -41,7 +42,7 @@
     "classnames": "2.5.1",
     "downshift": "9.0.8",
     "final-form": "4.20.10",
-    "highlight.js": "11.10.0",
+    "highlight.js": "11.11.0",
     "immer": "10.1.1",
     "intersection-observer": "0.12.2",
     "jquery": "3.7.1",
@@ -58,7 +59,7 @@
     "react-final-form": "6.5.9",
     "react-helmet-async": "2.0.5",
     "react-infinite-scroll-component": "6.1.0",
-    "react-intersection-observer": "9.13.1",
+    "react-intersection-observer": "9.14.0",
     "react-lazyload": "3.2.1",
     "react-masonry-component": "6.3.0",
     "react-paginate": "8.2.0",
@@ -80,12 +81,12 @@
     "yenv": "3.0.1"
   },
   "devDependencies": {
-    "@eslint/js": "9.16.0",
+    "@eslint/js": "9.17.0",
     "@faker-js/faker": "9.3.0",
     "@rsdoctor/rspack-plugin": "0.4.11",
     "@testing-library/dom": "10.4.0",
     "@testing-library/react": "16.1.0",
-    "eslint": "9.16.0",
+    "eslint": "9.17.0",
     "eslint-plugin-react": "7.37.2",
     "eslint-plugin-react-hooks": "5.1.0",
     "eslint-plugin-unicorn": "56.0.1",

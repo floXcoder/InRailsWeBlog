@@ -1,8 +1,9 @@
 import {defineConfig} from '@rsbuild/core';
 import {pluginReact} from '@rsbuild/plugin-react';
 import {pluginSass} from '@rsbuild/plugin-sass';
+import {GenerateSW, InjectManifest} from '@aaroon/workbox-rspack-plugin';
 
-const yenv = require('yenv');
+import yenv from 'yenv';
 
 let appEnv;
 if (process.env.CI_SERVER) {
@@ -99,6 +100,127 @@ export default defineConfig({
                     })
                 );
             }
+
+            if (process.env.NODE_ENV === 'production') {
+                appendPlugins(
+                    new GenerateSW({
+                        swDest: '../service-worker.js',
+                        inlineWorkboxRuntime: true,
+                        additionalManifestEntries:  [
+                            {
+                                url: 'offline.html',
+                                revision: null
+                            },
+                            {
+                                url: 'favicon.ico',
+                                revision: null
+                            }
+                        ],
+                        clientsClaim: true,
+                        skipWaiting: true,
+                        offlineGoogleAnalytics: false,
+                        maximumFileSizeToCacheInBytes: 4_000_000,
+                        exclude: [
+                            /about/, /privacy/, /terms/, /processing/, /validation/, /exporter/, /admin/, /performance/, /new\./, /new-\./, /edit\./, /edit-\./, /edition\./, /editor\./, /login\./, /signup\./, /password\./, /user-confirmation\./, /tinymce\./, /\.ttf$/, /\.eot$/, /\.woff$/, /\.geojson$/, /\.map$/, /komoot/, /LICENSE/, /pghero/, /metrics/, /webmanifest/, /comment\./, /comment-box\./, /compare\./, /history\./, /tracker\./, /sort\./, /persistence\./, /share\./
+                        ],
+                        runtimeCaching: [
+                            {
+                                // Match all assets
+                                urlPattern: new RegExp(`${appEnv.ASSETS_HOST}\/assets\/`),
+                                // handler: 'CacheFirst',
+                                // Workbox will also hit the network in parallel and check if there are updates to that resource
+                                handler: 'StaleWhileRevalidate',
+                                options: {
+                                    cacheName: `assets-v${appEnv.PWA_ASSETS_VERSION || 0}`,
+                                    cacheableResponse: {
+                                        statuses: [0, 200]
+                                    },
+                                    expiration: {
+                                        maxEntries: 120
+                                        // maxAgeSeconds: 24 * 60 * 60,
+                                    }
+                                }
+                            },
+                            {
+                                // Match any API requests
+                                urlPattern: new RegExp(`^${appEnv.WEBSITE_URL}\/(?!.*(orders|baskets|uploader|exporter|processing|validation|manifest).*).*/`),
+                                handler: 'NetworkFirst',
+                                options: {
+                                    cacheName: `api-v${appEnv.PWA_API_VERSION || 0}`,
+                                    networkTimeoutSeconds: 3,
+                                    expiration: {
+                                        maxEntries: 100
+                                    }
+                                }
+                            },
+                            {
+                                // Match any request that ends with .png, .jpg, .jpeg or .svg
+                                // urlPattern: /\.(?:png|jpg|jpeg|svg)$/,
+                                urlPattern: new RegExp(`^${appEnv.ASSETS_HOST}\/uploads\/`),
+                                handler: 'CacheFirst',
+                                options: {
+                                    cacheName: `images-v${appEnv.PWA_ASSETS_VERSION || 0}`,
+                                    cacheableResponse: {
+                                        statuses: [0, 200]
+                                    },
+                                    expiration: {
+                                        maxEntries: 100
+                                    }
+                                }
+                            },
+                            {
+                                // Match all website content (HTML, ...)
+                                urlPattern: new RegExp(`^${appEnv.WEBSITE_URL}\/(?!.*(api|admins|manifest).*).*/`),
+                                handler: 'StaleWhileRevalidate',
+                                options: {
+                                    cacheName: `others-v${appEnv.PWA_OTHERS_VERSION || 0}`,
+                                    cacheableResponse: {
+                                        statuses: [0, 200]
+                                        // Cache only HTML pages:
+                                        // headers: {
+                                        //     'Content-Type': 'text/html; charset=utf-8'
+                                        // }
+                                    },
+                                    expiration: {
+                                        maxEntries: 200
+                                    }
+                                }
+                            },
+                            {
+                                // Match all other external content
+                                urlPattern: /^(?!.*(admins).*).*$/,
+                                handler: 'CacheFirst',
+                                options: {
+                                    cacheName: 'external',
+                                    cacheableResponse: {
+                                        statuses: [0, 200]
+                                        // Cache only HTML pages:
+                                        // headers: {
+                                        //     'Content-Type': 'text/html; charset=utf-8'
+                                        // }
+                                    },
+                                    expiration: {
+                                        maxEntries: 500
+                                    }
+                                }
+                            },
+                            {
+                                urlPattern: ({request}) => request.mode === 'navigate',
+                                handler: 'NetworkOnly',
+                                options: {
+                                    precacheFallback: {
+                                        fallbackURL: '/offline.html',
+                                    }
+                                }
+                            }
+                        ],
+                        // navigateFallback: '/offline.html',
+                        // navigateFallbackDenylist: [/\/api\//]
+                    })
+                );
+            }
+
+            return config;
         }
     },
     // performance: {

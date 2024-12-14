@@ -252,10 +252,11 @@ const cookieChoices = (function () {
     };
 })();
 
-if (!window.seoMode && import.meta.env?.PROD) {
-    document.addEventListener('DOMContentLoaded', function () {
-        setTimeout(function () {
-            cookieChoices.displayCookies(window.termsUrl);
-        }, 10);
-    });
-}
+// Cookies are disabled for now (collecting no user data for Ads)
+// if (!window.seoMode && process.env.NODE_ENV === 'production') {
+//     document.addEventListener('DOMContentLoaded', function () {
+//         setTimeout(function () {
+//             cookieChoices.displayCookies(window.termsUrl);
+//         }, 10);
+//     });
+// }

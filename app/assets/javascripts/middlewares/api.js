@@ -124,7 +124,7 @@ const _reportError = (error, errorInfo) => {
         if (contentType && contentType.indexOf('application/json') !== -1) {
             return error.json()
                 .then((parsedError) => {
-                    if (import.meta.env?.DEV) {
+                    if (process.env.NODE_ENV === 'development') {
                         window.log_on_screen([parsedError.errors, parsedError.details, parsedError.message].filter(Boolean)
                             .join(' / ')
                             .split('\n')
@@ -138,7 +138,7 @@ const _reportError = (error, errorInfo) => {
         } else {
             return error.text()
                 .then((text) => {
-                    if (import.meta.env?.DEV) {
+                    if (process.env.NODE_ENV === 'development') {
                         window.log_on_screen(
                             text.split('\n')
                                 .slice(0, 10)
@@ -151,7 +151,7 @@ const _reportError = (error, errorInfo) => {
                 });
         }
     } else {
-        if (import.meta.env?.DEV) {
+        if (process.env.NODE_ENV === 'development') {
             window.log_on_screen(
                 error.split('\n')
                     .slice(0, 10)

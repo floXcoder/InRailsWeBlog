@@ -252,6 +252,15 @@ Import/export production data:
     pg_restore --username inrailsweblog --clean --dbname inrailsweblog_dev inrailsweblog.sql
 
 
+### Service worker for PWA (with WorkboxPlugin plugin)
+
+To test the Service Worker in local, you need to follow these steps:
+
+- Enable GenerateSW plugin for development in ./rsbuild.config.mjs
+- Uncomment environment check in initialize function of pwaManager in ./app/assets/javascripts/modules/pwaManager.js (Comment _isSubscribedUser call to test for all users)
+- Run the server, the ./public/service-worker.js file will be generated when building
+- Open the website URL in Chrome browser and check the SW is registered (in Application tab of the console)
+
 ### Display emails
 
 Sent email can be seen in two ways:

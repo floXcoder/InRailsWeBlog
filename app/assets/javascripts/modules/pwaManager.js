@@ -4,10 +4,10 @@ import AnalyticsService from '@js/modules/analyticsService';
 
 const PWAManager = (function () {
     function PWAManagerModel() {
-        this._model = {
-            // Install prompt
-            deferredInstallPrompt: undefined
-        };
+        // this._model = {
+        //     // Install prompt
+        //     deferredInstallPrompt: undefined
+        // };
 
         /* Private Methods
          ******************** */
@@ -41,7 +41,7 @@ const PWAManager = (function () {
     /* Public Methods
      ******************** */
     pwaManager.initialize = function () {
-        if (!import.meta.env?.PROD || window.seoMode) {
+        if (process.env.NODE_ENV !== 'production' || window.seoMode) {
             return;
         }
 
