@@ -43,13 +43,13 @@ module Articles
       end
 
       # Languages
-      @article.languages = if @params[:title_translations].nil?
-                             [I18n.locale]
-                           else
-                             @params[:title_translations].select { |_, value| value.present? }.keys
-                           end
+      if @params[:title_translations].nil? && @article.new_record?
+        @article.languages = [I18n.locale]
+      elsif @params[:title_translations].present?
+        @article.languages = @params[:title_translations].compact_blank.keys
+      end
 
-      I18n.locale        = new_language.to_sym if new_language != current_language.to_s
+      I18n.locale             = new_language.to_sym if new_language != current_language.to_s
 
       # Sanitization
       if !@params[:title_translations].nil?

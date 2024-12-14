@@ -45,7 +45,7 @@ Rails.application.routes.draw do
     get '/users/password/new', to: 'pages#home', as: :new_password, defaults: { name: 'new_password', public: true }
     get '/users/password/edit', to: 'pages#home', as: :edit_password, defaults: { name: 'edit_password', public: true }
     get '/users/confirmation', to: 'pages#home', as: :user_confirm, defaults: { name: 'user_confirm', public: true }
-    get '/users/:user_slug/show', to: 'pages#home', as: :show_user, defaults: { name: 'show_user', public: true }
+    get '/users/:user_slug', to: 'pages#home', as: :show_user, defaults: { name: 'show_user', public: true }
     get '/users/:user_slug/edit', to: 'pages#home', as: :edit_user, defaults: { name: 'edit_user' }
 
     # Tags

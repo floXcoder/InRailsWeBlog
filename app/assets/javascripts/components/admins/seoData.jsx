@@ -153,21 +153,20 @@ class AdminSeoData extends React.Component {
                 }
 
                 <Table title={I18n.t('js.admin.seo.table.title')}
-                       locale={I18n.locale}
                        data={this.props.seoData.map((seoData) => ({...seoData}))}
                        columns={[
                            {
-                               title: I18n.t('js.admin.seo.table.columns.id'),
-                               field: 'id',
+                               name: I18n.t('js.admin.seo.table.columns.id'),
+                               key: 'id',
                                hidden: true
                            },
                            {
-                               title: I18n.t('js.admin.seo.table.columns.name'),
-                               field: 'name'
+                               name: I18n.t('js.admin.seo.table.columns.name'),
+                               key: 'name'
                            },
                            {
-                               title: I18n.t('js.admin.seo.table.columns.visibility'),
-                               field: 'visibility',
+                               name: I18n.t('js.admin.seo.table.columns.visibility'),
+                               key: 'visibility',
                                lookup: {
                                    [true]: I18n.t('js.admin.seo.visibility.public'),
                                    [false]: I18n.t('js.admin.seo.visibility.private')
@@ -175,32 +174,24 @@ class AdminSeoData extends React.Component {
                                width: 140
                            },
                            {
-                               title: I18n.t('js.admin.seo.table.columns.locale'),
-                               field: 'locale',
+                               name: I18n.t('js.admin.seo.table.columns.locale'),
+                               key: 'locale',
                                width: 80
                            },
                            {
-                               title: I18n.t('js.admin.seo.table.columns.parameters'),
-                               field: 'parameters',
-                               render: (seoData) => seoData.parameters.join(', ')
+                               name: I18n.t('js.admin.seo.table.columns.parameters'),
+                               key: 'parameters',
+                               value: (seoData) => seoData.parameters.join(', ')
                            },
                            {
-                               title: I18n.t('js.admin.seo.table.columns.page_title'),
-                               field: 'pageTitle'
+                               name: I18n.t('js.admin.seo.table.columns.page_title'),
+                               key: 'pageTitle'
                            },
                            {
-                               title: I18n.t('js.admin.seo.table.columns.meta_desc'),
-                               field: 'metaDesc'
+                               name: I18n.t('js.admin.seo.table.columns.meta_desc'),
+                               key: 'metaDesc'
                            }
                        ]}
-                       options={{
-                           columnsButton: true,
-                           exportButton: true,
-                           filtering: true,
-                           actionsColumnIndex: -1,
-                           paging: false,
-                           emptyRowsWhenPaging: false
-                       }}
                        actions={[
                            {
                                icon: 'edit',

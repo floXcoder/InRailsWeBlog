@@ -51,22 +51,22 @@ class AdminTopics extends React.Component {
                 </h1>
 
                 <Table title={I18n.t('js.admin.topics.table.title')}
-                       locale={I18n.locale}
+                       isPaginated={true}
                        data={this.props.topics.map((topic) => ({...topic}))}
                        columns={[
                            {
-                               title: I18n.t('js.admin.topics.table.columns.id'),
-                               field: 'id',
+                               name: I18n.t('js.admin.topics.table.columns.id'),
+                               key: 'id',
                                hidden: true
                            },
                            {
-                               title: I18n.t('js.admin.topics.table.columns.user_id'),
-                               field: 'userId',
+                               name: I18n.t('js.admin.topics.table.columns.user_id'),
+                               key: 'userId',
                                hidden: true
                            },
                            {
-                               title: I18n.t('js.admin.topics.table.columns.mode'),
-                               field: 'mode',
+                               name: I18n.t('js.admin.topics.table.columns.mode'),
+                               key: 'mode',
                                lookup: {
                                    default: I18n.t('js.topic.enums.mode.default'),
                                    stories: I18n.t('js.topic.enums.mode.stories'),
@@ -75,63 +75,54 @@ class AdminTopics extends React.Component {
                                width: 120
                            },
                            {
-                               title: I18n.t('js.admin.topics.table.columns.name'),
-                               field: 'name',
+                               name: I18n.t('js.admin.topics.table.columns.name'),
+                               key: 'name'
                            },
                            {
-                               title: I18n.t('js.admin.topics.table.columns.priority'),
-                               field: 'priority',
+                               name: I18n.t('js.admin.topics.table.columns.priority'),
+                               key: 'priority',
                                hidden: true
                            },
                            {
-                               title: I18n.t('js.admin.topics.table.columns.visibility'),
-                               field: 'visibility',
+                               name: I18n.t('js.admin.topics.table.columns.visibility'),
+                               key: 'visibility',
                                lookup: {
                                    everyone: I18n.t('js.topic.enums.visibility.everyone'),
                                    only_me: I18n.t('js.topic.enums.visibility.everyone')
                                }
                            },
                            {
-                               title: I18n.t('js.admin.topics.table.columns.languages'),
-                               field: 'languages',
-                               render: (topic) => topic.languages.join(', '),
-                               width: 100
+                               name: I18n.t('js.admin.topics.table.columns.languages'),
+                               key: 'languages',
+                               value: (topic) => topic.languages.join(', '),
+                               width: 120
                            },
                            {
-                               title: I18n.t('js.admin.topics.table.columns.articles_count'),
-                               field: 'articlesCount',
+                               name: I18n.t('js.admin.topics.table.columns.articles_count'),
+                               key: 'articlesCount',
                                filtering: false
                            },
                            {
-                               title: I18n.t('js.admin.topics.table.columns.visits_count'),
-                               field: 'tracker[visitsCount]',
+                               name: I18n.t('js.admin.topics.table.columns.visits_count'),
+                               key: 'tracker.visitsCount',
                                filtering: false
                            },
                            {
-                               title: I18n.t('js.admin.topics.table.columns.clicks_count'),
-                               field: 'tracker[clicksCount]',
+                               name: I18n.t('js.admin.topics.table.columns.clicks_count'),
+                               key: 'tracker.clicksCount',
                                filtering: false
                            },
                            {
-                               title: I18n.t('js.admin.topics.table.columns.searches_count'),
-                               field: 'tracker[searchesCount]',
+                               name: I18n.t('js.admin.topics.table.columns.searches_count'),
+                               key: 'tracker.searchesCount',
                                filtering: false
                            },
                            {
-                               title: I18n.t('js.admin.topics.table.columns.created_at'),
-                               field: 'createdAt',
+                               name: I18n.t('js.admin.topics.table.columns.created_at'),
+                               key: 'createdAt',
                                filtering: false
                            }
                        ]}
-                       options={{
-                           columnsButton: true,
-                           exportButton: true,
-                           filtering: true,
-                           actionsColumnIndex: -1,
-                           pageSize: 100,
-                           pageSizeOptions: [100, 500, 1000],
-                           emptyRowsWhenPaging: false
-                       }}
                        actions={[
                            {
                                icon: 'open_in_new',

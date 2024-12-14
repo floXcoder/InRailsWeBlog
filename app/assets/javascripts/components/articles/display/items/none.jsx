@@ -63,6 +63,11 @@ function ArticleNoneDisplay({
                             (!isTopicPage && !!tagSlug) &&
                             I18n.t('js.article.common.no_results.tag.title.default')
                         }
+
+                        {
+                            (!!userSlug && !topicSlug && !tagSlug) &&
+                            I18n.t('js.article.common.no_results.user')
+                        }
                     </h1>
 
                     {

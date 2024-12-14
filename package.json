@@ -26,7 +26,8 @@
   },
   "dependencies": {
     "@dsvllc/summernote-image-attributes": "1.0.0",
-    "@material-table/core": "6.3.2",
+    "@emotion/react": "11.14.0",
+    "@emotion/styled": "11.14.0",
     "@mui/icons-material": "6.2.0",
     "@mui/material": "6.2.0",
     "@mui/styles": "6.2.0",
@@ -73,6 +74,7 @@
     "redux-immer": "1.0.5",
     "redux-thunk": "3.1.0",
     "reselect": "5.1.1",
+    "rsuite": "5.75.0",
     "sass-embedded": "1.83.0",
     "summernote": "0.9.1",
     "yenv": "3.0.1"

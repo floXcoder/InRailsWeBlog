@@ -531,6 +531,7 @@ en:
           content_too_short: "Content too short"
         no_results:
           alternative_url: "The articles are available in this language: "
+          user: "No articles yet for this user"
           topic:
             title:
               default: "No articles for this topic yet"

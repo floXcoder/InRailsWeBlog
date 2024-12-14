@@ -33,11 +33,11 @@ class AdminArticles extends React.Component {
         }, {}, {}, {noCache: true});
     }
 
-    _updateArticle = (newData, oldData) => {
+    _updateArticle = (newData) => {
         return this.props.updateArticle({
-            id: oldData.id,
-            rank: newData.tracker.rank,
-            home_page: newData.tracker.homePage === 'true'
+            id: newData.id,
+            rank: newData['tracker.rank'],
+            home_page: newData['tracker.homePage'] === 'true'
         });
     };
 
@@ -63,24 +63,24 @@ class AdminArticles extends React.Component {
                 </h1>
 
                 <Table title={I18n.t('js.admin.articles.table.title')}
-                       locale={I18n.locale}
+                       isPaginated={true}
                        data={this.props.articles.map((article) => ({...article}))}
                        columns={[
                            {
-                               title: I18n.t('js.admin.articles.table.columns.id'),
-                               field: 'id',
+                               name: I18n.t('js.admin.articles.table.columns.id'),
+                               key: 'id',
                                hidden: true,
-                               editable: 'never'
+                               editable: false
                            },
                            {
-                               title: I18n.t('js.admin.articles.table.columns.topic_id'),
-                               field: 'topicId',
+                               name: I18n.t('js.admin.articles.table.columns.topic_id'),
+                               key: 'topicId',
                                hidden: true,
-                               editable: 'never'
+                               editable: false
                            },
                            {
-                               title: I18n.t('js.admin.articles.table.columns.mode'),
-                               field: 'mode',
+                               name: I18n.t('js.admin.articles.table.columns.mode'),
+                               key: 'mode',
                                hidden: true,
                                lookup: {
                                    note: I18n.t('js.article.enums.mode.note'),
@@ -88,105 +88,92 @@ class AdminArticles extends React.Component {
                                    inventory: I18n.t('js.article.enums.mode.inventory'),
                                    link: I18n.t('js.article.enums.mode.link')
                                },
-                               editable: 'never'
+                               editable: false
                            },
                            {
-                               title: I18n.t('js.admin.articles.table.columns.title'),
-                               field: 'title',
-                               editable: 'never'
+                               name: I18n.t('js.admin.articles.table.columns.title'),
+                               key: 'title',
+                               editable: false
                            },
                            {
-                               title: I18n.t('js.admin.articles.table.columns.priority'),
-                               field: 'priority',
+                               name: I18n.t('js.admin.articles.table.columns.priority'),
+                               key: 'priority',
                                hidden: true,
-                               editable: 'never'
+                               editable: false
                            },
                            {
-                               title: I18n.t('js.admin.articles.table.columns.visibility'),
-                               field: 'visibility',
+                               name: I18n.t('js.admin.articles.table.columns.visibility'),
+                               key: 'visibility',
                                lookup: {
                                    everyone: I18n.t('js.article.enums.visibility.everyone'),
                                    only_me: I18n.t('js.article.enums.visibility.only_me')
                                },
-                               editable: 'never'
+                               editable: false
                            },
                            {
-                               title: I18n.t('js.admin.articles.table.columns.date'),
-                               field: 'dateShort',
+                               name: I18n.t('js.admin.articles.table.columns.date'),
+                               key: 'dateShort',
                                filtering: false,
-                               render: (article) => article.dateShort.slice()
-                                   .reverse()
-                                   .join(' '),
-                               editable: 'never'
+                               value: (article) => article.dateShort.slice().reverse().join(' '),
+                               editable: false
                            },
                            {
-                               title: I18n.t('js.admin.articles.table.columns.languages'),
-                               field: 'languages',
-                               render: (article) => article.languages.join(', '),
-                               editable: 'never'
+                               name: I18n.t('js.admin.articles.table.columns.languages'),
+                               key: 'languages',
+                               value: (article) => article.languages.join(', '),
+                               editable: false
                            },
                            {
-                               title: I18n.t('js.admin.articles.table.columns.home_page'),
-                               field: 'tracker[homePage]',
+                               name: I18n.t('js.admin.articles.table.columns.home_page'),
+                               key: 'tracker.homePage',
                                lookup: {
                                    [true]: I18n.t('js.admin.articles.home_page.true'),
                                    [false]: I18n.t('js.admin.articles.home_page.false')
                                }
                            },
                            {
-                               title: I18n.t('js.admin.articles.table.columns.popularity'),
-                               field: 'tracker[popularity]',
+                               name: I18n.t('js.admin.articles.table.columns.popularity'),
+                               key: 'tracker.popularity',
                                filtering: false,
-                               editable: 'never'
+                               editable: false
                            },
                            {
-                               title: I18n.t('js.admin.articles.table.columns.rank'),
-                               field: 'tracker[rank]',
+                               name: I18n.t('js.admin.articles.table.columns.rank'),
+                               key: 'tracker.rank',
                                filtering: false
                            },
                            {
-                               title: I18n.t('js.admin.articles.table.columns.visits_count'),
-                               field: 'tracker[visitsCount]',
+                               name: I18n.t('js.admin.articles.table.columns.visits_count'),
+                               key: 'tracker.visitsCount',
                                filtering: false,
-                               editable: 'never'
+                               editable: false
                            },
                            {
-                               title: I18n.t('js.admin.articles.table.columns.views_count'),
-                               field: 'tracker[viewsCount]',
+                               name: I18n.t('js.admin.articles.table.columns.views_count'),
+                               key: 'tracker.viewsCount',
                                filtering: false,
-                               editable: 'never'
+                               editable: false
                            },
                            {
-                               title: I18n.t('js.admin.articles.table.columns.clicks_count'),
-                               field: 'tracker[clicksCount]',
+                               name: I18n.t('js.admin.articles.table.columns.clicks_count'),
+                               key: 'tracker.clicksCount',
                                filtering: false,
-                               editable: 'never'
+                               editable: false
                            },
                            {
-                               title: I18n.t('js.admin.articles.table.columns.searches_count'),
-                               field: 'tracker[searchesCount]',
+                               name: I18n.t('js.admin.articles.table.columns.searches_count'),
+                               key: 'tracker.searchesCount',
                                filtering: false,
-                               editable: 'never'
+                               editable: false
                            },
                            {
-                               title: I18n.t('js.admin.articles.table.columns.comments_count'),
-                               field: 'commentsCount',
+                               name: I18n.t('js.admin.articles.table.columns.comments_count'),
+                               key: 'commentsCount',
                                filtering: false,
-                               editable: 'never'
+                               editable: false
                            }
                        ]}
-                       options={{
-                           columnsButton: true,
-                           exportButton: true,
-                           filtering: true,
-                           actionsColumnIndex: -1,
-                           pageSize: 100,
-                           pageSizeOptions: [100, 500, 1000],
-                           emptyRowsWhenPaging: false
-                       }}
-                       editable={{
-                           onRowUpdate: this._updateArticle
-                       }}
+                       editable={this._updateArticle}
                        actions={[
                            {
                                icon: 'open_in_new',

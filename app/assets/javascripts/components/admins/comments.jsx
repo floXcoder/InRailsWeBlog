@@ -49,37 +49,27 @@ class AdminComments extends React.Component {
                 </h1>
 
                 <Table title={I18n.t('js.admin.comments.table.title')}
-                       locale={I18n.locale}
+                       isPaginated={true}
                        data={this.props.comments.map((comment) => ({...comment}))}
                        columns={[
                            {
-                               title: I18n.t('js.admin.comments.table.columns.id'),
-                               field: 'id',
+                               name: I18n.t('js.admin.comments.table.columns.id'),
+                               key: 'id',
                                hidden: true
                            },
                            {
-                               title: I18n.t('js.admin.comments.table.columns.title'),
-                               field: 'title',
+                               name: I18n.t('js.admin.comments.table.columns.title'),
+                               key: 'title'
                            },
                            {
-                               title: I18n.t('js.admin.comments.table.columns.body'),
-                               field: 'body',
+                               name: I18n.t('js.admin.comments.table.columns.body'),
+                               key: 'body'
                            },
                            {
-                               title: I18n.t('js.admin.comments.table.columns.posted_at'),
-                               field: 'postedAt',
-                           },
-                       ]}
-                       options={{
-                           columnsButton: true,
-                           exportButton: true,
-                           filtering: true,
-                           actionsColumnIndex: -1,
-                           pageSize: 100,
-                           pageSizeOptions: [100, 500, 1000],
-                           emptyRowsWhenPaging: false
-                       }}
-                       actions={[]}/>
+                               name: I18n.t('js.admin.comments.table.columns.posted_at'),
+                               key: 'postedAt'
+                           }
+                       ]}/>
             </div>
         );
     }
