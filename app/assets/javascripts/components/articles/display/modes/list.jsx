@@ -5,11 +5,6 @@ import PropTypes from 'prop-types';
 
 import {connect} from 'react-redux';
 
-import {
-    TransitionGroup,
-    CSSTransition
-} from 'react-transition-group';
-
 import I18n from '@js/modules/translations';
 
 import {
@@ -44,48 +39,46 @@ class ArticleListMode extends React.Component {
 
     _renderArticle = (article) => {
         return (
-            <CSSTransition key={article.id}
-                           timeout={150}
-                           classNames="article">
-                <ArticleItemsDisplay article={article}
-                                     articleDisplayMode={this.props.articleDisplayMode}
-                                     articleEditionId={this.props.articleEditionId}
-                                     isMinimized={this.props.isMinimized}
-                                     isUserArticlesList={this.props.isUserArticlesList}
-                                     onEnter={this.props.onEnter}
-                                     onExit={this.props.onExit}/>
-            </CSSTransition>
+            <ArticleItemsDisplay key={article.id}
+                                 article={article}
+                                 articleDisplayMode={this.props.articleDisplayMode}
+                                 articleEditionId={this.props.articleEditionId}
+                                 isMinimized={this.props.isMinimized}
+                                 isUserArticlesList={this.props.isUserArticlesList}
+                                 onEnter={this.props.onEnter}
+                                 onExit={this.props.onExit}/>
         );
     };
 
     render() {
         if (Array.isArray(this.props.orderedArticles)) {
             return (
-                <TransitionGroup component="div">
+                <div>
                     {
                         this.props.orderedArticles.map(this._renderArticle)
                     }
-                </TransitionGroup>
+                </div>
             );
         } else {
             return (
-                <TransitionGroup component="div">
+                <div>
                     {
-                        Object.keys(this.props.orderedArticles).map((key) => (
-                            <Fragment key={key}>
-                                <h2 className="article-list-tag-title">
-                                    {
-                                        key === 'undefined' ? I18n.t('js.article.common.tags.none') : key
-                                    }
-                                </h2>
+                        Object.keys(this.props.orderedArticles)
+                            .map((key) => (
+                                <Fragment key={key}>
+                                    <h2 className="article-list-tag-title">
+                                        {
+                                            key === 'undefined' ? I18n.t('js.article.common.tags.none') : key
+                                        }
+                                    </h2>
 
-                                {
-                                    this.props.orderedArticles[key].map(this._renderArticle)
-                                }
-                            </Fragment>
-                        ))
+                                    {
+                                        this.props.orderedArticles[key].map(this._renderArticle)
+                                    }
+                                </Fragment>
+                            ))
                     }
-                </TransitionGroup>
+                </div>
             );
         }
     }
@@ -94,4 +87,4 @@ class ArticleListMode extends React.Component {
 export default connect((state, props) => ({
     orderedArticles: getOrderedArticles(state, props),
     articleDisplayMode: state.uiState.articleDisplayMode
-}))(ArticleListMode)
+}))(ArticleListMode);

@@ -14,8 +14,6 @@
 @use 'shared/notification';
 @use 'shared/bookmark';
 @use 'shared/cookies';
-@use 'shared/animation/loader';
-@use 'shared/animation/dialog';
 
 // Infinite component
 .infinite-scroll-component {

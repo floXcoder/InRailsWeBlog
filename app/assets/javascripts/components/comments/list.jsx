@@ -3,11 +3,6 @@ import PropTypes from 'prop-types';
 
 import classNames from 'classnames';
 
-import {
-    TransitionGroup,
-    CSSTransition
-} from 'react-transition-group';
-
 import I18n from '@js/modules/translations';
 import * as Utils from '@js/modules/utils';
 import Notification from '@js/modules/notification';
@@ -100,8 +95,7 @@ export default class CommentList extends React.PureComponent {
         }
 
         return (
-            <TransitionGroup component="div"
-                             className="collection">
+            <div className="collection">
                 {
                     this.props.comments.map((comment) => {
                         if (Utils.isPresent(comment.body) && (!(!this.props.isOwner && comment.askForDeletion) || this.props.isSuperUser)) {
@@ -110,51 +104,45 @@ export default class CommentList extends React.PureComponent {
                             });
 
                             return (
-                                <CSSTransition key={comment.id}
-                                               timeout={500}
-                                               classNames="comment">
-                                    <div className={itemClasses}>
-                                        <CommentItem id={comment.id}
-                                                     comment={comment}
-                                                     currentUserId={this.props.currentUserId}
-                                                     isOwner={this.props.isOwner}
-                                                     ownerId={this.props.ownerId}
-                                                     isConnected={this.props.isConnected}
-                                                     isSuperUser={this.props.isSuperUser}
-                                                     isAskingForDeletion={this.state.replyForDeletion}
-                                                     // onDropdownClick={this._handleDropdownClick}
-                                                     onSubmit={this._handleModifySubmit}
-                                                     onReply={this._handleReply}
-                                                     onAskForDeletion={this._handleAskForDeletion}
-                                                     onDelete={this.props.onDelete}/>
+                                <div key={comment.id}
+                                     className={itemClasses}>
+                                    <CommentItem id={comment.id}
+                                                 comment={comment}
+                                                 currentUserId={this.props.currentUserId}
+                                                 isOwner={this.props.isOwner}
+                                                 ownerId={this.props.ownerId}
+                                                 isConnected={this.props.isConnected}
+                                                 isSuperUser={this.props.isSuperUser}
+                                                 isAskingForDeletion={this.state.replyForDeletion}
+                                        // onDropdownClick={this._handleDropdownClick}
+                                                 onSubmit={this._handleModifySubmit}
+                                                 onReply={this._handleReply}
+                                                 onAskForDeletion={this._handleAskForDeletion}
+                                                 onDelete={this.props.onDelete}/>
 
-                                        {
-                                            this.state.replyCommentId === comment.id &&
-                                            <CSSTransition classNames="comment-form"
-                                                           timeout={400}>
-                                                <div>
-                                                    <hr/>
-                                                    <div className="comment-reply">
-                                                        <CommentForm formTitle={commentFormTitle}
-                                                                     parentCommentId={comment.id}
-                                                                     isOwner={this.state.replyAsOwner}
-                                                                     isAskingForDeletion={this.state.replyForDeletion}
-                                                                     isRated={this.props.isRated}
-                                                                     onCancel={this._handleReplyCancel}
-                                                                     onSubmit={this._handleReplySubmit}/>
-                                                    </div>
-                                                </div>
-                                            </CSSTransition>
-                                        }
-                                    </div>
-                                </CSSTransition>
+                                    {
+                                        this.state.replyCommentId === comment.id &&
+                                        <div>
+                                            <hr/>
+                                            <div className="comment-reply">
+                                                <CommentForm formTitle={commentFormTitle}
+                                                             parentCommentId={comment.id}
+                                                             isOwner={this.state.replyAsOwner}
+                                                             isAskingForDeletion={this.state.replyForDeletion}
+                                                             isRated={this.props.isRated}
+                                                             onCancel={this._handleReplyCancel}
+                                                             onSubmit={this._handleReplySubmit}/>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
                             );
                         } else {
                             return null;
                         }
                     })
                 }
-            </TransitionGroup>
+            </div>
         );
     }
 }

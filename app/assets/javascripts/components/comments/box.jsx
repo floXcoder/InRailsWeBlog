@@ -3,10 +3,6 @@ import PropTypes from 'prop-types';
 
 import {connect} from 'react-redux';
 
-import {
-    CSSTransition
-} from 'react-transition-group';
-
 import Button from '@mui/material/Button';
 
 import CommentIcon from '@mui/icons-material/Comment';
@@ -208,16 +204,10 @@ class CommentBox extends React.Component {
                         </div>
                     }
 
-                    <CSSTransition classNames="comment-form"
-                                   timeout={400}
-                                   in={this.state.isShowingCommentForm}
-                                   mountOnEnter={true}
-                                   unmountOnExit={true}>
-                        <CommentForm isOwner={this.props.isUserOwner}
-                                     isRated={this.props.isRated}
-                                     onCancel={this._handleCommentCancel}
-                                     onSubmit={this._handleCommentSubmit}/>
-                    </CSSTransition>
+                    <CommentForm isOwner={this.props.isUserOwner}
+                                 isRated={this.props.isRated}
+                                 onCancel={this._handleCommentCancel}
+                                 onSubmit={this._handleCommentSubmit}/>
 
                     {
                         !!(this.props.isPaginated && this.props.commentsPagination) &&
@@ -243,4 +233,4 @@ export default connect((state) => ({
     addComment,
     updateComment,
     deleteComment
-})(CommentBox)
+})(CommentBox);
