@@ -84,29 +84,22 @@
     <orderEntry type="jdk" jdkName="RVM: ruby-3.3.5 [InRailsWeBlog]" jdkType="RUBY_SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Node modules" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="actioncable (v7.2.2, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="actionmailbox (v7.2.2, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="actionmailer (v7.2.2, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="actionmailer (v8.0.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="actionpack (v7.2.2, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="actionpack (v8.0.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="actiontext (v7.2.2, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="actionview (v7.2.2, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="actionview (v8.0.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="activejob (v7.2.2, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="activejob (v8.0.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="activemodel (v7.2.2, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="activemodel (v8.0.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="activerecord (v7.2.2, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="activerecord (v8.0.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="activestorage (v7.2.2, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="activesupport (v7.2.2, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="activesupport (v8.0.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="actioncable (v8.0.1, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="actionmailbox (v8.0.1, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="actionmailer (v8.0.1, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="actionpack (v8.0.1, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="actiontext (v8.0.1, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="actionview (v8.0.1, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="activejob (v8.0.1, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="activemodel (v8.0.1, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="activerecord (v8.0.1, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="activestorage (v8.0.1, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="activesupport (v8.0.1, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="acts_as_commentable_with_threading (v2.0.1, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="addressable (v2.8.7, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ahoy_matey (v5.2.1, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="airbrussh (v1.5.3, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="annotate (v3.2.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="annotaterb (v4.13.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ast (v2.4.2, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="auto_strip_attributes (v2.6.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="awesome_nested_set (v3.8.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
@@ -136,8 +129,8 @@
     <orderEntry type="library" scope="PROVIDED" name="connection_pool (v2.4.1, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="crack (v1.0.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="crass (v1.0.6, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="css_parser (v1.19.1, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="csv (v3.3.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="css_parser (v1.21.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="csv (v3.3.1, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="database_cleaner (v2.1.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="database_cleaner-active_record (v2.2.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="database_cleaner-core (v2.0.1, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
@@ -151,8 +144,8 @@
     <orderEntry type="library" scope="PROVIDED" name="domain_name (v0.6.20240107, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="drb (v2.2.1, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="elastic-transport (v8.3.5, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="elasticsearch (v8.16.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="elasticsearch-api (v8.16.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="elasticsearch (v8.17.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="elasticsearch-api (v8.17.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="erubi (v1.13.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="erubis (v2.7.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ethon (v0.16.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
@@ -186,12 +179,12 @@
     <orderEntry type="library" scope="PROVIDED" name="i18n-tasks (v1.0.14, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="image_processing (v1.13.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="io-console (v0.8.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="irb (v1.14.1, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="irb (v1.14.2, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="json (v2.9.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="jsonapi-serializer (v2.2.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="language_server-protocol (v3.17.0.3, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="listen (v3.9.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="logger (v1.6.2, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="logger (v1.6.3, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="lograge (v0.14.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="loofah (v2.23.1, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="lumberjack (v1.2.10, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
@@ -218,9 +211,9 @@
     <orderEntry type="library" scope="PROVIDED" name="net-ssh (v7.3.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="netrc (v0.11.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="nio4r (v2.7.4, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="nokogiri (v1.17.1, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="nokogiri (v1.17.2, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="notiffany (v0.1.3, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="oj (v3.16.7, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="oj (v3.16.8, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="orm_adapter (v0.5.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ostruct (v0.6.1, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="paper_trail (v16.0.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
@@ -241,18 +234,17 @@
     <orderEntry type="library" scope="PROVIDED" name="rack-session (v1.0.2, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rack-test (v2.1.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rackup (v1.0.1, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="rails (v7.2.2, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rails (v8.0.1, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rails-dom-testing (v2.2.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="rails-html-sanitizer (v1.6.1, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rails-html-sanitizer (v1.6.2, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rails-i18n (v8.0.1, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rails_best_practices (v1.23.2, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="railties (v7.2.2, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="railties (v8.0.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="railties (v8.0.1, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rainbow (v3.1.1, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rake (v13.2.1, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rb-fsevent (v0.11.2, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rb-inotify (v0.11.1, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="rdoc (v6.8.1, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rdoc (v6.9.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="redis (v4.8.1, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="redis-client (v0.23.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="redis-namespace (v1.11.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
@@ -263,7 +255,7 @@
     <orderEntry type="library" scope="PROVIDED" name="require_all (v3.0.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="responders (v3.1.1, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rest-client (v2.1.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="rexml (v3.3.9, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rexml (v3.4.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rouge (v4.5.1, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="route_translator (v14.2.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rspec (v3.13.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
@@ -272,13 +264,13 @@
     <orderEntry type="library" scope="PROVIDED" name="rspec-mocks (v3.13.2, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rspec-rails (v7.1.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rspec-support (v3.13.2, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="rubocop (v1.69.1, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="rubocop-ast (v1.36.2, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rubocop (v1.69.2, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rubocop-ast (v1.37.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rubocop-capybara (v2.21.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rubocop-factory_bot (v2.26.1, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rubocop-performance (v1.23.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rubocop-rails (v2.27.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="rubocop-rspec (v3.2.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rubocop-rspec (v3.3.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ruby-jmeter (v3.1.08, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ruby-progressbar (v1.13.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ruby-vips (v2.2.2, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
@@ -336,166 +328,76 @@
   <component name="RailsGeneratorsCache">
     <option name="generators">
       <list>
-        <option value="active_record:application_record" />
-        <option value="active_record:devise" />
-        <option value="active_record:multi_db" />
-        <option value="acts_as_commentable_upgrade_migration" />
-        <option value="acts_as_commentable_with_threading_migration" />
-        <option value="ahoy:activerecord" />
-        <option value="ahoy:base" />
-        <option value="ahoy:install" />
-        <option value="ahoy:mongoid" />
-        <option value="annotate:install" />
-        <option value="application_record" />
-        <option value="benchmark" />
-        <option value="bullet:install" />
-        <option value="channel" />
+        <option value="active_record:migration" />
+        <option value="active_record:model" />
+        <option value="active_record:observer" />
+        <option value="active_record:session_migration" />
         <option value="controller" />
-        <option value="devise" />
-        <option value="devise:controllers" />
-        <option value="devise:install" />
-        <option value="devise:views" />
         <option value="erb:controller" />
         <option value="erb:mailer" />
         <option value="erb:scaffold" />
-        <option value="factory_bot:model" />
-        <option value="friendly_id" />
         <option value="generator" />
-        <option value="geocoder:config" />
-        <option value="geocoder:maxmind:geolite_city" />
-        <option value="geocoder:maxmind:geolite_country" />
         <option value="helper" />
         <option value="integration_test" />
-        <option value="job" />
-        <option value="mailbox" />
         <option value="mailer" />
-        <option value="meta_tags:install" />
+        <option value="metal" />
         <option value="migration" />
         <option value="model" />
-        <option value="mongoid:devise" />
-        <option value="paper_trail:install" />
-        <option value="paper_trail:migration" />
-        <option value="paper_trail:update_item_subtype" />
-        <option value="pghero:config" />
-        <option value="pghero:query_stats" />
-        <option value="pghero:space_stats" />
-        <option value="pundit:install" />
-        <option value="pundit:policy" />
+        <option value="model_subclass" />
+        <option value="observer" />
+        <option value="performance_test" />
+        <option value="plugin" />
         <option value="resource" />
-        <option value="responders:install" />
-        <option value="responders_controller" />
-        <option value="route_translator:install" />
-        <option value="rspec:channel" />
-        <option value="rspec:feature" />
-        <option value="rspec:generator" />
-        <option value="rspec:install" />
-        <option value="rspec:mailbox" />
-        <option value="rspec:policy" />
-        <option value="rspec:request" />
         <option value="scaffold" />
         <option value="scaffold_controller" />
-        <option value="sentry" />
-        <option value="serializer" />
-        <option value="sidekiq:job" />
-        <option value="system_test" />
-        <option value="task" />
-        <option value="test_unit:channel" />
+        <option value="session_migration" />
+        <option value="stylesheets" />
         <option value="test_unit:controller" />
-        <option value="test_unit:generator" />
         <option value="test_unit:helper" />
-        <option value="test_unit:install" />
         <option value="test_unit:integration" />
-        <option value="test_unit:job" />
-        <option value="test_unit:mailbox" />
         <option value="test_unit:mailer" />
         <option value="test_unit:model" />
+        <option value="test_unit:observer" />
+        <option value="test_unit:performance" />
         <option value="test_unit:plugin" />
-        <option value="test_unit:policy" />
         <option value="test_unit:scaffold" />
-        <option value="test_unit:system" />
-        <option value="uploader" />
       </list>
     </option>
     <option name="myGenerators">
       <list>
-        <option value="active_record:application_record" />
-        <option value="active_record:devise" />
-        <option value="active_record:multi_db" />
-        <option value="acts_as_commentable_upgrade_migration" />
-        <option value="acts_as_commentable_with_threading_migration" />
-        <option value="ahoy:activerecord" />
-        <option value="ahoy:base" />
-        <option value="ahoy:install" />
-        <option value="ahoy:mongoid" />
-        <option value="annotate:install" />
-        <option value="application_record" />
-        <option value="benchmark" />
-        <option value="bullet:install" />
-        <option value="channel" />
+        <option value="active_record:migration" />
+        <option value="active_record:model" />
+        <option value="active_record:observer" />
+        <option value="active_record:session_migration" />
         <option value="controller" />
-        <option value="devise" />
-        <option value="devise:controllers" />
-        <option value="devise:install" />
-        <option value="devise:views" />
         <option value="erb:controller" />
         <option value="erb:mailer" />
         <option value="erb:scaffold" />
-        <option value="factory_bot:model" />
-        <option value="friendly_id" />
         <option value="generator" />
-        <option value="geocoder:config" />
-        <option value="geocoder:maxmind:geolite_city" />
-        <option value="geocoder:maxmind:geolite_country" />
         <option value="helper" />
         <option value="integration_test" />
-        <option value="job" />
-        <option value="mailbox" />
         <option value="mailer" />
-        <option value="meta_tags:install" />
+        <option value="metal" />
         <option value="migration" />
         <option value="model" />
-        <option value="mongoid:devise" />
-        <option value="paper_trail:install" />
-        <option value="paper_trail:migration" />
-        <option value="paper_trail:update_item_subtype" />
-        <option value="pghero:config" />
-        <option value="pghero:query_stats" />
-        <option value="pghero:space_stats" />
-        <option value="pundit:install" />
-        <option value="pundit:policy" />
+        <option value="model_subclass" />
+        <option value="observer" />
+        <option value="performance_test" />
+        <option value="plugin" />
         <option value="resource" />
-        <option value="responders:install" />
-        <option value="responders_controller" />
-        <option value="route_translator:install" />
-        <option value="rspec:channel" />
-        <option value="rspec:feature" />
-        <option value="rspec:generator" />
-        <option value="rspec:install" />
-        <option value="rspec:mailbox" />
-        <option value="rspec:policy" />
-        <option value="rspec:request" />
         <option value="scaffold" />
         <option value="scaffold_controller" />
-        <option value="sentry" />
-        <option value="serializer" />
-        <option value="sidekiq:job" />
-        <option value="system_test" />
-        <option value="task" />
-        <option value="test_unit:channel" />
+        <option value="session_migration" />
+        <option value="stylesheets" />
         <option value="test_unit:controller" />
-        <option value="test_unit:generator" />
         <option value="test_unit:helper" />
-        <option value="test_unit:install" />
         <option value="test_unit:integration" />
-        <option value="test_unit:job" />
-        <option value="test_unit:mailbox" />
         <option value="test_unit:mailer" />
         <option value="test_unit:model" />
+        <option value="test_unit:observer" />
+        <option value="test_unit:performance" />
         <option value="test_unit:plugin" />
-        <option value="test_unit:policy" />
         <option value="test_unit:scaffold" />
-        <option value="test_unit:system" />
-        <option value="uploader" />
       </list>
     </option>
   </component>

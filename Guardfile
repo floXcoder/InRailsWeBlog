@@ -41,6 +41,6 @@ guard :sidekiq, environment: 'development' do
   watch(%r{^app/mailers/.+\.rb})
 end
 
-guard :process, name: 'Annotate', command: 'annotate --models' do
-  watch('db/schema.rb')
-end
+# guard :process, name: 'Annotate', command: 'annotate --models' do
+#   watch('db/schema.rb')
+# end
