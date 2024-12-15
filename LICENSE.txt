@@ -3,7 +3,7 @@
 +-=======================================================================-+
 | InRailsWeBlog is a Blog engine.                                         |
 |                                                                         |
-| (c) 2023      FloXcoder.                                                |
+| (c) 2025      FloXcoder.                                                |
 |                                                                         |
 | InRailsWeBlog is redistributed under the terms of the X11 / MIT Licence |
 |                                      http://opensource.org/licenses/MIT |

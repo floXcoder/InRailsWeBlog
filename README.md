@@ -66,7 +66,7 @@ Search is performed by default in the current topic and look for content in all 
 
 ### Share
 
-Public topics can shared with other users (contributors). Contributors can add or edit articles inside the topic. 
+Public topics can share with other users (contributors). Contributors can add or edit articles inside the topic. 
 
 ### Group
 
@@ -76,13 +76,13 @@ Groups are a set of users. Every user can subscribe to a group and share specifi
 
 * Trello: for the view with all notes in the current topic
 * Evernote: tags and notes but too closed
-* Stack overflow: tags system but too many information and complicated
+* Stack overflow: tags system but too much information and complicated
 * Medium: nice UX and SEO but too commercial
 
 ## Requirements
 
-* Ruby 3.2
-* Rails 7.0
+* Ruby 3.3
+* Rails 8.0
 * SQL Database (configured with PostgreSQL)
 * A CSS3 / HTML5 compatible Browser (Firefox, Chrome, …)
 
@@ -152,17 +152,13 @@ Start ElasticSearch:
 
 ### Node dependencies
 
-Install NodeJS and Yarn as package manager:
+Install NodeJS (through Node Version Manager) and Yarn as package manager:
 
-    curl -sL https://deb.nodesource.com/setup_19.x | sudo -E bash -
-    curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-    echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+    nvm install 23
     
-    sudo apt-get update
-
-    sudo apt-get install -y nodejs yarn
-
-    sudo npm i -g webpack eslint
+    corepack enable
+    yarn set version 4.5.3
 
 Install npm packages for the project (Yarn v3 is used for this project):
 
@@ -202,6 +198,31 @@ To run development environment run command:
     
 => http://localhost:3000
 
+### Assets management
+
+All assets (JS, CSS, images and fonts) are generated with Rsbuild tool.
+
+The command to generate assets is:
+
+    npx rsbuild build
+
+Assets are generated inside `public/assets`. In development environment, all the `manifest.json` file is generated locally, otherwise all assets are in memory.
+
+The list of assets are available here:
+
+=> http://localhost:8080/rsbuild-dev-server
+
+To analyze generate assets, use Rsdoctor:
+
+    RSDOCTOR=true npx rsbuild build
+
+Then consult the following webpage:
+
+=> http://localhost:8042/index.html
+
+The important tabs are `Duplicate Packages Viewer` and `Webpack Bundle Analyzer`.
+
+
 ### Project task list
 
 List all available tasks for Rails project :
@@ -213,11 +234,6 @@ List all available tasks for Rails project :
 
     rails InRailsWeBlog:flush_redis
 
-- SEO:
-
-
-    rails InRailsWeBlog:seo
-
 
 ### Update environment
 
@@ -225,7 +241,7 @@ Check outdated gems:
 
     bundle outdated --only-explicit --groups
 
-Check outdated npm packages:
+Check outdated NPM packages:
 
     yarn upgrade-interactive
 
@@ -273,7 +289,7 @@ The data parameters can be changed inside each email previewer method
 
 ### External tools
 
-#### Elastic Search
+#### ElasticSearch
 
 Access in browser:
 
@@ -409,17 +425,18 @@ To deploy manually without using Gitlab (commit and deploy first your modificati
 
 - Other commands:
 
+
     cap production deploy:restart_sidekiq
     cap production deploy:restart_web
 
     cap production rails:console
     cap production rails:console sandbox=1
 
-### Webpack assets
+### Assets generation
 
-All specific environment variables must be defined in `./config/application.yml`.
+All specific environment variables to generate assets must be defined in `./config/application.yml`.
 
-Run in production:
+In production environment, run the following command to generate assets inside `./public/assets`:
 
     npm run production
 
@@ -481,4 +498,4 @@ To create a new major version, start manually a new Gitflow release named "0.Y.0
     git push --tags
 
 
-©FloXcoder - 2023
+©FloXcoder - 2025
