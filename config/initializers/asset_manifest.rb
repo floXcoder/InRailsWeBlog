@@ -50,6 +50,7 @@ class AssetManifest
       manifest&.dig('entries', file, 'initial', 'js')&.each do |initial_file|
         next if initial_file.include?("/javascripts/#{file}.js")
         next if @loaded_files.include?(initial_file)
+        next if manifest_javascript_file(file) && initial_file.include?(manifest_javascript_file(file))
 
         @loaded_files << initial_file
 
@@ -60,6 +61,7 @@ class AssetManifest
         next if async_file.include?("/javascripts/#{file}.js")
         next if async_file.include?('/async/')
         next if @loaded_files.include?(async_file)
+        next if manifest_javascript_file(file) && async_file.include?(manifest_javascript_file(file))
 
         @loaded_files << async_file
 
@@ -76,6 +78,19 @@ class AssetManifest
     @loaded_files = []
 
     return js_files
+  end
+
+  def self.manifest_javascript_file(file)
+    return nil unless hash_manifest
+    return nil unless file
+
+    file += '.js' unless file.end_with?('.js')
+
+    file = file.delete_prefix('/javascripts/async/')
+    file = file.delete_prefix('/javascripts/')
+    file = hash_manifest[file.split('?')[0]]&.chomp('/') || file
+
+    return file
   end
 
   def self.javascript_path(url, use_hash: true)
