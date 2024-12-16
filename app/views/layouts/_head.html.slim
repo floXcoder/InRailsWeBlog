@@ -8,6 +8,11 @@ head itemscope="" itemtype="http://schema.org/WebSite"
   = csrf_meta_tags
   
   - if Rails.env.production?
+    - javascript_initial 'production'
+  - else
+    - javascript_initial 'development'
+  
+  - if Rails.env.production?
     link rel="dns-prefetch" href="#{ENV['ASSETS_HOST']}"
     link rel="dns-prefetch" href="https://#{ENV['METRICS_ADDRESS']}"
 
