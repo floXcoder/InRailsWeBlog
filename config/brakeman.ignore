@@ -7,7 +7,7 @@
       "check_name": "SQL",
       "message": "Possible SQL injection",
       "file": "app/models/article.rb",
-      "line": 258,
+      "line": 259,
       "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
       "code": "where(\"#{self.friendly_id_config.slug_column}->>'#{locale}' = ?\", article_slug)",
       "render_path": null,
@@ -18,26 +18,32 @@
       },
       "user_input": "self.friendly_id_config.slug_column",
       "confidence": "Medium",
+      "cwe_id": [
+        89
+      ],
       "note": ""
     },
     {
       "warning_type": "SQL Injection",
       "warning_code": 0,
-      "fingerprint": "5b2cc8696c9a5162203e6edba60f78f0d158519cada1bc25590d7f5aaf8ef0e1",
+      "fingerprint": "546d9588d50d1f53befba2c4f0b76a617ef1df59db4ec2404a72dc591e00437a",
       "check_name": "SQL",
       "message": "Possible SQL injection",
-      "file": "app/workers/update_tracker_worker.rb",
-      "line": 57,
+      "file": "app/jobs/update_tracker_job.rb",
+      "line": 63,
       "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
       "code": "Ahoy::Event.where(:name => \"page_visit\").where(\"properties->>'#{tracked_class.downcase}_id' = ?\", element_id.to_s)",
       "render_path": null,
       "location": {
         "type": "method",
-        "class": "UpdateTrackerWorker",
+        "class": "UpdateTrackerJob",
         "method": "count_visits"
       },
       "user_input": "tracked_class.downcase",
       "confidence": "Medium",
+      "cwe_id": [
+        89
+      ],
       "note": ""
     },
     {
@@ -58,6 +64,9 @@
       },
       "user_input": "params[:user_id]",
       "confidence": "Weak",
+      "cwe_id": [
+        22
+      ],
       "note": ""
     },
     {
@@ -78,6 +87,9 @@
       },
       "user_input": "User.find(@params[:user_id]).slug",
       "confidence": "Weak",
+      "cwe_id": [
+        22
+      ],
       "note": ""
     },
     {
@@ -98,6 +110,9 @@
       },
       "user_input": "params[:route]",
       "confidence": "High",
+      "cwe_id": [
+        77
+      ],
       "note": ""
     },
     {
@@ -118,6 +133,9 @@
       },
       "user_input": "User.find(@params[:user_id]).slug",
       "confidence": "Weak",
+      "cwe_id": [
+        22
+      ],
       "note": ""
     },
     {
@@ -138,6 +156,9 @@
       },
       "user_input": "User.find(@params[:user_id]).slug",
       "confidence": "Weak",
+      "cwe_id": [
+        22
+      ],
       "note": ""
     },
     {
@@ -158,6 +179,9 @@
       },
       "user_input": "User.find(@params[:user_id]).slug",
       "confidence": "Weak",
+      "cwe_id": [
+        22
+      ],
       "note": ""
     },
     {
@@ -178,6 +202,9 @@
       },
       "user_input": "User.find(@params[:user_id]).slug",
       "confidence": "Weak",
+      "cwe_id": [
+        22
+      ],
       "note": ""
     },
     {
@@ -198,6 +225,9 @@
       },
       "user_input": "User.find(@params[:user_id]).slug",
       "confidence": "Weak",
+      "cwe_id": [
+        22
+      ],
       "note": ""
     },
     {
@@ -214,9 +244,12 @@
       "location": null,
       "user_input": "friendly_id_config.slug_column",
       "confidence": "Medium",
+      "cwe_id": [
+        89
+      ],
       "note": ""
     }
   ],
-  "updated": "2021-09-25 15:06:52 +0200",
-  "brakeman_version": "5.1.1"
+  "updated": "2024-12-16 10:27:59 +0100",
+  "brakeman_version": "6.2.2"
 }
