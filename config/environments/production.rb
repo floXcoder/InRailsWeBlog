@@ -85,8 +85,11 @@ Rails.application.configure do
   # Replace the default in-process memory cache store with a durable alternative.
   # config.cache_store = :mem_cache_store
 
+  # GoodJob configuration
+  config.good_job.execution_mode  = :external
+  config.good_job.on_thread_error = -> (exception) { Sentry.capture_exception(exception) } if ENV['SENTRY_RAILS_KEY']
+
   # Replace the default in-process and non-durable queuing backend for Active Job.
-  # config.active_job.queue_adapter = :resque
   config.active_job.logger = Logger.new(Rails.root.join('log/jobs.log'))
 
   # Ignore bad email addresses and do not raise email delivery errors.

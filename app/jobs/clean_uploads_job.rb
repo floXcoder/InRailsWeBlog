@@ -1,9 +1,7 @@
 # frozen_string_literal: true
 
-class UploadsWorker
-  include Sidekiq::Job
-
-  sidekiq_options queue: :default
+class CleanUploadsJob < ApplicationJob
+  queue_as :default
 
   # Clean uploads without imageable_id and older than 1 day
   def perform

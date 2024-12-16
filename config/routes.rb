@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'sidekiq/web'
-
 Rails.application.routes.draw do
   # Root path
   root 'pages#home'
@@ -266,8 +264,8 @@ Rails.application.routes.draw do
 
   # Admin interface
   authenticate :admin do
-    # Sidekiq interface
-    mount Sidekiq::Web => '/admins/sidekiq'
+    # Jobs interface
+    mount GoodJob::Engine, at: '/admins/jobs'
 
     # Postgres requests analysis
     mount PgHero::Engine, at: '/admins/postgres' if Rails.env.production?

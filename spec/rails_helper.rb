@@ -18,7 +18,6 @@ require 'factory_bot_rails'
 require 'database_cleaner'
 require 'fuubar'
 require 'awesome_print'
-require 'sidekiq/testing'
 require 'webmock/rspec'
 
 require 'spec_helper'
@@ -28,8 +27,7 @@ include Warden::Test::Helpers
 # Setup warden in test mode
 Warden.test_mode!
 
-# A test fake that pushes all jobs into a jobs array
-Sidekiq::Testing.fake!
+# Background jobs: By default, all jobs are executed immediately
 
 # Authorize localhost requests, mock all other requests
 WebMock.disable_net_connect!(allow_localhost: true)

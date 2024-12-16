@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-# describe 'Unused tags workers' do
+# describe 'Unused tags jobs' do
 #
 #   before(:all) do
 #   end

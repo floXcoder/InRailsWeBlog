@@ -108,7 +108,7 @@ function AdminDashboard() {
                       icon={<ListAltIcon/>}/>
 
                 <Item col="s4"
-                      href="/admins/sidekiq"
+                      href="/admins/jobs"
                       text={I18n.t('js.admin.menu.jobs')}
                       icon={<SettingsApplicationsIcon/>}/>
 

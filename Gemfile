@@ -41,7 +41,7 @@ gem 'auto_strip_attributes',    '2.6.0'
 gem 'sanitize',                 '6.1.3'
 
 # Run asynschronous process
-gem 'sidekiq',                  '7.3.6'
+gem 'good_job',                 '4.6.0'
 
 # Redis session store and cache
 gem 'redis-namespace',          '1.11.0'
@@ -105,7 +105,6 @@ group :development do
   # Guard and its minions
   gem 'guard',                  '2.19.0', require: false
   gem 'guard-bundler',          '3.0.1',  require: false
-  gem 'guard-sidekiq',          '0.1.0',  require: false
   gem 'guard-process',          '1.2.1',  require: false
 
   # Annotate models from DB
@@ -165,7 +164,6 @@ group :production do
   # Errors reporting
   gem 'sentry-ruby',      '5.22.0'
   gem 'sentry-rails',     '5.22.0'
-  gem 'sentry-sidekiq',   '5.22.0'
   gem 'stackprof',        '0.2.26'
 
   # Check slow DB requests

@@ -103,7 +103,7 @@ const MenuLayout = function ({onLogout}) {
 
             <Divider/>
 
-            <Item href="/admins/sidekiq"
+            <Item href="/admins/jobs"
                   text={I18n.t('js.admin.menu.jobs')}
                   icon={<SettingsApplicationsIcon/>}/>
 

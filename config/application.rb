@@ -67,8 +67,8 @@ module InRailsWeBlog
     # Don't generate system test files.
     config.generators.system_tests = nil
 
-    # Use sidekiq for ActiveJob (not working with letter_opener)
-    config.active_job.queue_adapter = :sidekiq
+    # Use GoodJob for ActiveJob
+    config.active_job.queue_adapter = :good_job
 
     # I18n configuration
     config.i18n.default_locale = :en

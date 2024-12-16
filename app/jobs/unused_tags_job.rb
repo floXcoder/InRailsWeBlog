@@ -1,9 +1,7 @@
 # frozen_string_literal: true
 
-class UnusedTagsWorker
-  include Sidekiq::Job
-
-  sidekiq_options queue: :default
+class UnusedTagsJob < ApplicationJob
+  queue_as :default
 
   def perform
     Tag.unused.find_in_batches(batch_size: 200) do |tags|

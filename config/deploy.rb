@@ -29,7 +29,6 @@ set :ssh_options, forward_agent: true, port: ENV['GIT_REPO_PORT']
 set :keep_releases, 5
 
 # Ensure any needed password prompts from SSH show up in your terminal so you can handle them
-# But there is a bug when it set to true with sidekiq
 set :pty, false
 
 # Default value for :log_level is :debug
@@ -52,9 +51,6 @@ set :bundle_env_variables, -> { {
 set :bundle_binstubs, nil
 set :bundle_path, nil
 set :bundle_jobs, 4
-
-# Sidekiq configuration from file
-set :sidekiq_config, -> { File.join(shared_path, 'config', 'sidekiq.yml') }
 
 # Cron tasks
 set :whenever_identifier, -> { "#{fetch(:application)}_#{fetch(:stage)}" }
@@ -116,10 +112,10 @@ namespace :deploy do
     end
   end
 
-  desc 'Restart sidekiq application'
-  task :restart_sidekiq do
+  desc 'Restart GoodJob application'
+  task :restart_jobs do
     on roles(:web), in: :sequence, wait: 5 do
-      execute :sudo, 'service ginkonote-sidekiq restart'
+      execute :sudo, 'service ginkonote-jobs restart'
     end
   end
 
@@ -147,7 +143,7 @@ namespace :deploy do
 
   after :finishing, :update_revision_file
   after :finishing, :restart_web
-  after :finishing, :restart_sidekiq
+  after :finishing, :restart_jobs
   # after :publishing, :elastic_search
   # after :publishing, :generate_sitemap
 

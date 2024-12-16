@@ -23,6 +23,7 @@ end
 
 guard :process, name: 'rails', command: 'rails server -p 3000' do
   watch('Gemfile.lock')
+  watch(%r{^app/jobs/.+\.rb})
   watch(%r{^app/mailers/.+\.rb})
   watch(%r{^app/uploaders/.+\.rb})
   watch(%r{^config/.+(?<!locales)/.*})
@@ -32,13 +33,6 @@ end
 
 guard :process, name: 'rsbuild', command: 'npx rsbuild dev --port 8080', env: { 'NODE_ENV' => 'development' } do
   watch('yarn.lock')
-end
-
-guard :sidekiq, environment: 'development' do
-  watch('config/initializers/sidekiq.rb')
-  watch('config/sidekiq.yml')
-  watch(%r{^app/workers/.+\.rb})
-  watch(%r{^app/mailers/.+\.rb})
 end
 
 guard :process, name: 'Annotate', command: 'annotaterb models' do

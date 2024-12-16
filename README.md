@@ -307,13 +307,13 @@ A cron script update each month the IP database:
 
     rails InRailsWeBlog:update_geolite
 
-#### Sidekiq
+#### Jobs
 
-Background processing tool.
+GoodJob is used for processing background jobs.
 
-Run Sidekiq:
+Run GoodJob:
 
-    bundle exec sidekiq
+    bundle exec goo_job start
 
 #### Redis
 
@@ -323,8 +323,6 @@ Used to store:
 - Sessions
 - Cache
 - Serializer
-- Sidekiq
-- Sidekiq status
 - Geocoder
 
 ### Coding rules
@@ -426,7 +424,7 @@ To deploy manually without using Gitlab (commit and deploy first your modificati
 - Other commands:
 
 
-    cap production deploy:restart_sidekiq
+    cap production deploy:restart_jobs
     cap production deploy:restart_web
 
     cap production rails:console
@@ -439,12 +437,6 @@ All specific environment variables to generate assets must be defined in `./conf
 In production environment, run the following command to generate assets inside `./public/assets`:
 
     npm run production
-
-### Sidekiq
-
-Run in production:
-
-    RAILS_ENV=production bundle exec sidekiq -d
 
 ### Sitemap
 

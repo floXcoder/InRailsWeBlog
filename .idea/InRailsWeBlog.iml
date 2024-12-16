@@ -148,6 +148,7 @@
     <orderEntry type="library" scope="PROVIDED" name="elasticsearch-api (v8.17.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="erubi (v1.13.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="erubis (v2.7.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="et-orbi (v1.2.11, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ethon (v0.16.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="factory_bot (v6.5.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="factory_bot_rails (v6.4.4, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
@@ -157,15 +158,16 @@
     <orderEntry type="library" scope="PROVIDED" name="ffi (v1.17.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="formatador (v1.1.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="friendly_id (v5.5.1, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="fugit (v1.11.1, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="fuubar (v2.5.1, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="geocoder (v1.8.4, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="glob (v0.4.1, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="globalid (v1.2.1, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="good_job (v4.6.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="guard (v2.19.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="guard-bundler (v3.0.1, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="guard-compat (v1.2.1, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="guard-process (v1.2.1, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="guard-sidekiq (v0.1.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="hashdiff (v1.1.2, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="hashie (v5.0.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="health_check (v3.1.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
@@ -229,6 +231,7 @@
     <orderEntry type="library" scope="PROVIDED" name="public_suffix (v6.0.1, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="puma (v6.5.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="pundit (v2.4.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="raabro (v1.4.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="racc (v1.8.1, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rack (v2.2.10, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rack-session (v1.0.2, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
@@ -246,7 +249,6 @@
     <orderEntry type="library" scope="PROVIDED" name="rb-inotify (v0.11.1, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rdoc (v6.9.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="redis (v4.8.1, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="redis-client (v0.23.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="redis-namespace (v1.11.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="redis-session-store (v0.11.6, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="regexp_parser (v2.9.3, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
@@ -279,17 +281,15 @@
     <orderEntry type="library" scope="PROVIDED" name="sanitize (v6.1.3, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="searchkick (v5.4.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="secure_headers (v7.0.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="securerandom (v0.4.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="securerandom (v0.4.1, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="selenium-webdriver (v4.27.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sentry-rails (v5.22.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sentry-ruby (v5.22.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="sentry-sidekiq (v5.22.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="seo_cache (v2.0.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sexp_processor (v4.17.3, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="shellany (v0.0.1, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="shoulda-callback-matchers (v1.1.4, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="shoulda-matchers (v6.4.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="sidekiq (v7.3.6, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="simplecov (v0.22.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="simplecov-html (v0.13.1, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="simplecov_json_formatter (v0.1.4, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
@@ -305,7 +305,7 @@
     <orderEntry type="library" scope="PROVIDED" name="terminal-table (v3.0.2, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="thor (v1.3.2, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="tilt (v2.4.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="timeout (v0.4.2, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="timeout (v0.4.3, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="typhoeus (v1.4.1, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="tzinfo (v2.0.6, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="unicode-display_width (v2.6.0, RVM: ruby-3.3.5 [InRailsWeBlog]) [gem]" level="application" />
@@ -328,76 +328,182 @@
   <component name="RailsGeneratorsCache">
     <option name="generators">
       <list>
-        <option value="active_record:migration" />
-        <option value="active_record:model" />
-        <option value="active_record:observer" />
-        <option value="active_record:session_migration" />
+        <option value="active_record:application_record" />
+        <option value="active_record:devise" />
+        <option value="active_record:multi_db" />
+        <option value="acts_as_commentable_upgrade_migration" />
+        <option value="acts_as_commentable_with_threading_migration" />
+        <option value="ahoy:activerecord" />
+        <option value="ahoy:base" />
+        <option value="ahoy:install" />
+        <option value="ahoy:mongoid" />
+        <option value="annotate_rb:config" />
+        <option value="annotate_rb:hook" />
+        <option value="annotate_rb:install" />
+        <option value="annotate_rb:update_config" />
+        <option value="application_record" />
+        <option value="authentication" />
+        <option value="benchmark" />
+        <option value="bullet:install" />
+        <option value="channel" />
         <option value="controller" />
+        <option value="devise" />
+        <option value="devise:controllers" />
+        <option value="devise:install" />
+        <option value="devise:views" />
+        <option value="erb:authentication" />
         <option value="erb:controller" />
         <option value="erb:mailer" />
         <option value="erb:scaffold" />
+        <option value="factory_bot:model" />
+        <option value="friendly_id" />
         <option value="generator" />
+        <option value="geocoder:config" />
+        <option value="geocoder:maxmind:geolite_city" />
+        <option value="geocoder:maxmind:geolite_country" />
+        <option value="good_job:install" />
+        <option value="good_job:update" />
         <option value="helper" />
         <option value="integration_test" />
+        <option value="job" />
+        <option value="mailbox" />
         <option value="mailer" />
-        <option value="metal" />
+        <option value="meta_tags:install" />
         <option value="migration" />
         <option value="model" />
-        <option value="model_subclass" />
-        <option value="observer" />
-        <option value="performance_test" />
-        <option value="plugin" />
+        <option value="mongoid:devise" />
+        <option value="paper_trail:install" />
+        <option value="paper_trail:migration" />
+        <option value="paper_trail:update_item_subtype" />
+        <option value="pghero:config" />
+        <option value="pghero:query_stats" />
+        <option value="pghero:space_stats" />
+        <option value="pundit:install" />
+        <option value="pundit:policy" />
         <option value="resource" />
+        <option value="responders:install" />
+        <option value="responders_controller" />
+        <option value="route_translator:install" />
+        <option value="rspec:channel" />
+        <option value="rspec:feature" />
+        <option value="rspec:generator" />
+        <option value="rspec:install" />
+        <option value="rspec:mailbox" />
+        <option value="rspec:policy" />
+        <option value="rspec:request" />
         <option value="scaffold" />
         <option value="scaffold_controller" />
-        <option value="session_migration" />
-        <option value="stylesheets" />
+        <option value="script" />
+        <option value="sentry" />
+        <option value="serializer" />
+        <option value="system_test" />
+        <option value="task" />
+        <option value="test_unit:authentication" />
+        <option value="test_unit:channel" />
         <option value="test_unit:controller" />
+        <option value="test_unit:generator" />
         <option value="test_unit:helper" />
+        <option value="test_unit:install" />
         <option value="test_unit:integration" />
+        <option value="test_unit:job" />
+        <option value="test_unit:mailbox" />
         <option value="test_unit:mailer" />
         <option value="test_unit:model" />
-        <option value="test_unit:observer" />
-        <option value="test_unit:performance" />
         <option value="test_unit:plugin" />
+        <option value="test_unit:policy" />
         <option value="test_unit:scaffold" />
+        <option value="test_unit:system" />
+        <option value="uploader" />
       </list>
     </option>
     <option name="myGenerators">
       <list>
-        <option value="active_record:migration" />
-        <option value="active_record:model" />
-        <option value="active_record:observer" />
-        <option value="active_record:session_migration" />
+        <option value="active_record:application_record" />
+        <option value="active_record:devise" />
+        <option value="active_record:multi_db" />
+        <option value="acts_as_commentable_upgrade_migration" />
+        <option value="acts_as_commentable_with_threading_migration" />
+        <option value="ahoy:activerecord" />
+        <option value="ahoy:base" />
+        <option value="ahoy:install" />
+        <option value="ahoy:mongoid" />
+        <option value="annotate_rb:config" />
+        <option value="annotate_rb:hook" />
+        <option value="annotate_rb:install" />
+        <option value="annotate_rb:update_config" />
+        <option value="application_record" />
+        <option value="authentication" />
+        <option value="benchmark" />
+        <option value="bullet:install" />
+        <option value="channel" />
         <option value="controller" />
+        <option value="devise" />
+        <option value="devise:controllers" />
+        <option value="devise:install" />
+        <option value="devise:views" />
+        <option value="erb:authentication" />
         <option value="erb:controller" />
         <option value="erb:mailer" />
         <option value="erb:scaffold" />
+        <option value="factory_bot:model" />
+        <option value="friendly_id" />
         <option value="generator" />
+        <option value="geocoder:config" />
+        <option value="geocoder:maxmind:geolite_city" />
+        <option value="geocoder:maxmind:geolite_country" />
+        <option value="good_job:install" />
+        <option value="good_job:update" />
         <option value="helper" />
         <option value="integration_test" />
+        <option value="job" />
+        <option value="mailbox" />
         <option value="mailer" />
-        <option value="metal" />
+        <option value="meta_tags:install" />
         <option value="migration" />
         <option value="model" />
-        <option value="model_subclass" />
-        <option value="observer" />
-        <option value="performance_test" />
-        <option value="plugin" />
+        <option value="mongoid:devise" />
+        <option value="paper_trail:install" />
+        <option value="paper_trail:migration" />
+        <option value="paper_trail:update_item_subtype" />
+        <option value="pghero:config" />
+        <option value="pghero:query_stats" />
+        <option value="pghero:space_stats" />
+        <option value="pundit:install" />
+        <option value="pundit:policy" />
         <option value="resource" />
+        <option value="responders:install" />
+        <option value="responders_controller" />
+        <option value="route_translator:install" />
+        <option value="rspec:channel" />
+        <option value="rspec:feature" />
+        <option value="rspec:generator" />
+        <option value="rspec:install" />
+        <option value="rspec:mailbox" />
+        <option value="rspec:policy" />
+        <option value="rspec:request" />
         <option value="scaffold" />
         <option value="scaffold_controller" />
-        <option value="session_migration" />
-        <option value="stylesheets" />
+        <option value="script" />
+        <option value="sentry" />
+        <option value="serializer" />
+        <option value="system_test" />
+        <option value="task" />
+        <option value="test_unit:authentication" />
+        <option value="test_unit:channel" />
         <option value="test_unit:controller" />
+        <option value="test_unit:generator" />
         <option value="test_unit:helper" />
+        <option value="test_unit:install" />
         <option value="test_unit:integration" />
+        <option value="test_unit:job" />
+        <option value="test_unit:mailbox" />
         <option value="test_unit:mailer" />
         <option value="test_unit:model" />
-        <option value="test_unit:observer" />
-        <option value="test_unit:performance" />
         <option value="test_unit:plugin" />
+        <option value="test_unit:policy" />
         <option value="test_unit:scaffold" />
+        <option value="test_unit:system" />
+        <option value="uploader" />
       </list>
     </option>
   </component>
@@ -510,8 +616,6 @@
           <RakeTaskImpl id="InRailsWeBlog">
             <subtasks>
               <RakeTaskImpl description="Check code doesn't contain log trace" fullCommand="InRailsWeBlog:check_code" id="check_code" />
-              <RakeTaskImpl description="Clean uploads without imageable and older than 1 day" fullCommand="InRailsWeBlog:clean_orphan_pictures" id="clean_orphan_pictures" />
-              <RakeTaskImpl description="Clean user visits" fullCommand="InRailsWeBlog:clean_visits" id="clean_visits" />
               <RakeTaskImpl description="Create new version using Gitflow" fullCommand="InRailsWeBlog:create_version" id="create_version" />
               <RakeTaskImpl description="Deploy project to server (repo must be on develop branch)" fullCommand="InRailsWeBlog:deploy" id="deploy" />
               <RakeTaskImpl description="Dump database into YAML files" fullCommand="InRailsWeBlog:dump[dir_name]" id="dump[dir_name]" />
@@ -525,7 +629,6 @@
               <RakeTaskImpl description="Populate cache for SEO" fullCommand="InRailsWeBlog:populate_seo_cache" id="populate_seo_cache" />
               <RakeTaskImpl description="Regenerate uploaded pictures for all models" fullCommand="InRailsWeBlog:regenerate_pictures" id="regenerate_pictures" />
               <RakeTaskImpl description="Regenerate slugs for all models" fullCommand="InRailsWeBlog:regenerate_slugs" id="regenerate_slugs" />
-              <RakeTaskImpl description="Remove tags with no associated articles" fullCommand="InRailsWeBlog:remove_unused_tags" id="remove_unused_tags" />
               <RakeTaskImpl description="Reset all tracking data" fullCommand="InRailsWeBlog:reset_trackers" id="reset_trackers" />
               <RakeTaskImpl description="Restore database" fullCommand="InRailsWeBlog:restore" id="restore" />
               <RakeTaskImpl description="Reindex all models for each locale" fullCommand="InRailsWeBlog:search_reindex" id="search_reindex" />
@@ -540,7 +643,6 @@
                 </subtasks>
               </RakeTaskImpl>
               <RakeTaskImpl description="Update Geolite2 City database" fullCommand="InRailsWeBlog:update_geolite_db" id="update_geolite_db" />
-              <RakeTaskImpl description="Update tracker data for all models" fullCommand="InRailsWeBlog:update_tracker_data" id="update_tracker_data" />
               <RakeTaskImpl description="" fullCommand="InRailsWeBlog:dump" id="dump" />
               <RakeTaskImpl description="" fullCommand="InRailsWeBlog:flush_redis" id="flush_redis" />
               <RakeTaskImpl description="" fullCommand="InRailsWeBlog:populate" id="populate" />
