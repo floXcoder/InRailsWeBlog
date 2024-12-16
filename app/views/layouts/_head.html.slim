@@ -45,13 +45,13 @@ head itemscope="" itemtype="http://schema.org/WebSite"
     link rel="preload" href="#{AssetManifest.asset_path('Roboto-Italic.woff2')}" as="font" type="font/woff2" crossorigin="anonymous"
   
     - if %w[user_article].include?(request.path_parameters[:name])
-      link rel="preload" href="#{AssetManifest.asset_javascript_path('article-show.js')}" as="script"
+      link rel="preload" href="#{AssetManifest.javascript_path('article-show.js')}" as="script"
     - elsif %w[user_articles topic_articles tagged_topic_articles tagged_articles].include?(request.path_parameters[:name])
-      link rel="preload" href="#{AssetManifest.asset_javascript_path('article-index.js')}" as="script"
-      link rel="preload" href="#{AssetManifest.asset_stylesheet_path('article-index.css')}" as="style"
+      link rel="preload" href="#{AssetManifest.javascript_path('article-index.js')}" as="script"
+      link rel="preload" href="#{AssetManifest.stylesheet_path('article-index.css')}" as="style"
     - elsif user_signed_in?
-      link rel="preload" href="#{AssetManifest.asset_javascript_path('user.js')}" as="script"
-      link rel="preload" href="#{AssetManifest.asset_stylesheet_path('pages/user.css')}" as="style"
+      link rel="preload" href="#{AssetManifest.javascript_path('user.js')}" as="script"
+      link rel="preload" href="#{AssetManifest.stylesheet_path('pages/user.css')}" as="style"
     - elsif request.path_parameters[:name].blank?
-      link rel="preload" href="#{AssetManifest.asset_javascript_path('default.js')}" as="script"
-      link rel="preload" href="#{AssetManifest.asset_stylesheet_path('pages/default.css')}" as="style"
+      link rel="preload" href="#{AssetManifest.javascript_path('default.js')}" as="script"
+      link rel="preload" href="#{AssetManifest.stylesheet_path('pages/default.css')}" as="style"
