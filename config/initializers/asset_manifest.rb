@@ -89,7 +89,7 @@ class AssetManifest
       url = hash_manifest[url.split('?')[0]]&.chomp('/') || url if hash_manifest
     end
 
-    url = "#{root_url}/#{url.chomp('/')}" if Rails.env.production?
+    url = "#{root_url}/#{(url.starts_with?('/') ? url[1..] : url).chomp('/')}" if Rails.env.production?
 
     return url
   end
@@ -105,7 +105,7 @@ class AssetManifest
       url = hash_manifest[url.split('?')[0]]&.chomp('/') || url if hash_manifest
     end
 
-    url = "#{root_url}/#{url.chomp('/')}" if Rails.env.production?
+    url = "#{root_url}/assets/#{(url.starts_with?('/') ? url[1..] : url).chomp('/')}" if Rails.env.production?
 
     return url
   end

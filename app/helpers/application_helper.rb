@@ -27,9 +27,11 @@ module ApplicationHelper
     base_title.html_safe
   end
 
-  def javascript(*files, **options)
-    files << (Rails.env.production? ? 'production' : 'development')
+  def javascript_initial(file, **options)
+    content_for(:javascript_initial) { javascript_include_tag(file, **options) }
+  end
 
+  def javascript(*files, **options)
     AssetManifest.associated_javascripts(files).each do |type, js_files|
       js_files.each do |js_file|
         if type == :initial
