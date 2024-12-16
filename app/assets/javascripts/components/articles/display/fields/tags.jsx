@@ -1,10 +1,13 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import {
     Field
 } from 'react-final-form';
 
-import CategorizedField from '../../../materialize/form/categorized';
+import I18n from '@js/modules/translations';
+
+import CategorizedField from '@js/components/materialize/form/categorized';
 
 
 export default class ArticleTagsField extends React.Component {

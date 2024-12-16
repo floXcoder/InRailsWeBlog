@@ -1,4 +1,3 @@
-'use strict';
 
 // const tag2attr = {
 //     a: 'href',

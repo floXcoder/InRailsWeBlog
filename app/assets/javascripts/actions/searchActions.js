@@ -1,12 +1,13 @@
-'use strict';
+import * as Utils from '@js/modules/utils';
 
-import api from '../middlewares/api';
+import api from '@js/middlewares/api';
 
-import History from '../modules/history';
+import History from '@js/modules/history';
+import Notification from '@js/modules/notification';
 
-import * as ActionTypes from '../constants/actionTypes';
+import * as ActionTypes from '@js/constants/actionTypes';
 
-import AnalyticsService from '../modules/analyticsService';
+import AnalyticsService from '@js/modules/analyticsService';
 
 
 // Autocomplete

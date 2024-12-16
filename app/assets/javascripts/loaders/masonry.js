@@ -1,8 +1,7 @@
-'use strict';
 
 import {
     manageImportError
-} from '../actions';
+} from '@js/actions/errorActions';
 
 export default function Masonry(callback) {
     import(/* webpackChunkName: "masonry" */ 'react-masonry-component')

@@ -1,4 +1,5 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import Grid from '@mui/material/Grid2';
 import Avatar from '@mui/material/Avatar';
@@ -16,6 +17,8 @@ import AnalyticsIcon from '@mui/icons-material/Assessment';
 import LinkOffIcon from '@mui/icons-material/LinkOff';
 import MobileFriendlyIcon from '@mui/icons-material/MobileFriendly';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+
+import I18n from '@js/modules/translations';
 
 
 const _renderListItem = function (title, details, Icon, reverse = false) {

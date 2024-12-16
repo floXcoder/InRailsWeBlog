@@ -2,20 +2,19 @@ doctype html
 html lang="#{I18n.locale}"
 
   = render 'layouts/head'
-
-  - stylesheet 'default'
+  
   - translations "default-#{I18n.locale}"
-  - javascript_nomodule 'polyfills'
-  - javascript_defer 'commons', 'default'
 
   body class="lang-#{I18n.locale}"
     = yield
 
     = render 'layouts/flash_messages', flash: flash
-
+    
+    - stylesheet 'pages/default'
+    = render 'layouts/stylesheet'
+    
+    - javascript 'default'
     = render 'layouts/javascript'
 
     - if ENV['METRICS_ADDRESS'].present? && Rails.env.production? && !@seo_mode && !current_admin
       = render 'layouts/metrics'
-
-    = render 'layouts/stylesheet'

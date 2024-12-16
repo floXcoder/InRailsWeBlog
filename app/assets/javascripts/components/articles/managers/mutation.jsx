@@ -1,74 +1,65 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import {connect} from 'react-redux';
+
+import I18n from '@js/modules/translations';
+import * as Utils from '@js/modules/utils';
+import Notification from '@js/modules/notification';
 
 import {
     userArticlePath
-} from '../../../constants/routesHelper';
+} from '@js/constants/routesHelper';
 
 import {
     saveLocalData,
     getLocalData,
     removeLocalData
-} from '../../../middlewares/localStorage';
+} from '@js/middlewares/localStorage';
 
 import {
-    showUserLogin,
+    showUserLogin
+} from '@js/actions/uiActions';
+
+import {
     addArticle,
     fetchArticle,
     updateArticle
-} from '../../../actions';
+} from '@js/actions/articleActions';
 
 import {
     getArticleErrors,
     getIsTagError
-} from '../../../selectors';
+} from '@js/selectors/articleSelectors';
 
 import {
     getScreenPosition
-} from '../../../modules/screenPosition';
+} from '@js/modules/screenPosition';
 
-import withRouter from '../../modules/router';
+import withRouter from '@js/components/modules/router';
 
 import {
     getDisplayName
-} from '../../modules/common';
+} from '@js/components/modules/common';
 
 import {
     formatTagArticles
-} from '../../../forms/article';
+} from '@js/forms/article';
 
 import {
     articleWaitTimeBeforeSaving,
     articleTemporaryDataName,
     articleUnsavedDataName
-} from '../../modules/constants';
+} from '@js/components/modules/constants';
 
 import {
     onPageReady
-} from '../../loaders/lazyLoader';
+} from '@js/components/loaders/lazyLoader';
 
+let editingArticleId = null;
 
 export default function articleMutationManager(mode) {
     return function articleMutation(WrappedComponent) {
-        @connect((state) => ({
-            isUserConnected: state.userState.isConnected,
-            currentUser: state.userState.user,
-            currentTopic: state.topicState.currentTopic,
-            tags: state.tagState.topicTags,
-            isFetching: state.articleState.isFetching,
-            article: mode === 'edit' ? state.articleState.article : undefined,
-            articleErrors: getArticleErrors(state),
-            isTagError: getIsTagError(state)
-        }), {
-            showUserLogin,
-            addArticle,
-            fetchArticle,
-            updateArticle
-        })
-        @withRouter({
-            location: true,
-            params: true,
-            navigate: true
-        })
         class ArticleMutationComponent extends React.Component {
             static displayName = `ArticleMutationManager(${getDisplayName(WrappedComponent)})`;
 
@@ -95,6 +86,16 @@ export default function articleMutationManager(mode) {
 
             constructor(props) {
                 super(props);
+
+                if (mode === 'edit') {
+                    const newEditingArticleId = props.article?.id || props.initProps?.article?.article?.id;
+
+                    if (editingArticleId === newEditingArticleId) {
+                        return;
+                    } else {
+                        editingArticleId = newEditingArticleId;
+                    }
+                }
 
                 this._onLeaveMessage = false;
 
@@ -201,6 +202,8 @@ export default function articleMutationManager(mode) {
                 }
 
                 this._handleChange.cancel();
+
+                editingArticleId = null;
             }
 
             _handleFormChange = (formState) => {
@@ -391,6 +394,24 @@ export default function articleMutationManager(mode) {
             }
         }
 
-        return ArticleMutationComponent;
+        return connect((state) => ({
+            isUserConnected: state.userState.isConnected,
+            currentUser: state.userState.user,
+            currentTopic: state.topicState.currentTopic,
+            tags: state.tagState.topicTags,
+            isFetching: state.articleState.isFetching,
+            article: mode === 'edit' ? state.articleState.article : undefined,
+            articleErrors: getArticleErrors(state),
+            isTagError: getIsTagError(state)
+        }), {
+            showUserLogin,
+            addArticle,
+            fetchArticle,
+            updateArticle
+        })(withRouter({
+            location: true,
+            params: true,
+            navigate: true
+        })(ArticleMutationComponent));
     };
 }

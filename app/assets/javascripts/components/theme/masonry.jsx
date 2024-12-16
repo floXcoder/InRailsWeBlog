@@ -1,6 +1,7 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import '../../../stylesheets/components/masonry.scss';
+import classNames from 'classnames';
 
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
@@ -8,13 +9,17 @@ import IconButton from '@mui/material/IconButton';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 
+import I18n from '@js/modules/translations';
+
 import {
     hasLocalStorage,
     saveLocalData,
     getLocalData
-} from '../../middlewares/localStorage';
+} from '@js/middlewares/localStorage';
 
-import MasonryLoader from '../../loaders/masonry';
+import MasonryLoader from '@js/loaders/masonry';
+
+import '@css/components/masonry.scss';
 
 const TRANSITION_DURATION = 600;
 const COLUMNS = {

@@ -1,18 +1,18 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import {connect} from 'react-redux';
+
+import I18n from '@js/modules/translations';
 
 import {
     fetchComments
-} from '../../actions';
+} from '@js/actions/commentActions';
 
-import Loader from '../theme/loader';
-import Table from '../theme/table';
+import Loader from '@js/components/theme/loader';
+import Table from '@js/components/theme/table';
 
-export default @connect((state) => ({
-    comments: state.commentState.comments,
-    isFetching: state.commentState.isFetching
-}), {
-    fetchComments
-})
+
 class AdminComments extends React.Component {
     static propTypes = {
         // from connect
@@ -26,7 +26,11 @@ class AdminComments extends React.Component {
     }
 
     componentDidMount() {
-        this.props.fetchComments({order: 'created_desc', complete: true, limit: 2000}, {noCache: true});
+        this.props.fetchComments({
+            order: 'created_desc',
+            complete: true,
+            limit: 2000
+        }, {noCache: true});
     }
 
     render() {
@@ -45,39 +49,35 @@ class AdminComments extends React.Component {
                 </h1>
 
                 <Table title={I18n.t('js.admin.comments.table.title')}
-                       locale={I18n.locale}
+                       isPaginated={true}
                        data={this.props.comments.map((comment) => ({...comment}))}
                        columns={[
                            {
-                               title: I18n.t('js.admin.comments.table.columns.id'),
-                               field: 'id',
+                               name: I18n.t('js.admin.comments.table.columns.id'),
+                               key: 'id',
                                hidden: true
                            },
                            {
-                               title: I18n.t('js.admin.comments.table.columns.title'),
-                               field: 'title',
+                               name: I18n.t('js.admin.comments.table.columns.title'),
+                               key: 'title'
                            },
                            {
-                               title: I18n.t('js.admin.comments.table.columns.body'),
-                               field: 'body',
+                               name: I18n.t('js.admin.comments.table.columns.body'),
+                               key: 'body'
                            },
                            {
-                               title: I18n.t('js.admin.comments.table.columns.posted_at'),
-                               field: 'postedAt',
-                           },
-                       ]}
-                       options={{
-                           columnsButton: true,
-                           exportButton: true,
-                           filtering: true,
-                           actionsColumnIndex: -1,
-                           pageSize: 100,
-                           pageSizeOptions: [100, 500, 1000],
-                           emptyRowsWhenPaging: false
-                       }}
-                       actions={[]}/>
+                               name: I18n.t('js.admin.comments.table.columns.posted_at'),
+                               key: 'postedAt'
+                           }
+                       ]}/>
             </div>
         );
     }
 }
 
+export default connect((state) => ({
+    comments: state.commentState.comments,
+    isFetching: state.commentState.isFetching
+}), {
+    fetchComments
+})(AdminComments)

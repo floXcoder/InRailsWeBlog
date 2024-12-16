@@ -1,4 +1,5 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField/TextField';
@@ -9,7 +10,7 @@ import Downshift from 'downshift';
 
 import {
     suggestionsLimit
-} from '../modules/constants';
+} from '@js/components/modules/constants';
 
 
 export default class Autocomplete extends React.Component {

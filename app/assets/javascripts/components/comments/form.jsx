@@ -1,10 +1,15 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import classNames from 'classnames';
 
 import TextField from '@mui/material/TextField';
 import FormHelperText from '@mui/material/FormHelperText';
 import Button from '@mui/material/Button';
 
-import Rating from '../theme/rating';
+import I18n from '@js/modules/translations';
+
+import Rating from '@js/components/theme/rating';
 
 
 export default class CommentForm extends React.PureComponent {

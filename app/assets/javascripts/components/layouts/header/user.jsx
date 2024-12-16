@@ -1,12 +1,13 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import IconButton from '@mui/material/IconButton';
 
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
-import Dropdown from '../../theme/dropdown';
+import Dropdown from '@js/components/theme/dropdown';
 
-import HeaderUserMenu from './menus/user';
+import HeaderUserMenu from '@js/components/layouts/header/menus/user';
 
 
 const HomeUserHeader = function ({userSlug, onLogoutClick, onPreferenceClick, isAdminConnected}) {

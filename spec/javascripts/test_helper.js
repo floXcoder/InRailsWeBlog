@@ -1,9 +1,4 @@
-'use strict';
-
 // File called to set up environment before all tests
-
-// Auto polyfill
-import '../../app/assets/javascripts/polyfills';
 
 import {
     render
@@ -20,28 +15,9 @@ import {
 import {
     thunk
 } from 'redux-thunk';
-import * as utils from '../../app/assets/javascripts/modules/utils';
 
 import fetchMiddleware from '../../app/assets/javascripts/middlewares/fetch';
 import mutationMiddleware from '../../app/assets/javascripts/middlewares/mutation';
-
-
-// Global variables from Webpack config
-global.$ = global.jQuery = global.jquery = require('jquery');
-global.log = require('loglevel');
-global.React = require('react');
-global.ReactCreateRoot = require('react-dom/client').createRoot;
-global.PropTypes = require('prop-types');
-global.connect = require('react-redux').connect;
-global.classNames = require('classnames');
-
-global.GlobalEnvironment = {};
-global.GlobalEnvironment.NODE_ENV = 'test';
-
-// jQuery
-require('jquery');
-
-global.Utils = utils;
 
 // Translations
 window.defaultLocale = 'en';
@@ -120,11 +96,4 @@ global.dispatch = (store, actionCreator) => {
     } else {
         return store.getState();
     }
-};
-
-// Notifications
-global.Notification = {
-    alert: jest.fn(),
-    success: jest.fn(),
-    error: jest.fn()
 };

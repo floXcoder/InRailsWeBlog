@@ -1,18 +1,18 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import {connect} from 'react-redux';
+
+import I18n from '@js/modules/translations';
 
 import {
     fetchTags
-} from '../../actions';
+} from '@js/actions/tagActions';
 
-import Loader from '../theme/loader';
-import Table from '../theme/table';
+import Loader from '@js/components/theme/loader';
+import Table from '@js/components/theme/table';
 
-export default @connect((state) => ({
-    tags: state.tagState.tags,
-    isFetching: state.tagState.isFetching
-}), {
-    fetchTags
-})
+
 class AdminTags extends React.Component {
     static propTypes = {
         // from connect
@@ -51,36 +51,36 @@ class AdminTags extends React.Component {
                 </h1>
 
                 <Table title={I18n.t('js.admin.tags.table.title')}
-                       locale={I18n.locale}
+                       isPaginated={true}
                        data={this.props.tags.map((tag) => ({...tag}))}
                        columns={[
                            {
-                               title: I18n.t('js.admin.tags.table.columns.id'),
-                               field: 'id',
+                               name: I18n.t('js.admin.tags.table.columns.id'),
+                               key: 'id',
                                hidden: true
                            },
                            {
-                               title: I18n.t('js.admin.tags.table.columns.name'),
-                               field: 'name'
+                               name: I18n.t('js.admin.tags.table.columns.name'),
+                               key: 'name'
                            },
                            {
-                               title: I18n.t('js.admin.tags.table.columns.description'),
-                               field: 'description',
+                               name: I18n.t('js.admin.tags.table.columns.description'),
+                               key: 'description',
                                hidden: true
                            },
                            {
-                               title: I18n.t('js.admin.tags.table.columns.synonyms'),
-                               field: 'synonyms',
+                               name: I18n.t('js.admin.tags.table.columns.synonyms'),
+                               key: 'synonyms',
                                hidden: true
                            },
                            {
-                               title: I18n.t('js.admin.tags.table.columns.priority'),
-                               field: 'priority',
+                               name: I18n.t('js.admin.tags.table.columns.priority'),
+                               key: 'priority',
                                hidden: true
                            },
                            {
-                               title: I18n.t('js.admin.tags.table.columns.visibility'),
-                               field: 'visibility',
+                               name: I18n.t('js.admin.tags.table.columns.visibility'),
+                               key: 'visibility',
                                lookup: {
                                    everyone: I18n.t('js.tag.enums.visibility.everyone'),
                                    only_me: I18n.t('js.tag.enums.visibility.only_me')
@@ -88,40 +88,31 @@ class AdminTags extends React.Component {
                                width: 120
                            },
                            {
-                               title: I18n.t('js.admin.tags.table.columns.tagged_articles_count'),
-                               field: 'taggedArticlesCount',
+                               name: I18n.t('js.admin.tags.table.columns.tagged_articles_count'),
+                               key: 'taggedArticlesCount',
                                filtering: false
                            },
                            {
-                               title: I18n.t('js.admin.tags.table.columns.visits_count'),
-                               field: 'tracker[visitsCount]',
+                               name: I18n.t('js.admin.tags.table.columns.visits_count'),
+                               key: 'tracker.visitsCount',
                                filtering: false
                            },
                            {
-                               title: I18n.t('js.admin.tags.table.columns.clicks_count'),
-                               field: 'tracker[clicksCount]',
+                               name: I18n.t('js.admin.tags.table.columns.clicks_count'),
+                               key: 'tracker.clicksCount',
                                filtering: false
                            },
                            {
-                               title: I18n.t('js.admin.tags.table.columns.searches_count'),
-                               field: 'tracker[searchesCount]',
+                               name: I18n.t('js.admin.tags.table.columns.searches_count'),
+                               key: 'tracker.searchesCount',
                                filtering: false
                            },
                            {
-                               title: I18n.t('js.admin.tags.table.columns.date'),
-                               field: 'date',
+                               name: I18n.t('js.admin.tags.table.columns.date'),
+                               key: 'date',
                                filtering: false
                            }
                        ]}
-                       options={{
-                           columnsButton: true,
-                           exportButton: true,
-                           filtering: true,
-                           actionsColumnIndex: -1,
-                           pageSize: 100,
-                           pageSizeOptions: [100, 500, 1000],
-                           emptyRowsWhenPaging: false
-                       }}
                        actions={[
                            {
                                icon: 'open_in_new',
@@ -134,3 +125,9 @@ class AdminTags extends React.Component {
     }
 }
 
+export default connect((state) => ({
+    tags: state.tagState.tags,
+    isFetching: state.tagState.isFetching
+}), {
+    fetchTags
+})(AdminTags)

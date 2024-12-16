@@ -1,4 +1,4 @@
-'use strict';
+import PropTypes from 'prop-types';
 
 import FormControl from '@mui/material/FormControl';
 import FormGroup from '@mui/material/FormGroup';

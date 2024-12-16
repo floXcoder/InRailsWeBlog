@@ -1,27 +1,25 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import {connect} from 'react-redux';
 
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 
 import VerticalAlignCenterIcon from '@mui/icons-material/VerticalAlignCenter';
 
+import I18n from '@js/modules/translations';
+
 import {
     fetchBlogs,
     addBlog,
     updateBlog
-} from '../../actions/admin';
+} from '@js/actions/admin';
 
-import AdminBlogCard from './blogs/card';
-import AdminBlogForm from './blogs/form';
+import AdminBlogCard from '@js/components/admins/blogs/card';
+import AdminBlogForm from '@js/components/admins/blogs/form';
 
-export default @connect((state) => ({
-    blogs: state.adminState.blogs,
-    isFetching: state.adminState.isFetching
-}), {
-    fetchBlogs,
-    addBlog,
-    updateBlog
-})
+
 class AdminBlogs extends React.Component {
     static propTypes = {
         // from connect
@@ -157,3 +155,12 @@ class AdminBlogs extends React.Component {
         );
     }
 }
+
+export default connect((state) => ({
+    blogs: state.adminState.blogs,
+    isFetching: state.adminState.isFetching
+}), {
+    fetchBlogs,
+    addBlog,
+    updateBlog
+})(AdminBlogs);

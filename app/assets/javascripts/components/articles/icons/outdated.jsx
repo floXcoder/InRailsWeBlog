@@ -1,7 +1,11 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import HighlightIcon from '@mui/icons-material/HighlightOutlined';
 import HighlightOffIcon from '@mui/icons-material/HighlightOffOutlined';
+
+import I18n from '@js/modules/translations';
+
 
 function ArticleOutdatedIcon({
                                  isOutdated,

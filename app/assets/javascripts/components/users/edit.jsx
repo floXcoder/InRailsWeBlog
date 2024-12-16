@@ -1,21 +1,25 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import {connect} from 'react-redux';
 
 import {
     Link
-} from 'react-router-dom';
+} from 'react-router';
+
+import I18n from '@js/modules/translations';
+import * as Utils from '@js/modules/utils';
 
 import {
     fetchMetaTags
-} from '../../actions';
+} from '@js/actions/uiActions';
 
 import {
     rootPath,
     userHomePath
-} from '../../constants/routesHelper';
+} from '@js/constants/routesHelper';
 
-export default @connect(null, {
-    fetchMetaTags
-})
+
 class UserEdit extends React.Component {
     static propTypes = {
         // from connect
@@ -209,3 +213,7 @@ class UserEdit extends React.Component {
         );
     }
 }
+
+export default connect(null, {
+    fetchMetaTags
+})(UserEdit)

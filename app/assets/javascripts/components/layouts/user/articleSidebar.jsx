@@ -1,4 +1,7 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import classNames from 'classnames';
 
 import IconButton from '@mui/material/IconButton';
 import Drawer from '@mui/material/Drawer';
@@ -6,7 +9,7 @@ import Drawer from '@mui/material/Drawer';
 import FirstPageIcon from '@mui/icons-material/FirstPage';
 import LastPageIcon from '@mui/icons-material/LastPage';
 
-import ArticleSidebar from '../../articles/sidebar';
+import ArticleSidebar from '@js/components/articles/sidebar';
 
 
 export default class ArticleSidebarLayout extends React.PureComponent {

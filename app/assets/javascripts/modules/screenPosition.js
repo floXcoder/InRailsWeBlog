@@ -1,4 +1,3 @@
-'use strict';
 
 export const getScreenPosition = () => {
     const doc = document.documentElement;

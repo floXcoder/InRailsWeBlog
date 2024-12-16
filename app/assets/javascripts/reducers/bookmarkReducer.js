@@ -1,12 +1,11 @@
-'use strict';
 
-import * as ActionTypes from '../constants/actionTypes';
+import * as ActionTypes from '@js/constants/actionTypes';
 
 import {
     fetchReducer,
     addOrReplaceIn,
     removeIn
-} from './mutators';
+} from '@js/reducers/mutators';
 
 const initState = {
     isFetching: false,

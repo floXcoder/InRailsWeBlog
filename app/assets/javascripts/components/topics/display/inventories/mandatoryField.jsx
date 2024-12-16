@@ -1,10 +1,11 @@
-'use strict';
-
 import Grid from '@mui/material/Grid2';
 import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import NativeSelect from '@mui/material/NativeSelect';
+
+import I18n from '@js/modules/translations';
+
 
 function TopicFormMandatoryFieldDisplay() {
     return (

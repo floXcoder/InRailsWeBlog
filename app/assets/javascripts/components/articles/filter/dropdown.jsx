@@ -1,12 +1,14 @@
-'use strict';
+import React from 'react';
 
 import {
     Link
-} from 'react-router-dom';
+} from 'react-router';
 
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
+
+import I18n from '@js/modules/translations';
 
 
 export default class ArticleFilterMenu extends React.Component {

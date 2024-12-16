@@ -1,3 +1,4 @@
-'use strict';
 
-export * from './adminSelectors';
+export {
+    getMetaResults
+} from '@js/selectors/adminSelectors';

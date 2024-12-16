@@ -1,10 +1,10 @@
-'use strict';
+import PropTypes from 'prop-types';
 
 import {
     Editor
-} from '../../loaders/components';
+} from '@js/components/loaders/components';
 
-import ErrorForm from '../../materialize/form/error';
+import ErrorForm from '@js/components/materialize/form/error';
 
 
 function EditorField({input,

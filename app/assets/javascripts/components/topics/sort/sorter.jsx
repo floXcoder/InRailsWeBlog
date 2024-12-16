@@ -1,8 +1,9 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import {
     Link
-} from 'react-router-dom';
+} from 'react-router';
 
 import Button from '@mui/material/Button';
 
@@ -13,11 +14,13 @@ import {
     SortableElement
 } from 'react-sortable-hoc';
 
+import I18n from '@js/modules/translations';
+
 import {
     rootPath
-} from '../../../constants/routesHelper';
+} from '@js/constants/routesHelper';
 
-import TopicCardSort from './card';
+import TopicCardSort from '@js/components/topics/sort/card';
 
 const SortableItem = SortableElement(({topic}) => (
     <TopicCardSort topic={topic}/>
@@ -72,7 +75,10 @@ export default class TopicSorter extends React.Component {
 
                 <div className="row">
                     <div className="col s12 m6 center-align">
-                        <Button variant="outlined" size="small" component={Link} to={rootPath()}>
+                        <Button variant="outlined"
+                                size="small"
+                                component={Link}
+                                to={rootPath()}>
                             {I18n.t('js.helpers.buttons.cancel')}
                         </Button>
                     </div>

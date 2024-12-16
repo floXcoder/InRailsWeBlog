@@ -1,4 +1,7 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import {connect} from 'react-redux';
 
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Typography from '@mui/material/Typography';
@@ -10,28 +13,25 @@ import ClassIcon from '@mui/icons-material/Class';
 import LabelIcon from '@mui/icons-material/Label';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 
+import I18n from '@js/modules/translations';
+
 import {
     fetchMetaSearch
-} from '../../../actions/admin';
+} from '@js/actions/admin';
 
 import {
     getMetaResults
-} from '../../../selectors/adminSelectors';
+} from '@js/selectors/adminSelectors';
 
 import {
     metaSearchLimit
-} from '../../modules/constants';
+} from '@js/components/modules/constants';
 
-import Autocomplete from '../../theme/autocomplete';
+import Autocomplete from '@js/components/theme/autocomplete';
 
-import HelpDialog from './helpDialog';
+import HelpDialog from '@js/components/layouts/admin/helpDialog';
 
 
-export default @connect((state) => ({
-    metaResults: getMetaResults(state)
-}), {
-    fetchMetaSearch
-})
 class AutocompleteSearch extends React.Component {
     static propTypes = {
         // from connect
@@ -150,3 +150,9 @@ class AutocompleteSearch extends React.Component {
         );
     }
 }
+
+export default connect((state) => ({
+    metaResults: getMetaResults(state)
+}), {
+    fetchMetaSearch
+})(AutocompleteSearch)

@@ -1,16 +1,13 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-// import UserComplete from './complete';
+import {connect} from 'react-redux';
 
-import withRouter from '../modules/router';
+// import UserComplete from '@js/components/users/complete';
+
+import withRouter from '@js/components/modules/router';
 
 
-export default @connect((state) => ({
-    user: state.userState.user
-}), {
-    // fetchUser,
-})
-@withRouter({params: true})
 class UserShow extends React.Component {
     static propTypes = {
         // from router
@@ -34,3 +31,9 @@ class UserShow extends React.Component {
         );
     }
 }
+
+export default connect((state) => ({
+    user: state.userState.user
+}), {
+    // fetchUser,
+})(withRouter({params: true})(UserShow));

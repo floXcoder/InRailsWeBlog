@@ -1,8 +1,12 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import I18n from '@js/modules/translations';
+import Notification from '@js/modules/notification';
 
 import {
     pushError
-} from '../../actions';
+} from '@js/actions/errorActions';
 
 
 export default class ErrorBoundary extends React.Component {

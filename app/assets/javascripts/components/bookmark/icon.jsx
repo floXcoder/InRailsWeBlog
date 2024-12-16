@@ -1,21 +1,24 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import {connect} from 'react-redux';
+
+import classNames from 'classnames';
 
 import FavoriteIcon from '@mui/icons-material/FavoriteOutlined';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorderOutlined';
 
+import I18n from '@js/modules/translations';
+
 import {
     bookmark
-} from '../../actions';
+} from '@js/actions/bookmarkActions';
 
 import {
     getBookmark
-} from '../../selectors';
+} from '@js/selectors/bookmarkSelectors';
 
-export default @connect((state, props) => ({
-    bookmarkData: getBookmark(state, props)
-}), {
-    bookmark
-})
+
 class BookmarkIcon extends React.PureComponent {
     static propTypes = {
         bookmarkedType: PropTypes.string.isRequired,
@@ -93,3 +96,9 @@ class BookmarkIcon extends React.PureComponent {
         }
     }
 }
+
+export default connect((state, props) => ({
+    bookmarkData: getBookmark(state, props)
+}), {
+    bookmark
+})(BookmarkIcon)

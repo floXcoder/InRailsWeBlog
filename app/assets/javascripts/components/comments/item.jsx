@@ -1,4 +1,5 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import {
     marked
@@ -11,11 +12,14 @@ import Divider from '@mui/material/Divider';
 
 import ReplyIcon from '@mui/icons-material/Reply';
 
-import Dropdown from '../theme/dropdown';
-import Rating from '../theme/rating';
-import UserAvatarIcon from '../users/icons/avatar';
+import I18n from '@js/modules/translations';
+import Notification from '@js/modules/notification';
 
-import CommentForm from './form';
+import Dropdown from '@js/components/theme/dropdown';
+import Rating from '@js/components/theme/rating';
+import UserAvatarIcon from '@js/components/users/icons/avatar';
+
+import CommentForm from '@js/components/comments/form';
 
 
 export default class CommentItem extends React.Component {

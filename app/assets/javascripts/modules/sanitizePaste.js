@@ -1,8 +1,6 @@
-'use strict';
-
 import $ from 'jquery';
 
-const SanitizePaste = (function ($) {
+const SanitizePaste = (function () {
     return {
         _replaceParagraphsToBr: function (html) {
             html = html.replace(/<p\s(.*?)>/gi, '<p>');
@@ -319,6 +317,6 @@ const SanitizePaste = (function ($) {
             return html;
         }
     };
-})($);
+})();
 
 export default SanitizePaste;

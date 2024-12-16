@@ -1,8 +1,9 @@
-'use strict';
-
-import {
+import React, {
     Suspense
 } from 'react';
+import PropTypes from 'prop-types';
+
+import * as Utils from '@js/modules/utils';
 
 import LazyLoad, {
     forceVisible

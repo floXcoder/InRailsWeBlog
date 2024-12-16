@@ -1,8 +1,7 @@
-'use strict';
 
-import * as ActionTypes from '../constants/actionTypes';
+import * as ActionTypes from '@js/constants/actionTypes';
 
-import api from '../middlewares/api';
+import api from '@js/middlewares/api';
 
 // Tags
 export const fetchTags = (filter = {}, options = {}, payload = {}, requestOptions = {}) => ({

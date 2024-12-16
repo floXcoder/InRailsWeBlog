@@ -1,10 +1,11 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import '../../../stylesheets/pages/tag/show.scss';
+import {connect} from 'react-redux';
 
 import {
     Link
-} from 'react-router-dom';
+} from 'react-router';
 
 import Chip from '@mui/material/Chip';
 import Typography from '@mui/material/Typography';
@@ -12,34 +13,34 @@ import Button from '@mui/material/Button';
 
 import LabelIcon from '@mui/icons-material/Label';
 
+import I18n from '@js/modules/translations';
+import * as Utils from '@js/modules/utils';
+
 import {
     taggedArticlesPath,
     showTagPath,
     editTagPath
-} from '../../constants/routesHelper';
+} from '@js/constants/routesHelper';
 
 import {
-    fetchTag,
-    spyTrackClick
-} from '../../actions';
-
-import withRouter from '../modules/router';
-
-import Loader from '../theme/loader';
-
-import NotFound from '../layouts/notFound';
-
-import UserAvatarIcon from '../users/icons/avatar';
-
-
-export default @connect((state) => ({
-    currentUser: state.userState.user,
-    isFetching: state.tagState.isFetching,
-    tag: state.tagState.tag
-}), {
     fetchTag
-})
-@withRouter({params: true})
+} from '@js/actions/tagActions';
+
+import {
+    spyTrackClick
+} from '@js/actions/metricsActions';
+
+import withRouter from '@js/components/modules/router';
+
+import Loader from '@js/components/theme/loader';
+
+import NotFound from '@js/components/layouts/notFound';
+
+import UserAvatarIcon from '@js/components/users/icons/avatar';
+
+import '@css/pages/tag/show.scss';
+
+
 class TagShow extends React.Component {
     static propTypes = {
         initProps: PropTypes.object,
@@ -289,3 +290,11 @@ class TagShow extends React.Component {
         );
     }
 }
+
+export default connect((state) => ({
+    currentUser: state.userState.user,
+    isFetching: state.tagState.isFetching,
+    tag: state.tagState.tag
+}), {
+    fetchTag
+})(withRouter({params: true})(TagShow));

@@ -175,7 +175,7 @@ class ArticleSerializer
 
   attribute :public_share_link do |object|
     if object.public_share_link
-      "#{Rails.application.routes.url_helpers.root_url(host: ENV['WEBSITE_FULL_ADDRESS'])}articles/shared/#{object.slug}/#{object.public_share_link}"
+      "#{Rails.application.routes.url_helpers.root_url(host: ENV['WEBSITE_URL'])}articles/shared/#{object.slug}/#{object.public_share_link}"
     else
       nil
     end

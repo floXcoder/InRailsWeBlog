@@ -1,6 +1,9 @@
-'use strict';
+import PropTypes from 'prop-types';
 
-import Pagination from '../theme/pagination';
+import Pagination from '@js/components/theme/pagination';
+
+import I18n from '@js/modules/translations';
+
 
 const _handlePaginationClick = (paginate, loadActivities) => {
     loadActivities({page: paginate.selected + 1});

@@ -1,6 +1,9 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import Container from '@mui/material/Container';
+
+import I18n from '@js/modules/translations';
 
 
 export default class UserConfirmation extends React.Component {

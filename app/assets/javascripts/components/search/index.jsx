@@ -1,6 +1,7 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import '../../../stylesheets/pages/search/index.scss';
+import {connect} from 'react-redux';
 
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid2';
@@ -12,6 +13,10 @@ import Chip from '@mui/material/Chip';
 import SearchIcon from '@mui/icons-material/Search';
 import CancelIcon from '@mui/icons-material/Cancel';
 
+import I18n from '@js/modules/translations';
+import * as Utils from '@js/modules/utils';
+import Notification from '@js/modules/notification';
+
 import {
     getSearchContext,
     searchOnHistoryChange,
@@ -21,59 +26,37 @@ import {
     setAutocompleteSelectedTag,
     fetchSearch,
     filterSearch,
-    searchInURLs,
-    updateUserSettings,
+    searchInURLs
+} from '@js/actions/searchActions';
+
+import {
+    updateUserSettings
+} from '@js/actions/userActions';
+
+import {
     showUserPreference
-} from '../../actions';
+} from '@js/actions/uiActions';
 
 import {
     maxSearchRate,
     autocompleteLimit,
     searchGridColumns,
     searchGridColumnsMobile
-} from '../modules/constants';
+} from '@js/components/modules/constants';
 
-import withRouter from '../modules/router';
+import withRouter from '@js/components/modules/router';
 
-import EnsureValidity from '../modules/ensureValidity';
+import EnsureValidity from '@js/components/modules/ensureValidity';
 
-import Loader from '../theme/loader';
+import Loader from '@js/components/theme/loader';
 
-import SearchSuggestionIndex from './index/suggestion';
-import SearchTagIndex from './index/tag';
-import SearchArticleIndex from './index/article';
+import SearchSuggestionIndex from '@js/components/search/index/suggestion';
+import SearchTagIndex from '@js/components/search/index/tag';
+import SearchArticleIndex from '@js/components/search/index/article';
+
+import '@css/pages/search/index.scss';
 
 
-export default @connect((state) => ({
-    currentUserId: state.userState.currentId,
-    currentUser: state.userState.user,
-    currentUserTopicId: state.topicState.currentUserTopicId,
-    currentUserTopicMode: state.topicState.currentTopic?.mode,
-    searchDisplay: state.userState.user?.settings?.searchDisplay,
-    query: state.searchState.query,
-    selectedTags: state.searchState.selectedTags,
-    isSearching: state.searchState.isSearching,
-    // hasResults: state.searchState.hasResults,
-    tags: state.searchState.tags,
-    tagSuggestions: state.searchState.tagSuggestions,
-    autocompleteTags: state.autocompleteState.tags,
-    articles: state.searchState.articles,
-    articleSuggestions: state.searchState.articleSuggestions,
-    scrapQuery: state.searchState.scrapQuery
-}), {
-    getSearchContext,
-    searchOnHistoryChange,
-    setSelectedTag,
-    setSearchQuery,
-    fetchAutocomplete,
-    setAutocompleteSelectedTag,
-    fetchSearch,
-    filterSearch,
-    searchInURLs,
-    updateUserSettings,
-    showUserPreference
-})
-@withRouter({params: true})
 class SearchIndex extends React.Component {
     static propTypes = {
         // from router
@@ -335,8 +318,8 @@ class SearchIndex extends React.Component {
                           direction="row"
                           justifyContent="center"
                           alignItems="center">
-                        <Grid 
-                              className="search-index-input-item">
+                        <Grid
+                            className="search-index-input-item">
                             <FormControl classes={{
                                 root: 'search-index-input-form'
                             }}>
@@ -376,8 +359,8 @@ class SearchIndex extends React.Component {
                             </FormControl>
                         </Grid>
 
-                        <Grid 
-                              className="search-index-searchButton">
+                        <Grid
+                            className="search-index-searchButton">
                             <Button color="primary"
                                     variant="outlined"
                                     onClick={this._handleSubmit}>
@@ -444,3 +427,33 @@ class SearchIndex extends React.Component {
         );
     }
 }
+
+export default connect((state) => ({
+    currentUserId: state.userState.currentId,
+    currentUser: state.userState.user,
+    currentUserTopicId: state.topicState.currentUserTopicId,
+    currentUserTopicMode: state.topicState.currentTopic?.mode,
+    searchDisplay: state.userState.user?.settings?.searchDisplay,
+    query: state.searchState.query,
+    selectedTags: state.searchState.selectedTags,
+    isSearching: state.searchState.isSearching,
+    // hasResults: state.searchState.hasResults,
+    tags: state.searchState.tags,
+    tagSuggestions: state.searchState.tagSuggestions,
+    autocompleteTags: state.autocompleteState.tags,
+    articles: state.searchState.articles,
+    articleSuggestions: state.searchState.articleSuggestions,
+    scrapQuery: state.searchState.scrapQuery
+}), {
+    getSearchContext,
+    searchOnHistoryChange,
+    setSelectedTag,
+    setSearchQuery,
+    fetchAutocomplete,
+    setAutocompleteSelectedTag,
+    fetchSearch,
+    filterSearch,
+    searchInURLs,
+    updateUserSettings,
+    showUserPreference
+})(withRouter({params: true})(SearchIndex));

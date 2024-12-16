@@ -1,4 +1,6 @@
-'use strict';
+import I18n from '@js/modules/translations';
+
+import Notification from '@js/modules/notification';
 
 
 export const pushError = (error, errorInfo = null) => {
@@ -22,7 +24,7 @@ export const pushError = (error, errorInfo = null) => {
                 window.SentryCaptureMessage(errorMessage.join(', '));
             }
         });
-    } else if (GlobalEnvironment.NODE_ENV !== 'test') {
+    } else if (process.env.NODE_ENV === 'development') {
         console.error(error, errorInfo);
     }
 };

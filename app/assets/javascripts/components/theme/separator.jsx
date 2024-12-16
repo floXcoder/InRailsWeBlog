@@ -1,6 +1,9 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import '../../../stylesheets/components/separator.scss';
+import classNames from 'classnames';
+
+import '@css/components/separator.scss';
 
 
 function Separator({

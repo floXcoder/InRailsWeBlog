@@ -1,4 +1,4 @@
-'use strict';
+import I18n from '@js/modules/translations';
 
 export const validateTopic = (values) => {
     const errors = {};

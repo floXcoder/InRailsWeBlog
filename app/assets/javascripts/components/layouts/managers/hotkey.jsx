@@ -1,4 +1,7 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import {connect} from 'react-redux';
 
 // Keyboard inputs
 import Mousetrap from 'mousetrap';
@@ -7,26 +10,16 @@ import {
     showUserLogin,
     showTopicPopup,
     showUserPreference
-} from '../../../actions';
+} from '@js/actions/uiActions';
 
-import withRouter from '../../modules/router';
+import withRouter from '@js/components/modules/router';
 
 import {
     newArticlePath,
     searchParam
-} from '../../../constants/routesHelper';
+} from '@js/constants/routesHelper';
 
 
-export default @connect((state) => ({
-    isUserConnected: state.userState.isConnected,
-    currentUserSlug: state.userState.currentSlug,
-    currentUserTopicSlug: state.topicState.currentUserTopicSlug
-}), {
-    showUserLogin,
-    showTopicPopup,
-    showUserPreference
-})
-@withRouter({navigate: true})
 class HotkeyManager extends React.Component {
     static propTypes = {
         children: PropTypes.object.isRequired,
@@ -84,3 +77,13 @@ class HotkeyManager extends React.Component {
         return React.Children.only(this.props.children);
     }
 }
+
+export default connect((state) => ({
+    isUserConnected: state.userState.isConnected,
+    currentUserSlug: state.userState.currentSlug,
+    currentUserTopicSlug: state.topicState.currentUserTopicSlug
+}), {
+    showUserLogin,
+    showTopicPopup,
+    showUserPreference
+})(withRouter({navigate: true})(HotkeyManager))

@@ -1,4 +1,7 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import {connect} from 'react-redux';
 
 import Input from '@mui/material/Input';
 import InputLabel from '@mui/material/InputLabel';
@@ -10,48 +13,34 @@ import Grid from '@mui/material/Grid2';
 import SearchIcon from '@mui/icons-material/Search';
 import CancelIcon from '@mui/icons-material/Cancel';
 
+import I18n from '@js/modules/translations';
+import * as Utils from '@js/modules/utils';
+
 import {
     fetchAutocomplete,
     setAutocompleteAction,
     setAutocompleteQuery
-} from '../../actions';
+} from '@js/actions/searchActions';
 
-import withRouter from '../modules/router';
+import withRouter from '@js/components/modules/router';
 
 import {
     searchPath
-} from '../../constants/routesHelper';
+} from '@js/constants/routesHelper';
 
 import {
     autocompleteLimit,
     maxSearchRate
-} from '../modules/constants';
+} from '@js/components/modules/constants';
 
-import EnsureValidity from '../modules/ensureValidity';
+import EnsureValidity from '@js/components/modules/ensureValidity';
 
-import Loader from '../theme/loader';
+import Loader from '@js/components/theme/loader';
 
-import SearchArticleModule from '../search/module/article';
-import SearchTagModule from '../search/module/tag';
+import SearchArticleModule from '@js/components/search/module/article';
+import SearchTagModule from '@js/components/search/module/tag';
 
 
-export default @connect((state) => ({
-    query: state.autocompleteState.query,
-    isSearching: state.autocompleteState.isFetching,
-    currentUserId: state.userState.currentId,
-    currentUserTopicId: state.topicState.currentUserTopicId,
-    isUserConnected: state.userState.isConnected,
-    selectedTags: state.autocompleteState.selectedTags,
-    highlightedTag: state.autocompleteState.highlightedTag,
-    highlightedArticle: state.autocompleteState.highlightedArticle,
-    tags: state.autocompleteState.tags,
-    articles: state.autocompleteState.articles
-}), {
-    setAutocompleteQuery,
-    fetchAutocomplete,
-    setAutocompleteAction
-})
-@withRouter({navigate: true})
 class HomeSearch extends React.Component {
     static propTypes = {
         // from router
@@ -191,7 +180,11 @@ class HomeSearch extends React.Component {
                       direction="row"
                       justifyContent="space-between"
                       alignItems="flex-start">
-                    <Grid size={{xs: 12, sm: 8, md: 9}}>
+                    <Grid size={{
+                        xs: 12,
+                        sm: 8,
+                        md: 9
+                    }}>
                         <SearchArticleModule isSearching={this.props.isSearching}
                                              isUserConnected={this.props.isUserConnected}
                                              currentUserId={this.props.currentUserId}
@@ -203,7 +196,11 @@ class HomeSearch extends React.Component {
                                              articles={this.props.articles}/>
                     </Grid>
 
-                    <Grid size={{xs: 12, sm: 4, md: 3}}>
+                    <Grid size={{
+                        xs: 12,
+                        sm: 4,
+                        md: 3
+                    }}>
                         <SearchTagModule isSearching={this.props.isSearching}
                                          isUserConnected={this.props.isUserConnected}
                                          currentUserId={this.props.currentUserId}
@@ -248,3 +245,20 @@ class HomeSearch extends React.Component {
         );
     }
 }
+
+export default connect((state) => ({
+    query: state.autocompleteState.query,
+    isSearching: state.autocompleteState.isFetching,
+    currentUserId: state.userState.currentId,
+    currentUserTopicId: state.topicState.currentUserTopicId,
+    isUserConnected: state.userState.isConnected,
+    selectedTags: state.autocompleteState.selectedTags,
+    highlightedTag: state.autocompleteState.highlightedTag,
+    highlightedArticle: state.autocompleteState.highlightedArticle,
+    tags: state.autocompleteState.tags,
+    articles: state.autocompleteState.articles
+}), {
+    setAutocompleteQuery,
+    fetchAutocomplete,
+    setAutocompleteAction
+})(withRouter({navigate: true})(HomeSearch));

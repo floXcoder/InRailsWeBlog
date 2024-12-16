@@ -1,18 +1,18 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import {connect} from 'react-redux';
+
+import I18n from '@js/modules/translations';
 
 import {
     fetchUsers
-} from '../../actions';
+} from '@js/actions/userActions';
 
-import Loader from '../theme/loader';
-import Table from '../theme/table';
+import Loader from '@js/components/theme/loader';
+import Table from '@js/components/theme/table';
 
-export default @connect((state) => ({
-    users: state.userState.users,
-    isFetching: state.userState.isFetching
-}), {
-    fetchUsers
-})
+
 class AdminUsers extends React.Component {
     static propTypes = {
         // from connect
@@ -51,59 +51,51 @@ class AdminUsers extends React.Component {
                 </h1>
 
                 <Table title={I18n.t('js.admin.users.table.title')}
-                       locale={I18n.locale}
+                       isPaginated={true}
                        data={this.props.users.map((user) => ({ ...user}))}
                        columns={[
                            {
-                               title: I18n.t('js.admin.users.table.columns.id'),
-                               field: 'id',
+                               name: I18n.t('js.admin.users.table.columns.id'),
+                               key: 'id',
                                hidden: true
                            },
                            {
-                               title: I18n.t('js.admin.users.table.columns.pseudo'),
-                               field: 'pseudo',
+                               name: I18n.t('js.admin.users.table.columns.pseudo'),
+                               key: 'pseudo'
                            },
                            {
-                               title: I18n.t('js.admin.users.table.columns.email'),
-                               field: 'email',
+                               name: I18n.t('js.admin.users.table.columns.email'),
+                               key: 'email'
                            },
                            {
-                               title: I18n.t('js.admin.users.table.columns.name'),
+                               name: I18n.t('js.admin.users.table.columns.name'),
+                               key: 'name',
                                customFilterAndSearch: (term, user) => (user.firstName + ' ' + user.lastName).toLocaleLowerCase().indexOf(term.toLocaleLowerCase()) !== -1,
-                               render: (user) => [user.firstName, user.lastName].filter(Boolean).join(' ')
+                               value: (user) => [user.firstName, user.lastName].filter(Boolean).join(' ')
                            },
                            {
-                               title: I18n.t('js.admin.users.table.columns.created_at'),
-                               field: 'createdAt',
+                               name: I18n.t('js.admin.users.table.columns.created_at'),
+                               key: 'createdAt',
                                filtering: false
                            },
                            {
-                               title: I18n.t('js.admin.users.table.columns.last_sign_in_at'),
-                               field: 'lastSignInAt',
+                               name: I18n.t('js.admin.users.table.columns.last_sign_in_at'),
+                               key: 'lastSignInAt',
                                filtering: false
                            },
                            {
-                               title: I18n.t('js.admin.users.table.columns.locale'),
-                               field: 'locale',
+                               name: I18n.t('js.admin.users.table.columns.locale'),
+                               key: 'locale',
                                filtering: false,
                                hidden: true
                            },
                            {
-                               title: I18n.t('js.admin.users.table.columns.articles_count'),
-                               field: 'articlesCount',
+                               name: I18n.t('js.admin.users.table.columns.articles_count'),
+                               key: 'articlesCount',
                                filtering: false,
                                width: 80
                            }
                        ]}
-                       options={{
-                           columnsButton: true,
-                           exportButton: true,
-                           filtering: true,
-                           actionsColumnIndex: -1,
-                           pageSize: 100,
-                           pageSizeOptions: [100, 500, 1000],
-                           emptyRowsWhenPaging: false
-                       }}
                        actions={[
                            {
                                icon: 'open_in_new',
@@ -116,3 +108,9 @@ class AdminUsers extends React.Component {
     }
 }
 
+export default connect((state) => ({
+    users: state.userState.users,
+    isFetching: state.userState.isFetching
+}), {
+    fetchUsers
+})(AdminUsers);

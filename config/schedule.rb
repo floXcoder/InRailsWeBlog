@@ -1,19 +1,12 @@
 # frozen_string_literal: true
 
 # Run by whenever: add to cron table
+# Cron jobs are configured inside config/initializers/good_job.rb
 set :output, "#{Whenever.path}/log/cron.log"
 
 every 15.minutes, roles: [:production] do
   # InRailsWeBlog.settings.tracker_cron
   rake 'InRailsWeBlog:update_tracker_data'
-end
-
-every :day, at: '1am', roles: [:production] do
-  rake 'InRailsWeBlog:remove_unused_tags'
-end
-
-every :day, at: '1:30am', roles: [:production] do
-  rake 'InRailsWeBlog:clean_orphan_pictures'
 end
 
 # Ensure all locale indexes are reindexed
@@ -34,10 +27,6 @@ every :hour, roles: [:production] do
 end
 every :day, at: '3am', roles: [:production] do
   rake 'InRailsWeBlog:pghero_capture_stats'
-end
-
-every :week, at: '5am', roles: [:production] do
-  rake 'InRailsWeBlog:clean_visits'
 end
 
 every :month, at: '6am', roles: [:production] do

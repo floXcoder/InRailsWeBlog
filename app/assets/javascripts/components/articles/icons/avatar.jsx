@@ -1,8 +1,9 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import {
     Link
-} from 'react-router-dom';
+} from 'react-router';
 
 import ListItem from '@mui/material/ListItem';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
@@ -11,13 +12,15 @@ import Avatar from '@mui/material/Avatar';
 
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
+import I18n from '@js/modules/translations';
+
 import {
     userArticlesPath
-} from '../../../constants/routesHelper';
+} from '@js/constants/routesHelper';
 
 import {
     spyTrackClick
-} from '../../../actions';
+} from '@js/actions/metricsActions';
 
 
 const ArticleAvatarIcon = function ({

@@ -1,26 +1,25 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import '../../../stylesheets/pages/article/share.scss';
+import {connect} from 'react-redux';
 
 import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 
+import I18n from '@js/modules/translations';
+
 import {
     shareArticle
-} from '../../actions';
+} from '@js/actions/shareActions';
 
-import AnalyticsService from '../../modules/analyticsService';
+import AnalyticsService from '@js/modules/analyticsService';
 
-import withRouter from '../modules/router';
+import withRouter from '@js/components/modules/router';
+
+import '@css/pages/article/share.scss';
 
 
-export default @connect((state) => ({
-    article: state.articleState.article
-}), {
-    shareArticle
-})
-@withRouter({navigate: true})
 class ShareArticleModal extends React.Component {
     static propTypes = {
         // from router
@@ -96,7 +95,9 @@ class ShareArticleModal extends React.Component {
                         }
 
                         <div className="center-align margin-top-35">
-                            <Button variant="text" href="#" onClick={this._handleClose}>
+                            <Button variant="text"
+                                    href="#"
+                                    onClick={this._handleClose}>
                                 {I18n.t('js.article.share.cancel')}
                             </Button>
                         </div>
@@ -106,3 +107,9 @@ class ShareArticleModal extends React.Component {
         );
     }
 }
+
+export default connect((state) => ({
+    article: state.articleState.article
+}), {
+    shareArticle
+})(withRouter({navigate: true})(ShareArticleModal));

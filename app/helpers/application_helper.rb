@@ -27,54 +27,31 @@ module ApplicationHelper
     base_title.html_safe
   end
 
-  def javascript(*files)
-    files.each do |file|
-      content_for(:javascript) { javascript_include_tag(AssetManifest.javascript_path(file)) }
+  def javascript(*files, **options)
+    files << (Rails.env.production? ? 'production' : 'development')
+
+    AssetManifest.associated_javascripts(files).each do |type, js_files|
+      js_files.each do |js_file|
+        if type == :initial
+          content_for(:javascript_initial) { javascript_include_tag(js_file, **options) }
+        elsif type == :original
+          content_for(:javascript) { javascript_include_tag(js_file, **options) }
+        end
+      end
     end
   end
 
-  def javascript_defer(*files)
+  def stylesheet(*files, **options)
     files.each do |file|
-      content_for(:javascript) { javascript_include_tag(AssetManifest.javascript_path(file), defer: Rails.env.production?) }
-    end
-  end
-
-  def javascript_nomodule(*files)
-    files.each do |file|
-      content_for(:javascript) { javascript_include_tag(AssetManifest.javascript_path(file), nomodule: true) }
-    end
-  end
-
-  def stylesheet(*files)
-    files.each do |file|
-      content_for(:stylesheet) { stylesheet_link_tag(AssetManifest.stylesheet_path(file), media: 'all') }
+      content_for(:stylesheet) { stylesheet_link_tag(stylesheet_path(file), media: 'all', **options) }
     end
   end
 
   def favicon(file, **options)
-    favicon_link_tag(AssetManifest.image_path(file), options)
+    favicon_link_tag(image_path(file), options)
   end
 
   def translations(file)
-    content_for(:translations) { raw Rails.root.join("app/assets/javascripts/translations/#{file}.json").read }
-  end
-
-  # Assets with manifest management
-  def image_tag(url, options = {})
-    url = AssetManifest.image_path(url)
-
-    super(url, options)
-  end
-
-  def image_path(url, options = {})
-    url = AssetManifest.asset_path(url)
-
-    super(url, options)
-  end
-
-  def image_url(url, options = {})
-    url = AssetManifest.asset_path(url)
-
-    super(url, options)
+    content_for(:translations) { raw Rails.root.join("public/assets/translations/#{file}.json").read }
   end
 end

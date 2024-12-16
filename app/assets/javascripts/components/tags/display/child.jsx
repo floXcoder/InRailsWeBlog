@@ -1,15 +1,18 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import {
     Link
-} from 'react-router-dom';
+} from 'react-router';
+
+import classNames from 'classnames';
 
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 
 import {
     taggedArticlesPath, taggedTopicArticlesPath
-} from '../../../constants/routesHelper';
+} from '@js/constants/routesHelper';
 
 function ChildTag({
                       tag,

@@ -1,7 +1,7 @@
 SimpleCov.start do
     add_filter '/app/mailers/'
     add_filter '/app/uploaders/'
-    add_filter '/app/workers/'
+    add_filter '/app/jobs/'
     add_filter '/config/'
     add_filter '/lib/'
     add_filter '/spec/'

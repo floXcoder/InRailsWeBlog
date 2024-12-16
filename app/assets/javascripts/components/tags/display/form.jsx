@@ -1,9 +1,10 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import {
     Link
     // Prompt,
-} from 'react-router-dom';
+} from 'react-router';
 
 import {
     Form,
@@ -14,20 +15,22 @@ import Button from '@mui/material/Button';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 
+import I18n from '@js/modules/translations';
+
 import {
     showTagPath
-} from '../../../constants/routesHelper';
+} from '@js/constants/routesHelper';
 
 import {
     validateTag
-} from '../../../forms/tag';
+} from '@js/forms/tag';
 
-import EditorField from '../../editor/form/editor';
+import EditorField from '@js/components/editor/form/editor';
 
-import TabContainer from '../../material-ui/tabContainer';
-import TextFormField from '../../material-ui/form/text';
-import SelectFormField from '../../material-ui/form/select';
-import AutocompleteFormField from '../../material-ui/form/autocomplete';
+import TabContainer from '@js/components/material-ui/tabContainer';
+import TextFormField from '@js/components/material-ui/form/text';
+import SelectFormField from '@js/components/material-ui/form/select';
+import AutocompleteFormField from '@js/components/material-ui/form/autocomplete';
 
 
 export default class TagFormDisplay extends React.Component {

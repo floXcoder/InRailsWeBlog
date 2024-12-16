@@ -1,20 +1,23 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import {
     Link
-} from 'react-router-dom';
+} from 'react-router';
 
 import IconButton from '@mui/material/IconButton';
 
 import EditIcon from '@mui/icons-material/EditOutlined';
 
+import I18n from '@js/modules/translations';
+
 import {
     editArticlePath
-} from '../../../constants/routesHelper';
+} from '@js/constants/routesHelper';
 
 import {
     getScreenPosition
-} from '../../../modules/screenPosition';
+} from '@js/modules/screenPosition';
 
 
 const _redirectToEdit = (userSlug, articleSlug, routeNavigate, event) => {

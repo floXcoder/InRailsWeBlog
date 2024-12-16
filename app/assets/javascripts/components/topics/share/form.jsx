@@ -1,7 +1,10 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+
+import I18n from '@js/modules/translations';
 
 
 export default class ShareFormTopic extends React.Component {

@@ -1,8 +1,10 @@
-'use strict';
-
-import '../../../stylesheets/components/modal.scss';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import ResponsiveModal from 'react-responsive-modal';
+
+import '@css/components/modal.scss';
+
 
 function Modal({
                    isOpen,

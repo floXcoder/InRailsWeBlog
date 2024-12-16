@@ -1,14 +1,15 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import MasonryWrapper from '../../../theme/masonry';
+import {connect} from 'react-redux';
 
-import ArticleItemsDisplay from '../items';
+import MasonryWrapper from '@js/components/theme/masonry';
+
+import ArticleItemsDisplay from '@js/components/articles/display/items';
 
 const ArticleMasonry = MasonryWrapper(ArticleItemsDisplay, {articleDisplayMode: 'grid'}, ArticleItemsDisplay, {articleDisplayMode: 'card'});
 
-export default @connect((state) => ({
-    articles: state.articleState.articles
-}))
+
 class ArticleMasonryMode extends React.Component {
     static propTypes = {
         onEnter: PropTypes.func,
@@ -36,3 +37,7 @@ class ArticleMasonryMode extends React.Component {
         );
     }
 }
+
+export default connect((state) => ({
+    articles: state.articleState.articles
+}))(ArticleMasonryMode)

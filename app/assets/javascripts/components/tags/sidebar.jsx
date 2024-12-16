@@ -1,35 +1,28 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import {connect} from 'react-redux';
 
 import List from '@mui/material/List';
 
 import {
     // filterTags,
     spyTrackClick
-} from '../../actions';
+} from '@js/actions/metricsActions';
 
 import {
     getSortedTopicTags
-} from '../../selectors';
+} from '@js/selectors/tagSelectors';
 
-import Loader from '../theme/loader';
-// import SearchBar from '../theme/searchBar';
+import Loader from '@js/components/theme/loader';
+// import SearchBar from '@js/components/theme/searchBar';
 
-// import AssociatedTagBox from '../tags/associated/box';
+// import AssociatedTagBox from '@js/components/tags/associated/box';
 
-// import TagSidebarCloud from './sidebar/cloud';
-import TagSidebarList from './sidebar/list';
+// import TagSidebarCloud from '@js/components/tags/sidebar/cloud';
+import TagSidebarList from '@js/components/tags/sidebar/list';
 
 
-export default @connect((state, props) => ({
-    isLoading: state.tagState.isFetching,
-    filterText: state.tagState.filterText,
-    currentUserSlug: state.userState.currentSlug,
-    currentUserTopicSlug: state.topicState.currentUserTopicSlug,
-    // currentUserTopics: props.isCloud ? state.topicState.userTopics : undefined,
-    tags: props.isCloud ? state.tagState.tags : getSortedTopicTags(state)
-}), {
-    // filterTags
-})
 class TagSidebar extends React.Component {
     static propTypes = {
         currentTagSlug: PropTypes.string,
@@ -101,3 +94,14 @@ class TagSidebar extends React.Component {
         }
     }
 }
+
+export default connect((state, props) => ({
+    isLoading: state.tagState.isFetching,
+    filterText: state.tagState.filterText,
+    currentUserSlug: state.userState.currentSlug,
+    currentUserTopicSlug: state.topicState.currentUserTopicSlug,
+    // currentUserTopics: props.isCloud ? state.topicState.userTopics : undefined,
+    tags: props.isCloud ? state.tagState.tags : getSortedTopicTags(state)
+}), {
+    // filterTags
+})(TagSidebar);

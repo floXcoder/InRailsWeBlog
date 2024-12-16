@@ -1,4 +1,3 @@
-'use strict';
 
 export const ROUTER_ROUTE_CHANGE = 'ROUTER/ROUTE_CHANGE';
 

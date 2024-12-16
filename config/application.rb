@@ -25,7 +25,27 @@ end
 module InRailsWeBlog
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 7.2
+    config.load_defaults 8.0
+
+    # Please, add to the `ignore` list any other `lib` subdirectories that do
+    # not contain `.rb` files, or that should not be reloaded or eager loaded.
+    # Common ones are `templates`, `generators`, or `middleware`, for example.
+    config.autoload_lib(ignore: %w[geocoding tasks])
+
+    # Configuration for the application, engines, and railties goes here.
+    #
+    # These settings can be overridden in specific environments using the files
+    # in config/environments, which are processed later.
+    #
+    # config.time_zone = "Central Time (US & Canada)"
+    config.eager_load_paths << "#{config.root}/app/services"
+    config.eager_load_paths << "#{config.root}/lib/inrailsweblog"
+    config.eager_load_paths << "#{config.root}/lib/populate"
+    config.eager_load_paths << "#{config.root}/spec/mailers/previews"
+
+    # Database time zone
+    config.time_zone                      = 'Paris'
+    config.active_record.default_timezone = :local
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers
@@ -47,85 +67,15 @@ module InRailsWeBlog
     # Don't generate system test files.
     config.generators.system_tests = nil
 
-    # No longer add autoloaded paths into `$LOAD_PATH`. This means that you won't be able
-    # to manually require files that are managed by the autoloader, which you shouldn't do anyway.
-    # This will reduce the size of the load path, making `require` faster if you don't use bootsnap, or reduce the size
-    # of the bootsnap cache if you use it.
-    config.add_autoload_paths_to_load_path = true
-
-    # Please, add to the `ignore` list any other `lib` subdirectories that do
-    # not contain `.rb` files, or that should not be reloaded or eager loaded.
-    # Common ones are `templates`, `generators`, or `middleware`, for example.
-    config.autoload_lib(ignore: %w[geocoding tasks])
-
-    # Configuration for the application, engines, and railties goes here.
-    #
-    # These settings can be overridden in specific environments using the files
-    # in config/environments, which are processed later.
-    #
-    # config.time_zone = "Central Time (US & Canada)"
-    config.eager_load_paths << "#{config.root}/app/services"
-    config.eager_load_paths << "#{config.root}/lib/inrailsweblog"
-    config.eager_load_paths << "#{config.root}/lib/populate"
-    config.eager_load_paths << "#{config.root}/spec/mailers/previews"
-
-    # belongs_to is not always required
-    config.active_record.belongs_to_required_by_default = false
-
-    # Database time zone
-    config.time_zone                      = 'Paris'
-    config.active_record.default_timezone = :local
-
-    # Include the authenticity token in remote forms.
-    config.action_view.embed_authenticity_token_in_remote_forms = true
-
-    # Log levels :debug, :info, :warn, :error, :fatal and :unknown
-    config.log_level = :info
+    # Use GoodJob for ActiveJob
+    config.active_job.queue_adapter = :good_job
 
     # I18n configuration
     config.i18n.default_locale = :en
     config.i18n.fallbacks      = [:en, :fr]
 
-    # Enable per-form CSRF tokens. Previous versions had false.
-    config.action_controller.per_form_csrf_tokens = true
-
-    # Enable origin-checking CSRF mitigation. Previous versions had false.
-    config.action_controller.forgery_protection_origin_check = true
-
-    # Make Active Record use stable #cache_key alongside new #cache_version method.
-    # This is needed for recyclable cache keys.
-    config.active_record.cache_versioning = true
-
     # Require to deserialize paper trail versions
     config.active_record.use_yaml_unsafe_load = true
-
-    # Use AES-256-GCM authenticated encryption for encrypted cookies.
-    # Also, embed cookie expiry in signed or encrypted cookies for increased security.
-    #
-    # This option is not backwards compatible with earlier Rails versions.
-    # It's best enabled when your entire app is migrated and stable on 5.2.
-    #
-    # Existing cookies will be converted on read then written with the new scheme.
-    config.action_dispatch.use_authenticated_cookie_encryption = true
-
-    # Use AES-256-GCM authenticated encryption as default cipher for encrypting messages
-    # instead of AES-256-CBC, when use_authenticated_message_encryption is set to true.
-    config.active_support.use_authenticated_message_encryption = true
-
-    # Add default protection from forgery to ActionController::Base instead of in
-    # ApplicationController.
-    config.action_controller.default_protect_from_forgery = true
-
-    # Use SHA-1 instead of MD5 to generate non-sensitive digests, such as the ETag header.
-    config.active_support.key_generator_hash_digest_class = OpenSSL::Digest::SHA256
-    config.active_support.hash_digest_class               = OpenSSL::Digest::SHA256
-
-    # Use sidekiq for ActiveJob (not working with letter_opener)
-    config.active_job.queue_adapter = :sidekiq
-
-    # Errors handling
-    # Errors are handled by ApplicationController
-    # config.exceptions_app = self.routes
 
     # App-specific configuration
     config.settings = config_for(:settings)
@@ -145,6 +95,8 @@ module InRailsWeBlog
       # Increase the number of available connections you can enable connection pooling for multi-threaded server like Puma.
       pool:      { size: 5, timeout: 5 }
     }
+
+    Regexp.timeout = 5
   end
 
   # Declare shortcut to access to settings

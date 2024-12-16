@@ -153,7 +153,7 @@ module Api::V1
                          model:           article,
                          og:              {
                                             type:  "#{ENV['WEBSITE_NAME']}:article",
-                                            url:   article.link_path(host: ENV['WEBSITE_FULL_ADDRESS']),
+                                            url:   article.link_path(host: ENV['WEBSITE_URL']),
                                             image: article.default_picture[:jpg]
                                           }.compact)
 
@@ -199,7 +199,7 @@ module Api::V1
                          model:        article,
                          og:           {
                                          type:  "#{ENV['WEBSITE_NAME']}:article",
-                                         url:   article.link_path(host: ENV['WEBSITE_FULL_ADDRESS']),
+                                         url:   article.link_path(host: ENV['WEBSITE_URL']),
                                          image: article.default_picture[:jpg]
                                        }.compact)
 

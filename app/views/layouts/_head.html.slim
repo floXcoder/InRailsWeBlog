@@ -1,27 +1,27 @@
 head itemscope="" itemtype="http://schema.org/WebSite"
   meta charset="utf-8"
   meta name="viewport" content="width=device-width, initial-scale=1.0"
-
+  
   / Managed also by react helmet
   = display_meta_tags(reverse: true, separator: '|')
 
   = csrf_meta_tags
-
+  
   - if Rails.env.production?
-    link rel="dns-prefetch" href="#{ENV['WEBSITE_FULL_ASSET']}"
+    link rel="dns-prefetch" href="#{ENV['ASSETS_HOST']}"
     link rel="dns-prefetch" href="https://#{ENV['METRICS_ADDRESS']}"
 
-  = favicon 'favicon.ico', rel: 'shortcut icon'
-
-  = favicon 'logos/favicon-16x16.png', rel: 'icon', type: 'image/png', sizes: '16x16'
-  = favicon 'logos/favicon-32x32.png', rel: 'icon', type: 'image/png', sizes: '32x32'
-  = favicon 'logos/favicon-96x96.png', rel: 'icon', type: 'image/png', sizes: '96x96'
-  = favicon 'logos/favicon-160x160.png', rel: 'icon', type: 'image/png', sizes: '160x160'
-  = favicon 'logos/favicon-192x192.png', rel: 'icon', type: 'image/png', sizes: '192x192'
-
-  = favicon 'logos/apple-touch-icon.png', rel: 'apple-touch-icon', type: 'image/png'
-  = favicon 'logos/favicon-192x192.png', rel: 'apple-touch-startup-image', type: 'image/png'
-
+  = favicon_link_tag '/favicon.ico', rel: 'shortcut icon'
+  
+  = favicon_link_tag AssetManifest.image_path('logos/favicon-16x16.png'), rel: 'icon', type: 'image/png', sizes: '16x16'
+  = favicon_link_tag AssetManifest.image_path('logos/favicon-32x32.png'), rel: 'icon', type: 'image/png', sizes: '32x32'
+  = favicon_link_tag AssetManifest.image_path('logos/favicon-96x96.png'), rel: 'icon', type: 'image/png', sizes: '96x96'
+  = favicon_link_tag AssetManifest.image_path('logos/favicon-160x160.png'), rel: 'icon', type: 'image/png', sizes: '160x160'
+  = favicon_link_tag AssetManifest.image_path('logos/favicon-192x192.png'), rel: 'icon', type: 'image/png', sizes: '192x192'
+  
+  = favicon_link_tag AssetManifest.image_path('logos/apple-touch-icon.png'), rel: 'apple-touch-icon', type: 'image/png'
+  = favicon_link_tag AssetManifest.image_path('logos/favicon-192x192.png'), rel: 'apple-touch-startup-image', type: 'image/png'
+  
   / Manifest for PWA
   - if current_user
     link rel="manifest" href="/manifest.json"
@@ -36,22 +36,22 @@ head itemscope="" itemtype="http://schema.org/WebSite"
   = auto_discovery_link_tag :rss, feed_url(format: :rss, locale: I18n.locale)
 
   / Open search
-  link rel="search" type="application/opensearchdescription+xml" href="#{ENV['WEBSITE_FULL_ADDRESS']}/opensearch.xml?locale=#{I18n.locale}" title="#{ENV['WEBSITE_NAME']}"
+  link rel="search" type="application/opensearchdescription+xml" href="#{ENV['WEBSITE_URL']}/opensearch.xml?locale=#{I18n.locale}" title="#{ENV['WEBSITE_NAME']}"
 
   - if Rails.env.production?
-    link rel="preload" href="#{AssetManifest.asset_path('fonts/Roboto-Regular.woff2')}" as="font" type="font/woff2" crossorigin="anonymous"
-    link rel="preload" href="#{AssetManifest.asset_path('fonts/Roboto-Medium.woff2')}" as="font" type="font/woff2" crossorigin="anonymous"
-    link rel="preload" href="#{AssetManifest.asset_path('fonts/Roboto-Bold.woff2')}" as="font" type="font/woff2" crossorigin="anonymous"
-    link rel="preload" href="#{AssetManifest.asset_path('fonts/Roboto-Italic.woff2')}" as="font" type="font/woff2" crossorigin="anonymous"
-
+    link rel="preload" href="#{AssetManifest.asset_path('Roboto-Regular.woff2')}" as="font" type="font/woff2" crossorigin="anonymous"
+    link rel="preload" href="#{AssetManifest.asset_path('Roboto-Medium.woff2')}" as="font" type="font/woff2" crossorigin="anonymous"
+    link rel="preload" href="#{AssetManifest.asset_path('Roboto-Bold.woff2')}" as="font" type="font/woff2" crossorigin="anonymous"
+    link rel="preload" href="#{AssetManifest.asset_path('Roboto-Italic.woff2')}" as="font" type="font/woff2" crossorigin="anonymous"
+  
     - if %w[user_article].include?(request.path_parameters[:name])
-      link rel="preload" href="#{AssetManifest.javascript_path('article-show.js')}" as="script"
+      link rel="preload" href="#{AssetManifest.asset_javascript_path('article-show.js')}" as="script"
     - elsif %w[user_articles topic_articles tagged_topic_articles tagged_articles].include?(request.path_parameters[:name])
-      link rel="preload" href="#{AssetManifest.javascript_path('article-index.js')}" as="script"
-      link rel="preload" href="#{AssetManifest.stylesheet_path('article-index.css')}" as="style"
+      link rel="preload" href="#{AssetManifest.asset_javascript_path('article-index.js')}" as="script"
+      link rel="preload" href="#{AssetManifest.asset_stylesheet_path('article-index.css')}" as="style"
     - elsif user_signed_in?
-      link rel="preload" href="#{AssetManifest.javascript_path('user.js')}" as="script"
-      link rel="preload" href="#{AssetManifest.stylesheet_path('user.css')}" as="style"
+      link rel="preload" href="#{AssetManifest.asset_javascript_path('user.js')}" as="script"
+      link rel="preload" href="#{AssetManifest.asset_stylesheet_path('pages/user.css')}" as="style"
     - elsif request.path_parameters[:name].blank?
-      link rel="preload" href="#{AssetManifest.javascript_path('default.js')}" as="script"
-      link rel="preload" href="#{AssetManifest.stylesheet_path('default.css')}" as="style"
+      link rel="preload" href="#{AssetManifest.asset_javascript_path('default.js')}" as="script"
+      link rel="preload" href="#{AssetManifest.asset_stylesheet_path('pages/default.css')}" as="style"

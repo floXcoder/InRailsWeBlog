@@ -14,8 +14,6 @@
 @use 'shared/notification';
 @use 'shared/bookmark';
 @use 'shared/cookies';
-@use 'shared/animation/loader';
-@use 'shared/animation/dialog';
 
 // Infinite component
 .infinite-scroll-component {
@@ -24,21 +22,22 @@
 
 // Logo URL in CSS file to get correct path
 .header-brand-logo {
+  display: block;
+  width: 160px;
+  height: 35px;
+  margin-right: 12px;
+  margin-top: 18px;
+  text-indent: -9999em;
   background-image: url('#{$images-path}/logos/header-logo.png');
   background-size: contain;
   background-repeat: no-repeat;
-  display: block;
-  text-indent: -9999em;
   transition: color .6s ease-in-out;
-  width: 160px;
-  margin-right: 12px;
-  margin-top: 18px;
 
   @media #{$medium-and-down} {
-    background-image: url('#{$images-path}/logos/favicon-96x96.png');
     width: 40px;
     margin-right: 0;
     margin-top: 0;
+    background-image: url('#{$images-path}/logos/favicon-96x96.png');
   }
 }
 
@@ -49,9 +48,10 @@
 }
 
 .header-brand-logo-mobile {
-  background: url('#{$images-path}/logos/header-logo-mobile.png') 0 0 no-repeat;
   display: block;
-  text-indent: -9999em;
-  transition: color .6s ease-in-out;
   width: 335px;
+  height: 35px;
+  text-indent: -9999em;
+  background: url('#{$images-path}/logos/header-logo-mobile.png') 0 0 no-repeat;
+  transition: color .6s ease-in-out;
 }

@@ -43,6 +43,7 @@
       </option>
       <option name="myCustomValuesEnabled" value="true" />
     </inspection_tool>
+    <inspection_tool class="HttpUrlsUsage" enabled="false" level="WEAK WARNING" enabled_by_default="false" />
     <inspection_tool class="JSHint" enabled="false" level="SERVER PROBLEM" enabled_by_default="false" />
     <inspection_tool class="JSNonStrictModeUsed" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="JSUndefinedPropertyAssignment" enabled="false" level="WEAK WARNING" enabled_by_default="false" />
@@ -51,9 +52,6 @@
     <inspection_tool class="RailsChecklist01" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="RubocopInspection" enabled="true" level="SERVER PROBLEM" enabled_by_default="true" />
     <inspection_tool class="RubyCaseWithoutElseBlockInspection" enabled="false" level="WARNING" enabled_by_default="false" />
-    <inspection_tool class="RubyClassModuleNamingConvention" enabled="true" level="WARNING" enabled_by_default="true">
-      <option name="m_minLength" value="2" />
-    </inspection_tool>
     <inspection_tool class="RubyParameterNamingConvention" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="m_maxLength" value="30" />
     </inspection_tool>

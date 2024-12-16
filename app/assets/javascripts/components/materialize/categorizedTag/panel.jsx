@@ -1,6 +1,6 @@
-'use strict';
+import PropTypes from 'prop-types';
 
-import Category from './category';
+import Category from '@js/components/materialize/categorizedTag/category';
 
 function Panel(props) {
     if (props.categories.length === 0) {

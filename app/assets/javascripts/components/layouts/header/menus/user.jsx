@@ -1,8 +1,10 @@
-'use strict';
+import PropTypes from 'prop-types';
 
 import {
     Link
-} from 'react-router-dom';
+} from 'react-router';
+
+import classNames from 'classnames';
 
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -15,9 +17,11 @@ import PortraitIcon from '@mui/icons-material/Portrait';
 import SettingsIcon from '@mui/icons-material/Settings';
 import CancelIcon from '@mui/icons-material/Cancel';
 
+import I18n from '@js/modules/translations';
+
 import {
     userHomePath
-} from '../../../../constants/routesHelper';
+} from '@js/constants/routesHelper';
 
 
 function HeaderUserMenu({

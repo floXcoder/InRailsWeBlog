@@ -1,30 +1,27 @@
-'use strict';
-
-import {
+import React, {
     Suspense
 } from 'react';
+import PropTypes from 'prop-types';
+
+import {connect} from 'react-redux';
+
+import I18n from '@js/modules/translations';
+import * as Utils from '@js/modules/utils';
 
 import {
     lazyImporter
-} from '../../loaders/lazyLoader';
+} from '@js/components/loaders/lazyLoader';
 
-import withRouter from '../../modules/router';
-import withWidth from '../../modules/mediaQuery';
+import withRouter from '@js/components/modules/router';
+import withWidth from '@js/components/modules/mediaQuery';
 
-import ErrorBoundary from '../../errors/boundary';
+import ErrorBoundary from '@js/components/errors/boundary';
 
-const TagSidebarLayout = lazyImporter(() => import(/* webpackChunkName: "sidebar-tag" */ './tagSidebar'));
-const ArticleSidebarLayout = lazyImporter(() => import(/* webpackChunkName: "sidebar-article" */ './articleSidebar'));
-const SearchSidebarLayout = lazyImporter(() => import(/* webpackChunkName: "sidebar-search" */ './searchSidebar'));
+const TagSidebarLayout = lazyImporter(() => import(/* webpackChunkName: "sidebar-tag" */ '@js/components/layouts/user/tagSidebar'));
+const ArticleSidebarLayout = lazyImporter(() => import(/* webpackChunkName: "sidebar-article" */ '@js/components/layouts/user/articleSidebar'));
+const SearchSidebarLayout = lazyImporter(() => import(/* webpackChunkName: "sidebar-search" */ '@js/components/layouts/user/searchSidebar'));
 
 
-export default @connect((state) => ({
-    currentUserSlug: state.userState.currentSlug,
-    articleDisplayMode: state.uiState.articleDisplayMode,
-    articleTitleContent: state.articleState.articleTitleContent
-}))
-@withRouter({params: true})
-@withWidth()
 class SidebarLayoutUser extends React.Component {
     static propTypes = {
         // from layout
@@ -103,3 +100,9 @@ class SidebarLayoutUser extends React.Component {
         );
     }
 }
+
+export default connect((state) => ({
+    currentUserSlug: state.userState.currentSlug,
+    articleDisplayMode: state.uiState.articleDisplayMode,
+    articleTitleContent: state.articleState.articleTitleContent
+}))(withRouter({params: true})(withWidth()(SidebarLayoutUser)));

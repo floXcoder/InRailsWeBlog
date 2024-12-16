@@ -1,4 +1,7 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import classNames from 'classnames';
 
 import {
     Field
@@ -13,10 +16,12 @@ import Divider from '@mui/material/Divider';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-import SelectFormField from '../../../material-ui/form/select';
-import TextFormField from '../../../material-ui/form/text';
-import CheckBoxFieldForm from '../../../material-ui/form/checkbox';
-import SwitchFormField from '../../../material-ui/form/switch';
+import I18n from '@js/modules/translations';
+
+import SelectFormField from '@js/components/material-ui/form/select';
+import TextFormField from '@js/components/material-ui/form/text';
+import CheckBoxFieldForm from '@js/components/material-ui/form/checkbox';
+import SwitchFormField from '@js/components/material-ui/form/switch';
 
 
 export default class ArticleAdvancedField extends React.PureComponent {

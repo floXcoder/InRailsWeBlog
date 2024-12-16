@@ -1,40 +1,32 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import '../../../stylesheets/pages/article/sort.scss';
+import {connect} from 'react-redux';
+
+import * as Utils from '@js/modules/utils';
 
 import {
     topicArticlesPath
-} from '../../constants/routesHelper';
+} from '@js/constants/routesHelper';
 
 import {
     fetchArticles,
     updateArticlePriority
-} from '../../actions';
+} from '@js/actions/articleActions';
 
-import withRouter from '../modules/router';
+import withRouter from '@js/components/modules/router';
 
 import {
     sortItemLimit
-} from '../modules/constants';
+} from '@js/components/modules/constants';
 
-import Loader from '../theme/loader';
+import Loader from '@js/components/theme/loader';
 
-import ArticleSorter from './sort/sorter';
+import ArticleSorter from '@js/components/articles/sort/sorter';
+
+import '@css/pages/article/sort.scss';
 
 
-export default @connect((state) => ({
-    currentUserId: state.userState.currentId,
-    currentUserSlug: state.userState.currentSlug,
-    currentUserTopicId: state.topicState.currentUserTopicId,
-    currentUserTopicSlug: state.topicState.currentUserTopicSlug,
-    isFetching: state.articleState.isFetching,
-    isProcessing: state.articleState.isProcessing,
-    articles: state.articleState.articles
-}), {
-    fetchArticles,
-    updateArticlePriority
-})
-@withRouter({params: true, navigate: true})
 class ArticleSort extends React.Component {
     static propTypes = {
         // from router
@@ -103,3 +95,19 @@ class ArticleSort extends React.Component {
         );
     }
 }
+
+export default connect((state) => ({
+    currentUserId: state.userState.currentId,
+    currentUserSlug: state.userState.currentSlug,
+    currentUserTopicId: state.topicState.currentUserTopicId,
+    currentUserTopicSlug: state.topicState.currentUserTopicSlug,
+    isFetching: state.articleState.isFetching,
+    isProcessing: state.articleState.isProcessing,
+    articles: state.articleState.articles
+}), {
+    fetchArticles,
+    updateArticlePriority
+})(withRouter({
+    params: true,
+    navigate: true
+})(ArticleSorter));

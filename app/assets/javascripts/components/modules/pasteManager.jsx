@@ -1,27 +1,21 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import withRouter from './router';
+import {connect} from 'react-redux';
+
+import withRouter from '@js/components/modules/router';
 
 import {
     newArticlePath
-} from '../../constants/routesHelper';
+} from '@js/constants/routesHelper';
 
 import {
     onPageReady
-} from '../loaders/lazyLoader';
+} from '@js/components/loaders/lazyLoader';
 
-import ClipboardManager from '../../modules/clipboard';
+import ClipboardManager from '@js/modules/clipboard';
 
 
-export default @connect((state) => ({
-    isUserConnected: state.userState.isConnected,
-    currentUserSlug: state.userState.currentSlug,
-    currentUserTopicSlug: state.topicState.currentUserTopicSlug
-}))
-@withRouter({
-    location: true,
-    navigate: true
-})
 class PasteManager extends React.Component {
     static propTypes = {
         children: PropTypes.element.isRequired,
@@ -58,3 +52,12 @@ class PasteManager extends React.Component {
         return React.Children.only(this.props.children);
     }
 }
+
+export default connect((state) => ({
+    isUserConnected: state.userState.isConnected,
+    currentUserSlug: state.userState.currentSlug,
+    currentUserTopicSlug: state.topicState.currentUserTopicSlug
+}))(withRouter({
+    location: true,
+    navigate: true
+})(PasteManager));

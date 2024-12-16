@@ -1,6 +1,8 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import '../../../../stylesheets/components/single-timeline.scss';
+import '@css/components/single-timeline.scss';
+
 
 function SingleTimeline({children}) {
     return (

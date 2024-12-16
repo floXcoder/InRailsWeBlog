@@ -1,8 +1,8 @@
-'use strict';
+import PropTypes from 'prop-types';
 
 import List from '@mui/material/List';
 
-import ParentTag from './parent';
+import ParentTag from '@js/components/tags/display/parent';
 
 function TagRelationshipDisplay({
                                     tags,

@@ -1,9 +1,12 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import {connect} from 'react-redux';
 
 import {
     Link,
     // Prompt
-} from 'react-router-dom';
+} from 'react-router';
 
 import {
     Form
@@ -15,52 +18,48 @@ import Typography from '@mui/material/Typography';
 
 import Sticky from 'react-sticky-el';
 
+import I18n from '@js/modules/translations';
+
 import {
     userArticlePath,
     userHomePath,
     editInventoriesTopicPath
-} from '../../../constants/routesHelper';
+} from '@js/constants/routesHelper';
 
 import {
     fetchTags
-} from '../../../actions';
+} from '@js/actions/tagActions';
 
 import {
     getCategorizedTags
-} from '../../../selectors';
+} from '@js/selectors/tagSelectors';
 
 // import {
 //     removeLocalData
-// } from '../../../middlewares/localStorage';
+// } from '@js/middlewares/localStorage';
 
 import {
     validateArticle
-} from '../../../forms/article';
+} from '@js/forms/article.jsx';
 
 import {
     headerMargin,
     // articleTemporaryDataName
-} from '../../modules/constants';
+} from '@js/components/modules/constants';
 
-// import ArticleModeField from './fields/mode';
-import ArticleFormStepper from './fields/stepper';
-import ArticleTagsField from './fields/tags';
-import ArticleCommonField from './fields/common';
-import ArticleInventoriesField from './fields/inventories';
-import ArticleAdvancedField from './fields/advanced';
-import ArticleErrorField from './fields/error';
+// import ArticleModeField from '@js/components/articles/fields/mode';
+import ArticleFormStepper from '@js/components/articles/display/fields/stepper';
+import ArticleTagsField from '@js/components/articles/display/fields/tags';
+import ArticleCommonField from '@js/components/articles/display/fields/common';
+import ArticleInventoriesField from '@js/components/articles/display/fields/inventories';
+import ArticleAdvancedField from '@js/components/articles/display/fields/advanced';
+import ArticleErrorField from '@js/components/articles/display/fields/error';
 
-import EnsureValidity from '../../modules/ensureValidity';
+import EnsureValidity from '@js/components/modules/ensureValidity';
 
 const TabMotionDuration = 300;
 
 
-export default @connect((state, props) => ({
-    availableParentTags: getCategorizedTags(state, props.inheritVisibility),
-    availableChildTags: getCategorizedTags(state, props.inheritVisibility, true)
-}), {
-    fetchTags
-})
 class ArticleFormDisplay extends React.Component {
     static propTypes = {
         currentTopic: PropTypes.object.isRequired,
@@ -143,13 +142,19 @@ class ArticleFormDisplay extends React.Component {
     _handleTabChange = (event, index) => {
         this.setState({
             tabIndex: index
-        }, () => setTimeout(() => window.scroll({top: headerMargin, behavior: 'smooth'}), TabMotionDuration + 20));
+        }, () => setTimeout(() => window.scroll({
+            top: headerMargin,
+            behavior: 'smooth'
+        }), TabMotionDuration + 20));
     };
 
     _handleButtonChange = (index) => {
         this.setState({
             tabIndex: index
-        }, () => setTimeout(() => window.scroll({top: headerMargin, behavior: 'smooth'}), TabMotionDuration + 20));
+        }, () => setTimeout(() => window.scroll({
+            top: headerMargin,
+            behavior: 'smooth'
+        }), TabMotionDuration + 20));
     };
 
     render() {
@@ -161,7 +166,13 @@ class ArticleFormDisplay extends React.Component {
                   validate={validateArticle}
                   onSubmit={this.props.onSubmit}>
                 {
-                    ({handleSubmit, dirty, submitting, values, form: {change}}) => {
+                    ({
+                         handleSubmit,
+                         // dirty,
+                         submitting,
+                         values,
+                         form: {change}
+                     }) => {
                         const isNextDisabled = submitting || (this.props.currentTopic.mode === 'inventories' && this.props.currentTopic.inventoryFields.length === 0);
 
                         return (
@@ -173,7 +184,7 @@ class ArticleFormDisplay extends React.Component {
                                 {/*        message={this._onUnsavedExit}/>*/}
 
                                 <Sticky boundaryElement=".article-form-form"
-                                        // topOffset={-headerMargin / 2}
+                                    // topOffset={-headerMargin / 2}
                                         topOffset={headerMargin}
                                         bottomOffset={320}
                                         hideOnBoundaryHit={false}>
@@ -331,3 +342,10 @@ class ArticleFormDisplay extends React.Component {
         );
     }
 }
+
+export default connect((state, props) => ({
+    availableParentTags: getCategorizedTags(state, props.inheritVisibility),
+    availableChildTags: getCategorizedTags(state, props.inheritVisibility, true)
+}), {
+    fetchTags
+})(ArticleFormDisplay);

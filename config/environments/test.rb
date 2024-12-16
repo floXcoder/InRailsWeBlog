@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "active_support/core_ext/integer/time"
+require 'active_support/core_ext/integer/time'
 
 # The test environment is used exclusively to run your application's
 # test suite. You never need to work with it otherwise. Remember that
@@ -20,7 +20,7 @@ Rails.application.configure do
   config.allow_concurrency = false
   config.eager_load        = false
 
-  # Configure public file server for tests with Cache-Control for performance.
+  # Configure public file server for tests with cache-control for performance.
   config.public_file_server.enabled = true
   config.public_file_server.headers = {
     'Access-Control-Allow-Origin' => '*',
@@ -30,50 +30,41 @@ Rails.application.configure do
   # Show full error reports and disable caching.
   config.consider_all_requests_local       = true
   config.action_controller.perform_caching = false
+  config.cache_store                       = :null_store
 
-  # Use no cache store in test.
-  config.cache_store = :null_store
-
-  # Raise exceptions instead of rendering exception templates.
+  # Render exception templates for rescuable exceptions and raise for other exceptions.
   config.action_dispatch.show_exceptions = :rescuable
 
   # Disable request forgery protection in test environment.
   config.action_controller.allow_forgery_protection = false
 
-  config.action_mailer.perform_caching = false
+  # GoodJob configuration
+  config.good_job.execution_mode = :inline
 
   # Tell Action Mailer not to deliver emails to the real world.
   # The :test delivery method accumulates sent emails in the
   # ActionMailer::Base.deliveries array.
   config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.perform_caching       = false
   config.action_mailer.delivery_method       = :test
   host                                       = "localhost:#{ENV['TEST_PORT']}"
   config.action_mailer.default_url_options   = { host: host }
-  config.action_mailer.preview_paths         << Rails.root.join('spec/mailers/previews')
+  config.action_mailer.preview_paths << Rails.root.join('spec/mailers/previews')
 
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
-
-  # Raise exceptions for disallowed deprecations.
-  config.active_support.disallowed_deprecation = :raise
-
-  # Tell Active Support which deprecation messages to disallow.
-  config.active_support.disallowed_deprecation_warnings = []
 
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true
 
   # Annotate rendered view with file names.
-  config.action_view.annotate_rendered_view_with_filenames = true
+  # config.action_view.annotate_rendered_view_with_filenames = true
 
-  # Raise error when a before_action's only/except options reference missing actions
+  # Raise error when a before_action's only/except options reference missing actions.
   config.action_controller.raise_on_missing_callback_actions = true
 
-  config.action_controller.asset_host          = ENV['WEBSITE_ASSET']
-  config.action_controller.default_url_options = {
-    host: ENV['WEBSITE_ADDRESS'],
-    port: ENV['WEBSITE_PORT']
-  }
+  config.action_controller.asset_host          = ENV['ASSETS_HOST']
+  config.action_controller.default_url_options = { host: ENV['WEBSITE_HOST'] }
 
   # Logs
   #  config.log_level = :debug

@@ -1,25 +1,25 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import '../../../stylesheets/pages/user/connection.scss';
+import {connect} from 'react-redux';
+
+import I18n from '@js/modules/translations';
+import Notification from '@js/modules/notification';
 
 import {
     signupUser
-} from '../../actions';
+} from '@js/actions/userActions';
 
-import AnalyticsService from '../../modules/analyticsService';
+import AnalyticsService from '@js/modules/analyticsService';
 
-import SignupForm from './form/signup';
+import SignupForm from '@js/components/users/form/signup';
 
-import Modal from '../theme/modal';
-import BounceSpinner from '../theme/spinner/bounce';
+import Modal from '@js/components/theme/modal';
+import BounceSpinner from '@js/components/theme/spinner/bounce';
+
+import '@css/pages/user/connection.scss';
 
 
-export default @connect((state) => ({
-    isProcessing: state.userState.isProcessing,
-    isConnected: state.userState.isConnected
-}), {
-    signupUser
-})
 class UserSignup extends React.Component {
     static propTypes = {
         isOpen: PropTypes.bool.isRequired,
@@ -116,3 +116,9 @@ class UserSignup extends React.Component {
     }
 }
 
+export default connect((state) => ({
+    isProcessing: state.userState.isProcessing,
+    isConnected: state.userState.isConnected
+}), {
+    signupUser
+})(UserSignup)

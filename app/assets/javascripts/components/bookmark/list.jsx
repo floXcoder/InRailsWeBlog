@@ -1,12 +1,13 @@
-'use strict';
-
-import {
+import React, {
     Fragment
 } from 'react';
+import PropTypes from 'prop-types';
+
+import {connect} from 'react-redux';
 
 import {
     Link
-} from 'react-router-dom';
+} from 'react-router';
 
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -15,15 +16,13 @@ import ListItemText from '@mui/material/ListItemText';
 
 import AssignmentIcon from '@mui/icons-material/Assignment';
 
+import I18n from '@js/modules/translations';
+
 import {
     userArticlePath
-} from '../../constants/routesHelper';
+} from '@js/constants/routesHelper';
 
 
-export default
-@connect((state) => ({
-    bookmarks: state.bookmarkState.bookmarks
-}))
 class BookmarkList extends React.Component {
     static propTypes = {
         onBookmarkClick: PropTypes.func,
@@ -77,3 +76,6 @@ class BookmarkList extends React.Component {
     }
 }
 
+export default connect((state) => ({
+    bookmarks: state.bookmarkState.bookmarks
+}))(BookmarkList)

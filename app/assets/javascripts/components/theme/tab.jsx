@@ -1,6 +1,9 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import '../../../stylesheets/components/tab.scss';
+import classNames from 'classnames';
+
+import '@css/components/tab.scss';
 
 
 export class Tabs extends React.Component {

@@ -1,13 +1,14 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import IconButton from '@mui/material/IconButton';
 import Badge from '@mui/material/Badge';
 
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
-import Dropdown from '../../theme/dropdown';
+import Dropdown from '@js/components/theme/dropdown';
 
-import HeaderArticleMenu from './menus/article';
+import HeaderArticleMenu from '@js/components/layouts/header/menus/article';
 
 
 const HomeArticleHeader = function ({

@@ -76,7 +76,7 @@ module Shared
           if article.pictures.count > 0
             FileUtils.mkdir_p(Rails.root.join('tmp/exporter', user.slug, article.topic.slug, "#{article.slug}_files"))
             article.pictures.each do |picture|
-              image = open("#{ENV['WEBSITE_FULL_ADDRESS']}/#{picture.image_url}", read_timeout: 5) rescue nil
+              image = open("#{ENV['WEBSITE_URL']}/#{picture.image_url}", read_timeout: 5) rescue nil
               if image
                 File.open(Rails.root.join('tmp/exporter', user.slug, article.topic.slug, "#{article.slug}_files", picture.image.identifier), 'wb') do |file|
                   file.write(image.read)

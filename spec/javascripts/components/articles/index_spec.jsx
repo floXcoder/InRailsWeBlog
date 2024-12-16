@@ -1,5 +1,3 @@
-'use strict';
-
 import '../../test_helper';
 
 import reducers from '../../../../app/assets/javascripts/reducers';

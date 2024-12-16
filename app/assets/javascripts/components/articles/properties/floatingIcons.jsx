@@ -1,10 +1,11 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import ArticleEditIcon from '../icons/edit';
-// import ArticleHistoryIcon from '../icons/history';
-import ArticleLinkIcon from '../icons/link';
-import ArticleTopicLinkIcon from '../icons/topicLink';
-import ArticleBookmarkIcon from '../icons/bookmark';
+import ArticleEditIcon from '@js/components/articles/icons/edit';
+// import ArticleHistoryIcon from '@js/components/articles/icons/history';
+import ArticleLinkIcon from '@js/components/articles/icons/link';
+import ArticleTopicLinkIcon from '@js/components/articles/icons/topicLink';
+import ArticleBookmarkIcon from '@js/components/articles/icons/bookmark';
 
 
 const ArticleFloatingIcons = function ({

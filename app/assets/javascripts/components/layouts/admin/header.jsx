@@ -1,4 +1,6 @@
-'use strict';
+import React from 'react';
+
+import classNames from 'classnames';
 
 import Drawer from '@mui/material/Drawer';
 import Divider from '@mui/material/Divider';
@@ -7,10 +9,10 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 
 import {
     logoutAdmin
-} from '../../../actions/admin';
+} from '@js/actions/admin';
 
-import AppBarLayout from './appBar';
-import MenuLayout from './menu';
+import AppBarLayout from '@js/components/layouts/admin/appBar';
+import MenuLayout from '@js/components/layouts/admin/menu';
 
 
 export default class AdminHeaderLayout extends React.Component {

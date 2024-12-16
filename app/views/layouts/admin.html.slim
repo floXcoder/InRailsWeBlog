@@ -2,18 +2,17 @@ doctype html
 html lang="#{I18n.locale}"
 
   = render 'layouts/head'
-
-  - stylesheet 'admins'
+  
   - translations "admin-#{I18n.locale}"
-  - javascript_defer 'commons'
-  - unless current_page?(admins_login_path)
-    - javascript_defer 'admins'
 
   body
     = yield
 
     = render 'layouts/flash_messages', flash: flash
-
-    = render 'layouts/javascript'
-
+    
+    - stylesheet 'pages/admin'
     = render 'layouts/stylesheet'
+    
+    - unless current_page?(admins_login_path)
+      - javascript 'admins'
+    = render 'layouts/javascript'

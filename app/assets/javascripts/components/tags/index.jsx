@@ -1,10 +1,11 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import '../../../stylesheets/pages/tag/index.scss';
+import {connect} from 'react-redux';
 
 import {
     Link
-} from 'react-router-dom';
+} from 'react-router';
 
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
@@ -15,47 +16,46 @@ import CardActions from '@mui/material/CardActions';
 import Grid from '@mui/material/Grid2';
 import Paper from '@mui/material/Paper';
 
+import I18n from '@js/modules/translations';
+import * as Utils from '@js/modules/utils';
+
 import {
     showTagPath,
     userTopicPath,
     // editTagPath,
     sortTagPath
-} from '../../constants/routesHelper';
+} from '@js/constants/routesHelper';
 
 import {
-    fetchTags,
-    fetchTopic,
+    fetchTags
+} from '@js/actions/tagActions';
+
+import {
+    fetchTopic
+} from '@js/actions/topicActions';
+
+import {
     spyTrackClick
-} from '../../actions';
+} from '@js/actions/metricsActions';
 
 import {
     getPublicTags,
     getPrivateTags
-} from '../../selectors';
+} from '@js/selectors/tagSelectors';
 
 import {
     tagSidebarLimit
-} from '../modules/constants';
+} from '@js/components/modules/constants';
 
-import Loader from '../theme/loader';
+import Loader from '@js/components/theme/loader';
 
-import withRouter from '../modules/router';
+import withRouter from '@js/components/modules/router';
 
-import NotFound from '../layouts/notFound';
+import NotFound from '@js/components/layouts/notFound';
+
+import '@css/pages/tag/index.scss';
 
 
-export default @connect((state) => ({
-    currentUser: state.userState.user,
-    currentTopic: state.topicState.currentTopic,
-    topic: state.topicState.topic,
-    isFetching: state.tagState.isFetching,
-    publicTags: getPublicTags(state),
-    privateTags: getPrivateTags(state)
-}), {
-    fetchTags,
-    fetchTopic
-})
-@withRouter({params: true})
 class TagIndex extends React.Component {
     static propTypes = {
         initProps: PropTypes.object,
@@ -116,7 +116,10 @@ class TagIndex extends React.Component {
     _renderTagItem = (tag) => {
         return (
             <Grid key={tag.id}
-                  size={{xs: 12, md: 4}}>
+                  size={{
+                      xs: 12,
+                      md: 4
+                  }}>
                 <Card className="tag-index-tag-card">
                     <CardHeader classes={{
                         root: 'tag-index-tag-header'
@@ -300,3 +303,15 @@ class TagIndex extends React.Component {
         );
     }
 }
+
+export default connect((state) => ({
+    currentUser: state.userState.user,
+    currentTopic: state.topicState.currentTopic,
+    topic: state.topicState.topic,
+    isFetching: state.tagState.isFetching,
+    publicTags: getPublicTags(state),
+    privateTags: getPrivateTags(state)
+}), {
+    fetchTags,
+    fetchTopic
+})(withRouter({params: true})(TagIndex));

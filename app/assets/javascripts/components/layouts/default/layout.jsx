@@ -1,26 +1,28 @@
-'use strict';
-
-import {
+import React, {
     Suspense
 } from 'react';
+import PropTypes from 'prop-types';
 
 import {
     Routes,
     Route,
     Outlet
-} from 'react-router-dom';
+} from 'react-router';
 
-import withRouter from '../../modules/router';
+import classNames from 'classnames';
 
-import ErrorBoundary from '../../errors/boundary';
+import I18n from '@js/modules/translations';
 
-import RouteManager from '../managers/route';
+import withRouter from '@js/components/modules/router';
 
-import HeaderLayoutDefault from './header';
-import FooterLayoutDefault from './footer';
+import ErrorBoundary from '@js/components/errors/boundary';
+
+import RouteManager from '@js/components/layouts/managers/route';
+
+import HeaderLayoutDefault from '@js/components/layouts/default/header';
+import FooterLayoutDefault from '@js/components/layouts/default/footer';
 
 
-export default @withRouter({location: true})
 class LayoutDefault extends React.Component {
     static propTypes = {
         routes: PropTypes.array.isRequired,
@@ -128,3 +130,5 @@ class LayoutDefault extends React.Component {
         );
     }
 }
+
+export default withRouter({location: true})(LayoutDefault);

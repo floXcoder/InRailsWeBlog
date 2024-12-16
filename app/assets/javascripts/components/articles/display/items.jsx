@@ -1,36 +1,28 @@
-'use strict';
-
-import {
+import React,{
     Suspense
 } from 'react';
+import PropTypes from 'prop-types';
+
+import {connect} from 'react-redux';
 
 import {
     ArticleInlineEditionDisplay
-} from '../../loaders/components';
+} from '@js/components/loaders/components';
 
 import {
     inlineEditArticle
-} from '../../../actions';
+} from '@js/actions/articleActions';
 
 import {
     getArticleIsOwner
-} from '../../../selectors';
+} from '@js/selectors/articleSelectors';
 
-import ArticleMiniCardDisplay from './items/miniCard';
-import ArticleCardDisplay from './items/card';
-import ArticleInlineDisplay from './items/inline';
-import ArticleGridDisplay from './items/grid';
+import ArticleMiniCardDisplay from '@js/components/articles/display/items/miniCard';
+import ArticleCardDisplay from '@js/components/articles/display/items/card';
+import ArticleInlineDisplay from '@js/components/articles/display/items/inline';
+import ArticleGridDisplay from '@js/components/articles/display/items/grid';
 
-export default @connect((state, props) => ({
-    currentUserId: state.userState.currentId,
-    currentUserSlug: state.userState.currentSlug,
-    currentUserTopicId: state.topicState.currentUserTopicId,
-    currentUserTopicSlug: state.topicState.currentUserTopicSlug,
-    currentUserTopicVisibility: state.topicState.currentTopic?.visibility,
-    isOwner: getArticleIsOwner(state, props.article)
-}), {
-    inlineEditArticle
-})
+
 class ArticleItemsDisplay extends React.Component {
     static propTypes = {
         article: PropTypes.object.isRequired,
@@ -137,3 +129,14 @@ class ArticleItemsDisplay extends React.Component {
         }
     }
 }
+
+export default connect((state, props) => ({
+    currentUserId: state.userState.currentId,
+    currentUserSlug: state.userState.currentSlug,
+    currentUserTopicId: state.topicState.currentUserTopicId,
+    currentUserTopicSlug: state.topicState.currentUserTopicSlug,
+    currentUserTopicVisibility: state.topicState.currentTopic?.visibility,
+    isOwner: getArticleIsOwner(state, props.article)
+}), {
+    inlineEditArticle
+})(ArticleItemsDisplay)

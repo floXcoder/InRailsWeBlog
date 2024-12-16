@@ -1,14 +1,17 @@
-'use strict';
-
-import '../../../stylesheets/pages/article/index.scss';
-
-import {
+import React, {
     Suspense
 } from 'react';
+import PropTypes from 'prop-types';
+
+import {connect} from 'react-redux';
+
+import classNames from 'classnames';
 
 import {
     parse
 } from 'qs';
+
+import I18n from '@js/modules/translations';
 
 import {
     ArticleShow,
@@ -16,77 +19,60 @@ import {
     ArticleInfiniteMode,
     ArticleMasonryMode,
     ArticleTimelineMode
-} from '../loaders/components';
+} from '@js/components/loaders/components';
 
 import {
-    fetchArticles,
-    updateArticleOrderDisplay,
+    fetchArticles
+} from '@js/actions/articleActions';
+
+import {
     setCurrentArticles,
+    updateArticleOrderDisplay
+} from '@js/actions/uiActions';
+
+import {
     fetchTag,
-    fetchUser,
-    fetchTopic,
     setCurrentTags
-} from '../../actions';
+} from '@js/actions/tagActions';
+
+import {
+    fetchUser
+} from '@js/actions/userActions';
+
+import {
+    fetchTopic,
+} from '@js/actions/topicActions';
 
 import {
     getArticlesCurrentMode,
     getArticlesCount
-} from '../../selectors';
+} from '@js/selectors/articleSelectors';
 
 import {
     headerMargin,
     articleShowPreloadTime
-} from '../modules/constants';
+} from '@js/components/modules/constants';
 
 import {
     onPageReady
-} from '../loaders/lazyLoader';
+} from '@js/components/loaders/lazyLoader';
 
-import RouteManager from '../../modules/routeManager';
-import withRouter from '../modules/router';
+import RouteManager from '@js/modules/routeManager';
+import withRouter from '@js/components/modules/router';
 
-import Loader from '../theme/loader';
-import Pagination from '../theme/pagination';
+import Loader from '@js/components/theme/loader';
+import Pagination from '@js/components/theme/pagination';
 
-import NotFound from '../layouts/notFound';
+import NotFound from '@js/components/layouts/notFound';
 
-import SummaryStoriesTopic from '../topics/stories/summary';
+import SummaryStoriesTopic from '@js/components/topics/stories/summary';
 
-import ArticleRecommendationDisplay from './display/recommendation';
-import ArticleNoneDisplay from './display/items/none';
+import ArticleRecommendationDisplay from '@js/components/articles/display/recommendation';
+import ArticleNoneDisplay from '@js/components/articles/display/items/none';
+
+import '@css/pages/article/index.scss';
 
 
-export default @connect((state) => ({
-    currentUserId: state.userState.currentId,
-    currentUserSlug: state.userState.currentSlug,
-    currentTopic: state.topicState.currentTopic,
-    isUserConnected: state.userState.isConnected,
-    storyTopic: state.topicState.storyTopic,
-    currentState: state.articleState.currentState.value,
-    articlesCount: getArticlesCount(state),
-    articlePagination: state.articleState.pagination,
-    articleCurrentMode: getArticlesCurrentMode(state),
-    articlesLoaderMode: state.uiState.articlesLoaderMode,
-    articleDisplayMode: state.uiState.articleDisplayMode,
-    areArticlesMinimized: state.uiState.areArticlesMinimized,
-    articleEditionId: state.articleState.articleEditionId,
-    metaTags: state.uiState.metaTags,
-    tag: state.tagState.tag,
-    user: state.userState.user,
-    topic: state.topicState.topic,
-}), {
-    fetchArticles,
-    updateArticleOrderDisplay,
-    setCurrentArticles,
-    fetchTag,
-    fetchUser,
-    fetchTopic,
-    setCurrentTags
-})
-@withRouter({
-    location: true,
-    params: true
-})
 class ArticleIndex extends React.Component {
     static propTypes = {
         initProps: PropTypes.object,
@@ -471,3 +457,34 @@ class ArticleIndex extends React.Component {
         );
     }
 }
+
+export default connect((state) => ({
+    currentUserId: state.userState.currentId,
+    currentUserSlug: state.userState.currentSlug,
+    currentTopic: state.topicState.currentTopic,
+    isUserConnected: state.userState.isConnected,
+    storyTopic: state.topicState.storyTopic,
+    currentState: state.articleState.currentState.value,
+    articlesCount: getArticlesCount(state),
+    articlePagination: state.articleState.pagination,
+    articleCurrentMode: getArticlesCurrentMode(state),
+    articlesLoaderMode: state.uiState.articlesLoaderMode,
+    articleDisplayMode: state.uiState.articleDisplayMode,
+    areArticlesMinimized: state.uiState.areArticlesMinimized,
+    articleEditionId: state.articleState.articleEditionId,
+    metaTags: state.uiState.metaTags,
+    tag: state.tagState.tag,
+    user: state.userState.user,
+    topic: state.topicState.topic,
+}), {
+    fetchArticles,
+    updateArticleOrderDisplay,
+    setCurrentArticles,
+    fetchTag,
+    fetchUser,
+    fetchTopic,
+    setCurrentTags
+})(withRouter({
+    location: true,
+    params: true
+})(ArticleIndex));

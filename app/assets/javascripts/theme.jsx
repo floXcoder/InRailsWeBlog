@@ -1,5 +1,3 @@
-'use strict';
-
 import {
     createTheme
 } from '@mui/material/styles';

@@ -1,28 +1,31 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import '../../../stylesheets/pages/topic/share.scss';
+import {connect} from 'react-redux';
 
 import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
 
+import I18n from '@js/modules/translations';
+import * as Utils from '@js/modules/utils';
+
 import {
-    validateUser,
+    validateUser
+} from '@js/actions/userActions';
+
+import {
     shareTopic
-} from '../../actions';
+} from '@js/actions/shareActions';
 
-import AnalyticsService from '../../modules/analyticsService';
+import AnalyticsService from '@js/modules/analyticsService';
 
-import withRouter from '../modules/router';
+import withRouter from '@js/components/modules/router';
 
-import ShareFormTopic from './share/form';
+import ShareFormTopic from '@js/components/topics/share/form';
+
+import '@css/pages/topic/share.scss';
 
 
-export default @withRouter({location: true, navigate: true})
-@connect((state) => ({
-    topic: state.topicState.topic
-}), {
-    shareTopic
-})
 class ShareTopicModal extends React.Component {
     static propTypes = {
         // from router
@@ -64,17 +67,18 @@ class ShareTopicModal extends React.Component {
     };
 
     _handleUserChange = (userLogin) => {
-        validateUser(userLogin).then((response) => {
-            if (!response.success) {
-                this.setState({
-                    errorText: I18n.t('js.topic.share.errors.unknown')
-                });
-            } else {
-                this.setState({
-                    errorText: null
-                });
-            }
-        });
+        validateUser(userLogin)
+            .then((response) => {
+                if (!response.success) {
+                    this.setState({
+                        errorText: I18n.t('js.topic.share.errors.unknown')
+                    });
+                } else {
+                    this.setState({
+                        errorText: null
+                    });
+                }
+            });
     };
 
     _handleShareSubmit = (userLogin) => {
@@ -111,3 +115,12 @@ class ShareTopicModal extends React.Component {
         );
     }
 }
+
+export default withRouter({
+    location: true,
+    navigate: true
+})(connect((state) => ({
+    topic: state.topicState.topic
+}), {
+    shareTopic
+})(ShareTopicModal));

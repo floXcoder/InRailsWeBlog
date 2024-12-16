@@ -1,10 +1,14 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 
 import LanguageIcon from '@mui/icons-material/Language';
+
+import I18n from '@js/modules/translations';
+
 
 function ArticleLanguageIcon({
                                  currentLocale,

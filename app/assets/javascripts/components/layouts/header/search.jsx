@@ -1,4 +1,7 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import {connect} from 'react-redux';
 
 import Input from '@mui/material/Input';
 import InputLabel from '@mui/material/InputLabel';
@@ -8,42 +11,31 @@ import Chip from '@mui/material/Chip';
 import SearchIcon from '@mui/icons-material/Search';
 import CancelIcon from '@mui/icons-material/Cancel';
 
+import I18n from '@js/modules/translations';
+import * as Utils from '@js/modules/utils';
+
 import {
     taggedArticlesPath,
     userArticlePath,
     searchPath,
     searchParam
-} from '../../../constants/routesHelper';
+} from '@js/constants/routesHelper';
 
 import {
     setAutocompleteQuery,
     fetchAutocomplete,
     setAutocompleteAction,
     setAutocompleteSelectedTag
-} from '../../../actions';
+} from '@js/actions/searchActions';
 
 import {
     maxSearchRate,
     autocompleteLimit
-} from '../../modules/constants';
+} from '@js/components/modules/constants';
 
-import withRouter from '../../modules/router';
+import withRouter from '@js/components/modules/router';
 
 
-export default @connect((state) => ({
-    query: state.autocompleteState.query,
-    currentUserId: state.userState.currentId,
-    currentUserTopicId: state.topicState.currentUserTopicId,
-    selectedTags: state.autocompleteState.selectedTags,
-    highlightedTag: state.autocompleteState.highlightedTag,
-    highlightedArticle: state.autocompleteState.highlightedArticle
-}), {
-    setAutocompleteQuery,
-    fetchAutocomplete,
-    setAutocompleteAction,
-    setAutocompleteSelectedTag
-})
-@withRouter({location: true, navigate: true})
 class HomeSearchHeader extends React.Component {
     static propTypes = {
         isSearchActive: PropTypes.bool.isRequired,
@@ -265,3 +257,17 @@ class HomeSearchHeader extends React.Component {
         );
     }
 }
+
+export default connect((state) => ({
+    query: state.autocompleteState.query,
+    currentUserId: state.userState.currentId,
+    currentUserTopicId: state.topicState.currentUserTopicId,
+    selectedTags: state.autocompleteState.selectedTags,
+    highlightedTag: state.autocompleteState.highlightedTag,
+    highlightedArticle: state.autocompleteState.highlightedArticle
+}), {
+    setAutocompleteQuery,
+    fetchAutocomplete,
+    setAutocompleteAction,
+    setAutocompleteSelectedTag
+})(withRouter({location: true, navigate: true})(HomeSearchHeader));

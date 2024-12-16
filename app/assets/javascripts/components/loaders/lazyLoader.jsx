@@ -1,17 +1,16 @@
-'use strict';
-
-import {
+import React, {
     Children
 } from 'react';
+import PropTypes from 'prop-types';
 
 import {
     manageImportError
-} from '../../actions';
+} from '@js/actions/errorActions';
 
 
 export const lazyImporter = (factory) => {
     // const factory = () => importPath.catch(manageImportError);
-    const Component =  React.lazy(factory);
+    const Component = React.lazy(factory);
     Component.preload = factory;
     return Component;
 };

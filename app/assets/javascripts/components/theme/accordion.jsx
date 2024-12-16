@@ -1,6 +1,9 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import '../../../stylesheets/components/accordion.scss';
+import classNames from 'classnames';
+
+import '@css/components/accordion.scss';
 
 
 class AccordionItem extends React.Component {

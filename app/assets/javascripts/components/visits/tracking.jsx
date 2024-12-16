@@ -1,4 +1,7 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import {connect} from 'react-redux';
 
 import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
@@ -14,19 +17,15 @@ import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import SubdirectoryArrowRightIcon from '@mui/icons-material/SubdirectoryArrowRight';
 
+import I18n from '@js/modules/translations';
+
 import {
     fetchVisits
-} from '../../actions/admin';
+} from '@js/actions/admin';
 
-import Loader from '../theme/loader';
+import Loader from '@js/components/theme/loader';
 
 
-export default
-@connect((state) => ({
-    visitsDetails: state.adminState.visitsDetails
-}), {
-    fetchVisits
-})
 class TrackingVisitModal extends React.Component {
     static propTypes = {
         date: PropTypes.string,
@@ -80,8 +79,8 @@ class TrackingVisitModal extends React.Component {
                                             onClick={this._handleVisitClick.bind(this, visit.id)}>
                                 <ListItemText primary={
                                     <span>
-                                        {visit.startedAt} -> {visit.endedAt} : {[visit.country, visit.referrer].compact()
-                                        .join(' - ')}
+                                        {`${visit.startedAt} -> ${visit.endedAt} : ${[visit.country, visit.referrer].compact()
+                                            .join(' - ')}`}
                                     </span>
                                 }
                                               secondary={
@@ -179,3 +178,9 @@ class TrackingVisitModal extends React.Component {
         );
     }
 }
+
+export default connect((state) => ({
+    visitsDetails: state.adminState.visitsDetails
+}), {
+    fetchVisits
+})(TrackingVisitModal);

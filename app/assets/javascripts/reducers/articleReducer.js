@@ -1,17 +1,16 @@
-'use strict';
 
 import {
     createMachine
 } from '@xstate/fsm';
 
-import * as ActionTypes from '../constants/actionTypes';
+import * as ActionTypes from '@js/constants/actionTypes';
 
 import {
     fetchReducer,
     mutationReducer,
     addOrReplaceIn,
     removeIn
-} from './mutators';
+} from '@js/reducers/mutators';
 
 
 const articleMachine = createMachine({

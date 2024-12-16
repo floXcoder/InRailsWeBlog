@@ -41,7 +41,7 @@ fr:
         unpin: "Unpin"
       footer:
         description: "Un blog pour tous"
-        copyright: "Copyright 2023 (%{version}). Tous droits réservés."
+        copyright: "Copyright 2025 (%{version}). Tous droits réservés."
         links:
           title: "Liens utiles"
           contact: "Nous contacter"
@@ -531,6 +531,7 @@ fr:
           content_too_short: "Le contenu est trop court"
         no_results:
           alternative_url: "Les articles sont disponibles dans cette langue : "
+          user: "Encore aucun article pour cet utilisateur"
           topic:
             title:
               default: "Ajouter un article à ce thème"

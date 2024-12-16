@@ -1,12 +1,15 @@
-'use strict';
-
-import {
+import React, {
     Suspense
 } from 'react';
+import PropTypes from 'prop-types';
+
+import {connect} from 'react-redux';
 
 import {
     Link
-} from 'react-router-dom';
+} from 'react-router';
+
+import classNames from 'classnames';
 
 import {
     LoadingBar
@@ -34,59 +37,64 @@ import ClassIcon from '@mui/icons-material/Class';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 
+import I18n from '@js/modules/translations';
+
 import {
     UserPreference
-} from '../../loaders/components';
+} from '@js/components/loaders/components';
 
 import {
     getLocalData
-} from '../../../middlewares/localStorage';
+} from '@js/middlewares/localStorage';
 
 import {
     showUserPreference,
-    showTopicPopup,
+    showTopicPopup
+} from '@js/actions/uiActions';
+
+import {
     logoutUser
-} from '../../../actions';
+} from '@js/actions/userActions';
 
 import {
     getCurrentTagSlugs
-} from '../../../selectors';
+} from '@js/selectors/tagSelectors';
 
 import {
     userHomePath
-} from '../../../constants/routesHelper';
+} from '@js/constants/routesHelper';
 
 import {
     articleTemporaryDataName
-} from '../../modules/constants';
+} from '@js/components/modules/constants';
 
 import {
     lazyImporter
-} from '../../loaders/lazyLoader';
+} from '@js/components/loaders/lazyLoader';
 
-import withRouter from '../../modules/router';
-import withWidth from '../../modules/mediaQuery';
+import withRouter from '@js/components/modules/router';
+import withWidth from '@js/components/modules/mediaQuery';
 
-import ErrorBoundary from '../../errors/boundary';
+import ErrorBoundary from '@js/components/errors/boundary';
 
-import HeadLayout from '../head';
+import HeadLayout from '@js/components/layouts/head';
 
-import TopicModule from '../../topics/module';
+import TopicModule from '@js/components/topics/module';
 
-import BookmarkList from '../../bookmark/list';
+import BookmarkList from '@js/components/bookmark/list';
 
-import TagSidebar from '../../tags/sidebar';
+import TagSidebar from '@js/components/tags/sidebar';
 
-import ArticleSidebar from '../../articles/sidebar';
+import ArticleSidebar from '@js/components/articles/sidebar';
 
-import HomeBookmarkHeader from '../header/bookmark';
-import HomeArticleHeader from '../header/article';
-import HomeUserHeader from '../header/user';
+import HomeBookmarkHeader from '@js/components/layouts/header/bookmark';
+import HomeArticleHeader from '@js/components/layouts/header/article';
+import HomeUserHeader from '@js/components/layouts/header/user';
 
-import HeaderUserMenu from '../header/menus/user';
-import HeaderArticleMenu from '../header/menus/article';
+import HeaderUserMenu from '@js/components/layouts/header/menus/user';
+import HeaderArticleMenu from '@js/components/layouts/header/menus/article';
 
-const HomeSearchHeader = lazyImporter(() => import(/* webpackChunkName: "header-search" */ '../header/search'));
+const HomeSearchHeader = lazyImporter(() => import(/* webpackChunkName: "header-search" */ '@js/components/layouts/header/search'));
 
 const loadingBarStyle = {
     backgroundColor: '#036603',
@@ -94,26 +102,6 @@ const loadingBarStyle = {
 };
 
 
-export default
-@connect((state) => ({
-    metaTags: state.uiState.metaTags,
-    isUserPreferenceOpen: state.uiState.isUserPreferenceOpen,
-    isTopicPopupOpen: state.uiState.isTopicPopupOpen,
-    isUserConnected: state.userState.isConnected,
-    isAdminConnected: state.userState.isAdminConnected,
-    userSlug: state.userState.currentSlug,
-    topicSlug: state.topicState.currentUserTopicSlug,
-    currentTopic: state.topicState.currentTopic,
-    currentTagSlugs: getCurrentTagSlugs(state)
-}), {
-    showUserPreference,
-    showTopicPopup
-})
-@withRouter({
-    location: true,
-    params: true
-})
-@withWidth()
 class HeaderLayoutUser extends React.PureComponent {
     static propTypes = {
         searchModule: PropTypes.object.isRequired,
@@ -500,3 +488,21 @@ class HeaderLayoutUser extends React.PureComponent {
         );
     }
 }
+
+export default connect((state) => ({
+    metaTags: state.uiState.metaTags,
+    isUserPreferenceOpen: state.uiState.isUserPreferenceOpen,
+    isTopicPopupOpen: state.uiState.isTopicPopupOpen,
+    isUserConnected: state.userState.isConnected,
+    isAdminConnected: state.userState.isAdminConnected,
+    userSlug: state.userState.currentSlug,
+    topicSlug: state.topicState.currentUserTopicSlug,
+    currentTopic: state.topicState.currentTopic,
+    currentTagSlugs: getCurrentTagSlugs(state)
+}), {
+    showUserPreference,
+    showTopicPopup
+})(withRouter({
+    location: true,
+    params: true
+})(withWidth()(HeaderLayoutUser)));

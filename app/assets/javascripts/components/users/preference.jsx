@@ -1,8 +1,11 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import Modal from '../theme/modal';
+import I18n from '@js/modules/translations';
 
-import UserSettings from './settings';
+import Modal from '@js/components/theme/modal';
+
+import UserSettings from '@js/components/users/settings';
 
 
 export default class UserPreference extends React.Component {

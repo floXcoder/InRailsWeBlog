@@ -1,38 +1,32 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import '../../../stylesheets/pages/topic/form.scss';
+import {connect} from 'react-redux';
 
 import {
     topicArticlesPath
-} from '../../constants/routesHelper';
+} from '@js/constants/routesHelper';
 
 import {
     fetchTopic,
     updateTopicInventories
-} from '../../actions';
+} from '@js/actions/topicActions';
 
 import {
     getTopicErrors
-} from '../../selectors';
+} from '@js/selectors/topicSelectors';
 
-import withRouter from '../modules/router';
+import withRouter from '@js/components/modules/router';
 
-import Loader from '../theme/loader';
+import Loader from '@js/components/theme/loader';
 
-import TopicFormInventoriesDisplay from './display/formInventories';
+import TopicFormInventoriesDisplay from '@js/components/topics/display/formInventories';
 
-import NotAuthorized from '../layouts/notAuthorized';
+import NotAuthorized from '@js/components/layouts/notAuthorized';
+
+import '@css/pages/topic/form.scss';
 
 
-export default @connect((state) => ({
-    topic: state.topicState.topic,
-    currentUser: state.userState.user,
-    topicErrors: getTopicErrors(state)
-}), {
-    fetchTopic,
-    updateTopicInventories
-})
-@withRouter({params: true, navigate: true})
 class TopicEditInventories extends React.Component {
     static propTypes = {
         // from router
@@ -109,3 +103,12 @@ class TopicEditInventories extends React.Component {
         );
     }
 }
+
+export default connect((state) => ({
+    topic: state.topicState.topic,
+    currentUser: state.userState.user,
+    topicErrors: getTopicErrors(state)
+}), {
+    fetchTopic,
+    updateTopicInventories
+})(withRouter({params: true, navigate: true})(TopicEditInventories))

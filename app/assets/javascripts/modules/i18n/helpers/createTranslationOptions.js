@@ -1,4 +1,4 @@
-import {isSet} from './isSet';
+import {isSet} from '@js/modules/i18n/helpers/isSet';
 
 export function createTranslationOptions(i18n, scope, options) {
     let translationOptions = [{scope}];

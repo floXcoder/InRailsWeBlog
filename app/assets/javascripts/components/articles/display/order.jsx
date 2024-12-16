@@ -1,11 +1,12 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import IconButton from '@mui/material/IconButton';
 
 import VerticalAlignBottomIcon from '@mui/icons-material/VerticalAlignBottom';
 
-import ArticleSortMenu from '../sort/dropdown';
-// import ArticleFilterMenu from '../filter/dropdown';
+import ArticleSortMenu from '@js/components/articles/sort/dropdown';
+// import ArticleFilterMenu from '@js/components/articles/filter/dropdown';
 
 
 const ArticleOrderDisplay = function ({

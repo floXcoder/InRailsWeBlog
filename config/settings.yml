@@ -2,8 +2,6 @@ shared: &shared
   # Global
   website_name: <%= ENV['WEBSITE_NAME'] %>
   website_email: <%= ENV['WEBSITE_EMAIL'] %>
-  assets_url: <%= ENV['WEBSITE_ASSET_IMAGES'] %>
-  full_assets_url: <%= ENV['WEBSITE_FULL_ASSET'] %>
 
   # Cache time
   cache_time: <%= 7.days %>

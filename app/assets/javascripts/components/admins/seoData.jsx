@@ -1,7 +1,12 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import {connect} from 'react-redux';
 
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
+
+import I18n from '@js/modules/translations';
 
 import {
     fetchSeoData,
@@ -9,24 +14,14 @@ import {
     addSeoData,
     updateSeoData,
     deleteSeoData
-} from '../../actions/admin';
+} from '@js/actions/admin';
 
-import Table from '../theme/table';
-import Loader from '../theme/loader';
+import Table from '@js/components/theme/table';
+import Loader from '@js/components/theme/loader';
 
-import AdminSeoDataForm from './seo/form';
+import AdminSeoDataForm from '@js/components/admins/seo/form';
 
 
-export default @connect((state) => ({
-    seoData: state.adminState.seoData,
-    isFetching: state.adminState.isFetching
-}), {
-    fetchSeoData,
-    retrieveParametersSeoData,
-    addSeoData,
-    updateSeoData,
-    deleteSeoData
-})
 class AdminSeoData extends React.Component {
     static propTypes = {
         seoPages: PropTypes.array.isRequired,
@@ -158,21 +153,20 @@ class AdminSeoData extends React.Component {
                 }
 
                 <Table title={I18n.t('js.admin.seo.table.title')}
-                       locale={I18n.locale}
                        data={this.props.seoData.map((seoData) => ({...seoData}))}
                        columns={[
                            {
-                               title: I18n.t('js.admin.seo.table.columns.id'),
-                               field: 'id',
+                               name: I18n.t('js.admin.seo.table.columns.id'),
+                               key: 'id',
                                hidden: true
                            },
                            {
-                               title: I18n.t('js.admin.seo.table.columns.name'),
-                               field: 'name'
+                               name: I18n.t('js.admin.seo.table.columns.name'),
+                               key: 'name'
                            },
                            {
-                               title: I18n.t('js.admin.seo.table.columns.visibility'),
-                               field: 'visibility',
+                               name: I18n.t('js.admin.seo.table.columns.visibility'),
+                               key: 'visibility',
                                lookup: {
                                    [true]: I18n.t('js.admin.seo.visibility.public'),
                                    [false]: I18n.t('js.admin.seo.visibility.private')
@@ -180,32 +174,24 @@ class AdminSeoData extends React.Component {
                                width: 140
                            },
                            {
-                               title: I18n.t('js.admin.seo.table.columns.locale'),
-                               field: 'locale',
+                               name: I18n.t('js.admin.seo.table.columns.locale'),
+                               key: 'locale',
                                width: 80
                            },
                            {
-                               title: I18n.t('js.admin.seo.table.columns.parameters'),
-                               field: 'parameters',
-                               render: (seoData) => seoData.parameters.join(', ')
+                               name: I18n.t('js.admin.seo.table.columns.parameters'),
+                               key: 'parameters',
+                               value: (seoData) => seoData.parameters.join(', ')
                            },
                            {
-                               title: I18n.t('js.admin.seo.table.columns.page_title'),
-                               field: 'pageTitle'
+                               name: I18n.t('js.admin.seo.table.columns.page_title'),
+                               key: 'pageTitle'
                            },
                            {
-                               title: I18n.t('js.admin.seo.table.columns.meta_desc'),
-                               field: 'metaDesc'
+                               name: I18n.t('js.admin.seo.table.columns.meta_desc'),
+                               key: 'metaDesc'
                            }
                        ]}
-                       options={{
-                           columnsButton: true,
-                           exportButton: true,
-                           filtering: true,
-                           actionsColumnIndex: -1,
-                           paging: false,
-                           emptyRowsWhenPaging: false
-                       }}
                        actions={[
                            {
                                icon: 'edit',
@@ -227,3 +213,14 @@ class AdminSeoData extends React.Component {
         );
     }
 }
+
+export default connect((state) => ({
+    seoData: state.adminState.seoData,
+    isFetching: state.adminState.isFetching
+}), {
+    fetchSeoData,
+    retrieveParametersSeoData,
+    addSeoData,
+    updateSeoData,
+    deleteSeoData
+})(AdminSeoData);

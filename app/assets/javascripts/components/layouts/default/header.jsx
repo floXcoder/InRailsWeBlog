@@ -1,12 +1,15 @@
-'use strict';
-
-import {
+import React, {
     Suspense
 } from 'react';
+import PropTypes from 'prop-types';
+
+import {connect} from 'react-redux';
+
+import classNames from 'classnames';
 
 import {
     Link
-} from 'react-router-dom';
+} from 'react-router';
 
 import {
     LoadingBar
@@ -25,36 +28,38 @@ import Button from '@mui/material/Button';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 
+import I18n from '@js/modules/translations';
+
 import {
     rootPath,
     searchParam
-} from '../../../constants/routesHelper';
+} from '@js/constants/routesHelper';
 
 import {
     // HomeSearchHeader,
     UserSignup,
     UserLogin
-} from '../../loaders/components';
+} from '@js/components/loaders/components';
 
 import {
     fetchMetaTags,
     showUserSignup,
     showUserLogin
-} from '../../../actions';
+} from '@js/actions/uiActions';
 
 import {
     lazyImporter,
     onPageReady
-} from '../../loaders/lazyLoader';
+} from '@js/components/loaders/lazyLoader';
 
-import withWidth from '../../modules/mediaQuery';
-import withRouter from '../../modules/router';
+import withWidth from '@js/components/modules/mediaQuery';
+import withRouter from '@js/components/modules/router';
 
-import ErrorBoundary from '../../errors/boundary';
+import ErrorBoundary from '@js/components/errors/boundary';
 
-import HeadLayout from '../head';
+import HeadLayout from '@js/components/layouts/head';
 
-const HomeSearchHeader = lazyImporter(() => import(/* webpackChunkName: "header-search" */ '../header/search'));
+const HomeSearchHeader = lazyImporter(() => import(/* webpackChunkName: "header-search" */ '@js/components/layouts/header/search'));
 
 const loadingBarStyle = {
     backgroundColor: '#036603',
@@ -62,21 +67,6 @@ const loadingBarStyle = {
 };
 
 
-export default @connect((state) => ({
-    metaTags: state.uiState.metaTags,
-    isUserSignupOpen: state.uiState.isUserSignupOpen,
-    isUserLoginOpen: state.uiState.isUserLoginOpen
-}), {
-    fetchMetaTags,
-    showUserSignup,
-    showUserLogin
-})
-@withRouter({
-    location: true,
-    params: true,
-    navigate: true
-})
-@withWidth()
 class HeaderLayoutDefault extends React.Component {
     static propTypes = {
         searchModule: PropTypes.object.isRequired,
@@ -348,3 +338,17 @@ class HeaderLayoutDefault extends React.Component {
         );
     }
 }
+
+export default connect((state) => ({
+    metaTags: state.uiState.metaTags,
+    isUserSignupOpen: state.uiState.isUserSignupOpen,
+    isUserLoginOpen: state.uiState.isUserLoginOpen
+}), {
+    fetchMetaTags,
+    showUserSignup,
+    showUserLogin
+})(withRouter({
+    location: true,
+    params: true,
+    navigate: true
+})(withWidth()(HeaderLayoutDefault)));

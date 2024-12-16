@@ -1,8 +1,11 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import {
     Link
-} from 'react-router-dom';
+} from 'react-router';
+
+import classNames from 'classnames';
 
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -13,13 +16,13 @@ import Divider from '@mui/material/Divider';
 import {
     userArticlePath,
     taggedArticlesPath
-} from '../../../../constants/routesHelper';
+} from '@js/constants/routesHelper';
 
 import {
     spyTrackClick
-} from '../../../../actions';
+} from '@js/actions/metricsActions';
 
-import ArticleInventoryDisplay from '../../../articles/display/items/inventory';
+import ArticleInventoryDisplay from '@js/components/articles/display/items/inventory';
 
 
 export default class ArticleSearchItemDisplay extends React.Component {

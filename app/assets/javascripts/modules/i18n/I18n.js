@@ -1,18 +1,18 @@
-import {Locales} from './Locales';
-import {MissingTranslation} from './MissingTranslation';
-import {Pluralization} from './Pluralization';
+import {Locales} from '@js/modules/i18n/Locales';
+import {MissingTranslation} from '@js/modules/i18n/MissingTranslation';
+import {Pluralization} from '@js/modules/i18n/Pluralization';
 
-import {createTranslationOptions} from './helpers/createTranslationOptions';
-import {lookup} from './helpers/lookup';
-import {interpolate} from './helpers/interpolate';
-import {propertyFlatList} from './helpers/propertyFlatList';
-import {getFullScope} from './helpers/getFullScope';
-import {inferType} from './helpers/inferType';
-import {isSet} from './helpers/isSet';
-import {pluralize} from './helpers/pluralize';
-import {get} from './helpers/get';
-import {has} from './helpers/has';
-import {set} from './helpers/set';
+import {createTranslationOptions} from '@js/modules/i18n/helpers/createTranslationOptions';
+import {lookup} from '@js/modules/i18n/helpers/lookup';
+import {interpolate} from '@js/modules/i18n/helpers/interpolate';
+import {propertyFlatList} from '@js/modules/i18n/helpers/propertyFlatList';
+import {getFullScope} from '@js/modules/i18n/helpers/getFullScope';
+import {inferType} from '@js/modules/i18n/helpers/inferType';
+import {isSet} from '@js/modules/i18n/helpers/isSet';
+import {pluralize} from '@js/modules/i18n/helpers/pluralize';
+import {get} from '@js/modules/i18n/helpers/get';
+import {has} from '@js/modules/i18n/helpers/has';
+import {set} from '@js/modules/i18n/helpers/set';
 
 // var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
 //     function adopt(value) {

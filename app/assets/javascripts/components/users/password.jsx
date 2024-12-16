@@ -1,10 +1,13 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import '../../../stylesheets/pages/user/connection.scss';
+import {connect} from 'react-redux';
+
+import I18n from '@js/modules/translations';
 
 import {
     Link
-} from 'react-router-dom';
+} from 'react-router';
 
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid2';
@@ -18,16 +21,15 @@ import LockIcon from '@mui/icons-material/Lock';
 
 import {
     fetchMetaTags
-} from '../../actions';
+} from '@js/actions/uiActions';
 
 import {
     rootPath
-} from '../../constants/routesHelper';
+} from '@js/constants/routesHelper';
+
+import '@css/pages/user/connection.scss';
 
 
-export default @connect(null, {
-    fetchMetaTags
-})
 class UserPassword extends React.Component {
     static propTypes = {
         resetPasswordToken: PropTypes.string,
@@ -98,7 +100,7 @@ class UserPassword extends React.Component {
                                   justifyContent="space-between"
                                   alignItems="center">
                                 <Grid classes={{item: 'user-password-field-item'}}
-                                      >
+                                >
                                     <TextField id="user_password"
                                                name="user[password]"
                                                className="user-password-text-field"
@@ -142,7 +144,7 @@ class UserPassword extends React.Component {
                                   justifyContent="space-between"
                                   alignItems="center">
                                 <Grid classes={{item: 'user-password-field-item'}}
-                                      >
+                                >
                                     <TextField id="user_email"
                                                name="user[email]"
                                                className="user-password-text-field"
@@ -190,3 +192,6 @@ class UserPassword extends React.Component {
     }
 }
 
+export default connect(null, {
+    fetchMetaTags
+})(UserPassword);

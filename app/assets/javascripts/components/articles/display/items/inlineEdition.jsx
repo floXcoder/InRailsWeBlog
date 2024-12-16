@@ -1,33 +1,34 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import {connect} from 'react-redux';
 
 import {
     Link,
     // Prompt
-} from 'react-router-dom';
+} from 'react-router';
 
 import {
     userArticlePath
-} from '../../../../constants/routesHelper';
+} from '@js/constants/routesHelper';
 
 import {
-    inlineEditArticle,
-    updateArticle,
-    deleteArticle,
-    spyTrackClick
-} from '../../../../actions';
-
-import ArticleInlineActions from '../../properties/inlineActions';
-
-import {
-    Editor
-} from '../../../loaders/components';
-
-
-export default @connect(null, {
     inlineEditArticle,
     updateArticle,
     deleteArticle
-})
+} from '@js/actions/articleActions';
+
+import {
+    spyTrackClick
+} from '@js/actions/metricsActions';
+
+import ArticleInlineActions from '@js/components/articles/properties/inlineActions';
+
+import {
+    Editor
+} from '@js/components/loaders/components';
+
+
 class ArticleInlineEditionDisplay extends React.Component {
     static propTypes = {
         article: PropTypes.object.isRequired,
@@ -116,3 +117,9 @@ class ArticleInlineEditionDisplay extends React.Component {
         );
     }
 }
+
+export default connect(null, {
+    inlineEditArticle,
+    updateArticle,
+    deleteArticle
+})(ArticleInlineEditionDisplay)

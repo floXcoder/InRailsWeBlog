@@ -1,10 +1,13 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import '../../../stylesheets/pages/article/show.scss';
+import {connect} from 'react-redux';
+
+import classNames from 'classnames';
 
 import {
     Link
-} from 'react-router-dom';
+} from 'react-router';
 
 import Sticky from 'react-sticky-el';
 
@@ -16,16 +19,20 @@ import Divider from '@mui/material/Divider';
 // Keyboard inputs
 import Mousetrap from 'mousetrap';
 
+import I18n from '@js/modules/translations';
+import * as Utils from '@js/modules/utils';
+import Notification from '@js/modules/notification';
+
 import {
     ArticleIndex,
     ArticleEdit
-} from '../loaders/components';
+} from '@js/components/loaders/components';
 
 import {
     userArticlePath,
     topicArticlesPath,
     editArticlePath
-} from '../../constants/routesHelper';
+} from '@js/constants/routesHelper';
 
 import {
     fetchArticle,
@@ -35,85 +42,68 @@ import {
     unmarkArticleOutdated,
     checkLinksArticle,
     deleteArticle,
-    setCurrentTags,
-    showUserSignup,
-    switchTopic,
     showArticleContent
-} from '../../actions';
+} from '@js/actions/articleActions';
+
+import {
+    setCurrentTags
+} from '@js/actions/tagActions';
+
+import {
+    showUserSignup
+} from '@js/actions/uiActions';
+
+import {
+    switchTopic,
+} from '@js/actions/topicActions';
+
+import {
+    getArticleIsOwner
+} from '@js/selectors/articleSelectors';
 
 import {
     getIsCurrentTopicOwner,
-    getArticleIsOwner
-} from '../../selectors';
+} from '@js/selectors/topicSelectors';
 
 import {
     articleRecommendationPreloadTime,
     articleIndexPreloadTime,
     articleEditPreloadTime
-} from '../modules/constants';
+} from '@js/components/modules/constants';
 
 import {
     onPageReady,
     lazyImporter
-} from '../loaders/lazyLoader';
+} from '@js/components/loaders/lazyLoader';
 
-import LoadOnScroll from '../loaders/loadOnScroll';
+import LoadOnScroll from '@js/components/loaders/loadOnScroll';
 
-import withRouter from '../modules/router';
+import withRouter from '@js/components/modules/router';
 
-import highlight from '../modules/highlight';
+import highlight from '@js/components/modules/highlight';
 
-import CommentCountIcon from '../comments/icons/count';
+import CommentCountIcon from '@js/components/comments/icons/count';
 
-import NotFound from '../layouts/notFound';
+import NotFound from '@js/components/layouts/notFound';
 
-import SummaryStoriesTopic from '../topics/stories/summary';
+import SummaryStoriesTopic from '@js/components/topics/stories/summary';
 
-import ArticleAvatarIcon from './icons/avatar';
-import ArticleLanguageIcon from './icons/language';
-import ArticleEditIcon from './icons/edit';
-import ArticleTags from './properties/tags';
-import ArticleFloatingIcons from './properties/floatingIcons';
-import ArticleActions from './properties/actions';
-import ArticleBreadcrumbDisplay from './display/breadcrumb';
-import ArticleInventoryDisplay from './display/items/inventory';
-import ArticleMiniCardDisplay from './display/items/miniCard';
-import ArticleSkeleton from '../loaders/skeletons/article';
+import ArticleAvatarIcon from '@js/components/articles/icons/avatar';
+import ArticleLanguageIcon from '@js/components/articles/icons/language';
+import ArticleEditIcon from '@js/components/articles/icons/edit';
+import ArticleTags from '@js/components/articles/properties/tags';
+import ArticleFloatingIcons from '@js/components/articles/properties/floatingIcons';
+import ArticleActions from '@js/components/articles/properties/actions';
+import ArticleBreadcrumbDisplay from '@js/components/articles/display/breadcrumb';
+import ArticleInventoryDisplay from '@js/components/articles/display/items/inventory';
+import ArticleMiniCardDisplay from '@js/components/articles/display/items/miniCard';
+import ArticleSkeleton from '@js/components/loaders/skeletons/article';
 
-const CommentBox = lazyImporter(() => import(/* webpackChunkName: "comment-box" */ '../comments/box'));
+import '@css/pages/article/show.scss';
+
+const CommentBox = lazyImporter(() => import(/* webpackChunkName: "comment-box" */ '@js/components/comments/box'));
 
 
-export default @withRouter({
-    location: true,
-    params: true,
-    navigate: true
-})
-@connect((state, props) => ({
-    currentUserSlug: state.userState.currentSlug,
-    currentUser: state.userState.user,
-    currentTopic: state.topicState.currentTopic,
-    isUserConnected: state.userState.isConnected,
-    isCurrentTopicOwner: getIsCurrentTopicOwner(state, props.routeParams),
-    isFetching: state.articleState.isFetching,
-    storyTopic: state.topicState.storyTopic,
-    article: state.articleState.article,
-    isOwner: getArticleIsOwner(state, state.articleState.article),
-    articleCurrentLanguage: state.articleState.articleCurrentLanguage,
-    articleRecommendations: state.articleState.articleRecommendations
-}), {
-    fetchArticle,
-    fetchArticleRecommendations,
-    changeArticleLanguage,
-    markArticleOutdated,
-    unmarkArticleOutdated,
-    checkLinksArticle,
-    deleteArticle,
-    setCurrentTags,
-    showUserSignup,
-    switchTopic,
-    showArticleContent
-})
-@highlight()
 class ArticleShow extends React.Component {
     static propTypes = {
         initProps: PropTypes.object,
@@ -479,14 +469,13 @@ class ArticleShow extends React.Component {
                                           direction="row"
                                           justifyContent="space-between"
                                           alignItems="center">
-                                        <Grid >
+                                        <Grid>
                                             <ArticleAvatarIcon user={this.props.article.user}
                                                                createdDate={this.props.article.date}
                                                                updatedDate={this.props.article.updatedDate}/>
                                         </Grid>
 
-                                        <Grid className="hide-on-small"
-                                              >
+                                        <Grid className="hide-on-small">
                                             {
                                                 this.props.isOwner
                                                     ?
@@ -629,7 +618,7 @@ class ArticleShow extends React.Component {
                                 {
                                     this.props.articleRecommendations.map((article, i) => (
                                         <Grid key={article.id}
-                                              >
+                                        >
                                             {
                                                 !!isStoryMode &&
                                                 <h3 className="article-show-recommendations-title">
@@ -691,3 +680,33 @@ class ArticleShow extends React.Component {
         );
     }
 }
+
+export default withRouter({
+    location: true,
+    params: true,
+    navigate: true
+})(connect((state, props) => ({
+    currentUserSlug: state.userState.currentSlug,
+    currentUser: state.userState.user,
+    currentTopic: state.topicState.currentTopic,
+    isUserConnected: state.userState.isConnected,
+    isCurrentTopicOwner: getIsCurrentTopicOwner(state, props.routeParams),
+    isFetching: state.articleState.isFetching,
+    storyTopic: state.topicState.storyTopic,
+    article: state.articleState.article,
+    isOwner: getArticleIsOwner(state, state.articleState.article),
+    articleCurrentLanguage: state.articleState.articleCurrentLanguage,
+    articleRecommendations: state.articleState.articleRecommendations
+}), {
+    fetchArticle,
+    fetchArticleRecommendations,
+    changeArticleLanguage,
+    markArticleOutdated,
+    unmarkArticleOutdated,
+    checkLinksArticle,
+    deleteArticle,
+    setCurrentTags,
+    showUserSignup,
+    switchTopic,
+    showArticleContent
+})(highlight()(ArticleShow)));

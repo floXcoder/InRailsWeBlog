@@ -1,4 +1,3 @@
-'use strict';
 
 export const fetchReducer = (state, action, payloadReducer) => {
     const actionName = action.type.split('/')[1];

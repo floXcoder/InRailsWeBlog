@@ -1,4 +1,9 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import I18n from '@js/modules/translations';
+import * as Utils from '@js/modules/utils';
+
 
 export default class SearchSuggestionIndex extends React.PureComponent {
     static propTypes = {

@@ -1,40 +1,33 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import '../../../stylesheets/pages/tag/form.scss';
+import {connect} from 'react-redux';
 
 import {
     showTagPath
-} from '../../constants/routesHelper';
+} from '@js/constants/routesHelper';
 
 import {
     fetchTag,
     updateTag
-} from '../../actions';
+} from '@js/actions/tagActions';
 
 import {
     getTagErrors
-} from '../../selectors';
+} from '@js/selectors/tagSelectors';
 
-import withRouter from '../modules/router';
+import withRouter from '@js/components/modules/router';
 
-import Loader from '../theme/loader';
+import Loader from '@js/components/theme/loader';
 
-import NotAuthorized from '../layouts/notAuthorized';
+import NotAuthorized from '@js/components/layouts/notAuthorized';
 
-import TagFormDisplay from './display/form';
-import TagErrorField from './display/fields/error';
+import TagFormDisplay from '@js/components/tags/display/form';
+import TagErrorField from '@js/components/tags/display/fields/error';
+
+import '@css/pages/tag/form.scss';
 
 
-export default @connect((state) => ({
-    currentUser: state.userState.user,
-    isFetching: state.tagState.isFetching,
-    tag: state.tagState.tag,
-    tagErrors: getTagErrors(state)
-}), {
-    fetchTag,
-    updateTag
-})
-@withRouter({params: true, navigate: true})
 class TagEdit extends React.Component {
     static propTypes = {
         // from router
@@ -105,3 +98,13 @@ class TagEdit extends React.Component {
         );
     }
 }
+
+export default connect((state) => ({
+    currentUser: state.userState.user,
+    isFetching: state.tagState.isFetching,
+    tag: state.tagState.tag,
+    tagErrors: getTagErrors(state)
+}), {
+    fetchTag,
+    updateTag
+})(withRouter({params: true, navigate: true})(TagEdit))

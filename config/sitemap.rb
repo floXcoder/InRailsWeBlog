@@ -3,7 +3,7 @@
 SitemapGenerator::Interpreter.send(:include, SitemapHelper)
 
 # SitemapGenerator::Sitemap.sitemaps_path = 'sitemaps'
-SitemapGenerator::Sitemap.default_host = ENV['WEBSITE_FULL_ADDRESS']
+SitemapGenerator::Sitemap.default_host = ENV['WEBSITE_URL']
 
 # Default changefreq: 'weekly'
 # Default lastmod: Time.now
@@ -131,4 +131,4 @@ SitemapGenerator::Sitemap.create do
   end
 end
 
-# SitemapGenerator::Sitemap.ping_search_engines("https://#{ENV['WEBSITE_ADDRESS']}/sitemap.xml.gz")
+# SitemapGenerator::Sitemap.ping_search_engines("https://#{ENV['WEBSITE_HOST']}/sitemap.xml.gz")

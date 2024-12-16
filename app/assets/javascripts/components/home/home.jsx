@@ -1,33 +1,30 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import '../../../stylesheets/pages/default/home.scss';
+import {connect} from 'react-redux';
 
 import Divider from '@mui/material/Divider';
 
 import {
     showUserLogin,
     showUserSignup
-} from '../../actions';
+} from '@js/actions/uiActions';
 
 import {
     lazyImporter
-} from '../loaders/lazyLoader';
+} from '@js/components/loaders/lazyLoader';
 
-import LoadOnScroll from '../loaders/loadOnScroll';
+import LoadOnScroll from '@js/components/loaders/loadOnScroll';
 
-import HomeBanner from './banner';
-import HomeSearch from './search';
-import HomeFunctionalities from './functionalities';
+import HomeBanner from '@js/components/home/banner';
+import HomeSearch from '@js/components/home/search';
+import HomeFunctionalities from '@js/components/home/functionalities';
 
-const HomePopulars = lazyImporter(() => import(/* webpackChunkName: "home-populars" */ './populars'));
+import '@css/pages/default/home.scss';
+
+const HomePopulars = lazyImporter(() => import('@js/components/home/populars'));
 
 
-export default @connect((state) => ({
-    isUserConnected: state.userState.isConnected
-}), {
-    showUserSignup,
-    showUserLogin
-})
 class Home extends React.Component {
     static propTypes = {
         // from connect
@@ -79,3 +76,10 @@ class Home extends React.Component {
         );
     }
 }
+
+export default connect((state) => ({
+    isUserConnected: state.userState.isConnected
+}), {
+    showUserSignup,
+    showUserLogin
+})(Home)

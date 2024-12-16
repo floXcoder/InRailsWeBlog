@@ -1,4 +1,4 @@
-'use strict';
+import PropTypes from 'prop-types';
 
 import {
     StyledEngineProvider,
@@ -11,17 +11,19 @@ import {
     ReactReduxContext
 } from 'react-redux';
 
+import I18n from '@js/modules/translations';
+
 import {
     configureStore
-} from '../../stores/admin';
+} from '@js/stores/admin';
 
-import ErrorBoundary from '../errors/boundary';
+import ErrorBoundary from '@js/components/errors/boundary';
 
-import AdminHeaderLayout from './admin/header';
-import AdminMainLayout from './admin/main';
-import AdminFooterLayout from './admin/footer';
+import AdminHeaderLayout from '@js/components/layouts/admin/header';
+import AdminMainLayout from '@js/components/layouts/admin/main';
+import AdminFooterLayout from '@js/components/layouts/admin/footer';
 
-import theme from '../../theme';
+import theme from '@js/theme';
 
 
 const AdminLayout = function ({componentId, children}) {

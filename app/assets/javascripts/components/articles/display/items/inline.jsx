@@ -1,8 +1,11 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import classNames from 'classnames';
 
 import {
     Link
-} from 'react-router-dom';
+} from 'react-router';
 
 import {InView} from 'react-intersection-observer';
 
@@ -12,22 +15,23 @@ import IconButton from '@mui/material/IconButton';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import EditIcon from '@mui/icons-material/EditOutlined';
 
+import I18n from '@js/modules/translations';
+
 import {
     userArticlePath
-} from '../../../../constants/routesHelper';
+} from '@js/constants/routesHelper';
 
 import {
     spyTrackClick,
     spyTrackView
-} from '../../../../actions';
+} from '@js/actions/metricsActions';
 
-import highlight from '../../../modules/highlight';
+import highlight from '@js/components/modules/highlight';
 
-import ArticleInventoryDisplay from './inventory';
-import ArticleLinkIcon from '../../icons/link';
+import ArticleInventoryDisplay from '@js/components/articles/display/items/inventory';
+import ArticleLinkIcon from '@js/components/articles/icons/link';
 
 
-export default @highlight()
 class ArticleInlineDisplay extends React.PureComponent {
     static propTypes = {
         article: PropTypes.object.isRequired,
@@ -192,3 +196,5 @@ class ArticleInlineDisplay extends React.PureComponent {
         );
     }
 }
+
+export default highlight()(ArticleInlineDisplay)

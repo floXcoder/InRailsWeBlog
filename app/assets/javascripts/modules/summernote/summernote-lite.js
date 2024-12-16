@@ -1,3 +1,6 @@
+import $ from 'jquery';
+const jQuery = $;
+
 /*!
 Super simple WYSIWYG editor v0.9.1
 https://summernote.org

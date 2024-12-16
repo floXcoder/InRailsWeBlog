@@ -1,21 +1,19 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import {
-    TransitionGroup,
-    CSSTransition
-} from 'react-transition-group';
+import I18n from '@js/modules/translations';
 
 import {
     headerMargin
-} from '../modules/constants';
+} from '@js/components/modules/constants';
 
-import UserCardDisplay from './display/card';
+import UserCardDisplay from '@js/components/users/display/card';
 
-import SearchBar from '../theme/searchBar';
+import SearchBar from '@js/components/theme/searchBar';
 
-// import Filtering from '../../modules/filter';
+// import Filtering from '@js/modules/filter';
 
-import Pagination from '../theme/pagination';
+import Pagination from '@js/components/theme/pagination';
 
 
 export default class UserIndex extends React.Component {
@@ -79,7 +77,10 @@ export default class UserIndex extends React.Component {
         // UserActions.loadUsers({page: paginate.selected + 1});
 
         this._scrollTimeout = setTimeout(() => {
-            window.scroll({top: this._users.current.getBoundingClientRect().top - headerMargin, behavior: 'smooth'});
+            window.scroll({
+                top: this._users.current.getBoundingClientRect().top - headerMargin,
+                behavior: 'smooth'
+            });
         }, 300);
     };
 
@@ -97,21 +98,17 @@ export default class UserIndex extends React.Component {
 
                 <div ref={this._users}
                      className="blog-user-list">
-                    <TransitionGroup component="div"
-                                     className="row">
+                    <div className="row">
                         {
                             users.map((user) => (
-                                <CSSTransition key={user.id}
-                                               timeout={500}
-                                               classNames="user">
-                                    <div className="col s6 m4 l3 ">
-                                        <UserCardDisplay user={user}
-                                                         onUserClick={this._handleUserClick}/>
-                                    </div>
-                                </CSSTransition>
+                                <div key={user.id}
+                                     className="col s6 m4 l3 ">
+                                    <UserCardDisplay user={user}
+                                                     onUserClick={this._handleUserClick}/>
+                                </div>
                             ))
                         }
-                    </TransitionGroup>
+                    </div>
 
                     {
                         !!this.state.usersPagination &&

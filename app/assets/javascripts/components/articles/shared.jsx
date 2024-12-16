@@ -1,34 +1,30 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import {connect} from 'react-redux';
 
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid2';
 
+import * as Utils from '@js/modules/utils';
+
 import {
     fetchSharedArticle
-} from '../../actions';
+} from '@js/actions/articleActions';
 
 import {
     userArticlePath
-} from '../../constants/routesHelper';
+} from '@js/constants/routesHelper';
 
-import withRouter from '../modules/router';
+import withRouter from '@js/components/modules/router';
 
-import highlight from '../modules/highlight';
+import highlight from '@js/components/modules/highlight';
 
-import Loader from '../theme/loader';
+import Loader from '@js/components/theme/loader';
 
-import NotFound from '../layouts/notFound';
+import NotFound from '@js/components/layouts/notFound';
 
 
-export default @connect((state) => ({
-    currentUserId: state.userState.currentId,
-    isFetching: state.articleState.isFetching,
-    article: state.articleState.article
-}), {
-    fetchSharedArticle
-})
-@withRouter({params: true})
-@highlight(false)
 class ArticleShared extends React.Component {
     static propTypes = {
         // from router
@@ -131,3 +127,11 @@ class ArticleShared extends React.Component {
         );
     }
 }
+
+export default connect((state) => ({
+    currentUserId: state.userState.currentId,
+    isFetching: state.articleState.isFetching,
+    article: state.articleState.article
+}), {
+    fetchSharedArticle
+})(withRouter({params: true})(highlight(false)(ArticleShared)));

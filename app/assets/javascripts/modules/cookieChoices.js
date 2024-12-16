@@ -1,4 +1,4 @@
-'use strict';
+import I18n from '@js/modules/translations';
 
 var document = window.document;
 
@@ -252,10 +252,11 @@ const cookieChoices = (function () {
     };
 })();
 
-if (!window.seoMode && GlobalEnvironment.NODE_ENV === 'production') {
-    document.addEventListener('DOMContentLoaded', function () {
-        setTimeout(function () {
-            cookieChoices.displayCookies(window.termsUrl);
-        }, 10);
-    });
-}
+// Cookies are disabled for now (collecting no user data for Ads)
+// if (!window.seoMode && process.env.NODE_ENV === 'production') {
+//     document.addEventListener('DOMContentLoaded', function () {
+//         setTimeout(function () {
+//             cookieChoices.displayCookies(window.termsUrl);
+//         }, 10);
+//     });
+// }

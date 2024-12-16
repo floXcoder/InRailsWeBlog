@@ -1,4 +1,7 @@
-'use strict';
+import React from 'react';
+
+import I18n from '@js/modules/translations';
+
 
 function NotFound() {
     return (

@@ -1,37 +1,32 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import '../../../stylesheets/pages/tag/sort.scss';
+import {connect} from 'react-redux';
+
+import * as Utils from '@js/modules/utils';
 
 import {
     tagsPath
-} from '../../constants/routesHelper';
+} from '@js/constants/routesHelper';
 
 import {
     fetchTags,
     updateTagPriority
-} from '../../actions';
+} from '@js/actions/tagActions';
 
 import {
     sortItemLimit
-} from '../modules/constants';
+} from '@js/components/modules/constants';
 
-import withRouter from '../modules/router';
+import withRouter from '@js/components/modules/router';
 
-import Loader from '../theme/loader';
+import Loader from '@js/components/theme/loader';
 
-import TagSorter from './sort/sorter';
+import TagSorter from '@js/components/tags/sort/sorter';
+
+import '@css/pages/tag/sort.scss';
 
 
-export default @connect((state) => ({
-    currentUserId: state.userState.currentId,
-    currentUserSlug: state.userState.currentSlug,
-    isFetching: state.tagState.isFetching,
-    tags: state.tagState.tags
-}), {
-    fetchTags,
-    updateTagPriority
-})
-@withRouter({params: true, navigate: true})
 class TagSort extends React.Component {
     static propTypes = {
         // from router
@@ -87,3 +82,13 @@ class TagSort extends React.Component {
         );
     }
 }
+
+export default connect((state) => ({
+    currentUserId: state.userState.currentId,
+    currentUserSlug: state.userState.currentSlug,
+    isFetching: state.tagState.isFetching,
+    tags: state.tagState.tags
+}), {
+    fetchTags,
+    updateTagPriority
+})(withRouter({params: true, navigate: true})(TagSort))

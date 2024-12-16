@@ -1,7 +1,11 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import VisibilityIcon from '@mui/icons-material/VisibilityOutlined';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOffOutlined';
+
+import I18n from '@js/modules/translations';
+
 
 function ArticleVisibilityIcon({
                                    articleVisibility,

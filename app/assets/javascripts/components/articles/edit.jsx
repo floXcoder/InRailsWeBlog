@@ -1,56 +1,56 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import '../../../stylesheets/pages/article/form.scss';
+import {connect} from 'react-redux';
+
+import * as Utils from '@js/modules/utils';
 
 import {
     ArticleShow
-} from '../loaders/components';
+} from '@js/components/loaders/components';
 
 import {
-    setCurrentTags,
-    switchTagSidebar,
+    setCurrentTags
+} from '@js/actions/tagActions';
+
+import {
+    switchTagSidebar
+} from '@js/actions/uiActions';
+
+import {
     switchTopic
-} from '../../actions';
+} from '@js/actions/topicActions';
 
 import {
     getArticleChildTags,
     getArticleParentTags,
-    getArticleIsOwner,
+    getArticleIsOwner
+} from '@js/selectors/articleSelectors';
+
+import {
     getCurrentUserTopicVisibility
-} from '../../selectors';
+} from '@js/selectors/topicSelectors';
 
 import {
     articleShowPreloadTime
-} from '../modules/constants';
+} from '@js/components/modules/constants';
 
 import {
     onPageReady
-} from '../loaders/lazyLoader';
+} from '@js/components/loaders/lazyLoader';
 
-import Loader from '../theme/loader';
+import Loader from '@js/components/theme/loader';
 
-import NotAuthorized from '../layouts/notAuthorized';
+import NotAuthorized from '@js/components/layouts/notAuthorized';
 
-import articleMutationManager from './managers/mutation';
+import articleMutationManager from '@js/components/articles/managers/mutation';
 
-import ArticleBreadcrumbDisplay from './display/breadcrumb';
-import ArticleFormDisplay from './display/form';
+import ArticleBreadcrumbDisplay from '@js/components/articles/display/breadcrumb';
+import ArticleFormDisplay from '@js/components/articles/display/form';
+
+import '@css/pages/article/form.scss';
 
 
-export default
-@articleMutationManager('edit')
-@connect((state, props) => ({
-    userSlug: state.userState.currentSlug,
-    currentTagSlugs: state.tagState.currentTagSlugs,
-    isOwner: getArticleIsOwner(state, props.article),
-    inheritVisibility: getCurrentUserTopicVisibility(state),
-    parentTags: getArticleParentTags(state, props.article),
-    childTags: getArticleChildTags(props.article)
-}), {
-    setCurrentTags,
-    switchTagSidebar,
-    switchTopic,
-})
 class ArticleEdit extends React.Component {
     static propTypes = {
         // from articleMutationManager
@@ -196,3 +196,17 @@ class ArticleEdit extends React.Component {
         );
     }
 }
+
+export default articleMutationManager('edit')(
+connect((state, props) => ({
+    userSlug: state.userState.currentSlug,
+    currentTagSlugs: state.tagState.currentTagSlugs,
+    isOwner: getArticleIsOwner(state, props.article),
+    inheritVisibility: getCurrentUserTopicVisibility(state),
+    parentTags: getArticleParentTags(state, props.article),
+    childTags: getArticleChildTags(props.article)
+}), {
+    setCurrentTags,
+    switchTagSidebar,
+    switchTopic,
+})(ArticleEdit));

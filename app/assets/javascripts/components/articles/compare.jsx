@@ -1,6 +1,7 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import '../../../stylesheets/pages/article/compare.scss';
+import {connect} from 'react-redux';
 
 import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
@@ -11,24 +12,24 @@ import Select from '@mui/material/Select';
 
 import ReactDiffViewer, {DiffMethod} from 'react-diff-viewer';
 
+import I18n from '@js/modules/translations';
+import * as Utils from '@js/modules/utils';
+
 import {
     fetchArticle
-} from '../../actions';
+} from '@js/actions/articleActions';
 
-import AnalyticsService from '../../modules/analyticsService';
+import AnalyticsService from '@js/modules/analyticsService';
 
-import withRouter from '../modules/router';
+import withRouter from '@js/components/modules/router';
+
+import '@css/pages/article/compare.scss';
 
 
 const stripTags = (string) => string?.replace(/(<([^>]+)>)/ig, '');
 const diffRenderStyle = {display: 'inline'};
 
-export default @connect((state) => ({
-    article: state.articleState.article
-}), {
-    fetchArticle
-})
-@withRouter({navigate: true})
+
 class TrackingCompareModal extends React.Component {
     static propTypes = {
         // from router
@@ -96,12 +97,13 @@ class TrackingCompareModal extends React.Component {
                     value={this.state[localePosition]}
                     onChange={this._handleLocaleChange.bind(this, localePosition)}>
                     {
-                        Object.keys(this.props.article.contentTranslations).map((locale) => (
-                            <MenuItem key={locale}
-                                      value={locale}>
-                                {locale}
-                            </MenuItem>
-                        ))
+                        Object.keys(this.props.article.contentTranslations)
+                            .map((locale) => (
+                                <MenuItem key={locale}
+                                          value={locale}>
+                                    {locale}
+                                </MenuItem>
+                            ))
                     }
                 </Select>
             </FormControl>
@@ -177,3 +179,9 @@ class TrackingCompareModal extends React.Component {
         );
     }
 }
+
+export default connect((state) => ({
+    article: state.articleState.article
+}), {
+    fetchArticle
+})(withRouter({navigate: true})(TrackingCompareModal));

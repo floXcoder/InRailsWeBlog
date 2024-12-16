@@ -1,6 +1,6 @@
-'use strict';
+import PropTypes from 'prop-types';
 
-import Autocomplete from '../../theme/autocomplete';
+import Autocomplete from '@js/components/theme/autocomplete';
 
 
 const AutocompleteFormField = function ({input, label, helperText, meta: {touched, error}, ...custom}) {

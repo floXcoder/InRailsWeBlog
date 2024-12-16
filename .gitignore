@@ -7,7 +7,6 @@
 /public/assets
 /public/fonts
 /public/javascripts
-/public/node_modules
 /public/seo_cache
 /public/service-worker*
 /public/sitemap.xml.gz
@@ -44,10 +43,6 @@
 
 # Ignore geocoding files
 /lib/geocoding/ip_db/*
-
-# Ignore generated translation files
-/app/assets/javascripts/translations
-/spec/javascripts/translations
 
 # Ignore static analysis files
 /static_analysis/*

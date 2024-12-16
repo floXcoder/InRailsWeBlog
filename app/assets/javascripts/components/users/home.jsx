@@ -1,10 +1,13 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import '../../../stylesheets/pages/user/home.scss';
+import {connect} from 'react-redux';
+
+import classNames from 'classnames';
 
 import {
     Link
-} from 'react-router-dom';
+} from 'react-router';
 
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -19,46 +22,43 @@ import Divider from '@mui/material/Divider';
 import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 
+import I18n from '@js/modules/translations';
+
 import {
     topicArticlesPath,
     userTopicPath,
     newTopicParam,
     sortTopicParam
-} from '../../constants/routesHelper';
+} from '@js/constants/routesHelper';
 
 import {
     fetchMetaTags,
-    spyTrackClick,
     switchTagSidebar
-} from '../../actions';
+} from '@js/actions/uiActions';
+
+import {
+    spyTrackClick
+} from '@js/actions/metricsActions';
 
 import {
     getPublicTopics,
-    getPrivateTopics,
+    getPrivateTopics
+} from '@js/selectors/topicSelectors';
+
+import {
     getUserRecentArticles,
     getUserRecentUpdatedArticles
-} from '../../selectors';
+} from '@js/selectors/userSelectors';
 
-import Loader from '../theme/loader';
+import Loader from '@js/components/theme/loader';
 
-import NotFound from '../layouts/notFound';
+import NotFound from '@js/components/layouts/notFound';
 
-import ArticleMiniCardDisplay from '../articles/display/items/miniCard';
+import ArticleMiniCardDisplay from '@js/components/articles/display/items/miniCard';
+
+import '@css/pages/user/home.scss';
 
 
-export default @connect((state) => ({
-    isFetching: state.userState.isFetching,
-    userSlug: state.userState.currentSlug,
-    user: state.userState.user,
-    publicTopics: getPublicTopics(state),
-    privateTopics: getPrivateTopics(state),
-    contributedTopics: state.topicState.contributedTopics,
-    recentArticles: getUserRecentArticles(state),
-    recentUpdatedArticles: getUserRecentUpdatedArticles(state)
-}), {
-    fetchMetaTags,
-    switchTagSidebar
-})
 class UserHome extends React.Component {
     static propTypes = {
         // from connect
@@ -423,3 +423,17 @@ class UserHome extends React.Component {
         );
     }
 }
+
+export default connect((state) => ({
+    isFetching: state.userState.isFetching,
+    userSlug: state.userState.currentSlug,
+    user: state.userState.user,
+    publicTopics: getPublicTopics(state),
+    privateTopics: getPrivateTopics(state),
+    contributedTopics: state.topicState.contributedTopics,
+    recentArticles: getUserRecentArticles(state),
+    recentUpdatedArticles: getUserRecentUpdatedArticles(state)
+}), {
+    fetchMetaTags,
+    switchTagSidebar
+})(UserHome);

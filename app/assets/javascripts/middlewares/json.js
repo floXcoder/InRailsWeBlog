@@ -1,8 +1,8 @@
-'use strict';
 
 import {
     pushError
-} from '../actions';
+} from '@js/actions/errorActions';
+
 
 function convertRelationships(object, relationships, included) {
     if (relationships && included) {

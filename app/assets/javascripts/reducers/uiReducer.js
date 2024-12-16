@@ -1,6 +1,5 @@
-'use strict';
 
-import * as ActionTypes from '../constants/actionTypes';
+import * as ActionTypes from '@js/constants/actionTypes';
 
 const initState = {
     metaTags: window.defaultMetaTags || {},

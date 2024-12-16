@@ -1,13 +1,12 @@
-'use strict';
 
-import * as ActionTypes from '../constants/actionTypes';
+import * as ActionTypes from '@js/constants/actionTypes';
 
 import {
     fetchReducer,
     mutationReducer,
     addOrReplaceIn,
     removeIn
-} from './mutators';
+} from '@js/reducers/mutators';
 
 const initState = {
     currentId: window.currentAdminId ? parseInt(window.currentAdminId, 10) : undefined,

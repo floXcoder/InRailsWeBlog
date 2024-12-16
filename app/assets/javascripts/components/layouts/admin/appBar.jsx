@@ -1,4 +1,5 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -7,7 +8,11 @@ import Typography from '@mui/material/Typography';
 
 import MenuIcon from '@mui/icons-material/Menu';
 
-import AutocompleteSearch from './autocompleteSearch';
+import classNames from 'classnames';
+
+import I18n from '@js/modules/translations';
+
+import AutocompleteSearch from '@js/components/layouts/admin/autocompleteSearch';
 
 
 const AppBarLayout = function ({isDrawerOpen, onDrawerOpen}) {

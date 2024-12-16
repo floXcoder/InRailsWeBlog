@@ -1,8 +1,9 @@
-'use strict';
-
 import {
     createSelector
 } from 'reselect';
+
+import I18n from '@js/modules/translations';
+import * as Utils from '@js/modules/utils';
 
 export const getCommentErrors = createSelector(
     (state) => state.commentState.errors,

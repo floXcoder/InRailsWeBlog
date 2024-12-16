@@ -1,4 +1,4 @@
-import {isSet} from './isSet';
+import {isSet} from '@js/modules/i18n/helpers/isSet';
 
 export function interpolate(i18n, message, options) {
     options = Object.keys(options)

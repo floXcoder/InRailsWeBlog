@@ -1,41 +1,35 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import '../../../stylesheets/pages/topic/form.scss';
+import {connect} from 'react-redux';
+
+import I18n from '@js/modules/translations';
 
 import {
     userTopicPath
-} from '../../constants/routesHelper';
+} from '@js/constants/routesHelper';
 
 import {
     fetchTopic,
     updateTopic
-} from '../../actions';
+} from '@js/actions/topicActions';
 
 import {
     getTopicErrors
-} from '../../selectors';
+} from '@js/selectors/topicSelectors';
 
-import withRouter from '../modules/router';
+import withRouter from '@js/components/modules/router';
 
-import Loader from '../theme/loader';
+import Loader from '@js/components/theme/loader';
 
-import NotAuthorized from '../layouts/notAuthorized';
+import NotAuthorized from '@js/components/layouts/notAuthorized';
 
-import TopicFormDisplay from './display/form';
-import TopicErrorField from './display/fields/error';
+import TopicFormDisplay from '@js/components/topics/display/form';
+import TopicErrorField from '@js/components/topics/display/fields/error';
+
+import '@css/pages/topic/form.scss';
 
 
-export default @connect((state) => ({
-    currentUserId: state.userState.currentId,
-    articleMultilanguage: state.uiState.articleMultilanguage,
-    isFetching: state.topicState.isFetching,
-    topic: state.topicState.topic,
-    topicErrors: getTopicErrors(state)
-}), {
-    fetchTopic,
-    updateTopic
-})
-@withRouter({params: true, navigate: true})
 class TopicEdit extends React.Component {
     static propTypes = {
         // from router
@@ -125,3 +119,14 @@ class TopicEdit extends React.Component {
         );
     }
 }
+
+export default connect((state) => ({
+    currentUserId: state.userState.currentId,
+    articleMultilanguage: state.uiState.articleMultilanguage,
+    isFetching: state.topicState.isFetching,
+    topic: state.topicState.topic,
+    topicErrors: getTopicErrors(state)
+}), {
+    fetchTopic,
+    updateTopic
+})(withRouter({params: true, navigate: true})(TopicEdit))

@@ -1,4 +1,4 @@
-'use strict';
+import PropTypes from 'prop-types';
 
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';

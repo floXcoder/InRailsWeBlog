@@ -1,13 +1,14 @@
-'use strict';
-
-import {Suspense} from 'react';
+import React, {Suspense} from 'react';
+import PropTypes from 'prop-types';
 
 import Typography from '@mui/material/Typography';
 
-import {ArticleGridModeSearch} from '../../loaders/components';
+import I18n from '@js/modules/translations';
 
-import ArticleSearchMenuDisplay from './articles/menu';
-import ArticleSearchItemDisplay from './articles/item';
+import {ArticleGridModeSearch} from '@js/components/loaders/components';
+
+import ArticleSearchMenuDisplay from '@js/components/search/index/articles/menu';
+import ArticleSearchItemDisplay from '@js/components/search/index/articles/item';
 
 
 const SearchArticleIndex = function (props) {

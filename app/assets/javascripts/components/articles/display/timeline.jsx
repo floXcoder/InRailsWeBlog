@@ -1,12 +1,17 @@
-'use strict';
-
 import {
     Fragment
 } from 'react';
+import PropTypes from 'prop-types';
 
-import Scrollbar from '../../theme/scrollbar';
-import SingleTimeline from '../../theme/timeline/single';
-import SingleTimelineItem from '../../theme/timeline/singleItem';
+import classNames from 'classnames';
+
+import * as Utils from '@js/modules/utils';
+
+import Scrollbar from '@js/components/theme/scrollbar';
+import SingleTimeline from '@js/components/theme/timeline/single';
+import SingleTimelineItem from '@js/components/theme/timeline/singleItem';
+
+import I18n from '@js/modules/translations';
 
 
 function ArticleTimelineDisplay({

@@ -1,4 +1,7 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import {connect} from 'react-redux';
 
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
@@ -7,15 +10,17 @@ import Tab from '@mui/material/Tab';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 
+import * as Utils from '@js/modules/utils';
+
 import {
     fetchLogs
-} from '../../actions/admin';
+} from '@js/actions/admin';
 
-import Loader from '../theme/loader';
+import Loader from '@js/components/theme/loader';
 
-import LogLine from './logs/line';
-import LogInput from './logs/input';
-import LogHelp from './logs/help';
+import LogLine from '@js/components/admins/logs/line';
+import LogInput from '@js/components/admins/logs/input';
+import LogHelp from '@js/components/admins/logs/help';
 
 function TabContainer(props) {
     return (
@@ -30,9 +35,7 @@ function TabContainer(props) {
 const AUTOMATIC_REFRESH_INTERVAL = 5000;
 const TOP_SCROLL = 50;
 
-export default @connect(null, {
-    fetchLogs
-})
+
 class AdminLogs extends React.Component {
     static propTypes = {
         logFilename: PropTypes.string.isRequired,
@@ -497,3 +500,7 @@ class AdminLogs extends React.Component {
         );
     }
 }
+
+export default connect(null, {
+    fetchLogs
+})(AdminLogs)

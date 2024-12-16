@@ -1,5 +1,3 @@
-'use strict';
-
 // Factories
 const Factories = {
     articles: require('./factories/articles'),

@@ -1,24 +1,23 @@
-'use strict';
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import {connect} from 'react-redux';
 
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Slider from '@mui/material/Slider';
 
+import I18n from '@js/modules/translations';
+import * as Utils from '@js/modules/utils';
+
 import {
     filterSearch,
-} from '../../actions';
+} from '@js/actions/searchActions';
 
-import Loader from '../theme/loader';
+import Loader from '@js/components/theme/loader';
+import SearchModule from '@js/components/search/module';
 
 
-export default @connect((state) => ({
-    currentUser: state.userState.user,
-    currentUserTopic: state.topicState.currentTopic,
-    searchFilters: state.searchState.searchFilters,
-    articleAvailableFilters: state.searchState.articleAvailableFilters
-}), {
-    filterSearch,
-})
 class SearchSidebar extends React.Component {
     static propTypes = {
         // from connect
@@ -185,3 +184,12 @@ class SearchSidebar extends React.Component {
         );
     }
 }
+
+export default connect((state) => ({
+    currentUser: state.userState.user,
+    currentUserTopic: state.topicState.currentTopic,
+    searchFilters: state.searchState.searchFilters,
+    articleAvailableFilters: state.searchState.articleAvailableFilters
+}), {
+    filterSearch,
+})(SearchModule);
