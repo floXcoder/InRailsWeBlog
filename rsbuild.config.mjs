@@ -51,6 +51,7 @@ export default defineConfig({
     source: {
         entry: {
             development: './app/assets/entrypoints/development.js',
+            production: './app/assets/entrypoints/production.js',
             default: './app/assets/entrypoints/default.jsx',
             'pages/default': './app/assets/entrypoints/stylesheets/default.scss',
             user: './app/assets/entrypoints/user.jsx',
