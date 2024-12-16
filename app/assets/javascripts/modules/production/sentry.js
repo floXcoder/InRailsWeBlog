@@ -61,7 +61,21 @@ export function initializeSentry() {
             /font-src/,
             /script-src-elem/,
             /@webkit/,
-            /no-response/
+            /no-response/,
+            /ResizeObserver/,
+            /Failed to read the 'localStorage'/,
+            /r\.getClientRects is not a function/,
+            /devToolsEnabled/,
+            /NS_ERROR_FAILURE/,
+            /NS_ERROR_FILE_ACCESS_DENIED/,
+            /The operation is insecure/,
+            /captured as promise rejection/,
+            /Non-Error promise rejection captured with value/,
+            /out of memory/i,
+            /_AutofillCallbackHandler/i,
+            /navigationPerformanceLogger/i,
+            /The operation was aborted/i,
+            /Unexpected identifier 'https'/i
         ],
         denyUrls: [
             /pagead\/js/i,
@@ -70,6 +84,7 @@ export function initializeSentry() {
             /extensions\//i,
             /^chrome:\/\//i,
             /^chrome-extension:\/\//i,
+            /^safari-extension:\/\//i,
             /^webkit-masked-url:\/\//i,
             /s\.pinimg\.com/i,
             /translate\.googleapis\.com/i
