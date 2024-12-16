@@ -20,7 +20,7 @@ class AssetManifest
 
   def self.hash_manifest(assets_prefix: '/assets')
     # Create a true manifest from rsbuild manifest
-    @hash_manifest ||= manifest['allFiles']&.filter_map do |file|
+    @hash_manifest ||= manifest&.dig('allFiles')&.filter_map do |file|
       next if file.end_with?('.map')
 
       original_file = file
