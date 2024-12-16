@@ -47,7 +47,7 @@ class AssetManifest
     }
 
     files.each do |file|
-      manifest.dig('entries', file, 'initial', 'js')&.each do |initial_file|
+      manifest&.dig('entries', file, 'initial', 'js')&.each do |initial_file|
         next if initial_file.include?("/javascripts/#{file}.js")
         next if @loaded_files.include?(initial_file)
 
@@ -56,7 +56,7 @@ class AssetManifest
         js_files[:initial] << javascript_path(initial_file, use_hash: false)
       end
 
-      manifest.dig('entries', file, 'async', 'js')&.each do |async_file|
+      manifest&.dig('entries', file, 'async', 'js')&.each do |async_file|
         next if async_file.include?("/javascripts/#{file}.js")
         next if async_file.include?('/async/')
         next if @loaded_files.include?(async_file)
