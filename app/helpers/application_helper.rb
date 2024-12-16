@@ -27,8 +27,12 @@ module ApplicationHelper
     base_title.html_safe
   end
 
-  def javascript_initial(file, **options)
-    content_for(:javascript_initial) { javascript_include_tag(file, **options) }
+  def javascript_initial(*files, **options)
+    AssetManifest.associated_javascripts(files).each_value do |js_files|
+      js_files.each do |js_file|
+        content_for(:javascript_initial) { javascript_include_tag(js_file, **options) }
+      end
+    end
   end
 
   def javascript(*files, **options)
@@ -45,7 +49,7 @@ module ApplicationHelper
 
   def stylesheet(*files, **options)
     files.each do |file|
-      content_for(:stylesheet) { stylesheet_link_tag(stylesheet_path(file), media: 'all', **options) }
+      content_for(:stylesheet) { stylesheet_link_tag(AssetManifest.stylesheet_path(file), media: 'all', **options) }
     end
   end
 
