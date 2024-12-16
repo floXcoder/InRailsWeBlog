@@ -67,19 +67,8 @@ namespace :assets do
     end
   end
 
-  desc 'Generate translation files'
-  task :translation_files do
-    on roles(:app), in: :sequence, wait: 5 do
-      within release_path do
-        with fetch(:bundle_env_variables) do
-          execute :bundle, :exec, 'i18n', 'export'
-        end
-      end
-    end
-  end
-
   desc 'Publish assets'
-  task :production do
+  task :generate do
     on roles(:web), in: :sequence, wait: 5 do
       within release_path do
         with rails_env: fetch(:rails_env) do
@@ -89,9 +78,20 @@ namespace :assets do
     end
   end
 
+  desc 'Generate translation files'
+  task :translations do
+    on roles(:app), in: :sequence, wait: 5 do
+      within release_path do
+        with fetch(:bundle_env_variables) do
+          execute :bundle, :exec, 'i18n', 'export'
+        end
+      end
+    end
+  end
+
   after 'deploy:updated', 'assets:install'
-  after 'deploy:updated', 'assets:translation_files'
-  after 'deploy:updated', 'assets:production'
+  after 'deploy:updated', 'assets:generate'
+  after 'deploy:updated', 'assets:translations'
 end
 
 namespace :deploy do
