@@ -56,6 +56,7 @@ import {
     onPageReady
 } from '@js/components/loaders/lazyLoader';
 
+let editingArticleId = null;
 
 export default function articleMutationManager(mode) {
     return function articleMutation(WrappedComponent) {
@@ -85,6 +86,16 @@ export default function articleMutationManager(mode) {
 
             constructor(props) {
                 super(props);
+
+                if (mode === 'edit') {
+                    const newEditingArticleId = props.article?.id || props.initProps?.article?.article?.id;
+
+                    if (editingArticleId === newEditingArticleId) {
+                        return;
+                    } else {
+                        editingArticleId = newEditingArticleId;
+                    }
+                }
 
                 this._onLeaveMessage = false;
 
@@ -191,6 +202,8 @@ export default function articleMutationManager(mode) {
                 }
 
                 this._handleChange.cancel();
+
+                editingArticleId = null;
             }
 
             _handleFormChange = (formState) => {
