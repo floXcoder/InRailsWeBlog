@@ -1,7 +1,7 @@
 import {defineConfig} from '@rsbuild/core';
 import {pluginReact} from '@rsbuild/plugin-react';
 import {pluginSass} from '@rsbuild/plugin-sass';
-import {GenerateSW, InjectManifest} from '@aaroon/workbox-rspack-plugin';
+import {GenerateSW} from '@aaroon/workbox-rspack-plugin';
 
 import yenv from 'yenv';
 
@@ -156,7 +156,7 @@ export default defineConfig({
                             {
                                 // Match any request that ends with .png, .jpg, .jpeg or .svg
                                 // urlPattern: /\.(?:png|jpg|jpeg|svg)$/,
-                                urlPattern: new RegExp(`^${appEnv.ASSETS_HOST}\/uploads\/`),
+                                urlPattern: new RegExp(`${appEnv.ASSETS_HOST}\/uploads\/`),
                                 handler: 'CacheFirst',
                                 options: {
                                     cacheName: `images-v${appEnv.PWA_ASSETS_VERSION || 0}`,
