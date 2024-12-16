@@ -74,6 +74,9 @@ module InRailsWeBlog
     config.i18n.default_locale = :en
     config.i18n.fallbacks      = [:en, :fr]
 
+    # Require to deserialize paper trail versions
+    config.active_record.use_yaml_unsafe_load = true
+
     # App-specific configuration
     config.settings = config_for(:settings)
 
