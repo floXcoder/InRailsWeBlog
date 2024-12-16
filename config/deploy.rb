@@ -35,7 +35,7 @@ set :pty, false
 set :log_level, :debug
 
 # files we want symlinking to specific entries in shared.
-set :linked_files, %w[config/application.yml config/master.key]
+set :linked_files, %w[config/application.yml config/master.key public/service-worker.js]
 
 # dirs we want symlinking to shared
 set :linked_dirs, %w[lib/geocoding/ip_db lib/tracking log node_modules public/assets public/seo_cache public/sitemaps public/uploads tmp/pids tmp/cache tmp/sockets vendor/bundle]
