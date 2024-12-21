@@ -50,8 +50,6 @@ export default defineConfig({
     },
     source: {
         entry: {
-            development: './app/assets/entrypoints/development.js',
-            production: './app/assets/entrypoints/production.js',
             default: './app/assets/entrypoints/default.jsx',
             'pages/default': './app/assets/entrypoints/stylesheets/default.scss',
             user: './app/assets/entrypoints/user.jsx',
@@ -230,7 +228,7 @@ export default defineConfig({
     //     }
     // },
     dev: {
-        port: 8080,
+        port: `${appEnv.ASSETS_HOST.split(':')[1]}`,
         hmr: true,
         liveReload: false,
         // writeToDisk: true,
@@ -238,7 +236,7 @@ export default defineConfig({
         client: {
             protocol: 'ws',
             host: 'localhost',
-            port: 8080
+            port: `${appEnv.ASSETS_HOST.split(':')[1]}`
         },
         overlay: true,
         // lazyCompilation: {

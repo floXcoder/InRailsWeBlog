@@ -1,13 +1,14 @@
 import {useState, useReducer, useRef, useLayoutEffect} from 'react';
 import PropTypes from 'prop-types';
 
-import {Table as TableSuite, Pagination, Checkbox} from 'rsuite';
+import {Table as TableSuite, Pagination} from 'rsuite';
 
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid2';
 import Button from '@mui/material/Button';
 import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
+import CheckBox from '@mui/material/Checkbox';
 import SearchIcon from '@mui/icons-material/Search';
 
 import Tooltip from '@mui/material/Tooltip';
@@ -49,7 +50,21 @@ function getProperty(propertyName, object) {
     return property;
 }
 
-function getColumnWidth(currentColumn, stringCountByKeys, isAdaptiveWidth) {
+function transformDataValue(column, datum) {
+    if (typeof column.value === 'function') {
+        return column.value(datum);
+    } else if (column.key && column.key.includes('.')) {
+        return getProperty(column.key, datum);
+    } else {
+        return datum[column.value || column.key];
+    }
+}
+
+function getColumnWidth(currentColumn, stringCountByKeys, isAdaptiveWidth, virtualized) {
+    if (isAdaptiveWidth && !virtualized) {
+        return;
+    }
+
     let columnWidth = MIN_COLUMN_WIDTH;
     if (currentColumn.width) {
         columnWidth = currentColumn.width;
@@ -185,7 +200,7 @@ function ColumnSelector({
                   PaperProps={{
                       style: {
                           maxHeight: MENU_ITEM_HEIGHT * 10,
-                          width: '30vh'
+                          width: '40vh'
                       }
                   }}>
                 {
@@ -193,9 +208,8 @@ function ColumnSelector({
                         <MenuItem key={entry.id || i}
                                   onClick={handleClose}>
                             <FormControlLabel control={
-                                <Checkbox checked={!hiddenColumns.has(entry.id)}
-                                          tabIndex={-1}
-                                          disableRipple={true}/>
+                                <CheckBox checked={!hiddenColumns.has(entry.id)}
+                                          tabIndex={-1}/>
                             }
                                               onClick={handleCheckboxClick.bind(this, entry.id)}
                                               label={entry.name}/>
@@ -238,7 +252,7 @@ const CheckCell = ({
     <Cell {...props}
           style={{padding: 0}}>
         <div style={{lineHeight: '46px'}}>
-            <Checkbox value={rowData[dataKey]}
+            <CheckBox value={rowData[dataKey]}
                       inline
                       onChange={onChange}
                       checked={checkedKeys.some(item => item === rowData[dataKey])}/>
@@ -359,16 +373,62 @@ const ActionCell = ({
 };
 
 const EditableCell = ({
+                          originalData,
                           rowData,
                           dataKey,
                           dataIdentifier,
+                          cellType,
                           editingRowKeys,
-                          onChange,
+                          onChangeEdit,
+                          onSubmitEdit,
                           ...props
                       }) => {
-    const value = rowData[dataKey];
-
     const isEditing = editingRowKeys.includes(rowData[dataIdentifier]);
+
+    let value = rowData[dataKey];
+    if (isEditing) {
+        const originalRowData = originalData.find((d) => d[dataIdentifier] === rowData[dataIdentifier]);
+        if (dataKey.includes('.')) {
+            value = getProperty(dataKey, originalRowData);
+        } else {
+            value = originalRowData[dataKey];
+        }
+    }
+
+    const onKeyUp = (event) => {
+        if (event.key !== 'Enter') {
+            return;
+        }
+
+        rowData[dataKey] = event.target.value;
+
+        onSubmitEdit(rowData, dataIdentifier);
+    };
+
+    const renderCell = (val) => {
+        if (cellType === 'boolean') {
+            return val === true || val === 'true' ? '✓' : '-';
+        } else {
+            return val;
+        }
+    };
+
+    const renderEditingCell = (val) => {
+        if (cellType === 'boolean') {
+            return (
+                <CheckBox defaultChecked={val}
+                          value="true"
+                          color="primary"
+                          onChange={(event) => onChangeEdit(rowData[dataIdentifier], dataKey, event.target.checked)}/>
+            );
+        } else {
+            return (
+                <TextField defaultValue={val}
+                           onKeyUp={onKeyUp}
+                           onChange={(event) => onChangeEdit(rowData[dataIdentifier], dataKey, event.target.value)}/>
+            );
+        }
+    };
 
     return (
         <Cell {...props}
@@ -376,10 +436,9 @@ const EditableCell = ({
             {
                 isEditing
                     ?
-                    <TextField defaultValue={value}
-                               onChange={(event) => onChange(rowData[dataIdentifier], dataKey, event.target.value)}/>
+                    renderEditingCell(value)
                     :
-                    value
+                    renderCell(value)
             }
         </Cell>
     );
@@ -419,44 +478,53 @@ function ExpandedComponent({
 
 const reducer = ({
                      data,
+                     rows = [],
                      columns,
+                     dataIdentifier,
                      page,
                      limit
                  }, action) => {
-    let rows = [];
     const stringCountByKeys = {};
 
-    const filterableKeys = action?.search ? columns.filter((col) => col.filterable !== false)
-        .map((col) => col.key) : [];
+    const filterableKeys = action?.search ? columns.filter((col) => col.filterable !== false).map((col) => col.key) : [];
 
-    data.forEach((datum) => {
-        const row = {};
+    if (!rows.length || action?.search) {
+        data.forEach((datum) => {
+            const row = {};
 
-        columns.forEach((column) => {
-            if (typeof column.value === 'function') {
-                row[column.key] = column.value(datum);
-            } else if (column.key && column.key.includes('.')) {
-                row[column.key] = getProperty(column.key, datum);
-            } else {
-                row[column.key] = datum[column.value || column.key];
+            columns.forEach((column) => {
+                row[column.key] = transformDataValue(column, datum);
+
+                stringCountByKeys[column.key] = (row[column.key]?.length || 0) > (stringCountByKeys[column.key]?.length || 0) ? row[column.key]?.length : stringCountByKeys[column.key];
+            });
+
+            if (action?.search && filterableKeys.length) {
+                if (!filterableKeys.some((dataKey) => datum[dataKey]?.toString()
+                    .toLowerCase()
+                    ?.includes(action.search.toLowerCase()))) {
+                    return;
+                }
             }
 
-            stringCountByKeys[column.key] = (row[column.key]?.length || 0) > (stringCountByKeys[column.key]?.length || 0) ? row[column.key]?.length : stringCountByKeys[column.key];
+            rows.push(row);
         });
-
-        if (action?.search && filterableKeys.length) {
-            if (!filterableKeys.some((dataKey) => datum[dataKey]?.toString()
-                .toLowerCase()
-                ?.includes(action.search.toLowerCase()))) {
-                return;
-            }
-        }
-
-        rows.push(row);
-    });
+    }
 
     if (action?.editedDataId) {
-        rows.find(item => item.id === action.editedDataId)[action.editedDataKey] = action.editedDataValue;
+        if (action.editedCancel) {
+            const editedIndex = rows.findIndex((row) => row[dataIdentifier] === action.editedDataId);
+            const editedData = data.find((row) => row[dataIdentifier] === action.editedDataId);
+            columns.forEach((column) => {
+                editedData[column.key] = transformDataValue(column, editedData);
+            });
+            rows[editedIndex] = editedData;
+        } else {
+            const editingRow = rows.find((row) => row[dataIdentifier] === action.editedDataId);
+
+            if (action.editedDataKey) {
+                editingRow[action.editedDataKey] = action.editedDataValue;
+            }
+        }
     }
 
     if (action?.sortColumn && action?.sortType) {
@@ -495,6 +563,7 @@ const reducer = ({
         data,
         rows,
         columns,
+        dataIdentifier,
         stringCountByKeys
     };
 };
@@ -556,8 +625,7 @@ export default function Table({
                                   editable,
                                   actions
                               }) {
-    const [hiddenColumns, setHiddenColumns] = useState(new Set(columns.filter((c) => !!c.hidden)
-        .map((c) => c.key)));
+    const [hiddenColumns, setHiddenColumns] = useState(new Set(columns.filter((c) => !!c.hidden).map((c) => c.key)));
     const [search, setSearch] = useState('');
 
     const [sortColumn, setSortColumn] = useState();
@@ -576,6 +644,7 @@ export default function Table({
     const [reducedData, dispatchData] = useReducer(reducer, {
         data,
         columns,
+        dataIdentifier,
         page: isPaginated ? page : undefined,
         limit: isPaginated ? limit : undefined
     }, reducer);
@@ -657,7 +726,7 @@ export default function Table({
         setEditingRowKeys(nextEditingRowKeys);
     };
 
-    const _handleChange = (id, key, value) => {
+    const _handleChangeEdit = (id, key, value) => {
         dispatchData({
             editedDataId: id,
             editedDataKey: key,
@@ -665,14 +734,19 @@ export default function Table({
         });
     };
 
-    const _handleSubmitEdit = (rowData, dataId) => {
-        setEditingRowKeys(editingRowKeys.filter((rowDataIdentifier) => rowDataIdentifier !== rowData[dataId]));
+    const _handleSubmitEdit = (rowData, rowDataIdentifier) => {
+        setEditingRowKeys(editingRowKeys.filter((rowDataId) => rowDataId !== rowData[rowDataIdentifier]));
 
         editable(rowData);
     };
 
     const _handleCancelEdit = (id) => {
         setEditingRowKeys(editingRowKeys.filter((rowDataIdentifier) => rowDataIdentifier !== id));
+
+        dispatchData({
+            editedDataId: id,
+            editedCancel: true
+        });
     };
 
     const _handlePaginationChange = (newPage) => {
@@ -819,7 +893,7 @@ export default function Table({
                 {
                     columns
                         .filter((col) => !hiddenColumns.has(col.key))
-                        .map((column) => {
+                        .map((column, i) => {
                             if (!column.key) {
                                 console.warn(`Key is missing for Table Column: ${column.name}`);
                             }
@@ -829,10 +903,10 @@ export default function Table({
 
                             return (
                                 <Column key={column.key}
-                                        width={getColumnWidth(column, reducedData.stringCountByKeys, isAdaptiveWidth)}
+                                        width={getColumnWidth(column, reducedData.stringCountByKeys, isAdaptiveWidth, virtualized)}
                                         flexGrow={column.width || virtualized ? undefined : 1}
                                         sortable={isSortable}
-                                        fixed={column.fixed}
+                                        fixed={column.fixed || i === 0}
                                         fullText={isShowFullTextHover}>
                                     <HeaderCell>
                                         {column.name}
@@ -844,7 +918,10 @@ export default function Table({
                                             <EditableCell dataKey={column.key}
                                                           dataIdentifier={dataIdentifier}
                                                           editingRowKeys={editingRowKeys}
-                                                          onChange={_handleChange}/>
+                                                          originalData={data}
+                                                          cellType={column.type}
+                                                          onChangeEdit={_handleChangeEdit}
+                                                          onSubmitEdit={_handleSubmitEdit}/>
                                             :
                                             <Cell dataKey={column.key}/>
                                     }

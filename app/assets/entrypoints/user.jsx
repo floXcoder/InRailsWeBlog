@@ -4,6 +4,12 @@ import {createRoot} from 'react-dom/client';
 
 import Layout from '@js/layout';
 
+if (process.env.NODE_ENV === 'production') {
+    require('@js/production');
+} else {
+    require('@js/development');
+}
+
 Layout.initialize();
 
 import ApplicationLayoutUser from '@js/components/layouts/user/application';
