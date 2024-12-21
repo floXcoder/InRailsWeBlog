@@ -140,8 +140,8 @@ class AssetManifest
       end
     elsif url.start_with?('data:')
       url
-    elsif hash_manifest && url
-      hash_manifest[url.split('?')[0]] || url
+    elsif hash_manifest && url && hash_manifest[url.split('?')[0]]
+      "#{root_url}/#{hash_manifest[url.split('?')[0]]}"
     else
       "#{root_url}/assets/#{url}"
     end
@@ -150,8 +150,8 @@ class AssetManifest
   def self.asset_path(url)
     return unless url
 
-    if hash_manifest && url
-      hash_manifest[url.split('?')[0]] || url
+    if hash_manifest && url && hash_manifest[url.split('?')[0]]
+      "#{root_url}/#{hash_manifest[url.split('?')[0]]}"
     else
       "#{root_url}/assets/#{url}"
     end
