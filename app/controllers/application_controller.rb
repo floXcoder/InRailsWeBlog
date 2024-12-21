@@ -263,7 +263,7 @@ class ApplicationController < ActionController::Base
   end
 
   def image_url(url)
-    "#{Rails.env.production? ? 'https' : 'http'}://#{ENV['ASSETS_HOST']}/assets/#{url}"
+    AssetManifest.image_path(url)
   end
 
   def titleize(page_title)
