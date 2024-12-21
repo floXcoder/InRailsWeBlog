@@ -17,7 +17,7 @@ javascript:
     window.defaultMetaTags = #{meta_tags&.meta_tags.to_json.html_safe};
 
     window.websiteUrl = "#{ENV['WEBSITE_URL']}";
-    window.logoUrl = "#{image_path('logos/favicon-192x192.png')}";
+    window.logoUrl = "#{image_url('logos/favicon-192x192.png')}";
     window.termsUrl = "#{terms_path}";
 
     window.revision = "#{REVISION}";
