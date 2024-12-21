@@ -141,6 +141,7 @@ export default [
             'operator-linebreak': 0,
             'prefer-arrow-callback': 0,
             'prefer-destructuring': 0,
+            'prefer-named-capture-group': 0,
             'prefer-template': 0,
             'radix': 0,
             'require-unicode-regexp': 0,

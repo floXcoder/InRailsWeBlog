@@ -6,6 +6,12 @@ import ApplicationLayoutDefault from '@js/components/layouts/default/application
 
 import Layout from '@js/layout';
 
+if (process.env.NODE_ENV === 'production') {
+    require('@js/production');
+} else {
+    require('@js/development');
+}
+
 Layout.initialize();
 
 // For the website use (no external tracking, no ads), cookies consent are useless

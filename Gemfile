@@ -16,7 +16,7 @@ gem 'pg',                       '1.5.9'
 
 # HTTP Response
 gem 'http_accept_language',     '2.1.1'
-gem 'secure_headers',           '7.0.0', require: false
+gem 'secure_headers',           '7.1.0', require: false
 
 # JSON
 gem 'jsonapi-serializer',       '2.2.0'
@@ -27,7 +27,7 @@ gem 'slim-rails',               '3.6.3'
 
 # Internationalization
 gem 'i18n-js',                  '4.2.3'
-gem 'geocoder',                 '1.8.4', require: false
+gem 'geocoder',                 '1.8.5', require: false
 gem 'maxminddb',                '0.1.22', require: false
 
 # Model versioning
@@ -65,7 +65,7 @@ gem 'elasticsearch',            '8.17.0', require: false
 gem 'typhoeus',                 '1.4.1', require: false
 
 # CSV
-gem 'csv',                      '3.3.1',  require: false
+gem 'csv',                      '3.3.2',  require: false
 
 # Comments
 gem 'acts_as_commentable_with_threading', '2.0.1'
@@ -162,8 +162,8 @@ group :production do
   gem 'whenever',         '1.0.0', require: false
 
   # Errors reporting
-  gem 'sentry-ruby',      '5.22.0'
-  gem 'sentry-rails',     '5.22.0'
+  gem 'sentry-ruby',      '5.22.1'
+  gem 'sentry-rails',     '5.22.1'
   gem 'stackprof',        '0.2.26'
 
   # Check slow DB requests
