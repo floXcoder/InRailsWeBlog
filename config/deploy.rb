@@ -37,7 +37,7 @@ set :log_level, :debug
 # files we want symlinking to specific entries in shared.
 set :linked_files, %w[config/application.yml config/master.key public/service-worker.js]
 
-# dirs we want symlinking to shared
+# dirs we want symlinking to share
 set :linked_dirs, %w[lib/geocoding/ip_db lib/tracking log node_modules public/assets public/seo_cache public/sitemaps public/uploads tmp/pids tmp/cache tmp/sockets vendor/bundle]
 
 # Compile assets
@@ -119,16 +119,16 @@ namespace :deploy do
     end
   end
 
-  # desc 'Index elastic search'
-  # task :elastic_search do
-  #   on roles(:app), in: :sequence, wait: 5 do
-  #     within release_path do
-  #       with rails_env: fetch(:rails_env) do
-  #         execute :rake, 'InRailsWeBlog:search_reindex'
-  #       end
-  #     end
-  #   end
-  # end
+  desc 'Index elastic search'
+  task :elastic_search do
+    on roles(:app), in: :sequence, wait: 5 do
+      within release_path do
+        with rails_env: fetch(:rails_env) do
+          execute :rake, 'InRailsWeBlog:search_reindex'
+        end
+      end
+    end
+  end
 
   # desc 'Regenerate sitemap file'
   # task :generate_sitemap do
@@ -144,7 +144,7 @@ namespace :deploy do
   after :finishing, :update_revision_file
   after :finishing, :restart_web
   after :finishing, :restart_jobs
-  # after :publishing, :elastic_search
+  after :publishing, :elastic_search
   # after :publishing, :generate_sitemap
 
   after :finishing, :cleanup
