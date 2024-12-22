@@ -14,8 +14,6 @@ variables:
 before_script:
   - date
   - rvm gemset use InRailsWeBlog
-  - echo $CI_COMMIT_TAG
-  - echo $CI_COMMIT_BRANCH
 
 after_script:
   - date
@@ -23,7 +21,8 @@ after_script:
 workflow:
   rules:
     - if: $CI_COMMIT_TAG
-    - if: $CI_COMMIT_BRANCH == "master"
+      when: always
+    - when: never
 
 build:
   stage: build
@@ -64,10 +63,6 @@ check_code:
     - bundle exec rails InRailsWeBlog:check_code
   interruptible: true
   needs: ["build"]
-  rules:
-    - if: $CI_COMMIT_TAG && $CI_COMMIT_BRANCH == "master"
-      when: always
-    - when: never
 
 audit:
   stage: test
