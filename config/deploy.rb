@@ -119,16 +119,16 @@ namespace :deploy do
     end
   end
 
-  desc 'Index elastic search'
-  task :elastic_search do
-    on roles(:app), in: :sequence, wait: 5 do
-      within release_path do
-        with rails_env: fetch(:rails_env) do
-          execute :rake, 'InRailsWeBlog:search_reindex'
-        end
-      end
-    end
-  end
+  # desc 'Index elastic search'
+  # task :elastic_search do
+  #   on roles(:app), in: :sequence, wait: 5 do
+  #     within release_path do
+  #       with rails_env: fetch(:rails_env) do
+  #         execute :rake, 'InRailsWeBlog:search_reindex'
+  #       end
+  #     end
+  #   end
+  # end
 
   # desc 'Regenerate sitemap file'
   # task :generate_sitemap do
@@ -144,7 +144,7 @@ namespace :deploy do
   after :finishing, :update_revision_file
   after :finishing, :restart_web
   after :finishing, :restart_jobs
-  after :publishing, :elastic_search
+  # after :publishing, :elastic_search
   # after :publishing, :generate_sitemap
 
   after :finishing, :cleanup
