@@ -409,11 +409,11 @@ Before the first deployment, establish the server configuration:
     GIT_REPO_ADDRESS="..." GIT_REPO_PORT="..." GIT_REPO_USER="..." DEPLOY_USER="..." DEPLOY_SERVER="..." DEPLOY_USER="..." DEPLOY_GEMSET="..." cap production deploy:check
 
 
-To deploy automatically using Gitflow (the tag will be incremented):
+To deploy automatically run the command (it will merge modifications to master and apply a new incremented tag):
 
     rails InRailsWeBlog:deploy
     
-To deploy automatically with from a specific tag version:
+To deploy automatically using a specific tag:
 
     rails InRailsWeBlog:deploy TAG=1.0.0
 
@@ -477,11 +477,9 @@ The project is based on git:
 
 https://gitlab.l-x.fr/Flo/InRailsWeBlog/tree/develop
 
-Gitflow is used for branch management.
-
 ### Create major version
 
-To create a new major version, start manually a new Gitflow release named "0.Y.0" or "X.0.0". Next release will increment the minor version (Z).
+To create a new major version, apply a new tag named "0.Y.0" or "X.0.0". Next release will increment the minor version (Z).
 
 ### Remote repository
 

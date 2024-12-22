@@ -44,8 +44,6 @@ build:
     - yarn install --immutable
     - echo "BEFORE_LAST_TAG=$(git describe --abbrev=0 $(git rev-list --tags --max-count=2) | tail -1)" >> build.env
   interruptible: true
-  only:
-    - tags
 
 check_code:
   stage: test
@@ -59,8 +57,6 @@ check_code:
     - bundle exec rails InRailsWeBlog:check_code
   interruptible: true
   needs: ["build"]
-  only:
-    - tags
 
 audit:
   stage: test
@@ -72,8 +68,9 @@ audit:
   interruptible: true
   allow_failure: true
   needs: ["build"]
-  only:
-    - tags
+  rules:
+    changes:
+      - app/**/*.rb
 
 brakeman:
   stage: test
@@ -88,8 +85,12 @@ brakeman:
   interruptible: true
   allow_failure: true
   needs: ["build"]
-  only:
-    - tags
+  rules:
+    changes:
+      - app/**/*.rb
+      - config/**/*.rb
+      - db/**/*.rb
+      - lib/**/*.rb
 
 test:rails:
   stage: test
@@ -107,9 +108,14 @@ test:rails:
     - bundle exec rspec
   interruptible: true
   needs: ["build"]
-  only:
-    - tags
   retry: 1
+  rules:
+    changes:
+      - app/**/*.rb
+      - config/**/*.rb
+      - db/**/*.rb
+      - lib/**/*.rb
+      - spec/**/*.rb
 
 ## Inconsistent tests
 #test:browser:
@@ -129,8 +135,6 @@ test:rails:
 #  # Unstable tests
 #  allow_failure: true
 #  needs: ["build"]
-#  only:
-#    - tags
 
 #test:npm:
 #  stage: test
@@ -145,8 +149,6 @@ test:rails:
 #    - npm run test
 #  interruptible: true
 #  needs: ["build"]
-#  only:
-#    - tags
 
 deploy:
   stage: deploy
@@ -171,8 +173,6 @@ deploy:
     - bundle exec cap production deploy
   interruptible: true
   when: on_success
-  only:
-    - tags
 
 check:deploy:
   stage: check
@@ -182,5 +182,3 @@ check:deploy:
     - sh -c '[ $(curl --head -o /dev/null -L -s -w "%{http_code}" https://www.ginkonote.com) -eq 200 ]'
   interruptible: true
   when: on_success
-  only:
-    - tags
