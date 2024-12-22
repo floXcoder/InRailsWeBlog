@@ -69,7 +69,7 @@ audit:
   allow_failure: true
   needs: ["build"]
   rules:
-    changes:
+    - changes:
       - app/**/*.rb
 
 brakeman:
@@ -86,7 +86,7 @@ brakeman:
   allow_failure: true
   needs: ["build"]
   rules:
-    changes:
+    - changes:
       - app/**/*.rb
       - config/**/*.rb
       - db/**/*.rb
@@ -110,7 +110,7 @@ test:rails:
   needs: ["build"]
   retry: 1
   rules:
-    changes:
+    - changes:
       - app/**/*.rb
       - config/**/*.rb
       - db/**/*.rb
