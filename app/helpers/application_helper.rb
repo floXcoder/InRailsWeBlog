@@ -45,6 +45,10 @@ module ApplicationHelper
     end
   end
 
+  def image_url(url)
+    AssetManifest.image_path(url)
+  end
+
   def favicon(file, **options)
     favicon_link_tag(image_path(file), options)
   end
