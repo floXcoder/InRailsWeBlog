@@ -125,7 +125,7 @@ export default defineConfig({
                         runtimeCaching: [
                             {
                                 // Match all assets
-                                urlPattern: new RegExp(`^https://${appEnv.ASSETS_HOST}/assets/`),
+                                urlPattern: new RegExp(`^https://(${appEnv.ASSETS_HOST}|${appEnv.WEBSITE_HOST})/assets/`),
                                 // handler: 'CacheFirst',
                                 // Workbox will also hit the network in parallel and check if there are updates to that resource
                                 handler: 'StaleWhileRevalidate',
@@ -155,7 +155,7 @@ export default defineConfig({
                             {
                                 // Match any request that ends with .png, .jpg, .jpeg or .svg
                                 // urlPattern: /\.(?:png|jpg|jpeg|svg)$/,
-                                urlPattern: new RegExp(`^https://${appEnv.ASSETS_HOST}/uploads/`),
+                                urlPattern: new RegExp(`^https://(${appEnv.ASSETS_HOST}|${appEnv.WEBSITE_HOST})/uploads/`),
                                 handler: 'CacheFirst',
                                 options: {
                                     cacheName: `images-v${appEnv.PWA_ASSETS_VERSION || 0}`,
