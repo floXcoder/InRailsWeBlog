@@ -142,7 +142,7 @@ export default defineConfig({
                             },
                             {
                                 // Match any API requests
-                                urlPattern: new RegExp(`^${appEnv.WEBSITE_URL}/(?!.*(orders|baskets|uploader|exporter|processing|validation|manifest).*).*/`),
+                                urlPattern: new RegExp(`^${appEnv.WEBSITE_URL}/(?!.*(assets|uploads|orders|baskets|uploader|exporter|processing|validation|manifest).*).*/`),
                                 handler: 'NetworkFirst',
                                 options: {
                                     cacheName: `api-v${appEnv.PWA_API_VERSION || 0}`,
