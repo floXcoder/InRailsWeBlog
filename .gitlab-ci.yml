@@ -44,6 +44,9 @@ build:
     - yarn install --immutable
     - echo "BEFORE_LAST_TAG=$(git describe --abbrev=0 $(git rev-list --tags --max-count=2) | tail -1)" >> build.env
   interruptible: true
+  rules:
+    - if: '$CI_COMMIT_TAG' && '$CI_COMMIT_BRANCH == "master"'
+    - when: never
 
 check_code:
   stage: test
@@ -57,6 +60,9 @@ check_code:
     - bundle exec rails InRailsWeBlog:check_code
   interruptible: true
   needs: ["build"]
+  rules:
+    - if: '$CI_COMMIT_TAG' && '$CI_COMMIT_BRANCH == "master"'
+    - when: never
 
 audit:
   stage: test
@@ -69,8 +75,10 @@ audit:
   allow_failure: true
   needs: ["build"]
   rules:
-    - changes:
-      - app/**/*.rb
+    - if: '$CI_COMMIT_TAG' && '$CI_COMMIT_BRANCH == "master"'
+      changes:
+        - app/**/*.rb
+    - when: never
 
 brakeman:
   stage: test
@@ -86,11 +94,13 @@ brakeman:
   allow_failure: true
   needs: ["build"]
   rules:
-    - changes:
-      - app/**/*.rb
-      - config/**/*.rb
-      - db/**/*.rb
-      - lib/**/*.rb
+    - if: '$CI_COMMIT_TAG' && '$CI_COMMIT_BRANCH == "master"'
+      changes:
+        - app/**/*.rb
+        - config/**/*.rb
+        - db/**/*.rb
+        - lib/**/*.rb
+    - when: never
 
 test:rails:
   stage: test
@@ -110,12 +120,14 @@ test:rails:
   needs: ["build"]
   retry: 1
   rules:
-    - changes:
-      - app/**/*.rb
-      - config/**/*.rb
-      - db/**/*.rb
-      - lib/**/*.rb
-      - spec/**/*.rb
+    - if: '$CI_COMMIT_TAG' && '$CI_COMMIT_BRANCH == "master"'
+      changes:
+        - app/**/*.rb
+        - config/**/*.rb
+        - db/**/*.rb
+        - lib/**/*.rb
+        - spec/**/*.rb
+    - when: never
 
 ## Inconsistent tests
 #test:browser:
@@ -172,7 +184,10 @@ deploy:
   script:
     - bundle exec cap production deploy
   interruptible: true
-  when: on_success
+  rules:
+    - if: '$CI_COMMIT_TAG' && '$CI_COMMIT_BRANCH == "master"'
+      when: on_success
+    - when: never
 
 check:deploy:
   stage: check
@@ -181,4 +196,7 @@ check:deploy:
     - sh -c '[ $(curl --head -o /dev/null -L -s -w "%{http_code}" https://www.ginkonote.com/health_check.json) -eq 200 ]'
     - sh -c '[ $(curl --head -o /dev/null -L -s -w "%{http_code}" https://www.ginkonote.com) -eq 200 ]'
   interruptible: true
-  when: on_success
+  rules:
+    - if: '$CI_COMMIT_TAG' && '$CI_COMMIT_BRANCH == "master"'
+      when: on_success
+    - when: never
