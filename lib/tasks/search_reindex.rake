@@ -13,7 +13,7 @@ namespace :InRailsWeBlog do
     I18n.available_locales.map do |locale|
       I18n.with_locale(locale) do
         Article.reindex
-        sleep 30.seconds.to_i
+        # sleep 30.seconds.to_i
       end
     end
 
