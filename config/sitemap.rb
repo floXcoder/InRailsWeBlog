@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-SitemapGenerator::Interpreter.send(:include, SitemapHelper)
-
 # SitemapGenerator::Sitemap.sitemaps_path = 'sitemaps'
 SitemapGenerator::Sitemap.default_host = ENV['WEBSITE_URL']
 
