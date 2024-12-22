@@ -142,7 +142,7 @@ class AssetManifest
       url
     elsif hash_manifest && url && hash_manifest[url.split('?')[0]]
       url = hash_manifest[url.split('?')[0]]
-      "#{root_url}/#{(url.starts_with?('/') ? url[1..] : url).chomp('/')}"
+      Rails.env.development? ? url : "#{root_url}/#{(url.starts_with?('/') ? url[1..] : url).chomp('/')}"
     else
       "#{root_url}/assets/#{url}"
     end
@@ -153,7 +153,7 @@ class AssetManifest
 
     if hash_manifest && url && hash_manifest[url.split('?')[0]]
       url = hash_manifest[url.split('?')[0]]
-      "#{root_url}/#{(url.starts_with?('/') ? url[1..] : url).chomp('/')}"
+      Rails.env.development? ? url : "#{root_url}/#{(url.starts_with?('/') ? url[1..] : url).chomp('/')}"
     else
       "#{root_url}/assets/#{url}"
     end
