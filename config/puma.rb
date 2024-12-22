@@ -29,8 +29,8 @@ directory ENV.fetch('RAILS_DIRECTORY') { File.expand_path('..', __dir__) }
 pidfile ENV.fetch('PIDFILE', 'tmp/pids/puma.pid')
 
 # # Used by `pumactl` to query and control the server.
-# Required if activate_control_app is used
-state_path ENV.fetch('STATE_FILE', 'tmp/pids/puma.state')
+# #
+# state_path ENV.fetch('STATE_FILE') { 'tmp/pids/puma.state' }
 
 # Specifies the number of `workers` to boot in clustered mode.
 # Workers are forked webserver processes. If using threads and workers together
