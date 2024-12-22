@@ -1,4 +1,4 @@
-import React from 'react';
+import {useState} from 'react';
 import PropTypes from 'prop-types';
 
 import {
@@ -7,12 +7,22 @@ import {
 
 import Button from '@mui/material/Button';
 
-import {arrayMoveImmutable} from 'array-move';
-
 import {
-    SortableContainer,
-    SortableElement
-} from 'react-sortable-hoc';
+    DndContext,
+    closestCenter,
+    KeyboardSensor,
+    PointerSensor,
+    useSensor,
+    useSensors
+} from '@dnd-kit/core';
+import {
+    arrayMove,
+    SortableContext,
+    sortableKeyboardCoordinates,
+    verticalListSortingStrategy,
+    useSortable
+} from '@dnd-kit/sortable';
+import {CSS} from '@dnd-kit/utilities';
 
 import I18n from '@js/modules/translations';
 
@@ -22,76 +32,107 @@ import {
 
 import TopicCardSort from '@js/components/topics/sort/card';
 
-const SortableItem = SortableElement(({topic}) => (
-    <TopicCardSort topic={topic}/>
-));
 
-const SortableList = SortableContainer(({topics}) => (
-    <div className="topic-sort-sorting-items">
-        {
-            topics.map((topic, i) => (
-                <SortableItem key={i}
-                              index={i}
-                              topic={topic}/>
-            ))
+function SortableItem({
+                          topic
+                      }) {
+    const {
+        attributes,
+        listeners,
+        setNodeRef,
+        transform,
+        transition
+    } = useSortable({id: topic.id});
+
+    const style = {
+        transform: CSS.Transform.toString(transform),
+        transition
+    };
+
+    return (
+        <div ref={setNodeRef}
+             style={style}
+             {...attributes}
+             {...listeners}>
+            <TopicCardSort topic={topic}/>
+        </div>
+    );
+}
+
+export default function TopicSorter({
+                                        topics: initialTopics,
+                                        updateTopicPriority
+                                    }) {
+    const [topics, setTopics] = useState(initialTopics);
+    const sensors = useSensors(
+        useSensor(PointerSensor),
+        useSensor(KeyboardSensor, {
+            coordinateGetter: sortableKeyboardCoordinates
+        })
+    );
+
+    const _handleDragEnd = (event) => {
+        const {
+            active,
+            over
+        } = event;
+
+        if (active.id !== over.id) {
+            setTopics((sortedTopics) => {
+                const oldIndex = sortedTopics.findIndex((topic) => topic.id === active.id);
+                const newIndex = sortedTopics.findIndex((topic) => topic.id === over.id);
+
+                return arrayMove(sortedTopics, oldIndex, newIndex);
+            });
         }
-    </div>
-));
-
-
-export default class TopicSorter extends React.Component {
-    static propTypes = {
-        // Topics must already be sorted by priority
-        topics: PropTypes.array.isRequired,
-        updateTopicPriority: PropTypes.func.isRequired
     };
 
-    constructor(props) {
-        super(props);
-    }
-
-    state = {
-        topics: this.props.topics
-    };
-
-    _handleSortEndProduct = ({oldIndex, newIndex}) => {
-        this.setState({
-            topics: arrayMoveImmutable(this.state.topics, oldIndex, newIndex)
-        });
-    };
-
-    _handleSavePriority = (event) => {
+    const _handleSavePriority = (event) => {
         event.preventDefault();
 
-        this.props.updateTopicPriority(this.state.topics.map((topic) => topic['id']));
+        updateTopicPriority(topics.map((topic) => topic.id));
     };
 
-    render() {
-        return (
-            <div className="topic-sort-sorting">
-                <SortableList topics={this.state.topics}
-                              useWindowAsScrollContainer={true}
-                              onSortEnd={this._handleSortEndProduct}/>
+    return (
+        <div className="topic-sort-sorting">
+            <DndContext sensors={sensors}
+                        collisionDetection={closestCenter}
+                        onDragEnd={_handleDragEnd}>
+                <SortableContext items={topics.map((topic) => topic.id)}
+                                 strategy={verticalListSortingStrategy}>
+                    {
+                        topics.map((topic) => (
+                            <SortableItem key={topic.id}
+                                          topic={topic}/>
+                        ))
+                    }
+                </SortableContext>
+            </DndContext>
 
-                <div className="row">
-                    <div className="col s12 m6 center-align">
-                        <Button variant="outlined"
-                                size="small"
-                                component={Link}
-                                to={rootPath()}>
-                            {I18n.t('js.helpers.buttons.cancel')}
-                        </Button>
-                    </div>
+            <div className="row margin-top-30">
+                <div className="col s12 m6 center-align">
+                    <Button variant="outlined"
+                            size="small"
+                            component={Link}
+                            to={rootPath()}>
+                        {I18n.t('js.helpers.buttons.cancel')}
+                    </Button>
+                </div>
 
-                    <div className="col s12 m6 center-align">
-                        <Button color="primary"
-                                variant="outlined"
-                                onClick={this._handleSavePriority}>
-                            {I18n.t('js.helpers.buttons.apply')}
-                        </Button>
-                    </div>
+                <div className="col s12 m6 center-align">
+                    <Button color="primary"
+                            variant="outlined"
+                            onClick={_handleSavePriority}>
+                        {I18n.t('js.helpers.buttons.apply')}
+                    </Button>
                 </div>
             </div>
-        );
-    }
+        </div>
+    );
 }
+
+TopicSorter.propTypes = {
+    // Topics must already be sorted by priority
+    topics: PropTypes.array.isRequired,
+    updateTopicPriority: PropTypes.func.isRequired
+};

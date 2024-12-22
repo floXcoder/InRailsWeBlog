@@ -22,15 +22,6 @@
   user-select: none;
 }
 
-.topic-sort-sorting-items {
-  outline: none;
-  overflow: auto;
-  position: relative;
-  margin-top: 16px;
-  max-height: 70vh;
-  margin-bottom: 24px;
-}
-
 .topic-sort-sorting-item {
   cursor: pointer;
   padding: 8px;
@@ -52,9 +43,3 @@
 .topic-sort-card-content {
   padding-top: 4px;
 }
-
-.topic-sort-comment-count {
-  color: inherit;
-  font-size: 1rem;
-}
-

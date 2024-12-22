@@ -34,7 +34,7 @@ class TopicEdit extends React.Component {
     static propTypes = {
         // from router
         routeParams: PropTypes.object,
-        routeNavigate: PropTypes.object,
+        routeNavigate: PropTypes.func,
         // from connect
         currentUserId: PropTypes.number,
         articleMultilanguage: PropTypes.bool,

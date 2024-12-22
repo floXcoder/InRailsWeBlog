@@ -17,6 +17,7 @@ import IconButton from '@mui/material/IconButton';
 import Collapse from '@mui/material/Collapse';
 
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 
 import I18n from '@js/modules/translations';
 
@@ -26,7 +27,8 @@ export default class TopicFormInventoryFieldDisplay extends React.Component {
         index: PropTypes.number.isRequired,
         field: PropTypes.object.isRequired,
         onRemoveField: PropTypes.func.isRequired,
-        dragHandle: PropTypes.func.isRequired
+        attributes: PropTypes.object.isRequired,
+        listeners: PropTypes.object.isRequired
     };
 
     constructor(props) {
@@ -55,7 +57,7 @@ export default class TopicFormInventoryFieldDisplay extends React.Component {
     };
 
     render() {
-        const DragHandle = this.props.dragHandle;
+        // const DragHandle = this.props.dragHandle;
 
         return (
             <Grid className="topic-form-inv-field-border"
@@ -76,10 +78,16 @@ export default class TopicFormInventoryFieldDisplay extends React.Component {
                        type="hidden"/>
 
                 <div className="topic-form-inv-field-drag">
-                    <DragHandle/>
+                    <div {...this.props.attributes}
+                         {...this.props.listeners}>
+                        <DragIndicatorIcon/>
+                    </div>
                 </div>
 
-                <Grid size={{sm: 12, lg: 6}}>
+                <Grid size={{
+                    sm: 12,
+                    lg: 6
+                }}>
                     <TextField className="topic-form-inv-field"
                                fullWidth={true}
                                variant="outlined"
@@ -89,7 +97,10 @@ export default class TopicFormInventoryFieldDisplay extends React.Component {
                                defaultValue={this.props.field.name}/>
                 </Grid>
 
-                <Grid size={{sm: 12, lg: 6}}>
+                <Grid size={{
+                    sm: 12,
+                    lg: 6
+                }}>
                     <FormControl className="topic-form-inv-field"
                                  required={true}>
                         <InputLabel htmlFor="inventory_fields-value_type">
@@ -102,12 +113,13 @@ export default class TopicFormInventoryFieldDisplay extends React.Component {
                         }
                                       defaultValue={this.props.field.valueType}>
                             {
-                                Object.keys(I18n.t('js.inventory_fields.enums.value_type')).map((key) => (
-                                    <option key={key}
-                                            value={key}>
-                                        {I18n.t('js.inventory_fields.enums.value_type')[key]}
-                                    </option>
-                                ))
+                                Object.keys(I18n.t('js.inventory_fields.enums.value_type'))
+                                    .map((key) => (
+                                        <option key={key}
+                                                value={key}>
+                                            {I18n.t('js.inventory_fields.enums.value_type')[key]}
+                                        </option>
+                                    ))
                             }
                         </NativeSelect>
                     </FormControl>
@@ -124,7 +136,7 @@ export default class TopicFormInventoryFieldDisplay extends React.Component {
 
                             <IconButton
                                 className={classNames('topic-form-inv-field-props-expand', {
-                                    'topic-form-inv-field-props-expandOpen': this.state.isSourceExpanded
+                                    'topic-form-inv-field-props-expand-open': this.state.isSourceExpanded
                                 })}
                                 aria-label="Show more"
                                 size="large">
@@ -157,7 +169,10 @@ export default class TopicFormInventoryFieldDisplay extends React.Component {
                                    type="hidden"/>
                         </Grid>
 
-                        <Grid size={{sm: 12, lg: 6}}>
+                        <Grid size={{
+                            sm: 12,
+                            lg: 6
+                        }}>
                             <FormControlLabel className="topic-form-inv-field"
                                               label={I18n.t('js.inventory_fields.model.searchable')}
                                               control={
@@ -172,7 +187,10 @@ export default class TopicFormInventoryFieldDisplay extends React.Component {
                                    type="hidden"/>
                         </Grid>
 
-                        <Grid size={{sm: 12, lg: 6}}>
+                        <Grid size={{
+                            sm: 12,
+                            lg: 6
+                        }}>
                             <FormControlLabel className="topic-form-inv-field"
                                               label={I18n.t('js.inventory_fields.model.filterable')}
                                               control={

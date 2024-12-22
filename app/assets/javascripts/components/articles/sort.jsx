@@ -22,7 +22,7 @@ import {
 
 import Loader from '@js/components/theme/loader';
 
-import ArticleSorter from '@js/components/articles/sort/sorter';
+import ArticleSorterDisplay from '@js/components/articles/sort/sorter';
 
 import '@css/pages/article/sort.scss';
 
@@ -85,11 +85,11 @@ class ArticleSort extends React.Component {
 
                 {
                     this.props.articles.length > 0 &&
-                    <ArticleSorter key={Utils.uuid()}
-                                   articles={this.props.articles}
-                                   isProcessing={this.props.isProcessing}
-                                   currentUserSlug={this.props.currentUserSlug}
-                                   updateArticlePriority={this._handleUpdatePriority}/>
+                    <ArticleSorterDisplay key={Utils.uuid()}
+                                          articles={this.props.articles}
+                                          isProcessing={this.props.isProcessing}
+                                          currentUserSlug={this.props.currentUserSlug}
+                                          updateArticlePriority={this._handleUpdatePriority}/>
                 }
             </div>
         );
@@ -110,4 +110,4 @@ export default connect((state) => ({
 })(withRouter({
     params: true,
     navigate: true
-})(ArticleSorter));
+})(ArticleSort));

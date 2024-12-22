@@ -6,20 +6,6 @@
 
 .tag-sorting {
   user-select: none;
-
-  .tag-sorting {
-    text-align: center;
-  }
-
-  .tag-sorting-items {
-    margin-left: auto;
-    margin-right: auto;
-    width: 360px;
-    //height: 75vh;
-    outline: none;
-    overflow: auto;
-    position: relative;
-  }
 }
 
 .tag-sort-item {
@@ -33,16 +19,5 @@
     font-weight: 600;
     line-height: 26px;
     margin-left: 10px;
-  }
-
-  .tag-desc {
-    margin: 5px;
-    padding: .2rem .6rem;
-  }
-
-  .tag-synonyms {
-    margin: 5px;
-    padding: .2rem .6rem;
-    font-style: italic;
   }
 }

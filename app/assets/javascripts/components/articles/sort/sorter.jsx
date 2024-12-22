@@ -1,4 +1,4 @@
-import React from 'react';
+import {useState} from 'react';
 import PropTypes from 'prop-types';
 
 import {
@@ -8,13 +8,21 @@ import {
 import Button from '@mui/material/Button';
 
 import {
-    arrayMoveImmutable
-} from 'array-move';
-
+    DndContext,
+    closestCenter,
+    KeyboardSensor,
+    PointerSensor,
+    useSensor,
+    useSensors
+} from '@dnd-kit/core';
 import {
-    SortableContainer,
-    SortableElement
-} from 'react-sortable-hoc';
+    arrayMove,
+    SortableContext,
+    sortableKeyboardCoordinates,
+    verticalListSortingStrategy,
+    useSortable
+} from '@dnd-kit/sortable';
+import {CSS} from '@dnd-kit/utilities';
 
 import I18n from '@js/modules/translations';
 
@@ -24,80 +32,113 @@ import {
 
 import ArticleCardSort from '@js/components/articles/sort/card';
 
-const SortableItem = SortableElement(({article}) => (
-    <ArticleCardSort article={article}/>
-));
 
-const SortableList = SortableContainer(({articles}) => (
-    <div className="article-sort-sorting-items">
-        {
-            articles.map((article, i) => (
-                <SortableItem key={i}
-                              index={i}
-                              article={article}/>
-            ))
+function SortableItem({
+                          article
+                      }) {
+    const {
+        attributes,
+        listeners,
+        setNodeRef,
+        transform,
+        transition
+    } = useSortable({id: article.id});
+
+    const style = {
+        transform: CSS.Transform.toString(transform),
+        transition
+    };
+
+    return (
+        <div ref={setNodeRef}
+             style={style}
+             {...attributes}
+             {...listeners}>
+            <ArticleCardSort article={article}/>
+        </div>
+    );
+}
+
+export default function ArticleSorterDisplay({
+                                                 currentUserSlug,
+                                                 isProcessing,
+                                                 articles: initialArticles,
+                                                 updateArticlePriority
+                                             }) {
+    const [articles, setArticles] = useState(initialArticles);
+    const sensors = useSensors(
+        useSensor(PointerSensor),
+        useSensor(KeyboardSensor, {
+            coordinateGetter: sortableKeyboardCoordinates
+        })
+    );
+
+    const _handleDragEnd = (event) => {
+        const {
+            active,
+            over
+        } = event;
+
+        if (active.id !== over.id) {
+            setArticles((sortedArticles) => {
+                const oldIndex = sortedArticles.findIndex((article) => article.id === active.id);
+                const newIndex = sortedArticles.findIndex((article) => article.id === over.id);
+
+                return arrayMove(sortedArticles, oldIndex, newIndex);
+            });
         }
-    </div>
-));
-
-
-export default class ArticleSorter extends React.Component {
-    static propTypes = {
-        // Articles must already be sorted by priority
-        articles: PropTypes.array.isRequired,
-        currentUserSlug: PropTypes.string.isRequired,
-        updateArticlePriority: PropTypes.func.isRequired,
-        isProcessing: PropTypes.bool
     };
 
-    constructor(props) {
-        super(props);
-    }
-
-    state = {
-        articles: this.props.articles
-    };
-
-    _handleSortEndProduct = ({oldIndex, newIndex}) => {
-        this.setState({
-            articles: arrayMoveImmutable(this.state.articles, oldIndex, newIndex)
-        });
-    };
-
-    _handleSavePriority = (event) => {
+    const _handleSavePriority = (event) => {
         event.preventDefault();
 
-        this.props.updateArticlePriority(this.state.articles.map((article) => article['id']));
+        updateArticlePriority(articles.map((article) => article.id));
     };
 
-    render() {
-        return (
-            <div className="article-sort-sorting">
-                <div className="row">
-                    <div className="col s12 m6 center-align">
-                        <Button
-                            variant="outlined"
-                            size="small"
-                            component={Link}
-                            to={userHomePath(this.props.currentUserSlug)}>
-                            {I18n.t('js.helpers.buttons.cancel')}
-                        </Button>
-                    </div>
-
-                    <div className="col s12 m6 center-align">
-                        <Button color="primary"
-                                variant="outlined"
-                                disabled={this.props.isProcessing}
-                                onClick={this._handleSavePriority}>
-                            {I18n.t('js.helpers.buttons.apply')}
-                        </Button>
-                    </div>
+    return (
+        <div className="article-sort-sorting">
+            <div className="row">
+                <div className="col s12 m6 center-align">
+                    <Button
+                        variant="outlined"
+                        size="small"
+                        component={Link}
+                        to={userHomePath(currentUserSlug)}>
+                        {I18n.t('js.helpers.buttons.cancel')}
+                    </Button>
                 </div>
 
-                <SortableList articles={this.state.articles}
-                              useWindowAsScrollContainer={true}
-                              onSortEnd={this._handleSortEndProduct}/>
+                <div className="col s12 m6 center-align">
+                    <Button color="primary"
+                            variant="outlined"
+                            disabled={isProcessing}
+                            onClick={_handleSavePriority}>
+                        {I18n.t('js.helpers.buttons.apply')}
+                    </Button>
+                </div>
             </div>
-        );
-    }
+
+            <DndContext sensors={sensors}
+                        collisionDetection={closestCenter}
+                        onDragEnd={_handleDragEnd}>
+                <SortableContext items={articles.map((article) => article.id)}
+                                 strategy={verticalListSortingStrategy}>
+                    {
+                        articles.map((article) => (
+                            <SortableItem key={article.id}
+                                          article={article}/>
+                        ))
+                    }
+                </SortableContext>
+            </DndContext>
+        </div>
+    );
 }
+
+ArticleSorterDisplay.propTypes = {
+    currentUserSlug: PropTypes.string.isRequired,
+    isProcessing: PropTypes.bool.isRequired,
+    // Articles must already be sorted by priority
+    articles: PropTypes.array.isRequired,
+    updateArticlePriority: PropTypes.func.isRequired
+};

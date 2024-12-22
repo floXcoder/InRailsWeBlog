@@ -33,7 +33,9 @@ const ArticleOrderDisplay = function ({
 
             {
                 (articleDisplayMode === 'card' || articleDisplayMode === 'grid') &&
-                <IconButton aria-label="Minimize all" onClick={onMinimized} size="large">
+                <IconButton aria-label="Minimize all"
+                            onClick={onMinimized}
+                            size="large">
                     <VerticalAlignBottomIcon className="article-sidebar-button"/>
                 </IconButton>
             }
