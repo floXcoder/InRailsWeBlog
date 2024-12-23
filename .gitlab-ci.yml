@@ -71,13 +71,14 @@ audit:
   script:
     - gem install bundler-audit
     - bundle audit check --update
-#    - yarn npm audit
+    # - yarn npm audit
   interruptible: true
   allow_failure: true
   needs: ["build"]
   rules:
     - changes:
-      - app/**/*.rb
+      - Gemfile
+      - Gemfile.lock
 
 brakeman:
   stage: test
