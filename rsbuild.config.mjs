@@ -120,7 +120,7 @@ export default defineConfig({
                         offlineGoogleAnalytics: false,
                         maximumFileSizeToCacheInBytes: 4_000_000,
                         exclude: [
-                            /about/, /privacy/, /terms/, /processing/, /validation/, /exporter/, /admin/, /performance/, /new\./, /new-\./, /edit\./, /edit-\./, /edition\./, /editor\./, /login\./, /signup\./, /password\./, /user-confirmation\./, /tinymce\./, /\.ttf$/, /\.eot$/, /\.woff$/, /\.geojson$/, /\.map$/, /komoot/, /LICENSE/, /pghero/, /metrics/, /webmanifest/, /comment\./, /comment-box\./, /compare\./, /history\./, /tracker\./, /sort\./, /persistence\./, /share\./
+                            /about/, /privacy/, /terms/, /processing/, /validation/, /exporter/, /admins/, /performance/, /new\./, /new-\./, /edit\./, /edit-\./, /edition\./, /editor\./, /login\./, /signup\./, /password\./, /user-confirmation\./, /tinymce\./, /\.ttf$/, /\.eot$/, /\.woff$/, /\.geojson$/, /\.map$/, /komoot/, /LICENSE/, /pghero/, /metrics/, /webmanifest/, /comment\./, /comment-box\./, /compare\./, /history\./, /tracker\./, /sort\./, /persistence\./, /share\./
                         ],
                         runtimeCaching: [
                             {
@@ -142,7 +142,7 @@ export default defineConfig({
                             },
                             {
                                 // Match any API requests
-                                urlPattern: new RegExp(`^${appEnv.WEBSITE_URL}/(?!.*(assets|uploads|orders|baskets|uploader|exporter|processing|validation|manifest).*).*/`),
+                                urlPattern: new RegExp(`^${appEnv.WEBSITE_URL}/(?!.*(assets|uploads|orders|baskets|uploader|exporter|processing|validation|manifest|admins).*).*/`),
                                 handler: 'NetworkFirst',
                                 options: {
                                     cacheName: `api-v${appEnv.PWA_API_VERSION || 0}`,
