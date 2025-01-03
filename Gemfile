@@ -20,10 +20,10 @@ gem 'secure_headers',           '7.1.0', require: false
 
 # JSON
 gem 'jsonapi-serializer',       '2.2.0'
-gem 'oj',                       '3.16.8'
+gem 'oj',                       '3.16.9'
 
 # Use slim instead of erb
-gem 'slim-rails',               '3.6.3'
+gem 'slim-rails',               '3.7.0'
 
 # Internationalization
 gem 'i18n-js',                  '4.2.3'
@@ -38,10 +38,10 @@ gem 'paranoia',                 '3.0.0'
 
 # Format user input
 gem 'auto_strip_attributes',    '2.6.0'
-gem 'sanitize',                 '6.1.3'
+gem 'sanitize',                 '7.0.0'
 
 # Run asynschronous process
-gem 'good_job',                 '4.6.0'
+gem 'good_job',                 '4.7.0'
 
 # Redis session store and cache
 gem 'redis-namespace',          '1.11.0'
@@ -55,7 +55,7 @@ gem 'devise',                   '4.9.4'
 gem 'pundit',                   '2.4.0'
 
 # Upload pictures
-gem 'carrierwave',              '3.0.7'
+gem 'carrierwave',              '3.1.0'
 gem 'mini_magick',              '4.13.1', require: false
 gem 'image_processing',         '1.13.0', require: false
 
@@ -103,7 +103,7 @@ group :development do
   gem 'bullet',                 '8.0.0', require: false
 
   # Guard and its minions
-  gem 'guard',                  '2.19.0', require: false
+  gem 'guard',                  '2.19.1', require: false
   gem 'guard-bundler',          '3.0.1',  require: false
   gem 'guard-process',          '1.2.1',  require: false
 
@@ -115,7 +115,7 @@ group :development do
 
   # Deployment
   gem 'capistrano',             '3.19.2', require: false
-  gem 'capistrano-rails',       '1.6.3',  require: false
+  gem 'capistrano-rails',       '1.7.0',  require: false
   gem 'capistrano-rvm',         '0.1.2',  require: false
   gem 'capistrano-bundler',     '2.1.1',  require: false
   gem 'net-ssh',                '7.3.0',  require: false
@@ -145,7 +145,7 @@ group :development, :test do
 
   # Check errors
   gem 'rubocop',                    '1.69.2',  require: false
-  gem 'rubocop-rails',              '2.27.0',  require: false
+  gem 'rubocop-rails',              '2.28.0',  require: false
   gem 'rubocop-rspec',              '3.3.0',   require: false
   gem 'rubocop-performance',        '1.23.0',  require: false
   gem 'rubocop-capybara',           '2.21.0',  require: false
@@ -153,7 +153,7 @@ group :development, :test do
 
   # static analyzer
   gem 'rails_best_practices',       '1.23.2', require: false
-  gem 'brakeman',                   '6.2.2',  require: false
+  gem 'brakeman',                   '7.0.0',  require: false
   gem 'i18n-tasks',                 '1.0.14', require: false
 end
 
