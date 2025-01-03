@@ -61,14 +61,16 @@ function transformDataValue(column, datum) {
 }
 
 function getColumnWidth(currentColumn, stringCountByKeys, isAdaptiveWidth, virtualized) {
+    if (currentColumn.width) {
+        return currentColumn.width;
+    }
+
     if (isAdaptiveWidth && !virtualized) {
         return;
     }
 
     let columnWidth = MIN_COLUMN_WIDTH;
-    if (currentColumn.width) {
-        columnWidth = currentColumn.width;
-    } else if (currentColumn.name && isAdaptiveWidth) {
+    if (currentColumn.name && isAdaptiveWidth) {
         columnWidth = (stringCountByKeys[currentColumn.key] || 1) * 10;
         if (columnWidth < currentColumn.name.length * 10) {
             columnWidth = currentColumn.name.length * 10;
@@ -943,7 +945,8 @@ export default function Table({
 
                 {
                     !!editable &&
-                    <Column align="center">
+                    <Column width={100}
+                            align="center">
                         <HeaderCell><strong>Actions</strong></HeaderCell>
                         <ActionCell dataIdentifier={dataIdentifier}
                                     editingRowKeys={editingRowKeys}
