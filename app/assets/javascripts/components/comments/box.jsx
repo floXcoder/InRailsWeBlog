@@ -204,10 +204,13 @@ class CommentBox extends React.Component {
                         </div>
                     }
 
-                    <CommentForm isOwner={this.props.isUserOwner}
-                                 isRated={this.props.isRated}
-                                 onCancel={this._handleCommentCancel}
-                                 onSubmit={this._handleCommentSubmit}/>
+                    {
+                        !!this.state.isShowingCommentForm &&
+                        <CommentForm isOwner={this.props.isUserOwner}
+                                     isRated={this.props.isRated}
+                                     onCancel={this._handleCommentCancel}
+                                     onSubmit={this._handleCommentSubmit}/>
+                    }
 
                     {
                         !!(this.props.isPaginated && this.props.commentsPagination) &&

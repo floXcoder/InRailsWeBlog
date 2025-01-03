@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import classNames from 'classnames';
+// import classNames from 'classnames';
 
 import TextField from '@mui/material/TextField';
 import FormHelperText from '@mui/material/FormHelperText';
@@ -16,7 +16,7 @@ export default class CommentForm extends React.PureComponent {
     static propTypes = {
         onSubmit: PropTypes.func.isRequired,
         onCancel: PropTypes.func.isRequired,
-        isOwner: PropTypes.bool.isRequired,
+        // isOwner: PropTypes.bool.isRequired,
         isRated: PropTypes.bool.isRequired,
         parentCommentId: PropTypes.number,
         commentId: PropTypes.number,
@@ -81,7 +81,7 @@ export default class CommentForm extends React.PureComponent {
         return (
             <div className="row comment-form">
                 <div className="col s12">
-                    <div className={classNames({'comment-form-owner': this.props.isOwner})}>
+                    <div>
                         <div className="card-title comment-form-title">
                             {this.props.formTitle || I18n.t('js.comment.form.title.default')}
                         </div>
@@ -164,7 +164,9 @@ export default class CommentForm extends React.PureComponent {
 
                             <div className="row margin-top-25">
                                 <div className="col s6">
-                                    <Button variant="outlined" size="small" onClick={this.props.onCancel}>
+                                    <Button variant="outlined"
+                                            size="small"
+                                            onClick={this.props.onCancel}>
                                         {I18n.t('js.comment.form.cancel')}
                                     </Button>
                                 </div>
