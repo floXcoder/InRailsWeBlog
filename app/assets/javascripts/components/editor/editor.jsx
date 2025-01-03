@@ -284,7 +284,7 @@ class Editor extends React.Component {
     }
 
     shouldComponentUpdate(nextProps) {
-        return this.props.modelId !== nextProps.modelId || this.props.isDisabled !== nextProps.isDisabled || this.props.placeholder !== nextProps.placeholder || this.props.width !== nextProps.width;
+        return this.props.children !== nextProps.children || this.props.name !== nextProps.name || this.props.modelId !== nextProps.modelId || this.props.isDisabled !== nextProps.isDisabled || this.props.placeholder !== nextProps.placeholder || this.props.width !== nextProps.width;
     }
 
     componentDidUpdate(prevProps) {
@@ -507,11 +507,11 @@ class Editor extends React.Component {
         }
     };
 
-    insertText = (text) => {
-        if (this._editor) {
-            this._editor.summernote('insertText', text);
-        }
-    };
+    // insertText = (text) => {
+    //     if (this._editor) {
+    //         this._editor.summernote('insertText', text);
+    //     }
+    // };
 
     // insertLink = () => {
     //     if (this._editor) {

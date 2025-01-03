@@ -101,8 +101,6 @@ class ArticleEdit extends React.Component {
             this._updateCurrentTags();
 
             this._ensureCurrentTopic();
-        } else if (Utils.isEmpty(this.props.article) || Utils.isEmpty(this.props.article.title)) {
-            window.location.reload();
         }
     }
 
