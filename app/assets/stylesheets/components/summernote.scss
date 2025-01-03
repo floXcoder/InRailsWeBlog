@@ -1724,7 +1724,7 @@ html .note-fullscreen-body, body .note-fullscreen-body {
 
 .note-toolbar,
 .note-air-popover {
-  z-index: 1300;
+  z-index: $zindex-summernote-toolbar;
 
   .note-btn {
     background-color: inherit;
