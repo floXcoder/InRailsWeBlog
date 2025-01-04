@@ -271,19 +271,26 @@ const ExpandCell = ({
                     }) => (
     <Cell {...props}
           style={{padding: 0}}>
-        <IconButton aria-label="Show more"
-                    size="large"
-                    onClick={() => {
-                        onChange(rowData, dataIdentifier);
-                    }}>
-            {
-                expandedRowKeys.some((key) => key === rowData[dataIdentifier])
-                    ?
-                    <ExpandMoreIcon/>
-                    :
-                    <ExpandLessIcon/>
-            }
-        </IconButton>
+        <div style={{
+            display: 'inline-block',
+            position: 'absolute',
+            top: '50%',
+            transform: 'translateY(-50%)'
+        }}>
+            <IconButton aria-label="Show more"
+                        size="large"
+                        onClick={() => {
+                            onChange(rowData, dataIdentifier);
+                        }}>
+                {
+                    expandedRowKeys.some((key) => key === rowData[dataIdentifier])
+                        ?
+                        <ExpandMoreIcon/>
+                        :
+                        <ExpandLessIcon/>
+                }
+            </IconButton>
+        </div>
     </Cell>
 );
 
@@ -301,24 +308,30 @@ const ActionsCell = ({
     return (
         <Cell {...props}
               style={{padding: 0}}>
-            {
-                actions.map((action, i) => (
-                    <Tooltip key={i}
-                             title={action.tooltip}>
-                        <IconButton style={{padding: '4px 10px'}}
-                                    aria-label={action.tooltip}
-                                    size="medium"
-                                    color="default"
-                                    onClick={(event) => action.onClick(event, originalRowData)}>
+            <div style={{
+                display: 'inline-block',
+                position: 'absolute',
+                top: '50%',
+                transform: 'translateY(-50%)'
+            }}>
+                {
+                    actions.map((action, i) => (
+                        <Tooltip key={i}
+                                 title={action.tooltip}>
+                            <IconButton aria-label={action.tooltip}
+                                        size="medium"
+                                        color="default"
+                                        onClick={(event) => action.onClick(event, originalRowData)}>
                            <span className="material-icons notranslate MuiIcon-root MuiIcon-fontSizeMedium"
                                  aria-hidden="true"
                                  style={action.iconProps?.style}>
                                {action.icon}
                            </span>
-                        </IconButton>
-                    </Tooltip>
-                ))
-            }
+                            </IconButton>
+                        </Tooltip>
+                    ))
+                }
+            </div>
         </Cell>
     );
 };
@@ -594,6 +607,10 @@ const styles = `
 .table-cell-editing .MuiInputBase-input {
   padding: 6px;
   width: 100%;
+}
+
+.rs-table-row-expanded {
+  overflow-x: auto;
 }
 `;
 
