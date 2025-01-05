@@ -7,7 +7,16 @@ import FormHelperText from '@mui/material/FormHelperText';
 import Checkbox from '@mui/material/Checkbox';
 
 
-const CheckBoxFormField = function ({input, label, meta: {touched, error}, componentContent, ...custom}) {
+const CheckBoxFormField = function ({
+                                        input,
+                                        label,
+                                        meta: {
+                                            touched,
+                                            error
+                                        },
+                                        componentContent,
+                                        ...custom
+                                    }) {
     return (
         <FormControl error={!!touched && !!error}
                      {...custom}>

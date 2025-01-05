@@ -102,7 +102,13 @@ class SearchSidebar extends React.Component {
                         onChangeCommitted={this._handleNumberChange.bind(this, filter.fieldName)}
                         min={minRange}
                         max={maxRange}
-                        marks={[{label: minRange, value: minRange}, {label: maxRange, value: maxRange}]}
+                        marks={[{
+                            label: minRange,
+                            value: minRange
+                        }, {
+                            label: maxRange,
+                            value: maxRange
+                        }]}
                         step={1}
                         valueLabelDisplay="auto"
                         aria-labelledby="number-slider"/>

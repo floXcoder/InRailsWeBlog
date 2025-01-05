@@ -4,7 +4,17 @@ import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 
 
-const SelectFormField = function ({input, label, helperText, options, meta: {touched, error}, ...custom}) {
+const SelectFormField = function ({
+                                      input,
+                                      label,
+                                      helperText,
+                                      options,
+                                      meta: {
+                                          touched,
+                                          error
+                                      },
+                                      ...custom
+                                  }) {
     return (
         <TextField {...input}
                    select={true}
@@ -23,12 +33,13 @@ const SelectFormField = function ({input, label, helperText, options, meta: {tou
                         </MenuItem>
                     ))
                     :
-                    Object.keys(options).map((key) => (
-                        <MenuItem key={key}
-                                  value={key}>
-                            {options[key]}
-                        </MenuItem>
-                    ))
+                    Object.keys(options)
+                        .map((key) => (
+                            <MenuItem key={key}
+                                      value={key}>
+                                {options[key]}
+                            </MenuItem>
+                        ))
             }
         </TextField>
     );

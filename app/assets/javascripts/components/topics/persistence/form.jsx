@@ -126,12 +126,13 @@ export default class PersistenceFormTopic extends React.Component {
                                value={this.state.mode}
                                onChange={this._handleModeChange}>
                         {
-                            Object.keys(I18n.t('js.topic.enums.mode')).map((key) => (
-                                <MenuItem key={key}
-                                          value={key}>
-                                    {I18n.t('js.topic.enums.mode')[key]}
-                                </MenuItem>
-                            ))
+                            Object.keys(I18n.t('js.topic.enums.mode'))
+                                .map((key) => (
+                                    <MenuItem key={key}
+                                              value={key}>
+                                        {I18n.t('js.topic.enums.mode')[key]}
+                                    </MenuItem>
+                                ))
                         }
                     </TextField>
                 }
@@ -174,12 +175,13 @@ export default class PersistenceFormTopic extends React.Component {
                                value={this.state.visibility}
                                onChange={this._handleVisibilityChange}>
                         {
-                            Object.keys(I18n.t('js.topic.enums.visibility')).map((key) => (
-                                <MenuItem key={key}
-                                          value={key}>
-                                    {I18n.t('js.topic.enums.visibility')[key]}
-                                </MenuItem>
-                            ))
+                            Object.keys(I18n.t('js.topic.enums.visibility'))
+                                .map((key) => (
+                                    <MenuItem key={key}
+                                              value={key}>
+                                        {I18n.t('js.topic.enums.visibility')[key]}
+                                    </MenuItem>
+                                ))
                         }
                     </TextField>
                 }

@@ -10,7 +10,10 @@ import DialogTitle from '@mui/material/DialogTitle';
 import I18n from '@js/modules/translations';
 
 
-function LogHelp({isOpen, onHelpClose}) {
+function LogHelp({
+                     isOpen,
+                     onHelpClose
+                 }) {
     return (
         <Dialog open={isOpen}
                 onClose={onHelpClose}

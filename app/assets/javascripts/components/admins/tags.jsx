@@ -26,7 +26,10 @@ class AdminTags extends React.Component {
     }
 
     componentDidMount() {
-        this.props.fetchTags({order: 'created_desc', complete: true}, {}, {}, {noCache: true});
+        this.props.fetchTags({
+            order: 'created_desc',
+            complete: true
+        }, {}, {}, {noCache: true});
     }
 
     render() {
@@ -130,4 +133,4 @@ export default connect((state) => ({
     isFetching: state.tagState.isFetching
 }), {
     fetchTags
-})(AdminTags)
+})(AdminTags);

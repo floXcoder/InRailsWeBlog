@@ -236,17 +236,17 @@ class AdminVisits extends React.Component {
                           direction="row"
                           justifyContent="space-around"
                           alignItems="center">
-                        <Grid >
+                        <Grid>
                             <MiniCard title={I18n.t('js.admin.visits.stats.visits')}
                                       number={this.props.visitsStats.totalUniqVisits}/>
                         </Grid>
 
-                        <Grid >
+                        <Grid>
                             <MiniCard title={I18n.t('js.admin.visits.stats.article_visits')}
                                       number={this.props.visitsStats.totalArticleVisits}/>
                         </Grid>
 
-                        <Grid >
+                        <Grid>
                             <MiniCard title={I18n.t('js.admin.visits.stats.clicks')}
                                       number={this.props.visitsStats.totalClicks}/>
                         </Grid>
@@ -258,17 +258,17 @@ class AdminVisits extends React.Component {
                           direction="row"
                           justifyContent="space-around"
                           alignItems="center">
-                        <Grid >
+                        <Grid>
                             <MiniCard title={I18n.t('js.admin.visits.stats.pages')}
                                       number={this.props.visitsStats.averagePages}/>
                         </Grid>
 
-                        <Grid >
+                        <Grid>
                             <MiniCard title={I18n.t('js.admin.visits.stats.bounce')}
                                       number={this.props.visitsStats.bounceRate + '%'}/>
                         </Grid>
 
-                        <Grid >
+                        <Grid>
                             <MiniCard title={I18n.t('js.admin.visits.stats.duration')}
                                       number={this.props.visitsStats.duration}/>
                         </Grid>
@@ -286,17 +286,17 @@ class AdminVisits extends React.Component {
                           direction="row"
                           justifyContent="space-around"
                           alignItems="center">
-                        <Grid >
+                        <Grid>
                             <MiniCard title={I18n.t('js.admin.visits.tops.total_articles')}
                                       number={this.props.visitsStats.totalArticles}/>
                         </Grid>
 
-                        <Grid >
+                        <Grid>
                             <MiniCard title={I18n.t('js.admin.visits.tops.total_tags')}
                                       number={this.props.visitsStats.totalTags}/>
                         </Grid>
 
-                        <Grid >
+                        <Grid>
                             <MiniCard title={I18n.t('js.admin.visits.tops.total_topics')}
                                       number={this.props.visitsStats.totalTopics}/>
                         </Grid>
@@ -308,7 +308,7 @@ class AdminVisits extends React.Component {
                           direction="row"
                           justifyContent="space-between"
                           alignItems="flex-start">
-                        <Grid >
+                        <Grid>
                             <List className="admin-visits-list-container">
                                 {
                                     this.props.visitsStats.topArticles.map((article) => (
@@ -345,7 +345,7 @@ class AdminVisits extends React.Component {
                             </List>
                         </Grid>
 
-                        <Grid >
+                        <Grid>
                             <List className="admin-visits-list-container">
                                 {
                                     this.props.visitsStats.topTags.map((tag) => (
@@ -374,7 +374,7 @@ class AdminVisits extends React.Component {
                             </List>
                         </Grid>
 
-                        <Grid >
+                        <Grid>
                             <List className="admin-visits-list-container">
                                 {
                                     this.props.visitsStats.topTopics.map((topic) => (

@@ -12,7 +12,10 @@ import SendIcon from '@mui/icons-material/Send';
 import I18n from '@js/modules/translations';
 
 
-const ArticleFormStepper = function ({tabIndex, onTabChange}) {
+const ArticleFormStepper = function ({
+                                         tabIndex,
+                                         onTabChange
+                                     }) {
     return (
         <div className="article-form-stepper-stepper"
             // id="article-edit-stepper"

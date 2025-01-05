@@ -142,4 +142,4 @@ export default connect((state) => ({
     topics: state.topicState.userTopics
 }), {
     showTopicPopup
-})(TopicModule)
+})(TopicModule);

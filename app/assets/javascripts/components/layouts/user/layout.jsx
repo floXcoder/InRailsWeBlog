@@ -52,7 +52,11 @@ class LayoutUser extends React.Component {
     _renderRouteChildren = (route, component, routeProperties) => {
         const Component = component();
 
-        const {routes, currentUser, ...initProps} = this.props;
+        const {
+            routes,
+            currentUser,
+            ...initProps
+        } = this.props;
 
         const isHome = route.name === 'UserHome';
 
@@ -81,7 +85,11 @@ class LayoutUser extends React.Component {
             throw new Error(`Path to render is null: ${JSON.stringify(route)}`);
         }
 
-        const {component, index, ...routeProperties} = route;
+        const {
+            component,
+            index,
+            ...routeProperties
+        } = route;
 
         return (
             <Route key={path || i}

@@ -10,7 +10,10 @@ import bannerWebp from '@/images/home/banner.webp';
 import bannerPng from '@/images/home/banner.png';
 
 
-const HomeBanner = function ({onLoginClick, onSignupClick}) {
+const HomeBanner = function ({
+                                 onLoginClick,
+                                 onSignupClick
+                             }) {
     return (
         <section className="home-banner">
             <div className="home-home-content">
@@ -29,7 +32,11 @@ const HomeBanner = function ({onLoginClick, onSignupClick}) {
                       direction="row"
                       justifyContent="space-around"
                       alignItems="center">
-                    <Grid size={{xs: 12, sm: 6, lg: 4}}>
+                    <Grid size={{
+                        xs: 12,
+                        sm: 6,
+                        lg: 4
+                    }}>
                         <div className="home-banner-background">
                             <picture>
                                 <source srcSet={bannerWebp}
@@ -43,7 +50,10 @@ const HomeBanner = function ({onLoginClick, onSignupClick}) {
                         </div>
                     </Grid>
 
-                    <Grid size={{xs: 12, sm: 6}}>
+                    <Grid size={{
+                        xs: 12,
+                        sm: 6
+                    }}>
                         <div className="home-banner-buttons">
                             <Button className="home-banner-button"
                                     color="primary"

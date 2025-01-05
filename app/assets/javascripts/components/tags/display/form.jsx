@@ -87,7 +87,11 @@ export default class TagFormDisplay extends React.Component {
                   validate={validateTag}
                   onSubmit={this.props.onSubmit}>
                 {
-                    ({handleSubmit, dirty, submitting}) => (
+                    ({
+                         handleSubmit,
+                         dirty,
+                         submitting
+                     }) => (
                         <form id={`tag-form-${this.props.children.id || 'new'}`}
                               onSubmit={handleSubmit}>
                             {/*<Prompt when={dirty && !submitting}*/}

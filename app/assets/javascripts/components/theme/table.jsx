@@ -501,7 +501,8 @@ const reducer = ({
                  }, action) => {
     const stringCountByKeys = {};
 
-    const filterableKeys = action?.search ? columns.filter((col) => col.filterable !== false).map((col) => col.key) : [];
+    const filterableKeys = action?.search ? columns.filter((col) => col.filterable !== false)
+        .map((col) => col.key) : [];
 
     if (!rows.length || action?.search) {
         data.forEach((datum) => {
@@ -644,7 +645,8 @@ export default function Table({
                                   editable,
                                   actions
                               }) {
-    const [hiddenColumns, setHiddenColumns] = useState(new Set(columns.filter((c) => !!c.hidden).map((c) => c.key)));
+    const [hiddenColumns, setHiddenColumns] = useState(new Set(columns.filter((c) => !!c.hidden)
+        .map((c) => c.key)));
     const [search, setSearch] = useState('');
 
     const [sortColumn, setSortColumn] = useState();

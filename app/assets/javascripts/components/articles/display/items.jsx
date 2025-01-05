@@ -1,4 +1,4 @@
-import React,{
+import React, {
     Suspense
 } from 'react';
 import PropTypes from 'prop-types';
@@ -139,4 +139,4 @@ export default connect((state, props) => ({
     isOwner: getArticleIsOwner(state, props.article)
 }), {
     inlineEditArticle
-})(ArticleItemsDisplay)
+})(ArticleItemsDisplay);

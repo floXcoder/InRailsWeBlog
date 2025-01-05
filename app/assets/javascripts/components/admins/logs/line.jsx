@@ -37,7 +37,10 @@ const logClass = (level) => {
     return logClassElement;
 };
 
-const LogLine = ({children, onLineElementClick}) => {
+const LogLine = ({
+                     children,
+                     onLineElementClick
+                 }) => {
     const logRegex = LOG_REGEX.exec(children);
     const botLogRegex = BOT_LOG_REGEX.exec(children);
 

@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import CategorizedTag from '@js/components/materialize/categorizedTag';
 import ErrorForm from '@js/components/materialize/form/error';
 
-function CategorizedField({input,
+function CategorizedField({
+                              input,
                               meta: {
                                   touched,
                                   error

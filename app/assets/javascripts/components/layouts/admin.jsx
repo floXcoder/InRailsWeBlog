@@ -26,7 +26,10 @@ import AdminFooterLayout from '@js/components/layouts/admin/footer';
 import theme from '@js/theme';
 
 
-const AdminLayout = function ({componentId, children}) {
+const AdminLayout = function ({
+                                  componentId,
+                                  children
+                              }) {
     return (
         <StyledEngineProvider injectFirst={true}>
             <ThemeProvider theme={theme}>

@@ -1,7 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const DoubleTimelineItem = function ({date, content, children, icon, title}) {
+const DoubleTimelineItem = function ({
+                                         date,
+                                         content,
+                                         children,
+                                         icon,
+                                         title
+                                     }) {
     return (
         <div className="timeline-block">
             <div className="timeline-icon">

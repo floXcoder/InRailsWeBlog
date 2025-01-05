@@ -80,4 +80,4 @@ export default connect((state) => ({
     isFetching: state.commentState.isFetching
 }), {
     fetchComments
-})(AdminComments)
+})(AdminComments);

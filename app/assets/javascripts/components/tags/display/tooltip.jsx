@@ -16,7 +16,10 @@ import {
 } from '@js/constants/routesHelper';
 
 
-const TooltipTag = function TooltipTag({tag, children}) {
+const TooltipTag = function TooltipTag({
+                                           tag,
+                                           children
+                                       }) {
     return (
         <Tooltip placement="bottom"
                  arrow={true}

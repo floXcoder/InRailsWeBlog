@@ -125,12 +125,13 @@ class UserSettings extends React.Component {
                                             value={this.state.articleDisplay}
                                             onChange={this._onSettingRadioChange.bind(this, 'articleDisplay')}>
                                     {
-                                        Object.keys(I18n.t('js.user.settings.article.display.mode')).map((key) => (
-                                            <FormControlLabel key={key}
-                                                              value={key}
-                                                              control={<Radio/>}
-                                                              label={I18n.t('js.user.settings.article.display.mode')[key]}/>
-                                        ))
+                                        Object.keys(I18n.t('js.user.settings.article.display.mode'))
+                                            .map((key) => (
+                                                <FormControlLabel key={key}
+                                                                  value={key}
+                                                                  control={<Radio/>}
+                                                                  label={I18n.t('js.user.settings.article.display.mode')[key]}/>
+                                            ))
                                     }
                                 </RadioGroup>
                             </FormControl>
@@ -148,12 +149,13 @@ class UserSettings extends React.Component {
                                             value={this.state.articleOrder}
                                             onChange={this._onSettingRadioChange.bind(this, 'articleOrder')}>
                                     {
-                                        Object.keys(I18n.t('js.user.settings.article.order.mode')).map((key) => (
-                                            <FormControlLabel key={key}
-                                                              value={key}
-                                                              control={<Radio/>}
-                                                              label={I18n.t('js.user.settings.article.order.mode')[key]}/>
-                                        ))
+                                        Object.keys(I18n.t('js.user.settings.article.order.mode'))
+                                            .map((key) => (
+                                                <FormControlLabel key={key}
+                                                                  value={key}
+                                                                  control={<Radio/>}
+                                                                  label={I18n.t('js.user.settings.article.order.mode')[key]}/>
+                                            ))
                                     }
                                 </RadioGroup>
                             </FormControl>
@@ -171,12 +173,13 @@ class UserSettings extends React.Component {
                                             value={this.state.articlesLoader}
                                             onChange={this._onSettingRadioChange.bind(this, 'articlesLoader')}>
                                     {
-                                        Object.keys(I18n.t('js.user.settings.article.loader.mode')).map((key) => (
-                                            <FormControlLabel key={key}
-                                                              value={key}
-                                                              control={<Radio/>}
-                                                              label={I18n.t('js.user.settings.article.loader.mode')[key]}/>
-                                        ))
+                                        Object.keys(I18n.t('js.user.settings.article.loader.mode'))
+                                            .map((key) => (
+                                                <FormControlLabel key={key}
+                                                                  value={key}
+                                                                  control={<Radio/>}
+                                                                  label={I18n.t('js.user.settings.article.loader.mode')[key]}/>
+                                            ))
                                     }
                                 </RadioGroup>
                             </FormControl>
@@ -258,12 +261,13 @@ class UserSettings extends React.Component {
                                             value={this.state.tagOrder}
                                             onChange={this._onSettingRadioChange.bind(this, 'tagOrder')}>
                                     {
-                                        Object.keys(I18n.t('js.user.settings.tag.order.mode')).map((key) => (
-                                            <FormControlLabel key={key}
-                                                              value={key}
-                                                              control={<Radio/>}
-                                                              label={I18n.t('js.user.settings.tag.order.mode')[key]}/>
-                                        ))
+                                        Object.keys(I18n.t('js.user.settings.tag.order.mode'))
+                                            .map((key) => (
+                                                <FormControlLabel key={key}
+                                                                  value={key}
+                                                                  control={<Radio/>}
+                                                                  label={I18n.t('js.user.settings.tag.order.mode')[key]}/>
+                                            ))
                                     }
                                 </RadioGroup>
                             </FormControl>
@@ -287,12 +291,13 @@ class UserSettings extends React.Component {
                                             value={this.state.searchOperator}
                                             onChange={this._onSettingRadioChange.bind(this, 'searchOperator')}>
                                     {
-                                        Object.keys(I18n.t('js.user.settings.search.operator.mode')).map((key) => (
-                                            <FormControlLabel key={key}
-                                                              value={key}
-                                                              control={<Radio/>}
-                                                              label={I18n.t('js.user.settings.search.operator.mode')[key]}/>
-                                        ))
+                                        Object.keys(I18n.t('js.user.settings.search.operator.mode'))
+                                            .map((key) => (
+                                                <FormControlLabel key={key}
+                                                                  value={key}
+                                                                  control={<Radio/>}
+                                                                  label={I18n.t('js.user.settings.search.operator.mode')[key]}/>
+                                            ))
                                     }
                                 </RadioGroup>
                             </FormControl>

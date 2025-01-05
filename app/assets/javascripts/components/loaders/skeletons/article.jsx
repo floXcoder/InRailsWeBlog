@@ -7,7 +7,7 @@ import Skeleton from '@mui/material/Skeleton';
 
 function ArticleSkeleton({
                              isConnected = false
-}) {
+                         }) {
     return (
         <Box width="100%"
              my={3}>
@@ -28,13 +28,13 @@ function ArticleSkeleton({
                           direction="row"
                           justifyContent="space-between"
                           alignItems="center">
-                        <Grid >
+                        <Grid>
                             <Grid container={true}
                                   spacing={1}
                                   direction="row"
                                   justifyContent="flex-start"
                                   alignItems="flex-start">
-                                <Grid >
+                                <Grid>
                                     <Box my={1}
                                          marginRight={2}>
                                         <Skeleton variant="circular"
@@ -44,7 +44,7 @@ function ArticleSkeleton({
                                     </Box>
                                 </Grid>
 
-                                <Grid >
+                                <Grid>
                                     <Skeleton width={80}
                                               animation="wave"/>
                                     <Skeleton width={140}
@@ -54,7 +54,7 @@ function ArticleSkeleton({
                         </Grid>
 
                         <Grid className="hide-on-small"
-                              >
+                        >
                             <Skeleton width={140}
                                       animation="wave"/>
                         </Grid>

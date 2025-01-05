@@ -3,7 +3,16 @@ import PropTypes from 'prop-types';
 import TextField from '@mui/material/TextField';
 
 
-const TextFormField = function ({input, label, helperText, meta: {touched, error}, ...custom}) {
+const TextFormField = function ({
+                                    input,
+                                    label,
+                                    helperText,
+                                    meta: {
+                                        touched,
+                                        error
+                                    },
+                                    ...custom
+                                }) {
     return (
         <TextField {...input}
                    label={label}

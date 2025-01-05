@@ -156,7 +156,10 @@ class AdminLogs extends React.Component {
                         this._scrollToBottomLog();
                     }
 
-                    window.scroll({top: (document.getElementById('file-content')?.offsetTop || 0) - 40, behavior: 'smooth'});
+                    window.scroll({
+                        top: (document.getElementById('file-content')?.offsetTop || 0) - 40,
+                        behavior: 'smooth'
+                    });
                 });
             })
             .catch((response) => this.setState({
@@ -503,4 +506,4 @@ class AdminLogs extends React.Component {
 
 export default connect(null, {
     fetchLogs
-})(AdminLogs)
+})(AdminLogs);

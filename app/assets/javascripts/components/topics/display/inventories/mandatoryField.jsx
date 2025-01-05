@@ -16,7 +16,10 @@ function TopicFormMandatoryFieldDisplay() {
                   direction="row"
                   justifyContent="flex-start"
                   alignItems="center">
-                <Grid size={{sm: 12, lg: 6}}>
+                <Grid size={{
+                    sm: 12,
+                    lg: 6
+                }}>
                     <TextField className="topic-form-inv-field"
                                fullWidth={true}
                                variant="outlined"
@@ -25,7 +28,10 @@ function TopicFormMandatoryFieldDisplay() {
                                defaultValue="Titre"/>
                 </Grid>
 
-                <Grid size={{sm: 12, lg: 6}}>
+                <Grid size={{
+                    sm: 12,
+                    lg: 6
+                }}>
                     <FormControl className="topic-form-inv-field"
                                  disabled={true}>
                         <InputLabel htmlFor="inventory_fields-value_type">

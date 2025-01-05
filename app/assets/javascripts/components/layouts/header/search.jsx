@@ -270,4 +270,7 @@ export default connect((state) => ({
     fetchAutocomplete,
     setAutocompleteAction,
     setAutocompleteSelectedTag
-})(withRouter({location: true, navigate: true})(HomeSearchHeader));
+})(withRouter({
+    location: true,
+    navigate: true
+})(HomeSearchHeader));

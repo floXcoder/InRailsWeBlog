@@ -82,4 +82,4 @@ export default connect((state) => ({
 }), {
     showUserSignup,
     showUserLogin
-})(Home)
+})(Home);

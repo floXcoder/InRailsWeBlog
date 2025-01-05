@@ -4,7 +4,10 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 
-function CircleSpinner({size, className}) {
+function CircleSpinner({
+                           size,
+                           className
+                       }) {
     const preloaderClasses = classNames(
         'preloader-wrapper',
         'active',

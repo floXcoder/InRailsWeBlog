@@ -86,4 +86,4 @@ export default connect((state) => ({
     showUserLogin,
     showTopicPopup,
     showUserPreference
-})(withRouter({navigate: true})(HotkeyManager))
+})(withRouter({navigate: true})(HotkeyManager));

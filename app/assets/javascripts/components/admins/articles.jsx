@@ -114,7 +114,9 @@ class AdminArticles extends React.Component {
                                name: I18n.t('js.admin.articles.table.columns.date'),
                                key: 'dateShort',
                                filtering: false,
-                               value: (article) => article.dateShort.slice().reverse().join(' '),
+                               value: (article) => article.dateShort.slice()
+                                   .reverse()
+                                   .join(' '),
                                editable: false
                            },
                            {

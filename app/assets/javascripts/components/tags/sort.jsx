@@ -91,4 +91,7 @@ export default connect((state) => ({
 }), {
     fetchTags,
     updateTagPriority
-})(withRouter({params: true, navigate: true})(TagSort))
+})(withRouter({
+    params: true,
+    navigate: true
+})(TagSort));

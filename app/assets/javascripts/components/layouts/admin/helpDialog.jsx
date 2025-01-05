@@ -11,7 +11,10 @@ import DialogTitle from '@mui/material/DialogTitle';
 import I18n from '@js/modules/translations';
 
 
-const HelpDialog = function ({isOpen, onHelpClose}) {
+const HelpDialog = function ({
+                                 isOpen,
+                                 onHelpClose
+                             }) {
     return (
         <Dialog open={isOpen}
                 onClose={onHelpClose}

@@ -3,7 +3,10 @@ import PropTypes from 'prop-types';
 import Chip from '@mui/material/Chip';
 
 
-const SearchSelectedModule = function ({selectedTags, onTagClick}) {
+const SearchSelectedModule = function ({
+                                           selectedTags,
+                                           onTagClick
+                                       }) {
     return (
         <div className="search-category">
             <div className="tag-selected-list">
@@ -26,4 +29,4 @@ SearchSelectedModule.propTypes = {
     onTagClick: PropTypes.func.isRequired
 };
 
-export default  SearchSelectedModule;
+export default SearchSelectedModule;

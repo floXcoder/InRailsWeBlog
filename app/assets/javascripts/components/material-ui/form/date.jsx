@@ -3,7 +3,16 @@ import PropTypes from 'prop-types';
 import TextField from '@mui/material/TextField';
 
 
-const DateFormField = function ({input, label, helperText, meta: {touched, error}, ...custom}) {
+const DateFormField = function ({
+                                    input,
+                                    label,
+                                    helperText,
+                                    meta: {
+                                        touched,
+                                        error
+                                    },
+                                    ...custom
+                                }) {
     return (
         <TextField {...input}
                    type="date"

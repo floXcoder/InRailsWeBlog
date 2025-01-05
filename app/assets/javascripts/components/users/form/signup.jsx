@@ -93,12 +93,18 @@ const fieldValidation = (fieldType, fieldValue) => {
     }
 };
 
-const SignupForm = function ({onSubmit, onCancel}) {
+const SignupForm = function ({
+                                 onSubmit,
+                                 onCancel
+                             }) {
     return (
         <Form validate={validate}
               onSubmit={onSubmit}>
             {
-                ({handleSubmit, submitting}) => (
+                ({
+                     handleSubmit,
+                     submitting
+                 }) => (
                     <form className="connection"
                           onSubmit={handleSubmit}>
                         <EnsureValidity/>
@@ -110,7 +116,7 @@ const SignupForm = function ({onSubmit, onCancel}) {
                               justifyContent="space-between"
                               alignItems="center">
                             <Grid classes={{item: 'user-connection-field-item'}}
-                                  >
+                            >
                                 <Field name="pseudo"
                                        component={TextFormField}
                                        validate={fieldValidation.bind(this, 'pseudo')}
@@ -133,7 +139,7 @@ const SignupForm = function ({onSubmit, onCancel}) {
                             </Grid>
 
                             <Grid classes={{item: 'user-connection-field-item'}}
-                                  >
+                            >
                                 <Field name="email"
                                        component={TextFormField}
                                        validate={fieldValidation.bind(this, 'pseudo')}
@@ -156,7 +162,7 @@ const SignupForm = function ({onSubmit, onCancel}) {
                             </Grid>
 
                             <Grid classes={{item: 'user-connection-field-item'}}
-                                  >
+                            >
                                 <Field name="password"
                                        component={TextFormField}
                                        id="user_password_signup"
@@ -179,7 +185,7 @@ const SignupForm = function ({onSubmit, onCancel}) {
                             </Grid>
 
                             <Grid classes={{item: 'user-connection-field-item'}}
-                                  >
+                            >
                                 <Field name="password_confirmation"
                                        component={TextFormField}
                                        id="user_password_confirmation_signup"
@@ -201,7 +207,7 @@ const SignupForm = function ({onSubmit, onCancel}) {
                                        }}/>
                             </Grid>
 
-                            <Grid >
+                            <Grid>
                                 <Field name="terms"
                                        type="checkbox"
                                        component={CheckBoxFormField}
@@ -227,7 +233,7 @@ const SignupForm = function ({onSubmit, onCancel}) {
                               direction="row-reverse"
                               justifyContent="space-between"
                               alignItems="center">
-                            <Grid >
+                            <Grid>
                                 <Button type="submit"
                                         id="signup-submit"
                                         variant="contained"
@@ -237,7 +243,7 @@ const SignupForm = function ({onSubmit, onCancel}) {
                                 </Button>
                             </Grid>
 
-                            <Grid >
+                            <Grid>
                                 <Button onClick={onCancel}>
                                     {I18n.t('js.user.signup.cancel')}
                                 </Button>

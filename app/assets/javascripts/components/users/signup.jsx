@@ -121,4 +121,4 @@ export default connect((state) => ({
     isConnected: state.userState.isConnected
 }), {
     signupUser
-})(UserSignup)
+})(UserSignup);

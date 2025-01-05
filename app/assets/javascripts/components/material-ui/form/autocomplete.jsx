@@ -3,7 +3,16 @@ import PropTypes from 'prop-types';
 import Autocomplete from '@js/components/theme/autocomplete';
 
 
-const AutocompleteFormField = function ({input, label, helperText, meta: {touched, error}, ...custom}) {
+const AutocompleteFormField = function ({
+                                            input,
+                                            label,
+                                            helperText,
+                                            meta: {
+                                                touched,
+                                                error
+                                            },
+                                            ...custom
+                                        }) {
     return (
         <Autocomplete {...input}
                       label={label}

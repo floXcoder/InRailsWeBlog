@@ -197,4 +197,4 @@ class ArticleInlineDisplay extends React.PureComponent {
     }
 }
 
-export default highlight()(ArticleInlineDisplay)
+export default highlight()(ArticleInlineDisplay);

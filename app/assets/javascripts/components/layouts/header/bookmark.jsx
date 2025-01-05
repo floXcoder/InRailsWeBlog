@@ -12,14 +12,14 @@ import BookmarkList from '@js/components/bookmark/list';
 const HomeBookmarkHeader = function () {
     return (
         <Dropdown id="header-bookmark"
-            buttonClassName="layout-header-headerButton"
-            button={
-            <IconButton color="default"
-                        itemProp="url"
-                        size="large">
-                <FavoriteIcon/>
-            </IconButton>
-        }>
+                  buttonClassName="layout-header-headerButton"
+                  button={
+                      <IconButton color="default"
+                                  itemProp="url"
+                                  size="large">
+                          <FavoriteIcon/>
+                      </IconButton>
+                  }>
             <BookmarkList/>
         </Dropdown>
     );

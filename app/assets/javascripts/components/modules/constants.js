@@ -1,4 +1,3 @@
-
 // UI
 export const notificationDuration = 6000;
 export const homeHomeLimit = 2;

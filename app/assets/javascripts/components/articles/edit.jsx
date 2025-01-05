@@ -196,15 +196,15 @@ class ArticleEdit extends React.Component {
 }
 
 export default articleMutationManager('edit')(
-connect((state, props) => ({
-    userSlug: state.userState.currentSlug,
-    currentTagSlugs: state.tagState.currentTagSlugs,
-    isOwner: getArticleIsOwner(state, props.article),
-    inheritVisibility: getCurrentUserTopicVisibility(state),
-    parentTags: getArticleParentTags(state, props.article),
-    childTags: getArticleChildTags(props.article)
-}), {
-    setCurrentTags,
-    switchTagSidebar,
-    switchTopic,
-})(ArticleEdit));
+    connect((state, props) => ({
+        userSlug: state.userState.currentSlug,
+        currentTagSlugs: state.tagState.currentTagSlugs,
+        isOwner: getArticleIsOwner(state, props.article),
+        inheritVisibility: getCurrentUserTopicVisibility(state),
+        parentTags: getArticleParentTags(state, props.article),
+        childTags: getArticleChildTags(props.article)
+    }), {
+        setCurrentTags,
+        switchTagSidebar,
+        switchTopic,
+    })(ArticleEdit));

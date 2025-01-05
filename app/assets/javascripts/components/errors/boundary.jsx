@@ -56,7 +56,10 @@ export default class ErrorBoundary extends React.Component {
             if (this.props.errorType === 'text') {
                 return (
                     <h3 className={this.props.className}
-                        style={{margin: '1rem 0', textAlign: 'center'}}>
+                        style={{
+                            margin: '1rem 0',
+                            textAlign: 'center'
+                        }}>
                         {this.state.errorTitle}
                     </h3>
                 );
@@ -64,11 +67,18 @@ export default class ErrorBoundary extends React.Component {
                 return (
                     <div>
                         <h3 className={this.props.className}
-                            style={{margin: '1rem 0', textAlign: 'center'}}>
+                            style={{
+                                margin: '1rem 0',
+                                textAlign: 'center'
+                            }}>
                             {this.state.errorTitle}
                         </h3>
 
-                        <p style={{margin: '2rem', fontStyle: 'italic', textAlign: 'center'}}>
+                        <p style={{
+                            margin: '2rem',
+                            fontStyle: 'italic',
+                            textAlign: 'center'
+                        }}>
                             {this.state.errorMessage}
                         </p>
                     </div>

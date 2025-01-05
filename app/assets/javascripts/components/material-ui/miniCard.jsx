@@ -8,7 +8,12 @@ import CardContent from '@mui/material/CardContent';
 import Avatar from '@mui/material/Avatar';
 
 
-const MiniCard = function ({title, number, icon, color}) {
+const MiniCard = function ({
+                               title,
+                               number,
+                               icon,
+                               color
+                           }) {
     return (
         <Card style={{
             width: 360,

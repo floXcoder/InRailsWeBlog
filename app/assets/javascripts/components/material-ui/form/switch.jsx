@@ -6,7 +6,13 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 
 
-const SwitchFormField = function ({input, label, meta, componentContent, ...custom}) {
+const SwitchFormField = function ({
+                                      input,
+                                      label,
+                                      meta,
+                                      componentContent,
+                                      ...custom
+                                  }) {
     return (
         <FormControl component="fieldset">
             <FormGroup>

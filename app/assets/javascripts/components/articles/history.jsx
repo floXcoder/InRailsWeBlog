@@ -111,4 +111,7 @@ export default connect((state) => ({
     fetchArticle,
     fetchArticleHistory,
     restoreArticle
-})(withRouter({params: true, navigate: true})(highlight(true)(ArticleHistory)));
+})(withRouter({
+    params: true,
+    navigate: true
+})(highlight(true)(ArticleHistory)));

@@ -122,4 +122,4 @@ export default connect(null, {
     inlineEditArticle,
     updateArticle,
     deleteArticle
-})(ArticleInlineEditionDisplay)
+})(ArticleInlineEditionDisplay);

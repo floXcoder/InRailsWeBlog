@@ -21,8 +21,10 @@ export default class Tag extends React.PureComponent {
 
     _tagContent = () => {
         const content = [];
-        const startIndex = this.props.text.trim().toLowerCase()
-            .indexOf(this.props.value.trim().toLowerCase());
+        const startIndex = this.props.text.trim()
+            .toLowerCase()
+            .indexOf(this.props.value.trim()
+                .toLowerCase());
         const endIndex = startIndex + this.props.value.length;
 
         if (startIndex > 0) {

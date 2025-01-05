@@ -1,7 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function ArticleVotes({articleId, articleVotesUp, articleVotesDown, onVoteClick}) {
+function ArticleVotes({
+                          articleId,
+                          articleVotesUp,
+                          articleVotesDown,
+                          onVoteClick
+                      }) {
     return (
         <div>
             <a href="#"

@@ -40,4 +40,4 @@ class ArticleMasonryMode extends React.Component {
 
 export default connect((state) => ({
     articles: state.articleState.articles
-}))(ArticleMasonryMode)
+}))(ArticleMasonryMode);

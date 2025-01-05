@@ -164,4 +164,4 @@ export default connect((state, props) => ({
 }), {
     switchArticleMinimized,
     updateUserSettings
-})(ArticleSidebar)
+})(ArticleSidebar);

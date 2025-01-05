@@ -26,7 +26,10 @@ class AdminUsers extends React.Component {
     }
 
     componentDidMount() {
-        this.props.fetchUsers({order: 'created_desc', complete: true}, {}, {noCache: true});
+        this.props.fetchUsers({
+            order: 'created_desc',
+            complete: true
+        }, {}, {noCache: true});
     }
 
     render() {
@@ -52,7 +55,7 @@ class AdminUsers extends React.Component {
 
                 <Table title={I18n.t('js.admin.users.table.title')}
                        isPaginated={true}
-                       data={this.props.users.map((user) => ({ ...user}))}
+                       data={this.props.users.map((user) => ({...user}))}
                        columns={[
                            {
                                name: I18n.t('js.admin.users.table.columns.id'),
@@ -70,8 +73,10 @@ class AdminUsers extends React.Component {
                            {
                                name: I18n.t('js.admin.users.table.columns.name'),
                                key: 'name',
-                               customFilterAndSearch: (term, user) => (user.firstName + ' ' + user.lastName).toLocaleLowerCase().indexOf(term.toLocaleLowerCase()) !== -1,
-                               value: (user) => [user.firstName, user.lastName].filter(Boolean).join(' ')
+                               customFilterAndSearch: (term, user) => (user.firstName + ' ' + user.lastName).toLocaleLowerCase()
+                                   .indexOf(term.toLocaleLowerCase()) !== -1,
+                               value: (user) => [user.firstName, user.lastName].filter(Boolean)
+                                   .join(' ')
                            },
                            {
                                name: I18n.t('js.admin.users.table.columns.created_at'),

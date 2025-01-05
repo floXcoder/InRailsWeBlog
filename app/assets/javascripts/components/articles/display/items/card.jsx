@@ -319,4 +319,4 @@ class ArticleCardDisplay extends React.PureComponent {
     }
 }
 
-export default highlight()(ArticleCardDisplay)
+export default highlight()(ArticleCardDisplay);

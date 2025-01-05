@@ -154,8 +154,7 @@ class ArticleGridDisplay extends React.PureComponent {
                                               alignItems="center">
                                             <Grid classes={{
                                                 item: 'article-card-info-item'
-                                            }}
-                                                  >
+                                            }}>
                                                 <ArticleAvatarIcon user={this.props.article.user}
                                                                    createdDate={this.props.article.date}
                                                                    updatedDate={this.props.article.updatedDate}/>
@@ -283,4 +282,4 @@ class ArticleGridDisplay extends React.PureComponent {
     }
 }
 
-export default highlight()(ArticleGridDisplay)
+export default highlight()(ArticleGridDisplay);

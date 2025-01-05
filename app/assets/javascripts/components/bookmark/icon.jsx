@@ -101,4 +101,4 @@ export default connect((state, props) => ({
     bookmarkData: getBookmark(state, props)
 }), {
     bookmark
-})(BookmarkIcon)
+})(BookmarkIcon);

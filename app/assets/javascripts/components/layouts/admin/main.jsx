@@ -26,9 +26,10 @@ export default class AdminMainLayout extends React.Component {
         const data = {};
         [].forEach.call(element.attributes, function (attr) {
             if (/^data-/.test(attr.name)) {
-                const camelCaseName = attr.name.substr(5).replace(/-(.)/g, function ($0, $1) {
-                    return $1.toUpperCase();
-                });
+                const camelCaseName = attr.name.substr(5)
+                    .replace(/-(.)/g, function ($0, $1) {
+                        return $1.toUpperCase();
+                    });
                 data[camelCaseName] = attr.value.startsWith('{') || attr.value.startsWith('[') ? JSON.parse(attr.value) : attr.value;
             }
         });
@@ -37,7 +38,10 @@ export default class AdminMainLayout extends React.Component {
     };
 
     _renderComponent = () => {
-        const {component, ...componentData} = this._extractComponentData(this.props.componentId);
+        const {
+            component,
+            ...componentData
+        } = this._extractComponentData(this.props.componentId);
 
         const Component = RouteAdminComponents[component];
 

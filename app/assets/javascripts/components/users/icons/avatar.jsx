@@ -33,7 +33,7 @@ function UserAvatarIcon({
                   direction="row"
                   justifyContent="flex-start"
                   alignItems="center">
-                <Grid >
+                <Grid>
                     {
                         user.avatar
                             ?
@@ -46,7 +46,7 @@ function UserAvatarIcon({
                     }
                 </Grid>
 
-                <Grid >
+                <Grid>
                     <span style={{display: 'block'}}>
                         {user.pseudo}
                     </span>

@@ -43,8 +43,7 @@ function AdminLogin() {
                           direction="column"
                           justifyContent="space-between"
                           alignItems="center">
-                        <Grid classes={{item: 'admin-login-field-item'}}
-                              >
+                        <Grid classes={{item: 'admin-login-field-item'}}>
                             <TextField id="admin_login"
                                        name="admin[login]"
                                        className="admin-login-text-field"
@@ -63,8 +62,7 @@ function AdminLogin() {
                                        }}/>
                         </Grid>
 
-                        <Grid classes={{item: 'admin-login-field-item'}}
-                              >
+                        <Grid classes={{item: 'admin-login-field-item'}}>
                             <TextField id="admin_password"
                                        name="admin[password]"
                                        className="admin-login-text-field"
@@ -84,7 +82,7 @@ function AdminLogin() {
                                        }}/>
                         </Grid>
 
-                        <Grid >
+                        <Grid>
                             <FormControlLabel label={I18n.t('js.user.login.remember_me')}
                                               labelPlacement="end"
                                               control={
@@ -103,7 +101,7 @@ function AdminLogin() {
                           direction="row-reverse"
                           justifyContent="space-between"
                           alignItems="center">
-                        <Grid >
+                        <Grid>
                             <Button type="submit"
                                     id="login-submit"
                                     variant="contained"
@@ -112,7 +110,7 @@ function AdminLogin() {
                             </Button>
                         </Grid>
 
-                        <Grid >
+                        <Grid>
                             <Button href="/">
                                 {I18n.t('js.user.login.cancel')}
                             </Button>

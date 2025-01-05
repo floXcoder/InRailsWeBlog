@@ -155,4 +155,4 @@ export default connect((state) => ({
     metaResults: getMetaResults(state)
 }), {
     fetchMetaSearch
-})(AutocompleteSearch)
+})(AutocompleteSearch);

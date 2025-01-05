@@ -141,7 +141,10 @@ class UserHome extends React.Component {
                                         this.props.privateTopics.map((topic) => (
                                             <Grid key={topic.id}
                                                   className="user-home-grid-theme"
-                                                  size={{xs: 12, sm: 6}}>
+                                                  size={{
+                                                      xs: 12,
+                                                      sm: 6
+                                                  }}>
                                                 <Link to={{
                                                     pathname: topicArticlesPath(this.props.user.slug, topic.slug)
                                                 }}
@@ -180,7 +183,10 @@ class UserHome extends React.Component {
                                         ))
                                     }
 
-                                    <Grid size={{xs: 12, sm: 6}}>
+                                    <Grid size={{
+                                        xs: 12,
+                                        sm: 6
+                                    }}>
                                         <Link to={{
                                             hash: '#' + newTopicParam
                                         }}
@@ -238,7 +244,10 @@ class UserHome extends React.Component {
                                         this.props.publicTopics.map((topic) => (
                                             <Grid key={topic.id}
                                                   className="user-home-grid-theme"
-                                                  size={{xs: 12, sm: 6}}>
+                                                  size={{
+                                                      xs: 12,
+                                                      sm: 6
+                                                  }}>
                                                 <Link to={{
                                                     pathname: topicArticlesPath(this.props.user.slug, topic.slug)
                                                 }}
@@ -280,7 +289,10 @@ class UserHome extends React.Component {
                                         ))
                                     }
 
-                                    <Grid size={{xs: 12, sm: 6}}>
+                                    <Grid size={{
+                                        xs: 12,
+                                        sm: 6
+                                    }}>
                                         <Link to={{
                                             hash: '#' + newTopicParam
                                         }}
@@ -330,7 +342,10 @@ class UserHome extends React.Component {
                                             this.props.contributedTopics.map((topic) => (
                                                 <Grid key={topic.id}
                                                       className="user-home-grid-theme"
-                                                      size={{xs: 12, sm: 6}}>
+                                                      size={{
+                                                          xs: 12,
+                                                          sm: 6
+                                                      }}>
                                                     <Link to={{
                                                         pathname: topicArticlesPath(this.props.user.slug, topic.slug, 'shared-topics'),
                                                     }}
@@ -382,7 +397,11 @@ class UserHome extends React.Component {
                                 this.props.recentArticles.limit(6)
                                     .map((article) => (
                                         <Grid key={article.id}
-                                              size={{xs: 12, sm: 6, md: 4}}>
+                                              size={{
+                                                  xs: 12,
+                                                  sm: 6,
+                                                  md: 4
+                                              }}>
                                             <ArticleMiniCardDisplay article={article}
                                                                     isFaded={true}
                                                                     isPaper={true}/>
@@ -409,7 +428,11 @@ class UserHome extends React.Component {
                                 this.props.recentUpdatedArticles.limit(6)
                                     .map((article) => (
                                         <Grid key={article.id}
-                                              size={{xs: 12, sm: 6, md: 4}}>
+                                              size={{
+                                                  xs: 12,
+                                                  sm: 6,
+                                                  md: 4
+                                              }}>
                                             <ArticleMiniCardDisplay article={article}
                                                                     isFaded={true}
                                                                     isPaper={true}/>

@@ -129,4 +129,7 @@ export default connect((state) => ({
 }), {
     fetchTopic,
     updateTopic
-})(withRouter({params: true, navigate: true})(TopicEdit))
+})(withRouter({
+    params: true,
+    navigate: true
+})(TopicEdit));

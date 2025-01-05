@@ -111,21 +111,21 @@ class TagShow extends React.Component {
 
                     <div className="col s12 l8">
                         <Typography className="tag-show-subtitle"
-                                        variant="h2"
-                                        component="h3">
-                                {I18n.t('js.tag.model.description')}
+                                    variant="h2"
+                                    component="h3">
+                            {I18n.t('js.tag.model.description')}
                         </Typography>
 
-                            {
-                                this.props.tag.description
-                                    ?
-                                    <h2 className="tag-show-description"
-                                        dangerouslySetInnerHTML={{__html: this.props.tag.description}}/>
-                                    :
-                                    <p>
-                                        <em>{I18n.t('js.tag.common.no_description')}</em>
-                                    </p>
-                            }
+                        {
+                            this.props.tag.description
+                                ?
+                                <h2 className="tag-show-description"
+                                    dangerouslySetInnerHTML={{__html: this.props.tag.description}}/>
+                                :
+                                <p>
+                                    <em>{I18n.t('js.tag.common.no_description')}</em>
+                                </p>
+                        }
 
                         {
                             this.props.tag.parents.length > 0 &&

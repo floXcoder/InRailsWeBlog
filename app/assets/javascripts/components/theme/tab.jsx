@@ -74,11 +74,11 @@ const _handleTabHeaderClick = (tabIndex, onClick, event) => {
 };
 
 export function Tab({
-                 header,
-                 isActive,
-                 tabIndex,
-                 onClick
-             }) {
+                        header,
+                        isActive,
+                        tabIndex,
+                        onClick
+                    }) {
     return (
         <li className={classNames('responsive-tab', {active: isActive})}>
             <a className="responsive-tab-link"

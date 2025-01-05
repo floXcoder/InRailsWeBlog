@@ -26,7 +26,10 @@ class AdminTopics extends React.Component {
     }
 
     componentDidMount() {
-        this.props.fetchTopics(null, {order: 'created_desc', complete: true}, {}, {noCache: true});
+        this.props.fetchTopics(null, {
+            order: 'created_desc',
+            complete: true
+        }, {}, {noCache: true});
     }
 
     render() {
@@ -140,4 +143,4 @@ export default connect((state) => ({
     isFetching: state.topicState.isFetching
 }), {
     fetchTopics
-})(AdminTopics)
+})(AdminTopics);

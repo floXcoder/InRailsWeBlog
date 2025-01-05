@@ -216,4 +216,4 @@ class UserEdit extends React.Component {
 
 export default connect(null, {
     fetchMetaTags
-})(UserEdit)
+})(UserEdit);

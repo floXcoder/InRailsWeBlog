@@ -119,7 +119,10 @@ export default class Category extends React.Component {
     };
 
     render() {
-        const {items, fullMatch} = this.getItems();
+        const {
+            items,
+            fullMatch
+        } = this.getItems();
 
         const addBtn = this.getAddBtn(
             fullMatch,

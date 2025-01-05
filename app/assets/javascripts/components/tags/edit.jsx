@@ -107,4 +107,7 @@ export default connect((state) => ({
 }), {
     fetchTag,
     updateTag
-})(withRouter({params: true, navigate: true})(TagEdit))
+})(withRouter({
+    params: true,
+    navigate: true
+})(TagEdit));

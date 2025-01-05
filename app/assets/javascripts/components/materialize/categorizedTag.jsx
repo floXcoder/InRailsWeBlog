@@ -45,7 +45,8 @@ export default class CategorizedTag extends React.Component {
             let initialTags = props.children;
 
             if (props.transformInitialTags) {
-                initialTags = initialTags.map(props.transformInitialTags).compact();
+                initialTags = initialTags.map(props.transformInitialTags)
+                    .compact();
             }
 
             this.state.selectedTags = initialTags;
@@ -61,7 +62,8 @@ export default class CategorizedTag extends React.Component {
             let nextTags = this.props.children;
 
             if (this.props.transformInitialTags) {
-                nextTags = nextTags.map(this.props.transformInitialTags).compact();
+                nextTags = nextTags.map(this.props.transformInitialTags)
+                    .compact();
             }
 
             this.setState({
@@ -157,18 +159,19 @@ export default class CategorizedTag extends React.Component {
                 </label>
 
                 <div className={sliderClass}>
-                    <CategorizedTagInput ref={(categorizedTagInput) => this._categorizedTagInputRef = categorizedTagInput}
-                                         categories={this.props.categorizedTags}
-                                         isSortingCategoriesByAlpha={this.props.isSortingCategoriesByAlpha}
-                                         placeholder={this.props.placeholder}
-                                         placeholderWithTags={this.props.placeholderWithTags}
-                                         addNewPlaceholder={this.props.addNewPlaceholder}
-                                         addNewValue={this.props.addNewText}
-                                         transformTag={this._handleTagAdded}
-                                         onSubmit={this.props.onSubmit}
-                                         onTabPress={this._handleTabPress}
-                                         onChange={this._handleTagChanged}
-                                         value={this.state.selectedTags}/>
+                    <CategorizedTagInput
+                        ref={(categorizedTagInput) => this._categorizedTagInputRef = categorizedTagInput}
+                        categories={this.props.categorizedTags}
+                        isSortingCategoriesByAlpha={this.props.isSortingCategoriesByAlpha}
+                        placeholder={this.props.placeholder}
+                        placeholderWithTags={this.props.placeholderWithTags}
+                        addNewPlaceholder={this.props.addNewPlaceholder}
+                        addNewValue={this.props.addNewText}
+                        transformTag={this._handleTagAdded}
+                        onSubmit={this.props.onSubmit}
+                        onTabPress={this._handleTabPress}
+                        onChange={this._handleTagChanged}
+                        value={this.state.selectedTags}/>
 
                     {
                         this.state.selectedTags.map((selectedTag, i) => (

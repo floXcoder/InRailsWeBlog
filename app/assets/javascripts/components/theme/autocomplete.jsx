@@ -73,10 +73,13 @@ export default class Autocomplete extends React.Component {
         let filteredValue = true;
 
         if (this.props.hasFilterValues) {
-            filteredValue = String(this._getItemKey(suggestion)).includes(inputValue);
+            filteredValue = String(this._getItemKey(suggestion))
+                .includes(inputValue);
 
             if (!filteredValue) {
-                const value = this._getItemValue(suggestion).trim().toLowerCase();
+                const value = this._getItemValue(suggestion)
+                    .trim()
+                    .toLowerCase();
                 filteredValue = value.includes(inputValue);
             }
         }
@@ -112,7 +115,8 @@ export default class Autocomplete extends React.Component {
     };
 
     _getSuggestions = (value) => {
-        const inputValue = value.trim().toLowerCase();
+        const inputValue = value.trim()
+            .toLowerCase();
         const inputLength = inputValue.length;
         let count = 0;
 
@@ -252,28 +256,29 @@ export default class Autocomplete extends React.Component {
                                     }}
                                            square={true}>
                                         {
-                                            this._getSuggestions(inputValue).map((suggestion, index) => {
-                                                const isHighlighted = highlightedIndex === index;
-                                                const isSelected = (this._getItemKey(selectedItem) || '').indexOf(this._getItemKey(suggestion)) > -1;
+                                            this._getSuggestions(inputValue)
+                                                .map((suggestion, index) => {
+                                                    const isHighlighted = highlightedIndex === index;
+                                                    const isSelected = (this._getItemKey(selectedItem) || '').indexOf(this._getItemKey(suggestion)) > -1;
 
-                                                return (
-                                                    <MenuItem {...getItemProps({item: suggestion})}
-                                                              key={`${suggestion.key}-${index}`}
-                                                              selected={isHighlighted}
-                                                              component="div"
-                                                              style={{
-                                                                  fontWeight: isSelected ? 500 : 400
-                                                              }}>
-                                                        {
-                                                            this.props.renderSuggestion
-                                                                ?
-                                                                this.props.renderSuggestion(suggestion)
-                                                                :
-                                                                this._getItemValue(suggestion)
-                                                        }
-                                                    </MenuItem>
-                                                );
-                                            })
+                                                    return (
+                                                        <MenuItem {...getItemProps({item: suggestion})}
+                                                                  key={`${suggestion.key}-${index}`}
+                                                                  selected={isHighlighted}
+                                                                  component="div"
+                                                                  style={{
+                                                                      fontWeight: isSelected ? 500 : 400
+                                                                  }}>
+                                                            {
+                                                                this.props.renderSuggestion
+                                                                    ?
+                                                                    this.props.renderSuggestion(suggestion)
+                                                                    :
+                                                                    this._getItemValue(suggestion)
+                                                            }
+                                                        </MenuItem>
+                                                    );
+                                                })
                                         }
                                     </Paper>
                                     :

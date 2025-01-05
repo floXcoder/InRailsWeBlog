@@ -37,7 +37,9 @@ export default class ArticleInventoriesField extends React.Component {
     }
 
     _handleImageUploaded = (image) => {
-        this.props.change('picture_ids', this._pictureIds ? this._pictureIds.split(',').concat(image.id).join(',') : image.id.toString());
+        this.props.change('picture_ids', this._pictureIds ? this._pictureIds.split(',')
+            .concat(image.id)
+            .join(',') : image.id.toString());
     };
 
     _helperTextField = (field) => {

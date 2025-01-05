@@ -15,7 +15,10 @@ import I18n from '@js/modules/translations';
 import AutocompleteSearch from '@js/components/layouts/admin/autocompleteSearch';
 
 
-const AppBarLayout = function ({isDrawerOpen, onDrawerOpen}) {
+const AppBarLayout = function ({
+                                   isDrawerOpen,
+                                   onDrawerOpen
+                               }) {
     return (
         <AppBar position="absolute"
                 className={classNames('appbar', {

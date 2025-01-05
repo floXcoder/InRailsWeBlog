@@ -78,4 +78,4 @@ class BookmarkList extends React.Component {
 
 export default connect((state) => ({
     bookmarks: state.bookmarkState.bookmarks
-}))(BookmarkList)
+}))(BookmarkList);

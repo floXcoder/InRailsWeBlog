@@ -165,7 +165,7 @@ export default class ArticleAdvancedField extends React.PureComponent {
                                                <OpenInNewIcon/>
                                            </InputAdornment>
                                        )
-                                   }    
+                                   }
                                }}/>
                     </Collapse>
                 </div>

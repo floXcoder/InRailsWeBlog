@@ -36,8 +36,8 @@ class ArticleTimelineMode extends React.Component {
                                 </div>
 
                                 <ArticleSummaryDisplay className={classNames('timeline-panel', {
-                                                           'timeline-panel-inverted': index % 2 === 0
-                                                       })}
+                                    'timeline-panel-inverted': index % 2 === 0
+                                })}
                                                        article={article}
                                                        topicVisibility={this.props.topicVisibility}
                                                        onEnter={this.props.onEnter}
@@ -54,4 +54,4 @@ class ArticleTimelineMode extends React.Component {
 export default connect((state) => ({
     articles: state.articleState.articles,
     articleDisplayMode: state.uiState.articleDisplayMode
-}))(ArticleTimelineMode)
+}))(ArticleTimelineMode);

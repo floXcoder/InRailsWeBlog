@@ -29,7 +29,10 @@ const _renderListItem = function (title, details, Icon, reverse = false) {
               direction={reverse ? 'row-reverse' : 'row'}
               justifyContent="space-evenly"
               alignItems="center">
-            <Grid size={{xs: 12, sm: 9}}>
+            <Grid size={{
+                xs: 12,
+                sm: 9
+            }}>
                 <h3 className="home-functionalities-subtitle">
                     {title}
                 </h3>
@@ -40,7 +43,10 @@ const _renderListItem = function (title, details, Icon, reverse = false) {
             </Grid>
 
             <Grid className="home-functionalities-icon-item"
-                  size={{md: 3, lg: 3}}>
+                  size={{
+                      md: 3,
+                      lg: 3
+                  }}>
                 <Avatar className="home-functionalities-icon-container">
                     <Icon className="home-functionalities-icon"
                           variant="rounded"/>

@@ -125,12 +125,13 @@ export default class AdminSeoDataForm extends React.Component {
                                         value={this.state.namedRoute}
                                         onChange={this._handleRouteChange.bind(this, 'namedRoute')}>
                                     {
-                                        this.props.seoPages.filter((s) => !this.props.seoPagesUsed.includes(s.name)).map((seoPage) => (
-                                            <MenuItem key={seoPage.name}
-                                                      value={seoPage.name}>
-                                                {seoPage.name} ({I18n.t(`js.admin.seo.visibility.${seoPage.params.public ? 'public' : 'private'}`)})
-                                            </MenuItem>
-                                        ))
+                                        this.props.seoPages.filter((s) => !this.props.seoPagesUsed.includes(s.name))
+                                            .map((seoPage) => (
+                                                <MenuItem key={seoPage.name}
+                                                          value={seoPage.name}>
+                                                    {seoPage.name} ({I18n.t(`js.admin.seo.visibility.${seoPage.params.public ? 'public' : 'private'}`)})
+                                                </MenuItem>
+                                            ))
                                     }
                                 </Select>
                             </FormControl>
@@ -179,7 +180,10 @@ export default class AdminSeoDataForm extends React.Component {
                                 parameters.length > 0
                                     ?
                                     <span className="admin-seo-hint">
-                                        {I18n.t('js.admin.seo.form.parameters', {parameters: parameters.map((param) => `:${param}`).join(', ')})}
+                                        {I18n.t('js.admin.seo.form.parameters', {
+                                            parameters: parameters.map((param) => `:${param}`)
+                                                .join(', ')
+                                        })}
                                     </span>
                                     :
                                     <span className="admin-seo-hint">

@@ -44,4 +44,7 @@ class RouteManager extends React.Component {
     }
 }
 
-export default withRouter({location: true, params: true})(RouteManager);
+export default withRouter({
+    location: true,
+    params: true
+})(RouteManager);

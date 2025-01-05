@@ -32,7 +32,7 @@ import {
 
 
 function SortableItem({
-    tag
+                          tag
                       }) {
     const {
         attributes,

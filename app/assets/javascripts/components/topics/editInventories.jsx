@@ -111,4 +111,7 @@ export default connect((state) => ({
 }), {
     fetchTopic,
     updateTopicInventories
-})(withRouter({params: true, navigate: true})(TopicEditInventories))
+})(withRouter({
+    params: true,
+    navigate: true
+})(TopicEditInventories));

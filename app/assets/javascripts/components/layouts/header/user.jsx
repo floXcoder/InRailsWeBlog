@@ -10,17 +10,22 @@ import Dropdown from '@js/components/theme/dropdown';
 import HeaderUserMenu from '@js/components/layouts/header/menus/user';
 
 
-const HomeUserHeader = function ({userSlug, onLogoutClick, onPreferenceClick, isAdminConnected}) {
+const HomeUserHeader = function ({
+                                     userSlug,
+                                     onLogoutClick,
+                                     onPreferenceClick,
+                                     isAdminConnected
+                                 }) {
     return (
         <Dropdown id="header-user"
                   buttonClassName="layout-header-headerButton"
                   button={
-            <IconButton color="default"
-                        itemProp="url"
-                        size="large">
-                <AccountCircleIcon/>
-            </IconButton>
-        }>
+                      <IconButton color="default"
+                                  itemProp="url"
+                                  size="large">
+                          <AccountCircleIcon/>
+                      </IconButton>
+                  }>
             <HeaderUserMenu isAdminConnected={isAdminConnected}
                             userSlug={userSlug}
                             onPreferenceClick={onPreferenceClick}

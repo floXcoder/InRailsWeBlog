@@ -9,7 +9,17 @@ import Select from '@mui/material/Select';
 import Chip from '@mui/material/Chip';
 
 
-const MultipleSelectFormField = function ({input, label, helperText, options, meta: {touched, error}, ...custom}) {
+const MultipleSelectFormField = function ({
+                                              input,
+                                              label,
+                                              helperText,
+                                              options,
+                                              meta: {
+                                                  touched,
+                                                  error
+                                              },
+                                              ...custom
+                                          }) {
     return (
         <FormControl fullWidth={true}>
             <InputLabel htmlFor={input.id}>
@@ -47,12 +57,13 @@ const MultipleSelectFormField = function ({input, label, helperText, options, me
                             </MenuItem>
                         ))
                         :
-                        Object.keys(options).map((key) => (
-                            <MenuItem key={key}
-                                      value={key}>
-                                {options[key]}
-                            </MenuItem>
-                        ))
+                        Object.keys(options)
+                            .map((key) => (
+                                <MenuItem key={key}
+                                          value={key}>
+                                    {options[key]}
+                                </MenuItem>
+                            ))
                 }
             </Select>
 

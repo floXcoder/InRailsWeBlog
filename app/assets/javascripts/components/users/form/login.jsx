@@ -53,11 +53,17 @@ import CheckBoxFormField from '@js/components/material-ui/form/checkbox';
 // };
 
 
-const LoginForm = function ({onSubmit, onCancel}) {
+const LoginForm = function ({
+                                onSubmit,
+                                onCancel
+                            }) {
     return (
         <Form onSubmit={onSubmit}>
             {
-                ({handleSubmit, submitting}) => (
+                ({
+                     handleSubmit,
+                     submitting
+                 }) => (
                     <form className="connection"
                           onSubmit={handleSubmit}>
                         <EnsureValidity/>
@@ -69,7 +75,7 @@ const LoginForm = function ({onSubmit, onCancel}) {
                               justifyContent="space-between"
                               alignItems="center">
                             <Grid classes={{item: 'user-connection-field-item'}}
-                                  >
+                            >
                                 <Field name="login"
                                        component={TextFormField}
                                        id="user_login_login"
@@ -91,7 +97,7 @@ const LoginForm = function ({onSubmit, onCancel}) {
                             </Grid>
 
                             <Grid classes={{item: 'user-connection-field-item'}}
-                                  >
+                            >
                                 <Field name="password"
                                        component={TextFormField}
                                        id="user_password_login"
@@ -113,7 +119,7 @@ const LoginForm = function ({onSubmit, onCancel}) {
                                        }}/>
                             </Grid>
 
-                            <Grid >
+                            <Grid>
                                 <Field name="remember_me"
                                        type="checkbox"
                                        component={CheckBoxFormField}
@@ -138,7 +144,7 @@ const LoginForm = function ({onSubmit, onCancel}) {
                               direction="row-reverse"
                               justifyContent="space-between"
                               alignItems="center">
-                            <Grid >
+                            <Grid>
                                 <Button type="submit"
                                         id="login-submit"
                                         variant="contained"
@@ -148,7 +154,7 @@ const LoginForm = function ({onSubmit, onCancel}) {
                                 </Button>
                             </Grid>
 
-                            <Grid >
+                            <Grid>
                                 <Button onClick={onCancel}>
                                     {I18n.t('js.user.login.cancel')}
                                 </Button>
