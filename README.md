@@ -81,7 +81,7 @@ Groups are a set of users. Every user can subscribe to a group and share specifi
 
 ## Requirements
 
-* Ruby 3.3
+* Ruby 3.4
 * Rails 8.0
 * SQL Database (configured with PostgreSQL)
 * A CSS3 / HTML5 compatible Browser (Firefox, Chrome, …)
@@ -158,7 +158,7 @@ Install NodeJS (through Node Version Manager) and Yarn as package manager:
     nvm install 23
     
     corepack enable
-    yarn set version 4.5.3
+    yarn set version 4.6.0
 
 Install npm packages for the project (Yarn v3 is used for this project):
 
