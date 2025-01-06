@@ -501,8 +501,7 @@ const reducer = ({
                  }, action) => {
     const stringCountByKeys = {};
 
-    const filterableKeys = action?.search ? columns.filter((col) => col.filterable !== false)
-        .map((col) => col.key) : [];
+    const filterableKeys = action?.search ? columns.filter((col) => col.filterable !== false).map((col) => col.key) : [];
 
     if (!rows.length || action?.search) {
         data.forEach((datum) => {
@@ -584,9 +583,13 @@ const reducer = ({
     };
 };
 
-const styles = `
+const styles = (fixedHeaderTop = 0) => `
 .rs-table-cell-header .rs-table-cell-content {
   font-size: 15px;
+}
+
+.rs-table-affix-header.fixed {
+  top: ${fixedHeaderTop}px !important;
 }
 
 .rs-table-cell .rs-table-cell-content a {
@@ -615,11 +618,6 @@ const styles = `
 }
 `;
 
-// Evolves:
-// Manage this option
-// options={{
-//     rowStyle: this._lastProductStyle
-// }}
 
 export default function Table({
                                   dataIdentifier = 'id',
@@ -628,6 +626,9 @@ export default function Table({
                                   data,
                                   title,
                                   rowHeight,
+                                  cellStyle,
+                                  isFixedHeader = true,
+                                  fixedHeaderTop = 75,
                                   hasFiltering = true,
                                   isSortable = true,
                                   isShowFullTextHover = true,
@@ -645,8 +646,7 @@ export default function Table({
                                   editable,
                                   actions
                               }) {
-    const [hiddenColumns, setHiddenColumns] = useState(new Set(columns.filter((c) => !!c.hidden)
-        .map((c) => c.key)));
+    const [hiddenColumns, setHiddenColumns] = useState(new Set(columns.filter((c) => !!c.hidden).map((c) => c.key)));
     const [search, setSearch] = useState('');
 
     const [sortColumn, setSortColumn] = useState();
@@ -792,7 +792,7 @@ export default function Table({
     return (
         <Paper className="margin-top-30"
                square={true}>
-            <style>{styles}</style>
+            <style>{styles(fixedHeaderTop)}</style>
 
             <Grid container={true}
                   style={{marginInline: '1rem'}}
@@ -874,8 +874,10 @@ export default function Table({
             <TableSuite height={virtualized ? 800 : undefined}
                         autoHeight={!virtualized}
                         rowHeight={rowHeight}
+                        affixHeader={isFixedHeader}
                         shouldUpdateScroll={false} // Prevent the scrollbar from scrolling to the top after the table content area height changes.
                         data={reducedData.rows}
+                // wordWrap="break-word"
                         virtualized={virtualized}
                         sortColumn={sortColumn}
                         sortType={sortType}
@@ -944,7 +946,13 @@ export default function Table({
                                                           onChangeEdit={_handleChangeEdit}
                                                           onSubmitEdit={_handleSubmitEdit}/>
                                             :
-                                            <Cell dataKey={column.key}/>
+                                            (
+                                                cellStyle
+                                                    ?
+                                                    <Cell style={{padding: 0}}>{(rowData) => (<div style={{height: '100%', padding: '13px 10px', ...cellStyle(data.find((d) => d[dataIdentifier] === rowData[dataIdentifier]))}}>{rowData[column.key]}</div>)}</Cell>
+                                                    :
+                                                    <Cell dataKey={column.key}/>
+                                            )
                                     }
                                 </Column>
                             );
