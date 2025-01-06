@@ -21,6 +21,43 @@ if (process.env.RSDOCTOR) {
 export default defineConfig({
     root: './',
     publicDir: './public/assets',
+    plugins: [
+        // Rsbuild use Lightning CSS by default (autoprefixer is automatically included and it uses .browserslistrc file to generate compliant CSS)
+        pluginSass({
+            sassLoaderOptions: {
+                api: 'modern-compiler',
+                sourceMap: true,
+                sassOptions: {
+                    loadPaths: [
+                        './app/assets/stylesheets'
+                        // frontendDir
+                    ],
+                    // quietDeps: true,
+                    // silenceDeprecations: ['import'],
+                }
+            }
+        }),
+        pluginReact()
+    ],
+    source: {
+        entry: {
+            default: './app/assets/entrypoints/default.jsx',
+            'pages/default': './app/assets/entrypoints/stylesheets/default.scss',
+            user: './app/assets/entrypoints/user.jsx',
+            'pages/user': './app/assets/entrypoints/stylesheets/user.scss',
+            admins: './app/assets/entrypoints/admins.jsx',
+            'admins/login': './app/assets/entrypoints/admins/login.jsx',
+            'pages/admin': './app/assets/entrypoints/stylesheets/admin.scss'
+        }
+    },
+    resolve: {
+        extensions: ['.jsx', '.js'],
+        alias: {
+            '@': './app/assets',
+            '@js': './app/assets/javascripts',
+            '@css': './app/assets/stylesheets'
+        }
+    },
     output: {
         // filenameHash: true, // true for production only
         distPath: {
@@ -47,43 +84,6 @@ export default defineConfig({
             }
         ],
         manifest: true
-    },
-    source: {
-        entry: {
-            default: './app/assets/entrypoints/default.jsx',
-            'pages/default': './app/assets/entrypoints/stylesheets/default.scss',
-            user: './app/assets/entrypoints/user.jsx',
-            'pages/user': './app/assets/entrypoints/stylesheets/user.scss',
-            admins: './app/assets/entrypoints/admins.jsx',
-            'admins/login': './app/assets/entrypoints/admins/login.jsx',
-            'pages/admin': './app/assets/entrypoints/stylesheets/admin.scss'
-        }
-    },
-    plugins: [
-        // Rsbuild use Lightning CSS by default (autoprefixer is automatically included and it uses .browserslistrc file to generate compliant CSS)
-        pluginSass({
-            sassLoaderOptions: {
-                api: 'modern-compiler',
-                sourceMap: true,
-                sassOptions: {
-                    loadPaths: [
-                        './app/assets/stylesheets'
-                        // frontendDir
-                    ],
-                    // quietDeps: true,
-                    // silenceDeprecations: ['import'],
-                }
-            }
-        }),
-        pluginReact()
-    ],
-    resolve: {
-        extensions: ['.jsx', '.js'],
-        alias: {
-            '@': './app/assets',
-            '@js': './app/assets/javascripts',
-            '@css': './app/assets/stylesheets'
-        }
     },
     tools: {
         htmlPlugin: false,
