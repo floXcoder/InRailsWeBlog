@@ -83,7 +83,7 @@ export class I18n {
             defaultSeparator,
             placeholder,
             transformKey,
-        } = Object.assign(Object.assign({}, DEFAULT_I18N_OPTIONS), options);
+        } = {...DEFAULT_I18N_OPTIONS, ...options};
         this.locale = locale;
         this.defaultLocale = defaultLocale;
         this.defaultSeparator = defaultSeparator;
@@ -138,8 +138,8 @@ export class I18n {
         }
     }
 
-    translate(scope, options) {
-        options = Object.assign({}, options);
+    translate(scope, options = {}) {
+        options = {...options};
         const translationOptions = createTranslationOptions(this, scope, options);
         let translation;
         const hasFoundTranslation = translationOptions.some((translationOption) => {
@@ -198,7 +198,7 @@ export class I18n {
         }
         let newNode;
         if (overrideType === 'object') {
-            newNode = Object.assign(Object.assign({}, currentNode), override);
+            newNode = {...currentNode, ...override};
         } else {
             newNode = override;
         }
