@@ -188,15 +188,29 @@ class ArticleCardDisplay extends React.PureComponent {
                                     </Grid>
                                 }
                                 subheader={
-                                    <h1 className="article-card-title"
-                                        itemProp="name headline">
-                                        <Link className="article-card-title-link"
-                                              to={userArticlePath(this.props.article.user.slug, this.props.article.slug)}
-                                              itemProp="mainEntityOfPage url"
-                                              onClick={this._handleTitleClick}>
-                                            {this.props.article.title}
-                                        </Link>
-                                    </h1>
+                                    <>
+                                        <h1 className="article-card-title"
+                                            itemProp="name headline">
+                                            <Link className="article-card-title-link"
+                                                  to={userArticlePath(this.props.article.user.slug, this.props.article.slug)}
+                                                  itemProp="mainEntityOfPage url"
+                                                  onClick={this._handleTitleClick}>
+                                                {this.props.article.title}
+                                            </Link>
+                                        </h1>
+
+                                        {
+                                            this.props.article.tags.length > 0 &&
+                                            <ArticleTags articleId={this.props.article.id}
+                                                         tags={this.props.article.tags}
+                                                         isSmall={true}
+                                                         isOwner={this.props.isOwner}
+                                                         currentUserSlug={this.props.currentUserSlug}
+                                                         currentUserTopicSlug={this.props.currentUserTopicSlug}
+                                                         parentTagIds={this.props.article.parentTagIds}
+                                                         childTagIds={this.props.article.childTagIds}/>
+                                        }
+                                    </>
                                 }/>
 
                     <Collapse in={!this.state.isFolded}

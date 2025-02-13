@@ -61,14 +61,14 @@ export default class ArticleTags extends React.PureComponent {
                           'tag-chip-tag-chip-small': this.props.isSmall
                       }),
                       label: classNames('tag-chip-tag-chip', {
-                          'tag-chip-tag-chip-small': this.props.isSmall
+                          'tag-chip-tag-label-small': this.props.isSmall
                       })
                   }}
                   to={link}
                   label={tag.name}
                   variant="outlined"
                   color="default"
-                  icon={<LabelIcon/>}
+                  icon={<LabelIcon fontSize={this.props.isSmall ? 'small' : undefined}/>}
                   clickable={true}
                   onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.userId, tag.name, null)}/>
         );
