@@ -17,7 +17,7 @@ export default function fetchMiddleware({dispatch, getState}) {
             payload = {}
         } = action;
 
-        if (!actionType || !fetchAPI) {
+        if (action && (!actionType || !fetchAPI)) {
             // Normal action: pass it on
             return next(action);
         }

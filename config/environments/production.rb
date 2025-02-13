@@ -89,9 +89,6 @@ Rails.application.configure do
   config.good_job.execution_mode  = :external
   config.good_job.on_thread_error = -> (exception) { Sentry.capture_exception(exception) } if ENV['SENTRY_RAILS_KEY']
 
-  # Replace the default in-process and non-durable queuing backend for Active Job.
-  config.active_job.logger = Logger.new(Rails.root.join('log/jobs.log'))
-
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   # config.action_mailer.raise_delivery_errors = false

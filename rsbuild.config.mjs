@@ -12,6 +12,8 @@ if (process.env.CI_SERVER) {
     appEnv = yenv('./config/application.yml', {env: process.env.NODE_ENV || 'development'});
 }
 
+const isProd = process.env.NODE_ENV === 'production';
+
 let RsdoctorPlugin;
 if (process.env.RSDOCTOR) {
     const {RsdoctorRspackPlugin} = require('@rsdoctor/rspack-plugin');
@@ -20,7 +22,7 @@ if (process.env.RSDOCTOR) {
 
 export default defineConfig({
     root: './',
-    publicDir: './public/assets',
+    publicDir: appEnv.ASSETS_LOCAL_PATH,
     plugins: [
         // Rsbuild use Lightning CSS by default (autoprefixer is automatically included and it uses .browserslistrc file to generate compliant CSS)
         pluginSass({
@@ -50,18 +52,10 @@ export default defineConfig({
             'pages/admin': './app/assets/entrypoints/stylesheets/admin.scss'
         }
     },
-    resolve: {
-        extensions: ['.jsx', '.js'],
-        alias: {
-            '@': './app/assets',
-            '@js': './app/assets/javascripts',
-            '@css': './app/assets/stylesheets'
-        }
-    },
     output: {
         // filenameHash: true, // true for production only
         distPath: {
-            root: './public/assets',
+            root: appEnv.ASSETS_LOCAL_PATH,
             js: './javascripts',
             css: './stylesheets',
             image: './images',
@@ -70,8 +64,21 @@ export default defineConfig({
             font: './fonts',
             assets: './assets'
         },
-        assetPrefix: '/assets/',
+        manifest: true,
+        assetPrefix: `${isProd ? 'https' : 'http'}://${appEnv.ASSETS_HOST}/assets/`,
+        sourceMap: {
+            js: isProd ? 'source-map' : 'cheap-module-source-map',
+            css: isProd
+        },
+        // dataUriLimit: 0, // Disable inlining in base64 of static assets
+        // Keep previous generated assets in production
+        cleanDistPath: !isProd,
         copy: [
+            {
+                from: './app/assets/images/favicon.ico',
+                to: '[name][ext]',
+                toType: 'template'
+            },
             {
                 from: './app/assets/images/logos/*',
                 to: 'images/logos/[name][ext]',
@@ -81,9 +88,26 @@ export default defineConfig({
                 from: './app/assets/data/pghero/**/*',
                 to: 'pghero/[name][ext]',
                 toType: 'template'
+            },
+            {
+                from: './app/assets/data/pghero/*.js',
+                to: 'javascripts/pghero/[name][ext]',
+                toType: 'template'
+            },
+            {
+                from: './app/assets/data/pghero/*.css',
+                to: 'stylesheets/pghero/[name][ext]',
+                toType: 'template'
             }
-        ],
-        manifest: true
+        ]
+    },
+    resolve: {
+        extensions: ['.jsx', '.js'],
+        alias: {
+            '@': './app/assets',
+            '@js': './app/assets/javascripts',
+            '@css': './app/assets/stylesheets'
+        }
     },
     tools: {
         htmlPlugin: false,
@@ -105,7 +129,7 @@ export default defineConfig({
                     new GenerateSW({
                         swDest: '../service-worker.js',
                         inlineWorkboxRuntime: true,
-                        additionalManifestEntries:  [
+                        additionalManifestEntries: [
                             {
                                 url: 'offline.html',
                                 revision: null
@@ -120,7 +144,7 @@ export default defineConfig({
                         offlineGoogleAnalytics: false,
                         maximumFileSizeToCacheInBytes: 4_000_000,
                         exclude: [
-                            /about/, /privacy/, /terms/, /processing/, /validation/, /exporter/, /admins/, /performance/, /new\./, /new-\./, /edit\./, /edit-\./, /edition\./, /editor\./, /login\./, /signup\./, /password\./, /user-confirmation\./, /tinymce\./, /\.ttf$/, /\.eot$/, /\.woff$/, /\.geojson$/, /\.map$/, /komoot/, /LICENSE/, /pghero/, /metrics/, /webmanifest/, /comment\./, /comment-box\./, /compare\./, /history\./, /tracker\./, /sort\./, /persistence\./, /share\./
+                            /about/, /privacy/, /terms/, /processing/, /validation/, /exporter/, /admins/, /performance/, /oauth/, /new\./, /new-\./, /edit\./, /edit-\./, /edition\./, /editor\./, /login\./, /signup\./, /password\./, /user-confirmation\./, /LICENSE/, /pghero/, /metrics/, /webmanifest/, /comment\./, /comment-box\./, /compare\./, /history\./, /tracker\./, /sort\./, /persistence\./, /share\./, /\.ttf$/, /\.eot$/, /\.woff$/, /\.map$/
                         ],
                         runtimeCaching: [
                             {
@@ -142,7 +166,7 @@ export default defineConfig({
                             },
                             {
                                 // Match any API requests
-                                urlPattern: new RegExp(`^${appEnv.WEBSITE_URL}/(?!.*(assets|uploads|orders|baskets|uploader|exporter|processing|validation|manifest|admins).*).*/`),
+                                urlPattern: new RegExp(`^${appEnv.WEBSITE_URL}/(?!.*(assets|admins|uploads|orders|baskets|uploader|exporter|processing|validation|manifest).*).*/`),
                                 handler: 'NetworkFirst',
                                 options: {
                                     cacheName: `api-v${appEnv.PWA_API_VERSION || 0}`,
@@ -215,6 +239,9 @@ export default defineConfig({
                         ],
                         // navigateFallback: '/offline.html',
                         // navigateFallbackDenylist: [/\/api\//]
+                        // transformURL: {
+                        //     [appEnv.WEBSITE_FULL_ASSET]: appEnv.WEBSITE_FULL_ADDRESS,
+                        // }
                     })
                 );
             }
@@ -222,11 +249,13 @@ export default defineConfig({
             return config;
         }
     },
-    // performance: {
-    //     chunkSplit: {
-    //         strategy: 'all-in-one'
-    //     }
-    // },
+    performance: {
+        chunkSplit: {
+            strategy: 'split-by-size',
+            minSize: 30000,
+            // maxSize: 50000,
+        }
+    },
     dev: {
         port: `${appEnv.ASSETS_HOST.split(':')[1]}`,
         hmr: true,
@@ -239,6 +268,10 @@ export default defineConfig({
             port: `${appEnv.ASSETS_HOST.split(':')[1]}`
         },
         overlay: true,
+        // watchFiles: {
+        //     type: 'reload-page',
+        //     paths: ['./app/views/**/*']
+        // }
         // lazyCompilation: {
         //     imports: true
         // }

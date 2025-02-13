@@ -142,6 +142,33 @@ class PagesController < ApplicationController
     respond_to :xml
   end
 
+  def assetlinks
+    respond_to :json
+  end
+
+  def traffic_advice
+    respond_to do |format|
+      format.all do
+        render json: '[{"user_agent": "prefetch-proxy", "google_prefetch_proxy_eap": {"fraction": 1.0}}]', layout: false
+      end
+    end
+  end
+
+  def sitemap
+    file = Rails.root.join("public/sitemaps/#{I18n.locale}/sitemap.xml.gz").read
+
+    file = ActiveSupport::Gzip.decompress(file) if request.format.xml?
+
+    respond_to do |format|
+      format.xml do
+        send_data(file)
+      end
+      format.gzip do
+        send_data(file)
+      end
+    end
+  end
+
   def robots
     respond_to :text
   end

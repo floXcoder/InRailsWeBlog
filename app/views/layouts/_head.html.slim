@@ -11,7 +11,7 @@ head itemscope="" itemtype="http://schema.org/WebSite"
     link rel="dns-prefetch" href="#{ENV['ASSETS_HOST']}"
     link rel="dns-prefetch" href="https://#{ENV['METRICS_ADDRESS']}"
 
-  = favicon_link_tag '/favicon.ico', rel: 'shortcut icon'
+  = favicon AssetManifest.image_path('favicon.ico'), rel: 'shortcut icon'
   
   = favicon_link_tag AssetManifest.image_path('logos/favicon-16x16.png'), rel: 'icon', type: 'image/png', sizes: '16x16'
   = favicon_link_tag AssetManifest.image_path('logos/favicon-32x32.png'), rel: 'icon', type: 'image/png', sizes: '32x32'

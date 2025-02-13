@@ -1,4 +1,4 @@
-import {useState, useReducer, useRef, useLayoutEffect} from 'react';
+import {useState, useReducer, useRef, useLayoutEffect, isValidElement} from 'react';
 import PropTypes from 'prop-types';
 
 import {Table as TableSuite, Pagination} from 'rsuite';
@@ -86,11 +86,47 @@ function getColumnWidth(currentColumn, stringCountByKeys, isAdaptiveWidth, virtu
     return columnWidth;
 }
 
+function reactToText(node, resolvers) {
+    if (typeof node === 'string' || typeof node === 'number' || typeof node === 'boolean') {
+        return node.toString();
+    }
+    if (!node) {
+        return '';
+    }
+    if (Array.isArray(node)) {
+        return node.map((entry) => reactToText(entry, resolvers)).join('');
+    }
+
+    const [nodeType, nodeProps] = isValidElement(node) ? [node.type, node.props] : [null, null];
+    // check if custom resolver is available
+    if (nodeType && resolvers?.has(nodeType)) {
+        const resolver = resolvers.get(nodeType);
+        return resolver(nodeProps);
+    }
+
+    // Because ReactNode includes {} in its union we need to jump through a few hoops.
+    const props = node.props ? node.props : {};
+    if (!props || !props.children) {
+        return '';
+    }
+
+    return reactToText(props.children, resolvers);
+}
+
 function serialiseCellValue(value) {
+    if (!value) {
+        return value;
+    }
+
+    if (typeof value === 'object' && value['$$typeof']) {
+        value = reactToText(value);
+    }
+
     if (typeof value === 'string') {
         const formattedValue = value.replace(/"/g, '""');
         return `"${formattedValue}"`;
     }
+
     return value;
 }
 
@@ -103,8 +139,8 @@ function downloadFile(fileName, data) {
     URL.revokeObjectURL(url);
 }
 
-function exportToCsv(dataColumns, dataRows, fileName) {
-    const exportedColumns = dataColumns.filter((col) => col.hidden !== true);
+function exportToCsv(dataColumns, hiddenColumns, dataRows, fileName, uniqColId) {
+    const exportedColumns = dataColumns.filter((col) => !hiddenColumns.has(col.key) && (uniqColId === 'id' ? true : col.key !== uniqColId));
 
     const head = exportedColumns.map((col) => col.name)
         .join(',');
@@ -117,8 +153,8 @@ function exportToCsv(dataColumns, dataRows, fileName) {
     downloadFile(fileName, new Blob([content], {type: 'text/csv;charset=utf-8;'}));
 }
 
-function exportToCsvForExcel(dataColumns, dataRows, fileName) {
-    const exportedColumns = dataColumns.filter((col) => col.hidden !== true);
+function exportToCsvForExcel(dataColumns, hiddenColumns, dataRows, fileName, uniqColId) {
+    const exportedColumns = dataColumns.filter((col) => !hiddenColumns.has(col.key) && (uniqColId === 'id' ? true : col.key !== uniqColId));
 
     const head = exportedColumns.map((col) => col.name)
         .join(';');
@@ -255,7 +291,6 @@ const CheckCell = ({
           style={{padding: 0}}>
         <div style={{lineHeight: '46px'}}>
             <CheckBox value={rowData[dataKey]}
-                      inline
                       onChange={onChange}
                       checked={checkedKeys.some(item => item === rowData[dataKey])}/>
         </div>
@@ -493,17 +528,17 @@ function ExpandedComponent({
 
 const reducer = ({
                      data,
+                     transformedData = [],
                      rows = [],
                      columns,
                      dataIdentifier,
+                     currentSearch,
                      page,
                      limit
                  }, action) => {
     const stringCountByKeys = {};
 
-    const filterableKeys = action?.search ? columns.filter((col) => col.filterable !== false).map((col) => col.key) : [];
-
-    if (!rows.length || action?.search) {
+    if (!transformedData.length) {
         data.forEach((datum) => {
             const row = {};
 
@@ -513,15 +548,37 @@ const reducer = ({
                 stringCountByKeys[column.key] = (row[column.key]?.length || 0) > (stringCountByKeys[column.key]?.length || 0) ? row[column.key]?.length : stringCountByKeys[column.key];
             });
 
-            if (action?.search && filterableKeys.length) {
-                if (!filterableKeys.some((dataKey) => datum[dataKey]?.toString()
-                    .toLowerCase()
-                    ?.includes(action.search.toLowerCase()))) {
-                    return;
-                }
-            }
+            transformedData.push(row);
+        });
 
-            rows.push(row);
+        rows = transformedData;
+    }
+
+    const filterableKeys = action?.search ? columns.filter((col) => col.filterable !== false).map((col) => col.key) : [];
+
+    if ((action?.search || currentSearch) && filterableKeys.length) {
+        if (action?.search) {
+            currentSearch = action.search;
+        }
+
+        rows = transformedData.filter((rowData) => {
+            const filteredValues = Object.values(Object.fromEntries(Object.entries(rowData).filter(([key]) => filterableKeys.includes(key))));
+
+            return filteredValues.some((datum) => reactToText(datum).toLowerCase()?.includes(action.search.toLowerCase()));
+        });
+    }
+
+    if (action && action.search === '') {
+        currentSearch = null;
+    }
+
+    page = action?.page || page;
+    limit = action?.limit || limit;
+    if (limit || page) {
+        rows = ((action?.search || currentSearch) ? rows : transformedData).filter((v, i) => {
+            const start = limit * (page - 1);
+            const end = start + limit;
+            return i >= start && i < end;
         });
     }
 
@@ -563,23 +620,16 @@ const reducer = ({
         });
     }
 
-    page ||= action?.page;
-    limit ||= action?.limit;
-
-    if (limit || page) {
-        rows = rows.filter((v, i) => {
-            const start = limit * (page - 1);
-            const end = start + limit;
-            return i >= start && i < end;
-        });
-    }
-
     return {
         data,
+        transformedData,
         rows,
         columns,
         dataIdentifier,
-        stringCountByKeys
+        currentSearch,
+        stringCountByKeys,
+        page,
+        limit
     };
 };
 
@@ -627,11 +677,13 @@ export default function Table({
                                   title,
                                   rowHeight,
                                   cellStyle,
+                                  fontSize,
                                   isFixedHeader = true,
-                                  fixedHeaderTop = 75,
+                                  fixedHeaderTop = 0,
                                   hasFiltering = true,
                                   isSortable = true,
                                   isShowFullTextHover = true,
+                                  isMultiline = false,
                                   virtualized = false,
                                   isPaginated = false,
                                   pageLimits = [100, 500, 1000],
@@ -702,8 +754,8 @@ export default function Table({
         });
     };
 
-    const _handleSelection = (value, checked) => {
-        const keys = checked ? [...checkedKeys, value] : checkedKeys.filter(item => item !== value);
+    const _handleSelection = (event, checked) => {
+        const keys = checked ? [...checkedKeys, event.target.value] : checkedKeys.filter(item => item !== event.target.value);
         setCheckedKeys(keys);
 
         onSelectionChange(keys);
@@ -758,7 +810,19 @@ export default function Table({
     const _handleSubmitEdit = (rowData, rowDataIdentifier) => {
         setEditingRowKeys(editingRowKeys.filter((rowDataId) => rowDataId !== rowData[rowDataIdentifier]));
 
-        editable(rowData);
+        const transformedRowData = {};
+
+        Object.entries(rowData).forEach(([key, value]) => {
+            if (key.includes('.')) {
+                const [parentKey, childKey] = key.split('.');
+                transformedRowData[parentKey] ||= {};
+                transformedRowData[parentKey][childKey] = value;
+            } else {
+                transformedRowData[key] = value;
+            }
+        });
+
+        editable(transformedRowData);
     };
 
     const _handleCancelEdit = (id) => {
@@ -791,6 +855,7 @@ export default function Table({
 
     return (
         <Paper className="margin-top-30"
+               style={{fontSize: fontSize || 'inherit'}}
                square={true}>
             <style>{styles(fixedHeaderTop)}</style>
 
@@ -815,7 +880,7 @@ export default function Table({
                               justifyContent="center"
                               alignItems="center">
                             <ExportButton
-                                onExport={() => exportToCsv(reducedData.columns, reducedData.rows, title || 'export.csv')}>
+                                onExport={() => exportToCsv(reducedData.columns, hiddenColumns, reducedData.rows, title || 'export.csv', uniqColId)}>
                                 Export to CSV
                             </ExportButton>
                         </Grid>
@@ -824,7 +889,7 @@ export default function Table({
                               justifyContent="center"
                               alignItems="center">
                             <ExportButton
-                                onExport={() => exportToCsvForExcel(reducedData.columns, reducedData.rows, title || 'export.csv')}>
+                                onExport={() => exportToCsvForExcel(reducedData.columns, hiddenColumns, reducedData.rows, title || 'export.csv', uniqColId)}>
                                 Export to CSV (Excel format)
                             </ExportButton>
                         </Grid>
@@ -877,7 +942,7 @@ export default function Table({
                         affixHeader={isFixedHeader}
                         shouldUpdateScroll={false} // Prevent the scrollbar from scrolling to the top after the table content area height changes.
                         data={reducedData.rows}
-                // wordWrap="break-word"
+                        wordWrap={isMultiline ? 'break-word' : undefined}
                         virtualized={virtualized}
                         sortColumn={sortColumn}
                         sortType={sortType}
@@ -949,7 +1014,10 @@ export default function Table({
                                             (
                                                 cellStyle
                                                     ?
-                                                    <Cell style={{padding: 0}}>{(rowData) => (<div style={{height: '100%', padding: '13px 10px', ...cellStyle(data.find((d) => d[dataIdentifier] === rowData[dataIdentifier]))}}>{rowData[column.key]}</div>)}</Cell>
+                                                    <Cell style={{padding: 0}}>{(rowData) => (<div style={{
+                                                        height: '100%',
+                                                        padding: '13px 10px', ...cellStyle(data.find((d) => d[dataIdentifier] === rowData[dataIdentifier]))
+                                                    }}>{rowData[column.key]}</div>)}</Cell>
                                                     :
                                                     <Cell dataKey={column.key}/>
                                             )

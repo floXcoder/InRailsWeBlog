@@ -63,6 +63,8 @@ class Admins::LogsController < AdminsController
                    Logging.read_latest_for(log_filename, size: DEFAULT_LOG_SIZE)
                  elsif log_params[:element] == 'date'
                    Logging.grep_date_for(log_filename, log_params[:value], max_size: DEFAULT_LOG_SIZE)
+                 elsif log_params[:element] == 'sort'
+                   Logging.grep_and_sort_for(log_filename, format_search(log_params[:element], log_params[:value]), max_size: SEARCH_LOG_SIZE)
                  elsif log_params[:value].present?
                    Logging.grep_for(log_filename, format_search(log_params[:element], log_params[:value]), max_size: SEARCH_LOG_SIZE)
                  end
@@ -95,7 +97,7 @@ class Admins::LogsController < AdminsController
       " #{value.upcase} --"
     when 'host', 'ip', 'sessionId'
       value.to_s
-    when 'status'
+    when 'status', 'sort'
       "status=#{value}"
     when 'method'
       "method=#{value}"

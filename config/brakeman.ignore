@@ -30,7 +30,7 @@
       "check_name": "SQL",
       "message": "Possible SQL injection",
       "file": "app/jobs/update_tracker_job.rb",
-      "line": 63,
+      "line": 65,
       "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
       "code": "Ahoy::Event.where(:name => \"page_visit\").where(\"properties->>'#{tracked_class.downcase}_id' = ?\", element_id.to_s)",
       "render_path": null,
@@ -66,6 +66,29 @@
       "confidence": "Weak",
       "cwe_id": [
         22
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "65f0993444b17072eceaeac13b6fb9485ab7f9164abbea62b19d59326bfece72",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "config/initializers/find_missing_indexes.rb",
+      "line": 48,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "ActiveRecord::Base.connection.exec_query(\"EXPLAIN #{event.payload[:sql]}\", \"INDEX DETECTOR\", event.payload[:type_casted_binds].call)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "NoIndexDetector",
+        "method": "detect"
+      },
+      "user_input": "event.payload[:sql]",
+      "confidence": "Medium",
+      "cwe_id": [
+        89
       ],
       "note": ""
     },
@@ -250,6 +273,5 @@
       "note": ""
     }
   ],
-  "updated": "2024-12-16 10:27:59 +0100",
-  "brakeman_version": "6.2.2"
+  "brakeman_version": "7.0.0"
 }

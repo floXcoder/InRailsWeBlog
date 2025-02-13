@@ -24,6 +24,9 @@ export function initializeSentry() {
             // replayCanvasIntegration()
         ],
 
+        // Always infer IP addresses
+        sendDefaultPii: true,
+
         // Set tracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
         tracesSampleRate: 0.1,
         tracePropagationTargets: [
@@ -75,7 +78,10 @@ export function initializeSentry() {
             /_AutofillCallbackHandler/i,
             /navigationPerformanceLogger/i,
             /The operation was aborted/i,
-            /Unexpected identifier 'https'/i
+            /Unexpected identifier/i,
+            /Unexpected token/,
+            /runtime\.sendMessage/,
+            /Can't find variable: gmo/
         ],
         denyUrls: [
             /pagead\/js/i,

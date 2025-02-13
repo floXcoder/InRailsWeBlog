@@ -76,3 +76,8 @@ end
 
 # Define default URL for tests
 Rails.application.routes.default_url_options[:host] = ENV['WEBSITE_HOST']
+
+# Fix for failing test (Could not find a valid mapping) with Rails 8 and devise
+ActiveSupport.on_load(:action_mailer) do
+  Rails.application.reload_routes_unless_loaded
+end

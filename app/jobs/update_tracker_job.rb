@@ -3,6 +3,8 @@
 class UpdateTrackerJob < ApplicationJob
   queue_as :default
 
+  self.log_arguments = false
+
   def perform(*args)
     return if Rails.env.test?
 

@@ -2,7 +2,8 @@
 
 # Run by whenever: add to cron table
 # Cron jobs are configured inside config/initializers/good_job.rb
-set :output, "#{Whenever.path}/log/cron.log"
+set :output, "#{Whenever.path}/log/cron.log".sub(/releases\/\d+/, 'current')
+# set :output, { error: "#{Whenever.path}/log/cron.log".sub(/releases\/\d+/, 'current'), standard: nil }
 
 every 15.minutes, roles: [:production] do
   # InRailsWeBlog.settings.tracker_cron

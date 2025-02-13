@@ -377,7 +377,7 @@ class Article < ApplicationRecord
                  end
 
     params        = {
-      user_slug: self.user.slug,
+      user_slug:    self.user.slug,
       article_slug: self[friendly_id_config.slug_column][locale.to_s].presence || (options[:force_locale] ? nil : self.slug)
     }
 
@@ -397,7 +397,7 @@ class Article < ApplicationRecord
               end
 
     return {
-      jpg: AssetManifest.image_path(picture[:jpg]),
+      jpg:  AssetManifest.image_path(picture[:jpg]),
       webp: AssetManifest.image_path(picture[:webp])
     }
   end

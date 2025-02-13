@@ -1,5 +1,11 @@
-iOS >= 9
-Android >= 4.4
+[production]
+iOS >= 13
+Android >= 9
 last 2 versions
-> 0.2%
+cover 95%
 not dead
+
+[development]
+last 1 chrome version
+last 1 firefox version
+last 1 safari version

@@ -42,7 +42,7 @@ class Admin < ApplicationRecord
 
   # == Extensions ===========================================================
   include NiceUrlConcern
-  friendly_id :pseudo, use: :slugged
+  friendly_id :slug_candidates, use: :slugged
 
   # == Relationships ========================================================
   has_many :blogs, class_name: 'Admin::Blog'

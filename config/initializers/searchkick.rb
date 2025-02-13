@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
-require 'searchkick'
 require 'elasticsearch'
-require 'typhoeus'
+require 'searchkick'
 
 # Add timeout for ElasticSearch
 Searchkick.timeout        = 20

@@ -15,7 +15,7 @@ export default function mutationMiddleware({dispatch}) {
             payload = {}
         } = action;
 
-        if (!actionType || !mutationAPI) {
+        if (action && (!actionType || !mutationAPI)) {
             // Normal action: pass it on
             return next(action);
         }

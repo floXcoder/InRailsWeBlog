@@ -27,8 +27,8 @@ module ApplicationHelper
     base_title.html_safe
   end
 
-  def javascript(*files, **options)
-    AssetManifest.associated_javascripts(files).each do |type, js_files|
+  def javascript(file, **options)
+    AssetManifest.associated_javascripts(file).each do |type, js_files|
       js_files.each do |js_file|
         if type == :initial
           content_for(:javascript_initial) { javascript_include_tag(js_file, **options) }

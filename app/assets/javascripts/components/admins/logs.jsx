@@ -150,7 +150,7 @@ class AdminLogs extends React.Component {
                         this._envParentNode.scrollTop = (this._envLogNode?.scrollHeight || 0) - previousScrollHeight - 44;
                     } else if (element === 'refresh') {
                         // do nothing
-                    } else if (element === 'date' || (value?.startsWith('date='))) {
+                    } else if (element === 'date' || (value?.startsWith('date=')) || element === 'sort') {
                         this._scrollToTopLog();
                     } else {
                         this._scrollToBottomLog();
@@ -285,31 +285,35 @@ class AdminLogs extends React.Component {
     _handleQuickTagClick = (tagType, event) => {
         event.preventDefault();
 
-        const newSearchTags = [];
+        if (tagType === '404S') {
+            this._fetchLog('sort', '404');
+        } else {
+            const newSearchTags = [];
 
-        if (tagType === '5XX') {
-            newSearchTags.push({
-                element: 'status',
-                value: '5[0-9][0-9]'
-            });
-        } else if (tagType === '4XX') {
-            newSearchTags.push({
-                element: 'status',
-                value: '4[0-9][0-9]'
-            });
-        } else if (tagType === '4YY') {
-            newSearchTags.push({
-                element: 'status',
-                value: '(?!404|410)4[0-9][0-9]'
-            });
-        } else if (tagType === 'error') {
-            newSearchTags.push({
-                element: 'search',
-                value: 'error'
-            });
+            if (tagType === '5XX') {
+                newSearchTags.push({
+                    element: 'status',
+                    value: '5[0-9][0-9]'
+                });
+            } else if (tagType === '4XX') {
+                newSearchTags.push({
+                    element: 'status',
+                    value: '4[0-9][0-9]'
+                });
+            } else if (tagType === '4YY') {
+                newSearchTags.push({
+                    element: 'status',
+                    value: '(?!404|410)4[0-9][0-9]'
+                });
+            } else if (tagType === 'error') {
+                newSearchTags.push({
+                    element: 'search',
+                    value: 'error'
+                });
+            }
+
+            this._fetchLog(newSearchTags);
         }
-
-        this._fetchLog(newSearchTags);
     };
 
     render() {
@@ -383,6 +387,10 @@ class AdminLogs extends React.Component {
                                       variant="outlined"
                                       size="small"
                                       onClick={this._handleQuickTagClick.bind(this, '4YY')}/>
+                                <Chip label="List 404"
+                                      variant="outlined"
+                                      size="small"
+                                      onClick={this._handleQuickTagClick.bind(this, '404S')}/>
                                 <Chip label="Error"
                                       variant="outlined"
                                       size="small"

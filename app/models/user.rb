@@ -111,7 +111,7 @@ class User < ApplicationRecord
 
   # Nice url format
   include NiceUrlConcern
-  friendly_id :pseudo, use: :slugged
+  friendly_id :slug_candidates, use: :slugged
 
   # JSON data serializer
   include DataSerializerConcern
@@ -422,8 +422,18 @@ class User < ApplicationRecord
 
   def slug_candidates
     [
-      [:pseudo]
+      :pseudo,
+      [:pseudo, :sequential_id]
     ]
+  end
+
+  def sequential_id
+    generated_slug = normalize_friendly_id(self.pseudo)
+
+    existing_users = self.class.where('slug ~* :pattern', pattern: "^#{generated_slug}(-[0-9]+)?$")
+    existing_users = existing_users.where.not(id: self.id) unless new_record?
+
+    return existing_users.count
   end
 
   def search_data

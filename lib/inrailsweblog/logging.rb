@@ -109,6 +109,14 @@ class Logging
     tail_output.split("\n")
   end
 
+  def self.grep_and_sort_for(filename, search, max_size: 2_000)
+    path = Rails.root.join('log', filename)
+    return [] unless File.exist?(path)
+
+    tail_output, = Popen.pipeline([%W[tail -n #{max_size} #{path}], %W[fgrep #{search}], ['grep', '-oP', 'path=\K.*? '], %w[sort], %w[uniq -c], %w[sort -nr]])
+    tail_output.split("\n")
+  end
+
   def self.read_latest_for(filename, size: 4_000)
     path = Rails.root.join('log', filename)
     return [] unless File.exist?(path)

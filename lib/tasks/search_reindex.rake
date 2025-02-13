@@ -9,6 +9,9 @@ namespace :InRailsWeBlog do
     Rails.logger       = ActiveRecord::Base.logger = Logger.new($stdout)
     Rails.logger.level = Logger::INFO
 
+    require 'elasticsearch'
+    require 'searchkick'
+
     reindex_options = {}
     if args.option == 'async'
       reindex_options[:mode] = :async

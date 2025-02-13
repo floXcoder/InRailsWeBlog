@@ -312,12 +312,16 @@ Rails.application.routes.draw do
 
   # PWA
   get '/manifest.:format' => 'pages#manifest'
+  get '/.well-known/assetlinks.:format' => 'pages#assetlinks'
+  get '/.well-known/traffic-advice' => 'pages#traffic_advice'
 
   # Open Search
   get '/opensearch.:format' => 'pages#open_search'
 
   # SEO
   get '/robots.:format' => 'pages#robots'
+  get '/sitemap.xml' => 'pages#sitemap'
+  get '/sitemap.xml.gz' => 'pages#sitemap'
 
   # Health check
   health_check_routes if Rails.env.production?

@@ -2,6 +2,8 @@
 
 require_relative 'boot'
 
+require 'ostruct'
+
 # Pick the frameworks you want:
 require 'active_model/railtie'
 require 'active_record/railtie'

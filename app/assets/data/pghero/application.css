@@ -1,4 +1,5 @@
-/*! nouislider - 14.0.3 - 10/10/2019 */
+/* !! All CSS files must be merged into only one CSS file !! */
+
 /* Functional styling;
  * These styles are required for noUiSlider to function.
  * You don't need to change these rules to apply your design.
@@ -18,7 +19,6 @@
 }
 .noUi-target {
     position: relative;
-    direction: ltr;
 }
 .noUi-base,
 .noUi-connects {
@@ -39,31 +39,26 @@
     position: absolute;
     z-index: 1;
     top: 0;
-    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
     -ms-transform-origin: 0 0;
     -webkit-transform-origin: 0 0;
     -webkit-transform-style: preserve-3d;
     transform-origin: 0 0;
     transform-style: flat;
 }
-.noUi-connect {
-    height: 100%;
-    width: 100%;
-}
-.noUi-origin {
-    height: 10%;
-    width: 10%;
-}
 /* Offset direction
  */
-html:not([dir="rtl"]) .noUi-horizontal .noUi-origin {
-    left: auto;
-    right: 0;
+.noUi-txt-dir-rtl.noUi-horizontal .noUi-origin {
+    left: 0;
+    right: auto;
 }
 /* Give origins 0 height/width so they don't interfere with clicking the
  * connect elements.
  */
 .noUi-vertical .noUi-origin {
+    top: -100%;
     width: 0;
 }
 .noUi-horizontal .noUi-origin {
@@ -94,7 +89,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-origin {
 .noUi-horizontal .noUi-handle {
     width: 34px;
     height: 28px;
-    left: -17px;
+    right: -17px;
     top: -6px;
 }
 .noUi-vertical {
@@ -103,12 +98,12 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-origin {
 .noUi-vertical .noUi-handle {
     width: 28px;
     height: 34px;
-    left: -6px;
-    top: -17px;
+    right: -6px;
+    bottom: -17px;
 }
-html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
-    right: -17px;
-    left: auto;
+.noUi-txt-dir-rtl.noUi-horizontal .noUi-handle {
+    left: -17px;
+    right: auto;
 }
 /* Styling;
  * Giving the connect element a border radius causes issues with using transform: scale
@@ -297,6 +292,18 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
     top: 50%;
     right: 120%;
 }
+.noUi-horizontal .noUi-origin > .noUi-tooltip {
+    -webkit-transform: translate(50%, 0);
+    transform: translate(50%, 0);
+    left: auto;
+    bottom: 10px;
+}
+.noUi-vertical .noUi-origin > .noUi-tooltip {
+    -webkit-transform: translate(0, -18px);
+    transform: translate(0, -18px);
+    top: auto;
+    right: 28px;
+}
 
 
 /*
@@ -388,295 +395,295 @@ Arduino® Light Theme - Stefania Mellai <s.mellai@arduino.cc>
 
 
 html {
-  box-sizing: border-box;
-  font-size: 14px;
+    box-sizing: border-box;
+    font-size: 14px;
 }
 
 *, *:before, *:after {
-  box-sizing: inherit;
+    box-sizing: inherit;
 }
 
 body {
-  margin: 0;
-  padding: 20px;
-  background-color: #eee;
+    margin: 0;
+    padding: 20px;
+    background-color: #eee;
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  line-height: 1.4;
-  color: #333;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.4;
+    color: #333;
 }
 
 a, a:visited, a:active {
-  color: #428bca;
-  text-decoration: none;
+    color: #428bca;
+    text-decoration: none;
 }
 
 a:hover {
-  text-decoration: underline;
+    text-decoration: underline;
 }
 
 table {
-  width: 100%;
-  border-collapse: collapse;
-  border-spacing: 0;
-  table-layout: fixed;
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    table-layout: fixed;
 }
 
 th {
-  text-align: left;
-  border-bottom: solid 2px #ddd;
+    text-align: left;
+    border-bottom: solid 2px #ddd;
 }
 
 h1 {
-  font-size: 20px;
-  font-weight: bold;
+    font-size: 20px;
+    font-weight: bold;
 }
 
 h2 {
-  font-size: 16px;
-  font-weight: bold;
+    font-size: 16px;
+    font-weight: bold;
 }
 
 h1 small {
-  font-weight: normal;
-  font-size: 14px;
-  color: #999;
+    font-weight: normal;
+    font-size: 14px;
+    color: #999;
 }
 
 h1, h2, p, ul, hr, table, pre {
-  margin-top: 0;
-  margin-bottom: 1rem;
+    margin-top: 0;
+    margin-bottom: 1rem;
 }
 
 .field {
-  margin-bottom: 0.5rem;
+    margin-bottom: 0.5rem;
 }
 
 h3 {
-  text-align: center;
+    text-align: center;
 }
 
 ul {
-  list-style-type: disc;
-  padding-left: 20px;
+    list-style-type: disc;
+    padding-left: 20px;
 }
 
 ul.nav {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
 }
 
 table td, table th {
-  padding: 8px;
+    padding: 8px;
 }
 
 td {
-  border-top: solid 1px #ddd;
-  vertical-align: top;
+    border-top: solid 1px #ddd;
+    vertical-align: top;
 }
 
 pre {
-  background-color: #eee;
-  padding: 10px;
-  white-space: pre-wrap;
-  word-break: break-word;
-  margin-top: 0;
+    background-color: #eee;
+    padding: 10px;
+    white-space: pre-wrap;
+    word-break: break-word;
+    margin-top: 0;
 }
 
 textarea {
-  width: 100%;
-  height: 120px;
-  border: solid 1px #ddd;
-  padding: 10px;
-  font-size: inherit;
+    width: 100%;
+    height: 120px;
+    border: solid 1px #ddd;
+    padding: 10px;
+    font-size: inherit;
 }
 
 hr {
-  border: none;
-  height: 0;
-  border-top: solid 1px #ddd;
+    border: none;
+    height: 0;
+    border-top: solid 1px #ddd;
 }
 
 .container {
-  max-width: 1000px;
-  margin-left: auto;
-  margin-right: auto;
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .text-muted {
-  color: #999;
+    color: #999;
 }
 
 .text-right {
-  text-align: right;
+    text-align: right;
 }
 
 .percent {
-  color: #999;
-  font-size: 12px;
-  margin-left: 6px;
+    color: #999;
+    font-size: 12px;
+    margin-left: 6px;
 }
 
 .btn-explain {
-  background: none;
-  border: none;
-  padding: 0;
-  font: inherit;
-  cursor: pointer;
-  color: #999;
-  font-size: 12px;
-  line-height: 20px;
-  margin-left: 6px;
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    color: #999;
+    font-size: 12px;
+    line-height: 20px;
+    margin-left: 6px;
 }
 
 .btn-explain:hover {
-  text-decoration: underline;
+    text-decoration: underline;
 }
 
 .user {
-  color: #999;
-  font-size: 12px;
-  float: right;
-  line-height: 20px;
+    color: #999;
+    font-size: 12px;
+    float: right;
+    line-height: 20px;
 }
 
 .user a {
-  color: inherit;
+    color: inherit;
 }
 
 .tiny {
-  font-size: 12px;
-  margin-left: 6px;
+    font-size: 12px;
+    margin-left: 6px;
 }
 
 #status, .content, .alert {
-  margin-bottom: 20px;
+    margin-bottom: 20px;
 }
 
 .content {
-  padding: 20px 20px 1px 20px;
-  background-color: #fff;
+    padding: 20px 20px 1px 20px;
+    background-color: #fff;
 }
 
 .queries td {
-  vertical-align: middle;
+    vertical-align: middle;
 }
 
 #status div {
-  margin-bottom: 0;
+    margin-bottom: 0;
 }
 
 #slider-container {
-  padding: 6px 140px 20px 140px;
+    padding: 6px 8px 14px 8px;
 }
 
 .queries-table th a, .space-table th a {
-  color: inherit;
+    color: inherit;
 }
 
 #slider {
-  margin-bottom: 20px;
+    margin: 0px 14px 18px 14px;
 }
 
 #range-start {
-  min-height: 20px;
+    min-height: 20px;
 }
 
 #range-end {
-  float: right;
+    float: right;
 }
 
 .queries-info {
-  text-align: center;
-  margin-top: 40px;
+    text-align: center;
+    margin-top: 40px;
 }
 
 /* nav */
 
 .nav a {
-  color: #333;
-  text-decoration: none;
-  display: block;
-  padding: 12px 20px;
+    color: #333;
+    text-decoration: none;
+    display: block;
+    padding: 12px 20px;
 }
 
 .nav li.active a {
-  background-color: #ddd;
+    background-color: #ddd;
 }
 
 .nav a:hover {
-  background-color: #ddd;
+    background-color: #ddd;
 }
 
 .nav li.active-database a {
-  color: #999;
+    color: #999;
 }
 
 .nav-header {
-  font-weight: bold;
-  color: #333;
-  padding: 12px 20px 12px 0;
-  margin: 0;
+    font-weight: bold;
+    color: #333;
+    padding: 12px 20px 12px 0;
+    margin: 0;
 }
 
 /* buttons */
 
 .btn {
-  display: inline-block;
-  border: none;
-  color: #fff;
-  padding: 12px 20px;
-  font-size: inherit;
-  font-family: inherit;
-  line-height: 1;
-  cursor: pointer;
-  outline: none;
-  margin: 0;
-  -webkit-appearance: none;
-  -webkit-border-radius: 0;
+    display: inline-block;
+    border: none;
+    color: #fff;
+    padding: 12px 20px;
+    font-size: inherit;
+    font-family: inherit;
+    line-height: 1;
+    cursor: pointer;
+    outline: none;
+    margin: 0;
+    -webkit-appearance: none;
+    -webkit-border-radius: 0;
 }
 
 .btn-danger {
-  background-color: #d9534f;
+    background-color: #d9534f;
 }
 
 .btn-info {
-  background-color: #5bc0de;
+    background-color: #5bc0de;
 }
 
 /* alerts */
 
 .alert {
-  padding: 12px 20px;
-  color: #fff;
+    padding: 12px 20px;
+    color: #fff;
 }
 
 .alert-info {
-  background-color: #5bc0de;
+    background-color: #5bc0de;
 }
 
 .alert-success {
-  background-color: #5cb85c;
+    background-color: #5cb85c;
 }
 
 .alert-warning {
-  background-color: #f0ad4e;
+    background-color: #f0ad4e;
 }
 
 .alert-danger {
-  background-color: #d9534f;
+    background-color: #d9534f;
 }
 
 .alert a {
-  color: #fff;
-  text-decoration: none;
+    color: #fff;
+    text-decoration: none;
 }
 
 .button_to, .button_to div {
-  display: inline;
+    display: inline;
 }
 
 /*
@@ -688,206 +695,316 @@ hr {
 */
 
 *, *:after, *:before {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 body {
-  margin: 0px;
+    margin: 0px;
 }
 
 [class*='col-'] {
-  float: left;
-  padding-right: 20px;
+    float: left;
+    padding-right: 20px;
 }
 
 [class*='col-']:last-of-type {
-  padding-right: 0px;
+    padding-right: 0px;
 }
 
 .grid {
-  width: 100%;
+    width: 100%;
 
-  margin: 0 auto;
-  overflow: hidden;
+    margin: 0 auto;
+    overflow: hidden;
 }
 
 .grid:after {
-  content: "";
-  display: table;
-  clear: both;
+    content: "";
+    display: table;
+    clear: both;
 }
 
 .grid-pad {
-  padding: 20px 0 0px 20px;
+    padding: 20px 0 0px 20px;
 }
 
 .grid-pad > [class*='col-']:last-of-type {
-  padding-right: 20px;
+    padding-right: 20px;
 }
 
 .push-right {
-  float: right;
+    float: right;
 }
 
 /* Content Columns */
 
 .col-1-1 {
-  width: 100%;
+    width: 100%;
 }
 .col-2-3, .col-8-12 {
-  width: 66.66%;
+    width: 66.66%;
 }
 
 .col-1-2, .col-6-12 {
-  width: 50%;
+    width: 50%;
 }
 
 .col-1-3, .col-4-12 {
-  width: 33.33%;
+    width: 33.33%;
 }
 
 .col-1-4, .col-3-12 {
-  width: 25%;
+    width: 25%;
 }
 
 .col-1-5 {
-  width: 20%;
+    width: 20%;
 }
 
 .col-1-6, .col-2-12 {
-  width: 16.667%;
+    width: 16.667%;
 }
 
 .col-1-7 {
-  width: 14.28%;
+    width: 14.28%;
 }
 
 .col-1-8 {
-  width: 12.5%;
+    width: 12.5%;
 }
 
 .col-1-9 {
-  width: 11.1%;
+    width: 11.1%;
 }
 
 .col-1-10 {
-  width: 10%;
+    width: 10%;
 }
 
 .col-1-11 {
-  width: 9.09%;
+    width: 9.09%;
 }
 
 .col-1-12 {
-  width: 8.33%
+    width: 8.33%
 }
 
 /* Layout Columns */
 
 .col-11-12 {
-  width: 91.66%
+    width: 91.66%
 }
 
 .col-10-12 {
-  width: 83.333%;
+    width: 83.333%;
 }
 
 .col-9-12 {
-  width: 75%;
+    width: 75%;
 }
 
 .col-5-12 {
-  width: 41.66%;
+    width: 41.66%;
 }
 
 .col-7-12 {
-  width: 58.33%
+    width: 58.33%
 }
 
 @media handheld, only screen and (max-width: 767px) {
 
 
-  .grid {
-    width: 100%;
-    min-width: 0;
-    margin-left: 0px;
-    margin-right: 0px;
-    padding-left: 0px;
-    padding-right: 0px;
-  }
+    .grid {
+        width: 100%;
+        min-width: 0;
+        margin-left: 0px;
+        margin-right: 0px;
+        padding-left: 0px;
+        padding-right: 0px;
+    }
 
-  [class*='col-'] {
-    width: auto;
-    float: none;
-    margin-left: 0px;
-    margin-right: 0px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    padding-right: 0px;
-    padding-left: 0px;
-  }
+    [class*='col-'] {
+        width: auto;
+        float: none;
+        margin-left: 0px;
+        margin-right: 0px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        padding-right: 0px;
+        padding-left: 0px;
+    }
 }
 
 .noUi-connect {
-  box-shadow: none;
-  background: #5bc0de;
+    box-shadow: none;
+    background: #5bc0de;
 }
 
 .noUi-handle {
-  box-shadow: none;
+    box-shadow: none;
 }
 
 .noUi-target {
-  box-shadow: none;
-  border-color: #eee;
+    box-shadow: none;
+    border-color: #eee;
 }
 
 .noUi-background {
-  box-shadow: none;
-  background-color: #eee;
+    box-shadow: none;
+    background-color: #eee;
 }
 
 .noUi-origin {
-  border-radius: 0;
+    border-radius: 0;
 }
 
 #periods {
-  text-align: center;
+    text-align: center;
 }
 
 #periods a {
-  margin-right: 20px;
+    margin-right: 20px;
 }
 
 .chart {
-  height: 300px;
-  line-height: 300px;
-  text-align: center;
-  color: #999;
+    height: 300px;
+    line-height: 300px;
+    text-align: center;
+    color: #999;
+    margin-bottom: 20px;
+}
+
+.pie-chart {
+    height: 260px;
+    line-height: 260px;
 }
 
 .unused-index {
-  color: #f0ad4e;
-  font-size: 11px;
-  font-weight: bold;
+    color: #f0ad4e;
+    font-size: 11px;
+    font-weight: bold;
 }
 
 .primary-key {
-  color: #f0ad4e;
-  font-size: 11px;
-  font-weight: bold;
+    color: #f0ad4e;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.origins-table {
+    table-layout: auto;
 }
 
 .origin {
-  word-break: break-word;
+    word-break: break-word;
+    width: 90%;
+}
+
+.origin-pct {
+    text-align: right;
+    width: 10%;
 }
 
 .duplicate-indexes td {
-  padding: 15px 0 5px 0;
+    padding: 15px 0 5px 0;
 }
 
 .duplicate-indexes pre {
-  margin-top: 10px;
+    margin-top: 10px;
+}
+
+.no-outline:focus {
+    outline: none;
+}
+
+.width-10 {
+    width: 10%;
+}
+
+.width-15 {
+    width: 15%;
+}
+
+.width-20 {
+    width: 20%;
+}
+
+.width-25 {
+    width: 25%;
+}
+
+.width-33 {
+    width: 33.33%;
+}
+
+.right-5 {
+    margin-right: 5px;
+}
+
+.query-row {
+    border-top: none;
+    padding: 0;
+}
+
+.query-pre {
+    margin-top: 1em;
+}
+
+.query-code {
+    max-height: 230px;
+    overflow: hidden;
+}
+
+.break-all {
+    word-break: break-all;
+}
+
+.migration {
+    display: none;
+}
+
+.migration pre {
+    overflow: scroll;
+    white-space: pre;
+    word-break: normal;
+}
+
+.space-index {
+    font-style: italic;
+}
+
+a.relation-link {
+    color: inherit;
+}
+
+.push-left {
+    float: left;
+}
+
+.clear-both {
+    clear: both;
+}
+
+.create-index {
+    color: #eee;
+    background-color: #333;
+}
+
+.hide {
+    display: none;
+}
+
+.show-details {
+    float: right;
+    color: #f0ad4e;
+    margin-top: 0px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.details pre {
+    color: #f0ad4e;
+    background-color: #333;
 }

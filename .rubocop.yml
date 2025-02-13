@@ -174,7 +174,13 @@ Lint/AmbiguousOperatorPrecedence:
 Lint/AmbiguousRange:
   Enabled: true
 
+Lint/ArrayLiteralInRegexp:
+  Enabled: true
+
 Lint/ConstantOverwrittenInRescue:
+  Enabled: true
+
+Lint/ConstantReassignment:
   Enabled: true
 
 Lint/DeprecatedConstants:
@@ -204,6 +210,9 @@ Lint/EmptyClass:
 Lint/EmptyInPattern:
   Enabled: true
 
+Lint/HashNewWithKeywordArgumentsAsDefault:
+  Enabled: true
+
 Lint/ItWithoutArgumentsInBlock:
   Enabled: true
 
@@ -228,6 +237,9 @@ Lint/NoReturnInBeginEndBlocks:
 Lint/NumberedParameterAssignment:
   Enabled: true
 
+Lint/NumericOperationWithConstantResult:
+  Enabled: true
+
 Lint/OrAssignmentToConstant:
   Enabled: true
 
@@ -246,6 +258,9 @@ Lint/RequireRelativeSelfPath:
 Lint/RedundantDirGlobSort:
   Enabled: true
 
+Lint/SharedMutableDefault:
+  Enabled: true
+
 Lint/SymbolConversion:
   Enabled: true
 
@@ -262,6 +277,9 @@ Lint/UnescapedBracketInRegexp:
   Enabled: true
 
 Lint/UnmodifiedReduceAccumulator:
+  Enabled: true
+
+Lint/UselessDefined:
   Enabled: true
 
 Lint/UselessNumericOperation:
@@ -473,6 +491,9 @@ Rails/MatchRoute:
 Rails/MigrationClassName:
   Enabled: true
 
+Rails/MultipleRoutePaths:
+  Enabled: true
+
 Rails/NegateInclude:
   Enabled: true
 
@@ -525,6 +546,9 @@ Rails/SquishedSQLHeredocs:
   Enabled: true
 
 Rails/StripHeredoc:
+  Enabled: true
+
+Rails/StrongParametersExpect:
   Enabled: true
 
 Rails/ThreeStateBooleanColumn:
@@ -680,9 +704,6 @@ RSpec/SpecFilePathFormat:
 RSpec/SpecFilePathSuffix:
   Enabled: true
 
-RSpec/StringAsInstanceDoubleConstant:
-  Enabled: true
-
 RSpec/SubjectDeclaration:
   Enabled: true
 
@@ -737,6 +758,9 @@ Style/ConcatArrayLiterals:
 Style/DataInheritance:
   Enabled: true
 
+Style/DigChain:
+  Enabled: true
+
 Style/DirEmpty:
   Enabled: true
 
@@ -767,7 +791,13 @@ Style/FetchEnvVar:
 Style/FileEmpty:
   Enabled: true
 
+Style/FileNull:
+  Enabled: true
+
 Style/FileRead:
+  Enabled: true
+
+Style/FileTouch:
   Enabled: true
 
 Style/FileWrite:
@@ -791,6 +821,9 @@ Style/HashExcept:
 Style/HashLikeCase:
   Enabled: false
 
+Style/HashSlice:
+  Enabled: true
+
 Style/HashSyntax:
   Enabled: false
 
@@ -807,6 +840,9 @@ Style/IfWithBooleanLiteralBranches:
   Enabled: true
 
 Style/InPatternThen:
+  Enabled: true
+
+Style/ItAssignment:
   Enabled: true
 
 Style/KeywordArgumentsMerging:
