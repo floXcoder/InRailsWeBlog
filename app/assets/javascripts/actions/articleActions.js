@@ -87,6 +87,20 @@ export const updateArticlePriority = (articleIdsByPriority) => ({
     })
 });
 
+export const archiveArticle = (articleId, options = {}) => ({
+    actionType: ActionTypes.ARTICLE,
+    mutationAPI: () => api.post(`/api/v1/articles/${articleId}/archived`, {
+        ...options
+    })
+});
+
+export const unarchiveArticle = (articleId, options = {}) => ({
+    actionType: ActionTypes.ARTICLE,
+    mutationAPI: () => api.delete(`/api/v1/articles/${articleId}/archived`, {
+        ...options
+    })
+});
+
 export const deleteArticle = (articleId, options = {}) => ({
     actionType: ActionTypes.ARTICLE,
     mutationAPI: () => api.delete(`/api/v1/articles/${articleId}`, {

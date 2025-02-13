@@ -490,6 +490,7 @@ fr:
         actions: "Actions"
         private_in_public: "Cet article est en privé"
         all_stories: "Voir tous les articles de la série"
+        archived: "(Archived)"
         allow_comment:
           title: "Autoriser les commentaires ?"
           truthy: "Oui"
@@ -603,6 +604,8 @@ fr:
         topic_link: "Aller vers le thème"
         cancel: "Annuler"
         update: "Mettre à jour"
+        archived: "Archiver cet article"
+        unarchived: "Désarchiver cet article"
         share: "Partager cet article"
         tracking: "Statistiques des vues"
         compare: "Comparaison entre langues"

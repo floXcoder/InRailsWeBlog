@@ -66,7 +66,7 @@ class ArticleGridDisplay extends React.PureComponent {
 
     state = {
         wasGlobalMinimized: this.props.isMinimized,
-        isFolded: this.props.isMinimized
+        isFolded: this.props.isMinimized || this.props.article.archived
     };
 
     static getDerivedStateFromProps(nextProps, prevState) {
@@ -128,14 +128,13 @@ class ArticleGridDisplay extends React.PureComponent {
                                 action={
                                     !isInventoryMode
                                         ?
-                                        <IconButton
-                                            className={classNames('article-card-expand', {
-                                                'article-card-expand-open': this.state.isFolded
-                                            })}
-                                            aria-expanded={this.state.isFolded}
-                                            aria-label="Show more"
-                                            onClick={this._handleFoldClick}
-                                            size="large">
+                                        <IconButton className={classNames('article-card-expand', {
+                                            'article-card-expand-open': this.state.isFolded
+                                        })}
+                                                    aria-expanded={this.state.isFolded}
+                                                    aria-label="Show more"
+                                                    onClick={this._handleFoldClick}
+                                                    size="large">
                                             <ExpandMoreIcon/>
                                         </IconButton>
                                         :
@@ -168,7 +167,7 @@ class ArticleGridDisplay extends React.PureComponent {
                                                 className="article-card-grid-title"
                                                 noWrap={true}
                                                 itemProp="name headline">
-                                        <Link className="article-card-grid-title-link"
+                                        <Link className={classNames('article-card-grid-title-link', {'article-card-grid-title-link-archived': this.props.article.archived})}
                                               to={userArticlePath(this.props.article.user.slug, this.props.article.slug)}
                                               itemProp="mainEntityOfPage url"
                                               onClick={spyTrackClick.bind(null, 'article', this.props.article.id, this.props.article.slug, this.props.article.userId, this.props.article.title, this.props.article.topicId)}>

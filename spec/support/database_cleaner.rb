@@ -31,6 +31,10 @@ RSpec.configure do |config|
   #   resize_window_to_default
   # end
 
+  config.after(type: :request) do
+    logout
+  end
+
   config.after(:all) do
     DatabaseCleaner.clean
   end

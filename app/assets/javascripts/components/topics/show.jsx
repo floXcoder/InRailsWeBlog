@@ -183,17 +183,16 @@ class TopicShow extends React.Component {
                                     ))
                                 }
 
-                                <Button
-                                    className="topic-show-share-button"
-                                    variant="outlined"
-                                    size="small"
-                                    component={Link}
-                                    to={{
-                                        hash: '#' + shareTopicParam
-                                    }}
-                                    state={{
-                                        topicId: this.props.topic.id
-                                    }}>
+                                <Button className="topic-show-share-button"
+                                        variant="outlined"
+                                        size="small"
+                                        component={Link}
+                                        to={{
+                                            hash: '#' + shareTopicParam
+                                        }}
+                                        state={{
+                                            topicId: this.props.topic.id
+                                        }}>
                                     {I18n.t('js.topic.show.share')}
                                     <ShareIcon className="topic-show-share-button-icon"/>
                                 </Button>
@@ -257,21 +256,19 @@ class TopicShow extends React.Component {
                     !!this.props.isOwner &&
                     <>
                         <div className="center-align margin-top-60 margin-bottom-20">
-                            <Button
-                                variant="outlined"
-                                size="small"
-                                component={Link}
-                                to={editTopicPath(this.props.topic.user.slug, this.props.topic.slug)}>
+                            <Button variant="outlined"
+                                    size="small"
+                                    component={Link}
+                                    to={editTopicPath(this.props.topic.user.slug, this.props.topic.slug)}>
                                 {I18n.t('js.topic.show.edit_link')}
                             </Button>
                         </div>
 
                         <div className="center-align margin-top-40">
-                            <Button
-                                className="topic-show-share-button"
-                                variant="text"
-                                size="small"
-                                onClick={this._handleTopicDelete}>
+                            <Button className="topic-show-share-button"
+                                    variant="text"
+                                    size="small"
+                                    onClick={this._handleTopicDelete}>
                                 {I18n.t('js.topic.edit.delete')}
                             </Button>
                         </div>

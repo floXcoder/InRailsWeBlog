@@ -35,12 +35,11 @@ function ArticleLanguageIcon({
     return (
         <span className="flow-tooltip-bottom"
               data-tooltip={I18n.t('js.article.tooltip.languages')}>
-          <IconButton
-              aria-label="more"
-              aria-controls="article-language-select"
-              aria-haspopup="true"
-              onClick={handleClick}
-              size="large">
+          <IconButton aria-label="more"
+                      aria-controls="article-language-select"
+                      aria-haspopup="true"
+                      onClick={handleClick}
+                      size="large">
             <LanguageIcon color={color}
                           fontSize={size}/>
           </IconButton>

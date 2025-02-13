@@ -122,12 +122,11 @@ class ArticleInlineDisplay extends React.PureComponent {
                              'article-inline-over': this.state.isOver,
                              'article-inline-root-private': isPrivateInPublic
                          })}>
-                    <IconButton
-                        className="article-inline-expand"
-                        aria-expanded={this.state.isFolded}
-                        aria-label="Show more"
-                        onClick={this._handleFoldClick}
-                        size="large">
+                    <IconButton className="article-inline-expand"
+                                aria-expanded={this.state.isFolded}
+                                aria-label="Show more"
+                                onClick={this._handleFoldClick}
+                                size="large">
                         <ExpandMoreIcon/>
                     </IconButton>
 
@@ -135,7 +134,7 @@ class ArticleInlineDisplay extends React.PureComponent {
                         !!this.props.article.title &&
                         <Link to={userArticlePath(this.props.article.user.slug, this.props.article.slug)}
                               onClick={this._handleTitleClick}>
-                            <h1 className="article-inline-title">
+                            <h1 className={classNames('article-inline-title', {'article-inline-title-archived': this.props.article.archived})}>
                                 {this.props.article.title}
                             </h1>
                         </Link>

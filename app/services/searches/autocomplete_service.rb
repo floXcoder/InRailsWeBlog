@@ -33,6 +33,7 @@ module Searches
           title_only:  @params[:title_only],
           no_fragment: @params[:no_fragment],
           where:       where_options.merge(
+            archived:  false,
             mode:      @params[:mode],
             draft:     @params[:draft],
             tag_ids:   @params[:tag_ids].presence,

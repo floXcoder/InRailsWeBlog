@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Hidden from '@mui/material/Hidden';
+import Box from '@mui/material/Box';
 
 import ArticleDeleteIcon from '@js/components/articles/icons/delete';
 import ArticleTrackingIcon from '@js/components/articles/icons/tracking';
@@ -11,6 +11,7 @@ import ArticleBookmarkIcon from '@js/components/articles/icons/bookmark';
 import ArticleHistoryIcon from '@js/components/articles/icons/history';
 import ArticleEditIcon from '@js/components/articles/icons/edit';
 import ArticleLinkIcon from '@js/components/articles/icons/link';
+import ArticleArchiveIcon from '@js/components/articles/icons/archive';
 
 // import ArticleOutdatedIcon from '@js/components/articles/icons/outdated';
 
@@ -27,8 +28,10 @@ const ArticleActions = function ({
                                      articleTopicId,
                                      articleTitle,
                                      articleVisibility,
+                                     isArchived,
                                      hasLinks,
                                      onCheckLinkClick,
+                                     onArchiveClick,
                                      onDeleteClick,
                                      size = 'medium',
                                      color = 'action'
@@ -46,36 +49,61 @@ const ArticleActions = function ({
             }
 
             {
+                (!isInline && !!userSlug) &&
+                <li className="article-card-action-item">
+                    <ArticleArchiveIcon isArchived={isArchived}
+                                        size={size}
+                                        color={color}
+                                        onArchiveClick={onArchiveClick}/>
+                </li>
+            }
+
+            {
                 (!isInline && articleVisibility !== 'only_me') &&
-                <Hidden lgDown={true}>
-                    <li className="article-card-action-item">
-                        <ArticleTrackingIcon articleId={articleId}
-                                             size={size}
-                                             color={color}/>
-                    </li>
-                </Hidden>
+                <Box sx={{
+                    display: {
+                        lg: 'block',
+                        md: 'none'
+                    }
+                }}
+                     component="li"
+                     className="article-card-action-item">
+                    <ArticleTrackingIcon articleId={articleId}
+                                         size={size}
+                                         color={color}/>
+                </Box>
             }
 
             {
                 !isInline && !!hasLinks &&
-                <Hidden lgDown={true}>
-                    <li className="article-card-action-item">
-                        <CheckLinkIcon onCheckLinkClick={onCheckLinkClick}
-                                       size={size}
-                                       color={color}/>
-                    </li>
-                </Hidden>
+                <Box sx={{
+                    display: {
+                        lg: 'block',
+                        md: 'none'
+                    }
+                }}
+                     component="li"
+                     className="article-card-action-item">
+                    <CheckLinkIcon onCheckLinkClick={onCheckLinkClick}
+                                   size={size}
+                                   color={color}/>
+                </Box>
             }
 
             {
                 (!isInline && articleVisibility !== 'everyone') &&
-                <Hidden lgDown={true}>
-                    <li className="article-card-action-item">
-                        <ArticleShareIcon articleId={articleId}
-                                          size={size}
-                                          color={color}/>
-                    </li>
-                </Hidden>
+                <Box sx={{
+                    display: {
+                        lg: 'block',
+                        md: 'none'
+                    }
+                }}
+                     component="li"
+                     className="article-card-action-item">
+                    <ArticleShareIcon articleId={articleId}
+                                      size={size}
+                                      color={color}/>
+                </Box>
             }
 
             <li className="article-card-action-item">
@@ -98,14 +126,19 @@ const ArticleActions = function ({
 
             {
                 !!(!isInline && userSlug) &&
-                <Hidden lgDown={true}>
-                    <li className="article-card-action-item">
-                        <ArticleHistoryIcon userSlug={userSlug}
-                                            articleSlug={articleSlug}
-                                            size={size}
-                                            color={color}/>
-                    </li>
-                </Hidden>
+                <Box sx={{
+                    display: {
+                        lg: 'block',
+                        md: 'none'
+                    }
+                }}
+                     component="li"
+                     className="article-card-action-item">
+                    <ArticleHistoryIcon userSlug={userSlug}
+                                        articleSlug={articleSlug}
+                                        size={size}
+                                        color={color}/>
+                </Box>
             }
 
             {
@@ -147,6 +180,7 @@ ArticleActions.propTypes = {
     onCheckLinkClick: PropTypes.func,
     onDeleteClick: PropTypes.func,
     isInline: PropTypes.bool,
+    isArchived: PropTypes.bool,
     // isOutdated: PropTypes.bool,
     hasLinks: PropTypes.bool,
     size: PropTypes.oneOf(['small', 'medium', 'large']),

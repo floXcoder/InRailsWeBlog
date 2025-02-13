@@ -376,12 +376,11 @@ class HeaderLayoutUser extends React.PureComponent {
 
                     <Toolbar className="layout-header-toolbar">
                         <div className="layout-header-section-mobile">
-                            <IconButton
-                                className="layout-header-menu-button"
-                                color="primary"
-                                aria-label="Open drawer"
-                                onClick={this._handleTagDrawerToggle}
-                                size="large">
+                            <IconButton className="layout-header-menu-button"
+                                        color="primary"
+                                        aria-label="Open drawer"
+                                        onClick={this._handleTagDrawerToggle}
+                                        size="large">
                                 <MenuIcon/>
                             </IconButton>
                         </div>

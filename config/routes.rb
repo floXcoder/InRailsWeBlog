@@ -109,6 +109,10 @@ Rails.application.routes.draw do
     resource :outdated, controller: 'outdated', only: [:create, :destroy], **options
   end
 
+  concern :archived do |options|
+    resource :archived, controller: 'archived', only: [:create, :destroy], **options
+  end
+
   concern :votes do |options|
     resource :votes, controller: 'votes', only: [:create, :destroy], **options
   end
@@ -221,6 +225,8 @@ Rails.application.routes.draw do
         end
 
         concerns :outdated,    module: :articles
+
+        concerns :archived,    module: :articles
 
         concerns :votes,       module: :articles
       end

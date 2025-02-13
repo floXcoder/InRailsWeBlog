@@ -151,12 +151,11 @@ class TagIndex extends React.Component {
                         </Typography>
 
                         <div>
-                            <Button
-                                variant="outlined"
-                                size="small"
-                                component={Link}
-                                to={showTagPath(tag.slug)}
-                                onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.userId, tag.name, null)}>
+                            <Button variant="outlined"
+                                    size="small"
+                                    component={Link}
+                                    to={showTagPath(tag.slug)}
+                                    onClick={spyTrackClick.bind(null, 'tag', tag.id, tag.slug, tag.userId, tag.name, null)}>
                                 {I18n.t('js.tag.index.show')}
                             </Button>
                         </div>
@@ -216,11 +215,10 @@ class TagIndex extends React.Component {
                     {
                         !!(Utils.isPresent(this.props.routeParams) && this.props.currentUser) &&
                         <div className="center-align margin-top-30">
-                            <Button
-                                variant="text"
-                                size="small"
-                                component={Link}
-                                to={sortTagPath(this.props.currentUser.slug)}>
+                            <Button variant="text"
+                                    size="small"
+                                    component={Link}
+                                    to={sortTagPath(this.props.currentUser.slug)}>
                                 {I18n.t('js.tag.index.sort')}
                             </Button>
                         </div>
@@ -234,11 +232,10 @@ class TagIndex extends React.Component {
                              dangerouslySetInnerHTML={{__html: this.props.topic.description}}/>
 
                         <div className="margin-top-40 center-align">
-                            <Button
-                                variant="outlined"
-                                size="small"
-                                component={Link}
-                                to={userTopicPath(this.props.topic.user.slug, this.props.topic.slug)}>
+                            <Button variant="outlined"
+                                    size="small"
+                                    component={Link}
+                                    to={userTopicPath(this.props.topic.user.slug, this.props.topic.slug)}>
                                 {I18n.t('js.tag.index.links.parent_topic', {topic: this.props.topic.name})}
                             </Button>
                         </div>

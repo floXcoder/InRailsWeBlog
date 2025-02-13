@@ -103,11 +103,10 @@ class TopicModule extends React.Component {
                 </div>
 
                 <div className="topic-module-close">
-                    <IconButton
-                        aria-expanded={true}
-                        aria-label="Close"
-                        onClick={this.props.onClose}
-                        size="large">
+                    <IconButton aria-expanded={true}
+                                aria-label="Close"
+                                onClick={this.props.onClose}
+                                size="large">
                         <CloseIcon color="primary"
                                    fontSize="large"/>
                     </IconButton>

@@ -292,6 +292,9 @@ class Article < ApplicationRecord
 
   scope :last_updated, -> (user_id, limit) { where(user_id: user_id).order('updated_at DESC').limit(limit) }
 
+  scope :archived, -> { where(archived: true) }
+  scope :not_archived, -> { where(archived: false) }
+
   scope :published, -> { where(draft: false) }
 
   scope :bookmarked_by_user, -> (user_id) { joins(:bookmarks).where(bookmarks: { bookmarked_type: model_name.name, user_id: user_id }) }
@@ -331,7 +334,7 @@ class Article < ApplicationRecord
     when 'normal'
       ArticleSerializer.new(data,
                             fields:  {
-                              article: %i[id userId userSlug user tags topicId topicSlug topicName mode modeTranslated slugTranslations title summary contentSummary content inventories reference visibility visibilityTranslated allowComment draft languages defaultPicture slug bookmarksCount commentsCount date dateShort updatedDate link parentTagIds childTagIds],
+                              article: %i[id userId userSlug user tags topicId topicSlug topicName mode modeTranslated slugTranslations title summary contentSummary content inventories reference visibility visibilityTranslated allowComment draft languages defaultPicture slug bookmarksCount commentsCount date dateShort updatedDate archived link parentTagIds childTagIds],
                               user:    %i[id pseudo slug avatarUrl],
                               tag:     %i[id userId name synonyms visibility taggedArticlesCount slug description]
                             },
@@ -340,7 +343,7 @@ class Article < ApplicationRecord
     else
       ArticleSerializer.new(data,
                             fields:  {
-                              article: %i[id userId userSlug user mode summary draft visibility defaultPicture slug outdatedArticlesCount commentsCount modeTranslated title contentSummary inventories date dateShort updatedDate dateIso topicId topicName tags parentTagIds childTagIds],
+                              article: %i[id userId userSlug user mode summary draft visibility defaultPicture slug outdatedArticlesCount commentsCount modeTranslated title contentSummary inventories date dateShort updatedDate dateIso topicId topicName archived tags parentTagIds childTagIds],
                               user:    %i[id pseudo slug avatarUrl],
                               tag:     %i[id userId name synonyms visibility taggedArticlesCount slug description]
                             },

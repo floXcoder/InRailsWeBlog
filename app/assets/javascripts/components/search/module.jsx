@@ -105,11 +105,10 @@ class SearchModule extends React.Component {
                    square={true}
                    elevation={4}>
                 <div className="search-module-close show-on-small">
-                    <IconButton
-                        aria-expanded={true}
-                        aria-label="Close"
-                        onClick={this._handleSearchClose}
-                        size="large">
+                    <IconButton aria-expanded={true}
+                                aria-label="Close"
+                                onClick={this._handleSearchClose}
+                                size="large">
                         <CloseIcon color="primary"
                                    fontSize="large"/>
                     </IconButton>

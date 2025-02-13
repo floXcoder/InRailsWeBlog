@@ -318,8 +318,7 @@ class SearchIndex extends React.Component {
                           direction="row"
                           justifyContent="center"
                           alignItems="center">
-                        <Grid
-                            className="search-index-input-item">
+                        <Grid className="search-index-input-item">
                             <FormControl classes={{
                                 root: 'search-index-input-form'
                             }}>
@@ -359,8 +358,7 @@ class SearchIndex extends React.Component {
                             </FormControl>
                         </Grid>
 
-                        <Grid
-                            className="search-index-searchButton">
+                        <Grid className="search-index-searchButton">
                             <Button color="primary"
                                     variant="outlined"
                                     onClick={this._handleSubmit}>

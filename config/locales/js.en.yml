@@ -494,6 +494,7 @@ en:
         actions: "Actions"
         private_in_public: "This article is private"
         all_stories: "See all articles of this story"
+        archived: "(Archivé)"
         lazy_saved: "Article saved"
         not_connected:
           message: "Please log in, before posting article"
@@ -603,6 +604,8 @@ en:
         topic_link: "Got to the topic"
         cancel: "Cancel"
         update: "Update"
+        archived: "Archived this article"
+        unarchived: "Unarchived this article"
         share: "Share this article"
         tracking: "Views statistic"
         compare: "Comparison between languages"

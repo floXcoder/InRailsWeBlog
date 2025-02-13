@@ -112,15 +112,15 @@ class ArticleMiniCardDisplay extends React.Component {
                         root: 'article-mini-card-header'
                     }}
                                 title={
-                                    <h2 className="article-mini-card-extract-title"
+                                    <h1 className="article-mini-card-extract-title"
                                         itemProp="name headline">
-                                        <Link className="article-mini-card-extract-title-link"
+                                        <Link className={classNames('article-mini-card-extract-title-link', {'article-mini-card-extract-title-link-archived': this.props.article.archived})}
                                               to={userArticlePath(this.props.article.user.slug, this.props.article.slug)}
                                               itemProp="mainEntityOfPage url"
                                               onClick={spyTrackClick.bind(null, 'article', this.props.article.id, this.props.article.slug, this.props.article.userId, this.props.article.title, this.props.article.topicId)}>
                                             {this.props.article.title}
                                         </Link>
-                                    </h2>
+                                    </h1>
                                 }
                                 subheader={!!(this.props.hasTags && !this.props.isTagDown) && this._renderArticleTags()}
                     />

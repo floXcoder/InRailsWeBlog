@@ -91,11 +91,10 @@ class TrackingCompareModal extends React.Component {
                     {name}
                 </InputLabel>
 
-                <Select
-                    labelId={`${localePosition}-label`}
-                    id={localePosition}
-                    value={this.state[localePosition]}
-                    onChange={this._handleLocaleChange.bind(this, localePosition)}>
+                <Select labelId={`${localePosition}-label`}
+                        id={localePosition}
+                        value={this.state[localePosition]}
+                        onChange={this._handleLocaleChange.bind(this, localePosition)}>
                     {
                         Object.keys(this.props.article.contentTranslations)
                             .map((locale) => (

@@ -285,12 +285,11 @@ class HeaderLayoutDefault extends React.Component {
                         {this._renderDesktopMenu()}
 
                         <div className="layout-header-section-mobile">
-                            <IconButton
-                                className="layout-header-menu-button"
-                                color="primary"
-                                aria-label="Open drawer"
-                                onClick={this._handleDrawerToggle}
-                                size="large">
+                            <IconButton className="layout-header-menu-button"
+                                        color="primary"
+                                        aria-label="Open drawer"
+                                        onClick={this._handleDrawerToggle}
+                                        size="large">
                                 <AccountCircleIcon className="layout-header-mobile-icon"/>
                             </IconButton>
                         </div>

@@ -46,6 +46,7 @@ module Searches
           operator:      @current_user ? @current_user.search_operator : nil,
           order:         order,
           where:         {
+                           archived:  false,
                            mode:      @params[:mode],
                            draft:     @params[:draft],
                            languages: @params[:language],

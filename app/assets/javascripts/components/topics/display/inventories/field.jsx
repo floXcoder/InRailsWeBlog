@@ -134,12 +134,11 @@ export default class TopicFormInventoryFieldDisplay extends React.Component {
                             {I18n.t('js.topic.edit_inventories.field_props')}
 
 
-                            <IconButton
-                                className={classNames('topic-form-inv-field-props-expand', {
-                                    'topic-form-inv-field-props-expand-open': this.state.isSourceExpanded
-                                })}
-                                aria-label="Show more"
-                                size="large">
+                            <IconButton className={classNames('topic-form-inv-field-props-expand', {
+                                'topic-form-inv-field-props-expand-open': this.state.isSourceExpanded
+                            })}
+                                        aria-label="Show more"
+                                        size="large">
                                 <ExpandMoreIcon/>
                             </IconButton>
                         </Typography>
@@ -207,10 +206,9 @@ export default class TopicFormInventoryFieldDisplay extends React.Component {
 
                         <Grid className="center-align"
                               size={{sm: 12}}>
-                            <Button
-                                variant="text"
-                                size="small"
-                                onClick={this.props.onRemoveField.bind(this, this.props.index)}>
+                            <Button variant="text"
+                                    size="small"
+                                    onClick={this.props.onRemoveField.bind(this, this.props.index)}>
                                 {I18n.t('js.topic.edit_inventories.remove_field')}
                             </Button>
                         </Grid>

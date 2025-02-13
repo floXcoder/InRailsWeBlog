@@ -348,9 +348,9 @@ describe Articles::FindQueries, type: :query do
 
     context 'when article topic is not a story' do
       it 'returns 2 articles ordered by priority' do
-        articles = Articles::FindQueries.new.recommendations(article: @public_articles.first)
+        articles = Articles::FindQueries.new.recommendations(article: @public_articles.last)
 
-        expect(articles).to match_array(@public_articles.sort_by { |a| -a.priority }[0..1])
+        expect(articles).to match_array(@public_articles.sort_by { |a| -a.priority }[0..(InRailsWeBlog.settings.recommendation_limit - 1)])
       end
     end
 

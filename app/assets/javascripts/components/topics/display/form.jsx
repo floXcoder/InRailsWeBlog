@@ -209,11 +209,10 @@ export default class TopicFormDisplay extends React.Component {
                                     </div>
 
                                     <div className="col s12">
-                                        <Button
-                                            variant="text"
-                                            size="small"
-                                            component={Link}
-                                            to={this.props.isEditing ? userTopicPath(this.props.children.user.slug, this.props.children.slug) : rootPath()}>
+                                        <Button variant="text"
+                                                size="small"
+                                                component={Link}
+                                                to={this.props.isEditing ? userTopicPath(this.props.children.user.slug, this.props.children.slug) : rootPath()}>
                                             {I18n.t('js.topic.edit.back_button')}
                                         </Button>
                                     </div>

@@ -77,14 +77,13 @@ export default class AdminBlogCard extends React.Component {
                                 </a>
                             }
                             action={
-                                <IconButton
-                                    className={classNames('admin-blog-expand', {
-                                        'admin-blog-expandOpen': this.state.isFolded
-                                    })}
-                                    aria-expanded={this.state.isFolded}
-                                    aria-label="Show more"
-                                    onClick={this._handleFoldClick}
-                                    size="large">
+                                <IconButton className={classNames('admin-blog-expand', {
+                                    'admin-blog-expandOpen': this.state.isFolded
+                                })}
+                                            aria-expanded={this.state.isFolded}
+                                            aria-label="Show more"
+                                            onClick={this._handleFoldClick}
+                                            size="large">
                                     <ExpandMoreIcon/>
                                 </IconButton>
                             }/>

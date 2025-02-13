@@ -41,8 +41,10 @@ import {
     markArticleOutdated,
     unmarkArticleOutdated,
     checkLinksArticle,
+    archiveArticle,
+    unarchiveArticle,
     deleteArticle,
-    showArticleContent
+    showArticleContent,
 } from '@js/actions/articleActions';
 
 import {
@@ -129,6 +131,8 @@ class ArticleShow extends React.Component {
         markArticleOutdated: PropTypes.func,
         unmarkArticleOutdated: PropTypes.func,
         checkLinksArticle: PropTypes.func,
+        archiveArticle: PropTypes.func,
+        unarchiveArticle: PropTypes.func,
         deleteArticle: PropTypes.func,
         setCurrentTags: PropTypes.func,
         showUserSignup: PropTypes.func,
@@ -335,6 +339,18 @@ class ArticleShow extends React.Component {
             .then(() => Notification.success(I18n.t('js.article.common.dead_links.done')));
     };
 
+    _handleArchiveClick = (event) => {
+        event.preventDefault();
+
+        if (this.props.article.archived) {
+            this.props.unarchiveArticle(this.props.article.id)
+                .then((response) => response?.errors && Notification.error(response.errors));
+        } else {
+            this.props.archiveArticle(this.props.article.id)
+                .then((response) => response?.errors && Notification.error(response.errors));
+        }
+    };
+
     _handleDeleteClick = (event) => {
         event.preventDefault();
 
@@ -454,11 +470,19 @@ class ArticleShow extends React.Component {
                                     </Grid>
                                 }
 
-                                <Typography className="article-show-title"
-                                            variant="h1"
-                                            itemProp="name headline">
+                                <Typography
+                                    className={classNames('article-show-title', {'article-show-title-archived': this.props.article.archived})}
+                                    variant="h1"
+                                    itemProp="name headline">
                                     {title}
                                 </Typography>
+
+                                {
+                                    !!this.props.article.archived &&
+                                    <div className="article-show-subtitle-archived">
+                                        {I18n.t('js.article.common.archived')}
+                                    </div>
+                                }
 
                                 <Grid size={{xs: 12}}>
                                     <Grid container={true}
@@ -505,11 +529,10 @@ class ArticleShow extends React.Component {
                                                     </>
                                                     :
                                                     <div className="article-show-edit-icon">
-                                                        <Button
-                                                            variant="outlined"
-                                                            size="small"
-                                                            component={Link}
-                                                            to={topicArticlesPath(this.props.article.userSlug, this.props.article.topicSlug)}>
+                                                        <Button variant="outlined"
+                                                                size="small"
+                                                                component={Link}
+                                                                to={topicArticlesPath(this.props.article.userSlug, this.props.article.topicSlug)}>
                                                             {this.props.article.topicName}
                                                         </Button>
                                                     </div>
@@ -579,10 +602,12 @@ class ArticleShow extends React.Component {
                                                     articleSlug={this.props.article.slug}
                                                     articleTitle={this.props.article.title}
                                                     articleVisibility={this.props.article.visibility}
+                                                    isArchived={this.props.article.archived}
                                                     isOutdated={this.props.article.outdated}
                                                     hasLinks={hasLinks}
                                                     onOutdatedClick={this._handleOutdatedClick}
                                                     onCheckLinkClick={this._handleCheckLinkClick}
+                                                    onArchiveClick={this._handleArchiveClick}
                                                     onDeleteClick={this._handleDeleteClick}/>
                                 }
                             </div>
@@ -596,14 +621,14 @@ class ArticleShow extends React.Component {
                         <Divider/>
 
                         {
-                            !!(isStoryMode && !this.props.isUserConnected) &&
+                            !!(this.props.routeParams.userSlug !== this.props.currentUserSlug && isStoryMode && !this.props.isUserConnected) &&
                             <SummaryStoriesTopic userSlug={this.props.routeParams.userSlug}
                                                  topic={this.props.storyTopic}
                                                  hasLink={true}/>
                         }
 
                         {
-                            !isStoryMode &&
+                            (this.props.routeParams.userSlug !== this.props.currentUserSlug && !isStoryMode) &&
                             <h3 className="article-show-recommendations-title">
                                 {I18n.t('js.article.show.recommendations.title')}
                             </h3>
@@ -644,7 +669,7 @@ class ArticleShow extends React.Component {
                         }
 
                         {
-                            !isStoryMode &&
+                            (this.props.routeParams.userSlug !== this.props.currentUserSlug && !isStoryMode) &&
                             <div className="article-show-recommendations-link">
                                 <Button color="primary"
                                         variant="outlined"
@@ -703,6 +728,8 @@ export default withRouter({
     markArticleOutdated,
     unmarkArticleOutdated,
     checkLinksArticle,
+    archiveArticle,
+    unarchiveArticle,
     deleteArticle,
     setCurrentTags,
     showUserSignup,

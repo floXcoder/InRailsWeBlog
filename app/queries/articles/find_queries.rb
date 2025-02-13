@@ -24,7 +24,7 @@ module Articles
       @relation = @relation
                     .include_collection(with_current_user: !!@current_user)
                     .with_adapted_visibility(@current_user, @current_admin)
-                    .order_by(article_order(params)).order_by('updated_desc')
+                    .order_by('archived_asc').order_by(article_order(params)).order_by('updated_desc')
                     .filter_by(params, @current_user, @user_articles, @topic_articles)
                     .filter_by_locale(@current_user)
                     .paginate_or_limit(params, @current_user)
@@ -65,6 +65,7 @@ module Articles
       @relation = @relation
                     .include_collection
                     .everyone_and_user(@current_user&.id)
+                    .not_archived
                     .with_locale
 
       if params[:article]
@@ -93,10 +94,10 @@ module Articles
           @relation.compact!
         else
           @relation = @relation
-                        # .includes(:parent_relationships, :child_relationships)
+                        .includes(:parent_relationships, :child_relationships)
                         .filter_by(params, @current_user, nil, article.topic, relationships: true)
-                        # .order_by('priority_desc')
-                        .paginate_or_limit({ limit: 2 }, @current_user)
+                        .order_by('priority_desc')
+                        .paginate_or_limit({ limit: InRailsWeBlog.settings.recommendation_limit }, @current_user)
         end
       else
         @relation = Article.none
@@ -168,6 +169,10 @@ module Articles
           order('articles.updated_at ASC')
         when 'updated_desc'
           order('articles.updated_at DESC')
+        when 'archived_asc'
+          order('articles.archived ASC')
+        when 'archived_desc'
+          order('articles.archived DESC')
         when 'tag_asc'
           order('tags.name ASC NULLS LAST')
         when 'tags_desc'

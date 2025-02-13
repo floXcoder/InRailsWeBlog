@@ -99,11 +99,10 @@ export default function ArticleSorterDisplay({
         <div className="article-sort-sorting">
             <div className="row">
                 <div className="col s12 m6 center-align">
-                    <Button
-                        variant="outlined"
-                        size="small"
-                        component={Link}
-                        to={userHomePath(currentUserSlug)}>
+                    <Button variant="outlined"
+                            size="small"
+                            component={Link}
+                            to={userHomePath(currentUserSlug)}>
                         {I18n.t('js.helpers.buttons.cancel')}
                     </Button>
                 </div>

@@ -56,6 +56,7 @@ class ArticleSerializer
              :user_slug,
              :topic_slug,
              :topic_name,
+             :archived,
              :tag_names,
              :pictures_count,
              :bookmarks_count,

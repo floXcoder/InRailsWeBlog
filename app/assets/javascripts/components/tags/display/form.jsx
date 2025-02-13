@@ -218,11 +218,10 @@ export default class TagFormDisplay extends React.Component {
                                     </div>
 
                                     <div className="col s12">
-                                        <Button
-                                            variant="text"
-                                            size="small"
-                                            component={Link}
-                                            to={showTagPath(this.props.children.slug)}>
+                                        <Button variant="text"
+                                                size="small"
+                                                component={Link}
+                                                to={showTagPath(this.props.children.slug)}>
                                             {I18n.t('js.tag.edit.back_button')}
                                         </Button>
                                     </div>

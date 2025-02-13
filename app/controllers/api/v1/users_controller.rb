@@ -170,7 +170,7 @@ module Api::V1
           admin_or_authorize user
 
           article_ids, tag_ids = user.recent_visits(params[:limit]&.to_i)
-          updated_articles     = Article.includes(:user, :topic, :tagged_articles, :tags).last_updated(current_user.id, params[:limit]&.to_i)
+          updated_articles     = Article.includes(:user, :topic, :tagged_articles, :tags).not_archived.last_updated(current_user.id, params[:limit]&.to_i)
         end
       elsif cookies[:ahoy_visitor].present?
         article_ids = Ahoy::Event.joins(:visit).merge(Ahoy::Visit.where(visitor_token: cookies[:ahoy_visitor])).recent_articles(params[:limit]&.to_i).map { |event| event.properties['article_id'] }.uniq
@@ -181,7 +181,7 @@ module Api::V1
         format.json do
           render json: {
             tags:            Tag.flat_serialized_json(Tag.includes(:tagged_articles).where(id: tag_ids), 'sample', with_model: false),
-            articles:        Article.flat_serialized_json(Article.includes(:user, :topic, :tagged_articles, :tags).where(id: article_ids), 'sample', with_model: false, params: { without_pictures: true }),
+            articles:        Article.flat_serialized_json(Article.includes(:user, :topic, :tagged_articles, :tags).not_archived.where(id: article_ids), 'sample', with_model: false, params: { without_pictures: true }),
             updatedArticles: Article.flat_serialized_json(updated_articles, 'sample', with_model: false, params: { without_pictures: true })
           }
         end

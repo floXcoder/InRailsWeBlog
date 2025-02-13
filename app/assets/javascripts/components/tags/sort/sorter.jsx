@@ -103,11 +103,10 @@ export default function TagSorterDisplay({
         <div className="tag-sorting">
             <div className="row">
                 <div className="col s12 m6 center-align">
-                    <Button
-                        variant="outlined"
-                        size="small"
-                        component={Link}
-                        to={showTagPath(userSlug)}>
+                    <Button variant="outlined"
+                            size="small"
+                            component={Link}
+                            to={showTagPath(userSlug)}>
                         {I18n.t('js.helpers.buttons.cancel')}
                     </Button>
                 </div>

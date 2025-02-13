@@ -308,11 +308,10 @@ class ArticleFormDisplay extends React.Component {
 
                                         <div className="row">
                                             <div className="col s6 left-align">
-                                                <Button
-                                                    size="small"
-                                                    component={Link}
-                                                    to={this.props.isEditing ? userArticlePath(this.props.userSlug, this.props.children.slug) : userHomePath(this.props.userSlug)}
-                                                    onClick={this.props.onCancel}>
+                                                <Button size="small"
+                                                        component={Link}
+                                                        to={this.props.isEditing ? userArticlePath(this.props.userSlug, this.props.children.slug) : userHomePath(this.props.userSlug)}
+                                                        onClick={this.props.onCancel}>
                                                     {I18n.t('js.helpers.buttons.cancel')}
                                                 </Button>
                                             </div>

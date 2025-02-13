@@ -314,6 +314,10 @@
 
 .article-card-title-link {
   color: $text-color;
+
+  &.article-card-title-link-archived {
+    color: #808080;
+  }
 }
 
 .article-card-grid-title {
@@ -326,6 +330,10 @@
 
 .article-card-grid-title-link {
   color: $text-color;
+
+  &.article-card-grid-title-link-archived {
+    color: #808080;
+  }
 }
 
 .article-card-expand {
@@ -1182,6 +1190,10 @@
 
 .article-mini-card-extract-title-link {
   color: $text-color;
+
+  &.article-mini-card-extract-title-link-archived {
+    color: #808080;
+  }
 }
 
 .article-mini-card-article-info {
@@ -1357,6 +1369,10 @@
 .article-inline-title {
   margin: 0 0 1rem;
   font-size: 2.2rem;
+
+  &.article-inline-title-archived {
+    color: #808080;
+  }
 }
 
 .article-inline-expand {

@@ -25,14 +25,13 @@ const AppBarLayout = function ({
                     'appbar-shift': isDrawerOpen
                 })}>
             <Toolbar>
-                <IconButton
-                    color="inherit"
-                    aria-label="Open drawer"
-                    onClick={onDrawerOpen}
-                    className={classNames('menu-button', {
-                        hide: isDrawerOpen
-                    })}
-                    size="large">
+                <IconButton color="inherit"
+                            aria-label="Open drawer"
+                            onClick={onDrawerOpen}
+                            className={classNames('menu-button', {
+                                hide: isDrawerOpen
+                            })}
+                            size="large">
                     <MenuIcon/>
                 </IconButton>
 

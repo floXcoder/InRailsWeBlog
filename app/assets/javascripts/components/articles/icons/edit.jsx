@@ -48,14 +48,13 @@ const ArticleEditIcon = function ({
             {
                 isIconButton
                     ?
-                    <IconButton
-                        aria-label="more"
-                        aria-controls="article-language-select"
-                        aria-haspopup="true"
-                        component={Link}
-                        to={editArticlePath(userSlug, articleSlug)}
-                        onClick={_redirectToEdit.bind(undefined, userSlug, articleSlug, routeNavigate)}
-                        size="large">
+                    <IconButton aria-label="more"
+                                aria-controls="article-language-select"
+                                aria-haspopup="true"
+                                component={Link}
+                                to={editArticlePath(userSlug, articleSlug)}
+                                onClick={_redirectToEdit.bind(undefined, userSlug, articleSlug, routeNavigate)}
+                                size="large">
                         <EditIcon color={color}
                                   fontSize={size}/>
                     </IconButton>

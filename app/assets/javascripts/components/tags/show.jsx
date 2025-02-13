@@ -277,11 +277,10 @@ class TagShow extends React.Component {
                 {
                     this.props.currentUser?.id === this.props.tag.user.id &&
                     <div className="center-align margin-top-60 margin-bottom-20">
-                        <Button
-                            variant="outlined"
-                            size="small"
-                            component={Link}
-                            to={editTagPath(this.props.tag.slug)}>
+                        <Button variant="outlined"
+                                size="small"
+                                component={Link}
+                                to={editTagPath(this.props.tag.slug)}>
                             {I18n.t('js.tag.show.edit_link')}
                         </Button>
                     </div>

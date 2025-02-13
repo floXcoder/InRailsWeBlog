@@ -39,6 +39,9 @@ shared: &shared
   article_summary_length: 220
   article_summary_connected_length: 420
 
+  # Article recommendation
+  recommendation_limit: 4
+
   # Comments
   comment_per_page: 60
 

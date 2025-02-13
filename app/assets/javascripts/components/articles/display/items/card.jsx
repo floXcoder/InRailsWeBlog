@@ -73,7 +73,7 @@ class ArticleCardDisplay extends React.PureComponent {
 
     state = {
         wasGlobalMinimized: this.props.isMinimized,
-        isFolded: this.props.isMinimized
+        isFolded: this.props.isMinimized || this.props.article.archived
     };
 
     static getDerivedStateFromProps(nextProps, prevState) {
@@ -158,14 +158,13 @@ class ArticleCardDisplay extends React.PureComponent {
                         root: 'article-card-header'
                     }}
                                 action={
-                                    <IconButton
-                                        className={classNames('article-card-expand', {
-                                            'article-card-expand-open': this.state.isFolded
-                                        })}
-                                        aria-expanded={this.state.isFolded}
-                                        aria-label="Show more"
-                                        onClick={this._handleFoldClick}
-                                        size="large">
+                                    <IconButton className={classNames('article-card-expand', {
+                                        'article-card-expand-open': this.state.isFolded
+                                    })}
+                                                aria-expanded={this.state.isFolded}
+                                                aria-label="Show more"
+                                                onClick={this._handleFoldClick}
+                                                size="large">
                                         <ExpandMoreIcon/>
                                     </IconButton>
                                 }
@@ -191,7 +190,7 @@ class ArticleCardDisplay extends React.PureComponent {
                                     <>
                                         <h1 className="article-card-title"
                                             itemProp="name headline">
-                                            <Link className="article-card-title-link"
+                                            <Link className={classNames('article-card-title-link', {'article-card-title-link-archived': this.props.article.archived})}
                                                   to={userArticlePath(this.props.article.user.slug, this.props.article.slug)}
                                                   itemProp="mainEntityOfPage url"
                                                   onClick={this._handleTitleClick}>
@@ -203,6 +202,7 @@ class ArticleCardDisplay extends React.PureComponent {
                                             this.props.article.tags.length > 0 &&
                                             <ArticleTags articleId={this.props.article.id}
                                                          tags={this.props.article.tags}
+                                                         className="margin-top-5"
                                                          isSmall={true}
                                                          isOwner={this.props.isOwner}
                                                          currentUserSlug={this.props.currentUserSlug}

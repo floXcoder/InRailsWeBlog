@@ -49,6 +49,10 @@ fr:
         successful_deletion: "L'article a été supprimé"
         error_deletion: "Problème lors de la suppression de l'article : %{errors}"
         successful_undeletion: "Article restauré"
+        successful_archived: "Article archivé : %{title}"
+        error_archived: "Problème pour archivé l'article !"
+        successful_unarchived: "Article désarchivé : %{title}"
+        error_unarchived: "Problème pour désarchivé l'article !"
       index:
         title:
           topic: "Articles pour %{topic}"

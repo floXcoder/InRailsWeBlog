@@ -27,6 +27,7 @@ export default class ArticleTags extends React.PureComponent {
     static propTypes = {
         articleId: PropTypes.number.isRequired,
         tags: PropTypes.array.isRequired,
+        className: PropTypes.string,
         isOwner: PropTypes.bool,
         currentUserSlug: PropTypes.string,
         currentUserTopicSlug: PropTypes.string,
@@ -87,7 +88,7 @@ export default class ArticleTags extends React.PureComponent {
         }
 
         return (
-            <div>
+            <div className={this.props.className}>
                 {
                     parentTags.map((tag) => (
                         <span key={tag.id}

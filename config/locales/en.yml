@@ -49,6 +49,10 @@ en:
         successful_deletion: "Article deleted"
         error_deletion: "Problem during article deletion: %{errors}"
         successful_undeletion: "Article restored"
+        successful_archived: "Article archived: %{title}"
+        error_archived: "Problem during article archived"
+        successful_unarchived: "Article unarchived: %{title}"
+        error_unarchived: "Problem during article unarchived"
       index:
         title:
           topic: "Articles for %{topic} topic"

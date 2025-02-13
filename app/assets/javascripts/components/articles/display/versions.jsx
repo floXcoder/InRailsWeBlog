@@ -160,14 +160,13 @@ export default class ArticleVersionsDisplay extends React.Component {
                                     title: 'article-version-version-title'
                                 }}
                                             action={
-                                                <IconButton
-                                                    className={classNames('article-version-expand', {
-                                                        'article-version-expand-open': this.state.expanded.includes(version.id)
-                                                    })}
-                                                    aria-expanded={this.state.expanded.includes(version.id)}
-                                                    aria-label="Show more"
-                                                    onClick={this._handleFoldClick.bind(this, version.id)}
-                                                    size="large">
+                                                <IconButton className={classNames('article-version-expand', {
+                                                    'article-version-expand-open': this.state.expanded.includes(version.id)
+                                                })}
+                                                            aria-expanded={this.state.expanded.includes(version.id)}
+                                                            aria-label="Show more"
+                                                            onClick={this._handleFoldClick.bind(this, version.id)}
+                                                            size="large">
                                                     <ExpandMoreIcon/>
                                                 </IconButton>
                                             }
