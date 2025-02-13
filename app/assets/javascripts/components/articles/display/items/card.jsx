@@ -180,8 +180,7 @@ class ArticleCardDisplay extends React.PureComponent {
                                           alignItems="center">
                                         <Grid classes={{
                                             item: 'article-card-info-item'
-                                        }}
-                                        >
+                                        }}>
                                             <ArticleAvatarIcon user={this.props.article.user}
                                                                createdDate={this.props.article.date}
                                                                updatedDate={this.props.article.updatedDate}/>

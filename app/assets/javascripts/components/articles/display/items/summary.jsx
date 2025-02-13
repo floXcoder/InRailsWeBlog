@@ -143,8 +143,7 @@ class ArticleSummaryDisplay extends React.Component {
                               alignItems="center">
                             <Grid classes={{
                                 item: 'article-summary-info-item'
-                            }}
-                            >
+                            }}>
                                 <ArticleAvatarIcon user={this.props.article.user}
                                                    createdDate={this.props.article.date}
                                                    updatedDate={this.props.article.updatedDate}/>

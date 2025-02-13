@@ -74,8 +74,7 @@ const LoginForm = function ({
                               direction="column"
                               justifyContent="space-between"
                               alignItems="center">
-                            <Grid classes={{item: 'user-connection-field-item'}}
-                            >
+                            <Grid classes={{item: 'user-connection-field-item'}}>
                                 <Field name="login"
                                        component={TextFormField}
                                        id="user_login_login"
@@ -96,8 +95,7 @@ const LoginForm = function ({
                                        }}/>
                             </Grid>
 
-                            <Grid classes={{item: 'user-connection-field-item'}}
-                            >
+                            <Grid classes={{item: 'user-connection-field-item'}}>
                                 <Field name="password"
                                        component={TextFormField}
                                        id="user_password_login"

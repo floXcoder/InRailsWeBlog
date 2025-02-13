@@ -99,8 +99,7 @@ class UserPassword extends React.Component {
                                   direction="column"
                                   justifyContent="space-between"
                                   alignItems="center">
-                                <Grid classes={{item: 'user-password-field-item'}}
-                                >
+                                <Grid classes={{item: 'user-password-field-item'}}>
                                     <TextField id="user_password"
                                                name="user[password]"
                                                className="user-password-text-field"
@@ -143,8 +142,7 @@ class UserPassword extends React.Component {
                                   direction="column"
                                   justifyContent="space-between"
                                   alignItems="center">
-                                <Grid classes={{item: 'user-password-field-item'}}
-                                >
+                                <Grid classes={{item: 'user-password-field-item'}}>
                                     <TextField id="user_email"
                                                name="user[email]"
                                                className="user-password-text-field"

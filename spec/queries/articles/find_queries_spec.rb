@@ -25,7 +25,7 @@ describe Articles::FindQueries, type: :query do
     @other_public_articles  = create_list(:article, 3, user: @other_user, topic: @other_topic, visibility: :everyone)
     @other_private_articles = create_list(:article, 3, user: @other_user, topic: @other_topic, visibility: :only_me)
 
-    @other_lg_articles      = create(:article, user: @other_user, topic: @other_topic, visibility: :everyone, languages: ['fr'])
+    @other_lg_articles = create(:article, user: @other_user, topic: @other_topic, visibility: :everyone, languages: ['fr'])
   end
 
   describe '#all' do
@@ -351,6 +351,20 @@ describe Articles::FindQueries, type: :query do
         articles = Articles::FindQueries.new.recommendations(article: @public_articles.first)
 
         expect(articles).to match_array(@public_articles.sort_by { |a| -a.priority }[0..1])
+      end
+    end
+
+    context 'when article contains relationships' do
+      before do
+        @public_articles.first.parent_relationships.create(user_id: @user.id, parent_id: @public_articles.first.id, child_id: @public_articles.second.id)
+        @public_articles.first.parent_relationships.create(user_id: @user.id, parent_id: @public_articles.first.id, child_id: @private_articles.first.id)
+        @public_articles.first.child_relationships.create(user_id: @user.id, parent_id: @public_articles.third.id, child_id: @public_articles.first.id)
+      end
+
+      it 'returns 2 authorized articles from the relation' do
+        articles = Articles::FindQueries.new.recommendations(article: @public_articles.first)
+
+        expect(articles).to match_array([@public_articles.second, @public_articles.third])
       end
     end
   end

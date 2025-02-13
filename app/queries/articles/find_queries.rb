@@ -64,7 +64,7 @@ module Articles
     def recommendations(params = {})
       @relation = @relation
                     .include_collection
-                    .everyone
+                    .everyone_and_user(@current_user&.id)
                     .with_locale
 
       if params[:article]
@@ -72,7 +72,7 @@ module Articles
 
         if article.topic&.stories?
           @relation = @relation
-                        .filter_by(params, @current_user, @user_articles, article.topic)
+                        .filter_by(params, @current_user, nil, article.topic)
                         .order_by('updated_desc')
                         .to_a
 
@@ -93,8 +93,9 @@ module Articles
           @relation.compact!
         else
           @relation = @relation
-                        .filter_by(params, @current_user, @user_articles, article.topic)
-                        .order_by('priority_desc')
+                        # .includes(:parent_relationships, :child_relationships)
+                        .filter_by(params, @current_user, nil, article.topic, relationships: true)
+                        # .order_by('priority_desc')
                         .paginate_or_limit({ limit: 2 }, @current_user)
         end
       else
@@ -188,41 +189,45 @@ module Articles
         end
       end
 
-      def filter_by(filter, current_user = nil, user_articles = nil, topic_articles = nil)
-        return self if filter.blank?
+      def filter_by(filter, current_user = nil, user_articles = nil, topic_articles = nil, relationships: false)
+        return self if filter.blank? && current_user.nil? && user_articles.nil? && topic_articles.nil?
 
         records = self
 
-        records = records.where(id: filter[:article_ids]) if filter[:article_ids]
+        if relationships && filter[:article] && (filter[:article].parent_relationships.present? || filter[:article].child_relationships.present?)
+          records = records.where(id: (filter[:article].parent_relationships.map(&:child_id) + filter[:article].child_relationships.map(&:parent_id)).flatten.uniq)
+        else
+          records = records.where(id: filter[:article_ids]) if filter[:article_ids]
 
-        records = records.where(accepted: filter[:accepted]) if filter[:accepted]
-        records = records.with_visibility(filter[:visibility]) if filter[:visibility]
+          records = records.where(accepted: filter[:accepted]) if filter[:accepted]
+          records = records.with_visibility(filter[:visibility]) if filter[:visibility]
 
-        if filter[:bookmarked] && current_user
-          records = records.bookmarked_by_user(current_user.id)
-        elsif topic_articles
-          records = records.from_topic_id(topic_articles.id)
-        elsif user_articles
-          records = records.from_user_id(user_articles.id, current_user&.id)
+          if filter[:bookmarked] && current_user
+            records = records.bookmarked_by_user(current_user.id)
+          elsif topic_articles
+            records = records.from_topic_id(topic_articles.id)
+          elsif user_articles
+            records = records.from_user_id(user_articles.id, current_user&.id)
+          end
+
+          records = if filter[:parent_tag_slug] && filter[:child_tag_slug]
+                      parent_article_ids = Article.all.includes(:tagged_articles).with_parent_tags(filter[:parent_tag_slug]).ids
+                      child_article_ids  = Article.all.includes(:tagged_articles).with_child_tags(filter[:child_tag_slug]).ids
+                      records.where(id: parent_article_ids & child_article_ids)
+                    elsif filter[:parent_tag_slug]
+                      records.with_parent_tags(filter[:parent_tag_slug])
+                    elsif filter[:child_tag_slug]
+                      records.with_child_tags(filter[:child_tag_slug])
+                    elsif filter[:tag_slug]
+                      current_user && current_user.settings['tag_parent_and_child'] ? records.with_tags(filter[:tag_slug]) : records.with_no_parent_tags(filter[:tag_slug])
+                    else
+                      records
+                    end
+
+          records = records.where(draft: true) if filter[:draft]
+
+          records = records.where(mode: filter[:mode]) if filter[:mode]
         end
-
-        records = if filter[:parent_tag_slug] && filter[:child_tag_slug]
-                    parent_article_ids = Article.all.includes(:tagged_articles).with_parent_tags(filter[:parent_tag_slug]).ids
-                    child_article_ids  = Article.all.includes(:tagged_articles).with_child_tags(filter[:child_tag_slug]).ids
-                    records.where(id: parent_article_ids & child_article_ids)
-                  elsif filter[:parent_tag_slug]
-                    records.with_parent_tags(filter[:parent_tag_slug])
-                  elsif filter[:child_tag_slug]
-                    records.with_child_tags(filter[:child_tag_slug])
-                  elsif filter[:tag_slug]
-                    current_user && current_user.settings['tag_parent_and_child'] ? records.with_tags(filter[:tag_slug]) : records.with_no_parent_tags(filter[:tag_slug])
-                  else
-                    records
-                  end
-
-        records = records.where(draft: true) if filter[:draft]
-
-        records = records.where(mode: filter[:mode]) if filter[:mode]
 
         return records
       end

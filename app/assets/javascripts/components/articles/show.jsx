@@ -244,7 +244,7 @@ class ArticleShow extends React.Component {
     };
 
     _fetchRecommendations = () => {
-        if (!this.props.articleRecommendations && this.props.article && this.props.routeParams.userSlug !== this.props.currentUserSlug) {
+        if (!this.props.articleRecommendations && this.props.article /* && this.props.routeParams.userSlug !== this.props.currentUserSlug */) {
             this.props.fetchArticleRecommendations(this.props.routeParams.userSlug, this.props.article.id);
         }
     };
@@ -591,7 +591,7 @@ class ArticleShow extends React.Component {
                 }
 
                 {
-                    (!!this.props.article && !this.props.isFetching && this.props.routeParams.userSlug !== this.props.currentUserSlug) &&
+                    (!!this.props.article && !this.props.isFetching /* && this.props.routeParams.userSlug !== this.props.currentUserSlug*/) &&
                     <div className="article-show-recommendations-container">
                         <Divider/>
 
@@ -617,8 +617,7 @@ class ArticleShow extends React.Component {
                                   alignItems="flex-start">
                                 {
                                     this.props.articleRecommendations.map((article, i) => (
-                                        <Grid key={article.id}
-                                        >
+                                        <Grid key={article.id}>
                                             {
                                                 !!isStoryMode &&
                                                 <h3 className="article-show-recommendations-title">

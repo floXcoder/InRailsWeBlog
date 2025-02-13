@@ -115,8 +115,7 @@ const SignupForm = function ({
                               direction="column"
                               justifyContent="space-between"
                               alignItems="center">
-                            <Grid classes={{item: 'user-connection-field-item'}}
-                            >
+                            <Grid classes={{item: 'user-connection-field-item'}}>
                                 <Field name="pseudo"
                                        component={TextFormField}
                                        validate={fieldValidation.bind(this, 'pseudo')}
@@ -138,8 +137,7 @@ const SignupForm = function ({
                                        }}/>
                             </Grid>
 
-                            <Grid classes={{item: 'user-connection-field-item'}}
-                            >
+                            <Grid classes={{item: 'user-connection-field-item'}}>
                                 <Field name="email"
                                        component={TextFormField}
                                        validate={fieldValidation.bind(this, 'pseudo')}
@@ -161,8 +159,7 @@ const SignupForm = function ({
                                        }}/>
                             </Grid>
 
-                            <Grid classes={{item: 'user-connection-field-item'}}
-                            >
+                            <Grid classes={{item: 'user-connection-field-item'}}>
                                 <Field name="password"
                                        component={TextFormField}
                                        id="user_password_signup"
@@ -184,8 +181,7 @@ const SignupForm = function ({
                                        }}/>
                             </Grid>
 
-                            <Grid classes={{item: 'user-connection-field-item'}}
-                            >
+                            <Grid classes={{item: 'user-connection-field-item'}}>
                                 <Field name="password_confirmation"
                                        component={TextFormField}
                                        id="user_password_confirmation_signup"

@@ -53,8 +53,7 @@ function ArticleSkeleton({
                             </Grid>
                         </Grid>
 
-                        <Grid className="hide-on-small"
-                        >
+                        <Grid className="hide-on-small">
                             <Skeleton width={140}
                                       animation="wave"/>
                         </Grid>
