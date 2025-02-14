@@ -5,11 +5,6 @@
 set :output, "#{Whenever.path}/log/cron.log".sub(/releases\/\d+/, 'current')
 # set :output, { error: "#{Whenever.path}/log/cron.log".sub(/releases\/\d+/, 'current'), standard: nil }
 
-every 15.minutes, roles: [:production] do
-  # InRailsWeBlog.settings.tracker_cron
-  rake 'InRailsWeBlog:update_tracker_data'
-end
-
 # Ensure all locale indexes are reindexed
 every :day, at: '2am', roles: [:production] do
   rake 'InRailsWeBlog:search_reindex'
