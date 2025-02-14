@@ -19,6 +19,7 @@ end
 EXCLUDED_LOGGING_JOBS = %w[
 Ahoy::GeocodeV2Job
 Searchkick::ReindexV2Job
+UpdateTrackerJob
 ].freeze
 
 # ActiveSupport.on_load :active_job do
