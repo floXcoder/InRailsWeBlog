@@ -484,6 +484,8 @@ body {
 }
 
 .file-holder {
+  position: relative;
+  max-width: 90vw;
   border: 1px solid #e5e5e5;
 
   .file-title {
@@ -523,7 +525,7 @@ body {
 
     &.logs {
       background: #eee;
-      max-height: 700px;
+      max-height: 75vh;
       overflow-y: auto;
       max-width: 94vw;
 
@@ -543,7 +545,7 @@ body {
             line-height: 22px;
             margin: 0;
             padding-left: 10px;
-            font-size: 15px;
+            font-size: 12px;
           }
         }
       }
@@ -568,11 +570,11 @@ body {
     }
 
     .file-line-warn {
-      color: #ff8c00;
+      color: darkorange;
     }
 
     .file-line-error {
-      color: #8b0000;
+      color: red;
     }
   }
 
