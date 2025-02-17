@@ -112,7 +112,7 @@ group :development do
   gem 'guard-process',          '1.2.1',  require: false
 
   # Annotate models from DB
-  gem 'annotaterb',             '4.13.0',  require: false
+  gem 'annotaterb',             '4.14.0',  require: false
 
   # Load tests
   gem 'ruby-jmeter',            '3.1.08', require: false
@@ -148,10 +148,10 @@ group :development, :test do
   gem 'bootsnap',                   '1.18.4', require: false
 
   # Check errors
-  gem 'rubocop',                    '1.71.2',  require: false
-  gem 'rubocop-rails',              '2.29.1',  require: false
-  gem 'rubocop-rspec',              '3.4.0',   require: false
-  gem 'rubocop-performance',        '1.23.1',  require: false
+  gem 'rubocop',                    '1.72.1',  require: false
+  gem 'rubocop-rails',              '2.30.1',  require: false
+  gem 'rubocop-rspec',              '3.5.0',   require: false
+  gem 'rubocop-performance',        '1.24.0',  require: false
   gem 'rubocop-capybara',           '2.21.0',  require: false
   gem 'rubocop-factory_bot',        '2.26.1',  require: false
 
