@@ -14,6 +14,7 @@ const HomeUserHeader = function ({
                                      userSlug,
                                      onLogoutClick,
                                      onPreferenceClick,
+                                     onClearPwaCache,
                                      isAdminConnected
                                  }) {
     return (
@@ -29,6 +30,7 @@ const HomeUserHeader = function ({
             <HeaderUserMenu isAdminConnected={isAdminConnected}
                             userSlug={userSlug}
                             onPreferenceClick={onPreferenceClick}
+                            onClearPwaCache={onClearPwaCache}
                             onLogoutClick={onLogoutClick}/>
         </Dropdown>
     );

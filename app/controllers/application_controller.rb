@@ -46,7 +46,10 @@ class ApplicationController < ActionController::Base
   after_action :flash_to_headers, if: -> { json_request? && flash.present? && response.status != 302 }
 
   def define_environment
-    reset_cache_headers if params['_'].present?
+    if params['_'].present?
+      reset_cache_headers
+      clear_browser_cache
+    end
 
     user_env = ::Users::EnvironmentService.new(session,
                                                cookies,
@@ -295,6 +298,10 @@ class ApplicationController < ActionController::Base
     response.headers['Cache-Control'] = 'no-cache, no-store, max-age=0, must-revalidate'
     response.headers['Pragma']        = 'no-cache'
     response.headers['Expires']       = 'Fri, 01 Jan 1990 00:00:00 GMT'
+  end
+
+  def clear_browser_cache
+    response.headers['Clear-Site-Data'] = 'cache'
   end
 
   def configure_permitted_parameters

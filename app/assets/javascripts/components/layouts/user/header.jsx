@@ -38,6 +38,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 
 import I18n from '@js/modules/translations';
+import PWAManager from '@js/modules/pwaManager';
 
 import {
     UserPreference
@@ -194,6 +195,18 @@ class HeaderLayoutUser extends React.PureComponent {
         this.props.showUserPreference();
     };
 
+    _handleClearPwaCache = () => {
+        if (PWAManager.getPWADisplayMode() === PWAManager.MODE.PWA) {
+            PWAManager.clearServiceWorkerCaches(() => {
+                // Add timestamp to ensure page is not cached
+                const timestamp = Date.now();
+                const urlParams = window.location.search;
+                const newUrl = location + (urlParams ? urlParams + '&' : '?') + `_=${timestamp}`;
+                window.location.replace(newUrl);
+            });
+        }
+    };
+
     _handleLogoutClick = () => {
         logoutUser()
             .then((response) => {
@@ -223,6 +236,7 @@ class HeaderLayoutUser extends React.PureComponent {
                 <HomeUserHeader isUserConnected={this.props.isUserConnected}
                                 isAdminConnected={this.props.isAdminConnected}
                                 onPreferenceClick={this._handlePreferenceClick}
+                                onClearPwaCache={this._handleClearPwaCache}
                                 onLogoutClick={this._handleLogoutClick}
                                 userSlug={this.props.userSlug}/>
             </div>
@@ -308,6 +322,7 @@ class HeaderLayoutUser extends React.PureComponent {
                                             userSlug={this.props.userSlug}
                                             isAdminConnected={this.props.isAdminConnected}
                                             onPreferenceClick={this._handlePreferenceClick}
+                                            onClearPwaCache={this._handleClearPwaCache}
                                             onLogoutClick={this._handleLogoutClick}/>
                         </Collapse>
                     </List>

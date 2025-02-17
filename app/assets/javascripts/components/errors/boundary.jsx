@@ -8,6 +8,8 @@ import {
     pushError
 } from '@js/actions/errorActions';
 
+import PWAManager from '@js/modules/pwaManager';
+
 
 export default class ErrorBoundary extends React.Component {
     static propTypes = {
@@ -46,6 +48,17 @@ export default class ErrorBoundary extends React.Component {
 
         if (this.props.errorType === 'notification') {
             Notification.error(this.state.errorTitle);
+        } else {
+            // If PWA, try to clear caches then force reload page
+            if (PWAManager.getPWADisplayMode() === PWAManager.MODE.PWA) {
+                PWAManager.clearServiceWorkerCaches(() => {
+                    // Add timestamp to ensure page is not cached
+                    const timestamp = Date.now();
+                    const urlParams = window.location.search;
+                    const newUrl = location + (urlParams ? urlParams + '&' : '?') + `_=${timestamp}`;
+                    window.location.replace(newUrl);
+                });
+            }
         }
 
         pushError(error, info);

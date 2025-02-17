@@ -28,6 +28,7 @@ en:
           articles: "Articles"
           bookmarks: "Bookmarks"
           settings: "My preferences"
+          clear_pwa: "Clear PWA caches"
           sign_up: "Sign up"
           log_in: "Log in"
           log_out: "Log out"

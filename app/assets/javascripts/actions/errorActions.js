@@ -8,7 +8,7 @@ export const pushError = (error, errorInfo = null) => {
         return;
     }
 
-    if (error.name && (error.name === 'AbortError' || error.name === 'ChunkLoadError')) {
+    if (error.name && (error.name === 'AbortError' /* || error.name === 'ChunkLoadError'*/)) {
         return;
     }
 

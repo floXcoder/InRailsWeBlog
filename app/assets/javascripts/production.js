@@ -1,3 +1,3 @@
-import {initializeSentry} from '@js/modules/production/sentry.js';
+import {initializeSentry} from '@js/modules/production/sentry';
 
 initializeSentry();

@@ -16,8 +16,10 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import PortraitIcon from '@mui/icons-material/Portrait';
 import SettingsIcon from '@mui/icons-material/Settings';
 import CancelIcon from '@mui/icons-material/Cancel';
+import AppShortcutIcon from '@mui/icons-material/AppShortcut';
 
 import I18n from '@js/modules/translations';
+import PWAManager from '@js/modules/pwaManager';
 
 import {
     userHomePath
@@ -29,6 +31,7 @@ function HeaderUserMenu({
                             isNested = false,
                             isAdminConnected = false,
                             onPreferenceClick,
+                            onClearPwaCache,
                             onLogoutClick
                         }) {
     const adminContent = (
@@ -81,6 +84,19 @@ function HeaderUserMenu({
                     {I18n.t('js.views.header.user.settings')}
                 </ListItemText>
             </ListItemButton>
+
+            {
+                PWAManager.getPWADisplayMode() === PWAManager.MODE.PWA &&
+                <ListItemButton onClick={onClearPwaCache}>
+                    <ListItemIcon>
+                        <AppShortcutIcon/>
+                    </ListItemIcon>
+
+                    <ListItemText classes={{primary: 'layout-header-link'}}>
+                        {I18n.t('js.views.header.user.clear_pwa')}
+                    </ListItemText>
+                </ListItemButton>
+            }
 
             <ListItemButton onClick={onLogoutClick}
                             rel="nofollow">

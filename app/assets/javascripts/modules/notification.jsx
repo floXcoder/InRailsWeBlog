@@ -18,14 +18,14 @@ import InfoIcon from '@mui/icons-material/Info';
 import WarningIcon from '@mui/icons-material/Warning';
 import CloseIcon from '@mui/icons-material/Close';
 
-import I18n from '@js/modules/translations.js';
-import * as Utils from '@js/modules/utils.js';
+import I18n from '@js/modules/translations';
+import * as Utils from '@js/modules/utils';
 
 import theme from '@js/theme.jsx';
 
 import {
     notificationDuration
-} from '@js/components/modules/constants.js';
+} from '@js/components/modules/constants';
 
 const variantIcon = {
     success: CheckCircleIcon,
