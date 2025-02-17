@@ -42,15 +42,19 @@ class ArticleMiniCardDisplay extends React.Component {
         currentUserTopicVisibility: PropTypes.string,
         isUserArticlesList: PropTypes.bool,
         isPaper: PropTypes.bool,
+        isHighlighted: PropTypes.bool,
         isFaded: PropTypes.bool,
         hasTags: PropTypes.bool,
         isTagDown: PropTypes.bool,
         onEnter: PropTypes.func,
-        onExit: PropTypes.func
+        onExit: PropTypes.func,
+        // from highlight
+        onShow: PropTypes.func
     };
 
     static defaultProps = {
         isPaper: true,
+        isHighlighted: false,
         isFaded: true,
         hasTags: true,
         isTagDown: true
@@ -58,6 +62,13 @@ class ArticleMiniCardDisplay extends React.Component {
 
     constructor(props) {
         super(props);
+    }
+
+    componentDidMount() {
+        // Highlight code
+        if (this.props.isHighlighted && this.props.onShow) {
+            this.props.onShow(this.props.article.id);
+        }
     }
 
     _handleViewportChange = (inView, intersectionObserverEntry) => {
@@ -114,10 +125,11 @@ class ArticleMiniCardDisplay extends React.Component {
                                 title={
                                     <h1 className="article-mini-card-extract-title"
                                         itemProp="name headline">
-                                        <Link className={classNames('article-mini-card-extract-title-link', {'article-mini-card-extract-title-link-archived': this.props.article.archived})}
-                                              to={userArticlePath(this.props.article.user.slug, this.props.article.slug)}
-                                              itemProp="mainEntityOfPage url"
-                                              onClick={spyTrackClick.bind(null, 'article', this.props.article.id, this.props.article.slug, this.props.article.userId, this.props.article.title, this.props.article.topicId)}>
+                                        <Link
+                                            className={classNames('article-mini-card-extract-title-link', {'article-mini-card-extract-title-link-archived': this.props.article.archived})}
+                                            to={userArticlePath(this.props.article.user.slug, this.props.article.slug)}
+                                            itemProp="mainEntityOfPage url"
+                                            onClick={spyTrackClick.bind(null, 'article', this.props.article.id, this.props.article.slug, this.props.article.userId, this.props.article.title, this.props.article.topicId)}>
                                             {this.props.article.title}
                                         </Link>
                                     </h1>
@@ -291,4 +303,4 @@ class ArticleMiniCardDisplay extends React.Component {
     }
 }
 
-export default highlight()(ArticleMiniCardDisplay);
+export default highlight(false)(ArticleMiniCardDisplay);

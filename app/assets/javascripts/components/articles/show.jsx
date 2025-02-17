@@ -150,6 +150,8 @@ class ArticleShow extends React.Component {
         this._isInitialRequest = false;
         this._request = null;
 
+        this._isSearchHighlighted = false;
+
         this._recommendationTimeout = null;
         this._articleIndexTimeout = null;
         this._articleEditTimeout = null;
@@ -164,7 +166,7 @@ class ArticleShow extends React.Component {
             localArticle: this.props.initProps?.article
         });
 
-        this._highlightMatchedContent();
+        this._highlightSearchedContent();
 
         this._buildContentTable();
 
@@ -192,10 +194,10 @@ class ArticleShow extends React.Component {
         if (this.props.article) {
             this.props.setCurrentTags(this.props.article.tags.map((tag) => tag.slug));
 
-            // Highlight code
+            // Highlight code and force when article is updated
             this.props.onShow(this.props.article.id, true);
 
-            this._highlightMatchedContent();
+            this._highlightSearchedContent();
 
             this._buildContentTable();
         }
@@ -279,8 +281,14 @@ class ArticleShow extends React.Component {
         }
     };
 
-    _highlightMatchedContent = () => {
+    _highlightSearchedContent = () => {
+        if (this._isSearchHighlighted) {
+            return;
+        }
+
         if (this.props.article && this.props.routeLocation.state?.highlightContent && window.find) {
+            this._isSearchHighlighted = true;
+
             window.find(this.props.routeLocation.state.highlightContent);
         }
     };
@@ -659,6 +667,7 @@ class ArticleShow extends React.Component {
                                             <div className="article-show-recommendations-article">
                                                 <ArticleMiniCardDisplay article={article}
                                                                         isPaper={true}
+                                                                        isHighlighted={false}
                                                                         isFaded={true}
                                                                         hasTags={false}/>
                                             </div>
@@ -709,7 +718,7 @@ export default withRouter({
     location: true,
     params: true,
     navigate: true
-})(connect((state, props) => ({
+})(highlight()(connect((state, props) => ({
     currentUserSlug: state.userState.currentSlug,
     currentUser: state.userState.user,
     currentTopic: state.topicState.currentTopic,
@@ -735,4 +744,4 @@ export default withRouter({
     showUserSignup,
     switchTopic,
     showArticleContent
-})(highlight()(ArticleShow)));
+})(ArticleShow)));

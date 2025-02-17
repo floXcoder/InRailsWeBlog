@@ -92,6 +92,7 @@ class ArticleCardDisplay extends React.PureComponent {
         if (intersectionObserverEntry.isIntersecting) {
             spyTrackView('article', this.props.article.id);
 
+            // Highlight code
             if (this.props.onShow) {
                 this.props.onShow(this.props.article.id);
             }

@@ -87,9 +87,10 @@
 }
 
 .article-show-edit-icon {
-  margin: 0 .4rem;
   display: inline-block;
-  text-align: right;
+  width: 100%;
+  margin: 0 .4rem;
+  text-align: center;
 
   &.article-show-edit-icon-private {
     float: right;
