@@ -50,7 +50,7 @@ export default class ErrorBoundary extends React.Component {
             Notification.error(this.state.errorTitle);
         } else {
             // If PWA, try to clear caches then force reload page
-            if (PWAManager.getPWADisplayMode() === PWAManager.MODE.PWA) {
+            if (PWAManager.isActive()) {
                 PWAManager.clearServiceWorkerCaches(() => {
                     // Add timestamp to ensure page is not cached
                     const timestamp = Date.now();

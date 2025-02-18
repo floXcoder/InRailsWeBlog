@@ -196,7 +196,7 @@ class HeaderLayoutUser extends React.PureComponent {
     };
 
     _handleClearPwaCache = () => {
-        if (PWAManager.getPWADisplayMode() === PWAManager.MODE.PWA) {
+        if (PWAManager.isActive()) {
             PWAManager.clearServiceWorkerCaches(() => {
                 // Add timestamp to ensure page is not cached
                 const timestamp = Date.now();

@@ -97,13 +97,11 @@ const PWAManager = (function () {
     //     AnalyticsService.trackPWAPrompt();
     // };
 
-    pwaManager.getInitialized = function () {
-        return this._model.initialized === true ? 'Init' : 'Inactive';
-    }
-
-    pwaManager.getStatePWA = function () {
-        return this._model.serviceWorkerRegistration?.active?.state
-    }
+    pwaManager.isActive = function () {
+        return this._model.initialized === true &&
+            this._model.serviceWorkerRegistration?.active &&
+            (this._model.serviceWorkerRegistration.active.state === 'activating' || this._model.serviceWorkerRegistration.active.state === 'activated');
+    };
 
     pwaManager.getPWADisplayMode = function () {
         const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
