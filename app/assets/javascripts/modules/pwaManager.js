@@ -97,6 +97,18 @@ const PWAManager = (function () {
     //     AnalyticsService.trackPWAPrompt();
     // };
 
+    pwaManager.getInitialized = function () {
+        return this._model.initialized;
+    }
+
+    pwaManager.getState = function () {
+        return this._model.serviceWorkerRegistration?.state;
+    }
+
+    pwaManager.getStatePWA = function () {
+        return this._model.serviceWorkerRegistration?.active;
+    }
+
     pwaManager.getPWADisplayMode = function () {
         const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
 

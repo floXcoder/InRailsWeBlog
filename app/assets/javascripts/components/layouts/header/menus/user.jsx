@@ -86,14 +86,31 @@ function HeaderUserMenu({
             </ListItemButton>
 
             {
-                PWAManager.getPWADisplayMode() === PWAManager.MODE.PWA &&
+                // PWAManager.getPWADisplayMode() === PWAManager.MODE.PWA &&
                 <ListItemButton onClick={onClearPwaCache}>
                     <ListItemIcon>
                         <AppShortcutIcon/>
                     </ListItemIcon>
 
                     <ListItemText classes={{primary: 'layout-header-link'}}>
-                        {I18n.t('js.views.header.user.clear_pwa')}
+                        {/*{I18n.t('js.views.header.user.clear_pwa')}*/}
+                        Ref android : {document.referrer.startsWith('android-app://')}
+                        <br/>
+                        Standalone : {navigator.standalone}
+                        <br/>
+                        Standalone : {window.matchMedia('(display-mode: standalone)').matches}
+                        <br/>
+                        Get mode : {PWAManager.getPWADisplayMode()}
+                        <br/>
+                        PWA mode : {PWAManager.MODE.PWA}
+                        <br/>
+                        SW : {navigator.serviceWorker.state}
+                        <br/>
+                        Init : {PWAManager.getInitialized()}
+                        <br/>
+                        State : {PWAManager.getState()}
+                        <br/>
+                        Active : {PWAManager.getStatePWA()}
                     </ListItemText>
                 </ListItemButton>
             }
