@@ -104,7 +104,7 @@ function HeaderUserMenu({
                         <br/>
                         PWA mode : {PWAManager.MODE.PWA}
                         <br/>
-                        SW : {navigator.serviceWorker.state}
+                        SW : {navigator.serviceWorker.controller.state}
                         <br/>
                         Init : {PWAManager.getInitialized()}
                         <br/>

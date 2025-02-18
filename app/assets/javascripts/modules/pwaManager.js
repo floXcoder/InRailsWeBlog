@@ -102,11 +102,17 @@ const PWAManager = (function () {
     }
 
     pwaManager.getState = function () {
-        return this._model.serviceWorkerRegistration?.state;
+        console.warn(this._model.serviceWorkerRegistration)
+        console.warn(this._model.serviceWorkerRegistration?.state)
+        // return this._model.serviceWorkerRegistration?.state;
+        return ''
     }
 
     pwaManager.getStatePWA = function () {
-        return this._model.serviceWorkerRegistration?.active;
+        console.warn(this._model.serviceWorkerRegistration)
+        console.warn(this._model.serviceWorkerRegistration?.active)
+        // return this._model.serviceWorkerRegistration?.active;
+        return ''
     }
 
     pwaManager.getPWADisplayMode = function () {
