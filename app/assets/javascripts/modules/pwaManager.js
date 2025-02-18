@@ -98,21 +98,11 @@ const PWAManager = (function () {
     // };
 
     pwaManager.getInitialized = function () {
-        return this._model.initialized;
-    }
-
-    pwaManager.getState = function () {
-        console.warn(this._model.serviceWorkerRegistration)
-        console.warn(this._model.serviceWorkerRegistration?.state)
-        // return this._model.serviceWorkerRegistration?.state;
-        return ''
+        return this._model.initialized === true ? 'Init' : 'Inactive';
     }
 
     pwaManager.getStatePWA = function () {
-        console.warn(this._model.serviceWorkerRegistration)
-        console.warn(this._model.serviceWorkerRegistration?.active)
-        // return this._model.serviceWorkerRegistration?.active;
-        return ''
+        return this._model.serviceWorkerRegistration?.active?.state
     }
 
     pwaManager.getPWADisplayMode = function () {

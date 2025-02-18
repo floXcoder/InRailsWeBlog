@@ -108,8 +108,6 @@ function HeaderUserMenu({
                         <br/>
                         Init : {PWAManager.getInitialized()}
                         <br/>
-                        State : {PWAManager.getState()}
-                        <br/>
                         Active : {PWAManager.getStatePWA()}
                     </ListItemText>
                 </ListItemButton>
