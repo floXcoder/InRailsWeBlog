@@ -72,6 +72,10 @@ class TagSidebarLayout extends React.PureComponent {
             }, {
                 topicSlug: currentUserTopicSlug
             });
+        } else {
+            this.setState({
+                isExpanded: !this.state.isExpanded
+            });
         }
     };
 
