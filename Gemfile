@@ -52,17 +52,17 @@ gem 'connection_pool',          '2.5.0'
 gem 'devise',                   '4.9.4'
 
 # Authorization mechanism
-gem 'pundit',                   '2.4.0'
+gem 'pundit',                   '2.5.0'
 
 # Upload pictures
 gem 'carrierwave',              '3.1.1'
-gem 'mini_magick',              '5.1.2',  require: false
+gem 'mini_magick',              '5.2.0',  require: false
 gem 'image_processing',         '1.14.0', require: false
 
 # Search in database
-gem 'searchkick',               '5.4.0', require: false
-gem 'elasticsearch',            '8.17.1', require: false
-gem 'typhoeus',                 '1.4.1', require: false
+gem 'typhoeus',                 '1.4.1'
+gem 'elasticsearch',            '8.17.1'
+gem 'searchkick',               '5.4.0'
 
 # CSV
 gem 'csv',                      '3.3.2',  require: false
@@ -89,7 +89,7 @@ gem 'meta-tags',                '2.22.1'
 gem 'sitemap_generator',        '6.3.0', require: false
 
 # SEO
-gem 'selenium-webdriver',       '4.28.0', require: false
+gem 'selenium-webdriver',       '4.29.1', require: false
 
 # Server
 gem 'puma',                     '6.6.0'
@@ -148,12 +148,12 @@ group :development, :test do
   gem 'bootsnap',                   '1.18.4', require: false
 
   # Check errors
-  gem 'rubocop',                    '1.72.1',  require: false
-  gem 'rubocop-rails',              '2.30.1',  require: false
+  gem 'rubocop',                    '1.73.2',  require: false
+  gem 'rubocop-rails',              '2.30.3',  require: false
   gem 'rubocop-rspec',              '3.5.0',   require: false
   gem 'rubocop-performance',        '1.24.0',  require: false
   gem 'rubocop-capybara',           '2.21.0',  require: false
-  gem 'rubocop-factory_bot',        '2.26.1',  require: false
+  gem 'rubocop-factory_bot',        '2.27.0',  require: false
 
   # static analyzer
   gem 'rails_best_practices',       '1.23.2', require: false
