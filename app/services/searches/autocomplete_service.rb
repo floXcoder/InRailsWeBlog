@@ -39,14 +39,18 @@ module Searches
             tag_ids:   @params[:tag_ids].presence,
             topic_ids: @params[:topic_ids].presence
           ).compact,
-          boost_by:    {
-            # default factor is 1
-            owner_visits: { factor: 10 }
-          },
-          boost_where: {
-            # default factor is 1000
-            topic_id:     { value: @params[:topic_id], factor: 5 }
-          }
+          boost_by:    if @current_user
+                         {
+                           # default factor is 1
+                           owner_visits: { factor: 10 }
+                         }
+                       end,
+          boost_where: if @current_user
+                         {
+                           # default factor is 1000
+                           topic_id: { value: @params[:topic_id], factor: 5 }
+                         }
+                       end
         )
       end
 

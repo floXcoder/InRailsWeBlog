@@ -42,8 +42,8 @@ module Searches
           page:          (@params[:article_page] || @params[:page])&.to_i,
           per_page:      (@params[:article_per_page] || @params[:per_page])&.to_i || InRailsWeBlog.settings.search_per_page,
           highlight:     @current_user ? @current_user.search_highlight : true,
-          exact:         @current_user ? @current_user.search_exact : nil,
-          operator:      @current_user ? @current_user.search_operator : nil,
+          exact:         @current_user&.search_exact,
+          operator:      @current_user&.search_operator,
           order:         order,
           where:         {
                            archived:  false,
@@ -57,14 +57,18 @@ module Searches
                            tag_ids:   @params[:tag_ids].presence,
                            tag_slugs: @params[:tags].presence
                          }.merge(@params[:filters] || {}).merge(visibility).compact,
-          boost_by:    {
-            # default factor is 1
-            owner_visits: { factor: 10 }
-          },
-          boost_where: {
-            # default factor is 1000
-            topic_id:     { value: @params[:topic_id] || @current_user&.current_topic_id, factor: 5 }
-          }
+          boost_by:      if @current_user
+                           {
+                             # default factor is 1
+                             owner_visits: { factor: 10 }
+                           }
+                         end,
+          boost_where:   if @current_user
+                           {
+                             # default factor is 1000
+                             topic_id: { value: @params[:topic_id] || @current_user&.current_topic_id, factor: 5 }
+                           }
+                         end
         )
       end
 
@@ -76,8 +80,8 @@ module Searches
           current_user: current_user,
           page:         (@params[:tag_page] || @params[:page])&.to_i,
           per_page:     (@params[:tag_per_page] || @params[:per_page])&.to_i || InRailsWeBlog.settings.search_per_page,
-          exact:        @current_user ? @current_user.search_exact : nil,
-          operator:     @current_user ? @current_user.search_operator : nil,
+          exact:        @current_user&.search_exact,
+          operator:     @current_user&.search_operator,
           order:        order,
           where:        {
                           user_id:    @params[:global] ? nil : (@params[:user_id].presence || @current_user&.id),
