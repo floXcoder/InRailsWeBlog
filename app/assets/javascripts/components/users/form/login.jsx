@@ -10,7 +10,7 @@ import {
     Form
 } from 'react-final-form';
 
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import InputAdornment from '@mui/material/InputAdornment';
 import Button from '@mui/material/Button';
 
@@ -195,4 +195,3 @@ LoginForm.propTypes = {
 };
 
 export default React.memo(LoginForm);
-

@@ -12,7 +12,7 @@ import {
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Fab from '@mui/material/Fab';
 import Typography from '@mui/material/Typography';

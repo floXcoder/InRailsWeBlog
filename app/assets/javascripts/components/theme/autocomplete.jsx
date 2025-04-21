@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Paper from '@mui/material/Paper';
-import TextField from '@mui/material/TextField/TextField';
-import MenuItem from '@mui/material/MenuItem/MenuItem';
+import TextField from '@mui/material/TextField';
+import MenuItem from '@mui/material/MenuItem';
 import Chip from '@mui/material/Chip';
 
 import Downshift from 'downshift';

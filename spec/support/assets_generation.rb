@@ -7,7 +7,7 @@ RSpec.configure do |config|
     if Dir["#{assets_path}/*"].empty? || Dir["#{assets_path}/translations/*"].empty?
       puts 'Generate assets...'
 
-      %x(npm run build:test)
+      %x(npm run dev)
       %x(i18n export)
     end
   end

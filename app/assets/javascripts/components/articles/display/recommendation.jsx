@@ -8,7 +8,7 @@ import {
 } from 'react-router';
 
 import Paper from '@mui/material/Paper';
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 
 import I18n from '@js/modules/translations';

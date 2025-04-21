@@ -3,8 +3,8 @@ import React, {
 } from 'react';
 import PropTypes from 'prop-types';
 
-import Button from '@mui/material/Button/Button';
-import TextField from '@mui/material/TextField/TextField';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
 
 import I18n from '@js/modules/translations';
 

@@ -12,10 +12,10 @@ RSpec::Matchers.define :be_html_response do |response_value|
   end
 
   failure_message do |model|
-    "#{model} expected to be a valid HTML response (200) expected but #{@response} returned"
+    "#{model} expected to be a valid HTML response (#{response_value || 200}) expected but #{@response} returned"
   end
 
   failure_message_when_negated do |model|
-    "#{model} expected not to be a valid HTML response (200) expected but #{@response} returned"
+    "#{model} expected not to be a valid HTML response (#{response_value || 200}) expected but #{@response} returned"
   end
 end

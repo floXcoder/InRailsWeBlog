@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Button from '@mui/material/Button';
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 
 import I18n from '@js/modules/translations';
 
@@ -45,7 +45,7 @@ const HomeBanner = function ({
                                      srcSet={bannerPng}
                                      src={bannerPng}
                                      alt={`${window.settings.website_name} logo`}
-                                     fetchpriority="high"/>
+                                     fetchPriority="high"/>
                             </picture>
                         </div>
                     </Grid>

@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 
 import classNames from 'classnames';
 
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 
 import I18n from '@js/modules/translations';
 

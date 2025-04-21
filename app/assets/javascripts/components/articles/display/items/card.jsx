@@ -18,7 +18,7 @@ import CardActions from '@mui/material/CardActions';
 // import CardMedia from '@mui/material/CardMedia';
 import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 

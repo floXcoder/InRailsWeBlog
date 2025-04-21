@@ -1,10 +1,10 @@
-import {useState, useReducer, useRef, useLayoutEffect, isValidElement} from 'react';
+import {useState, useReducer, useEffect, useRef, useLayoutEffect, isValidElement} from 'react';
 import PropTypes from 'prop-types';
 
 import {Table as TableSuite, Pagination} from 'rsuite';
 
 import Paper from '@mui/material/Paper';
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
@@ -538,8 +538,12 @@ const reducer = ({
                  }, action) => {
     const stringCountByKeys = {};
 
-    if (!transformedData.length) {
-        data.forEach((datum) => {
+    if (!transformedData.length || action?.updatedData) {
+        if (action?.updatedData) {
+            transformedData = [];
+        }
+
+        (action?.updatedData || data).forEach((datum) => {
             const row = {};
 
             columns.forEach((column) => {
@@ -721,6 +725,12 @@ export default function Table({
         page: isPaginated ? page : undefined,
         limit: isPaginated ? limit : undefined
     }, reducer);
+
+    useEffect(() => {
+        dispatchData({
+            updatedData: data
+        });
+    }, [data]);
 
     const _handleHiddenChange = (columnKey) => {
         const hiddenCols = new Set(hiddenColumns);
@@ -1029,7 +1039,7 @@ export default function Table({
 
                 {
                     !!actions &&
-                    <Column flexGrow={1}
+                    <Column flexGrow={virtualized ? undefined : 1}
                             align="center">
                         <HeaderCell><strong>Actions</strong></HeaderCell>
                         <ActionsCell originalData={data}
@@ -1040,9 +1050,9 @@ export default function Table({
 
                 {
                     !!editable &&
-                    <Column width={100}
+                    <Column width={80}
                             align="center">
-                        <HeaderCell><strong>Actions</strong></HeaderCell>
+                        <HeaderCell><strong>Edit</strong></HeaderCell>
                         <ActionCell dataIdentifier={dataIdentifier}
                                     editingRowKeys={editingRowKeys}
                                     onEdit={_handleEdit}

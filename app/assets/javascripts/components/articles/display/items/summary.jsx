@@ -9,7 +9,7 @@ import classNames from 'classnames';
 
 import {InView} from 'react-intersection-observer';
 
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 
 import I18n from '@js/modules/translations';

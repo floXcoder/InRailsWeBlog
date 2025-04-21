@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 
 import CloseIcon from '@mui/icons-material/Close';
 

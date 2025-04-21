@@ -6,7 +6,7 @@ import {
 } from 'react-router';
 
 import Avatar from '@mui/material/Avatar';
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 

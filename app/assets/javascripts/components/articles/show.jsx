@@ -12,7 +12,7 @@ import {
 import Sticky from 'react-sticky-el';
 
 import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 

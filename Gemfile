@@ -9,7 +9,7 @@ end
 ruby file: '.ruby-version'
 
 # Rails version
-gem 'rails',                    '8.0.1'
+gem 'rails',                    '8.0.2'
 
 # Use postgresql as the database for Active Record
 gem 'pg',                       '1.5.9'
@@ -19,7 +19,7 @@ gem 'http_accept_language',     '2.1.1'
 gem 'secure_headers',           '7.1.0', require: false
 
 # JSON
-gem 'json',                     '2.10.1'
+gem 'json',                     '2.10.2'
 gem 'jsonapi-serializer',       '2.2.0'
 
 # Use slim instead of erb
@@ -41,12 +41,12 @@ gem 'auto_strip_attributes',    '2.6.0'
 gem 'sanitize',                 '7.0.0'
 
 # Run asynschronous process
-gem 'good_job',                 '4.9.0'
+gem 'good_job',                 '4.9.3'
 
 # Redis session store and cache
 gem 'redis-namespace',          '1.11.0'
 gem 'redis-session-store',      '0.11.6'
-gem 'connection_pool',          '2.5.0'
+gem 'connection_pool',          '2.5.1'
 
 # Authentification
 gem 'devise',                   '4.9.4'
@@ -55,17 +55,17 @@ gem 'devise',                   '4.9.4'
 gem 'pundit',                   '2.5.0'
 
 # Upload pictures
-gem 'carrierwave',              '3.1.1'
+gem 'carrierwave',              '3.1.2'
 gem 'mini_magick',              '5.2.0',  require: false
 gem 'image_processing',         '1.14.0', require: false
 
 # Search in database
 gem 'typhoeus',                 '1.4.1'
 gem 'elasticsearch',            '8.17.1'
-gem 'searchkick',               '5.4.0'
+gem 'searchkick',               '5.5.0'
 
 # CSV
-gem 'csv',                      '3.3.2',  require: false
+gem 'csv',                      '3.3.4',  require: false
 
 # OpenStruct
 gem 'ostruct',                  '0.6.1', require: false
@@ -89,7 +89,7 @@ gem 'meta-tags',                '2.22.1'
 gem 'sitemap_generator',        '6.3.0', require: false
 
 # SEO
-gem 'selenium-webdriver',       '4.29.1', require: false
+gem 'selenium-webdriver',       '4.31.0', require: false
 
 # Server
 gem 'puma',                     '6.6.0'
@@ -104,7 +104,7 @@ group :development do
   gem 'binding_of_caller',      '1.0.1'
 
   # N+1 database query
-  gem 'bullet',                 '8.0.1', require: false
+  gem 'bullet',                 '8.0.5', require: false
 
   # Guard and its minions
   gem 'guard',                  '2.19.1', require: false
@@ -130,7 +130,7 @@ end
 group :test do
   # Test tools
   gem 'rspec-rails',                '7.1.1'
-  gem 'webmock',                    '3.25.0'
+  gem 'webmock',                    '3.25.1'
   gem 'shoulda-matchers',           '6.4.0',  require: false
   gem 'shoulda-callback-matchers',  '1.1.4',  require: false
   gem 'simplecov',                  '0.22.0', require: false
@@ -148,17 +148,17 @@ group :development, :test do
   gem 'bootsnap',                   '1.18.4', require: false
 
   # Check errors
-  gem 'rubocop',                    '1.73.2',  require: false
-  gem 'rubocop-rails',              '2.30.3',  require: false
-  gem 'rubocop-rspec',              '3.5.0',   require: false
-  gem 'rubocop-performance',        '1.24.0',  require: false
-  gem 'rubocop-capybara',           '2.21.0',  require: false
-  gem 'rubocop-factory_bot',        '2.27.0',  require: false
+  gem 'rubocop',                    '1.75.2',  require: false
+  gem 'rubocop-rails',              '2.31.0',  require: false
+  gem 'rubocop-rspec',              '3.6.0',   require: false
+  gem 'rubocop-performance',        '1.25.0',  require: false
+  gem 'rubocop-capybara',           '2.22.1',  require: false
+  gem 'rubocop-factory_bot',        '2.27.1',  require: false
 
   # static analyzer
   gem 'rails_best_practices',       '1.23.2', require: false
-  gem 'brakeman',                   '7.0.0',  require: false
-  gem 'i18n-tasks',                 '1.0.14', require: false
+  gem 'brakeman',                   '7.0.2',  require: false
+  gem 'i18n-tasks',                 '1.0.15', require: false
 end
 
 group :production do
@@ -167,12 +167,12 @@ group :production do
 
   # Errors reporting
   # gem 'vernier',        '1.5.0'
-  gem 'sentry-ruby',      '5.22.4'
-  gem 'sentry-rails',     '5.22.4'
+  gem 'sentry-ruby',      '5.23.0'
+  gem 'sentry-rails',     '5.23.0'
   gem 'stackprof',        '0.2.27'
 
   # Check slow DB requests
-  gem 'pghero',           '3.6.1'
+  gem 'pghero',           '3.6.2'
 
   # Check website health
   gem 'health_check',     '3.1.0'

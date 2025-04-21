@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
 import Container from '@mui/material/Container';
-import Button from '@mui/material/Button/Button';
+import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 
 import I18n from '@js/modules/translations';
