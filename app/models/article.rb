@@ -555,7 +555,7 @@ class Article < ApplicationRecord
   end
 
   def search_data
-    owner_visits = Rails.cache.fetch('user_visited_articles')&.fetch(self.user_id, {})
+    owner_visits = Rails.cache.fetch('user_visited_articles')&.fetch(self.user_id, {}) || {}
 
     # Only filterable can be used in where options!
     {
