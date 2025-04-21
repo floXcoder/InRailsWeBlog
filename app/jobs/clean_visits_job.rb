@@ -3,7 +3,11 @@
 class CleanVisitsJob < ApplicationJob
   queue_as :default
 
+  BOTS_IF_VISITS_MORE_THAN = 30
+
   def perform
+    associate_missing_countries
+
     update_rejected_ips
 
     remove_invalid_visits
@@ -21,8 +25,14 @@ class CleanVisitsJob < ApplicationJob
 
   private
 
+  def associate_missing_countries
+    Ahoy::Visit.where(country: nil).select(:visit_token, :ip, :country).each do |visit|
+      Ahoy::GeocodeV2Job.new.perform(visit.visit_token, visit.ip)
+    end
+  end
+
   def remove_invalid_visits
-    Ahoy::Visit.all.where('started_at < ?', 1.day.ago).where(validated: false).destroy_all
+    Ahoy::Visit.where(started_at: ...1.day.ago).where(validated: false).destroy_all
   end
 
   def update_rejected_ips
@@ -57,7 +67,7 @@ class CleanVisitsJob < ApplicationJob
   def remove_bots_visits
     bots_ip = []
 
-    bots_ip.concat(Ahoy::Visit.select(:ip).group(:ip).having('COUNT(ip) > ?', 30).count.keys)
+    bots_ip.concat(Ahoy::Visit.select(:ip).group(:ip).having('COUNT(ip) > ?', BOTS_IF_VISITS_MORE_THAN).count.keys)
 
     visits = Ahoy::Visit.all
 
@@ -85,6 +95,8 @@ class CleanVisitsJob < ApplicationJob
     bots_ip.concat(visits.where('user_agent ~* ?', 'ShortLinkTranslate').pluck(:ip))
     bots_ip.concat(visits.where('user_agent ~* ?', 'Apache-HttpClient').pluck(:ip))
     bots_ip.concat(visits.where(user_agent: nil).pluck(:ip))
+
+    bots_ip.concat(visits.where(events_count: 0).pluck(:ip))
 
     visits.where(ip: bots_ip).destroy_all
 

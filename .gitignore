@@ -41,8 +41,9 @@
 /config/application.yml
 /config/settings/local.rb
 
-# Ignore geocoding files
+# Ignore visit data files
 /lib/geocoding/ip_db/*
+/lib/tracking/*
 
 # Ignore static analysis files
 /static_analysis/*
