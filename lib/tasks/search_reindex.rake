@@ -14,6 +14,12 @@ namespace :InRailsWeBlog do
       reindex_options[:mode] = :async
     end
 
+    _user_visited_articles = Rails.cache.fetch('user_visited_articles', expires_in: 1.week) do
+      User.select(:id).all.to_h do |user|
+        [user.id, user.events.recent_articles(500).map { |e| e.properties['article_id'] }.tally]
+      end
+    end
+
     # Search index is by locale
     I18n.available_locales.map do |locale|
       I18n.with_locale(locale) do

@@ -301,6 +301,9 @@ class Article < ApplicationRecord
 
   scope :include_element, -> { includes(:user, :topic, :tagged_articles) }
 
+  # Scope for Searchkick import
+  scope :search_import, -> { includes(:user, :topic, :tags) }
+
   # == Callbacks ============================================================
   # Visibility: private for draft articles
   before_save do |article|
@@ -552,6 +555,8 @@ class Article < ApplicationRecord
   end
 
   def search_data
+    owner_visits = Rails.cache.fetch('user_visited_articles')&.fetch(self.user_id, {})
+
     # Only filterable can be used in where options!
     {
       id:              self.id,
@@ -579,7 +584,8 @@ class Article < ApplicationRecord
       updated_at:      self.updated_at,
       rank:            self.rank,
       popularity:      self.popularity,
-      slug:            self.slug
+      slug:            self.slug,
+      owner_visits:    owner_visits&.fetch(self.id.to_s, 0)
     }.merge(self.inventories)
   end
 

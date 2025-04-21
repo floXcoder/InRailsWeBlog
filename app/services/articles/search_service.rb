@@ -47,9 +47,6 @@ module Articles
       # Where options only for ElasticSearch
       where_options = where_search(@params[:where])
 
-      # Boost user articles first
-      boost_where = @params[:boost_where]
-
       # Page parameters
       page     = @params[:page]&.to_i || 1
       per_page = @params[:per_page] || InRailsWeBlog.settings.search_per_page
@@ -83,7 +80,8 @@ module Articles
                                  per_page:     per_page,
                                  operator:     operator,
                                  where:        where_options,
-                                 boost_where:  boost_where,
+                                 boost_by:     @params[:boost_by],
+                                 boost_where:  @params[:boost_where],
                                  order:        order,
                                  aggs:         aggregations,
                                  includes:     includes

@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 
 import {connect} from 'react-redux';
 
-import * as Utils from '@js/modules/utils';
-
 import {
     ArticleShow
 } from '@js/components/loaders/components';

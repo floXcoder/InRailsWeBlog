@@ -57,7 +57,14 @@ module Searches
                            tag_ids:   @params[:tag_ids].presence,
                            tag_slugs: @params[:tags].presence
                          }.merge(@params[:filters] || {}).merge(visibility).compact,
-          boost_where:   { topic_id: { value: @params[:topic_id] || @current_user&.current_topic_id, factor: 5 } }
+          boost_by:    {
+            # default factor is 1
+            owner_visits: { factor: 10 }
+          },
+          boost_where: {
+            # default factor is 1000
+            topic_id:     { value: @params[:topic_id] || @current_user&.current_topic_id, factor: 5 }
+          }
         )
       end
 

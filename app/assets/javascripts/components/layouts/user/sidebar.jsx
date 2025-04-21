@@ -72,7 +72,7 @@ class SidebarLayoutUser extends React.Component {
                 }
 
                 {
-                    !!(this.props.routeProperties.searchSidebar && isLargeEnough) &&
+                    !!(this.props.routeProperties.searchSidebar && isLargeEnough && this.props.articleAvailableFilters && this.props.articleAvailableFilters.length) &&
                     <Suspense fallback={<div/>}>
                         <ErrorBoundary errorType="text"
                                        errorTitle={I18n.t('js.helpers.errors.boundary.title')}>
@@ -104,5 +104,6 @@ class SidebarLayoutUser extends React.Component {
 export default connect((state) => ({
     currentUserSlug: state.userState.currentSlug,
     articleDisplayMode: state.uiState.articleDisplayMode,
-    articleTitleContent: state.articleState.articleTitleContent
+    articleTitleContent: state.articleState.articleTitleContent,
+    articleAvailableFilters: state.searchState.articleAvailableFilters
 }))(withRouter({params: true})(withWidth()(SidebarLayoutUser)));

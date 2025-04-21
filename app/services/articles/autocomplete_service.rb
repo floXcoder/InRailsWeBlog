@@ -40,6 +40,7 @@ module Articles
                                  highlight:    highlight,
                                  load:         false,
                                  where:        where_options,
+                                 boost_by:     @params[:boost_by],
                                  boost_where:  @params[:boost_where],
                                  order:        order,
                                  limit:        limit)

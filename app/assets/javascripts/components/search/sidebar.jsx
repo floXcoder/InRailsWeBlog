@@ -15,7 +15,6 @@ import {
 } from '@js/actions/searchActions';
 
 import Loader from '@js/components/theme/loader';
-import SearchModule from '@js/components/search/module';
 
 
 class SearchSidebar extends React.Component {
@@ -162,7 +161,7 @@ class SearchSidebar extends React.Component {
             );
         }
 
-        if (!this.props.articleAvailableFilters || this.props.articleAvailableFilters?.length === 0) {
+        if (!this.props.articleAvailableFilters || this.props.articleAvailableFilters.length === 0) {
             return null;
         }
 
@@ -198,4 +197,4 @@ export default connect((state) => ({
     articleAvailableFilters: state.searchState.articleAvailableFilters
 }), {
     filterSearch,
-})(SearchModule);
+})(SearchSidebar);
