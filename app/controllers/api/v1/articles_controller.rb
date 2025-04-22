@@ -30,6 +30,7 @@ module Api::V1
 
     include TrackerConcern
     include CommentConcern
+    include VisitHelper
 
     respond_to :json
 

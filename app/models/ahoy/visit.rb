@@ -56,7 +56,19 @@ class Ahoy::Visit < ApplicationRecord
 
   # == Scopes ===============================================================
   scope :validated, -> { where(validated: true) }
-  scope :external, -> { ENV['TRACKER_EXCLUDED_IPS'].present? ? where.not(ip: ENV['TRACKER_EXCLUDED_IPS'].split(', ')) : all }
+  scope :external, -> (excluded_user_ids = nil) do
+    external_scope = self
+
+    if excluded_user_ids
+      external_scope = external_scope.where.not(user_id: excluded_user_ids).or(self.where(user_id: nil))
+    end
+
+    if ENV['TRACKER_EXCLUDED_IPS'].present?
+      external_scope = external_scope.where.not(ip: ENV['TRACKER_EXCLUDED_IPS'].split(', '))
+    end
+
+    external_scope
+  end
 
   # == Callbacks ============================================================
 

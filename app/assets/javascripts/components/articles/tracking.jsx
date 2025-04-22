@@ -269,14 +269,14 @@ class TrackingArticleModal extends React.Component {
                     {
                         Object.entries(this.props.articleTracking.datesCount)
                             .map(([date, count], i) => (
-                                <ListItem key={i}>
+                                <ListItem key={i}
+                                          secondaryAction={
+                                              <div>
+                                                  {count}
+                                              </div>
+                                          }>
                                     <ListItemText className="article-tracking-list-item"
-                                                  primary={date}
-                                                  secondary={
-                                                      <div className="article-tracking-list-item">
-                                                          {count}
-                                                      </div>
-                                                  }/>
+                                                  primary={date}/>
                                 </ListItem>
                             ))
                     }
