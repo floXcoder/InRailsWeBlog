@@ -16,8 +16,7 @@ import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 
-// Keyboard inputs
-import Mousetrap from 'mousetrap';
+import Mousetrap from 'mousetrap'; // Keyboard inputs
 
 import I18n from '@js/modules/translations';
 import * as Utils from '@js/modules/utils';
@@ -148,6 +147,7 @@ class ArticleShow extends React.Component {
         this._articleRef = React.createRef();
 
         this._isInitialRequest = false;
+        this._isDeleteRequest = false;
         this._request = null;
 
         this._isSearchHighlighted = false;
@@ -190,6 +190,7 @@ class ArticleShow extends React.Component {
 
     componentDidUpdate(prevProps) {
         this._isInitialRequest = false;
+        this._isDeleteRequest = false;
 
         if (this.props.article) {
             this.props.setCurrentTags(this.props.article.tags.map((tag) => tag.slug));
@@ -362,6 +363,8 @@ class ArticleShow extends React.Component {
     _handleDeleteClick = (event) => {
         event.preventDefault();
 
+        this._isDeleteRequest = true;
+
         this.props.deleteArticle(this.props.article.id)
             .then(() => this.props.routeNavigate({
                 pathname: topicArticlesPath(this.props.currentUser.slug, this.props.currentTopic.slug),
@@ -371,7 +374,7 @@ class ArticleShow extends React.Component {
     };
 
     render() {
-        if (!this.props.article && !this.props.isFetching && !this._isInitialRequest) {
+        if (!this.props.article && !this.props.isFetching && !this._isInitialRequest && !this._isDeleteRequest) {
             return (
                 <div className="center margin-top-20">
                     <NotFound/>
