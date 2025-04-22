@@ -148,7 +148,7 @@ group :development, :test do
   gem 'bootsnap',                   '1.18.4', require: false
 
   # Check errors
-  gem 'rubocop',                    '1.75.2',  require: false
+  gem 'rubocop',                    '1.75.3',  require: false
   gem 'rubocop-rails',              '2.31.0',  require: false
   gem 'rubocop-rspec',              '3.6.0',   require: false
   gem 'rubocop-performance',        '1.25.0',  require: false
