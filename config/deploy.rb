@@ -124,7 +124,7 @@ namespace :deploy do
     on roles(:app), in: :sequence, wait: 5 do
       within release_path do
         with rails_env: fetch(:rails_env) do
-          execute :rake, 'InRailsWeBlog:search_reindex[async]'
+          execute :rake, 'InRailsWeBlog:search_reindex'
         end
       end
     end
