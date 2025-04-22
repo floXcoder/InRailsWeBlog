@@ -51,7 +51,7 @@ class Admins::VisitsController < AdminsController
 
     visits_details[:bounceRate]   = uniq_visits.count > 0 ? (uniq_visits.count { |v| v.pages_count < 2 }.to_f / uniq_visits.count).round(2) * 100 : 0
     median_duration               = median(uniq_visits.select { |visit| visit.ended_at && visit.started_at && visit.pages_count > 1 }.map { |visit| visit.ended_at - visit.started_at })
-    visits_details[:duration]     = median_duration ? Time.zone.at(median_duration).strftime('%Mmin %Ssec').sub!(/^0/, '') : nil
+    visits_details[:duration]     = median_duration ? Time.zone.at(median_duration).strftime('%Mmin %Ssec').sub(/^0/, '') : nil
     visits_details[:averagePages] = (uniq_visits.reduce(0) { |sr, visit| sr + visit.pages_count }.to_f / uniq_visits.count).round(2)
 
     # direct_source_count = uniq_visits.count { |visit| visit.referrer.nil? }
@@ -72,7 +72,7 @@ class Admins::VisitsController < AdminsController
     visits_details[:os]         = format_tracking(uniq_visits.group_by(&:os), top_limit)
     visits_details[:utmSources] = format_tracking(uniq_visits.group_by(&:utm_source), top_limit)
     visits_details[:devices]    = format_tracking(uniq_visits.group_by(&:device_type), top_limit)
-    visits_details[:referrers]   = format_tracking(uniq_visits.group_by(&:referring_domain), top_limit)
+    visits_details[:referrers]  = format_tracking(uniq_visits.group_by(&:referring_domain), top_limit)
 
     # visits_details[:utms] = format_tracking(uniq_visits.group_by { |visit| [visit.utm_source, visit.utm_medium, visit.utm_campaign].map(&:presence).compact.join('-') }.delete_if { |k, _v| k.blank? })
 

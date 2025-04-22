@@ -115,7 +115,14 @@ class TrackingArticleModal extends React.Component {
                     {
                         Object.entries(listDetails)
                             .map(([element, count], i) => (
-                                <ListItem key={i}>
+                                <ListItem key={i}
+                                          secondaryAction={
+                                              <div className={classNames('admin-visits-list-item', {
+                                                  'margin-top-10': (!element || element === 'internal' || element === 'others')
+                                              })}>
+                                                  {count}
+                                              </div>
+                                          }>
                                     <ListItemText className="article-tracking-list-item"
                                                   primary={
                                                       <div>
@@ -143,13 +150,6 @@ class TrackingArticleModal extends React.Component {
                                                               (element !== 'others' && element !== 'internal') &&
                                                               element
                                                           }
-                                                      </div>
-                                                  }
-                                                  secondaryAction={
-                                                      <div className={classNames('admin-visits-list-item', {
-                                                          'margin-top-10': (!element || element === 'internal' || element === 'others')
-                                                      })}>
-                                                          {count}
                                                       </div>
                                                   }/>
                                 </ListItem>
