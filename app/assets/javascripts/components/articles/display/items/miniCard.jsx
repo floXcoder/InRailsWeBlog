@@ -106,7 +106,7 @@ class ArticleMiniCardDisplay extends React.Component {
     _renderCard = () => {
         const isPrivateInPublic = (this.props.isUserArticlesList || (this.props.currentUserTopicId === this.props.article.topicId && this.props.currentUserTopicVisibility === 'everyone')) && this.props.article.visibility !== 'everyone';
 
-        const contentLength = (this.props.article.contentSummary || this.props.article.content).length;
+        const contentLength = (this.props.article.contentSummary || this.props.article.content)?.length || 0;
 
         return (
             <InView onChange={this._handleViewportChange}
