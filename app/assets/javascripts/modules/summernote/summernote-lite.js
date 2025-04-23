@@ -1503,8 +1503,12 @@ Date: 2024-11-18T10:27Z
       if (env.isW3CRangeSupport) {
         const w3cRange = document.createRange();
         if (this.sc && this.so > -1 && this.ec && this.eo > -1) {
-          w3cRange.setStart(this.sc, this.so);
-          w3cRange.setEnd(this.ec, this.eo);
+          try {
+            w3cRange.setStart(this.sc, this.so);
+            w3cRange.setEnd(this.ec, this.eo);
+          } catch (error) {
+            // Do nothing
+          }
         }
         return w3cRange;
       } else {
