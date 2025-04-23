@@ -13,6 +13,7 @@
 /public/stylesheets
 /public/uploads
 /public/vendor
+/public/sitemaps
 /public/workbox*
 
 # Ignore application documentation
