@@ -46,7 +46,7 @@ gem 'good_job',                 '4.9.3'
 # Redis session store and cache
 gem 'redis-namespace',          '1.11.0'
 gem 'redis-session-store',      '0.11.6'
-gem 'connection_pool',          '2.5.1'
+gem 'connection_pool',          '2.5.2'
 
 # Authentification
 gem 'devise',                   '4.9.4'
