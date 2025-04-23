@@ -284,7 +284,9 @@ class Editor extends React.Component {
     }
 
     shouldComponentUpdate(nextProps) {
-        return this.props.children !== nextProps.children || this.props.name !== nextProps.name || this.props.modelId !== nextProps.modelId || this.props.isDisabled !== nextProps.isDisabled || this.props.placeholder !== nextProps.placeholder || this.props.width !== nextProps.width;
+        // Do not update if children change: the cursor position is lost after some actions
+        // this.props.children !== nextProps.children
+        return this.props.name !== nextProps.name || this.props.modelId !== nextProps.modelId || this.props.isDisabled !== nextProps.isDisabled || this.props.placeholder !== nextProps.placeholder || this.props.width !== nextProps.width;
     }
 
     componentDidUpdate(prevProps) {
