@@ -20,7 +20,7 @@ class Layout {
         window.currentAdminId ||= Utils.getCookie('admin.connected_id');
 
         // Initialize notifications
-        setTimeout(() => Notification && Notification.initialize(), 50);
+        setTimeout(() => Notification?.initialize && Notification.initialize(), 50);
 
         // Analytics
         AnalyticsService.initialize();
