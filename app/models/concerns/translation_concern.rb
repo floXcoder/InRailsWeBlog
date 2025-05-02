@@ -10,11 +10,10 @@ module TranslationConcern
     self.translated_attribute_fields.include?(field.to_sym)
   end
 
-  # Utility?
   # All translated fields must be included in a select when used!
-  # def attributes
-  #   super.merge(translated_fields)
-  # end
+  def attributes
+    super.merge(translated_fields)
+  end
 
   def attribute_names
     translated_attribute_fields.map(&:to_s) + super

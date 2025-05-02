@@ -19,7 +19,7 @@ gem 'http_accept_language',     '2.1.1'
 gem 'secure_headers',           '7.1.0', require: false
 
 # JSON
-gem 'json',                     '2.10.2'
+gem 'json',                     '2.11.3'
 gem 'jsonapi-serializer',       '2.2.0'
 
 # Use slim instead of erb
@@ -41,12 +41,12 @@ gem 'auto_strip_attributes',    '2.6.0'
 gem 'sanitize',                 '7.0.0'
 
 # Run asynschronous process
-gem 'good_job',                 '4.9.3'
+gem 'good_job',                 '4.10.0'
 
 # Redis session store and cache
 gem 'redis-namespace',          '1.11.0'
 gem 'redis-session-store',      '0.11.6'
-gem 'connection_pool',          '2.5.2'
+gem 'connection_pool',          '2.5.3'
 
 # Authentification
 gem 'devise',                   '4.9.4'
@@ -62,7 +62,7 @@ gem 'image_processing',         '1.14.0', require: false
 # Search in database
 gem 'typhoeus',                 '1.4.1'
 gem 'elasticsearch',            '8.17.1'
-gem 'searchkick',               '5.5.0'
+gem 'searchkick',               '5.5.1'
 
 # CSV
 gem 'csv',                      '3.3.4',  require: false
@@ -129,9 +129,9 @@ end
 
 group :test do
   # Test tools
-  gem 'rspec-rails',                '7.1.1'
+  gem 'rspec-rails',                '8.0.0'
   gem 'webmock',                    '3.25.1'
-  gem 'shoulda-matchers',           '6.4.0',  require: false
+  gem 'shoulda-matchers',           '6.5.0',  require: false
   gem 'shoulda-callback-matchers',  '1.1.4',  require: false
   gem 'simplecov',                  '0.22.0', require: false
   gem 'fuubar',                     '2.5.1'
@@ -148,7 +148,7 @@ group :development, :test do
   gem 'bootsnap',                   '1.18.4', require: false
 
   # Check errors
-  gem 'rubocop',                    '1.75.3',  require: false
+  gem 'rubocop',                    '1.75.4',  require: false
   gem 'rubocop-rails',              '2.31.0',  require: false
   gem 'rubocop-rspec',              '3.6.0',   require: false
   gem 'rubocop-performance',        '1.25.0',  require: false
