@@ -10,22 +10,24 @@ module TranslationConcern
     self.translated_attribute_fields.include?(field.to_sym)
   end
 
-  def attributes
-    super.merge(translated_fields)
-  end
+  # Utility?
+  # All translated fields must be included in a select when used!
+  # def attributes
+  #   super.merge(translated_fields)
+  # end
 
   def attribute_names
     translated_attribute_fields.map(&:to_s) + super
   end
 
-  def write_attribute(name, value, *args, &block)
-    return super(name, value, *args, &block) unless translated?(name)
+  def write_attribute(name, value, *, &)
+    return super unless translated?(name)
 
-    current_locale = I18n.locale.to_s
+    current_locale    = I18n.locale.to_s
 
-    value             = self.auto_strip_translation_fields&.include?(name) ? strip_translation(value) : value
+    value             = strip_translation(value) if self.auto_strip_translation_fields&.include?(name)
 
-    self['languages'] = (self['languages'] || []).concat([current_locale]) if self['languages'].blank? || self['languages'].exclude?(current_locale)
+    self['languages'] = (self['languages'] || []).push(current_locale) if self['languages'].blank? || self['languages'].exclude?(current_locale)
 
     self["#{name}_translations"][current_locale] = value
   end
@@ -37,8 +39,8 @@ module TranslationConcern
   end
 
   def strip_translation(value)
-    value = value.respond_to?(:strip) ? value.strip : value
-    value = value.respond_to?(:blank?) && value.respond_to?(:empty?) && value.blank? ? nil : value
+    value = value.strip if value.respond_to?(:strip)
+    value = nil if value.respond_to?(:blank?) && value.respond_to?(:empty?) && value.blank?
 
     return value
   end
@@ -73,7 +75,7 @@ module TranslationConcern
     def check_columns!(fields)
       untranslated_columns = fields.map { |field| "#{field}_translations" } - column_names
 
-      raise TranslationError, 'missing languages columns' if (column_names & ['languages']).empty?
+      raise TranslationError, 'missing languages columns' unless column_names.intersect?(['languages'])
 
       raise TranslationError, "following columns not translated: #{untranslated_columns.join(', ')}" unless untranslated_columns.empty?
     end
@@ -98,23 +100,23 @@ module TranslationConcern
       define_method(field) do
         current_language = I18n.locale.to_s
 
-        current_value = send("#{field}_translations")
+        current_value = send(:"#{field}_translations")
 
         if current_value && self.fallbacks_for_empty_translations
-          translation_keys    = send("#{field}_translations").keys
+          translation_keys    = send(:"#{field}_translations").keys
           available_languages = send(:languages)
           current_language    = available_languages.first if !available_languages&.empty? && translation_keys.exclude?(current_language)
         end
 
-        current_value ? send("#{field}_translations").with_indifferent_access[current_language] : nil
+        current_value ? send(:"#{field}_translations").with_indifferent_access[current_language] : nil
       end
     end
 
     def define_translated_field_record(field)
       locale = I18n.locale.to_s
 
-      define_method("#{field}_was") do
-        send("#{field}_translations_was").with_indifferent_access[locale]
+      define_method(:"#{field}_was") do
+        send(:"#{field}_translations_was").with_indifferent_access[locale]
       end
     end
 
