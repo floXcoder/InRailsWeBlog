@@ -419,12 +419,21 @@ class ApplicationController < ActionController::Base
   end
 
   def tracking_params(params = {})
-    {
-      path:  (request.url.end_with?('/404') ? request.env['REQUEST_URI'] : request.url),
-      error: request.url.end_with?('/404') ? '404' : nil
+    tracking_parameters = {
+      path: request.url
     }
-      .merge(params)
-      .compact
+
+    tracking_parameters.merge!(params)
+
+    if [200, 201, 202, 204, 301, 302, 304].exclude?(response.status)
+      tracking_parameters.merge!(
+        path:        request.env['REQUEST_URI'],
+        page_error:  true,
+        page_status: response.status
+      )
+    end
+
+    return tracking_parameters.compact
   end
 
   def user_not_authorized(exception)
