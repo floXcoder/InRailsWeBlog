@@ -336,7 +336,7 @@ const ActionsCell = ({
                          actions,
                          ...props
                      }) => {
-    actions = actions.map((action) => typeof action === 'function' ? action(rowData) : action);
+    actions = actions.map((action) => typeof action === 'function' ? action(rowData) : action).filter((action) => !!action);
 
     const originalRowData = originalData.find((item) => item[dataIdentifier] === rowData[dataIdentifier]);
 
