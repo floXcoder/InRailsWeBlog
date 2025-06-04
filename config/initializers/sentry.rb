@@ -6,8 +6,8 @@ if Rails.env.production? && ENV['SENTRY_RAILS_KEY']
 
     config.breadcrumbs_logger = [:redis_logger, :http_logger, :active_support_logger] # :sentry_logger => generate error ("\xFF" from ASCII-8BIT to UTF-8)
 
-    config.logger       = Logger.new(Rails.root.join('log/sentry.log'))
-    config.logger.level = Logger::WARN
+    config.sdk_logger       = Logger.new(Rails.root.join('log/sentry.log'))
+    config.sdk_logger.level = Logger::WARN
 
     config.enabled_patches << :faraday
 
