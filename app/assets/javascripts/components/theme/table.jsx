@@ -969,6 +969,8 @@ export default function Table({
                 {
                     !!hasSelection &&
                     <Column width={50}
+                            fixed={true}
+                            resizable={false}
                             align="center">
                         <HeaderCell>#</HeaderCell>
                         <CheckCell dataKey={dataIdentifier}
@@ -980,6 +982,8 @@ export default function Table({
                 {
                     !!expendable &&
                     <Column width={70}
+                            fixed={true}
+                            resizable={false}
                             align="center">
                         <HeaderCell>#</HeaderCell>
                         <ExpandCell dataIdentifier={dataIdentifier}
