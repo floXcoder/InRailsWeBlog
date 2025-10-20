@@ -525,7 +525,7 @@ class ApplicationController < ActionController::Base
 
   def server_error(exception)
     if Rails.env.production?
-      Sentry.capture_exception(exception)
+      Sentry.capture_message(exception.to_s)
     else
       raise
     end

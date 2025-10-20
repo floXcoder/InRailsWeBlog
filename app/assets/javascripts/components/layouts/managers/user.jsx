@@ -105,7 +105,7 @@ class UserManager extends React.PureComponent {
         // Check state only if previous current user defined (otherwise it means initialization)
         const hasHash = this.props.routeLocation.hash || (prevProps.routeLocation.hash && !this.props.routeLocation.hash);
         if (prevProps.currentUser && !hasHash) {
-            this._checkState();
+            this._checkState(prevProps.currentUserTopicSlug);
         }
     }
 
@@ -196,7 +196,7 @@ class UserManager extends React.PureComponent {
         });
     };
 
-    _checkState = () => {
+    _checkState = (previousTopicSlug) => {
         let topicSlug = this.props.routeParams.topicSlug;
 
         // Extract topicSlug from article if any
@@ -210,10 +210,10 @@ class UserManager extends React.PureComponent {
             this._checkTopic(topicSlug);
         }
 
-        this._fetchTags(topicSlug);
+        this._fetchTags(topicSlug, previousTopicSlug);
     };
 
-    _fetchTags = (topicSlug) => {
+    _fetchTags = (topicSlug, previousTopicSlug) => {
         // Load tags according to the current route
         // Fetch tags only if different topic
         if (this.props.routeLocation.state?.reloadTags) {
@@ -232,8 +232,7 @@ class UserManager extends React.PureComponent {
             this._tagRequest = this.props.fetchTags({
                 userId: this.props.currentUserId
             });
-        } else if (this.props.currentUserTopicSlug !== topicSlug && this.props.userTopics.map((topic) => topic.slug)
-            .includes(topicSlug)) {
+        } else if ((this.props.currentUserTopicSlug !== topicSlug || previousTopicSlug !== topicSlug) && this.props.userTopics.map((topic) => topic.slug).includes(topicSlug)) {
             this._tagRequest = this.props.fetchTags(
                 {
                     topicSlug: topicSlug

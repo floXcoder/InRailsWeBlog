@@ -1043,7 +1043,7 @@ export default function Table({
 
                 {
                     !!actions &&
-                    <Column flexGrow={virtualized ? undefined : 1}
+                    <Column flexGrow={virtualized ? '100' : 1}
                             align="center">
                         <HeaderCell><strong>Actions</strong></HeaderCell>
                         <ActionsCell originalData={data}

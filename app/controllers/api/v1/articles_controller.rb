@@ -32,6 +32,8 @@ module Api::V1
     include CommentConcern
     include VisitHelper
 
+    rate_limit to: 1, within: 3.seconds, only: [:create]
+
     respond_to :json
 
     def index

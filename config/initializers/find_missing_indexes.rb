@@ -94,7 +94,7 @@ class NoIndexDetector
   end
 end
 
-if Rails.env.development?
+if Rails.env.development? && ENV['INDEX_DETECTOR'] == 'true'
   require 'terminal-table'
 
   # create detector after setup

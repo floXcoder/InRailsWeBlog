@@ -8,7 +8,10 @@ if (process.env.NODE_ENV === 'production') {
     require('@js/development');
 }
 
-const root = createRoot(document.getElementById('admins-component'));
-root.render(
-    <AdminLayout componentId="admins-component"/>
-);
+const adminComponentElement = document.getElementById('admins-component');
+if (adminComponentElement) {
+    const root = createRoot(adminComponentElement);
+    root.render(
+        <AdminLayout componentId="admins-component"/>
+    );
+}

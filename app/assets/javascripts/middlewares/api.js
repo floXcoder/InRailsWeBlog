@@ -246,6 +246,10 @@ const _handleTokenError = (response, url, params, isData) => {
 };
 
 const _handleResponseErrors = (response, url, external = false) => {
+    if (!response) {
+        return;
+    }
+
     if (response.status && !response.ok) {
         _manageError('server', response, url, external);
     }

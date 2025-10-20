@@ -1,8 +1,7 @@
 [production]
-iOS >= 13
-Android >= 9
-last 2 versions
-cover 95%
+iOS >= 15.0
+last 6 versions
+cover 88%
 not dead
 
 [development]

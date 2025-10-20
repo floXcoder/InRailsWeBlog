@@ -260,6 +260,7 @@ export default defineConfig({
         port: `${appEnv.ASSETS_HOST.split(':')[1]}`,
         hmr: true,
         liveReload: false,
+        lazyCompilation: false,
         // writeToDisk: true,
         assetPrefix: `http://${appEnv.ASSETS_HOST}`,
         client: {
