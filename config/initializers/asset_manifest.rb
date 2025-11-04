@@ -51,6 +51,7 @@ class AssetManifest
 
       manifest&.dig('entries', file, 'initial', 'js')&.each do |initial_file|
         next if initial_file.include?("/javascripts/#{file}.js")
+        next if Rails.env.development? && initial_file.include?('.hot-update.')
         next if @loaded_files.include?(initial_file)
         next if manifest_javascript_file(file) && initial_file.include?(manifest_javascript_file(file))
 
@@ -75,6 +76,7 @@ class AssetManifest
       manifest&.dig('entries', file, 'async', 'js')&.each do |async_file|
         next if async_file.include?("/javascripts/#{file}.js")
         next if async_file.include?('/async/')
+        next if Rails.env.development? && async_file.include?('.hot-update.')
         next if @loaded_files.include?(async_file)
         next if manifest_javascript_file(file) && async_file.include?(manifest_javascript_file(file))
 
