@@ -488,4 +488,4 @@ To create a new major version, apply a new tag named "0.Y.0" or "X.0.0". Next re
     git push --tags
 
 
-©FloXcoder - 2025
+©FloXcoder - 2026

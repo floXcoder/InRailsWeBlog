@@ -42,7 +42,7 @@ en:
         unpin: "Unpin"
       footer:
         description: "A blog for everyone"
-        copyright: "Copyright 2025 (%{version}). All rights reserved."
+        copyright: "Copyright 2026 (%{version}). All rights reserved."
         links:
           title: "Links"
           contact: "Contact us"
