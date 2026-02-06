@@ -84,17 +84,17 @@ module Searches
         searches&.map do |search|
           case search.model_name.human
           when 'Article'
-            article_results = articles_autocomplete&.format_search(search.results)
+            article_results = articles_autocomplete&.format_search(search.to_a.map { |r| OpenStruct.new(r.to_h.except('_index', '_id', '_score')) })
             next if article_results[:articles].empty?
 
             autocomplete_results[:articles] = article_results[:articles]
           when 'Tag'
-            tag_results = tags_autocomplete&.format_search(search.results)
+            tag_results = tags_autocomplete&.format_search(search.to_a.map { |r| OpenStruct.new(r.to_h.except('_index', '_id', '_score')) })
             next if tag_results[:tags].empty?
 
             autocomplete_results[:tags] = tag_results[:tags]
           when 'Topic'
-            topic_results = topics_autocomplete&.format_search(search.results)
+            topic_results = topics_autocomplete&.format_search(search.to_a.map { |r| OpenStruct.new(r.to_h.except('_index', '_id', '_score')) })
             next if topic_results[:topics].empty?
 
             autocomplete_results[:topics] = topic_results[:topics]

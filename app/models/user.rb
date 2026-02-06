@@ -283,11 +283,11 @@ class User < ApplicationRecord
   end
 
   def self.pseudo?(pseudo)
-    User.with_deleted.exists?(['lower(pseudo) = ?', pseudo.mb_chars.downcase.to_s])
+    User.with_deleted.exists?(['lower(pseudo) = ?', pseudo.downcase.to_s])
   end
 
   def self.email?(email)
-    User.with_deleted.exists?(['lower(email) = ?', email.mb_chars.downcase.to_s])
+    User.with_deleted.exists?(['lower(email) = ?', email.downcase.to_s])
   end
 
   def self.login?(login)
@@ -302,7 +302,7 @@ class User < ApplicationRecord
     conditions = warden_conditions.dup
     login      = conditions.delete(:login)
     if login
-      where(conditions.to_h).where(['lower(pseudo) = :value OR lower(email) = :value', { value: login.mb_chars.downcase.to_s }]).first
+      where(conditions.to_h).where(['lower(pseudo) = :value OR lower(email) = :value', { value: login.downcase.to_s }]).first
     else
       where(conditions.to_h).first
     end

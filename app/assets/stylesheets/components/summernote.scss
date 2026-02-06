@@ -1760,6 +1760,11 @@ html .note-fullscreen-body, body .note-fullscreen-body {
   }
 }
 
+.note-editor.note-frame .note-editing-area .note-editable,
+.note-editor.note-airframe .note-editing-area .note-editable {
+  padding: 14px;
+}
+
 .note-popover {
   .note-popover-content {
     a {

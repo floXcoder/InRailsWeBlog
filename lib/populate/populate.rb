@@ -76,7 +76,7 @@ class Populate
           FactoryBot.create(:topic,
                             user:       user,
                             visibility: rand(0..1),
-                            name:       topics_name[n].mb_chars.capitalize.to_s)
+                            name:       topics_name[n].capitalize.to_s)
         end
       end
     end
@@ -103,7 +103,7 @@ class Populate
           FactoryBot.create(:tag,
                             user:       user,
                             visibility: options[:visibility] || rand(0..1),
-                            name:       tags_name[tag_index].mb_chars.capitalize.to_s)
+                            name:       tags_name[tag_index].capitalize.to_s)
         end
       end
     end

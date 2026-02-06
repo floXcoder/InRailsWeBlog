@@ -19,11 +19,11 @@ class Admin::VisitSerializer
              :country
 
   attribute :started_at do |object|
-    I18n.l(object.started_at, format: :custom).mb_chars.downcase.to_s
+    I18n.l(object.started_at, format: :custom).downcase.to_s
   end
 
   attribute :ended_at do |object|
-    I18n.l(object.ended_at, format: :custom).mb_chars.downcase.to_s
+    I18n.l(object.ended_at, format: :custom).downcase.to_s
   end
 
   attribute :user do |object|
@@ -36,7 +36,7 @@ class Admin::VisitSerializer
         id:         event.id,
         name:       event.name,
         properties: event.properties,
-        time:       I18n.l(event.time, format: :custom).mb_chars.downcase.to_s
+        time:       I18n.l(event.time, format: :custom).downcase.to_s
       }
     end
   end

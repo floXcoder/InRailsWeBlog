@@ -1,4 +1,4 @@
-import {useState, useReducer, useEffect, useRef, useLayoutEffect, isValidElement} from 'react';
+import {useState, useReducer, useEffect, useRef, useLayoutEffect, isValidElement, useMemo} from 'react';
 import PropTypes from 'prop-types';
 
 import {Table as TableSuite, Pagination} from 'rsuite';
@@ -726,6 +726,14 @@ export default function Table({
         limit: isPaginated ? limit : undefined
     }, reducer);
 
+    const dataMap = useMemo(() => {
+        const map = new Map();
+        data.forEach((item) => {
+            map.set(item[dataIdentifier], item);
+        });
+        return map;
+    }, [data, dataIdentifier]);
+
     useEffect(() => {
         dispatchData({
             updatedData: data
@@ -962,7 +970,7 @@ export default function Table({
                         renderRowExpanded={
                             (rowData) => <ExpandedComponent expendable={expendable}
                                                             rowExpandedHeight={rowExpandedHeight}
-                                                            rowData={data.find((d) => d[dataIdentifier] === rowData[dataIdentifier])}/>
+                                                            rowData={dataMap.get(rowData[dataIdentifier])}/>
                         }
                         rowExpandedHeight={rowExpandedHeight || 400}
                         loading={false}>
@@ -1026,14 +1034,20 @@ export default function Table({
                                                           onSubmitEdit={_handleSubmitEdit}/>
                                             :
                                             (
-                                                cellStyle
+                                                column.render
                                                     ?
-                                                    <Cell style={{padding: 0}}>{(rowData) => (<div style={{
-                                                        height: '100%',
-                                                        padding: '13px 10px', ...cellStyle(data.find((d) => d[dataIdentifier] === rowData[dataIdentifier]))
-                                                    }}>{rowData[column.key]}</div>)}</Cell>
+                                                    <Cell>{(rowData) => column.render(dataMap.get(rowData[dataIdentifier]))}</Cell>
                                                     :
-                                                    <Cell dataKey={column.key}/>
+                                                    (
+                                                        cellStyle
+                                                            ?
+                                                            <Cell style={{padding: 0}}>{(rowData) => (<div style={{
+                                                                height: '100%',
+                                                                padding: '13px 10px', ...cellStyle(dataMap.get(rowData[dataIdentifier]))
+                                                            }}>{rowData[column.key]}</div>)}</Cell>
+                                                            :
+                                                            <Cell dataKey={column.key}/>
+                                                    )
                                             )
                                     }
                                 </Column>

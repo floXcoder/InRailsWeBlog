@@ -90,11 +90,11 @@ class UserSerializer
   end
 
   attribute :created_at do |object|
-    I18n.l(object.created_at, format: :custom).mb_chars.downcase.to_s
+    I18n.l(object.created_at, format: :custom).downcase.to_s
   end
 
   attribute :last_sign_in_at do |object|
-    I18n.l(object.last_sign_in_at, format: :custom).mb_chars.downcase.to_s if object.last_sign_in_at
+    I18n.l(object.last_sign_in_at, format: :custom).downcase.to_s if object.last_sign_in_at
   end
 
   attribute :articles_count do |object|

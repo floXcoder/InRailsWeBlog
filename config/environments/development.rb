@@ -41,7 +41,7 @@ Rails.application.configure do
   config.logger = ActiveSupport::TaggedLogging.new(Logger.new('log/development.log'))
 
   # Print deprecation notices to the Rails logger.
-  config.active_support.deprecation = :log
+  config.active_support.deprecation = false
 
   # Raise an error on page load if there are pending migrations.
   config.active_record.migration_error = :page_load
@@ -58,8 +58,11 @@ Rails.application.configure do
   # Highlight code that enqueued background job in logs.
   config.active_job.verbose_enqueue_logs = true
 
+  # Highlight code that triggered redirect in logs.
+  config.action_dispatch.verbose_redirect_logs = true
+
   # Don't care if the mailer can't send.
-  config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.perform_caching = false
 
   config.action_mailer.default_url_options   = { host: ENV['WEBSITE_HOST'] }
   config.action_mailer.delivery_method       = :smtp

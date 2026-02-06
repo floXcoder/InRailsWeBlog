@@ -9,7 +9,7 @@ class HistorySerializer
              :changeset
 
   attribute :changed_at do |object|
-    I18n.l(object.created_at, format: :custom).mb_chars.downcase.to_s
+    I18n.l(object.created_at, format: :custom).downcase.to_s
   end
 
   attribute :article do |object|

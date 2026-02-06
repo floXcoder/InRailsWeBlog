@@ -58,7 +58,7 @@ class TopicSerializer
   has_many :contributors, record_type: :user, serializer: UserSerializer
 
   attribute :created_at do |object|
-    I18n.l(object.created_at, format: :custom).mb_chars.downcase.to_s
+    I18n.l(object.created_at, format: :custom).downcase.to_s
   end
 
   attribute :date_timestamp do |object|

@@ -11,9 +11,9 @@ notification :off
 # # Don't display a pry console
 interactor :off
 
-# Start services only if project is launched (use a lot of RAM)
-guard 'process', name: 'PostgreSQL', command: 'sudo systemctl start postgresql'
-guard 'process', name: 'ElasticSearch', command: 'sudo systemctl start elasticsearch'
+# # Start services only if project is launched (use a lot of RAM)
+# guard 'process', name: 'PostgreSQL', command: 'sudo systemctl start postgresql'
+# guard 'process', name: 'ElasticSearch', command: 'sudo systemctl start elasticsearch'
 
 ## Guard processes
 guard :process, name: 'i18n-js', command: 'i18n export' do

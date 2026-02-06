@@ -40,7 +40,7 @@ module Users
         if @params[:defer]
           success(results)
         else
-          success(format_search(results.to_a))
+          success(format_search(results.to_a.map { |r| OpenStruct.new(r.to_h.except('_index', '_id', '_score')) }))
         end
       rescue StandardError => error
         error(I18n.t('search.errors.user'), error)

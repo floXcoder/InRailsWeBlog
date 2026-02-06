@@ -119,13 +119,13 @@ class String
       if word.include?("'")
         quoted_words = word.split("'")
         quoted_words.map do |quoted_word|
-          (stop_words.include?(quoted_word.mb_chars.downcase.to_s) || quoted_word.count('0-9') > 0) && index > 0 ? quoted_word : quoted_word.mb_chars.capitalize.to_s
+          (stop_words.include?(quoted_word.downcase.to_s) || quoted_word.count('0-9') > 0) && index > 0 ? quoted_word : quoted_word.capitalize.to_s
         end.join("'")
       else
-        if (stop_words.include?(word.mb_chars.downcase.to_s) || word.count('0-9') > 0) && index > 0
-          stop_words.include?(word.mb_chars.downcase.to_s) ? word.mb_chars.downcase.to_s : word
+        if (stop_words.include?(word.downcase.to_s) || word.count('0-9') > 0) && index > 0
+          stop_words.include?(word.downcase.to_s) ? word.downcase.to_s : word
         else
-          word.mb_chars.capitalize.to_s
+          word.capitalize.to_s
         end
       end
     end.join(' ')
